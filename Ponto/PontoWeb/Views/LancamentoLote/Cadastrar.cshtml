@@ -1,0 +1,807 @@
+﻿@model Modelo.LancamentoLote
+@using PontoWeb.Helpers
+@using System.Web.Optimization
+@using Modelo
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string rowCallback = @" function( row, data, index ) {
+                if (data.EfetivadoStr == 'Não' && (data.DescricaoErro != '' && data.DescricaoErro != undefined && data.DescricaoErro != null)) {
+                    $('td', row).css('color', '#ff6666');
+                }
+            }";
+}
+<style>   
+    .input-group-legenda {
+        font-weight: bold;
+        margin: 0;
+        padding: 0;
+        min-width: 10px;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    <div class="">
+        <div class="panel panel-default" style="padding:0px; margin-bottom:0px;">
+            <div class="panel-heading">
+                @if (ViewBag.Controller != null)
+                {
+                    string controller = ViewBag.Controller;
+                        @Html.ActionLink("X", "Grid", controller, null, new { @class = "close" })
+                }
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo" style="height:420px;">
+                @Html.ValidationSummary(true)
+                @Html.ValidationMessage("CustomError", new { id = "CustomError" })
+                <div>
+                    @Html.HiddenFor(x => x.Altdata)
+                    @Html.HiddenFor(x => x.Althora)
+                    @Html.HiddenFor(x => x.Altusuario)
+                    @Html.HiddenFor(x => x.Codigo)
+                    @Html.HiddenFor(x => x.Id)
+                    @Html.HiddenFor(x => x.Incdata)
+                    @Html.HiddenFor(x => x.Inchora)
+                    @Html.HiddenFor(x => x.Incusuario)
+                    @Html.HiddenFor(x => x.TipoLancamento)
+                    @Html.HiddenFor(x => x.LancamentoLoteMudancaHorario.CicloSequenciaIndice)
+                    <div class="row">
+                        <div class="col-md-6">
+                            @if (Model.TipoLancamento == (int)Modelo.TipoLancamento.Afastamento)
+                            {
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group input-group-sm">
+                                            @Html.LabelFor(model => model.LancamentoLoteAfastamento.DataI, new { @class = "control-label label-sm" })
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(model => model.LancamentoLoteAfastamento.DataI, new { @class = "form-control input-sm MascDate datepickerpt", id = "Datai", @autofocus = "autofocus" })
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-primary desabilitar" id="btnDatai" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                </span>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.LancamentoLoteAfastamento.DataI)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group input-group-sm">
+                                            @Html.LabelFor(model => model.LancamentoLoteAfastamento.DataF, new { @class = "control-label label-sm" })
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(model => model.LancamentoLoteAfastamento.DataF, new { @class = "form-control input-sm MascDate datepickerpt", id = "Dataf" })
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-primary desabilitar" id="btnDataf" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                </span>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.LancamentoLoteAfastamento.DataF)
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group input-group-sm">
+                                            @Html.LabelFor(model => model.DataLancamento, new { @class = "control-label label-sm" })
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(model => Model.DataLancamento, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataLancamento", @autofocus = "autofocus" }).IsReadonly(Model.Id > 0)
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-primary" id="btnDataLancamento" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                </span>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.DataLancamento)
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Descricao, new { @class = "control-label label-sm" })
+                                        @Html.TextBoxFor(model => model.Descricao, new { @class = "form-control  input-sm" })
+                                        @Html.ValidationMessageFor(model => model.Descricao)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Observacao, new { @class = "control-label label-sm" })
+                                        @Html.TextAreaFor(model => model.Observacao, new { @class = "form-control  input-sm" })
+                                        @Html.ValidationMessageFor(model => model.Observacao)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*Mudanca Horário*@
+                    @if (Model.TipoLancamento == (int)Modelo.TipoLancamento.MudancaHorario)
+                    {
+                    <div>
+                        @Html.HiddenFor(x => x.LancamentoLoteMudancaHorario.Altdata)
+                        @Html.HiddenFor(x => x.LancamentoLoteMudancaHorario.Althora)
+                        @Html.HiddenFor(x => x.LancamentoLoteMudancaHorario.Altusuario)
+                        @Html.HiddenFor(x => x.LancamentoLoteMudancaHorario.Codigo)
+                        @Html.HiddenFor(x => x.LancamentoLoteMudancaHorario.Id)
+                        @Html.HiddenFor(x => x.LancamentoLoteMudancaHorario.Incdata)
+                        @Html.HiddenFor(x => x.LancamentoLoteMudancaHorario.Inchora)
+                        @Html.HiddenFor(x => x.LancamentoLoteMudancaHorario.Incusuario)
+                        @Html.HiddenFor(x => x.LancamentoLoteMudancaHorario.IdLancamentoLote)
+                        @Html.HiddenFor(x => x.LancamentoLoteMudancaHorario.Idhorario)
+                        @Html.HiddenFor(x => x.LancamentoLoteMudancaHorario.Idhorario_ant)
+                        @Html.HiddenFor(x => x.LancamentoLoteMudancaHorario.IdHorarioDinamico)
+                        @Html.HiddenFor(x => x.LancamentoLoteMudancaHorario.CicloSequenciaIndice)
+                        <div class="row" style="padding-top:5px">
+                            @*Div tipo Turno*@
+                            <div class="col-md-3">
+                                <div class="panel panel-default" style="margin-bottom:4px">
+                                    <div class="panel-heading" style="padding-top:1px; padding-bottom:0px">
+                                        @Html.LabelFor(model => model.LancamentoLoteMudancaHorario.Tipohorario, new { @class = "control-label label-sm" })
+                                    </div>
+                                    <div class="panel-body" style="padding-top:8px; padding-bottom:5px">
+                                        <div class="form-group input-group-sm">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    @if (@Model.Id <= 0 && @Model.TipoLancamento == 2)
+                                                    {
+                                                        <div class="radio-inline" data-toggle="radioTipoHorario">
+                                                            @Html.RadioButtonFor(model => model.LancamentoLoteMudancaHorario.Tipohorario, 1, new { id = "idRadioNormal", name = "rdioTipoHorario" })
+                                                            <label class="label-sm" for="idRadioNormal">Normal</label>
+                                                        </div>
+                                                        <div class="radio-inline" data-toggle="radioTipoHorario">
+                                                            @Html.RadioButtonFor(model => model.LancamentoLoteMudancaHorario.Tipohorario, 2, new { id = "idRadioFlexivel", name = "rdioTipoHorario" })
+                                                            <label class="label-sm" for="idRadioFlexivel">Flexível</label>
+                                                        </div>
+                                                        <div class="radio-inline" data-toggle="radioTipoHorario">
+                                                            @Html.RadioButtonFor(model => model.LancamentoLoteMudancaHorario.Tipohorario, 3, new { id = "idRadioDinamico", name = "rdioTipoHorario" })
+                                                            <label class="label-sm" for="idRadioDinamico">Dinâmico</label>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.HiddenFor(model => model.LancamentoLoteMudancaHorario.Tipohorario)
+                                                        <div class="radio-inline" data-toggle="radioTipoHorario">
+                                                            @Html.RadioButton("LancamentoLoteMudancaHorario.Tipohorario", Model.LancamentoLoteMudancaHorario.Tipohorario, Model.LancamentoLoteMudancaHorario.Tipohorario == 1, new { id = "idRadioNormal", name = "rdioTipoHorario", disabled = "disabled" })
+                                                            <label class="label-sm" for="idRadioNormal">Normal</label>
+                                                        </div>
+                                                        <div class="radio-inline" data-toggle="radioTipoHorario">
+                                                            @Html.RadioButton("LancamentoLoteMudancaHorario.Tipohorario", Model.LancamentoLoteMudancaHorario.Tipohorario, Model.LancamentoLoteMudancaHorario.Tipohorario == 2, new { id = "idRadioFlexivel", name = "rdioTipoHorario", disabled = "disabled" })
+                                                            <label class="label-sm" for="idRadioFlexivel">Flexível</label>
+                                                        </div>
+                                                        <div class="radio-inline" data-toggle="radioTipoHorario">
+                                                            @Html.RadioButton("LancamentoLoteMudancaHorario.Tipohorario", Model.LancamentoLoteMudancaHorario.Tipohorario, Model.LancamentoLoteMudancaHorario.Tipohorario == 3, new { id = "idRadioDinamico", name = "rdioTipoHorario", disabled = "disabled" })
+                                                            <label class="label-sm" for="idRadioFlexivel">Dinâmico</label>
+                                                        </div>
+                                                    }
+
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.LancamentoLoteMudancaHorario.Tipohorario)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div id="DivHorarioNormal" style="display: none;">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.LancamentoLoteMudancaHorario.HorarioNormal, new { @class = "control-label label-sm" })
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(model => model.LancamentoLoteMudancaHorario.HorarioNormal, new { @class = "form-control  input-sm lkpHorarioNormal", id = "lkpHorarioNormal" }).IsReadonly(@Model.Id > 0 && @Model.TipoLancamento == 2)
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-primary lkpHorarioNormal" id="btnHorarioNormal" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.LancamentoLoteMudancaHorario.HorarioNormal)
+                                    </div>
+                                </div>
+                                <div id="DivHorarioFlexivel" style="display: none;">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.LancamentoLoteMudancaHorario.HorarioFlexivel, new { @class = "control-label label-sm" })
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(model => model.LancamentoLoteMudancaHorario.HorarioFlexivel, new { @class = "form-control  input-sm lkpHorarioFlexivel", id = "lkpHorarioFlexivel" }).IsReadonly(@Model.Id > 0 && @Model.TipoLancamento == 2)
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-primary lkpHorarioFlexivel" id="btnHorarioFlexivel" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.LancamentoLoteMudancaHorario.HorarioFlexivel)
+                                    </div>
+                                </div>
+                                <div id="DivHorarioDinamico">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.LancamentoLoteMudancaHorario.HorarioDinamico, new { @class = "control-label label-sm" })
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(model => model.LancamentoLoteMudancaHorario.HorarioDinamico, new { @class = "form-control  input-sm lkpHorarioDinamico", id = "lkpHorarioDinamico" }).IsReadonly(@Model.Id > 0 && @Model.TipoLancamento == 2)
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-primary lkpHorarioDinamico" id="btnHorarioDinamico" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.LancamentoLoteMudancaHorario.HorarioDinamico)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.ValidationMessageFor(model => model.LancamentoLoteMudancaHorario.CicloSequenciaIndice)
+                            </div>
+                            <div class="col-md-12" id="divHorarioDinamicoDetalhes">
+
+                            </div>
+                        </div>
+                    </div>
+                    }
+
+                    @*Lançamento de Crédito ou Débito no Banco de Horas*@
+                    @if (Model.TipoLancamento == (int)Modelo.TipoLancamento.InclusaoBanco)
+                    {
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="">
+                                    @Html.HiddenFor(x => x.LancamentoLoteInclusaoBanco.Altdata)
+                                    @Html.HiddenFor(x => x.LancamentoLoteInclusaoBanco.Althora)
+                                    @Html.HiddenFor(x => x.LancamentoLoteInclusaoBanco.Altusuario)
+                                    @Html.HiddenFor(x => x.LancamentoLoteInclusaoBanco.Codigo)
+                                    @Html.HiddenFor(x => x.LancamentoLoteInclusaoBanco.Id)
+                                    @Html.HiddenFor(x => x.LancamentoLoteInclusaoBanco.Incdata)
+                                    @Html.HiddenFor(x => x.LancamentoLoteInclusaoBanco.Inchora)
+                                    @Html.HiddenFor(x => x.LancamentoLoteInclusaoBanco.Incusuario)
+                                    @Html.HiddenFor(x => x.LancamentoLoteInclusaoBanco.IdLancamentoLote)
+                                    @Html.HiddenFor(x => x.LancamentoLoteInclusaoBanco.Credito_ant)
+                                    @Html.HiddenFor(x => x.LancamentoLoteInclusaoBanco.Debito_ant)
+                                    @* Div do radio Tipo Lançamento  *@
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" style="padding-top:1px; padding-bottom:0px">
+                                            @Html.LabelFor(model => model.LancamentoLoteInclusaoBanco.Tipocreditodebito, new { @class = "control-label label-sm" })
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="form-group input-group-sm">
+                                                    @if (@Model.Id <= 0 && @Model.TipoLancamento == (int)Modelo.TipoLancamento.InclusaoBanco)
+                                                    {
+                                                        <div class="col-md-3">
+                                                            <div class="radio-inline" data-toggle="radioTipoLancamento">
+                                                                @Html.RadioButtonFor(model => model.LancamentoLoteInclusaoBanco.Tipocreditodebito, 0, new { id = "idRadioCredito", name = "rdioTipoLancamento" })
+                                                                @Html.Label("lbCredito", "Crédito", new { @class = "control-label label-sm", @for = "idRadioCredito" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="radio-inline" data-toggle="radioTipoLancamento">
+                                                                @Html.RadioButtonFor(model => model.LancamentoLoteInclusaoBanco.Tipocreditodebito, 1, new { id = "idRadioDebito", name = "rdioTipoLancamento" })
+                                                                @Html.Label("lbDebito", "Débito", new { @class = "control-label label-sm", @for = "idRadioDebito" })
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.HiddenFor(model => model.LancamentoLoteInclusaoBanco.Tipocreditodebito)
+                                                        <div class="col-md-3">
+                                                            <div class="radio-inline" data-toggle="radioTipoHorario">
+                                                                @Html.RadioButton("LancamentoLoteInclusaoBanco.Tipocreditodebito", Model.LancamentoLoteInclusaoBanco.Tipocreditodebito, Model.LancamentoLoteInclusaoBanco.Tipocreditodebito == 0, new { id = "idRadioCredito", name = "rdioTipoLancamento", disabled = "disabled" })
+                                                                <label class="label-sm" for="idRadioNormal">Crédito</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="radio-inline" data-toggle="radioTipoHorario">
+                                                                @Html.RadioButton("LancamentoLoteInclusaoBanco.Tipocreditodebito", Model.LancamentoLoteInclusaoBanco.Tipocreditodebito, Model.LancamentoLoteInclusaoBanco.Tipocreditodebito == 1, new { id = "idRadioDebito", name = "rdioTipoLancamento", disabled = "disabled" })
+                                                                <label class="label-sm" for="idRadioFlexivel">Débito</label>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    <div class="col-md-6">
+                                                        <div id="divCredito" class="row divsTipoLancamento">
+                                                            <div class="col-md-6">
+                                                                @Html.LabelFor(model => model.LancamentoLoteInclusaoBanco.Credito, new { @class = "control-label label-sm label-verde editor-label" })
+                                                                @Html.TextBoxFor(model => model.LancamentoLoteInclusaoBanco.Credito, new { @class = "form-control  input-sm label-verde editor-field time3", @placeholder = "---:--", id = "txbCredito" }).IsReadonly(@Model.Id > 0 && @Model.TipoLancamento == (int)@Modelo.TipoLancamento.InclusaoBanco)
+                                                                @Html.ValidationMessageFor(model => model.LancamentoLoteInclusaoBanco.Credito)
+                                                            </div>
+                                                        </div>
+                                                        <div id="divDebito" class="row divsTipoLancamento">
+                                                            <div class="col-md-6">
+                                                                @Html.LabelFor(model => model.LancamentoLoteInclusaoBanco.Debito, new { @class = "control-label label-sm label-vermelho editor-label" })
+                                                                @Html.TextBoxFor(model => model.LancamentoLoteInclusaoBanco.Debito, new { @class = "form-control  input-sm label-vermelho editor-field time3", @placeholder = "---:--", id = "txbDebito" }).IsReadonly(@Model.Id > 0 && @Model.TipoLancamento == (int)@Modelo.TipoLancamento.InclusaoBanco)
+                                                                @Html.ValidationMessageFor(model => model.LancamentoLoteInclusaoBanco.Debito)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+
+                    @*Lançamento de Marcação Manual*@
+                    @if (Model.TipoLancamento == (int)Modelo.TipoLancamento.BilhetesImp)
+                    {
+                        <div class="row">
+                            @Html.HiddenFor(m => m.LancamentoLoteBilhetesImp.Id)
+                            @Html.HiddenFor(m => m.LancamentoLoteBilhetesImp.Incdata)
+                            @Html.HiddenFor(m => m.LancamentoLoteBilhetesImp.Inchora)
+                            @Html.HiddenFor(m => m.LancamentoLoteBilhetesImp.Incusuario)
+                            @Html.HiddenFor(m => m.LancamentoLoteBilhetesImp.Altdata)
+                            @Html.HiddenFor(m => m.LancamentoLoteBilhetesImp.Althora)
+                            @Html.HiddenFor(m => m.LancamentoLoteBilhetesImp.Altusuario)
+                            @Html.HiddenFor(m => m.LancamentoLoteBilhetesImp.Idjustificativa)
+                            @Html.HiddenFor(m => m.LancamentoLoteBilhetesImp.Relogio)
+                            @Html.HiddenFor(m => m.LancamentoLoteBilhetesImp.Codigo)
+                            @Html.HiddenFor(m => m.LancamentoLoteBilhetesImp.Ocorrencia)
+                            @Html.HiddenFor(m => m.LancamentoLoteBilhetesImp.IdLancamentoLote)
+                            @Html.HiddenFor(m => m.LancamentoLoteBilhetesImp.Hora_Ant)
+                            <div class="col-md-1">
+                                <div class="divMarcacao">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.LancamentoLoteBilhetesImp.Hora, new { @class = "control-label label-sm" })
+                                        <div class="input-group input-group-sm">
+                                           @Html.TextBoxFor(m => m.LancamentoLoteBilhetesImp.Hora, new { @class = "form-control input-sm time", id = "txtMarcacao", style = "font-weight: bold;", @placeholder = "--:--" })
+                                        <div class="input-group-addon">@Html.Label("", @Model.LancamentoLoteBilhetesImp.Ocorrencia.ToString(), new { @class = "input-group-legenda", id = "txtLegendaS1" })</div>
+                                        </div>
+                                        @Html.ValidationMessageFor(modal => modal.LancamentoLoteBilhetesImp.Hora)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.LancamentoLoteBilhetesImp.DescJustificativa, new { @class = "control-label label-sm" })
+                                    <div class="input-group input-group-sm">
+                                        @Html.TextBoxFor(model => model.LancamentoLoteBilhetesImp.DescJustificativa, new { @class = "form-control  input-sm lkpJustificativa", id = "lkpJustificativa" })
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary desabilitar lkpJustificativa" id="btnJustificativa" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                        </span>
+                                    </div>
+                                    @Html.ValidationMessageFor(modal => modal.LancamentoLoteBilhetesImp.DescJustificativa)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.LancamentoLoteBilhetesImp.Motivo, new { @class = "control-label label-sm" })
+                                    @Html.TextBoxFor(model => model.LancamentoLoteBilhetesImp.Motivo, new { @class = "form-control  input-sm editor-field" })
+                                    @Html.ValidationMessageFor(model => model.LancamentoLoteBilhetesImp.Motivo)
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    @*Lançamento de Afastamento*@
+                    @if (Model.TipoLancamento == (int)Modelo.TipoLancamento.Afastamento)
+                    {
+                        <div>
+                            @Html.HiddenFor(model => model.LancamentoLoteAfastamento.Id)
+                            @Html.HiddenFor(model => model.LancamentoLoteAfastamento.Incdata)
+                            @Html.HiddenFor(model => model.LancamentoLoteAfastamento.Inchora)
+                            @Html.HiddenFor(model => model.LancamentoLoteAfastamento.Incusuario)
+                            @Html.HiddenFor(model => model.LancamentoLoteAfastamento.Altdata)
+                            @Html.HiddenFor(model => model.LancamentoLoteAfastamento.Althora)
+                            @Html.HiddenFor(model => model.LancamentoLoteAfastamento.Altusuario)
+                            @Html.HiddenFor(model => model.LancamentoLoteAfastamento.IdOcorrencia)
+                            @Html.HiddenFor(model => model.LancamentoLoteAfastamento.IdOcorrencia_Ant)
+                            @Html.HiddenFor(model => model.LancamentoLoteAfastamento.DataI_Ant)
+                            @Html.HiddenFor(model => model.LancamentoLoteAfastamento.DataF_Ant)
+                            @Html.HiddenFor(model => model.LancamentoLoteAfastamento.AbonoDiurno_Ant)
+                            @Html.HiddenFor(model => model.LancamentoLoteAfastamento.AbonoNoturno_Ant)
+                            @Html.HiddenFor(model => model.LancamentoLoteAfastamento.BAbonado_Ant)
+                            @Html.HiddenFor(model => model.LancamentoLoteAfastamento.BParcial_Ant)
+                            @Html.HiddenFor(model => model.LancamentoLoteAfastamento.BSemCalculo_Ant)
+                            @Html.HiddenFor(model => model.LancamentoLoteAfastamento.BSuspensao_Ant)
+                            @Html.HiddenFor(model => model.LancamentoLoteAfastamento.OcorrenciaAnt)
+                            @Html.HiddenFor(model => model.LancamentoLoteAfastamento.IdLancamentoLote)
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row" style="margin:0px; padding-bottom:0px;">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.LancamentoLoteAfastamento.Ocorrencia, new { @class = "control-label label-sm" })
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(model => model.LancamentoLoteAfastamento.Ocorrencia, new { @class = "form-control  input-sm", id = "lkpOcorrencia" })
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-primary desabilitar" id="btnOcorrencia" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.LancamentoLoteAfastamento.Ocorrencia)
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-top:0px; padding-bottom:0px;">
+                                    <div class="col-md-8" style="padding:0px;">
+                                        <div class="col-md-3" style="padding-top:0px; padding-bottom:0px;">
+                                            <div class="checkbox">
+                                                <label>
+                                                    @Html.CheckBoxFor((model => model.LancamentoLoteAfastamento.BSemCalculo), new { id = "BSemCalculo", @class = "checkboxafast desabilitar" })
+                                                    @Html.LabelFor(model => model.LancamentoLoteAfastamento.BSemCalculo, new { @class = "control-label label-sm", @for = "BSemCalculo" })
+                                                    @Html.ValidationMessageFor(model => model.LancamentoLoteAfastamento.BSemCalculo)
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="padding-top:0px; padding-bottom:0px;">
+                                            <div class="checkbox">
+                                                <label>
+                                                    @Html.CheckBoxFor((model => model.LancamentoLoteAfastamento.BAbonado), new { id = "BAbonado", @class = "checkboxafast valorNecessario" })
+                                                    @Html.LabelFor(model => model.LancamentoLoteAfastamento.BAbonado, new { @class = "control-label label-sm", @for = "BAbonado" })
+                                                    @Html.ValidationMessageFor(model => model.LancamentoLoteAfastamento.BAbonado)
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="padding-top:0px; padding-bottom:0px;">
+                                            <div class="checkbox">
+                                                <label>
+                                                    @Html.CheckBoxFor((model => model.LancamentoLoteAfastamento.BParcial), new { id = "BParcial", @class = "checkboxafast valorNecessario" })
+                                                    @Html.LabelFor(model => model.LancamentoLoteAfastamento.BParcial, new { @class = "control-label label-sm", @for = "BParcial" })
+                                                    @Html.ValidationMessageFor(model => model.LancamentoLoteAfastamento.BParcial)
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="padding-top:0px; padding-bottom:0px;">
+                                            <div class="checkbox">
+                                                <label>
+                                                    @Html.CheckBoxFor((model => model.LancamentoLoteAfastamento.BSuspensao), new { id = "bSuspensao", @class = "checkboxafast valorNecessario" })
+                                                    @Html.LabelFor(model => model.LancamentoLoteAfastamento.BSuspensao, new { @class = "control-label label-sm", @for = "bSuspensao" })
+                                                    @Html.ValidationMessageFor(model => model.LancamentoLoteAfastamento.BSuspensao)
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="padding-top:0px; padding-bottom:0px;">
+                                            <div class="checkbox">
+                                                <label>
+                                                    @Html.CheckBoxFor((model => model.LancamentoLoteAfastamento.SemAbono), new { id = "BSemAbonoBool", @class = "checkboxafast valorNecessario" })
+                                                    @Html.LabelFor(model => model.LancamentoLoteAfastamento.SemAbono, new { @class = "control-label label-sm", @for = "BSemAbonoBool" })
+                                                    @Html.ValidationMessageFor(model => model.LancamentoLoteAfastamento.SemAbono)
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" style="padding:0px;">
+                                        <div class="col-md-6" style="padding-top:8px; padding-bottom:0px; padding-left:0px; padding-right:0px;">
+                                            @Html.LabelFor(model => model.LancamentoLoteAfastamento.AbonoDiurno, new { @class = "control-label label-sm editor-label" })
+                                            @Html.TextBoxFor(model => model.LancamentoLoteAfastamento.AbonoDiurno, new { @class = "form-control  input-sm editor-field timeL valorNecessario", @placeholder = "--:--", id = "txtAbonoDiurno" })
+                                            @Html.ValidationMessageFor(model => model.LancamentoLoteAfastamento.AbonoDiurno)
+                                        </div>
+                                        <div class="col-md-6" style="padding-top:8px; padding-bottom:0px; padding-left:0px; padding-right:0px;">
+                                            @Html.LabelFor(model => model.LancamentoLoteAfastamento.AbonoNoturno, new { @class = "control-label label-sm editor-label" })
+                                            @Html.TextBoxFor(model => model.LancamentoLoteAfastamento.AbonoNoturno, new { @class = "form-control  input-sm editor-field timeL valorNecessario", @placeholder = "--:--", id = "txtAbonoNoturno" })
+                                            @Html.ValidationMessageFor(model => model.LancamentoLoteAfastamento.AbonoNoturno)
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    @*Funcionários Selecionar*@
+                    <div class="row" style="margin-top: 5px">
+                        <div class="col-md-12">
+                            @Html.HiddenFor(x => x.idSelecionados, new { @id = "idSelecionados" })
+                            @Html.HiddenFor(x => x.UtilizaControleContrato)
+                            @Html.HiddenFor(x => x.DataLancamentoAnt)
+                            @Html.ValidationMessageFor(x => x.idSelecionados)
+                            <div class="row">
+                                @Html.GridFor("tbFuncionarios", (new Modelo.Proxy.pxyFuncionariosLote()).GetType(), true, "LancamentoLote", "DadosGrid?id=" + Model.Id, rowCallback, "", Model.idSelecionados, "");
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando" id="btnSalvar">
+                                <span class="glyphicon glyphicon-ok"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger salvando"
+                               href="@Url.Action("Grid", @ViewBag.Controller)">
+                                <span class="glyphicon glyphicon-remove"></span> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<script>
+    cwk_DataCalendario('#btnDataLancamento', '#DataLancamento');
+
+    $(document).ready(function () {
+        validaTipoHorario($('input:radio[name="LancamentoLoteMudancaHorario.Tipohorario"]:checked').val());
+
+        //Lançamento de Débito e Crédito
+        if ($('#idRadioCredito').is(':checked')) {
+            divsTipoLancamentoVisivel("#divCredito");
+        };
+
+        if ($('#idRadioDebito').is(':checked')) {
+            divsTipoLancamentoVisivel("#divDebito");
+        };
+        //Fim Lançamento de Débito e Crédito
+
+        //Scripts Bilhetes Imp
+        $(".time").blur(function () {
+            var valor = formataHora24($(this).val(), 2, 2);
+            $(this).val(valor);
+            var campo = $(this).attr('id');
+            identManut = $(this).attr('id').replace("txtMarcacao", "");
+            if (ConvertHoraMinuto(MarcAnt["#txtMarcacao" + identManut]) != ConvertHoraMinuto($(this).val())) {
+                if (ConvertHoraMinuto($(this).val()) == 0 || $(this).val() == "--:--" || $(this).val() == "" || $(this).val() == null || $(this).val() == undefined) {
+                    RemoveMarcacao(identManut);
+                }
+                else {
+                    chamaManutBil(identManut);
+                    $("#txtOcorrencia" + identManut).val("I");
+                    $("#txtHoraBil" + identManut).val($(this).val());
+                    $("#txtMar_horaBil" + identManut).val($(this).val());
+                }
+
+            }
+        });
+        //Fim Scripts Bilhetes Imp
+
+        //Scripts Afastamento
+        cwk_DataCalendario('#btnDatai', '#Datai');
+        cwk_DataCalendario('#btnDataf', '#Dataf');
+        cwk_EventoConsulta("#btnOcorrencia", "#lkpOcorrencia", "EventoConsulta", "Ocorrencia", "", callbackocorrencias);
+
+            if ($("#BParcial").is(':unchecked')) {
+                $("#txtAbonoDiurno").prop('readonly', true);
+                $("#txtAbonoDiurno").val('--:--');
+                $("#txtAbonoNoturno").prop('readonly', true);
+                $("#txtAbonoNoturno").val('--:--');
+            }
+
+
+            function callbackocorrencias() {
+                ocorrencia = $("#lkpOcorrencia").val();
+                $.ajax({
+                    url: '/Afastamento/CarregaOcorrencia',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        'ocorrencia': ocorrencia
+                    },
+                    success: function (ret) {
+                        if (ret.Success === true) {
+                            $("#txtAbonoDiurno").val(ret.HorasAbonoPadrao);
+                            $("#txtAbonoDiurno").prop('readonly', false);
+                            $("#txtAbonoNoturno").val(ret.HorasAbonoPadraoNoturno);
+                            $("#txtAbonoNoturno").prop('readonly', false);
+                            $("#BParcial").prop("checked", true);
+                            $("#BAbonado").prop("checked", true);
+                            $("#BAbonado").prop("readonly", true);
+                            $
+                        } else {
+                            cwkErroTit('Erro!', ret.Erro);
+                        }
+                    },
+                });
+            }
+        //Fim Scripts Afastamento
+        GetHorarioDinamico();
+    });
+    
+    // Scripts Mudança Horário
+    $('input:radio[name="LancamentoLoteMudancaHorario.Tipohorario"]').change(function () {
+        validaTipoHorario($(this).val());
+    });
+
+    $(".lkpHorarioNormal").bind("keydown click", function (e) {
+        cwk_EventoConsultaUnico(e, this, "", "Horario", "");
+    });
+
+    $(".lkpHorarioFlexivel").bind("keydown click", function (e) {
+        cwk_EventoConsultaUnico(e, this, "", "HorarioMovel", "");
+    });
+
+    $(".lkpHorarioDinamico").bind("keydown click", function (e) {
+        cwk_EventoConsultaUnico(e, this, "", "HorarioDinamico", "", GetHorarioDinamico);
+    });
+
+    function validaTipoHorario(valor) {
+        if (valor == 1) {
+        @* Horario Normal *@
+            $("#DivHorarioFlexivel").hide();
+            $("#lkpHorarioFlexivel").val("");
+            $("#DivHorarioDinamico").hide();
+            $("#lkpHorarioDinamico").val("");
+            $("#DivHorarioNormal").show();
+        }
+        else if (valor == 2) {
+            $("#DivHorarioNormal").hide();
+            $("#lkpHorarioNormal").val("");
+            $("#DivHorarioDinamico").hide();
+            $("#lkpHorarioDinamico").val("");
+            $("#DivHorarioFlexivel").show();
+        } else if (valor == 3) {
+            $("#DivHorarioNormal").hide();
+            $("#lkpHorarioNormal").val("");
+            $("#DivHorarioFlexivel").hide();
+            $("#lkpHorarioFlexivel").val("");
+            $("#DivHorarioDinamico").show();
+        }
+    };
+
+    function GetHorarioDinamico() {
+        var horario = $("#lkpHorarioDinamico").val();
+		if (horario !== undefined && horario.length > 0) {
+            var parametros = { horario: horario };
+            CarregaDadosAjax('Selecionar', 'HorarioDinamico', parametros, '#divHorarioDinamicoDetalhes', null, DesabilitarHorarioDinamicoSelecao);
+        }
+    }
+
+    function DesabilitarHorarioDinamicoSelecao() {
+        if (('@Model.Id' > 0)) {
+            $('#divHorarioDinamicoDetalhes').find('input, textarea, button, select, radio').prop("disabled", true);
+        }
+        @{int ciclo = Model.LancamentoLoteMudancaHorario == null ? 0 : Model.LancamentoLoteMudancaHorario.CicloSequenciaIndice.GetValueOrDefault();}
+        if ('@ciclo' > 0) {
+            $("input[name=CicloSequenciaIndice][value=" + @ciclo + "]").attr('checked', 'checked');
+        }
+    }
+
+    $('form').submit(function () {
+        $("#LancamentoLoteMudancaHorario_CicloSequenciaIndice").val($('input[type=radio][name=CicloSequenciaIndice]:checked').val())
+        var formValido = validaForm();
+        if ($(this).valid() && formValido) {
+            return true;
+        }
+        return false;
+    });
+    //Fim Script Mudança Horário
+
+    //Scripts Lançamento Crédito e Débito
+    $("#idRadioCredito").change(function () {
+        divsTipoLancamentoVisivel("#divCredito");
+        $("#txbCredito").val($("#txbDebito").val());
+        $("#txbDebito").val("---:--");
+    });
+    $("#idRadioDebito").change(function () {
+        divsTipoLancamentoVisivel("#divDebito");
+        $("#txbDebito").val($("#txbCredito").val());
+        $("#txbCredito").val("---:--");
+    });
+    //Fim Scripts Lançamento Crédito e Débito
+
+    //Scripts Bilhetes Imp.
+    $(".lkpJustificativa").bind("keydown click", function (e) {
+        cwk_EventoConsultaUnico(e, this, "", "Justificativa", "", callBackMotivo, "", "");
+    });
+
+    function callBackMotivo(campo) {
+        var valor = $(campo).val().split("|")[1].trim();
+        $("#LancamentoLoteBilhetesImp_Motivo").val(valor);
+    }
+
+    //Fim Scripts Bilhetes Imp.
+
+    function divsTipoLancamentoVisivel(idDiv) {
+        $(".divsTipoLancamento").hide();
+        $(idDiv).show();
+    }
+
+    function validaForm() {
+        var errorArray = {};
+        $("#idSelecionados").val(tbFuncionariosGetSelecionado());
+        if ($("#idSelecionados").val().length <= 0 || $("#idSelecionados").val() == '' || $("#idSelecionados").val() == null) {
+            var msgErro = 'É Necessário Selecionar Pelo Menos um Funcionário.';
+            errorArray["idSelecionados"] = msgErro;
+            $('form').validate().showErrors(errorArray);
+            cwkErro(msgErro);
+            return false;
+        }
+        else {
+            limpaErro("idSelecionados");
+            return true;
+        }
+    }
+
+    //Scripts Afastamentos
+    function HabilitaDesabilitaComponente(componente, valor) {
+        debugger;
+        $(componente).prop("disabled", valor);
+        $(componente).attr("disabled", valor);
+
+        $(componente).prop("readonly", valor);
+        $(componente).attr("readonly", valor);
+    }
+
+    $(".checkboxafast").click(function (event) {
+        validaCheck(event);
+    });
+
+    function validaCheck(event) {
+        var selecao = "";
+        if (event) {
+            selecao = event.target.id;
+        }
+        if ((selecao == "bSuspensao" || selecao == "")) {
+            if ($("#bSuspensao").is(':checked')) {
+                $("#BSemCalculo").prop("checked", false);
+                $("#BAbonado").prop("checked", false);
+                $("#BAbonado").prop('disabled', false);
+                $("#BParcial").prop("checked", false);
+                $("#BSemAbonoBool").prop('checked', false);
+                $("#txtAbonoDiurno").prop('readonly', true);
+                $("#txtAbonoDiurno").val('--:--');
+                $("#txtAbonoNoturno").prop('readonly', true);
+                $("#txtAbonoNoturno").val('--:--');
+            }
+        }
+        else {
+            if ((selecao == "BSemCalculo" || selecao == "") && $("#BSemCalculo").is(':checked')) {
+                $("#BAbonado").prop("checked", false);
+                $("#BParcial").prop("checked", false);
+                $("#BAbonado").prop('disabled', false);
+                $("#bSuspensao").prop('checked', false);
+                $("#BSemAbonoBool").prop('checked', false);
+                $("#txtAbonoDiurno").prop('readonly', true);
+                $("#txtAbonoDiurno").val('');
+                $("#txtAbonoNoturno").prop('readonly', true);
+                $("#txtAbonoNoturno").val('');
+            }
+            else {
+                if ((selecao == "BParcial" || selecao == "") && $("#BParcial").is(':checked')) {
+                    $("#BSemCalculo").prop("checked", false);
+                    $("#BAbonado").prop("checked", true);
+                    $("#BAbonado").prop('disabled', true);
+                    $("#bSuspensao").prop('checked', false);
+                    $("#BSemAbonoBool").prop('checked', false);
+                    $("#txtAbonoDiurno").prop('readonly', false);
+                    $("#txtAbonoNoturno").prop('readonly', false);
+                }
+                else {
+                    if (((selecao == "BAbonado" || selecao == "") && $("#BAbonado").is(':checked')) || ((selecao == "BParcial" || selecao == "") && $("#BParcial").is(':unchecked'))) {
+                        $("#BSemCalculo").prop("checked", false);
+                        $("#BParcial").prop("checked", false);
+                        $("#BAbonado").prop('disabled', false);
+                        $("#bSuspensao").prop('checked', false);
+                        $("#BSemAbonoBool").prop('checked', false);
+                        $("#txtAbonoDiurno").prop('readonly', true);
+                        $("#txtAbonoDiurno").val('--:--');
+                        $("#txtAbonoNoturno").prop('readonly', true);
+                        $("#txtAbonoNoturno").val('--:--');
+                    }
+                    else {
+                        if (((selecao == "BSemAbonoBool" || selecao == "") && $("#BSemAbonoBool").is(':checked'))) {
+                            $("#BSemCalculo").prop("checked", false);
+                            $("#BParcial").prop("checked", false);
+                            $("#BAbonado").prop('disabled', false);
+                            $("#bSuspensao").prop('checked', false);
+                            $("#txtAbonoDiurno").prop('readonly', true);
+                            $("#txtAbonoDiurno").val('--:--');
+                            $("#txtAbonoNoturno").prop('readonly', true);
+                            $("#txtAbonoNoturno").val('--:--');
+                        }
+                    }
+                }
+            }
+        }
+
+        $('form').submit(function () {
+            $('.valorNecessario').prop('disabled', false);
+        });
+    }
+    //Fim scripts Afastamentos
+</script>
+
+@if (Model.TipoLancamento == (int)Modelo.TipoLancamento.MudancaHorario)
+{
+    <script>
+        $('input[type=radio][name=CicloSequenciaIndice]').change(function () {
+            alert("Selecionou" + this.value )
+        });
+    </script>
+
+}
+
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}

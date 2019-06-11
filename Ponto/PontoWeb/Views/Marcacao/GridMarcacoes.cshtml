@@ -1,0 +1,233 @@
+﻿@model Modelo.GridMarcacoes
+@Html.ValidationSummary(true)
+<style>
+    tr.selected td {
+        color: white !important;
+    }
+</style>
+<div>
+    <table id="tb">
+        <thead>
+            <tr>
+                <th colspan="3" scope="colgroup" style="text-align:center"></th>
+                <th colspan="8" scope="colgroup" style="text-align:center">Marcações</th>
+                <th colspan="3" scope="colgroup" style="text-align:center">Trabalhadas</th>
+                @if (Model.Percentuais.Count > 0)
+                {
+                    <th colspan="@Model.Percentuais.Count" scope="colgroup" style="text-align:center">In Itinere</th>
+                }
+                <th colspan="3" scope="colgroup" style="text-align:center">Extras</th>
+                <th colspan="2" scope="colgroup" style="text-align:center">Faltas</th>
+                <th colspan="2" scope="colgroup" style="text-align:center">Banco Horas</th>
+                <th colspan="1" scope="colgroup" style="text-align:center"></th>
+            </tr>
+            <tr>
+                <th style="text-align:center">Data</th>
+                <th style="text-align:center">dia</th>
+                <th style="text-align:center">L</th>
+                <th style="text-align:center">Ent1</th>
+                <th style="text-align:center">Sai1</th>
+                <th style="text-align:center">Ent2</th>
+                <th style="text-align:center">Sai2</th>
+                <th style="text-align:center">Ent3</th>
+                <th style="text-align:center">Sai3</th>
+                <th style="text-align:center">Ent4</th>
+                <th style="text-align:center">Sai4</th>
+                <th style="text-align:center">Diu.</th>
+                <th style="text-align:center">Not.</th>
+                <th style="text-align:center">Ad. Not.</th>
+                @foreach (var percentual in Model.Percentuais)
+                {
+                    <th style="text-align:center">@((int)percentual)%</th>
+                }
+                <th style="text-align:center">Diu.</th>
+                <th style="text-align:center">Not.</th>
+                <th style="text-align:center">Interjornada</th>
+                <th style="text-align:center">Diu.</th>
+                <th style="text-align:center">Not.</th>
+                <th style="text-align:center">Cre.</th>
+                <th style="text-align:center">Deb.</th>
+                <th style="text-align:center">Ocorrência</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Marcacoes)
+            {
+            <tr id="@item.Id">
+                <td>@item.Data</td>
+                <td>@item.Dia</td>
+                <td>@item.LegendasConcatenadas</td>
+                @if (item.Tratamento_Ent_1 == "P")
+                {
+                    //Laranja Claro - Pré Assinalada
+                    <td style="color:#FFA04D">@item.Entrada_1</td>
+                }
+                else if (item.Tratamento_Ent_1 == "I")
+                {
+                    //Verde Claro - Inclusão
+                    <td style="color:#3C9C52">@item.Entrada_1</td>
+                }
+                else if (item.Tratamento_Ent_1 == "D")
+                {
+                    //Vermelho Vinho - Desconsiderados
+                    <td style="color:#C14A4A">@item.Entrada_1</td>
+                }
+                else
+                {
+                    <td>@item.Entrada_1</td>
+                }
+
+                @if (item.Tratamento_Sai_1 == "P")
+                {
+                    <td style="color:#FFA04D">@item.Saida_1</td>
+                }
+                else if (item.Tratamento_Sai_1 == "I")
+                {
+                    <td style="color:#3C9C52">@item.Saida_1</td>
+                }
+                else if (item.Tratamento_Sai_1 == "D")
+                {
+                    <td style="color:#C14A4A">@item.Saida_1</td>
+                }
+                else
+                {
+                    <td>@item.Saida_1</td>
+                }
+
+                @if (item.Tratamento_Ent_2 == "P")
+                {
+                    <td style="color:#FFA04D">@item.Entrada_2</td>
+                }
+                else if (item.Tratamento_Ent_2 == "I")
+                {
+                    <td style="color:#3C9C52">@item.Entrada_2</td>
+                }
+                else if (item.Tratamento_Ent_2 == "D")
+                {
+                    <td style="color:#C14A4A">@item.Entrada_2</td>
+                }
+                else
+                {
+                    <td>@item.Entrada_2</td>
+                }
+
+                @if (item.Tratamento_Sai_2 == "P")
+                {
+                    <td style="color:#FFA04D">@item.Saida_2</td>
+                }
+                else if (item.Tratamento_Sai_2 == "I")
+                {
+                    <td style="color:#3C9C52">@item.Saida_2</td>
+                }
+                else if (item.Tratamento_Sai_2 == "D")
+                {
+                    <td style="color:#C14A4A">@item.Saida_2</td>
+                }
+                else
+                {
+                    <td>@item.Saida_2</td>
+                }
+
+                @if (item.Tratamento_Ent_3 == "P")
+                {
+                    <td style="color:#FFA04D">@item.Entrada_3</td>
+                }
+                else if (item.Tratamento_Ent_3 == "I")
+                {
+                    <td style="color:#3C9C52">@item.Entrada_3</td>
+                }
+                else if (item.Tratamento_Ent_3 == "D")
+                {
+                    <td style="color:#C14A4A">@item.Entrada_3</td>
+                }
+                else
+                {
+                    <td>@item.Entrada_3</td>
+                }
+
+                @if (item.Tratamento_Sai_3 == "P")
+                {
+                    <td style="color:#FFA04D">@item.Saida_3</td>
+                }
+                else if (item.Tratamento_Sai_3 == "I")
+                {
+                    <td style="color:#3C9C52">@item.Saida_3</td>
+                }
+                else if (item.Tratamento_Sai_3 == "D")
+                {
+                    <td style="color:#C14A4A">@item.Saida_3</td>
+                }
+                else
+                {
+                    <td>@item.Saida_3</td>
+                }
+
+                @if (item.Tratamento_Ent_4 == "P")
+                {
+                    <td style="color:#FFA04D">@item.Entrada_4</td>
+                }
+                else if (item.Tratamento_Ent_4 == "I")
+                {
+                    <td style="color:#3C9C52">@item.Entrada_4</td>
+                }
+                else if (item.Tratamento_Ent_4 == "D")
+                {
+                    <td style="color:#C14A4A">@item.Entrada_4</td>
+                }
+                else
+                {
+                    <td>@item.Entrada_4</td>
+                }
+
+                @if (item.Tratamento_Sai_4 == "P")
+                {
+                    <td style="color:#FFA04D">@item.Saida_4</td>
+                }
+                else if (item.Tratamento_Sai_4 == "I")
+                {
+                    <td style="color:#3C9C52">@item.Saida_4</td>
+                }
+                else if (item.Tratamento_Sai_4 == "D")
+                {
+                    <td style="color:#C14A4A">@item.Saida_4</td>
+                }
+                else
+                {
+                    <td>@item.Saida_4</td>
+                }
+
+                <td style="color:blue">@item.Horastrabalhadas</td>
+                <td style="color:blue">@item.Horastrabalhadasnoturnas</td>
+                <td style="color:blue; text-align:center">@item.AdicionalNoturno</td>
+                @foreach (var total in item.ValoresInItinere)
+                {
+                    <td style="color:#b36b00">@total</td>
+                }
+                <td style="color:blue">@item.Horasextrasdiurna</td>
+                <td style="color:blue">@item.Horasextranoturna</td>
+                <td style="color:blue">@item.horaExtraInterjornada</td>
+                <td style="color:red">@item.Horasfaltas</td>
+                <td style="color:red">@item.Horasfaltanoturna</td>
+                <td style="color:blue">@item.Bancohorascre</td>
+                <td style="color:red">@item.Bancohorasdeb</td>
+                <td>@item.Ocorrencia</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var oTb = cwk_MontarDataTableThemeMarcacao('#tb', "-10", @Model.Percentuais.Count+1);
+        $("td").css({ padding: "1", "font-size": "12px" });
+        $("th").css({ padding: "2", "font-size": "14px" });
+        cwk_EventoClickSelecionarSingle('#tb');
+        //cwk_EventoAlterarAjaxParam('#btManutBilhetes', 'Grid', 'ManutencaoBilhetes', oTb);
+
+        $('#tb tbody tr').dblclick(function () {
+            $(this).addClass('selected');
+            chamaManutMarcacao();
+        });
+    });
+</script>

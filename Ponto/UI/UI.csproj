@@ -1,0 +1,2885 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3FDF5FDE-0B9D-4ACE-A0BD-5B78C07F1B26}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UI</RootNamespace>
+    <AssemblyName>CworkPontoPlus</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ApplicationIcon>cwork-ponto-128.ico</ApplicationIcon>
+    <ManifestCertificateThumbprint>A47C1BCAB1E060D910F0CBAEB3B563073ABFE35B</ManifestCertificateThumbprint>
+    <ManifestKeyFile>UI_TemporaryKey.pfx</ManifestKeyFile>
+    <GenerateManifests>true</GenerateManifests>
+    <SignManifests>false</SignManifests>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NoWin32Manifest>true</NoWin32Manifest>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>C:\Builds\PONTO-PUBLISH\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>false</MapFileExtensions>
+    <ProductName>Cwork Ponto MT</ProductName>
+    <PublisherName>Cwork Sistemas</PublisherName>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>3.23.24.2</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Homologacao|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Homologacao\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Homologacao|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Homologacao\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Desenvolvimento|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Desenvolvimento\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Desenvolvimento|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Desenvolvimento\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AForge.Controls, Version=2.2.5.0, Culture=neutral, PublicKeyToken=a8ac264d1dc6b9d9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\AForge.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Imaging, Version=2.2.5.0, Culture=neutral, PublicKeyToken=ba8ddea9676ca48b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\AForge.Imaging.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Imaging.Formats, Version=2.2.4.0, Culture=neutral, PublicKeyToken=8065ed5a639199a0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\AForge.Imaging.Formats.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video, Version=2.2.5.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\AForge.Video.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video.DirectShow, Version=2.2.5.0, Culture=neutral, PublicKeyToken=61ea4348d43881b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\AForge.Video.DirectShow.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AutoMapper.Net4, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Componentes">
+      <HintPath>..\Dependencias\Componentes.dll</HintPath>
+    </Reference>
+    <Reference Include="cwkControleUsuario, Version=1.0.1.12, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\cwkControleUsuario.dll</HintPath>
+    </Reference>
+    <Reference Include="cwkhexacomm">
+      <HintPath>..\Dependencias\cwkhexacomm.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Design.v11.2, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v11.2.Core, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Data.v11.2, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Reports.v11.2.Designer, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v11.2, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Xpo.v11.2, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraBars.v11.2, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraBars.v11.2.Design, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v11.2, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v11.2.Design, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraGrid.v11.2, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraGrid.v11.2.Design, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraLayout.v11.2, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraLayout.v11.2.Design, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v11.2, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v11.2.Design, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v11.2, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v11.2.Design, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v11.2.Extensions, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraScheduler.v11.2, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraScheduler.v11.2.Core, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraTreeList.v11.2, Version=11.2.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="FirebirdSql.Data.FirebirdClient, Version=2.5.1.0, Culture=neutral, PublicKeyToken=3750abcc3150b00c, processorArchitecture=MSIL">
+      <HintPath>..\Dependencias\FirebirdSql.Data.FirebirdClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Framework.Comunicacao">
+      <HintPath>..\Dependencias\Framework.Comunicacao.dll</HintPath>
+    </Reference>
+    <Reference Include="GerenciadorRep.Bi.Dominio">
+      <HintPath>..\Dependencias\GerenciadorRep.Bi.Dominio.dll</HintPath>
+    </Reference>
+    <Reference Include="GerenciadorRep.Bi.Entidade">
+      <HintPath>..\Dependencias\GerenciadorRep.Bi.Entidade.dll</HintPath>
+    </Reference>
+    <Reference Include="GerenciadorRep.Da">
+      <HintPath>..\Dependencias\GerenciadorRep.Da.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Charsets, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\IKVM.OpenJDK.Charsets.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Core, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\IKVM.OpenJDK.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Security, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\IKVM.OpenJDK.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Text, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\IKVM.OpenJDK.Text.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Tools, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\IKVM.OpenJDK.Tools.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Util, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\IKVM.OpenJDK.Util.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.Crypto, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\IKVM.OpenJDK.XML.Crypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IKVM.Runtime, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\IKVM.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LicenceLibrary">
+      <HintPath>..\Dependencias\LicenceLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.ExceptionHandling">
+      <HintPath>..\Dependencias\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.CommandBars, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.TemplateWizardInterface, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="PopupControl, Version=1.4.0.968, Culture=neutral, PublicKeyToken=04c10344d6495b18, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\PopupControl.dll</HintPath>
+    </Reference>
+    <Reference Include="SNEntity">
+      <HintPath>..\Dependencias\SNEntity.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\GridBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Base\GridBase.Designer.cs">
+      <DependentUpon>GridBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\GridSimplesBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Base\GridSimplesBase.Designer.cs">
+      <DependentUpon>GridSimplesBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\ManutBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Base\ManutBase.Designer.cs">
+      <DependentUpon>ManutBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormLogErroImportacao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLogErroImportacao.Designer.cs">
+      <DependentUpon>FormLogErroImportacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\FormRelatorioAbono.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\FormRelatorioAbono.Designer.cs">
+      <DependentUpon>FormRelatorioAbono.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Refeitorio\FormGridEquipamento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Refeitorio\FormGridEquipamento.Designer.cs">
+      <DependentUpon>FormGridEquipamento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Refeitorio\FormManutConfiguracaoRefeitorio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Refeitorio\FormManutConfiguracaoRefeitorio.Designer.cs">
+      <DependentUpon>FormManutConfiguracaoRefeitorio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutEmpresaCw_Usuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutEmpresaCw_Usuario.Designer.cs">
+      <DependentUpon>FormManutEmpresaCw_Usuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Refeitorio\FormManutEquipamento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Refeitorio\FormManutEquipamento.Designer.cs">
+      <DependentUpon>FormManutEquipamento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IntegracaoRelogio\FormConfiguraHorario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntegracaoRelogio\FormConfiguraHorario.Designer.cs">
+      <DependentUpon>FormConfiguraHorario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IntegracaoRelogio\FormEnviarEmpresaEFuncionarios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntegracaoRelogio\FormEnviarEmpresaEFuncionarios.Designer.cs">
+      <DependentUpon>FormEnviarEmpresaEFuncionarios.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormCapturaFoto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCapturaFoto.Designer.cs">
+      <DependentUpon>FormCapturaFoto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridCompensacao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridCompensacao.Designer.cs">
+      <DependentUpon>FormGridCompensacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridFechamentoBHD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridFechamentoBHD.Designer.cs">
+      <DependentUpon>FormGridFechamentoBHD.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridLayoutExportacao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridLayoutExportacao.Designer.cs">
+      <DependentUpon>FormGridLayoutExportacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormConfigServidor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormConfigServidor.Designer.cs">
+      <DependentUpon>FormConfigServidor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormAguardeBackup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAguardeBackup.Designer.cs">
+      <DependentUpon>FormAguardeBackup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutImportaTxt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutImportaTxt.Designer.cs">
+      <DependentUpon>FormManutImportaTxt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutLayoutExportacao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutLayoutExportacao.Designer.cs">
+      <DependentUpon>FormManutLayoutExportacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutJornada.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutJornada.Designer.cs">
+      <DependentUpon>FormManutJornada.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridJornada.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridJornada.Designer.cs">
+      <DependentUpon>FormGridJornada.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormCalc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCalc.Designer.cs">
+      <DependentUpon>FormCalc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutLayoutImportacaoTxt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutLayoutImportacaoTxt.Designer.cs">
+      <DependentUpon>FormManutLayoutImportacaoTxt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormPeriodoImportacao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPeriodoImportacao.Designer.cs">
+      <DependentUpon>FormPeriodoImportacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormProgressBar2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormProgressBar2.Designer.cs">
+      <DependentUpon>FormProgressBar2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridJustificativa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridJustificativa.Designer.cs">
+      <DependentUpon>FormGridJustificativa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutExportacaoFolha.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutExportacaoFolha.Designer.cs">
+      <DependentUpon>FormManutExportacaoFolha.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutJustificativa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutJustificativa.Designer.cs">
+      <DependentUpon>FormManutJustificativa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridBackup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridBackup.Designer.cs">
+      <DependentUpon>FormGridBackup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridMudancaHorario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridMudancaHorario.Designer.cs">
+      <DependentUpon>FormGridMudancaHorario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormExportaArquivos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormExportaArquivos.Designer.cs">
+      <DependentUpon>FormExportaArquivos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridFuncionarioExcluido.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridFuncionarioExcluido.Designer.cs">
+      <DependentUpon>FormGridFuncionarioExcluido.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridHorarioMovel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridHorarioMovel.Designer.cs">
+      <DependentUpon>FormGridHorarioMovel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormAbono.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAbono.Designer.cs">
+      <DependentUpon>FormAbono.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridFechamentoBH.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridFechamentoBH.Designer.cs">
+      <DependentUpon>FormGridFechamentoBH.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridHorario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridHorario.Designer.cs">
+      <DependentUpon>FormGridHorario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridMudancaCodigo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridMudancaCodigo.Designer.cs">
+      <DependentUpon>FormGridMudancaCodigo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridREP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridREP.Designer.cs">
+      <DependentUpon>FormGridREP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormImportacaoBilhetes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormImportacaoBilhetes.Designer.cs">
+      <DependentUpon>FormImportacaoBilhetes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormJornadaAlternativa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormJornadaAlternativa.Designer.cs">
+      <DependentUpon>FormJornadaAlternativa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutAcerto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutAcerto.Designer.cs">
+      <DependentUpon>FormManutAcerto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutBackup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutBackup.Designer.cs">
+      <DependentUpon>FormManutBackup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutConfiguracoesGerais.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutConfiguracoesGerais.Designer.cs">
+      <DependentUpon>FormManutConfiguracoesGerais.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutDiaria.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutDiaria.Designer.cs">
+      <DependentUpon>FormManutDiaria.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutencaoBilhetes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutencaoBilhetes.Designer.cs">
+      <DependentUpon>FormManutencaoBilhetes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutExportacaoCampos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutExportacaoCampos.Designer.cs">
+      <DependentUpon>FormManutExportacaoCampos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridAfastamento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridAfastamento.Designer.cs">
+      <DependentUpon>FormGridAfastamento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridBancoHoras.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridBancoHoras.Designer.cs">
+      <DependentUpon>FormGridBancoHoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridDepartamento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridDepartamento.Designer.cs">
+      <DependentUpon>FormGridDepartamento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridEmpresa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridEmpresa.Designer.cs">
+      <DependentUpon>FormGridEmpresa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridEventos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridEventos.Designer.cs">
+      <DependentUpon>FormGridEventos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridExportacaoCampos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridExportacaoCampos.Designer.cs">
+      <DependentUpon>FormGridExportacaoCampos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridFeriado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridFeriado.Designer.cs">
+      <DependentUpon>FormGridFeriado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridFuncao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridFuncao.Designer.cs">
+      <DependentUpon>FormGridFuncao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridFuncionario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridFuncionario.Designer.cs">
+      <DependentUpon>FormGridFuncionario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridInclusaoBanco.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridInclusaoBanco.Designer.cs">
+      <DependentUpon>FormGridInclusaoBanco.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridJornadaAlternativa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridJornadaAlternativa.Designer.cs">
+      <DependentUpon>FormGridJornadaAlternativa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridOcorrencia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridOcorrencia.Designer.cs">
+      <DependentUpon>FormGridOcorrencia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridParametros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridParametros.Designer.cs">
+      <DependentUpon>FormGridParametros.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridProvisorio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridProvisorio.Designer.cs">
+      <DependentUpon>FormGridProvisorio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGridTipoBilhetes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGridTipoBilhetes.Designer.cs">
+      <DependentUpon>FormGridTipoBilhetes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutAfastamento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutAfastamento.Designer.cs">
+      <DependentUpon>FormManutAfastamento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutBancoHoras.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutBancoHoras.Designer.cs">
+      <DependentUpon>FormManutBancoHoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutCompensacao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutCompensacao.Designer.cs">
+      <DependentUpon>FormManutCompensacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutDepartamento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutDepartamento.Designer.cs">
+      <DependentUpon>FormManutDepartamento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutDiasCompensacao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutDiasCompensacao.Designer.cs">
+      <DependentUpon>FormManutDiasCompensacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutDiasJornadaAlternativa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutDiasJornadaAlternativa.Designer.cs">
+      <DependentUpon>FormManutDiasJornadaAlternativa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutEmpresa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutEmpresa.Designer.cs">
+      <DependentUpon>FormManutEmpresa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutEventos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutEventos.Designer.cs">
+      <DependentUpon>FormManutEventos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutFechamentoBH.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutFechamentoBH.Designer.cs">
+      <DependentUpon>FormManutFechamentoBH.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutFechamentoBHD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutFechamentoBHD.Designer.cs">
+      <DependentUpon>FormManutFechamentoBHD.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutFeriado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutFeriado.Designer.cs">
+      <DependentUpon>FormManutFeriado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutFuncao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutFuncao.Designer.cs">
+      <DependentUpon>FormManutFuncao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutFuncionario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutFuncionario.Designer.cs">
+      <DependentUpon>FormManutFuncionario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutFuncionarioHistorico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutFuncionarioHistorico.Designer.cs">
+      <DependentUpon>FormManutFuncionarioHistorico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutHorario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutHorario.Designer.cs">
+      <DependentUpon>FormManutHorario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutHorarioMovel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutHorarioMovel.Designer.cs">
+      <DependentUpon>FormManutHorarioMovel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutInclusaoBanco.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutInclusaoBanco.Designer.cs">
+      <DependentUpon>FormManutInclusaoBanco.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutJornadaAlternativa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutJornadaAlternativa.Designer.cs">
+      <DependentUpon>FormManutJornadaAlternativa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutMarcacao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutMarcacao.Designer.cs">
+      <DependentUpon>FormManutMarcacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutMotivoMarcacao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutMotivoMarcacao.Designer.cs">
+      <DependentUpon>FormManutMotivoMarcacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutMudancaHorario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutMudancaHorario.Designer.cs">
+      <DependentUpon>FormManutMudancaHorario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutOcorrencia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutOcorrencia.Designer.cs">
+      <DependentUpon>FormManutOcorrencia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutParametros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutParametros.Designer.cs">
+      <DependentUpon>FormManutParametros.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutProvisorio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutProvisorio.Designer.cs">
+      <DependentUpon>FormManutProvisorio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutREP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutREP.Designer.cs">
+      <DependentUpon>FormManutREP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormManutTipoBilhetes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManutTipoBilhetes.Designer.cs">
+      <DependentUpon>FormManutTipoBilhetes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormMudancaCodigo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMudancaCodigo.Designer.cs">
+      <DependentUpon>FormMudancaCodigo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormOrdenaHorarios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormOrdenaHorarios.Designer.cs">
+      <DependentUpon>FormOrdenaHorarios.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormProgressBar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormProgressBar.Designer.cs">
+      <DependentUpon>FormProgressBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormQtFuncLayout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormQtFuncLayout.Designer.cs">
+      <DependentUpon>FormQtFuncLayout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormRecalculaMarcacao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormRecalculaMarcacao.Designer.cs">
+      <DependentUpon>FormRecalculaMarcacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormRegistro.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormRegistro.Designer.cs">
+      <DependentUpon>FormRegistro.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTabelaMarcacoes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTabelaMarcacoes.Designer.cs">
+      <DependentUpon>FormTabelaMarcacoes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormVisualizacaoResumoHoras.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormVisualizacaoResumoHoras.Designer.cs">
+      <DependentUpon>FormVisualizacaoResumoHoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormVisualizarLayout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormVisualizarLayout.Designer.cs">
+      <DependentUpon>FormVisualizarLayout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MenuInicial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MenuInicial.Designer.cs">
+      <DependentUpon>MenuInicial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="popup\PopUpMarcacao.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="popup\PopUpMarcacao.Designer.cs">
+      <DependentUpon>PopUpMarcacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="popup\PopUpOrdenaHorario.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="popup\PopUpOrdenaHorario.Designer.cs">
+      <DependentUpon>PopUpOrdenaHorario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Relatorios\Base\FormBaseGridFiltro4Quadros .cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Base\FormBaseGridFiltro4Quadros .Designer.cs">
+      <DependentUpon>FormBaseGridFiltro4Quadros .cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\FormRelatorioComparacaoBilhetes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\FormRelatorioComparacaoBilhetes.Designer.cs">
+      <DependentUpon>FormRelatorioComparacaoBilhetes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\FormsRptView\FormRptViewMetaHorasExtras.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\FormsRptView\FormRptViewMetaHorasExtras.Designer.cs">
+      <DependentUpon>FormRptViewMetaHorasExtras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\Intervalos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Intervalos.Designer.cs">
+      <DependentUpon>Intervalos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\Inconsistencias.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Inconsistencias.Designer.cs">
+      <DependentUpon>Inconsistencias.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\FormRelatorioMetaHorasExtras.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\FormRelatorioMetaHorasExtras.Designer.cs">
+      <DependentUpon>FormRelatorioMetaHorasExtras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Secullum\FormImportacaoSecullum.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Secullum\FormImportacaoSecullum.Designer.cs">
+      <DependentUpon>FormImportacaoSecullum.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Secullum\IImportacaoSecullum.cs" />
+    <Compile Include="Secullum\ImportacaoSecullum.cs" />
+    <Compile Include="Secullum\SecullumREP.cs" />
+    <Compile Include="Util\CriptoString.cs" />
+    <Compile Include="Util\FormValidade.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Util\FormValidade.Designer.cs">
+      <DependentUpon>FormValidade.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Util\ToolStripColor.cs" />
+    <Content Include="dllrep.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IDSysR30.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ikvm-native-win32-x86.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="InstalacaoSQL.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Kernel7x.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="license.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="NBioBSP.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="NImgConv.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="readme.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Kernel7x.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="packages.config" />
+    <None Include="Resources\bg_Timbo.png" />
+    <None Include="Resources\bg_Techno.png" />
+    <None Include="Resources\bg_MaringaRelogios.bmp" />
+    <None Include="Resources\bg_MaringaRelogios.png" />
+    <Content Include="UCBioBSP.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UCBioBSPSkin_Portuguese.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UCDevice.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\exportar16.png" />
+    <None Include="Resources\exportar.png" />
+    <None Include="Resources\bg_AeB.png" />
+    <None Include="Resources\bg_AeB.bmp" />
+    <None Include="Resources\bg_Reloeste.png" />
+    <None Include="Resources\bg_Relocon.png" />
+    <None Include="Resources\bg_Relocon.bmp" />
+    <Content Include="Help\CworkPontoPlus.chm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\bg_Pontual.png" />
+    <None Include="Resources\bg_InfoTec.png" />
+    <None Include="Resources\bg_Supersoft.png" />
+    <None Include="Resources\bg_MTK.png" />
+    <None Include="Resources\bg_Infoponto.png" />
+    <None Include="Resources\bg_Express.png" />
+    <None Include="Resources\bg_DataPonto.png" />
+    <None Include="Resources\bg_Comatel.png" />
+    <None Include="Resources\bg_Astec.png" />
+    <None Include="Resources\Background.png" />
+    <EmbeddedResource Include="Base\GridBase.resx">
+      <DependentUpon>GridBase.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\GridSimplesBase.resx">
+      <DependentUpon>GridSimplesBase.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\ManutBase.resx">
+      <DependentUpon>ManutBase.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridBackup.resx">
+      <DependentUpon>FormGridBackup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridBancoHoras.resx">
+      <DependentUpon>FormGridBancoHoras.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridDepartamento.resx">
+      <DependentUpon>FormGridDepartamento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridEventos.resx">
+      <DependentUpon>FormGridEventos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridFeriado.resx">
+      <DependentUpon>FormGridFeriado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridFuncao.resx">
+      <DependentUpon>FormGridFuncao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridHorario.resx">
+      <DependentUpon>FormGridHorario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridHorarioMovel.resx">
+      <DependentUpon>FormGridHorarioMovel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridInclusaoBanco.resx">
+      <DependentUpon>FormGridInclusaoBanco.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridJornada.resx">
+      <DependentUpon>FormGridJornada.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridJornadaAlternativa.resx">
+      <DependentUpon>FormGridJornadaAlternativa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridJustificativa.resx">
+      <DependentUpon>FormGridJustificativa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridOcorrencia.resx">
+      <DependentUpon>FormGridOcorrencia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridParametros.resx">
+      <DependentUpon>FormGridParametros.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridProvisorio.resx">
+      <DependentUpon>FormGridProvisorio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridTipoBilhetes.resx">
+      <DependentUpon>FormGridTipoBilhetes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLogErroImportacao.resx">
+      <DependentUpon>FormLogErroImportacao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\FormRelatorioAbono.resx">
+      <DependentUpon>FormRelatorioAbono.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Refeitorio\FormManutConfiguracaoRefeitorio.resx">
+      <DependentUpon>FormManutConfiguracaoRefeitorio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutEmpresaCw_Usuario.resx">
+      <DependentUpon>FormManutEmpresaCw_Usuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Refeitorio\FormManutEquipamento.resx">
+      <DependentUpon>FormManutEquipamento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntegracaoRelogio\FormConfiguraHorario.resx">
+      <DependentUpon>FormConfiguraHorario.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntegracaoRelogio\FormEnviarEmpresaEFuncionarios.resx">
+      <DependentUpon>FormEnviarEmpresaEFuncionarios.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCapturaFoto.resx">
+      <DependentUpon>FormCapturaFoto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridCompensacao.resx">
+      <DependentUpon>FormGridCompensacao.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridFechamentoBHD.resx">
+      <DependentUpon>FormGridFechamentoBHD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridLayoutExportacao.resx">
+      <DependentUpon>FormGridLayoutExportacao.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormConfigServidor.resx">
+      <DependentUpon>FormConfigServidor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAguardeBackup.resx">
+      <DependentUpon>FormAguardeBackup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutImportaTxt.resx">
+      <DependentUpon>FormManutImportaTxt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutLayoutExportacao.resx">
+      <DependentUpon>FormManutLayoutExportacao.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutJornada.resx">
+      <DependentUpon>FormManutJornada.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCalc.resx">
+      <DependentUpon>FormCalc.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridAfastamento.resx">
+      <DependentUpon>FormGridAfastamento.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutLayoutImportacaoTxt.resx">
+      <DependentUpon>FormManutLayoutImportacaoTxt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPeriodoImportacao.resx">
+      <DependentUpon>FormPeriodoImportacao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormProgressBar2.resx">
+      <DependentUpon>FormProgressBar2.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutExportacaoFolha.resx">
+      <DependentUpon>FormManutExportacaoFolha.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutJustificativa.resx">
+      <DependentUpon>FormManutJustificativa.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAbono.resx">
+      <DependentUpon>FormAbono.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormExportaArquivos.resx">
+      <DependentUpon>FormExportaArquivos.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridExportacaoCampos.resx">
+      <DependentUpon>FormGridExportacaoCampos.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridFechamentoBH.resx">
+      <DependentUpon>FormGridFechamentoBH.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridFuncionario.resx">
+      <DependentUpon>FormGridFuncionario.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridFuncionarioExcluido.resx">
+      <DependentUpon>FormGridFuncionarioExcluido.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridMudancaCodigo.resx">
+      <DependentUpon>FormGridMudancaCodigo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridMudancaHorario.resx">
+      <DependentUpon>FormGridMudancaHorario.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridREP.resx">
+      <DependentUpon>FormGridREP.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormImportacaoBilhetes.resx">
+      <DependentUpon>FormImportacaoBilhetes.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormJornadaAlternativa.resx">
+      <DependentUpon>FormJornadaAlternativa.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutAcerto.resx">
+      <DependentUpon>FormManutAcerto.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutBackup.resx">
+      <DependentUpon>FormManutBackup.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutConfiguracoesGerais.resx">
+      <DependentUpon>FormManutConfiguracoesGerais.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutDiaria.resx">
+      <DependentUpon>FormManutDiaria.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutencaoBilhetes.resx">
+      <DependentUpon>FormManutencaoBilhetes.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutExportacaoCampos.resx">
+      <DependentUpon>FormManutExportacaoCampos.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGridEmpresa.resx">
+      <DependentUpon>FormGridEmpresa.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutAfastamento.resx">
+      <DependentUpon>FormManutAfastamento.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutBancoHoras.resx">
+      <DependentUpon>FormManutBancoHoras.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutCompensacao.resx">
+      <DependentUpon>FormManutCompensacao.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutDepartamento.resx">
+      <DependentUpon>FormManutDepartamento.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutDiasCompensacao.resx">
+      <DependentUpon>FormManutDiasCompensacao.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutDiasJornadaAlternativa.resx">
+      <DependentUpon>FormManutDiasJornadaAlternativa.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutEmpresa.resx">
+      <DependentUpon>FormManutEmpresa.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutEventos.resx">
+      <DependentUpon>FormManutEventos.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutFechamentoBH.resx">
+      <DependentUpon>FormManutFechamentoBH.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutFechamentoBHD.resx">
+      <DependentUpon>FormManutFechamentoBHD.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutFeriado.resx">
+      <DependentUpon>FormManutFeriado.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutFuncao.resx">
+      <DependentUpon>FormManutFuncao.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutFuncionario.resx">
+      <DependentUpon>FormManutFuncionario.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutFuncionarioHistorico.resx">
+      <DependentUpon>FormManutFuncionarioHistorico.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutHorario.resx">
+      <DependentUpon>FormManutHorario.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutHorarioMovel.resx">
+      <DependentUpon>FormManutHorarioMovel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutInclusaoBanco.resx">
+      <DependentUpon>FormManutInclusaoBanco.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutJornadaAlternativa.resx">
+      <DependentUpon>FormManutJornadaAlternativa.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutMarcacao.resx">
+      <DependentUpon>FormManutMarcacao.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutMotivoMarcacao.resx">
+      <DependentUpon>FormManutMotivoMarcacao.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutMudancaHorario.resx">
+      <DependentUpon>FormManutMudancaHorario.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutOcorrencia.resx">
+      <DependentUpon>FormManutOcorrencia.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutParametros.resx">
+      <DependentUpon>FormManutParametros.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutProvisorio.resx">
+      <DependentUpon>FormManutProvisorio.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutREP.resx">
+      <DependentUpon>FormManutREP.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManutTipoBilhetes.resx">
+      <DependentUpon>FormManutTipoBilhetes.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMudancaCodigo.resx">
+      <DependentUpon>FormMudancaCodigo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormOrdenaHorarios.resx">
+      <DependentUpon>FormOrdenaHorarios.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormProgressBar.resx">
+      <DependentUpon>FormProgressBar.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormQtFuncLayout.resx">
+      <DependentUpon>FormQtFuncLayout.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormRecalculaMarcacao.resx">
+      <DependentUpon>FormRecalculaMarcacao.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormRegistro.resx">
+      <DependentUpon>FormRegistro.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTabelaMarcacoes.resx">
+      <DependentUpon>FormTabelaMarcacoes.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormVisualizacaoResumoHoras.resx">
+      <DependentUpon>FormVisualizacaoResumoHoras.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormVisualizarLayout.resx">
+      <DependentUpon>FormVisualizarLayout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MenuInicial.resx">
+      <DependentUpon>MenuInicial.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="popup\PopUpMarcacao.resx">
+      <DependentUpon>PopUpMarcacao.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="popup\PopUpOrdenaHorario.resx">
+      <DependentUpon>PopUpOrdenaHorario.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Afastamento\AfastamentoOcorrencia.resx">
+      <DependentUpon>AfastamentoOcorrencia.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Afastamento\AfastamentoTipo.resx">
+      <DependentUpon>AfastamentoTipo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\BancoHorasResumo.resx">
+      <DependentUpon>BancoHorasResumo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Base\FormBase.resx">
+      <DependentUpon>FormBase.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Base\FormBase2.resx">
+      <DependentUpon>FormBase2.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Base\FormBaseFiltro1.resx">
+      <DependentUpon>FormBaseFiltro1.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Base\FormBaseGridFiltro4Quadros .resx">
+      <DependentUpon>FormBaseGridFiltro4Quadros .cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Base\FormBaseGridFiltro1.resx">
+      <DependentUpon>FormBaseGridFiltro1.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Base\FormBaseSemEmpresa.resx">
+      <DependentUpon>FormBaseSemEmpresa.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\FormRelatorioComparacaoBilhetes.resx">
+      <DependentUpon>FormRelatorioComparacaoBilhetes.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\FormsRptView\FormRptViewMetaHorasExtras.resx">
+      <DependentUpon>FormRptViewMetaHorasExtras.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Intervalos.resx">
+      <DependentUpon>Intervalos.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Inconsistencias.resx">
+      <DependentUpon>Inconsistencias.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\CartaoPonto\CartaoPonto.resx">
+      <DependentUpon>CartaoPonto.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\CartaoPonto\FormImprimeCartaoIndividual.resx">
+      <DependentUpon>FormImprimeCartaoIndividual.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\BancoHorasIndividual.resx">
+      <DependentUpon>BancoHorasIndividual.cs</DependentUpon>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\CartaoPonto\ManutencaoDiaria.resx">
+      <DependentUpon>ManutencaoDiaria.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\CartaoPonto\ManutencaoDiarianew.resx">
+      <DependentUpon>ManutencaoDiarianew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\FormAbsenteismo.resx">
+      <DependentUpon>FormAbsenteismo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Refeitorio\FormRelatorioAcessoFuncionario.resx">
+      <DependentUpon>FormRelatorioAcessoFuncionario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\FormRelatorioEspelho.resx">
+      <DependentUpon>FormRelatorioEspelho.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\FormRelatorioOcorrencianew.resx">
+      <DependentUpon>FormRelatorioOcorrencianew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Funcionario\FuncionariosPorDepartamentonew.resx">
+      <DependentUpon>FuncionariosPorDepartamentonew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\HExtraPorDepartamento.resx">
+      <DependentUpon>HExtraPorDepartamento.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\HExtraPorFuncionario.resx">
+      <DependentUpon>HExtraPorFuncionario.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\EspelhoPonto.resx">
+      <DependentUpon>EspelhoPonto.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Base\FormRelatorioBase.resx">
+      <DependentUpon>FormRelatorioBase.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\FormRelatorioOcorrencia.resx">
+      <DependentUpon>FormRelatorioOcorrencia.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Funcionario\FuncionarioHistorico.resx">
+      <DependentUpon>FuncionarioHistorico.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Funcionario\FuncionarioPresenca.resx">
+      <DependentUpon>FuncionarioPresenca.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Funcionario\FuncionariosAdmissao.resx">
+      <DependentUpon>FuncionariosAdmissao.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Funcionario\FuncionariosAtivosInativos.resx">
+      <DependentUpon>FuncionariosAtivosInativos.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Funcionario\FuncionariosDemissao.resx">
+      <DependentUpon>FuncionariosDemissao.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Funcionario\FuncionariosHorario.resx">
+      <DependentUpon>FuncionariosHorario.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Funcionario\FuncionariosPorCodigo.resx">
+      <DependentUpon>FuncionariosPorCodigo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Funcionario\FuncionariosPorDepartamento.resx">
+      <DependentUpon>FuncionariosPorDepartamento.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Funcionario\FuncionariosPorEmpresa.resx">
+      <DependentUpon>FuncionariosPorEmpresa.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\Funcionario\FuncionariosPorNome.resx">
+      <DependentUpon>FuncionariosPorNome.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\HorarioPorDescricao.resx">
+      <DependentUpon>HorarioPorDescricao.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\FormRelatorioMetaHorasExtras.resx">
+      <DependentUpon>FormRelatorioMetaHorasExtras.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorios\PercentualHExtra.resx">
+      <DependentUpon>PercentualHExtra.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Secullum\FormImportacaoSecullum.resx">
+      <DependentUpon>FormImportacaoSecullum.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="sobre.resx">
+      <DependentUpon>sobre.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TesteGrid.resx">
+      <DependentUpon>TesteGrid.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TopPonto\FormImportacaoTopPonto.resx">
+      <DependentUpon>FormImportacaoTopPonto.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Util\FormValidade.resx">
+      <DependentUpon>FormValidade.cs</DependentUpon>
+    </EmbeddedResource>
+    <Content Include="7-zip.chm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="UI_TemporaryKey.pfx" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Relatorios\Afastamento\AfastamentoOcorrencia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Afastamento\AfastamentoOcorrencia.Designer.cs">
+      <DependentUpon>AfastamentoOcorrencia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\Afastamento\AfastamentoTipo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Afastamento\AfastamentoTipo.Designer.cs">
+      <DependentUpon>AfastamentoTipo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\BancoHorasResumo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\BancoHorasResumo.Designer.cs">
+      <DependentUpon>BancoHorasResumo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\Base\FormBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Base\FormBase.Designer.cs">
+      <DependentUpon>FormBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\Base\FormBase2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Base\FormBase2.Designer.cs">
+      <DependentUpon>FormBase2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\Base\FormBaseFiltro1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Base\FormBaseFiltro1.Designer.cs">
+      <DependentUpon>FormBaseFiltro1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\Base\FormBaseGridFiltro1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Base\FormBaseGridFiltro1.Designer.cs">
+      <DependentUpon>FormBaseGridFiltro1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\Base\FormBaseSemEmpresa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Base\FormBaseSemEmpresa.Designer.cs">
+      <DependentUpon>FormBaseSemEmpresa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\CartaoPonto\CartaoPonto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\CartaoPonto\CartaoPonto.Designer.cs">
+      <DependentUpon>CartaoPonto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\CartaoPonto\FormImprimeCartaoIndividual.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\CartaoPonto\FormImprimeCartaoIndividual.Designer.cs">
+      <DependentUpon>FormImprimeCartaoIndividual.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\BancoHorasIndividual.cs">
+      <SubType>Form</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Relatorios\BancoHorasIndividual.Designer.cs">
+      <DependentUpon>BancoHorasIndividual.cs</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Relatorios\CartaoPonto\ManutencaoDiaria.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\CartaoPonto\ManutencaoDiaria.Designer.cs">
+      <DependentUpon>ManutencaoDiaria.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\CartaoPonto\ManutencaoDiarianew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\CartaoPonto\ManutencaoDiarianew.Designer.cs">
+      <DependentUpon>ManutencaoDiarianew.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\FormAbsenteismo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\FormAbsenteismo.Designer.cs">
+      <DependentUpon>FormAbsenteismo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Refeitorio\FormRelatorioAcessoFuncionario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Refeitorio\FormRelatorioAcessoFuncionario.Designer.cs">
+      <DependentUpon>FormRelatorioAcessoFuncionario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\FormRelatorioEspelho.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\FormRelatorioEspelho.Designer.cs">
+      <DependentUpon>FormRelatorioEspelho.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\FormRelatorioOcorrencianew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\FormRelatorioOcorrencianew.Designer.cs">
+      <DependentUpon>FormRelatorioOcorrencianew.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionariosPorDepartamentonew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionariosPorDepartamentonew.Designer.cs">
+      <DependentUpon>FuncionariosPorDepartamentonew.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\HExtraPorDepartamento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\HExtraPorDepartamento.Designer.cs">
+      <DependentUpon>HExtraPorDepartamento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\HExtraPorFuncionario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\HExtraPorFuncionario.Designer.cs">
+      <DependentUpon>HExtraPorFuncionario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\EspelhoPonto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\EspelhoPonto.Designer.cs">
+      <DependentUpon>EspelhoPonto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\Base\FormRelatorioBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Base\FormRelatorioBase.Designer.cs">
+      <DependentUpon>FormRelatorioBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\FormRelatorioOcorrencia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\FormRelatorioOcorrencia.Designer.cs">
+      <DependentUpon>FormRelatorioOcorrencia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionarioHistorico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionarioHistorico.Designer.cs">
+      <DependentUpon>FuncionarioHistorico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionarioPresenca.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionarioPresenca.Designer.cs">
+      <DependentUpon>FuncionarioPresenca.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionariosAdmissao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionariosAdmissao.Designer.cs">
+      <DependentUpon>FuncionariosAdmissao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionariosAtivosInativos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionariosAtivosInativos.Designer.cs">
+      <DependentUpon>FuncionariosAtivosInativos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionariosDemissao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionariosDemissao.Designer.cs">
+      <DependentUpon>FuncionariosDemissao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionariosHorario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionariosHorario.Designer.cs">
+      <DependentUpon>FuncionariosHorario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionariosPorCodigo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionariosPorCodigo.Designer.cs">
+      <DependentUpon>FuncionariosPorCodigo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionariosPorDepartamento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionariosPorDepartamento.Designer.cs">
+      <DependentUpon>FuncionariosPorDepartamento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionariosPorEmpresa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionariosPorEmpresa.Designer.cs">
+      <DependentUpon>FuncionariosPorEmpresa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionariosPorNome.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\Funcionario\FuncionariosPorNome.Designer.cs">
+      <DependentUpon>FuncionariosPorNome.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\HorarioPorDescricao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\HorarioPorDescricao.Designer.cs">
+      <DependentUpon>HorarioPorDescricao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\PercentualHExtra.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Relatorios\PercentualHExtra.Designer.cs">
+      <DependentUpon>PercentualHExtra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="sobre.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="sobre.Designer.cs">
+      <DependentUpon>sobre.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TesteGrid.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TesteGrid.Designer.cs">
+      <DependentUpon>TesteGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TopPonto\ToppontoREP.cs" />
+    <Compile Include="TopPonto\FormImportacaoTopPonto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TopPonto\FormImportacaoTopPonto.Designer.cs">
+      <DependentUpon>FormImportacaoTopPonto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TopPonto\IImportacaoTopponto.cs" />
+    <Compile Include="TopPonto\ImportacaoTopPonto.cs" />
+    <Compile Include="TopPonto\Topponto34.cs" />
+    <Compile Include="TopPonto\Topponto40.cs" />
+    <Compile Include="Util\Funcoes.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{4AA014FD-60E6-471D-90B7-3F72C6756E83}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ConversorMultBanco\ConversorMultBanco.csproj">
+      <Project>{f691ae56-263f-4f5a-87b9-d4a4a43930ab}</Project>
+      <Name>ConversorMultBanco</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ConversorSQL\ConversorSQL.csproj">
+      <Project>{897eab2f-9593-4bdd-b945-113c13a71187}</Project>
+      <Name>ConversorSQL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImportacaoSQL\ImportacaoSQL.csproj">
+      <Project>{51FB92A1-F1F8-4F3A-92B0-FCDEE7EBA946}</Project>
+      <Name>ImportacaoSQL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Modelo\Modelo.csproj">
+      <Project>{DFE5A7E8-8798-43D3-A61F-F1DD3AB38593}</Project>
+      <Name>Modelo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\REL\REL.csproj">
+      <Project>{C0239A00-EEF2-497A-A643-9260E0196E8D}</Project>
+      <Name>REL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="7za.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cwork-ponto-128.ico" />
+    <Content Include="DAL.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="logo.ico" />
+    <None Include="Resources\Express_Fundo.jpg" />
+    <None Include="Resources\HeaderGrid.png" />
+    <None Include="Resources\Trocar User482.png" />
+    <None Include="Resources\Trocar User481.png" />
+    <None Include="Resources\1380242955_pin_basic_blue.png" />
+    <None Include="Resources\Infoponto_Fundo.png" />
+    <None Include="Resources\pin min.png" />
+    <None Include="Resources\BarraSuperior481.png" />
+    <None Include="Resources\BarraInferior481.png" />
+    <None Include="Resources\Barraesquerda481.png" />
+    <None Include="Resources\BarraDireita481.png" />
+    <None Include="Resources\button-power_basic_red.png" />
+    <None Include="Resources\CalcHora48.png" />
+    <None Include="Resources\Trocar User48.png" />
+    <None Include="Resources\open-file48.png" />
+    <None Include="Resources\backup2.png" />
+    <None Include="Resources\FuncHora48.png" />
+    <None Include="Resources\impressora48.png" />
+    <None Include="Resources\printer_print_3d_vector_symbol-128.png" />
+    <None Include="Resources\HorarioMovel48.png" />
+    <None Include="Resources\clockblue48.png" />
+    <None Include="Resources\ManutMarca248x48.png" />
+    <None Include="Resources\FuncNovo482.png" />
+    <None Include="Resources\FuncNovo48.png" />
+    <None Include="Resources\Marcacoes481.png" />
+    <None Include="Resources\Marcacoes48.png" />
+    <None Include="Resources\func48.png" />
+    <None Include="Resources\Importação de Bilhetes copy.ico" />
+    <None Include="Resources\Selecionar_roxo.bmp" />
+    <None Include="Resources\Consulta copy.ico" />
+    <None Include="Resources\Troca de Usuário.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <PublishFile Include="ADODB">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="DevExpress.Data.v11.2">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="DevExpress.Utils.v11.2">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="DevExpress.XtraEditors.v11.2">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="DevExpress.XtraGrid.v11.2">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="DevExpress.XtraLayout.v11.2">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="de\DevExpress.Data.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="de\DevExpress.PivotGrid.v11.2.Core.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="de\DevExpress.RichEdit.v11.2.Core.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="de\DevExpress.Utils.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="de\DevExpress.Xpo.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="de\DevExpress.XtraBars.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="de\DevExpress.XtraCharts.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="de\DevExpress.XtraEditors.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="de\DevExpress.XtraGrid.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="de\DevExpress.XtraLayout.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="de\DevExpress.XtraNavBar.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="de\DevExpress.XtraPivotGrid.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="de\DevExpress.XtraPrinting.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="de\DevExpress.XtraReports.v11.2.Extensions.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="de\DevExpress.XtraReports.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="de\DevExpress.XtraRichEdit.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="de\DevExpress.XtraScheduler.v11.2.Core.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="de\DevExpress.XtraScheduler.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="de\DevExpress.XtraTreeList.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="de\DevExpress.XtraVerticalGrid.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="es\DevExpress.Data.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="es\DevExpress.PivotGrid.v11.2.Core.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="es\DevExpress.RichEdit.v11.2.Core.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="es\DevExpress.Utils.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="es\DevExpress.Xpo.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="es\DevExpress.XtraBars.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="es\DevExpress.XtraCharts.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="es\DevExpress.XtraEditors.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="es\DevExpress.XtraGrid.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="es\DevExpress.XtraLayout.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="es\DevExpress.XtraNavBar.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="es\DevExpress.XtraPivotGrid.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="es\DevExpress.XtraPrinting.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="es\DevExpress.XtraReports.v11.2.Extensions.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="es\DevExpress.XtraReports.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="es\DevExpress.XtraRichEdit.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="es\DevExpress.XtraScheduler.v11.2.Core.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="es\DevExpress.XtraScheduler.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="es\DevExpress.XtraTreeList.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="es\DevExpress.XtraVerticalGrid.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="FirebirdSql.Data.FirebirdClient">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\DevExpress.Data.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\DevExpress.PivotGrid.v11.2.Core.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\DevExpress.Printing.v11.2.Core.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\DevExpress.RichEdit.v11.2.Core.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\DevExpress.Utils.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\DevExpress.Xpo.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\DevExpress.XtraBars.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\DevExpress.XtraCharts.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\DevExpress.XtraEditors.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\DevExpress.XtraGrid.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\DevExpress.XtraLayout.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\DevExpress.XtraNavBar.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\DevExpress.XtraPivotGrid.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\DevExpress.XtraPrinting.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\DevExpress.XtraReports.v11.2.Extensions.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\DevExpress.XtraReports.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\DevExpress.XtraRichEdit.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\DevExpress.XtraScheduler.v11.2.Core.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\DevExpress.XtraScheduler.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\DevExpress.XtraTreeList.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\DevExpress.XtraVerticalGrid.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="Microsoft.ReportViewer.Common">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Microsoft.ReportViewer.ProcessingObjectModel">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Microsoft.ReportViewer.WinForms">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="ru\DevExpress.Data.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ru\DevExpress.PivotGrid.v11.2.Core.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ru\DevExpress.RichEdit.v11.2.Core.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ru\DevExpress.Utils.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ru\DevExpress.Xpo.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ru\DevExpress.XtraBars.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ru\DevExpress.XtraCharts.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ru\DevExpress.XtraEditors.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ru\DevExpress.XtraGrid.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ru\DevExpress.XtraLayout.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ru\DevExpress.XtraNavBar.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ru\DevExpress.XtraPivotGrid.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ru\DevExpress.XtraPrinting.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ru\DevExpress.XtraReports.v11.2.Extensions.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ru\DevExpress.XtraReports.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ru\DevExpress.XtraRichEdit.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ru\DevExpress.XtraScheduler.v11.2.Core.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ru\DevExpress.XtraScheduler.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ru\DevExpress.XtraTreeList.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ru\DevExpress.XtraVerticalGrid.v11.2.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="SMDiagnostics">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Login\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

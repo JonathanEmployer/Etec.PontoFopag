@@ -1,0 +1,13 @@
+﻿@model Modelo.Proxy.pxyHorario
+
+<tr id="@Model.Id">
+    <td>
+        @Html.EditorFor(m => m.Selecionado,null, new { @class = "selectHor" })
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.Codigo)
+        @Html.HiddenFor(m => m.Descricao)
+        @Html.HiddenFor(m => m.Tipo)
+    </td>
+    <td>@Html.DisplayFor(m => m.Descricao)</td>
+    <td>@Html.DisplayFor(m => m.Tipo)</td>
+</tr>

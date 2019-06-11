@@ -1,0 +1,117 @@
+﻿@model Modelo.Empresa
+@{
+    ViewBag.Title = "Consultar Empresa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="divCenterPequeno">
+    <div class="panel panel-default" style="padding:0">
+        <div class="panel-heading salvando">
+            @Html.ActionLink("X", "Grid", "Empresa", null, new { @class = "close" })
+            <h3 class="panel-title titulo-pagina">Consulta Empresa</h3>
+        </div>
+        <div class="panel-body panelConteudo">
+            @Html.ValidationMessage("CustomError")
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.Codigo, ViewBag.Disabled ? (object) new {@class = "form-control  input-sm", @readonly = "disabled" } : new { @class = "form-control  input-sm"  })
+                        @Html.ValidationMessageFor(model => model.Codigo)
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CEI, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.CEI, ViewBag.Disabled ? (object)new { @class = "form-control  input-sm cei", @readonly = "disabled" } : new { @class = "form-control  input-sm cei" })
+                        @Html.ValidationMessageFor(model => model.CEI)
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Cnpj, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.Cnpj, ViewBag.Disabled ? (object)new { @class = "form-control  input-sm cnpj", @readonly = "disabled" } : new { @class = "form-control  input-sm cnpj" })
+                        @Html.ValidationMessageFor(model => model.Cnpj)
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Cpf, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.Cpf, ViewBag.Disabled ? (object)new { @class = "form-control  input-sm cpf", @readonly = "disabled" } : new { @class = "form-control  input-sm cpf" })
+                        @Html.ValidationMessageFor(model => model.Cpf)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Nome, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.Nome, ViewBag.Disabled ? (object)new { @class = "form-control  input-sm", @readonly = "disabled" } : new { @class = "form-control  input-sm" })
+                        @Html.ValidationMessageFor(model => model.Nome)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Endereco, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.Endereco, ViewBag.Disabled ? (object)new { @class = "form-control  input-sm", @readonly = "disabled" } : new { @class = "form-control  input-sm" })
+                        @Html.ValidationMessageFor(model => model.Endereco)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Cidade, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.Cidade, ViewBag.Disabled ? (object)new { @class = "form-control  input-sm", @readonly = "disabled" } : new { @class = "form-control  input-sm" })
+                        @Html.ValidationMessageFor(model => model.Cidade)
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Estado, new { @class = "control-label label-sm" })
+                        @Html.DropDownListFor(model => model.Estado, ViewBag.Estados as SelectList, ViewBag.Disabled ? (object)new { @class = "form-control  input-sm", style = "height: 25px;", @readonly = "disabled" } : new { @class = "form-control  input-sm", style = "height: 25px;" })
+                        @Html.ValidationMessageFor(model => model.Estado)
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Cep, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.Cep, ViewBag.Disabled ? (object)new { @class = "form-control  input-sm cep", @readonly = "disabled" } : new { @class = "form-control  input-sm cep" })
+                        @Html.ValidationMessageFor(model => model.Cep)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Numeroserie, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.Numeroserie, ViewBag.Disabled ? (object)new { @class = "form-control  input-sm", @readonly = "disabled" } : new { @class = "form-control  input-sm" })
+                        @Html.ValidationMessageFor(model => model.Numeroserie)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-12 center-block">
+                    <div style="text-align: right">
+                        <a class="btn btn-danger salvando"
+                           href="@Url.Action("Grid", "Empresa")">
+                            <span class="glyphicon glyphicon-remove"></span> Cancelar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}

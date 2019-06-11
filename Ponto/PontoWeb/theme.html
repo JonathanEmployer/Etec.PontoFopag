@@ -1,0 +1,921 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<link rel="shortcut icon" type="image/ico" href="http://www.sprymedia.co.uk/media/images/favicon.ico">
+		
+		<title>TableTools example</title>
+		<style type="text/css" title="currentStyle">
+
+			@import "media/css/demo_table_jui.css";
+			@import "media/themes/smoothness/jquery-ui-1.8.4.custom.css";
+			@import "media/css/TableTools_JUI.css";
+		</style>
+		<script src="./Scripts/jquery-2.1.0.js"></script>
+		<script src="./Scripts/jquery.dataTables.js"></script>
+<script src="./Scripts/ZeroClipboard.js"></script>
+<script src="./Scripts/TableTools.js"></script>
+
+		<script type="text/javascript" charset="utf-8">
+			$(document).ready( function () {
+				$('#tb').dataTable( {
+"sScrollY": '400px',
+            "sScrollX": "100%",
+			"sScrollXInner": "150%",
+            "bScrollCollapse": true,
+            "bJQueryUI": true,
+            "bSortClasses": false,
+            "sPaginationType": "scrolling",
+            "sDom": '<"H"Tfr>t<"F"ip>',
+            "bPaginate": false,
+            "bDestroy": true
+				} );
+			} );
+		</script>
+	</head>
+	<body >
+		
+   <div class="panel panel-default" style="padding:0">
+        <div class="panel-heading">
+            <a class="close" href="/">X</a>
+            <h3 class="panel-title titulo-pagina">Funcionário</h3>
+        </div>
+        <div class="panel-body panelConteudo" id="panelBodyFixo">
+            
+            <div class="div_table_highlight">
+                <table id="tb">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nome</th>
+                            <th>Matrícula</th>
+                            <th>Jornada</th>
+                            <th>Empresa</th>
+                            <th>Departamento</th>
+                            <th>Carteira</th>
+                            <th>CPF</th>
+                            <th>Data Admissão</th>
+                            <th>Data Demissão</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr id="73">
+                                <td>73</td>
+                                <td>ADRIANO PEREIRA DA SILVA</td>
+                                <td>73</td>
+                                <td>07:30 12:00-13:30  17:48 (DSR modificado)</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>8 | SETOR 5 - ARMADURA</td>
+                                <td>3844412</td>
+                                <td></td>
+                                <td>27/08/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="79">
+                                <td>79</td>
+                                <td>ALAN FERNANDO FERREIRA DE SOUZA</td>
+                                <td>79</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>13 | LOG&#205;STICA</td>
+                                <td></td>
+                                <td></td>
+                                <td>01/10/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="22">
+                                <td>22</td>
+                                <td>ALESSANDRA CRISTINA DE MOURA</td>
+                                <td>12</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>1 | ADMINISTRA&#199;&#195;O</td>
+                                <td></td>
+                                <td></td>
+                                <td>29/10/2012 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="93">
+                                <td>93</td>
+                                <td>ALESSANDRO MARTINS SCHNEIDER</td>
+                                <td>93</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>7 | SETOR 4 - ESTRUTURA</td>
+                                <td>5556660/001-0 PR</td>
+                                <td>055.415.619-90</td>
+                                <td>02/12/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="39">
+                                <td>39</td>
+                                <td>ANA CLAUDIA FERREIRA DA SILVA</td>
+                                <td>41</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>10 | SETOR 7 - USINA/LABORAT&#211;RIO</td>
+                                <td></td>
+                                <td></td>
+                                <td>01/04/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="30">
+                                <td>30</td>
+                                <td>ANGELO DA SILVA</td>
+                                <td>29</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>8 | SETOR 5 - ARMADURA</td>
+                                <td></td>
+                                <td></td>
+                                <td>01/03/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="101">
+                                <td>101</td>
+                                <td>ANTONIO CARLOS PACHECO</td>
+                                <td>101</td>
+                                <td>09:30 13:30-15:00 19:48 ( Jornada 8 horas )</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>4 | SETOR I - ALVEOLAR</td>
+                                <td>2030347/002-0 PR</td>
+                                <td>059.754.159-00</td>
+                                <td>13/01/2014 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="78">
+                                <td>78</td>
+                                <td>AROLDO FERREIRA DE OLIVEIRA</td>
+                                <td>78</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>7 | SETOR 4 - ESTRUTURA</td>
+                                <td>3010481</td>
+                                <td></td>
+                                <td>18/09/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="99">
+                                <td>99</td>
+                                <td>CARLOS LIESENBERG</td>
+                                <td>99</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>8 | SETOR 5 - ARMADURA</td>
+                                <td>0214723</td>
+                                <td>600.794.521-91</td>
+                                <td>06/01/2014 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="60">
+                                <td>60</td>
+                                <td>CLEIPSON RIBEIRO DA CRUZ</td>
+                                <td>60</td>
+                                <td>07:30 12:00-13:30 17:00 (Jornada 8 horas com 4 horas aos s&#225;bados)</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>13 | LOG&#205;STICA</td>
+                                <td>6200107/0030-PR</td>
+                                <td></td>
+                                <td>01/07/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="105">
+                                <td>105</td>
+                                <td>DIRLEU DE LIMA</td>
+                                <td>105</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>7 | SETOR 4 - ESTRUTURA</td>
+                                <td>2411539/002-0 PR</td>
+                                <td>057.467.539-63</td>
+                                <td>20/01/2014 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="95">
+                                <td>95</td>
+                                <td>ELIEZER BARBOSA DA SILVA</td>
+                                <td>95</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>7 | SETOR 4 - ESTRUTURA</td>
+                                <td>7902639/0030 PR</td>
+                                <td>079.749.689-07</td>
+                                <td>03/12/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="38">
+                                <td>38</td>
+                                <td>ERICA SHIZUE TSUKADA OHTA</td>
+                                <td>39</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>1 | ADMINISTRA&#199;&#195;O</td>
+                                <td></td>
+                                <td></td>
+                                <td>01/04/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="85">
+                                <td>85</td>
+                                <td>F&#193;BIO ALESSANDRO PEREIRA DE SOUZA</td>
+                                <td>85</td>
+                                <td>09:30 13:30-15:00 19:48 ( Jornada 8 horas )</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>4 | SETOR I - ALVEOLAR</td>
+                                <td>9855465/001-0 PR</td>
+                                <td>052.103.849-93</td>
+                                <td>04/11/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="98">
+                                <td>98</td>
+                                <td>FABIO JUNIOR DE SOUZA</td>
+                                <td>98</td>
+                                <td>06:20 10:50-12:20 16:38 ( Jornada 8:48 horas )</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>4 | SETOR I - ALVEOLAR</td>
+                                <td>6885623-001-PR</td>
+                                <td>060.779.479-89</td>
+                                <td>09/12/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="20">
+                                <td>20</td>
+                                <td>FERNANDES GOMES DE ARAUJO</td>
+                                <td>7</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>7 | SETOR 4 - ESTRUTURA</td>
+                                <td></td>
+                                <td></td>
+                                <td>22/10/2012 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="68">
+                                <td>68</td>
+                                <td>FLAVIO LIESENBERG</td>
+                                <td>68</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>8 | SETOR 5 - ARMADURA</td>
+                                <td>5053350/002-0-PR</td>
+                                <td></td>
+                                <td>22/07/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="64">
+                                <td>64</td>
+                                <td>GABRIEL ROGERIO DA CRUZ</td>
+                                <td>64</td>
+                                <td>07:30 12:00-13:30 17:00 (Jornada 8 horas com 4 horas aos s&#225;bados)</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>13 | LOG&#205;STICA</td>
+                                <td>8593078</td>
+                                <td></td>
+                                <td>09/07/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="48">
+                                <td>48</td>
+                                <td>GIOVANI PROCOPIO</td>
+                                <td>48</td>
+                                <td>06:20 10:50-12:20 16:38 ( Jornada 8:48 horas )</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>4 | SETOR I - ALVEOLAR</td>
+                                <td></td>
+                                <td></td>
+                                <td>02/05/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="103">
+                                <td>103</td>
+                                <td>GLEICIMAR HACHBARTE</td>
+                                <td>103</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>7 | SETOR 4 - ESTRUTURA</td>
+                                <td>7275993-0030 PR</td>
+                                <td>017.223.162-09</td>
+                                <td>20/01/2014 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="102">
+                                <td>102</td>
+                                <td>GLEISON APARECIDO VIANA</td>
+                                <td>102</td>
+                                <td>06:20 10:50-12:20 16:38 ( Jornada 8:48 horas )</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>4 | SETOR I - ALVEOLAR</td>
+                                <td>5687415/0030-PR</td>
+                                <td>095.393.619-82</td>
+                                <td>13/01/2014 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="82">
+                                <td>82</td>
+                                <td>GLEISON DIEGO HACHBARTE</td>
+                                <td>82</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>7 | SETOR 4 - ESTRUTURA</td>
+                                <td>0235460</td>
+                                <td></td>
+                                <td>09/10/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="94">
+                                <td>94</td>
+                                <td>GUSTAVO DE MELO SILVA</td>
+                                <td>94</td>
+                                <td>07:30 12:00-14:00 17:30 (Jornada 8 horas com 4 horas aos s&#225;bados)</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>11 | SETRO 8 - MANUTEN&#199;&#195;O</td>
+                                <td>0968536/003-0 PR</td>
+                                <td>009.463.041-06</td>
+                                <td>02/12/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="28">
+                                <td>28</td>
+                                <td>ILMA OLIVEIRA DE ALMEIDA</td>
+                                <td>27</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>1 | ADMINISTRA&#199;&#195;O</td>
+                                <td></td>
+                                <td></td>
+                                <td>04/02/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="19">
+                                <td>19</td>
+                                <td>JOAB DA SILVA CAETANO</td>
+                                <td>16</td>
+                                <td>06:20 10:50-12:20 16:38 ( Jornada 8:48 horas )</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>4 | SETOR I - ALVEOLAR</td>
+                                <td></td>
+                                <td></td>
+                                <td>29/10/2012 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="17">
+                                <td>17</td>
+                                <td>JO&#195;O ANTONIO DA SILVA</td>
+                                <td>11</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>4 | SETOR I - ALVEOLAR</td>
+                                <td></td>
+                                <td></td>
+                                <td>24/10/2012 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="84">
+                                <td>84</td>
+                                <td>JO&#195;O BATISTA DE OLIVEIRA</td>
+                                <td>84</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>7 | SETOR 4 - ESTRUTURA</td>
+                                <td>23165/486 - PR</td>
+                                <td></td>
+                                <td>17/10/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="27">
+                                <td>27</td>
+                                <td>JO&#195;O MARIA DIAS</td>
+                                <td>25</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>9 | SETOR 6 - PCP</td>
+                                <td></td>
+                                <td></td>
+                                <td>01/01/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="70">
+                                <td>70</td>
+                                <td>JO&#195;O NELSON DE MORAIS</td>
+                                <td>70</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>10 | SETOR 7 - USINA/LABORAT&#211;RIO</td>
+                                <td>4390187</td>
+                                <td></td>
+                                <td>19/08/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="18">
+                                <td>18</td>
+                                <td>JONAS DA SILVA CAETANO</td>
+                                <td>20</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>7 | SETOR 4 - ESTRUTURA</td>
+                                <td></td>
+                                <td></td>
+                                <td>05/11/2012 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="16">
+                                <td>16</td>
+                                <td>JORGE DOS SANTOS</td>
+                                <td>5</td>
+                                <td>09:30 13:30-15:00 19:48 ( Jornada 8 horas )</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>4 | SETOR I - ALVEOLAR</td>
+                                <td></td>
+                                <td></td>
+                                <td>22/10/2012 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="89">
+                                <td>89</td>
+                                <td>JOS&#201; AUGUSTO DOS SANTOS</td>
+                                <td>89</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>7 | SETOR 4 - ESTRUTURA</td>
+                                <td>2911700/0040-PR</td>
+                                <td>015.560.399-05</td>
+                                <td>11/11/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="50">
+                                <td>50</td>
+                                <td>JOSE ERIVALDO DE OLIVEIRA</td>
+                                <td>50</td>
+                                <td>10:00 14:00-15:30 20:18</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>7 | SETOR 4 - ESTRUTURA</td>
+                                <td></td>
+                                <td></td>
+                                <td>08/05/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="15">
+                                <td>15</td>
+                                <td>JOSE LUIZ FUMEGALI</td>
+                                <td>14</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>8 | SETOR 5 - ARMADURA</td>
+                                <td></td>
+                                <td></td>
+                                <td>29/10/2012 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="31">
+                                <td>31</td>
+                                <td>JOSENEI CORREIA</td>
+                                <td>30</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>7 | SETOR 4 - ESTRUTURA</td>
+                                <td></td>
+                                <td></td>
+                                <td>04/03/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="41">
+                                <td>41</td>
+                                <td>JOSNEI CORREIA</td>
+                                <td>38</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>7 | SETOR 4 - ESTRUTURA</td>
+                                <td></td>
+                                <td></td>
+                                <td>01/04/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="47">
+                                <td>47</td>
+                                <td>JUNIOR LIESENBERG</td>
+                                <td>47</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>8 | SETOR 5 - ARMADURA</td>
+                                <td></td>
+                                <td></td>
+                                <td>02/05/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="42">
+                                <td>42</td>
+                                <td>KENNY HERBERT GERTLER</td>
+                                <td>42</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>13 | LOG&#205;STICA</td>
+                                <td></td>
+                                <td></td>
+                                <td>01/04/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="66">
+                                <td>66</td>
+                                <td>LEANDRO BANDINI RABELO</td>
+                                <td>66</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>7 | SETOR 4 - ESTRUTURA</td>
+                                <td>6764337</td>
+                                <td></td>
+                                <td>09/07/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="43">
+                                <td>43</td>
+                                <td>LEONARDO APARECIDO RABANEDA</td>
+                                <td>43</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>12 | SETOR 9 - QUALIDADE</td>
+                                <td></td>
+                                <td></td>
+                                <td>17/04/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="76">
+                                <td>76</td>
+                                <td>LUCAS APARECIDO CAMARGO DOS PASSOS</td>
+                                <td>76</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>7 | SETOR 4 - ESTRUTURA</td>
+                                <td>2338390/001/PR</td>
+                                <td></td>
+                                <td>12/09/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="104">
+                                <td>104</td>
+                                <td>LUIZ MANOEL PINHA</td>
+                                <td>104</td>
+                                <td>07:30 12:00-13:30 17:00 (Jornada 8 horas com 4 horas aos s&#225;bados)</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>13 | LOG&#205;STICA</td>
+                                <td>27424/00044 PR</td>
+                                <td>911.254.999-15</td>
+                                <td>20/01/2014 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="14">
+                                <td>14</td>
+                                <td>LUIZ SERGIO DE JESUS</td>
+                                <td>19</td>
+                                <td>06:20 10:50-12:20 16:38 ( Jornada 8:48 horas )</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>4 | SETOR I - ALVEOLAR</td>
+                                <td></td>
+                                <td></td>
+                                <td>05/11/2012 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="23">
+                                <td>23</td>
+                                <td>MARCELO ALEXANDRE GUSATTO</td>
+                                <td>23</td>
+                                <td>8 HORAS - ENGENHEIRO CIVIL</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>9 | SETOR 6 - PCP</td>
+                                <td></td>
+                                <td></td>
+                                <td>01/12/2012 00:00:00</td>
+                                <td>02/04/2012 00:00:00</td>
+                            </tr>
+                            <tr id="13">
+                                <td>13</td>
+                                <td>MARCIANO BREYER</td>
+                                <td>18</td>
+                                <td>06:20 10:50-12:20 16:38 ( Jornada 8:48 horas )</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>4 | SETOR I - ALVEOLAR</td>
+                                <td></td>
+                                <td></td>
+                                <td>05/11/2012 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="92">
+                                <td>92</td>
+                                <td>MARIA ELIZABETE BUENO</td>
+                                <td>92</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>1 | ADMINISTRA&#199;&#195;O</td>
+                                <td>8885000011- PR</td>
+                                <td>527.639.009-68</td>
+                                <td>20/11/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="2">
+                                <td>2</td>
+                                <td>MARIO DAL PRA</td>
+                                <td>9</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>10 | SETOR 7 - USINA/LABORAT&#211;RIO</td>
+                                <td></td>
+                                <td></td>
+                                <td>23/10/2012 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="1">
+                                <td>1</td>
+                                <td>MARIVANE IZO</td>
+                                <td>2</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>1 | ADMINISTRA&#199;&#195;O</td>
+                                <td></td>
+                                <td></td>
+                                <td>24/09/2012 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="88">
+                                <td>88</td>
+                                <td>N&#193;DIA NARA DE SOUZA CARDOZO</td>
+                                <td>88</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>7 | SETOR 4 - ESTRUTURA</td>
+                                <td>3009982/003-0 PR</td>
+                                <td>077.161.599-09</td>
+                                <td>11/11/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="37">
+                                <td>37</td>
+                                <td>NATALINO PORFIRIO DE MELO</td>
+                                <td>37</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>4 | SETOR I - ALVEOLAR</td>
+                                <td></td>
+                                <td></td>
+                                <td>01/04/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="80">
+                                <td>80</td>
+                                <td>ODAIR SILV&#201;RIO JUNIOR</td>
+                                <td>80</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>8 | SETOR 5 - ARMADURA</td>
+                                <td>2641933</td>
+                                <td></td>
+                                <td>08/10/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="51">
+                                <td>51</td>
+                                <td>PAULO AUGUSTO DA SILVA CARRARA</td>
+                                <td>51</td>
+                                <td>06:20 10:50-12:20 16:38 ( Jornada 8:48 horas )</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>10 | SETOR 7 - USINA/LABORAT&#211;RIO</td>
+                                <td></td>
+                                <td></td>
+                                <td>20/05/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="87">
+                                <td>87</td>
+                                <td>PAULO CESAR CAMARGO DOS SANTOS</td>
+                                <td>87</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>7 | SETOR 4 - ESTRUTURA</td>
+                                <td>49539/00024-PR</td>
+                                <td>748.463.539-15</td>
+                                <td>04/11/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="91">
+                                <td>91</td>
+                                <td>PAULO CESAR DE LIMA</td>
+                                <td>91</td>
+                                <td>10:00 14:00-15:30 20:18</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>9 | SETOR 6 - PCP</td>
+                                <td>07691</td>
+                                <td>961.832.920-87</td>
+                                <td>12/11/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="34">
+                                <td>34</td>
+                                <td>PAULO CEZAR GREG&#211;RIO</td>
+                                <td>33</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>8 | SETOR 5 - ARMADURA</td>
+                                <td></td>
+                                <td></td>
+                                <td>21/03/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="65">
+                                <td>65</td>
+                                <td>RAFAEL CALIXTO MARIA</td>
+                                <td>65</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>7 | SETOR 4 - ESTRUTURA</td>
+                                <td>3088487</td>
+                                <td></td>
+                                <td>09/07/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="10">
+                                <td>10</td>
+                                <td>RENATO SILVA DE OLIVEIRA</td>
+                                <td>15</td>
+                                <td>09:30 13:30-15:00 19:48 ( Jornada 8 horas )</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>4 | SETOR I - ALVEOLAR</td>
+                                <td></td>
+                                <td></td>
+                                <td>29/10/2012 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="35">
+                                <td>35</td>
+                                <td>ROMEU SATORU FUKUDOME</td>
+                                <td>34</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>8 | SETOR 5 - ARMADURA</td>
+                                <td></td>
+                                <td></td>
+                                <td>25/03/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="72">
+                                <td>72</td>
+                                <td>RONALDO OLIVEIRA</td>
+                                <td>72</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>7 | SETOR 4 - ESTRUTURA</td>
+                                <td>3846664</td>
+                                <td></td>
+                                <td>21/08/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="67">
+                                <td>67</td>
+                                <td>RONALDO VICENTE</td>
+                                <td>67</td>
+                                <td>10:00 14:00-15:30 20:18</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>7 | SETOR 4 - ESTRUTURA</td>
+                                <td>3843802/0040 PR</td>
+                                <td></td>
+                                <td>18/07/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="7">
+                                <td>7</td>
+                                <td>ROSIMILDO CARDOSO DE SALES</td>
+                                <td>8</td>
+                                <td>10:00 14:00-15:30 20:18</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>10 | SETOR 7 - USINA/LABORAT&#211;RIO</td>
+                                <td></td>
+                                <td></td>
+                                <td>22/10/2012 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="46">
+                                <td>46</td>
+                                <td>ROSINEIA DE LIMA DE SOUZA</td>
+                                <td>46</td>
+                                <td>06:20 10:50-12:20 16:38 ( Jornada 8:48 horas )</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>4 | SETOR I - ALVEOLAR</td>
+                                <td></td>
+                                <td></td>
+                                <td>02/05/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="77">
+                                <td>77</td>
+                                <td>ROZILENE GON&#199;ALVES DOS SANTOS</td>
+                                <td>77</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>8 | SETOR 5 - ARMADURA</td>
+                                <td>098187/001- RO</td>
+                                <td></td>
+                                <td>18/09/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="96">
+                                <td>96</td>
+                                <td>SIDNEY PEREIRA DE OLIVEIRA</td>
+                                <td>96</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>7 | SETOR 4 - ESTRUTURA</td>
+                                <td>0799264/002-0-PR</td>
+                                <td>020.904.349-02</td>
+                                <td>04/12/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="75">
+                                <td>75</td>
+                                <td>SILVANA DOS SANTOS</td>
+                                <td>75</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>1 | ADMINISTRA&#199;&#195;O</td>
+                                <td>07823-00059 PR</td>
+                                <td></td>
+                                <td>10/09/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="8">
+                                <td>8</td>
+                                <td>THIAGO FERNANDO TROMBINI</td>
+                                <td>13</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>1 | ADMINISTRA&#199;&#195;O</td>
+                                <td></td>
+                                <td></td>
+                                <td>29/10/2012 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="90">
+                                <td>90</td>
+                                <td>VALTER CUST&#211;DIO DE MORAIS</td>
+                                <td>90</td>
+                                <td>07:30 12:00-13:30 17:00 (Jornada 8 horas com 4 horas aos s&#225;bados)</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>13 | LOG&#205;STICA</td>
+                                <td>0963719</td>
+                                <td>812.877.559-68</td>
+                                <td>12/11/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="100">
+                                <td>100</td>
+                                <td>VALTER DE OLIVEIRA MANTOVANI</td>
+                                <td>100</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>13 | LOG&#205;STICA</td>
+                                <td>2404979</td>
+                                <td>672.844.269-34</td>
+                                <td>06/01/2014 00:00:00</td>
+                                <td></td>
+                            </tr>
+                            <tr id="24">
+                                <td>24</td>
+                                <td>VOLNEI FERREIRA</td>
+                                <td>24</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>1 | ADMINISTRA&#199;&#195;O</td>
+                                <td></td>
+                                <td></td>
+                                <td>10/12/2012 00:00:00</td>
+                                <td>10/04/2013 00:00:00</td>
+                            </tr>
+                            <tr id="56">
+                                <td>56</td>
+                                <td>WILLIANS CAETANO DA SILVA</td>
+                                <td>56</td>
+                                <td>GERAL ROTESMA - 07:30   12:00-13:30  17:48</td>
+                                <td>1 | ROTESMA INDUSTRIA DE PRE-FABRICANTES DE CONCRETO LTDA</td>
+                                <td>8 | SETOR 5 - ARMADURA</td>
+                                <td></td>
+                                <td></td>
+                                <td>24/06/2013 00:00:00</td>
+                                <td></td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-12 center-block">
+                    <div style="text-align: right">
+                        <a href="#" id="btIncluir" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
+                        <a href="#" id="btAlterar" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
+                        <a href="#" id="btExcluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+			
+	</body>
+</html>

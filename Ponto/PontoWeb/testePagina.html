@@ -1,0 +1,162 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Cadastrar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./Content/bootstrap.css" rel="stylesheet"/>
+<link href="./Content/bootstrap-spinedit.css" rel="stylesheet"/>
+<link href="./Content/jquery-ui-1.8.4.custom.css" rel="stylesheet"/>
+
+</head>
+<body>
+    <script src="./Scripts/jquery-2.1.0.js"></script>
+<script src="./Scripts/jquery-ui.js"></script>
+<script src="./Scripts/jquery.signalR-2.0.3.min.js"></script>
+    <script src="./Scripts/bootstrap.js"></script>
+<script src="./scripts/jquery.validate.js"></script>
+<script src="./scripts/jquery.validate.unobtrusive.js"></script>
+<script src="./scripts/bootstrap-spinedit.js"></script>
+<script src="./scripts/jquery.mask.js"></script>
+<script src="./scripts/jNotify.jquery.min.js"></script>
+<script src="./scripts/jquery.blockUI.js"></script>
+
+
+<form action="/ConfiguracaoGeral/Cadastrar" method="post">    <div class="divCenterPequeno">
+        <div class="panel panel-default">
+            <div class="panel-heading salvando">
+                <a class="close" href="/">X</a>
+                <h3 class="panel-title titulo-pagina">Cadastrar</h3>
+            </div>
+            <div class="panel-body panelConteudo" id="panelBodyMaximo">
+                <span class="field-validation-valid" data-valmsg-for="CustomError" data-valmsg-replace="true"></span>
+                <div>
+                    <div class="col-md-12">
+                        <div style="margin-right:5px;">
+                            <div class="row">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" style="padding-top:1px; padding-bottom:0px">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label class="control-label label-sm">Escolha o período</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="form-group input-group-sm">
+                                                <div class="col-md-6">
+                                                    <div class="col-md-3">
+                                                        <label class="control-label label-sm" for="DataInicial">Data Inicial</label>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <div class="input-group input-group-sm">
+                                                            <input class="form-control input-sm aSpinEdit" data-val="true" data-val-number="O campo Data Inicial deve ser um número." data-val-required="O campo Data Inicial é obrigatório." id="DataInicial" name="DataInicial" type="text" value="31" />
+                                                        </div>
+                                                        <div>
+                                                            <span class="field-validation-valid" data-valmsg-for="DataInicial" data-valmsg-replace="true"></span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="col-md-3">
+                                                        <label class="control-label label-sm" for="DataFinal">Data Final</label>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <div class="input-group input-group-sm">
+                                                            <input class="form-control input-sm aSpinEdit" data-val="true" data-val-number="O campo Data Final deve ser um número." data-val-required="O campo Data Final é obrigatório." id="DataFinal" name="DataFinal" type="text" value="1" />
+                                                        </div>
+                                                        <div>
+                                                            <span class="field-validation-valid" data-valmsg-for="DataFinal" data-valmsg-replace="true"></span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" style="padding-top:1px; padding-bottom:0px">
+                                        <label class="control-label label-sm" for="MudarPeriodoAposDataFinal">Mudar per&#237;odo imediatamente ap&#243;s data final</label>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group input-group-sm">
+                                                    <div>
+                                                        <input checked="checked" class="checkboxdias pdias" data-val="true" data-val-required="O campo Mudar período imediatamente após data final é obrigatório." id="txt_Terca" name="MudarPeriodoAposDataFinal" type="checkbox" value="true" /><input name="MudarPeriodoAposDataFinal" type="hidden" value="false" /> Mudar período imediatamente após data final
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando desabilitar">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Recalcular&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger"
+                               href="/">
+                                <span class="glyphicon glyphicon-remove salvando"></span> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form><script>
+
+    $(document).ready(function () {
+        $('.aSpinEdit').spinedit({
+            minimum: 0,
+            maximum: 31,
+            step: 1,
+            value: 0,
+            numberOfDecimals: 0
+        });
+    });
+</script>
+        window.onresize = checkSize();
+        window.onload = checkSize();
+
+        $(window).resize(function () {
+            checkSize();
+        });
+
+        //Efeito pra abrir o dropdown
+        $('.navbar .dropdown').hover(function () {
+            $(this).find('.dropdown-menu').first().stop(true, true).delay(200).slideDown();
+        }, function () {
+            $(this).find('.dropdown-menu').first().stop(true, true).delay(100).slideUp()
+        });
+
+        //// Botoes com essa classe serão desabilitados quando clicado em algum deles (Utilizados nos botoes Salvar, Cancelar e fechar das telas de cadastro)
+        $(function () {
+            $('form').submit(function () {
+                if ($(this).find('.input-validation-error').length == 0) {
+                    $(".salvando").addClass("disabled");
+                }
+                else { $(".salvando").removeClass("disabled"); }
+            });
+        });
+    </script>
+
+</body>
+</html>

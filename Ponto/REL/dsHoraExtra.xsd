@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsHoraExtra" targetNamespace="http://tempuri.org/ROTESMADataSet.xsd" xmlns:mstns="http://tempuri.org/ROTESMADataSet.xsd" xmlns="http://tempuri.org/ROTESMADataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="ROTESMAConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="ROTESMAConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.REL.Properties.Settings.GlobalReference.Default.ROTESMAConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="MetaHoraExtraDepartamentoTableAdapter" GeneratorDataComponentClassName="MetaHoraExtraDepartamentoTableAdapter" Name="MetaHoraExtraDepartamento" UserDataComponentName="MetaHoraExtraDepartamentoTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="ROTESMAConnectionString (Settings)" DbObjectName="SELECT idEmpresa, codEmpresa, nomeEmpresa, idDepto, codDepto, descDepto, mesInt, mesNome, anoInt, PercMaxHE, hed, hen, htd + htn + bhc + hen + hed totalHoras FROM ( SELECT e.id idEmpresa, e.codigo codEmpresa, e.nome nomeEmpresa, d.id idDepto, d.codigo codDepto, d.descricao descDepto, d.PercentualMaximoHorasExtras PercMaxHE, MONTH(m.data) mesInt, DATENAME(month, m.data) mesNome, YEAR(m.data) anoInt, dbo.FN_CONVHORA(m.horastrabalhadas) htd, dbo.FN_CONVHORA(m.horastrabalhadasnoturnas) htn, dbo.FN_CONVHORA(m.bancohorascre) bhc, dbo.FN_CONVHORA(m.horasextranoturna) hen, dbo.FN_CONVHORA(m.horasextrasdiurna) hed FROM marcacao_view m INNER JOIN funcionario f ON m.dscodigo = f.dscodigo INNER JOIN departamento d ON d.id = f.iddepartamento INNER JOIN empresa e ON e.id = d.idempresa AND d.PercentualMaximoHorasExtras IS NOT NULL ) x" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>select idEmpresa,
+								codEmpresa,
+								nomeEmpresa,
+								idDepto,
+                                codDepto,
+	                            descDepto,
+	                            mesInt,
+	                            mesNome,
+	                            anoInt,
+	                            PercMaxHE,
+	   	                            case when sum(hed) + sum(hen) &gt; 0 then
+			                        convert(decimal(10,2),(convert(decimal(10,2),(sum(hed) + sum(hen))) * 100.00) / convert(decimal(10,2),sum(totalHoras))) 
+			                        else convert(decimal(10,2),0) end percHE
+                            from (
+                            select idEmpresa,
+								   codEmpresa,
+								   nomeEmpresa,
+								   idDepto,
+                                   codDepto,
+	                               descDepto,
+	                               mesInt,
+	                               mesNome,
+	                               anoInt,
+	                               PercMaxHE,
+	                               hed,
+	                               hen,
+	                               htd + htn + bhc + hen + hed totalHoras
+	                              from (
+		                            select e.id idEmpresa,
+										   e.codigo codEmpresa,
+										   e.nome nomeEmpresa,
+										   d.id idDepto,
+                                           d.codigo codDepto,
+			                               d.descricao descDepto,
+			                               d.PercentualMaximoHorasExtras PercMaxHE,
+			                               MONTH(m.data) mesInt, 
+			                               DATENAME(month, m.data) mesNome, 
+			                               YEAR(m.data) anoInt, 
+			                               dbo.FN_CONVHORA(m.horastrabalhadas) htd, 
+			                               dbo.FN_CONVHORA(m.horastrabalhadasnoturnas) htn, 
+			                               dbo.FN_CONVHORA(m.bancohorascre) bhc,
+			                               dbo.FN_CONVHORA(m.horasextranoturna) hen,
+			                               dbo.FN_CONVHORA(m.horasextrasdiurna) hed
+		                              from marcacao_view m
+		                             inner join funcionario f on m.dscodigo = f.dscodigo
+		                             inner join departamento d on d.id = f.iddepartamento
+									 inner join empresa e on e.id = d.idempresa
+
+		                               and d.PercentualMaximoHorasExtras is not null
+		
+		                               ) x
+	                               ) t
+                            group by
+								   idEmpresa,
+								   codEmpresa,
+								   nomeEmpresa, 
+								   idDepto, 
+								   codDepto,
+	                               descDepto,
+	                               mesInt,
+	                               mesNome,
+	                               anoInt,
+	                               PercMaxHE</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="descDepto" DataSetColumn="descDepto" />
+              <Mapping SourceColumn="mesInt" DataSetColumn="mesInt" />
+              <Mapping SourceColumn="mesNome" DataSetColumn="mesNome" />
+              <Mapping SourceColumn="anoInt" DataSetColumn="anoInt" />
+              <Mapping SourceColumn="PercMaxHE" DataSetColumn="PercMaxHE" />
+              <Mapping SourceColumn="percHE" DataSetColumn="percHE" />
+              <Mapping SourceColumn="idDepto" DataSetColumn="idDepto" />
+              <Mapping SourceColumn="codDepto" DataSetColumn="codDepto" />
+              <Mapping SourceColumn="idEmpresa" DataSetColumn="idEmpresa" />
+              <Mapping SourceColumn="codEmpresa" DataSetColumn="codEmpresa" />
+              <Mapping SourceColumn="nomeEmpresa" DataSetColumn="nomeEmpresa" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsHoraExtra" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="dsHoraExtra" msprop:Generator_UserDSName="dsHoraExtra">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Departamentos" msprop:Generator_TableClassName="DepartamentosDataTable" msprop:Generator_TableVarName="tableDepartamentos" msprop:Generator_RowChangedName="DepartamentosRowChanged" msprop:Generator_TablePropName="Departamentos" msprop:Generator_RowDeletingName="DepartamentosRowDeleting" msprop:Generator_RowChangingName="DepartamentosRowChanging" msprop:Generator_RowEvHandlerName="DepartamentosRowChangeEventHandler" msprop:Generator_RowDeletedName="DepartamentosRowDeleted" msprop:Generator_RowClassName="DepartamentosRow" msprop:Generator_UserTableName="Departamentos" msprop:Generator_RowEvArgName="DepartamentosRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="idDepto" msprop:Generator_ColumnVarNameInTable="columnidDepto" msprop:Generator_ColumnPropNameInRow="idDepto" msprop:Generator_ColumnPropNameInTable="idDeptoColumn" msprop:Generator_UserColumnName="idDepto" type="xs:int" minOccurs="0" />
+              <xs:element name="codDepto" msprop:Generator_ColumnVarNameInTable="columncodDepto" msprop:Generator_ColumnPropNameInRow="codDepto" msprop:Generator_ColumnPropNameInTable="codDeptoColumn" msprop:Generator_UserColumnName="codDepto" type="xs:string" minOccurs="0" />
+              <xs:element name="descDepto" msprop:Generator_ColumnVarNameInTable="columndescDepto" msprop:Generator_ColumnPropNameInRow="descDepto" msprop:Generator_ColumnPropNameInTable="descDeptoColumn" msprop:Generator_UserColumnName="descDepto" type="xs:string" minOccurs="0" />
+              <xs:element name="idEmpresa" msprop:Generator_ColumnVarNameInTable="columnidEmpresa" msprop:Generator_ColumnPropNameInRow="idEmpresa" msprop:Generator_ColumnPropNameInTable="idEmpresaColumn" msprop:Generator_UserColumnName="idEmpresa" type="xs:string" minOccurs="0" />
+              <xs:element name="codEmpresa" msprop:Generator_ColumnVarNameInTable="columncodEmpresa" msprop:Generator_ColumnPropNameInRow="codEmpresa" msprop:Generator_ColumnPropNameInTable="codEmpresaColumn" msprop:Generator_UserColumnName="codEmpresa" type="xs:string" minOccurs="0" />
+              <xs:element name="nomeEmpresa" msprop:Generator_ColumnVarNameInTable="columnnomeEmpresa" msprop:Generator_ColumnPropNameInRow="nomeEmpresa" msprop:Generator_ColumnPropNameInTable="nomeEmpresaColumn" msprop:Generator_UserColumnName="nomeEmpresa" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="MetaHoraExtraDepartamento" msprop:Generator_TableClassName="MetaHoraExtraDepartamentoDataTable" msprop:Generator_TableVarName="tableMetaHoraExtraDepartamento" msprop:Generator_TablePropName="MetaHoraExtraDepartamento" msprop:Generator_RowDeletingName="MetaHoraExtraDepartamentoRowDeleting" msprop:Generator_RowChangingName="MetaHoraExtraDepartamentoRowChanging" msprop:Generator_RowEvHandlerName="MetaHoraExtraDepartamentoRowChangeEventHandler" msprop:Generator_RowDeletedName="MetaHoraExtraDepartamentoRowDeleted" msprop:Generator_UserTableName="MetaHoraExtraDepartamento" msprop:Generator_RowChangedName="MetaHoraExtraDepartamentoRowChanged" msprop:Generator_RowEvArgName="MetaHoraExtraDepartamentoRowChangeEvent" msprop:Generator_RowClassName="MetaHoraExtraDepartamentoRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="descDepto" msprop:Generator_ColumnVarNameInTable="columndescDepto" msprop:Generator_ColumnPropNameInRow="descDepto" msprop:Generator_ColumnPropNameInTable="descDeptoColumn" msprop:Generator_UserColumnName="descDepto" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="mesInt" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnmesInt" msprop:Generator_ColumnPropNameInRow="mesInt" msprop:Generator_ColumnPropNameInTable="mesIntColumn" msprop:Generator_UserColumnName="mesInt" type="xs:int" minOccurs="0" />
+              <xs:element name="mesNome" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnmesNome" msprop:Generator_ColumnPropNameInRow="mesNome" msprop:Generator_ColumnPropNameInTable="mesNomeColumn" msprop:Generator_UserColumnName="mesNome" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="anoInt" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnanoInt" msprop:Generator_ColumnPropNameInRow="anoInt" msprop:Generator_ColumnPropNameInTable="anoIntColumn" msprop:Generator_UserColumnName="anoInt" type="xs:int" minOccurs="0" />
+              <xs:element name="PercMaxHE" msprop:Generator_ColumnVarNameInTable="columnPercMaxHE" msprop:Generator_ColumnPropNameInRow="PercMaxHE" msprop:Generator_ColumnPropNameInTable="PercMaxHEColumn" msprop:Generator_UserColumnName="PercMaxHE" type="xs:decimal" minOccurs="0" />
+              <xs:element name="percHE" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnpercHE" msprop:Generator_ColumnPropNameInRow="percHE" msprop:Generator_ColumnPropNameInTable="percHEColumn" msprop:Generator_UserColumnName="percHE" type="xs:decimal" minOccurs="0" />
+              <xs:element name="idDepto" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnidDepto" msprop:Generator_ColumnPropNameInRow="idDepto" msprop:Generator_ColumnPropNameInTable="idDeptoColumn" msprop:Generator_UserColumnName="idDepto" type="xs:int" />
+              <xs:element name="codDepto" msprop:Generator_ColumnVarNameInTable="columncodDepto" msprop:Generator_ColumnPropNameInRow="codDepto" msprop:Generator_ColumnPropNameInTable="codDeptoColumn" msprop:Generator_UserColumnName="codDepto" type="xs:int" />
+              <xs:element name="idEmpresa" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnidEmpresa" msprop:Generator_ColumnPropNameInRow="idEmpresa" msprop:Generator_ColumnPropNameInTable="idEmpresaColumn" msprop:Generator_UserColumnName="idEmpresa" type="xs:int" />
+              <xs:element name="codEmpresa" msprop:Generator_ColumnVarNameInTable="columncodEmpresa" msprop:Generator_ColumnPropNameInRow="codEmpresa" msprop:Generator_ColumnPropNameInTable="codEmpresaColumn" msprop:Generator_UserColumnName="codEmpresa" type="xs:int" />
+              <xs:element name="nomeEmpresa" msprop:Generator_ColumnVarNameInTable="columnnomeEmpresa" msprop:Generator_ColumnPropNameInRow="nomeEmpresa" msprop:Generator_ColumnPropNameInTable="nomeEmpresaColumn" msprop:Generator_UserColumnName="nomeEmpresa" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:MetaHoraExtraDepartamento" />
+      <xs:field xpath="mstns:idDepto" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

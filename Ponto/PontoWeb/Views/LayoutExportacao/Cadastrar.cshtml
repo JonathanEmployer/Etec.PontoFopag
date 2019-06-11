@@ -1,0 +1,303 @@
+﻿@model Modelo.LayoutExportacao
+@{
+    ViewBag.Title = "Cadastrar Layout de Exportação";
+}
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.Id, new { id = "idLayoutExportacao" });
+    @Html.HiddenFor(x => x.Codigo)
+    @Html.HiddenFor(x => x.Incdata)
+    @Html.HiddenFor(x => x.Inchora)
+    @Html.HiddenFor(x => x.Incusuario)
+    @Html.HiddenFor(x => x.Altdata)
+    @Html.HiddenFor(x => x.Althora)
+    @Html.HiddenFor(x => x.Altusuario)
+    @Html.HiddenFor(x => x.controlePagina)
+    @Html.HiddenFor(x => x.LabelCamposLayoutExportacao)
+    @Html.HiddenFor(x => x.LabelQtdCamposLayoutExportacao)
+    <div class="divCenterPequeno" style="margin-top:20px">
+        <div class="panel panel-default" style="padding:0">
+            <div class="panel-heading salvando">
+                @Html.ActionLink("X", "Grid", "LayoutExportacao", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo" >
+                @Html.ValidationMessage("CustomError")
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm campoCodigo" })
+                            @Html.ValidationMessageFor(model => model.Codigo)
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Descricao, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Descricao, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Descricao)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.Label("lbCamposExportacao", "Campos para Layout de Exportação", new { @class = "control-label label-sm" })
+                        @Html.EditorFor(m => m.ExportacaoCampos, "GridExportacaoCampos")
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando" id="btSalvandoRegistro">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger"
+                               href="@Url.Action("Grid", "LayoutExportacao")">
+                                <span class="glyphicon glyphicon-remove salvando"></span> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @for (int i = 0; i < Model.ExportacaoCampos.Count(); i++)
+        {
+            @Html.EditorFor(m => m.ExportacaoCampos[i], "CadastrarExportacaoCampos");
+        }
+        @Html.EditorFor(model => model, "VisualizarLayout");
+    </div>
+}
+<script>
+    var valido = true;
+    $(document).ready(function () {
+        modificaProperties(".campoCodigo", true);
+        if ('@ViewBag.IncluindoCamposExportacao' > 0) {
+            $("#acaoExportacaoCampos" + '@ViewBag.IncluindoCamposExportacao').val("0");
+            abrirModalCamposExportacao('@ViewBag.IncluindoCamposExportacao');
+        }
+        if ('@ViewBag.VisualizarLayout' > 0)
+        {
+            abrirModalVisualizarCamposExportacao();
+        }
+    })
+
+    // Inicio JavaScript Modal Adicionar campos Exportacao e Grid
+    $('form').submit(function () {
+        if (!$(this).valid() && !valido) {
+            cwkErro("Existem erros na página");
+            return false;
+        }
+    })
+
+    //Incluir Registro de Campos para Layout de Exportação
+    $("#btExcluiExportacaoCampos").click(function () {
+        var id = cwk_GetIdSelecionado(oTbCampos);
+        if (id > 0) {
+            bootbox.dialog({
+                message: "Ao confirmar a ação será permanente!",
+                title: "Deseja realmente excluir?",
+                buttons: {
+                    success: {
+                        label: "Excluir!",
+                        className: "btn-primary",
+                        callback: function () {
+                            $("#acaoExportacaoCampos" + id).val("Excluir");
+                            cwkSucessoTit('Registro Excluído!', "Campos para Layout de Exportação Excluído com Sucesso!");
+                            cwk_RemoverLinhasSelecionadas(oTbCampos);
+                        }
+                    },
+                    danger: {
+                        label: "Cancelar!",
+                        className: "btn-default",
+                        callback: function () {
+                        }
+                    }
+                }
+            })
+        } else {
+            cwkErroTit('Selecione um Registro!', 'Antes de alterar um registro é necessário selecioná-lo!');
+        }
+    });
+
+    // Duplo Click Grid
+    $('#tbCampos tbody tr').dblclick(function () {
+        $(this).addClass('selected');
+        $("#btAlteraExportacaoCampos").trigger("click");
+    });
+
+    //Incluir Registro de Campos para Layout de Exportação
+    $("#btIncluirExportacaoCampos").click(function () {
+        $("#controlePagina").val("IncluirExportacaoCampos");
+    });
+
+    $("#btSalvandoRegistro").click(function () {
+        $("#controlePagina").val("SalvarExportacaoCampos");
+    });
+
+    var CamposExpAnt = {};
+    //Alterar Registro de Campos para Layout de Exportação
+    $("#btAlteraExportacaoCampos").on("click", function () {
+        var id = cwk_GetIdSelecionado(oTbCampos);
+        abrirModalCamposExportacao(id);
+    });
+
+    function abrirModalCamposExportacao(id) {
+        if (id > 0) {
+            guardaValoresAnteriores($("#divExpCampos" + id))
+            $("#divExpCampos" + id).modal({ show: true });
+            $(".btnGridCamposExp").attr("Disabled", "Disabled");
+            setaFocoPrimeiroCampoDiv("#divExpCampos" + id);
+            verificaTipoSelecionado("DropDownListTipoCampo" + id);
+        } else {
+            cwkErroTit('Selecione um Registro!', 'Antes de alterar um registro é necessário selecioná-lo!');
+        }
+    }
+
+    $("#btVisualizarLayout").on("click", function () {
+        $("#controlePagina").val("VisualizarExportacaoCampos");
+    });
+
+    function abrirModalVisualizarCamposExportacao() {
+        $("#divVisualizarLayout").modal({ show: true });
+        $(".btnGridCamposExp").attr("Disabled", "Disabled");
+    }
+
+    function guardaValoresAnteriores(div) {
+        $(div).find('input:text, input:password, input:file, select, textarea')
+       .each(function () {
+           CamposExpAnt[$(this).attr("id")] = $(this).val();
+       });
+    }
+
+    $(".closeVisualizarLayout").click(function () {
+        $(".btnGridCamposExp").removeAttr("Disabled");
+        $("#divVisualizarLayout").modal("hide");
+    });
+
+    $(".btnModal").click(function () {
+        valido = true;
+        var ident = $(this).attr("idControle");
+        var errorN = {};
+
+        $("form").validate().showErrors(errorN);
+
+        if (!$(this).hasClass("btnClose")) {
+            $("#divExpCampos" + ident).find('input:text, input:password, input:file, select, textarea')
+            .each(function () {
+                if ($(this).hasClass("input-validation-error")) {
+                    valido = false;
+                }
+            });
+        }
+
+        if ($(this).hasClass("btnClose")) {
+            $(".btnGridCamposExp").removeAttr("Disabled", "Disabled");
+            $("#divExpCampos" + ident).modal("hide");
+            if ($("#acaoExportacaoCampos" + ident).val() == 0 && $("#idExportacaoCampos" + ident).val() == 0) {
+                $("#acaoExportacaoCampos" + ident).val("Excluir");
+                $($("#tbCampos tbody tr[id=" + ident + "]")).addClass('selected');
+                cwk_RemoverLinhasSelecionadas(oTbCampos);
+            }
+            else {
+                setaValoresAnteriores($("#divExpCampos" + ident));
+            }
+        }
+        else {
+            var form = $("form");
+            form.validate();
+            if (valido && form.valid()) {
+                valido = true;
+                $(".btnGridCamposExp").removeAttr("Disabled", "Disabled");
+                $("#divExpCampos" + ident).modal("hide");
+                $('#tdCodigo' + ident).html($("#divExpCampos" + ident + " input[name$='].Codigo']").val());
+                $('#tdTipo' + ident).html($("#divExpCampos" + ident + " select[name$='].Tipo'] option:selected").text());
+                if ($("#acaoExportacaoCampos" + ident).val() == 0) {
+                    if ($("#idExportacaoCampos" + ident).val() > 0) {
+                        $("#acaoExportacaoCampos" + ident).val("Alterar");
+                    }
+                    else {
+                        $("#acaoExportacaoCampos" + ident).val("Incluir");
+                    }
+                }
+            }
+            else { cwkErro('Corrija os erros antes de salvar.') }
+        }
+
+        $("#divExpCampos" + ident).find('input:text, input:password, input:file, select, textarea')
+        .each(function () {
+            if ($(this).hasClass("input-validation-error")) {
+                $(this).trigger("blur");
+            }
+        });
+    })
+
+    function setaValoresAnteriores(div) {
+        $(div).find('input:text, input:password, input:file, select, textarea')
+       .each(function () {
+           $(this).val(CamposExpAnt[$(this).attr("id")]);
+       });
+    }
+
+    $(":input[type='text']:enabled:visible:first").focus();
+    // Fim JavaScript Modal Adicionar campos Exportacao e Grid
+
+    $(".DropDownClass").change(function () {
+        verificaTipoSelecionado($(this).attr("id"));
+    })
+
+    function verificaTipoSelecionado(idDropDown) {
+        var ident = $("#" + idDropDown).attr("idControle");
+        var elemDropDown = $("#" + "DropDownListTipoCampo" + ident + " option:selected").text();
+        if (elemDropDown === "Cabeçalho") {
+            modificaProperties("#txtPosicaoCampo" + ident, true);
+            modificaValorProperties("#txtPosicaoCampo" + ident, "1");
+            modificaProperties("#txtTexto" + ident, true);
+            modificaProperties("#txtCabecalho" + ident, false);
+            modificaProperties("#txtFormatoevento" + ident, true);
+        }
+        else if (elemDropDown === "Campo Fixo") {
+            modificaProperties("#txtPosicaoCampo" + ident, false);
+            modificaProperties("#txtTexto" + ident, false);
+            modificaProperties("#txtCabecalho" + ident, true);
+            modificaProperties("#txtFormatoevento" + ident, true);
+        }
+        else if (elemDropDown === "Valor do Evento") {
+            modificaProperties("#txtPosicaoCampo" + ident, false);
+            modificaProperties("#txtTexto" + ident, true);
+            modificaProperties("#txtCabecalho" + ident, true);
+            modificaProperties("#txtFormatoevento" + ident, false);
+        }
+        else {
+            modificaProperties("#txtPosicaoCampo" + ident, false);
+            modificaProperties("#txtTexto" + ident, true);
+            modificaValorProperties("#txtTexto" + ident, "");
+            modificaProperties("#txtCabecalho" + ident, true);
+            modificaValorProperties("#txtCabecalho" + ident, "");
+            modificaProperties("#txtFormatoevento" + ident, true);
+            modificaValorProperties("#txtFormatoevento" + ident, "");
+        }
+    }
+
+    function modificaProperties(componente, valor) {
+        $(componente).prop('disabled', valor);
+        $(componente).attr('disabled', valor);
+        $(componente).prop('readonly', valor);
+        $(componente).attr('readonly', valor);
+    }
+
+    function modificaValorProperties(componente, valor) {
+        $(componente).val(valor);
+        $(componente).attr("val", valor);
+    }
+
+</script>
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}

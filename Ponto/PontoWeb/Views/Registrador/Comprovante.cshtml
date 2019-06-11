@@ -1,0 +1,185 @@
+﻿@using System.Web.Optimization
+@model Modelo.RegistraPonto
+@{
+    Layout = "~/Views/Shared/_LayoutRegistrador.cshtml";
+    ViewBag.Title = "Comprovante Ponto";
+}
+<style>
+    #divCentralizada {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -225px; /*(half of width)*/
+        margin-top: -280px;
+    }
+
+    td {
+        font-size: .83em;
+        margin-top: 1.67em;
+        margin-bottom: 1.67em;
+        margin-left: 0;
+        margin-right: 0;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        padding-left: 5px;
+        padding-right: 5px;
+        font-weight: bold;
+    }
+
+    .page {
+        -webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+</style>
+<div id="divCentralizada">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title" style="text-align:center">Comprovante de Registro</h3>
+        </div>
+        <div class="panel-body">
+            <div id="divComprovante">
+                <div style="width:450px; height:240px; background-color: #f5ecbe; padding:15px; overflow:auto">
+                    <div style="text-align:center;">
+                        <p><b>Comprovante de Registro de Ponto Eletrônico.</b></p>
+                    </div>
+                    <div style="padding-top:10px">
+                        <table>
+                            <tr>
+                                <td>Empresa: </td>
+                                <td>@Model.empresa</td>
+                            </tr>
+                            <tr>
+                                <td>CNPJ: </td>
+                                <td>@Model.cnpj</td>
+                            </tr>
+                            <tr>
+                                <td>CEI: </td>
+                                <td>@Model.cei</td>
+                            </tr>
+                            <tr>
+                                <td>Nome: </td>
+                                <td>@Model.nome</td>
+                            </tr>
+                            <tr>
+                                <td>PIS: </td>
+                                <td>@Model.pis</td>
+                            </tr>
+                            <tr>
+                                <td>Data: </td>
+                                <td>@Model.data &nbsp; &nbsp; Hora: @Model.hora</td>
+                            </tr>
+                            <tr>
+                                <td>NSR: </td>
+                                <td>@Model.ns</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    @*<div style="padding-top:10px">
+                        <table>
+                            <tr>
+                                <td></td>
+                                <td>Ent.1</td>
+                                <td>Sai.1</td>
+                                <td>Ent.2</td>
+                                <td>Sai.2</td>
+                                <td>Ent.3</td>
+                                <td>Sai.3</td>
+                                <td>Ent.4</td>
+                                <td>Sai.4</td>
+                            </tr>
+                            <tr>
+                                <td>Jornada: </td>
+                                <td>@Model.JEntrada_1</td>
+                                <td>@Model.JSaida_1</td>
+                                <td>@Model.JEntrada_2</td>
+                                <td>@Model.JSaida_2</td>
+                                <td>@Model.JEntrada_3</td>
+                                <td>@Model.JSaida_3</td>
+                                <td>@Model.JEntrada_4</td>
+                                <td>@Model.JSaida_4</td>
+                            </tr>
+                            <tr>
+                                <td>Marcações: </td>
+                                <td>@Model.Entrada_1</td>
+                                <td>@Model.Saida_1</td>
+                                <td>@Model.Entrada_2</td>
+                                <td>@Model.Saida_2</td>
+                                <td>@Model.Entrada_3</td>
+                                <td>@Model.Saida_3</td>
+                                <td>@Model.Entrada_4</td>
+                                <td>@Model.Saida_4</td>
+                            </tr>
+                        </table>
+                    </div>*@
+                </div>
+            </div>
+            <div id="img-out"></div>
+        </div>
+        <div class="panel-footer">
+            <button type="button" class="btn btn-info" onclick="printDiv('divComprovante')"><span class="glyphicon glyphicon-print"></span> Imprimir</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-picture"></span> Imagem</button>
+            <button type="button" class="btn btn-danger" onclick="fecharComprovante()"><span class="glyphicon glyphicon-trash"></span> Fechar</button>
+        </div>
+        <div id="canvas" hidden>
+            <p>Canvas:</p>
+        </div>
+
+        <!-- Modal -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div id="image">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="~/Scripts/reimg.js"></script>
+<script>
+    function printDiv(divID) {
+        //pega o Html da DIV
+        var divElements = document.getElementById(divID).innerHTML;
+        //pega o HTML de toda tag Body
+        var oldPage = document.body.innerHTML;
+
+        //Alterna o body
+        document.body.innerHTML =
+          "<html><head><title></title></head><body>" +
+          divElements + "</body>";
+        document.getElementsByTagName("body")[0].setAttribute("class", 'portrait');
+        //Imprime o body atual
+        window.print();
+
+        //Retorna o conteudo original da página.
+        document.body.innerHTML = oldPage;
+    }
+
+    function fecharComprovante() {
+        var url = '@Url.Action("Ponto", "Registrador")';
+        window.location.href = url;
+    }
+
+
+    html2canvas([document.getElementById('divComprovante')], {
+        onrendered: function (canvas) {
+            document.getElementById('canvas').appendChild(canvas);
+            var data = canvas.toDataURL('image/png');
+            image = new Image();
+            image.src = data;
+            document.getElementById('image').appendChild(image);
+        }
+    });
+
+</script>

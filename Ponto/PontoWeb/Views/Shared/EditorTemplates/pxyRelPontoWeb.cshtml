@@ -1,0 +1,62 @@
+﻿@model  Modelo.Proxy.pxyRelPontoWeb
+
+    @Html.HiddenFor(x => x.UtilizaControleContrato)
+    @Html.HiddenFor(x => x.idRegistro)
+    @Html.HiddenFor(x => x.InicioPeriodo)
+    @Html.HiddenFor(x => x.FimPeriodo)
+    @Html.ValidationMessageFor(x => x.idSelecionados)
+    <div class="panel panel-default" id="pnlFun">
+
+        <div class="panel-body" style="padding:0px;">
+            <div class="div_table_highlight">
+                <table id="tbFun" class="display compact" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Código</th>
+                            <th>Nome</th>
+                            <th class="addLista">Empresa</th>
+                            <th class="addLista">Departamento</th>
+                            <th class="addLista">Função</th>
+                            @if (Model.UtilizaControleContrato)
+                            {
+                                <th class="addLista">Contrato</th>
+                            }
+                            <th class="Selecionar">Selec.</th>
+                        </tr>
+                        <tr id="filterrow">
+                            <th>Id</th>
+                            <th>Código</th>
+                            <th>Nome</th>
+                            <th class="addLista">Empresa</th>
+                            <th class="addLista">Departamento</th>
+                            <th class="addLista">Funcao</th>
+                            @if (Model.UtilizaControleContrato)
+                            {
+                                <th class="addLista">Contrato</th>
+                            }
+                            <th class="Selecionar">Selec.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.FuncionariosRelatorio)
+                        {
+                            <tr id="@item.Id">
+                                <td>@item.Id</td>
+                                <td>@item.Dscodigo</td>
+                                <td>@item.Nome</td>
+                                <td>@item.Empresa</td>
+                                <td>@item.Departamento</td>
+                                <td>@item.Funcao</td>
+                                @if (Model.UtilizaControleContrato)
+                                {
+                                    <td>@item.Contrato</td>
+                                }
+                                <td>@item.SelecionadoStr</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

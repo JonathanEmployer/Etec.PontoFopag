@@ -1,0 +1,62 @@
+﻿@using Modelo.Acesso
+@model Login
+@{
+    ViewBag.Title = "Login";
+}
+@using (Html.BeginForm())
+{
+    <style>
+        #validacaoPartial {
+            display: none;
+        }
+    </style>
+    <div class="container-fluid jumbotron container-fluid-adjust">
+        <div class="col-md-4  col-md-offset-7">
+            <div class="login main-login main-center">
+                <div class="form-group">
+                    <div class="cols-sm-10">
+                        <img src="~/images/logo_gerenciador.png" class="img-responsive img-responsive-align" alt="Logotipo Pontofopag" title="Pontofopag">
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    @Html.Partial("_ValidacaoPartial")
+
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                            @Html.TextBoxFor(model => model.Usuario, new { @class = "form-control", @placeholder = "Informe seu usuário" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                            @Html.PasswordFor(model => model.Senha, new { @class = "form-control", @placeholder = "Informe sua senha" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <button type="submit" class="btn btn-primary btn-sm" text="Entrar">Entrar</button>
+                    @*<input type="submit" class="btn btn-primary btn-lg btn-block" value="Entrar" />*@
+                    <button type="button" style="display:none" class="btn btn-link btn-sm pull-right" text="Esqueci minha senha">Esqueci minha senha</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer_adjust">
+        <div class="col-md-5"><img src="~/images/logo_ibm_partner.png"><span> O Gerenciador de Estações de Trabalho é seguro</span></div>
+        <div class="col-md-4 col-md-4_adjust"><img src="~/images/site_blindado.png" class="img-certificacoes_adjust"><img src="~/images/verified_secured.jpg" class="img-certificacoes_adjust"></div>
+        <div class="col-md-3 col-md-4_adjust pull-right"><span class="span_adjust">© 2017 - Employer </span>
+            <a class="btn btn-link" alt="Estamos no Facebook" title="Estamos no Facebook" role="button" href="https://www.facebook.com/Employer.RH/" target="_blank"><i class="fa fa-facebook fa-employer"></i></a>
+        <a class="btn btn-link" alt="TV - Employer" title="TV - Employer" role="button" href="http://www.employer.tv.br/" target="_blank"><i class="fa fa-youtube fa-employer"></i></a></div>
+    </footer>
+    <script>
+        $(document).ready(function () {
+            var elemento = $('[class*=alert]');
+            elemento.removeClass(); // Remove todas as Classes dos elementos
+            elemento.addClass('alert alert-danger alert-danger-adjust alert-dismissable alert-dismissable-adjust');// Adiciona as Classes nos elementos
+        });
+    </script>
+}

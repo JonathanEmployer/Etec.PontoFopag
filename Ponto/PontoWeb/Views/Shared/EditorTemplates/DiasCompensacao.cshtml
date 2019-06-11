@@ -1,0 +1,33 @@
+﻿@model Modelo.DiasCompensacao
+
+@Html.Partial("_Scripts")
+
+
+<div class="diaCompensacao">
+    <div class="col-md-6"></div>
+    <div class="col-md-5">
+        <div class="input-group input-group-sm">
+            @Html.HiddenFor(x => x.Id)
+            @Html.HiddenFor(x => x.Idcompensacao)
+            @Html.HiddenFor(x => x.Incdata)
+            @Html.HiddenFor(x => x.Inchora)
+            @Html.HiddenFor(x => x.Incusuario)
+            @Html.HiddenFor(x => x.Acao)
+            @Html.HiddenFor(x => x.Altdata)
+            @Html.HiddenFor(x => x.Althora)
+            @Html.HiddenFor(x => x.Altusuario)
+            @Html.HiddenFor(x => x.Codigo)
+            @Html.HiddenFor(x => x.Delete, new { @class = "mark-for-delete" })
+            <div class="input-group input-group-sm">
+                @Html.TextBoxFor(model => model.Datacompensada, new { @class = "form-control  input-sm MascDate datepickerpt" })
+                <span class="input-group-btn">
+                    <button class="btn btn-primary sm" onmouseover="setaid(this);" onclick="setaid(this);" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="input-group input-group-sm" style="align-content:center; align-items:center;"></div>
+        @Html.LinkToRemoveNestedForm("", "div.diaCompensacao", "input.mark-for-delete")
+    </div>
+</div>

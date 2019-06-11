@@ -1,0 +1,11 @@
+﻿@model Modelo.Afastamento
+@{
+    string nomeTabela = "tbAfastamento";
+    string acao = String.Format("DadosGrid?dataIni={0}&dataFim={1}", ViewBag.dataIni, ViewBag.dataFim);
+    Layout = null;
+}
+@Html.GridFor(nomeTabela, Model.GetType(), false, "Afastamento", acao)
+
+<script>
+    cwk_EventoDbClickEditar('Alterar', controller, nomeTabela);
+</script>

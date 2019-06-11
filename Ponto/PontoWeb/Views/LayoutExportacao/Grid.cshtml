@@ -1,0 +1,69 @@
+﻿@model Modelo.LayoutExportacao
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Layout de Exportação";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string nomeTabela = "tbLayoutExportacao";
+}
+
+<div class="">
+    <div class="panel panel-default" style="padding:0;margin-bottom:0">
+        <div class="panel-heading">
+            @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+            <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+        </div>
+        <div class="panel-body panelConteudo" id="panelBodyFixo">
+            @Html.ValidationSummary(true)
+            <div class="row">
+                @Html.GridFor(nomeTabela, Model.GetType(), false, "LayoutExportacao", "DadosGrid")
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.Partial("../JobManager/JobView")
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-3 center-block">
+                    <div style="text-align: left">
+                        @*<a href="#" id="btExportar" class="btn btn-success"><span class="glyphicon glyphicon-upload"></span>&nbsp;Exportar</a>
+                        <a href="#" id="btExportarWebfopag" class="btn btn-success"><span class="glyphicon glyphicon-upload"></span>&nbsp;Exportar Webfopag</a>*@
+                    </div>
+                </div>
+                <div class="col-md-9 center-block">
+                    <div style="text-align: right">
+                        <a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
+                        <a href="#" id="btIncluir" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
+                        <a href="#" id="btAlterar" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
+                        <a href="#" id="btExcluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var nomeTabela = "#" + '@nomeTabela';
+    $(document).ready(function () {
+        cwk_EventoDbClickEditar('Alterar', 'LayoutExportacao', nomeTabela);
+
+        //cwk_EventoClickCadastroAlterar('#btExportar', 'Alterar', 'ExportacaoFolha', nomeTabela);
+        cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', 'LayoutExportacao', nomeTabela);
+        //cwk_EventoClickCadastroAlterarWebfopag('#btExportarWebfopag', 'AlterarWebfopag', 'ExportacaoFolha', nomeTabela);
+        cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', 'LayoutExportacao');
+        cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', 'LayoutExportacao', nomeTabela);
+        cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir', 'LayoutExportacao', nomeTabela, 'Registro de layout de exportação excluído com sucesso. ');
+    });
+
+    function cwk_EventoClickCadastroAlterarWebfopag(botao, acao, controller, objetoTabela) {
+        $(botao).on("click", function () {
+            var id
+            var url = "/" + controller + "/" + acao + "/" + 0;
+            window.location = url;
+        });
+    }
+</script>
+

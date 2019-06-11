@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<DAL>
+  <bancoDeDados>1</bancoDeDados>
+  <cwkConnectionString>
+    <Sql connectionString="RGF0YSBTb3VyY2U9Llxjd29yaztJbml0aWFsIENhdGFsb2c9Y3drcG9udG9tdDtVc2VyIElEPXNhO1Bhc3N3b3JkPWN3b3JrIzAxMTA="
+         backupServidor="" backupCompartilhado=""/>
+    <Fb connectionString="User=SYSDBA;Password=masterkey;Database=C:\CworkPontoMT\Dados\CWKPONTOMT.FDB;DataSource=localhost;Dialect=3;Charset=NONE;Connection Timeout=180;Connection Lifetime=0;Pooling=false;Packet Size=8192;ServerType=0;"/>
+  </cwkConnectionString>
+</DAL>

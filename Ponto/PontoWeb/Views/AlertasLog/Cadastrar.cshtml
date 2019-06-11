@@ -1,0 +1,100 @@
+@model Modelo.AlertasLog
+@{
+    ViewBag.Title = "Cadastrar Log de Alerta";
+}
+@using (Html.BeginForm())
+{
+    <div class="divCenterPequeno">
+        <div class="panel panel-default" style="padding:0">
+            <div class="panel-heading salvando">
+                @Html.ActionLink("X", "Grid", "AlertasLog", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">Cadastro de Log de Alerta</h3>
+            </div>
+            <div class="panel-body panelConteudo">
+                @Html.ValidationMessage("CustomError")
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Codigo)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IdAlerta, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.IdAlerta, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.IdAlerta)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Comando, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Comando, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Comando)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Log, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Log, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Log)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Complemento, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Complemento, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Complemento)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Status, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Status, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Status)
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger salvando"
+                               href="@Url.Action("Grid", "AlertasLog")">
+                                <span class="glyphicon glyphicon-remove"></span> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(":input[type='text']:enabled:visible:first").focus();
+</script>
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}
+

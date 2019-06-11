@@ -1,0 +1,71 @@
+@model Modelo.Classificacao
+@{
+    ViewBag.Title = "Cadastrar Classificação";
+}
+@using (Html.BeginForm())
+{
+    <div class="divCenterPequeno">
+        <div class="panel panel-default" style="padding:0">
+            <div class="panel-heading salvando">
+                @Html.ActionLink("X", "Grid", "Classificacao", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">Cadastro de Classificação</h3>
+            </div>
+            <div class="panel-body panelConteudo">
+                @Html.ValidationMessage("CustomError")
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Codigo)
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ExibePaineldoRH, new { @class = "control-label label-sm" })
+                            @Html.CheckBoxFor(model => model.ExibePaineldoRH, new { @class = "checkbox" })
+                            @Html.ValidationMessageFor(model => model.ExibePaineldoRH)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Descricao, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Descricao, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Descricao)
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger salvando"
+                               href="@Url.Action("Grid", "Classificacao")">
+                                <span class="glyphicon glyphicon-remove"></span> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(":input[type='text']:enabled:visible:first").focus();
+</script>
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}
+

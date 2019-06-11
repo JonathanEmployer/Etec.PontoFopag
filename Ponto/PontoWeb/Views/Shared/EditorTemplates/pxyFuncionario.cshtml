@@ -1,0 +1,15 @@
+﻿@model Modelo.Proxy.pxyFuncionario
+
+<tr id="@Model.Id">
+    <td>
+        @Html.EditorFor(m => m.Selecionado,null, new { @class = "selectFun" })
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.Codigo)
+        @Html.HiddenFor(m => m.Nome)
+        @Html.HiddenFor(m => m.Departamento)
+        @Html.HiddenFor(m => m.IdDepartamento)
+        @Html.HiddenFor(m => m.IdEmpresa)
+    </td>
+    <td>@Html.DisplayFor(m => m.Nome)</td>
+    <td>@Html.DisplayFor(m => m.Departamento, new { @class = "fk" })</td>
+</tr>

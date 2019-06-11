@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Modelo.REP>
+@using System.Web.Optimization
+
+@{
+    Layout = "~/Views/Shared/_LayoutConsulta.cshtml";
+}
+<table id="tbSel" class="table table-striped table-bordered table-hover table-condensed nowrap" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Local</th>
+            <th>Número de Série</th>
+            <th>Número do Relógio</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr id="@item.Id">
+                <td>@item.Codigo</td>
+                <td>@item.Local</td>
+                <td>@item.NumSerie</td>
+                <td>@item.NumRelogio</td>
+            </tr>
+        }
+</table>

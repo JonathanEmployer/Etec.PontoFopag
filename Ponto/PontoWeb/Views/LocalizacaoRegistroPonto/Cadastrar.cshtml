@@ -1,0 +1,136 @@
+@model Modelo.LocalizacaoRegistroPonto
+@{
+    ViewBag.Title = "Cadastrar Localização do Registro de Ponto";
+}
+@using (Html.BeginForm())
+{
+    <div class="divCenterPequeno">
+        <div class="panel panel-default" style="padding:0">
+            <div class="panel-heading salvando">
+                @Html.ActionLink("X", "Grid", "LocalizacaoRegistroPonto", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">Cadastro de Localização do Registro de Ponto</h3>
+            </div>
+            <div class="panel-body panelConteudo">
+                @Html.ValidationMessage("CustomError")
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Codigo)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IdBilhetesImp, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.IdBilhetesImp, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.IdBilhetesImp)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IpPublico, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.IpPublico, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.IpPublico)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IpInterno, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.IpInterno, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.IpInterno)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.X_FORWARDED_FOR, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.X_FORWARDED_FOR, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.X_FORWARDED_FOR)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Latitude, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Latitude, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Latitude)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Longitude, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Longitude, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Longitude)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Browser, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Browser, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Browser)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BrowserVersao, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.BrowserVersao, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.BrowserVersao)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BrowserPlatform, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.BrowserPlatform, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.BrowserPlatform)
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger salvando"
+                               href="@Url.Action("Grid", "LocalizacaoRegistroPonto")">
+                                <span class="glyphicon glyphicon-remove"></span> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(":input[type='text']:enabled:visible:first").focus();
+</script>
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}
+

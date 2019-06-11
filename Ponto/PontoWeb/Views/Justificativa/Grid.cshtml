@@ -1,0 +1,86 @@
+﻿@model Modelo.Justificativa
+@using System.Web.Optimization
+
+@{
+	ViewBag.Title = "Justificativa";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	string nomeTabela = "tbJustificativa";
+	string rowCallBack = @" function( row, data, index ) {
+                if (data.AtivoStr == 'Não') {
+                    $('td', row).css('color', 'Red');
+                }
+            }";
+}
+
+<div class="">
+	<div class="panel panel-default" style="padding:0; margin-bottom:0">
+		<div class="panel-heading">
+			@Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+			<h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+		</div>
+		<div class="panel-body panelConteudo" id="panelBodyFixo">
+			@Html.ValidationSummary(true)
+			<div class="row">
+				@Html.GridFor(nomeTabela, Model.GetType(), false, "Justificativa", "DadosGrid", rowCallBack, "CallBackLoadGrid")
+			</div>
+		</div>
+		<div class="row" style="padding-top:10px;">
+			<div class="col-md-12">
+				<div class="form-group" style="padding-bottom: 0px; margin-bottom: 0px;">
+					@Html.CheckBox("Esconder Inativos", new { id = "BEsconderInativos", @checked = "checked" })
+					@Html.Label("Esconder Inativos", new { style = "padding-bottom: 0px; margin-bottom: 0px;", @for = "BEsconderInativos" })
+				</div>
+			</div>
+		</div>
+
+		<div class="panel-footer">
+			<div class="row">
+				<div class="col-xs-12 center-block">
+					<div style="text-align: right">
+						<a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
+						<a href="#" id="btIncluir" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
+						<a href="#" id="btAlterar" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
+						<a href="#" id="btExcluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+    var nomeTabela = "#" + '@nomeTabela';
+	$(document).ready(function () {
+		var controller = "Justificativa";
+		cwk_EventoDbClickEditar('Alterar', controller, nomeTabela);
+        
+		cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', controller);
+		cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', controller, nomeTabela);
+		cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', controller, nomeTabela);
+		cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir', controller, nomeTabela, 'Justificativa excluída com sucesso.');
+	});
+	function CallBackLoadGrid() {
+		var val = $("#tbJustificativaAtivo").val();
+		ApenasAtivos();
+	}
+
+	$("#BEsconderInativos").click(function (event) {
+		EscondeInativos(event);
+	});
+
+	function EscondeInativos(e) {
+		var table = $(nomeTabela).DataTable();
+		if ($("#BEsconderInativos").is(':checked')) {
+			ApenasAtivos();
+		}
+		else {
+			$("#tbJustificativaAtivo").val("");
+			table.columns(4).search("").draw();
+		}
+	};
+
+	function ApenasAtivos() {
+		var table = $(nomeTabela).DataTable();
+		$("#tbJustificativaAtivo").val("Sim");
+		table.columns(4).search("Sim", true, false, true).draw();
+	}
+</script>

@@ -1,0 +1,206 @@
+﻿@model Modelo.HorarioPHExtra
+<div class="DivLHorarioPHExtra">
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.Incdata)
+    @Html.HiddenFor(model => model.Inchora)
+    @Html.HiddenFor(model => model.Incusuario)
+    @Html.HiddenFor(model => model.Altdata)
+    @Html.HiddenFor(model => model.Althora)
+    @Html.HiddenFor(model => model.Altusuario)
+    @Html.HiddenFor(model => model.Idhorario)
+    @Html.HiddenFor(model => model.Aplicacao)
+    @Html.HiddenFor(model => model.Considerapercextrasemana)
+    @Html.HiddenFor(model => model.Codigo)
+    @if (Model.Codigo <= 5)
+    {
+        <div class="row">
+            <div class="col-md-3">
+                <label>
+                    @Html.CheckBoxFor(model => model.MarcapercentualextraBool, new { @class = "ckbMarcaPercentualExtra ckbMarcaPercentualExtraLim", id = string.Format("ckbMarcaPercentualExtra{0}", Model.Codigo) })
+                    @Html.Label("", string.Format("Lim. {0}", Model.Codigo + 1), new { @class = "control-label label-sm", @for = string.Format("ckbMarcaPercentualExtra{0}", Model.Codigo) })
+                    @Html.ValidationMessageFor(model => model.MarcapercentualextraBool)
+                </label>
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-2" style="padding-right:0px;">
+                        <div class="form-group">
+                            @Html.TextBoxFor(model => model.Percentualextra, new { @class = "form-control  input-sm", id = string.Format("txtPercentualextra{0}", Model.Codigo) })
+                            @Html.ValidationMessageFor(model => model.Percentualextra)
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="padding-right:0px;">
+                        <div class="form-group">
+                            @Html.TextBoxFor(model => model.Quantidadeextra, new { @class = "form-control  input-sm time3", id = string.Format("txtQuantidadeextra{0}", Model.Codigo) })
+                            @Html.ValidationMessageFor(model => model.Quantidadeextra)
+                        </div>
+                    </div>
+                    <div class="col-md-2 separaPercentualNoturno" style="padding-right:0px;">
+                        <div class="form-group">
+                            @Html.TextBoxFor(model => model.PercentualExtraNoturna, new { @class = "form-control  input-sm", id = string.Format("txtPercentualExtraNoturna{0}", Model.Codigo) })
+                            @Html.ValidationMessageFor(model => model.PercentualExtraNoturna)
+                        </div>
+                    </div>
+                    <div class="col-md-2 separaPercentualNoturno" style="padding-right:0px;">
+                        <div class="form-group">
+                            @Html.TextBoxFor(model => model.QuantidadeExtraNoturna, new { @class = "form-control  input-sm time3", id = string.Format("txtQuantidadeExtraNoturna{0}", Model.Codigo) })
+                            @Html.ValidationMessageFor(model => model.QuantidadeExtraNoturna)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        if (Model.Codigo == 6)
+        {
+            <div class="row">
+                <hr style="margin-bottom:5px; margin-top:5px;" />
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="row separaPercentualNoturno">
+                                <div class="col-md-12" style="text-align:center">
+                                    @Html.Label("", "Diurno", new { @class = "control-label label-sm" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6" style="text-align:center">
+                                    @Html.Label("", "Percentual", new { @class = "control-label label-sm" })
+                                </div>
+                                <div class="col-md-6" style="text-align:center">
+                                    @Html.Label("", "Limite", new { @class = "control-label label-sm" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 separaPercentualNoturno">
+                            <div class="row">
+                                <div class="col-md-12" style="text-align:center">
+                                    @Html.Label("", "Noturno", new { @class = "control-label label-sm" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6" style="text-align:center">
+                                    @Html.Label("", "Percentual", new { @class = "control-label label-sm" })
+                                </div>
+                                <div class="col-md-6" style="text-align:center">
+                                    @Html.Label("", "Limite", new { @class = "control-label label-sm" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2" style="text-align:center">
+                            <div class="row separaPercentualNoturno">
+                                <div class="col-md-12">
+                                    @Html.Label("", "Diurno", new { @class = "control-label label-sm" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @Html.Label("", "Outros", new { @class = "control-label label-sm" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 separaPercentualNoturno" style="text-align:center">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @Html.Label("", "Noturno", new { @class = "control-label label-sm" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @Html.Label("", "Outros", new { @class = "control-label label-sm" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr style="margin-bottom:5px; margin-top:5px;" />
+        }
+        <div class="row">
+            <div class="col-md-3">
+                <label>
+                    @Html.CheckBoxFor(model => model.MarcapercentualextraBool, new { @class = "ckbMarcaPercentualExtra", id = string.Format("ckbMarcaPercentualExtra{0}", Model.Codigo) })
+                    @switch (Model.Codigo)
+                    {
+                        case 6:
+                            @Html.Label("", "Sábado", new { @class = "control-label label-sm", @for = string.Format("ckbMarcaPercentualExtra{0}", Model.Codigo) })
+                            break;
+                        case 7:
+                            @Html.Label("", "Domingo", new { @class = "control-label label-sm", @for = string.Format("ckbMarcaPercentualExtra{0}", Model.Codigo) })
+                            break;
+                        case 8:
+                            @Html.Label("", "Feriado", new { @class = "control-label label-sm", @for = string.Format("ckbMarcaPercentualExtra{0}", Model.Codigo) })
+                            break;
+                        case 9:
+                            @Html.Label("", "Folga", new { @class = "control-label label-sm", @for = string.Format("ckbMarcaPercentualExtra{0}", Model.Codigo) })
+                            break;
+                        default:
+                            break;
+                    }
+                    @Html.ValidationMessageFor(model => model.MarcapercentualextraBool)
+                </label>
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-2" style="padding-right:0px;">
+                        <div class="form-group">
+                            @Html.TextBoxFor(model => model.Percentualextra, new { @class = "form-control  input-sm", id = string.Format("txtPercentualextra{0}", Model.Codigo) })
+                            @Html.ValidationMessageFor(model => model.Percentualextra)
+                        </div>
+                    </div> @*Percentual Diurno*@
+                    <div class="col-md-2" style="padding-right:0px;">
+                        <div class="form-group">
+                            @Html.TextBoxFor(model => model.Quantidadeextra, new { @class = "form-control  input-sm time3", id = string.Format("txtQuantidadeextra{0}", Model.Codigo) })
+                            @Html.ValidationMessageFor(model => model.Quantidadeextra)
+                        </div>
+                    </div> @*Limite Diurno*@
+                    <div class="col-md-2 separaPercentualNoturno" style="padding-right:0px;">
+                        <div class="form-group">
+                            @Html.TextBoxFor(model => model.PercentualExtraNoturna, new { @class = "form-control  input-sm", id = string.Format("txtPercentualExtraNoturna{0}", Model.Codigo) })
+                            @Html.ValidationMessageFor(model => model.PercentualExtraNoturna)
+                        </div>
+                    </div> @*Percentual Noturno*@
+                    <div class="col-md-2 separaPercentualNoturno" style="padding-right:0px;">
+                        <div class="form-group">
+                            @Html.TextBoxFor(model => model.QuantidadeExtraNoturna, new { @class = "form-control  input-sm time3", id = string.Format("txtQuantidadeExtraNoturna{0}", Model.Codigo) })
+                            @Html.ValidationMessageFor(model => model.QuantidadeExtraNoturna)
+                        </div>
+                    </div> @*Limite Noturno*@
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            @Html.TextBoxFor(model => model.PercentualExtraSegundo, new { @class = "form-control  input-sm", id = string.Format("txtPercentualExtraSegundo{0}", Model.Codigo) })
+                            @Html.ValidationMessageFor(model => model.PercentualExtraSegundo)
+                        </div>
+                    </div> @*Percentual Outros Diurno*@
+                    <div class="col-md-2 separaPercentualNoturno">
+                        <div class="form-group">
+                            @Html.TextBoxFor(model => model.PercentualExtraSegundoNoturna, new { @class = "form-control  input-sm", id = string.Format("txtPercentualExtraSegundoNoturna{0}", Model.Codigo) })
+                            @Html.ValidationMessageFor(model => model.PercentualExtraSegundoNoturna)
+                        </div>
+                    </div> @*Percentual Outros Noturno*@
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        @Html.Label("Tipo Acúmulo", new { @class = "control-label label-sm" })
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            @Html.DropDownListFor(model => model.TipoAcumulo, cwkPontoWeb.Models.Helpers.EnumHelper.GetSelectedItemList<Modelo.Listas.TipoAcumulo>(1), new { @class = "form-control input-sm", style = "height: 25px;", id = string.Format("txtTipoAcumulo{0}", Model.Codigo) })
+                            @Html.ValidationMessageFor(model => model.TipoAcumulo)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        if (Model.Codigo < 9)
+        {
+            <hr style="margin-bottom:5px; margin-top:5px;" />
+        }
+    }
+</div>

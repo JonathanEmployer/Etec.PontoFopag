@@ -1,0 +1,52 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Styles.Render("~/Content/RegistraPontoCSS")
+    <style>
+        .divPeriodoFixo {
+            max-width: 360px !important;
+            margin: auto;
+            margin-left: auto;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .titulo-pagina {
+            color: #34648d;
+            font-weight: bold;
+            background-image: url('/Content/img/Pontofopag18.png');
+            background-repeat: no-repeat;
+            padding-left: 25px;
+        }
+    </style>
+
+</head>
+
+<body>
+    @Scripts.Render("~/bundles/loginjs")
+    @Scripts.Render("~/bundles/RegistraPontojs")
+    <!--[if gte IE 9]>
+    <style type="text/css">.cwork-formBg {filter: none;}</style><![endif]-->
+    <div class="divback">
+        <div id="wrap">
+            <div class="container">
+                @RenderBody()
+            </div>
+            <div id="push"></div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    $('.modal').on('shown.bs.modal', function () {
+        //Make sure the modal and backdrop are siblings (changes the DOM)
+        $(this).before($('.modal-backdrop'));
+        //Make sure the z-index is higher than the backdrop
+        $(this).css("z-index", parseInt($('.modal-backdrop').css('z-index')) + 1);
+    });</script>

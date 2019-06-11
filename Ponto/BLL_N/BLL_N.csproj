@@ -1,0 +1,468 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3C745E92-BDA8-4779-A844-953EC36BDA7D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BLL_N</RootNamespace>
+    <AssemblyName>BLL_N</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Homologacao|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Homologacao\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Homologacao|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Homologacao\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Desenvolvimento|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Desenvolvimento\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Desenvolvimento|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Desenvolvimento\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="cwkControleUsuario">
+      <HintPath>..\Dependencias\cwkControleUsuario.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetZip, Version=1.12.0.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.12.0\lib\net20\DotNetZip.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus">
+      <HintPath>..\packages\EPPlus.4.1.0\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="Hangfire.Console, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Console.1.4.1\lib\net45\Hangfire.Console.dll</HintPath>
+    </Reference>
+    <Reference Include="Hangfire.Core, Version=1.6.21.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Core.1.6.21\lib\net45\Hangfire.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Hangfire.SqlServer, Version=1.6.21.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.SqlServer.1.6.21\lib\net45\Hangfire.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Hangfire.SqlServer.Msmq, Version=1.6.21.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.SqlServer.MSMQ.1.6.21\lib\net45\Hangfire.SqlServer.Msmq.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.13\lib\itextsharp.xmlworker.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Antiforgery">
+      <HintPath>..\packages\Microsoft.AspNet.Antiforgery.1.0.0-rc1-final\lib\net451\Microsoft.AspNet.Antiforgery.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Authorization">
+      <HintPath>..\packages\Microsoft.AspNet.Authorization.1.0.0-rc1-final\lib\net451\Microsoft.AspNet.Authorization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Cors">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.6.0.0-rc1-final\lib\net451\Microsoft.AspNet.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Cryptography.Internal">
+      <HintPath>..\packages\Microsoft.AspNet.Cryptography.Internal.1.0.0-rc1-final\lib\net451\Microsoft.AspNet.Cryptography.Internal.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.DataProtection">
+      <HintPath>..\packages\Microsoft.AspNet.DataProtection.1.0.0-rc1-final\lib\net451\Microsoft.AspNet.DataProtection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.DataProtection.Abstractions">
+      <HintPath>..\packages\Microsoft.AspNet.DataProtection.Abstractions.1.0.0-rc1-final\lib\net451\Microsoft.AspNet.DataProtection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Diagnostics.Abstractions">
+      <HintPath>..\packages\Microsoft.AspNet.Diagnostics.Abstractions.1.0.0-rc1-final\lib\net451\Microsoft.AspNet.Diagnostics.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.FileProviders.Abstractions">
+      <HintPath>..\packages\Microsoft.AspNet.FileProviders.Abstractions.1.0.0-rc1-final\lib\net451\Microsoft.AspNet.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.FileProviders.Physical">
+      <HintPath>..\packages\Microsoft.AspNet.FileProviders.Physical.1.0.0-rc1-final\lib\net451\Microsoft.AspNet.FileProviders.Physical.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Hosting.Abstractions">
+      <HintPath>..\packages\Microsoft.AspNet.Hosting.Abstractions.1.0.0-rc1-final\lib\net451\Microsoft.AspNet.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Html.Abstractions">
+      <HintPath>..\packages\Microsoft.AspNet.Html.Abstractions.1.0.0-rc1-final\lib\net451\Microsoft.AspNet.Html.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Http.Abstractions">
+      <HintPath>..\packages\Microsoft.AspNet.Http.Abstractions.1.0.0-rc1-final\lib\net451\Microsoft.AspNet.Http.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Http.Extensions">
+      <HintPath>..\packages\Microsoft.AspNet.Http.Extensions.1.0.0-rc1-final\lib\net451\Microsoft.AspNet.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Http.Features">
+      <HintPath>..\packages\Microsoft.AspNet.Http.Features.1.0.0-rc1-final\lib\net451\Microsoft.AspNet.Http.Features.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.JsonPatch">
+      <HintPath>..\packages\Microsoft.AspNet.JsonPatch.1.0.0-rc1-final\lib\net451\Microsoft.AspNet.JsonPatch.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Localization">
+      <HintPath>..\packages\Microsoft.AspNet.Localization.1.0.0-rc1-final\lib\net451\Microsoft.AspNet.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.6.0.0-rc1-final\lib\net451\Microsoft.AspNet.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Mvc.Abstractions">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.Abstractions.6.0.0-rc1-final\lib\net451\Microsoft.AspNet.Mvc.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Mvc.ApiExplorer">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.ApiExplorer.6.0.0-rc1-final\lib\net451\Microsoft.AspNet.Mvc.ApiExplorer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Mvc.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.Core.6.0.0-rc1-final\lib\net451\Microsoft.AspNet.Mvc.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Mvc.Cors">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.Cors.6.0.0-rc1-final\lib\net451\Microsoft.AspNet.Mvc.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Mvc.DataAnnotations">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.DataAnnotations.6.0.0-rc1-final\lib\net451\Microsoft.AspNet.Mvc.DataAnnotations.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Mvc.Formatters.Json">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.Formatters.Json.6.0.0-rc1-final\lib\net451\Microsoft.AspNet.Mvc.Formatters.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Mvc.Localization">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.Localization.6.0.0-rc1-final\lib\net451\Microsoft.AspNet.Mvc.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Mvc.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.Razor.6.0.0-rc1-final\lib\net451\Microsoft.AspNet.Mvc.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Mvc.Razor.Host">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.Razor.Host.6.0.0-rc1-final\lib\net451\Microsoft.AspNet.Mvc.Razor.Host.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Mvc.ViewFeatures">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.ViewFeatures.6.0.0-rc1-final\lib\net451\Microsoft.AspNet.Mvc.ViewFeatures.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.PageExecutionInstrumentation.Interfaces">
+      <HintPath>..\packages\Microsoft.AspNet.PageExecutionInstrumentation.Interfaces.1.0.0-rc1-final\lib\net451\Microsoft.AspNet.PageExecutionInstrumentation.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.4.0.0-rc1-final\lib\net451\Microsoft.AspNet.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Razor.Runtime">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.Runtime.4.0.0-rc1-final\lib\net451\Microsoft.AspNet.Razor.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Razor.Runtime.Precompilation">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.Runtime.Precompilation.4.0.0-rc1-final\lib\net451\Microsoft.AspNet.Razor.Runtime.Precompilation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Routing">
+      <HintPath>..\packages\Microsoft.AspNet.Routing.1.0.0-rc1-final\lib\net451\Microsoft.AspNet.Routing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.3.0\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.3.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.3.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.WebUtilities">
+      <HintPath>..\packages\Microsoft.AspNet.WebUtilities.1.0.0-rc1-final\lib\net451\Microsoft.AspNet.WebUtilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Razor">
+      <HintPath>..\packages\Microsoft.AspNetCore.Razor.1.0.0\lib\net451\Microsoft.AspNetCore.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.1.1.0-rc1-20151109-01\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.1.1.0-rc1-20151109-01\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Dnx.Compilation.Abstractions">
+      <HintPath>..\packages\Microsoft.Dnx.Compilation.Abstractions.1.0.0-rc1-final\lib\net451\Microsoft.Dnx.Compilation.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Dnx.Compilation.CSharp.Abstractions">
+      <HintPath>..\packages\Microsoft.Dnx.Compilation.CSharp.Abstractions.1.0.0-rc1-final\lib\net451\Microsoft.Dnx.Compilation.CSharp.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Dnx.Compilation.CSharp.Common">
+      <HintPath>..\packages\Microsoft.Dnx.Compilation.CSharp.Common.1.0.0-rc1-final\lib\net451\Microsoft.Dnx.Compilation.CSharp.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Abstractions">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Abstractions.1.0.0-rc1-final\lib\net451\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Memory">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Memory.1.0.0-rc1-final\lib\net451\Microsoft.Extensions.Caching.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.1.0.0-rc1-final\lib\net451\Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.1.0.0-rc1-final\lib\net451\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Binder">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Binder.1.0.0-rc1-final\lib\net451\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.1.0.0-rc1-final\lib\net451\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.1.0.0-rc1-final\lib\net451\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Globalization.CultureInfoCache">
+      <HintPath>..\packages\Microsoft.Extensions.Globalization.CultureInfoCache.1.0.0-rc1-final\lib\net451\Microsoft.Extensions.Globalization.CultureInfoCache.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Localization">
+      <HintPath>..\packages\Microsoft.Extensions.Localization.1.0.0-rc1-final\lib\net451\Microsoft.Extensions.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Localization.Abstractions">
+      <HintPath>..\packages\Microsoft.Extensions.Localization.Abstractions.1.0.0-rc1-final\lib\net451\Microsoft.Extensions.Localization.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.1.0.0-rc1-final\lib\net451\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.MemoryPool">
+      <HintPath>..\packages\Microsoft.Extensions.MemoryPool.1.0.0-rc1-final\lib\net451\Microsoft.Extensions.MemoryPool.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.OptionsModel">
+      <HintPath>..\packages\Microsoft.Extensions.OptionsModel.1.0.0-rc1-final\lib\net451\Microsoft.Extensions.OptionsModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.PlatformAbstractions">
+      <HintPath>..\packages\Microsoft.Extensions.PlatformAbstractions.1.0.0-rc1-final\lib\net451\Microsoft.Extensions.PlatformAbstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.1.0.0-rc1-final\lib\net451\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.WebEncoders">
+      <HintPath>..\packages\Microsoft.Extensions.WebEncoders.1.0.0-rc1-final\lib\net451\Microsoft.Extensions.WebEncoders.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.WebEncoders.Core">
+      <HintPath>..\packages\Microsoft.Extensions.WebEncoders.Core.1.0.0-rc1-final\lib\net451\Microsoft.Extensions.WebEncoders.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Net.Http.Headers">
+      <HintPath>..\packages\Microsoft.Net.Http.Headers.1.0.0-rc1-final\lib\net451\Microsoft.Net.Http.Headers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.ProcessingObjectModel.DLL</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.WebForms.DLL</HintPath>
+    </Reference>
+    <Reference Include="MimeTypeMap">
+      <HintPath>..\packages\MediaTypeMap.2.1.0.0\lib\net40\MimeTypeMap.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RazorEngine, Version=3.10.0.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <HintPath>..\packages\RazorEngine.3.10.0\lib\net45\RazorEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Collections" />
+    <Reference Include="System.Collections.Immutable">
+      <HintPath>..\packages\System.Collections.Immutable.1.1.37\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Diagnostics.DiagnosticSource">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.0.0-beta-23516\lib\portable-net45+win8+wp8+wpa81\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Metadata">
+      <HintPath>..\packages\System.Reflection.Metadata.1.1.0\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Text.Encoding" />
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="JobManager\Hangfire\HangfireConfig.cs" />
+    <Compile Include="JobManager\Hangfire\HangfireManagerCalculos.cs" />
+    <Compile Include="JobManager\Hangfire\HangfireManagerExportacoes.cs" />
+    <Compile Include="JobManager\Hangfire\HangfireManagerImportacoes.cs" />
+    <Compile Include="JobManager\Hangfire\HangfireManagerRelatorios.cs" />
+    <Compile Include="JobManager\Hangfire\Job\CalculosJob.cs" />
+    <Compile Include="JobManager\CalculoMarcacoes.cs" />
+    <Compile Include="JobManager\Hangfire\HangfireJobFilterAttribute.cs" />
+    <Compile Include="JobManager\Hangfire\HangfireManagerBase.cs" />
+    <Compile Include="JobManager\Hangfire\Job\ExportacoesJob.cs" />
+    <Compile Include="JobManager\ImportacaoBilhetes.cs" />
+    <Compile Include="JobManager\Hangfire\Job\ImportacoesJob.cs" />
+    <Compile Include="JobManager\Hangfire\Job\JobBase.cs" />
+    <Compile Include="JobManager\Hangfire\JobControlManager.cs" />
+    <Compile Include="BLLEmpresa\ValidarCNPJEmpresa.cs" />
+    <Compile Include="Exportacao\ExportacaoWebfopag.cs" />
+    <Compile Include="Exportacao\RepLogAFD.cs" />
+    <Compile Include="Hubs\NotificationHub.cs" />
+    <Compile Include="ImportacaoBilhetesNova.cs" />
+    <Compile Include="IntegracaoRep\IntegracaoRepViaCentralCliente.cs" />
+    <Compile Include="IntegracaoTerceiro\API\ApiException.cs" />
+    <Compile Include="IntegracaoTerceiro\DB1.cs" />
+    <Compile Include="JobManager\Hangfire\Job\RelatoriosJob.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorios\RelatorioTratamentoDePonto.cs" />
+    <Compile Include="Relatorios\RelClassHorasExtras.cs" />
+    <Compile Include="Utils\Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{4aa014fd-60e6-471d-90b7-3f72c6756e83}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CentralCliente\CentralCliente.csproj">
+      <Project>{737d66c4-b80e-4d10-93cf-e43c74a71e07}</Project>
+      <Name>CentralCliente</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cwkPontoMT.Integracao\cwkPontoMT.Integracao.csproj">
+      <Project>{498061b5-3229-411b-a807-a2fc98410927}</Project>
+      <Name>cwkPontoMT.Integracao</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{9e79e822-8fbd-49ae-8ed1-49db4408ec47}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Modelo\Modelo.csproj">
+      <Project>{dfe5a7e8-8798-43d3-a61f-f1dd3ab38593}</Project>
+      <Name>Modelo</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <EmbeddedResource Include="Relatorios\View\RelDB1HorasTrabalhadasTaskHTML.cshtml" />
+    <EmbeddedResource Include="Relatorios\View\RelDB1HorasTrabalhadasTaskSinteticoHTML.cshtml" />
+    <EmbeddedResource Include="Relatorios\View\RelClassHorasExtrasHtml.cshtml" />
+    <None Include="Resources\RelDB1HorasTrabalhadasTaskHTML.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.4.js" />
+    <Content Include="Scripts\jquery-1.6.4.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.3.0.js" />
+    <Content Include="Scripts\jquery.signalR-2.3.0.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

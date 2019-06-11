@@ -1,0 +1,58 @@
+﻿@model IQueryable<Modelo.Acesso.Usuario>
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="container-fluid col-md-12">
+        <div class="panel">
+            <div class="panel-heading">
+                <h2>Usuários <small>Gerenciamento</small></h2><hr>
+            </div>
+            <div class="container-fluid col-md-12">
+                @Html.ValidationSummary(true)
+                <div class="panel-body">
+                    <table class="table table-bordered table-striped table-hover" id="tbl">
+                        <thead>
+                            <tr>
+                                <th>Usuário</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var usuario in Model)
+                            {
+                                <tr>
+                                    <td width="75%">@usuario.NomeUsuario</td>
+                                    <td>
+                                        @Html.ActionLink("Editar", "Cadastro", routeValues: new { @id = usuario.ID, @class = "btn btn-primary btn-sm" })
+                                        @Html.ActionLink("Excluir", "Delete", routeValues: new { @id = usuario.ID, @class = "btn btn-danger btn-sm" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Start Botões -->
+        <div class="row painel_botoes">
+            <input type="submit" name="Novo" value="Adicionar Usuário" class="btn btn-primary" id="btnNovo" data-form-action='@Url.Action("Novo")' />
+        </div>
+        <!-- End Botões -->
+    </div>
+    <script>
+    $(document).ready(function () {
+        window.tabelaUsuario = $('#tbl').DataTable({
+            select: false,
+            "language": {
+                'decimal': ',',
+                'thousands': '.',
+                'url': '//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json',
+            }
+        });
+
+    });
+    </script>
+}

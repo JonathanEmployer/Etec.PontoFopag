@@ -1,0 +1,108 @@
+@model Modelo.ListaEventos
+@{
+    ViewBag.Title = "Cadastro Lista Eventos";
+}
+
+<style>
+    .checkbox {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+</style>
+@using (Html.BeginForm())
+{
+    <div>
+        <div class="panel panel-default" style="padding:0; margin-bottom:0px">
+            <div class="panel-heading salvando">
+                @Html.ActionLink("X", "Grid", "ListaEventos", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">Cadastro Lista Eventos</h3>
+            </div>
+            <div class="panel-body  panelConteudo" id="panelBodyFixo">
+                @Html.ValidationMessage("CustomError")
+                <div class="row">
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Codigo)
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Des_Lista_Eventos, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Des_Lista_Eventos, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Des_Lista_Eventos)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.HiddenFor(x => x.IdEventosSelecionados)
+                        @Html.HiddenFor(m => m.IdEventosSelecionados_Ant)
+                        @Html.ValidationMessageFor(x => x.IdEventosSelecionados)
+                        <div class="row">
+                            @Html.GridFor("tbEvento", (new Modelo.Eventos()).GetType(), true, "Eventos", "DadosGrid", "", "", Model.IdEventosSelecionados, "")
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger salvando"
+                               href="@Url.Action("Grid", "ListaEventos")">
+                                <span class="glyphicon glyphicon-remove"></span> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    var errorArray = new Array();
+    $(":input[type='text']:enabled:visible:first").focus();
+    $(document).ready(function () {
+        lkpGenerico();
+        $('#tbEvento tbody').on('click', 'tr', function () {
+            limpaErro("Pessoa");
+        });
+    });
+
+    $('form').submit(function () {
+        if ($(this).valid() && validaForm()) {
+            return true;
+        }
+        return false;
+    });
+
+    function validaForm() {
+        $("#IdEventosSelecionados").val(GetSelecionados("tbEvento"));
+        if (($("#IdEventosSelecionados").val() == null || $("#IdEventosSelecionados").val() == '' || $("#IdEventosSelecionados").val().length <= 0)
+            && ($("#lkpPessoa").val() == '' || $("#lkpPessoa").val() == null || $("#lkpPessoa").val().length <= 0)) {
+            var msgErro = 'Selecionar um evento para a lista';
+            errorArray["Pessoa"] = msgErro;
+            cwkErro(msgErro);
+            $("form").validate().showErrors(errorArray);
+            return false;
+        }
+        else {
+            limpaErro("Pessoa");
+            return true;
+        }
+    }
+</script>
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        });
+    </script>
+}
+

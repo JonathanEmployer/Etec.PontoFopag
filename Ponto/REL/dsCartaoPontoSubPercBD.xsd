@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsCartaoPontoSubPercBD" targetNamespace="http://tempuri.org/dsCartaoPontoSubPercBD.xsd" xmlns:mstns="http://tempuri.org/dsCartaoPontoSubPercBD.xsd" xmlns="http://tempuri.org/dsCartaoPontoSubPercBD.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="Ponto_1010ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="Ponto_1010ConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.REL.Properties.Settings.GlobalReference.Default.Ponto_1010ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="horarioTableAdapter" GeneratorDataComponentClassName="horarioTableAdapter" Name="horario" UserDataComponentName="horarioTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="Ponto_1010ConnectionString (Settings)" DbObjectName="Ponto_1010.dbo.horario" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT SegundaPercBanco, TercaPercBanco, QuartaPercBanco, QuintaPercBanco, SextaPercBanco, SabadoPercBanco, DomingoPercBanco, MarcaSegundaPercBanco, MarcaTercaPercBanco, MarcaQuartaPercBanco, MarcaQuintaPercBanco, MarcaSextaPercBanco, MarcaSabadoPercBanco, MarcaDomingoPercBanco FROM dbo.horario</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="SegundaPercBanco" DataSetColumn="SegundaPercBanco" />
+              <Mapping SourceColumn="TercaPercBanco" DataSetColumn="TercaPercBanco" />
+              <Mapping SourceColumn="QuartaPercBanco" DataSetColumn="QuartaPercBanco" />
+              <Mapping SourceColumn="QuintaPercBanco" DataSetColumn="QuintaPercBanco" />
+              <Mapping SourceColumn="SextaPercBanco" DataSetColumn="SextaPercBanco" />
+              <Mapping SourceColumn="SabadoPercBanco" DataSetColumn="SabadoPercBanco" />
+              <Mapping SourceColumn="DomingoPercBanco" DataSetColumn="DomingoPercBanco" />
+              <Mapping SourceColumn="MarcaSegundaPercBanco" DataSetColumn="MarcaSegundaPercBanco" />
+              <Mapping SourceColumn="MarcaTercaPercBanco" DataSetColumn="MarcaTercaPercBanco" />
+              <Mapping SourceColumn="MarcaQuartaPercBanco" DataSetColumn="MarcaQuartaPercBanco" />
+              <Mapping SourceColumn="MarcaQuintaPercBanco" DataSetColumn="MarcaQuintaPercBanco" />
+              <Mapping SourceColumn="MarcaSextaPercBanco" DataSetColumn="MarcaSextaPercBanco" />
+              <Mapping SourceColumn="MarcaSabadoPercBanco" DataSetColumn="MarcaSabadoPercBanco" />
+              <Mapping SourceColumn="MarcaDomingoPercBanco" DataSetColumn="MarcaDomingoPercBanco" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsCartaoPontoSubPercBD" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="dsCartaoPontoSubPercBD" msprop:Generator_DataSetName="dsCartaoPontoSubPercBD" msprop:EnableTableAdapterManager="True">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="horario" msprop:Generator_UserTableName="horario" msprop:Generator_RowDeletedName="horarioRowDeleted" msprop:Generator_RowChangedName="horarioRowChanged" msprop:Generator_RowClassName="horarioRow" msprop:Generator_RowChangingName="horarioRowChanging" msprop:Generator_RowEvArgName="horarioRowChangeEvent" msprop:Generator_RowEvHandlerName="horarioRowChangeEventHandler" msprop:Generator_TableClassName="horarioDataTable" msprop:Generator_TableVarName="tablehorario" msprop:Generator_RowDeletingName="horarioRowDeleting" msprop:Generator_TablePropName="horario">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SegundaPercBanco" msprop:Generator_UserColumnName="SegundaPercBanco" msprop:Generator_ColumnVarNameInTable="columnSegundaPercBanco" msprop:Generator_ColumnPropNameInRow="SegundaPercBanco" msprop:Generator_ColumnPropNameInTable="SegundaPercBancoColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="TercaPercBanco" msprop:Generator_UserColumnName="TercaPercBanco" msprop:Generator_ColumnVarNameInTable="columnTercaPercBanco" msprop:Generator_ColumnPropNameInRow="TercaPercBanco" msprop:Generator_ColumnPropNameInTable="TercaPercBancoColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="QuartaPercBanco" msprop:Generator_UserColumnName="QuartaPercBanco" msprop:Generator_ColumnVarNameInTable="columnQuartaPercBanco" msprop:Generator_ColumnPropNameInRow="QuartaPercBanco" msprop:Generator_ColumnPropNameInTable="QuartaPercBancoColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="QuintaPercBanco" msprop:Generator_UserColumnName="QuintaPercBanco" msprop:Generator_ColumnVarNameInTable="columnQuintaPercBanco" msprop:Generator_ColumnPropNameInRow="QuintaPercBanco" msprop:Generator_ColumnPropNameInTable="QuintaPercBancoColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SextaPercBanco" msprop:Generator_UserColumnName="SextaPercBanco" msprop:Generator_ColumnVarNameInTable="columnSextaPercBanco" msprop:Generator_ColumnPropNameInRow="SextaPercBanco" msprop:Generator_ColumnPropNameInTable="SextaPercBancoColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SabadoPercBanco" msprop:Generator_UserColumnName="SabadoPercBanco" msprop:Generator_ColumnVarNameInTable="columnSabadoPercBanco" msprop:Generator_ColumnPropNameInRow="SabadoPercBanco" msprop:Generator_ColumnPropNameInTable="SabadoPercBancoColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DomingoPercBanco" msprop:Generator_UserColumnName="DomingoPercBanco" msprop:Generator_ColumnVarNameInTable="columnDomingoPercBanco" msprop:Generator_ColumnPropNameInRow="DomingoPercBanco" msprop:Generator_ColumnPropNameInTable="DomingoPercBancoColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MarcaSegundaPercBanco" msprop:Generator_UserColumnName="MarcaSegundaPercBanco" msprop:Generator_ColumnVarNameInTable="columnMarcaSegundaPercBanco" msprop:Generator_ColumnPropNameInRow="MarcaSegundaPercBanco" msprop:Generator_ColumnPropNameInTable="MarcaSegundaPercBancoColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="MarcaTercaPercBanco" msprop:Generator_UserColumnName="MarcaTercaPercBanco" msprop:Generator_ColumnVarNameInTable="columnMarcaTercaPercBanco" msprop:Generator_ColumnPropNameInRow="MarcaTercaPercBanco" msprop:Generator_ColumnPropNameInTable="MarcaTercaPercBancoColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="MarcaQuartaPercBanco" msprop:Generator_UserColumnName="MarcaQuartaPercBanco" msprop:Generator_ColumnVarNameInTable="columnMarcaQuartaPercBanco" msprop:Generator_ColumnPropNameInRow="MarcaQuartaPercBanco" msprop:Generator_ColumnPropNameInTable="MarcaQuartaPercBancoColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="MarcaQuintaPercBanco" msprop:Generator_UserColumnName="MarcaQuintaPercBanco" msprop:Generator_ColumnVarNameInTable="columnMarcaQuintaPercBanco" msprop:Generator_ColumnPropNameInRow="MarcaQuintaPercBanco" msprop:Generator_ColumnPropNameInTable="MarcaQuintaPercBancoColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="MarcaSextaPercBanco" msprop:Generator_UserColumnName="MarcaSextaPercBanco" msprop:Generator_ColumnVarNameInTable="columnMarcaSextaPercBanco" msprop:Generator_ColumnPropNameInRow="MarcaSextaPercBanco" msprop:Generator_ColumnPropNameInTable="MarcaSextaPercBancoColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="MarcaSabadoPercBanco" msprop:Generator_UserColumnName="MarcaSabadoPercBanco" msprop:Generator_ColumnVarNameInTable="columnMarcaSabadoPercBanco" msprop:Generator_ColumnPropNameInRow="MarcaSabadoPercBanco" msprop:Generator_ColumnPropNameInTable="MarcaSabadoPercBancoColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="MarcaDomingoPercBanco" msprop:Generator_UserColumnName="MarcaDomingoPercBanco" msprop:Generator_ColumnVarNameInTable="columnMarcaDomingoPercBanco" msprop:Generator_ColumnPropNameInRow="MarcaDomingoPercBanco" msprop:Generator_ColumnPropNameInTable="MarcaDomingoPercBancoColumn" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DataTable1" msprop:Generator_UserTableName="DataTable1" msprop:Generator_RowDeletedName="DataTable1RowDeleted" msprop:Generator_TableClassName="DataTable1DataTable" msprop:Generator_RowChangedName="DataTable1RowChanged" msprop:Generator_RowClassName="DataTable1Row" msprop:Generator_RowChangingName="DataTable1RowChanging" msprop:Generator_RowEvArgName="DataTable1RowChangeEvent" msprop:Generator_RowEvHandlerName="DataTable1RowChangeEventHandler" msprop:Generator_TablePropName="DataTable1" msprop:Generator_TableVarName="tableDataTable1" msprop:Generator_RowDeletingName="DataTable1RowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Credito" msprop:Generator_UserColumnName="Credito" msprop:Generator_ColumnPropNameInRow="Credito" msprop:Generator_ColumnVarNameInTable="columnCredito" msprop:Generator_ColumnPropNameInTable="CreditoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Debito" msprop:Generator_UserColumnName="Debito" msprop:Generator_ColumnPropNameInRow="Debito" msprop:Generator_ColumnVarNameInTable="columnDebito" msprop:Generator_ColumnPropNameInTable="DebitoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Saldo" msprop:Generator_UserColumnName="Saldo" msprop:Generator_ColumnPropNameInRow="Saldo" msprop:Generator_ColumnVarNameInTable="columnSaldo" msprop:Generator_ColumnPropNameInTable="SaldoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Percentagem" msprop:Generator_UserColumnName="Percentagem" msprop:Generator_ColumnPropNameInRow="Percentagem" msprop:Generator_ColumnVarNameInTable="columnPercentagem" msprop:Generator_ColumnPropNameInTable="PercentagemColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,139 @@
+﻿@model Modelo.Jornada
+@{
+    ViewBag.Title = "Cadastrar Jornada";
+}
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.Id);
+    @Html.HiddenFor(model => model.Incdata);
+    @Html.HiddenFor(model => model.Inchora);
+    @Html.HiddenFor(model => model.Incusuario);
+    @Html.HiddenFor(model => model.Altdata);
+    @Html.HiddenFor(model => model.Althora);
+    @Html.HiddenFor(model => model.Altusuario);
+    @Html.HiddenFor(model => model.Entrada_1Ant);
+    @Html.HiddenFor(model => model.Entrada_2Ant);
+    @Html.HiddenFor(model => model.Entrada_3Ant);
+    @Html.HiddenFor(model => model.Entrada_4Ant);
+    @Html.HiddenFor(model => model.Saida_1Ant);
+    @Html.HiddenFor(model => model.Saida_2Ant);
+    @Html.HiddenFor(model => model.Saida_3Ant);
+    @Html.HiddenFor(model => model.Saida_4Ant);
+    <div class="divCenterPequeno">
+        <div class="panel panel-default" style="padding:0">
+            <div class="panel-heading salvando">
+                @Html.ActionLink("X", "Grid", "Jornada", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">Cadastro de Jornada</h3>
+            </div>
+            <div class="panel-body panelConteudo">
+                @Html.ValidationMessage("CustomError")
+                @if (!String.IsNullOrEmpty(@ViewBag.MensagemBloqueio))
+                {
+                    <div class="alert alert-info" role="alert" style="margin-bottom:0">@Html.Raw(ViewBag.MensagemBloqueio)</div>
+                }
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm", @readonly = "disabled" })
+                            @Html.ValidationMessageFor(model => model.Codigo)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3" style="padding-left:0px; padding-right:0px">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Entrada_1, new { @class = "control-label label-sm" })
+                                @Html.TextBoxFor(model => model.Entrada_1, new { @class = "form-control input-sm timeL", @Style = "background:#CBE5E7;", @placeholder = "--:--" })
+                                @Html.ValidationMessageFor(model => model.Entrada_1)
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Saida_1, new { @class = "control-label label-sm" })
+                                @Html.TextBoxFor(model => model.Saida_1, new { @class = "form-control input-sm timeL", @placeholder = "--:--" })
+                                @Html.ValidationMessageFor(model => model.Saida_1)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-left:0px; padding-right:0px">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Entrada_2, new { @class = "control-label label-sm" })
+                                @Html.TextBoxFor(model => model.Entrada_2, new { @class = "form-control  input-sm timeL", @Style = "background:#CBE5E7;", @placeholder = "--:--" })
+                                @Html.ValidationMessageFor(model => model.Entrada_2)
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Saida_2, new { @class = "control-label label-sm" })
+                                @Html.TextBoxFor(model => model.Saida_2, new { @class = "form-control  input-sm timeL", @placeholder = "--:--" })
+                                @Html.ValidationMessageFor(model => model.Saida_2)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-left:0px; padding-right:0px">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Entrada_3, new { @class = "control-label label-sm" })
+                                @Html.TextBoxFor(model => model.Entrada_3, new { @class = "form-control  input-sm timeL", @Style = "background:#CBE5E7;", @placeholder = "--:--" })
+                                @Html.ValidationMessageFor(model => model.Entrada_3)
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Saida_3, new { @class = "control-label label-sm" })
+                                @Html.TextBoxFor(model => model.Saida_3, new { @class = "form-control  input-sm timeL", @placeholder = "--:--" })
+                                @Html.ValidationMessageFor(model => model.Saida_3)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-left:0px; padding-right:0px">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Entrada_4, new { @class = "control-label label-sm" })
+                                @Html.TextBoxFor(model => model.Entrada_4, new { @class = "form-control  input-sm timeL", @Style = "background:#CBE5E7;", @placeholder = "--:--" })
+                                @Html.ValidationMessageFor(model => model.Entrada_4)
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Saida_4, new { @class = "control-label label-sm" })
+                                @Html.TextBoxFor(model => model.Saida_4, new { @class = "form-control  input-sm timeL", @placeholder = "--:--" })
+                                @Html.ValidationMessageFor(model => model.Saida_4)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger salvando"
+                               href="@Url.Action("Grid", "Jornada")">
+                                <span class="glyphicon glyphicon-remove"></span> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(":input[type='text']:enabled:visible:first").focus();
+</script>
+
+@if (ViewBag.Consultar == 1 || !String.IsNullOrEmpty(@ViewBag.MensagemBloqueio))
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}

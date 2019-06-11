@@ -1,0 +1,238 @@
+@model List<Modelo.CamposSelecionadosRelCartaoPonto>
+@{
+    ViewBag.Title = "Campos para exibição no cartão ponto";
+}
+
+<style>
+    .custom-combobox {
+        position: relative;
+        display: inline-block;
+    }
+
+    .custom-combobox-toggle {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin-left: -1px;
+        padding: 0;
+    }
+
+    .custom-combobox-input {
+        margin: 0;
+        padding: 5px 10px;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    <div class="divCenterPequeno">
+        <div class="panel panel-default" style="padding:0">
+            <div class="panel-heading salvando">
+                @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo">
+                @Html.ValidationMessage("CustomError")
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FirstOrDefault().Posicao, new { @class = "control-label label-sm" })
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FirstOrDefault().PropriedadeModelo, new { @class = "control-label label-sm" })
+                        </div>
+                    </div>
+                </div>
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                    @Html.HiddenFor(model => model[i].Id);
+                    @Html.HiddenFor(model => model[i].Incdata);
+                    @Html.HiddenFor(model => model[i].Inchora);
+                    @Html.HiddenFor(model => model[i].Incusuario);
+                    @Html.HiddenFor(model => model[i].Altdata);
+                    @Html.HiddenFor(model => model[i].Althora);
+                    @Html.HiddenFor(model => model[i].Altusuario);
+                    @Html.HiddenFor(model => model[i].Codigo);
+                    @Html.HiddenFor(model => model[i].Posicao);
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                @Html.TextBoxFor(model => model[i].Posicao, new { @class = "form-control  input-sm" }).IsDisabled(true)
+                                @Html.ValidationMessageFor(model => model[i].Posicao)
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                @Html.DropDownListFor(model => model[i].PropriedadeModelo, new SelectList(ViewBag.Campos, "Value", "Text", Model[i].PropriedadeModelo), new { @class = "form-control input-sm comboSearch", style = "height: 25px;" })
+                                @Html.ValidationMessageFor(model => model[i].PropriedadeModelo)
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger salvando"
+                               href="@Url.Action("Index", "Home")">
+                                <span class="glyphicon glyphicon-remove"></span> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $("select:first").focus();
+
+  $( function() {
+    $.widget( "custom.combobox", {
+      _create: function() {
+        this.wrapper = $( "<span>" )
+          .addClass( "custom-combobox" )
+          .insertAfter( this.element );
+ 
+        this.element.hide();
+        this._createAutocomplete();
+        this._createShowAllButton();
+      },
+ 
+      _createAutocomplete: function() {
+        var selected = this.element.children( ":selected" ),
+          value = selected.val() ? selected.text() : "";
+ 
+        this.input = $( "<input>" )
+          .appendTo( this.wrapper )
+          .val( value )
+          .attr( "title", "" )
+          .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left" )
+          .autocomplete({
+            delay: 0,
+            minLength: 0,
+            source: $.proxy( this, "_source" )
+          })
+          .tooltip({
+            classes: {
+              "ui-tooltip": "ui-state-highlight"
+            }
+          });
+ 
+        this._on( this.input, {
+          autocompleteselect: function( event, ui ) {
+            ui.item.option.selected = true;
+            this._trigger( "select", event, {
+              item: ui.item.option
+            });
+          },
+ 
+          autocompletechange: "_removeIfInvalid"
+        });
+      },
+ 
+      _createShowAllButton: function() {
+        var input = this.input,
+          wasOpen = false;
+ 
+        $( "<a>" )
+          .attr( "tabIndex", -1 )
+          .attr( "title", "Show All Items" )
+          .tooltip()
+          .appendTo( this.wrapper )
+          .button({
+            icons: {
+              primary: "ui-icon-triangle-1-s"
+            },
+            text: false
+          })
+          .removeClass( "ui-corner-all" )
+          .addClass( "custom-combobox-toggle ui-corner-right" )
+          .on( "mousedown", function() {
+            wasOpen = input.autocomplete( "widget" ).is( ":visible" );
+          })
+          .on( "click", function() {
+            input.trigger( "focus" );
+ 
+            // Close if already visible
+            if ( wasOpen ) {
+              return;
+            }
+ 
+            // Pass empty string as value to search for, displaying all results
+            input.autocomplete( "search", "" );
+          });
+      },
+ 
+      _source: function( request, response ) {
+        var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
+        response( this.element.children( "option" ).map(function() {
+          var text = $( this ).text();
+          if ( this.value && ( !request.term || matcher.test(text) ) )
+            return {
+              label: text,
+              value: text,
+              option: this
+            };
+        }) );
+      },
+ 
+      _removeIfInvalid: function( event, ui ) {
+ 
+        // Selected an item, nothing to do
+        if ( ui.item ) {
+          return;
+        }
+ 
+        // Search for a match (case-insensitive)
+        var value = this.input.val(),
+          valueLowerCase = value.toLowerCase(),
+          valid = false;
+        this.element.children( "option" ).each(function() {
+          if ( $( this ).text().toLowerCase() === valueLowerCase ) {
+            this.selected = valid = true;
+            return false;
+          }
+        });
+ 
+        // Found a match, nothing to do
+        if ( valid ) {
+          return;
+        }
+ 
+        // Remove invalid value
+        this.input
+          .val( "" )
+          .attr( "title", value + " didn't match any item" )
+          .tooltip( "open" );
+        this.element.val( "" );
+        this._delay(function() {
+          this.input.tooltip( "close" ).attr( "title", "" );
+        }, 2500 );
+        this.input.autocomplete( "instance" ).term = "";
+      },
+ 
+      _destroy: function() {
+        this.wrapper.remove();
+        this.element.show();
+      }
+    });
+  } );
+  
+</script>
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}
+

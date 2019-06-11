@@ -1,0 +1,21 @@
+    *  {
+	margin:0;
+	padding:0;
+}
+ 
+html, body {height:100%;}
+ 
+.geral {
+	min-height:100%;
+	position:relative;
+	width:inherit;
+}
+
+.footer {
+	position:absolute!important;
+	bottom:0!important;
+	width:100%;
+}
+.content {overflow:hidden!important;}
+
+

@@ -1,0 +1,128 @@
+﻿@model Modelo.HorarioDetalhe
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.Incdata)
+@Html.HiddenFor(model => model.Inchora)
+@Html.HiddenFor(model => model.Incusuario)
+@Html.HiddenFor(model => model.Altdata)
+@Html.HiddenFor(model => model.Althora)
+@Html.HiddenFor(model => model.Altusuario)
+@Html.HiddenFor(model => model.Codigo)
+@Html.HiddenFor(model => model.Idhorario)
+@Html.HiddenFor(model => model.Dia)
+@Html.HiddenFor(model => model.Data)
+@Html.HiddenFor(model => model.Acao)
+
+<div class="row">
+    <div class="col-md-6">
+        @if (Model.Dia == 1)
+        {
+            <div class="row">
+                <div class="col-md-2">
+                    <button class="btn btn-primary input-sm sm" id="btnCheckDias" type="button"><span class="glyphicon glyphicon-check"></span></button>
+                </div>
+                <div class="col-md-10">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                @Html.TextBoxFor(model => model.DescJornada, new { @class = "form-control  input-sm lkpJornadaCopy", id = "lkpJornadaCopy", Name = "lkpJornadaCopy" })
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary lkpJornadaCopy" id="btnJornadaCopy" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                </span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-info" id="btnCopy" type="button"> Copiar <span class="glyphicon glyphicon-hand-down"></span></button>
+                                </span>
+                            </div>
+                            @Html.ValidationMessage("DescJornadaCopiar")
+                        </div>
+                    </div>
+                    <div class="col-md-1" style="padding-left:0;margin-left:0">
+                        @Html.LabelFor(model => model.Neutro, new { @class = "control-label label-sm" })
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="row">
+            <div class="col-md-2" style="margin-right:0px; padding-right:0px;">
+                <div class="checkbox" style="margin:0px;">
+                    <label>
+                        @Html.CheckBoxFor(model => model.bCarregarBool, new { @class = "checkboxDia pdias", id = string.Format("ckbDia{0}", Model.Dia) })
+                        @Html.Label(Model.DiaDesc, new { @class = "control-label label-sm", @for = string.Format("ckbDia{0}", Model.Dia) })
+                        @Html.ValidationMessageFor(model => model.bCarregarBool)
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="col-md-1">
+                    <label class="label label-primary input-sm sm" id=@string.Format("lbFeriado{0}", @Model.Dia)><b>F</b></label>
+                </div>
+                <div class="col-md-10">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            @Html.TextBoxFor(model => model.DescJornada, new { @class = "form-control  input-sm lkpJornada", id = string.Format("lkpJornada{0}", Model.Dia) })
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary lkpJornada" id=@string.Format("btnJornada{0}", @Model.Dia) type="button"><span class="glyphicon glyphicon-search"></span></button>
+                            </span>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.DescJornada)
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="checkbox" style="margin:0px;">
+                        <label>
+                            @Html.CheckBoxFor(model => model.Neutro, new { id = string.Format("ckbNeutro{0}", Model.Dia) })
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        @if (Model.Dia == 1)
+        {
+    <div class="row" style="text-align:center;">
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.Label("Diurna", new { @class = "control-label label-sm" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    @Html.Label("Noturna", new { @class = "control-label label-sm" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="row">
+                @Html.Label("Horário", new { @class = "control-label label-sm" })
+            </div>
+        </div>
+    </div>
+        }
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.TextBoxFor(model => model.Totaltrabalhadadiurna, new { @class = "form-control label-primary input-sm time totalHTrabDiurna", @readonly = "readonly", @style = "font-weight:bold;", @placeholder = "--:--", id = string.Format("txtHorarioDiurno{0}", Model.Dia)})
+                            @Html.ValidationMessageFor(model => model.Totaltrabalhadadiurna)
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.TextBoxFor(model => model.Totaltrabalhadanoturna, new { @class = "form-control label-primary input-sm time totalHTrabNoturna", @readonly = "readonly", @style = "font-weight:bold;", @placeholder = "--:--", id = string.Format("txtHorarioNoturno{0}", Model.Dia) })
+                            @Html.ValidationMessageFor(model => model.Totaltrabalhadanoturna)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.Cargahorariamista, new { @class = "form-control label-primary input-sm time totalHTrabMista", @readonly = "readonly", @style = "font-weight:bold;", @placeholder = "--:--", id = string.Format("txtHorarioMisto{0}", Model.Dia) })
+                    @Html.ValidationMessageFor(model => model.Cargahorariamista)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

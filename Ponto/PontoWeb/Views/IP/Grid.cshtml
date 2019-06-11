@@ -1,0 +1,57 @@
+﻿@model Modelo.IP
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "IP";
+    Layout = null;
+    string NomeTabela = "tbCadIP";
+}
+
+<div class="divCenterMedio">
+    <div class="panel panel-default" style="padding:0">
+        <div class="panel-heading">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="fecharModalGrid">X</button>
+            <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+        </div>
+        <div class="panel-body panelConteudo" id="panelBodyFixo">
+            @Html.ValidationSummary(true)
+            <div class="row">
+                @Html.GridFor(NomeTabela, Model.GetType(), false, "IP", "DadosGrid/" + (int)ViewBag.idEmpresa)
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-12 center-block">
+                    <div style="text-align: right">
+                        <a href="#" id="btConsultarIP" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
+                        <a href="#" id="btIncluirIP" class="btn btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
+                        <a href="#" id="btAlterarIP" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
+                        <a href="#" id="btExcluirIP" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var altura = cwk_AlturaTela() * 39 / 100;
+    var oTbIP = cwk_MontarDataTableTheme('#tbIP', '@ViewBag.Title', false, altura, "");
+    $(document).ready(function () {
+        cwk_EventoClickSelecionarSingle('#tbIP');
+        cwk_DbClickCadastroEditarAjaxParam('Alterar', 'IP', '#@NomeTabela', { idEmp: '@ViewBag.idEmpresa' });
+        cwk_EventoIncluirAjaxParam('#btIncluirIP', 'Cadastrar', 'IP', { idEmp: '@ViewBag.idEmpresa' });
+        cwk_EventoAlterarAjaxParam('#btAlterarIP', 'Alterar', 'IP', '#@NomeTabela', parametros = { idEmp: '@ViewBag.idEmpresa' });
+        cwk_EventoAlterarAjaxParam('#btConsultarIP', 'Consultar', 'IP', '#@NomeTabela', parametros = { idEmp: '@ViewBag.idEmpresa' })
+        cwk_EventoClickCadastroExcluir('#btExcluirIP', 'Excluir', 'IP', '#@NomeTabela', 'IP excluído com sucesso.');
+        $(window).bind('resize', function () {
+            oTbHist.fnAdjustColumnSizing();
+        });
+    })
+
+    $("#fecharModalGrid").click(function () {
+        $("#divLoadCadastroModal").hide();
+    });
+
+</script>

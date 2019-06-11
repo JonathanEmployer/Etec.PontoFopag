@@ -1,0 +1,154 @@
+﻿@model Modelo.HorarioDinamico
+@{
+Layout = null;
+}
+
+@foreach (var ciclo in Model.LHorarioCiclo)
+{
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.Label("jornada", "Jornada", new { @class = "control-label label-sm" })
+                    @Html.TextBox(ciclo.Codigo.ToString(), (ciclo.Jornada.Codigo + " | " + ciclo.Jornada.horarios), new { @class = "form-control  input-sm" }).IsDisabled(true)
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                            <div class="col-md-1 col-xs-2" style="padding-left:0px; padding-right:0px">
+                                <div class="form-group">
+                                    @Html.Label("E1", "E. 1", new { @class = "control-label label-sm" })
+                                    @Html.TextBoxFor(c => ciclo.Jornada.Entrada_1, new { @class = "form-control input-sm timeL EntradaIntervalo", @Style = "background:#CBE5E7;", @placeholder = "--:--" }).IsDisabled(true)
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xs-5">
+                                <div class="row">
+                                    <div class="col-md-4 col-xs-4">
+                                        <div class="form-group">
+                                            @Html.Label("S1", "S. 1", new { @class = "control-label label-sm" })
+                                            @Html.TextBoxFor(c => ciclo.Jornada.Saida_1, new { @class = "form-control input-sm timeL", @placeholder = "--:--" }).IsDisabled(true)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-xs-1">
+                                        @Html.Label("P1", "Pré.", new { @class = "control-label label-sm" })
+                                        <div class="checkbox" style="margin:0px;">
+                                            <label>
+                                                @Html.CheckBoxFor(c => ciclo.Preassinaladas1).IsDisabled(true)
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-xs-4">
+                                        <div class="form-group">
+                                            @Html.Label("E2", "E. 2", new { @class = "control-label label-sm" })
+                                            @Html.TextBoxFor(c => ciclo.Jornada.Entrada_2, new { @class = "form-control  input-sm timeL", @Style = "background:#CBE5E7;", @placeholder = "--:--" }).IsDisabled(true)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xs-5" style="padding-left:0px; padding-right:0px">
+                                <div class="col-md-4 col-xs-4">
+                                    <div class="form-group">
+                                        @Html.Label("S2", "S. 2", new { @class = "control-label label-sm" })
+                                        @Html.TextBoxFor(c => ciclo.Jornada.Saida_2, new { @class = "form-control  input-sm timeL", @placeholder = "--:--" }).IsDisabled(true)
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-xs-1">
+                                    @Html.Label("P2", "Pré.", new { @class = "control-label label-sm" })
+                                    <div class="checkbox" style="margin:0px;">
+                                        <label>
+                                            @Html.CheckBoxFor(c => ciclo.Preassinaladas2).IsDisabled(true)
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-xs-4">
+                                    <div class="form-group">
+                                        @Html.Label("E3", "E. 3", new { @class = "control-label label-sm" })
+                                        @Html.TextBoxFor(c => ciclo.Jornada.Entrada_3, new { @class = "form-control  input-sm timeL", @Style = "background:#CBE5E7;", @placeholder = "--:--" }).IsDisabled(true)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-offset-0 col-md-3 col-xs-offset-2 col-xs-5" style="padding-left:0px; padding-right:0px">
+                                <div class="col-md-4 col-xs-4">
+                                    <div class="form-group">
+                                        @Html.Label("S3", "S. 3", new { @class = "control-label label-sm" })
+                                        @Html.TextBoxFor(c => ciclo.Jornada.Saida_3, new { @class = "form-control  input-sm timeL", @placeholder = "--:--" }).IsDisabled(true)
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-xs-1">
+                                    @Html.Label("P3", "Pré.", new { @class = "control-label label-sm" })
+                                    <div class="checkbox" style="margin:0px;">
+                                        <label>
+                                            @Html.CheckBoxFor(c => ciclo.Preassinaladas3).IsDisabled(true)
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-xs-4">
+                                    <div class="form-group">
+                                        @Html.Label("E4", "E. 4", new { @class = "control-label label-sm" })
+                                        @Html.TextBoxFor(c => ciclo.Jornada.Entrada_4, new { @class = "form-control  input-sm timeL", @Style = "background:#CBE5E7;", @placeholder = "--:--" }).IsDisabled(true)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1 col-xs-4" style="padding-left:0px; padding-right:0px">
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="form-group">
+                                        @Html.Label("S4", "S. 4", new { @class = "control-label label-sm" })
+                                        @Html.TextBoxFor(c => ciclo.Jornada.Saida_4, new { @class = "form-control  input-sm timeL" }).IsDisabled(true)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.Label("descCiclo", "Ciclo", new { @class = "control-label label-sm" })
+                            @Html.TextBox(ciclo.Indice.ToString() + " Ciclo", ciclo.Indice.ToString(), new { @class = "form-control  input-sm" }).IsDisabled(true)
+                        </div>
+                        <div class="col-md-12">
+                            @Html.Label("Sequencias", "Sequências", new { @class = "control-label label-sm" })
+                            @Html.TextBox(ciclo.Codigo.ToString(), ciclo.QtdSequencia, new { @class = "form-control  input-sm" }).IsDisabled(true)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="row">
+                        @Html.Label("Sequencia", "Sequência", new { @class = "control-label label-sm" })
+                    </div>
+                    <div class="row">
+                        @Html.Label("Trab.", "Trab.", new { @class = "control-label label-sm" })
+                    </div>
+                    <div class="row">
+                        @Html.Label("Folga", "Folga", new { @class = "control-label label-sm" })
+                    </div>
+                    <div class="row">
+                        @Html.Label("DSR", "DSR", new { @class = "control-label label-sm" })
+                    </div>
+                </div>
+                @foreach (var seq in ciclo.LHorarioCicloSequencia)
+                {
+                    <div class="col-md-1">
+                        <div class="row">
+                            @Html.Label(seq.Indice.ToString(), seq.Indice.ToString(), new { @class = "control-label label-sm" })
+                            @Html.RadioButton("CicloSequenciaIndice", seq.Indice)
+                        </div>
+                        <div class="row">
+                            @Html.CheckBoxFor(c => seq.Trabalha).IsDisabled(true)
+                        </div>
+                        <div class="row">
+                            @Html.CheckBoxFor(c => seq.Folga).IsDisabled(true)
+                        </div>
+                        <div class="row">
+                            @Html.CheckBoxFor(c => seq.Dsr).IsDisabled(true)
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+}
+

@@ -1,0 +1,10 @@
+sexta-feira, 24 de novembro de 2017 14:10:52
+MENSAGEM: A solicitação não está disponível neste contexto
+STACKTRACE: 
+   em System.Web.HttpContext.get_Request()
+   em Employer.PlataformaLog.LogError.WriteLog(Exception ex, ErroLogTmp log, String& sMessage, String sCustonMessage, Boolean bInnerExption) na e:\TFS\Employer.Componentes\src\Employer.Componentes-Base\Employer.PlataformaLog\LogError.cs:linha 240
+   em Employer.PlataformaLog.LogError.WriteLog(Exception ex, String& sMessage, String sCustonMessage) na e:\TFS\Employer.Componentes\src\Employer.Componentes-Base\Employer.PlataformaLog\LogError.cs:linha 130
+INNER EXCEPTION: 
+HELP LINK: 
+SOURCE: System.Web
+

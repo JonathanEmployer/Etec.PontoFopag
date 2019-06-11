@@ -1,0 +1,64 @@
+﻿@model Modelo.REP
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Cadastrar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string nomeTabela = "tbRep";
+}
+
+<div class="">
+    <div class="panel panel-default" style="padding:0; margin-bottom:0">
+        <div class="panel-heading">
+            @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+            <h3 class="panel-title titulo-pagina">Rep</h3>
+        </div>
+		<div class="panel-body panelConteudo" id="panelBodyFixo">
+			@Html.ValidationSummary(true)
+			<div class="row">
+				@Html.GridFor(nomeTabela, Model.GetType(), false, "REP", "DadosGrid")
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					@Html.Partial("../JobManager/JobView")
+				</div>
+			</div>
+		</div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class="center-block">
+                    <div class="col-md-7">
+                        <a href="#" id="btHistoricoLocal" class="btn btn-default"><span class="glyphicon glyphicon-list-alt"></span>&nbsp; Histórico local </a>
+                        <a href="https://api.pontofopag.com.br/Download?arquivo=ServicoComunicador" id="btDownloadComunicador" class="btn btn-default"><span class="glyphicon glyphicon-download"></span>&nbsp; Comunicador </a>
+                        <button id="btLog" class="btn btn-default"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;Log Comunicação</button>
+                        <button id="btLogAFD" class="btn btn-default"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;Log Importacao</button>
+                        <button id="btRelBilhetes" class="btn btn-default"><span class="fa fa-file-excel-o"></span>&nbsp;Rel. Bilhetes</button>
+                    </div>
+                    <div class="col-md-5" style="text-align: right">
+                        <a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
+                        <a href="#" id="btIncluir" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
+                        <a href="#" id="btAlterar" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
+                        <a href="#" id="btExcluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var nomeTabela = "#" + '@nomeTabela';
+	$(document).ready(function () {
+		cwk_EventoDbClickEditar('Alterar', 'Rep', nomeTabela);
+        
+        cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', 'Rep', nomeTabela);
+        cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', 'Rep');
+        cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', 'Rep', nomeTabela);
+        cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir', 'Rep', nomeTabela, 'Rep excluído com sucesso. ');
+        cwk_EventoAlterarAjaxParam('#btHistoricoLocal', 'Grid', 'RepHistoricoLocal', nomeTabela, "");
+        cwk_EventoAlterarAjaxParam('#btRelBilhetes', 'RelatorioBilhetesRep', 'RelatorioBilhetesRep', nomeTabela, "");
+
+        cwk_EventoAlterarAjaxParam('#btLog', 'Grid', 'RepLog', nomeTabela, "");
+        cwk_EventoAlterarAjaxParam('#btLogAFD', 'Grid', 'RepLogAFD', nomeTabela, "");
+    });
+</script>

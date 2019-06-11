@@ -1,0 +1,504 @@
+﻿@using PontoWeb.Utils
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="@Url.Content("~/content/IconeCwork.png")" />
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/homecss")
+    @Styles.Render("~/Content/dataTablecss")
+    @Styles.Render("~/Content/uploadImagecss")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("head", required: false)
+    <script type = 'text/javascript' >
+        var appInsights = window.appInsights || function (a) {
+            function b(a) { c[a] = function () { var b = arguments; c.queue.push(function () { c[a].apply(c, b) }) } } var c = { config: a }, d = document, e = window; setTimeout(function () { var b = d.createElement("script"); b.src = a.url || "https://az416426.vo.msecnd.net/scripts/a/ai.0.js", d.getElementsByTagName("script")[0].parentNode.appendChild(b) }); try { c.cookie = d.cookie } catch (a) { } c.queue = []; for (var f = ["Event", "Exception", "Metric", "PageView", "Trace", "Dependency"]; f.length;)b("track" + f.pop()); if (b("setAuthenticatedUserContext"), b("clearAuthenticatedUserContext"), b("startTrackEvent"), b("stopTrackEvent"), b("startTrackPage"), b("stopTrackPage"), b("flush"), !a.disableExceptionTracking) { f = "onerror", b("_" + f); var g = e[f]; e[f] = function (a, b, d, e, h) { var i = g && g(a, b, d, e, h); return !0 !== i && c["_" + f](a, b, d, e, h), i } } return c
+        }({
+            instrumentationKey: "2f3291a3-0eb7-4622-96eb-1913aec8751a"
+        });
+
+        window.appInsights = appInsights, appInsights.queue && 0 === appInsights.queue.length && appInsights.trackPageView();
+    </script>
+</head>
+<body>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/homejs")
+    @Scripts.Render("~/bundles/dataTablejs")
+    @Scripts.Render("~/bundles/paginajs")
+    @Scripts.Render("~/bundles/uploadImagejs")
+
+    <div class="navbar navbar-fixed-top" role="navigation">
+        <!-- Barra de navegação dos dropdown -->
+        <div class="navbar-img navbar-inner" id="divImagem">
+            <!-- Agrupa os menus de icones para melhor visualização nos celulares -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bsnavbarcollapseimg">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div>
+                    <a class="brand  hidden-sm hidden-sm hidden-md" href="@Url.Action("index", "home")">@Html.LogoEmpresa()</a>
+                </div>
+            </div>
+            <!-- Menus de icones -->
+            <div class="collapse navbar-collapse" id="bsnavbarcollapseimg">
+                <!-- Icones da esquerda-->
+                <ul class="nav nav-pills navbar-left">
+                    <li>@Html.Raw(Html.ActionLink("[replacetext]", "Grid", "Funcionario", null, new { title = "Funcionário" }).ToHtmlString().Replace("[replacetext]", "<img src=\"/Content/img/func.png\" class=\"img-responsive iconemenu\"/>"))</li>
+                    <li>@Html.Raw(Html.ActionLink("[replacetext]", "TabelaMarcacao", "Marcacao", null, new { title = "Marcação" }).ToHtmlString().Replace("[replacetext]", "<img src=\"/Content/img/Marcacoes.png\" class=\"img-responsive iconemenu\"/>"))</li>
+                    <li>@Html.Raw(Html.ActionLink("[replacetext]", "TabelaMarcacao", "ManutencaoDiaria", null, new { title = "Manutenção Diária" }).ToHtmlString().Replace("[replacetext]", "<img src=\"/Content/img/ManutMarca.png\" class=\"img-responsive iconemenu\"/>"))</li>
+                    <li>@Html.Raw(Html.ActionLink("[replacetext]", "Grid", "Horario", null, new { title = "Horário Normal" }).ToHtmlString().Replace("[replacetext]", "<img src=\"/Content/img/Horario.png\" class=\"img-responsive iconemenu\"/>"))</li>
+                    <li>@Html.Raw(Html.ActionLink("[replacetext]", "Grid", "HorarioMovel", null, new { title = "Horário Flexível" }).ToHtmlString().Replace("[replacetext]", "<img src=\"/Content/img/HorarioMovel.png\" class=\"img-responsive iconemenu\"/>"))</li>
+                    <li>@Html.Raw(Html.ActionLink("[replacetext]", "CartaoPonto", "RelatorioCartaoPonto", null, new { title = "Cartão Ponto" }).ToHtmlString().Replace("[replacetext]", "<img src=\"/Content/img/CartaoPonto.png\" class=\"img-responsive iconemenu\"/>"))</li>
+                    <li>@Html.Raw(Html.ActionLink("[replacetext]", "Cadastrar", "MudancaHorario", null, new { title = "Mudança de Horário" }).ToHtmlString().Replace("[replacetext]", "<img src=\"/Content/img/FuncHora.png\" class=\"img-responsive iconemenu\"/>"))</li>
+                    <li>@Html.Raw(Html.ActionLink("[replacetext]", "Importar", "ImportacaoBilhetes", null, new { title = "Importação de AFD" }).ToHtmlString().Replace("[replacetext]", "<img src=\"/Content/img/ImpBilhete.png\" class=\"img-responsive iconemenu\"/>"))</li>
+                    <li class="dropdown" id="menuCalcHora">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#menuCadastroCalcHora">
+                            <img src="~/Content/img/CalcHora.png" class="img-responsive iconemenu" title="Calculadora de Horas" />
+                        </a>
+                    </li>
+                    <li>
+                        <button class="btn btn-default btn-lg btn-link" style="font-size:36px;" onclick="location.href='@Url.Action("Index", "JobManager")'">
+                            <span class="glyphicon glyphicon-flag" style="color:white"></span>
+                        </button>
+                        <span id="badgeCalcProcessados" class="badge badge-notify">0</span>
+                    </li>
+                </ul>
+
+
+                <!-- /Fim Icones da esquerda -->
+                <!-- Icones da direita-->
+                <ul class="nav nav-pills navbar-right">
+                    @*<li>@Html.Raw(Html.ActionLink("[replacetext]", "Grid", "Alertas", null, new { title = "Teste" }).ToHtmlString().Replace("[replacetext]", "<i class=\"fa fa-list-alt\" aria-hidden=\"true\" title=\"Suporte Online\" style=\"color:#fff; font-size: 3.45em;\"></i>"))</li>*@
+                    @if (@PontoWeb.Controllers.BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache().EmpresaPrincipal.IDRevenda < 10)
+                    {
+                        <li class="dropdown" id="suporte">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="" onclick="Suporte()">
+                                <i class="fa fa-comments" aria-hidden="true" title="Suporte Online" style="color:#fff; font-size: 3.45em;"></i>
+                            </a>
+                        </li>
+                    }
+                    <li>@Html.Raw(Html.ActionLink("[replacetext]", "LogOut", "Usuario", null, new { title = "Sair" }).ToHtmlString().Replace("[replacetext]", "<img src=\"/Content/img/logout.png\" class=\"img-responsive iconemenu\"/>"))</li>
+                </ul>
+                <!-- Fim da direita-->
+            </div> <!-- Fim Menu Icones-->
+        </div>
+        <!-- menus dropdown -->
+        <div class="navbar-default">
+            <!-- Agrupa os menus dropdown para melhor visualização nos celulares -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bsnavbarcollapse">
+                    <span class="sr-only">Expandir Menu</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="brand" href="#"><img src="~/Content/img/LogoCworkPreto.png" class="img-responsive logo_empresa exibeApenasCelular"></a>
+            </div>
+
+            <!-- menus dropdown -->
+            <div class="collapse navbar-collapse" id="bsnavbarcollapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastro<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-submenu">
+                                <a href="#">Gerais</a>
+                                <ul class="dropdown-menu">
+                                    <li> @Html.ActionLink("Pessoa", "Grid", "Pessoa") </li>
+                                    <li> @Html.ActionLink("Empresa", "Grid", "Empresa") </li>
+                                    <li> @Html.ActionLink("Departamento", "Grid", "Departamento") </li>
+                                    <li> @Html.ActionLink("Contrato", "Grid", "Contrato") </li>
+                                    <li> @Html.ActionLink("Função", "Grid", "Funcao") </li>
+                                </ul>
+                            </li>
+                            <li role="presentation" class="divider"></li>
+                            <li> @Html.ActionLink("Funcionário", "Grid", "Funcionario") </li>
+                            <li role="presentation" class="divider"></li>
+                            <li>
+                                @Html.ActionLink("Jornada", "Grid", "Jornada")
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a href="#">Horário</a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Normal", "Grid", "Horario")</li>
+                                    <li>@Html.ActionLink("Flexível", "Grid", "HorarioMovel")</li>
+                                    <li>@Html.ActionLink("Dinâmico", "Grid", "HorarioDinamico")</li>
+                                </ul>
+                            </li>
+                            <li role="presentation" class="divider"></li>
+                            <li> @Html.ActionLink("Jornada Alternativa", "Grid", "JornadaAlternativa")</li>
+                            <li> @Html.ActionLink("Feriado", "Grid", "Feriado") </li>
+                            <li> @Html.ActionLink("Compensação", "Grid", "Compensacao") </li>
+                            <li role="presentation" class="divider"></li>
+                            <li>
+                                @Html.ActionLink("Rep", "Grid", "Rep")
+                            </li>
+                            <li role="presentation" class="divider"></li>
+                            <li>
+                                @Html.ActionLink("Afastamento", "Grid", "Afastamento")
+                            </li>
+                            <li role="presentation" class="divider"></li>
+                            <li> @Html.ActionLink("Ocorrência", "Grid", "Ocorrencia") </li>
+                            <li> @Html.ActionLink("Justificativa", "Grid", "Justificativa") </li>
+                            <li> @Html.ActionLink("Classificação", "Grid", "Classificacao") </li>
+                            <li> @Html.ActionLink("Alocação", "Grid", "Alocacao") </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banco Horas<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Cadastro de Banco de Horas", "Grid", "BancoHoras")</li>
+                            <li role="presentation" class="divider"></li>
+                            <li>@Html.ActionLink("Fechamento do Banco de Horas", "Grid", "FechamentoBH")</li>
+                            <li>@Html.ActionLink("Lançamento de Crédito/Débito", "Grid", "LancamentoCreditoDebito")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configuração<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Parâmetro", "Grid", "Parametro")</li>
+                            <li>@Html.ActionLink("Geral", "Cadastrar", "ConfiguracaoGeral")</li>
+                            <li>@Html.ActionLink("Cartão Ponto Customizável", "Cadastrar", "CamposSelecionadosRelCartaoPonto")</li>
+                            <li role="presentation" class="divider"></li>
+                            <li>@Html.ActionLink("Alertas", "Grid", "Alertas")</li>
+                            <li>@Html.ActionLink("Situação Reps", "SituacaoReps", "Rep")</li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Manutenção<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                @Html.ActionLink("Marcação", "TabelaMarcacao", "Marcacao")
+                            </li>
+                            <li>@Html.ActionLink("Manutenção Diária", "TabelaMarcacao", "ManutencaoDiaria")</li>
+                            <li role="presentation" class="divider"></li>
+                            <li>
+                                @Html.ActionLink("Mudança de Horário", "Cadastrar", "MudancaHorario")
+                            </li>
+                            <li>
+                                @Html.ActionLink("Código Provisório", "Grid", "Provisorio")
+                            </li>
+                            <li>
+                                @Html.ActionLink("Recalcular Marcações", "Recalcular", "RecalculaMarcacao")
+                            </li>
+                            <li role="presentation" class="divider"></li>
+                            <li>@Html.ActionLink("Funcionário Excluído", "Grid", "FuncionarioExcluido")</li>
+                            <li>
+                                @Html.ActionLink("Mudança de Código do Funcionário", "Grid", "MudCodigoFunc")
+                            </li>
+                            <li role="presentation" class="divider"></li>
+                            <li>
+                                @Html.ActionLink("Importação de AFD", "Importar", "ImportacaoBilhetes")
+                            </li>
+                            <li role="presentation" class="divider"></li>
+                            <li class="dropdown-submenu">
+                                <a href="#">Rep</a>
+                                <ul class="dropdown-menu">
+                                    <li> @Html.ActionLink("Enviar Empresa e Funcionários", "Grid", "EnvioDadosRep")</li>
+                                    <li>@Html.ActionLink("Configurar Horário Relógio", "Cadastrar", "EnvioConfiguracoesDataHora")</li>
+                                    <li>@Html.ActionLink("Log Comunicador", "GridComunicador", "EnvioDadosRep")</li>
+                                </ul>
+                            </li>
+                            <li role="presentation" class="divider"></li>
+                            <li>
+                                @Html.ActionLink("Fechamento Ponto", "Grid", "FechamentoPonto")
+                            </li>
+                            <li role="presentation" class="divider"></li>
+                            <li class="dropdown-submenu">
+                                <a href="#">Lançamentos em Lote</a>
+                                <ul class="dropdown-menu">
+                                    <li> @Html.ActionLink("Mudança Horário", "Grid", "LancamentoLoteMudancaHorario")</li>
+                                    <li> @Html.ActionLink("Marcação Manual", "Grid", "LancamentoLoteBilhetesImp")</li>
+                                    <li> @Html.ActionLink("Afastamento", "Grid", "LancamentoLoteAfastamento")</li>
+                                    <li> @Html.ActionLink("Folgas", "Grid", "LancamentoLoteFolga")</li>
+                                    <li> @Html.ActionLink("Crédito/Débito", "Grid", "LancamentoLoteInclusaoBanco")</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Exportação<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Eventos para Exportação", "Grid", "Eventos")</li>
+                            <li>@Html.ActionLink("Lista de Eventos", "Grid", "ListaEventos")</li>
+                            <li role="presentation" class="divider"></li>
+                            <li>@Html.ActionLink("Layout de Exportação", "Grid", "LayoutExportacao")
+                            <li>@Html.ActionLink("Exportação Webfopag", "AlterarWebfopag", "ExportacaoFolha", new { titulo = "Exportação Webfopag", id = "0" }, null)
+                            <li>@Html.ActionLink("Exportação Txt", "AlterarWebfopag", "ExportacaoFolha", new { titulo = "Exportação Txt", id = "-1" }, null)
+                            <li role="presentation" class="divider"></li>
+                            <li>@Html.ActionLink("Ministério do Trabalho", "Exportar", "ExportacaoMinisterioTrabalho")</li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Relatório<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-submenu">
+                                <a href="#">Cadastrais</a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Funcionário", "Funcionario", "RelatorioFuncionario")</li>
+                                    <li>@Html.ActionLink("Histórico", "Historico", "RelatorioHistorico")</li>
+                                    <li>@Html.ActionLink("Horário", "Horario", "RelatorioHorario")</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a href="#">Específicos</a>
+                                <ul class="dropdown-menu">
+                                    @if (@PontoWeb.Controllers.BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache().EmpresaPrincipal.utilizaregistradorfunc)
+                                    {
+                                        <li>@Html.ActionLink("Localização de Registro Ponto", "Index", "RelatorioLocalizacaoRegistroPonto")</li>
+                                    }
+                                    <li>@Html.ActionLink("Bilhetes Importados", "BilhetesImp", "RelatorioBilhetesImp")</li>
+                                    <li>@Html.ActionLink("Classificação Horas Extras", "Index", "RelClassHorasExtras")</li>
+                                    <li>@Html.ActionLink("Homem Hora", "HomemHora", "RelatorioHomemHora")</li>
+                                    <li>@Html.ActionLink("Horas Trabalhadas Noturnas", "Index", "RelatorioHorasTrabalhadasNoturnas")</li>
+                                    <li>@Html.ActionLink("In Itinere", "Index", "RelatorioHorasInItinere")</li>
+                                    <li>@Html.ActionLink("Total de Horas", "Index", "RelatorioTotalHoras")</li>
+                                </ul>
+                            </li>
+                            <li>@Html.ActionLink("Afastamento", "Ocorrencia", "RelatorioAfastamento")</li>
+                            <li role="presentation" class="divider"></li>
+                            <li>@Html.ActionLink("Banco de Horas", "BancoHoras", "RelatorioBancoHoras")</li>
+                            <li>@Html.ActionLink("Fechamento por Percentual de Horas Extras", "FechamentoPercentualHE", "RelatorioFechamentoPercentualHE")</li>
+                            <li class="dropdown-submenu">
+                                <a href="#">Cartão Ponto</a>
+                                <ul class="dropdown-menu">
+                                    <li> @Html.ActionLink("Modelo Padrão", "CartaoPonto", "RelatorioCartaoPonto")</li>
+                                    <li>@Html.ActionLink("Modelo 2", "CartaoPonto", "RelatorioCartaoPontoHTML")</li>
+                                    <li>@Html.ActionLink("Customizável", "Index", "RelatorioCartaoPontoCustom")</li>
+                                </ul>
+                            </li>
+                            <li>@Html.ActionLink("Espelho", "Espelho", "RelatorioEspelho")</li>
+                            <li>@Html.ActionLink("Manutenção Diária", "ManutencaoDiaria", "RelatorioManutencaoDiaria")</li>
+                            <li role="presentation" class="divider"></li>
+                            <li class="dropdown-submenu">
+                                <a href="#">Horas Extras</a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Hora Extra", "HoraExtra", "RelatorioHoraExtra")</li>
+                                    <li>@Html.ActionLink("Horas Extras - Local", "HorasExtras", "RelatorioHorasExtrasLocal")</li>
+                                </ul>
+                            </li>
+                            <li role="presentation" class="divider"></li>
+                            <li>@Html.ActionLink("Intervalos", "Intervalos", "RelatorioIntervalos")</li>
+                            <li>@Html.ActionLink("Ocorrência", "Ocorrencias", "RelatorioOcorrencias")</li>
+                            <li>@Html.ActionLink("Presença", "Presenca", "RelatorioPresenca")</li>
+                            <li class="dropdown-submenu">
+                                <a href="#">Absenteísmo</a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Absenteísmo", "Absenteismo", "RelatorioAbsenteismo")</li>
+                                    <li>@Html.ActionLink("Absenteísmo Modelo 2", "Index", "RelatorioAbsenteismoV2")</li>
+                                </ul>
+                            </li>
+                            <li>@Html.ActionLink("Inconsistências", "Inconsistencias", "RelatorioInconsistencias")</li>
+                            <li>@Html.ActionLink("Abonos", "Abono", "RelatorioAbono")</li>
+                            <li>@Html.ActionLink("Registros", "Registros", "RelatorioRegistros")</li>
+                            <li>@Html.ActionLink("Bloqueio/Conclusão Painel do RH", "ConclusoesBloqueioPnlRh", "RelatorioConclusoesBloqueioPnlRh")</li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Segurança<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Grupo de Usuário", "Grid", "GrupoUsuario")</li>
+                            <li>@Html.ActionLink("Acesso por Grupo", "Grid", "GrupoAcesso")</li>
+                            <li role="presentation" class="divider"></li>
+                            <li>@Html.ActionLink("Usuário", "Grid", "Usuario")</li>
+                            <li>@Html.ActionLink("Sair", "LogOut", "Usuario")</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- Fim menus dropdown -->
+
+        </div>
+    </div>
+
+    <!--[if gte IE 9]>
+    <style type="text/css">.cwork-formBg {filter: none;}</style><![endif]-->
+    @*<span style="position: absolute; left:72px; top:17px; z-index:0"><img src="~/Content/img/cwork-logo.png" alt="cwork-logo.png" /> </span>*@
+    <div id="wrap">
+        @Html.TipoServidor()
+        <div id="main">
+            <div class="divPage">
+
+                @*<div class="col-md-12">
+                    <div class="row">
+                        <button type="button" id="btCalculo"> Calcular</button>
+                    </div>
+                </div>*@
+
+                @Html.Partial("~/Views/CalculosMarcacao/Index.cshtml")
+                @RenderBody()
+                <div id="divSubstituir"></div>
+            </div>
+            @* DIV PARA CARREGAR CADASTROS ----------------------------------------------------------------------------------------- *@
+            <div id="divLoadCadastros"></div>
+        </div>
+    </div>
+
+    <div id="footer" class="footer" style="z-index:-1">
+        @Html.TipoServidor()
+        <div class="container-fluid">
+            <div class="row">
+                <hr class="hrFooter" />
+                <div class="col-md-4 col-sm-4 info-footer" style="margin-bottom:0px;">
+                    <p>&copy; @DateTime.Now.Year - Pontofopag - V. @ViewContext.Controller.GetType().Assembly.GetName().Version</p>
+                </div>
+                <div class="col-md-8 col-sm-8 info-footer NaoExibeCelular" style="margin-bottom:0px;">
+                    <p>@Html.Saudacao()</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="loading" class="modal" style="background:rgba(255,255,255,0.5);z-index:9999">
+        <div style="height: 200px; width: 400px; position: fixed; left: 45%; top: 40%; margin: -25px 0 0 -25px; z-index: 9999998; overflow-y: hidden;">
+            <div id="circularG" style="text-align:center;">
+                <div id="circularG_1" class="circularG">
+                </div>
+                <div id="circularG_2" class="circularG">
+                </div>
+                <div id="circularG_3" class="circularG">
+                </div>
+                <div id="circularG_4" class="circularG">
+                </div>
+                <div id="circularG_5" class="circularG">
+                </div>
+                <div id="circularG_6" class="circularG">
+                </div>
+                <div id="circularG_7" class="circularG">
+                </div>
+                <div id="circularG_8" class="circularG">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* DIV para carregar paginas de consulta-------------------------------------------------------------------------------- *@
+    <div id="divLoadModalLkp" style="z-index: 9999999" class="modal" accesskey="" data-keyboard="false" data-backdrop="static"></div>
+
+    @* DIV para carregar paginas de Cadastro-------------------------------------------------------------------------------- *@
+    <div id="divLoadCadastroModal" class="modal divCenterGrande" accesskey="" data-keyboard="false" data-backdrop="static" style="background:rgba(0,0,0,0.4)"></div>
+
+    @* DIV para carregar Relatórios----------------------------------------------------------------------------------------- *@
+    <div id="divRelatorio" class="modal fade" accesskey="" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog" style="width:820px;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn btn-default" onclick="printDiv('divLoadRelatorio')">Imprimir <span class="glyphicon glyphicon-print"></span></button>
+                    <button type="button" class="close" onclick="CloseModalRelatorio()"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div style="height: 450px; overflow-y: auto;">
+                        <div id="divLoadRelatorio">
+
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <script>
+    function CloseModalRelatorio() {
+            $('#divRelatorio').modal('hide');
+        }
+        window.onresize = checkSize();
+        window.onload = checkSize();
+
+        $(window).resize(function () {
+            checkSize();
+        });
+
+        //Efeito pra abrir o dropdown
+        $('.navbar .dropdown').hover(function () {
+            $(this).find('.dropdown-menu').first().stop(true, true).delay(200).slideDown();
+        }, function () {
+            $(this).find('.dropdown-menu').first().stop(true, true).delay(100).slideUp()
+        });
+
+        //// Botoes com essa classe serão desabilitados quando clicado em algum deles (Utilizados nos botoes Salvar, Cancelar e fechar das telas de cadastro)
+        $(function () {
+            $('form').submit(function () {
+                if ($(this).find('.input-validation-error').length == 0) {
+                    $(".salvando").prop('disabled', true);
+                    $(".salvando").attr("disabled", true);
+                }
+                else {
+                    $(".salvando").prop('disabled', false);
+                    $(".salvando").removeAttr("disabled");
+                }
+            });
+        });
+    </script>
+
+    <script src="/signalr/hubs"></script>
+    <script>
+        @*// Quando carregar a página verifica se existe processo de job para mostrar a progress
+        $(document).ready(function () {
+            verificaProgress();
+            $(".comment").shorten({
+                "showChars": 240
+            });
+        });
+
+        // A cada 10 segundos se a modal do progress estiver visivel chama novamente o método que verifica o job para ver se ainda existe job ativo
+        setInterval(
+            function () {
+                if ($('#divModalProgress').hasClass('in')) {
+                    verificaProgress();
+                }
+            },
+            10000);*@
+
+        cwk_EventoAbrirCadastroAjaxParam('#menuCalcHora', 'CalculadoraHora', 'Horario', null, '#divLoadCadastroModal');
+
+    function printDiv(divName) {
+        var hashid = "#" + divName;
+        var tagname = $(hashid).prop("tagName").toLowerCase();
+        var attributes = "";
+        var attrs = document.getElementById(divName).attributes;
+        $.each(attrs, function (i, elem) {
+            attributes += " " + elem.name + " ='" + elem.value + "' ";
+        })
+        var divToPrint = $(hashid).html();
+        var head = "<html><head>" + $("head").html() + "</head>";
+        var allcontent = head + "<body  onload='window.print(); window.close()' style='background: #fff;' >" + "<" + tagname + attributes + ">" + divToPrint + "</" + tagname + ">" + "</body></html>";
+        var newWin = window.open('', 'Imprimir', 'height=' + screen.height + ',width=' + screen.width + ',resizable=yes,scrollbars=yes,toolbar=yes,menubar=yes,location=yes');
+        newWin.document.open();
+        newWin.document.write(allcontent);
+        newWin.document.close();
+    }
+    </script>
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-56182783-1', 'auto');
+        ga('send', 'pageview');
+
+        function Suporte() {
+            $.ajax({
+                url: "/Home/Suporte",
+                success: function (data) {
+                    console.log(data);
+                    window.open(data.url, data.div, data.config);
+                }
+            })
+        }
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d517827d2e414c1fbadc5e58c2872c2b" Name="Diagram1">
+        <EntityTypeShape EntityType="SERVCOM_NETModel.AGENDAMENTOS" Width="1.5" PointX="9.75" PointY="78.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.ASSOCIARLOTETEMP" Width="1.5" PointX="12" PointY="99" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.CARTAO" Width="1.5" PointX="12" PointY="74.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.CENTROCUSTO" Width="1.5" PointX="7.5" PointY="101.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.COLETA" Width="1.5" PointX="14.25" PointY="65.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.CONFIGURACOES" Width="1.5" PointX="0.75" PointY="89.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.CONFIGURACOESBANCODEDADOS" Width="1.5" PointX="9.75" PointY="73.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.CONFIGURACOESBIO" Width="1.5" PointX="6" PointY="86" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.CONFIGURACOESLITE" Width="1.5" PointX="3" PointY="89.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.CONFIGURACOESMINIREP" Width="1.5" PointX="3" PointY="99.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.CONFIGURACOESMPIP" Width="1.5" PointX="3" PointY="86.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.CONFIGURACOESNBIO" Width="1.5" PointX="9" PointY="86" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.CONFIGURACOESREP" Width="1.5" PointX="3" PointY="116.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.CONFIGURACOESSERVICOS" Width="1.5" PointX="7.5" PointY="106.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.CONTROLECUSTOMIZACAO" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.EMPRESA" Width="1.5" PointX="9.75" PointY="96.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.EXECUCAOCOMANDO" Width="1.5" PointX="17.25" PointY="89" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.EXECUCAOPARCIALGSM" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.FERIADO" Width="1.5" PointX="6" PointY="77.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.FERIADOGRUPO" Width="1.5" PointX="3.75" PointY="82.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.FORMATOEXPORTACAO" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.FORMATOEXPORTACAOPENDRIVE" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.FORMATONOMEARQUIVO" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.GRUPOJORNADA" Width="1.5" PointX="3.75" PointY="79.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.GRUPOJORNADADETALHE" Width="1.5" PointX="23.25" PointY="90.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.HISTEXECUCAOCOMANDO" Width="1.5" PointX="14.25" PointY="93" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.HISTORICOSTATUSRELOGIO" Width="1.5" PointX="14.25" PointY="77.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.HISTSINCRONIZACAOCARTAO" Width="1.5" PointX="14.25" PointY="85.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.HISTSINCRONIZACAOCENTROCUSTO" Width="1.5" PointX="17.25" PointY="85.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.HISTSINCRONIZACAOCONFIGURACAO" Width="1.5" PointX="14.25" PointY="89" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.HISTSINCRONIZACAOPESSOA" Width="1.5" PointX="17.25" PointY="93.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.HISTSINCRONIZACAOSUPERVISOR" Width="1.5" PointX="16.5" PointY="111.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.HISTSINCRONIZACAOTEMPLATE" Width="1.5" PointX="20.25" PointY="89.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.HISTSINCTEMPLATESERVER" Width="1.5" PointX="12" PointY="101.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.IDIOMAS" Width="1.5" PointX="6.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.INTEGRACAONOTIFICADORBD" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.JORNADA" Width="1.5" PointX="18" PointY="101.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.LAYOUTBANCODEDADOS" Width="1.5" PointX="12" PointY="70.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.LOG" Width="1.5" PointX="20.25" PointY="85.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.MASCARAEVENTO" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.MENSAGEMFUNCAO" Width="1.5" PointX="6" PointY="81.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.MENSAGEMFUNCAOGRUPO" Width="1.5" PointX="3.75" PointY="93.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.MENSAGEMSISTEMA" Width="1.5" PointX="6" PointY="97" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.MENSAGEMSISTEMAGRUPO" Width="1.5" PointX="3.75" PointY="96.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.MENSAGEMUSUARIO" Width="1.5" PointX="12" PointY="79.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.MENSAGEMUSUARIOGRUPO" Width="1.5" PointX="3.75" PointY="75.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.NOMEARQUIVO" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.PARAMETROS" Width="1.5" PointX="8.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.PERMISSOES" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.PESSOA" Width="1.5" PointX="9.75" PointY="100.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.RELOGIOJORNADA" Width="1.5" PointX="20.25" PointY="93" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.RELOGIOMENSAGEM" Width="1.5" PointX="14.25" PointY="81.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.RELOGIOS" Width="1.5" PointX="12" PointY="83.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.SERVICOS" Width="1.5" PointX="9.75" PointY="106.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.SINALEIRO" Width="1.5" PointX="6" PointY="71.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.SINALEIROGRUPO" Width="1.5" PointX="3.75" PointY="72.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.SINCRONIZACAOCARTAO" Width="1.5" PointX="14.25" PointY="97.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.SINCRONIZACAOCENTROCUSTO" Width="1.5" PointX="17.25" PointY="81.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.SINCRONIZACAOCONFIGURACAO" Width="1.5" PointX="14.25" PointY="121.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.SINCRONIZACAOPESSOA" Width="1.5" PointX="17.25" PointY="97.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.SINCRONIZACAOSUPERVISOR" Width="1.5" PointX="19.5" PointY="113.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.SINCRONIZACAOTEMPLATE" Width="1.5" PointX="20.25" PointY="81.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.SINCRONIZACAOTEMPLATESERVER" Width="1.5" PointX="12" PointY="104.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.STATUSCOMPLETO" Width="1.5" PointX="14.25" PointY="142.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.STATUSRELOGIO" Width="1.5" PointX="14.25" PointY="133.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.SUPERVISOR" Width="1.5" PointX="14.25" PointY="138.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.TABELACENTROCUSTO" Width="1.5" PointX="8.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.TABELACREDENCIAIS" Width="1.5" PointX="4.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.TABELAFUNCIONARIOS" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.TABELALEITURARELOGIO" Width="1.5" PointX="10.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.TABELASUPERVISORES" Width="1.5" PointX="10.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.TECNOLOGIALEITURA" Width="1.5" PointX="14.25" PointY="168.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.TEMPLATE" Width="1.5" PointX="18" PointY="77.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.TEMPLATESNOVOS" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.TEMPLATEXDEDO" Width="1.5" PointX="20.25" PointY="77.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.TIPOCOMANDO" Width="1.5" PointX="15" PointY="100.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.TURNO" Width="1.5" PointX="20.25" PointY="100.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.USUARIOS" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.V20RECORDS" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVCOM_NETModel.CARTOESEXCLUIDOS" Width="1.5" PointX="12.75" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_AGENDAMENTO_SERVICO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_ASSOSIALOTETEMPPESSOA" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_CARTAOPESSOA" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_HISTSINCCARTAO_CARTAO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_SINCCARTAO_CARTAO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_HISTSINCCENTROCUSTO_CENTROCUSTO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_PESSOA_CCUSTO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_SINCCENTROCUSTO_CENTROCUSTO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_COLETA_RELOGIO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_BIO_CONFIG" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_IDCONFIGURACAO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_LITE_CONFIG" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_MINI_REP_CONFIG" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_NBIO_CONFIG" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_RELOGIO_CONFIG" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_REP_CONFIG" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_CONFIG_LAYOUT" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_BIO_FERIADO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_BIO_JORNADA" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_BIO_MSGFUNCAO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_BIO_MSGSISTEMA" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_BIO_MSGUSUARIO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_BIO_SINALEIRO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_LITE_SINALEIRO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_MICRO_FERIADO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_MICRO_JORNADA" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_MICRO_MSGFUNCAO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_MICRO_MSGSISTEMA" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_MICRO_MSGUSUARIO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_MICRO_SINALEIRO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_SERV_CONFIGSERV" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_RELOGIO_EMPRESA" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_EXECUCAOCOMANDO_RELOGIO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_EXECUCAOCOMANDO_TIPOCOMANDO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK__FERIADO__IDFERIA__55009F39" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_GPJORNADADETALHE_GPJORNADA" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_RELOGIOS_GRUPOJORNADAS" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_GPJORNADADETALHE_JORNADA" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_HISTEXECCOMANDO_RELOGIO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_HISTEXECCOMANDO_TIPOCOMANDO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_HISTORICOSTATUSRELOGIO_REL" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_HISTSINCCARTAO_RELOGIO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_HISTSINCCENTROCUSTO_RELOGIO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_HISTSINCCONFIG_RELOGIO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_HISTSINCPESS_PESS" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_HISTSINCPESS_REL" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_HISTSINCSUP_REL" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_HISTSINCSUP_SUP" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_HISTSINCTEMPL_REL" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_HISTSINCTEMPL_TEMPL" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_HISTSINCTEMPL_TEMPLSERVER" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_RELOGIOJORNADA_JORNADA" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_LOG_RELOGIO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_LOG_SERVICO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK__MENSAGEMF__IDMEN__607251E5" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK__MENSAGEMS__IDMEN__69FBBC1F" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK__MENSAGEMU__IDMEN__65370702" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_RELOGIOMENSAGEM_MENSAGEM" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_RELOGIOJORNADA_PESSOA" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_RELOGIOMENSAGEM_PESSOA" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_SINCPESSOA_PESSOA" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_SINCTEMPLATESERVER_PESSOA" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_TEMPLATE_PESSOA" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_RELOGIOJORNADA_RELOGIO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_RELOGIOMENSAGEM_RELOGIO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_RELOGIO_SERV" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_SINCCARTAO_RELOGIO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_SINCCENTROCUSTO_RELOGIO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_SINCCONFIG_RELOGIO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_SINCPESSOA_RELOGIO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_SINCSUPERVISOR_RELOGIO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_SINCTEMPLATE_RELOGIO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_STATUS_REL" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_STATUSREL_RELOGIO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK__SINALEIRO__IDSIN__59C55456" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_SINCSUPERVIDOR_SUPERVISOR" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_SINCTEMPLATE_TEMPLATE" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.FK_TEMPLATEXDEDO_TEMPLATE" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.RELOGIOAGENDAMENTO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.RELOGIOCONFIGURACAOBANCO" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.RELOGIOPESSOA" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.RELOGIOSUPERVISOR" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.RELOGIOTECNOLOGIA" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.TURNOJORNADA" ManuallyRouted="false" />
+        <AssociationConnector Association="SERVCOM_NETModel.USUARIOPERMISSAO" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

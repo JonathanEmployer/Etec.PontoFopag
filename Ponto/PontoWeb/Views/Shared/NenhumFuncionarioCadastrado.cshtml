@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "Nenhum Funcionário Cadastrado no Sistema.";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="divCenterPequeno">
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+            <h3 class="panel-title titulo-pagina">Nenhum Funcionário Encontrado!</h3>
+        </div>
+        <div class="panel-body">
+            <h2 class="alert-danger" style="text-align:center">Ainda não foram cadastrados funcionários no sistema!</h2>
+            <h2 style="text-align:center">Antes de continuar é necessário cadastrar pelo menos um funcionário</h2>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-12 center-block">
+                    <div style="text-align: right">
+                        <a href="@Url.Action("Cadastrar", "Funcionario")" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Cadastrar Funcionário</a>
+                        <a href="javascript:history.go(-1)" class="btn btn-primary"><span class="glyphicon glyphicon-circle-arrow-left"></span> Voltar</a>
+                        <a href="#" id="btFechar" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>&nbsp;Fechar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        cwk_EventoClickCadastroAdicionar('#btFechar', 'Index', 'Home');
+    })
+</script>

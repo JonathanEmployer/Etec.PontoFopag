@@ -1,0 +1,14 @@
+﻿@model Modelo.Proxy.pxyEmpresaCwUsuarioDetalhe
+
+<tr id="@Model.Id">
+    <td>
+        @Html.HiddenFor(m => m.Codigo, new { @class = "codigo" })
+        @Html.HiddenFor(m => m.Login, new { @class = "login" })
+        @Html.HiddenFor(m => m.Nome, new { @class = "nome" })
+        @Html.HiddenFor(m => m.IdEmpCwUsuario, new { @class = "idempcwusuario" })
+        @Html.DisplayFor(m => m.Codigo)
+    </td>
+    <td>@Html.DisplayFor(m => m.Login)</td>
+    <td>@Html.DisplayFor(m => m.Nome)</td>
+</tr>
+

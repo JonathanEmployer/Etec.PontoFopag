@@ -1,0 +1,270 @@
+﻿@model IList<Modelo.Proxy.Relatorios.PxyRelClassificacaoHorasExtras>
+<style>
+    .classRelatorio {
+        font-family: 'Arial';
+        font-size: 8pt;
+        font: normal;
+        width: 752px;
+        vertical-align: middle;
+    }
+
+    table {
+        font-family: 'Arial';
+        font-size: 8pt;
+        font: normal;
+        width: 752px;
+        vertical-align: middle;
+    }
+
+    .Cinza {
+        background-color: rgb(200,200,200);
+    }
+
+    .Gainsboro {
+        background-color: rgb(220,220,220);
+    }
+
+    .ClassGrupo {
+        padding: 5px;
+    }
+
+    .Linha {
+    }
+
+    .classNomeRel {
+        font-size: 20px;
+        font: bold;
+        text-align: center;
+        padding-top: 30px;
+        padding-bottom: 10px;
+    }
+
+    .BordaL {
+        border-left: 1px solid;
+    }
+
+    .BordaB {
+        border-bottom: 1px solid;
+    }
+
+    .BBordaB {
+        border-bottom: 2px solid;
+    }
+
+    .BordaT {
+        border-top: 1px solid;
+    }
+
+    .BBordaT {
+        border-top: 2px solid;
+    }
+
+    .BordaR {
+        border-right: 1px solid;
+    }
+</style>
+@{
+    IList<Modelo.Proxy.Relatorios.PxyRelClassificacaoHorasExtras> resumo = new List<Modelo.Proxy.Relatorios.PxyRelClassificacaoHorasExtras>();
+}
+<div style="background-color:white">
+    <div class="classRelatorio">
+        @foreach (IList<Modelo.Proxy.Relatorios.PxyRelClassificacaoHorasExtras> GroupEmp in Model.GroupBy(x => new { x.EmpresaNome, x.EmpresaCNPJ }).Select(s => s.ToList()).ToList())
+        {
+            <table style="width:100%; repeat-header: yes; border-collapse: inherit;" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th colspan="6" scope="colgroup" class="classNomeRel" style="white-space: nowrap;">Relatório de Classificação de Horas Extras</th>
+                    </tr>
+                    <tr class="classtrGrupo">
+                        <th style="width:100px" class="Linha BordaL BordaT">Data</th>
+                        <th style="width:100px" class="Linha BordaL BordaT">Horas Extras</th>
+                        <th colspan="2" scope="colgroup" style="width:360px" class="Linha BordaL BordaT">Classificação</th>
+                        <th style="width:100px" class="Linha BordaL BordaT">Classificadas</th>
+                        <th style="width:100px" class="Linha BordaL BordaT BordaR">Não Classificadas</th>
+                    </tr>
+                    <tr class="classtrGrupo">
+                        <th colspan="4" scope="colgroup" class="ClassGrupo BordaL BordaT" style="white-space: nowrap;">Empresa: @GroupEmp.FirstOrDefault().EmpresaNome</th>
+                        <th colspan="2" scope="colgroup" class="ClassGrupo BordaR BordaT">CNPJ: @GroupEmp.FirstOrDefault().EmpresaCNPJ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (IList<Modelo.Proxy.Relatorios.PxyRelClassificacaoHorasExtras> GroupDep in GroupEmp.GroupBy(x => new { x.DepartamentoDescricao, x.DepartamentoCodigo }).Select(s => s.ToList()).ToList())
+                    {
+                        <tr>
+                            <td colspan="6" scope="colgroup" style="padding:0px">
+                                <table style="width:100%; repeat-header: yes; border-collapse: inherit;" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="6" scope="colgroup" class="BordaL BordaR BordaT ClassGrupo">Departamento: @GroupDep.FirstOrDefault().DepartamentoCodigo - @GroupDep.FirstOrDefault().DepartamentoDescricao</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (IList<Modelo.Proxy.Relatorios.PxyRelClassificacaoHorasExtras> GroupFunc in GroupDep.GroupBy(x => new { x.FuncionarioNome, x.FuncionarioCodigo }).Select(s => s.ToList()).ToList())
+                                        {
+                                            <tr>
+                                                <td colspan="6" scope="colgroup" style="padding:0px">
+                                                    <table style="width:100%; repeat-header: yes;" cellspacing="0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th colspan="4" scope="colgroup" class="BordaL BBordaB BordaT ClassGrupo">Funcionário: @GroupFunc.FirstOrDefault().FuncionarioCodigo - @GroupFunc.FirstOrDefault().FuncionarioNome</th>
+                                                                <th colspan="2" scope="colgroup" class="BordaR BBordaB BordaT ClassGrupo">Matrícula: @GroupFunc.FirstOrDefault().FuncionarioMatricula</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (Modelo.Proxy.Relatorios.PxyRelClassificacaoHorasExtras linha in GroupFunc)
+                                                            {
+                                                                <tr>
+                                                                    <td style="width:100px" class="Linha BordaB BordaL"> @linha.Data.ToShortDateString() </td>
+                                                                    <td style="width:100px" class="Linha BordaB BordaL"> @linha.HorasExtrasRealizada </td>
+                                                                    <td colspan="2" scope="colgroup" style="width:360px" class="Linha BordaB BordaL"> @linha.ClassificacaoDescricao </td>
+                                                                    <td style="width:100px" class="Linha BordaB BordaL"> @linha.Classificadas </td>
+                                                                    <td style="width:100px" class="Linha BordaB BordaL BordaR"> @linha.NaoClassificadas </td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                        @*Somatório funcionário*@
+                                                        <tfoot>
+                                                            @{
+                                                                resumo = GroupFunc;
+                                                            }
+                                                            @*<tr>
+                                                                <th colspan="4" scope="colgroup" class="BordaL BBordaT ClassGrupo">Total Funcionário: @GroupFunc.FirstOrDefault().FuncionarioCodigo - @GroupFunc.FirstOrDefault().FuncionarioNome</th>
+                                                                <th colspan="2" scope="colgroup" class="BordaR BBordaT ClassGrupo">Matrícula: @GroupFunc.FirstOrDefault().FuncionarioMatricula</th>
+                                                            </tr>*@
+                                                            <tr>
+                                                                <th style="width:100px" class="Linha BordaT BordaB BordaL">Quantidade: @resumo.Count() </th>
+                                                                <th style="width:100px" class="Linha BordaT BordaB BordaL"> @Modelo.cwkFuncoes.ConvertMinutosHora2(3, resumo.Sum(s => s.HorasExtrasRealizadaMin).Value) </th>
+                                                                <th colspan="2" scope="colgroup" style="width:360px" class="Linha BordaT BordaB BordaL"> </th>
+                                                                <th style="width:100px" class="Linha BordaT BordaB BordaL"> @Modelo.cwkFuncoes.ConvertMinutosHora2(3, resumo.Sum(s => s.ClassificadasMin).Value) </th>
+                                                                <th style="width:100px" class="Linha BordaT BordaB BordaL BordaR"> @Modelo.cwkFuncoes.ConvertMinutosHora2(3, resumo.Sum(s => s.NaoClassificadasMin).Value) </th>
+                                                            </tr>
+                                                            @if (resumo.Where(w => w.ClassificacaoCodigo > 0).Count() > 0)
+                                                            {
+                                                                <tr>
+                                                                    <td class="BordaL BordaR BordaB" colspan="6" scope="colgroup" style="padding-left:10px">
+                                                                        <table>
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th width="200px">Classificação</th>
+                                                                                    <th>Total</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                @foreach (IList<Modelo.Proxy.Relatorios.PxyRelClassificacaoHorasExtras> footSum in resumo.Where(w => w.ClassificacaoCodigo > 0).GroupBy(g => new { g.ClassificacaoDescricao, g.ClassificacaoCodigo }))
+                                                                                {
+                                                                                    <tr>
+                                                                                        <td width="200px">@footSum.FirstOrDefault().ClassificacaoDescricao</td>
+                                                                                        <td>@Modelo.cwkFuncoes.ConvertMinutosHora2(3, footSum.Sum(s => s.ClassificadasMin).Value)</td>
+                                                                                    </tr>
+                                                                                }
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                            <tr>
+                                                                <td colspan="6" scope="colgroup" style="margin-bottom:5px"> &nbsp;</td>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    @*Somatório Departamento*@
+                                    <tfoot>
+                                        @{
+                                            resumo = GroupDep;
+                                        }
+                                        <tr>
+                                            <th colspan="6" scope="colgroup" class="BordaL BordaT BordaR ClassGrupo">Total Departamento: @GroupDep.FirstOrDefault().DepartamentoCodigo - @GroupDep.FirstOrDefault().DepartamentoDescricao</th>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:100px" class="Linha BordaT BordaB BordaL">Quantidade: @resumo.Count() </th>
+                                            <th style="width:100px" class="Linha BordaT BordaB BordaL"> @Modelo.cwkFuncoes.ConvertMinutosHora2(3, resumo.Sum(s => s.HorasExtrasRealizadaMin).Value) </th>
+                                            <th colspan="2" scope="colgroup" style="width:360px" class="Linha BordaT BordaB BordaL"> </th>
+                                            <th style="width:100px" class="Linha BordaT BordaB BordaL"> @Modelo.cwkFuncoes.ConvertMinutosHora2(3, resumo.Sum(s => s.ClassificadasMin).Value) </th>
+                                            <th style="width:100px" class="Linha BordaT BordaB BordaL BordaR"> @Modelo.cwkFuncoes.ConvertMinutosHora2(3, resumo.Sum(s => s.NaoClassificadasMin).Value) </th>
+                                        </tr>
+                                        @if (resumo.Where(w => w.ClassificacaoCodigo > 0).Count() > 0)
+                                        {
+                                            <tr>
+                                                <td class="BordaL BordaR BordaB" colspan="6" scope="colgroup" style="padding-left:10px">
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="200px">Classificação</th>
+                                                                <th>Total</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (IList<Modelo.Proxy.Relatorios.PxyRelClassificacaoHorasExtras> footSum in resumo.Where(w => w.ClassificacaoCodigo > 0).GroupBy(g => new { g.ClassificacaoDescricao, g.ClassificacaoCodigo }))
+                                                            {
+                                                                <tr>
+                                                                    <td width="200px">@footSum.FirstOrDefault().ClassificacaoDescricao</td>
+                                                                    <td>@Modelo.cwkFuncoes.ConvertMinutosHora2(3, footSum.Sum(s => s.ClassificadasMin).Value)</td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        }
+                                        <tr>
+                                            <td colspan="6" scope="colgroup" style="margin-bottom:5px"> &nbsp;</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                @*Somatório Empresa*@
+                <tfoot>
+                    @{
+                        resumo = GroupEmp;
+                    }
+                    <tr class="classtrGrupo">
+                        <th colspan="4" scope="colgroup" class="ClassGrupo BordaL BordaT" style="white-space: nowrap;">Total Empresa: @GroupEmp.FirstOrDefault().EmpresaNome</th>
+                        <th colspan="2" scope="colgroup" class="ClassGrupo BordaR BordaT">CNPJ: @GroupEmp.FirstOrDefault().EmpresaCNPJ</th>
+                    </tr>
+                    <tr>
+                        <th style="width:100px" class="Linha BordaT BordaB BordaL">Quantidade: @resumo.Count() </th>
+                        <th style="width:100px" class="Linha BordaT BordaB BordaL"> @Modelo.cwkFuncoes.ConvertMinutosHora2(3, resumo.Sum(s => s.HorasExtrasRealizadaMin).Value) </th>
+                        <th colspan="2" scope="colgroup" style="width:360px" class="Linha BordaT BordaB BordaL"> </th>
+                        <th style="width:100px" class="Linha BordaT BordaB BordaL"> @Modelo.cwkFuncoes.ConvertMinutosHora2(3, resumo.Sum(s => s.ClassificadasMin).Value) </th>
+                        <th style="width:100px" class="Linha BordaT BordaB BordaL BordaR"> @Modelo.cwkFuncoes.ConvertMinutosHora2(3, resumo.Sum(s => s.NaoClassificadasMin).Value) </th>
+                    </tr>
+                    @if (resumo.Where(w => w.ClassificacaoCodigo > 0).Count() > 0)
+                    {
+                        <tr>
+                            <td class="BordaL BordaR BordaB" colspan="6" scope="colgroup" style="padding-left:10px">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th width="200px">Classificação</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (IList<Modelo.Proxy.Relatorios.PxyRelClassificacaoHorasExtras> footSum in resumo.Where(w => w.ClassificacaoCodigo > 0).GroupBy(g => new { g.ClassificacaoDescricao, g.ClassificacaoCodigo }))
+                                        {
+                                            <tr>
+                                                <td width="200px">@footSum.FirstOrDefault().ClassificacaoDescricao</td>
+                                                <td>@Modelo.cwkFuncoes.ConvertMinutosHora2(3, footSum.Sum(s => s.ClassificadasMin).Value)</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="6" scope="colgroup" style="margin-bottom:5px"> &nbsp;</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div style="page-break-after:always">&nbsp;</div>
+        }
+    </div>
+</div>

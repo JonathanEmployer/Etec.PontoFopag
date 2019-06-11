@@ -1,0 +1,80 @@
+@model Modelo.AlertasLog
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Log de Alerta";
+    Layout = null;
+}
+
+<div class="divCenterGrande">
+    <div class="panel panel-default" style="padding:0">
+        <div class="panel-heading">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="fecharModalGrid">X</button>
+            <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+        </div>
+        <div class="panel-body panelConteudo" id="panelBodyFixo">
+            @Html.ValidationSummary(true)
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Alerta.Codigo, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.Alerta.Codigo, new { @class = "form-control  input-sm" }).IsDisabled(true)
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Alerta.Descricao, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.Alerta.Descricao, new { @class = "form-control  input-sm" }).IsDisabled(true)
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Alerta.NomeAlerta, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.Alerta.NomeAlerta, new { @class = "form-control  input-sm" }).IsDisabled(true)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @Html.GridFor("tbAlertasLog", Model.GetType(), false, "AlertasLog", "DadosGrid/" + Model.Alerta.Id)
+            </div>
+        </div>
+        @*<div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-12 center-block">
+                </div>
+            </div>
+        </div>*@
+    </div>
+</div>
+
+<div id='modalEmail' class='modal fade' role='dialog'>
+    <div class='modal-dialog' style='width: 80%;'>
+        <!-- Modal content-->
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <button type='button' class='close' id='fecharModalGridLog'>&times;</button>
+                <h4 class='modal-title'>Conteúdo</h4>
+            </div>
+            <div class='modal-body'>
+                <div id="divConteudoEmail">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#fecharModalGrid").click(function () {
+        $("#divLoadCadastroModal").hide();
+    });
+
+    $('#fecharModalGridLog').click(function () {
+        $('#modalEmail').modal('hide');
+    });
+
+    function AddConteudoAlerta(btn) {
+        console.log('Conteudo = ' + $(btn).attr("conteudo-alerta"))
+        $("#divConteudoEmail").html($.parseHTML($(btn).attr("conteudo-alerta")));
+    }
+</script>
+   

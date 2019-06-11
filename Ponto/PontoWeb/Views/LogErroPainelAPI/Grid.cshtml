@@ -1,0 +1,40 @@
+﻿@model Modelo.LogErroPainelAPI
+@using System.Web.Optimization
+@{
+    ViewBag.Title = "Log de Erros Integração Painel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string nomeTabela = "tbLogErros";
+}
+
+<div class="">
+    <div class="panel panel-default" style="padding:0">
+        <div class="panel-heading">
+            @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+            <h3 class="panel-title titulo-pagina">Log de Erros Integração Painel</h3>
+        </div>
+        <div class="panel-body panelConteudo" id="panelBodyFixodivCenter">
+            @Html.ValidationSummary(true)
+            <div class="row">
+                @Html.GridFor(nomeTabela, Model.GetType(), false, "LogErroPainelAPI", "DadosGrid/" + Model.idFuncionario)
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-12 center-block">
+                    <div style="text-align: right">
+                        <a href="#" id="btForcarIntegracao" class="btn btn-info"><span class="glyphicon glyphicon-exclamation-sign"></span>&nbsp;Forçar Integração de Todos os Registros</a>
+                        <a href="#" id="btForcarIntegracaoUnico" class="btn btn-info"><span class="glyphicon glyphicon-exclamation-sign"></span>&nbsp;Forçar Integração Única</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var nomeTabela = "#" + '@nomeTabela';
+    jQuery(document).ready(function () {
+        cwk_EventoClickCadastroAlterar('#btForcarIntegracaoUnico', 'ForcarIntegracao', 'LogErroPainelAPI', nomeTabela);
+        cwk_EventoClickCadastroAdicionar('#btForcarIntegracao', 'ForcarIntegracao', 'LogErroPainelAPI');
+    });
+</script>

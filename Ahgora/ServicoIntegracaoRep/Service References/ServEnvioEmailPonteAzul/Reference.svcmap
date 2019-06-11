@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="b42804af-9abb-4002-b7fc-d95c92bb28b1" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://wsprdservicoemail.ponteazul.com.br/WsEnviaEmail.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="WsEnviaEmail.xsd" MetadataType="Schema" ID="82a50807-edf5-4b7a-8a38-7ee9e4c8dcaf" SourceId="1" SourceUrl="http://wsprdservicoemail.ponteazul.com.br/WsEnviaEmail.svc?xsd=xsd3" />
+    <MetadataFile FileName="WsEnviaEmail1.xsd" MetadataType="Schema" ID="0a30e528-4728-491c-bc7c-f2bbeb5332b0" SourceId="1" SourceUrl="http://wsprdservicoemail.ponteazul.com.br/WsEnviaEmail.svc?xsd=xsd0" />
+    <MetadataFile FileName="WsEnviaEmail.disco" MetadataType="Disco" ID="f4769f89-81a7-48dd-aff7-75fc750790b7" SourceId="1" SourceUrl="http://wsprdservicoemail.ponteazul.com.br/WsEnviaEmail.svc?disco" />
+    <MetadataFile FileName="WsEnviaEmail2.xsd" MetadataType="Schema" ID="1a803141-0778-4667-8ca8-82af2616604a" SourceId="1" SourceUrl="http://wsprdservicoemail.ponteazul.com.br/WsEnviaEmail.svc?xsd=xsd2" />
+    <MetadataFile FileName="WsEnviaEmail.wsdl" MetadataType="Wsdl" ID="0c8d388a-6fe6-4615-b3b5-0efd7722575a" SourceId="1" SourceUrl="http://wsprdservicoemail.ponteazul.com.br/WsEnviaEmail.svc?wsdl" />
+    <MetadataFile FileName="WsEnviaEmail3.xsd" MetadataType="Schema" ID="16053a13-d3eb-4363-a417-bfa0cc617b28" SourceId="1" SourceUrl="http://wsprdservicoemail.ponteazul.com.br/WsEnviaEmail.svc?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

@@ -1,0 +1,38 @@
+﻿@model Modelo.DiasJornadaAlternativa
+
+<div class="row diaJornadaAlternativa">
+    <div class="col-md-4" style="padding-right:0px; align-content:center; text-align:center;">
+        <div>
+            @Html.HiddenFor(x => x.Id)
+            @Html.HiddenFor(x => x.IdJornadaAlternativa)
+            @Html.HiddenFor(x => x.Incdata)
+            @Html.HiddenFor(x => x.Inchora)
+            @Html.HiddenFor(x => x.Incusuario)
+            @Html.HiddenFor(x => x.Acao)
+            @Html.HiddenFor(x => x.Altdata)
+            @Html.HiddenFor(x => x.Althora)
+            @Html.HiddenFor(x => x.Altusuario)
+            @Html.HiddenFor(x => x.Delete, new { @class = "mark-for-delete" })
+            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control input-sm codDJA" })
+            @Html.ValidationMessageFor(model => model.Codigo)
+        </div>
+    </div>
+    <div class="col-md-5" style="align-content:center; text-align:center;">
+        <div>
+            @Html.HiddenFor(x => x.Delete, new { @class = "mark-for-delete" })
+            <div class="input-group input-group-sm">
+                @Html.TextBoxFor(model => model.DataCompensada, new { @class = "form-control input-sm MascDate datepickerpt" })
+                <span class="input-group-btn">
+                    <button class="btn btn-primary sm" onmouseover="setaid(this);" onclick="setaid(this);" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                </span>
+                
+            </div>
+            @Html.ValidationMessageFor(model => model.DataCompensada)
+        </div>
+    </div>
+    <div class="col-md-3" style="padding-left:0px; padding-right:0px; align-content:center; text-align:center">
+        <div class="input-group input-group-sm"></div>
+        @Html.LinkToRemoveNestedForm("", "div.diaJornadaAlternativa", "input.mark-for-delete")
+    </div>
+
+</div>

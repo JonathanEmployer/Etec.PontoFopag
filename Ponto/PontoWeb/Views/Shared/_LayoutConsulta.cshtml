@@ -1,0 +1,35 @@
+﻿@using System.Web.Optimization
+@{
+    Layout = null;
+}
+
+<div class="divCenterPesquisa">
+    <div class="panel panel-default" style="padding:0">
+        <div class="panel-heading">
+            <button class="close" data-dismiss="modal">×</button>
+            <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+        </div>
+        <div class="panel-body">
+            @Html.ValidationSummary(true)
+            <div class="div_table_highlight">
+                @RenderBody()
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-12 center-block">
+                    <div style="text-align: right">
+                        <a href="#" id="btSelec" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span>&nbsp;Selecionar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        oTbLkpModal = cwk_tbEventroConsulta('#tbSel', true);
+    });
+</script>

@@ -1,0 +1,35 @@
+﻿@model Modelo.Funcionario
+
+<div class="row">
+    @Html.HiddenFor(model => model.Id, new { id = "idFunc"})
+    <div style="padding-top:5px">
+        <div>
+            @Html.Label("lbEmpresa", "Empresa: ", new { @class = "control-label label-sm", @style = "margin-bottom:1px;  padding-top:1px; text-align: right; width:84px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" })
+            @Html.Label("lbTxtEmpresa", Model.Empresa, new { @class = "control-label label-sm", @style = "margin-bottom:1px;  padding-top:1px; width: 70%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" })
+        </div>
+        <div>
+            @Html.Label("lbTipoHorario", "Tipo Horário:", new { @class = "control-label label-sm", @style = "margin-bottom:1px;  padding-top:1px; text-align: right; width:84px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" })
+            @if (Model.Tipohorario == 1)
+            {
+                @Html.Label("lbTxtEmpresa", "Horário Normal", new { @class = "control-label label-sm", @style = "margin-bottom:1px;  padding-top:1px; width: 70%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" })
+            }
+            else if (Model.Tipohorario != 1 && Model.IdHorarioDinamico != null)
+            {
+
+                @Html.Label("lbTxtEmpresa", "Horário Dinâmico", new { @class = "control-label label-sm", @style = "margin-bottom:1px;  padding-top:1px; width: 70%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" })
+            }
+            else
+            {
+                @Html.Label("lbTxtEmpresa", "Horário Flexível", new { @class = "control-label label-sm", @style = "margin-bottom:1px;  padding-top:1px; width: 70%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" })
+            }
+        </div>
+        <div>
+            @Html.Label("lbHorario", "Horário:", new { @class = "control-label label-sm", @style = "margin-bottom:1px;  padding-top:1px; text-align: right; width:84px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" })
+            @Html.Label("lbTxtHorario", Model.Horario, new { @class = "control-label label-sm", @style = "margin-bottom:1px;  padding-top:1px; width: 70%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" })
+        </div>
+        <div>
+            @Html.Label("lbFuncao", "Função:", new { @class = "control-label label-sm", @style = "margin-bottom:1px;  padding-top:1px; text-align: right; width:84px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" })
+            @Html.Label("lbTxtFuncao", Model.Funcao, new { @class = "control-label label-sm", @style = "margin-bottom:1px;  padding-top:1px; width: 70%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" })
+        </div>
+    </div>
+</div>

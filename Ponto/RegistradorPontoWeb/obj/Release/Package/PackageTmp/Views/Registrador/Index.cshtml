@@ -1,0 +1,138 @@
+﻿@model RegistradorPontoWeb.Models.Ponto.RegistroPontoMetaData
+@{
+    ViewBag.Title = "Registrador de Ponto Eletrônico";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.Latitude)
+    @Html.HiddenFor(model => model.Longitude)
+    @Html.HiddenFor(model => model.TimeZone)
+    @Html.HiddenFor(model => model.OrigemRegistro)
+    @Html.HiddenFor(model => model.Situacao)
+    
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+            <div class="panel panel-primary ">
+                <div class="panel-body">
+                    
+                    <img src="~/Content/Images/LogoPontofopag.png" class="img-responsive center-block" alt=" pontofopag registrador web" />
+                    <div style="text-align:center">
+                        <div class="row">
+                            <label id="DataHoraBatida"></label>
+                        </div>
+                        <div class="row">
+                            <label id="date"></label>
+                        </div>
+                        <div class="alert alert-warning" id="divAlerta">
+                            <label id="lbMensagemHora"></label>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="alert alert-danger valmsg-wrapper" role="alert">
+                        @Html.ValidationMessageFor(m => m.Lembrarme, null, new { @class = "test" })
+                        @Html.ValidationMessageFor(model => model.UserName, null, new { @class = "test" })
+                        @Html.ValidationMessageFor(model => model.Password, null, new { @class = "test" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.UserName, new { @class = "control-label text-white" })
+                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @placeholder = "CPF" })
+                        
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Password, new { @class = "control-label text-white" })
+                        @Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "Senha" })
+                    </div>
+                    <div class="checkbox">
+                        <label class="text-white">
+                            @Html.CheckBoxFor(model => model.Lembrarme)
+                            @Html.DisplayNameFor(model => model.Lembrarme)
+                        </label>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        @Html.Hidden("tipo")
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block btn-register" onclick="tipoPost(0)" name="tipo" value="Registrar"><span class="glyphicon glyphicon-time"></span> Registrar</button>
+                        </div>
+                        <br>
+                        <div class="row"></div>
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block btn-history" onclick="tipoPost(1)" name="tipo" value="Comprovante"><span class="glyphicon glyphicon-list-alt"></span> Histórico</button>    
+                        </div>
+                    </div>
+                    <img src="~/Content/Images/LogoEmployer.png" class="img-responsive center-block" alt="Serviço Employer" style="padding-top:10px" />
+                    <div class="hidden-md hidden-lg">
+                        
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        escondeAlerta();
+        var $cpf = $("#UserName");
+        $cpf.mask('000.000.000-00', { reverse: true });
+        var d = new Date();
+        $("#date").text(d.toLocaleDateString());
+        if ('@Model.TimeZone' == "" ) {
+            getLocation();
+        }
+        else
+        {
+            $("#DataHoraBatida").text('@Model.Batida.ToString("HH:mm:ss")');
+        }
+    }
+    )
+
+    function tipoPost(tipo) {
+        $("#tipo").val(tipo);
+    }
+
+    var checkbox = $('#Lembrarme'),
+            userField = $('#UserName'),
+            //Chave dos dados do login
+            key = 'dadosLogin',
+            //Busca os dados do login do "Banco em jquery"
+            username = $.jStorage.get(key);
+    $(function () {
+        //Se encontrou dados de login preenche os campos
+        if (username) {
+            userField.val(username);
+            checkbox.prop('checked', true);
+            $('#Password').focus();
+        }
+        else {
+            userField.val('').focus();
+            checkbox.prop('checked', false);
+        }
+    });
+
+    function SalvaDadosLogin() {
+        @*Se marcou para lembrar do login guarda os dados no "Banco em javascript", se não deleta*@
+        if (checkbox.prop('checked')) {
+            $.jStorage.set(key, userField.val());
+        }
+        else {
+                $.jStorage.deleteKey(key);
+        }
+    }
+
+
+    $('form').submit(function (e) {
+        $(this).find("button[type='submit']").prop('disabled', true);
+        
+        SalvaDadosLogin();
+        if ($("#Latitude").val() == "" || $("#Latitude").val() == "NaN") {
+            $("#Latitude").val(null);
+            $("#Longitude").val(null);
+        }
+    });
+
+    window.setInterval(AtualizaDados, 300000);
+    window.setInterval(AcertaRelogio, 1000);
+</script>

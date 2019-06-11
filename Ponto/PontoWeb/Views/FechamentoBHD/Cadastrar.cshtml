@@ -1,0 +1,205 @@
+﻿@model Modelo.FechamentoBHD
+@{
+    ViewBag.Title = "Alterar Fechamento por Funcionário";
+}
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.Id, new { id = "idFechamentoBHD" });
+    @Html.HiddenFor(model => model.Incdata);
+    @Html.HiddenFor(model => model.Inchora);
+    @Html.HiddenFor(model => model.Incusuario);
+    @Html.HiddenFor(model => model.Altdata);
+    @Html.HiddenFor(model => model.Althora);
+    @Html.HiddenFor(model => model.Altusuario);
+    @Html.HiddenFor(model => model.Identificacao);
+    @Html.HiddenFor(model => model.Idfechamentobh);
+    @Html.HiddenFor(model => model.Codigo);
+    @Html.HiddenFor(model => model.Seq);
+    @Html.HiddenFor(model => model.Nome);
+    @Html.HiddenFor(model => model.Credito);
+    @Html.HiddenFor(model => model.Debito);
+    @Html.HiddenFor(model => model.Saldobh);
+    @Html.HiddenFor(model => model.DataFechamento);
+
+    <div class="divCenterPequeno">
+        <div class="panel panel-default" style="padding:0">
+            <div class="panel-heading salvando">
+                @Html.ActionLink("X", "Grid", "FechamentoBHD", new { id = Model.Idfechamentobh }, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo">
+                @Html.Raw(HttpUtility.HtmlDecode(@Html.ValidationMessage("CustomError").ToHtmlString()))
+                @if (!String.IsNullOrEmpty(@ViewBag.MensagemFechamento))
+                {
+                    <div class="comment alert alert-info" role="alert" style="margin-bottom:0">@Html.Raw(ViewBag.MensagemFechamento)</div>
+                }
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.Label("Fechamento BH", new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.fechamentoBH.Codigo, new { @class = "form-control  input-sm", @disabled = true })
+                            @Html.ValidationMessageFor(model => model.fechamentoBH.Codigo)
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Seq, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Seq, new { @class = "form-control  input-sm", @disabled = true })
+                            @Html.ValidationMessageFor(model => model.Seq)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Nome, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Nome, new { @class = "form-control  input-sm", @disabled = true })
+                            @Html.ValidationMessageFor(model => model.Nome)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.Credito, new { @class = "control-label label-sm label-verde" })
+                                @Html.TextBoxFor(model => model.Credito, new { @class = "form-control  input-sm label-verde timeL", @placeholder = "--:--", id = "txbCredito", @disabled = true })
+                                @Html.ValidationMessageFor(model => model.Credito)
+                            </div>
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.Debito, new { @class = "control-label label-sm label-vermelho" })
+                                @Html.TextBoxFor(model => model.Debito, new { @class = "form-control  input-sm label-vermelho timeL", @placeholder = "--:--", id = "txbDebito", @disabled = true })
+                                @Html.ValidationMessageFor(model => model.Debito)
+                            </div>
+                            <div class="col-md-2">
+                                @Html.LabelFor(model => model.SaldoInicial, new { @class = "control-label label-sm", id = "lbSaldoInicial" })
+                                @Html.TextBoxFor(model => model.SaldoInicial, new { @class = "form-control  input-sm timeL", @placeholder = "--:--", id = "txbSaldoInicial", @disabled = true })
+                                @Html.ValidationMessageFor(model => model.SaldoInicial)
+                            </div>
+                            <div class="col-md-2">
+                                @Html.LabelFor(model => model.Perc1, new { @class = "control-label label-sm", id = "lbPerc1" })
+                                @Html.TextBoxFor(model => model.Perc1, new { @class = "form-control  input-sm timeL", @placeholder = "--:--", id = "txbPerc1", @disabled = true })
+                                @Html.ValidationMessageFor(model => model.Perc1)
+                            </div>
+                            <div class="col-md-2">
+                                @Html.LabelFor(model => model.Perc2, new { @class = "control-label label-sm", id = "lbPerc2" })
+                                @Html.TextBoxFor(model => model.Perc2, new { @class = "form-control  input-sm timeL", @placeholder = "--:--", id = "txbPerc2", @disabled = true })
+                                @Html.ValidationMessageFor(model => model.Perc2)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.Saldo, new { @class = "control-label label-sm" })
+                                @Html.TextBoxFor(model => model.Saldo, new { @class = "form-control  input-sm timeL", @placeholder = "--:--", id = "txbSaldo" })
+                                @Html.ValidationMessageFor(model => model.Saldo, null, new { id = "lbSaldo" })
+                            </div>
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.Saldobh, new { @class = "control-label label-sm" })
+                                @Html.TextBoxFor(model => model.Saldobh, new { @class = "form-control  input-sm time5L", @placeholder = "--:--", id = "txbSaldobh", @disabled = true })
+                                @Html.ValidationMessageFor(model => model.Saldobh)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-bottom:5px">
+                        @* Div do radio Tipo Lançamento  *@
+                        <div class="panel panel-default">
+                            <div class=" panel-heading" style="padding-top:1px; padding-bottom:0px">
+                                @Html.LabelFor(model => model.Tiposaldo, new { @class = "control-label label-sm" })
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="form-group input-group-sm">
+                                        <div class="col-md-12">
+                                            <div class="radio-inline" data-toggle="radioTipoLancamento">
+                                                @Html.RadioButtonFor(model => model.Tiposaldo, 0, new { id = "idRadioCredito", name = "rdioTipoLancamento", @disabled = true }) Crédito
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group input-group-sm">
+                                        <div class="col-md-12">
+                                            <div class="radio-inline" data-toggle="radioTipoLancamento">
+                                                @Html.RadioButtonFor(model => model.Tiposaldo, 1, new { id = "idRadioDebito", name = "rdioTipoLancamento", @disabled = true }) Débito
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger"
+                               href="@Url.Action("Grid", "FechamentoBHD", new { id = Model.Idfechamentobh })">
+                                <span class="glyphicon glyphicon-remove salvando"></span> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        $(":input[type='text']:enabled:visible:first").focus();
+        cwk_DataCalendario('#btnData', '#Data');
+        cwk_EventoConsulta("#btnEmpresa", "#lkpEmpresa", "EventoConsulta", "Empresa", "");
+        cwk_EventoConsulta("#btnDepartamento", "#lkpDepartamento", "EventoConsulta", "Departamento", "");
+        cwk_EventoConsulta("#btnFuncao", "#lkpFuncao", "EventoConsulta", "Funcao", "");
+        cwk_EventoConsulta("#btnFuncionario", "#lkpFuncionario", "EventoConsulta", "Funcionario", "");
+
+        if ($('#idRadioDebito').is(':checked')) {
+            $("#txbSaldoInicial").addClass("label-vermelho");
+            $("#lbSaldoInicial").addClass("label-vermelho");
+        }
+        else {
+            $("#txbSaldoInicial").addClass("label-verde");
+            $("#lbSaldoInicial").addClass("label-verde");
+        }
+    });
+
+    $("#txbSaldo").blur(function () {
+        $(this).val(formataHora($(this).val(), 2, 2));
+        var saldoIniciail = ConvertHoraMinuto($("#txbSaldoInicial").val());
+        var saldoPagar = ConvertHoraMinuto($("#txbSaldo").val());
+        var saldobh = saldoIniciail - saldoPagar;
+        if (saldobh < 0) {
+            var errorArray = {};
+            errorArray["Saldo"] = "Valor não pode ser maior que o saldo " + $("txbSaldoInicial").val();
+            $('form').validate().showErrors(errorArray);
+            $("#txbSaldobh").val("-----:--");
+        }
+        else {
+            if (saldobh > 0) {
+                var saldobhS = ConvertMinutoHora(saldoIniciail - saldoPagar, 5);
+                $("#txbSaldobh").val(saldobhS);
+            } else {
+                $("#txbSaldobh").val("-----:--");
+            }
+        }
+    });
+
+    
+    $('form').submit(function () {
+        $('input[name=Saldobh]').val($("#txbSaldobh").val());
+    });
+
+</script>
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}

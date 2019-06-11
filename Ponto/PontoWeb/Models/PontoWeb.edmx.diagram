@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a32a8969d48e4af2a39888fffbf5fbd5" Name="Diagram1">
+        <EntityTypeShape EntityType="cworkpontoModel.afastamento" Width="1.5" PointX="7.5" PointY="32.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.Alertas" Width="1.5" PointX="16.5" PointY="23.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.AlertasFuncionario" Width="1.5" PointX="18.75" PointY="34.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.alias_tabela" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.backup" Width="1.5" PointX="5.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.bancohoras" Width="1.5" PointX="15.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.bilhetesimp" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.compensacao" Width="1.5" PointX="19.5" PointY="36.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.configuracaorefeitorio" Width="1.5" PointX="2.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.cw_acesso" Width="1.5" PointX="3" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.cw_acessocampo" Width="1.5" PointX="5.25" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.cw_grupo" Width="1.5" PointX="0.75" PointY="25.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.cw_usuario" Width="1.5" PointX="3" PointY="24" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.cwkvsnsys" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.departamento" Width="1.5" PointX="5.25" PointY="35.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.diascompensacao" Width="1.5" PointX="21.75" PointY="51.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.diasjornadaalternativa" Width="1.5" PointX="28.25" PointY="24.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.empresa" Width="1.5" PointX="3" PointY="30.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.empresacwusuario" Width="1.5" PointX="5.25" PointY="31.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.equipamento" Width="1.5" PointX="17.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.equipamentohomologado" Width="1.5" PointX="7.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.eventos" Width="1.5" PointX="18.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.exportacaocampos" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.fechamentobh" Width="1.5" PointX="19.5" PointY="45.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.fechamentobhd" Width="1.5" PointX="21.75" PointY="45.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.fechamentobhdpercentual" Width="1.5" PointX="24" PointY="45.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.feriado" Width="1.5" PointX="10.5" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.funcao" Width="1.5" PointX="11.25" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.funcionario" Width="1.5" PointX="13.5" PointY="30.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.funcionariohistorico" Width="1.5" PointX="15.75" PointY="33.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.Geral" Width="1.5" PointX="4.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.horario" Width="1.5" PointX="11.25" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.horariodetalhe" Width="1.5" PointX="26" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.horariophextra" Width="1.5" PointX="13.5" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.Importacaoautomatica" Width="1.5" PointX="9.75" PointY="46.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.importalayouttexto" Width="1.5" PointX="20.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.inclusaobanco" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.jornada" Width="1.5" PointX="23.75" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.jornadaalternativa" Width="1.5" PointX="26" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.justificativa" Width="1.5" PointX="4.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.layoutexportacao" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.layoutimportacaofuncionario" Width="1.5" PointX="11.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.marcacao" Width="1.5" PointX="21.75" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.marcacaoacesso" Width="1.5" PointX="15.75" PointY="38" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.mudancahorario" Width="1.5" PointX="18.75" PointY="29" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.mudcodigofunc" Width="1.5" PointX="15.75" PointY="27.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.ocorrencia" Width="1.5" PointX="5.25" PointY="22.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.parametros" Width="1.5" PointX="9" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.provisorio" Width="1.5" PointX="0.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.rep" Width="1.5" PointX="5.25" PointY="45.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.Revendas" Width="1.5" PointX="0.75" PointY="34" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.tipobilhetes" Width="1.5" PointX="7.5" PointY="44.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.jornadaalternativa_view" Width="1.5" PointX="2.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.marcacao_view" Width="1.5" PointX="28.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="cworkpontoModel.FK_afastamento_departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_afastamento_empresa" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_afastamento_funcionario" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_afastamento_ocorrencia" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_Alertas_Alertas" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_AlertasFuncionario_Alertas" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_AlertasFuncionario_funcionario" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_diascompensacao_compensacao" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_marcacao_compensacao" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_cw_acesso_cw_grupo" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_cw_acessocampo_cw_acesso" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_cw_usuario_cw_grupo" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_empresacwusuario_cw_usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_departamento_empresa" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_feriado_departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_funcionario_departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_mudcodigofunc_departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_diasjornadaalternativa_jornadaalternativa" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_empresa_Revendas" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_empresacwusuario_empresa" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_feriado_empresa" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_funcionario_empresa" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_mudcodigofunc_empresa" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_rep_empresa" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_exportacaocampos_layoutexportacao" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_fechamentobhd_fechamentobh" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_marcacao_fechamentobh" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_fechamentobhdpercentual_fechamentobhd" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_funcionario_funcao" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_funcionario_horario" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_funcionariohistorico_funcionario" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_marcacao_funcionario" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_marcacaoacesso_funcionario" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_mudancahorario_funcionario" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_mudcodigofunc_funcionario" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_horario_parametros" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_horariodetalhe_horario" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_horariophextra_horario" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_marcacao_horario" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_mudancahorario_horario" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_mudcodigofunc_horario" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_horariodetalhe_jornada" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_Importacaoautomatica_tipobilhetes" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_jornadaalternativa_jornada" ManuallyRouted="false" />
+        <AssociationConnector Association="cworkpontoModel.FK_tipobilhetes_rep" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,112 @@
+﻿@model Modelo.Horario
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Horário Normal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string nomeTabela = "tbHorario";
+    string rowCallBack = @" function( row, data, index ) {
+                if (data.InativarHorarioStr == 'Não') {
+                    $('td', row).css('color', 'Red');
+                }
+            }";
+}
+
+<div class="">
+    <div class="panel panel-default" style="padding:0; margin-bottom:0">
+        <div class="panel-heading">
+            @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+            <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+        </div>
+        <div class="panel-body panelConteudo" id="panelBodyFixo">
+            @Html.ValidationSummary(true)
+            <div class="row">
+                @Html.GridFor(nomeTabela, Model.GetType(), false, "Horario", "DadosGrid", rowCallBack, "CallBackLoadGrid")
+            </div>
+            <div class="row" style="padding-top:10px;">
+                <div class="col-md-12">
+                    <div class="form-group" style="padding-bottom: 0px; margin-bottom: 0px;">
+                        @Html.CheckBox("Esconder Inativos", new { id = "BEsconderInativos", @checked = "checked" })
+                        @Html.Label("Esconder Inativos", new { style = "padding-bottom: 0px; margin-bottom: 0px;", @for = "BEsconderInativos" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.Partial("../JobManager/JobView")
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-12 center-block">
+                    <div class="col-md-6"style="text-align: left">
+                        <a href="#" id="btCopiar" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Copiar Horário</a>
+                    </div>
+                    <div style="text-align: right">
+                        <a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
+                        <a href="#" id="btIncluir" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
+                        <a href="#" id="btAlterar" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
+                        <a href="#" id="btExcluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    //Fim Metodo auxiliar para ajudar a ordenar a data no padrão pt
+    var nomeTabela = "#" + '@nomeTabela';
+    jQuery(document).ready(function () {
+        var controller = "Horario";
+        cwk_EventoDbClickEditar('Alterar', controller, nomeTabela);
+
+        cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', controller);
+        cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', controller, nomeTabela);
+        cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', controller, nomeTabela);
+        cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir', controller, nomeTabela, 'Horário excluído com sucesso.');
+
+        $('#btCopiar').on("click", function () {
+            var idHorario = GetIdSelecionadoTable(nomeTabela);
+            if (idHorario > 0) {
+                var url = "/" + controller + "/" + 'CopiarHorario' + "?idHorario=" + idHorario;
+                window.location = url;
+            } else {
+                cwkErroTit('Selecione um Registro!', 'Antes de alterar um registro é necessário selecioná-lo!');
+            }
+        });
+    });
+
+    function CallBackLoadGrid() {
+        var val = $("#tbHorariopsqAtivo").val();
+        if (val.toLowerCase().indexOf("s") >= 0) {
+            $("#BEsconderInativos").prop('checked', true);
+        }
+        else {
+            ApenasAtivos();
+        }
+    }
+
+    $("#BEsconderInativos").click(function (event) {
+        EscondeInativos(event);
+    });
+    
+    function EscondeInativos(e) {
+        var table = $(nomeTabela).DataTable();
+        if ($("#BEsconderInativos").is(':checked')) {
+            ApenasAtivos();
+        }
+        else {
+            $("#tbHorariopsqAtivo").val("");
+            table.columns(15).search("").draw();
+        }
+    };
+    
+    function ApenasAtivos() {
+        var table = $(nomeTabela).DataTable();
+        $("#tbHorariopsqAtivo").val("Sim");
+        table.columns(15).search("Sim", true, false, true).draw();
+    }
+</script>

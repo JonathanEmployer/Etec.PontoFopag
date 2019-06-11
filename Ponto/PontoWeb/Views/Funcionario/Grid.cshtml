@@ -1,0 +1,176 @@
+﻿@model Modelo.Proxy.pxyFuncionarioGrid
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Funcionário";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string nomeTabela = "tbFun";
+    string rowCallback = @" function( row, data, index ) {
+                if (data.Ativo == 'Não') {
+                    $('td', row).css('color', 'Red');
+                }
+            }";
+}
+
+<div class="">
+    <div class="panel panel-default" style="margin-bottom:0; padding:0">
+        <div class="panel-heading">
+            @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+            <h3 class="panel-title titulo-pagina">Funcionário</h3>
+        </div>
+        <div class="panel-body panelConteudo" id="panelBodyFixodivCenter">
+            @Html.ValidationSummary(true)
+
+
+
+            <div class="row" style="padding-bottom:2px">
+  
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="padding-top:6px; padding-bottom:6px">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="control-label label-sm">Funcionário</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="form-group input-group-sm" style="margin-bottom:0">
+                                                <div class="radio-inline" data-toggle="radio">
+                                                    <input type="radio" name="rdFuncionarioFiltro" value="0" />
+                                                    <label class="label-sm" for="rdbRet">Inativo</label>
+                                                </div>
+                                                <div class="radio-inline" data-toggle="radio">
+                                                    <input type="radio" name="rdFuncionarioFiltro" value="1" checked />
+                                                    <label class="label-sm" for="rdbRet">Ativo</label>
+                                                </div>
+                                                <div class="radio-inline" data-toggle="radio">
+                                                    <input type="radio" name="rdFuncionarioFiltro" value="2" />
+                                                    <label class="label-sm" for="rdbRet">Ambos</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group input-group-sm" style="margin-bottom:0">
+                                                <button class="btn btn-primary btn-xs" id="btnBuscarFiltro" type="button">Buscar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9"></div>
+                </div>
+
+            <div class="row">
+                @Html.GridFor(nomeTabela, Model.GetType(), false, "Funcionario", "FuncsGridVazioXaxo", "EventoFuncionarioRowCollor", "",null,"");
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.Partial("../JobManager/JobView")
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="center-block">
+                    <div class="col-md-7">
+                        <a href="#" id="btHistoricoFuncionario" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span>&nbsp; Histórico </a>
+                        <a href="#" id="btHMudançaHorario" class="btn btn-primary"><span class="glyphicon glyphicon-retweet"></span>&nbsp; Hist. Mudança de Horário </a>
+                        <a href="#" id="btTurnoFuncionario" class="btn btn-primary"><span class="glyphicon glyphicon-time"></span>&nbsp; Horário </a>
+                        <a href="#" id="btImprimeCartaoPonto" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span>&nbsp; Cartão Ponto </a>
+                        <a href="#" id="btLogErroPainelAPI" class="btn btn-primary"><span class="glyphicon glyphicon-retweet"></span>&nbsp; Log Erro Painel</a>
+                    </div>
+                    <div class="col-md-5" style="text-align: right">
+                        <a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
+                        <a href="#" id="btIncluir" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
+                        <a href="#" id="btAlterar" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
+                        <a href="#" id="btExcluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var nomeTabela = "#" + '@nomeTabela';
+    var controller = 'Funcionario';
+    $(document).ready(function () {
+        cwk_EventoDbClickEditar('Alterar', controller, nomeTabela);
+        cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', controller);
+        cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', controller, nomeTabela);
+        cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', controller, nomeTabela);
+        cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir', controller, nomeTabela, 'Funcionario excluído com sucesso. ');
+        cwk_EventoAlterarAjaxParam('#btHistoricoFuncionario', 'Grid', 'FuncionarioHistorico', nomeTabela, "");
+        cwk_EventoAlterarAjaxParam('#btTurnoFuncionario', 'ConsultaHorario', 'Funcionario', nomeTabela, "");
+        cwk_EventoAlterarAjaxParam('#btHMudançaHorario', 'GridPorFuncionario', 'MudancaHorario', nomeTabela, "");
+        cwk_EventoAlterarAjaxParam('#btImprimeCartaoPonto', 'FCartaoPontoIndividual', 'ImpressaoCartaoPonto', nomeTabela, "");
+        cwk_EventoClickCadastroAdicionar('#btLogErroPainelAPI', 'Grid', 'LogErroPainelAPI');
+
+        $("#tbFunpsqAtivo").on('keyup input', function (e) {
+            var val = $(this).val();
+            if (event.keyCode === 13 || val === '' ||
+                            $('#tbFunlstAtivo option').filter(function () { return this.value === val; }).length)// vai disparar a pesquisa quando apertar enter, quando apagar os dados ou quando input preenchido com valor contendo na lista
+            {   
+                ValidaInativo(val);
+            }
+        });
+
+        $("#btnBuscarFiltro").click(function () { EventoFuncionarioFiltro(); });
+    });
+
+    function EventoFuncionarioFiltro() {
+        let x = $("input[name='rdFuncionarioFiltro']:checked").val();
+        let y = '/Funcionario/FuncsGridComParms';
+        EventoFuncionarioFiltroRequest(x,y);
+    }
+
+    function ValidaInativo(val) {
+        if (val.toLowerCase().indexOf("s") >= 0) {
+            $("#BEsconderInativos").prop('checked', true);
+        }
+        else {
+            $("#BEsconderInativos").prop('checked', false);
+        }
+    }
+
+    function CallBackLoadGrid()
+    {
+        var val = $("#tbFunpsqAtivo").val();
+        if (val.toLowerCase().indexOf("s") >= 0) {
+            $("#BEsconderInativos").prop('checked', true);
+        }
+        else {
+            ApenasAtivos();
+        }
+    }
+
+    
+    $("#BEsconderInativos").click(function (event) {
+        EscondeInativos(event);
+    });
+
+    function EscondeInativos(e) {
+        var table = $(nomeTabela).DataTable();
+        if ($("#BEsconderInativos").is(':checked')) {
+            ApenasAtivos();
+        }
+        else {
+            $("#tbFunpsqAtivo").val("");
+            table.columns(14).search("").draw();
+        }
+    }
+    
+    function ApenasAtivos() {
+        var table = $(nomeTabela).DataTable();
+        $("#tbFunpsqAtivo").val("Sim");
+        table.columns(14).search("Sim", true, false, true).draw();
+    }
+</script>

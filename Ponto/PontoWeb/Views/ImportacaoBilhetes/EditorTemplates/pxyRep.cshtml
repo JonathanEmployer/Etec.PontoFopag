@@ -1,0 +1,22 @@
+﻿@model Modelo.Proxy.pxyRep
+
+<tr id="@Model.id">
+    @Html.HiddenFor(model => model.id)
+    <td>
+        @Html.HiddenFor(model => model.NumSerie)
+        @Html.DisplayFor(model => model.NumSerie)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.Local)
+        @Html.HiddenFor(model => model.Local)
+    </td>
+    <td>
+        @Html.HiddenFor(model => model.NumRelogio)
+        @Html.DisplayFor(model => model.NumRelogio)
+    </td>
+    <td>
+        @Html.CheckBoxFor(model => model.bImportar)
+    </td>
+</tr>
+
+

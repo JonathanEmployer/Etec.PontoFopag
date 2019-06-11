@@ -1,0 +1,54 @@
+﻿@model Modelo.JornadaAlternativa
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Jornada Alternativa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string nomeTabela = "tbJornadaAlternativa";
+}
+
+<div class="">
+    <div class="panel panel-default" style="padding:0; margin-bottom:0">
+        <div class="panel-heading">
+            @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+            <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+        </div>
+        <div class="panel-body panelConteudo" id="panelBodyFixo">
+            @Html.ValidationSummary(true)
+            <div class="row">
+                @Html.GridFor(nomeTabela, Model.GetType(), false, "JornadaAlternativa", "DadosGrid")
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.Partial("../JobManager/JobView")
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-12 center-block">
+                    <div class="col-xs-4" style="text-align: left">
+                    </div>
+                    <div class="col-xs-8" style="text-align: right">
+                        <a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
+                        <a href="#" id="btIncluir" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
+                        <a href="#" id="btAlterar" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
+                        <a href="#" id="btExcluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var nomeTabela = "#" + '@nomeTabela';
+    $(document).ready(function () {
+        cwk_EventoDbClickEditar('Alterar', 'JornadaAlternativa', nomeTabela);
+        
+        cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', 'JornadaAlternativa');
+        cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', 'JornadaAlternativa', nomeTabela);
+        cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', 'JornadaAlternativa', nomeTabela);
+        cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir', 'JornadaAlternativa', nomeTabela, 'Jornada Alternativa excluída com sucesso.');
+    });
+</script>

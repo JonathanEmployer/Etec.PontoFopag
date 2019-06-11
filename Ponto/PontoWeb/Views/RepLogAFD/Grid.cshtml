@@ -1,0 +1,48 @@
+﻿@model Modelo.Proxy.PxyResumoRepLogImportacao
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Log de Importação de AFD";
+    Layout = null;
+}
+
+<div class="divCenterGrande">
+    <div class="panel panel-default" style="padding:0">
+        <div class="panel-heading">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="fecharModalGrid">X</button>
+            <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+        </div>
+        <div class="panel-body panelConteudo" id="panelBodyFixo">
+            @Html.ValidationSummary(true)
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Rep.Codigo, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.Rep.Codigo, new { @class = "form-control  input-sm" }).IsDisabled(true)
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Rep.NumSerie, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.Rep.NumSerie, new { @class = "form-control  input-sm" }).IsDisabled(true)
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Rep.Local, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.Rep.Local, new { @class = "form-control  input-sm" }).IsDisabled(true)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @Html.GridFor("tbRepLog", Model.GetType(), false, "RepLogAFD", "DadosGrid/" + Model.Rep.Id)
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#fecharModalGrid").click(function () {
+        $("#divLoadCadastroModal").hide();
+    });
+</script>

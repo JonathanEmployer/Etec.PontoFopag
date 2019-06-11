@@ -1,0 +1,49 @@
+﻿@model Modelo.HorarioAItinere
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.Incdata)
+@Html.HiddenFor(model => model.Inchora)
+@Html.HiddenFor(model => model.Incusuario)
+@Html.HiddenFor(model => model.Altdata)
+@Html.HiddenFor(model => model.Althora)
+@Html.HiddenFor(model => model.Altusuario)
+@Html.HiddenFor(model => model.Codigo)
+@Html.HiddenFor(model => model.Dia)
+
+
+
+<div class="col-md-3 validaInItinerePercentuais" style="padding-left:2px;">
+
+    <div class="checkbox" style="margin:0px;">
+        <label>
+            @Html.CheckBoxFor(model => model.MarcaDiaBool, new { @class = "ckbInItinereMarcaDia LHorariosAItinere", id = string.Format("ckbInItinereMarcaDia{0}", Model.Codigo) })
+            @Html.Label(Model.DiaDesc, new { @class = "control-label label-sm LHorariosAItinere", id = string.Format("lbInItinereDiaDesc{0}", Model.Codigo), @for = string.Format("ckbInItinereMarcaDia{0}", Model.Codigo) })
+        </label>
+    </div>
+
+
+</div>
+
+<div class="col-md-4">
+    <div class="col-md-12">
+        <div class="form-group">
+            <div class="input-group input-group-sm">
+                @Html.TextBoxFor(model => model.PercentualDentroJornada, new { @class = "form-control  input-sm LHorariosAItinere", id = string.Format("txtPercentualDentroJornada{0}", Model.Codigo) })
+                <span class="input-group-addon">%</span>
+            </div>
+            @Html.ValidationMessageFor(model => model.DiaDesc)
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-4">
+    <div class="col-md-12">
+        <div class="form-group">
+            <div class="input-group input-group-sm">
+                @Html.TextBoxFor(model => model.PercentualDentroFora, new { @class = "form-control  input-sm LHorariosAItinere", id = string.Format("txtPercentualDentroFora{0}", Model.Codigo) })
+                <span class="input-group-addon">%</span>
+            </div>
+            @Html.ValidationMessageFor(model => model.DiaDesc)
+        </div>
+    </div>
+</div>

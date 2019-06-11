@@ -1,0 +1,175 @@
+﻿@model Modelo.Proxy.pxyContratoFuncionario
+@{
+    ViewBag.Title = "Alterando Registro de Contratos/Funcionários";
+}
+@using (Html.BeginForm())
+{
+    <div class="divCenter">
+        <div class="panel panel-default" style="padding:0">
+            <div class="panel-heading salvando">
+                @Html.ActionLink("X", "Grid", "Contrato", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo" id="panelBodyFixodivCenter">
+                @Html.ValidationMessage("CustomError")
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.HiddenFor(model => model.DescContrato)
+                            @Html.LabelFor(model => model.DescContrato, new { @class = "control-label label-sm" })
+                            @Html.DisplayFor(model => model.DescContrato, new { @class = "form-control  input-sm" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
+                        <div class="col-md-5">
+                            <div class="panel panel-default">
+                                <div class="panel-heading clearfix" style="padding-bottom:5px; padding-top:5px;">
+                                    <label class="panel-title label-sm pull-left" style="padding-top:3px;">Disponíveis</label>
+                                    <div class="col-md-7 pull-right" style="padding-top:0px; padding-bottom:0px; padding-right:0px;">
+                                        <label class="panel-title control-label label-sm" style="padding-top:3px;">Buscar:</label>
+                                        <div class="col-md-8 pull-right" style="padding:0px;">
+                                            <input type="text" id="txtFiltroBloqueado" class="form-control input-sm" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body" style="padding:0px;">
+                                    <div class="div_table_highlight">
+                                        <table id="tbBlock">
+                                            <thead>
+                                                <tr>
+                                                    <th>Código</th>
+                                                    <th>Nome</th>
+                                                    <th>CPF</th>
+                                                    <th>Função</th>
+                                                    <th>Departamento</th>
+                                                    <th>Empresa</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @Html.EditorFor(model => model.ListaBloqueados)
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="col-md-12">
+                                <div class="col-md-12">
+                                    <div class="row"> &nbsp;</div>
+                                    <div class="row" style="margin-bottom: 5px;">
+                                        <a href="#" id="btPermitirTodos" class="btn input-sm btn-primary btn-block"><span class="glyphicon glyphicon-fast-forward"></span></a>
+                                    </div>
+                                    <div class="row">
+                                        <a href="#" id="btPermitirAlguns" class="btn input-sm btn-primary btn-block"><span class="glyphicon glyphicon-step-forward"></span></a>
+                                    </div>
+                                    <div class="row"> &nbsp;</div>
+                                    <div class="row" style="margin-bottom: 5px;">
+                                        <a href="#" id="btBloquearTodos" class="btn input-sm btn-primary btn-block"><span class="glyphicon glyphicon-fast-backward"></span></a>
+                                    </div>
+                                    <div class="row">
+                                        <a href="#" id="btBloquearAlguns" class="btn input-sm btn-primary btn-block"><span class="glyphicon glyphicon-step-backward"></span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="panel panel-default">
+                                <div class="panel-heading clearfix" style="padding-bottom:5px; padding-top:5px;">
+                                    <label class="panel-title label-sm pull-left" style="padding-top:3px;">Contratados</label>
+                                    <div class="col-md-7 pull-right" style="padding-top:0px; padding-bottom:0px; padding-right:0px;">
+                                        <label class="panel-title control-label label-sm" style="padding-top:3px;">Buscar:</label>
+                                        <div class="col-md-8 pull-right" style="padding:0px;">
+                                            <input type="text" id="txtFiltroLiberado" class="form-control input-sm" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body" style="padding:0px;">
+                                    <div class="div_table_highlight">
+                                        <table id="tbAllow">
+                                            <thead>
+                                                <tr>
+                                                    <th>Código</th>
+                                                    <th>Nome</th>
+                                                    <th>CPF</th>
+                                                    <th>Função</th>
+                                                    <th>Departamento</th>
+                                                    <th>Empresa</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @Html.EditorFor(model => model.ListaLiberados)
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger salvando"
+                               href="@Url.Action("Grid", "Contrato")">
+                                <span class="glyphicon glyphicon-remove"></span> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    var oTb1 = cwk_MicroTBRelatorios('#tbBlock', 235, true);
+    var oTb2 = cwk_MicroTBRelatorios('#tbAllow', 235, true);
+    var dic = [{ "codigo": "Codigo" }, { "nome": "Nome" }, { "cpf": "Cpf" }, { "funcao": "Funcao" }, { "departamento": "Departamento" }, { "empresa": "Empresa" }, { "idcontfuncionario": "IdContratoFuncionario" }];
+
+    $('#txtFiltroBloqueado').keyup(function () {
+        filtraTabelaPorTexto([$('#txtFiltroBloqueado').val()], '#tbBlock');
+    });
+
+    $('#txtFiltroLiberado').keyup(function () {
+        filtraTabelaPorTexto([$('#txtFiltroLiberado').val()], '#tbAllow');
+    });
+    
+    $(document).ready(function () {
+        cwk_EventoClickSelecionarSingle('#tbBlock');
+        cwk_EventoClickSelecionarSingle('#tbAllow');
+
+    });
+
+    $('#btPermitirTodos').click(function () {
+        adicionaTodosElementos('#tbBlock', '#tbAllow', 'ListaBloqueados', 'ListaLiberados', dic);
+    });
+
+    $('#btPermitirAlguns').click(function () {
+        adicionaElemento('#tbBlock', '#tbAllow', 'ListaBloqueados', 'ListaLiberados', dic);
+    });
+
+    $('#btBloquearTodos').click(function () {
+        adicionaTodosElementos('#tbAllow', '#tbBlock', 'ListaLiberados', 'ListaBloqueados', dic);
+    });
+
+    $('#btBloquearAlguns').click(function () {
+        adicionaElemento('#tbAllow', '#tbBlock', 'ListaLiberados', 'ListaBloqueados', dic);
+    });
+
+    $(":input[type='text']:enabled:visible:first").focus();
+</script>
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}

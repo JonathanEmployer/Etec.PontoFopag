@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Modelo.ExportacaoCampos>
+
+<div class="panel panel-default" style="padding:0">
+    <div class="panel-body">
+        <div class="div_table_highlight">
+            <table id="tbCampos" class="table table-striped table-bordered table-hover table-condensed nowrap" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Tipo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        if (item.Acao != Modelo.Acao.Excluir)
+                        {
+                            <tr id="@item.IdControle">
+                                <td id=@String.Format("tdCodigo{0}",@item.IdControle)>@item.Codigo</td>
+                                <td id=@String.Format("tdTipo{0}", @item.IdControle)>@item.Tipo</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-md-3">
+                <div style="text-align: left">
+                    <button type="submit" class="btn btn-info btn-sm" id="btVisualizarLayout">
+                        <span class="glyphicon glyphicon-search"></span> Visualizar Layout
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div style="text-align: right">
+                    <button type="submit" class="btn btn-success btn-sm btnGridCamposExp" id="btIncluirExportacaoCampos"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</button>
+                    <button type="button" class="btn btn-primary btn-sm btnGridCamposExp" id="btAlteraExportacaoCampos"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</button>
+                    <button type="button" class="btn btn-danger btn-sm btnGridCamposExp" id="btExcluiExportacaoCampos"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var altura = cwk_AlturaTela() * 22 / 100;
+    if (cwk_AlturaTela() <= 768) {
+        altura = cwk_AlturaTela() * 20 / 100;
+    }
+    var oTbCampos = cwk_MicroTB2('#tbCampos', altura);
+    $(document).ready(function () {
+        cwk_EventoClickSelecionarSingle('#tbCampos');
+    });
+</script>

@@ -1,0 +1,575 @@
+﻿@model Modelo.Compensacao
+@{
+    ViewBag.Title = "Cadastrar Compensação";
+}
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.Id, new { id = "idCompensacao" });
+    @Html.HiddenFor(model => model.Identificacao);
+    @Html.HiddenFor(model => model.Dias_1);
+    @Html.HiddenFor(model => model.Dias_2);
+    @Html.HiddenFor(model => model.Dias_3);
+    @Html.HiddenFor(model => model.Dias_4);
+    @Html.HiddenFor(model => model.Dias_5);
+    @Html.HiddenFor(model => model.Dias_6);
+    @Html.HiddenFor(model => model.Dias_7);
+    @Html.HiddenFor(model => model.Dias_8);
+    @Html.HiddenFor(model => model.Dias_9);
+    @Html.HiddenFor(model => model.Dias_10);
+    @Html.HiddenFor(model => model.Totalhorassercompensadas_9);
+    @Html.HiddenFor(model => model.Totalhorassercompensadas_10);
+    @Html.HiddenFor(model => model.Incdata);
+    @Html.HiddenFor(model => model.Inchora);
+    @Html.HiddenFor(model => model.Incusuario);
+    @Html.HiddenFor(model => model.Altdata);
+    @Html.HiddenFor(model => model.Althora);
+    @Html.HiddenFor(model => model.Altusuario);
+    @Html.HiddenFor(model => model.Periodoinicial_Ant);
+    @Html.HiddenFor(model => model.Periodofinal_Ant);
+
+    <div class="divCenterMedio">
+        <div class="panel panel-default">
+            <div class="panel-heading salvando">
+                @Html.ActionLink("X", "Grid", "Compensacao", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo" id="panelBodyMaximo">
+                @Html.Raw(HttpUtility.HtmlDecode(@Html.ValidationMessage("CustomError").ToHtmlString()))
+                @if (!String.IsNullOrEmpty(@ViewBag.MensagemFechamento))
+                {
+                    <div class="comment alert alert-info" role="alert" style="margin-bottom:0">@Html.Raw(ViewBag.MensagemFechamento)</div>
+                }
+                <div>
+                    <div class="col-md-6">
+                        <div style="margin-right:5px;">
+                            <div class="row">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
+                                    @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm" })
+                                    @Html.ValidationMessageFor(model => model.Codigo)
+                                </div>
+                            </div>
+                            <div class="row">
+                                @* Div do radio Tipo  *@
+                                <div class="panel panel-default" style="margin-bottom:5px">
+                                    <div class="panel-heading" style="padding-top:1px; padding-bottom:0px">
+                                        @Html.LabelFor(model => model.Tipo, new { @class = "control-label label-sm" })
+                                    </div>
+                                    <div class="panel-body">
+                                        @if (!ViewBag.UtilizaControleContratos)
+                                        {
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group input-group-sm">
+                                                        <div class="radio-inline" data-toggle="radio">
+                                                            @Html.RadioButtonFor(model => model.Tipo, 0, new { id = "idRadioEmpresa", name = "rdio" })
+                                                            @Html.Label("lbEmpresa", "Empresa", new { @class = "control-label label-sm", @for = "idRadioEmpresa" })
+                                                        </div>
+                                                        <div class="radio-inline" data-toggle="radio">
+                                                            @Html.RadioButtonFor(model => model.Tipo, 1, new { id = "idRadioDepartamento", name = "rdio" })
+                                                            @Html.Label("lbDepartamento", "Departamento", new { @class = "control-label label-sm", @for = "idRadioDepartamento" })
+                                                        </div>
+                                                        <div class="radio-inline" data-toggle="radio">
+                                                            @Html.RadioButtonFor(model => model.Tipo, 3, new { id = "idRadioFuncao", name = "rdio" })
+                                                            @Html.Label("lbFuncao", "Função", new { @class = "control-label label-sm", @for = "idRadioFuncao" })
+                                                        </div>
+                                                        <div class="radio-inline" data-toggle="radio">
+                                                            @Html.RadioButtonFor(model => model.Tipo, 2, new { id = "idRadioFuncionario", name = "rdio" })
+                                                            @Html.Label("lbFuncionario", "Funcionário", new { @class = "control-label label-sm", @for = "idRadioFuncionario" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        <div style="padding-top:5px">
+                                            @if (!ViewBag.UtilizaControleContratos)
+                                            {
+                                                <div id="divEmpresa" class="row divsTipo">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <div class="input-group input-group-sm">
+                                                                @Html.TextBoxFor(model => model.Empresa, new { @class = "form-control  input-sm", id = "lkpEmpresa" })
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn btn-primary desabilitar" id="btnEmpresa" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                                </span>
+                                                            </div>
+                                                            @Html.ValidationMessageFor(model => model.Empresa)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="divDepartamento" class="row divsTipo">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <div class="input-group input-group-sm">
+                                                                @Html.TextBoxFor(model => model.Departamento, new { @class = "form-control  input-sm", id = "lkpDepartamento" })
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn btn-primary desabilitar" id="btnDepartamento" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                                </span>
+                                                            </div>
+                                                            @Html.ValidationMessageFor(model => model.Departamento)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="divFuncao" class="row divsTipo">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <div class="input-group input-group-sm">
+                                                                @Html.TextBoxFor(model => model.Funcao, new { @class = "form-control  input-sm", id = "lkpFuncao" })
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn btn-primary desabilitar" id="btnFuncao" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                                </span>
+                                                            </div>
+                                                            @Html.ValidationMessageFor(model => model.Funcao)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            <div id="divFuncionario" class="row divsTipo">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        @if (ViewBag.UtilizaControleContratos)
+                                                        {
+                                                            @Html.LabelFor(model => model.Funcionario)
+                                                        }
+                                                        <div class="input-group input-group-sm">
+
+                                                            @Html.TextBoxFor(model => model.Funcionario, new { @class = "form-control  input-sm", id = "lkpFuncionario" })
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-primary desabilitar" id="btnFuncionario" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                            </span>
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.Funcionario)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" style="text-align:center; padding-top:1px; padding-bottom:0px">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label class="control-label label-sm">Dias Compensação</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="control-label label-sm">Limite Horas p/ Compensação</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-md-11 col-md-offset-1">
+                                            <div class="row">
+                                                @Html.ValidationMessageFor(model => model.Segunda)
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-5">
+                                                        <div class="checkbox" style="margin:5px">
+                                                            <label>
+                                                                @Html.CheckBoxFor(model => model.Segunda, new { @class = "checkboxdias pdias", id = "txt_Segunda" })
+                                                                @Html.LabelFor(model => model.Segunda, new { @class = "control-label label-sm", @for = "txt_Segunda" })
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-md-offset-2">
+                                                        @Html.TextBoxFor(model => model.Totalhorassercompensadas_1, new { @class = "form-control input-sm time txt_Segunda", @placeholder = "--:--" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                @Html.ValidationMessageFor(model => model.Segunda)
+                                                @Html.ValidationMessageFor(model => model.Totalhorassercompensadas_1)
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-5">
+                                                        <div class="checkbox" style="margin:5px">
+                                                            <label>
+                                                                @Html.CheckBoxFor(model => model.Terca, new { @class = "checkboxdias pdias", id = "txt_Terca" })
+                                                                @Html.LabelFor(model => model.Terca, new { @class = "control-label label-sm", @for = "txt_Terca" })
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-md-offset-2">
+                                                        @Html.TextBoxFor(model => model.Totalhorassercompensadas_2, new { @class = "form-control input-sm time txt_Terca", @placeholder = "--:--" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                @Html.ValidationMessageFor(model => model.Terca)
+                                                @Html.ValidationMessageFor(model => model.Totalhorassercompensadas_2)
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-5">
+                                                        <div class="checkbox" style="margin:5px">
+                                                            <label>
+                                                                @Html.CheckBoxFor(model => model.Quarta, new { @class = "checkboxdias pdias", id = "txt_Quarta" })
+                                                                @Html.LabelFor(model => model.Quarta, new { @class = "control-label label-sm", @for = "txt_Quarta" })
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-md-offset-2">
+                                                        @Html.TextBoxFor(model => model.Totalhorassercompensadas_3, new { @class = "form-control input-sm time txt_Quarta", @placeholder = "--:--" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                @Html.ValidationMessageFor(model => model.Quarta)
+                                                @Html.ValidationMessageFor(model => model.Totalhorassercompensadas_3)
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-5">
+                                                        <div class="checkbox" style="margin:5px">
+                                                            <label>
+                                                                @Html.CheckBoxFor(model => model.Quinta, new { @class = "checkboxdias pdias", id = "txt_Quinta" })
+                                                                @Html.LabelFor(model => model.Quinta, new { @class = "control-label label-sm", @for = "txt_Quinta" })
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-md-offset-2">
+                                                        @Html.TextBoxFor(model => model.Totalhorassercompensadas_4, new { @class = "form-control input-sm time txt_Quinta", @placeholder = "--:--" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                @Html.ValidationMessageFor(model => model.Quinta)
+                                                @Html.ValidationMessageFor(model => model.Totalhorassercompensadas_4)
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-5">
+                                                        <div class="checkbox" style="margin:5px">
+                                                            <label>
+                                                                @Html.CheckBoxFor(model => model.Sexta, new { @class = "checkboxdias pdias", id = "txt_Sexta" })
+                                                                @Html.LabelFor(model => model.Sexta, new { @class = "control-label label-sm", @for = "txt_Sexta" })
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-md-offset-2">
+                                                        @Html.TextBoxFor(model => model.Totalhorassercompensadas_5, new { @class = "form-control input-sm time txt_Sexta", @placeholder = "--:--" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                @Html.ValidationMessageFor(model => model.Sexta)
+                                                @Html.ValidationMessageFor(model => model.Totalhorassercompensadas_5)
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-5">
+                                                        <div class="checkbox" style="margin:5px">
+                                                            <label>
+                                                                @Html.CheckBoxFor(model => model.Sabado, new { @class = "checkboxdias pdias", id = "txt_Sabado" })
+                                                                @Html.LabelFor(model => model.Sabado, new { @class = "control-label label-sm", @for = "txt_Sabado" })
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-md-offset-2">
+                                                        @Html.TextBoxFor(model => model.Totalhorassercompensadas_6, new { @class = "form-control input-sm time txt_Sabado", @placeholder = "--:--" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                @Html.ValidationMessageFor(model => model.Sabado)
+                                                @Html.ValidationMessageFor(model => model.Totalhorassercompensadas_6)
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-5">
+                                                        <div class="checkbox" style="margin:5px">
+                                                            <label>
+                                                                @Html.CheckBoxFor(model => model.Domingo, new { @class = "checkboxdias pdias", id = "txt_Domingo" })
+                                                                @Html.LabelFor(model => model.Domingo, new { @class = "control-label label-sm", @for = "txt_Domingo" })
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-md-offset-2">
+                                                        @Html.TextBoxFor(model => model.Totalhorassercompensadas_7, new { @class = "form-control input-sm time txt_Domingo", @placeholder = "--:--" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                @Html.ValidationMessageFor(model => model.Domingo)
+                                                @Html.ValidationMessageFor(model => model.Totalhorassercompensadas_7)
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-5">
+                                                        <div class="checkbox" style="margin:5px">
+                                                            <label>
+                                                                @Html.CheckBoxFor(model => model.Feriado, new { @class = "checkboxdias pdias", id = "txt_Feriado" })
+                                                                @Html.LabelFor(model => model.Feriado, new { @class = "control-label label-sm", @for = "txt_Feriado" })
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-md-offset-2">
+                                                        @Html.TextBoxFor(model => model.Totalhorassercompensadas_8, new { @class = "form-control input-sm time txt_Feriado", @placeholder = "--:--" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                @Html.ValidationMessageFor(model => model.Feriado)
+                                                @Html.ValidationMessageFor(model => model.Totalhorassercompensadas_8)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="panel panel-default" style="margin-bottom:5px">
+                                <div class="panel-heading" style="text-align:center; padding-top:1px; padding-bottom:0px">
+                                    <div class="row">
+                                        <div class=" col-md-12">
+                                            <label class="control-label label-sm">Período para compensação</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-md-12 col-sm-12" style="padding-left:0px; padding-right:0px;">
+                                        <div class="row">
+                                            <div class="form-group input-group-sm">
+                                                <div class="col-md-6">
+                                                    <div class="col-md-3">
+                                                        @Html.LabelFor(model => model.Periodoinicial, new { @class = "control-label label-sm" })
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <div class="input-group input-group-sm">
+                                                            @Html.TextBoxFor(model => model.Periodoinicial, new { @class = "form-control input-sm MascDate datepickerpt", id = "dtPerCompInicial" })
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-primary" id="btnDiaPerCompInicial" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.Periodoinicial)
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="col-md-3">
+                                                        @Html.LabelFor(model => model.Periodofinal, new { @class = "control-label label-sm" })
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <div class="input-group input-group-sm">
+                                                            @Html.TextBoxFor(model => model.Periodofinal, new { @class = "form-control input-sm MascDate datepickerpt", id = "dtPerCompFinal" })
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-primary sm" id="btnDiaPerCompFinal" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.Periodofinal)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="panel panel-default" style="margin-bottom:5px">
+                                <div class="panel-heading" style="text-align:center; padding-top:1px; padding-bottom:0px">
+                                    <div class="row">
+                                        <div class=" col-md-12">
+                                            <label class="control-label label-sm">Período a ser compensado</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-md-12 col-sm-12" style="padding-left:0px; padding-right:0px;">
+                                        <div class="row">
+                                            <div class="form-group input-group-sm">
+                                                <div class="col-md-6">
+                                                    <div class="col-md-3">
+                                                        @Html.LabelFor(model => model.Diacompensarinicial, new { @class = "control-label label-sm" })
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <div class="input-group input-group-sm">
+                                                            @Html.TextBoxFor(model => model.Diacompensarinicial, new { @class = "form-control input-sm MascDate datepickerpt", id = "dtCompInicial" })
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-primary" id="btnDiaCompInicial" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.Diacompensarinicial)
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="col-md-3">
+                                                        @Html.LabelFor(model => model.Diacompensarfinal, new { @class = "control-label label-sm" })
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <div class="input-group input-group-sm">
+                                                            @Html.TextBoxFor(model => model.Diacompensarfinal, new { @class = "form-control input-sm MascDate datepickerpt", id = "dtCompFinal" })
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-primary" id="btnDiaCompFinal" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.Diacompensarfinal)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="text-align:center; padding-top:1px; padding-bottom:0px;">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="control-label label-sm">Datas à serem compensadas</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="row">
+                                            @Html.ValidationMessageFor(model => model.DiasC)
+                                        </div>
+                                        <div class="row">
+                                            <div id="diasCompensacao">
+                                                @Html.EditorFor(model => model.DiasC)
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding-top:10px; text-align:right;">
+                                            @Html.LinkToAddNestedForm("Adicionar", "#diasCompensacao", ".diaCompensacao", "DiasC",
+                                            typeof(Modelo.DiasCompensacao), "Codigo", null)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando desabilitar">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger"
+                               href="@Url.Action("Grid", "Compensacao")">
+                                <span class="glyphicon glyphicon-remove salvando"></span> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+<script>
+
+    $(".checkboxdias").click(function (event) {
+        validaSelecao();
+    });
+
+    function validaSelecao() {
+        $(".checkboxdias").each(function () {
+            var vdia = "." + this.id;
+            if ($(this).is(':checked')) {
+
+                $(vdia).prop('readonly', false);
+            }
+            else {
+                $(vdia).prop('readonly', true);
+                $(vdia).val("--:--");
+            }
+        });
+
+    }
+
+    function setaid(botao) {
+        var objpai = $(botao).parent().parent().parent();
+        var dtp = objpai.find('.datepickerpt').attr("id");
+        ret = dtp.split('__')[0];
+        botao.id = ret + '__btndata';
+        cwk_DataCalendario('#' + botao.id, '#' + dtp);
+    }
+    $(":input[type='text']:enabled:visible:first").focus();
+
+    function removeNestedForm(element, container, deleteElement) {
+        $container = $(element).parents(container);
+        $container.find(deleteElement).val('True');
+        $container.hide();
+    }
+
+    function addNestedForm(container, counter, ticks, content, optionalIndex) {
+        var nextIndex = $(counter).length;
+        var pattern = new RegExp(ticks, "gi");
+        content = content.replace(pattern, nextIndex);
+        $(container).append(content);
+        corrigeDatePicker();
+        $(container).find('input:visible:last').focus();
+    }
+
+    $(document).ready(function () {
+        if (Boolean('@ViewBag.DesabilitaCampos') == false) {
+            validaSelecao();
+        }
+        else {
+            $("#panelBodyMaximo").prop("disabled", true);
+            $(':input').attr('readonly', 'readonly');
+            $(':input').attr('disabled', true);
+            $('.desabilitar').attr('disabled', true);
+        }
+
+
+        $(":input[type='text']:enabled:visible:first").focus();
+
+        cwk_DataCalendario('#btnDiaCompInicial', '#dtCompInicial');
+        cwk_DataCalendario('#btnDiaCompFinal', '#dtCompFinal');
+        cwk_DataCalendario('#btnDiaPerCompInicial', '#dtPerCompInicial');
+        cwk_DataCalendario('#btnDiaPerCompFinal', '#dtPerCompFinal');
+        cwk_DataCalendario('#btndata', '#txtDataDiaComp');
+        cwk_EventoConsulta("#btnEmpresa", "#lkpEmpresa", "EventoConsulta", "Empresa", "");
+        cwk_EventoConsulta("#btnDepartamento", "#lkpDepartamento", "EventoConsulta", "Departamento", "");
+        cwk_EventoConsulta("#btnFuncao", "#lkpFuncao", "EventoConsulta", "Funcao", "");
+        cwk_EventoConsulta("#btnFuncionario", "#lkpFuncionario", "EventoConsulta", "Funcionario", "");
+
+        if ($('#idRadioEmpresa').is(':checked')) {
+            divVisivel("#divEmpresa");
+        }
+        if ($('#idRadioDepartamento').is(':checked')) {
+            divVisivel("#divDepartamento");
+        };
+        if ($('#idRadioFuncao').is(':checked')) {
+            divVisivel("#divFuncao");
+        };
+        if ($('#idRadioFuncionario').is(':checked')) {
+            divVisivel("#divFuncionario");
+        };
+        $("#idRadioEmpresa").change(function () {
+            divVisivel("#divEmpresa");
+        });
+        $("#idRadioDepartamento").change(function () {
+            divVisivel("#divDepartamento");
+        });
+        $("#idRadioFuncao").change(function () {
+            divVisivel("#divFuncao");
+        });
+        $("#idRadioFuncionario").change(function () {
+            divVisivel("#divFuncionario");
+        });
+        function divVisivel(idDiv) {
+            $(".divsTipo").hide();
+            $(idDiv).show();
+        };
+
+    });
+</script>
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}

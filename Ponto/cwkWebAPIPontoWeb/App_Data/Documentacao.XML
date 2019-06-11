@@ -1,0 +1,1363 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>cwkWebAPIPontoWeb</name>
+    </assembly>
+    <members>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.ApiDescriptionExtensions.GetFriendlyId(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Generates an URI-friendly ID for the <see cref="T:System.Web.Http.Description.ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"
+            </summary>
+            <param name="description">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The ID as a string.</returns>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageConfig">
+            <summary>
+            Use this class to customize the Help Page.
+            For example you can set a custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> to supply the documentation
+            or you can provide the samples for the requests/responses.
+            </summary>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Areas.HelpPage.Controllers.HelpController">
+            <summary>
+            The controller that will handle requests for the help page.
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageConfigurationExtensions.SetDocumentationProvider(System.Web.Http.HttpConfiguration,System.Web.Http.Description.IDocumentationProvider)">
+            <summary>
+            Sets the documentation provider for help page.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="documentationProvider">The documentation provider.</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleObjects(System.Web.Http.HttpConfiguration,System.Collections.Generic.IDictionary{System.Type,System.Object})">
+            <summary>
+            Sets the objects that will be used by the formatters to produce sample requests/responses.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleObjects">The sample objects.</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type and action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample request directly for the specified media type and action with parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type of the action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample response directly for the specified media type of the action with specific parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForMediaType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Sets the sample directly for all actions with the specified media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Sets the sample directly for all actions with the specified type and media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The parameter type or return type of an action.</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <returns>The help page sample generator.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageConfigurationExtensions.SetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration,cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleGenerator)">
+            <summary>
+            Sets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleGenerator">The help page sample generator.</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageConfigurationExtensions.GetModelDescriptionGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the model description generator.
+            </summary>
+            <param name="config">The configuration.</param>
+            <returns>The <see cref="T:cwkWebAPIPontoWeb.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator"/></returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageApiModel(System.Web.Http.HttpConfiguration,System.String)">
+            <summary>
+            Gets the model that represents an API displayed on the help page. The model is initialized on the first call and cached for subsequent calls.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="apiDescriptionId">The <see cref="T:System.Web.Http.Description.ApiDescription"/> ID.</param>
+            <returns>
+            An <see cref="T:cwkWebAPIPontoWeb.Areas.HelpPage.Models.HelpPageApiModel"/>
+            </returns>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Areas.HelpPage.ModelDescriptions.ModelDescription">
+            <summary>
+            Describes a type model.
+            </summary>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator">
+            <summary>
+            Generates model descriptions for given types.
+            </summary>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Areas.HelpPage.ModelDescriptions.ModelNameAttribute">
+            <summary>
+            Use this attribute to change the name of the <see cref="T:cwkWebAPIPontoWeb.Areas.HelpPage.ModelDescriptions.ModelDescription"/> generated for a type.
+            </summary>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Areas.HelpPage.Models.HelpPageApiModel">
+            <summary>
+            The model that represents an API displayed on the help page.
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.Models.HelpPageApiModel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:cwkWebAPIPontoWeb.Areas.HelpPage.Models.HelpPageApiModel"/> class.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription">
+            <summary>
+            Gets or sets the <see cref="P:cwkWebAPIPontoWeb.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription"/> that describes the API.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Areas.HelpPage.Models.HelpPageApiModel.UriParameters">
+            <summary>
+            Gets or sets the <see cref="T:cwkWebAPIPontoWeb.Areas.HelpPage.ModelDescriptions.ParameterDescription"/> collection that describes the URI parameters for the API.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Areas.HelpPage.Models.HelpPageApiModel.RequestDocumentation">
+            <summary>
+            Gets or sets the documentation for the request.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Areas.HelpPage.Models.HelpPageApiModel.RequestModelDescription">
+            <summary>
+            Gets or sets the <see cref="T:cwkWebAPIPontoWeb.Areas.HelpPage.ModelDescriptions.ModelDescription"/> that describes the request body.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Areas.HelpPage.Models.HelpPageApiModel.RequestBodyParameters">
+            <summary>
+            Gets the request body parameter descriptions.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Areas.HelpPage.Models.HelpPageApiModel.ResourceDescription">
+            <summary>
+            Gets or sets the <see cref="T:cwkWebAPIPontoWeb.Areas.HelpPage.ModelDescriptions.ModelDescription"/> that describes the resource.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Areas.HelpPage.Models.HelpPageApiModel.ResourceProperties">
+            <summary>
+            Gets the resource property descriptions.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Areas.HelpPage.Models.HelpPageApiModel.SampleRequests">
+            <summary>
+            Gets the sample requests associated with the API.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Areas.HelpPage.Models.HelpPageApiModel.SampleResponses">
+            <summary>
+            Gets the sample responses associated with the API.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Areas.HelpPage.Models.HelpPageApiModel.ErrorMessages">
+            <summary>
+            Gets the error messages associated with this model.
+            </summary>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleGenerator">
+            <summary>
+            This class will generate the samples for the help page.
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleGenerator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleGenerator"/> class.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleGenerator.ActualHttpMessageTypes">
+            <summary>
+            Gets CLR types that are used as the content of <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples">
+            <summary>
+            Gets the objects that are used directly as samples for certain actions.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects">
+            <summary>
+            Gets the objects that are serialized as samples by the supported formatters.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories">
+            <summary>
+            Gets factories for the objects that the supported formatters will serialize as samples. Processed in order,
+            stopping when the factory successfully returns a non-<see langref="null"/> object.
+            </summary>
+            <remarks>
+            Collection includes just <see cref="M:cwkWebAPIPontoWeb.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)"/> initially. Use
+            <code>SampleObjectFactories.Insert(0, func)</code> to provide an override and
+            <code>SampleObjectFactories.Add(func)</code> to provide a fallback.</remarks>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleGenerator.GetSampleRequests(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the request body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleGenerator.GetSampleResponses(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the response body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleGenerator.GetSample(System.Web.Http.Description.ApiDescription,cwkWebAPIPontoWeb.Areas.HelpPage.SampleDirection)">
+            <summary>
+            Gets the request or response body samples.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleGenerator.GetActionSample(System.String,System.String,System.Collections.Generic.IEnumerable{System.String},System.Type,System.Net.Http.Formatting.MediaTypeFormatter,System.Net.Http.Headers.MediaTypeHeaderValue,cwkWebAPIPontoWeb.Areas.HelpPage.SampleDirection)">
+            <summary>
+            Search for samples that are provided directly through <see cref="P:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples"/>.
+            </summary>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="type">The CLR type.</param>
+            <param name="formatter">The formatter.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The sample that matches the parameters.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleGenerator.GetSampleObject(System.Type)">
+            <summary>
+            Gets the sample object that will be serialized by the formatters. 
+            First, it will look at the <see cref="P:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects"/>. If no sample object is found, it will try to create
+            one using <see cref="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleGenerator.DefaultSampleObjectFactory(cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleGenerator,System.Type)"/> (which wraps an <see cref="T:cwkWebAPIPontoWeb.Areas.HelpPage.ObjectGenerator"/>) and other
+            factories in <see cref="P:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>The sample object.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleGenerator.ResolveHttpRequestMessageType(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Resolves the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The type.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleGenerator.ResolveType(System.Web.Http.Description.ApiDescription,System.String,System.String,System.Collections.Generic.IEnumerable{System.String},cwkWebAPIPontoWeb.Areas.HelpPage.SampleDirection,System.Collections.ObjectModel.Collection{System.Net.Http.Formatting.MediaTypeFormatter}@)">
+            <summary>
+            Resolves the type of the action parameter or return value when <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/> is used.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or a response.</param>
+            <param name="formatters">The formatters.</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleGenerator.WriteSampleObjectUsingFormatter(System.Net.Http.Formatting.MediaTypeFormatter,System.Object,System.Type,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Writes the sample object using formatter.
+            </summary>
+            <param name="formatter">The formatter.</param>
+            <param name="value">The value.</param>
+            <param name="type">The type.</param>
+            <param name="mediaType">Type of the media.</param>
+            <returns></returns>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleKey">
+            <summary>
+            This is used to identify the place where the sample should be applied.
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Creates a new <see cref="T:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleKey"/> based on media type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Creates a new <see cref="T:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleKey"/> based on media type and CLR type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The CLR type.</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleKey.#ctor(cwkWebAPIPontoWeb.Areas.HelpPage.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleKey"/> based on <see cref="P:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="sampleDirection">The <see cref="P:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,cwkWebAPIPontoWeb.Areas.HelpPage.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleKey"/> based on media type, <see cref="P:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The <see cref="P:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleKey.ControllerName">
+            <summary>
+            Gets the name of the controller.
+            </summary>
+            <value>
+            The name of the controller.
+            </value>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleKey.ActionName">
+            <summary>
+            Gets the name of the action.
+            </summary>
+            <value>
+            The name of the action.
+            </value>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleKey.MediaType">
+            <summary>
+            Gets the media type.
+            </summary>
+            <value>
+            The media type.
+            </value>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleKey.ParameterNames">
+            <summary>
+            Gets the parameter names.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleKey.SampleDirection">
+            <summary>
+            Gets the <see cref="P:cwkWebAPIPontoWeb.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.
+            </summary>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Areas.HelpPage.ImageSample">
+            <summary>
+            This represents an image sample on the help page. There's a display template named ImageSample associated with this class.
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.ImageSample.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:cwkWebAPIPontoWeb.Areas.HelpPage.ImageSample"/> class.
+            </summary>
+            <param name="src">The URL of an image.</param>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Areas.HelpPage.InvalidSample">
+            <summary>
+            This represents an invalid sample on the help page. There's a display template named InvalidSample associated with this class.
+            </summary>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Areas.HelpPage.ObjectGenerator">
+            <summary>
+            This class will create an object of a given type and populate it with sample data.
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)">
+            <summary>
+            Generates an object for a given type. The type needs to be public, have a public default constructor and settable public properties/fields. Currently it supports the following types:
+            Simple types: <see cref="T:System.Int32"/>, <see cref="T:System.String"/>, <see cref="T:System.Enum"/>, <see cref="T:System.DateTime"/>, <see cref="T:System.Uri"/>, etc.
+            Complex types: POCO types.
+            Nullables: <see cref="T:System.Nullable`1"/>.
+            Arrays: arrays of simple types or complex types.
+            Key value pairs: <see cref="T:System.Collections.Generic.KeyValuePair`2"/>
+            Tuples: <see cref="T:System.Tuple`1"/>, <see cref="T:System.Tuple`2"/>, etc
+            Dictionaries: <see cref="T:System.Collections.Generic.IDictionary`2"/> or anything deriving from <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+            Collections: <see cref="T:System.Collections.Generic.IList`1"/>, <see cref="T:System.Collections.Generic.IEnumerable`1"/>, <see cref="T:System.Collections.Generic.ICollection`1"/>, <see cref="T:System.Collections.IList"/>, <see cref="T:System.Collections.IEnumerable"/>, <see cref="T:System.Collections.ICollection"/> or anything deriving from <see cref="T:System.Collections.Generic.ICollection`1"/> or <see cref="T:System.Collections.IList"/>.
+            Queryables: <see cref="T:System.Linq.IQueryable"/>, <see cref="T:System.Linq.IQueryable`1"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>An object of the given type.</returns>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Areas.HelpPage.SampleDirection">
+            <summary>
+            Indicates whether the sample is used for request or response
+            </summary>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Areas.HelpPage.TextSample">
+            <summary>
+            This represents a preformatted text sample on the help page. There's a display template named TextSample associated with this class.
+            </summary>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Areas.HelpPage.XmlDocumentationProvider">
+            <summary>
+            A custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> that reads the API documentation from an XML documentation file.
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Areas.HelpPage.XmlDocumentationProvider.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:cwkWebAPIPontoWeb.Areas.HelpPage.XmlDocumentationProvider"/> class.
+            </summary>
+            <param name="documentPath">The physical path to XML document.</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.AfastamentoController.Cadastrar(cwkWebAPIPontoWeb.Models.Afastamento)">
+            <summary>
+            Cadastrar/Alterar Afastamento.
+            </summary>
+            <param name="Afastamento">Json com os dados de função</param>
+            <returns> Retorna json de função quando cadastrado com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Controllers.BilhetesController">
+            <summary>
+            Controler para retornar uma lista de marcações contendo os totalizadores de horas
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.BilhetesController.Bilhetes(System.String,System.String,System.String)">
+            <summary>
+            Método responsável por retornar a lista de bilhets por dia
+            </summary>
+            <param name="CPF">Parâmetro informado para informar o CPF do funcionário para a consulta</param>
+            <param name="Data">Parâmetro informado para determinar o dia da consulta</param>
+            <param name="Matricula">Parâmetro informado informar a matrícula do funcionário para a consulta</param>  
+            <returns>Lista de bilhetes por dia</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.BilhetesController.Cadastrar(cwkWebAPIPontoWeb.Models.BilhetesManutencao,System.Int32)">
+            <summary>
+            Incluir/Tratar bilhetes
+            </summary>
+            <param name="Bilhetes">Json com os dados de bilhetes</param>
+            <param name="IdFuncionario">Id do Funcionário</param>
+            <returns> Retorna json do bilhete quando cadastrado com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Controllers.BiometriaController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.BiometriaController.GetBiometrias(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="Login"></param>
+            <returns></returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.BLLAPI.AFD.ImportarAFD(CentralCliente.Usuario,Modelo.REP,System.String,System.IO.FileInfo,System.String@)">
+            <summary>
+            Método responsável por importar o arquivo AFD
+            </summary>
+            <param name="login">Passar o usuário da webapi, para que o método consiga buscar a conexão do cliente</param>
+            <param name="idRep">Passar o ID do rep para o qual deve ser importado o AFD</param>
+            <param name="nomeArquivo">Nome do Arquivo a ser importado</param>
+            <param name="arquivo">Fileinfo do arquivo a ser importado</param>
+            <param name="erro">Caso houver erro, retorna o detalhe do mesmo</param>
+            <returns>Caso Sucesso na importação retorna true, se não false</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.BLLAPI.Marcacao.ThreadRecalculaMarcacao(System.Nullable{System.Int32},System.Int32,System.DateTime,System.DateTime,Modelo.ProgressBar,System.String)">
+            <summary>
+            Método Responsável por recalcular as marcações de um determinado período
+            </summary>
+            <param name="pTipo">null = geral; 0 = empresa; 1 = departamento; 2 = funcionário; 3 = função; 4 = horário</param>
+            <param name="pIdTipo">Identificação do tipo</param>
+            <param name="pDataInicial">Data Inicial</param>
+            <param name="pDataFinal">Data Final</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.BLLAPI.Marcacao.ThreadRecalculaMarcacaoList(System.Collections.Generic.List{System.Int32},System.DateTime,System.DateTime,Modelo.ProgressBar,System.String,Modelo.Cw_Usuario)">
+            <summary>
+            Método Responsável por recalcular as marcações de um determinado período
+            </summary>
+            <param name="pTipo">null = geral; 0 = empresa; 1 = departamento; 2 = funcionário; 3 = função; 4 = horário</param>
+            <param name="pIdTipo">Lista de IDs referente ao tipo</param>
+            <param name="pDataInicial">Data Inicial</param>
+            <param name="pDataFinal">Data Final</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.BLLAPI.Rep.GetReps(System.String)">
+            <summary>
+            Método que retorna uma lista de todos os reps
+            </summary>
+            <param name="connectionStr">Conexão da base de onde será carregado os Rep's</param>
+            <returns></returns>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Controllers.BloqueioEstacoesController">
+            <summary>
+            API para carga de bloqueios de estações por regras temporais.
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.BloqueioEstacoesController.EstadoFuncionarios(System.String[])">
+            <summary>
+            Retorna o estado do bloqueio das estações dos funcionários informados.
+            </summary>
+            <param name="cpfs">Lista de CPFs dos funcionários.</param>
+            <returns></returns>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Controllers.ChaveFuncionarioController">
+            <summary>
+            Método responsável por retornar a conexão do usuário.
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.ChaveFuncionarioController.Get(System.String)">
+            <summary>
+            Método Responsável por retornar a Conexão do Banco de onde o funcionários faz parte.
+            </summary>
+            <param name="CPF">CPF do Funcionário</param>
+            <returns>Retorna Objeto DadosConexao</returns>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Controllers.ClassificacaoController">
+            <summary>
+            Método que retorna a lista de classificacoes
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:cwkWebAPIPontoWeb.Controllers.ClassificacaoController.Classificacao" -->
+        <member name="M:cwkWebAPIPontoWeb.Controllers.ClassificacaoHorasExtrasController.Cadastrar(System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            Cadastrar/Alterar Classificação de Horas extras.
+            </summary>
+            <param name="IdMarcacao">Id da Marcação</param>
+            <param name="IdClassificacao">Id de Classificação</param>
+            <returns> Retorna json de função quando cadastrado com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.ClassificacaoHorasExtrasController.Excluir(System.Int32)">
+            <summary>
+            Excluir Classificação de Horas.
+            </summary>
+            <param name="IdMarcacao">Id da marcação para buscar a classificação.</param>
+            <returns> Retorna um HttpResponseMessage Ok quando excluído com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.ConfiguracoesDataHoraController.RetornaConfiguracoesDataHora(System.Collections.Generic.List{System.String})">
+            <summary>
+            Retorna uma lista de Objetos do tipo EnvioConfiguracoesDataHora com os dados a serem importados pelos relógios.
+            </summary>
+            <param name="idRelogio">String com os id's dos relógios</param>
+            <returns> Retorna uma lista de Objetos do Tipo EnvioConfiguracoesDataHora com a lista de Configurações de data e hora a ser importados.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.ConfiguracoesDataHoraController.DeletaConfiguracoesDataHora(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Deleta uma lista de registros de Configuração de Data e Hora de acordo com os ids passados por parâmetro.
+            </summary>
+            <param name="idsDadosImportacao">Passar lista de id's dos registros a serem excluídos</param>
+            <returns> Retorna um dicionário de chave e valor, 0 = Erro ao excluir, chave 1 = Ok - Registro Excluido, chave 2 = nenhum registro encontrado para exclusão, </returns>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Controllers.ConfirmacaoPainelController">
+            <summary>
+            Método responsável por retornar se o período solicitado está confirmado no Painel
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:cwkWebAPIPontoWeb.Controllers.ConfirmacaoPainelController.ConfirmacaoPainel(System.Int32,System.Int32,System.Int32)" -->
+        <member name="M:cwkWebAPIPontoWeb.Controllers.ConfirmacaoPainelController.Cadastrar(cwkWebAPIPontoWeb.Models.ConfirmacaoPainel)">
+            <summary>
+            Incluir ConfirmacaoPonto
+            </summary>
+            <param name="ConfirmacaoPainel">Json com os dados de ConfirmacaoPainel</param>
+            <returns> Retorna json de ConfirmacaoPainel quando cadastrado com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.ContratoController.Cadastrar(cwkWebAPIPontoWeb.Models.Contrato)">
+            <summary>
+            Cadastrar/Alterar Contratos.
+            </summary>
+            <param name="Contrato">Json com os dados do Contrato</param>
+            <returns> Retorna json de Contrato quando cadastrado com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.ContratoController.Excluir(System.Int32)">
+            <summary>
+            Excluir Contrato.
+            </summary>
+            <param name="IdIntegracao">ID de Integração do contrato cadastrado</param>
+            <returns> Retorna um HttpResponseMessage Ok quando excluído com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.ContratoFuncionarioController.Cadastrar(System.Collections.Generic.List{cwkWebAPIPontoWeb.Models.ContratoFuncionario})">
+            <summary>
+            Vincular Contrato a Funcionário
+            </summary>
+            <param name="listacontratofuncionario">Json da Lista de ContratosFuncionarios</param>
+            <returns> Retorna um HttpResponseMessage Ok quando incluído com sucesso, quando apresentar erro retorna o json da lista de contrato funcionário com o atributo erro = true e detalheerro com a descrição do erro nos registros que geraram erro.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.ContratoFuncionarioController.Excluir(System.Collections.Generic.List{cwkWebAPIPontoWeb.Models.ContratoFuncionario})">
+            <summary>
+            Excluir o vínculo de Contrato e Funcionário.
+            </summary>
+            <param name="listacontratofuncionario">Lista de Contrato Funcionários</param>
+            <returns> Retorna um HttpResponseMessage Ok quando excluído com sucesso, quando apresentar erro retorna o json da lista de contrato funcionário com o atributo erro = true e detalheerro com a descrição do erro nos registros que geraram erro.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.DepartamentoController.Cadastrar(cwkWebAPIPontoWeb.Models.Departamento)">
+            <summary>
+            Cadastrar/Alterar Departamento.
+            </summary>
+            <param name="departamento">Json com os dados do departamento</param>
+            <returns> Retorna json de departamento quando cadastrado com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.DepartamentoController.Excluir(System.Int32)">
+            <summary>
+            Excluir Função.
+            </summary>
+            <param name="Codigo">Código da Função Cadastrada</param>
+            <returns> Retorna um HttpResponseMessage Ok quando excluído com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.DownloadController.GetFile">
+            <summary>
+            Baixar última versão disponível do Pontofopag Comunicador
+            </summary>
+            <returns>Retorna um aquivo .zip contendo o instaldor</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.DownloadController.GetFile(System.String)">
+            <summary>
+            Baixar última versão disponível do Pontofopag Comunicador
+            </summary>
+            <returns>Retorna um aquivo .zip contendo o instaldor</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.EmpresaController.Cadastrar(cwkWebAPIPontoWeb.Models.PxyEmpresa)">
+            <summary>
+            Cadastrar/Alterar Empresa.
+            </summary>
+            <param name="empresa">Json com os dados da Empresa</param>
+            <returns> Retorna json de função quando cadastrado com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.EmpresaController.Excluir(System.Int64)">
+            <summary>
+            Excluir Empresa.
+            </summary>
+            <param name="cnpjCPF">Código CNPJ/CPF da Empresa Cadastrada</param>
+            <returns> Retorna um HttpResponseMessage Ok quando excluído com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Controllers.ExtendedApiController.UsuarioPontoWeb">
+            <summary>
+            Objeto que contém o nome(Login) do usuário, Conexão e CS
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.ExtendedApiController.AddErro(System.String,System.String)">
+            <summary>
+            Adiona os erros encontrados em uma lista para ser retornado para o cliente.
+            </summary>
+            <param name="campo">Campo em que ocorreu o erro</param>
+            <param name="erro">Mensagem de erro</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.ExtendedApiController.QuantidadeErros">
+            <summary>
+            Retorna a quantidade de erros encontrados
+            </summary>
+            <returns>Quantidade de erros encontrados</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.ExtendedApiController.TrataErroModelState">
+            <summary>
+            Pega o ModalState e transforma em uma lista de erros detalhes e retorna os erros para o cliente.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.FeriadoController.Cadastrar(cwkWebAPIPontoWeb.Models.Feriado)">
+            <summary>
+            Cadastrar/Alterar Feriado.
+            </summary>
+            <param name="feriado">Json com os dados do feriado</param>
+            <returns>Retorna json de feriado quando cadastrado com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.FeriadoController.Excluir(System.Int32)">
+            <summary>
+            Excluir Feriado.
+            </summary>
+            <param name="idIntegracao">idIntegracao</param>
+            <returns> Retorna um HttpResponseMessage Ok quando excluído com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Controllers.FeriasController">
+            <summary>
+            Métodos Referentes ao Cadastro de Ferias
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.FeriasController.Cadastrar(cwkWebAPIPontoWeb.Models.Ferias)">
+            <summary>
+            Cadastrar/Alterar Férias.
+            </summary>
+            <param name="Ferias">Json com os dados de férias</param>
+            <returns> Retorna json de férias quando cadastrado com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.FuncaoController.Cadastrar(cwkWebAPIPontoWeb.Models.Funcao)">
+            <summary>
+            Cadastrar/Alterar Função.
+            </summary>
+            <param name="funcao">Json com os dados de função</param>
+            <returns> Retorna json de função quando cadastrado com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.FuncaoController.CadastrarPorDescricao(System.String)">
+            <summary>
+            Cadastrar/Alterar Função apenas pela descrição/nome.
+            </summary>
+            <param name="DescricaoFuncao">Descrição/Nome da Função</param>
+            <returns> Retorna json de função quando cadastrado com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.FuncaoController.Excluir(System.Nullable{System.Int32})">
+            <summary>
+            Excluir Função.
+            </summary>
+            <param name="idIntegracao">Id da integração da Função Cadastrada</param>
+            <returns> Retorna um HttpResponseMessage Ok quando excluído com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.FuncaoController.ExcluirPorDescricao(System.String)">
+            <summary>
+            Excluir Função por Descrição/Nome, quando possuir mais de uma descrição com o mesmo nome cadastrada no pontofopag, o método tentará excluir a primeira descrição encontrada
+            </summary>
+            <param name="DescricaoFuncao">Descrição/Nome da Função Cadastrada</param>
+            <returns> Retorna um HttpResponseMessage Ok quando excluído com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.FuncionarioBiometriasController.Cadastrar(Modelo.Registrador.BilheteBioEnvio)">
+            <summary>
+            
+            </summary>
+            <param name="objFuncionario"></param>
+            <returns></returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.FuncionarioBiometriasController.GetFuncionarioBiometriasPorCPF(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="cpf"></param>
+            <returns></returns>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Controllers.FuncionarioController">
+            <summary>
+            Controlador para Incluir e Alterar funcionário
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.FuncionarioController.Cadastrar(cwkWebAPIPontoWeb.Models.Funcionario)">
+            <summary>
+            Cadastrar/Alterar Funcionário.
+            </summary>
+            <param name="funcionario">Json com os dados do Funcionário</param>
+            <returns> Retorna json de função quando cadastrado com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.FuncionarioController.Excluir(System.Int32)">
+            <summary>
+            Excluir Funcionário.
+            </summary>
+            <param name="Codigo">Código do Funcionário Cadastrado</param>
+            <returns> Retorna um HttpResponseMessage Ok quando excluído com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:cwkWebAPIPontoWeb.Controllers.FuncionarioController.GetFuncionarioPorCPFeMatricula(System.String,System.String)" -->
+        <member name="M:cwkWebAPIPontoWeb.Controllers.FuncionarioController.CarregarAtivosBloqueio">
+            <summary>
+            Método responsável por retornar os funcionários ativos na base para o serviço de bloqueio.
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.FuncionarioController.GetAllFuncs(System.Int16,System.Int16)">
+            <summary>
+            Método para retornar todos os funcionários com opção de filtro por excluídos, Inativos ou todos
+            </summary>
+            <param name="ativo">0 = Inativo, 1 = Ativo e 2 = Todos</param>
+            <param name="excluido">0 = Não Excluído, 1 = Excluído e 2 = Todos</param>
+            <returns>Retornar DataTable com Funcionários</returns>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Controllers.FuncionarioDiaUtilController">
+            <summary>
+            Método responsável por retornar se o dia deve ser trabalhado pelo funcionário
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:cwkWebAPIPontoWeb.Controllers.FuncionarioDiaUtilController.GetFuncionarioPorCPFeMatricula(System.String,System.String,System.DateTime)" -->
+        <member name="M:cwkWebAPIPontoWeb.Controllers.ImportarAFDController.UploadAFD">
+            <summary>
+            Método para receber um arquivo AFD para importação dos bilhetes
+            </summary>
+            <returns>Retorno um HttpStatusCode com o Ok caso a importação tenha ocorrido corretamente ou o codigo de erro</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.ImportarAFDServicoComunicadorController.Importar(System.Collections.Generic.List{cwkPontoMT.Integracao.RegistroAFD})">
+            <summary>
+             Método que recebe e importa o AFD
+            </summary>
+            <param name="RegsAFD">Lista de registros do AFD</param>
+            <returns></returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.ImportarDadosRepController.RetornaFuncExpRep(System.Collections.Generic.List{System.String})">
+            <summary>
+            Retorna uma lista de Objetos do tipo ImportacaoDadosRep com os dados a serem importados pelos relógios.
+            </summary>
+            <param name="idRelogio">String com os id's dos relógios</param>
+            <returns> Retorna uma lista de Objetos do Tipo ImportacaoDadosRep com a lista de Empregados e Empresas a serem importados no relógio</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.ImportarDadosRepController.DeletaExpFuncRep(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Deleta uma lista de registros ImportacaoDadosRep de acordo com os ids passados por parâmetro.
+            </summary>
+            <param name="idsDadosImportacao">Passar lista de id's dos registros a serem excluídos</param>
+            <returns> Retorna um dicionário de chave e valor, 0 = Erro ao excluir, chave 1 = Ok - Registro Excluido, chave 2 = nenhum registro encontrado para exclusão, </returns>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Controllers.JustificativaController">
+            <summary>
+            Métodos Referentes ao Cadastro de Justificativas
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.JustificativaController.Cadastrar(cwkWebAPIPontoWeb.Models.Justificativa)">
+            <summary>
+            Cadastrar/Alterar Justificativa.
+            </summary>
+            <param name="justificativa">Json com os dados de justificativa</param>
+            <returns> Retorna json de justificativa quando cadastrado com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.JustificativaController.Excluir(System.Int32)">
+            <summary>
+            Excluir Justificativa.
+            </summary>
+            <param name="IdIntegracao">Id de Integração da Justificativa Cadastrada</param>
+            <returns> Retorna um HttpResponseMessage Ok quando excluído com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:cwkWebAPIPontoWeb.Controllers.JustificativaController.Justificativas" -->
+        <member name="T:cwkWebAPIPontoWeb.Controllers.LoginFuncionarioController">
+            <summary>
+            Controller para validar login de funcionário
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.LoginFuncionarioController.ValidaLoginFuncionario(Modelo.LoginFuncionario)">
+            <summary>
+            Controller para validar o método de login, caso login ok, retorna os dados do funcionário
+            </summary>
+            <returns>Se Login for Válido retorna os dados do Funcionário, se não retorna objeto RetornoErro</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.MarcacaoController.Marcacoes(System.String,System.Int32,System.Int32,System.String)">
+            <summary>
+            Método responsável por retornar a lista de marcações contendo os totalizadores de horas 
+            </summary>
+            <param name="CPF">Parâmetro informado para informar o CPF do funcionário para a consulta</param>
+            <param name="Mês">Parâmetro informado para determinar o mês da consulta</param>
+            <param name="Ano">Parâmetro informado para determinar o ano da consulta</param>
+            <param name="Matrícula">Parâmetro informado informar a matrícula do funcionário para a consulta</param>
+            <returns>Lista de marcações com totalizadores de horas</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.MarcacaoController.CadastrarIdDocumentoWorkFlow(cwkWebAPIPontoWeb.Models.MarcacaoDocumento)">
+            <summary>
+            Método responsável por vincular e ou indicar o fechamento do Documento Workflow do Painel do RH no Pontofopag
+            </summary>
+            <param name="MarcacaoDocumento">Id da Marcação, Id do Documento Workflow e a situação do mesmo</param>
+            <returns>Retorna HTTP Ok caso sucesso</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.NSRController.Get(System.String,System.Collections.Generic.List{System.String})">
+            <summary>
+            Retorna Lista de Rep's com o número do último NSR cadastrado no sistema.
+            </summary>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Controllers.OcorrenciaController">
+            <summary>
+            Métodos Referentes ao Cadastro de Ocorrências
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:cwkWebAPIPontoWeb.Controllers.OcorrenciaController.Ocorrencias(System.Int32)" -->
+        <member name="M:cwkWebAPIPontoWeb.Controllers.OcorrenciaController.Ocorrencias">
+            <summary>
+            Retorna todas as ocorrências cadastradas no pontofopag
+            </summary>
+            <returns>Objeto Ocorrências:
+            public class Ocorrencia
+            {
+                public int Id { get; set; }
+                public string Descricao { get; set; }
+                public bool ObrigarAnexoPainel { get; set; }
+                public bool OcorrenciaFerias { get; internal set; }
+                public string HorasAbonoPadrao { get; set; }
+                public string HorasAbonoPadraoNoturno { get; set; }
+            }
+            </returns>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Controllers.PeriodoCartaoPontoController">
+            <summary>
+            Copntroler para retornar o período configurado pela empresa para o cartão ponto
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.PeriodoCartaoPontoController.PeriodoCartaoPonto(Modelo.LoginFuncionario)">
+            <summary>
+            Método responsável por retornar o período de acordo com o configurado.
+            </summary>
+            <param name="bil">Recebe os dados do bilhete (utiliza apenas o CPF e a Senha)</param>
+            <returns>Data Inicial e Final de acordo com a configuração do Pontofopag.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.PessoaController.Cadastrar(cwkWebAPIPontoWeb.Models.Pessoa)">
+            <summary>
+            Cadastrar/Alterar Pessoa.
+            </summary>
+            <param name="pessoa">Json com os dados de pessoa</param>
+            <returns> Retorna json de pessoa quando cadastrado com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.PessoaController.Excluir(System.Nullable{System.Int32})">
+            <summary>
+            Excluir pessoa.
+            </summary>
+            <param name="Codigo">Código da pessoa Cadastrada</param>
+            <returns> Retorna um HttpResponseMessage Ok quando excluído com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Controllers.RegistraPontoController">
+            <summary>
+            Controller para registro de ponto
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.RegistraPontoController.RegistrarPonto(Modelo.Bilhete)">
+            <summary>
+            Método para gerar registro de ponto.
+            </summary>
+            <returns>Se bilhete for registrado retorna os dados do bilhete, se não retorna objeto RetornoErro</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.RelatorioConferenciaHorasController.RelatorioConferenciaHoras(Modelo.Proxy.IntegracaoTerceiro.DB1.RecuperarTriagens)">
+            <summary>
+            Retorna os dados referente a comparação de horas trabalhadas vs horas apontadas dos funcionários do cliente DB1
+            </summary>
+            <param name="rec">
+            Dados para filtro do relatório
+            O Relatório pode ser obtido nos seguintes padrões de acordo com o parâmetro TipoRelatorio, sendo: 0 - PDF; 1 - HTML; 2 - Excel; 3 - Json
+            </param>
+            <returns>Retorna Relatório ou dados para o relatório de acordo com o parâmetro.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.RelatorioHorasTrabalhadasPorFuncionarioController.RelatorioHorasTrabalhadasPorFuncionario(cwkWebAPIPontoWeb.Models.GetHorasTrabalhadas)">
+            <summary>
+            Retorna o total de horas trabalhadas por dia por funcionário
+            </summary>
+            <param name="rec"></param>
+            <returns>
+            O Relatório é obtido no padrão Json
+            </returns>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Controllers.RelatorioHomemHoraController">
+            <summary>
+            Controller Responsável pelos dados do Relatório Homem Hora
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.RelatorioHomemHoraController.RelatorioHomemHora(cwkWebAPIPontoWeb.Models.ParametrosRelatorioBase)">
+            <summary>
+            Método responsável por retornar os dados do Relatório Homem Hora
+            </summary>
+            <param name="parametros">Parâmetros do Relatório</param>
+            <returns></returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.RepController.Get(System.String)">
+            <summary>
+            Retorna todos os relógios cadastrados no banco ao qual o usuário possui acesso.
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.RepLogController.Cadastrar(Modelo.RepLog)">
+            <summary>
+            Método para gravar o log para o rep
+            </summary>
+            <param name="log">Dados do log</param>
+            <returns>Retorna HttpStatusCode.OK quando ok ou HttpStatusCode.BadRequest contendo o objeto de erro</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.RetornaBilhetesOriginaisController.RetornaBilhetesOriginais(cwkWebAPIPontoWeb.Models.BilhetesManutencao,System.Int32)">
+            <summary>
+            RetornaBilhetesOriginais
+            </summary>
+            <param name="BilhetesPainel">Json com os dados de bilhetes originais</param>
+            <param name="IdFuncionario">Id do funcionário</param>
+            <returns> Retorna json de com o resultado do armazenamento dos bilhetes originais.</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.SaldoBancoHorasMesController.SaldoBancoHorasMes(System.String,System.Int32,System.Int32,System.String,System.Int32)">
+            <summary>
+            Método responsável por retornar a lista saldo de banco de horas por mês;
+            </summary>
+            <param name="CPF">Parâmetro informado para informar o CPF do funcionário para a consulta</param>
+            <param name="Mês BaseBase">Parâmetro informado para determinar o mês da consulta</param>
+            <param name="Ano BaseBase">Parâmetro informado para determinar o ano da consulta</param>
+            <param name="Matrícula">Parâmetro informado para determinar a matrícula do funcionário para a consulta</param>
+            <param name="Quantidade de Meses AnterioresdeMesesAnteriores">Parâmetro informado para retornar a quantidade de meses anteriores a serem considerados</param>
+            <returns>Lista de saldo de banco de horas por mês</returns>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Controllers.UsuarioRegistradorController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.UsuarioRegistradorController.ValidaLoginUsuario(Modelo.LoginFuncionario)">
+            <summary>
+            Método para validar o login nas Configurações do Registrador Biométrico.
+            </summary>
+            <returns>Se Login for Válido retorna a ConnectionString, se não retorna o Erro</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.UsuarioRegistradorController.VerificaUsuarioHabilitadoParaUtulizarConfiguracao(CentralCliente.Usuario)">
+             <summary>
+            Verificar se usuário está habilitado para cadastrar/alterar as configurações do Registrador Biométrico.
+             </summary>
+             <param name="user">Json com os dados do Funcionário</param>
+             <returns> Retorna json de função quando cadastrado com sucesso, quando apresentar erro retorno um json de erro.</returns>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Models.EstadoBloqueioFuncionario">
+            <summary>
+            Objeto com o estado do bloqueio da estação do funcionário.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.EstadoBloqueioFuncionario.CPF">
+            <summary>
+            CPF do funcionário.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.EstadoBloqueioFuncionario.Bloqueado">
+            <summary>
+            Indica se está bloqueado ou não.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.EstadoBloqueioFuncionario.RegraBloqueio">
+            <summary>
+            Regra que ocasionou o bloqueio.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.EstadoBloqueioFuncionario.Mensagem">
+            <summary>
+            Mensagem descritiva do bloqueio.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.EstadoBloqueioFuncionario.PrevisaoLiberacao">
+            <summary>
+            Data/hora de previsão de liberação, se aplicável.
+            </summary>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Models.ExportaArquivos">
+            <summary>
+            Objeto com os parâmetros dos dados a serem exportados.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.ExportaArquivos.DocumentoEmpresa">
+            <summary>
+            CNPJ da Empresa que deseja exportar o arquivo
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.ExportaArquivos.TipoArquivo">
+            <summary>
+            Tipo do arquivo que deseja exportar (0 = AFDT, 1 = ACJEF)
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.ExportaArquivos.DataInicial">
+            <summary>
+            Data Inicial do período que deseja exportar o arquivo
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.ExportaArquivos.DataFinal">
+            <summary>
+            Data Final do período que deseja exportar o arquivo
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.Feriado.Tipo">
+            <summary>
+            0 - Geral
+            1 - Empresa (Obrigatório lista de DocumentoEmpresa)
+            3 - Funcionário (Obrigatório lista de CPFFuncionario)
+            </summary>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Models.ParametrosRelatorioBase">
+            <summary>
+            Parâmetros basicos utilizados nos relatórios
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.ParametrosRelatorioBase.InicioPeriodo">
+            <summary>
+            Data inicial do período
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.ParametrosRelatorioBase.FimPeriodo">
+            <summary>
+            Data Finalo do Período
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.ParametrosRelatorioBase.CPFsMatriculas">
+            <summary>
+            Lista de CPF's e Matriculas dos Funcionários
+            </summary>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Models.Pessoa">
+            <summary>
+            Objeto com os dados do Funcionário
+            </summary>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Models.PxyEmpresa">
+            <summary>
+            Objeto com os dados da Empresa
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.PxyEmpresa.Codigo">
+            <summary>
+            Codigo Empresa.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.PxyEmpresa.CEI">
+            <summary>
+            CEI Empresa.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.PxyEmpresa.Cnpj">
+            <summary>
+            Cnpj Empresa.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.PxyEmpresa.Cpf">
+            <summary>
+            Cpf Empresa.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.PxyEmpresa.Nome">
+            <summary>
+            Nome Empresa.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.PxyEmpresa.Endereco">
+            <summary>
+            Endereco Empresa.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.PxyEmpresa.Cidade">
+            <summary>
+            Cidade Empresa.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.PxyEmpresa.Estado">
+            <summary>
+            Estado Empresa.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.PxyEmpresa.Cep">
+            <summary>
+            Cep Empresa.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.PxyEmpresa.IdIntegracao">
+            <summary>
+            IdIntegracao.
+            </summary>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Models.Funcionario">
+            <summary>
+            Objeto com os dados do Funcionário
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.Codigo">
+            <summary>
+            Código Funcionário.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.Nome">
+            <summary>
+            Nome do Funcionário
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.Codigofolha">
+            <summary>
+            Código da Folha de Pagamento do Funcionário
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.Matricula">
+            <summary>
+            Matrícula do Funcionário
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.Carteira">
+            <summary>
+            Número Carteira de Trabalho do Funcionário
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.Pis">
+            <summary>
+            Número do PIS do Funcionário
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.CPF">
+            <summary>
+            CPF do Funcionário
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.Salario">
+            <summary>
+            Salário do  Funcionário
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.SenhaRelogio">
+            <summary>
+            Senha do Relógio
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.Dataadmissao">
+            <summary>
+            Data de Admissão do Funcionário
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.Datademissao">
+            <summary>
+            Data de Demissão do Funcionário
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.DocumentoEmpresa">
+            <summary>
+            CNPJ da Empresa onde o Funcionário esta Registrado
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.IdIntegracaoDepartamento">
+            <summary>
+            ID de integração do Departamento do Funcionário
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.IdIntegracaoFuncao">
+            <summary>
+            ID de integração da Função do Funcionário
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.DescricaoFuncao">
+            <summary>
+            Descrição da Função do Funcionário
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.FuncionarioAtivo">
+            <summary>
+            Indica se o Funcionário esta ativo
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.CampoObservacao">
+            <summary>
+            Observação sobre o Funcionário
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.Foto">
+            <summary>
+            Foto do Funcionário (imagem convertida para base64)
+            </summary>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Models.ImportacaoDadosRep">
+            <summary>
+            Objeto com os dados a serem importados nos relógios.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.ImportacaoDadosRep.Rep">
+            <summary>
+            Dados do relógio onde será feita a importação.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.ImportacaoDadosRep.Empresas">
+            <summary>
+            Dados das Empresas a serem Adicionadas/Alteradas/Excluidas
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.ImportacaoDadosRep.Empregados">
+            <summary>
+            Dados dos funcionários a serem Adicionados/Alterados/Excluidos
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.ImportacaoDadosRep.EnvioDadosRep">
+            <summary>
+            Id do registro que quarda as informações a serem importadas.
+            </summary>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Models.RelatorioOcorrenciasParam">
+            <summary>
+            Parâmetros de carga do relatório de ocorrencias.
+            </summary>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Models.RelatorioTratamentoDePontoParam">
+            <summary>
+            Parâmetros de carga do relatório de classificação de horas extras.
+            </summary>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Models.RelClassHorasExtrasParam">
+            <summary>
+            Parâmetros de carga do relatório de classificação de horas extras.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.RelClassHorasExtrasParam.TipoSelecao">
+            <summary>
+            0 - Todas; 1 - Classificadas; 2 - Não classificadas.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.RelClassHorasExtrasParam.Formato">
+            <summary>
+            Formato de saída. Excel ou PDF.
+            </summary>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Models.RepViewModel">
+            <summary>
+            Objeto com os dados do relógio.
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.RepViewModel.CampoCracha">
+            <summary>
+            Define qual o campo será considerado o número do crachá, 0 = dscodigo; 1 = Matrícula
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Utils.MetodosAuxiliares.RetornaDadosIniciais">
+            <summary>
+            1. Retorna um Dynamic object que contem a Connection String e o Usuário do contexto atual.
+            </summary>
+            <returns>Name</returns>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Utils.MetodosAuxiliares.UsuarioPontoWebNovo(System.Web.Http.Controllers.HttpActionContext)">
+            <summary>
+            Método Responsável por retornar um UsuarioPontoWeb que contém o nome (Login), a conexão e o CS
+            Inicialmente esse dado tenta ser recuperado pelo que foi adicionado no contexto pelo LogAPI.CS, caso não consiga tenta pela forma antiga
+            </summary>
+            <param name="context">Contexto do Controller</param>
+            <returns>UsuarioPontoWeb que contém o nome (Login), a conexão e o CS</returns>
+        </member>
+    </members>
+</doc>

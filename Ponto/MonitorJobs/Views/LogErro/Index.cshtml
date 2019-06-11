@@ -1,0 +1,163 @@
+﻿@model IEnumerable<MonitorJobs.Models.TabLogErro>
+
+<h2>Log Erro</h2>
+
+<form>
+    <div class="form-group">
+        <label for="txtData">Data</label>
+        <input type="date" class="form-control" id="txtData" value="@ViewBag.Data">
+    </div>
+    <div class="form-group">
+        <label for="txtAppId">AppId (Identificação Aplicação)</label>
+        <input type="text" class="form-control" id="txtAppId" placeholder="AppId" value="@ViewBag.AppId">
+    </div>
+    <button type="button" class="btn btn-default" onclick="AtualizarLog()">Atualizar</button>
+</form>
+<hr />
+
+@if (!String.IsNullOrEmpty(ViewBag.ErroTratado))
+{
+    <div class="alert alert-danger">
+        <strong>Erro!</strong> @ViewBag.ErroTratado
+    </div>
+}
+
+@if (Model.Count() == 0)
+{
+    <div class="alert alert-success">
+        <strong>Parabéns!</strong> nenhum erro encontrado.
+    </div>
+}
+else
+{
+
+    <table class="table table-striped table-bordered table-hover table-condensed ">
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                Data/Hora
+            </th>
+            <th>
+                Usuario
+            </th>
+            <th>
+                Sessão
+            </th>
+            <th>
+                Url
+            </th>
+            <th>
+                Request
+            </th>
+            <th>
+                Response
+            </th>
+            <th>
+                Inner_Exception
+            </th>
+            <th>
+                Stack_Trace
+            </th>
+            <th>
+                Mensagem
+            </th>
+            <th>
+                Source
+            </th>
+            <th>
+                Maquina
+            </th>
+            <th>
+                Mensagem Customizada
+            </th>
+        </tr>
+        @foreach (MonitorJobs.Models.TabLogErro log in Model)
+        {
+            <tr>
+                <td>@log.Idf_Erro_Log</td>
+                <td>@log.Dta_Cadastro</td>
+                <td>@log.Usuario</td>
+                <td style="width:400px">
+                    <div class="accordion" style="white-space: nowrap; text-overflow:ellipsis; overflow: hidden; max-width:200px;">
+                        @log.Sessao
+                    </div>
+                    <div class="panel" style="width: 350px; word-wrap: break-word; display:none">
+                        <p onclick="copyToClipboard(this)">@log.Sessao</p>
+                    </div>
+                </td>
+                <td style="width:400px">
+                    <div class="accordion" style="white-space: nowrap; text-overflow:ellipsis; overflow: hidden; max-width:200px;">
+                        @log.URL
+                    </div>
+                    <div class="panel" style="width: 350px; word-wrap: break-word; display:none">
+                        <p onclick="copyToClipboard(this)">@log.URL</p>
+                    </div>
+                </td>
+                <td style="width:400px">
+                    <div class="accordion" style="white-space: nowrap; text-overflow:ellipsis; overflow: hidden; max-width:200px;">
+                        @log.Request
+                    </div>
+                    <div class="panel" style="width: 350px; word-wrap: break-word; display:none">
+                        <p onclick="copyToClipboard(this)">@log.Request</p>
+                    </div>
+                </td>
+                <td style="width:400px">
+                    <div class="accordion" style="white-space: nowrap; text-overflow:ellipsis; overflow: hidden; max-width:200px;">
+                        @log.Response
+                    </div>
+                    <div class="panel" style="width: 350px; word-wrap: break-word; display:none">
+                        <p onclick="copyToClipboard(this)">@log.Response</p>
+                    </div>
+                </td>
+                <td>
+                    @log.Inner_Exception
+                </td>
+                <td style="width:400px">
+                    <div class="accordion" style="white-space: nowrap; text-overflow:ellipsis; overflow: hidden; max-width:200px;">
+                        @log.Stack_Trace
+                    </div>
+                    <div class="panel" style="width: 350px; word-wrap: break-word; display:none">
+                        <p onclick="copyToClipboard(this)">@log.Stack_Trace</p>
+                    </div>
+                </td>
+                <td>@log.Message</td>
+                <td>@log.Source</td>
+                <td>@log.MachineName</td>
+                <td>@log.Custon_Message</td>
+            </tr>
+        }
+
+    </table>
+}
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+    acc[i].onclick = function(){
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
+    }
+}
+
+function copyToClipboard(element) {
+    alert('Copiado para area de transferencia');
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val($(element).text()).select();
+    document.execCommand("copy");
+    $temp.remove();
+}
+
+function AtualizarLog() {
+    window.location.href = "/LogErro/Index?data=" + $("#txtData").val() + "&appId=" + $("#txtAppId").val();
+}
+</script>

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Modelo.DiasCompensacao>
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Dias de compensação";
+    Layout = null;
+}
+
+<div class="panel-body panelConteudo" id="panelBodyFixo">
+    @Html.ValidationSummary(true)
+    <div class="div_table_highlight">
+        <table id="tbDiasComp">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr id="@item.Id">
+                        <td>@item.Codigo</td>
+                        <td>@Html.Encode(String.Format("{0:dd/MM/yyyy}", item.Datacompensada))</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-xs-12 center-block">
+                <div style="text-align: right">
+                    <a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
+                    <button id="btIncluirDiaComp" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</button>
+                    <a href="#" id="btAlterarDiaComp" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
+                    <a href="#" id="btExcluirDiaComp" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        var oTbDiasComp = cwk_MicroTBTheme('#tbDiasComp', 700, false);
+        jQuery(document).ready(function () {
+            cwk_EventoClickSelecionarSingle('#tbDiasComp');
+            cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', 'DiasCompensacao', oTb);
+            cwk_DbClickCadastroEditarAjax('Alterar', 'DiasCompensacao', '#tbDiasComp', oTbDiasComp);
+            cwk_ClickCadastroAdicionarAjaxParametro('#btIncluirDiaComp', 'Cadastrar', 'DiasCompensacao', $('#idFuncionario').val(), "");
+            cwk_ClickCadastroAlterarAjax('#btAlterarDiaComp', 'Alterar', 'DiasCompensacao', oTbDiasComp, "");
+            cwk_EventoClickCadastroExcluir('#btExcluirDiaComp', 'Excluir', 'DiasCompensacao', oTbDiasComp, 'Dia de Compensação excluído com sucesso.');
+            $(window).bind('resize', function () {
+                oTbDiasComp.fnAdjustColumnSizing();
+            });
+        })
+    </script>

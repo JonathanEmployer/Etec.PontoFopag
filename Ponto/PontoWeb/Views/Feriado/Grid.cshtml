@@ -1,0 +1,52 @@
+﻿@model Modelo.Feriado
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Cadastrar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string nomeTabela = "tbFeriado";
+}
+
+<div class="">
+    <div class="panel panel-default" style="padding:0; margin-bottom:0px;">
+        <div class="panel-heading">
+            @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+            <h3 class="panel-title titulo-pagina">Feriados</h3>
+        </div>
+        <div class="panel-body panelConteudo" id="panelBodyFixo">
+            @Html.ValidationSummary(true)
+            <div class="row">
+                @Html.GridFor(nomeTabela, Model.GetType(), false, "Feriado", "DadosGrid")
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.Partial("../JobManager/JobView")
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-12 center-block">
+                    <div style="text-align: right">
+                        <a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
+                        <a href="#" id="btIncluir" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
+                        <a href="#" id="btAlterar" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
+                        <a href="#" id="btExcluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var nomeTabela = "#" + '@nomeTabela';
+    $(document).ready(function () {
+        cwk_EventoDbClickEditar('Alterar', 'Feriado', nomeTabela);
+        
+        cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', 'Feriado');
+        cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', 'Feriado', nomeTabela);
+        cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', 'Feriado', nomeTabela);
+        cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir', 'Feriado', nomeTabela, 'Feriado excluído com sucesso. ');
+    });
+</script>

@@ -1,0 +1,65 @@
+﻿@model Modelo.FiltroCartaoPonto
+<div class="modal fade" id="ModalImprimir" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog divPeriodoFixo">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title titulo-pagina" id="myModalLabel">Escolha o Formato</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-8">
+                        <div id="divErro" class="bg-danger label-vermelho" style="text-align:center; font-weight: bold; font-size:16px;">
+                            @Html.HiddenFor(model => model.intervaloCPI)
+                            @Html.ValidationMessageFor(model => model.intervaloCPI)
+                        </div>
+                        <div class="panel panel-default" id="pnlData" style="margin-top:7px; padding-top:0px;">
+                            <div class=" panel-heading " style="margin-top:0; margin-bottom:0; padding-top:0; padding-bottom:0px;">Período</div>
+                            <div class="panel-body" style="margin-top:0; margin-bottom:0; padding-top:0; padding-bottom:5px;">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="form-group input-group-sm">
+                                            <div class="col-md-12">
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBoxFor(model => model.DataInicial, new { @class = "form-control input-sm MascDate classDtInicio", id = "lkpDataInicial" })
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-primary btndatepicker classDtInicio" id="btnDataInicial" type="button" title="Data Inicial"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                    </span>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.DataInicial)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="form-group input-group-sm">
+                                            <div class="col-md-12">
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBoxFor(model => model.DataFinal, new { @class = "form-control input-sm MascDate classDtFinal", id = "lkpDataFinal" })
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-primary btndatepicker classDtFinal" id="btnDataFinal" type="button" title="Data Final"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                    </span>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.DataFinal)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div style="text-align: right">
+                    <button type="submit" value="cartaopdf" name="action" class="btn btn-default btnImprimir btn-primary"><span class="fa fa-file-pdf-o"></span>&nbsp; PDF </button>
+                    @*<button type="submit" value="cartaoexcel" name="action" class="btn btn-default btnImprimir btn-primary"><span class="fa fa-file-word-o"></span>&nbsp; Gerar Excel </button>
+                        <button type="submit" value="cartaoword" name="action" class="btn btn-default btnImprimir btn-primary"><span class="fa fa-file-excel-o"></span>&nbsp; Gerar Word </button>*@
+                    <button type="submit" value="cartaoimage" name="action" class="btn btn-default btnImprimir btn-primary"><span class="fa fa-image"></span>&nbsp; Imagem </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

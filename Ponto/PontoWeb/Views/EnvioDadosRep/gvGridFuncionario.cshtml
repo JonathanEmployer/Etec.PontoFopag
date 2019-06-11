@@ -1,0 +1,63 @@
+﻿@model Modelo.EnvioDadosRep
+@{
+    Layout = null;
+}
+
+<div id="pnlFunc">
+    @Html.HiddenFor(model => model.idsFuncionariosSelecionados)
+    <div class="div_table_highlight">
+        <table id="tbFun" class="table table-striped table-bordered table-hover table-condensed nowrap" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Pis</th>
+                    <th>Matrícula</th>
+                    <th class="addLista">Empresa</th>
+                    <th class="addLista">Departamento</th>
+                    <th class="addLista">Função</th>
+                    <th class="addLista">Contrato</th>
+                </tr>
+                <tr id="filterrow">
+                    <th>Id</th>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Pis</th>
+                    <th>Matrícula</th>
+                    <th class="addLista">Empresa</th>
+                    <th class="addLista">Departamento</th>
+                    <th class="addLista">Funcao</th>
+                    <th class="addLista">Contrato</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.pxyFuncionarios.Count; i++)
+                {
+                <tr id="@Model.pxyFuncionarios[i].Id">
+                    <td>@Model.pxyFuncionarios[i].Id</td>
+                    <td>@Model.pxyFuncionarios[i].Dscodigo</td>
+                    <td>@Model.pxyFuncionarios[i].Nome</td>
+                    <td>@Model.pxyFuncionarios[i].Pis</td>
+                    <td>@Model.pxyFuncionarios[i].Matricula</td>
+                    <td>@Model.pxyFuncionarios[i].Empresa</td>
+                    <td>@Model.pxyFuncionarios[i].Departamento</td>
+                    <td>@Model.pxyFuncionarios[i].Funcao</td>
+                    <td>@Model.pxyFuncionarios[i].Contrato</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    var tableFuncionario = null;
+    $(document).ready(function () {
+        tableFuncionario = cwk_DataTableRelatorio('tbFun', '', false, '', 2, '<"H"<"floatLeft"i><"centerDom"<"titulo">><"btnsSelect">>t<"F"p>', "Funcionário", false, AtualizaFuncsSelecionados);
+        DesabilitarGridFuncionario($("#bParmEnvFunc").is(':checked'));
+        SetSelecionados('tbFun', $('#idsFuncionariosSelecionados').val());
+    });
+
+</script>

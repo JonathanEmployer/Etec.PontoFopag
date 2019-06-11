@@ -1,0 +1,136 @@
+﻿@model Modelo.HorarioDetalhe
+@if (Model.Codigo == 0)
+{
+    <div class="row">
+        <div class="col-md-1 col-xs-12"> </div>
+        <div class="col-md-11 col-xs-12">
+            <div class="col-md-1 col-xs-2" style="padding-left:0px; padding-right:0px">
+                @Html.LabelFor(model => model.Entrada_1, new { @class = "control-label label-sm" })
+            </div>
+            <div class="col-md-3 col-xs-5" style="padding-left:0px; padding-right:0px">
+                <div class="col-md-4 col-xs-4">
+                    @Html.LabelFor(model => model.Saida_1, new { @class = "control-label label-sm" })
+                </div>
+                <div class="col-md-2 col-xs-1">
+
+                </div>
+                <div class="col-md-4 col-xs-4">
+                    @Html.LabelFor(model => model.Entrada_2, new { @class = "control-label label-sm" })
+                </div>
+            </div>
+            <div class="col-md-3 col-xs-5" style="padding-left:0px; padding-right:0px">
+                <div class="col-md-4 col-xs-4">
+                    @Html.LabelFor(model => model.Saida_2, new { @class = "control-label label-sm" })
+                </div>
+                <div class="col-md-2 col-xs-1">
+                </div>
+                <div class="col-md-4 col-xs-4">
+                    @Html.LabelFor(model => model.Entrada_3, new { @class = "control-label label-sm" })
+                </div>
+            </div>
+            <div class="col-md-offset-0 col-md-3 col-xs-offset-2 col-xs-5" style="padding-left:0px; padding-right:0px">
+                <div class="col-md-4 col-xs-4">
+                    @Html.LabelFor(model => model.Saida_3, new { @class = "control-label label-sm" })
+                </div>
+                <div class="col-md-2 col-xs-1">
+                </div>
+                <div class="col-md-4 col-xs-4">
+                    @Html.LabelFor(model => model.Entrada_4, new { @class = "control-label label-sm" })
+                </div>
+            </div>
+            <div class="col-md-1 col-xs-4" style="padding-left:0px; padding-right:0px">
+                <div class="col-md-12 col-xs-12">
+                    @Html.LabelFor(model => model.Saida_4, new { @class = "control-label label-sm" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="row">
+    <div class="col-md-1 col-xs-12">@Html.Label(Model.DiaDesc, new { @class = "control-label label-sm" })</div>
+    <div class="col-md-11 col-xs-12">
+        <div class="col-md-1 col-xs-2" style="padding-left:0px; padding-right:0px">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.Entrada_1, new { @class = "form-control input-sm timeL EntradaIntervalo", @Style = "background:#CBE5E7;", @placeholder = "--:--", id = string.Format("txtEntrada1{0}", Model.Dia), @readonly="readonly" })
+                @Html.ValidationMessageFor(model => model.Entrada_1)
+            </div>
+        </div>
+        <div class="col-md-3 col-xs-5">
+            <div class="row">
+                <div class="col-md-4 col-xs-4">
+                    <div class="form-group">
+
+                        @Html.TextBoxFor(model => model.Saida_1, new { @class = "form-control input-sm timeL", @placeholder = "--:--", id = string.Format("txtSaida1{0}", Model.Dia), @readonly="readonly" })
+                        @Html.ValidationMessageFor(model => model.Saida_1)
+                    </div>
+                </div>
+                <div class="col-md-2 col-xs-1">
+                    <div class="checkbox" style="margin:0px;">
+                        <label>
+                            @Html.CheckBoxFor(model => model.Preassinaladas1Bool, new { id = string.Format("ckbPreassinaladas1{0}", Model.Dia) })
+                            @Html.ValidationMessageFor(model => model.Preassinaladas1Bool)
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-4">
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.Entrada_2, new { @class = "form-control  input-sm timeL", @Style = "background:#CBE5E7;", @placeholder = "--:--", id = string.Format("txtEntrada2{0}", Model.Dia), @readonly="readonly" })
+                        @Html.ValidationMessageFor(model => model.Entrada_2)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-xs-5" style="padding-left:0px; padding-right:0px">
+            <div class="col-md-4 col-xs-4">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.Saida_2, new { @class = "form-control  input-sm timeL", @placeholder = "--:--", id = string.Format("txtSaida2{0}", Model.Dia), @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.Saida_2)
+                </div>
+            </div>
+            <div class="col-md-2 col-xs-1">
+                <div class="checkbox" style="margin:0px;">
+                    <label>
+                        @Html.CheckBoxFor(model => model.Preassinaladas2Bool, new { id = string.Format("ckbPreassinaladas2{0}", Model.Dia) })
+                        @Html.ValidationMessageFor(model => model.Preassinaladas2Bool)
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-4">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.Entrada_3, new { @class = "form-control  input-sm timeL", @Style = "background:#CBE5E7;", @placeholder = "--:--", id = string.Format("txtEntrada3{0}", Model.Dia), @readonly="readonly" })
+                    @Html.ValidationMessageFor(model => model.Entrada_3)
+                </div>
+            </div>
+        </div>
+        <div class="col-md-offset-0 col-md-3 col-xs-offset-2 col-xs-5" style="padding-left:0px; padding-right:0px">
+            <div class="col-md-4 col-xs-4">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.Saida_3, new { @class = "form-control  input-sm timeL", @placeholder = "--:--", id = string.Format("txtSaida3{0}", Model.Dia), @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.Saida_3)
+                </div>
+            </div>
+            <div class="col-md-2 col-xs-1">
+                <div class="checkbox" style="margin:0px;">
+                    <label>
+                        @Html.CheckBoxFor(model => model.Preassinaladas3Bool, new { id = string.Format("ckbPreassinaladas3{0}", Model.Dia), @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.Preassinaladas3Bool)
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-4">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.Entrada_4, new { @class = "form-control  input-sm timeL", @Style = "background:#CBE5E7;", @placeholder = "--:--", id = string.Format("txtEntrada4{0}", Model.Dia), @readonly="readonly" })
+                    @Html.ValidationMessageFor(model => model.Entrada_4)
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1 col-xs-4" style="padding-left:0px; padding-right:0px">
+            <div class="col-md-12 col-xs-12">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.Saida_4, new { @class = "form-control  input-sm timeL", @placeholder = "--:--", id = string.Format("txtSaida4{0}", Model.Dia), @readonly="readonly" })
+                    @Html.ValidationMessageFor(model => model.Saida_4)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,403 @@
+﻿@model IEnumerable<Modelo.BilhetesImp>
+@using System.Web.Optimization
+@{
+    ViewBag.Title = "Manutenção Bilhete";
+    Layout = null;
+    Modelo.Funcionario funcAlocado = ViewBag.FuncionarioAlocado;
+    Modelo.Funcionario funcAlocar = ViewBag.FuncionarioAlocar;
+}
+
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD_2TJzYj_BEvul3hhk9pc4iWPCCKLVBqk&sensor=false"></script>
+    <div class="divCenterPequeno">
+    <div class="modal-content">
+        <div class="modal-header salvando">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="xfecharCadastroModal">X</button>
+            <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+        </div>
+        <div class="modal-body panelConteudo">
+            <div>
+                <table id="tbManutBilhetes" class="table table-striped table-bordered table-hover table-condensed nowrap" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th colspan="3" scope="colgroup" style="text-align:center">Bilhete</th>
+                            <th colspan="3" scope="colgroup" style="text-align:center">Marcação</th>
+                        </tr>
+                        <tr>
+                            <th style="text-align:center">Data</th>
+                            <th style="text-align:center">Hora</th>
+                            <th style="text-align:center">Relógio</th>
+                            <th style="text-align:center">Data</th>
+                            <th style="text-align:center">Hora</th>
+                            <th style="text-align:center">Relógio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr id="@item.Id">
+                                <td>@item.Data.ToShortDateString()</td>
+                                <td>@item.Hora</td>
+                                <td>@item.Relogio</td>
+                                <td>@Convert.ToDateTime(item.Mar_data).ToShortDateString()</td>
+                                <td>@item.Mar_hora</td>
+                                <td>@item.Mar_relogio</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 center-block">
+                    <div style="text-align: right">
+                        @if (@ViewBag.possuiMultiploRegistro == 1)
+                        {
+                            <a href="#" id="btEnviarOutroRegistro" class="btn btn btn-warning" title="Envia o(s) bilhete(s) para outro registro do mesmo funcionário."><span class="glyphicon glyphicon-user"></span> Transferir de contrato </a>
+                        }
+                        <a href="#" id="btAlterarManutBilhete" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
+                        <button type="button" id="btExibirLocalizacao" class="btn btn-primary"><span class="glyphicon glyphicon-map-marker"></span>&nbsp;Exibir Localização</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="ModalTransferencia" role="dialog" style="z-index:999997">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button id="btnFecharModalTransferencia" type="button" class="close">&times;</button>
+                        <h4 class="modal-title">Transferir bilhetes de contrato</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-info">
+                            Deseja transferir os bilhetes selecionados do funcionário @funcAlocado.Nome para o seu outro contrato?
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="panel panel-default" style="padding:0">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Origem</h3>
+                                    </div>
+                                    <div class="panel-body panelConteudo">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    @Html.Label("Código", new { @class = "control-label label-sm" })
+                                                    @Html.TextBox("funcAlocado.Codigo", funcAlocado.Dscodigo, new { @class = "form-control  input-sm" }).IsDisabled(true)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    @Html.Label("Matricula", new { @class = "control-label label-sm" })
+                                                    @Html.TextBox("funcAlocado.Matricula", funcAlocado.Matricula, new { @class = "form-control  input-sm" }).IsDisabled(true)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.Label("Função", new { @class = "control-label label-sm" })
+                                                    @Html.TextBox("funcAlocado.Funcao", funcAlocado.Funcao, new { @class = "form-control  input-sm" }).IsDisabled(true)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.Label("Departamento", new { @class = "control-label label-sm" })
+                                                    @Html.TextBox("funcAlocado.Departamento", funcAlocado.Departamento, new { @class = "form-control  input-sm" }).IsDisabled(true)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.Label("Empresa", new { @class = "control-label label-sm" })
+                                                    @Html.TextBox("funcAlocado.Empresa", funcAlocado.Empresa, new { @class = "form-control  input-sm" }).IsDisabled(true)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="panel panel-default" style="padding:0">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Destino</h3>
+                                    </div>
+                                    <div class="panel-body panelConteudo">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    @Html.Label("Código", new { @class = "control-label label-sm" })
+                                                    @Html.TextBox("funcAlocar.Codigo", funcAlocar.Dscodigo, new { @class = "form-control  input-sm" }).IsDisabled(true)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    @Html.Label("Matricula", new { @class = "control-label label-sm" })
+                                                    @Html.TextBox("funcAlocar.Matricula", funcAlocar.Matricula, new { @class = "form-control  input-sm" }).IsDisabled(true)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.Label("Função", new { @class = "control-label label-sm" })
+                                                    @Html.TextBox("funcAlocar.Funcao", funcAlocar.Funcao, new { @class = "form-control  input-sm" }).IsDisabled(true)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.Label("Departamento", new { @class = "control-label label-sm" })
+                                                    @Html.TextBox("funcAlocar.Departamento", funcAlocar.Departamento, new { @class = "form-control  input-sm" }).IsDisabled(true)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.Label("Empresa", new { @class = "control-label label-sm" })
+                                                    @Html.TextBox("funcAlocar.Empresa", funcAlocar.Empresa, new { @class = "form-control  input-sm" }).IsDisabled(true)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-xs-12 center-block">
+                                <div style="text-align: right">
+                                    <button id="btnTransferir" class="btn btn-success">Transferir</button>
+                                    <button id="btnCancelarTransferencia" class="btn btn-danger">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+                <div class="modal fade" id="ModalMapa" role="dialog" style="z-index:999999;">
+                    <div class="modal-dialog" style="width: 900px; height: 280px;">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                @Html.Label("Exibindo a Localização", new { @class = "control-label label-sm" })
+                                <button id="btnFecharModalTransferencia" type="button" class="close">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="map_canvas" style="width: 100%; height: 432px; margin-right:0px;">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+
+                            </div>
+                        </div>
+
+                    </div>
+        </div>
+            
+     
+    </div>
+    
+</div>
+
+
+
+    <script>
+
+    var altura = cwk_AlturaTela() * 70 / 100;
+    var oTbManutBilhetes = cwk_MicroTBTheme('#tbManutBilhetes', altura, false);
+    $(document).ready(function () {
+        if ('@ViewBag.possuiMultiploRegistro' == 1) {
+                $('#tbManutBilhetes tbody').on('click', 'tr', function () {
+                    $(this).toggleClass('selected');
+                });
+            }
+            else
+            {
+            cwk_EventoClickSelecionarSingle('#tbManutBilhetes');
+            }
+
+            cwk_DbClickCadastroEditarAjaxParam('Cadastrar', 'ManutencaoBilhetes','#tbManutBilhetes', p = { idMarcacao: idMarcacao });
+            cwk_EventoAlterarAjaxParamOld('#btAlterarManutBilhete', 'Cadastrar', 'ManutencaoBilhetes', oTbManutBilhetes, p = { idMarcacao: idMarcacao })
+            $(window).bind('resize', function () {
+                oTbManutBilhetes.fnAdjustColumnSizing();
+            });
+            var jsonLoc = '@ViewBag.Localizacoes';
+            jsonLoc = jsonLoc.replace(/(&quot\;)/g, "\"");
+            var data = JSON.parse(jsonLoc);
+            if (data.length < 1) {
+                $('#btExibirLocalizacao').prop('disabled', true);
+                $('#btExibirLocalizacao').attr('disabled', true);
+            }
+        })
+
+        function callBackSalvaManutBilhete() {
+            carregaGridMarcacao();
+            cwk_CadastroAjaxParam('Grid', 'ManutencaoBilhetes', 0, parametros = { id: idMarcacao }, "");
+        }
+
+        $('#btnTransferir').click(function (e) {
+            var selecionados = cwk_GetIdsSelecionado(oTbManutBilhetes);
+            if (selecionados == null || selecionados == undefined || selecionados == "") {
+                cwkErroTit('Selecione um Registro!', 'É necessário selecionar um registo para realizar essa operação!');
+            }
+            else
+            {               
+                var parametros = p = { idMarcacao: idMarcacao, selecionados: selecionados.join(',') };               
+                cwk_PostAjaxSemProgress('TransferirDeContrato', 'ManutencaoBilhetes', parametros, callBackSalvaTransfBilhete, "")
+
+            }
+        });
+
+
+
+        $('#btExibirLocalizacao').click(function () {
+            $("#ModalMapa").modal('show');
+            chamaMapa();
+
+        });
+
+        $("#ModalMapa").on("shown.bs.modal", function () {
+            google.maps.event.trigger(map, "resize");
+            map.setCenter(new google.maps.LatLng(-25.44852900, -49.29336600));
+            var jsonLoc = '@ViewBag.Localizacoes';
+            jsonLoc = jsonLoc.replace(/(&quot\;)/g, "\"");
+            var data = JSON.parse(jsonLoc);
+            // Fazendo as marcações no mapa, de acordo com a latitude e longitude do registro
+            $.each(data, function (i, item) {
+                var marker = new google.maps.Marker({
+                    'position': new google.maps.LatLng(item.Latitude.replace(',', '.'), item.Longitude.replace(',', '.')),
+                    'map': map,
+                    'title': item.Horario
+                });
+
+                //// Caso for necessário alterar a cor do marcador do mapa
+                //marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
+
+                // Adiciona alguma informação dentro do marcador
+                var infowindow = new google.maps.InfoWindow({
+                    content: "<div class='infoDiv'><h2>" + item.Horario + "</div></div>"
+                });
+
+                // finally hook up an "OnClick" listener to the map so it pops up out info-window when the marker-pin is clicked!
+                google.maps.event.addListener(marker, 'click', function () {
+                    infowindow.open(map, marker);
+                });
+            });
+            var ultimoElemento = data[data.length - 1];
+            map.setCenter(new google.maps.LatLng(ultimoElemento.Latitude.replace(',', '.'), ultimoElemento.Longitude.replace(',', '.')));
+        });
+
+        function callBackSalvaTransfBilhete() {
+            $("#ModalTransferencia").modal('hide');
+            callBackSalvaManutBilhete();
+        }
+
+        $('#btEnviarOutroRegistro').click(function (e) {
+            var selecionados = cwk_GetIdsSelecionado(oTbManutBilhetes);
+            if (selecionados == null || selecionados == undefined || selecionados == "") {
+                cwkErroTit('Selecione um Registro!', 'É necessário selecionar um registo para realizar essa operação!');
+            }
+            else {
+
+                $("#ModalTransferencia").modal();
+
+            }
+        });
+
+        $("#btnCancelarTransferencia, #btnFecharModalTransferencia").click(function (e) {
+            $("#ModalTransferencia").modal('hide');
+            $("#ModalMapa").modal('hide');
+        });
+
+
+
+        $("#fecharModalGrid").click(function () {
+            $("#divLoadCadastroModal").hide();
+        });
+
+
+        function cwk_PostAjaxSemProgress(acao, controller, parametros, fCallBack, fCallBackErro) {
+            url = "/" + controller + "/" + acao;
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: parametros,
+                beforeSend: function () {                    
+                    $("#loading").modal();
+                },
+                success: function (data) {
+                    if (data != null && data.Success != "" && data.Success == true) {
+                        cwkSucessoTit('Registro Salvo com sucesso', data.Mensagem);
+                    }
+                    else {
+                        ProgressLimpo();
+                        $("#divModalProgress").modal('hide');
+                        cwkErro(data.Erro);
+                    }
+                },
+                error: function (ex) {
+                    if (ex.status !== 200) {
+                        cwkErro("Erro!!\n\n" + ex.status + ': ' + ex.statusText + eval(error));
+                    }
+                }
+            }).done(function (data) {
+                $("#loading").modal('hide');
+                if (fCallBack != "" && fCallBack != null && fCallBack != undefined) {
+                    fCallBack();
+                }
+            });
+        }
+
+
+    // Variavel cria para que seja criado o mapa Google Maps
+    var map = null;
+        // Funcao que criara o mapa GoogleMaps
+        function chamaMapa() {
+            // Nesse trecho, será recebido as coordenadas de latitude e longitude
+            var myLatLng = { lat: -25.44852900, lng: -49.29336600 };
+            // Configurações do mapa
+            var myOptions = {
+                zoom: 15,
+                center: myLatLng
+            };
+            // Criando o mapa dentro da div com o id="map_canvas" que ja criamos
+            map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+        }
+        //function abreLink() {
+        //    window.open('http://www.google.com.br');
+        //}
+
+
+        // Método responsável para fazer a marcação no mapa, pode ser chamado em um botão para realizar essa ação
+        //function FazMarcacao(lat, long) {
+
+        //    var latlong = lat + "," + long;//colocando na conficuracao necessaria (lat,long)
+        //    var myLatLgn = new google.maps.LatLng(lat, long);
+        //    //criando variavel tipo google.maps.LatLng e
+        //    //passando como parametro a latitude e longitude
+        //    //na configuracao: latitude,longitude.
+
+        //    //aproximando o mapa, aumentando o zoom
+        //    map.setZoom(17);
+
+        //    //fazendo  a marcacao, usando o latitude e longitude da variavel criada acima
+        //    var marker = new google.maps.Marker({ position: myLatLgn, map: map });
+        //    //aqui a variavel e o comando que faz a marcação
+
+        //    map.setCenter(myLatLgn);//leva o mapa para a posicao da marcacao
+        //}
+    </script>

@@ -1,0 +1,542 @@
+/*CSS Logo Empresa Barra Icones*/
+.FrameLogoEmpresaIcones {
+    height: 68px;
+    width: 127px;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.HelperLogoEmpresaIcones {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.logoEmpresaIcones {
+    vertical-align: middle;
+    max-height: 68px;
+    max-width: 127px;
+}
+/*FIM CSS Logo Empresa Barra Icones*/
+
+
+body {
+    background: url('/Content/img/cwork-bg.jpg') center center fixed;
+    background-color: rgb(35,83,138);
+    background-attachment: scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#wrap {
+    background-image: url('/Content/img/cwork-logo.png');
+    background-repeat: no-repeat;
+    background-size: 37%;
+    background-position:inherit!important;
+}
+
+.hidden{
+    display: none;
+}
+
+.body-content {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.titulo-pagina {
+    color: #34648d;
+    font-weight: bold;
+    background-image: url('/Content/img/Pontofopag18.png');
+    background-repeat: no-repeat;
+    padding-left: 25px;
+}
+
+/*==== Essa div faz com que todo o conteudo dentro dela caso seja maior que ela crie uma barra de rolagem, não deixando o conteúdo alterar o layout da página
+       Funciona com se fosse uma janela de tamanho máximo fixo =====*/
+.divPage {
+    position: absolute;
+    top: 120px;
+    left: 0px;
+    right: 0px;
+
+    overflow: auto;
+    padding:0px;
+    margin-right:0px;
+    -ms-overflow-x: hidden;
+}
+
+.divPartial {
+    display: none; /* ensures it’s invisible until it’s called */
+    position: absolute; /* makes the div go into a position that’s absolute to the browser viewing area */
+    left: 25%; /* positions the div half way horizontally */
+    top: 25%; /* positions the div half way vertically */
+    padding: 25px; 
+    border: 2px solid black;
+    background-color: #ffffff;
+    width: 50%;
+    height: 50%;
+    z-index: 1000;
+}
+
+.divModalSecundaria {
+    background-color:#000000;
+    filter:alpha(opacity=60);
+    opacity:0.6;
+    -moz-opacity:0.6;
+}
+
+.panelConteudo {
+    position: inherit;
+    left: 0px;
+    right: 0px;
+    z-index: 11;
+    overflow-y: auto;
+}
+
+.divCenter {
+    margin-right: auto;
+    margin-left: auto;
+    padding-top:5px;
+    padding-right: 0.5%;
+    padding-left: 0.5%;
+}
+
+.divCenterGrande {
+    padding-right: 2%;
+    padding-left: 2%;
+    margin: auto;
+    margin-left: auto;
+    padding-top:20px;
+    margin-bottom:0px;
+}
+
+.divCenterManutMarca {
+    padding-right: 4%;
+    padding-left: 4%;
+    margin: auto;
+    margin-left: auto;
+    padding-top:10px;
+    margin-bottom:0px;
+}
+
+.divCenterPesquisa {
+    padding-right: 10%;
+    padding-left: 10%;
+    margin: auto;
+    margin-left: auto;
+    padding-top:8px;
+    margin-bottom:0px;
+}
+
+.divCenterMedio {
+    padding-right: 14%;
+    padding-left: 14%;
+    margin: auto;
+    margin-left: auto;
+    padding-top:8px;
+    margin-bottom:0px;
+}
+
+.divCenterPequeno {
+    padding-right: 20%;
+    padding-left: 20%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top:28px;
+    margin-bottom:0px;
+}
+
+.classForm {
+    margin:0px;
+    padding:0px;
+}
+
+.exibeApenasCelular{
+    display: none;
+}
+
+.NaoExibeCelular{
+    display: block;
+}
+@media (min-width: 1000px) and (max-width: 1279px) {
+    .iconemenu {
+      height: 40px;
+      width:40px;
+      }
+
+    .logo_empresa {
+        padding-top:10px;
+        height:80%;
+        width:80%
+    }
+
+    .divPage {
+        top: 110px;
+        height: calc(100% - 144px);
+    }
+
+    .divCenterMedio {
+        padding-right: 8%;
+        padding-left: 8%;
+    }
+}
+
+@media (min-width: 900px) and (max-width: 999px) {
+    .iconemenu {
+      height: 32px;
+      width: 32px;
+      }
+
+    .logo_empresa {
+        padding-top:10px;
+        padding-left:10px;
+        height:70%;
+        width:70%
+    }
+
+    .divPage {
+        top: 100px;
+        height: calc(100% - 140px);
+    }
+
+    .divCenterMedio {
+        padding-right: 0%;
+        padding-left: 0%;
+    }
+}
+
+@media (min-width: 800px) and (max-width: 899px) {
+    .divPage {
+        top: 40px;
+        height: calc(100% - 72px);
+    }
+
+    .divCenterMedio {
+        padding-right: 0%;
+        padding-left: 0%;
+    }
+}
+
+@media (max-width: 770px) {
+    .divPage {
+        top: 40px;
+        height: calc(100% - 72px);
+    }
+
+    .divCenterMedio {
+        padding-right: 0%;
+        padding-left: 0%;
+    }
+    
+    .divCenter {
+        padding-right: 0%;
+        padding-left: 0%;
+        margin-top:10px;
+    }
+    .exibeApenasCelular{
+        display: block;
+    }
+
+    .NaoExibeCelular{
+        display: none;
+    }
+}
+
+/*====== Cwork Ponto ======*/
+.hrFooter {
+    margin:0px; 
+    padding:0px;
+}
+
+.cwork-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+    .cwork-bg img {
+        width: 100%;
+        height: 100%;
+    }
+
+.cwork-row {
+    position: absolute;
+    top: 25%;
+}
+
+.cwork-logo {
+    top: 190px;
+}
+
+    .cwork-logo img {
+        margin-left: -80px;
+    }
+
+.cwork-form {
+    background: #649dc1; /* Old browsers */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzY0OWRjMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjQ2JSIgc3RvcC1jb2xvcj0iIzJmNWY4NiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxMTM2NTUiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, #649dc1 0%, #2f5f86 46%, #113655 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#649dc1), color-stop(46%,#2f5f86), color-stop(100%,#113655)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #649dc1 0%,#2f5f86 46%,#113655 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #649dc1 0%,#2f5f86 46%,#113655 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #649dc1 0%,#2f5f86 46%,#113655 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #649dc1 0%,#2f5f86 46%,#113655 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#649dc1', endColorstr='#113655',GradientType=0 ); /* IE6-8 */
+    padding: 40px 40px 95px;
+    border-radius: 7px;
+    float: right;
+    margin-top: 110px;
+    margin-bottom: 30px border: 1px solid rgba(64, 119, 158, 1);
+    -webkit-box-shadow: 0px 0px 0px 7px rgba(67,130,173,1);
+    -moz-box-shadow: 0px 0px 0px 7px rgba(67,130,173,1);
+    box-shadow: 0px 0px 0px 7px rgba(67, 130, 173, 0.48);
+}
+
+
+.cwork-label {
+    color: #fff;
+}
+
+.cwork-label-erro {
+    color: #e96d6d;
+    font-size: small;
+}
+
+
+.logo-bottom-form {
+    bottom: 0;
+    right: 0;
+    position: absolute;
+}
+
+
+.footer {
+    padding-top: 10px;
+}
+
+.logo-footer img {
+    width: 130px;
+}
+
+
+.footer p {
+    color: #fff;
+}
+
+.footer ul {
+    list-style: none;
+}
+
+    .footer ul > li {
+        float: left;
+        padding: 0 9px;
+    }
+
+        .footer ul > li > a {
+            color: #fff;
+        }
+
+.social-footer {
+    margin-top: 13px;
+}
+
+    .social-footer img:hover {
+        margin-top: 1px;
+    }
+
+.no-padding-left {
+    padding-left: 0;
+}
+
+
+/* Sticky footer styles
+      -------------------------------------------------- */
+
+
+html, body, #wrap {
+    height: 100%;
+}
+
+    body > #wrap {
+        height: auto;
+        min-height: 100%;
+    }
+
+#main {
+    overflow: auto;
+    padding-bottom: 70px;
+}
+/* deve ter a mesma altura do rodapé */
+
+#footer {
+    position: relative;
+    margin-top: -44px; /* valor negativo da altura do rodapé */
+    height: 44px;
+    clear: both;
+}
+
+/*Opera Fix*/
+body:before {
+    content: "";
+    height: 100%;
+    float: left;
+    width: 0;
+    margin-top: -32767px;
+}
+
+
+
+
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 767px) {
+    #footer {
+        margin-left: 0px;
+        margin-right: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+}
+
+/*===== Responsivo ======*/
+
+@media (min-width: 992px) {
+    .cwork-logo img {
+        margin-left: -20px;
+    }
+
+    .link-footer ul {
+        line-height: 40pt;
+    }
+
+        .link-footer ul > li {
+            padding: 0 6px;
+            font-size: 10pt;
+        }
+
+    .footer p {
+        margin-top: 3px;
+        font-size: 10pt;
+    }
+
+    #footer {
+        height: auto;
+    }
+
+    .cwork-form {
+        margin-bottom: 30px;
+    }
+
+    .social-footer img {
+        width: 35px;
+    }
+}
+
+@media (max-width: 767px) {
+    .cwork-logo {
+        margin-top: -175px;
+    }
+
+        .cwork-logo img {
+            margin-left: 0px;
+        }
+
+    .cwork-form {
+        float: none;
+        max-width: 78%;
+        margin: 0 auto 22px;
+        margin-top: 210px;
+        padding: 20px 15px 50px 15px;
+        overflow: hidden;
+    }
+
+        .cwork-form form {
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+
+    #footer {
+        height: auto;
+    }
+
+    .footer ul {
+        display: table;
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    .logo-footer,
+    .info-footer,
+    .link-footer,
+    .social-footer {
+        margin-bottom: 10px;
+    }
+
+    .img-responsive {
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+    #footer {
+        height: auto;
+    }
+
+    .cwork-logo {
+        margin-top: -175px;
+        width: 350px;
+    }
+
+        .cwork-logo img {
+            margin-left: 0px;
+        }
+
+    .footer ul {
+        display: table;
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    .logo-footer,
+    .info-footer,
+    .link-footer,
+    .social-footer {
+        margin-bottom: 10px;
+    }
+
+    .cwork-form {
+        float: right;
+        margin: 0 auto;
+        margin-top: 15px;
+        padding: 19px 15px 14px 10px;
+        overflow: hidden;
+        width: 290px;
+    }
+
+        .cwork-form form {
+            margin: 26px 0 51px;
+        }
+}
+
+@media (min-width: 1200px) {
+    .cwork-form {
+        margin-bottom: 30px;
+    }
+}
+
+
+.badge-notify {
+    background: red;
+    position: relative;
+    top: -20px;
+    left: -35px;
+}

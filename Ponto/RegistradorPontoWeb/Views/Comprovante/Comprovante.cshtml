@@ -1,0 +1,56 @@
+﻿@model RegistradorPontoWeb.Models.Comprovante
+<div id="@("divComprovante"+Model.NS)">
+    <div style="width:420px; background-color: #f5ecbe; overflow:auto">
+        <div style="text-align:center;">
+            <p><b>Comprovante de Registro de Ponto Eletrônico.</b></p>
+        </div>
+        <div style="padding-top:10px">
+            <table>
+                <tr>
+                    <td>Empresa: </td>
+                    <td>@Model.EmpresaNome</td>
+                </tr>
+                <tr>
+                    <td>CNPJ: </td>
+                    <td>@Model.EmpresaCNPJ</td>
+                </tr>
+                <tr>
+                    <td>CEI: </td>
+                    <td>@Model.EmpresaCEI</td>
+                </tr>
+                <tr>
+                    <td>Nome: </td>
+                    <td>@Model.FuncionarioNome</td>
+                </tr>
+                <tr>
+                    <td>PIS: </td>
+                    <td>@Model.FuncionarioPIS</td>
+                </tr>
+                <tr>
+                    <td>Data: </td>
+                    <td>@Model.Data &nbsp; &nbsp; Hora: @Model.Hora</td>
+                </tr>
+                <tr>
+                    <td>NSR: </td>
+                    <td>@Model.NS</td>
+                </tr>
+            </table>
+        </div>
+        <div style="text-align:center">
+            <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.QrCode))" />
+        </div>
+
+        <div style='font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace; padding:10px'>
+        @String.Format("Chave de Segurança:")
+        @foreach (string part in @Model.ChaveSegurancaView)
+        {
+                @part
+            <br />
+        }
+            
+            
+
+        </div>
+    </div>
+</div>
+

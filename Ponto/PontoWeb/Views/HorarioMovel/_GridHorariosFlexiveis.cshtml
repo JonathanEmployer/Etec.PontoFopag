@@ -1,0 +1,157 @@
+﻿@model Modelo.Horario
+@using System.Web.Optimization
+@{
+    bool horariodinamico = Model.IdHorarioDinamico.GetValueOrDefault() > 0;
+}
+<div>
+    @Html.ValidationMessage("CustomErrorHorarioFlexivel")
+</div>
+<table id="tbHorariosFlexiveis">
+    <thead>
+        <tr>
+            @if (horariodinamico)
+            {
+                <th colspan="11" scope="colgroup" style="text-align:center"></th>
+            }
+            else
+            {
+                <th colspan="10" scope="colgroup" style="text-align:center"></th>
+            }
+            <th colspan="2" scope="colgroup" style="text-align:center">Carga Horária</th>
+            <th colspan="1" scope="colgroup" style="text-align:center">Carga</th>
+            <th colspan="2" scope="colgroup" style="text-align:center"></th>
+        </tr>
+        <tr>
+            <th style="text-align:center">Data</th>
+            <th style="text-align:center">Dia</th>
+            @if (horariodinamico)
+            {
+                <th style="text-align:center">Seq.</th>
+            }
+            <th style="text-align:center">Ent 1</th>
+            <th style="text-align:center">Sai 1</th>
+            <th style="text-align:center">Ent 2</th>
+            <th style="text-align:center">Sai 2</th>
+            <th style="text-align:center">Ent 3</th>
+            <th style="text-align:center">Sai 3</th>
+            <th style="text-align:center">Ent 4</th>
+            <th style="text-align:center">Sai 4</th>
+            <th style="text-align:center">Diurna</th>
+            <th style="text-align:center">Noturna</th>
+            <th style="text-align:center">Mista</th>
+            <th style="text-align:center">DSR</th>
+            <th style="text-align:center">Folga</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.HorariosFlexiveis)
+        {
+            var trClass = "";
+            if (item.Acao == Modelo.Acao.Excluir)
+            {
+                trClass = "hide";
+            }
+        <tr id="@item.Id" datahorario="@Html.Encode(String.Format("{0:dd/MM/yyyy}", item.Data))" class="@trClass">
+            @Html.Hidden("LHorariosFlexiveis", string.Empty, new { @Idhorario = item.Idhorario, @Dia = item.Dia, @DiaDesc = item.DiaDesc,
+                                                                   @Data = @Html.Encode(String.Format("{0:dd/MM/yyyy HH:mm:ss}", item.Data)),
+                                                                   @Entrada_1 = item.Entrada_1, @Entrada_2 = item.Entrada_2, @Entrada_3 = item.Entrada_3,
+                                                                   @Entrada_4 = item.Entrada_4, @Saida_1 = item.Saida_1, @Saida_2 = item.Saida_2,
+                                                                   @Saida_3 = item.Saida_3, @Saida_4 = item.Saida_4, @EntradaMin_1 = item.EntradaMin_1,
+                                                                   @EntradaMin_2 = item.EntradaMin_2, @EntradaMin_3 = item.EntradaMin_3,
+                                                                   @EntradaMin_4 = item.EntradaMin_4, @SaidaMin_1 = item.SaidaMin_1,
+                                                                   @SaidaMin_2 = item.SaidaMin_2, @SaidaMin_3 = item.SaidaMin_3, @SaidaMin_4 = item.SaidaMin_4,
+                                                                   @Totaltrabalhadadiurna = item.Totaltrabalhadadiurna,
+                                                                   @Totaltrabalhadanoturna = item.Totaltrabalhadanoturna, @Cargahorariamista = item.Cargahorariamista,
+                                                                   @TotaltrabalhadadiurnaMin = item.TotaltrabalhadadiurnaMin,
+                                                                   @TotaltrabalhadanoturnaMin = item.TotaltrabalhadanoturnaMin,
+                                                                   @CargahorariamistaMin = item.CargahorariamistaMin,
+                                                                   @Flagfolga = item.Flagfolga, @Folga = item.Folga, @Diadsr = item.Diadsr, @DSR = item.DSR,
+                                                                   @Intervaloautomatico = item.Intervaloautomatico, @Preassinaladas1 = item.Preassinaladas1,
+                                                                   @Preassinaladas1Bool = item.Preassinaladas1Bool, @Preassinaladas2 = item.Preassinaladas2,
+                                                                   @Preassinaladas2Bool = item.Preassinaladas2Bool, @Preassinaladas3 = item.Preassinaladas3,
+                                                                   @Preassinaladas3Bool = item.Preassinaladas3Bool, @bCarregar = item.bCarregar,
+                                                                   @bCarregarBool = item.bCarregarBool, @Marcacargahorariamista = item.Marcacargahorariamista,
+                                                                   @InicioAdNoturno = item.InicioAdNoturno, @FimAdNoturno = item.FimAdNoturno, @Acao = item.Acao,
+                                                                   @DiaStr = item.DiaStr, @Idjornada = item.Idjornada, @DescJornada = item.DescJornada,
+                                                                   @Neutro = item.Neutro, @Id = item.Id, @Codigo = item.Codigo,
+                                                                   @Incdata = @Html.Encode(String.Format("{0:dd/MM/yyyy HH:mm:ss}", item.Incdata)),
+                                                                   @Inchora = @Html.Encode(String.Format("{0:dd/MM/yyyy HH:mm:ss}", item.Inchora)),
+                                                                   @Incusuario = item.Incusuario, @Altdata = @Html.Encode(String.Format("{0:dd/MM/yyyy HH:mm:ss}",
+                                                                   item.Altdata)), @Althora = @Html.Encode(String.Format("{0:dd/MM/yyyy HH:mm:ss}", item.Althora)),
+                                                                   @Altusuario = item.Altusuario })
+            <td>
+                @Html.Encode(String.Format("{0:dd/MM/yyyy}", item.Data))
+            </td>
+            <td>@item.DiaStr</td>
+            @if (horariodinamico)
+            {
+                <td col="Entrada-1">@item.CicloSequenciaIndice</td>
+            }
+            <td col="Entrada-1">@item.Entrada_1</td>
+            <td col="Saida-1">@item.Saida_1</td>
+            <td col="Entrada-2">@item.Entrada_2</td>
+            <td col="Saida-2">@item.Saida_2</td>
+            <td col="Entrada-3">@item.Entrada_3</td>
+            <td col="Saida-3">@item.Saida_3</td>
+            <td col="Entrada-4">@item.Entrada_4</td>
+            <td col="Saida-4">@item.Saida_4</td>
+            <td col="Totaltrabalhadadiurna">@item.Totaltrabalhadadiurna</td>
+            <td col="Totaltrabalhadanoturna">@item.Totaltrabalhadanoturna</td>
+            <td col="Cargahorariamista">@item.Cargahorariamista</td>
+            <td col="DSR">@item.DSR</td>
+            <td col="Folga">@item.Folga</td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+<script>
+    $(document).ready(function () {
+        var oTb = cwk_MontarDataTableThemeHorariosFlexiveis('#tbHorariosFlexiveis');
+        HabilidaSelecaoIniFolga();
+    });
+
+    $('#tbHorariosFlexiveis tbody tr').dblclick(function () {
+        $("#btnDivManutHorarioCancelar").removeAttr("Disabled");
+        $("#btnDivManutHorarioFechar").removeAttr("Disabled");
+        $(this).addClass('selected');
+        var elHorarioFlexivel = $("input[name ='LHorariosFlexiveis'][ Data*='" + $(this).attr("datahorario") + "']");
+        $("#DataManut").datepicker('update', $(elHorarioFlexivel).attr('Data').substr(0, 10));
+        $("#CkbFolgManut").prop('checked', Boolean($(elHorarioFlexivel).attr('Flagfolga') == 1));
+        $("#CkbDSRManut").prop('checked', Boolean($(elHorarioFlexivel).attr('Diadsr') == 1));
+        $("#CkbIntervaloAutomaticoManut").prop('checked', Boolean($(elHorarioFlexivel).attr('Intervaloautomatico') == 1));
+        $("#lkpJornadaManut").val($(elHorarioFlexivel).attr('descjornada'));
+        $("#ManutTxt_e1").val($(elHorarioFlexivel).attr('Entrada-1'));
+        $("#ManutTxt_e2").val($(elHorarioFlexivel).attr('Entrada-2'));
+        $("#ManutTxt_e3").val($(elHorarioFlexivel).attr('Entrada-3'));
+        $("#ManutTxt_e4").val($(elHorarioFlexivel).attr('Entrada-4'));
+        $("#ManutTxt_s1").val($(elHorarioFlexivel).attr('Saida-1'));
+        $("#ManutTxt_s2").val($(elHorarioFlexivel).attr('Saida-2'));
+        $("#ManutTxt_s3").val($(elHorarioFlexivel).attr('Saida-3'));
+        $("#ManutTxt_s4").val($(elHorarioFlexivel).attr('Saida-4'));
+        $("#ManutChk_pa1").prop('checked', Boolean($(elHorarioFlexivel).attr('Preassinaladas1') == 1));
+        $("#ManutChk_pa2").prop('checked', Boolean($(elHorarioFlexivel).attr('Preassinaladas2') == 1));
+        $("#ManutChk_pa3").prop('checked', Boolean($(elHorarioFlexivel).attr('Preassinaladas3') == 1));
+        if ($(elHorarioFlexivel).attr('Marcacargahorariamista') == 0) {
+            $("#ManutCkbHorasNormais").prop('checked', true);
+            $("#ManutCkbHorasNormais").attr('checked', true);
+            $("#ManutCkbHorasMista").prop('checked', false);
+            $("#ManutCkbHorasMista").attr('checked', false);
+            $("#ManutCargaDiurna").val($(elHorarioFlexivel).attr('totaltrabalhadadiurna'));
+            $("#ManutCargaNoturna").val($(elHorarioFlexivel).attr('Totaltrabalhadanoturna'));
+        }
+        else {
+            $("#ManutCkbHorasNormais").prop('checked', false);
+            $("#ManutCkbHorasNormais").attr('checked', false);
+            $("#ManutCkbHorasMista").prop('checked', true);
+            $("#ManutCkbHorasMista").attr('checked', true);
+            var hora1min = $(elHorarioFlexivel).attr('totaltrabalhadadiurna');
+            var hora2min = $(elHorarioFlexivel).attr('Totaltrabalhadanoturna');
+            var retorno = somaHoras(hora1min, hora2min, "");
+            $("#ManutTxtTotalMista").val(ConvertMinutoHora(retorno.resultado, 2));
+        }
+        validaIntervaloAutomaticoManut();
+        $("#divManutHorario").modal({ show: true });
+    });
+</script>

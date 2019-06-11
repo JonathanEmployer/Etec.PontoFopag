@@ -1,0 +1,68 @@
+﻿@model Modelo.Funcao
+@{
+    ViewBag.Title = "Cadastrar Função";
+    bool integrado = false;
+    if (Model.idIntegracao.GetValueOrDefault() > 0 && ViewBag.BloqueiaDadosIntegrados)
+    {
+        integrado = true;
+    }    
+}
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.idIntegracao);
+    <div class="divCenterPequeno">
+        <div class="panel panel-default" style="padding:0">
+            <div class="panel-heading salvando">
+                @Html.ActionLink("X", "Grid", "Funcao", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">Cadastro de Função</h3>
+            </div>
+            <div class="panel-body panelConteudo">
+                @Html.ValidationMessage("CustomError")
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm" }).IsReadonly(integrado)
+                            @Html.ValidationMessageFor(model => model.Codigo)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Descricao, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Descricao, new { @class = "form-control  input-sm" }).IsReadonly(integrado)
+                            @Html.ValidationMessageFor(model => model.Descricao)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger salvando"
+                               href="@Url.Action("Grid", "Funcao")">
+                                <span class="glyphicon glyphicon-remove"></span> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(":input[type='text']:enabled:visible:first").focus();
+</script>
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}

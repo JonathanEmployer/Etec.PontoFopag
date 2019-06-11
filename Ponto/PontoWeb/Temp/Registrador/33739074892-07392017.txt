@@ -1,0 +1,152 @@
+07/07/2017 16:39:43 - 
+************** REQUEST ****************
+Key: ALL_HTTP
+     Value 0: HTTP_CONNECTION:keep-alive
+HTTP_CONTENT_LENGTH:260
+HTTP_CONTENT_TYPE:application/x-www-form-urlencoded
+HTTP_ACCEPT:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+HTTP_ACCEPT_ENCODING:gzip, deflate
+HTTP_ACCEPT_LANGUAGE:pt-BR,pt;q=0.8,en-US;q=0.5,en;q=0.3
+HTTP_COOKIE:_ga=GA1.1.1830901396.1496856563; ai_user=Cffr2|2017-06-26T19:47:35.773Z; ASP.NET_SessionId=mjchlrqvqe0l1uxv5jcce2ev; .ASPXAUTH=C1809AD38593A4B1ECA63A278BE77BCBCA1C16FDAE1B87FB4B4CE192B936786D24C7D17F2D7474511D5D63074894F3DD7A248D23FB76EBB75167DE369445F20AE76C86F7D7C5124C3B1378926E04872AD107EE75ECEC6593CAC11A5695221FC815DA3CB7A013C7CFA7ECE1091A62BBC6; _gid=GA1.1.86947833.1499450287; ai_session=MeqMn|1499453247448|1499456237684.125
+HTTP_HOST:localhost:34437
+HTTP_REFERER:http://localhost:34437/Registrador/Ponto
+HTTP_USER_AGENT:Mozilla/5.0 (Windows NT 6.3; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0
+HTTP_UPGRADE_INSECURE_REQUESTS:1
+
+Key: ALL_RAW
+     Value 0: Connection: keep-alive
+Content-Length: 260
+Content-Type: application/x-www-form-urlencoded
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Encoding: gzip, deflate
+Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.5,en;q=0.3
+Cookie: _ga=GA1.1.1830901396.1496856563; ai_user=Cffr2|2017-06-26T19:47:35.773Z; ASP.NET_SessionId=mjchlrqvqe0l1uxv5jcce2ev; .ASPXAUTH=C1809AD38593A4B1ECA63A278BE77BCBCA1C16FDAE1B87FB4B4CE192B936786D24C7D17F2D7474511D5D63074894F3DD7A248D23FB76EBB75167DE369445F20AE76C86F7D7C5124C3B1378926E04872AD107EE75ECEC6593CAC11A5695221FC815DA3CB7A013C7CFA7ECE1091A62BBC6; _gid=GA1.1.86947833.1499450287; ai_session=MeqMn|1499453247448|1499456237684.125
+Host: localhost:34437
+Referer: http://localhost:34437/Registrador/Ponto
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0
+Upgrade-Insecure-Requests: 1
+
+Key: APPL_MD_PATH
+     Value 0: /LM/W3SVC/2/ROOT
+Key: APPL_PHYSICAL_PATH
+     Value 0: E:\TFS\Releases\Sprint36\Ponto\PontoWeb\
+Key: AUTH_TYPE
+     Value 0: Forms
+Key: AUTH_USER
+     Value 0: homemployer1
+Key: AUTH_PASSWORD
+     Value 0: 
+Key: LOGON_USER
+     Value 0: homemployer1
+Key: REMOTE_USER
+     Value 0: homemployer1
+Key: CERT_COOKIE
+     Value 0: 
+Key: CERT_FLAGS
+     Value 0: 
+Key: CERT_ISSUER
+     Value 0: 
+Key: CERT_KEYSIZE
+     Value 0: 
+Key: CERT_SECRETKEYSIZE
+     Value 0: 
+Key: CERT_SERIALNUMBER
+     Value 0: 
+Key: CERT_SERVER_ISSUER
+     Value 0: 
+Key: CERT_SERVER_SUBJECT
+     Value 0: 
+Key: CERT_SUBJECT
+     Value 0: 
+Key: CONTENT_LENGTH
+     Value 0: 260
+Key: CONTENT_TYPE
+     Value 0: application/x-www-form-urlencoded
+Key: GATEWAY_INTERFACE
+     Value 0: CGI/1.1
+Key: HTTPS
+     Value 0: off
+Key: HTTPS_KEYSIZE
+     Value 0: 
+Key: HTTPS_SECRETKEYSIZE
+     Value 0: 
+Key: HTTPS_SERVER_ISSUER
+     Value 0: 
+Key: HTTPS_SERVER_SUBJECT
+     Value 0: 
+Key: INSTANCE_ID
+     Value 0: 2
+Key: INSTANCE_META_PATH
+     Value 0: /LM/W3SVC/2
+Key: LOCAL_ADDR
+     Value 0: ::1
+Key: PATH_INFO
+     Value 0: /Registrador/Ponto
+Key: PATH_TRANSLATED
+     Value 0: E:\TFS\Releases\Sprint36\Ponto\PontoWeb\Registrador\Ponto
+Key: QUERY_STRING
+     Value 0: 
+Key: REMOTE_ADDR
+     Value 0: ::1
+Key: REMOTE_HOST
+     Value 0: ::1
+Key: REMOTE_PORT
+     Value 0: 52582
+Key: REQUEST_METHOD
+     Value 0: POST
+Key: SCRIPT_NAME
+     Value 0: /Registrador/Ponto
+Key: SERVER_NAME
+     Value 0: localhost
+Key: SERVER_PORT
+     Value 0: 34437
+Key: SERVER_PORT_SECURE
+     Value 0: 0
+Key: SERVER_PROTOCOL
+     Value 0: HTTP/1.1
+Key: SERVER_SOFTWARE
+     Value 0: Microsoft-IIS/8.0
+Key: URL
+     Value 0: /Registrador/Ponto
+Key: HTTP_CONNECTION
+     Value 0: keep-alive
+Key: HTTP_CONTENT_LENGTH
+     Value 0: 260
+Key: HTTP_CONTENT_TYPE
+     Value 0: application/x-www-form-urlencoded
+Key: HTTP_ACCEPT
+     Value 0: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Key: HTTP_ACCEPT_ENCODING
+     Value 0: gzip, deflate
+Key: HTTP_ACCEPT_LANGUAGE
+     Value 0: pt-BR,pt;q=0.8,en-US;q=0.5,en;q=0.3
+Key: HTTP_COOKIE
+     Value 0: _ga=GA1.1.1830901396.1496856563; ai_user=Cffr2|2017-06-26T19:47:35.773Z; ASP.NET_SessionId=mjchlrqvqe0l1uxv5jcce2ev; .ASPXAUTH=C1809AD38593A4B1ECA63A278BE77BCBCA1C16FDAE1B87FB4B4CE192B936786D24C7D17F2D7474511D5D63074894F3DD7A248D23FB76EBB75167DE369445F20AE76C86F7D7C5124C3B1378926E04872AD107EE75ECEC6593CAC11A5695221FC815DA3CB7A013C7CFA7ECE1091A62BBC6; _gid=GA1.1.86947833.1499450287; ai_session=MeqMn|1499453247448|1499456237684.125
+Key: HTTP_HOST
+     Value 0: localhost:34437
+Key: HTTP_REFERER
+     Value 0: http://localhost:34437/Registrador/Ponto
+Key: HTTP_USER_AGENT
+     Value 0: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0
+Key: HTTP_UPGRADE_INSECURE_REQUESTS
+     Value 0: 1
+************** FORM ****************
+Key: LocalizacaoRegistroPonto.Latitude
+     Value 0: 0
+Key: LocalizacaoRegistroPonto.Longitude
+     Value 0: 0
+Key: Username
+     Value 0: 337.390.748-92
+Key: Password
+     Value 0: 1234
+Key: CustomError
+     Value 0: 
+Key: Lembrarme
+     Value 0: false
+Key: FiltroCartaoPonto.intervaloCPI
+     Value 0: 0
+Key: FiltroCartaoPonto.DataInicial
+     Value 0: 07/06/2017
+Key: FiltroCartaoPonto.DataFinal
+     Value 0: 07/07/2017
+

@@ -1,0 +1,58 @@
+﻿@model Modelo.FuncionarioHistorico
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Funcionário Histórico";
+    Layout = null;
+    string NomeTabela = "tbFunHist";
+}
+
+    <div class="divCenterMedio">
+        <div class="panel panel-default" style="padding:0">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="fecharModalGrid">X</button>
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo" id="panelBodyFixo">
+                @Html.ValidationSummary(true)
+                <div class="row">
+                    @Html.GridFor(NomeTabela, Model.GetType(), false, "FuncionarioHistorico", "Dados/" + Model.Idfuncionario)
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <a href="#" id="btConsultarHist" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
+                            <a href="#" id="btIncluirHist" class="btn btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
+                            <a href="#" id="btAlterarHist" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
+                            <a href="#" id="btExcluirHist" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+
+    //var altura = cwk_AlturaTela() * 39 / 100;
+    //var oTbHist = cwk_MontarDataTableTheme('#tbHist', 'Histórico Funcionário', false, altura, "");
+    $(document).ready(function () {
+        var nometabela = "#" + '@NomeTabela';
+        var controller = 'FuncionarioHistorico';
+        cwk_DbClickCadastroEditarAjaxParam('Alterar', controller, nometabela, { idFunc: '@ViewBag.idFuncionario' });
+        cwk_EventoIncluirAjaxParam('#btIncluirHist', 'Cadastrar', controller, { idFunc: '@Model.Idfuncionario' });
+        cwk_EventoAlterarAjaxParam('#btAlterarHist', 'Alterar', controller, nometabela, parametros = { idFunc: '@Model.Idfuncionario' });
+        cwk_EventoAlterarAjaxParam('#btConsultarHist', 'Consultar', controller, nometabela, parametros = { idFunc: '@Model.Idfuncionario' });
+        cwk_EventoClickCadastroExcluir('#btExcluirHist', 'Excluir', controller, nometabela, 'Histórico funcionário excluído com sucesso.');
+        //$(window).bind('resize', function () {
+        //oTbHist.fnAdjustColumnSizing();
+        //});
+    })
+
+    $("#fecharModalGrid").click(function () {
+        $("#divLoadCadastroModal").hide();
+    });
+
+</script>

@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Erro";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="@Url.Content("~/content/IconeCwork.png")" />
+    @Styles.Render("~/Content/logincss")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    @Scripts.Render("~/bundles/loginjs")
+    @Scripts.Render("~/bundles/paginajs")
+
+
+
+
+    <div class="divback geral">
+        <div id="wrap">
+            <div class="container content">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-6">
+                            <img class="img-responsive" src="~/Content/img/cwork-logo.png">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-6">
+                            <div class="divCenterPequeno">
+                                <div class="panel panel-danger">
+                                    <div class="panel-heading">
+                                        @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+                                        <h3 class="panel-title titulo-pagina">@ViewBag.Titulo</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <h2 class="alert-danger" style="text-align:center">@ViewBag.Erro</h2>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <div class="row">
+                                            <div class="col-xs-12 center-block">
+                                                <div style="text-align: right">
+                                                    <a href="javascript:history.go(-1)" class="btn btn-primary"><span class="glyphicon glyphicon-circle-arrow-left"></span> Voltar</a>
+                                                    <a href="#" id="btFechar" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>&nbsp;Fechar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div id="push"></div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#btFechar').on("click", function () {
+                var url = "/Home/Index/" + 0;
+                window.location = url;
+            });
+        })
+    </script>
+
+</body>
+</html>

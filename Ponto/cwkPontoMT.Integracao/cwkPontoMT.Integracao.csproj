@@ -1,0 +1,679 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{498061B5-3229-411B-A807-A2FC98410927}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>cwkPontoMT.Integracao</RootNamespace>
+    <AssemblyName>cwkPontoMT.Integracao</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Homologacao|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Homologacao\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Homologacao|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Homologacao\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Desenvolvimento|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Desenvolvimento\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Desenvolvimento|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Desenvolvimento\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CKREPII, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\CKREPII.dll</HintPath>
+    </Reference>
+    <Reference Include="cwkhexacomm">
+      <HintPath>..\Dependencias\cwkhexacomm.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Framework.Comunicacao, Version=4.2.0.29701, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\Framework.Comunicacao.dll</HintPath>
+    </Reference>
+    <Reference Include="Framework.Core, Version=4.2.0.29700, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\Framework.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="GerenciadorRep.Bi.Dominio, Version=4.2.0.29703, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\GerenciadorRep.Bi.Dominio.dll</HintPath>
+    </Reference>
+    <Reference Include="GerenciadorRep.Bi.Entidade, Version=4.2.0.29701, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\GerenciadorRep.Bi.Entidade.dll</HintPath>
+    </Reference>
+    <Reference Include="GerenciadorRep.Da, Version=4.2.0.29702, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\GerenciadorRep.Da.dll</HintPath>
+    </Reference>
+    <Reference Include="GerenciadorRep.Ferramentas, Version=4.2.0.29700, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\GerenciadorRep.Ferramentas.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.84.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Charsets, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\IKVM.OpenJDK.Charsets.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Core, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\IKVM.OpenJDK.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Security, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\IKVM.OpenJDK.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Text, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\IKVM.OpenJDK.Text.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Tools, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\IKVM.OpenJDK.Tools.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Util, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\IKVM.OpenJDK.Util.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.Crypto, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\IKVM.OpenJDK.XML.Crypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IKVM.Runtime, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\IKVM.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Interop.JRO">
+      <HintPath>..\Dependencias\Interop.JRO.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.Kernel7x">
+      <HintPath>..\Dependencias\Interop.Kernel7x.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.zkemkeeper, Version=1.0.0.0, Culture=neutral, PublicKeyToken=10b4ccb400cb4892, processorArchitecture=MSIL">
+      <HintPath>..\Dependencias\Interop.zkemkeeper.DLL</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ObjectBuilder, Version=1.0.51206.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\Microsoft.Practices.ObjectBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=59d6d24383174ac4, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocation.1.0.0\lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\Microsoft.Practices.Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="NITGEN.SDK.NBioBSP, Version=1.2.0.0, Culture=neutral, PublicKeyToken=96eee45103d523d1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\NITGEN.SDK.NBioBSP.dll</HintPath>
+    </Reference>
+    <Reference Include="RepCid">
+      <HintPath>..\Dependencias\RepCid.dll</HintPath>
+    </Reference>
+    <Reference Include="RepTrilobit, Version=1.0.0.1, Culture=neutral, PublicKeyToken=bb34d293d86fc71b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\RepTrilobit.dll</HintPath>
+    </Reference>
+    <Reference Include="SDK_Inner_Rep, Version=4.2.0.22, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\SDK_Inner_Rep.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Veridis.Biometric">
+      <HintPath>..\Dependencias\Veridis.Biometric.dll</HintPath>
+    </Reference>
+    <Reference Include="WatchComm">
+      <HintPath>..\Dependencias\WatchComm.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Auxiliares\Henry\HexaParseStrategies\GeneralMessage.cs" />
+    <Compile Include="Auxiliares\Henry\HexaParseStrategies\HexaParseStrategyFactory.cs" />
+    <Compile Include="Auxiliares\Henry\HexaParseStrategies\IMessage.cs" />
+    <Compile Include="Auxiliares\Henry\HexaParseStrategies\Impl\RecebeDataHoraStrategy.cs" />
+    <Compile Include="Auxiliares\Henry\HexaParseStrategies\Impl\RecebeMarcacoesStrategy.cs" />
+    <Compile Include="Auxiliares\Henry\HexaParseStrategies\Impl\RecebeRetornoGeralStrategy.cs" />
+    <Compile Include="Auxiliares\Henry\HexaParseStrategies\Impl\RecebeTotalMarcacoesStrategy.cs" />
+    <Compile Include="Auxiliares\Henry\HexaParseStrategies\IParseStrategy.cs" />
+    <Compile Include="Auxiliares\Henry\HexaParseStrategies\ReceiveDateTimeMessage.cs" />
+    <Compile Include="Auxiliares\Henry\HexaParseStrategies\Ticket.cs" />
+    <Compile Include="Auxiliares\Henry\HexaParseStrategies\TicketMessage.cs" />
+    <Compile Include="Auxiliares\IDData\CController.cs" />
+    <Compile Include="Auxiliares\IDData\CIDSysR30.cs" />
+    <Compile Include="Auxiliares\IDData\CSocketClient.cs" />
+    <Compile Include="Auxiliares\IDData\Defines.cs" />
+    <Compile Include="Auxiliares\REPZPM.cs" />
+    <Compile Include="Relogios\Ahgora\Ah10.cs" />
+    <Compile Include="Relogios\ControlID\IDClass.cs" />
+    <Compile Include="Relogios\Dimep\AGENDAMENTOS.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\ASSOCIARLOTETEMP.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\CARTAO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\CARTOESEXCLUIDOS.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\CENTROCUSTO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\COLETA.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\CONFIGURACOES.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\CONFIGURACOESBANCODEDADOS.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\CONFIGURACOESBIO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\CONFIGURACOESLITE.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\CONFIGURACOESMINIREP.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\CONFIGURACOESMPIP.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\CONFIGURACOESNBIO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\CONFIGURACOESREP.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\CONFIGURACOESSERVICOS.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\CONTROLECUSTOMIZACAO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\DimepBioPoint.cs" />
+    <Compile Include="Relogios\Dimep\DimepBioLite.cs" />
+    <Compile Include="Relogios\Dimep\DimepMiniPrint.cs" />
+    <Compile Include="Relogios\Dimep\DimepPrintPoint.cs" />
+    <Compile Include="Relogios\Dimep\DimepPrintPointIII.cs" />
+    <Compile Include="Relogios\Dimep\EMPRESA.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\EXECUCAOCOMANDO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\EXECUCAOPARCIALGSM.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\FERIADO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\FERIADOGRUPO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\FORMATOEXPORTACAO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\FORMATOEXPORTACAOPENDRIVE.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\FORMATONOMEARQUIVO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\GRUPOJORNADA.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\GRUPOJORNADADETALHE.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\HISTEXECUCAOCOMANDO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\HISTORICOSTATUSRELOGIO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\HISTSINCRONIZACAOCARTAO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\HISTSINCRONIZACAOCENTROCUSTO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\HISTSINCRONIZACAOCONFIGURACAO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\HISTSINCRONIZACAOPESSOA.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\HISTSINCRONIZACAOSUPERVISOR.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\HISTSINCRONIZACAOTEMPLATE.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\HISTSINCTEMPLATESERVER.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\IDIOMAS.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\Ilist.cs" />
+    <Compile Include="Relogios\Dimep\INTEGRACAONOTIFICADORBD.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\JORNADA.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\LAYOUTBANCODEDADOS.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\LOG.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\MASCARAEVENTO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\MENSAGEMFUNCAO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\MENSAGEMFUNCAOGRUPO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\MENSAGEMSISTEMA.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\MENSAGEMSISTEMAGRUPO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\MENSAGEMUSUARIO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\MENSAGEMUSUARIOGRUPO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\NOMEARQUIVO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\PARAMETROS.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\PERMISSOES.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\PESSOA.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\RELOGIOJORNADA.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\RELOGIOMENSAGEM.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\RELOGIOS.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\ServComNetModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ServComNetModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\ServComNetModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\ServComNetModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ServComNetModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\SERVICOS.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\SINALEIRO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\SINALEIROGRUPO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\SINCRONIZACAOCARTAO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\SINCRONIZACAOCENTROCUSTO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\SINCRONIZACAOCONFIGURACAO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\SINCRONIZACAOPESSOA.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\SINCRONIZACAOSUPERVISOR.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\SINCRONIZACAOTEMPLATE.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\SINCRONIZACAOTEMPLATESERVER.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\STATUSCOMPLETO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\STATUSRELOGIO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\SUPERVISOR.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\TABELACENTROCUSTO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\TABELACREDENCIAIS.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\TABELAFUNCIONARIOS.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\TABELALEITURARELOGIO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\TABELASUPERVISORES.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\TECNOLOGIALEITURA.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\TEMPLATE.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\TEMPLATESNOVOS.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\TEMPLATEXDEDO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\TIPOCOMANDO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\TURNO.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\USUARIOS.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\Dimep\UtilsDimep\DimepUtils.cs" />
+    <Compile Include="Relogios\Dimep\V20RECORDS.cs">
+      <DependentUpon>ServComNetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relogios\DIXI\IDNOX.cs" />
+    <Compile Include="Relogios\Henry\Hexa.cs" />
+    <Compile Include="Relogios\Telematica\BLL\AFD.cs" />
+    <Compile Include="Relogios\Telematica\BLL\EnviaComando.cs" />
+    <Compile Include="Relogios\Telematica\BLL\EnviaDataHora.cs" />
+    <Compile Include="Relogios\Telematica\BLL\EnviaEmpresa.cs" />
+    <Compile Include="Relogios\Telematica\BLL\EnviaFuncionario.cs" />
+    <Compile Include="Relogios\Telematica\BLL\EnviaRep.cs" />
+    <Compile Include="Relogios\Telematica\BLL\IBLL.cs" />
+    <Compile Include="Relogios\Telematica\BLL\RetornoComando.cs" />
+    <Compile Include="Relogios\Telematica\BLL\StatusRep.cs" />
+    <Compile Include="Relogios\Telematica\BLL\Util.cs" />
+    <Compile Include="Relogios\Telematica\ConexRep.cs" />
+    <Compile Include="Relogios\Telematica\DAL\CP_BN.cs" />
+    <Compile Include="Relogios\Telematica\DAL\CP_NB.cs" />
+    <Compile Include="Relogios\Telematica\DAL\DALBase.cs" />
+    <Compile Include="Relogios\Telematica\DAL\DAT07.cs" />
+    <Compile Include="Relogios\Telematica\DAL\REPAFD001.cs" />
+    <Compile Include="Relogios\Telematica\DAL\SITCOLETOR.cs" />
+    <Compile Include="Relogios\Telematica\Modelo\REPAFD001.cs" />
+    <Compile Include="Relogios\Telematica\DAL\REPEMPR001.cs" />
+    <Compile Include="Relogios\Telematica\DAL\REPEMPR002.cs" />
+    <Compile Include="Relogios\Telematica\Modelo\CP_BN.cs" />
+    <Compile Include="Relogios\Telematica\Modelo\CP_NB.cs" />
+    <Compile Include="Relogios\Telematica\Modelo\DAT07.cs" />
+    <Compile Include="Relogios\Telematica\Modelo\ModeloBase.cs" />
+    <Compile Include="Relogios\Telematica\Modelo\REPEMPR001.cs" />
+    <Compile Include="Relogios\Telematica\Modelo\REPEMPR002.cs" />
+    <Compile Include="Relogios\Telematica\Modelo\RepTelematica.cs" />
+    <Compile Include="Relogios\TopData\InnerRepPlus.cs" />
+    <Compile Include="Relogios\IDData\IDRep_BI01.cs" />
+    <Compile Include="Relogios\Madis\MDREPPrintPointLi.cs" />
+    <Compile Include="Relogios\Madis\MDREPMiniPrint.cs" />
+    <Compile Include="Relogios\Madis\MDREPPrintPoint.cs" />
+    <Compile Include="Relogios\Proveu\KuruminRepIIMax.cs" />
+    <Compile Include="Relogios\RWTech\Pointline_BIOPROX_C.cs" />
+    <Compile Include="Relogios\TopData\InnerRepBarras2i.cs" />
+    <Compile Include="Relogios\ZPM\ZPM_R130.cs" />
+    <Compile Include="Relogios\ControlID\IDXBio.cs" />
+    <Compile Include="Entidades\Empresa.cs" />
+    <Compile Include="Entidades\Empregado.cs" />
+    <Compile Include="Relogio.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegistroAFD.cs" />
+    <Compile Include="RelogioFactory.cs" />
+    <Compile Include="Relogios\Henry\PrismaSuperFacil.cs" />
+    <Compile Include="Relogios\TopData\InnerRep.cs" />
+    <Compile Include="Relogios\Henry\Orion6.cs" />
+    <Compile Include="Relogios\Trilobit\REPTrilobit.cs" />
+    <Compile Include="TipoComunicacao.cs" />
+    <Compile Include="TipoRelogio.cs" />
+    <Compile Include="Util.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="dllrep.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <EntityDeploy Include="Relogios\Dimep\ServComNetModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ServComNetModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Relogios\Dimep\ServComNetModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ServComNetModel.edmx</DependentUpon>
+      <LastGenOutput>ServComNetModel.Context.cs</LastGenOutput>
+    </None>
+    <None Include="Relogios\Dimep\ServComNetModel.edmx.diagram">
+      <DependentUpon>ServComNetModel.edmx</DependentUpon>
+    </None>
+    <None Include="Relogios\Dimep\ServComNetModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ServComNetModel.edmx</DependentUpon>
+      <LastGenOutput>ServComNetModel.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Kernel7x">
+      <Guid>{25DC738C-6571-47AD-8B19-362853B14E8D}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="TemplateGerInner5">
+      <Guid>{0217ABDB-061F-47FE-8304-2355EF71CEB0}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CentralCliente\CentralCliente.csproj">
+      <Project>{737d66c4-b80e-4d10-93cf-e43c74a71e07}</Project>
+      <Name>CentralCliente</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

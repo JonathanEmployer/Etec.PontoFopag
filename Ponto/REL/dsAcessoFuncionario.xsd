@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsAcessoFuncionarioAnalitico" targetNamespace="http://tempuri.org/dsAcessoFuncionarioAnalitico.xsd" xmlns:mstns="http://tempuri.org/dsAcessoFuncionarioAnalitico.xsd" xmlns="http://tempuri.org/dsAcessoFuncionarioAnalitico.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsAcessoFuncionarioAnalitico" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="dsAcessoFuncionarioAnalitico" msprop:Generator_DataSetName="dsAcessoFuncionarioAnalitico" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Analitico" msprop:Generator_UserTableName="Analitico" msprop:Generator_RowDeletedName="AnaliticoRowDeleted" msprop:Generator_RowChangedName="AnaliticoRowChanged" msprop:Generator_RowClassName="AnaliticoRow" msprop:Generator_RowChangingName="AnaliticoRowChanging" msprop:Generator_RowEvArgName="AnaliticoRowChangeEvent" msprop:Generator_RowEvHandlerName="AnaliticoRowChangeEventHandler" msprop:Generator_TableClassName="AnaliticoDataTable" msprop:Generator_TableVarName="tableAnalitico" msprop:Generator_RowDeletingName="AnaliticoRowDeleting" msprop:Generator_TablePropName="Analitico">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="empresa" msprop:Generator_UserColumnName="empresa" msprop:Generator_ColumnPropNameInRow="empresa" msprop:Generator_ColumnVarNameInTable="columnempresa" msprop:Generator_ColumnPropNameInTable="empresaColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="funcionario" msprop:Generator_UserColumnName="funcionario" msprop:Generator_ColumnPropNameInRow="funcionario" msprop:Generator_ColumnVarNameInTable="columnfuncionario" msprop:Generator_ColumnPropNameInTable="funcionarioColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="horario" msprop:Generator_UserColumnName="horario" msprop:Generator_ColumnPropNameInRow="horario" msprop:Generator_ColumnVarNameInTable="columnhorario" msprop:Generator_ColumnPropNameInTable="horarioColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="tipo" msprop:Generator_UserColumnName="tipo" msprop:Generator_ColumnPropNameInRow="tipo" msprop:Generator_ColumnVarNameInTable="columntipo" msprop:Generator_ColumnPropNameInTable="tipoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="departamento" msprop:Generator_UserColumnName="departamento" msprop:Generator_ColumnVarNameInTable="columndepartamento" msprop:Generator_ColumnPropNameInRow="departamento" msprop:Generator_ColumnPropNameInTable="departamentoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="funcao" msprop:Generator_UserColumnName="funcao" msprop:Generator_ColumnVarNameInTable="columnfuncao" msprop:Generator_ColumnPropNameInRow="funcao" msprop:Generator_ColumnPropNameInTable="funcaoColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Sintetico" msprop:Generator_UserTableName="Sintetico" msprop:Generator_RowDeletedName="SinteticoRowDeleted" msprop:Generator_RowChangedName="SinteticoRowChanged" msprop:Generator_RowClassName="SinteticoRow" msprop:Generator_RowChangingName="SinteticoRowChanging" msprop:Generator_RowEvArgName="SinteticoRowChangeEvent" msprop:Generator_RowEvHandlerName="SinteticoRowChangeEventHandler" msprop:Generator_TableClassName="SinteticoDataTable" msprop:Generator_TableVarName="tableSintetico" msprop:Generator_RowDeletingName="SinteticoRowDeleting" msprop:Generator_TablePropName="Sintetico">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="acessos" msprop:Generator_UserColumnName="acessos" msprop:Generator_ColumnVarNameInTable="columnacessos" msprop:Generator_ColumnPropNameInRow="acessos" msprop:Generator_ColumnPropNameInTable="acessosColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="funcionario" msprop:Generator_UserColumnName="funcionario" msprop:Generator_ColumnVarNameInTable="columnfuncionario" msprop:Generator_ColumnPropNameInRow="funcionario" msprop:Generator_ColumnPropNameInTable="funcionarioColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="quantidade" msprop:Generator_UserColumnName="quantidade" msprop:Generator_ColumnVarNameInTable="columnquantidade" msprop:Generator_ColumnPropNameInRow="quantidade" msprop:Generator_ColumnPropNameInTable="quantidadeColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="tipo" msprop:Generator_UserColumnName="tipo" msprop:Generator_ColumnVarNameInTable="columntipo" msprop:Generator_ColumnPropNameInRow="tipo" msprop:Generator_ColumnPropNameInTable="tipoColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="datainicial" msprop:Generator_UserColumnName="datainicial" msprop:Generator_ColumnPropNameInRow="datainicial" msprop:Generator_ColumnVarNameInTable="columndatainicial" msprop:Generator_ColumnPropNameInTable="datainicialColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="datafinal" msprop:Generator_UserColumnName="datafinal" msprop:Generator_ColumnPropNameInRow="datafinal" msprop:Generator_ColumnVarNameInTable="columndatafinal" msprop:Generator_ColumnPropNameInTable="datafinalColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="empresa" msprop:Generator_UserColumnName="empresa" msprop:Generator_ColumnPropNameInRow="empresa" msprop:Generator_ColumnVarNameInTable="columnempresa" msprop:Generator_ColumnPropNameInTable="empresaColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="departamento" msprop:Generator_UserColumnName="departamento" msprop:Generator_ColumnPropNameInRow="departamento" msprop:Generator_ColumnVarNameInTable="columndepartamento" msprop:Generator_ColumnPropNameInTable="departamentoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="funcao" msprop:Generator_UserColumnName="funcao" msprop:Generator_ColumnPropNameInRow="funcao" msprop:Generator_ColumnVarNameInTable="columnfuncao" msprop:Generator_ColumnPropNameInTable="funcaoColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

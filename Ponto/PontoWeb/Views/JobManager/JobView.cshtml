@@ -1,0 +1,50 @@
+﻿<div class="panel-group" id="accordionJobs">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a class="close" id="detalhesJobd" data-toggle="collapse" data-parent="#accordionJobs" href="#collapseJobsDNF"><span class="glyphicon glyphicon-minus"></span></a>
+            <button type="button" class="close" href="#" id="recarregarJobs"><span class="glyphicon glyphicon-refresh"></span></button>
+            <h3 class="panel-title titulo-pagina">Histórico</h3>
+        </div>
+        <div id="collapseJobsDNF" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div class="panel-body">
+                    <div class="row">
+                        @{
+                            var idDivJob = this.ViewContext.HttpContext.Request.Url.AbsolutePath;
+                            idDivJob = idDivJob.Replace("/", "");
+                        }
+                        <ul id="@idDivJob" class="list-group"></ul>
+                        <h2 id="loadJob">Carregando<img src="../../Content/img/circulosLoading.GIF"></h2>
+                        <button type="button" class="btn btn-block btn-primary" qtdCarregado="0" id="btnCarregarJobs">Carregar +</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        GetJobs(0);
+    });
+
+    $("#detalhesJobd").click(function () {
+        $("#detalhesJobd").find('span').toggleClass('glyphicon-minus glyphicon-plus');
+    }) 
+
+    $("#recarregarJobs").click(function () {
+        $("#TasksProgress").empty();
+        $("#btnCarregarJobs").attr("qtdCarregado", 0);
+        $("#btnCarregarJobs").removeAttr("disabled");
+        $("#btnCarregarJobs").text("Carregar +");
+        RemoveJobs();
+        GetJobs(0);
+    }) 
+
+    $("#btnCarregarJobs").click(function () {
+        var carregados = parseInt($("#btnCarregarJobs").attr("qtdCarregado"));
+        carregados = carregados + 10;
+        $("#btnCarregarJobs").attr("qtdCarregado", carregados);
+        GetJobs($("#btnCarregarJobs").attr("qtdCarregado"));
+    })
+</script>

@@ -1,0 +1,40 @@
+﻿@model Modelo.Proxy.PxyGridLogComunicador
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Log Importação Comunicador";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string nomeTabela = "tbLogComunicador";
+}
+<div class="">
+    <div class="panel panel-default" style="margin-bottom:0; padding:0">
+        <div class="panel-heading">
+            @Html.ActionLink("X", "Index", "Home", null, new {  @class = "close" })
+            <h3 class="panel-title titulo-pagina">Log Importação Comunicador</h3>
+        </div>
+        <div class="panel-body panelConteudo" id="panelBodyFixodivCenter">
+            @Html.ValidationSummary(true)
+            <div class="row">
+                @Html.GridFor(nomeTabela, Model.GetType(), false, "EnvioDadosRep", "DadosGridComunicador");
+            </div>
+            <div class="row" style="padding-top:10px;"></div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="center-block">
+                    <div class="col-md-12" style="text-align:right">
+                        <a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
+                        <a href="@Url.Action("Index", "Home")" id="btExcluir" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>&nbsp;Cancelar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var nomeTabela = "#" + '@nomeTabela';
+    var controller = "EnvioDadosRep";
+    $(document).ready(function () {
+        cwk_EventoClickCadastroAlterar("#btConsultar", "ConsultarLogComunicador", controller, nomeTabela);
+    });
+</script>

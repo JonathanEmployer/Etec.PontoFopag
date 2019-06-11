@@ -1,0 +1,20 @@
+﻿@model Modelo.Proxy.pxyContratoFuncionarioDetalhe
+
+<tr id="@Model.Id">
+    <td>
+        @Html.HiddenFor(m => m.Codigo, new { @class = "codigo" })
+        @Html.HiddenFor(m => m.Nome, new { @class = "nome" })
+        @Html.HiddenFor(m => m.Cpf, new { @class = "cpf" })
+        @Html.HiddenFor(m => m.Funcao, new { @class = "funcao" })
+        @Html.HiddenFor(m => m.Departamento, new { @class = "departamento" })
+        @Html.HiddenFor(m => m.Empresa, new { @class = "empresa" })
+        @Html.HiddenFor(m => m.IdContratoFuncionario, new { @class = "idcontfuncionario" })
+        @Html.DisplayFor(m => m.DsCodigo)
+    </td>
+    <td>@Html.DisplayFor(m => m.Nome)</td>
+    <td>@Html.DisplayFor(m => m.Cpf)</td>
+    <td>@Html.DisplayFor(m => m.Funcao)</td>
+    <td>@Html.DisplayFor(m => m.Departamento)</td>
+    <td>@Html.DisplayFor(m => m.Empresa)</td>
+</tr>
+

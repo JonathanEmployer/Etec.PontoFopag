@@ -1,0 +1,471 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9E79E822-8FBD-49AE-8ED1-49DB4408EC47}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DAL</RootNamespace>
+    <AssemblyName>DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Homologacao|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Homologacao\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Homologacao|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Homologacao\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Desenvolvimento|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Desenvolvimento\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Desenvolvimento|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Desenvolvimento\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="cwkControleUsuario, Version=1.0.1.12, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\cwkControleUsuario.dll</HintPath>
+    </Reference>
+    <Reference Include="FirebirdSql.Data.FirebirdClient, Version=2.5.1.0, Culture=neutral, PublicKeyToken=3750abcc3150b00c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\FirebirdSql.Data.FirebirdClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Framework.Comunicacao, Version=1.0.17.14724, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\Framework.Comunicacao.dll</HintPath>
+    </Reference>
+    <Reference Include="GerenciadorRep.Bi.Dominio, Version=1.0.17.14725, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\GerenciadorRep.Bi.Dominio.dll</HintPath>
+    </Reference>
+    <Reference Include="GerenciadorRep.Bi.Entidade, Version=1.0.17.14721, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\GerenciadorRep.Bi.Entidade.dll</HintPath>
+    </Reference>
+    <Reference Include="GerenciadorRep.Ferramentas, Version=1.0.17.14721, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\GerenciadorRep.Ferramentas.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.SqlServer.Dmf, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.SqlServer.Smo, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="SNEntity, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencias\SNEntity.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Email.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="FB\Afastamento.cs" />
+    <Compile Include="FB\Backup.cs" />
+    <Compile Include="FB\BancoHoras.cs" />
+    <Compile Include="FB\BilhetesImp.cs" />
+    <Compile Include="FB\Biometria.cs" />
+    <Compile Include="FB\CalculaMarcacao.cs" />
+    <Compile Include="FB\CartaoPonto.cs" />
+    <Compile Include="FB\Compensacao.cs" />
+    <Compile Include="FB\DALBase.cs" />
+    <Compile Include="FB\DataBase.cs" />
+    <Compile Include="FB\Departamento.cs" />
+    <Compile Include="FB\DiasCompensacao.cs" />
+    <Compile Include="FB\DiasJornadaAlternativa.cs" />
+    <Compile Include="FB\Empresa.cs" />
+    <Compile Include="FB\EmpresaCw_Usuario.cs" />
+    <Compile Include="FB\Eventos.cs" />
+    <Compile Include="FB\ExportacaoCampos.cs" />
+    <Compile Include="FB\FechamentoBH.cs" />
+    <Compile Include="FB\FechamentoBHD.cs" />
+    <Compile Include="FB\FechamentobhdHE.cs" />
+    <Compile Include="FB\Feriado.cs" />
+    <Compile Include="FB\Funcao.cs" />
+    <Compile Include="FB\Funcionario.cs" />
+    <Compile Include="FB\FuncionarioHistorico.cs" />
+    <Compile Include="FB\Horario.cs" />
+    <Compile Include="FB\HorarioDetalhe.cs" />
+    <Compile Include="FB\HorarioPHExtra.cs" />
+    <Compile Include="FB\ImportaBilhetes.cs" />
+    <Compile Include="FB\ImportacaoTopPonto.cs" />
+    <Compile Include="FB\InclusaoBanco.cs" />
+    <Compile Include="FB\Inconsistencia.cs" />
+    <Compile Include="FB\Jornada.cs" />
+    <Compile Include="FB\JornadaAlternativa.cs" />
+    <Compile Include="FB\Justificativa.cs" />
+    <Compile Include="FB\LayoutExportacao.cs" />
+    <Compile Include="FB\Marcacao.cs" />
+    <Compile Include="FB\MudancaHorario.cs" />
+    <Compile Include="FB\MudCodigoFunc.cs" />
+    <Compile Include="FB\Ocorrencia.cs" />
+    <Compile Include="FB\OcorrenciaEmpresa.cs" />
+    <Compile Include="FB\Parametros.cs" />
+    <Compile Include="FB\Provisorio.cs" />
+    <Compile Include="FB\RelatorioEspelho.cs" />
+    <Compile Include="FB\REP.cs" />
+    <Compile Include="FB\TipoBilhetes.cs" />
+    <Compile Include="FB\Tratamentomarcacao.cs" />
+    <Compile Include="FB\UsuarioPontoWeb.cs" />
+    <Compile Include="IListaEventosEvento.cs" />
+    <Compile Include="IListaEventos.cs" />
+    <Compile Include="IHorarioDinamicoCiclo.cs" />
+    <Compile Include="IHorarioDinamicoCicloSequencia.cs" />
+    <Compile Include="IHorarioDinamico.cs" />
+    <Compile Include="IHorarioDinamicoLimiteDdsr.cs" />
+    <Compile Include="IHorarioDinamicoPHExtra.cs" />
+    <Compile Include="SQL\ListaEventos.cs" />
+    <Compile Include="SQL\ListaEventosEvento.cs" />
+    <Compile Include="SQL\FuncionarioRFID.cs" />
+    <Compile Include="IAFD.cs" />
+    <Compile Include="IAlertasDisponiveis.cs" />
+    <Compile Include="IAlertasLog.cs" />
+    <Compile Include="IBiometria.cs" />
+    <Compile Include="ICamposSelecionadosRelCartaoPonto.cs" />
+    <Compile Include="IClassificacao.cs" />
+    <Compile Include="IClassificacaoHorasExtras.cs" />
+    <Compile Include="IConfirmacaoPainel.cs" />
+    <Compile Include="IEmpresaLogo.cs" />
+    <Compile Include="IEventosClassHorasExtras.cs" />
+    <Compile Include="IFechamentobhdHE.cs" />
+    <Compile Include="IFeriadoFuncionario.cs" />
+    <Compile Include="IAlocacao.cs" />
+    <Compile Include="IFuncionarioRFID.cs" />
+    <Compile Include="IHorarioAItinere.cs" />
+    <Compile Include="ILocalizacaoRegistroPonto.cs" />
+    <Compile Include="IOcorrenciaEmpresa.cs" />
+    <Compile Include="IParametroPainelRH.cs" />
+    <Compile Include="IPessoa.cs" />
+    <Compile Include="IIP.cs" />
+    <Compile Include="ILancamentoLoteAfastamento.cs" />
+    <Compile Include="ILancamentoLoteBilhetesImp.cs" />
+    <Compile Include="ILancamentoLoteInclusaoBanco.cs" />
+    <Compile Include="IRegistroPonto.cs" />
+    <Compile Include="IRepLog.cs" />
+    <Compile Include="ITipoVinculo.cs" />
+    <Compile Include="ITratamentoDePonto.cs" />
+    <Compile Include="LancamentoLoteMudancaHorario.cs" />
+    <Compile Include="ILancamentoLoteFuncionario.cs" />
+    <Compile Include="ILancamentoLote.cs" />
+    <Compile Include="IFechamentoPontoFuncionario.cs" />
+    <Compile Include="IFechamentoPonto.cs" />
+    <Compile Include="IAlertasFuncionario.cs" />
+    <Compile Include="IAlertas.cs" />
+    <Compile Include="IContrato.cs" />
+    <Compile Include="IContratoFuncionario.cs" />
+    <Compile Include="IContratoUsuario.cs" />
+    <Compile Include="IDataBase.cs" />
+    <Compile Include="IEnvioConfiguracoesDataHora.cs" />
+    <Compile Include="IEnvioDadosRepDet.cs" />
+    <Compile Include="IEnvioDadosRep.cs" />
+    <Compile Include="IFechamentoBHDPercentual.cs" />
+    <Compile Include="IEquipamentoHomologado.cs" />
+    <Compile Include="IRepHistoricoLocal.cs" />
+    <Compile Include="IImportacaoAutomatica.cs" />
+    <Compile Include="IConfiguracaoRefeitorio.cs" />
+    <Compile Include="IEmpresaCw_Usuario.cs" />
+    <Compile Include="IEquipamento.cs" />
+    <Compile Include="IImportacaoSecullum.cs" />
+    <Compile Include="IImportacaoTopPonto.cs" />
+    <Compile Include="ICw_GrupoAcesso.cs" />
+    <Compile Include="ILayoutExportacao.cs" />
+    <Compile Include="IJornada.cs" />
+    <Compile Include="ILayoutImportacao.cs" />
+    <Compile Include="ILimiteDDsr.cs" />
+    <Compile Include="IMarcacaoAcesso.cs" />
+    <Compile Include="IInconsistencia.cs" />
+    <Compile Include="IRelatorioEspelho.cs" />
+    <Compile Include="IImportaBilhetes.cs" />
+    <Compile Include="ICalculaMarcacao.cs" />
+    <Compile Include="IJustificativa.cs" />
+    <Compile Include="IBackup.cs" />
+    <Compile Include="ICartaoPonto.cs" />
+    <Compile Include="IREP.cs" />
+    <Compile Include="IAfastamento.cs" />
+    <Compile Include="IBancoHoras.cs" />
+    <Compile Include="IBilhetesImp.cs" />
+    <Compile Include="ICompensacao.cs" />
+    <Compile Include="IDAL.cs" />
+    <Compile Include="IDepartamento.cs" />
+    <Compile Include="IDiasCompensacao.cs" />
+    <Compile Include="IDiasJornadaAlternativa.cs" />
+    <Compile Include="IEmpresa.cs" />
+    <Compile Include="IEventos.cs" />
+    <Compile Include="IExportacaoCampos.cs" />
+    <Compile Include="IFechamentoBH.cs" />
+    <Compile Include="IFechamentoBHD.cs" />
+    <Compile Include="IFeriado.cs" />
+    <Compile Include="IFuncao.cs" />
+    <Compile Include="IFuncionario.cs" />
+    <Compile Include="IFuncionarioHistorico.cs" />
+    <Compile Include="IHorario.cs" />
+    <Compile Include="IHorarioDetalhe.cs" />
+    <Compile Include="IHorarioPHExtra.cs" />
+    <Compile Include="IInclusaoBanco.cs" />
+    <Compile Include="IJornadaAlternativa.cs" />
+    <Compile Include="IMarcacao.cs" />
+    <Compile Include="IMudancaHorario.cs" />
+    <Compile Include="IMudCodigoFunc.cs" />
+    <Compile Include="IOcorrencia.cs" />
+    <Compile Include="IParametros.cs" />
+    <Compile Include="IProvisorio.cs" />
+    <Compile Include="ITipoBilhetes.cs" />
+    <Compile Include="ITratamentomarcacao.cs" />
+    <Compile Include="IUsuarioPontoWeb.cs" />
+    <Compile Include="ILogErroPainelAPI.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Relatorios.cs" />
+    <Compile Include="RelatorioHistorico.cs" />
+    <Compile Include="RelatorioOcorrencias.cs" />
+    <Compile Include="RelatoriosSQL\RelatorioBilhetesImp.cs" />
+    <Compile Include="RelatoriosSQL\RelatorioAbsenteismoV2.cs" />
+    <Compile Include="RelatoriosSQL\RelatorioBilhetesRep.cs" />
+    <Compile Include="RelatoriosSQL\RelatorioHomemHora.cs" />
+    <Compile Include="RelatoriosSQL\RelatorioHoraExtra.cs" />
+    <Compile Include="SQL\Afastamento.cs" />
+    <Compile Include="SQL\AFD.cs" />
+    <Compile Include="SQL\AlertasDisponiveis.cs" />
+    <Compile Include="SQL\AlertasLog.cs" />
+    <Compile Include="SQL\Alocacao.cs" />
+    <Compile Include="SQL\Biometria.cs" />
+    <Compile Include="SQL\CamposSelecionadosRelCartaoPonto.cs" />
+    <Compile Include="SQL\Classificacao.cs" />
+    <Compile Include="SQL\ClassificacaoHorasExtras.cs" />
+    <Compile Include="SQL\ConfirmacaoPainel.cs" />
+    <Compile Include="SQL\EmpresaLogo.cs" />
+    <Compile Include="SQL\EventosClassHorasExtras.cs" />
+    <Compile Include="SQL\FechamentobhdHE.cs" />
+    <Compile Include="SQL\FeriadoFuncionario.cs" />
+    <Compile Include="SQL\HorarioDinamicoCiclo.cs" />
+    <Compile Include="SQL\HorarioDinamicoCicloSequencia.cs" />
+    <Compile Include="SQL\HorarioDinamico.cs" />
+    <Compile Include="SQL\HorarioAItinere.cs" />
+    <Compile Include="SQL\HorarioDinamicoLimiteDdsr.cs" />
+    <Compile Include="SQL\HorarioDinamicoPHExtra.cs" />
+    <Compile Include="SQL\LocalizacaoRegistroPonto.cs" />
+    <Compile Include="SQL\OcorrenciaEmpresa.cs" />
+    <Compile Include="SQL\ParametroPainelRH.cs" />
+    <Compile Include="SQL\LogErroPainelAPI.cs" />
+    <Compile Include="SQL\Pessoa.cs" />
+    <Compile Include="SQL\IP.cs" />
+    <Compile Include="SQL\LancamentoLoteAfastamento.cs" />
+    <Compile Include="SQL\LancamentoLoteBilhetesImp.cs" />
+    <Compile Include="SQL\LancamentoLoteInclusaoBanco.cs" />
+    <Compile Include="SQL\LancamentoLoteMudancaHorario.cs" />
+    <Compile Include="SQL\FechamentoPontoFuncionario.cs" />
+    <Compile Include="SQL\LancamentoLote.cs" />
+    <Compile Include="SQL\LancamentoLoteFuncionario.cs" />
+    <Compile Include="SQL\FechamentoPonto.cs" />
+    <Compile Include="SQL\Alertas.cs" />
+    <Compile Include="SQL\AlertasFuncionario.cs" />
+    <Compile Include="SQL\Backup.cs" />
+    <Compile Include="SQL\BancoHoras.cs" />
+    <Compile Include="SQL\BilhetesImp.cs" />
+    <Compile Include="SQL\CalculaMarcacao.cs" />
+    <Compile Include="SQL\CartaoPonto.cs" />
+    <Compile Include="SQL\Compensacao.cs" />
+    <Compile Include="SQL\ConfiguracaoRefeitorio.cs" />
+    <Compile Include="SQL\Contrato.cs" />
+    <Compile Include="SQL\ContratoFuncionario.cs" />
+    <Compile Include="SQL\ContratoUsuario.cs" />
+    <Compile Include="SQL\EnvioConfiguracoesDataHora.cs" />
+    <Compile Include="SQL\EnvioDadosRepDet.cs" />
+    <Compile Include="SQL\EnvioDadosRep.cs" />
+    <Compile Include="SQL\FechamentoBHDPercentual.cs" />
+    <Compile Include="SQL\EquipamentoHomologado.cs" />
+    <Compile Include="SQL\RegistroPonto.cs" />
+    <Compile Include="SQL\RepHistoricoLocal.cs" />
+    <Compile Include="SQL\ImportacaoAutomatica.cs" />
+    <Compile Include="SQL\EmpresaCw_Usuario.cs" />
+    <Compile Include="SQL\Equipamento.cs" />
+    <Compile Include="SQL\ImportacaoSecullum.cs" />
+    <Compile Include="SQL\ImportacaoTopPonto.cs" />
+    <Compile Include="SQL\Cw_GrupoAcesso.cs" />
+    <Compile Include="SQL\LayoutExportacao.cs" />
+    <Compile Include="SQL\ImportaBilhetes.cs" />
+    <Compile Include="SQL\Jornada.cs" />
+    <Compile Include="SQL\Justificativa.cs" />
+    <Compile Include="SQL\LayoutImportacao.cs" />
+    <Compile Include="SQL\LimiteDDsr.cs" />
+    <Compile Include="SQL\MarcacaoAcesso.cs" />
+    <Compile Include="SQL\Inconsistencia.cs" />
+    <Compile Include="SQL\RelatorioEspelho.cs" />
+    <Compile Include="SQL\REP.cs" />
+    <Compile Include="SQL\DALBase.cs" />
+    <Compile Include="SQL\DataBase.cs" />
+    <Compile Include="SQL\Departamento.cs" />
+    <Compile Include="SQL\DiasCompensacao.cs" />
+    <Compile Include="SQL\DiasJornadaAlternativa.cs" />
+    <Compile Include="SQL\Empresa.cs" />
+    <Compile Include="SQL\Eventos.cs" />
+    <Compile Include="SQL\ExportacaoCampos.cs" />
+    <Compile Include="SQL\FechamentoBH.cs" />
+    <Compile Include="SQL\FechamentoBHD.cs" />
+    <Compile Include="SQL\Feriado.cs" />
+    <Compile Include="SQL\Funcao.cs" />
+    <Compile Include="SQL\Funcionario.cs" />
+    <Compile Include="SQL\FuncionarioHistorico.cs" />
+    <Compile Include="SQL\Horario.cs" />
+    <Compile Include="SQL\HorarioDetalhe.cs" />
+    <Compile Include="SQL\HorarioPHExtra.cs" />
+    <Compile Include="SQL\InclusaoBanco.cs" />
+    <Compile Include="SQL\JornadaAlternativa.cs" />
+    <Compile Include="SQL\Marcacao.cs" />
+    <Compile Include="SQL\MudancaHorario.cs" />
+    <Compile Include="SQL\MudCodigoFunc.cs" />
+    <Compile Include="SQL\Ocorrencia.cs" />
+    <Compile Include="SQL\Parametros.cs" />
+    <Compile Include="SQL\Provisorio.cs" />
+    <Compile Include="SQL\RepLog.cs" />
+    <Compile Include="SQL\TipoBilhetes.cs" />
+    <Compile Include="SQL\TipoVinculo.cs" />
+    <Compile Include="SQL\TratamentoDePonto.cs" />
+    <Compile Include="SQL\Tratamentomarcacao.cs" />
+    <Compile Include="SQL\UsuarioPontoWeb.cs" />
+    <Compile Include="TransactDbOps.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAL.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Modelo\Modelo.csproj">
+      <Project>{DFE5A7E8-8798-43D3-A61F-F1DD3AB38593}</Project>
+      <Name>Modelo</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
+  <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
+  <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,43 @@
+﻿@model Modelo.LimiteDDsr
+
+@Html.Partial("_Scripts")
+
+
+<div class="limiteDDSR">
+    <div class="col-md-11 linhaDDSR" style="padding:0px;">
+            @Html.HiddenFor(x => x.Id, new { @class = "horario" })
+            @Html.HiddenFor(x => x.IdHorario, new { @class = "horario" })
+            @Html.HiddenFor(x => x.Incdata, new { @class = "horario" })
+            @Html.HiddenFor(x => x.Inchora, new { @class = "horario" })
+            @Html.HiddenFor(x => x.Incusuario, new { @class = "horario" })
+            @Html.HiddenFor(x => x.Acao, new { @class = "horario" })
+            @Html.HiddenFor(x => x.Altdata, new { @class = "horario" })
+            @Html.HiddenFor(x => x.Althora, new { @class = "horario" })
+            @Html.HiddenFor(x => x.Altusuario, new { @class = "horario" })
+            @Html.HiddenFor(x => x.Codigo, new { @class = "horario" })
+            @Html.HiddenFor(x => x.Horario, new { @class = "horario" })
+            @Html.HiddenFor(x => x.Delete, new { @class = "mark-for-delete horario" })
+            <div class="col-md-6">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-addon">Limite DDSR</span>
+                    @Html.TextBoxFor(model => model.LimitePerdaDsr, new { @class = "form-control timeL horario", @placeholder = "--:--" })
+                    @Html.ValidationMessageFor(model => model.LimitePerdaDsr)
+                    <span class="input-group-addon">Horas</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-addon">Qtd. DDSR</span>
+                    @Html.TextBoxFor(model => model.QtdHorasDsr, new { @class = "form-control timeL horario", @placeholder = "--:--" })
+                    @Html.ValidationMessageFor(model => model.QtdHorasDsr)
+                    <span class="input-group-addon">Horas</span>
+                </div>
+
+            </div>
+    </div>
+    <div class="col-md-1" style="padding:0px;">
+        <div class="input-group input-group-sm" style="align-content:center; align-items:center;"></div>
+        @Html.LinkToRemoveNestedForm("", "div.limiteDDSR", "input.mark-for-delete")
+    </div>
+
+</div>

@@ -1,0 +1,66 @@
+﻿@model Modelo.Empresa
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Empresas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string nomeTabela = "tbEmpresa";
+}
+<div class="">
+    <div class="panel panel-default" style="padding:0; margin-bottom:0">
+        <div class="panel-heading">
+            @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+            <h3 class="panel-title titulo-pagina">Empresa</h3>
+        </div>
+        <div class="panel-body panelConteudo" id="panelBodyFixodivCenter">
+            @Html.ValidationSummary(true)
+            <div class="row">
+                @Html.GridFor(nomeTabela, Model.GetType(), false, "Empresa", "DadosGrid")
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-12 center-block">
+                    <div class="row">
+                        <div class="col-md-6 col-xs-4">
+                            <div style="text-align: left">
+                                @if (ViewBag.ControleUsuario)
+                                {
+                                    <a href="#" id="btAlterarUsuarios" class="btn btn btn-primary"><span class="fa fa-user"></span>&nbsp;Usuários</a>
+                                }
+                                <a href="#" id="btAtestado" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span>&nbsp;Atestado</a>
+                                <a href="#" id="btIP" class="btn btn-primary"><span class="glyphicon glyphicon-globe"></span>&nbsp;Cadastrar IP</a>
+                                <a href="#" id="btOcorrencia" class="btn btn-primary"><span class="fa fa-circle-o"></span>&nbsp;Ocorrências</a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-8">
+                            <div style="text-align: right">
+                                <a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;Consultar</a>
+                                <a href="#" id="btIncluir" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
+                                <a href="#" id="btAlterar" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
+                                <a href="#" id="btExcluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var nomeTabela = "#" + '@nomeTabela';
+    $(document).ready(function () {
+        cwk_EventoDbClickEditar('Alterar', 'Empresa', nomeTabela);
+
+        cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', 'Empresa');
+        cwk_EventoClickCadastroAlterar('#btAtestado', 'Atestado', 'Empresa', nomeTabela);
+        cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', 'Empresa', nomeTabela);
+        cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', 'Empresa', nomeTabela);
+        cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir', 'Empresa', nomeTabela, 'Empresa excluída com sucesso. ');
+        cwk_EventoClickCadastroAlterar('#btAlterarUsuarios', 'Alterar', 'EmpresaUsuario', nomeTabela);
+        cwk_EventoClickCadastroAlterar('#btOcorrencia', 'Cadastrar', 'OcorrenciaEmpresa', nomeTabela);
+
+        cwk_EventoAlterarAjaxParam('#btIP', 'Grid', 'IP', nomeTabela, "");
+    });
+</script>

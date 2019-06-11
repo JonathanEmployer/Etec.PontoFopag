@@ -1,0 +1,104 @@
+﻿@model Modelo.Cw_Grupo
+@{
+    ViewBag.Title = "Cadastrar Grupo de Usuário";
+}
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.Id, new { id = "idGrupoUsuario" });
+    @Html.HiddenFor(model => model.Incdata);
+    @Html.HiddenFor(model => model.Inchora);
+    @Html.HiddenFor(model => model.Incusuario);
+    @Html.HiddenFor(model => model.Altdata);
+    @Html.HiddenFor(model => model.Althora);
+    @Html.HiddenFor(model => model.Altusuario);
+    <div class="divCenterPequeno">
+        <div class="panel panel-default" style="padding:0">
+            <div class="panel-heading salvando">
+                @Html.ActionLink("X", "Grid", "GrupoUsuario", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo">
+                @Html.ValidationMessage("CustomError")
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.Codigo)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Nome, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Nome, new { @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.Nome)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="panel panel-default" id="pnlTipoSelecao">
+                            <div class="panel-heading" style="padding-top:0; padding-bottom:0">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @Html.Label("Padrão - Liberado?", new { @class = "control-label label-sm" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body" style="padding-top:0; padding-bottom:0">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group input-group-sm">
+                                            <div class="col-md-6">
+                                                <div class="radio-inline" data-toggle="radio">
+                                                    @Html.RadioButtonFor(model => model.Acesso, 1, new { id = "rdbSim", name = "rdio" })
+                                                    <label class="label-sm" for="rdbSim">Sim</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="radio-inline" data-toggle="radio">
+                                                    @Html.RadioButtonFor(model => model.Acesso, 0, new { id = "rdbNao", name = "rdio" })
+                                                    <label class="label-sm" for="rdbNao">Não</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger"
+                               href="@Url.Action("Grid", "GrupoUsuario")">
+                                <span class="glyphicon glyphicon-remove salvando"></span> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(":input[type='text']:enabled:visible:first").focus();
+</script>
+
+
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}

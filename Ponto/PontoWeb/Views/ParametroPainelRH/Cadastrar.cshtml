@@ -1,0 +1,91 @@
+@model Modelo.ParametroPainelRH
+@{
+    ViewBag.Title = "Cadastrar Parâmetros Painel do RH";
+}
+@using (Html.BeginForm())
+{
+    <div class="divCenterPequeno">
+        <div class="panel panel-default" style="padding:0">
+            <div class="panel-heading salvando">
+                @Html.ActionLink("X", "Grid", "ParametroPainelRH", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">Cadastro de Parâmetros Painel do RH</h3>
+            </div>
+            <div class="panel-body panelConteudo">
+                @Html.ValidationMessage("CustomError")
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Codigo)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IntegraPainel, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.IntegraPainel, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.IntegraPainel)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UsuarioAPIPainel, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.UsuarioAPIPainel, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.UsuarioAPIPainel)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SenhaAPIPainel, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.SenhaAPIPainel, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.SenhaAPIPainel)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PermiteAprovarMarcacaoImpar, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.PermiteAprovarMarcacaoImpar, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.PermiteAprovarMarcacaoImpar)
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger salvando"
+                               href="@Url.Action("Grid", "ParametroPainelRH")">
+                                <span class="glyphicon glyphicon-remove"></span> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(":input[type='text']:enabled:visible:first").focus();
+</script>
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}
+

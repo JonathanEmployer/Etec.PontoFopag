@@ -1,0 +1,403 @@
+﻿@model IList<Modelo.Proxy.Relatorios.PxyRelTotalHoras>
+@{
+    Layout = null;
+}
+<style>
+    .pagebreak {
+        clear: both;
+        page-break-after: always;
+    }
+
+    .borderPrimary {
+        border: 1px solid #337ab7;
+        padding: 5px;
+    }
+
+    .backgroudPrimary {
+        color: #fff;
+        background-color: #337ab7;
+    }
+
+    .borderSuccess {
+        border-color: #d6e9c6;
+        padding: 5px;
+    }
+
+    .backgroudSuccess {
+        color: #3c763d;
+        background-color: #dff0d8;
+        border-color: #d6e9c6;
+    }
+
+    .borderInfo {
+        border: 1px solid #bce8f1;
+        padding: 5px;
+    }
+
+    .backgroudInfo {
+        color: #31708f;
+        background-color: #d9edf7;
+        border-color: #bce8f1;
+    }
+
+    .borderWarning {
+        border-color: #faebcc;
+        padding: 5px;
+    }
+
+    .backgroudWarning {
+        color: #8a6d3b;
+        background-color: #fcf8e3;
+        border-color: #faebcc;
+    }
+
+    .borderDanger {
+        border-color: #ebccd1;
+        padding: 5px;
+    }
+
+    .backgroudDanger {
+        color: #a94442;
+        background-color: #f2dede;
+        border-color: #ebccd1;
+    }
+
+    .borderDefault {
+        border-color: #ddd;
+        padding: 5px;
+    }
+
+    .backgroudDefault {
+        color: #333;
+        background-color: #f5f5f5;
+        border-color: #ddd;
+    }
+
+    table {
+        font-family: 'Arial';
+        font-size: 8pt;
+        font: normal;
+        width: 752px;
+        vertical-align: middle;
+    }
+
+    th {
+        font-size: 9pt;
+        font-weight: bold;
+    }
+
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<html>
+<head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+    @{ int count = 0; bool umFuncPorPagina = Model.FirstOrDefault().UmFuncPorPagina; }
+    @foreach (Modelo.Proxy.Relatorios.PxyRelTotalHoras item in Model)
+    {
+
+        if (count % 3 == 0 || umFuncPorPagina)
+        {
+            if (count > 0)
+            {
+                <div class="pagebreak"> </div>
+            }
+
+            <table style="width:100%">
+                <tbody>
+                    <tr>
+                        <td style="width: 70%; padding-left:10px; padding-top:20px"><div class="classNomeRel" style="font-size:20pt; font-weight:bold; text-align:right">Relatório Total de Horas</div></td>
+                        <td style="width: 30%; padding-top:10px"><div style="font-size:8pt; text-align:right;"> Período: @Model.FirstOrDefault().DataIni.ToString("dd/MM/yyyy") a @Model.FirstOrDefault().DataFin.ToString("dd/MM/yyyy")</div></td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        else if (count > 0)
+        {
+            <div style="height:40px">&nbsp;</div>
+        }
+        count++;
+        <div>
+            <table style="width:100%" class="backgroudDefault">
+                <tbody>
+                    <tr style="font-size: 9pt; font-weight: bold;">
+                        <td style="width: 80%; padding:10px;">Funcionário: @item.FuncionarioDsCodigo | @item.FuncionarioNome</td>
+                        <td style="width: 20%; padding:10px;">Matrícula: @item.FuncionarioMatricula</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table style="width:100%">
+                <tbody>
+                    <tr>
+                        <td style="width:32%">
+                            <table style="width:100%; border: 1px solid #337ab7; border-spacing: 0px;">
+                                <thead>
+                                    <tr class="backgroudPrimary">
+                                        <th colspan="7" style="white-space: nowrap;  text-align:center; padding:5px">Horas Trabalhadas</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align:center;">
+                                    <tr>
+                                        <td style="width:5px; height:10px"></td>
+                                        <td style="width:32%"></td>
+                                        <td style="width:5px"></td>
+                                        <td style="width:32%"></td>
+                                        <td style="width:5px"></td>
+                                        <td style="width:32%"></td>
+                                        <td style="width:5px"></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td class="backgroudInfo borderInfo">Diurna</td>
+                                        <td></td>
+                                        <td class="backgroudPrimary borderPrimary">Noturna</td>
+                                        <td></td>
+                                        <td class="backgroudDefault borderDefault">Ad. Noturno</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td class="borderInfo">@item.HorasTrabDiurna</td>
+                                        <td></td>
+                                        <td class="borderPrimary">@item.HorasTrabNoturna</td>
+                                        <td></td>
+                                        <td class="borderDefault">@item.HorasAdNoturno</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr><td colspan="7" style="height: 10px"></td></tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td style="width:2%"></td>
+                        <td style="width:32%">
+                            <table style="width:100%; border: 1px solid #3c763d; border-spacing: 0px;">
+                                <thead>
+                                    <tr class="backgroudSuccess">
+                                        <th colspan="7" style="white-space: nowrap;  text-align:center; padding:5px">Horas Extras</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align:center;">
+                                    <tr>
+                                        <td style="width:5px; height:10px"></td>
+                                        <td style="width:32%"></td>
+                                        <td style="width:5px"></td>
+                                        <td style="width:32%"></td>
+                                        <td style="width:5px"></td>
+                                        <td style="width:32%"></td>
+                                        <td style="width:5px"></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td class="backgroudInfo borderInfo">Diurna</td>
+                                        <td></td>
+                                        <td class="backgroudPrimary borderPrimary">Noturna</td>
+                                        <td></td>
+                                        <td class="backgroudDefault borderDefault">Interjornada</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td class="borderInfo">@item.HorasExtraDiurna</td>
+                                        <td></td>
+                                        <td class="borderPrimary">@item.HorasExtraNoturna</td>
+                                        <td></td>
+                                        <td class="borderDefault">@item.HorasExtraInterjornada</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr><td colspan="7" style="height: 10px"></td></tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td style="width:2%"></td>
+                        <td style="width:32%">
+                            <table style="width:100%; border: 1px solid #a94442; border-spacing: 0px;">
+                                <thead>
+                                    <tr class="backgroudDanger">
+                                        <th colspan="7" style="white-space: nowrap;  text-align:center; padding:5px">Horas Faltas</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align:center;">
+                                    <tr>
+                                        <td style="width:5px; height:10px"></td>
+                                        <td style="width:32%"></td>
+                                        <td style="width:5px"></td>
+                                        <td style="width:32%"></td>
+                                        <td style="width:5px"></td>
+                                        <td style="width:32%"></td>
+                                        <td style="width:5px"></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td class="backgroudInfo borderInfo">Diurna</td>
+                                        <td></td>
+                                        <td class="backgroudPrimary borderPrimary">Noturna</td>
+                                        <td></td>
+                                        <td class="backgroudWarning borderDefault">DSR</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td class="borderInfo">@item.HorasExtraDiurna</td>
+                                        <td></td>
+                                        <td class="borderPrimary">@item.HorasExtraNoturna</td>
+                                        <td></td>
+                                        <td class="borderDefault">@item.HorasExtraInterjornada</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr><td colspan="7" style="height: 10px"></td></tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+            <table style="width:100%">
+                <tbody>
+                    <tr>
+                        <td width="49%">
+                            <table style="width:100%; border: 1px solid #337ab7; border-spacing: 0px;">
+                                <thead>
+                                    <tr class="backgroudPrimary">
+                                        <th colspan="3" style="white-space: nowrap;  text-align:center; padding:5px">Percentual das Horas Extras</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align:center">
+                                    <tr style="border:1px; font-size:10pt; font-weight:bold; height:30px">
+                                        <td style="padding:10px" width="34%">Hora Extra</td>
+                                        <td style="padding:10px" width="33%">Diurna</td>
+                                        <td style="padding:10px" width="33%">Noturna</td>
+                                    </tr>
+                                    @foreach (var rateioHorasExtras in item.LRateioHorasExtras)
+                                    {
+                                        <tr>
+                                            <td style="padding:10px">
+                                                @(String.Format("{0:000}%", rateioHorasExtras.percentual))
+                                            </td>
+                                            <td style="padding:10px">
+                                                @(rateioHorasExtras.diurno)
+                                            </td>
+                                            <td style="padding:10px">
+                                                @(rateioHorasExtras.noturno)
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </td>
+                        <td style="width:2%"></td>
+                        <td width="49%">
+                            <table style="width:100%; border: 1px solid #337ab7; border-spacing: 0px;">
+                                <thead>
+                                    <tr class="backgroudPrimary">
+                                        <th colspan="5" style="white-space: nowrap;  text-align:center; padding:5px">Banco de Horas</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align:center;">
+                                    <tr>
+                                        <td style="width:2%; height:10px">&nbsp;</td>
+                                        <td style="width:47%"></td>
+                                        <td style="width:2%">&nbsp;</td>
+                                        <td style="width:47%"></td>
+                                        <td style="width:2%">&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            string classResultado = "backgroudSuccess";
+                                            string corResultado = "#3c763d";
+                                            if (item.CreditoBHPeriodoMin < item.DebitoBHPeriodoMin)
+                                            {
+                                                classResultado = "backgroudDanger";
+                                                corResultado = "#a94442";
+                                            }
+                                        }
+                                        <td></td>
+                                        <td>
+                                            <table style="width:100%; border: 1px solid @corResultado; border-spacing: 0px;">
+                                                <thead>
+                                                    <tr class="@classResultado">
+                                                        <th colspan="5" style="white-space: nowrap;  text-align:center; padding:5px">Resultado Período</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody style="text-align:center;">
+                                                    <tr>
+                                                        <td style="width:2%; height:10px"></td>
+                                                        <td style="width:47%"></td>
+                                                        <td style="width:2%"></td>
+                                                        <td style="width:47%"></td>
+                                                        <td style="width:2%"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td class="backgroudSuccess borderSuccess">Crédito</td>
+                                                        <td></td>
+                                                        <td class="backgroudDanger borderDanger">Débito</td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td class="borderSuccess">@item.CreditoBHPeriodo</td>
+                                                        <td></td>
+                                                        <td class="borderDanger">@item.DebitoBHPeriodo</td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr><td colspan="5" style="height: 10px"></td></tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <table style="width:100%; border: 1px solid @corResultado; border-spacing: 0px;">
+                                                <thead>
+                                                    <tr class="@classResultado">
+                                                        <th colspan="2" style="white-space: nowrap;  text-align:center; padding:3px">Saldo</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody style="text-align:center;">
+                                                    <tr>
+                                                        <td style="width:50%; height:8px"></td>
+                                                        <td style="width:50%"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:right; padding:3px">
+                                                            Anterior: &nbsp;
+                                                        </td>
+                                                        <td style="text-align:left; padding:3px">
+                                                            <span>@item.SaldoAnteriorBH</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:right; padding:3px">
+                                                            <span>Mês:  &nbsp;</span>
+                                                        </td>
+                                                        <td style="text-align:left; padding:3px">
+                                                            <span>@item.SaldoBHPeriodo</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:right; padding:3px">
+                                                            <span>Atual: &nbsp;</span>
+                                                        </td>
+                                                        <td style="text-align:left; padding:3px">
+                                                            <span>@item.SaldoBHAtual</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr><td colspan="2" style="height: 8px"></td></tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr><td colspan="5">&nbsp;</td></tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    }
+</body>
+</html>

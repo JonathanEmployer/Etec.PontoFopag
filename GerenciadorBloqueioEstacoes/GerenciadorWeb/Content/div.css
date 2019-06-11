@@ -1,0 +1,15 @@
+﻿div.painel_botoes {
+    position: relative;
+    text-align: center;
+    margin: 1px;
+}
+
+div.legenda {
+    min-width: 15px;
+    max-width: 15px;
+    min-height: 15px;
+    max-height: 15px;
+    border: solid 1px black;
+    float: left;
+    margin-right: 3px;
+}

@@ -1,0 +1,51 @@
+﻿@model Modelo.HorarioAItinere
+<div class="DivLHorarioAItinere">
+    @Html.HiddenFor(model => model.Id, new { @class = "LHorariosAItinere" })
+    @Html.HiddenFor(model => model.Incdata, new { @class = "LHorariosAItinere" })
+    @Html.HiddenFor(model => model.Inchora, new { @class = "LHorariosAItinere" })
+    @Html.HiddenFor(model => model.Incusuario, new { @class = "LHorariosAItinere" })
+    @Html.HiddenFor(model => model.Altdata, new { @class = "LHorariosAItinere" })
+    @Html.HiddenFor(model => model.Althora, new { @class = "LHorariosAItinere" })
+    @Html.HiddenFor(model => model.Altusuario, new { @class = "LHorariosAItinere" })
+    @Html.HiddenFor(model => model.Codigo, new { @class = "LHorariosAItinere" })
+    @Html.HiddenFor(model => model.Dia, new { @class = "LHorariosAItinere" })
+
+
+
+    <div class="col-md-3" style="padding-left:2px;">
+
+        <div class="checkbox" style="margin:0px;">
+            <label>
+                @Html.CheckBoxFor(model => model.MarcaDiaBool, new { @class = "ckbInItinereMarcaDia LHorariosAItinere", id = string.Format("ckbInItinereMarcaDia{0}", Model.Codigo) })
+                @Html.Label(Model.DiaDesc, new { @class = "control-label label-sm LHorariosAItinere", id = string.Format("lbInItinereDiaDesc{0}", Model.Codigo) })
+            </label>
+        </div>
+
+
+    </div>
+
+    <div class="col-md-4">
+        <div class="col-md-12">
+            <div class="form-group">
+                <div class="input-group input-group-sm">
+                    @Html.TextBoxFor(model => model.PercentualDentroJornada, new { @class = "form-control input-sm LHorariosAItinere", id = string.Format("txtPercentualDentroJornada{0}", Model.Codigo) })
+                    <span class="input-group-addon">%</span>
+                </div>
+                @Html.ValidationMessageFor(model => model.DiaDesc)
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-4">
+        <div class="col-md-12">
+            <div class="form-group">
+                <div class="input-group input-group-sm">
+                    @Html.TextBoxFor(model => model.PercentualDentroFora, new { @class = "form-control input-sm LHorariosAItinere", id = string.Format("txtPercentualDentroFora{0}", Model.Codigo) })
+                    <span class="input-group-addon">%</span>
+                </div>
+                @Html.ValidationMessageFor(model => model.DiaDesc)
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Modelo.Proxy.pxyClassHorasExtrasMarcacao>
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Classificação de Horas Extras";
+    Layout = null;
+    var nomeTabela = "tbClassHorasExtras";
+}
+
+<div class="">
+    <div class="panel panel-default" style="padding:0">
+        <div class="panel-heading">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="fecharModalGrid">X</button>
+            <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+        </div>
+        <div class="panel-body panelConteudo" id="panelBodyFixo">
+            @Html.ValidationSummary(true)
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.Label("Data")
+                        @Html.TextBox("txtData", Model.FirstOrDefault().Data.ToShortDateString(), new { @class = "form-control  input-sm", @disabled = "disabled" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.Label("Extras")
+                        @Html.TextBox("txtHorasExtrasRealizada", Model.FirstOrDefault().HorasExtrasRealizada, new { @class = "form-control  input-sm", @disabled = "disabled" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.Label("Não Classificadas")
+                        @Html.TextBox("txtNaoClassificadas", Model.FirstOrDefault().NaoClassificadas, new { @class = "form-control  input-sm", @disabled = "disabled" })
+                    </div>
+                </div>
+            </div>
+            @Html.GridFor(nomeTabela, (new Modelo.Proxy.pxyClassHorasExtrasMarcacao()).GetType(), false, "ClassificacaoHorasExtras", "DadosGrid/" + Model.FirstOrDefault().IdMarcacao)
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-12 center-block">
+                    <div style="text-align: right">
+                        <a href="#" id="btConsultarSub" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
+                        <a href="#" id="btIncluirSub" class="btn btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
+                        <a href="#" id="btAlterarSub" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
+                        <a href="#" id="btExcluirSub" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+        var altura = cwk_AlturaTela() * 25 / 100;
+        $(document).ready(function () {
+            var nomeTabela = "#" + '@nomeTabela';
+            cwk_DbClickCadastroEditarAjaxParam('Alterar', 'ClassificacaoHorasExtras', '#tbClassificacoesHorasExtras', nomeTabela, { idMarc: '@Model.FirstOrDefault().IdMarcacao' });
+            @if (@Model.FirstOrDefault().NaoClassificadasMin > 0)
+            {
+                <text>
+            cwk_EventoIncluirAjaxParam('#btIncluirSub', 'Cadastrar', 'ClassificacaoHorasExtras', { idMarc: '@Model.FirstOrDefault().IdMarcacao' });
+            </text>
+            } else
+            {
+                <text>
+            $("#btIncluirSub").click(function () {
+                cwkErro("Não exitem mais horas a serem classificadas.");
+            });
+            </text>
+            }
+
+            cwk_EventoAlterarAjaxParam('#btAlterarSub', 'Alterar', 'ClassificacaoHorasExtras', nomeTabela, parametros = { idMarc: '@Model.FirstOrDefault().IdMarcacao' })
+            cwk_EventoAlterarAjaxParam('#btConsultarSub', 'Consultar', 'ClassificacaoHorasExtras', nomeTabela, parametros = { idMarc: '@Model.FirstOrDefault().IdMarcacao' })
+            cwk_EventoClickCadastroExcluir('#btExcluirSub', 'Excluir', 'ClassificacaoHorasExtras', nomeTabela, 'Classificação excluída com sucesso.', Excluiu);
+
+        })
+
+        function Excluiu() {
+            cwk_CadastroAjaxParam('ClassificadasMarcacao', 'ClassificacaoHorasExtras', '@Model.FirstOrDefault().IdMarcacao', p = {});
+        }
+
+        $("#fecharModalGrid").click(function () {
+            $("#divLoadCadastroModal").hide();
+            HorasClassificar();
+    });
+
+</script>

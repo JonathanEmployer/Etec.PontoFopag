@@ -1,0 +1,45 @@
+﻿@model Modelo.EnvioDadosRep
+@{
+    Layout = null;
+}
+
+<div id="pnlEmpresa">
+    @Html.HiddenFor(model => model.idEmpresaRelogio)
+    <div class="div_table_highlight">
+        <table id="tbEmp" class="table table-striped table-bordered table-hover table-condensed nowrap" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Codigo</th>
+                    <th>Nome</th>
+                </tr>
+                <tr id="filterrow">
+                    <th>Id</th>
+                    <th>Codigo</th>
+                    <th>Nome</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.pxyEmpresas.Count(); i++)
+                {
+                    <tr id="@Model.pxyEmpresas[i].Id">
+                        <td>@Model.pxyEmpresas[i].Id</td>
+                        <td>@Model.pxyEmpresas[i].Codigo</td>
+                        <td>@Model.pxyEmpresas[i].Nome</td>                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<script>
+    var tableEmpresa = null;
+    $(document).ready(function () {
+        tableEmpresa = cwk_DataTableRelatorioGridEmp('tbEmp', '', false, '', 2, '<"H"<"floatLeft"i><"centerDom"<"titulo">><"btnsSelect">>t<"F"p>', "Empresas", false, CarregarGridFuncionario);
+        DesabilitarGridEmpresa(false);
+    });
+    
+</script>

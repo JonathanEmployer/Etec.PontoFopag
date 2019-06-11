@@ -1,0 +1,56 @@
+﻿@model Modelo.Proxy.pxyOcorrenciaEmpresa
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Ocorrências";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var nometabela = "tbOcorrencia";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.idEmpresa);
+    @Html.HiddenFor(model => model.idsSelecionados)
+
+    <div class="divCenterMedio">
+        <div class="panel panel-default" style="padding:0">
+            <div class="panel-heading salvando">
+                @Html.ActionLink("X", "Grid", "Empresa", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">Ocorrências</h3>
+            </div>
+            <div class="panel-body panelConteudo" id="panelBodyFixodivCenter">
+                @Html.ValidationSummary(true)
+                <div class="panel-body" style="padding:0px;">
+                    <div class="row">
+                        @Html.GridFor(nometabela, new Modelo.OcorrenciaEmpresa().GetType(),true,"OcorrenciaEmpresa","DadosGrid/" + Model.idEmpresa, "","", Model.idsSelecionados,"")
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-xs-12 center-block">
+                            <div style="text-align: right">
+                                <button type="submit" class="btn btn-success salvando">
+                                    <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                                </button>
+                                <a class="btn btn-danger salvando" href="@Url.Action("Grid", "Empresa")">
+                                    <span class="glyphicon glyphicon-remove"></span> Cancelar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+
+    $('form').submit(function () {
+        $("#idsSelecionados").val(tbOcorrenciaGetSelecionado());
+        if ($(this).valid()) {
+            return true;
+        }
+        return false;
+    });
+
+</script>

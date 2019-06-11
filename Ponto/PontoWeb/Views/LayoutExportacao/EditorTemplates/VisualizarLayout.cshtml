@@ -1,0 +1,36 @@
+﻿@model Modelo.LayoutExportacao
+
+<div class="modal" style="padding-top: 150px; background: rgba(0, 0, 0, 0.4);" id="divVisualizarLayout" accesskey="" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close btnModal closeVisualizarLayout" type="button" id="btndivVisualizarLayoutClose">x</button>
+                <h3 class="panel-title titulo-pagina">Layout de Exportação</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.Label(Model.LabelCamposLayoutExportacao, new { @class = "control-label label-sm" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.Label("lblQuantidade", "Qtd Caracteres: " + @Model.LabelQtdCamposLayoutExportacao, new { @class = "control-label label-sm" })
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="margin-top:0">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div style="text-align: right">
+                            <button type="button" class="btn btn-danger closeVisualizarLayout" id="btFecharVisualizarLayout">
+                                <span class="glyphicon glyphicon-remove"></span> Fechar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

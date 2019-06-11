@@ -1,0 +1,14 @@
+﻿@model Modelo.Proxy.pxyDepartamento
+
+<tr id="@Model.Id">
+    <td>
+        @Html.EditorFor(m => m.Selecionado, new { @class = "selectDep" })
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.Codigo)
+        @Html.HiddenFor(m => m.IdEmpresa)
+        @Html.HiddenFor(m => m.Descricao)
+        @Html.HiddenFor(m => m.NomeEmpresa)
+    </td>
+    <td>@Html.DisplayFor(m => m.Descricao)</td>
+    <td>@Html.DisplayFor(m => m.NomeEmpresa, new { @class = "fk" })</td>
+</tr>

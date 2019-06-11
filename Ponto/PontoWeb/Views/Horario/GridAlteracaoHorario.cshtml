@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Modelo.Proxy.pxyHistoricoAlteracaoHorario>
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Histórico de Alteração de Horário";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+
+
+<div class="divCenterMedio">
+    <div class="panel panel-default" style="padding:0">
+        <div class="panel-heading">
+            @Html.ActionLink("X", "Grid", "Horario", null, new { @class = "close" })
+            <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+        </div>
+        <div class="panel-body panelConteudo" id="panelBodyFixo">
+            @Html.ValidationSummary(true)
+            <div class="div_table_highlight">
+                <table id="tb">
+                    <thead>
+                        <tr>
+                            <th>Início Vigência</th>
+                            <th>Usuário</th>
+                            <th>Data Alteração</th>
+                            <th>Código</th>
+                            <th>Descrição</th>
+                            <th>Desc. Parâmetro</th>
+                            <th>Horas Min.</th>
+                            <th>Horas Max.</th>
+                            <th>Calcula Ad. Noturno</th>
+                            <th>Conversão Hora Noturna</th>
+                            <th>Intervalo Automático</th>
+                            <th>Carga Horária</th>
+                            <th>Descontar DSR</th>
+                            <th>Descontar DSR Prop</th>
+                            <th>Dia Semana DSR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr id="@item.IdHorarioOrigem">
+                                <td>@item.InicioVigenciaStr</td>
+                                <td>@item.IncUsuario</td>
+                                <td>@item.IncHoraStr</td>
+                                <td>@item.CodigoHorario</td>
+                                <td>@item.DescricaoHorario</td>
+                                <td>@item.DescParametro</td>
+                                <td>@item.HorasMin</td>
+                                <td>@item.HorasMax</td>
+                                <td>@item.CalcAdicionalNoturno</td>
+                                <td>@item.ConversaoAdNoturno</td>
+                                <td>@item.IntervaloAutomatico</td>
+                                <td>@item.CargaHoraria</td>
+                                <td>@item.DescontarDSR</td>
+                                <td>@item.DescontarDSRProp</td>
+                                <td>@item.DiaSemanaDSR</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-12 center-block">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div style="text-align: right">
+                                <a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;Consultar Alteração</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var oTb = cwk_MontarDataTableTheme('#tb', 'Parâmetro', false, "","");
+    jQuery(document).ready(function () {
+        cwk_EventoDbClickEditar('Consultar', 'Horario', '#tb', oTb);
+        cwk_EventoClickSelecionarSingle('#tb');
+        cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', 'Horario', oTb);
+        
+    });
+</script>

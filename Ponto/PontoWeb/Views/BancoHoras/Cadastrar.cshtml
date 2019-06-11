@@ -1,0 +1,1259 @@
+﻿@model Modelo.BancoHoras
+@{
+    ViewBag.Title = "Cadastrar Banco de Horas";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.Id, new { id = "idBancoHoras" });
+    @Html.HiddenFor(model => model.Incdata);
+    @Html.HiddenFor(model => model.Inchora);
+    @Html.HiddenFor(model => model.Incusuario);
+    @Html.HiddenFor(model => model.Altdata);
+    @Html.HiddenFor(model => model.Althora);
+    @Html.HiddenFor(model => model.Altusuario);
+    @Html.HiddenFor(model => model.Identificacao);
+    @Html.HiddenFor(model => model.Tipo_Ant);
+    @Html.HiddenFor(model => model.Identificacao_Ant);
+    @Html.HiddenFor(model => model.DataInicial_Ant);
+    @Html.HiddenFor(model => model.DataFinal_Ant);
+    @Html.HiddenFor(model => model.LimiteHorasextras_10);
+
+    <div class="divCenterMedio">
+        <div class="panel panel-default" style="padding-bottom:0; margin-bottom:0;">
+            <div class="panel-heading salvando">
+                @Html.ActionLink("X", "Grid", "BancoHoras", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo" id="panelBodyFixo">
+                @Html.Raw(HttpUtility.HtmlDecode(@Html.ValidationMessage("CustomError").ToHtmlString()))
+                @if (!String.IsNullOrEmpty(@ViewBag.MensagemFechamento))
+                {
+                    <div class="comment alert alert-info" role="alert" style="margin-bottom:0">@Html.Raw(ViewBag.MensagemFechamento)</div>
+                }
+                <div class="row" style="margin-bottom:0; padding-bottom:0;">
+                    <div class="col-md-8" style="margin-bottom:0; padding-bottom:0;">
+                        @*Codigo / Data Inicial / Data Final*@
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
+                                    @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm" })
+                                    @Html.ValidationMessageFor(model => model.Codigo)
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group input-group-sm">
+                                    @Html.LabelFor(model => model.DataInicial, new { @class = "control-label label-sm" })
+                                    <div class="input-group input-group-sm">
+                                        @Html.TextBoxFor(model => model.DataInicial, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataInicial" })
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary" id="btnDataInicial" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                        </span>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DataInicial)
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group input-group-sm">
+                                    @Html.LabelFor(model => model.DataFinal, new { @class = "control-label label-sm" })
+                                    <div class="input-group input-group-sm">
+                                        @Html.TextBoxFor(model => model.DataFinal, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataFinal" })
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary" id="btnDataFinal" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                        </span>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DataFinal)
+                                </div>
+                            </div>
+                        </div>
+                        @*Radio do Tipo*@
+                        <div class="panel panel-default" style="margin:0px; padding:0px;">
+                            <div class="panel-heading" style="padding-top:1px; padding-bottom:0px; margin:0px;">
+                                <div class="row">
+                                    <div class="form-group input-group-sm">
+                                        <div class="col-md-3">
+                                            <div class="radio-inline" data-toggle="radio">
+                                                @Html.RadioButtonFor(model => model.Tipo, 0, new { id = "idRadioEmpresa", name = "rdio" })
+                                                @Html.Label("lbEmpresa", "Empresa", new { @class = "control-label label-sm", @for = "idRadioEmpresa" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="radio-inline" data-toggle="radio">
+                                                @Html.RadioButtonFor(model => model.Tipo, 1, new { id = "idRadioDepartamento", name = "rdio" })
+                                                @Html.Label("lbDepartamento", "Departamento", new { @class = "control-label label-sm", @for = "idRadioDepartamento" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="radio-inline" data-toggle="radio">
+                                                @Html.RadioButtonFor(model => model.Tipo, 3, new { id = "idRadioFuncao", name = "rdio" })
+                                                @Html.Label("lbFuncao", "Função", new { @class = "control-label label-sm", @for = "idRadioFuncao" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="radio-inline" data-toggle="radio">
+                                                @Html.RadioButtonFor(model => model.Tipo, 2, new { id = "idRadioFuncionario", name = "rdio" })
+                                                @Html.Label("lbFuncionario", "Funcionário", new { @class = "control-label label-sm", @for = "idRadioFuncionario" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body" style="padding-top:7px; padding-bottom:0px;">
+                                <div id="divEmpresa" class="row divsTipo">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(model => model.Empresa, new { @class = "form-control  input-sm lkps", id = "lkpEmpresa" })
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-primary" id="btnEmpresa" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                </span>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Empresa)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="divDepartamento" class="row divsTipo">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(model => model.Departamento, new { @class = "form-control  input-sm", id = "lkpDepartamento" })
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-primary" id="btnDepartamento" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                </span>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Departamento)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="divFuncao" class="row divsTipo">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(model => model.Funcao, new { @class = "form-control  input-sm", id = "lkpFuncao" })
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-primary" id="btnFuncao" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                </span>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Funcao)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="divFuncionario" class="row divsTipo">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(model => model.Funcionario, new { @class = "form-control  input-sm", id = "lkpFuncionario" })
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-primary" id="btnFuncionario" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                </span>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Funcionario)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*CheckBox*@
+                    <div class="col-md-4">
+                        <div class="checkbox" style="margin-top:15px;">
+                            <label>
+                                @Html.CheckBoxFor(model => model.BancoHorasAcumulativo, new { @class = "checkboxbh", id = "BancoHorasAcumulativo" })
+                                @Html.LabelFor(model => model.BancoHorasAcumulativo, new { @class = "control-label label-sm" })
+                                @Html.ValidationMessageFor(model => model.BancoHorasAcumulativo)
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(model => model.PercentualComoHoraExtra, new { @class = "checkboxbh", id = "PercentualComoHoraExtra" })
+                                @Html.LabelFor(model => model.PercentualComoHoraExtra, new { @class = "control-label label-sm" })
+                                @Html.ValidationMessageFor(model => model.PercentualComoHoraExtra)
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(model => model.FaltaDebitoBool, new { @class = "checkboxbh", id = "FaltaDebitoBool" })
+                                @Html.LabelFor(model => model.FaltaDebitoBool, new { @class = "control-label label-sm" })
+                                @Html.ValidationMessageFor(model => model.FaltaDebitoBool)
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(model => model.BancoHorasPorPercentual, new { @class = "checkboxbh", id = "BancoHorasPorPercentual" })
+                                @Html.LabelFor(model => model.BancoHorasPorPercentual, new { @class = "control-label label-sm" })
+                                @Html.ValidationMessageFor(model => model.BancoHorasPorPercentual)
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(model => model.FechamentoPercentualHE, new { @class = "checkboxbh", id = "FechamentoPercentualHE" })
+                                @Html.LabelFor(model => model.FechamentoPercentualHE, new { @class = "control-label label-sm" })
+                                @Html.ValidationMessageFor(model => model.FechamentoPercentualHE)
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(model => model.BancoHorasDiarioMensal, new { @class = "checkboxbh", id = "BancoHorasDiarioMensal" })
+                                @Html.LabelFor(model => model.BancoHorasDiarioMensal, new { @class = "control-label label-sm" })
+                                @Html.ValidationMessageFor(model => model.BancoHorasDiarioMensal)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                @*Tab Panel*@
+                <div class="tabbable" style="margin-top:6px;">
+                    <ul class="nav nav-tabs" id="bhTab">
+                        <li class="active"><a href="#pnlParametrosBH" data-toggle="tab" id="liPnlParametrosBH" style="padding:5px;">Parâmetros do Banco de Horas</a></li>
+                        <li><a href="#pnlTipoAcumulo" data-toggle="tab" id="liPnlTipoAcumulo" style="padding:5px;">Tipo de Acúmulo</a></li>
+                    </ul>
+                    <div class="tab-content" style="padding-top:5px">
+                        @*Parametros*@
+                        <div class="tab-pane fade in active" id="pnlParametrosBH">
+                            <div class="row">
+                                <div class="col-md-12" style="padding:0px;">
+                                    @*Panel Dias*@
+                                    <div class="col-md-3">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" style="padding:0px">
+                                                <div style="text-align: center">
+                                                    <label>Dias</label>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body" style="padding-top:7px;padding-bottom:11px;">
+                                                <button class="btn btn-sm btn-default btn-block" id="btnMarcarDias"><span class="glyphicon glyphicon-check"></span> Selecionar</button>
+                                                <div class="col-md-12 row">
+                                                    <div class="checkbox" style="margin:3px; padding-top:3px;">
+                                                        <label>
+                                                            @Html.CheckBoxFor(model => model.Dias_1Bool, new { @class = "pdias checkboxbh", id = "Dias_1Bool" })
+                                                            @Html.LabelFor(model => model.Dias_1Bool, new { @class = "control-label label-sm", @for = "Dias_1Bool" })
+                                                            @Html.ValidationMessageFor(model => model.Dias_1Bool)
+                                                        </label>
+                                                    </div>
+                                                    <div class="checkbox" style="margin:3px; padding-top:3px;">
+                                                        <label>
+                                                            @Html.CheckBoxFor(model => model.Dias_2Bool, new { @class = "pdias checkboxbh", id = "Dias_2Bool" })
+                                                            @Html.LabelFor(model => model.Dias_2Bool, new { @class = "control-label label-sm", @for = "Dias_2Bool" })
+                                                            @Html.ValidationMessageFor(model => model.Dias_2Bool)
+                                                        </label>
+                                                    </div>
+                                                    <div class="checkbox" style="margin:3px; padding-top:3px;">
+                                                        <label>
+                                                            @Html.CheckBoxFor(model => model.Dias_3Bool, new { @class = "pdias checkboxbh", id = "Dias_3Bool" })
+                                                            @Html.LabelFor(model => model.Dias_3Bool, new { @class = "control-label label-sm", @for = "Dias_3Bool" })
+                                                            @Html.ValidationMessageFor(model => model.Dias_3Bool)
+                                                        </label>
+                                                    </div>
+                                                    <div class="checkbox" style="margin:3px; padding-top:3px;">
+                                                        <label>
+                                                            @Html.CheckBoxFor(model => model.Dias_4Bool, new { @class = "pdias checkboxbh", id = "Dias_4Bool" })
+                                                            @Html.LabelFor(model => model.Dias_4Bool, new { @class = "control-label label-sm", @for = "Dias_4Bool" })
+                                                            @Html.ValidationMessageFor(model => model.Dias_4Bool)
+                                                        </label>
+                                                    </div>
+                                                    <div class="checkbox" style="margin:3px; padding-top:3px;">
+                                                        <label>
+                                                            @Html.CheckBoxFor(model => model.Dias_5Bool, new { @class = "pdias checkboxbh", id = "Dias_5Bool" })
+                                                            @Html.LabelFor(model => model.Dias_5Bool, new { @class = "control-label label-sm", @for = "Dias_5Bool" })
+                                                            @Html.ValidationMessageFor(model => model.Dias_5Bool)
+                                                        </label>
+                                                    </div>
+                                                    <div class="checkbox" style="margin:3px; padding-top:3px;">
+                                                        <label>
+                                                            @Html.CheckBoxFor(model => model.Dias_6Bool, new { @class = "pdias checkboxbh", id = "Dias_6Bool" })
+                                                            @Html.LabelFor(model => model.Dias_6Bool, new { @class = "control-label label-sm", @for = "Dias_6Bool" })
+                                                            @Html.ValidationMessageFor(model => model.Dias_6Bool)
+                                                        </label>
+                                                    </div>
+                                                    <div class="checkbox" style="margin:3px; padding-top:3px;">
+                                                        <label>
+                                                            @Html.CheckBoxFor(model => model.Dias_7Bool, new { @class = "pdias checkboxbh", id = "Dias_7Bool" })
+                                                            @Html.LabelFor(model => model.Dias_7Bool, new { @class = "control-label label-sm", @for = "Dias_7Bool" })
+                                                            @Html.ValidationMessageFor(model => model.Dias_7Bool)
+                                                        </label>
+                                                    </div>
+                                                    <div class="checkbox" style="margin:3px; padding-top:3px;">
+                                                        <label>
+                                                            @Html.CheckBoxFor(model => model.Dias_8Bool, new { @class = "pdias checkboxbh", id = "Dias_8Bool" })
+                                                            @Html.LabelFor(model => model.Dias_8Bool, new { @class = "control-label label-sm", @for = "Dias_8Bool" })
+                                                            @Html.ValidationMessageFor(model => model.Dias_8Bool)
+                                                        </label>
+                                                    </div>
+                                                    <div class="checkbox" style="margin:3px; padding-top:3px;">
+                                                        <label>
+                                                            @Html.CheckBoxFor(model => model.Dias_9Bool, new { @class = "pdias checkboxbh", id = "Dias_9Bool" })
+                                                            @Html.LabelFor(model => model.Dias_9Bool, new { @class = "control-label label-sm", @for = "Dias_9Bool" })
+                                                            @Html.ValidationMessageFor(model => model.Dias_9Bool)
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*Panel Banco de Horas*@
+                                    <div class="col-md-5">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" style="padding:0px">
+                                                <div style="text-align: center">
+                                                    <label>Banco de Horas </label>
+                                                    @Html.CheckBoxFor(model => model.BancoprimeiroBool, new { @class = "checkboxbh", id = "BancoprimeiroBool" })
+                                                    @Html.ValidationMessageFor(model => model.BancoprimeiroBool)
+                                                </div>
+                                            </div>
+                                            <div class="panel-body" style="padding-top:7px;padding-bottom:12px;padding-right:20px;padding-left:10px;">
+                                                
+                                                <div class="row">
+                                                    @*Limite*@
+                                                    <div class="col-md-3">
+                                                        <div style="text-align:center">
+                                                            <label class="control-label label-sm">Limites</label>
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:8px;">
+                                                            @Html.TextBoxFor(model => model.LimiteHoras_1, new { @class = "form-control  input-sm time lbancohora Dias_1Bool", id = "LimiteHoras_1", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.LimiteHoras_1)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.LimiteHoras_2, new { @class = "form-control  input-sm time lbancohora Dias_2Bool", id = "LimiteHoras_2", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.LimiteHoras_2)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.LimiteHoras_3, new { @class = "form-control  input-sm time lbancohora Dias_3Bool", id = "LimiteHoras_3", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.LimiteHoras_3)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.LimiteHoras_4, new { @class = "form-control  input-sm time lbancohora Dias_4Bool", id = "LimiteHoras_4", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.LimiteHoras_4)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.LimiteHoras_5, new { @class = "form-control  input-sm time lbancohora Dias_5Bool", id = "LimiteHoras_5", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.LimiteHoras_5)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.LimiteHoras_6, new { @class = "form-control  input-sm time lbancohora Dias_6Bool", id = "LimiteHoras_6", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.LimiteHoras_6)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.LimiteHoras_7, new { @class = "form-control  input-sm time lbancohora Dias_7Bool", id = "LimiteHoras_7", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.LimiteHoras_7)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.LimiteHoras_8, new { @class = "form-control  input-sm time lbancohora Dias_8Bool", id = "LimiteHoras_8", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.LimiteHoras_8)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.LimiteHoras_9, new { @class = "form-control  input-sm time lbancohora Dias_9Bool", id = "LimiteHoras_9", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.LimiteHoras_9)
+                                                        </div>
+                                                    </div>
+                                                    @*Limite Diario*@
+                                                    <div class="col-md-3">
+                                                        <div style="text-align:center">
+                                                            <label class="control-label label-sm">Diarios</label>
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:8px;">
+                                                            @Html.TextBoxFor(model => model.LimiteHorasDiarios_1, new { @class = "form-control  input-sm time ldbancohora Dias_1Bool", id = "LimiteHorasDiarios_1", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.LimiteHorasDiarios_1)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.LimiteHorasDiarios_2, new { @class = "form-control  input-sm time ldbancohora Dias_2Bool", id = "LimiteHorasDiarios_2", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.LimiteHorasDiarios_2)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.LimiteHorasDiarios_3, new { @class = "form-control  input-sm time ldbancohora Dias_3Bool", id = "LimiteHorasDiarios_3", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.LimiteHorasDiarios_3)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.LimiteHorasDiarios_4, new { @class = "form-control  input-sm time ldbancohora Dias_4Bool", id = "LimiteHorasDiarios_4", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.LimiteHorasDiarios_4)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.LimiteHorasDiarios_5, new { @class = "form-control  input-sm time ldbancohora Dias_5Bool", id = "LimiteHorasDiarios_5", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.LimiteHorasDiarios_5)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.LimiteHorasDiarios_6, new { @class = "form-control  input-sm time ldbancohora Dias_6Bool", id = "LimiteHorasDiarios_6", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.LimiteHorasDiarios_6)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.LimiteHorasDiarios_7, new { @class = "form-control  input-sm time ldbancohora Dias_7Bool", id = "LimiteHorasDiarios_7", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.LimiteHorasDiarios_7)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.LimiteHorasDiarios_8, new { @class = "form-control  input-sm time ldbancohora Dias_8Bool", id = "LimiteHorasDiarios_8", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.LimiteHorasDiarios_8)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.LimiteHorasDiarios_9, new { @class = "form-control  input-sm time ldbancohora Dias_9Bool", id = "LimiteHorasDiarios_9", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.LimiteHorasDiarios_9)
+                                                        </div>
+                                                    </div>
+                                                    @*Mensal*@
+                                                    <div class="col-md-3">
+                                                        <div style="text-align:center">
+                                                            <label class="control-label label-sm">Mensal</label>
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:8px;">
+                                                            @Html.TextBoxFor(model => model.limitehorasDiarioMensal_1, new { @class = "form-control  input-sm time lmbancohora Dias_1Bool", id = "LimiteHorasMensal_1", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.limitehorasDiarioMensal_1)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.limitehorasDiarioMensal_2, new { @class = "form-control  input-sm time lmbancohora Dias_2Bool", id = "LimiteHorasMensal_2", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.limitehorasDiarioMensal_2)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.limitehorasDiarioMensal_3, new { @class = "form-control  input-sm time lmbancohora Dias_3Bool", id = "LimiteHorasMensal_3", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.limitehorasDiarioMensal_3)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.limitehorasDiarioMensal_4, new { @class = "form-control  input-sm time lmbancohora Dias_4Bool", id = "LimiteHorasMensal_4", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.limitehorasDiarioMensal_4)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.limitehorasDiarioMensal_5, new { @class = "form-control  input-sm time lmbancohora Dias_5Bool", id = "LimiteHorasMensal_5", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.limitehorasDiarioMensal_5)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.limitehorasDiarioMensal_6, new { @class = "form-control  input-sm time lmbancohora Dias_6Bool", id = "LimiteHorasMensal_6", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.limitehorasDiarioMensal_6)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.limitehorasDiarioMensal_7, new { @class = "form-control  input-sm time lmbancohora Dias_7Bool", id = "LimiteHorasMensal_7", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.limitehorasDiarioMensal_7)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.limitehorasDiarioMensal_8, new { @class = "form-control  input-sm time lmbancohora Dias_8Bool", id = "LimiteHorasMensal_8", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.limitehorasDiarioMensal_8)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.limitehorasDiarioMensal_9, new { @class = "form-control  input-sm time lmbancohora Dias_9Bool", id = "LimiteHorasMensal_9", @placeholder = "--:--" })
+                                                            @Html.ValidationMessageFor(model => model.limitehorasDiarioMensal_9)
+                                                        </div>
+                                                    </div>
+                                                    @*Saldo BH*@
+                                                    <div class="col-md-3">
+                                                        <div style="text-align:center">
+                                                            <label class="control-label label-sm">Saldo</label>
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:8px;">
+                                                            @Html.TextBoxFor(model => model.SaldoBh_1, new { @class = "form-control input-sm time3 lsBancoHora Dias_1Bool", id = "SaldoBH_1", @placeholder = "---:--" })
+                                                            @Html.ValidationMessageFor(model => model.SaldoBh_1)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.SaldoBh_2, new { @class = "form-control input-sm time3 lsBancoHora Dias_2Bool", id = "SaldoBH_2", @placeholder = "---:--" })
+                                                            @Html.ValidationMessageFor(model => model.SaldoBh_2)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.SaldoBh_3, new { @class = "form-control input-sm time3 lsBancoHora Dias_3Bool", id = "SaldoBH_3", @placeholder = "---:--" })
+                                                            @Html.ValidationMessageFor(model => model.SaldoBh_3)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.SaldoBh_4, new { @class = "form-control input-sm time3 lsBancoHora Dias_4Bool", id = "SaldoBH_4", @placeholder = "---:--" })
+                                                            @Html.ValidationMessageFor(model => model.SaldoBh_4)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.SaldoBh_5, new { @class = "form-control input-sm time3 lsBancoHora Dias_5Bool", id = "SaldoBH_5", @placeholder = "---:--" })
+                                                            @Html.ValidationMessageFor(model => model.SaldoBh_5)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.SaldoBh_6, new { @class = "form-control input-sm time3 lsBancoHora Dias_6Bool", id = "SaldoBH_6", @placeholder = "---:--" })
+                                                            @Html.ValidationMessageFor(model => model.SaldoBh_6)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.SaldoBh_7, new { @class = "form-control input-sm time3 lsBancoHora Dias_7Bool", id = "SaldoBH_7", @placeholder = "---:--" })
+                                                            @Html.ValidationMessageFor(model => model.SaldoBh_7)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.SaldoBh_8, new { @class = "form-control input-sm time3 lsBancoHora Dias_8Bool", id = "SaldoBH_8", @placeholder = "---:--" })
+                                                            @Html.ValidationMessageFor(model => model.SaldoBh_8)
+                                                        </div>
+                                                        <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                            @Html.TextBoxFor(model => model.SaldoBh_9, new { @class = "form-control input-sm time3 lsBancoHora Dias_9Bool", id = "SaldoBH_9", @placeholder = "---:--" })
+                                                            @Html.ValidationMessageFor(model => model.SaldoBh_9)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" style="margin:0; padding:0;">
+                                        @*Panel Horas Extras*@
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading" style="padding:0px">
+                                                        <div style="text-align: center">
+                                                            <label>Horas Extras </label>
+                                                            @Html.CheckBoxFor(model => model.ExtraPrimeiroBool, new { @class = "checkboxbh", id = "ExtraPrimeiroBool" })
+                                                            @Html.ValidationMessageFor(model => model.ExtraPrimeiroBool)
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel-body" style="padding-top:7px;padding-bottom:12px;">
+                                                        <div class="row">
+                                                            @*Limites*@
+                                                            <div style="text-align:center">
+                                                                <label class="control-label label-sm">Limites</label>
+                                                            </div>
+                                                            <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:8px;">
+                                                                @Html.TextBoxFor(model => model.LimiteHorasextras_1, new { @class = "form-control  input-sm time lHorasExtras Dias_1Bool", @placeholder = "--:--" })
+                                                                @Html.ValidationMessageFor(model => model.LimiteHorasextras_1)
+                                                            </div>
+                                                            <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                                @Html.TextBoxFor(model => model.LimiteHorasextras_2, new { @class = "form-control  input-sm time lHorasExtras Dias_2Bool", @placeholder = "--:--" })
+                                                                @Html.ValidationMessageFor(model => model.LimiteHorasextras_2)
+                                                            </div>
+                                                            <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                                @Html.TextBoxFor(model => model.LimiteHorasextras_3, new { @class = "form-control  input-sm time lHorasExtras Dias_3Bool", @placeholder = "--:--" })
+                                                                @Html.ValidationMessageFor(model => model.LimiteHorasextras_3)
+                                                            </div>
+                                                            <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                                @Html.TextBoxFor(model => model.LimiteHorasextras_4, new { @class = "form-control  input-sm time lHorasExtras Dias_4Bool", @placeholder = "--:--" })
+                                                                @Html.ValidationMessageFor(model => model.LimiteHorasextras_4)
+                                                            </div>
+                                                            <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                                @Html.TextBoxFor(model => model.LimiteHorasextras_5, new { @class = "form-control  input-sm time lHorasExtras Dias_5Bool", @placeholder = "--:--" })
+                                                                @Html.ValidationMessageFor(model => model.LimiteHorasextras_5)
+                                                            </div>
+                                                            <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                                @Html.TextBoxFor(model => model.LimiteHorasextras_6, new { @class = "form-control  input-sm time lHorasExtras Dias_6Bool", @placeholder = "--:--" })
+                                                                @Html.ValidationMessageFor(model => model.LimiteHorasextras_6)
+                                                            </div>
+                                                            <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                                @Html.TextBoxFor(model => model.LimiteHorasextras_7, new { @class = "form-control  input-sm time lHorasExtras Dias_7Bool", @placeholder = "--:--" })
+                                                                @Html.ValidationMessageFor(model => model.LimiteHorasextras_7)
+                                                            </div>
+                                                            <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                                @Html.TextBoxFor(model => model.LimiteHorasextras_8, new { @class = "form-control  input-sm time lHorasExtras Dias_8Bool", @placeholder = "--:--" })
+                                                                @Html.ValidationMessageFor(model => model.LimiteHorasextras_8)
+                                                            </div>
+                                                            <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                                @Html.TextBoxFor(model => model.LimiteHorasextras_9, new { @class = "form-control  input-sm time lHorasExtras Dias_9Bool", @placeholder = "--:--" })
+                                                                @Html.ValidationMessageFor(model => model.LimiteHorasextras_9)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @*Panel Percentual Banco Horas*@
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading" style="padding:0px">
+                                                        <div style="text-align: center">
+                                                            <label>Percentual</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel-body" style="padding-top:7px;padding-bottom:14px;">
+                                                        <div class="row">
+                                                            @*Limites*@
+                                                            <div class="col-md-6 col-md-offset-3">
+                                                                <div style="text-align:center">
+                                                                    <label class="control-label label-sm">%</label>
+                                                                </div>
+                                                                <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:8px;">
+                                                                    @Html.TextBoxFor(model => model.Percentuais_1, new { @class = "form-control  input-sm intpercent Dias_1Bool lbhperc lbhsemana" })
+                                                                    @Html.ValidationMessageFor(model => model.Percentuais_1)
+                                                                </div>
+                                                                <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                                    @Html.TextBoxFor(model => model.Percentuais_2, new { @class = "form-control  input-sm intpercent Dias_2Bool lbhperc lbhsemana" })
+                                                                    @Html.ValidationMessageFor(model => model.Percentuais_2)
+                                                                </div>
+                                                                <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                                    @Html.TextBoxFor(model => model.Percentuais_3, new { @class = "form-control  input-sm intpercent Dias_3Bool lbhperc lbhsemana" })
+                                                                    @Html.ValidationMessageFor(model => model.Percentuais_3)
+                                                                </div>
+                                                                <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                                    @Html.TextBoxFor(model => model.Percentuais_4, new { @class = "form-control  input-sm intpercent Dias_4Bool lbhperc lbhsemana" })
+                                                                    @Html.ValidationMessageFor(model => model.Percentuais_4)
+                                                                </div>
+                                                                <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                                    @Html.TextBoxFor(model => model.Percentuais_5, new { @class = "form-control  input-sm intpercent Dias_5Bool lbhperc lbhsemana" })
+                                                                    @Html.ValidationMessageFor(model => model.Percentuais_5)
+                                                                </div>
+                                                                <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                                    @Html.TextBoxFor(model => model.Percentuais_6, new { @class = "form-control  input-sm intpercent Dias_6Bool lbhperc" })
+                                                                    @Html.ValidationMessageFor(model => model.Percentuais_6)
+                                                                </div>
+                                                                <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                                    @Html.TextBoxFor(model => model.Percentuais_7, new { @class = "form-control  input-sm intpercent Dias_7Bool lbhperc" })
+                                                                    @Html.ValidationMessageFor(model => model.Percentuais_7)
+                                                                </div>
+                                                                <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                                    @Html.TextBoxFor(model => model.Percentuais_8, new { @class = "form-control  input-sm intpercent Dias_8Bool lbhperc" })
+                                                                    @Html.ValidationMessageFor(model => model.Percentuais_8)
+                                                                </div>
+                                                                <div class="form-group" style="margin:0px; padding-bottom:0px; padding-top:1px;">
+                                                                    @Html.TextBoxFor(model => model.Percentuais_9, new { @class = "form-control  input-sm intpercent Dias_9Bool lbhperc" })
+                                                                    @Html.ValidationMessageFor(model => model.Percentuais_9)
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*Tipo Acumulo*@
+                        <div class="tab-pane fade" id="pnlTipoAcumulo">
+                            @*Tipo Acumulo*@
+                            <div class="row" style="margin-bottom:10px;">
+                                <div class="col-md-5">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" style="padding:0px">
+                                            <div style="text-align: center">
+                                                @Html.LabelFor(model => model.TipoAcumulo)
+                                            </div>
+                                        </div>
+                                        <div class="panel-body" style="padding-top:0px;padding-bottom:0px;">
+                                            <div class="form-group input-group-sm">
+                                                <div class="col-md-6">
+                                                    <div class="radio-inline" data-toggle="radioTipoAcumulo">
+                                                        @Html.RadioButtonFor(model => model.TipoAcumulo, 0, new { id = "idRadioSemanal", name = "rdioTipoAcumulo" }) Semanal
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="radio-inline" data-toggle="radioTipoAcumulo">
+                                                        @Html.RadioButtonFor(model => model.TipoAcumulo, 1, new { id = "idRadioMensal", name = "rdioTipoAcumulo" }) Mensal
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*Percentual/Quantidade das Horas*@
+                            <div class="row">
+                                @*Percentual das Horas*@
+                                <div class="col-md-3">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" style="padding:0px">
+                                            <div style="text-align: center">
+                                                <label>Percentual das Horas</label>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body" style="padding-top:0px;padding-bottom:0px;">
+                                            <div class="row">
+                                                @*Checks Limite*@
+                                                <div class="col-md-6">
+                                                    <div class="form-group" style="margin:4px">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                @Html.CheckBoxFor(model => model.Limite_1, new { @class = "plimites", id = "Limite_1" })
+                                                                @Html.LabelFor(model => model.Limite_1, new { @class = "control-label label-sm" })
+                                                                @Html.ValidationMessageFor(model => model.Limite_1)
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" style="margin:4px">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                @Html.CheckBoxFor(model => model.Limite_2, new { @class = "plimites", id = "Limite_2" })
+                                                                @Html.LabelFor(model => model.Limite_2, new { @class = "control-label label-sm" })
+                                                                @Html.ValidationMessageFor(model => model.Limite_2)
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" style="margin:4px">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                @Html.CheckBoxFor(model => model.Limite_3, new { @class = "plimites", id = "Limite_3" })
+                                                                @Html.LabelFor(model => model.Limite_3, new { @class = "control-label label-sm" })
+                                                                @Html.ValidationMessageFor(model => model.Limite_3)
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" style="margin:4px">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                @Html.CheckBoxFor(model => model.Limite_4, new { @class = "plimites", id = "Limite_4" })
+                                                                @Html.LabelFor(model => model.Limite_4, new { @class = "control-label label-sm" })
+                                                                @Html.ValidationMessageFor(model => model.Limite_4)
+                                                            </label>
+                                                        </div>
+                                                    </div >
+                                                    <div class="form-group" style="margin:4px">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                @Html.CheckBoxFor(model => model.Limite_5, new { @class = "plimites", id = "Limite_5" })
+                                                                @Html.LabelFor(model => model.Limite_5, new { @class = "control-label label-sm" })
+                                                                @Html.ValidationMessageFor(model => model.Limite_5)
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                   
+                                                    <div class="form-group" style="margin:4px">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                @Html.CheckBoxFor(model => model.Limite_6, new { @class = "plimites", id = "Limite_6" })
+                                                                @Html.LabelFor(model => model.Limite_6, new { @class = "control-label label-sm" })
+                                                                @Html.ValidationMessageFor(model => model.Limite_6)
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*Percentuais*@
+                                                <div class="col-md-3" style="padding-top:8px;">
+                                                    <div class="form-group" style="margin:4px">
+                                                        @Html.TextBoxFor(model => model.LimitePctHoras_1, new { @class = "form-control  input-sm intpercent apLimite_1" })
+                                                        @Html.ValidationMessageFor(model => model.LimitePctHoras_1)
+                                                    </div>
+                                                    <div class="form-group" style="margin:4px">
+                                                        @Html.TextBoxFor(model => model.LimitePctHoras_2, new { @class = "form-control  input-sm intpercent apLimite_2" })
+                                                        @Html.ValidationMessageFor(model => model.LimitePctHoras_2)
+                                                    </div>
+                                                    <div class="form-group" style="margin:4px">
+                                                        @Html.TextBoxFor(model => model.LimitePctHoras_3, new { @class = "form-control  input-sm intpercent apLimite_3" })
+                                                        @Html.ValidationMessageFor(model => model.LimitePctHoras_3)
+                                                    </div>
+                                                    <div class="form-group" style="margin:4px">
+                                                        @Html.TextBoxFor(model => model.LimitePctHoras_4, new { @class = "form-control  input-sm intpercent apLimite_4" })
+                                                        @Html.ValidationMessageFor(model => model.LimitePctHoras_4)
+                                                    </div>
+                                                    <div class="form-group" style="margin:4px">
+                                                        @Html.TextBoxFor(model => model.LimitePctHoras_5, new { @class = "form-control  input-sm intpercent apLimite_5" })
+                                                        @Html.ValidationMessageFor(model => model.LimitePctHoras_5)
+                                                    </div>
+                                                    <div class="form-group" style="margin:4px">
+                                                        @Html.TextBoxFor(model => model.LimitePctHoras_6, new { @class = "form-control  input-sm intpercent apLimite_6" })
+                                                        @Html.ValidationMessageFor(model => model.LimitePctHoras_6)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*Quantidade de Horas**@
+                                <div class="col-md-2">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" style="padding:0px">
+                                            <div style="text-align: center">
+                                                <label>Quant. de Horas</label>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body" style="padding-top:0px;padding-bottom:7px;">
+                                            <div class="row">
+                                                @*Quantidades*@
+                                                <div class="col-md-6 col-md-offset-2" style="padding-top:8px; height:180px">
+                                                    <div class="form-group" style="margin:4px">
+                                                        @Html.TextBoxFor(model => model.LimiteQtdHoras_1, new { @class = "form-control  input-sm time3 ahLimite_1", @placeholder = "--:--" })
+                                                        @Html.ValidationMessageFor(model => model.LimiteQtdHoras_1)
+                                                    </div>
+                                                    <div class="form-group" style="margin:4px">
+                                                        @Html.TextBoxFor(model => model.LimiteQtdHoras_2, new { @class = "form-control  input-sm time3 ahLimite_2", @placeholder = "--:--" })
+                                                        @Html.ValidationMessageFor(model => model.LimiteQtdHoras_2)
+                                                    </div>
+                                                    <div class="form-group" style="margin:4px">
+                                                        @Html.TextBoxFor(model => model.LimiteQtdHoras_3, new { @class = "form-control  input-sm time3 ahLimite_3", @placeholder = "--:--" })
+                                                        @Html.ValidationMessageFor(model => model.LimiteQtdHoras_3)
+                                                    </div>
+                                                    <div class="form-group" style="margin:4px">
+                                                        @Html.TextBoxFor(model => model.LimiteQtdHoras_4, new { @class = "form-control  input-sm time3 ahLimite_4", @placeholder = "--:--" })
+                                                        @Html.ValidationMessageFor(model => model.LimiteQtdHoras_4)
+                                                    </div>
+                                                    <div class="form-group" style="margin:4px">
+                                                        @Html.TextBoxFor(model => model.LimiteQtdHoras_5, new { @class = "form-control  input-sm time3 ahLimite_5", @placeholder = "--:--" })
+                                                        @Html.ValidationMessageFor(model => model.LimiteQtdHoras_5)
+                                                    </div>
+                                                    <div class="form-group" style="margin:4px">
+                                                        @Html.TextBoxFor(model => model.LimiteQtdHoras_6, new { @class = "form-control  input-sm time3 ahLimite_6", @placeholder = "--:--" })
+                                                        @Html.ValidationMessageFor(model => model.LimiteQtdHoras_6)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="panel panel-default" style="margin-top:5px; padding:0px;">
+                            <div class="panel-heading" style="padding-top:1px; text-align:center; padding-bottom:0px; margin:0px;">
+                                @Html.Label("Limite para Alerta", new { @class = "control-label label-sm" })
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.LimiteAlertaCredito, new { @class = "control-label label-sm" })
+                                        @Html.TextBoxFor(model => model.LimiteAlertaCredito, new { @class = "form-control  input-sm time3L" })
+                                        @Html.ValidationMessageFor(model => model.LimiteAlertaCredito)
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.LimiteAlertaDebito, new { @class = "control-label label-sm" })
+                                        @Html.TextBoxFor(model => model.LimiteAlertaDebito, new { @class = "form-control  input-sm time3L" })
+                                        @Html.ValidationMessageFor(model => model.LimiteAlertaDebito)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="panel panel-default pnlLimiteConjunto" style="margin-top:5px;">
+                            <div class="panel-heading" style="padding-top:1px; text-align:center; padding-bottom:0px; margin:0px;">
+                                @Html.Label("Limites Conjuntos", new { @class = "control-label label-sm" })
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.LimiteBancoHorasSemanal, new { @class = "control-label label-sm", })
+                                        @Html.TextBoxFor(model => model.LimiteBancoHorasSemanal, new { @class = "form-control  input-sm time3 ", style = "margin: 0px;", @placeholder = "--:--" })
+                                        @Html.ValidationMessageFor(model => model.LimiteBancoHorasSemanal)
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.LimiteHorasBancoHorasDiarioMensal, new { @class = "control-label label-sm", })
+                                        @Html.TextBoxFor(model => model.LimiteHorasBancoHorasDiarioMensal, new { @class = "form-control  input-sm time3 ", style = "margin: 0px;", @placeholder = "--:--" })
+                                        @Html.ValidationMessageFor(model => model.LimiteHorasBancoHorasDiarioMensal)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*FECHAMENTO POR PERCENTUAIS DE HORAS EXTRAS*@
+                    <div class="col-md-6" id="pnlFechamentoPercentualHE">
+                        <div class="panel panel-default" style="margin-top:5px; padding:0px;">
+                            <div class="panel-heading" style="padding-top:1px; text-align:center; padding-bottom:0px; margin:0px;">
+                                @Html.Label("Fechamento por Percentuais de Horas Extras", new { @class = "control-label label-sm" })
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.FechamentoPercentualHELimite1, new { @class = "control-label label-sm" })
+                                                @Html.TextBoxFor(model => model.FechamentoPercentualHELimite1, new { @class = "form-control  input-sm time3", @placeholder = "---:--" })
+                                                @Html.ValidationMessageFor(model => model.FechamentoPercentualHELimite1)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.FechamentoPercentualHEPercentual1, new { @class = "control-label label-sm" })
+                                                @Html.TextBoxFor(model => model.FechamentoPercentualHEPercentual1, new { @class = "form-control  input-sm intpercent", @placeholder = "0" })
+                                                @Html.ValidationMessageFor(model => model.FechamentoPercentualHEPercentual1)                                                
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.FechamentoPercentualHELimite2, new { @class = "control-label label-sm" })
+                                                @Html.TextBoxFor(model => model.FechamentoPercentualHELimite2, new { @class = "form-control  input-sm time3", @placeholder = "---:--" })
+                                                @Html.ValidationMessageFor(model => model.FechamentoPercentualHELimite2)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.FechamentoPercentualHEPercentual2, new { @class = "control-label label-sm" })
+                                                @Html.TextBoxFor(model => model.FechamentoPercentualHEPercentual2, new { @class = "form-control  input-sm intpercent ", @placeholder = "0" })
+                                                @Html.ValidationMessageFor(model => model.FechamentoPercentualHEPercentual2)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-xs-12 center-block">
+                                <div style="text-align: right">
+                                    <button type="submit" class="btn btn-success btn-sm salvando">
+                                        <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                                    </button>
+                                    <a class="btn btn-danger btn-sm salvando"
+                                       href="@Url.Action("Grid", "BancoHoras")">
+                                        <span class="glyphicon glyphicon-remove salvando"></span> Cancelar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+}
+<script>
+    $(document).ready(function () {
+        $(":input[type='text']:enabled:visible:first").focus();
+        //Habilita e Desabilita Campos dos parametros
+        validaSelecao();
+        //Seta eventos dos botoes
+        cwk_DataCalendario('#btnDataInicial', '#DataInicial');
+        cwk_DataCalendario('#btnDataFinal', '#DataFinal');
+        cwk_EventoConsulta("#btnEmpresa", "#lkpEmpresa", "EventoConsulta", "Empresa", "");
+        cwk_EventoConsulta("#btnDepartamento", "#lkpDepartamento", "EventoConsulta", "Departamento", "");
+        cwk_EventoConsulta("#btnFuncao", "#lkpFuncao", "EventoConsulta", "Funcao", "");
+        cwk_EventoConsulta("#btnFuncionario", "#lkpFuncionario", "EventoConsulta", "Funcionario", "");
+
+        //Tratamento do Radio do tipo do lancamento
+        if ($('#idRadioEmpresa').is(':checked')) {
+            divVisivel("#divEmpresa");
+        }
+        if ($('#idRadioDepartamento').is(':checked')) {
+            divVisivel("#divDepartamento");
+        };
+
+        if ($('#idRadioFuncao').is(':checked')) {
+            divVisivel("#divFuncao");
+        };
+
+        if ($('#idRadioFuncionario').is(':checked')) {
+            divVisivel("#divFuncionario");
+        };
+
+
+        FechamentoPercentualHE();
+
+        VerificaLimiteConjunto();
+        ////quando o campo estiver readonly joga o foco para o próximo campo
+        //$("input[type='text'][readonly]").on("focus", function () {
+        //    if ($(this).attr("readonly")) {
+        //        var inputs = $(this).closest('form').find(':input');
+        //        inputs.eq(inputs.index(this) + 1).focus();
+        //    }
+        //});
+    });
+
+    //Limpa erro adicionada pelo modalstate dos lkps quando receberem o foco
+    $(".lkps").focusin(function () {
+        limpaErro(this.name);
+    });
+
+    $("#idRadioEmpresa").change(function () {
+        divVisivel("#divEmpresa");
+    });
+    $("#idRadioDepartamento").change(function () {
+        divVisivel("#divDepartamento");
+    });
+    $("#idRadioFuncao").change(function () {
+        divVisivel("#divFuncao");
+    });
+    $("#idRadioFuncionario").change(function () {
+        divVisivel("#divFuncionario");
+    });
+
+    function divVisivel(idDiv) {
+        $(".divsTipo").hide();
+        $(idDiv).show();
+    }
+
+    // Marca/Desmarca dias do parametro
+    $("#btnMarcarDias").click(function (event) {
+        event.preventDefault();
+        if ($(".pdias").size() == $(".pdias:checked").size()) {
+            $(".pdias").prop("checked", false);
+        }
+        else {
+            $(".pdias").prop("checked", true);
+        }
+        validaSelecao(event);
+    });
+
+    // Quando alterar o valor de algum checkbox revalida a tela (Habilitando/Desabilitando campos)
+    $(".checkboxbh").click(function (event) {
+        validaSelecao(event);
+    });
+
+    // Habilita/Desabilita campos de acordo com os parametros de checkbox
+    function validaSelecao(event) {
+        var selecao = "";
+        if (event) {
+            selecao = event.target.id;
+        }
+
+        // Se marcar Hora Extra desabilita Banco de Horas
+        if (selecao == "PercentualComoHoraExtra" && $("#PercentualComoHoraExtra").is(':checked')) {
+            $("#BancoHorasPorPercentual").prop("checked", false);
+        }
+
+        // Se marcar Banco de Horas desabilita Hora Extra
+        if (selecao == "BancoHorasPorPercentual" && $("#BancoHorasPorPercentual").is(':checked')) {
+                $("#PercentualComoHoraExtra").prop("checked", false);
+        }
+
+        VerificaBancoHorasAcumulativo();
+
+        // Se marcado Hora Extra desabilita e limpa os campos referente a limites do Banco de Horas
+        if (selecao != "ExtraPrimeiroBool" && $("#BancoprimeiroBool").is(':checked')) {
+            $(".lbancohora").prop('readonly', false);
+            $(".ldbancohora").prop('readonly', false);
+            $(".lmbancohora").prop('readonly', false);
+            $(".lsemanabancohora").prop('readonly', false);
+            $(".lsBancoHora").prop('readonly', false);
+            $(".lHorasExtras").prop('readonly', true);
+            $(".lHorasExtras").val("--:--");
+            $("#ExtraPrimeiroBool").prop("checked", false);
+            $(".ldbancohora").each(function () {
+                if (!$(this).val()) {
+                    $(this).val("--:--");
+                }
+            });
+            $(".lsemanabancohora").each(function () {
+                if (!$(this).val()) {
+                    $(this).val("--:--");
+                }
+            });
+            $(".lmbancohora").each(function () {
+                if (!$(this).val()) {
+                    $(this).val("--:--");
+                }
+            });
+            $(".lbancohora").each(function () {
+                if (!$(this).val()) {
+                    $(this).val("--:--");
+                }
+            });
+            $(".lsBancoHora").each(function () {
+                if (!$(this).val()) {
+                    $(this).val("---:--");
+                }
+            });
+            
+        }
+        else {
+            $(".lbancohora").prop('readonly', true);
+            $(".lsemanabancohora").prop('readonly', true);
+            $(".lmbancohora").prop('readonly', true);
+            $(".ldbancohora").prop('readonly', true);
+            $(".lsBancoHora").prop('readonly', true);
+            $(".lbancohora").val("--:--");
+            $(".ldbancohora").val("--:--");
+            $(".lsemanabancohora").val("--:--");
+            $(".lmbancohora").val("--:--");
+            $(".lsBancoHora").val("--:--");
+        }
+
+        // Se marcado Banco de Horas desabilita e limpa os campos referente a limites de Hora Extra
+        if (selecao != "BancoprimeiroBool" && $("#ExtraPrimeiroBool").is(':checked')) {
+            $(".lHorasExtras").prop('readonly', false);
+            $(".lbancohora").prop('readonly', true);
+            $(".lbancohora").val("--:--");
+            $(".ldbancohora").prop('readonly', true);
+            $(".ldbancohora").val("--:--");
+            $(".lsemanabancohora").prop('readonly', true);
+            $(".lsemanabancohora").val("--:--");
+            $(".lmbancohora").prop('readonly', true);
+            $(".lmbancohora").val("--:--");
+            $(".lsBancoHora").prop('readonly', true);
+            $(".lsBancoHora").val("--:--");
+            $("#BancoprimeiroBool").prop("checked", false);
+        }
+        else {
+            $(".lHorasExtras").prop('readonly', true);
+            $(".lHorasExtras").val("--:--");
+        }
+
+        // Se banco de horas acumulativo estiver selecionado reabilita campos.
+        if ($("#BancoHorasAcumulativo").is(':checked')) {
+            $(".lbhsemana").prop('readonly', true);
+            $(".lbhperc.lbhsemana").val(0);
+            $("#liPnlTipoAcumulo").show();
+        }
+
+        VerificaLimiteConjunto();
+
+        //Se selecionado  algum dia Valida a linha referente a semana;
+        $(".pdias:checked").each(function () {
+            var vdia = "." + this.id;
+            $(vdia).prop('readonly', false);
+        });
+
+        //Se dia não estiver checado desabilita os campos da linha do dia
+        $(".pdias:unchecked").each(function () {
+            var vdia = "." + this.id;
+            $(vdia).prop('readonly', true);
+            $(vdia).val("--:--");
+            $(vdia + ".lbhperc").val(0);
+        });
+
+        // Independente do que aconteceu acima, se não esta selecionado banco de horas por percentual não habilita o campo Percentual
+        ValidaBancoDeHorasPorPercentual();
+    }
+
+    function ValidaBancoDeHorasPorPercentual() {
+        if ($("#BancoHorasPorPercentual").is(':unchecked') && $("#PercentualComoHoraExtra").is(':unchecked')) {
+            $(".lbhperc").val(0);
+            $(".lbhperc").prop('readonly', true);
+        }
+        else {
+            $(".pdias:unchecked").each(function () {
+                var vdia = "." + this.id;
+                $(vdia + ".lbhperc").val(0);
+                $(vdia + ".lbhperc").prop('readonly', true);
+            });
+        }
+    }
+
+    // Quado selecionado algum limite na aba de acumulo dispara a funcao de validacao
+    $(".plimites").click(function (event) {
+        validaSelecaoAcumulo(event);
+    });
+
+    //exibe a tab referente a Banco de horas acumulativo de acordo com o checkbox .
+    $("#BancoHorasAcumulativo").click(function (event) {
+        if ($("#BancoHorasAcumulativo").is(':checked')) {
+            $('#bhTab a:last').tab('show')
+        }
+        else {
+            $('#bhTab a:first').tab('show')
+        }
+    });
+
+
+
+    //Validação dos campos da aba de acumulo.
+    function validaSelecaoAcumulo(event) {
+        $(".plimites:checked").each(function () {
+            var aplim = ".ap" + this.id;
+            $(aplim).prop('readonly', false);
+            var ahlim = ".ah" + this.id;
+            $(ahlim).prop('readonly', false);
+        });
+
+        $(".plimites:unchecked").each(function () {
+            var aplim = ".ap" + this.id;
+            $(aplim).prop('readonly', true);
+            $(aplim).val(0);
+            var ahlim = ".ah" + this.id;
+            $(ahlim).prop('readonly', true);
+            $(ahlim).val("---:--");
+        });
+    }
+
+    function VerificaLimiteConjunto() {
+        if ($("#BancoHorasDiarioMensal").is(':checked')) {
+            $(".pnlLimiteConjunto").show();
+            $("#BancoHorasAcumulativo").prop("checked", false);
+            $("#BancoHorasAcumulativo").prop('readonly', true);
+        }
+        else {
+            $("#BancoHorasAcumulativo").prop('readonly', true);
+            $(".pnlLimiteConjunto").hide();
+        }
+        VerificaBancoHorasAcumulativo();
+    }
+
+    function VerificaBancoHorasAcumulativo() {
+        //Selecionado Banco de Horas Acumulativo desabilita os parametros de Banco de Horas e Horas extras da aba parametros
+        if ($("#BancoHorasAcumulativo").is(':unchecked')) {
+            $("#liPnlTipoAcumulo").hide();
+            $("#ExtraPrimeiroBool").prop('readonly', false);
+            ValidaBancoDeHorasPorPercentual();
+        } //Se desmarcado desabilita os campos e deixa a div invisivel do acumulo
+        else {
+            $("#ExtraPrimeiroBool").prop('readonly', true);
+            $("#ExtraPrimeiroBool").prop("checked", false);
+            $("#BancoprimeiroBool").prop("checked", true);
+        }
+    }
+
+    // Se informar valor em algum campo da coluna limite do Banco de horas limpa da coluna Diario referente
+    $(".lbancohora").blur(function () {
+        if (!$(this).attr("readonly") && ($(this).val() != "" && $(this).val() != "--:--")) {
+            var limpa = this.id.substr(this.id.length - 1, 1);
+            limpaLimiteHoras(limpa, "#LimiteHorasDiarios");
+            limpaLimiteHoras(limpa, "#LimiteHorasSemanal");
+            limpaLimiteHoras(limpa, "#LimiteHorasMensal");
+        }
+        if ($(this).attr("readonly")) {
+            $(this).val("--:--");
+        }
+    });
+
+    $(".ldbancohora").blur(function () {
+        if (!$(this).attr("readonly") && ($(this).val() != "" && $(this).val() != "--:--")) {
+            var limpa = this.id.substr(this.id.length - 1, 1);
+            limpaLimiteHoras(limpa, "#LimiteHoras");
+            limpaLimiteHoras(limpa, "#LimiteHorasSemanal");
+            limpaLimiteHoras(limpa, "#LimiteHorasMensal");
+        }
+        if ($(this).attr("readonly")) {
+            $(this).val("--:--");
+        }
+    });
+
+    // Se informar valor em algum campo da coluna Saldo do Banco de horas limpa da coluna Mensal da linha referente
+    $(".lsBancoHora").blur(function () {
+        if (!$(this).attr("readonly") && ($(this).val() != "" && $(this).val() != "--:--")) {
+            var limpa = this.id.substr(this.id.length - 1, 1);
+            limpaLimiteHoras(limpa, "#LimiteHoras");
+            limpaLimiteHoras(limpa, "#LimiteHorasDiarios");
+            limpaLimiteHoras(limpa, "#LimiteHorasMensal");
+            limpaLimiteHoras(limpa, "#LimiteHorasSemanal");
+        }
+        if ($(this).attr("readonly")) {
+            $(this).val("--:--");
+        }
+    });
+
+    $(".lsemanabancohora").blur(function () {
+        if (!$(this).attr("readonly") && ($(this).val() != "" && $(this).val() != "--:--")) {
+            var limpa = this.id.substr(this.id.length - 1, 1);
+            limpaLimiteHoras(limpa, "#LimiteHoras");
+            limpaLimiteHoras(limpa, "#LimiteHorasDiarios");
+            limpaLimiteHoras(limpa, "#LimiteHorasMensal");
+            limpaLimiteHoras(limpa, "#SaldoBH");
+        }
+        if ($(this).attr("readonly")) {
+            $(this).val("--:--");
+        }
+    });
+
+    // Se informar valor em algum campo da coluna Diario do Banco de horas limpa da coluna Limite da linha referente
+    $(".lmbancohora").blur(function () {
+        if (!$(this).attr("readonly") && ($(this).val() != "" && $(this).val() != "--:--")) {
+            var limpa = this.id.substr(this.id.length - 1, 1);
+            limpaLimiteHoras(limpa, "#LimiteHoras");
+            limpaLimiteHoras(limpa, "#LimiteHorasDiarios");
+            limpaLimiteHoras(limpa, "#LimiteHorasSemanal");
+            limpaLimiteHoras(limpa, "#SaldoBH");
+        }
+        if ($(this).attr("readonly")) {
+            $(this).val("--:--");
+        }
+    });
+
+    function limpaLimiteHoras(idComponente, componente) {
+        var limpa = componente + "_" + idComponente;
+        $(limpa).val("--:--");
+    }
+
+
+    function FechamentoPercentualHE() {
+        if ($("#FechamentoPercentualHE").is(':unchecked')) {
+            $("#pnlFechamentoPercentualHE").hide();
+        } //Se desmarcado esconde os campos 
+        else {
+            $("#pnlFechamentoPercentualHE").show();
+        }
+    }
+
+    //Selecionado Fechamento por Percentual HE, habilita os campos de limite e percentual de fechamento
+    $("#FechamentoPercentualHE").click(function (event) {
+        FechamentoPercentualHE();
+    });
+
+</script>
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}

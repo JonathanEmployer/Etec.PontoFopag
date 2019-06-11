@@ -1,0 +1,13 @@
+﻿@model Modelo.Proxy.pxyFuncionarioRelatorio
+
+<tr id="@Model.Id">
+    <td>
+        @Html.EditorFor(m => m.Selecionado, null, new { @class = "selectFun" })
+        @Html.HiddenFor(m => m.Id)
+    </td>
+    <td>@Html.Label(Model.Dscodigo)</td>
+    <td>@Html.Label(Model.Nome)</td>
+    <td>@Html.Label(Model.Empresa)</td>
+    <td>@Html.Label(Model.Departamento)</td>
+    <td>@Html.Label(Model.Funcao)</td>
+</tr>

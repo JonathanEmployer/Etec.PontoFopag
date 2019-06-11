@@ -1,0 +1,62 @@
+﻿@model Modelo.Cw_GrupoAcesso
+<tr id="@Model.Id">
+    <td>
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.Menu)
+        @Html.DisplayFor(m => m.Menu)
+        @Html.HiddenFor(m => m.Altdata)
+        @Html.HiddenFor(m => m.Althora)
+        @Html.HiddenFor(m => m.Incdata)
+        @Html.HiddenFor(m => m.Inchora)
+        @Html.HiddenFor(m => m.Altusuario)
+        @Html.HiddenFor(m => m.Incusuario)
+        @Html.HiddenFor(m => m.Codigo)
+        @Html.HiddenFor(m => m.IDCw_Acesso)
+        @Html.HiddenFor(m => m.IDCw_Grupo)
+    </td>
+    <td>
+        @Html.HiddenFor(m => m.Controller)
+        @Html.HiddenFor(m => m.Nome)
+        @Html.DisplayFor(m => m.Nome)
+    </td>
+    <td>
+        @if (Model.HabilitarConsulta)
+        {
+            @Html.CheckBoxFor(m => m.bConsultar, new { @class = "chkConsultar" })
+        }
+        else
+        {
+            @Html.HiddenFor(m => m.bConsultar)
+        }
+    </td>
+    <td>
+        @if (Model.HabilitarCadastro)
+        {
+            @Html.CheckBoxFor(m => m.bCadastrar, new { @class = "chkCadastrar" })
+        }
+        else
+        {
+            @Html.HiddenFor(m => m.bCadastrar)
+        }
+    </td>
+    <td>
+        @if (Model.HabilitarAlteracao)
+        {
+            @Html.CheckBoxFor(m => m.bAlterar, new { @class = "chkAlterar" })
+        }
+        else
+        {
+            @Html.HiddenFor(m => m.bAlterar)
+        }
+    </td>
+    <td>
+        @if (Model.HabilitarExclusao)
+        {
+            @Html.CheckBoxFor(m => m.bExcluir, new { @class = "chkExcluir" })
+        }
+        else
+        {
+            @Html.HiddenFor(m => m.bExcluir)
+        }
+    </td>
+</tr>

@@ -1,0 +1,309 @@
+﻿@model IList<Modelo.Proxy.Relatorios.PxyRelatorioHorasInItinere>
+
+<style>
+    .classRelatorio {
+        font-family: 'Arial';
+        font-size: 8pt;
+        font: normal;
+        width: 752px;
+        vertical-align: middle;
+    }
+
+    table {
+        font-family: 'Arial';
+        font-size: 8pt;
+        font: normal;
+        width: 752px;
+        vertical-align: middle;
+    }
+
+    .Cinza {
+        background-color: rgb(200,200,200);
+    }
+
+    .Gainsboro {
+        background-color: rgb(220,220,220);
+    }
+
+    .ClassGrupo {
+        padding: 5px;
+        white-space: normal;
+    }
+
+    .Linha {
+    }
+
+    .classNomeRel {
+        font-size: 20px;
+        font: bold;
+        text-align: center;
+        padding-top: 30px;
+        padding-bottom: 10px;
+    }
+
+    .BordaL {
+        border-left: 1px solid;
+    }
+
+    .BordaB {
+        border-bottom: 1px solid;
+    }
+
+    .BBordaB {
+        border-bottom: 2px solid;
+    }
+
+    .BordaT {
+        border-top: 1px solid;
+    }
+
+    .BBordaT {
+        border-top: 2px solid;
+    }
+
+    .BordaR {
+        border-right: 1px solid;
+    }
+
+    .Centralizado {
+        text-align:center;
+    }
+
+    td {
+        padding-left:2px;
+        padding-right:2px;
+    }
+</style>
+
+@{
+    int colsFixa = 13;
+    int colunas = 0;
+    int colunasIntinere = 0;
+    int maiorQtdInItinere = Model.Select(s => s.PercsInItinere).Select(s => new { qtd = s.Count() }).Max(m => m.qtd);
+    int colsMax = colsFixa + maiorQtdInItinere;
+    int qtdColunasInItinere = 3;
+}
+
+<div style="background-color:white">
+    <div class="classRelatorio" style="max-width: 752px">
+        @foreach (IList<Modelo.Proxy.Relatorios.PxyRelatorioHorasInItinere> GroupEmp in Model.GroupBy(x => new { x.PxyFuncionarioCabecalhoRel.EmpresaNome, x.PxyFuncionarioCabecalhoRel.EmpresaCNPJCPF }).Select(s => s.ToList()).ToList())
+        {
+            <table style="width:100%; repeat-header: yes; border-collapse: inherit;" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="classNomeRel" style="white-space: nowrap;"></th>
+                    </tr>
+                    <tr>
+                        <th class="classNomeRel" style="white-space: nowrap; text-align:left">Relatório de Horas In Itinere</th>
+                    </tr>
+                    <tr class="classtrGrupo">
+                        <th class="ClassGrupo BordaL BordaT" style="white-space: nowrap; width:70%">Empresa: @GroupEmp.FirstOrDefault().PxyFuncionarioCabecalhoRel.EmpresaNome</th>
+                        <th class="ClassGrupo BordaR BordaT" style="width: 30%">CNPJ: @GroupEmp.FirstOrDefault().PxyFuncionarioCabecalhoRel.EmpresaCNPJCPF</th>
+                    </tr>
+                    <tr class="classtrGrupo">
+                        <th class="ClassGrupo BordaL BordaB" style="white-space: nowrap; width:70%" >Endereço: @GroupEmp.FirstOrDefault().PxyFuncionarioCabecalhoRel.EmpresaEndereco - @GroupEmp.FirstOrDefault().PxyFuncionarioCabecalhoRel.EmpresaCidade - @GroupEmp.FirstOrDefault().PxyFuncionarioCabecalhoRel.EmpresaEstado - CEP: @GroupEmp.FirstOrDefault().PxyFuncionarioCabecalhoRel.EmpresaCEP</th>
+                        <th class="ClassGrupo BordaR BordaB" style="width: 30%">Período: @GroupEmp.FirstOrDefault().Periodo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        IList<Modelo.Proxy.Relatorios.PxyRelatorioHorasInItinere> Func = GroupEmp.Select(s => s).ToList();
+                    }
+                    @foreach (Modelo.Proxy.Relatorios.PxyRelatorioHorasInItinere GroupFunc in Func)
+                    {
+                        colunasIntinere = (GroupFunc.PercsInItinere.Count() > qtdColunasInItinere ? qtdColunasInItinere : GroupFunc.PercsInItinere.Count());
+                        colsFixa = colsFixa + colunasIntinere;
+                        <tr><td colspan='@colsFixa' scope="colgroup" style="padding:0px">&nbsp;</td></tr>
+                        <tr>
+                            <td colspan='@colsFixa' scope="colgroup" style="padding:0px">
+                                <table style="width:100%; repeat-header: yes;" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th colspan='@colsFixa' scope="colgroup" class="BordaR BordaL BordaT ClassGrupo"><label style="width:50%"> Funcionário: @GroupFunc.PxyFuncionarioCabecalhoRel.DsCodigo - @GroupFunc.PxyFuncionarioCabecalhoRel.Nome </label><label style="width:50%">Matrícula: @GroupFunc.PxyFuncionarioCabecalhoRel.Matricula</label></th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan='@colsFixa' scope="colgroup" class="BordaR BordaL BordaB BordaT ClassGrupo"><label style="width:50%"> @GroupFunc.PxyFuncionarioCabecalhoRel.FuncaoCodigo - @GroupFunc.PxyFuncionarioCabecalhoRel.FuncaoDescricao </label><label style="width:50%">Departamento: @GroupFunc.PxyFuncionarioCabecalhoRel.DepartamentoCodigo - @GroupFunc.PxyFuncionarioCabecalhoRel.DepartamentoNome</label></th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan='10' scope="colgroup" class="Centralizado BordaL BordaB ClassGrupo">&nbsp;</th>
+                                            <th colspan='1' rowspan="2" scope="colgroup" class="Centralizado BordaL BBordaB ClassGrupo">Trab.</th>
+                                            @{colunas = colunasIntinere + 1;}
+                                            <th colspan='@colunas' scope="colgroup" class="Centralizado BordaL BordaB ClassGrupo">In Itinere</th>
+                                            <th colspan='1' rowspan="2" scope="colgroup" class="Centralizado BordaL BordaR BBordaB ClassGrupo">Total</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="Centralizado BordaL BBordaB ClassGrupo">Data</th>
+                                            <th class="Centralizado BordaL BBordaB ClassGrupo">Jornada</th>
+                                            <th class="Centralizado BordaL BBordaB ClassGrupo"> Reg. 1</th>
+                                            <th class="Centralizado BordaL BBordaB ClassGrupo"> Reg. 2</th>
+                                            <th class="Centralizado BordaL BBordaB ClassGrupo"> Reg. 3</th>
+                                            <th class="Centralizado BordaL BBordaB ClassGrupo"> Reg. 4</th>
+                                            <th class="Centralizado BordaL BBordaB ClassGrupo"> Reg. 5</th>
+                                            <th class="Centralizado BordaL BBordaB ClassGrupo"> Reg. 6</th>
+                                            <th class="Centralizado BordaL BBordaB ClassGrupo"> Reg. 7</th>
+                                            <th class="Centralizado BordaL BBordaB ClassGrupo"> Reg. 8</th>
+
+                                            @for (int j = 0; j < colunasIntinere; j++)
+                                            {
+                                                int qtd = 0;
+                                                <th class="Centralizado BordaL BBordaB ClassGrupo" valign="top">
+
+                                                    @for (int i = j; i < GroupFunc.PercsInItinere.Count(); i += qtdColunasInItinere)
+                                                    {
+                                                        string perc = ((int)GroupFunc.PercsInItinere[i]).ToString() + "%";
+                                                        if (qtd > 0)
+                                                        {
+                                                            <br />
+                                                        }
+                                                        @perc
+                                                        qtd++;
+                                                    }
+                                                </th>
+                                            }
+                                            <th class="Centralizado BordaL BBordaB ClassGrupo"> Total</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (Modelo.Marcacao linha in GroupFunc.Marcacoes.ToList())
+                                        {
+                                            <tr>
+                                                <td class="Linha BordaB BordaL"> @linha.Data.ToShortDateString() </td>
+                                                <td class="Linha BordaB BordaL"> @linha.JornadaSTR </td>
+                                                <td class="Linha BordaB BordaL" valign="top">
+                                                    @linha.Entrada_1
+                                                    @if (linha.Entrada_5 != "--:--")
+                                                    { <br /> @linha.Entrada_5 }
+                                                </td>
+                                                <td class="Linha BordaB BordaL" valign="top">
+                                                    @linha.Saida_1
+                                                    @if (linha.Saida_5 != "--:--")
+                                                    { <br /> @linha.Saida_5 }
+                                                </td> 
+                                                <td class="Linha BordaB BordaL" valign="top">
+                                                    @linha.Entrada_2
+                                                    @if (linha.Entrada_6 != "--:--")
+                                                    { <br /> @linha.Entrada_6 }
+                                                </td>
+                                                <td class="Linha BordaB BordaL" valign="top">
+                                                    @linha.Saida_2
+                                                    @if (linha.Saida_6 != "--:--")
+                                                    { <br /> @linha.Saida_6 }
+                                                </td>
+                                                <td class="Linha BordaB BordaL" valign="top">
+                                                    @linha.Entrada_3
+                                                    @if (linha.Entrada_7 != "--:--")
+                                                    { <br /> @linha.Entrada_7 }
+                                                </td>
+                                                <td class="Linha BordaB BordaL" valign="top">
+                                                    @linha.Saida_3
+                                                    @if (linha.Saida_7 != "--:--")
+                                                    { <br /> @linha.Saida_7 }
+                                                </td>
+                                                <td class="Linha BordaB BordaL" valign="top">
+                                                    @linha.Entrada_4
+                                                    @if (linha.Entrada_8 != "--:--")
+                                                    { <br /> @linha.Entrada_8 }
+                                                </td>
+                                                <td class="Linha BordaB BordaL" valign="top">
+                                                    @linha.Saida_4
+                                                    @if (linha.Saida_8 != "--:--")
+                                                    { <br /> @linha.Saida_8 }
+                                                </td>
+                                                <td class="Linha BordaB BordaL"> @linha.TotalTrabalhadasDiuNot </td>
+
+                                                @for (int j = 0; j < colunasIntinere; j++)
+                                                {
+                                                    int qtd = 0;
+                                                    <td class="BordaL BordaB" valign="top">
+
+                                                        @for (int i = j; i < GroupFunc.PercsInItinere.Count(); i += qtdColunasInItinere)
+                                                        {
+                                                            decimal perc = GroupFunc.PercsInItinere[i];
+                                                            int inItinereHrs = 0;
+
+                                                            if (perc == linha.InItinerePercDentroJornada)
+                                                            {
+                                                                inItinereHrs += Modelo.cwkFuncoes.ConvertHorasMinuto(linha.InItinereHrsDentroJornada);
+                                                            }
+
+                                                            if (perc == linha.InItinerePercForaJornada)
+                                                            {
+                                                                inItinereHrs += Modelo.cwkFuncoes.ConvertHorasMinuto(linha.InItinereHrsForaJornada);
+                                                            }
+
+                                                            string inItinereHrsStr = inItinereHrs > 0 ? Modelo.cwkFuncoes.ConvertMinutosBatida(inItinereHrs) : "--:--";
+
+
+                                                            if (qtd > 0)
+                                                            {
+                                                                <br />
+                                                            }
+                                                            @inItinereHrsStr
+                                                            qtd++;
+                                                        }
+                                                    </td>
+                                                }
+                                                <td class="Linha BordaB BordaL"> @linha.TotalInItinere </td>
+                                                <td class="Linha BordaB BordaL BordaR"> @linha.TotalTrabalhadasNoDia </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    @*Somatório funcionário*@
+                                    <tfoot>
+                                           <tr>
+                                               @{colsFixa = colsFixa - colunasIntinere;
+                                                 colunas = colsFixa - 3;
+                                                 }
+                                                <td colspan='@colunas' scope="colgroup" class="Linha BordaB BordaL" style="text-align:right"> Totais ->> &nbsp;&nbsp;</td>
+                                                <td class="Linha BordaB BordaL"> @Modelo.cwkFuncoes.ConvertMinutosHora2(3, (GroupFunc.Marcacoes.Sum(s => Modelo.cwkFuncoes.ConvertBatidaMinuto(s.TotalTrabalhadasDiuNot))))</td>
+
+                                               @for (int j = 0; j < colunasIntinere; j++)
+                                               {
+                                                   int qtd = 0;
+                                                   <td class="BordaL BordaB" valign="top">
+
+                                                       @for (int i = j; i < GroupFunc.PercsInItinere.Count(); i += qtdColunasInItinere)
+                                                       {
+                                                           decimal perc = GroupFunc.PercsInItinere[i];
+                                                           int inItinereHrs = 0;
+
+                                                           inItinereHrs += GroupFunc.Marcacoes.Where(w => w.InItinerePercDentroJornada == perc).Sum(s => Modelo.cwkFuncoes.ConvertHorasMinuto(s.InItinereHrsDentroJornada));
+                                                           inItinereHrs += GroupFunc.Marcacoes.Where(w => w.InItinerePercForaJornada == perc).Sum(s => Modelo.cwkFuncoes.ConvertHorasMinuto(s.InItinereHrsForaJornada));
+
+
+                                                           string inItinereHrsStr = inItinereHrs > 0 ? Modelo.cwkFuncoes.ConvertMinutosHora2(3,inItinereHrs) : "--:--";
+
+
+                                                           if (qtd > 0)
+                                                           {
+                                                               <br />
+                                                           }
+                                                           @inItinereHrsStr
+                                                           qtd++;
+                                                       }
+                                                   </td>
+                                               }
+
+
+                                                <td class="Linha BordaB BordaL"> @Modelo.cwkFuncoes.ConvertMinutosHora2(3, (GroupFunc.Marcacoes.Sum(s => Modelo.cwkFuncoes.ConvertBatidaMinuto(s.TotalInItinere)))) </td>
+                                                <td class="Linha BordaB BordaL BordaR"> @Modelo.cwkFuncoes.ConvertMinutosHora2(3, (GroupFunc.Marcacoes.Sum(s => Modelo.cwkFuncoes.ConvertBatidaMinuto(s.TotalTrabalhadasNoDia)))) </td>
+                                            </tr>
+                                        <tr>
+                                            <td colspan='@colsFixa' scope="colgroup" style="margin-bottom:5px"> &nbsp;</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                @*Somatório Empresa*@
+                <tfoot>
+                    
+                </tfoot>
+            </table>
+            <div style="page-break-after:always">&nbsp;</div>
+        }
+    </div>
+</div>

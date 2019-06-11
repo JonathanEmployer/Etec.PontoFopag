@@ -1,0 +1,150 @@
+﻿@model Modelo.FechamentoPonto
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Fechamento Ponto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="">
+        <div class="panel panel-default" style="padding:0px; margin-bottom:0px;">
+            <div class="panel-heading">
+                @Html.ActionLink("X", "Grid", "FechamentoPonto", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo" id="panelBodyFixodivCenter">
+                @Html.HiddenFor(x => x.PxyRelPontoWeb.TipoSelecao)
+                @Html.ValidationSummary(true)
+                @Html.ValidationMessage("CustomError", new { id = "CustomError" })
+                @Html.HiddenFor(model => model.PxyRelPontoWeb.TipoArquivo, new { id = "tipoArquivo" })
+                <div>
+                    @Html.HiddenFor(x => x.Altdata)
+                    @Html.HiddenFor(x => x.Althora)
+                    @Html.HiddenFor(x => x.Altusuario)
+                    @Html.HiddenFor(x => x.Codigo)
+                    @Html.HiddenFor(x => x.Id)
+                    @Html.HiddenFor(x => x.Incdata)
+                    @Html.HiddenFor(x => x.Inchora)
+                    @Html.HiddenFor(x => x.Incusuario)
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group input-group-sm">
+                                        @Html.LabelFor(model => model.DataFechamento, new { @class = "control-label label-sm" })
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(model => Model.DataFechamento, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataFechamento", autofocus = true })
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-primary" id="btnDataFechamento" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                            </span>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.DataFechamento)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Descricao, new { @class = "control-label label-sm" })
+                                        @Html.TextBoxFor(model => model.Descricao, new { @class = "form-control  input-sm" })
+                                        @Html.ValidationMessageFor(model => model.Descricao)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Observacao, new { @class = "control-label label-sm" })
+                                        @Html.TextAreaFor(model => model.Observacao, new { @class = "form-control  input-sm" })
+                                        @Html.ValidationMessageFor(model => model.Observacao)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.HiddenFor(x => x.PxyRelPontoWeb.idSelecionados)
+                            @Html.HiddenFor(x => x.PxyRelPontoWeb.UtilizaControleContrato)
+                            @Html.HiddenFor(x => x.PxyRelPontoWeb.idRegistro)
+                            @Html.HiddenFor(x => x.PxyRelPontoWeb.InicioPeriodo)
+                            @Html.HiddenFor(x => x.PxyRelPontoWeb.FimPeriodo)
+                            @Html.ValidationMessageFor(x => x.PxyRelPontoWeb.idSelecionados)
+                            <div class="panel panel-default" id="pnlFun">
+
+                                <div class="panel-body" style="padding:0px;">
+                                    <div class="row">
+                                        @Html.GridFor("tbFun", (new Modelo.Proxy.PxyGridFechamentoPontoFunc()).GetType(), true, "FechamentoPonto", "DadosFuncGrid", "", "", Model.PxyRelPontoWeb.idSelecionados,"")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando">
+                                <span class="glyphicon glyphicon-ok"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger salvando"
+                               href="@Url.Action("Grid", "FechamentoPonto")">
+                                <span class="glyphicon glyphicon-remove"></span> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<script>
+    cwk_DataCalendario('#btnDataFechamento', '#DataFechamento');
+    var errorArray = new Array();
+    $(document).ready(function () {
+        $('#tbFun tbody').on('click', 'tr', function () {
+            errorArray["PxyRelPontoWeb.idSelecionados"] = null;
+            $("form").validate().showErrors(errorArray);
+        });
+        
+    });
+
+    $('form').submit(function () {
+        if ($(this).valid() && validaForm()) {
+            return true;
+        }
+        return false;
+    });
+
+    function validaForm() {
+        $("#PxyRelPontoWeb_idSelecionados").val(tbFunGetSelecionado());
+        if ($("#PxyRelPontoWeb_idSelecionados").val().length <= 0 || $("#PxyRelPontoWeb_idSelecionados").val() == '' || $("#PxyRelPontoWeb_idSelecionados").val() == null) {
+            var msgErro = 'É Necessário Selecionar Pelo Menos um Funcionário.';
+            errorArray["PxyRelPontoWeb.idSelecionados"] = msgErro;
+            cwkErro(msgErro);
+            $("form").validate().showErrors(errorArray);
+            return false;
+        }
+        else {
+            errorArray["PxyRelPontoWeb.idSelecionados"] = null;
+            $("form").validate().showErrors(errorArray);
+            return true;
+        }
+    }
+</script>
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}

@@ -1,0 +1,486 @@
+﻿@model Modelo.Relatorios.RelatorioFuncionarioModel
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Relatório de Funcionários";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("Funcionario", "RelatorioFuncionario", FormMethod.Post, new { target = "_blank" }))
+{
+    <div class="">
+        <div class="panel panel-default" style="padding:0px;margin-bottom:0">
+            <div class="panel-heading">
+                @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo" id="panelBodyFixodivCenter">
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.TipoArquivo, new { id = "tipoArquivo" })
+                <div>
+                    <div class="row" style="padding-bottom:5px;">
+                        <div id="divTipoRelatorio" class="col-md-3">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="padding-top:1px; padding-bottom:0px">
+                                    <label class="control-label label-sm">Tipo do Relatório</label>
+                                </div>
+                                <div class="panel-body" style="padding-bottom:0px; padding-top:0px; margin-bottom:0px; margin-top:10px;">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group input-group-sm">
+                                                        @Html.DropDownListFor(model => model.Relatorio, new SelectList(Model.Relatorios, "Id", "Descricao"), new { @id = "Relatorio", @class = "dropdown-toggle form-control input-sm" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="divTipoNome" class="col-md-5">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="padding-top:1px; padding-bottom:0px">
+                                    <label class="control-label label-sm">Parâmetros - Relatório por nome</label>
+                                </div>
+                                <div class="panel-body" style="padding-bottom:0px; padding-top:0px; margin-bottom:0px; margin-top:10px;">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-6" style="padding:0px;">
+                                                        <div class="col-md-5">
+                                                            <label class="label-sm">Iniciais</label>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <div class="form-group input-group-sm">
+                                                                @Html.TextBoxFor(model => model.LetrasIniciais, new { @id = "LetrasIniciais", @class = "form-control  input-sm" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6" style="padding:0px;">
+                                                        <div class="col-md-5">
+                                                            <label class="label-sm">Finais</label>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <div class="form-group input-group-sm">
+                                                                @Html.TextBoxFor(model => model.LetrasFinais, new { @id = "LetrasFinais", @class = "form-control  input-sm" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.LetrasIniciais)
+                                                    @Html.ValidationMessageFor(model => model.LetrasFinais)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="divTipoCodigo" class="col-md-5 hidden">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="padding-top:1px; padding-bottom:0px">
+                                    <label class="control-label label-sm">Parâmetros - Relatório por código</label>
+                                </div>
+                                <div class="panel-body" style="padding-bottom:0px; padding-top:0px; margin-bottom:0px; margin-top:10px;">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-12" style="padding:0px;">
+                                                    <div class="col-md-6" style="padding:0px;">
+                                                        <div class="col-md-5">
+                                                            <label class="label-sm">Inicial</label>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <div class="form-group input-group-sm">
+                                                                @Html.TextBoxFor(model => model.CodigoInicial, new { @id = "CodigoInicial", @class = "form-control  input-sm" })
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12" style="padding-right:5px;">
+                                                            @Html.ValidationMessageFor(model => model.CodigoInicial)
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6" style="padding:0px;">
+                                                        <div class="col-md-5">
+                                                            <label class="label-sm">Final</label>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <div class="form-group input-group-sm">
+                                                                @Html.TextBoxFor(model => model.CodigoFinal, new { @id = "CodigoFinal", @class = "form-control  input-sm" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            @Html.ValidationMessageFor(model => model.CodigoFinal)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="divTipoAtivoInativo" class="col-md-5 hidden">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="padding-top:1px; padding-bottom:0px">
+                                    <label class="control-label label-sm">Parâmetros - Relatório de Ativos/Inativos</label>
+                                </div>
+                                <div class="panel-body" style="padding-bottom:0px; padding-top:0px; margin-bottom:0px; margin-top:10px;">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-12" style="padding:0px;">
+                                                    <div class="form-group input-group-sm">
+                                                        <div class="col-md-6">
+                                                            <div class="radio-inline" data-toggle="radio">
+                                                                @Html.RadioButtonFor(model => model.AtivoInativo, 0, new { id = "rdbAt", name = "rdioAtivoInativo" })
+                                                                <label class="label-sm" for="rdbAt">Ativo</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="radio-inline" data-toggle="radio">
+                                                                @Html.RadioButtonFor(model => model.AtivoInativo, 1, new { id = "rdbIn", name = "rdioAtivoInativo" })
+                                                                <label class="label-sm" for="rdbIn">Inativo</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="divPeriodo" class="col-md-5 hidden">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="padding-top:1px; padding-bottom:0px">
+                                    <label class="control-label label-sm">Parâmetros - Período</label>
+                                </div>
+                                <div class="panel-body" style="padding-bottom:7px; padding-top:0px; margin-bottom:0px; margin-top:10px;">
+                                    <div class="row">
+                                        <div class="col-md-6" style="padding:0px;">
+                                            <div class="col-md-3">
+                                                @Html.LabelFor(model => Model.InicioPeriodo, new { @class = "label-sm" })
+                                            </div>
+                                            <div class="col-md-9" style="padding-right:5px;">
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "InicioPeriodo" })
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-primary" id="btnDtInicio" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => Model.InicioPeriodo)
+                                        </div>
+                                        <div class="col-md-6" style="padding:0px;">
+                                            <div class="col-md-3">
+                                                @Html.LabelFor(model => Model.FimPeriodo, new { @class = "label-sm" })
+                                            </div>
+                                            <div class="col-md-9" style="padding-left:5px;">
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBoxFor(model => Model.FimPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "FimPeriodo" })
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-primary" id="btnDtFim" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => Model.FimPeriodo)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.HiddenFor(x => x.IdSelecionados)
+                            @Html.ValidationMessageFor(x => x.IdSelecionados)
+                            <div class="row">
+                                @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorioComInativo()).GetType(), true, "GetFuncsRel", "GetFunsComInativos")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.Partial("../JobManager/JobView")
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" id="btnPdf" class="btn btn-primary btnEnviar"><span class="fa fa-file-pdf-o"></span>&nbsp;Gerar PDF</button>
+                            <button type="submit" id="btnXls" class="btn btn-primary btnEnviar"><span class="fa fa-file-excel-o"></span>&nbsp;Gerar Excel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    var errorArray = new Array();
+    cwk_DataCalendario('#btnDtInicio', '#InicioPeriodo');
+    cwk_DataCalendario('#btnDtFim', '#FimPeriodo');
+
+    function changeRelNome() {
+        if ($('#divTipoNome').hasClass('hidden')) {
+            $('#divTipoNome').removeClass('hidden');
+        }
+        if (!$('#divTipoCodigo').hasClass('hidden')) {
+            $('#divTipoCodigo').addClass('hidden');
+        }
+        if (!$('#divTipoAtivoInativo').hasClass('hidden')) {
+            $('#divTipoAtivoInativo').addClass('hidden');
+        }
+        if (!$('#divPeriodo').hasClass('hidden')) {
+            $('#divPeriodo').addClass('hidden');
+        }
+    }
+
+    function changeRelCodigo() {
+        if (!$('#divTipoNome').hasClass('hidden')) {
+            $('#divTipoNome').addClass('hidden');
+        }
+        if ($('#divTipoCodigo').hasClass('hidden')) {
+            $('#divTipoCodigo').removeClass('hidden');
+        }
+        if (!$('#divTipoAtivoInativo').hasClass('hidden')) {
+            $('#divTipoAtivoInativo').addClass('hidden');
+        }
+        if (!$('#divPeriodo').hasClass('hidden')) {
+            $('#divPeriodo').addClass('hidden');
+        }
+    }
+
+    function changeRelEmpresa() {
+        if (!$('#divTipoNome').hasClass('hidden')) {
+            $('#divTipoNome').addClass('hidden');
+        }
+        if (!$('#divTipoCodigo').hasClass('hidden')) {
+            $('#divTipoCodigo').addClass('hidden');
+        }
+        if (!$('#divTipoAtivoInativo').hasClass('hidden')) {
+            $('#divTipoAtivoInativo').addClass('hidden');
+        }
+        if (!$('#divPeriodo').hasClass('hidden')) {
+            $('#divPeriodo').addClass('hidden');
+        }
+    }
+
+    function changeRelDepto() {
+        if (!$('#divTipoNome').hasClass('hidden')) {
+            $('#divTipoNome').addClass('hidden');
+        }
+        if (!$('#divTipoCodigo').hasClass('hidden')) {
+            $('#divTipoCodigo').addClass('hidden');
+        }
+        if (!$('#divTipoAtivoInativo').hasClass('hidden')) {
+            $('#divTipoAtivoInativo').addClass('hidden');
+        }
+        if (!$('#divPeriodo').hasClass('hidden')) {
+            $('#divPeriodo').addClass('hidden');
+        }
+    }
+
+    function changeRelHorario() {
+        if (!$('#divTipoNome').hasClass('hidden')) {
+            $('#divTipoNome').addClass('hidden');
+        }
+        if (!$('#divTipoCodigo').hasClass('hidden')) {
+            $('#divTipoCodigo').addClass('hidden');
+        }
+        if (!$('#divTipoAtivoInativo').hasClass('hidden')) {
+            $('#divTipoAtivoInativo').addClass('hidden');
+        }
+        if (!$('#divPeriodo').hasClass('hidden')) {
+            $('#divPeriodo').addClass('hidden');
+        }
+    }
+
+    function changeRelAtivoInativo() {
+        if (!$('#divTipoNome').hasClass('hidden')) {
+            $('#divTipoNome').addClass('hidden');
+        }
+        if (!$('#divTipoCodigo').hasClass('hidden')) {
+            $('#divTipoCodigo').addClass('hidden');
+        }
+        if ($('#divTipoAtivoInativo').hasClass('hidden')) {
+            $('#divTipoAtivoInativo').removeClass('hidden');
+        }
+        if (!$('#divPeriodo').hasClass('hidden')) {
+            $('#divPeriodo').addClass('hidden');
+        }
+    }
+
+    function changeRelPeriodo() {
+        if (!$('#divTipoNome').hasClass('hidden')) {
+            $('#divTipoNome').addClass('hidden');
+        }
+        if (!$('#divTipoCodigo').hasClass('hidden')) {
+            $('#divTipoCodigo').addClass('hidden');
+        }
+        if (!$('#divTipoAtivoInativo').hasClass('hidden')) {
+            $('#divTipoAtivoInativo').addClass('hidden');
+        }
+        if ($('#divPeriodo').hasClass('hidden')) {
+            $('#divPeriodo').removeClass('hidden');
+        }
+    }
+
+    $('#Relatorio').change(function () {
+        var tipo = $('#Relatorio').val();
+        switch (tipo) {
+            case '1':
+                changeRelNome();
+                break;
+            case '2':
+                changeRelCodigo();
+                break;
+            case '3':
+                changeRelDepto();
+                break;
+            case '4':
+                changeRelEmpresa();
+                break;
+            case '5':
+                changeRelHorario();
+                break;
+            case '6':
+                changeRelAtivoInativo();
+                break;
+            case '7':
+                changeRelPeriodo();
+                //corrigeDatePicker();
+                break;
+            case '8':
+                changeRelPeriodo();
+                //corrigeDatePicker();
+                break;
+            default:
+                break;
+
+        }
+        $('#tbFun').DataTable().draw();
+    });
+
+
+    /* Custom filtering function which will search data in column four between two values */
+    $.fn.dataTable.ext.search.push(
+        function (settings, data, dataIndex) {
+            var min = parseInt($('#CodigoInicial').val(), 10);
+            var max = parseInt($('#CodigoFinal').val(), 10);
+            var codigo = parseFloat(data[1]) || 0;
+
+            var lIniciais = $('#LetrasIniciais').val().toLowerCase();
+            var lFinais = $('#LetrasFinais').val().toLowerCase();
+            var nome = data[2].toLowerCase();
+
+            var inativo = data[9].toLowerCase();
+            var parametroInativo = "não";
+            if ($('input[name=AtivoInativo]:checked').val() == 0) {
+                var parametroInativo = "sim";
+            };
+
+            if (($('#Relatorio').val() == 2 && (
+                    (((isNaN(min) && isNaN(max)) ||
+                     (isNaN(min) && codigo <= max) ||
+                     (min <= codigo && isNaN(max)) ||
+                     (min <= codigo && codigo <= max))
+                    ) ||
+                    (min == 0 && max == 0)))
+                ||
+                ($('#Relatorio').val() == 1 && (
+                    ((nome.match("^" + lIniciais) && (lFinais == '' || lFinais == undefined)) ||
+                       (nome.match(lFinais + "$") && (lIniciais == '' || lIniciais == undefined)) ||
+                       (nome.match("^" + lIniciais) && nome.match(lFinais + "$")))
+                    ||
+                    ((lIniciais == '' || lIniciais == undefined) && (lFinais == '' || lFinais == undefined))))
+                ||
+                ($('#Relatorio').val() == 6 && (inativo == parametroInativo))
+                || ($('#Relatorio').val() != 2 && $('#Relatorio').val() != 1) && $('#Relatorio').val() != 6) {
+                return true;
+            }
+            return false;
+        }
+    );
+
+    $.fn.delayKeyup = function (callback, ms) {
+        var timer = 0;
+        var el = $(this);
+        $(this).keyup(function () {
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                callback(el)
+            }, ms);
+        });
+        return $(this);
+    };
+
+    $('#LetrasIniciais, #LetrasFinais, #CodigoInicial, #CodigoFinal').delayKeyup(function (el) {
+        $('#tbFun').DataTable().draw();
+    }, 500);
+
+    $(':radio[name="AtivoInativo"]').change(function () {
+        $('#tbFun').DataTable().draw();
+    });
+
+
+    function modificaProperties(componente, valor) {
+        $(componente).prop('disabled', valor);
+        $(componente).attr('disabled', valor);
+        $(componente).prop('readonly', valor);
+        $(componente).attr('readonly', valor);
+    }
+
+    $("#btnPdf").click(function (event) {
+        if (!validaForm()) {
+            event.preventDefault();
+        }
+        else {
+            $("#tipoArquivo").val("PDF");
+        }
+    });
+
+    $("#btnXls").click(function (event) {
+        if (!validaForm()) {
+            event.preventDefault();
+        }
+        else {
+            $("#tipoArquivo").val("Excel");
+            $('form').submit();
+            event.preventDefault();
+        }
+    });
+
+    function validaForm() {
+        $("#IdSelecionados").val(tbFunGetSelecionado());
+        if ($("#IdSelecionados").val().length <= 0 || $("#IdSelecionados").val() == '' || $("#IdSelecionados").val() == null) {
+            var msgErro = 'Para Imprimir o Relatório de Hora Extra é Necessário Selecionar Pelo Menos um Funcionário.';
+            errorArray["IdSelecionados"] = msgErro;
+            cwkErro(msgErro);
+            $("form").validate().showErrors(errorArray);
+            return false;
+        }
+        else {
+            errorArray["IdSelecionados"] = null;
+            $("form").validate().showErrors(errorArray);
+            return true;
+        }
+    }
+
+    $('form').submit(function () {
+        if ($(this).valid()) {
+            PostFormJob(this);
+        }
+        return false;
+    });
+</script>

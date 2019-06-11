@@ -1,0 +1,79 @@
+﻿@model List<RegistradorPontoWeb.Models.Comprovante>
+@using System.Web.Optimization
+@{
+    ViewBag.Title = "Comprovante Ponto";
+}
+<style>
+    td {
+        font-size: .83em;
+        margin-top: 1.67em;
+        margin-bottom: 1.67em;
+        margin-left: 0;
+        margin-right: 0;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        padding-left: 5px;
+        padding-right: 5px;
+        font-weight: bold;
+    }
+
+    .page {
+        -webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+</style>
+
+<div class="container container-fluid">
+    <div id="divCentralizada" class="col-md-offset-3 col-md-6">
+        @foreach (RegistradorPontoWeb.Models.Comprovante comprovante in Model)
+        {
+            <div class="panel panel-success" style="width:450px;">
+                <div class="panel-heading">
+                    <button type="button" class="close" onclick="fecharComprovante()">&times;</button>
+                    <h3 class="panel-title" style="text-align:center">Comprovante de Registro</h3>
+                </div>
+                <div class="panel-body">
+                    @Html.Partial("Comprovante", comprovante)
+                </div>
+                <div class="panel-footer">
+                    <button type="button" class="btn btn-info" onclick="printDiv('divComprovante'+'@comprovante.NS')"><span class="glyphicon glyphicon-print"></span> Imprimir</button>
+                    @{
+            RegistradorPontoWeb.Models.Comprovante cv = comprovante;
+            cv.QrCode = null;
+
+            <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("GetComprovante", cv) })';return false;"><span class="glyphicon glyphicon-save"></span> Salvar</button>
+                    }
+
+                    <button type="button" class="btn btn-danger" onclick="fecharComprovante()"><span class="glyphicon glyphicon-trash"></span> Fechar</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+
+    function printDiv(divID) {
+        //pega o Html da DIV
+        var divElements = document.getElementById(divID).innerHTML;
+        //pega o HTML de toda tag Body
+        var oldPage = document.body.innerHTML;
+
+        //Alterna o body
+        document.body.innerHTML =
+          "<html><head><title></title></head><body class='portrait'>" +
+          divElements + "</body>";
+
+        //Imprime o body atual
+        window.print();
+
+        //Retorna o conteudo original da página.
+        document.body.innerHTML = oldPage;
+    }
+
+    function fecharComprovante() {
+        var url = '@Url.Action("Index", "Registrador")';
+        window.location.href = url;
+    }
+</script>

@@ -1,0 +1,115 @@
+﻿@model IList<Modelo.Proxy.Relatorios.PxyRelConferenciaHoras>
+<style>
+    .classRelatorio {
+        font-family: 'Arial';
+        font-size: 10pt;
+        font: normal;
+        width: 752px;
+        vertical-align: middle;
+    }
+
+    table {
+        font-family: 'Arial';
+        font-size: 8pt;
+        font: normal;
+        width: 752px;
+        vertical-align: middle;
+    }
+
+    .Cinza {
+        background-color: rgb(200,200,200);
+    }
+
+    .Gainsboro {
+        background-color: rgb(220,220,220);
+    }
+
+    .ClassGrupo {
+        padding: 5px;
+    }
+
+    .Linha {
+        text-align: center;
+    }
+
+    .classNomeRel {
+        font-size: 20px;
+        font: bold;
+        text-align: center;
+        padding-top: 30px;
+        padding-bottom: 10px;
+    }
+
+    .BordaL {
+        border-left: 1px solid;
+    }
+
+    .BordaB {
+        border-bottom: 1px solid;
+    }
+
+    .BordaT {
+        border-top: 1px solid;
+    }
+
+    .BordaR {
+        border-right: 1px solid;
+    }
+</style>
+
+<div style="background-color:white">
+    <div class="classRelatorio">
+        @foreach (IList<Modelo.Proxy.Relatorios.PxyRelConferenciaHoras> tasksFuncionario in Model.GroupBy(x => new { x.FuncionarioCodigo, x.FuncionarioNome }))
+        {
+            <table style="width:100%; repeat-header: yes; repeat-footer: yes; border-collapse: inherit;" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th colspan="4" scope="colgroup" class="classNomeRel" style="white-space: nowrap;">Relatório de Conferência de Horas</th>
+                    </tr>
+                    <tr>
+                        <th colspan="4" scope="colgroup" class="ClassGrupo BordaL BordaT BordaR" style="white-space: nowrap;">Empresa: @tasksFuncionario.FirstOrDefault().EmpresaNome</th>
+                    </tr>
+                    <tr>
+                        <th colspan="4" scope="colgroup" class="ClassGrupo BordaL BordaT BordaR" style="white-space: nowrap;">Período: @tasksFuncionario.FirstOrDefault().Periodo</th>
+                    </tr>
+                    <tr>
+                        <th colspan="3" scope="colgroup" class="ClassGrupo BordaB BordaL BordaT" style="white-space: nowrap;">Colaborador: @tasksFuncionario.FirstOrDefault().FuncionarioCodigo - @tasksFuncionario.FirstOrDefault().FuncionarioNome </th>
+                        <th class="ClassGrupo BordaB BordaL BordaR BordaT" style="white-space: nowrap;">Matrícula: @tasksFuncionario.FirstOrDefault().FuncionarioMatricula </th>
+                    </tr>
+                    <tr class="Cinza">
+                        <th style="width:190px" class="Linha BordaL BordaB">Data</th>
+                        <th style="width:190px" class="Linha BordaL BordaB">Horas Ponto</th>
+                        <th style="width:190px" class="Linha BordaL BordaB">Horas Task</th>
+                        <th style="width:190px" class="Linha BordaL BordaB BordaR">Ponto - Task</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Modelo.Proxy.Relatorios.PxyRelConferenciaHoras tasksDia in tasksFuncionario)
+                    {
+                        <tr>
+                            @{
+                                 string datastr = tasksDia.data == null ? "" : tasksDia.data.GetValueOrDefault().ToShortDateString();
+                            }
+                            <td style="width:190px" class="Linha BordaB BordaL">@datastr</td>
+                            <td style="width:190px" class="Linha BordaB BordaL"> @tasksDia.totalhorastrabalhadas </td>
+                            <td style="width:190px" class="Linha BordaB BordaL"> @tasksDia.HorasTask </td>
+                            <td style="width:190px" class="Linha BordaB BordaL BordaR"> @tasksDia.DiferencaPontoTask </td>
+
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr class="classtrGrupo Cinza">
+                        <th style="width:190px" class="Linha BordaL BordaB">Quantidade = @tasksFuncionario.Count()</th>
+                        <th style="width:190px" class="Linha BordaL BordaB">@Modelo.cwkFuncoes.ConvertMinutosHora2(3, tasksFuncionario.Sum(s => s.HorasPontoMin))</th>
+                        <th style="width:190px" class="Linha BordaL BordaB">@Modelo.cwkFuncoes.ConvertMinutosHora2(3, tasksFuncionario.Sum(s => s.HorasTaskMin))</th>
+                        <th style="width:190px" class="Linha BordaL BordaB BordaR">@Modelo.cwkFuncoes.ConvertMinutosHoraNegativo(tasksFuncionario.Sum(s => s.DiferencaPontoTaskMin))</th>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div style="page-break-after:always">&nbsp;</div>
+
+        }
+    </div>
+</div>

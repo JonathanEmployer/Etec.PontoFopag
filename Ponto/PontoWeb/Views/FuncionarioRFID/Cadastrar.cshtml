@@ -1,0 +1,78 @@
+﻿@model Modelo.FuncionarioRFID
+@using PontoWeb.Helpers
+@{ ViewBag.Title = "Cadastrar Histórico RFID do Funcionário"; }
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationMessage("CustomError")
+    @Html.HiddenFor(model => model.Codigo);
+    <div class="divCenterPequeno">
+        <div class="panel panel-default">
+            <div class="panel-heading salvando">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="xfecharCadastroModal">X</button>
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo">
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.IdFuncionario, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.IdFuncionario, new { @class = "form-control  input-sm" })
+
+                        @Html.ValidationMessageFor(model => model.IdFuncionario)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.RFID, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.RFID, new { @class = "form-control  input-sm" })
+
+                        @Html.ValidationMessageFor(model => model.RFID)
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <button type="button" data-dismiss="modal" aria-hidden="true" id="fecharCadastroModal" class="btn btn-danger salvando"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+
+    $(":input[type='text']:enabled:visible:first").focus();
+
+    $(document).ready(function () {
+
+        cwk_EventoIncluirAjaxParam('#fecharCadastroModal', 'Grid', 'RepHistoricoLocal', parametros = { id: $("#idRep").val() }, "");
+        cwk_EventoIncluirAjaxParam('#xfecharCadastroModal', 'Grid', 'RepHistoricoLocal', parametros = { id: $("#idRep").val() }, "");
+
+        $('form').submit(function () {
+            if ($(this).valid()) {
+                cwk_SalvaCadastroAjax(this);
+            }
+            return false;
+        });
+
+    });
+
+</script>
+
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+            $('#xfecharCadastroModal').removeAttr('disabled');
+            $('#fecharCadastroModal').removeAttr('disabled');
+        })
+    </script>
+}

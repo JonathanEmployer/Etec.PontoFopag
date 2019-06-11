@@ -1,0 +1,90 @@
+﻿@model Modelo.Proxy.PxyIdPeriodo
+@{
+    Layout = null;
+    ViewBag.Title = "Relatório Bilhetes Importados por Rep";
+    Modelo.REP rep = (Modelo.REP)ViewBag.Rep;
+}
+
+@using (Html.BeginForm("RelatorioBilhetesRep", "RelatorioBilhetesRep", FormMethod.Post, new { id = "FormRelatorioBilhetesRep", target = "_blank" }))
+{
+    <div class="divCenterPequeno">
+        <div class="panel panel-default">
+            <div class="panel-heading salvando">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="xfecharCadastroModal">X</button>
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo">
+                <div class="row">&nbsp;</div>
+                @Html.ValidationMessage("CustomError")
+                @Html.HiddenFor(model => model.Id)
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            @Html.Label("Nº Relógio", new { @class = "control-label" })
+                            @Html.TextBox("NumRelogio", rep.NumRelogio, new { @class = "form-control", @disabled = true })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.Label("Nº Série", new { @class = "control-label" })
+                            @Html.TextBox("NumSerie", rep.NumSerie, new { @class = "form-control", @disabled = true })
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            @Html.Label("Local", new { @class = "control-label" })
+                            @Html.TextBox("Local", rep.Local, new { @class = "form-control", @disabled = true })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="input-group input-daterange">
+                            <div class="input-group-sm input-group-addon" style="border-left-width:1px"> Período de </div>
+                            @Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control MascDate datepickerpt", id = "InicioPeriodo" })
+                            <div class="input-group-sm input-group-addon">a</div>
+                            @Html.TextBoxFor(model => Model.FimPeriodo, new { @class = "form-control MascDate datepickerpt", id = "FimPeriodo" })
+                        </div>
+                    </div>
+                </div>
+                @Html.ValidationMessageFor(model => model.InicioPeriodo)
+                @Html.ValidationMessageFor(model => model.FimPeriodo)
+                <div class="row">&nbsp;</div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-primary salvando">
+                                <span class="fa fa-file-excel-o"></span> &nbsp;Gerar&nbsp;&nbsp;
+                            </button>
+                            <button type="button" data-dismiss="modal" aria-hidden="true" id="fecharCadastroModal" class="btn btn-danger salvando"><span class="fa fa-close"></span> Fechar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+
+    $(":input[type='text']:enabled:visible:first").focus();
+
+    $(document).ready(function () {
+        setaDatePiker('#InicioPeriodo');
+        setaDatePiker('#FimPeriodo');
+        $('.MascDate').mask('00/00/0000');
+    });
+
+    $('form').submit(function () {
+        if ($(this).valid()) {
+			PostFormJob(this, CallBackSucesso);
+        }
+        return false;
+	});
+
+	function CallBackSucesso() {
+		$("#xfecharCadastroModal").click();
+	}
+
+</script>

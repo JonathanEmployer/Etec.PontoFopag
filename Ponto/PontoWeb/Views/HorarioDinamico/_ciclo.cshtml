@@ -1,0 +1,193 @@
+﻿<div class="row">
+    <div class="col-md-12 col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-1">
+                        <div class="row">
+                            @Html.LabelFor(model => model.DescJornadaCopiar, new { @class = "control-label label-sm" })
+                            <div class="input-group input-group-sm">
+                                @Html.TextBoxFor(model => model.DescJornadaCopiar, new { @class = "form-control input-sm lkpJornada horario", id = "lkpJornada" })
+                                <span class="input-group-btn"><button class="btn btn-primary lkpJornada" id="btnJornada" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.DescJornadaCopiar)
+
+                        </div>
+                        <div class="row">
+                            @Html.Label(" ", new { @class = "control-label label-sm" })
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    @Html.TextBox("ciclo", "Ciclo 1", new { @class = "form-control input-sm ciclo horarioDinamico", @id = "", size = "5" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label label-sm">Dias</label>
+                                <div class="input-group input-group-sm inp">
+                                    @Html.TextBox("qtddias", null, new { @class = "form-control input-sm qtddias horarioDinamico", id = "horarioDinamico", size = "5" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-11">
+                        @*pré-assinaladas*@
+                        <div class="row">
+                            <div class="col-md-4" style="padding-right:0px;">
+                                <div class="panel panel-default" style="min-height:60px">
+                                    <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:0px;">
+                                        <div class="row">
+                                            <div class="col-md-7" style="padding-left:0px; padding-right:0px;">
+                                                <label class="label-sm pull-right">Horários: </label>
+                                            </div>
+                                            <div class="col-md-5" style="padding-left:0px; padding-right:0px;">
+                                                <input style="background:#CBE5E7;" class="form-control input-sm time timeJornada timeJornadaE horario" id="txt_e1" name="Horariodescricao_1" placeholder="--:--" type="text" value="--:--" maxlength="5" autocomplete="off" readonly="readonly">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
+                                                <label class="label-sm">Pré-Assinaladas: </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2" style="padding-left:0px; padding-right:0px;">
+                                <div class="panel panel-default" style="min-height:60px">
+                                    <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:3px;">
+                                        <div class="row">
+                                            <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
+                                                <input class="form-control input-sm time timeJornada timeJornadaS horario" id="txt_s1" name="Horariodescricaosai_1" placeholder="--:--" type="text" value="--:--" maxlength="5" autocomplete="off" readonly="readonly">
+                                            </div>
+
+                                            <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
+                                                <input style="background:#CBE5E7;" class="form-control input-sm time timeJornada timeJornadaE horario" id="txt_e2" name="Horariodescricao_2" placeholder="--:--" type="text" value="--:--" maxlength="5" autocomplete="off" readonly="readonly">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
+                                                <input class="chk_pa preassinalada horario" data-val="true" data-val-required="O campo Preassinaladas1Bool é obrigatório." id="chk_pa1" name="Preassinaladas1Bool" type="checkbox" value="true" disabled="disabled"><input name="Preassinaladas1Bool" type="hidden" value="false">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2" style="padding-left:0px; padding-right:0px;">
+                                <div class="panel panel-default" style="min-height:60px">
+                                    <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:3px;">
+                                        <div class="row">
+                                            <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
+                                                <input class="form-control input-sm time timeJornada timeJornadaS horario" id="txt_s2" name="Horariodescricaosai_2" placeholder="--:--" type="text" value="--:--" maxlength="5" autocomplete="off" readonly="readonly">
+                                            </div>
+
+                                            <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
+                                                <input style="background:#CBE5E7;" class="form-control input-sm time timeJornada timeJornadaE horario" id="txt_e3" name="Horariodescricao_3" placeholder="--:--" type="text" value="--:--" maxlength="5" autocomplete="off" readonly="readonly">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
+                                                <input class="chk_pa preassinalada horario" data-val="true" data-val-required="O campo Preassinaladas2Bool é obrigatório." id="chk_pa2" name="Preassinaladas2Bool" type="checkbox" value="true" disabled="disabled"><input name="Preassinaladas2Bool" type="hidden" value="false">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2" style="padding-left:0px; padding-right:0px;">
+                                <div class="panel panel-default" style="min-height:60px">
+                                    <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:3px;">
+                                        <div class="row">
+                                            <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
+                                                <input class="form-control input-sm time timeJornada timeJornadaS horario" id="txt_s3" name="Horariodescricaosai_3" placeholder="--:--" type="text" value="--:--" maxlength="5" autocomplete="off" readonly="readonly">
+                                            </div>
+
+                                            <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
+                                                <input style="background:#CBE5E7;" class="form-control input-sm time timeJornada timeJornadaE horario" id="txt_e4" name="Horariodescricao_4" placeholder="--:--" type="text" value="--:--" maxlength="5" autocomplete="off" readonly="readonly">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
+                                                <input class="chk_pa preassinalada horario" data-val="true" data-val-required="O campo Preassinaladas3Bool é obrigatório." id="chk_pa3" name="Preassinaladas3Bool" type="checkbox" value="true" disabled="disabled"><input name="Preassinaladas3Bool" type="hidden" value="false">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2" style="padding-left:0px">
+                                <div class="panel panel-default" style="min-height:60px">
+                                    <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:0px;">
+                                        <div class="row">
+                                            <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
+                                                <input class="form-control input-sm time timeJornada timeJornadaS horario" id="txt_s4" name="Horariodescricaosai_4" placeholder="--:--" type="text" value="--:--" maxlength="5" autocomplete="off" readonly="readonly">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
+                                                <label class="label-sm">&nbsp; </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @*Hoário dinamico ciclo sequencia*@
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">1</th>
+                                            <th scope="col">2</th>
+                                            <th scope="col">3</th>
+                                            <th scope="col">4</th>
+                                            <th scope="col">5</th>
+                                            <th scope="col">6</th>
+                                            <th scope="col">7</th>
+                                            <th scope="col">8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">Trab.</th>
+                                            <td><input type="checkbox" name="chk_trab01" id="chk_trab01" class="form-check-input" value=""></td>
+                                            <td><input type="checkbox" name="chk_trab02" id="chk_trab02" class="form-check-input" value=""></td>
+                                            <td><input type="checkbox" name="chk_trab03" id="chk_trab03" class="form-check-input" value=""></td>
+                                            <td><input type="checkbox" name="chk_trab04" id="chk_trab04" class="form-check-input" value=""></td>
+                                            <td><input type="checkbox" name="chk_trab05" id="chk_trab05" class="form-check-input" value=""></td>
+                                            <td><input type="checkbox" name="chk_trab06" id="chk_trab06" class="form-check-input" value=""></td>
+                                            <td><input type="checkbox" name="chk_trab07" id="chk_trab07" class="form-check-input" value=""></td>
+                                            <td><input type="checkbox" name="chk_trab08" id="chk_trab08" class="form-check-input" value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Folga</th>
+                                            <td><input type="checkbox" name="chk_folga01" id="chk_folga01" class="form-check-input" value=""></td>
+                                            <td><input type="checkbox" name="chk_folga02" id="chk_folga02" class="form-check-input" value=""></td>
+                                            <td><input type="checkbox" name="chk_folga03" id="chk_folga03" class="form-check-input" value=""></td>
+                                            <td><input type="checkbox" name="chk_folga04" id="chk_folga04" class="form-check-input" value=""></td>
+                                            <td><input type="checkbox" name="chk_folga05" id="chk_folga05" class="form-check-input" value=""></td>
+                                            <td><input type="checkbox" name="chk_folga06" id="chk_folga06" class="form-check-input" value=""></td>
+                                            <td><input type="checkbox" name="chk_folga07" id="chk_folga07" class="form-check-input" value=""></td>
+                                            <td><input type="checkbox" name="chk_folga08" id="chk_folga08" class="form-check-input" value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">DSR</th>
+                                            <td><input type="checkbox" name="chk_dsr01" id="chk_dsr01" class="form-check-input" value=""></td>
+                                            <td><input type="checkbox" name="chk_dsr02" id="chk_dsr02" class="form-check-input" value=""></td>
+                                            <td><input type="checkbox" name="chk_dsr03" id="chk_dsr03" class="form-check-input" value=""></td>
+                                            <td><input type="checkbox" name="chk_dsr04" id="chk_dsr04" class="form-check-input" value=""></td>
+                                            <td><input type="checkbox" name="chk_dsr05" id="chk_dsr05" class="form-check-input" value=""></td>
+                                            <td><input type="checkbox" name="chk_dsr06" id="chk_dsr06" class="form-check-input" value=""></td>
+                                            <td><input type="checkbox" name="chk_dsr07" id="chk_dsr07" class="form-check-input" value=""></td>
+                                            <td><input type="checkbox" name="chk_dsr08" id="chk_dsr08" class="form-check-input" value=""></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

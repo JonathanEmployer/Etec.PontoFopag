@@ -1,0 +1,121 @@
+﻿@model Modelo.ExportacaoCampos
+
+@Html.HiddenFor(model => model.Id, new { id = "idExportacaoCampos" + @Model.IdControle })
+@Html.HiddenFor(x => x.Codigo)
+@Html.HiddenFor(x => x.Incdata)
+@Html.HiddenFor(x => x.IdControle)
+@Html.HiddenFor(x => x.Inchora)
+@Html.HiddenFor(x => x.Incusuario)
+@Html.HiddenFor(x => x.Altdata)
+@Html.HiddenFor(x => x.Althora)
+@Html.HiddenFor(x => x.Altusuario)
+@Html.HiddenFor(x => x.Acao, new { id = "acaoExportacaoCampos" + @Model.IdControle })
+<div class="modal" style="padding-top: 150px; background: rgba(0, 0, 0, 0.4);" id="@("divExpCampos"+@Model.IdControle)" accesskey="" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close btnModal btnClose" idcontrole="@Model.IdControle" type="button" id="@("btndivExpCamposClose" + @Model.IdControle)">x</button>
+                <h3 class="panel-title titulo-pagina">Campo Para Layout de Exportação</h3>
+            </div>
+            <div class="modal-body">
+                @Html.ValidationMessage("CustomError")
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm campoCodigo"})
+                            @Html.ValidationMessageFor(model => model.Codigo)
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Tipo, new { @class = "control-label label-sm" })
+                            @Html.DropDownListFor(model => model.Tipo, ViewBag.TipoCampo as SelectList, new { @class = "form-control input-sm DropDownClass", id = "DropDownListTipoCampo" + @Model.IdControle, style = "height: 25px;", @idControle = @Model.IdControle })
+                            @Html.ValidationMessageFor(model => model.Tipo)
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Tamanho, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Tamanho, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Tamanho)
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Posicao, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Posicao, new {  @class = "form-control  input-sm", id = "txtPosicaoCampo" + @Model.IdControle })
+                            @Html.ValidationMessageFor(model => model.Posicao)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Delimitador, new { @class = "control-label label-sm" })
+                            @Html.DropDownListFor(model => model.Delimitador, ViewBag.DelimitadorCampoExportacao as SelectList, new { @class = "form-control input-sm", style = "height: 25px;" })
+                            @Html.ValidationMessageFor(model => model.Delimitador)
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Qualificador, new { @class = "control-label label-sm" })
+                            @Html.DropDownListFor(model => model.Qualificador, ViewBag.QualificadorCampoExportacao as SelectList, new { @class = "form-control input-sm", style = "height: 25px;" })
+                            @Html.ValidationMessageFor(model => model.Qualificador)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Texto, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Texto, new { @class = "form-control  input-sm", id = "txtTexto" + @Model.IdControle })
+                            @Html.ValidationMessageFor(model => model.Texto)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Cabecalho, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Cabecalho, new { @class = "form-control  input-sm", id = "txtCabecalho" + @Model.IdControle })
+                            @Html.ValidationMessageFor(model => model.Cabecalho)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Formatoevento, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Formatoevento, new { @maxlength = "1", @class = "form-control  input-sm", id = "txtFormatoevento" + @Model.IdControle })
+                            @Html.ValidationMessageFor(model => model.Formatoevento)
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-top:27px">
+                        <div class="form-group">
+                            @Html.CheckBoxFor((model => model.bZeroEsquerda), new { @id = "BZeroesquerda", @class = "checkboxafast desabilitar" })
+                            @Html.LabelFor(model => model.bZeroEsquerda, new { @class = "control-label label-sm" })
+                            @Html.ValidationMessageFor(model => model.bZeroEsquerda)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="margin-top:0">
+                <div class="col-md-6">
+                    <div style="text-align: left">
+                        @Html.Label("lblTamanhoStr", "Posição Disponível: " + (string)@ViewBag.tamanhoStrExp, new { @class = "control-label label-sm" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div style="text-align: right">
+                        <button class="btn btn-sm btn-success salvando btnModal" idcontrole="@Model.IdControle" type="button" id="@("btndivExpCamposSalva" + @Model.IdControle)"><span class="glyphicon glyphicon-ok-circle salvando"></span>&nbsp;Salvar&nbsp;&nbsp;</button>
+                        <button class="btn btn-sm btn-danger salvando btnModal btnClose" idcontrole="@Model.IdControle" type="button" id="@("btndivExpCamposCancela" + @Model.IdControle)"><span class="glyphicon glyphicon-remove"></span>&nbsp;Cancelar&nbsp;&nbsp;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

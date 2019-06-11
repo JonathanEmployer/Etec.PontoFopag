@@ -1,0 +1,140 @@
+﻿@model RegistradorPontoWeb.Models.Comprovante
+@using System.Web.Optimization
+@{
+    ViewBag.Title = "Comprovante Ponto";
+}
+<style>
+    td {
+        font-size: .83em;
+        margin-top: 1.67em;
+        margin-bottom: 1.67em;
+        margin-left: 0;
+        margin-right: 0;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        padding-left: 5px;
+        padding-right: 5px;
+        font-weight: bold;
+    }
+
+    .page {
+        -webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+</style>
+<div class="container container-fluid">
+    <div id="divCentralizada" class="col-md-offset-3 col-md-6">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title" style="text-align:center">Comprovante de Registro</h3>
+            </div>
+            <div class="panel-body">
+                <div id="divComprovante">
+                    <div style="min-width:400px; background-color: #f5ecbe; overflow:auto">
+                        <div style="text-align:center;">
+                            <p><b>Comprovante de Registro de Ponto Eletrônico.</b></p>
+                        </div>
+                        <div style="padding-top:10px">
+                            <table>
+                                <tr>
+                                    <td>Empresa: </td>
+                                    <td>@Model.EmpresaNome</td>
+                                </tr>
+                                <tr>
+                                    <td>CNPJ: </td>
+                                    <td>@Model.EmpresaCNPJ</td>
+                                </tr>
+                                <tr>
+                                    <td>CEI: </td>
+                                    <td>@Model.EmpresaCEI</td>
+                                </tr>
+                                <tr>
+                                    <td>Nome: </td>
+                                    <td>@Model.FuncionarioNome</td>
+                                </tr>
+                                <tr>
+                                    <td>PIS: </td>
+                                    <td>@Model.FuncionarioPIS</td>
+                                </tr>
+                                <tr>
+                                    <td>Data: </td>
+                                    <td>@Model.Data &nbsp; &nbsp; Hora: @Model.Hora</td>
+                                </tr>
+                                <tr>
+                                    <td>NSR: </td>
+                                    <td>@Model.NS</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="img-out"></div>
+            </div>
+            <div class="panel-footer">
+                <button type="button" class="btn btn-info" onclick="printDiv('divComprovante')"><span class="glyphicon glyphicon-print"></span> Imprimir</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-picture"></span> Imagem</button>
+                <button type="button" class="btn btn-danger" onclick="fecharComprovante()"><span class="glyphicon glyphicon-trash"></span> Fechar</button>
+            </div>
+            <div id="canvas" hidden>
+                <p>Canvas:</p>
+            </div>
+
+            <!-- Modal -->
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div id="image">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    function printDiv(divID) {
+        //pega o Html da DIV
+        var divElements = document.getElementById(divID).innerHTML;
+        //pega o HTML de toda tag Body
+        var oldPage = document.body.innerHTML;
+
+        //Alterna o body
+        document.body.innerHTML =
+          "<html><head><title></title></head><body>" +
+          divElements + "</body>";
+        document.getElementsByTagName("body")[0].setAttribute("class", 'portrait');
+        //Imprime o body atual
+        window.print();
+
+        //Retorna o conteudo original da página.
+        document.body.innerHTML = oldPage;
+    }
+
+    function fecharComprovante() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location.href = url;
+    }
+
+
+    html2canvas([document.getElementById('divComprovante')], {
+        onrendered: function (canvas) {
+            document.getElementById('canvas').appendChild(canvas);
+            var data = canvas.toDataURL('image/png');
+            image = new Image();
+            image.src = data;
+            document.getElementById('image').appendChild(image);
+        },
+        width: 450,
+    });
+
+</script>

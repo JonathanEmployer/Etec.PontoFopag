@@ -1,0 +1,64 @@
+﻿@model List<Modelo.Proxy.PxyJobReturn>
+@{
+    ViewBag.Title = "Processo em segundo plano";
+}
+
+<div class="panel panel-default" style="padding:0; padding-bottom:0">
+    <div class="panel-heading">
+        @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+        <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+    </div>
+    <div class="panel-body panelConteudo" id="panelBodyFixo">
+        @*<div id="divProgress">
+            <ul class="list-group">
+                @foreach (var item in Model)
+                {
+                    <li class="list-group-item list-group-item-success" id="liTask'@item.IdTask'">
+                        <div class="list-group-item-heading">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h4>
+                                        @item.IdTask - @item.DescricaoJob &nbsp; &nbsp;
+                                    </h4>
+                                </div>
+                                <div class="col-md-4" style="text-align:right">
+                                    <button class="btn btn-default" id="ArquivoUp'@item.IdTask'">Arquivo Enviado</button>
+                                    <button class="btn btn-default" id="ArquivoDown'@item.IdTask'">Arquivo Retorno</button>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="list-group-item-text" id="msg'@item.IdTask'">@item.ParametrosExibicao</p>
+                        <p class="list-group-item-text" id="msg'@item.IdTask'">@item.Mensagem</p>
+                        <div class="progress active" id="progress'@item.IdTask'" style="margin-bottom:0">
+                            <div class="progress-bar progress-bar-success" style="width: 100%;">100 %</div>
+                            <div id="msgProgress'@item.IdTask'"> </div>
+                        </div>
+                    </li>
+
+                }
+            </ul>
+        </div>*@
+         @Html.Partial("../JobManager/JobView")
+    </div>
+</div>
+
+@*<div id="TasksProgress">
+    @foreach (BLL_N.EntityFramework.JobControl jobs in Model)
+    {
+        var classProgress = "progress-bar-striped";
+        var classAlert = "alert-info";
+        if (jobs.StatusNovo.Contains("Success"))
+        {
+            classProgress = "progress-bar-success";
+            classAlert = "alert-success";
+        };
+
+        <div id="div'@jobs.JobId'">
+            <div class="progress active" id="progress'@jobs.JobId'" style="margin-bottom:0">         
+                <div class="progress-bar '@classProgress'" style="width: 100%;">100 %</div> 
+                <div id="msgProgress'@jobs.JobId'"> </div>
+            </div>
+            <div class="alert '@classAlert'" style="padding-bottom:5px; padding-top:5px" id="msg'@jobs.JobId'" role="alert">Calculo dos funcionários Concluídos</div> 
+        </div>
+    }
+</div>*@

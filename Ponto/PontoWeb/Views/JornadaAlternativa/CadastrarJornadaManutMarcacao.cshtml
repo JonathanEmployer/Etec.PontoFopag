@@ -1,0 +1,480 @@
+﻿@model Modelo.JornadaAlternativa
+@{
+    ViewBag.Title = "Cadastrar Jornada Alternativa";
+    Layout = null;
+}
+<style>
+    .timeJ {
+        width: 46px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+@using (Html.BeginForm("CadastrarJornadaManutMarcacao", "JornadaAlternativa", null, FormMethod.Post, new { role = "form", id = "FormJornadaAlternativa" }))
+{
+    @Html.HiddenFor(model => model.Id, new { id = "idJornadaAlternativa", Value = Model.Id });
+    @Html.HiddenFor(model => model.Acao, new { id = "acaoJordada" })
+    @Html.HiddenFor(model => model.Identificacao)
+    @Html.HiddenFor(model => model.Incdata)
+    @Html.HiddenFor(model => model.Inchora)
+    @Html.HiddenFor(model => model.Incusuario)
+    @Html.HiddenFor(model => model.Altdata)
+    @Html.HiddenFor(model => model.Althora)
+    @Html.HiddenFor(model => model.Altusuario)
+    @Html.HiddenFor(model => model.Preassinaladas1)
+    @Html.HiddenFor(model => model.Preassinaladas2)
+    @Html.HiddenFor(model => model.Preassinaladas3)
+    @Html.HiddenFor(model => model.Intervaloautomatico)
+    @Html.HiddenFor(model => model.HorasNormais)
+    @Html.HiddenFor(model => model.CargaMista)
+    @Html.HiddenFor(model => model.ConversaoHoraNoturna)
+    @Html.HiddenFor(model => model.CalculoAdicionalNoturno)  
+    @Html.HiddenFor(model => model.DataFinal_Ant)
+    @Html.HiddenFor(model => model.DataInicial_Ant)
+    @Html.HiddenFor(model => model.DataInicial)
+    @Html.HiddenFor(model => model.DataFinal)
+    @Html.HiddenFor(model => model.Codigo)
+    @Html.HiddenFor(model => model.Tipo)
+    @Html.HiddenFor(model => model.Tipo_Ant)
+    @Html.HiddenFor(model => model.DataFinal)
+    @Html.HiddenFor(model => model.Identificacao_Ant)
+    @Html.HiddenFor(model => model.Empresa)
+    @Html.HiddenFor(model => model.Funcionario)
+    @Html.HiddenFor(model => model.Funcao)
+    @Html.HiddenFor(model => model.Departamento)
+
+    <div class="divCenterMedio">
+        <div class="panel panel-default">
+            <div class="panel-heading salvando">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="xfecharJornadaModal">X</button>
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo" id="panelBodyFixo">
+                @Html.ValidationMessage("CustomError")
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-2" style="padding-left:0px; padding-right:0px;">
+                            <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                                <label>
+                                    @Html.CheckBoxFor(model => model.bHorasNormais, new { @class = "checkboxHN", id = "chkHorasNormais" })
+                                    @Html.LabelFor(model => model.bHorasNormais, new { @class = "control-label label-sm", @for = "chkHorasNormais" })
+                                    @Html.ValidationMessageFor(model => model.bHorasNormais)
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2" style="padding-left:0px; padding-right:0px;">
+                            <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                                <label>
+                                    @Html.CheckBoxFor(model => model.bCargaMista, new { @class = "checkboxHN", id = "chkCargaMista" })
+                                    @Html.LabelFor(model => model.bCargaMista, new { @class = "control-label label-sm", @for = "chkCargaMista" })
+                                    @Html.ValidationMessageFor(model => model.bCargaMista)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="padding-left:0px; padding-right:0px;">
+                            @Html.LabelFor(model => model.LimiteMin, new { @class = "control-label label-sm editor-label" })
+                            @Html.TextBoxFor(model => model.LimiteMin, new { @class = "form-control  input-sm editor-field timeJ", @placeholder = "--:--" })
+                            @Html.ValidationMessageFor(model => model.LimiteMin)
+                        </div>
+                        <div class="col-md-4" style="padding-left:0px; padding-right:0px;">
+                            @Html.LabelFor(model => model.LimiteMax, new { @class = "control-label label-sm editor-label" })
+                            @Html.TextBoxFor(model => model.LimiteMax, new { @class = "form-control  input-sm editor-field timeJ", @placeholder = "--:--" })
+                            @Html.ValidationMessageFor(model => model.LimiteMax)
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom:5px">
+                        <div class="col-md-4" style="padding-left:0px; padding-right:0px;">
+                            <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                                <label>
+                                    @Html.CheckBoxFor(model => model.bConversaoHoraNoturna, new { @class = "checkboxHN", id = "chkConversaoHoraNoturna" })
+                                    @Html.LabelFor(model => model.bConversaoHoraNoturna, new { @class = "control-label label-sm", @for = "chkConversaoHoraNoturna" })
+                                    @Html.ValidationMessageFor(model => model.bConversaoHoraNoturna)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="padding-left:0px; padding-right:0px;">
+                            <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                                <label>
+                                    @Html.CheckBoxFor(model => model.bCalculoAdicionalNoturno, new { @class = "checkboxHN", id = "chkCalculoAdicionalNoturno" })
+                                    @Html.LabelFor(model => model.bCalculoAdicionalNoturno, new { @class = "control-label label-sm", @for = "chkCalculoAdicionalNoturno" })
+                                    @Html.ValidationMessageFor(model => model.bCalculoAdicionalNoturno)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DescJornada, new { @class = "control-label label-sm editor-label" })
+                            <div class="input-group input-group-sm">
+                                @Html.TextBoxFor(model => model.DescJornada, new { @class = "form-control  input-sm lkpGen", id = "lkpJornada" })
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary lkpGen" id="btnJornada" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.DescJornada)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-9" style="padding-left:0px; padding-right:0px;">
+                            <div class="panel panel-default" style="margin-right:5px">
+                                <div class="panel-heading" style="padding-top:1px; padding-bottom:0px;">
+                                    <label class="label-sm">Horários</label>
+                                </div>
+                                <div class="panel-body" style="padding-top:5px; padding-bottom:5px;">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                                                <label>
+                                                    @Html.CheckBoxFor(model => model.bIntervaloautomatico, new { @class = "checkboxHN", id = "chkIntervaloAutomatico" })
+                                                    @Html.LabelFor(model => model.bIntervaloautomatico, new { @class = "control-label label-sm", @for = "chkIntervaloAutomatico" })
+                                                    @Html.ValidationMessageFor(model => model.bIntervaloautomatico)
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3" style="padding-right:0px;">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:0px;">
+                                                    <div class="row">
+                                                        <div class="col-md-7" style="padding-left:0px; padding-right:0px;">
+                                                            <label class="label-sm pull-right">Horários: </label>
+                                                        </div>
+
+                                                        <div class="col-md-5" style="padding-left:0px; padding-right:0px;">
+                                                            @Html.TextBoxFor(model => model.Entrada_1, new { id = "txt_e1", @class = "form-control input-sm time timeJornada timeJornadaE", @Style = "background:#CBE5E7;", @placeholder = "--:--" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
+                                                            <label class="label-sm">Pré-Assinaladas: </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="padding-left:0px; padding-right:0px;">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:3px;">
+                                                    <div class="row">
+                                                        <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
+                                                            @Html.TextBoxFor(model => model.Saida_1, new { id = "txt_s1", @class = "form-control input-sm time timeJornada timeJornadaS", @placeholder = "--:--" })
+                                                        </div>
+
+                                                        <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
+                                                            @Html.TextBoxFor(model => model.Entrada_2, new { id = "txt_e2", @class = "form-control input-sm time timeJornada timeJornadaE", @Style = "background:#CBE5E7;", @placeholder = "--:--" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
+                                                            @Html.CheckBoxFor(model => model.bPreAssinaladas1, new { id = "chk_pa1", @class = "chk_pa" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="padding-left:0px; padding-right:0px;">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:3px;">
+                                                    <div class="row">
+                                                        <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
+                                                            @Html.TextBoxFor(model => model.Saida_2, new { id = "txt_s2", @class = "form-control input-sm time timeJornada timeJornadaS", @placeholder = "--:--" })
+                                                        </div>
+
+                                                        <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
+                                                            @Html.TextBoxFor(model => model.Entrada_3, new { id = "txt_e3", @class = "form-control input-sm time timeJornada timeJornadaE", @Style = "background:#CBE5E7;", @placeholder = "--:--" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
+                                                            @Html.CheckBoxFor(model => model.bPreAssinaladas2, new { id = "chk_pa2", @class = "chk_pa" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="padding-left:0px; padding-right:0px;">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:3px;">
+                                                    <div class="row">
+                                                        <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
+                                                            @Html.TextBoxFor(model => model.Saida_3, new { id = "txt_s3", @class = "form-control input-sm time timeJornada timeJornadaS", @placeholder = "--:--" })
+                                                        </div>
+
+                                                        <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
+                                                            @Html.TextBoxFor(model => model.Entrada_4, new { id = "txt_e4", @class = "form-control input-sm time timeJornada timeJornadaE", @Style = "background:#CBE5E7;", @placeholder = "--:--" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
+                                                            @Html.CheckBoxFor(model => model.bPreAssinaladas3, new { id = "chk_pa3", @class = "chk_pa" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1" style="padding-left:0px; padding-right:0px;">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:0px;">
+                                                    <div class="row">
+                                                        <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
+                                                            @Html.TextBoxFor(model => model.Saida_4, new { id = "txt_s4", @class = "form-control input-sm time timeJornada timeJornadaS", @placeholder = "--:--" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
+                                                            <label class="label-sm">&nbsp; </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="padding-left:0px; padding-right:0px;">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="text-align:center; padding-top:1px; padding-bottom:0px;">
+                                    <label class="label-sm" style="text-align:center">Carga Horária</label>
+                                </div>
+                                <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:0px;">
+                                    <div class="row">
+                                        <div class="col-md-4" style="padding-left:0px; padding-right:0px; margin-bottom:4px">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading" style="text-align:center; padding-top:1px; padding-bottom:0px; padding-left:0px; padding-right:0px;">
+                                                    <label class="label-sm" style="text-align:center">Diurna</label>
+                                                </div>
+                                                <div class="panel-body" style="text-align: center; padding-left:0px; padding-right:0px;">
+                                                    @Html.TextBoxFor(model => model.TotalTrabalhadaDiurna, new { id = "txt_totalDiurna", @class = "form-control input-sm time timeJornada", @placeholder = "--:--" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" style="padding-left:0px; padding-right:0px; margin-bottom:4px">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading" style="text-align:center; padding-top:1px; padding-bottom:0px; padding-left:0px; padding-right:0px;">
+                                                    <label class="label-sm" style="text-align:center">Noturna</label>
+                                                </div>
+                                                <div class="panel-body" style="text-align: center; padding-left:0px; padding-right:0px;">
+                                                    @Html.TextBoxFor(model => model.TotalTrabalhadaNoturna, new { id = "txt_totalNoturna", @class = "form-control input-sm time timeJornada", @placeholder = "--:--" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" style="padding-left:0px; padding-right:0px; margin-bottom:4px">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading" style="text-align:center; padding-top:1px; padding-bottom:0px; padding-left:0px; padding-right:0px;">
+                                                    <label class="label-sm" style="text-align:center">Mista</label>
+                                                </div>
+                                                <div class="panel-body" style="text-align: center; padding-left:0px; padding-right:0px;">
+                                                    @Html.TextBoxFor(model => model.TotalMista, new { id = "txt_totalMista", @class = "form-control input-sm time timeJornada", @placeholder = "--:--" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-4 center-block">
+                        @if (Model.Acao == Modelo.Acao.Alterar)
+	                    {
+                            <div style="text-align: left">
+                                <button type="button" class="btn btn-danger salvando desabilitar" id="btnExcluirJornada">
+                                    <span class="glyphicon glyphicon-trash"></span> &nbsp;Excluir&nbsp;&nbsp;
+                                </button>
+                            </div>
+	                    }
+                        </div>
+                    <div class="col-xs-8 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando desabilitar" id="btnSalvarJornadaAlternativa">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <button type="button" data-dismiss="modal" aria-hidden="true" id="fecharJornadaModal" class="btn btn-danger salvando"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+<script>
+
+    function calcHoras() {
+        var entradas = new Array();
+        var saidas = new Array();
+        $('.timeJornadaE').toArray().forEach(function (item, index, array) {
+            entradas.push(ConvertHoraMinuto(item.value));
+        });
+        $('.timeJornadaS').toArray().forEach(function (item, index, array) {
+            saidas.push(ConvertHoraMinuto(item.value));
+        });
+        var tipoHorario = 0;
+        if ($('#chkHorasNormais').is(':checked')) {
+            tipoHorario = 1;
+        }
+        else {
+            tipoHorario = 2;
+        }
+        var resultado = CalculaCargaHoraria(entradas, saidas, ConvertHoraMinuto('@ViewBag.InicioHNoturna'), ConvertHoraMinuto('@ViewBag.FimHNotura'), tipoHorario, false, false, false);
+        $('#txt_totalDiurna').val(ConvertMinutoHora(resultado.horasTrabalhadasDiurnas, 2));
+        $('#txt_totalNoturna').val(ConvertMinutoHora(resultado.horasTrabalhadasNoturnas, 2));
+        $('#txt_totalMista').val(ConvertMinutoHora(resultado.horasTrabalhadasMista, 2));
+    };
+
+    function preencheIntervalo(lkp) {
+        var pos = $(lkp).val().indexOf("|");
+        if (pos > 0) {
+            var horario = $(lkp).val();
+            horario = horario.substr(pos + 1, horario.length);
+            var horas = horario.split('-');
+            $("#txt_e1").val($.trim(horas[0]));
+            $("#txt_e2").val($.trim(horas[2]));
+            $("#txt_e3").val($.trim(horas[4]));
+            $("#txt_e4").val($.trim(horas[6]));
+            $("#txt_s1").val($.trim(horas[1]));
+            $("#txt_s2").val($.trim(horas[3]));
+            $("#txt_s3").val($.trim(horas[5]));
+            $("#txt_s4").val($.trim(horas[7]));
+            calcHoras();
+        }
+    }
+
+    lkpGenerico();
+
+    $('#chkIntervaloAutomatico').click(function () {
+        validaIntervaloAutomatico();
+    });
+
+    $('#chkHorasNormais').click(function () {
+        if ($("#chkHorasNormais").is(':checked')) {
+            $("#chkCargaMista").prop("checked", false);
+        }
+        else {
+            $("#chkCargaMista").prop("checked", true);
+        }
+        calcHoras();
+    });
+
+    $('#chkCargaMista').click(function () {
+        if ($("#chkCargaMista").is(':checked')) {
+            $("#chkHorasNormais").prop("checked", false);
+        }
+        else {
+            $("#chkHorasNormais").prop("checked", true);
+        }
+        calcHoras();
+    });
+
+    $('#chkConversaoHoraNoturna').click(function () {
+        regraConversao();
+    });
+
+    function regraHoras() {
+        if ($("#chkHorasNormais").is(':checked')) {
+            $("#chkCargaMista").prop("checked", false);
+        }
+        else {
+            $("#chkHorasNormais").prop("checked", false);
+        }
+        calcHoras();
+    }
+
+    function validaIntervaloAutomatico() {
+        if ($("#chkIntervaloAutomatico").is(':checked')) {
+            if (($('#txt_s1').val() != '' && $('#txt_s1').val() != '--:--') && ($('#txt_e2').val() != '' && $('#txt_e2').val() != '--:--')) {
+                $("#chk_pa1").attr('disabled', false);
+                $("#chk_pa1").removeAttr("readonly");
+            }
+            else {
+                $("#chk_pa1").attr("disabled", true);
+                $("#chk_pa1").prop("checked", false);
+            }
+
+            if (($('#txt_s2').val() != '' && $('#txt_s2').val() != '--:--') && ($('#txt_e3').val() != '' && $('#txt_e3').val() != '--:--')) {
+                $("#chk_pa2").attr('disabled', false);
+                $("#chk_pa2").removeAttr("readonly");
+            }
+            else {
+                $("#chk_pa2").attr("disabled", true);
+                $("#chk_pa2").prop("checked", false);
+            }
+
+            if (($('#txt_s3').val() != '' && $('#txt_s3').val() != '--:--') && ($('#txt_e4').val() != '' && $('#txt_e4').val() != '--:--')) {
+                $("#chk_pa3").attr('disabled', false);
+                $("#chk_pa3").removeAttr("readonly");
+            }
+            else {
+                $("#chk_pa3").attr("disabled", true);
+                $("#chk_pa3").prop("checked", false);
+            }
+        }
+        else {
+            $('.chk_pa').attr("disabled", true);
+            $('.chk_pa').prop("checked", false);
+        }
+    }
+
+    function regraConversao() {
+        if ($("#chkConversaoHoraNoturna").is(':checked')) {
+            $("#chkCalculoAdicionalNoturno").prop("disabled", false);
+        }
+        else {
+            $("#chkCalculoAdicionalNoturno").prop("checked", false);
+            $("#chkCalculoAdicionalNoturno").prop("disabled", true);
+        }
+    }
+
+    $("#lkpJornada").blur("keydown click", function (e) {
+        preencheIntervalo("#" + this.id);
+        validaIntervaloAutomatico();
+    });
+
+    $(document).ready(function () {
+        $('.timeJ').mask('00:00');
+        $(".timeJ").blur(function () {
+            var valor = formataHora24($(this).val(), 2, 2);
+            $(this).val(valor);
+        });
+        $('.timeJornada').attr('readonly', 'readonly');
+
+        regraHoras();
+        regraConversao();
+        validaIntervaloAutomatico();
+    });
+
+    $("#btnExcluirJornada").click(function () {
+        cwkConfirmacao("", "", fCallBackExcluiuJorn);
+    })
+
+    $('form').submit(function () {
+        if ($(this).valid()) {
+            var divAbrir = "MarcacaoTabelaMarcacao";
+            if (window.location.href.indexOf("ManutencaoDiaria") > 0) {
+                divAbrir = "";
+            }
+            PostFormJob(this, CallBackSalvaJornada, divAbrir);
+        } else { cwkErroTit("Existem erros na página", "Corrija os erros destacados na página antes de salvar.") }
+        return false;
+    });
+
+    function fCallBackExcluiuJorn() {
+        $("#acaoJordada").val("Excluir");
+        $("#btnSalvarJornadaAlternativa").trigger("click");
+    }
+
+    function CallBackSalvaJornada() {
+        carregaGridMarcacao();
+        $("#divLoadCadastroModal").modal("hide");
+    }
+</script>

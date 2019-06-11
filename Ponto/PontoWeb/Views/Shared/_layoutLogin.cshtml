@@ -1,0 +1,35 @@
+﻿@using System.Web.Optimization
+@{
+    ViewBag.Title = "Pontofopag";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="@Url.Content("~/content/IconeCwork.png")" />
+    @Styles.Render("~/content/logincss")
+    @RenderSection("head", required: false)
+</head>
+
+<body>    
+    @RenderBody()
+    @Scripts.Render("~/bundles/loginjs")
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+
+<script>
+    var lembreme = $.jStorage.get("lembreMe", false);
+    $(function () {
+        if (!lembreme) {
+            $('#abreModal').modal('show');
+        }
+
+        $('#ckbLembreMe').change(function () {
+            $.jStorage.set("lembreMe", $("#ckbLembreMe").prop('checked'));
+        });
+    });
+</script>

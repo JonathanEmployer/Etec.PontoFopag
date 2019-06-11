@@ -1,0 +1,52 @@
+﻿@using System.Web.Optimization
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string nomeTabela = "tbLancamento";
+    string nomeController = Convert.ToString(ViewBag.Controller);
+}
+<div class="">
+    <div class="panel panel-default" style="padding:0; margin-bottom:0px;">
+        <div class="panel-heading">
+            @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+            <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+        </div>
+        <div class="panel-body panelConteudo" id="panelBodyFixo">
+            @Html.ValidationSummary(true)
+            <div class="row">
+                @Html.GridFor(nomeTabela, (new Modelo.LancamentoLote()).GetType(), false, nomeController, "DadosGrid", "", "", null, "($(window).height() - 424)")
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.Partial("../JobManager/JobView")
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-12 center-block">
+                    <div style="text-align: right">
+                        <a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
+                        <a href="#" id="btIncluir" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
+                        <a href="#" id="btAlterar" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
+                        <a href="#" id="btExcluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var controller = '@ViewBag.Controller';
+    var nomeTabela = "#" + '@nomeTabela';
+    jQuery(document).ready(function () {
+        cwk_EventoDbClickEditar('Alterar', controller, nomeTabela);
+        
+        cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', controller);
+        cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', controller, nomeTabela);
+        cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', controller, nomeTabela);
+        EventoClickDeletePostReturnJob('#btExcluir', 'Excluir', controller, nomeTabela, 'Lote excluído com sucesso.');
+    });
+</script>

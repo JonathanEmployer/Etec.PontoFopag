@@ -1,0 +1,119 @@
+﻿@model  Modelo.Relatorios.RelatorioHorarioModel
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Relatório de Horários por Descrição";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("Horario", "RelatorioHorario", FormMethod.Post))
+{
+    <div class="" style="margin-bottom:0">
+        <div class="panel panel-default" style="padding:0px">
+            <div class="panel-heading">
+                @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo" id="panelBodyFixo">
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.TipoArquivo, new { id = "tipoArquivo" })
+                @Html.HiddenFor(model => model.IdSelecionados)
+                @Html.ValidationMessageFor(model => model.IdSelecionados)
+                @Html.ValidationMessage("CustomError", new { id = "CustomError" })
+                @Html.HiddenFor(model => model.InicioPeriodo, new { Value = DateTime.Now.ToString("yyyy-MM-dd") })
+                @Html.HiddenFor(model => model.FimPeriodo, new { Value = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd") })
+                <div>
+
+                    <div class="row">
+                        
+                        @Html.GridFor("tbHorarios", (new Modelo.Relatorios.RelatorioHorarioModel()).GetType(), true, "RelatorioHorario", "DadosGrid")
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.Partial("../JobManager/JobView")
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" id="btnPdf" class="btn btn-primary btnEnviar"><span class="fa fa-file-pdf-o"></span>&nbsp;Gerar PDF</button>
+                            <button type="submit" id="btnXls" class="btn btn-primary btnEnviar"><span class="fa fa-file-excel-o"></span>&nbsp;Gerar Excel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    var errorArray = new Array();
+    
+    cwk_EventoClickTicarCheckBoxTabela("#tbHorarios");
+
+    function retornaAltura() {
+        var altura = cwk_AlturaTela() * 52 / 100;
+        if (cwk_AlturaTela() <= 768) {
+            altura = cwk_AlturaTela() * 45 / 100;
+        }
+        return altura;
+    }
+
+    $('#btSelecionarHorario').click(function () {
+        $('#tbHorarios .check-box').prop('checked', true);
+    });
+
+    $('#btLimparHorario').click(function () {
+        $('#tbHorarios .check-box').prop('checked', false);
+    });
+
+    $(document).ready(function () {
+        $('#tbHorarios .check-box').prop('checked', false);
+    });
+
+    $("#btnPdf").click(function (event) {
+        if (!validaForm()) {
+            event.preventDefault();
+        }
+        else {
+            $("#tipoArquivo").val("PDF");
+        }
+    });
+
+    $("#btnXls").click(function (event) {
+        if (!validaForm()) {
+            event.preventDefault();
+        }
+        else {
+            $("#tipoArquivo").val("Excel");
+            $('form').submit();
+            event.preventDefault();
+        }
+    });
+
+
+    function validaForm() {
+        $("#IdSelecionados").val(tbHorariosGetSelecionado());
+        if ($("#IdSelecionados").val().length <= 0 || $("#IdSelecionados").val() == '' || $("#IdSelecionados").val() == null) {
+            var msgErro = 'Para Imprimir o Relatório é Necessário Selecionar Pelo Menos um Horário.';
+            errorArray["IdSelecionados"] = msgErro;
+            cwkErro(msgErro);
+            $("form").validate().showErrors(errorArray);
+            return false;
+        }
+        else {
+            errorArray["IdSelecionados"] = null;
+            $("form").validate().showErrors(errorArray);
+            return true;
+        }
+    }
+
+    $('form').submit(function () {
+        if ($(this).valid()) {
+            PostFormJob(this);
+        }
+        return false;
+    });
+
+</script>

@@ -1,0 +1,319 @@
+﻿@{
+    ViewBag.Title = "Calcular Horas";
+    Layout = null;
+}
+
+@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/homecss")
+@Styles.Render("~/Content/dataTablecss")
+@*@Styles.Render("~/Content/uploadImagecss")*@
+@Scripts.Render("~/bundles/modernizr")
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/homejs")
+@Scripts.Render("~/bundles/dataTablejs")
+@Scripts.Render("~/bundles/paginajs")
+@*@Scripts.Render("~/bundles/uploadImagejs")*@
+
+<div class="divCenterPequeno">
+    <div class="panel panel-default">
+        <div class="panel-heading salvando">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="xfecharCadastroModal">X</button>
+            <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+        </div>
+        <div class="panel-body panelConteudo">
+            <div class="col-md-12">
+                <div class="panel panel-success" style="margin-bottom:10px;">
+                    <div class="panel-heading" style="padding-top:2px; padding-bottom:0">
+                        @Html.Label("Soma de Horas", new { @class = "control-label label-sm" })
+                    </div>
+                    <div class="panel-body panelConteudo">
+                        <div class="col-md-12">
+                            <div class="col-md-11">
+                                <div class="input-group">
+                                    <span class="input-group-addon">&nbsp;&nbsp; Horas <span class="glyphicon glyphicon-time"></span></span>
+                                    @Html.TextBox("txtEntrada", "", new { @class = "form-control time3L calcAd", id = "txtHoraAd1", @placeholder = "000:00" })
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-plus"></span></span>
+                                    @Html.TextBox("txtSaida", "", new { @class = "form-control time3L calcAd", id = "txtHoraAd2", @placeholder = "000:00" })
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-pause" style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);"></span></span>
+                                    @Html.TextBox("txtResultado", "", new { @class = "form-control time3L calcAd", id = "txtResultadoAd", @placeholder = "000:00" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-11">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Minutos <span class="glyphicon glyphicon-upload"></span></span>
+                                    @Html.TextBox("txtEntrada", "", new { @class = "form-control calcAd", id = "txtHoraAd1Min", @placeholder = "0" })
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-plus"></span></span>
+                                    @Html.TextBox("txtSaida", "", new { @class = "form-control calcAd", id = "txtHoraAd2Min", @placeholder = "0" })
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-pause" style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);"></span></span>
+                                    @Html.TextBox("txtResultado", "", new { @class = "form-control calcAd", id = "txtResultadoAdMin", @placeholder = "0" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-danger" style="margin-bottom:10px;">
+                    <div class="panel-heading" style="padding-top:2px; padding-bottom:0">
+                        @Html.Label("Diferença de Horas", new { @class = "control-label label-sm" })
+                    </div>
+                    <div class="panel-body panelConteudo">
+                        <div class="col-md-12">
+                            <div class="col-md-11">
+                                <div class="input-group">
+                                    <span class="input-group-addon">&nbsp;&nbsp; Horas <span class="glyphicon glyphicon-time"></span></span>
+                                    @Html.TextBox("txtEntrada", "", new { @class = "form-control time3L calcSub", id = "txtHoraSub1", @placeholder = "000:00" })
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-minus"></span></span>
+                                    @Html.TextBox("txtSaida", "", new { @class = "form-control time3L calcSub", id = "txtHoraSub2", @placeholder = "000:00" })
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-pause" style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);"></span></span>
+                                    @Html.TextBox("txtResultado", "", new { @class = "form-control time3L calcSub", id = "txtResultadoSub", @placeholder = "000:00" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-11">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Minutos <span class="glyphicon glyphicon-upload"></span></span>
+                                    @Html.TextBox("txtEntrada", "", new { @class = "form-control calcSub", id = "txtHoraSub1Min", @placeholder = "0" })
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-minus"></span></span>
+                                    @Html.TextBox("txtSaida", "", new { @class = "form-control calcSub", id = "txtHoraSub2Min", @placeholder = "0" })
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-pause" style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);"></span></span>
+                                    @Html.TextBox("txtResultado", "", new { @class = "form-control calcSub", id = "txtResultadoSubMin", @placeholder = "0" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-primary" style="margin-bottom:10px;">
+                    <div class="panel-heading" style="padding-top:2px; padding-bottom:0">
+                        @Html.Label("Jornada", new { @class = "control-label label-sm" })
+                    </div>
+                    <div class="panel-body panelConteudo">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        @Html.Label("", "Tipo", new { @class = "control-label label-sm" })
+                                    </div>
+                                    <div class="col-md-5">
+                                        @Html.RadioButton("rdTipo", "1", true, new { id = "tipoNormal", @class = "control-label label-sm" }) Normal
+                                    </div>
+                                    <div class="col-md-5">
+                                        @Html.RadioButton("rdTipo", "2", false, new { id = "tipoMista", @class = "control-label label-sm" }) Mista
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon">Início </span>
+                                    @Html.TextBox("txtIniNoturno", "0", new { @class = "form-control timeL horaJornada", id = "txtIniNoturno", @placeholder = "00:00" })
+                                    <span class="input-group-addon"> Fim </span>
+                                    @Html.TextBox("txtFinNoturno", "0", new { @class = "form-control timeL horaJornada", id = "txtFinNoturno", @placeholder = "00:00" })
+                                    <span class="input-group-addon">horário noturno</span>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-3" style="padding-left:0px; padding-right:0px">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.Label("", "Ent. 1", new { @class = "control-label label-sm" })
+                                        @Html.TextBox("Entrada_1", "", new { id = "Entrada_1", @class = "form-control input-sm timeL horaJornada", @Style = "background:#CBE5E7;", @placeholder = "--:--" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.Label("", "Sai. 1", new { @class = "control-label label-sm" })
+                                        @Html.TextBox("Saida_1", "", new { id = "Saida_1", @class = "form-control input-sm timeL horaJornada", @placeholder = "--:--" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3" style="padding-left:0px; padding-right:0px">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.Label("", "Ent. 2", new { @class = "control-label label-sm" })
+                                        @Html.TextBox("Entrada_2", "", new { id = "Entrada_2", @class = "form-control  input-sm timeL horaJornada", @Style = "background:#CBE5E7;", @placeholder = "--:--" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.Label("", "Sai. 2", new { @class = "control-label label-sm" })
+                                        @Html.TextBox("Saida_2", "", new { id = "Saida_2", @class = "form-control  input-sm timeL horaJornada", @placeholder = "--:--" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3" style="padding-left:0px; padding-right:0px">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.Label("", "Entr. 3", new { @class = "control-label label-sm" })
+                                        @Html.TextBox("Entrada_3", "", new { id = "Entrada_3", @class = "form-control  input-sm timeL horaJornada", @Style = "background:#CBE5E7;", @placeholder = "--:--" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.Label("", "Sai. 3", new { @class = "control-label label-sm" })
+                                        @Html.TextBox("Saida_3", "", new { id = "Saida_3", @class = "form-control  input-sm timeL horaJornada", @placeholder = "--:--" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3" style="padding-left:0px; padding-right:0px">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.Label("", "Ent. 4", new { @class = "control-label label-sm" })
+                                        @Html.TextBox("Entrada_4", "", new { id = "Entrada_4", @class = "form-control  input-sm timeL horaJornada", @Style = "background:#CBE5E7;", @placeholder = "--:--" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.Label("", "Sai. 4", new { @class = "control-label label-sm" })
+                                        @Html.TextBox("Saida_4", "", new { id = "Saida_4", @class = "form-control  input-sm timeL horaJornada", @placeholder = "--:--" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <div class="checkbox" style="margin:0px">
+                                            <label>
+                                                @Html.CheckBox("Habilitaperiodo01Bool", new { @class = "ckbIntervaloCafe", id = "Habilitaperiodo01Bool" })
+                                                @Html.Label("1º Período Intervalo de Café", new { @class = "control-label label-sm" })
+                                            </label>
+                                        </div>
+                                        <div class="checkbox" style="margin:0px">
+                                            <label>
+                                                @Html.CheckBox("Habilitaperiodo02Bool", new { @class = "ckbIntervaloCafe", id = "Habilitaperiodo02Bool" })
+                                                @Html.Label("2º Período Intervalo de Café", new { @class = "control-label label-sm" })
+                                            </label>
+                                        </div>
+                                    </div>
+                                <div class="col-md-2 bg-info">
+                                    <div class="form-group" style="text-align:center">
+                                        @Html.Label("", "Diurno", new { @class = "control-label label-sm" })
+                                        @Html.TextBox("Diurno", "", new { id = "resDiurno", @class = "form-control  input-sm time3", @placeholder = "---:--", @disabled = true })
+                                    </div>
+                                </div>
+                                <div class="col-md-2 bg-primary">
+                                    <div class="form-group" style="text-align:center">
+                                        @Html.Label("", "Noturno", new { @class = "control-label label-sm" })
+                                        @Html.TextBox("Noturno", "", new { id = "resNoturno", @class = "form-control  input-sm time3", @placeholder = "---:--", @disabled = true })
+                                    </div>
+                                </div>
+                                <div class="col-md-2 bg-success">
+                                    <div class="form-group" style="text-align:center">
+                                        @Html.Label("", "Mista", new { @class = "control-label label-sm" })
+                                        @Html.TextBox("Mista", "", new { id = "resMisto", @class = "form-control  input-sm time3", @placeholder = "---:--", @disabled = true })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(":input[type='text']:enabled:visible:first").focus();
+
+    $('.calcAd').change(function () {
+        var valor = $(this).val();
+        if (valor != "") {
+            if (this.id.indexOf("Min") == -1) {
+                valor = formataHora($(this).val(), 3, 2)
+                $(this).val(valor);
+                var h1 = ConvertHoraMinuto($("#txtHoraAd1").val());
+                var h2 = ConvertHoraMinuto($("#txtHoraAd2").val());
+                var res = ConvertHoraMinuto($("#txtResultadoAd").val());
+            }
+            else {
+                var h1 = $("#txtHoraAd1Min").val();
+                var h2 = $("#txtHoraAd2Min").val();
+                var res = $("#txtResultadoAdMin").val();
+            }
+            var retorno = somaHoras(h1, h2, res);
+            $("#txtHoraAd1").val(ConvertMinutoHora(retorno.hora1, 3));
+            $("#txtHoraAd2").val(ConvertMinutoHora(retorno.hora2, 3));
+            $("#txtResultadoAd").val(ConvertMinutoHora(retorno.resultado, 3));
+            $("#txtHoraAd1Min").val(retorno.hora1);
+            $("#txtHoraAd2Min").val(retorno.hora2);
+            $("#txtResultadoAdMin").val(retorno.resultado);
+        }
+    });
+
+    $('.calcSub').change(function () {
+        var valor = $(this).val();
+        if (valor != "") {
+            if (this.id.indexOf("Min") == -1) {
+                valor = formataHora($(this).val(), 3, 2)
+                $(this).val(valor);
+                var h1 = ConvertHoraMinuto($("#txtHoraSub1").val());
+                var h2 = ConvertHoraMinuto($("#txtHoraSub2").val());
+                var res = ConvertHoraMinuto($("#txtResultadoSub").val());
+            }
+            else {
+                var h1 = $("#txtHoraSub1Min").val();
+                var h2 = $("#txtHoraSub2Min").val();
+                var res = $("#txtResultadoSubMin").val();
+            }
+            var retorno = DiferencaHoras(h1, h2, res);
+            $("#txtHoraSub1").val(ConvertMinutoHora(retorno.hora1, 3));
+            $("#txtHoraSub2").val(ConvertMinutoHora(retorno.hora2, 3));
+            $("#txtResultadoSub").val(ConvertMinutoHora(retorno.resultado, 3));
+            $("#txtHoraSub1Min").val(retorno.hora1);
+            $("#txtHoraSub2Min").val(retorno.hora2);
+            $("#txtResultadoSubMin").val(retorno.resultado);
+        }
+    });
+
+    $('input[name=rdTipo]').click(function () {
+        CalculaJornada();
+    });
+
+    $('.ckbIntervaloCafe').click(function () {
+        CalculaJornada();
+    });
+
+    $('.horaJornada').change(function () {
+        var valor = $(this).val();
+        valor = formataHora($(this).val(), 2, 2);
+        $(this).val(valor);
+        CalculaJornada();
+    });
+
+    function CalculaJornada() {
+        var entradas = [];
+        var saidas = [];
+        $(".horaJornada").each(function () {
+            var valormin = ConvertHoraMinuto($(this).val());
+            if (this.id.indexOf("Saida") >= 0) {
+                saidas.push(valormin);
+            }
+            else {
+                if (this.id.indexOf("Entrada") >= 0) {
+                    entradas.push(valormin);
+                }
+            }
+        });
+        var inicioNoturno = ConvertHoraMinuto($("#txtIniNoturno").val());
+        var fimNoturno = ConvertHoraMinuto($("#txtFinNoturno").val());
+        var tipo = $('input[name=rdTipo]:checked').val();
+        var CalculaHorarioCafe = true;
+        var PrimeiroPeridoCafe = $("#Habilitaperiodo01Bool").is(':checked');
+        var SegundoPeriodoCafe = $("#Habilitaperiodo02Bool").is(':checked');
+        var retorno = CalculaCargaHoraria(entradas, saidas, inicioNoturno, fimNoturno, tipo, CalculaHorarioCafe, PrimeiroPeridoCafe, SegundoPeriodoCafe);
+        $("#resDiurno").val(ConvertMinutoHora(retorno.horasTrabalhadasDiurnas,3));
+        $("#resNoturno").val(ConvertMinutoHora(retorno.horasTrabalhadasNoturnas,3));
+        $("#resMisto").val(ConvertMinutoHora(retorno.horasTrabalhadasMista,3));
+    };
+
+</script>

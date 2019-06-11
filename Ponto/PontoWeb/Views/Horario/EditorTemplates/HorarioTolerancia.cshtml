@@ -1,0 +1,286 @@
+﻿@model Modelo.HorarioDetalhe
+@if (Model.Codigo == 0)
+{
+    <div class="row">
+        <div class="col-md-1 col-xs-12"></div>
+        <div class="col-md-11 col-xs-12">
+            <div class="col-md-2" style="padding-left:0px; padding-right:0px">
+                <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    @Html.LabelFor(model => model.Entrada_1, new { @class = "control-label label-sm" })
+                </div>
+                <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    <div class="ToleranciaPeriodo">
+                        @Html.LabelFor(model => model.Tolerancia_Intervalo_1, new { @class = "control-label label-sm" })
+                    </div>
+                </div>
+                <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    @Html.LabelFor(model => model.Saida_1, new { @class = "control-label label-sm" })
+                </div>
+            </div>
+
+            <div class="col-md-2" style="padding-left:0px; padding-right:0px">
+                <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    <div class="ToleranciaPeriodo">
+                        @Html.LabelFor(model => model.Tolerancia_Intervalo_2, new { @class = "control-label label-sm" })
+                    </div>
+                </div>
+                <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    @Html.LabelFor(model => model.Entrada_2, new { @class = "control-label label-sm" })
+                </div>
+                <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    <div class="ToleranciaPeriodo">
+                        @Html.LabelFor(model => model.Tolerancia_Intervalo_3, new { @class = "control-label label-sm" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2" style="padding-left:0px; padding-right:0px">
+                <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    @Html.LabelFor(model => model.Saida_2, new { @class = "control-label label-sm" })
+                </div>
+                <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    <div class="ToleranciaPeriodo">
+                        @Html.LabelFor(model => model.Tolerancia_Intervalo_4, new { @class = "control-label label-sm" })
+                    </div>
+                </div>
+                <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    @Html.LabelFor(model => model.Entrada_3, new { @class = "control-label label-sm" })
+                </div>
+            </div>
+            <div class="col-md-2" style="padding-left:0px; padding-right:0px">
+                <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    <div class="ToleranciaPeriodo">
+                        @Html.LabelFor(model => model.Tolerancia_Intervalo_5, new { @class = "control-label label-sm" })
+                    </div>
+                </div>
+                <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    @Html.LabelFor(model => model.Saida_3, new { @class = "control-label label-sm" })
+                </div>
+                <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    <div class="ToleranciaPeriodo">
+                        @Html.LabelFor(model => model.Tolerancia_Intervalo_6, new { @class = "control-label label-sm" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" style="padding-left:0px; padding-right:0px">
+                <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    @Html.LabelFor(model => model.Entrada_4, new { @class = "control-label label-sm" })
+                </div>
+                <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    <div class="ToleranciaPeriodo">
+                        @Html.LabelFor(model => model.Tolerancia_Intervalo_7, new { @class = "control-label label-sm" })
+                    </div>
+                </div>
+                <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    @Html.LabelFor(model => model.Saida_4, new { @class = "control-label label-sm" })
+                </div>
+            </div>
+            <div class="col-md-2" style="padding-left:0px; padding-right:0px">
+                <div class="col-md-2" style="padding-left:0px; padding-right:0px">
+                </div>
+                <div class="col-md-5" style="padding-left:0px; padding-right:0px">
+                    @Html.LabelFor(model => model.ToleranciaHoraExtra, new { @class = "control-label label-sm" })
+                </div>
+                <div class="col-md-5" style="padding-left:0px; padding-right:0px">
+                    @Html.LabelFor(model => model.ToleranciaFalta, new { @class = "control-label label-sm" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="row">
+    <div class="col-md-1 col-xs-12">@Html.Label(Model.DiaDesc, new { @class = "control-label label-sm" })</div>
+    <div class="col-md-11 col-xs-12">
+        <div class="col-md-2" style="padding-left:0px; padding-right:0px">
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    @Html.Label(Model.Entrada_1, new { @class = "form-control input-sm timeL", @Style = "background: rgb(203, 229, 231);", @placeholder = "--:--" })
+            </div>
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                <div class="ToleranciaPeriodo">
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.Tolerancia_Intervalo_1, new { @class = "form-control  input-sm timeL", id = string.Format("txtToleranciaIntervalo1_{0}", Model.Dia) })
+                        @Html.ValidationMessageFor(model => model.Tolerancia_Intervalo_1)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    @Html.Label(Model.Saida_1, new { @class = "form-control input-sm timeL", @Style = "background:rgb(221, 221, 221);", @placeholder = "--:--" })
+            </div>
+        </div>
+        
+        <div class="col-md-2" style="padding-left:0px; padding-right:0px">
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                <div class="ToleranciaPeriodo">
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.Tolerancia_Intervalo_2, new { @class = "form-control  input-sm timeL", id = string.Format("txtToleranciaIntervalo2_{0}", Model.Dia) })
+                        @Html.ValidationMessageFor(model => model.Tolerancia_Intervalo_2)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    @Html.Label(Model.Entrada_2, new { @class = "form-control input-sm timeL", @Style = "background: rgb(203, 229, 231);", @placeholder = "--:--" })
+            </div>
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                <div class="ToleranciaPeriodo">
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.Tolerancia_Intervalo_3, new { @class = "form-control  input-sm timeL", id = string.Format("txtToleranciaIntervalo3_{0}", Model.Dia) })
+                        @Html.ValidationMessageFor(model => model.Tolerancia_Intervalo_3)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2" style="padding-left:0px; padding-right:0px">
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    @Html.Label(Model.Saida_2, new { @class = "form-control input-sm timeL", @Style = "background:rgb(221, 221, 221);", @placeholder = "--:--" })
+            </div>
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                <div class="ToleranciaPeriodo">
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.Tolerancia_Intervalo_4, new { @class = "form-control  input-sm timeL", id = string.Format("txtToleranciaIntervalo4_{0}", Model.Dia) })
+                        @Html.ValidationMessageFor(model => model.Tolerancia_Intervalo_4)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    @Html.Label(Model.Entrada_3, new { @class = "form-control input-sm timeL", @Style = "background: rgb(203, 229, 231);", @placeholder = "--:--" })
+            </div>
+        </div>
+        <div class="col-md-2" style="padding-left:0px; padding-right:0px">
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                <div class="ToleranciaPeriodo">
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.Tolerancia_Intervalo_5, new { @class = "form-control  input-sm timeL", id = string.Format("txtToleranciaIntervalo5_{0}", Model.Dia) })
+                        @Html.ValidationMessageFor(model => model.Tolerancia_Intervalo_5)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    @Html.Label(Model.Saida_3, new { @class = "form-control input-sm timeL", @Style = "background:rgb(221, 221, 221);", @placeholder = "--:--" })
+            </div>
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                <div class="ToleranciaPeriodo">
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.Tolerancia_Intervalo_6, new { @class = "form-control  input-sm timeL", id = string.Format("txtToleranciaIntervalo5_{0}", Model.Dia) })
+                        @Html.ValidationMessageFor(model => model.Tolerancia_Intervalo_6)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2" style="padding-left:0px; padding-right:0px">
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    @Html.Label(Model.Entrada_4, new { @class = "form-control input-sm timeL", @Style = "background: rgb(203, 229, 231);", @placeholder = "--:--" })
+            </div>
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                <div class="ToleranciaPeriodo">
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.Tolerancia_Intervalo_7, new { @class = "form-control  input-sm timeL", id = string.Format("txtToleranciaIntervalo7_{0}", Model.Dia) })
+                        @Html.ValidationMessageFor(model => model.Tolerancia_Intervalo_7)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                    @Html.Label(Model.Saida_4, new { @class = "form-control input-sm timeL", @Style = "background:rgb(221, 221, 221);;", @placeholder = "--:--" })
+            </div>
+        </div>
+        <div class="col-md-2" style="padding-left:0px; padding-right:0px">
+            <div class="col-md-2" style="padding-left:0px; padding-right:0px">
+            </div>
+            <div class="col-md-5" style="padding-left:0px; padding-right:0px">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.ToleranciaHoraExtra, new { @class = "form-control  input-sm timeL ToleranciaDia", id = string.Format("txtToleranciaHoraExtra_{0}", Model.Dia) })
+                    @Html.ValidationMessageFor(model => model.ToleranciaHoraExtra)
+                </div>
+            </div>
+            <div class="col-md-5" style="padding-left:0px; padding-right:0px">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.ToleranciaFalta, new { @class = "form-control  input-sm timeL ToleranciaDia", id = string.Format("txtToleranciaFalta_{0}", Model.Dia) })
+                    @Html.ValidationMessageFor(model => model.ToleranciaFalta)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-1 col-xs-12"></div>
+    <div class="col-md-11 col-xs-12 ToleranciaBatida">
+        <div class="col-md-2" style="padding-left:0px; padding-right:0px">
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.Tolerancia_Ent_1, new { @class = "form-control input-sm timeL", @placeholder = "--:--", id = string.Format("txtTolerancia_Ent_1{0}", Model.Dia) })
+                    @Html.ValidationMessageFor(model => model.Tolerancia_Ent_1)
+                </div>
+            </div>
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+
+            </div>
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.Tolerancia_Sai_1, new { @class = "form-control input-sm timeL", @placeholder = "--:--", id = string.Format("txtTolerancia_Sai_1{0}", Model.Dia) })
+                    @Html.ValidationMessageFor(model => model.Tolerancia_Sai_1)
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2" style="padding-left:0px; padding-right:0px">
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+
+            </div>
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.Tolerancia_Ent_2, new { @class = "form-control input-sm timeL", @placeholder = "--:--", id = string.Format("txtTolerancia_Ent_2{0}", Model.Dia) })
+                    @Html.ValidationMessageFor(model => model.Tolerancia_Ent_2)
+                </div>
+            </div>
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                
+            </div>
+        </div>
+        <div class="col-md-2" style="padding-left:0px; padding-right:0px">
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.Tolerancia_Sai_2, new { @class = "form-control input-sm timeL", @placeholder = "--:--", id = string.Format("txtTolerancia_Sai_2{0}", Model.Dia) })
+                    @Html.ValidationMessageFor(model => model.Tolerancia_Sai_2)
+                </div>
+            </div>
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+
+            </div>
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.Tolerancia_Ent_3, new { @class = "form-control input-sm timeL", @placeholder = "--:--", id = string.Format("txtTolerancia_Ent_3{0}", Model.Dia) })
+                    @Html.ValidationMessageFor(model => model.Tolerancia_Ent_3)
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2" style="padding-left:0px; padding-right:0px">
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+
+            </div>
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.Tolerancia_Sai_3, new { @class = "form-control input-sm timeL", @placeholder = "--:--", id = string.Format("txtTolerancia_Sai_3{0}", Model.Dia) })
+                    @Html.ValidationMessageFor(model => model.Tolerancia_Sai_3)
+                </div>
+            </div>
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+
+            </div>
+        </div>
+        <div class="col-md-2" style="padding-left:0px; padding-right:0px">
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.Tolerancia_Ent_4, new { @class = "form-control input-sm timeL", @placeholder = "--:--", id = string.Format("txtTolerancia_Ent_4{0}", Model.Dia) })
+                    @Html.ValidationMessageFor(model => model.Tolerancia_Ent_4)
+                </div>
+            </div>
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+
+            </div>
+            <div class="col-md-4" style="padding-left:0px; padding-right:0px">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.Tolerancia_Sai_4, new { @class = "form-control input-sm timeL", @placeholder = "--:--", id = string.Format("txtTolerancia_Sai_4{0}", Model.Dia) })
+                    @Html.ValidationMessageFor(model => model.Tolerancia_Sai_4)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

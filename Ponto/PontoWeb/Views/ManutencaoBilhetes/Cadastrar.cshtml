@@ -1,0 +1,134 @@
+﻿@model Modelo.BilhetesImp
+@{
+    ViewBag.Title = "Manutenção de Bilhetes";
+    Layout = null;
+}
+
+@using (Html.BeginForm("Cadastrar", "ManutencaoBilhetes", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+{
+    <div class="divCenterPequeno">
+        <div class="panel panel-default">
+            <div class="panel-heading salvando">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="xfecharCadastroModal">X</button>
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo">
+                @Html.ValidationMessage("CustomError")
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.idMarcacao)
+                @Html.HiddenFor(model => model.Incdata)
+                @Html.HiddenFor(model => model.Inchora)
+                @Html.HiddenFor(model => model.Incusuario)
+                @Html.HiddenFor(model => model.Altdata)
+                @Html.HiddenFor(model => model.Althora)
+                @Html.HiddenFor(model => model.Altusuario)
+                @Html.HiddenFor(model => model.Ordem)
+                @Html.HiddenFor(model => model.Func)
+                @Html.HiddenFor(model => model.Relogio)
+                @Html.HiddenFor(model => model.Importado)
+                @Html.HiddenFor(model => model.Ent_sai)
+                @Html.HiddenFor(model => model.Chave)
+                @Html.HiddenFor(model => model.DsCodigo)
+                @Html.HiddenFor(model => model.Ocorrencia)
+                @Html.HiddenFor(model => model.Motivo)
+                @Html.HiddenFor(model => model.Idjustificativa)
+                @Html.HiddenFor(model => model.Mar_data)
+                @Html.HiddenFor(model => model.Mar_hora)
+                @Html.HiddenFor(model => model.Mar_relogio)
+                @Html.HiddenFor(model => model.Data)
+                @Html.HiddenFor(model => model.Hora)
+                @Html.HiddenFor(model => model.Nsr)
+                @Html.HiddenFor(model => model.IdFuncionario)
+                @Html.HiddenFor(model => model.PIS)
+                @Html.HiddenFor(model => model.IdLancamentoLoteFuncionario)
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel panel-primary" id="pnlData" style="margin-top:7px; padding-top:0px;">
+                            <div class=" panel-heading" style="margin-top:0; margin-bottom:0; padding-top:0; padding-bottom:0px;">Bilhete</div>
+                            <div class="panel-body" style="margin-top:0; margin-bottom:0; padding-top:0; padding-bottom:5px;">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Data, new { @class = "control-label label-sm" })
+                                            @Html.TextBox("Data", Model.Data.ToShortDateString(), new { @class = "form-control  input-sm date", id = "data", @readonly = true })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Hora, new { @class = "control-label label-sm" })
+                                            @Html.TextBoxFor(model => model.Hora, "{0:HH:mm}", new { @class = "form-control  input-sm timeL", @placeholder = "--:--", @readonly = true })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="panel panel-primary" id="pnlData" style="margin-top:7px; padding-top:0px;">
+                            <div class=" panel-heading" style="margin-top:0; margin-bottom:0; padding-top:0; padding-bottom:0px;">Marcação</div>
+                            <div class="panel-body" style="margin-top:0; margin-bottom:0; padding-top:0; padding-bottom:5px;">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Mar_data, new { @class = "control-label label-sm" })
+                                            @Html.TextBox("Data", Convert.ToDateTime(Model.Mar_data).ToShortDateString(), new { @class = "form-control  input-sm date", id = "data", @readonly = true })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Mar_hora, new { @class = "control-label label-sm" })
+                                            @Html.TextBoxFor(model => model.Mar_hora, "{0:HH:mm}", new { @class = "form-control  input-sm timeL", @placeholder = "--:--", @readonly = true })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 bg-danger" style="text-align:center; margin-top:5px">
+                    <label class="text-danger">Atenção!!! A manutenção é baseada na data do bilhete.</label>
+                </div>
+                @Html.LabelFor(model => model.tipoManutencao, new { @class = "control-label label-sm" })
+                @Html.DropDownListFor(model => model.tipoManutencao, cwkPontoWeb.Models.Helpers.EnumHelper.GetSelectedItemList<Modelo.Listas.ManutBilhete>(1), new { @class = "form-control input-sm", style = "height: 25px;" })
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando">
+                                <span class="glyphicon glyphicon-ok-circle salvando"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <button type="button" data-dismiss="modal" aria-hidden="true" id="fecharCadastroModal" class="btn btn-danger salvando"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        cwk_EventoIncluirAjaxParam('#fecharCadastroModal', 'Grid', 'ManutencaoBilhetes', parametros = { id: idMarcacao }, "");
+        cwk_EventoIncluirAjaxParam('#xfecharCadastroModal', 'Grid', 'ManutencaoBilhetes', parametros = { id: idMarcacao }, "");
+        cwk_DataCalendario('#btndata', '#data');
+        $('form').submit(function () {
+            if ($(this).valid()) {
+                cwk_SalvaCadastroAjaxProgress(this, "", callBackSalvaManutBilhete, true);
+            }
+            return false;
+        });
+
+        function callBackSalvaManutBilhete() {
+            carregaGridMarcacao();
+            cwk_CadastroAjaxParam('Grid', 'ManutencaoBilhetes', idMarcacao, parametros = { id: idMarcacao }, "");
+        }
+    });
+</script>
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}

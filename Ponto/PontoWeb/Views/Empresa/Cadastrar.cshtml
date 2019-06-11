@@ -1,0 +1,461 @@
+﻿@model Modelo.Empresa
+@{
+    ViewBag.Title = "Cadastrar Empresa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    bool integrado = false;
+    if (Model.IdIntegracao.GetValueOrDefault() > 0 && ViewBag.BloqueiaDadosIntegrados)
+    {
+        integrado = true;
+    }    
+    
+}
+
+@using (Html.BeginForm())
+{
+    
+    @Html.HiddenFor(model => model.BDAlterado);
+    @Html.HiddenFor(model => model.Bloqueiousuarios);
+    @Html.HiddenFor(model => model.bPrincipal);
+    @Html.HiddenFor(model => model.ExportacaoHorasAbonadas);
+    @Html.HiddenFor(model => model.ModuloRefeitorio);
+    @Html.HiddenFor(model => model.nomeCodigo);
+    @Html.HiddenFor(model => model.Quantidade);
+    @Html.HiddenFor(model => model.Relatorioabsenteismo);
+    @Html.HiddenFor(model => model.relatorioInconsistencia);
+    @Html.HiddenFor(model => model.TipoLicenca);
+    @Html.HiddenFor(model => model.UltimoAcesso);
+    @Html.HiddenFor(model => model.UtilizaControleContratos);
+    @Html.HiddenFor(model => model.Validade);    
+    @Html.HiddenFor(model => model.Numeroserie);
+    @Html.HiddenFor(model => model.IDRevenda);
+    @Html.HiddenFor(model => model.Codigo);
+    @Html.HiddenFor(model => model.Incdata);
+    @Html.HiddenFor(model => model.Inchora);
+    @Html.HiddenFor(model => model.Incusuario);
+    @Html.HiddenFor(model => model.Altdata);
+    @Html.HiddenFor(model => model.Althora);
+    @Html.HiddenFor(model => model.Altusuario);
+    @Html.HiddenFor(model => model.utilizaregistradorfunc);
+    @Html.HiddenFor(model => model.IdIntegracao);
+    
+    <div class="divCenterMedio">
+        <div class="panel panel-default" style="padding:0">
+            <div class="panel-heading salvando">
+                @Html.ActionLink("X", "Grid", "Empresa", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">Cadastro de Empresa</h3>
+            </div>
+            <div class="panel-body panelConteudo">
+                <!-- Tab panel -->
+                <div class="tabbable" style="margin-top:0;">
+                    <ul class="nav nav-tabs" id="hnTab">
+                        <li class="active"><a href="#pnlEmpresa" data-toggle="tab" id="liPnlEmpresa" style="padding:5px;">Empresa</a></li>
+                        <li><a href="#pnlPainelRH" data-toggle="tab" id="liPnlPainelRH" style="padding:5px;">Configurações Painel do RH</a></li>
+                    </ul>
+                    <div class="tab-content" style="padding-top:5px;">
+                        @*Empresa*@
+                        <div class="tab-pane fade in active" id="pnlEmpresa">
+                            <div class="col-md-9">
+
+
+                                @Html.ValidationMessage("CustomError")
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
+                                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm", @disabled = true })
+                                            @Html.ValidationMessageFor(model => model.Codigo)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.CEI, new { @class = "control-label label-sm" })
+                                            @Html.TextBoxFor(model => model.CEI, new { @class = "form-control  input-sm cei" }).IsReadonly(integrado)
+                                            @Html.ValidationMessageFor(model => model.CEI)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Cnpj, new { @class = "control-label label-sm" })
+                                            @Html.TextBoxFor(model => model.Cnpj, new { @class = "form-control  input-sm cnpj" }).IsReadonly(integrado)
+                                            @Html.ValidationMessageFor(model => model.Cnpj)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Cpf, new { @class = "control-label label-sm" })
+                                            @Html.TextBoxFor(model => model.Cpf, new { @class = "form-control  input-sm cpf" }).IsReadonly(integrado)
+                                            @Html.ValidationMessageFor(model => model.Cpf)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Nome, new { @class = "control-label label-sm" })
+                                            @Html.TextBoxFor(model => model.Nome, new { @class = "form-control  input-sm" }).IsReadonly(integrado)
+                                            @Html.ValidationMessageFor(model => model.Nome)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Endereco, new { @class = "control-label label-sm" })
+                                            @Html.TextBoxFor(model => model.Endereco, new { @class = "form-control  input-sm" }).IsReadonly(integrado)
+                                            @Html.ValidationMessageFor(model => model.Endereco)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Cidade, new { @class = "control-label label-sm" })
+                                            @Html.TextBoxFor(model => model.Cidade, new { @class = "form-control  input-sm" }).IsReadonly(integrado)
+                                            @Html.ValidationMessageFor(model => model.Cidade)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Estado, new { @class = "control-label label-sm" })
+                                            @if (integrado)
+                                            {
+                                            @Html.TextBoxFor(model => model.Estado, new { @class = "form-control  input-sm" }).IsReadonly(integrado)   
+                                            }
+                                            else
+	                                        {
+                                            @Html.DropDownListFor(model => model.Estado, ViewBag.Estados as SelectList, new { @class = "form-control  input-sm", style = "height: 25px;" })
+	                                        }
+                                            @Html.ValidationMessageFor(model => model.Estado)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Cep, new { @class = "control-label label-sm" })
+                                            @Html.TextBoxFor(model => model.Cep, new { @class = "form-control  input-sm cep" }).IsReadonly(integrado)
+                                            @Html.ValidationMessageFor(model => model.Cep)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" style="padding-top:1px; padding-bottom:0px">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label class="control-label label-sm">Data para fechamento do ponto</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-3 ">
+                                                <div class="form-group input-group-sm">
+                                                    @Html.LabelFor(model => model.DiaFechamentoInicial, new { @class = "control-label label-sm" })
+                                                    @Html.TextBoxFor(model => model.DiaFechamentoInicial, new { @class = "form-control input-sm", onkeypress = "return apenasNumero(event)", type = "number" })
+                                                    @Html.ValidationMessageFor(model => model.DiaFechamentoInicial)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group input-group-sm">
+                                                    @Html.LabelFor(model => model.DiaFechamentoFinal, new { @class = "control-label label-sm" })
+                                                    @Html.TextBoxFor(model => model.DiaFechamentoFinal, new { @class = "form-control input-sm", onkeypress = "return apenasNumero(event)", type = "number" })
+                                                    @Html.ValidationMessageFor(model => model.DiaFechamentoFinal)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <p></p>
+                                @Html.HiddenFor(model => model.EmpresaLogo.Id)
+                                @Html.HiddenFor(model => model.EmpresaLogo.IdEmpresa)
+                                @Html.HiddenFor(model => model.EmpresaLogo.Codigo)
+                                @Html.HiddenFor(model => model.EmpresaLogo.Incdata)
+                                @Html.HiddenFor(model => model.EmpresaLogo.Inchora)
+                                @Html.HiddenFor(model => model.EmpresaLogo.Incusuario)
+                                @Html.HiddenFor(model => model.EmpresaLogo.Altdata)
+                                @Html.HiddenFor(model => model.EmpresaLogo.Althora)
+                                @Html.HiddenFor(model => model.EmpresaLogo.Altusuario)
+                                <div class="well" style="padding-top:5px; padding-bottom:5px;">
+                                    <div class="row table-bordered" style="background-color: white; padding-top: 5px; padding-bottom: 5px;">
+                                        <div>
+                                            <div class="row" style="padding-bottom:5px;">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-12" style="text-align:center">
+                                                        <canvas id="meuCanvas" width="640" height="480" class="hidden"></canvas>
+                                                        <img id="imgFunc" alt="Foto" class="img-responsive img-thumbnail" src="data:image/jpg;base64,@Model.EmpresaLogo.Logo" />
+                                                        @Html.ValidationMessageFor(model => model.EmpresaLogo.Logo)
+                                                        @Html.HiddenFor(model => model.EmpresaLogo.Logo, new { id = "base" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="text-align:center">
+                                                <span class="btn btn-primary btn-sm btn-file">
+                                                    <span class="glyphicon glyphicon-folder-open"></span>
+                                                    <input type="file" name="imgUp" value="" id="imgUp" data-errormsg="Tipo de imagem incorreta!">
+                                                </span>
+                                                <button class="btn btn btn-danger btn-sm" type="button" id="imgDelete"><span class="glyphicon glyphicon-trash"></span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12"><div class="col-md-2">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.TipoHorarioPadraoFunc, new { @class = "control-label label-sm" })
+                                    @Html.DropDownListFor(model => model.TipoHorarioPadraoFunc, cwkPontoWeb.Models.Helpers.EnumHelper.GetSelectedItemList<Modelo.Listas.TipoHorario>(1), new { @class = "form-control input-sm", style = "height: 25px;" })
+                                    @Html.HiddenFor(model => model.TipoHorarioPadraoFunc)
+                                    @Html.ValidationMessageFor(model => model.TipoHorarioPadraoFunc)
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.NomeHorario, new { @class = "control-label label-sm" })
+                                    <div class="input-group input-group-sm">
+                                        @Html.TextBoxFor(model => model.NomeHorario, new { @class = "form-control  input-sm", id = "lkpHorario" })
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary" id="btnHorario" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                        </span>
+                                    </div>
+                                    @Html.HiddenFor(model => model.NomeHorario)
+                                    @Html.ValidationMessageFor(model => model.NomeHorario)
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        @*Painel RH*@
+                        <div class="tab-pane fade" id="pnlPainelRH">
+                            <div class="col-md-9">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" style="padding-top:1px; padding-bottom:0px">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label class="control-label label-sm">Período para justificativas</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.BloqueiaJustificativaForaPeriodo, new { @class = "control-label label-sm" })
+                                                    @Html.CheckBoxFor(model => model.BloqueiaJustificativaForaPeriodo, new { @class = "checkbox" })
+                                                    @Html.ValidationMessageFor(model => model.BloqueiaJustificativaForaPeriodo)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 ">
+                                                <div class="form-group input-group-sm">
+                                                    @Html.LabelFor(model => model.DtInicioJustificativa, new { @class = "control-label label-sm" })
+                                                    @Html.TextBoxFor(model => model.DtInicioJustificativa, new { @class = "form-control input-sm", onkeypress = "return apenasNumero(event)", type = "number" })
+                                                    @Html.ValidationMessageFor(model => model.DtInicioJustificativa)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group input-group-sm">
+                                                    @Html.LabelFor(model => model.DtFimJustificativa, new { @class = "control-label label-sm" })
+                                                    @Html.TextBoxFor(model => model.DtFimJustificativa, new { @class = "form-control input-sm", onkeypress = "return apenasNumero(event)", type = "number" })
+                                                    @Html.ValidationMessageFor(model => model.DtFimJustificativa)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-3">
+                                <div class="row">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.PermiteClassHorasExtrasPainel, new { @class = "control-label label-sm" })
+                                        @Html.CheckBoxFor(model => model.PermiteClassHorasExtrasPainel, new { @class = "checkbox" })
+                                        @Html.ValidationMessageFor(model => model.PermiteClassHorasExtrasPainel)
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.PermiteAbonoParcialPainel, new { @class = "control-label label-sm" })
+                                        @Html.CheckBoxFor(model => model.PermiteAbonoParcialPainel, new { @class = "checkbox" })
+                                        @Html.ValidationMessageFor(model => model.PermiteAbonoParcialPainel)
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.LimitarQtdAbono, new { @class = "control-label label-sm" })
+                                        @Html.CheckBoxFor(model => model.LimitarQtdAbono, new { @class = "checkbox" })
+                                        @Html.ValidationMessageFor(model => model.LimitarQtdAbono)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger salvando"
+                               href="@Url.Action("Grid", "Empresa")">
+                                <span class="glyphicon glyphicon-remove"></span> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        $(':input:enabled:visible:not([readonly]):first').focus();
+        cwk_EventoConsulta("#btnHorario", "#lkpHorario", "EventoConsulta", "Horario", "#TipoHorarioPadraoFunc");
+    });
+        var errorArray = new Array();
+
+        $("#Cnpj").blur(function () {
+            var valorCnpj = $("#Cnpj").val();
+            if ((valida_cnpj(valorCnpj)) ||
+                !(notNull(valorCnpj)))
+            {
+                limpaErro(this.name);
+            }
+            else {
+                errorArray["Cnpj"] = "CNPJ inválido";
+                $("form").validate().showErrors(errorArray);
+            }
+        });
+
+        
+        $("#Cpf").blur(function () {
+            var valorCpf = $("#Cpf").val();
+            if ((valida_cpf(valorCpf)) ||
+                !(notNull(valorCpf))){
+                limpaErro(this.name);
+            }
+            else {
+                errorArray["Cpf"] = "CPF inválido";
+                $("form").validate().showErrors(errorArray);
+                
+            }
+        });
+
+        function notNull(valor)
+        {         
+            if (valor != "" && !(valor.match(/^\s+$/)))
+            {             
+                return true;         
+            }
+            else
+            {             
+                return false; 
+            }
+        }
+    $("#imgUp").change(function () {
+        readImage(this)
+    });
+
+    function verificaTamanhoImagem(img, arquivo) {
+        $(img).one("load", function () {
+            var size = 0;
+            if (typeof arquivo.files !== 'undefined') {
+                size = arquivo.files[0].size;
+            }
+            if ((size > 1048576)) {
+                mboxResizeImage(img, size);
+            } else {
+                mudaPropriedade('#imgFunc', 'src', img.src);
+                $('#base').val(img.src);
+            }
+        }).each(function () {
+            if (this.complete) $(this).load();
+        });
+    }
+
+
+        /*Funções js para carregar imagem*/
+        function readImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                var img = new Image();
+
+                reader.onload = function (e) {
+                    $(img).attr('src', e.target.result);
+                    $(img).prop('src', e.target.result);
+                    verificaTamanhoImagem(img, input);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function mboxResizeImage(img, tamanho) {
+            var tamanhoMb = ((tamanho / 1024) / 1024).toFixed(3);
+            var msg = "Tamanho máximo permitido (1 MB) para imagem foi excedido, a imagem possui " + tamanhoMb + " MB, Deseja redimensionar?";
+            return messageBoxYesNoOption(msg, "Confirmação", "Sim", "Não",
+            function () {
+                resizeImage(img);
+            },
+            function () {
+                mudaPropriedade('#imgUp', 'value', "");
+            });
+        }
+
+        function resizeImage(img) {
+            var widthMaximo = 1024;
+            var perc = (widthMaximo * 100) / img.width;
+            var wid  = ((img.width * perc) / 100);
+            var heig = ((img.height * perc) / 100);
+
+            var newDataUri = newImageToDataUrl(img, wid, heig);
+
+            mudaPropriedade('#imgFunc', 'src', newDataUri);
+            $('#base').val(newDataUri);
+        }
+
+        function newImageToDataUrl(img, width, height) {
+            var canvas = document.getElementById('meuCanvas');
+            canvas.setAttribute("width", width);
+            canvas.setAttribute("height", height);
+
+            ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            return canvas.toDataURL("image/jpeg");
+        }
+
+        $("#imgDelete").click(function () {
+            if (confirm('Deseja realmente excluir a foto?')) {
+                var imagemVazia = base64ToDataUri("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");
+
+                mudaPropriedade('#imgFunc', 'src', imagemVazia);
+                $('#base').val(imagemVazia);
+
+            }
+        });
+
+        function mudaPropriedade(idComponente, prop, valor) {
+            $(idComponente).attr(prop, valor);
+            $(idComponente).prop(prop, valor);
+        }
+
+        function base64ToDataUri(base64) {
+            return 'data:image/png;base64,' + base64;
+        }
+    /*Fim Funções js para carregar imagem*/
+
+        $("#TipoHorarioPadraoFunc").change(function () {
+            $("#lkpHorario").val('');
+        });
+
+</script>
+
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        var errorArray = new Array();
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}

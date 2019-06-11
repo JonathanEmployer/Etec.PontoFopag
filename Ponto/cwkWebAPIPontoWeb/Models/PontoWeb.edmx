@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="cworkpontoadmModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="rep">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codigo" Type="int" Nullable="false" />
+          <Property Name="numserie" Type="varchar" MaxLength="20" />
+          <Property Name="local" Type="varchar" MaxLength="100" />
+          <Property Name="incdata" Type="datetime" />
+          <Property Name="inchora" Type="datetime" />
+          <Property Name="incusuario" Type="varchar" MaxLength="20" />
+          <Property Name="altdata" Type="datetime" />
+          <Property Name="althora" Type="datetime" />
+          <Property Name="altusuario" Type="varchar" MaxLength="20" />
+          <Property Name="numrelogio" Type="varchar" MaxLength="4" />
+          <Property Name="relogio" Type="smallint" />
+          <Property Name="senha" Type="varchar" MaxLength="20" />
+          <Property Name="tipocomunicacao" Type="smallint" />
+          <Property Name="porta" Type="varchar" MaxLength="10" />
+          <Property Name="ip" Type="varchar" MaxLength="15" />
+          <Property Name="qtdDigitos" Type="int" Nullable="false" />
+          <Property Name="biometrico" Type="bit" Nullable="false" />
+          <Property Name="idempresa" Type="int" />
+          <Property Name="idequipamentohomologado" Type="int" />
+        </EntityType>
+        <EntityContainer Name="cworkpontoadmModelStoreContainer">
+          <EntitySet Name="rep" EntityType="Self.rep" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="cworkpontoadmModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="rep">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codigo" Type="Int32" Nullable="false" />
+          <Property Name="numserie" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="local" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="incdata" Type="DateTime" Precision="3" />
+          <Property Name="inchora" Type="DateTime" Precision="3" />
+          <Property Name="incusuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="altdata" Type="DateTime" Precision="3" />
+          <Property Name="althora" Type="DateTime" Precision="3" />
+          <Property Name="altusuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="numrelogio" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="relogio" Type="Int16" />
+          <Property Name="senha" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="tipocomunicacao" Type="Int16" />
+          <Property Name="porta" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ip" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="qtdDigitos" Type="Int32" Nullable="false" />
+          <Property Name="biometrico" Type="Boolean" Nullable="false" />
+          <Property Name="idempresa" Type="Int32" />
+          <Property Name="idequipamentohomologado" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="cworkpontoadmEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="rep" EntityType="Self.rep" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="cworkpontoadmModelStoreContainer" CdmEntityContainer="cworkpontoadmEntities">
+          <EntitySetMapping Name="rep">
+            <EntityTypeMapping TypeName="cworkpontoadmModel.rep">
+              <MappingFragment StoreEntitySet="rep">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="codigo" ColumnName="codigo" />
+                <ScalarProperty Name="numserie" ColumnName="numserie" />
+                <ScalarProperty Name="local" ColumnName="local" />
+                <ScalarProperty Name="incdata" ColumnName="incdata" />
+                <ScalarProperty Name="inchora" ColumnName="inchora" />
+                <ScalarProperty Name="incusuario" ColumnName="incusuario" />
+                <ScalarProperty Name="altdata" ColumnName="altdata" />
+                <ScalarProperty Name="althora" ColumnName="althora" />
+                <ScalarProperty Name="altusuario" ColumnName="altusuario" />
+                <ScalarProperty Name="numrelogio" ColumnName="numrelogio" />
+                <ScalarProperty Name="relogio" ColumnName="relogio" />
+                <ScalarProperty Name="senha" ColumnName="senha" />
+                <ScalarProperty Name="tipocomunicacao" ColumnName="tipocomunicacao" />
+                <ScalarProperty Name="porta" ColumnName="porta" />
+                <ScalarProperty Name="ip" ColumnName="ip" />
+                <ScalarProperty Name="qtdDigitos" ColumnName="qtdDigitos" />
+                <ScalarProperty Name="biometrico" ColumnName="biometrico" />
+                <ScalarProperty Name="idempresa" ColumnName="idempresa" />
+                <ScalarProperty Name="idequipamentohomologado" ColumnName="idequipamentohomologado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

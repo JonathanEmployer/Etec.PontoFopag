@@ -1,0 +1,428 @@
+﻿@model Modelo.Parametros
+@{
+    ViewBag.Title = "Cadastro de Parâmetro";
+}
+
+@*<style>
+        .input-group-addon {
+        background-color: #fff;
+    }
+    </style>*@
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.Id, new { id = "idParametro" });
+    @Html.HiddenFor(model => model.Incdata);
+    @Html.HiddenFor(model => model.Inchora);
+    @Html.HiddenFor(model => model.Incusuario);
+    @Html.HiddenFor(model => model.Altdata);
+    @Html.HiddenFor(model => model.Althora);
+    @Html.HiddenFor(model => model.Altusuario);
+    @Html.HiddenFor(model => model.TipoCompactador);
+    @Html.HiddenFor(model => model.ArquivoBackup);
+    @Html.HiddenFor(model => model.FazerBackupEntrada);
+    @Html.HiddenFor(model => model.FazerBackupSaida);
+    @Html.HiddenFor(model => model.FaltaEmDias);
+    @Html.HiddenFor(model => model.ImprimirNumRelogio);
+
+    <div class="divCenterPequeno">
+        <div class="panel panel-default" style="padding:0px; margin-bottom: 0px">
+            <div class="panel-heading salvando">
+                @Html.ActionLink("X", "Grid", "Parametro", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo"  id="panelBodyMaximo">
+                @Html.ValidationMessage("CustomError")
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Codigo)
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Descricao, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Descricao, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Descricao)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="padding-top:5px;padding-bottom:0px">
+                                @Html.Label("Adicional Noturno", new { @class = "control-label" })
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        @Html.LabelFor(model => model.InicioAdNoturno, new { @class = "control-label label-sm editor-label" })
+                                        @Html.TextBoxFor(model => model.InicioAdNoturno, new { @class = "form-control  input-sm editor-field timeL", @placeholder = "22:00" })
+                                        @Html.ValidationMessageFor(model => model.InicioAdNoturno)
+                                    </div>
+                                    <div class="col-md-6">
+                                        @Html.LabelFor(model => model.FimAdNoturno, new { @class = "control-label label-sm editor-label" })
+                                        @Html.TextBoxFor(model => model.FimAdNoturno, new { @class = "form-control  input-sm editor-field timeL", @placeholder = "05:00" })
+                                        @Html.ValidationMessageFor(model => model.FimAdNoturno)
+                                    </div>
+                                </div>
+                                <p></p>
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.PercAdicNoturno, new { @class = "control-label label-sm editor-label" })
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(model => model.PercAdicNoturno, new { @class = "form-control  input-sm editor-field", @placeholder = "20,00" })
+                                                <span class="input-group-addon">%</span>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.PercAdicNoturno)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.ReducaoHoraNoturna, new { @class = "control-label label-sm editor-label" })
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(model => model.ReducaoHoraNoturna, new { @class = "form-control  input-sm editor-field", @placeholder = "8/7" })
+                                                <span id="SpanCalcRed" class="input-group-addon alert alert-danger">18</span>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.ReducaoHoraNoturna)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="checkbox" style="margin:2px">
+                                            <label>
+                                                @Html.CheckBoxFor(model => model.Flg_Separar_Trabalhadas_Noturna_Extras_Noturna)
+                                                @Html.LabelFor(model => model.Flg_Separar_Trabalhadas_Noturna_Extras_Noturna, new { @class = "control-label label-sm",  @style="font-weight: bold;" })
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p></p>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="padding-top:5px;padding-bottom:0px">
+                                <a href="javascript:void(0);" onclick="InfoMomentoAssinalada()">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                                </a>
+                                @Html.Label("Gerar o Intervalo Automático no ", new { @class = "control-label" })
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-6">
+                                    <div class="radio-inline" data-toggle="radio">
+                                        @Html.RadioButtonFor(model => model.MomentoPreAssinalado, 1, new { id = "idRdInicioJornada", name = "rdio" })
+                                        @Html.Label("lbInicioJornada", "Início Jornada", new { @class = "control-label label-sm", @for = "idRdInicioJornada" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="radio-inline" data-toggle="radio">
+                                        @Html.RadioButtonFor(model => model.MomentoPreAssinalado, 0, new { id = "idRdFimJornada", name = "rdio" })
+                                        @Html.Label("lbFimJornada", "Fim Jornada", new { @class = "control-label label-sm", @for = "idRdFimJornada" })
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    @Html.ValidationMessageFor(model => model.MomentoPreAssinalado)
+                                </div>
+                            </div>
+                        </div>
+                            <p></p>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="padding-top:5px;padding-bottom:0px">
+                                @Html.Label("Tolerâncias", new { @class = "control-label" })
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-12 col-xs-6">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="row">&nbsp;</div>
+                                            @Html.Label("lbExcedente", "Excedente", new { @class = "control-label label-sm" })
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.THoraExtraEntrada, new { @class = "control-label label-sm" })
+                                                        @Html.TextBoxFor(model => model.THoraExtraEntrada, new { @class = "form-control  input-sm timeL", @placeholder = "00:05" })
+                                                        @Html.ValidationMessageFor(model => model.THoraExtraEntrada)
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.TIntervaloExtra, new { @class = "control-label label-sm" })
+                                                        @Html.TextBoxFor(model => model.TIntervaloExtra, new { @class = "form-control  input-sm timeL", @placeholder = "00:05" })
+                                                        @Html.ValidationMessageFor(model => model.TIntervaloExtra)
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.THoraExtraSaida, new { @class = "control-label label-sm" })
+                                                        @Html.TextBoxFor(model => model.THoraExtraSaida, new { @class = "form-control  input-sm timeL", @placeholder = "00:05" })
+                                                        @Html.ValidationMessageFor(model => model.THoraExtraSaida)
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.THoraExtra, new { @class = "control-label label-sm" })
+                                                        @Html.TextBoxFor(model => model.THoraExtra, new { @class = "form-control  input-sm timeL", @placeholder = "00:10" })
+                                                        @Html.ValidationMessageFor(model => model.THoraExtra)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12  col-xs-6">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="row">&nbsp;</div>
+                                            @Html.Label("lbFalta", "Falta", new { @class = "control-label label-sm" })
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.THoraFaltaEntrada, new { @class = "control-label label-sm" })
+                                                        @Html.TextBoxFor(model => model.THoraFaltaEntrada, new { @class = "form-control  input-sm timeL", @placeholder = "00:05" })
+                                                        @Html.ValidationMessageFor(model => model.THoraFaltaEntrada)
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.TIntervaloFalta, new { @class = "control-label label-sm" })
+                                                        @Html.TextBoxFor(model => model.TIntervaloFalta, new { @class = "form-control  input-sm timeL", @placeholder = "00:05" })
+                                                        @Html.ValidationMessageFor(model => model.TIntervaloFalta)
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.THoraFaltaSaida, new { @class = "control-label label-sm" })
+                                                        @Html.TextBoxFor(model => model.THoraFaltaSaida, new { @class = "form-control  input-sm timeL", @placeholder = "00:05" })
+                                                        @Html.ValidationMessageFor(model => model.THoraFaltaSaida)
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.THoraFalta, new { @class = "control-label label-sm" })
+                                                        @Html.TextBoxFor(model => model.THoraFalta, new { @class = "form-control  input-sm timeL", @placeholder = "00:10" })
+                                                        @Html.ValidationMessageFor(model => model.THoraFalta)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-xs-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="row">&nbsp;</div>
+                                            @Html.Label("lbToleranciaAdicionalNoturno", "Tolerância Adicional Noturno", new { @class = "control-label label-sm" })
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.Label("lbToleranciaAdicionalNoturnoMinutos", "Minutos", new { @class = "control-label label-sm" })
+                                                @Html.TextBoxFor(model => model.ToleranciaAdicionalNoturnoStr, new { @class = "form-control input-sm", @placeholder = "00", @Style = "width: 46px" })
+                                            </div>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.ToleranciaAdicionalNoturnoStr)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="checkbox" style="margin:2px">
+                                <label>
+                                    @Html.CheckBoxFor(model => model.TipoHoraExtraFaltaBool)
+                                    @Html.LabelFor(model => model.TipoHoraExtraFaltaBool, new { @class = "control-label label-sm" })
+                                    @Html.ValidationMessageFor(model => model.TipoHoraExtraFaltaBool)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkbox" style="margin:2px">
+                                <label>
+                                    @Html.CheckBoxFor(model => model.ImprimeResponsavelBool)
+                                    @Html.LabelFor(model => model.ImprimeResponsavelBool, new { @class = "control-label label-sm" })
+                                    @Html.ValidationMessageFor(model => model.ImprimeResponsavelBool)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="checkbox" style="margin:2px">
+                                <label>
+                                    @Html.CheckBoxFor(model => model.ExportarValorZeradoBool)
+                                    @Html.LabelFor(model => model.ExportarValorZeradoBool, new { @class = "control-label label-sm" })
+                                    @Html.ValidationMessageFor(model => model.ExportarValorZeradoBool)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkbox" style="margin:2px">
+                                <label>
+                                    @Html.CheckBoxFor(model => model.ImprimeObservacaoBool)
+                                    @Html.LabelFor(model => model.ImprimeObservacaoBool, new { @class = "control-label label-sm" })
+                                    @Html.ValidationMessageFor(model => model.ImprimeObservacaoBool)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="checkbox" style="margin:2px">
+                                <label>
+                                    @Html.CheckBoxFor(model => model.HabilitarControleInItinere)
+                                    @Html.LabelFor(model => model.HabilitarControleInItinere, new { @class = "control-label label-sm" })
+                                    @Html.ValidationMessageFor(model => model.HabilitarControleInItinere)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group" style="margin:0px">
+                                @Html.LabelFor(model => model.CampoObservacao, new { @class = "control-label label-sm" })
+                                @Html.TextBoxFor(model => model.CampoObservacao, new { @class = "form-control  input-sm" })
+                                @Html.ValidationMessageFor(model => model.CampoObservacao)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-12 center-block">
+                    <div style="text-align: right">
+                        <button type="submit" class="btn btn-success salvando">
+                            <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                        </button>
+                        <a class="btn btn-danger salvando"
+                           href="@Url.Action("Grid", "Parametro")">
+                            <span class="glyphicon glyphicon-remove"></span> Cancelar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    var errorArray = new Array();
+
+    $(document).ready(function () {
+        $(":input[type='text']:enabled:visible:first").focus();
+        var redHora = $('#ReducaoHoraNoturna').val();
+        ValidaReducaoHoraNoturna(redHora);
+    });
+
+    $('#ReducaoHoraNoturna').on('input', function () {
+        var redHora = $('#ReducaoHoraNoturna').val();
+        ValidaReducaoHoraNoturna(redHora);
+    });
+
+    function ValidaReducaoHoraNoturna(valor) {
+        try {
+            if (valor.indexOf('/') >= 0) {
+                result = eval(valor);
+                $('#SpanCalcRed').text(result);
+                $('#SpanCalcRed').removeClass("alert");
+                $('#SpanCalcRed').removeClass("alert-danger");
+                $('#SpanCalcRed').removeClass("glyphicon");
+                $('#SpanCalcRed').removeClass("glyphicon-remove-sign");
+            }
+            else {
+                addErroReducaoHoraNoturna();
+            }
+        } catch (err) {
+            addErroReducaoHoraNoturna();
+        }
+    }
+
+    $("#ReducaoHoraNoturna").keydown(function (e) {
+        var key = e.charCode || e.keyCode || 0;
+        if (key == 111 || key == 191) {
+            var ultCarac = $(this).val().slice(-1);
+            console.log('achou = ' + ultCarac);
+            if (ultCarac == "/") {
+                console.log('Anterior era barra = ' + ultCarac);
+                return false;
+            }
+        }
+
+        return (
+            key == 8 || //(backspace)
+            key == 9 || //(tab)
+            key == 13 || //(Enter)
+            key == 46 || //(Delete)
+            key == 110 || //(Insert)
+            key == 111 || //(/ Num lock)
+            key == 191 || //(/)
+            (key >= 35 && key <= 40) || //(Setas)
+            (key >= 48 && key <= 57) || //(Numeros)
+            (key >= 96 && key <= 105)); //(Numeros Num lock)
+    });
+
+    function addErroReducaoHoraNoturna() {
+        $('#SpanCalcRed').text('');
+        $('#SpanCalcRed').addClass("alert");
+        $('#SpanCalcRed').addClass("alert-danger");
+        $('#SpanCalcRed').addClass("glyphicon");
+        $('#SpanCalcRed').addClass("glyphicon-remove-sign");
+    }
+
+    $('form').submit(function () {
+        if ($(this).valid() && validaForm()) {
+            return true;
+        }
+        return false;
+    });
+
+    function validaForm() {
+        if ($('#SpanCalcRed').hasClass("alert-danger")) {
+            var msgErro = 'Regra inválida!';
+            if ($('#ReducaoHoraNoturna').val() == "" || $('#ReducaoHoraNoturna').val() == null || $('#ReducaoHoraNoturna').val() == undefined) {
+                msgErro = 'Campo obrigatório';
+            }
+            errorArray["ReducaoHoraNoturna"] = msgErro;
+            cwkErro(msgErro);
+            $("form").validate().showErrors(errorArray);
+            return false;
+        }
+        else {
+            errorArray["ReducaoHoraNoturna"] = null;
+            $("form").validate().showErrors(errorArray);
+            return true;
+        }
+    }
+
+    $("#ReducaoHoraNoturna").focusin(function () {
+        limpaErro('ReducaoHoraNoturna')
+    });
+
+    function InfoMomentoAssinalada() {
+        cwkMensagem('<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Parâmetro responsável por controlar em qual momento o registro de Intervalo Automático será gerado quando parametrizado para ser gerado', '<p><b>Início da Jornada:</b> será gerado quando o funcionário começar a jornada de trabalho</p> <p><b>Fim da Jornada:</b> será gerado quando o funcionário terminar a jornada de trabalho (padrão do sistema)</p>')
+    }
+</script>
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}

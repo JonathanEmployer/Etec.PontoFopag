@@ -1,0 +1,208 @@
+﻿@using System.Web.Optimization
+@model Modelo.RegistraPonto
+@{
+    Layout = null;
+    ViewBag.Title = "Registra Ponto";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Styles.Render("~/content/logincss")
+</head>
+
+<body>
+    <!--[if gte IE 9]>
+    <style type="text/css">.cwork-formBg {filter: none;}</style><![endif]-->
+    @using (Html.BeginForm())
+    {
+        <div class="divback">
+            <div id="wrap">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-8 col-xs-10 cwork-form-RegPonto">
+                            <img class="img-responsive" src="~/Content/img/cwork-logo-form-re.png" style="margin-left:auto; margin-right:auto;">
+                            <div style="text-align:center;">
+                                @Html.Label(Model.HoraRegistroPonto, new { @class = "DigitalDismay", id = "lbHora" })
+                            </div>
+                            @Html.ValidationMessage("CustomError", new { @class = "label cwork-label-erro bg-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CPF, new { @class = "cwork-label" })
+                                @Html.TextBoxFor(model => model.CPF, new { @class = "form-control cpf login", @placeholder = "CPF", @autofocus = "autofocus" })
+                                @Html.ValidationMessageFor(model => model.CPF, null, new { @class = "label cwork-label-erro bg-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Senha, new { @class = "cwork-label" })
+                                @Html.PasswordFor(model => model.Senha, new { @class = "form-control login", @placeholder = "Senha" })
+                                @Html.ValidationMessageFor(model => model.Senha, null, new { @class = "label cwork-label-erro bg-danger" })
+                            </div>
+                            <button type="submit" value="registrar" name="action" class="btn btn-default btn-block"><span class="glyphicon glyphicon-time"> </span> <b>Registrar</b></button>
+                            <button type="button" class="btn btn-default btn-block" data-toggle="modal" data-target="#ModalImprimir" id="btnCartaoPonto">
+                                <span class="glyphicon glyphicon-file"> </span> <b>Cartão Ponto</b>
+                            </button>
+                            <img class="logo-bottom-form" src="~/Content/img/cwork-logo-form2.png">
+                        </div>
+                    </div>
+                </div>
+                <div id="push"></div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="ModalImprimir" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Escolha o Formato</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-3 col-md-offset-3">
+                                    <button type="submit" value="cartaopdf" name="action" class="btn btn-default btnImprimir"><img class="img-responsive" src="~/Content/img/pdf48.png" /></button>
+                                </div>
+                                @*<div class="col-md-3">
+                                        <button type="submit" value="cartaoexcel" name="action" class="btn btn-default btnImprimir"><img class="img-responsive" src="~/Content/img/excel48.png" /></button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="submit" value="cartaoword" name="action" class="btn btn-default btnImprimir"><img class="img-responsive" src="~/Content/img/word48.png" /></button>
+                                    </div>*@
+                                <div class="col-md-3">
+                                    <button type="submit" value="cartaoimage" name="action" class="btn btn-default btnImprimir"><img class="img-responsive" src="~/Content/img/img48.png" /></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        if (ViewBag.comprovante)
+        {
+            <div class="modal fade" id="modalComprovante" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content" style="background-color: #f5ecbe;">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title" id="myModalLabel" style="text-align:center">Comprovante de Registro de Ponto</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <form class="form-horizontal">
+                                <div class="form-group" style="padding:0;margin:0">
+                                    @Html.LabelFor(model => model.empresa, new { @class = "col-sm-2 control-label" })
+                                    <div class="col-sm-10" style="padding-left:0;">
+                                        @Html.Label("", Model.empresa, new { @class = "control-label" })
+                                    </div>
+                                </div>
+                                <div class="form-group" style="padding:0;margin:0">
+                                    @Html.LabelFor(model => model.cnpj, new { @class = "col-sm-2 control-label" })
+                                    <div class="col-sm-10" style="padding-left:0;">
+                                        @Html.Label("", Model.cnpj, new { @class = "control-label" })
+                                    </div>
+                                </div>
+                                <div class="form-group" style="padding:0;margin:0">
+                                    @Html.LabelFor(model => model.nome, new { @class = "col-sm-2 control-label" })
+                                    <div class="col-sm-10" style="padding-left:0;">
+                                        @Html.Label("", Model.nome, new { @class = "control-label" })
+                                    </div>
+                                </div>
+                                <div class="form-group" style="padding:0;margin:0">
+                                    @Html.LabelFor(model => model.pis, new { @class = "col-sm-2 control-label" })
+                                    <div class="col-sm-10" style="padding-left:0;">
+                                        @Html.Label("", Model.pis, new { @class = "control-label pis" })
+                                    </div>
+                                </div>
+                                <div class="form-group" style="padding:0;margin:0">
+                                    @Html.LabelFor(model => model.data, new { @class = "col-sm-2 control-label" })
+                                    <div class="col-sm-4" style="padding-left:0;">
+                                        @Html.Label("", Model.data, new { @class = "control-label" })
+                                    </div>
+                                    @Html.LabelFor(model => model.hora, new { @class = "col-sm-2 control-label" })
+                                    <div class="col-sm-4" style="padding-left:0;">
+                                        @Html.Label("", Model.hora, new { @class = "control-label" })
+                                    </div>
+                                </div>
+                                <div class="form-group" style="padding:0;margin:0">
+                                    @Html.LabelFor(model => model.ns, new { @class = "col-sm-2 control-label" })
+                                    <div class="col-sm-10" style="padding-left:0;">
+                                        @Html.Label("", Model.ns, new { @class = "control-label" })
+                                    </div>
+                                </div>
+                                <div class="form-group" style="padding:0;margin:0">
+                                    <label class="col-sm-3 control-label"></label>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.LabelFor(model => model.Entrada_1, new { @class = "control-label" })</div>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.LabelFor(model => model.Saida_1, new { @class = "control-label" })</div>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.LabelFor(model => model.Entrada_2, new { @class = "control-label" })</div>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.LabelFor(model => model.Saida_2, new { @class = "control-label" })</div>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.LabelFor(model => model.Entrada_3, new { @class = "control-label" })</div>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.LabelFor(model => model.Saida_3, new { @class = "control-label" })</div>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.LabelFor(model => model.Entrada_4, new { @class = "control-label" })</div>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.LabelFor(model => model.Saida_4, new { @class = "control-label" })</div>
+                                </div>
+                                <div class="form-group" style="padding:0;margin:0">
+                                    <label class="col-sm-3 control-label">Jornada:</label>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.Label(Model.JEntrada_1, new { @class = "control-label" })</div>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.Label(Model.JSaida_1, new { @class = "control-label" })</div>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.Label(Model.JEntrada_2, new { @class = "control-label" })</div>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.Label(Model.JSaida_2, new { @class = "control-label" })</div>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.Label(Model.JEntrada_3, new { @class = "control-label" })</div>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.Label(Model.JSaida_3, new { @class = "control-label" })</div>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.Label(Model.JEntrada_4, new { @class = "control-label" })</div>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.Label(Model.JSaida_4, new { @class = "control-label" })</div>
+                                </div>
+                                <div class="form-group" style="padding:0;margin:0">
+                                    <label class="col-sm-3 control-label">Marcações:</label>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.Label(Model.Entrada_1, new { @class = "control-label" })</div>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.Label(Model.Saida_1, new { @class = "control-label" })</div>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.Label(Model.Entrada_2, new { @class = "control-label" })</div>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.Label(Model.Saida_2, new { @class = "control-label" })</div>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.Label(Model.Entrada_3, new { @class = "control-label" })</div>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.Label(Model.Saida_3, new { @class = "control-label" })</div>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.Label(Model.Entrada_4, new { @class = "control-label" })</div>
+                                    <div class="col-sm-1" style="padding-left:0;">@Html.Label(Model.Saida_4, new { @class = "control-label" })</div>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-ok"></span> Fechar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    @Scripts.Render("~/bundles/loginjs")
+    @Scripts.Render("~/bundles/RegistraPontojs")
+    <script>
+        $(window).load(function () {
+            if ('@ViewBag.comprovante' == 'True') {
+                $('#modalComprovante').modal('show');
+            }
+        });
+
+        var hora = $("#lbHora").text();
+        var hr = hora.split(':');
+        var d = new Date(); // Criando uma data
+        d.setHours(+hr[0]);  // Colocando a hora
+        d.setMinutes(hr[1]);
+        d.setSeconds(hr[2]);
+        var rel = setInterval(function () {
+            relogio();
+        }, 1000);
+        function relogio() {
+            d.setSeconds(d.getSeconds() + 1);
+            $("#lbHora").text(formataHHMMSS(d));
+        }
+
+        $(".btnImprimir").click(function () {
+            $('#ModalImprimir').modal('hide');
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,196 @@
+﻿@model Modelo.Relatorios.RelatorioClassificacaoHorasExtrasModel
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Relatório de Classificação de Horas Extras";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="">
+        <div class="panel panel-default" style="padding:0px;margin-bottom:0">
+            <div class="panel-heading">
+                @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo" id="panelBodyFixodivCenter">
+                @Html.ValidationSummary(true)
+                @Html.ValidationMessage("CustomError", new { id = "CustomError" })
+                @Html.HiddenFor(model => model.TipoArquivo, new { id = "tipoArquivo" })
+                <div>
+                    <div class="row" style="padding-bottom:2px">
+                        <div id="divPeriodo" class="col-md-5">
+                            <div class="panel panel-default" id="pnlData">
+                                <div class="panel-heading" style="padding-top:5px; padding-bottom:5px">
+                                    <div class="row">
+                                        <div class="col-md-2"><label class="control-label label-sm">Período</label></div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <div class="input-group input-group-sm">
+                                                        @Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "InicioPeriodo" })
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-primary" id="btnDtInicio" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    @Html.Label("a", new { @class = "label-sm" })
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div class="input-group input-group-sm">
+                                                        @Html.TextBoxFor(model => Model.FimPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "FimPeriodo" })
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-primary" id="btnDtFim" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                @Html.HiddenFor(model => model.Intervalo)
+                                                @Html.ValidationMessageFor(model => model.Intervalo)
+                                                @Html.ValidationMessageFor(model => Model.InicioPeriodo)
+                                                @Html.ValidationMessageFor(model => Model.FimPeriodo)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divTipo" class="col-md-5">
+                            <div class="panel panel-default" id="pnlTipo">
+                                <div class="panel-heading" style="padding-top:5px; padding-bottom:5px">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="control-label label-sm">Tipo Classificação</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group input-group-sm" style="padding-bottom:20px">
+                                                <div class="col-md-4">
+                                                    <div class="row">
+                                                        <div class="radio-inline" data-toggle="radio">
+                                                            @Html.RadioButtonFor(model => model.TipoSelecao, 0, new { id = "rdbTotal", name = "rdioTipoClass" })
+                                                            <label class="label-sm" for="rdbTotal">Todas</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="row">
+                                                        <div class="radio-inline" data-toggle="radio">
+                                                            @Html.RadioButtonFor(model => model.TipoSelecao, 1, new { id = "rdbClassificadas", name = "rdioTipoClass" })
+                                                            <label class="label-sm" for="rdbClassificadas">Classificadas</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="row">
+                                                        <div class="radio-inline" data-toggle="radio">
+                                                            @Html.RadioButtonFor(model => model.TipoSelecao, 2, new { id = "rdbNClassificadas", name = "rdioTipoClass" })
+                                                            <label class="label-sm" for="rdbNClassificadas">Não Classificadas</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.TipoSelecao)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.HiddenFor(x => x.IdSelecionados)
+                            @Html.ValidationMessageFor(x => x.IdSelecionados)
+                            <div class="row">
+                                @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorio()).GetType(), true, "GetFuncsRel", "GetFuns")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.Partial("../JobManager/JobView")
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-6 center-block">
+                        <div style="text-align: left">
+                            <div class="checkbox" style="margin:0">
+                                <label>
+                                    @Html.HiddenFor(model => model.OrdenarPorDepartamento, new { id = "bOrdenaDepto" })
+                                    @Html.HiddenFor(model => model.OrdenarPorDepartamento, new { @class = "control-label label-sm", @for = "bOrdenaDepto" })
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" id="btnPDF" class="btn btn-primary btnEnviar"><span class="fa fa-file-pdf-o"></span>&nbsp; PDF</button>
+                            <button type="submit" id="btnExcel" class="btn btn-primary btnEnviar"><span class="fa fa-file-excel-o"></span>&nbsp; Excel</button>
+                            <button type="submit" id="btnHTML" class="btn btn-primary btnEnviar"><span class="fa fa-eye"></span>&nbsp; Visualizar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    var errorArray = new Array();
+    cwk_DataCalendario('#btnDtInicio', '#InicioPeriodo');
+    cwk_DataCalendario('#btnDtFim', '#FimPeriodo');
+    $(document).ready(function () {
+        $('#tbFun tbody').on('click', 'tr', function () {
+            errorArray["IdSelecionados"] = null;
+            $("form").validate().showErrors(errorArray);
+        });
+
+    });
+
+    $(".btnEnviar").click(function (event) {
+        if (!validaForm()) {
+            event.preventDefault();
+        }
+        else {
+            $("#tipoArquivo").val($(this).attr('id').replace('btn', ''));
+        }
+    });
+
+    $('form').submit(function () {
+        if ($(this).valid()) {
+            PostFormJob(this);;
+        }
+        return false;
+    });
+
+    function validaForm() {
+        $("#IdSelecionados").val(GetSelecionados('tbFun'));
+        if ($("#IdSelecionados").val().length <= 0 || $("#IdSelecionados").val() == '' || $("#IdSelecionados").val() == null) {
+            var msgErro = 'Para Imprimir o Relatório é Necessário Selecionar Pelo Menos um Funcionário.';
+            errorArray["IdSelecionados"] = msgErro;
+            cwkErro(msgErro);
+            $("form").validate().showErrors(errorArray);
+            return false;
+        }
+        else {
+            errorArray["IdSelecionados"] = null;
+            $("form").validate().showErrors(errorArray);
+            return true;
+        }
+    }
+</script>

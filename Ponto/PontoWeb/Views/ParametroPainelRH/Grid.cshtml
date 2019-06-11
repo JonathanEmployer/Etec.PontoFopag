@@ -1,0 +1,73 @@
+
+@model IEnumerable<Modelo.ParametroPainelRH>
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Parâmetros Painel do RH";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="divCenterMedio">
+    <div class="panel panel-default" style="padding:0">
+        <div class="panel-heading">
+            @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+            <h3 class="panel-title titulo-pagina">Parâmetros Painel do RH</h3>
+        </div>
+        <div class="panel-body panelConteudo" id="panelBodyFixo">
+            @Html.ValidationSummary(true)
+            <div class="div_table_highlight">
+                <table id="tb">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>@Html.DisplayNameFor(x => x.FirstOrDefault().IntegraPainel)</th>
+<th>@Html.DisplayNameFor(x => x.FirstOrDefault().UsuarioAPIPainel)</th>
+<th>@Html.DisplayNameFor(x => x.FirstOrDefault().SenhaAPIPainel)</th>
+<th>@Html.DisplayNameFor(x => x.FirstOrDefault().PermiteAprovarMarcacaoImpar)</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr id="@item.Id">
+                                <td>@item.Codigo</td>
+                                <td>@item.IntegraPainel</td>
+<td>@item.UsuarioAPIPainel</td>
+<td>@item.SenhaAPIPainel</td>
+<td>@item.PermiteAprovarMarcacaoImpar</td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-12 center-block">
+                    <div style="text-align: right">
+                        <a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
+                        <a href="#" id="btIncluir" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
+                        <a href="#" id="btAlterar" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
+                        <a href="#" id="btExcluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var oTb = cwk_MontarDataTableTheme('#tb', '@ViewBag.Title', false, "", "");
+    jQuery(document).ready(function () {
+        var controller = 'ParametroPainelRH';
+        cwk_EventoDbClickEditar('Alterar', controller, '#tb', oTb);
+        cwk_EventoClickSelecionarSingle('#tb');
+        cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', controller);
+        cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', controller, oTb);
+        cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', controller, oTb);
+        cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir', controller, oTb, 'Parâmetros Painel do RH excluída com sucesso.');
+    });
+</script>
+

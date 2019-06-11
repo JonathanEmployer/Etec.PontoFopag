@@ -1,0 +1,86 @@
+﻿@model IEnumerable<PontoWeb.Models.departamento>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Relatório de Departamento</title>
+</head>
+<body>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.codigo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.descricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idempresa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.incdata)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.inchora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.incusuario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.altdata)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.althora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.altusuario)
+            </th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.codigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.idempresa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.incdata)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.inchora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.incusuario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.altdata)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.althora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.altusuario)
+            </td>
+        </tr>
+    }
+    
+    </table>
+    <div style="padding:10px; border:1px solid black">
+        <div><a href="@Url.Action("RelCartaoPonto", new { tipoArquivo = "PDF" })">Gerar PDF</a></div>
+        <div><a href="@Url.Action("RelCartaoPonto", new { tipoArquivo = "Excel" })">Gerar Exel</a></div>
+        <div><a href="@Url.Action("RelCartaoPonto", new { tipoArquivo = "Word" })">Gerar Word</a></div>
+        <div><a href="@Url.Action("RelCartaoPonto", new { tipoArquivo = "Image" })">Gerar Imagem</a></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+﻿@model Modelo.RateioHorasExtras
+<div class="row">
+    <div class="col-md-4">
+        @Html.Label(String.Format("{0:000}", Model.percentual), new { @class = "control-label" })
+        @Html.Label("%", new { @class = "control-label" })
+    </div>
+    <div class="col-md-3">
+        @Html.Label(Model.diurno, new { @class = "control-label" })
+    </div>
+    <div class="col-md-3">
+        @Html.Label(Model.noturno, new { @class = "control-label" })
+    </div>
+</div>

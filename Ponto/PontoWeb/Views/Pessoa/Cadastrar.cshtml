@@ -1,0 +1,152 @@
+﻿@model Modelo.Pessoa
+@{
+    ViewBag.Title = "Cadastrar Pessoa";
+    bool integrado = false;
+    if (Model.IdIntegracao.GetValueOrDefault() > 0 && ViewBag.BloqueiaDadosIntegrados)
+    {
+        integrado = true;
+    }    
+}
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.IdIntegracao);
+    <div class="divCenterPequeno">
+        <div class="panel panel-default" style="padding:0">
+            <div class="panel-heading salvando">
+                @Html.ActionLink("X", "Grid", "Pessoa", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">Cadastro de Pessoa</h3>
+            </div>
+            <div class="panel-body panelConteudo">
+                @Html.ValidationMessage("CustomError")
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm" }).IsReadonly(integrado)
+                            @Html.ValidationMessageFor(model => model.Codigo)
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            <div class="row">
+                                @Html.LabelFor(model => model.TipoPessoa, new { @class = "control-label label-sm" })
+                            </div>
+
+                            <div class="row">
+                                <div class="radio-inline" data-toggle="radio">
+                                    @Html.RadioButtonFor(model => model.TipoPessoa, 0, new { id = "idRadioFisico", name = "rdio"})
+                                    @Html.Label("lbFisico", "Física", new { @class = "control-label label-sm", @for = "idRadioFisico" })
+                                </div>
+                                <div class="radio-inline" data-toggle="radio">
+                                    @Html.RadioButtonFor(model => model.TipoPessoa, 1, new { id = "idRadioJuridico", name = "rdio"})
+                                    @Html.Label("lbJuridico", "Jurídica", new { @class = "control-label label-sm", @for = "idRadioJuridico" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CNPJ_CPF, new { @class = "control-label label-sm", id = "lbCNPJ_CPF" })
+                            @Html.TextBoxFor(model => model.CNPJ_CPF, new { @class = "form-control  input-sm" }).IsReadonly(integrado)
+                            @Html.ValidationMessageFor(model => model.CNPJ_CPF)
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Insc_RG, new { @class = "control-label label-sm", id = "lbInsc_RG" })
+                            @Html.TextBoxFor(model => model.Insc_RG, new { @class = "form-control  input-sm" }).IsReadonly(integrado)
+                            @Html.ValidationMessageFor(model => model.Insc_RG)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.RazaoSocial, new { @class = "control-label label-sm", id = "lbRazaoSocial" })
+                            @Html.TextBoxFor(model => model.RazaoSocial, new { @class = "form-control  input-sm" }).IsReadonly(integrado)
+                            @Html.ValidationMessageFor(model => model.RazaoSocial)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Fantasia, new { @class = "control-label label-sm", id = "lbFantasia" })
+                            @Html.TextBoxFor(model => model.Fantasia, new { @class = "form-control  input-sm" }).IsReadonly(integrado)
+                            @Html.ValidationMessageFor(model => model.Fantasia)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Email, new { @class = "control-label label-sm" })
+                            <div class="input-group input-group-sm">
+                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control  input-sm" }).IsReadonly(integrado)
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default glyphicon glyphicon-exclamation-sign" onclick="cwkNotificacao('Para informar vários e-mails separe-os com: ;(ponto e vírgula)')" type="button" style="margin-top:-3px"></button>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Email)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger salvando"
+                               href="@Url.Action("Grid", "Pessoa")">
+                                <span class="glyphicon glyphicon-remove"></span> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>   
+    $(document).ready(function () {
+        ValidaPessoa('@Model.TipoPessoa');
+        $(':input:enabled:visible:not([readonly]):first').focus();
+    });
+
+    $('input:radio[name=TipoPessoa]').change(function () {
+        ValidaPessoa($(this).val());
+    });
+
+    function ValidaPessoa(valor) {
+        $("#CNPJ_CPF").unmask();
+        if (valor == 0) {
+            $("#lbCNPJ_CPF").html('CPF');
+            $("#lbInsc_RG").html('RG');
+            $("#lbRazaoSocial").html('Nome');
+            $("#lbFantasia").html('Apelido');
+            $("#CNPJ_CPF").mask('000.000.000-00', { reverse: true });
+        }
+        else {
+            $("#lbCNPJ_CPF").html('CNPJ');
+            $("#lbInsc_RG").html('Inscrição Estadual');
+            $("#lbRazaoSocial").html('Razão Social');
+            $("#lbFantasia").html('Fantasia');
+            $("#CNPJ_CPF").mask('00.000.000/0000-00');
+        }
+    }
+</script>
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+
+    </script>
+}

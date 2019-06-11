@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Modelo.Cw_Grupo>
+@using System.Web.Optimization
+
+@{
+    Layout = "~/Views/Shared/_LayoutConsulta.cshtml";
+}
+<table id="tbSel" class="table table-striped table-bordered table-hover table-condensed nowrap" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Nome</th>
+            <th>Acesso</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr id="@item.Id">
+                <td>@item.Codigo</td>
+                <td>@item.Nome</td>
+                <td>@item.StrAcesso</td>
+            </tr>
+        }
+</table>
+

@@ -1,0 +1,321 @@
+﻿@model Modelo.TotalHoras
+@{
+    ViewBag.Title = "Resumo de Horas";
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    <div class="divCenterMedio">
+        <div class="panel panel-default">
+            <div class="panel-heading salvando">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="fecharModalResumo">X</button>
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo">
+                @Html.ValidationMessage("CustomError")
+                <div class="panel panel-default">
+                    <div class="panel-body" style="padding-bottom:0">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.Label("Funcionário: ", new { @class = "control-label label-sm", style = "text-align: right; width:84px;" })
+                                @Html.Label(Model.funcionario.Dscodigo, new { @class = "control-label label-sm" }) -
+                                @Html.Label(Model.funcionario.Nome, new { @class = "control-label label-sm" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                @Html.Label("Matrícula: ", new { @class = "control-label label-sm", style = "text-align: right; width:84px;" })
+                                @Html.Label(Model.funcionario.Matricula, new { @class = "control-label label-sm" })
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.Label("Período", new { @class = "control-label label-sm" }):
+                                    @Html.Label((string)@ViewBag.Periodo, new { @class = "control-label label-sm" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:5px">
+                    @*Horas Trabalhadas*@
+                    <div class="col-md-3">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading" style="padding: 5px; text-align:center">
+                                <h3 class="panel-title">Horas Trabalhadas</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-6" style="padding: 0 5px 0 0">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading" style="padding: 5px; text-align:center">
+                                            <h3 class="panel-title">Diurna</h3>
+                                        </div>
+                                        <div class="panel-body" style="text-align:center; padding:5px">
+                                            <div>
+                                                @Html.Label(Model.horasTrabDiurna, new { @class = "control-label" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="padding:0">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading" style="padding: 5px; text-align:center">
+                                            <h3 class="panel-title">Noturna</h3>
+                                        </div>
+                                        <div class="panel-body" style="text-align:center; padding:5px">
+                                            @Html.Label(Model.horasTrabNoturna, new { @class = "control-label" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*Horas Extras*@
+                    <div class="col-md-3">
+                        <div class="panel panel-success">
+                            <div class="panel-heading" style="padding-top:5px; padding-bottom:5px; text-align:center">
+                                <h3 class="panel-title">Horas Extras</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-6" style="padding: 0 5px 0 0">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading" style="padding: 5px; text-align:center">
+                                            <h3 class="panel-title">Diurna</h3>
+                                        </div>
+                                        <div class="panel-body" style="text-align:center; padding:5px">
+                                            <div>
+                                                @Html.Label(Model.horasExtraDiurna, new { @class = "control-label" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="padding:0">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading" style="padding: 5px; text-align:center">
+                                            <h3 class="panel-title">Noturna</h3>
+                                        </div>
+                                        <div class="panel-body" style="text-align:center; padding:5px">
+                                            @Html.Label(Model.horasExtraNoturna, new { @class = "control-label" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*Horas Faltas*@
+                    <div class="col-md-6">
+                        <div class="panel panel-danger">
+                            <div class="panel-heading" style="padding: 5px; text-align:center">
+                                <h3 class="panel-title">Horas Faltas</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-4" style="padding: 0 5px 0 0">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading" style="padding: 5px; text-align:center">
+                                            <h3 class="panel-title">Diurna</h3>
+                                        </div>
+                                        <div class="panel-body" style="text-align:center; padding:5px">
+                                            <div>
+                                                @Html.Label(Model.horasFaltaDiurna, new { @class = "control-label" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" style="padding: 0 5px 0 0">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading" style="padding: 5px; text-align:center">
+                                            <h3 class="panel-title">Noturna</h3>
+                                        </div>
+                                        <div class="panel-body" style="text-align:center; padding:5px">
+                                            @Html.Label(Model.horasFaltaNoturna, new { @class = "control-label" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" style="padding:0">
+                                    <div class="panel panel-warning">
+                                        <div class="panel-heading" style="padding: 5px; text-align:center">
+                                            <h3 class="panel-title">DSR</h3>
+                                        </div>
+                                        <div class="panel-body" style="text-align:center; padding:5px">
+                                            @Html.Label(Model.horasDDSR, new { @class = "control-label" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:5px">
+                    @*Percentual das Horas Extras*@
+                    <div class="col-md-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading" style="padding-top:5px; padding-bottom:5px; text-align:center">
+                                <h3 class="panel-title">Percentual das Horas Extras</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                @Html.Label("Hora Extra", new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-md-3">
+                                                @Html.Label("Diurna", new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-md-3">
+                                                @Html.Label("Noturna", new { @class = "control-label" })
+                                            </div>
+                                        </div>
+                                        @Html.EditorFor(model => model.lRateioHorasExtras)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*Banco de Horas*@
+                    <div class="col-md-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading" style="padding-top:5px; padding-bottom:5px; text-align:center">
+                                <h3 class="panel-title">Banco de Horas</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-6" style="padding:0; padding-right:5px">
+                                    @{
+    string classResultado = "panel-primary";
+    if (Model.creditoBHPeriodoMin > Model.debitoBHPeriodoMin)
+    {
+        classResultado = "panel-success";
+    }
+    if (Model.creditoBHPeriodoMin < Model.debitoBHPeriodoMin)
+    {
+        classResultado = "panel-danger";
+    }
+                                    }
+                                    <div class="panel @classResultado">
+                                        <div class="panel-heading" style="padding-top:5px; padding-bottom:5px; text-align:center">
+                                            <h3 class="panel-title">Resultado Período</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="col-md-6" style="padding: 0 5px 0 0">
+                                                <div class="panel panel-success">
+                                                    <div class="panel-heading" style="padding: 5px; text-align:center">
+                                                        <h3 class="panel-title">Crédito</h3>
+                                                    </div>
+                                                    <div class="panel-body" style="text-align:center; padding:10px">
+                                                        <div>
+                                                            @Html.Label(Model.creditoBHPeriodo, new { @class = "control-label" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" style="padding:0">
+                                                <div class="panel panel-danger">
+                                                    <div class="panel-heading" style="padding: 5px; text-align:center">
+                                                        <h3 class="panel-title">Débito</h3>
+                                                    </div>
+                                                    <div class="panel-body" style="text-align:center; padding:10px">
+                                                        @Html.Label(Model.debitoBHPeriodo, new { @class = "control-label" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="padding:0;">
+                                    @{
+                                        string classSaldo = "panel-success";
+                                        if (Model.sinalSaldoBHAtual == '-')
+                                        {
+                                            classSaldo = "panel-danger";
+                                        }
+                                    }
+                                    <div class="panel @classSaldo">
+                                        <div class="panel-heading" style="padding-top:5px; padding-bottom:5px; text-align:center">
+                                            <h3 class="panel-title">Saldo</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                @Html.Label("Anterior: ", new { @class = "control-label label-sm", style = "text-align: right; width:60px;" })
+                                                @Html.Label(Model.saldoAnteriorBH, new { @class = "control-label label-sm" })
+                                                @if (Model.sinalSaldoAnteriorBH == '+')
+                                                {
+                                                    @Html.Label("Crédito", new { @class = "control-label label-sm" })
+                                                }
+                                                else if (Model.sinalSaldoAnteriorBH == '-')
+                                                { @Html.Label("Débito", new { @class = "control-label label-sm" }) }
+                                            </div>
+                                            <div class="row">
+                                                @Html.Label("Mês: ", new { @class = "control-label label-sm", style = "text-align: right; width:60px;" })
+                                                @Html.Label(Model.saldoBHPeriodo, new { @class = "control-label label-sm" })
+                                                @if (Model.sinalSaldoBHPeriodo == '+')
+                                            {
+                                                    @Html.Label("Crédito", new { @class = "control-label label-sm" })
+                                            }
+                                            else if (Model.sinalSaldoBHPeriodo == '-')
+                                            { @Html.Label("Débito", new { @class = "control-label label-sm" }) }
+                                            </div>
+                                            <div class="row">
+                                                @Html.Label("Atual: ", new { @class = "control-label label-sm", style = "text-align: right; width:60px;" })
+                                                @Html.Label(Model.saldoBHAtual, new { @class = "control-label label-sm" })
+                                                @if (Model.sinalSaldoBHAtual == '+')
+                                            {
+                                                    @Html.Label("Crédito", new { @class = "control-label label-sm" })
+                                            }
+                                            else if (Model.sinalSaldoBHAtual == '-')
+                                            { @Html.Label("Débito", new { @class = "control-label label-sm" }) }
+                                            </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if (Model.HabilitarControleInItinere)
+                {
+                    <div class="row" style="margin-top:5px">
+                        @*Horas In Itinere*@
+                        <div class="col-md-6">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading" style="padding-top:5px; padding-bottom:5px; text-align:center">
+                                    <h3 class="panel-title">In Itinere</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-4">@Html.Label("Percentual", new { @class = "control-label label-sm" })</div>
+                                        <div class="col-md-4">@Html.Label("Horas", new { @class = "control-label label-sm" })</div>
+                                    </div>
+                                    @foreach (var grupo in Model.GruposPercentual)
+                                    {
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                @Html.Label(((int)grupo.Percentual).ToString(), new { @class = "control-label label-sm" })
+                                            </div>
+                                            <div class="col-md-4">
+                                                @Html.Label(grupo.TempoTotal.ToString(@"hh\:mm"), new { @class = "control-label label-sm" })
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="button" data-dismiss="modal" aria-hidden="true" id="fecharCadastroModal" class="btn btn-danger salvando"><span class="glyphicon glyphicon-remove"></span> Fechar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $("#fecharModalResumo").click(function () {
+        $("#divLoadCadastroModal").hide();
+    });
+</script>

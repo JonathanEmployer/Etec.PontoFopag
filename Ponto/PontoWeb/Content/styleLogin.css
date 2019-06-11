@@ -1,0 +1,361 @@
+/*====== Cwork Ponto ======*/
+.divback {
+    background-color: rgb(35,83,138);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size:cover;
+    position:absolute;
+	top:0px;
+	left:0;
+	z-index:11;
+	width:100%;
+	height:100%;
+    overflow: hidden;
+}
+
+#wrap {
+  background: url(img/cwork-bg.jpg) center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.cwork-bg {
+position: absolute;
+width: 100%;
+height: 100%;
+overflow: hidden;
+}
+
+.cwork-bg img {
+width: 100%;
+height: 100%;
+}
+
+.cwork-row {
+position: absolute;
+top: 25%;
+}
+
+.cwork-logo {
+top: 190px;
+}
+
+.cwork-logo img {
+  margin-left: -80px;
+}
+
+  .img-registrador {
+      width:70%;
+      height:70%;
+  }
+
+.cwork-form {
+background: #649dc1; /* Old browsers */
+/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzY0OWRjMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjQ2JSIgc3RvcC1jb2xvcj0iIzJmNWY4NiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxMTM2NTUiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+background: -moz-linear-gradient(top,  #649dc1 0%, #2f5f86 46%, #113655 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#649dc1), color-stop(46%,#2f5f86), color-stop(100%,#113655)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #649dc1 0%,#2f5f86 46%,#113655 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #649dc1 0%,#2f5f86 46%,#113655 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #649dc1 0%,#2f5f86 46%,#113655 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #649dc1 0%,#2f5f86 46%,#113655 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#649dc1', endColorstr='#113655',GradientType=0 ); /* IE6-8 */
+padding: 10px 40px 55px;
+border-radius: 7px;
+float: right;
+margin-top: 50px;
+margin-bottom: 30px; border: 1px solid rgba(64, 119, 158, 1);
+-webkit-box-shadow: 0px 0px 0px 7px rgba(67,130,173,1);
+-moz-box-shadow: 0px 0px 0px 7px rgba(67,130,173,1);
+box-shadow: 0px 0px 0px 7px rgba(67, 130, 173, 0.48);
+}
+
+.cwork-form-RegPonto {
+background: #649dc1; /* Old browsers */
+/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzY0OWRjMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjQ2JSIgc3RvcC1jb2xvcj0iIzJmNWY4NiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxMTM2NTUiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+background: -moz-linear-gradient(top,  #649dc1 0%, #2f5f86 46%, #113655 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#649dc1), color-stop(46%,#2f5f86), color-stop(100%,#113655)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #649dc1 0%,#2f5f86 46%,#113655 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #649dc1 0%,#2f5f86 46%,#113655 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #649dc1 0%,#2f5f86 46%,#113655 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #649dc1 0%,#2f5f86 46%,#113655 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#649dc1', endColorstr='#113655',GradientType=0 ); /* IE6-8 */
+padding: 30px 40px 95px;
+border-radius: 7px;
+float:none; 
+margin-left:auto; 
+margin-right:auto;
+margin-top: 50px;
+margin-bottom: 30px
+border: 1px solid rgba(64, 119, 158, 1);
+-webkit-box-shadow: 0px 0px 0px 7px rgba(67,130,173,1);
+-moz-box-shadow: 0px 0px 0px 7px rgba(67,130,173,1);
+box-shadow: 0px 0px 0px 7px rgba(67, 130, 173, 0.48);
+}
+
+@font-face {  
+  font-family: "DigitalDismay";  
+  src: url(fonts/DigitalDismay.otf ); /* IE */  
+  src: local("DigitalDismay"), url(fonts/DigitalDismay.otf ) format("truetype"); /* non-IE */  
+}  
+ 
+.DigitalDismay { font-family: "DigitalDismay", verdana, helvetica, sans-serif;  
+                 font-size: 60pt;
+                 color: white;
+                 align-self:center;  
+}
+
+.cwork-label {
+  color: #fff;
+}
+
+.cwork-label-erro{
+  color: #e96d6d;
+  font-size:small;
+}
+
+.cwork-form form {
+  margin-top: 10px;
+}
+
+.logo-bottom-form {
+    bottom: 0;
+    right: 0;
+    position: absolute;
+}
+
+.lembreme-bottom-form {
+    bottom: 0;
+    position: absolute;
+}
+
+.button-print-bottom {
+    bottom: 4px;
+    left: 4px;
+    position: absolute;
+}
+
+
+
+.footer {
+ padding-top: 15px;
+}
+
+.logo-footer img {
+width: 130px;
+}
+
+
+.footer p {
+  color: #fff;
+}
+
+.footer ul {
+list-style: none;
+}
+
+.footer ul > li {
+  float: left;
+  padding: 0 9px;
+}
+
+.footer ul > li > a {
+ color: #fff;
+}
+
+.social-footer {
+  margin-top: 13px;
+}
+
+.social-footer img:hover {
+margin-top: 1px;
+}
+
+.no-padding-left {
+  padding-left: 0;
+}
+.employer{color:#f7f7f7}
+
+/* Sticky footer styles
+      -------------------------------------------------- */
+
+      html,
+      body {
+        height: 99%;
+        /* The html and body elements cannot have any padding or margin. */
+        background-color: #eee;
+      }
+
+      /* Wrapper for page content to push down footer */
+      #wrap {
+        min-height: 100%;
+        height: auto !important;
+        height: 100%;
+        /* Negative indent footer by it's height */
+        margin: 0 auto -82px;
+      }
+
+      /* Set the fixed height of the footer here */
+      #push,
+      #footer {
+        height: 82px;
+        position: relative;
+      }
+      #footer {
+        background-color: #2E4F72;
+      }
+
+
+      /* Lastly, apply responsive CSS fixes as necessary */
+      @media (max-width: 767px) {
+        #footer {
+          margin-left: -20px;
+          margin-right: -20px;
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      }  
+
+/*===== Responsivo ======*/
+
+@media (min-width: 992px) {
+.cwork-logo img {
+  margin-left: -20px;
+  }
+  .link-footer ul {
+  line-height: 40pt;  
+  }
+  .link-footer ul > li {
+    padding: 0 6px;
+    font-size: 10pt;
+  }
+  .footer p {
+    margin-top: 18px;
+    font-size: 10pt;
+  }
+  #footer {
+    height: auto;
+  }
+  .cwork-form {
+    margin-bottom: 10px;
+  }
+  .social-footer img {
+    width:35px;
+  }
+}
+
+@media (max-height: 680px)
+{
+      .cwork-form-RegPonto{
+      margin-top:30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cwork-logo {
+margin-top: -175px;
+  }
+  .cwork-logo img {
+  margin-left: 0px;
+  }
+
+  .cwork-form {
+    float: none;
+    max-width: 78%;
+    margin: 0 auto 22px;
+    /*margin-top: 210px;*/
+    padding: 10px 15px 50px 15px;
+    overflow: hidden;
+  }
+  .cwork-form form{
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  #footer {
+    height: auto;
+  }
+
+  .row {
+    text-align: center;
+  }
+
+  .footer ul {
+    display: table;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .logo-footer, 
+  .info-footer, 
+  .link-footer,
+  .social-footer{
+    margin-bottom: 20px;
+  }
+  .img-responsive {
+    margin: 0 auto;
+  }
+
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+  #footer {
+    height: auto;
+  }
+  .cwork-logo {
+    margin-top: -175px;
+    width: 350px;
+  }
+  .cwork-logo img {
+    margin-left: 0px;
+  }
+
+  .row {
+    text-align: center;
+  }
+
+  .footer ul {
+    display: table;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .logo-footer, 
+  .info-footer, 
+  .link-footer,
+  .social-footer{
+    margin-bottom: 10px;
+  }
+
+  .cwork-form {
+    float: right;
+    margin: 0 auto;
+    margin-top: 15px;
+    padding: 19px 15px 14px 10px;
+    overflow: hidden;
+    width: 290px
+  }
+  .cwork-form form{
+  margin: 26px 0 51px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .cwork-form {
+    margin-bottom: 20px;
+  }
+}
+
+
+@media (max-width: 479px) {
+  .DigitalDismay { font-family: "DigitalDismay", verdana, helvetica, sans-serif;  
+                 font-size: 42pt;
+                 color: white;
+                 align-self:center;  
+}
+}
+@media (max-width: 359px) {
+  .cwork-form-RegPonto{ margin-top:5px;}
+}

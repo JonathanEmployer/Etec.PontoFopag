@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="91882e45507f49668cd34863cdfcad08" Name="Diagram1">
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.AspNetRoles" Width="1.5" PointX="13.5" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.AspNetUserClaims" Width="1.5" PointX="18" PointY="36.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.AspNetUserLogins" Width="1.5" PointX="18" PointY="39.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.AspNetUsers" Width="1.5" PointX="15.75" PointY="36.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.CentralLicencaOnline" Width="1.5" PointX="10.5" PointY="37.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.cepbr_bairro" Width="1.5" PointX="6" PointY="22.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.cepbr_cidade" Width="1.5" PointX="3.75" PointY="22.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.cepbr_endereco" Width="1.5" PointX="8.25" PointY="22.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.cepbr_estado" Width="1.5" PointX="1.5" PointY="22.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.Cliente" Width="1.5" PointX="5.25" PointY="36" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.ControleGestao" Width="1.5" PointX="3" PointY="28.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.Email" Width="1.5" PointX="3" PointY="31.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.EmailTipo" Width="1.5" PointX="0.75" PointY="35" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.Empresa" Width="1.5" PointX="3" PointY="44.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.Endereco" Width="1.5" PointX="6" PointY="30.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.EnderecoTipo" Width="1.5" PointX="3.75" PointY="19" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.Entidade" Width="1.5" PointX="0.75" PointY="30.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.EnvioDadosRep" Width="1.5" PointX="3" PointY="48.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.EnvioDadosRepDet" Width="1.5" PointX="5.25" PointY="44.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.Funcionarios" Width="1.5" PointX="7.5" PointY="42.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.Pais" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.Pedido" Width="1.5" PointX="10.5" PointY="45.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.PedidoItem" Width="1.5" PointX="12.75" PointY="49.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.PedidoStatus" Width="1.5" PointX="8.25" PointY="60.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.Rep" Width="1.5" PointX="7.5" PointY="46.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.Revenda" Width="1.5" PointX="8.25" PointY="37.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.RevendaCliente" Width="1.5" PointX="10.5" PointY="35" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.Servicos" Width="1.5" PointX="8.25" PointY="32.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.ServicosRevenda" Width="1.5" PointX="10.5" PointY="41" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.Sistemas" Width="1.5" PointX="5.25" PointY="53.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.SistemaServico" Width="1.5" PointX="7.5" PointY="53.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.SistemaServicoTabelaPreco" Width="1.5" PointX="9.75" PointY="53.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.SistemasRevenda" Width="1.5" PointX="13.5" PointY="45.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.SistemaVersao" Width="1.5" PointX="7.5" PointY="57.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.TabelaPreco" Width="1.5" PointX="3" PointY="38" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.TabelaPrecoDetalhe" Width="1.5" PointX="5.25" PointY="48.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.Telefone" Width="1.5" PointX="6" PointY="26.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.TelefoneTipo" Width="1.5" PointX="3.75" PointY="26" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.Unidade" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.Usuario" Width="1.5" PointX="13.5" PointY="35.875" IsExpanded="true" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_AspNetUsers_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_CentralLicensaOnline_Cliente" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_CentralLicensaOnline_Servicos" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_cepbr_bairro_cepbr_cidade" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_cepbr_endereco_cepbr_bairro" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_cepbr_cidade_cepbr_estado" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_cepbr_endereco_cepbr_cidade" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Endereco_cepbr_cidade" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_cepbr_estado_cepbr_estado" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Cliente_Cliente" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Cliente_Empresa" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Cliente_Entidade" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Cliente_Revenda" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Cliente_TabelaPreco" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Funcionario_Cliente" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Pedido_Cliente" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Rep_Cliente" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_RevendaCliente_Cliente" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Usuario_Cliente" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_ControleGestao_ControleGestao" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Email_EmailTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Email_Entidade" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Empresa_Empresa" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Empresa_Entidade" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_EnvioDadosRepDet_empresa1" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Revenda_Empresa" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Sistemas_Empresa" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Usuario_Empresa" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Endereco_Endereco" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Endereco_EnderecoTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Endereco_Entidade" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Revenda_Entidade" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Telefone_Entidade" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Usuario_Entidade" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_EnvioDadosRepDet_EnvioDadosRep1" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Pedido_PedidoStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Pedido_Revenda" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Pedido_Sistemas" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Pedido_SistemaVersao" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Pedido_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_PedidoItem_Pedido" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_PedidoItem_Servicos" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_RevendaCliente_Revenda" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_ServicosRevenda_Revenda" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_SistemasRevenda_Revenda" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Usuario_Revenda" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_ServicosRevenda_Servicos" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_SistemaServico_Servicos" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_SistemaServico_Sistemas" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_SistemasRevenda_Sistemas" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_SistemaVersao_Sistemas" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_SistemaServico_SistemaServico" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_SistemaServicoTabelaPreco_SistemaServico" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_SistemaServicoTabelaPreco_TabelaPreco" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_TabelaPrecoDetalhe_TabelaPreco" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Telefone_TelefoneTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.ParametroServComNet" Width="1.5" PointX="5.375" PointY="1" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK_Cliente_ParametroServComNet" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.RepLog" Width="1.5" PointX="9.75" PointY="56.75" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.fk_Rep_RepLog" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.MensagensTratadasNaoLogar" Width="1.5" PointX="5.375" PointY="4.75" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.Integracao" Width="1.5" PointX="0.75" PointY="6.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

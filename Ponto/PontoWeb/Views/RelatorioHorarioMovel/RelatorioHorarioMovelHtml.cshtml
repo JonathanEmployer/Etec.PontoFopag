@@ -1,0 +1,135 @@
+﻿@model IList<Modelo.Proxy.PxyHorarioMovel>
+<style>
+    .classRelatorio {
+        font-family: 'Arial';
+        font-size: 6pt;
+        text-align: left;
+        font: normal;
+        width: 752px;
+    }
+
+    .Cinza {
+        background-color: rgb(200,200,200);
+        vertical-align: middle;
+    }
+
+    .classtr {
+        font-family: 'Arial';
+        font-size: 6pt;
+        color: black;
+        text-align: center;
+        font: normal;
+        height: 15px;
+    }
+
+    .classNomeRel {
+        font-size: 20px;
+        font: bold;
+        text-align: center;
+    }
+
+    .BordaL {
+        border-left: 1px solid;
+    }
+
+    .BordaB {
+        border-bottom: 1px solid;
+    }
+
+    .BordaT {
+        border-top: 1px solid;
+    }
+
+    .BordaR {
+        border-right: 1px solid;
+    }
+</style>
+@{
+    ViewBag.Title = "Index";
+}
+<div style="background-color:white">
+    <div class="classRelatorio">
+
+        @*Cabeçalho relatório*@
+        
+        <table style="repeat-header: yes; width:100%; font-size: 7pt;" cellspacing="0">
+            <thead>
+                <tr>
+                    <th colspan="15" class="classNomeRel" style="padding-top:20px;">
+                            Relatório Horário Flexível
+                    </th>
+                </tr>                
+                <tr><th class="BordaL BordaT BordaR" colspan="15" style="padding:5px; text-align:left">Código: @Model.FirstOrDefault().Codigo</th></tr>
+                <tr><th class="BordaL BordaR" colspan="15" style="padding:5px; text-align:left">Descrição: @Model.FirstOrDefault().Descricao</th></tr>
+                <tr><th class="BordaL BordaR" colspan="15" style="padding:5px; text-align:left">Período: @Model.FirstOrDefault().DataString - @Model.LastOrDefault().DataString</th></tr>
+
+                <tr class="classtr Cinza">
+                    <th class="BordaL BordaB BordaT" colspan="10" scope="rowgroup"></th>
+                    <th class="BordaL BordaB BordaT" colspan="2" scope="rowgroup">Carga Horária</th>
+                    <th class="BordaL BordaB BordaT" colspan="1" scope="colgroup">Carga</th>
+                    <th class="BordaL BordaB BordaT BordaR" colspan="2" scope="colgroup"></th>
+                </tr>
+                <tr class="classtr Cinza">
+                    <th class="BordaL BordaB Cinza" style=" width: 36px">Data</th>
+                    <th class="BordaL BordaB Cinza" style=" width: 36px">Dia</th>
+                    <th class="BordaL BordaB Cinza" style=" width: 36px">Ent 1</th>
+                    <th class="BordaL BordaB Cinza" style=" width: 36px">Sai 1</th>
+                    <th class="BordaL BordaB Cinza" style=" width: 36px">Ent 2</th>
+                    <th class="BordaL BordaB Cinza" style=" width: 36px">Sai 2</th>
+                    <th class="BordaL BordaB Cinza" style=" width: 36px">Ent 3</th>
+                    <th class="BordaL BordaB Cinza" style=" width: 36px">Sai 3</th>
+                    <th class="BordaL BordaB Cinza" style=" width: 36px">Ent 4</th>
+                    <th class="BordaL BordaB Cinza" style=" width: 36px">Sai 4</th>
+                    <th class="BordaL BordaB Cinza" style=" width: 36px">Diurna</th>
+                    <th class="BordaL BordaB Cinza" style=" width: 36px">Noturna</th>
+                    <th class="BordaL BordaB Cinza" style=" width: 36px">Mista</th>
+                    <th class="BordaL BordaB Cinza" style=" width: 36px">DSR</th>
+                    <th class="BordaL BordaB BordaR Cinza" style=" width: 36px">Folga</th>
+                </tr>
+            </thead>
+            <tbody>
+                    @foreach (IList<Modelo.Proxy.PxyHorarioMovel> horDet in Model.GroupBy(x => new { x.Id }))
+                    {
+                        <tr class="classtr">
+                            <td class="BordaL BordaB" style="width: 36px">@horDet.FirstOrDefault().DataString</td>
+                            <td class="BordaL BordaB" style="width: 36px">@horDet.FirstOrDefault().DiaStr</td>
+                            <td class="BordaL BordaB" style="width: 36px">@horDet.FirstOrDefault().Entrada_1</td>
+                            <td class="BordaL BordaB" style="width: 36px">@horDet.FirstOrDefault().Saida_1</td>
+                            <td class="BordaL BordaB" style="width: 36px">@horDet.FirstOrDefault().Entrada_2</td>
+                            <td class="BordaL BordaB" style="width: 36px">@horDet.FirstOrDefault().Saida_2</td>
+                            <td class="BordaL BordaB" style="width: 36px">@horDet.FirstOrDefault().Entrada_3</td>
+                            <td class="BordaL BordaB" style="width: 36px">@horDet.FirstOrDefault().Saida_3</td>
+                            <td class="BordaL BordaB" style="width: 36px">@horDet.FirstOrDefault().Entrada_4</td>
+                            <td class="BordaL BordaB" style="width: 36px">@horDet.FirstOrDefault().Saida_4</td>
+                            <td class="BordaL BordaB">@horDet.FirstOrDefault().Totaltrabalhadadiurna</td>
+                            <td class="BordaL BordaB">@horDet.FirstOrDefault().Totaltrabalhadanoturna</td>
+                            <td class="BordaL BordaB">@horDet.FirstOrDefault().Cargahorariamista</td>
+                            @if (@horDet.FirstOrDefault().Diadsr == 1)
+                            {
+                                horDet.FirstOrDefault().DSR = "Sim";
+                                <td class="BordaL BordaB">@horDet.FirstOrDefault().DSR</td>
+                            }
+                            else
+                            {
+                                horDet.FirstOrDefault().DSR = "Não";
+                                <td class="BordaL BordaB">@horDet.FirstOrDefault().DSR</td>
+                            }
+                            @if (@horDet.FirstOrDefault().Flagfolga == 1)
+                            {
+                                horDet.FirstOrDefault().Folga = "Sim";
+                                <td class="BordaL BordaB BordaR">@horDet.FirstOrDefault().Folga</td>
+                            }
+                            else
+                            {
+                                horDet.FirstOrDefault().Folga = "Não";
+                                <td class="BordaL BordaB BordaR">@horDet.FirstOrDefault().Folga</td>
+                            }
+                        </tr>
+                    }
+                
+            </tbody>
+        </table>
+        <div style="page-break-after:always">&nbsp;</div>
+
+    </div>
+</div>

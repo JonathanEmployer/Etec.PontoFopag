@@ -1,0 +1,1698 @@
+﻿@model Modelo.Marcacao
+@using System.Linq;
+@{
+    ViewBag.Title = "Manutenção de Marcação";
+    Layout = null;
+}
+
+<style>
+    .divMarcacao {
+        width: 65px;
+        margin-right: 4px;
+        float: left;
+    }
+
+    .btn-alocar {
+        width: 33px;
+    }
+
+    .divTitMarcacao {
+        width: 70px;
+        margin-right: 4px;
+        float: left;
+    }
+
+    .labelTitLinha {
+        width: 76px;
+        font-size: 12px;
+        text-align: right;
+        display: inline-block;
+        margin: 0;
+        padding-right: 6px;
+    }
+
+    .time {
+        padding: 0;
+    }
+
+    .input-group-legenda {
+        font-weight: bold;
+        margin: 0;
+        padding: 0;
+        color: #ad1111;
+        min-width: 10px;
+    }
+
+    .labelRelogio {
+        width: 65px;
+        font-size: 12px;
+        text-align: center;
+        display: inline-block;
+        margin: 0;
+    }
+
+    .pos-abs-l15 {
+        position: absolute;
+        float: left;
+    }
+
+    .pos-abs-r15 {
+        position: absolute;
+        right: 15px;
+    }
+
+    .dis-flex-space-between {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
+        align-content: stretch;
+    }
+
+    .dis-flex-center {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        align-content: stretch;
+    }
+
+        .dis-flex-center > button {
+            font-size: 26px;
+            font-weight: 900;
+        }
+
+        .dis-flex-center > span {
+            text-align: center;
+            font-weight: 900;
+            margin: 0 20px;
+        }
+</style>
+@using (Html.BeginForm("ManutMarcacao", "Marcacao", null, FormMethod.Post, new { role = "form", id = "FormManutMarcacao" }))
+{
+    <div class="divCenterManutMarca" style="margin-bottom:0; ">
+        <div class="modal-content">
+            <div class="modal-header salvando dis-flex-space-between">
+                <h3 class="panel-title titulo-pagina pos-abs-l15">@ViewBag.Title</h3>
+                <div class="dis-flex-center" style="margin-top:5px;">
+                    <button type="button" id="btnVoltaData" class="btn btn-success salvando fa fa-angle-left" onclick="javascript: eventoVolta()"></button>
+                    <span>Salvar e <br/>Alterar Data</span>
+                    <button type="button" id="btnAvcData" class="btn btn-success salvando fa fa-angle-right" onclick="javascript: eventoAvanc('1')"></button>
+                </div>
+                <button type="button" class="close pos-abs-r15" data-dismiss="modal" aria-hidden="true" id="xfecharCadastroModal">X</button>
+            </div>
+            <div class="modal-body panelConteudo" id="panelBodyFixo" style="padding-top:2px;">
+                <div>
+                    @if (!String.IsNullOrEmpty(@ViewBag.MensagemBloqueio))
+                    {
+                        string mensagemBloqueio = ViewBag.MensagemBloqueio;
+                        if (mensagemBloqueio.Contains("pendente de aprovação") && mensagemBloqueio.Contains("Painel do RH"))
+                        {
+                            <div class="col-md-12" style="padding:0">
+                                <div class="panel panel-default panel-danger" style="margin-bottom:1px">
+                                    <div class="panel-heading">
+                                        <h5 style="text-align:left; margin:0; font-weight:bold">Marcação Bloqueada</h5>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-md-8">
+                                            <h5>@ViewBag.MensagemBloqueio</h5>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div style="text-align:right">
+                                                <button type="button" aria-hidden="true" id="btnConclusaoFluxoPnlRH" class="btn btn-success"><span class="fa fa-check-square-o"></span> Conclusão do Fluxo Painel do RH </button>
+                                                <button type="button" id="btnInfConclusaoFluxoPnlRh" class="btn btn-info"><span class="fa fa-exclamation"></span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger" role="alert" style="margin-bottom:0">@ViewBag.MensagemBloqueio</div>
+                            }
+                        }
+
+                    @Html.ValidationMessage("CustomError")
+                    @Html.HiddenFor(model => model.Id, new { id = "idMarcacao" })
+                    @Html.HiddenFor(model => model.Incdata)
+                    @Html.HiddenFor(model => model.Inchora)
+                    @Html.HiddenFor(model => model.Incusuario)
+                    @Html.HiddenFor(model => model.Altdata)
+                    @Html.HiddenFor(model => model.Althora)
+                    @Html.HiddenFor(model => model.Altusuario)
+                    @Html.HiddenFor(model => model.Acao)
+                    @Html.HiddenFor(model => model.Bancohorascre)
+                    @Html.HiddenFor(model => model.Bancohorasdeb)
+                    @Html.HiddenFor(model => model.Bilhete)
+                    @Html.HiddenFor(model => model.Chave)
+                    @Html.HiddenFor(model => model.Codigo)
+                    @Html.HiddenFor(model => model.DataFinal)
+                    @Html.HiddenFor(model => model.DataInicial)
+                    @Html.HiddenFor(model => model.Departamento)
+                    @Html.HiddenFor(model => model.Dsr)
+                    @Html.HiddenFor(model => model.Ent_Legenda_1)
+                    @Html.HiddenFor(model => model.Ent_Legenda_2)
+                    @Html.HiddenFor(model => model.Ent_Legenda_3)
+                    @Html.HiddenFor(model => model.Ent_Legenda_4)
+                    @Html.HiddenFor(model => model.Ent_Legenda_5)
+                    @Html.HiddenFor(model => model.Ent_Legenda_6)
+                    @Html.HiddenFor(model => model.Ent_Legenda_7)
+                    @Html.HiddenFor(model => model.Ent_Legenda_8)
+                    @Html.HiddenFor(model => model.Ent_num_relogio_1, new { id = "txtNumRelogioE1" })
+                    @Html.HiddenFor(model => model.Ent_num_relogio_2, new { id = "txtNumRelogioE2" })
+                    @Html.HiddenFor(model => model.Ent_num_relogio_3, new { id = "txtNumRelogioE3" })
+                    @Html.HiddenFor(model => model.Ent_num_relogio_4, new { id = "txtNumRelogioE4" })
+                    @Html.HiddenFor(model => model.Ent_num_relogio_5, new { id = "txtNumRelogioE5" })
+                    @Html.HiddenFor(model => model.Ent_num_relogio_6, new { id = "txtNumRelogioE6" })
+                    @Html.HiddenFor(model => model.Ent_num_relogio_7, new { id = "txtNumRelogioE7" })
+                    @Html.HiddenFor(model => model.Ent_num_relogio_8, new { id = "txtNumRelogioE8" })
+                    @Html.HiddenFor(model => model.EntradaMin_1)
+                    @Html.HiddenFor(model => model.EntradaMin_2)
+                    @Html.HiddenFor(model => model.EntradaMin_3)
+                    @Html.HiddenFor(model => model.EntradaMin_4)
+                    @Html.HiddenFor(model => model.EntradaMin_5)
+                    @Html.HiddenFor(model => model.EntradaMin_6)
+                    @Html.HiddenFor(model => model.EntradaMin_7)
+                    @Html.HiddenFor(model => model.EntradaMin_8)
+                    @Html.HiddenFor(model => model.ExpHorasextranoturna)
+                    @Html.HiddenFor(model => model.Funcionario)
+                    @Html.HiddenFor(model => model.Horascompensadas)
+                    @Html.HiddenFor(model => model.Horasextranoturna)
+                    @Html.HiddenFor(model => model.Horasextrasdiurna)
+                    @Html.HiddenFor(model => model.Horasfaltanoturna)
+                    @Html.HiddenFor(model => model.Horasfaltas)
+                    @Html.HiddenFor(model => model.Horastrabalhadas)
+                    @Html.HiddenFor(model => model.Horastrabalhadasnoturnas)
+                    @Html.HiddenFor(model => model.Idcompensado)
+                    @Html.HiddenFor(model => model.JornadaAlternativa)
+                    @Html.HiddenFor(model => model.Sai_Legenda_1)
+                    @Html.HiddenFor(model => model.Sai_Legenda_2)
+                    @Html.HiddenFor(model => model.Sai_Legenda_3)
+                    @Html.HiddenFor(model => model.Sai_Legenda_4)
+                    @Html.HiddenFor(model => model.Sai_Legenda_5)
+                    @Html.HiddenFor(model => model.Sai_Legenda_6)
+                    @Html.HiddenFor(model => model.Sai_Legenda_7)
+                    @Html.HiddenFor(model => model.Sai_Legenda_8)
+                    @Html.HiddenFor(model => model.Sai_num_relogio_1, new { id = "txtNumRelogioS1" })
+                    @Html.HiddenFor(model => model.Sai_num_relogio_2, new { id = "txtNumRelogioS2" })
+                    @Html.HiddenFor(model => model.Sai_num_relogio_3, new { id = "txtNumRelogioS3" })
+                    @Html.HiddenFor(model => model.Sai_num_relogio_4, new { id = "txtNumRelogioS4" })
+                    @Html.HiddenFor(model => model.Sai_num_relogio_5, new { id = "txtNumRelogioS5" })
+                    @Html.HiddenFor(model => model.Sai_num_relogio_6, new { id = "txtNumRelogioS6" })
+                    @Html.HiddenFor(model => model.Sai_num_relogio_7, new { id = "txtNumRelogioS7" })
+                    @Html.HiddenFor(model => model.Sai_num_relogio_8, new { id = "txtNumRelogioS8" })
+                    @Html.HiddenFor(model => model.SaidaMin_1)
+                    @Html.HiddenFor(model => model.SaidaMin_2)
+                    @Html.HiddenFor(model => model.SaidaMin_3)
+                    @Html.HiddenFor(model => model.SaidaMin_4)
+                    @Html.HiddenFor(model => model.SaidaMin_5)
+                    @Html.HiddenFor(model => model.SaidaMin_6)
+                    @Html.HiddenFor(model => model.SaidaMin_7)
+                    @Html.HiddenFor(model => model.SaidaMin_8)
+                    @Html.HiddenFor(model => model.Semcalculo)
+                    @Html.HiddenFor(model => model.Valordsr)
+                    @Html.HiddenFor(model => model.Idfuncionario, new { id = "Idfuncionario" })
+                    @Html.HiddenFor(model => model.Dscodigo)
+                    @Html.HiddenFor(model => model.Legenda)
+                    @Html.HiddenFor(model => model.Data)
+                    @Html.HiddenFor(model => model.Dia)
+                    @Html.HiddenFor(model => model.Entradaextra)
+                    @Html.HiddenFor(model => model.Saidaextra)
+                    @Html.HiddenFor(model => model.Ocorrencia)
+                    @Html.HiddenFor(model => model.Idhorario)
+                    @Html.HiddenFor(model => model.Idfechamentobh)
+                    @Html.HiddenFor(model => model.Totalizadoresalterados)
+                    @Html.HiddenFor(model => model.Calchorasextrasdiurna)
+                    @Html.HiddenFor(model => model.Calchorasextranoturna)
+                    @Html.HiddenFor(model => model.Calchorasfaltas)
+                    @Html.HiddenFor(model => model.Calchorasfaltanoturna)
+                    @Html.HiddenFor(model => model.Neutro)
+                    @Html.HiddenFor(model => model.IdFechamentoPonto)
+                    @Html.HiddenFor(model => model.FolgaAnt)
+                    @Html.HiddenFor(model => model.DocumentoWorkflowAberto)
+                    @Html.HiddenFor(model => model.IdDocumentoWorkflow)
+                    @Html.HiddenFor(model => model.InItinerePercDentroJornada)
+                    @Html.HiddenFor(model => model.InItinereHrsDentroJornada)
+                    @Html.HiddenFor(model => model.InItinerePercForaJornada)
+                    @Html.HiddenFor(model => model.InItinereHrsForaJornada)
+                    @Html.HiddenFor(model => model.LegendasConcatenadas)
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-addon">@Html.LabelFor(model => model.Funcionario, new { @class = "input-group-label" })</div>
+                                @Html.TextBoxFor(model => model.Funcionario, new { @class = "form-control input-sm editor-field", @readonly = "readonly" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Funcionario)
+                        </div>
+                    </div>
+                    <div class="col-md-4" style="padding:0">
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-addon">@Html.LabelFor(model => model.Data, new { @class = "input-group-label" })</div>
+                                    @Html.TextBoxFor(model => model.Data, "{0:dd/MM/yyyy}", new { @class = "form-control input-sm editor-field", @readonly = "readonly" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Data)
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-addon">@Html.LabelFor(model => model.Dia, new { @class = "input-group-label" })</div>
+                                    @Html.TextBoxFor(model => model.Dia, new { @class = "form-control input-sm editor-field", @readonly = "readonly" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Dia)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                            <label>
+                                @Html.CheckBoxFor(model => model.NaoentrarbancoBool, new { @class = "checkboxHN" })
+                                @Html.DisplayNameFor(model => model.NaoentrarbancoBool)
+                                @Html.ValidationMessageFor(model => model.NaoentrarbancoBool)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                            <label>
+                                @Html.CheckBoxFor(model => model.NaoentrarnacompensacaoBool, new { @class = "checkboxHN" })
+                                @Html.DisplayNameFor(model => model.NaoentrarnacompensacaoBool)
+                                @Html.ValidationMessageFor(model => model.NaoentrarnacompensacaoBool)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                            <label>
+                                @Html.CheckBoxFor(model => model.TipoHoraExtraFaltaBool, new { @class = "checkboxHN" })
+                                @Html.DisplayNameFor(model => model.TipoHoraExtraFaltaBool)
+                                @Html.ValidationMessageFor(model => model.TipoHoraExtraFaltaBool)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                            <label>
+                                @Html.CheckBoxFor(model => model.NaoConsiderarInItinere, new { @class = "checkboxHN" })
+                                @Html.DisplayNameFor(model => model.NaoConsiderarInItinere)
+                                @Html.ValidationMessageFor(model => model.NaoConsiderarInItinere)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                            <label>
+                                @Html.CheckBoxFor(model => model.AbonardsrBool, new { @class = "checkboxHN" })
+                                @Html.DisplayNameFor(model => model.AbonardsrBool)
+                                @Html.ValidationMessageFor(model => model.AbonardsrBool)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                            <label>
+                                @Html.CheckBoxFor(model => model.NaoconsiderarcafeBool, new { @class = "checkboxHN" })
+                                @Html.DisplayNameFor(model => model.NaoconsiderarcafeBool)
+                                @Html.ValidationMessageFor(model => model.NaoconsiderarcafeBool)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                            <label>
+                                @Html.CheckBoxFor(model => model.FolgaBool, new { @class = "checkboxHN" })
+                                @Html.DisplayNameFor(model => model.FolgaBool)
+                                @Html.ValidationMessageFor(model => model.FolgaBool)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                            <label>
+                                @Html.CheckBoxFor(model => model.BloquearEdicaoPnlRh, new { @class = "checkboxHN" })
+                                @Html.DisplayName("Bloquear Edição Painel")
+                                @Html.ValidationMessageFor(model => model.BloquearEdicaoPnlRh)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="jumbotron col-md-12" style="padding:5px; margin-bottom:0">
+                    <div class="col-md-9" style="padding:0">
+                        <div class="well well-sm" style="margin-bottom:0px">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="divTitMarcacao">
+                                        &nbsp;
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="btn-group">
+                                            <button id="btnE1" data="E1" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                Ent. 1 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-E1" role="menu">
+                                                <li><a id="btnDescE1" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                <li><a id="btnAtuE1" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                <li><a id="btnRemE1" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                            </ul>
+                                        </div>
+                                        <!-- Single button -->
+                                        @Html.EditorFor(m => m.BilhetesMarcacao[0], "_ManutMarcBilhete")
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="btn-group">
+                                            <button id="btnS1" data="S1" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                Sai. 1 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-S1" role="menu">
+                                                <li><a id="btnDescS1" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                <li><a id="btnAtuS1" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                <li><a id="btnRemS1" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                            </ul>
+                                        </div>
+                                        @Html.EditorFor(m => m.BilhetesMarcacao[1], "_ManutMarcBilhete")
+                                    </div>
+
+                                    <div class="divMarcacao">
+                                        <div class="btn-group">
+                                            <button id="btnE2" data="E2" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                Ent. 2 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-E2" role="menu">
+                                                <li><a id="btnDescE2" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                <li><a id="btnAtuE2" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                <li><a id="btnRemE2" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                            </ul>
+                                        </div>
+                                        @Html.EditorFor(m => m.BilhetesMarcacao[2], "_ManutMarcBilhete")
+                                    </div>
+
+                                    <div class="divMarcacao">
+                                        <div class="btn-group">
+                                            <button id="btnS2" data="S2" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                Sai. 2 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-S2" role="menu">
+                                                <li><a id="btnDescS2" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                <li><a id="btnAtuS2" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                <li><a id="btnRemS2" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                            </ul>
+                                        </div>
+                                        @Html.EditorFor(m => m.BilhetesMarcacao[3], "_ManutMarcBilhete")
+                                    </div>
+
+
+                                    <div class="divMarcacao">
+                                        <div class="btn-group">
+                                            <button id="btnE3" data="E3" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                Ent. 3 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-E3" role="menu">
+                                                <li><a id="btnDescE3" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                <li><a id="btnAtuE3" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                <li><a id="btnRemE3" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                            </ul>
+                                        </div>
+                                        @Html.EditorFor(m => m.BilhetesMarcacao[4], "_ManutMarcBilhete")
+                                    </div>
+
+                                    <div class="divMarcacao">
+                                        <div class="btn-group">
+                                            <button id="btnS3" data="S3" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                Sai. 3 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-S3" role="menu">
+                                                <li><a id="btnDescS3" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                <li><a id="btnAtuS3" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                <li><a id="btnRemS3" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                            </ul>
+                                        </div>
+                                        @Html.EditorFor(m => m.BilhetesMarcacao[5], "_ManutMarcBilhete")
+                                    </div>
+
+                                    <div class="divMarcacao">
+                                        <div class="btn-group">
+                                            <button id="btnE4" data="E4" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                Ent. 4 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-E4" role="menu">
+                                                <li><a id="btnDescE4" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                <li><a id="btnAtuE4" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                <li><a id="btnRemE4" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                            </ul>
+                                        </div>
+                                        @Html.EditorFor(m => m.BilhetesMarcacao[6], "_ManutMarcBilhete")
+                                    </div>
+
+                                    <div class="divMarcacao">
+                                        <div class="btn-group">
+                                            <button id="btnS4" data="S4" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                Sai. 4 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-S4" role="menu">
+                                                <li><a id="btnDescS4" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                <li><a id="btnAtuS4" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                <li><a id="btnRemS4" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                            </ul>
+                                        </div>
+                                        @Html.EditorFor(m => m.BilhetesMarcacao[7], "_ManutMarcBilhete")
+                                    </div>
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="divTitMarcacao">
+                                        @Html.Label("", "Marcação: ", new { @class = "labelTitLinha", style = "padding-top: 6px;" })
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(m => m.Entrada_1, new { @class = "form-control input-sm time", id = "txtMarcacaoE1", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
+                                            <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_1, new { @class = "input-group-legenda", id = "txtLegendaE1" })</div>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(m => m.Saida_1, new { @class = "form-control input-sm time", id = "txtMarcacaoS1", style = "font-weight: bold;", @placeholder = "--:--" })
+                                            <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_1, new { @class = "input-group-legenda", id = "txtLegendaS1" })</div>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(m => m.Entrada_2, new { @class = "form-control input-sm time", id = "txtMarcacaoE2", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
+                                            <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_2, new { @class = "input-group-legenda", id = "txtLegendaE2" })</div>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(m => m.Saida_2, new { @class = "form-control input-sm time", id = "txtMarcacaoS2", style = "font-weight: bold;", @placeholder = "--:--" })
+                                            <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_2, new { @class = "input-group-legenda", id = "txtLegendaS2" })</div>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(m => m.Entrada_3, new { @class = "form-control input-sm time", id = "txtMarcacaoE3", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
+                                            <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_3, new { @class = "input-group-legenda", id = "txtLegendaE3" })</div>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(m => m.Saida_3, new { @class = "form-control input-sm time", id = "txtMarcacaoS3", style = "font-weight: bold;", @placeholder = "--:--" })
+                                            <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_3, new { @class = "input-group-legenda", id = "txtLegendaS3" })</div>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(m => m.Entrada_4, new { @class = "form-control input-sm time", id = "txtMarcacaoE4", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
+                                            <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_4, new { @class = "input-group-legenda", id = "txtLegendaE4" })</div>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(m => m.Saida_4, new { @class = "form-control input-sm time", id = "txtMarcacaoS4", style = "font-weight: bold;", @placeholder = "--:--" })
+                                            <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_4, new { @class = "input-group-legenda", id = "txtLegendaS4" })</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="divTitMarcacao">
+                                        @Html.Label("", "Alocar: ", new { @class = "labelTitLinha" })
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                            <button type="button" class="btn btn-default btn-alocar" disabled>&nbsp;</button>
+                                            <button id="btnEnt1Sai1" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 1 e Saida 1"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                            <button id="btnSai1Ent1" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 1 e Entrada 1"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                            <button id="btnSai1Ent2" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 1 e Entrada 2"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                            <button id="btnEnt2Sai1" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 2 e Saida 1"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                            <button id="btnEnt2Sai2" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 2 e Saida 2"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                            <button id="btnSai2Ent2" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 2 e Entrada 2"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                            <button id="btnSai2Ent3" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 2 e Entrada 3"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                            <button id="btnEnt3Sai2" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 3 e Saida 2"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                            <button id="btnEnt3Sai3" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 3 e Saida 3"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                            <button id="btnSai3Ent3" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 3 e Entrada 3"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                            <button id="btnSai3Ent4" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 3 e Entrada 4"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                            <button id="btnEnt4Sai3" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 4 e Saida 3"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                            <button id="btnEnt4Sai4" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 4 e Saida 4"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                            <button id="btnSai4Ent4" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 4 e Entrada 4"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                            <button id="btnSai4Ent5" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 4 e Entrada 5"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="divTitMarcacao">
+                                        @Html.Label("", "Nº Relógio: ", new { @class = "labelTitLinha" })
+                                    </div>
+                                    <div class="divMarcacao">
+                                        @Html.Label("", Model.Ent_num_relogio_1, new { @class = "labelRelogio", id = "txtRelogioE1" })
+                                    </div>
+                                    <div class="divMarcacao">
+                                        @Html.Label("", Model.Sai_num_relogio_1, new { @class = "labelRelogio", id = "txtRelogioS1" })
+                                    </div>
+                                    <div class="divMarcacao">
+                                        @Html.Label("", Model.Ent_num_relogio_2, new { @class = "labelRelogio", id = "txtRelogioE2" })
+                                    </div>
+                                    <div class="divMarcacao">
+                                        @Html.Label("", Model.Sai_num_relogio_2, new { @class = "labelRelogio", id = "txtRelogioS2" })
+                                    </div>
+                                    <div class="divMarcacao">
+                                        @Html.Label("", Model.Ent_num_relogio_3, new { @class = "labelRelogio", id = "txtRelogioE3" })
+                                    </div>
+                                    <div class="divMarcacao">
+                                        @Html.Label("", Model.Sai_num_relogio_3, new { @class = "labelRelogio", id = "txtRelogioS3" })
+                                    </div>
+                                    <div class="divMarcacao">
+                                        @Html.Label("", Model.Ent_num_relogio_4, new { @class = "labelRelogio", id = "txtRelogioE4" })
+                                    </div>
+                                    <div class="divMarcacao">
+                                        @Html.Label("", Model.Sai_num_relogio_4, new { @class = "labelRelogio", id = "txtRelogioS4" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="well well-sm" style="margin-bottom:0px">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="divTitMarcacao"> &nbsp;</div>
+                                    <div class="divMarcacao">
+                                        <div class="btn-group">
+                                            <button id="btnE5" data="E5" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                Ent. 5 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-E5" role="menu">
+                                                <li><a id="btnDescE5" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                <li><a id="btnAtuE5" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                <li><a id="btnRemE5" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                            </ul>
+
+                                        </div>
+                                        @Html.EditorFor(m => m.BilhetesMarcacao[8], "_ManutMarcBilhete")
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="btn-group">
+                                            <button id="btnS5" data="S5" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                Sai. 5 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-S5" role="menu">
+                                                <li><a id="btnDescS5" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                <li><a id="btnAtuS5" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                <li><a id="btnRemS5" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                            </ul>
+                                        </div>
+                                        @Html.EditorFor(m => m.BilhetesMarcacao[9], "_ManutMarcBilhete")
+                                    </div>
+
+                                    <div class="divMarcacao">
+                                        <div class="btn-group">
+                                            <button id="btnE6" data="E6" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                Ent. 6 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-E6" role="menu">
+                                                <li><a id="btnDescE6" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                <li><a id="btnAtuE6" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                <li><a id="btnRemE6" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                            </ul>
+                                        </div>
+                                        @Html.EditorFor(m => m.BilhetesMarcacao[10], "_ManutMarcBilhete")
+                                    </div>
+
+                                    <div class="divMarcacao">
+                                        <div class="btn-group">
+                                            <button id="btnS6" data="S6" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                Sai. 6 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-S6" role="menu">
+                                                <li><a id="btnDescS6" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                <li><a id="btnAtuS6" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                <li><a id="btnRemS6" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                            </ul>
+                                        </div>
+                                        @Html.EditorFor(m => m.BilhetesMarcacao[11], "_ManutMarcBilhete")
+                                    </div>
+
+
+                                    <div class="divMarcacao">
+                                        <div class="btn-group">
+                                            <button id="btnE7" data="E7" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                Ent. 7 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-E7" role="menu">
+                                                <li><a id="btnDescE7" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                <li><a id="btnAtuE7" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                <li><a id="btnRemE7" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                            </ul>
+                                        </div>
+                                        @Html.EditorFor(m => m.BilhetesMarcacao[12], "_ManutMarcBilhete")
+                                    </div>
+
+                                    <div class="divMarcacao">
+                                        <div class="btn-group">
+                                            <button id="btnS7" data="S7" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                Sai. 7 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-S7" role="menu">
+                                                <li><a id="btnDescS7" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                <li><a id="btnAtuS7" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                <li><a id="btnRemS7" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                            </ul>
+                                        </div>
+                                        @Html.EditorFor(m => m.BilhetesMarcacao[13], "_ManutMarcBilhete")
+                                    </div>
+
+                                    <div class="divMarcacao">
+                                        <div class="btn-group">
+                                            <button id="btnE8" data="E8" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                Ent. 8 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-E8" role="menu">
+                                                <li><a id="btnDescE8" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                <li><a id="btnAtuE8" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                <li><a id="btnRemE8" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                            </ul>
+                                        </div>
+                                        @Html.EditorFor(m => m.BilhetesMarcacao[14], "_ManutMarcBilhete")
+                                    </div>
+
+                                    <div class="divMarcacao">
+                                        <div class="btn-group">
+                                            <button id="btnS9" data="S9" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                Sai. 8 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-S9" role="menu">
+                                                <li><a id="btnDescS9" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                <li><a id="btnAtuS9" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                <li><a id="btnRemS9" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                            </ul>
+                                        </div>
+                                        @Html.EditorFor(m => m.BilhetesMarcacao[15], "_ManutMarcBilhete")
+                                    </div>
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="divTitMarcacao">
+                                        @Html.Label("", "Marcação: ", new { @class = "labelTitLinha", style = "padding-top: 6px;" })
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(m => m.Entrada_5, new { @class = "form-control input-sm time", id = "txtMarcacaoE5", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
+                                            <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_5, new { @class = "input-group-legenda", id = "txtLegendaE5" })</div>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(m => m.Saida_5, new { @class = "form-control input-sm time", id = "txtMarcacaoS5", style = "font-weight: bold;", @placeholder = "--:--" })
+                                            <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_5, new { @class = "input-group-legenda", id = "txtLegendaS5" })</div>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(m => m.Entrada_6, new { @class = "form-control input-sm time", id = "txtMarcacaoE6", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
+                                            <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_6, new { @class = "input-group-legenda", id = "txtLegendaE6" })</div>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(m => m.Saida_6, new { @class = "form-control input-sm time", id = "txtMarcacaoS6", style = "font-weight: bold;", @placeholder = "--:--" })
+                                            <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_6, new { @class = "input-group-legenda", id = "txtLegendaS6" })</div>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(m => m.Entrada_7, new { @class = "form-control input-sm time", id = "txtMarcacaoE7", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
+                                            <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_7, new { @class = "input-group-legenda", id = "txtLegendaE7" })</div>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(m => m.Saida_7, new { @class = "form-control input-sm time", id = "txtMarcacaoS7", style = "font-weight: bold;", @placeholder = "--:--" })
+                                            <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_7, new { @class = "input-group-legenda", id = "txtLegendaS7" })</div>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(m => m.Entrada_8, new { @class = "form-control input-sm time", id = "txtMarcacaoE8", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
+                                            <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_8, new { @class = "input-group-legenda", id = "txtLegendaE8" })</div>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(m => m.Saida_8, new { @class = "form-control input-sm time", id = "txtMarcacaoS8", style = "font-weight: bold;", @placeholder = "--:--" })
+                                            <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_8, new { @class = "input-group-legenda", id = "txtLegendaS8" })</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="divTitMarcacao">
+                                        @Html.Label("", "Alocar: ", new { @class = "labelTitLinha" })
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                            <button id="btnEnt5Sai4" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 5 e Saida 4"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                            <button id="btnEnt5Sai5" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 5 e Saida 5"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                            <button id="btnSai5Ent5" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 5 e Entrada 5"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                            <button id="btnSai5Ent6" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 5 e Entrada 6"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                            <button id="btnEnt6Sai5" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 6 e Saida 5"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                            <button id="btnEnt6Sai6" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 6 e Saida 6"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                            <button id="btnSai6Ent6" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 6 e Entrada 6"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                            <button id="btnSai6Ent7" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 6 e Entrada 7"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                            <button id="btnEnt7Sai6" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 7 e Saida 6"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                            <button id="btnEnt7Sai7" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 7 e Saida 7"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                            <button id="btnSai7Ent7" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 7 e Entrada 7"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                            <button id="btnSai7Ent8" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 7 e Entrada 8"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                            <button id="btnEnt8Sai7" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 8 e Saida 7"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                            <button id="btnEnt8Sai8" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 8 e Saida 8"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="divMarcacao">
+                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                            <button id="btnSai8Ent8" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 8 e Entrada 8"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                            <button type="button" class="btn btn-default btn-alocar" disabled>&nbsp;</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="divTitMarcacao">
+                                        @Html.Label("", "Nº Relógio: ", new { @class = "labelTitLinha" })
+                                    </div>
+                                    <div class="divMarcacao">
+                                        @Html.Label("", Model.Ent_num_relogio_5, new { @class = "labelRelogio", id = "txtRelogioE5" })
+                                    </div>
+                                    <div class="divMarcacao">
+                                        @Html.Label("", Model.Sai_num_relogio_5, new { @class = "labelRelogio", id = "txtRelogioS5" })
+                                    </div>
+                                    <div class="divMarcacao">
+                                        @Html.Label("", Model.Ent_num_relogio_6, new { @class = "labelRelogio", id = "txtRelogioE6" })
+                                    </div>
+                                    <div class="divMarcacao">
+                                        @Html.Label("", Model.Sai_num_relogio_6, new { @class = "labelRelogio", id = "txtRelogioS6" })
+                                    </div>
+                                    <div class="divMarcacao">
+                                        @Html.Label("", Model.Ent_num_relogio_7, new { @class = "labelRelogio", id = "txtRelogioE7" })
+                                    </div>
+                                    <div class="divMarcacao">
+                                        @Html.Label("", Model.Sai_num_relogio_7, new { @class = "labelRelogio", id = "txtRelogioS7" })
+                                    </div>
+                                    <div class="divMarcacao">
+                                        @Html.Label("", Model.Ent_num_relogio_8, new { @class = "labelRelogio", id = "txtRelogioE8" })
+                                    </div>
+                                    <div class="divMarcacao">
+                                        @Html.Label("", Model.Sai_num_relogio_8, new { @class = "labelRelogio", id = "txtRelogioS8" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding:0">
+                        <div class="panel panel-default" style="min-height:175px">
+                            <div class="panel-heading">
+                                <h5 style="text-align:center; margin:0; font-weight:bold">Legendas</h5>
+                            </div>
+                            <div class="panel-body" style="padding-bottom:4px">
+                                <div> @Html.Label("I - Inclusão Manual", new { @class = "text-danger", @Style = "font-size:12px;display: normal" })</div>
+                                <div> @Html.Label("D - Desconsiderar Marcação", new { @class = "text-danger", @Style = "font-size:12px;display: normal" })</div>
+                                <div> @Html.Label("P - Marcação Pré-assinalada", new { @class = "text-danger", @Style = "font-size:12px;display: normal" })</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12" style="padding-top:3px">
+                    <div class="row">
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.Afastamento)
+                        </div>
+                        <div class="col-md-6" style="padding-right:0">
+
+                            <table id="tbTotalizadores" class="table table-striped table-bordered table-hover table-condensed nowrap" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center">Totalizadores</th>
+                                        <th style="text-align:center">Hora</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="1">
+                                        <td>Hora Trabalhada Diurna</td>
+                                        <td>@Model.Horastrabalhadas</td>
+                                    </tr>
+                                    <tr id="2">
+                                        <td>
+                                            Hora Trabalhada Noturna
+                                        </td>
+                                        <td>@Model.Horastrabalhadasnoturnas</td>
+                                    </tr>
+                                    <tr id="3">
+                                        <td>
+                                            Hora Extra Diurna
+                                        </td>
+                                        <td>@Model.Horasextrasdiurna</td>
+                                    </tr>
+                                    <tr id="4">
+                                        <td>
+                                            Hora Extra Noturna
+                                        </td>
+                                        <td>@Model.Horasextranoturna</td>
+                                    </tr>
+                                    <tr id="5">
+                                        <td>
+                                            Hora Falta Diurna
+                                        </td>
+                                        <td>@Model.Horasfaltas</td>
+                                    </tr>
+                                    <tr id="6">
+                                        <td>
+                                            Hora Falta Noturna
+                                        </td>
+                                        <td>@Model.Horasfaltanoturna</td>
+                                    </tr>
+                                    <tr id="7">
+                                        <td>
+                                            Crédito Banco de Horas
+                                        </td>
+                                        <td>@Model.Bancohorascre</td>
+                                    </tr>
+                                    <tr id="8">
+                                        <td>
+                                            Débito Banco de Horas
+                                        </td>
+                                        <td>@Model.Bancohorasdeb</td>
+                                    </tr>
+                                    <tr id="9">
+                                        <td>Hora Compensada</td>
+                                        <td>@Model.Horascompensadas</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button id="btnSalvarManutMarc" type="submit" class="btn btn-success salvando">
+                                <span class="glyphicon glyphicon-ok-circle salvando"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <button type="button" data-dismiss="modal" aria-hidden="true" id="fecharCadastroModal" class="btn btn-danger salvando"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+    <script>
+    var txtOcorrenciaAnt;
+    var lkpJustificativaAnt;
+    var txtMotivoAnt;
+    var txtAcaoAnt;
+    var MarcAnt = {};
+    var AbonoAnt = {};
+    $(document).ready(function () {
+        $('#txtMarcacaoE1').focus();
+        var altura = cwk_AlturaTela() * 10 / 100;
+        if (cwk_AlturaTela() <= 768) {
+            altura = cwk_AlturaTela() * 9 / 100;
+        }
+        cwk_EventoConsulta("#btnOcorrencia", "#lkpOcorrencia", "EventoConsulta", "Ocorrencia", "");
+
+        var oTb = cwk_MicroTBTheme2("#tbTotalizadores", altura, "", false, '<"H"fr>t<"F"p>');
+        lkpGenerico();
+
+        function callBackSalvaManutMarcacao() {
+            carregaGridMarcacao();
+            $("#divManutMarcacao").modal("hide");
+        }
+
+        $('.time, .timeB').mask('00:00');
+        $(".time").blur(function () {
+            var valor = formataHora24($(this).val(), 2, 2);
+            $(this).val(valor);
+            var campo = $(this).attr('id');
+            var identManut = $(this).attr('id').replace("txtMarcacao", "");            
+            if (ConvertHoraMinuto(MarcAnt["#txtMarcacao" + identManut]) != ConvertHoraMinuto($(this).val())) {
+                if ($(this).val() == "--:--" || $(this).val() == "" || $(this).val() == null || $(this).val() == undefined) {
+                    RemoveMarcacao(identManut);
+                }
+                else {
+                    chamaManutBil(identManut);
+                    $("#txtOcorrencia" + identManut).val("I");
+                    $("#txtHoraBil" + identManut).val($(this).val());
+                    $("#txtMar_horaBil" + identManut).val($(this).val());
+                }
+
+            }
+        });
+
+        $(".time").focusin(function () {
+            identManut = $(this).attr('id').replace("txtMarcacao", "");
+            guardaValorAnterior(identManut);
+        })
+        desabilitaEdicaoMarcacao();
+        HabilitaDesabilitaSuspensao();
+
+        $('form').submit(function () {
+            var valido = true;
+            var salvar = true;
+            if (($("#bSuspensaoBool").is(":checked") || $("#BAbonadoBool").is(":checked") || $("#BSemCalculoBool").is(":checked")) && ($("#lkpOcorrencia").val() == "" || $("#lkpOcorrencia").val() == undefined || $("#lkpOcorrencia").val() == null)) {
+                cwkErroTit('Para realizar um afastamento é necessário informar o campo Ocorrência!', 'Informe o campo Ocorrência ou desmarque a opção "Abonado", "Suspensão" ou "Sem Cálculo".');
+                $("#lkpOcorrencia").focus();
+                valido = false;
+            }
+
+            $(".time").each(function () {
+                identManut = $(this).attr('id').replace("txtMarcacao", "");
+                //Se a marcação estiver diferente do bilhete não salva e abre a tela de manut para verificar.
+                if (ConvertHoraMinuto($("#txtMarcacao" + identManut).val()) != ConvertHoraMinuto(MarcAnt["#txtMarcacao" + identManut])) {
+                    $(this).blur();
+                    salvar = false;
+                }
+            });
+            if (salvar) {
+                if ($(this).valid() && valido) {
+                    cwk_SalvaCadastroAjaxProgress(this, "", callBackSalvaManutMarcacao, true);
+                }
+                else { cwkErroTit("Existem erros na página", "Corrija os erros destacados na página antes de salvar.") }
+            }
+            return false;
+        });
+
+        $(".divMarcacao .btn-group button").on("click", function (e) {
+            console.log("a");
+            var self = this;
+            setTimeout(function () {
+                var data = $(self).attr("data");
+                var displayShow = $(".dropdown-menu-" + data).css("display") == "block";
+                $(".divMarcacao .btn-group .dropdown-menu").hide();
+                if (displayShow == true) {
+                    $(".dropdown-menu-" + data).hide();
+                } else {
+                    $(".dropdown-menu-" + data).show();
+                    click = true;
+                }
+            }, 210);
+        });
+
+        $(".divMarcacao .btn-group button").on("blur", function (e) {
+            console.log("b");
+            setTimeout(function () {
+                $(".divMarcacao .btn-group .dropdown-menu").hide();
+            }, 200);
+        });
+    });
+
+
+
+    function HabilitaDesabilitaSuspensao() {
+        if ($('#bSuspensaoBool').is(':checked')) {
+            LimpaAfastamento();
+            HabilitarCampoSuspensao();
+        }
+        else {
+            DesabilitarCampoSuspensao();
+        }
+    }
+
+    function desabilitaEdicaoMarcacao() {
+        //Desabilito as marcações que não podem ser alteradas e guardo os valores iniciais
+        $(".time").each(function () {
+            identManut = $(this).attr('id').replace("txtMarcacao", "");
+            if (!($(this).val() == "--:--" || $(this).val() == "" || $(this).val() == undefined) && ($("#txtLegenda" + identManut).text() != "I")) {
+                $(this).attr("readonly", "readonly");
+            }
+            else {
+                $(this).removeAttr("readonly");
+            }
+            guardaValorAnterior(identManut);
+        });
+    }
+
+    function guardaValorAnterior(identCampo, valorCampo) {
+        MarcAnt["#txtHoraBil" + identCampo] = $("#txtHoraBil" + identCampo).val();
+        MarcAnt["#txtMar_horaBil" + identCampo] = $("#txtMar_horaBil" + identCampo).val();
+        if (valorCampo === undefined)
+            MarcAnt["#txtMarcacao" + identCampo] = $("#txtMarcacao" + identCampo).val();
+        txtAcaoAnt = $("#txtAcao" + identCampo).val();
+        txtOcorrenciaAnt = $("#txtOcorrencia" + identCampo).val();
+        lkpJustificativaAnt = $("#lkpJustificativa" + identCampo).val();
+        txtMotivoAnt = $("#txtMotivo" + identCampo).val();
+        txtAcaoAnt = $("txtAcao" + identCampo).val();
+    }
+
+    $('#bSuspensaoBool').click(function () {
+        if ($(this).is(':checked')) {
+
+            LimpaAfastamento();
+            HabilitarCampoSuspensao();
+        } else {
+            DesabilitarCampoSuspensao();
+        }
+    })
+
+    function HabilitarCampoSuspensao() {
+        HabilitaDesabilitaComponente("#BAbonadoBool", true);
+        HabilitaDesabilitaComponente("#BSemCalculoBool", true);
+        HabilitaDesabilitaComponente("#btnAbonoParcial", true);
+    }
+
+    function DesabilitarCampoSuspensao() {
+        HabilitaDesabilitaComponente("#BAbonadoBool", false);
+        HabilitaDesabilitaComponente("#BSemCalculoBool", false);
+        HabilitaDesabilitaComponente("#btnAbonoParcial", false);
+    }
+
+    function HabilitaDesabilitaComponente(componente, valor) {
+        $(componente).prop("disabled", valor);
+        $(componente).attr("disabled", valor);
+
+        $(componente).prop("readonly", valor);
+        $(componente).attr("readonly", valor);
+    }
+
+        $(".ManutMarc").click(function (e) {
+        console.log('c');
+        var campo = $(this).attr('id');
+        identManut = campo.replace("btnAtu", "").replace("btnDesc", "").replace("btnRem", "");
+        $("#btnJustificativa" + identManut).removeAttr('disabled');
+        $("#lkpJustificativa" + identManut).removeAttr('readonly');
+        $("#txtMotivo" + identManut).removeAttr('readonly');
+        if (($("#txtMarcacao" + identManut).val() != "--:--") && ($("#txtMarcacao" + identManut).val() != "") && ($("#txtMarcacao" + identManut).val() != undefined)) {
+            if (campo.indexOf("btnAtu") >= 0) {
+                var _val = $("#txtOcorrencia" + identManut).val();
+                if (!_val || _val == "" || _val == "�" || _val == undefined) {
+                    cwkNotificacaoTit("Marcação sem Manutenção", "Não há manutenção para ser atualizada!");
+                }
+                else if (_val == "P")
+                {
+                    cwkNotificacaoTit("Marcação pré-assinalada", "Registros pré-assinalados não podem ser atualizados!");
+                }
+                else {
+                    $("#lblPanelBil" + identManut).text("Alterando registro de Motivo");
+                    guardaValorAnterior(identManut);
+                    chamaManutBil(identManut);
+                }
+            }
+            else {
+                if (campo.indexOf("btnDesc") >= 0) {
+                    var _val = $("#txtOcorrencia" + identManut).val();
+                    if (_val != "" && _val != "�" && _val != undefined && _val!= "P") {
+                        cwkNotificacaoTit("Marcação com Manutenção", "Para Desconsiderar a Marcação exclua a manutenção existente!");
+                    }
+                    else {
+                        $("#lblPanelBil" + identManut).text("Desconsiderando Registro de Marcação");
+                        guardaValorAnterior(identManut);
+                        chamaManutBil(identManut);
+                        $("#txtOcorrencia" + identManut).val("D");
+                    }
+                }
+                else {
+                    if (campo.indexOf("btnRem") >= 0) {
+                        guardaValorAnterior(identManut);
+                        RemoveMarcacao(identManut);
+                    }
+                }
+            }
+        }
+        else {
+            cwkNotificacaoTit("Sem Marcação", "Não há marcação para ser modificada!");
+        }
+    });
+
+    function RemoveMarcacao(identManut) {
+        var _val = $("#txtOcorrencia" + identManut).val();
+        if (!_val || _val == "" || _val == "�" || _val == undefined) {
+            cwkNotificacaoTit("Marcação sem Manutenção", "Não há manutenção para ser removida!");
+        }
+        else if (_val == "P") {
+            cwkNotificacaoTit("Registro pré-assinalado", 'Não é possível remover registro pré-assinalado, pode ser desconsiderado (opção Desconsidera Marcação), ou lançada uma jornada alternativa sem configuração de pré-assinalado.');
+        }
+        else {
+            $("#lblPanelBil" + identManut).text("Excluindo registro de Motivo");
+            $("#btnJustificativa" + identManut).attr('disabled', 'disabled');
+            $("#lkpJustificativa" + identManut).attr('readonly', 'readonly');
+            $("#txtMotivo" + identManut).attr('readonly', 'readonly');
+            chamaManutBil(identManut);
+        }
+    }
+
+    function chamaManutBil(identManut) {
+        guardaValorAnterior(identManut, true);
+        $("#divBil" + identManut).modal({ show: true });
+        $("#btnSalvarManutMarc").attr("Disabled", "Disabled");
+        setaFocoPrimeiroCampoDiv("#divBil" + identManut);
+    }
+
+    // Javascript da Alocação de Marcação
+    $(".btn-alocar").click(function () {
+        var btn = $(this).attr("Id").replace("btn", "");
+        var de = btn.substr(0, 4);
+        var para = btn.substr(4, 4);
+        de = de.replace("nt", "").replace("ai", "");
+        para = para.replace("nt", "").replace("ai", "");
+        //Altera os Label's da marcação (ManutMarcacao).
+        var camposRealocarLabel = ["#txtRelogio", "#txtLegenda"];
+        for (var i = 0, l = camposRealocarLabel.length; i < l; i++) {
+            var campoRealocar = camposRealocarLabel[i];
+            var Aux = $(campoRealocar + para).text();
+            $(campoRealocar + para).text($(campoRealocar + de).text());
+            $(campoRealocar + de).text(Aux);
+        }
+        //Altera os Inputs's da marcação (ManutMarcacao).
+        var camposRealocarInput = ["#txtMarcacao", "#txtNumRelogio"];
+        for (var i = 0, l = camposRealocarInput.length; i < l; i++) {
+            var campoRealocar = camposRealocarInput[i];
+            var Aux = $(campoRealocar + para).val();
+            $(campoRealocar + para).val($(campoRealocar + de).val());
+            $(campoRealocar + de).val(Aux);
+        }
+        //Altera os dados de um bilhete para o outro (Busca todos os campos do bilhete pela div e transfere de uma para outra)
+        //Variavel com os campos do bilhete que esta sendo movido
+        var camposDe = $("#divBil" + de).find('input, select, textarea');
+        //Variavel com os campos do bilhete para onde o bilhete vai ser movido
+        var camposPara = $("#divBil" + para).find('input, select, textarea');
+        for (var i = 0; i < camposPara.length; i = i + 1) {
+            //Não altero a posição do bilhete e tipo (se entrada ou saida)
+            if ($(camposDe[i]).attr("Id").indexOf("txtPosicao") == -1 && $(camposDe[i]).attr("Id").indexOf("txtEnt_sai") == -1) {
+                // Guarda o valor para substituir o valor do campo
+                var auxDe = $(camposDe[i]).val();
+                // Substitui o valor DE com o valor do PARA
+                $(camposDe[i]).val($(camposPara[i]).val());
+                // Adiciona no PARA o valor DE
+                $(camposPara[i]).val(auxDe);
+
+                if ($(camposDe[i]).attr("Id").indexOf("txtAcao") >= 0) {
+                    if ($(camposDe[i]).val() != "Incluir" && $(camposDe[i]).val() != "Alterar" && $(camposDe[i]).val() != "Excluir") {
+                        $(camposDe[i]).val("Alterar");
+                    }
+                    if ($(camposPara[i]).val() != "Incluir" && $(camposPara[i]).val() != "Alterar" && $(camposPara[i]).val() != "Excluir") {
+                        $(camposPara[i]).val("Alterar");
+                    }
+                }
+            }
+        };
+        desabilitaEdicaoMarcacao();
+    })
+    // Fim Javascript da Alocação de Marcação
+
+    // Javascript das modals de _ManutMarcBilhete
+    $(".lkpJustificativa").bind("keydown click", function (e) {
+        cwk_EventoConsultaUnico(e, this, "", "Justificativa", "", callBackMotivo, "", "");
+    });
+
+        $(".btnModal").click(function () {
+        var btn = $(this).attr('id');
+        identManut = btn.replace("btndivBilSalva", "").replace("btndivBilCancela", "").replace("btndivBilClose", "");
+        var div = "divBil" + identManut;
+            if (btn.indexOf("Salva") >= 0) {
+            var errorArray = {};
+            var $form = $("#FormTabelaMarcacao");
+            validator = $form.validate();
+            var campoMotivo = $("#txtMotivo" + identManut);
+            var attr = $(campoMotivo).attr('readonly');
+            //Se o campo motivo não estiver readonly valida ou salva os valores e repassa, se estiver readonly significa que é para remover tratamento.
+            if (typeof attr === typeof undefined || attr === false) {
+                var campoJustificativa = $("#lkpJustificativa" + identManut);
+                if (campoJustificativa.val() != "") {
+                    ajax_ValidarRegistro("ValidaDescJustificativa", "Justificativa", campoJustificativa.val(), salvaJustificativa);
+                }
+                else {
+                    salvaJustificativa();
+                }
+
+            }
+            else {
+                if ($("#txtOcorrencia" + identManut).val() == "I") {
+                    $("#txtRelogio" + identManut).text("");
+                    $("#txtNumRelogio" + identManut).val("");
+                    $("#txtHoraBil" + identManut).val("--:--");
+                    $("#txtMar_horaBil" + identManut).val("--:--");
+                    $("#txtMarcacao" + identManut).val("");
+                    $("#btnJustificativa" + identManut).removeAttr('disabled');
+                    $("#lkpJustificativa" + identManut).removeAttr('readonly');
+                    $("#txtMotivo" + identManut).removeAttr('readonly');
+                    $("#txtAcao" + identManut).val("Excluir");
+                }
+                else {
+                    $("#txtAcao" + identManut).val("Alterar");
+                }
+                if ($("#txtNumRelogio" + identManut).val() == "PA") {
+                    $("#txtLegenda" + identManut).text("P");
+                    $("#txtOcorrencia" + identManut).val("P");
+                    $("#txtMotivo" + identManut).val("Marcação Pré-Assinalada.");
+                }
+                else {
+                    $("#txtLegenda" + identManut).text("");
+                    $("#txtOcorrencia" + identManut).val("");
+                    $("#txtMotivo" + identManut).val("");
+                }
+
+                $("#lkpJustificativa" + identManut).val("");
+                fechaDivJust();
+                guardaValorAnterior(identManut);
+            }
+        }
+        else {
+            $("#txtOcorrencia" + identManut).val(txtOcorrenciaAnt);
+            $("#lkpJustificativa" + identManut).val(lkpJustificativaAnt);
+            $("#txtMotivo" + identManut).val(txtMotivoAnt);
+            if (txtAcaoAnt == undefined) {
+                txtAcaoAnt = "0";
+            }
+            $("#txtAcao" + identManut).val(txtAcaoAnt);
+            $("#txtMarcacao" + identManut).val(MarcAnt["#txtMarcacao" + identManut]);
+            $("#txtHoraBil" + identManut).val(MarcAnt["#txtHoraBil" + identManut]);
+            $("#txtMar_horaBil" + identManut).val(MarcAnt["#txtMar_horaBil" + identManut]);
+            fechaDivJust();
+        }
+    });
+
+
+
+
+
+    function fechaDivJust() {
+        var div = "divBil" + identManut;
+        $("#" + div).modal("hide");
+        $("#btnSalvarManutMarc").removeAttr("Disabled");
+        limpaInput("#lkpJustificativa" + identManut, "#FormTabelaMarcacao");
+        limpaInput("#txtMotivo" + identManut, "#FormTabelaMarcacao");
+    };
+
+    function salvaJustificativa(ret) {
+        var div = "divBil" + identManut;
+        if (ret && typeof (ret) !== "undefined" && ret !== "" && ret.Success === false) {
+            var campoJustificativa = $("#lkpJustificativa" + identManut);
+            var campoValidar = campoJustificativa.attr('name');
+            errorArray[campoValidar] = ret.Erro;
+            validator.showErrors(errorArray);
+        }
+        else {
+            var campoMotivo = $("#txtMotivo" + identManut);
+            if (campoMotivo.val() == "") {
+                var campoValidar = campoMotivo.attr('name');
+                errorArray[campoValidar] = "Campo Obrigatório!";
+                validator.showErrors(errorArray);
+            }
+            else {
+                var oco = $("#txtOcorrencia" + identManut).val();
+                $("#txtLegenda" + identManut).text(oco);
+                var rel = $("#txtRelogioBil" + identManut).val();
+                $("#txtRelogio" + identManut).text(rel);
+                $("#txtNumRelogio" + identManut).val(rel);
+                fechaDivJust();
+                $("#txtMarcacao" + identManut).focus();
+                if ($("#txtAcao" + identManut).val() != "Incluir") {
+                    if (parseInt($("#txtIdBil" + identManut).val()) === 0) {
+                        $("#txtAcao" + identManut).val("Incluir");
+                    }
+                    else {
+                        $("#txtAcao" + identManut).val("Alterar");
+                    }
+                }
+                guardaValorAnterior(identManut);
+            }
+        }
+    }
+
+    function callBackMotivo(campo) {
+        var valor = $(campo).val().split("|")[1].trim();
+        identcampo = campo.replace("#lkpJustificativa", "");
+        $("#txtMotivo" + identcampo).val(valor);
+    }
+
+
+    //Fim Javascript das modals de _ManutMarcBilhete
+
+    //Inicio Javascript referente a afastamento
+    $("#btnExcluiAfastamento").click(function () {
+        if ($("#lkpOcorrencia").val() != "" || $("#BAbonadoBool").is(":checked") || $("#BSemCalculoBool").is(":checked") || $("#txtAbonoParcialDiurno").val() != "" || $("#txtAbonoParcialNoturno").val() != "") {
+            cwkConfirmacao("", "", fCallBackExcluiu);
+        } else { cwkNotificacao("Não há afastamento para ser excluído!"); }
+    });
+
+    function fCallBackExcluiu() {
+        LimpaAfastamento();
+        LimpaOcorrenciaAfastamento();
+        $('#bSuspensaoBool').prop("checked", false);
+        $('#bSemAbonoBool').prop("checked", false);
+        DesabilitarCampoSuspensao();
+    }
+
+    function LimpaAfastamento() {
+        $('#BAbonadoBool').prop("checked", false);
+        $('#BSemCalculoBool').prop("checked", false);
+    }
+
+    function LimpaOcorrenciaAfastamento() {
+        $("#lkpOcorrencia").val('');
+        $("#BAbonadoBool").prop("checked", false);
+        $("#BSemCalculoBool").prop("checked", false);
+        $("#txtAbonoParcialDiurno").val('');
+        $("#txtAbonoParcialNoturno").val('');
+        recalculaFaltaAposAbonoDiurno();
+        recalculaFaltaAposAbonoNoturno();
+    }
+
+    var totalFaltasDiurna = '@Model.Horasfaltas';
+    var totalDebBH = '@Model.Bancohorasdeb';
+    var totalAbonoDiurno = '@Model.Afastamento.Horai';
+    var totalFaltasDiurnaMin = ConvertHoraMinuto(totalFaltasDiurna) + ConvertHoraMinuto(totalDebBH) + ConvertHoraMinuto(totalAbonoDiurno);
+    var totalFaltasNoturna = '@Model.Horasfaltanoturna';
+    var totalAbonoNoturno = '@Model.Afastamento.Horaf';
+    var totalFaltasNoturnoMin = ConvertHoraMinuto(totalFaltasNoturna) + ConvertHoraMinuto(totalAbonoNoturno);
+
+    $("#btnAbonoParcial").click(function () {
+        if (totalFaltasDiurnaMin <= 0 && totalFaltasNoturnoMin <= 0 && totalDebBH <= 0) {
+            cwkErroTit("Neste dia não há falta para ser abonada.", "Apenas dia que possue falta diurna ou noturna pode ser abonado parcialmente.");
+            return;
+        }
+
+        if ($("#lkpOcorrencia").val() == "" || $("#lkpOcorrencia").val() == undefined || $("#lkpOcorrencia").val() == null) {
+            cwkErroTit("Para essa operação o campo Ocorrência é obrigatório", "Para informar o abono parcial é necessário informar a Ocorrência")
+            $("#lkpOcorrencia").focus();
+            return;
+        }
+        recalculaFaltaAposAbonoDiurno();
+        recalculaFaltaAposAbonoNoturno();
+        AbonoAnt["AbonoParcialDiurno"] = $("#txtAbonoParcialDiurno").val();
+        AbonoAnt["AbonoParcialNoturno"] = $("#txtAbonoParcialNoturno").val();
+        $("#divLoadAbonoParcialModal").modal();
+        });
+
+        function recalculaFaltaAposAbonoDiurno() {
+            var abonoDmin = ConvertHoraMinuto($("#txtAbonoParcialDiurno").val());
+            var resultadoDiurnomin = null;
+            var retornoDiurno = subtraiHoras(totalFaltasDiurnaMin, abonoDmin);
+            if (retornoDiurno < 0) {
+                retornoDiurno = 0;
+            }
+            $("#FaltaDiurnaAbono").val(ConvertMinutoHora(retornoDiurno));
+        }
+
+        function recalculaFaltaAposAbonoNoturno() {
+            var abonoNmin = ConvertHoraMinuto($("#txtAbonoParcialNoturno").val());
+            var retornoNoturno = subtraiHoras(totalFaltasNoturnoMin, abonoNmin);
+            if (retornoNoturno < 0) {
+                retornoNoturno = 0;
+            }
+            $("#FaltaNoturnaAbono").val(ConvertMinutoHora(retornoNoturno));
+        }
+
+    $(".fecharAbonoParcialModal").click(function () {
+        $("#txtAbonoParcialDiurno").val(AbonoAnt["AbonoParcialDiurno"]);
+        $("#txtAbonoParcialNoturno").val(AbonoAnt["AbonoParcialNoturno"]);
+        $("#divLoadAbonoParcialModal").modal('hide');
+    });
+
+    $(".timeB").blur(function () {
+        var valor = formataHora24($(this).val(), 2, 2);
+        $(this).val(valor);
+        if ($(this).attr('id').indexOf("Diurno") != -1) {
+            recalculaFaltaAposAbonoDiurno();
+        }
+        if ($(this).attr('id').indexOf("Noturno") != -1) {
+            recalculaFaltaAposAbonoNoturno();
+        }
+    });
+
+    $("#btnSalvarAbonoParcial").click(function () {
+        $("#BAbonadoBool").prop("checked", true);
+        recalculaFaltaAposAbonoDiurno();
+        recalculaFaltaAposAbonoNoturno();
+        var valido = true;
+        $("#divAfastamento").find('input:text, input:password, input:file, select, textarea')
+            .each(function () {
+            if ($(this).hasClass("input-validation-error")) {
+                valido = false;
+            }
+        });
+        if (valido) {
+            $("#divLoadAbonoParcialModal").modal('hide');
+        }
+        else { cwkErro('Corrija os erros antes de salvar.') }
+    });
+
+    $("#BAbonadoBool").change(function (event) {
+        if ($(this).is(':checked')) {
+            $("#BSemCalculoBool").prop("checked", false);
+            $("#bSemAbonoBool").prop("checked", false);
+        }
+    });
+    $("#BSemCalculoBool").change(function (event) {
+        if ($(this).is(':checked')) {
+            $("#BAbonadoBool").prop("checked", false);
+            $("#bSemAbonoBool").prop("checked", false);
+        }
+    });
+
+    $("#bSemAbonoBool").change(function (event) {
+        if ($(this).is(':checked')) {
+            $("#BAbonadoBool").prop("checked", false);
+            $("#BSemCalculoBool").prop("checked", false);
+        }
+    });
+
+
+
+    //Fim Javascript referente a afastamento
+
+
+    //Inicio Javascript referente a conclusão do fluxo Painel do RH
+
+    $('#btnConclusaoFluxoPnlRH').click(function () {
+        $('#btnConclusaoFluxoPnlRH').attr('disabled', 'disabled');
+        $("#loading").modal();
+        var parametros = {
+            idMarcacao: $('#idMarcacao').val(),
+            idFuncionario: $('#Idfuncionario').val(),
+        };
+        $.ajax({
+            type: "POST",
+            url: "/Marcacao/ConcluirFluxoPnlRh",
+            data: parametros,
+
+            success: function (result) {
+                $("#loading").modal('hide');
+                $.unblockUI();
+                if (result.Success === true) {
+                    cwkSucessoTit('Bloqueio Liberado', 'O bloqueio foi liberado com sucesso!');
+                    cwk_CadastroAjaxParam('ManutMarcacao', 'Marcacao', idMarcacao, "", "#divManutMarcacao", callBackManutMarcacao);
+                } else {
+                    if (result.Aviso != undefined && result.Aviso != "" && result.Aviso == true) {
+                        cwkNotificacaoTit('Alerta!', result.Erro);
+                        $('#FormManutMarcacao').find('#btnConclusaoFluxoPnlRH').removeAttr("disabled");
+                    }
+                    else {
+                        cwkErroTit('Erro!', result.Erro);
+                        $('#FormManutMarcacao').find('#btnConclusaoFluxoPnlRH').removeAttr("disabled");
+                    }
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $("#loading").modal('hide');
+                $.unblockUI();
+                if (xhr.responseText.indexOf('Usuário sem permissão') >= 0) {
+                    cwkErro("Acesso negado, Contate o administrador do sistema!");
+                }
+                else {
+                    $.unblockUI();
+                    var sErrMsg = "";
+                    sErrMsg += "Erro: ";
+                    sErrMsg += "\n\n" + " - Status :" + textStatus;
+                    sErrMsg += "\n\n" + " - Status Erro :" + xhr.status;
+                    sErrMsg += "\n\n" + " - Tipo Erro :" + errorThrown;
+                    sErrMsg += "\n\n" + " - Mensagem Erro :" + xhr.responseText;
+                    cwkErro(sErrMsg);
+                }
+            }
+        });
+    })
+
+
+    $('#btnInfConclusaoFluxoPnlRh').click(function () {
+        bootbox.alert({
+            title: "Informação",
+            message: "Essa ação concluirá indiretamente o fluxo no Painel do RH e liberará o registro para edição."
+        });
+    })
+
+
+    //Fim Javascript referente a conclusão do fluxo Painel do RH
+
+   //botoes volta e avança
+
+        function eventoVolta() {
+
+            eventoAvanc('0');
+        }
+
+        function eventoAvanc(tipo) {
+
+            var valido = true;
+            var salvar = true;
+            var blAva = true;
+
+            if (($("#bSuspensaoBool").is(":checked") || $("#BAbonadoBool").is(":checked") || $("#BSemCalculoBool").is(":checked")) && ($("#lkpOcorrencia").val() == "" || $("#lkpOcorrencia").val() == undefined || $("#lkpOcorrencia").val() == null)) {
+                cwkErroTit('Para realizar um afastamento é necessário informar o campo Ocorrência!', 'Informe o campo Ocorrência ou desmarque a opção "Abonado", "Suspensão" ou "Sem Cálculo".');
+                $("#lkpOcorrencia").focus();
+                valido = false;
+            }
+
+            var identManut = $(".time").attr('id').replace("txtMarcacao", "");
+
+            if (ConvertHoraMinuto($("#txtMarcacao" + identManut).val()) != ConvertHoraMinuto(MarcAnt["#txtMarcacao" + identManut])) {
+                salvar = false;
+            }
+
+            if (salvar && valido) {
+
+                $("#loading").modal();
+
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "/Marcacao/ManutMarcacao",
+                    cache: false,
+                    data: $($("#FormManutMarcacao")).serialize(),
+                    success: function (result) {
+
+                        carregaGridMarcacao();
+
+                        if (tipo == '0') {
+                            blAva = false;
+                        }
+
+                        var prmId = {
+                            idFuncionario: '@Model.Idfuncionario',
+                            data: '@Model.Data.ToString("yyyy-MM-dd")',
+                            avanca: blAva
+                        };
+
+                        $.ajax(
+                            {
+                                url: '/Marcacao/CarregaIdporData',
+                                type: 'GET',
+                                dataType: "html",
+                                data: prmId,
+                                crossDomain: true,
+                                cache: false,
+                                error: function (ex) {
+
+                                },
+                                success: function (ret) {
+
+                                    $("#loading").modal('hide');
+
+                                    $('#divManutMarcacao').html(ret);
+                                }
+                            }
+                        )
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        $("#loading").modal('hide');
+                        $.unblockUI();
+                        if (xhr.responseText.indexOf('Usuário sem permissão') >= 0) {
+                            cwkErro("Acesso negado, Contate o administrador do sistema!");
+                        }
+                        else {
+                            $.unblockUI();
+                            var sErrMsg = "";
+                            sErrMsg += "Erro: ";
+                            sErrMsg += "\n\n" + " - Status :" + textStatus;
+                            sErrMsg += "\n\n" + " - Status Erro :" + xhr.status;
+                            sErrMsg += "\n\n" + " - Tipo Erro :" + errorThrown;
+                            sErrMsg += "\n\n" + " - Mensagem Erro :" + xhr.responseText;
+                            cwkErro(sErrMsg);
+                        }
+                    }
+                }
+            )
+                
+            } 
+            
+        }
+
+
+    </script>
+@*Script Coloca tela para consulta*@
+@if ((int)TempData["Consultar"] == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $("#FormManutMarcacao").find('input, textarea, button, select, label').attr('disabled', 'disabled');
+            $('#FormManutMarcacao').find('#fecharCadastroModal').removeAttr("disabled");
+            $('#FormManutMarcacao').find('#xfecharCadastroModal').removeAttr("disabled");
+            $('#FormManutMarcacao').find('#btnConclusaoFluxoPnlRH').removeAttr("disabled");
+            $('#FormManutMarcacao').find('#btnInfConclusaoFluxoPnlRh').removeAttr("disabled");
+        })
+    </script>
+}
+@*Script para verificar permissão onde irá ativar ou desativar o botão para concluir fluxo no Painel do RH*@
+@if(ViewBag.PermissaoConcluirFluxoPnlRh == false)
+{
+    <script>
+        $(document).ready(function () {
+            $('#FormManutMarcacao').find('#btnConclusaoFluxoPnlRH').attr('disabled', 'disabled');
+        })
+    </script>
+}

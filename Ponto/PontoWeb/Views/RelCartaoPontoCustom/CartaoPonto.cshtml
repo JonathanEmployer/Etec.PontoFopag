@@ -1,0 +1,80 @@
+﻿@model Modelo.Proxy.pxyCartaoPontoEmployer
+<style>
+    th {
+        font-family: 'Courier New';
+        font-size: 6pt;
+        color: white;
+        background-color: navy;
+        text-align: center;
+    }
+
+    p, td, .fonteCP {
+        font-family: 'Courier New';
+        font-size: 6pt;
+    }
+</style>
+<div>
+    <p>Nome: @Model.pxyFuncionarioCabecalhoRel.EmpresaNome</p>
+    <table id="tb">
+        <thead>
+            <tr>
+                <th colspan="3" scope="colgroup"></th>
+                <th colspan="8" scope="colgroup">Marcações</th>
+                <th colspan="2" scope="colgroup">Trabalhadas</th>
+                <th colspan="2" scope="colgroup">Extras</th>
+                <th colspan="2" scope="colgroup">Faltas</th>
+                <th colspan="2" scope="colgroup">Banco Horas</th>
+                <th colspan="1" scope="colgroup"></th>
+            </tr>
+            <tr>
+                <th>Data</th>
+                <th>dia</th>
+                <th>L</th>
+                <th>Ent1</th>
+                <th>Sai1</th>
+                <th>Ent2</th>
+                <th>Sai2</th>
+                <th>Ent3</th>
+                <th>Sai3</th>
+                <th>Ent4</th>
+                <th>Sai4</th>
+                <th>Diu.</th>
+                <th>Not.</th>
+                <th>Diu.</th>
+                <th>Not.</th>
+                <th>Diu.</th>
+                <th>Not.</th>
+                <th>Cre.</th>
+                <th>Deb.</th>
+                <th>Ocorrência</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Marcacao)
+            {
+                <tr>
+                    <td>@item.Data</td>
+                    <td>@item.Dia</td>
+                    @*<td>@item.Legenda</td>
+                    <td>@item.Entrada_1</td>
+                    <td>@item.Saida_1</td>
+                    <td>@item.Entrada_2</td>
+                    <td>@item.Saida_2</td>
+                    <td>@item.Entrada_3</td>
+                    <td>@item.Saida_3</td>
+                    <td>@item.Entrada_4</td>
+                    <td>@item.Saida_4</td>*@
+                    @*<td style="color:blue">@item.Horastrabalhadas</td>
+                    <td style="color:blue">@item.Horastrabalhadasnoturnas</td>
+                    <td style="color:blue">@item.Horasextrasdiurna</td>
+                    <td style="color:blue">@item.Horasextranoturna</td>
+                    <td style="color:red">@item.Horasfaltas</td>
+                    <td style="color:red">@item.Horasfaltanoturna</td>
+                    <td style="color:blue">@item.Bancohorascre</td>
+                    <td style="color:red">@item.Bancohorasdeb</td>
+                    <td>@item.Ocorrencia</td>*@
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

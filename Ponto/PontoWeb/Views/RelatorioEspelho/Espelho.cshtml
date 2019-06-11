@@ -1,0 +1,181 @@
+﻿@model Modelo.Relatorios.RelatorioPadraoModel
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Relatório de Espelho";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm())
+{
+    <div class="">
+        <div class="" style="margin-bottom:0">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+                    <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+                </div>
+                <div class="panel-body panelConteudo" id="panelBodyFixo">
+                    @Html.HiddenFor(x => x.TipoSelecao)
+                    @Html.ValidationSummary(true)
+                    @Html.ValidationMessage("CustomError", new { id = "CustomError" })
+                    @Html.HiddenFor(model => model.TipoArquivo, new { id = "tipoArquivo" })
+					<div>
+						<div class="col-md-12">
+							@Html.ValidationMessageFor(model => Model.TipoSelecao)
+						</div>
+						<div class="row" style="padding-bottom:4px;">
+							<div id="divPeriodo" class="col-md-12">
+								<div class="panel panel-default" id="pnlData">
+									<div class="panel-heading" style="padding-top:5px; padding-bottom:5px">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="col-md-2"><label class="control-label label-sm">Período</label></div>
+												<div class="col-md-8">
+													<div class="row">
+														<div class="col-md-5">
+															<div class="input-group input-group-sm">
+																@Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "InicioPeriodo" })
+																<span class="input-group-btn">
+																	<button class="btn btn-primary" id="btnDtInicio" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+																</span>
+															</div>
+														</div>
+														<div class="col-md-1">
+															@Html.Label("a", new { @class = "label-sm" })
+														</div>
+														<div class="col-md-5">
+															<div class="input-group input-group-sm">
+																@Html.TextBoxFor(model => Model.FimPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "FimPeriodo" })
+																<span class="input-group-btn">
+																	<button class="btn btn-primary" id="btnDtFim" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+																</span>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12">
+												@Html.HiddenFor(model => model.Intervalo)
+												@Html.ValidationMessageFor(model => model.Intervalo)
+												@Html.ValidationMessageFor(model => Model.InicioPeriodo)
+												@Html.ValidationMessageFor(model => Model.FimPeriodo)
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								@Html.HiddenFor(x => x.IdSelecionados)
+								@Html.ValidationMessageFor(x => x.IdSelecionados)
+								<div class="row">
+									@Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorio()).GetType(), true, "GetFuncsRel", "GetFuns")
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								@Html.Partial("../JobManager/JobView")
+							</div>
+						</div>
+					</div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-xs-12 center-block">
+                            <div style="text-align: right">
+                                <button type="submit" id="btnPdf" class="btn btn-primary btnEnviar"><span class="fa fa-file-pdf-o"></span>&nbsp;Gerar PDF</button>
+                                <button type="submit" id="btnXls" class="btn btn-primary btnEnviar"><span class="fa fa-file-excel-o"></span>&nbsp;Gerar Excel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    var errorArray = new Array();
+    cwk_DataCalendario('#btnDtInicio', '#InicioPeriodo');
+    cwk_DataCalendario('#btnDtFim', '#FimPeriodo');
+
+    $(document).ready(function () {
+
+        $('.datepickerpt').datepicker().on('hide', function (ev) {
+            $("#pnlData").removeClass("panel-danger").removeClass("panel-success");
+            $("#pnlData").addClass("panel-default");
+            errorArray["Intervalo"] = null;
+            $("form").validate().showErrors(errorArray);
+            if ((this.id == "InicioPeriodo") && (($("#InicioPeriodo").val() != null && $("#InicioPeriodo").val() != "") && ($("#FimPeriodo").val() == null || $("#FimPeriodo").val() == ""))) {
+                var inid = new Date(ev.date);
+                endDate = new Date(ev.date);
+                endDate.setDate(endDate.getDate() + 30);
+                endDateString = ('0' + endDate.getDate()).slice(-2) + '/'
+                                + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
+                                + endDate.getFullYear();
+                $('#FimPeriodo').val(endDateString);
+                $('#FimPeriodo').datepicker('update');
+            }
+//            validaPeriodo(this);
+            validaPeriodo("#InicioPeriodo", "#FimPeriodo", "#pnlData", "Intervalo", "form");
+
+        });
+
+        $('#tbFun tbody').on('click', 'tr', function () {
+            errorArray["IdSelecionados"] = null;
+            $("form").validate().showErrors(errorArray);
+            validaPeriodo("#InicioPeriodo", "#FimPeriodo", "#pnlData", "Intervalo", "form");
+        });
+    });
+
+    $("#btnPdf").click(function (event) {
+        if (!validaForm()) {
+            event.preventDefault();
+        }
+        else {
+            $("#tipoArquivo").val("PDF");
+        }
+    });
+
+    $("#btnXls").click(function (event) {
+        if (!validaForm()) {
+            event.preventDefault();
+        }
+        else {
+            $("#tipoArquivo").val("Excel");
+            mboxXls($('form'))
+            event.preventDefault();
+        }
+    });
+
+    $('form').submit(function () {
+        if ($(this).valid()) {
+			PostFormJob(this);
+        }
+        return false;
+    });
+
+    function validaForm() {
+        $("#IdSelecionados").val(tbFunGetSelecionado());
+		if ($("#IdSelecionados").val().length <= 0 || $("#IdSelecionados").val() == '' || $("#IdSelecionados").val() == null) {
+            var msgErro = 'Para Imprimir o Relatório de Espelho é Necessário Selecionar Pelo Menos um Funcionário.';
+            errorArray["IdSelecionados"] = msgErro;
+            cwkErro(msgErro);
+            $("form").validate().showErrors(errorArray);
+            return false;
+        }
+        else {
+			errorArray["IdSelecionados"] = null;
+            $("form").validate().showErrors(errorArray);
+            return true;
+        }
+    }
+
+</script>
+
+
+
+

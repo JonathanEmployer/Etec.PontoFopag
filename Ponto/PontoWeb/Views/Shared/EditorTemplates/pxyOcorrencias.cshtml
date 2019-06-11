@@ -1,0 +1,19 @@
+﻿@model Modelo.Proxy.pxyOcorrencias
+
+<tr id="@Model.Id">
+    <td>
+        @Html.EditorFor(model => model.Selecionado, new { @class = "selectOcors" })
+        @Html.HiddenFor(model => model.Id)
+    </td>
+    <td>
+        @Html.HiddenFor(model => model.Codigo)
+        @Html.DisplayFor(model => model.Codigo)
+    </td>
+    <td>
+        @Html.HiddenFor(model => model.Descricao)
+        @Html.DisplayFor(model => model.Descricao)
+    </td>
+</tr>
+
+
+

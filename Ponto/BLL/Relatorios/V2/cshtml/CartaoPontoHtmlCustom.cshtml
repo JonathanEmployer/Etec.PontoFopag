@@ -1,0 +1,408 @@
+﻿@model IEnumerable<Modelo.Proxy.pxyCartaoPontoEmployer>
+	<style>
+		.classRelatorio {
+			font-family: 'Arial';
+			font-size: 6pt;
+			text-align: left;
+			font: normal;
+			width: 752px;
+		}
+
+		.Cinza {
+			background-color: rgb(200,200,200);
+			vertical-align: middle;
+		}
+
+		.classTrTh {
+			font-family: 'Arial';
+			font-size: 8pt;
+			color: black;
+			text-align: center;
+			font: normal;
+			height: 15px;
+		}
+
+		.classtr {
+			font-family: 'Arial';
+			font-size: 6pt;
+			color: black;
+			text-align: center;
+			font: normal;
+			height: 15px;
+		}
+
+		.classNomeRel {
+			font-size: 20px;
+			font: bold;
+			text-align: center;
+		}
+
+		.BordaL {
+			border-left: 1px solid;
+		}
+
+		.BordaB {
+			border-bottom: 1px solid;
+		}
+
+		.BordaT {
+			border-top: 1px solid;
+		}
+
+		.BordaR {
+			border-right: 1px solid;
+		}
+	</style>
+
+	@{
+		List<Modelo.Utils.CartaoPontoCamposParaCustomizacao> campos = Model.FirstOrDefault().CamposSelecionados.OrderBy(o => o.Posicao).Select(s => s.PropriedadesCampo).ToList();
+		int qtdColunasCustomizadas = campos.Count() + (campos.Where(w => w.NomePropriedade == "TratamentoEventos").Count() > 0 ? 2 : 0);
+		int qtdColunasFixasRel = 6;
+		int qtdColunasRel = qtdColunasFixasRel + qtdColunasCustomizadas;
+	}
+
+	<div style="background-color:white">
+		<div class="classRelatorio">
+			@foreach (Modelo.Proxy.pxyCartaoPontoEmployer cartao in Model)
+			{
+				<table style="width:100%; repeat-header: yes; border-collapse: inherit;" cellspacing="0">
+					<thead>
+						<tr>
+							<th style="width: 34px"></th> @*Data*@
+							<th style="width: 22px"></th> @*Dia*@
+							<th style="width: 22px"></th> @*Ent 1*@
+							<th style="width: 22px"></th> @*Sai 1*@
+							<th style="width: 22px"></th> @*Ent 2*@
+							<th style="width: 22px"></th> @*Sai 2*@
+
+							@foreach (Modelo.Utils.CartaoPontoCamposParaCustomizacao campo in campos)
+							{
+								if (campo.NomePropriedade == "TratamentoEventos")
+								{
+									<th style="width: 30px"></th>
+									<th style="width: 24px"></th>
+									<th style="width: 28px"></th>
+								}
+								else
+								{
+									string tamnhoColuna = "";
+									if (campo.TamanhoPX > 0)
+									{
+										tamnhoColuna = "width:" + campo.TamanhoPX + "px";
+									}
+									<th style="@tamnhoColuna"></th>
+								}
+							}
+						</tr>
+						<tr>
+							<th colspan="@qtdColunasRel" scope="colgroup" class="classNomeRel" style="white-space: nowrap; padding-top:10px">Espelho de Ponto Eletrônico</th>
+						</tr>
+						@{
+							string enderecoEmpresa = String.IsNullOrEmpty(cartao.pxyFuncionarioCabecalhoRel.AlocacaoEndereco) ? cartao.pxyFuncionarioCabecalhoRel.EmpresaEndereco : cartao.pxyFuncionarioCabecalhoRel.AlocacaoEndereco;
+						}
+
+						<tr class="classTrTh"><th colspan="@qtdColunasRel" scope="colgroup" style=" padding:5px; text-align:left" class="BordaL BordaR BordaT">Empregador: @cartao.pxyFuncionarioCabecalhoRel.EmpresaNome</th></tr>
+						<tr class="classTrTh"><th colspan="@qtdColunasRel" scope="colgroup" style=" padding:5px; text-align:left" class="BordaL BordaR">Endereço: @enderecoEmpresa</th></tr>
+						<tr class="classTrTh"><th colspan="@qtdColunasRel" scope="colgroup" style=" padding:5px; text-align:left" class="BordaL BordaR">Empregado: @cartao.pxyFuncionarioCabecalhoRel.Pis - @cartao.pxyFuncionarioCabecalhoRel.Nome</th></tr>
+						<tr class="classTrTh">
+							<th colspan="@qtdColunasRel" scope="colgroup" class="BordaL BordaR">
+								<table style="width:100%; border-collapse: inherit;" cellspacing="0">
+									<tr class="classTrTh">
+										<th width=" 30%" style="text-align:left; padding:5px;">
+											Admissão: @cartao.pxyFuncionarioCabecalhoRel.DataAdmissao.ToString("dd/MM/yyyy")
+										</th>
+										<th width="20%" style="padding: 5px;">Matrícula: @cartao.pxyFuncionarioCabecalhoRel.Matricula</th>
+										<th width="50%" style="text-align:right; padding:5px;">Período: @cartao.Periodo &nbsp; &nbsp; &nbsp; &nbsp; Emissão: @DateTime.Now.ToString("dd/MM/yyyy HH:mm")</th>
+									</tr>
+								</table>
+							</th>
+						</tr>
+						<tr class="classtr Cinza">
+							<th style="text-align:center; width: 100px" class="BordaL BordaB BordaT BordaR" rowspan="2" scope="rowgroup">Data</th>
+							<th style="text-align:center" class="BordaB BordaT BordaR" rowspan="2" scope="rowgroup">Dia</th>
+							<th style="text-align:center" class="BordaB BordaT BordaR" colspan="4" scope="colgroup">Jornada Realizada</th>
+							@foreach (Modelo.Utils.CartaoPontoCamposParaCustomizacao campo in campos)
+							{
+								if (campo.NomePropriedade == "TratamentoEventos")
+								{
+									<th style="text-align:center" class="BordaB BordaT BordaR" colspan="3" scope="colgroup"> Tratamentos / eventos</th>
+								}
+								else
+								{
+									<th style="text-align:center" class="BordaB BordaT BordaR" rowspan="2" scope="rowgroup">
+										@campo.Header
+										@if ((campo.NomePropriedade == "BancoHoras") || (campo.NomePropriedade == "BancoHorasCredito" && !cartao.Totalizador.SaldoAnteriorBH.Contains("-")) || (campo.NomePropriedade == "BancoHorasDebito" && cartao.Totalizador.SaldoAnteriorBH.Contains("-")))
+										{
+											<br />
+											@cartao.Totalizador.SaldoAnteriorBH
+										}
+									</th>
+								}
+							}
+						</tr>
+						<tr class="classtr Cinza">
+							<th style="text-align:center" class="BordaB BordaR Cinza">Ent.</th>
+							<th style="text-align:center" class="BordaB Cinza BordaR">Saí.</th>
+							<th style="text-align:center" class="BordaB Cinza BordaR">Ent.</th>
+							<th style="text-align:center" class="BordaB Cinza BordaR">Saí.</th>
+							@if (campos.Where(w => w.NomePropriedade == "TratamentoEventos").Count() > 0)
+							{
+								<th style="text-align:center" class="BordaB Cinza BordaR">Horário</th>
+								<th style="text-align:center" class="BordaB Cinza BordaR">Ocor.</th>
+								<th style="text-align:center" class="BordaB Cinza BordaR">Motivo</th>
+							}
+						</tr>
+					</thead>
+
+					<tbody>
+						@foreach (Modelo.Proxy.PxyCPEMarcacao marc in cartao.Marcacao)
+						{
+							int qtdLinha = marc.pxyCPEJornadaRealizada.Count();
+							int qtdTratamento = campos.Where(w => w.NomePropriedade == "TratamentoEventos").Count() > 0 ? marc.pxyCPETratamentos.Count() : 1;
+							if (qtdLinha < qtdTratamento)
+							{
+								qtdLinha = qtdTratamento;
+							}
+
+							qtdLinha = qtdLinha == 0 ? 1 : qtdLinha;
+
+							for (int i = 0; i < qtdLinha; i++)
+							{
+								<tr class="classtr">
+									@if (i == 0)
+									{
+										<td style="width: 100px" class="BordaL BordaB BordaR" rowspan="@qtdLinha" scope="rowgroup">@marc.DataFormat</td>
+										<td class="BordaB BordaR" rowspan="@qtdLinha" scope="rowgroup">@marc.Dia</td>
+									}
+
+									@{
+										string e1 = "";
+										string e2 = "";
+										string s1 = "";
+										string s2 = "";
+										if (i < @marc.pxyCPEJornadaRealizada.Count())
+										{
+											e1 = @marc.pxyCPEJornadaRealizada[i].Entrada1;
+											e2 = @marc.pxyCPEJornadaRealizada[i].Entrada2;
+											s1 = @marc.pxyCPEJornadaRealizada[i].Saida1;
+											s2 = @marc.pxyCPEJornadaRealizada[i].Saida2;
+										}
+									}
+									<td class="BordaB BordaR" scope="rowgroup">@e1</td>
+									<td class="BordaB BordaR" scope="rowgroup">@s1</td>
+									<td class="BordaB BordaR" scope="rowgroup">@e2</td>
+									<td class="BordaB BordaR" scope="rowgroup">@s2</td>
+
+									@foreach (Modelo.Utils.CartaoPontoCamposParaCustomizacao campo in campos)
+									{
+										if (campo.NomePropriedade != "TratamentoEventos")
+										{
+											if (i == 0)
+											{
+												<td class="BordaB BordaR" rowspan="@qtdLinha" scope="rowgroup">
+													@{
+														string valor = marc.GetType().GetProperty(campo.NomePropriedade).GetValue(marc, null).ToString();
+														List<string> valores = new List<string>();
+														valores = valor.Split(new[] { "</br>" }, StringSplitOptions.None).ToList();
+														for (int d = 0; d < valores.Count; d++)
+														{
+															@valores[d]
+															if (valores.Count > 1 && d + 1 < valores.Count)
+															{
+																<br />
+															}
+														}
+													}
+												</td>
+											}
+										}
+										else
+										{
+											string horario = "";
+											string ocorrencia = "";
+											int? indiceMotivo = null;
+											if (i < @marc.pxyCPETratamentos.Count())
+											{
+												horario = @marc.pxyCPETratamentos[i].Horario;
+												ocorrencia = @marc.pxyCPETratamentos[i].Ocorrencia;
+												indiceMotivo = @marc.pxyCPETratamentos[i].IndiceMotivo;
+											}
+											<td class="BordaB BordaR"> @horario</td>
+											<td class="BordaB BordaR"> @ocorrencia</td>
+											<td class="BordaB BordaR"> @indiceMotivo</td>
+										}
+									}
+								</tr>
+							}
+						}
+					</tbody>
+					@*Somatório funcionário*@
+					<tfoot>
+						<tr class="classtr Cinza">
+							<th class="BordaL BordaB BordaR" style="text-align:right" colspan="@qtdColunasFixasRel" scope="colgroup">Total : &nbsp;</th>
+							@foreach (Modelo.Utils.CartaoPontoCamposParaCustomizacao campo in campos)
+							{
+								if (campo.NomePropriedade == "TratamentoEventos")
+								{
+									<th class="BordaB BordaR" style="text-align:right" colspan="3" scope="colgroup"></th>
+								}
+								else if (campo.NomePropriedade == "HorasInItinere")
+								{
+									IList<decimal> percDentro = cartao.Marcacao.GroupBy(g => g.InItinerePercDentroJornada).Select(s => s.Key).ToList();
+									IList<decimal> percFora = cartao.Marcacao.GroupBy(g => g.InItinerePercForaJornada).Select(s => s.Key).ToList();
+									IList<decimal> percs = percDentro.Union(percFora).ToList();
+									<th class="BordaB BordaR" style="text-align:right">
+										@{ string InItinere = "";
+											foreach (decimal perc in percs)
+											{
+												int minutos = 0;
+												if (cartao.Marcacao.Where(w => w.InItinerePercDentroJornada == perc).Count() > 0)
+												{
+													minutos += cartao.Marcacao.Where(w => w.InItinerePercDentroJornada == perc).Sum(s => Modelo.cwkFuncoes.ConvertHorasMinuto(s.InItinereHrsDentroJornada));
+												}
+												if (cartao.Marcacao.Where(w => w.InItinerePercForaJornada == perc).Count() > 0)
+												{
+													minutos += cartao.Marcacao.Where(w => w.InItinerePercForaJornada == perc).Sum(s => Modelo.cwkFuncoes.ConvertHorasMinuto(s.InItinereHrsForaJornada));
+												}
+												if (minutos > 0)
+												{
+													string percIn = ((" " + (int)perc + "% ") + Modelo.cwkFuncoes.ConvertMinutosHora2(3, minutos));
+													if (!String.IsNullOrEmpty(InItinere))
+													{
+														InItinere += " <br/> " + percIn;
+														<br />
+														@percIn
+													}
+													else
+													{
+														InItinere = percIn;
+														@percIn
+													}
+												}
+											}
+										}
+									</th>
+
+								}
+								else
+								{
+									<th class="BordaB BordaR">
+										@if (campo.Somar && campo.NomePropriedade != "BancoHoras")
+										{
+											<text>
+												@Modelo.cwkFuncoes.ConvertMinutosHora2(3, cartao.Marcacao.Sum(s => Modelo.cwkFuncoes.ConvertHorasMinuto(s.GetType().GetProperty(campo.NomePropriedade).GetValue(s, null).ToString())))
+											</text>
+										}
+
+										@if ((campo.NomePropriedade == "BancoHoras"))
+										{
+											@cartao.Totalizador.SaldoAtualBH
+										}
+										else if ((campo.NomePropriedade == "BancoHorasCredito" && !cartao.Totalizador.SaldoAtualBH.Contains("-")) || (campo.NomePropriedade == "BancoHorasDebito" && cartao.Totalizador.SaldoAtualBH.Contains("-")))
+										{
+											<br />
+											@cartao.Totalizador.SaldoAtualBH
+										}
+
+									</th>
+								}
+							}
+						</tr>
+						<tr><th><br /></th></tr>
+
+						<tr>
+							<th colspan="@qtdColunasRel" scope="colgroup">
+								<table style="width:100%;" cellspacing="0">
+									<tr style="vertical-align:top;">
+										<th colspan="2"></th>
+										@if (campos.Where(w => w.NomePropriedade == "CodJornada").Count() > 0)
+										{
+											<th style="width:50%; padding-right:5px">
+												<span style="font:bold; font-size:9pt">Horários contratuais do empregado:</span>
+												<table style="width:100%;" repeat-header yes; cellspacing="0">
+													<thead>
+														<tr class="classtr Cinza">
+															<th class="classth1 BordaB BordaT BordaL">Cód. Jornada(C.J.)</th>
+															<th class="classth1 BordaB BordaT BordaL">Entrada</th>
+															<th class="classth1 BordaB BordaT BordaL">Saída</th>
+															<th class="classth1 BordaB BordaT BordaL">Entrada</th>
+															<th class="classth1 BordaB BordaT BordaL">Saída</th>
+															<th class="classth1 BordaB BordaT BordaL">Entrada</th>
+															<th class="classth1 BordaB BordaT BordaL">Saída</th>
+															<th class="classth1 BordaB BordaT BordaL">Entrada</th>
+															<th class="classth1 BordaB BordaT BordaL BordaR">Saída</th>
+														</tr>
+													</thead>
+													@foreach (Modelo.Jornada jornada in cartao.Jornadas)
+													{
+														string codigoJornada = "";
+														if (jornada.Codigo > 0)
+														{
+															codigoJornada = jornada.Codigo.ToString();
+														}
+														<tr class="classtr">
+															<td style="text-align:center" class="BordaB BordaL">@codigoJornada</td>
+															<td style="text-align:center" class="BordaB BordaL">@jornada.Entrada_1</td>
+															<td style="text-align:center" class="BordaB BordaL">@jornada.Saida_1</td>
+															<td style="text-align:center" class="BordaB BordaL">@jornada.Entrada_2</td>
+															<td style="text-align:center" class="BordaB BordaL">@jornada.Saida_2</td>
+															<td style="text-align:center" class="BordaB BordaL">@jornada.Entrada_3</td>
+															<td style="text-align:center" class="BordaB BordaL">@jornada.Saida_3</td>
+															<td style="text-align:center" class="BordaB BordaL">@jornada.Entrada_4</td>
+															<td style="text-align:center" class="BordaB BordaL BordaR">@jornada.Saida_4</td>
+														</tr>
+													}
+												</table>
+											</th>
+										}
+										@if (campos.Where(w => w.NomePropriedade == "TratamentoEventos").Count() > 0)
+										{
+											<th style="width:50%; padding-left:5px">
+												<span style="font:bold; font-size:9pt">Motivos de tratamento:</span>
+												<table style="width:100%" repeat-header yes; cellspacing="0" id="tb">
+													<thead>
+														<tr class="classtr Cinza">
+															<th class="classth1 BordaB BordaT BordaL">Índice</th>
+															<th class="classth1 BordaB BordaT BordaL BordaR">Motivo</th>
+														</tr>
+													</thead>
+
+													@foreach (Modelo.Proxy.PxyCPEMotivosTratamento motivos in cartao.MotivosTratamentos)
+													{
+														string indiceMotivo = "";
+														if (motivos.Indice > 0)
+														{
+															indiceMotivo = @motivos.Indice.ToString();
+														}
+														<tr class="classtr">
+															<td class="BordaB BordaL">@indiceMotivo</td>
+															<td style="text-align:left" class="BordaB BordaL BordaR">@motivos.Motivo</td>
+														</tr>
+													}
+												</table>
+												<span style="font:bold; font-size:6pt"> Legenda: A = Abono, I = Incluído, P = Pré-assinalada, AN = Adicional noturno.</span>
+											</th>
+										}
+									</tr>
+								</table>
+							</th>
+						</tr>
+						<tr>
+							<th colspan="@qtdColunasRel" scope="colgroup">
+								<table style="width:100%; margin-top:50px" cellspacing="0">
+									<tr>
+										<th style="width:10%; text-align:center"></th>
+										<th style="width:30%; text-align:center" class="BordaT">Assinatura Gestor</th>
+										<th style="width:20%; text-align:center"></th>
+										<th style="width:30%; text-align:center" class="BordaT">Assinatura Empregado</th>
+										<th style="width:10%; text-align:center"></th>
+									</tr>
+								</table>
+							</th>
+						</tr>
+					</tfoot>
+				</table>
+				<div style="page-break-after:always">&nbsp;</div>
+			}
+		</div>
+	</div>

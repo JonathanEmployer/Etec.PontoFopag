@@ -1,0 +1,107 @@
+﻿@model IList<GerenciadorWeb.Models.EstacaoViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="container-fluid col-md-12">
+        <div class="panel">
+            <div class="panel-heading">
+                <h2>Estações <small>Gerenciamento</small></h2>
+                <!-- Start Legendas -->
+                <ul class="list-inline pull-right">
+                    <li>
+                        <div class="legenda liberacao_normal"><span>&nbsp;</span></div>
+                        <span>Normal</span>
+                    </li>
+                    <li>
+                        <div class="legenda liberacao_bloqueado"><span>&nbsp;</span></div>
+                        <span>Bloqueado</span>
+                    </li>
+                    <li>
+                        <div class="legenda liberacao_liberado"><span>&nbsp;</span></div>
+                        <span>Liberado</span>
+                    </li>
+                    <li>
+                        <div class="legenda liberacao_Aviso"><span>&nbsp;</span></div>
+                        <span>Aviso</span>
+                    </li>
+                </ul>
+                <!-- End Legendas -->
+                <hr>
+            </div>
+            <div class="container-fluid col-md-12">
+                <div class="panel-body">
+                    <table class="table table-bordered table-striped table-hover" id="tbl">
+                        <thead>
+                            <tr>
+                                <th>Usuário</th>
+                                <th>CPF</th>
+                                <th>Regra</th>
+                                <th>Mensagem</th>
+                                <th>Expiração</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                var funcionario = Model[i];
+                                var className = "liberacao_normal";
+                                if (funcionario.Bloqueado)
+                                {
+                                    className = "liberacao_bloqueado";
+                                }
+                                else if (funcionario.ForcadoGestor)
+                                {
+                                    className = "liberacao_liberado";
+                                }
+                                else if (!String.IsNullOrEmpty(funcionario.Mensagem))
+                                {
+                                    className = "liberacao_Aviso";
+                                }
+                                <tr class="@className" id="@funcionario.ID">
+                                    <td>@funcionario.Usuario</td>
+                                    <td>@funcionario.CPF</td>
+                                    <td>@funcionario.Regra</td>
+                                    <td>@funcionario.Mensagem</td>
+                                    <td>@funcionario.Expiracao</td>
+                                    <td>
+                                        <a href="#" onclick="javascript:exibirModal(event, @funcionario.ID, '@funcionario.Usuario', false); return false;">Liberar</a>
+                                        <a href="#" onclick="javascript:exibirModal(event, @funcionario.ID, '@funcionario.Usuario', true); return false;">Bloquear</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row painel_botoes">
+            <!--Start Bloqueio / liberação em lote -->
+            <input type="button" value="Liberar lote" class="btn btn-primary" onclick="javascript: exibirModalLote(event, tabelaFuncionarios, false); return false;" />
+            <input type="button" value="Bloquear lote" class="btn btn-danger" onclick="javascript: exibirModalLote(event, tabelaFuncionarios, true); return false;" />
+            <!--End Bloqueio / liberação em lote -->
+        </div>
+    </div>
+}
+@Html.Partial("ModalLiberacao", new GerenciadorWeb.Models.BloqueioViewModel())
+<script>
+    $(document).ready(function () {
+        window.tabelaFuncionarios = $('#tbl').DataTable({
+            select: true,
+            buttons: [
+                'selectAll',
+                'selectNone'
+            ],
+            "language": {
+                'decimal': ',',
+                'thousands': '.',
+                'url': '//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json',
+            }
+        });
+
+    });
+</script>

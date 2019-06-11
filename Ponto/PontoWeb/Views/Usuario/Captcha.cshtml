@@ -1,0 +1,43 @@
+﻿@{
+    Layout = null;
+}
+@using Employer.Componentes.UI.WebMVC.Helpers
+    <div class="row">
+        <div class="col-md-12">
+            <div class="thumbnail bg-warning" style="text-align:center; margin-bottom:3px; background-color:#fcf8e3">
+                <div>
+                    @Html.Label("cap", "Informe o Captcha", new { @class = "control-label label-sm" }) 
+                    @*<i onclick="atualizarCaptcha()" class="glyphicon glyphicon-refresh alert-success"></i>*@
+                    @Html.CaptchaImage(new { @class = "img-responsive center-block" })
+                    <div style="margin: 0 auto; max-width:190px;">
+                        <div class="form-group" style="margin-top:2px; margin-bottom:2px">
+                            <div class="input-group">
+                                @Html.CaptchaText(new { style = "", @class = "form-control", maxlength = "6", required = "true", id = "txtCaptcha", autocomplete = "off" })
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success" onclick="atualizarCaptcha()" type="button" ><span class="fa fa-refresh" aria-hidden="true"></span></button>
+                                </span>
+                            </div>
+                            <label class="label cwork-label-erro">@ViewBag.resultCaptcha</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    function atualizarCaptcha() {
+        $.ajax(
+        {
+            type: 'GET',
+            url: '/Usuario/Captcha',
+            dataType: 'html',
+            cache: false,
+            async: true,
+            success: function (data) {
+                $('#divCaptcha').html(data);
+                $('#txtCaptcha').focus();
+            }
+        });
+    }
+</script>

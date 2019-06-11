@@ -1,0 +1,99 @@
+﻿@model Modelo.RepHistoricoLocal
+@{
+    ViewBag.Title = "Cadastrar Histórico do Local do Rep";
+    Layout = null;
+}
+
+@using (Html.BeginForm("Cadastrar", "RepHistoricoLocal", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+{
+    <div class="divCenterPequeno">
+        <div class="panel panel-default">
+            <div class="panel-heading salvando">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="xfecharCadastroModal">X</button>
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo">
+                @Html.ValidationMessage("CustomError")
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.IdRep, new { @id = "idRep" })
+                @Html.HiddenFor(model => model.Incdata)
+                @Html.HiddenFor(model => model.Inchora)
+                @Html.HiddenFor(model => model.Incusuario)
+                @Html.HiddenFor(model => model.Altdata)
+                @Html.HiddenFor(model => model.Althora)
+                @Html.HiddenFor(model => model.Altusuario)
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Data, new { @class = "control-label label-sm" })
+                            <div class="input-group input-group-sm">
+                                @Html.TextBoxFor(model => Model.Data, new { @class = "form-control input-sm MascDate datepickerpt", id = "Data" })
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" id="btndata" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                </span>
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Data)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm" })
+                        @Html.ValidationMessageFor(model => model.Codigo)
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Local, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Local, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Local)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <button type="button" data-dismiss="modal" aria-hidden="true" id="fecharCadastroModal" class="btn btn-danger salvando"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+
+    $(":input[type='text']:enabled:visible:first").focus();
+
+    $(document).ready(function () {
+        setaDatePiker('#Data');
+        $('.date').mask('00/00/0000');
+        cwk_EventoIncluirAjaxParam('#fecharCadastroModal', 'Grid', 'RepHistoricoLocal', parametros = { id: $("#idRep").val() }, "");
+        cwk_EventoIncluirAjaxParam('#xfecharCadastroModal', 'Grid', 'RepHistoricoLocal', parametros = { id: $("#idRep").val() }, "");
+
+        $('form').submit(function () {
+            if ($(this).valid()) {
+                cwk_SalvaCadastroAjax(this);
+            }
+            return false;
+        });
+
+    });
+
+</script>
+
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+            $('#xfecharCadastroModal').removeAttr('disabled');
+            $('#fecharCadastroModal').removeAttr('disabled');
+        })
+    </script>
+}

@@ -1,0 +1,62 @@
+﻿.liberacao_normal {
+}
+
+.liberacao_bloqueado {
+    color: #D2322D;
+}
+
+.liberacao_bloqueado.legenda {
+    background-color: #D2322D;
+}
+
+.liberacao_bloqueado.selected {
+    color: white;
+    font-weight: normal;
+}
+
+.liberacao_liberado {
+    color: #3C9C52;
+}
+
+.liberacao_liberado.legenda {
+    background-color: #3C9C52;
+}
+
+.liberacao_liberado.selected {
+    color: white;
+    font-weight: normal;
+}
+
+.liberacao_Aviso {
+    color: #e68a00;
+}
+
+.liberacao_Aviso.legenda {
+    background-color: #e68a00 !important;
+}
+
+.liberacao_Aviso.selected {
+    color: white;
+    font-weight: normal;
+}
+
+/*table.dataTable tbody tr.selected {
+    background-color: #3C9C52 !important;
+}*/
+
+table.dataTable tbody tr.selected {
+    background-color: #B0BED9;
+}
+
+.table-striped > tbody > tr.selected:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+    background-color: #B0BED9;
+}
+
+.table-striped > tbody > tr.selected:hover:nth-child(2n+1) > td, .table-striped > tbody > tr:hover:nth-child(2n+1) > th {
+    background-color: #f5f5f5;
+    color: #5d6d8d;
+}
+
+.table-hover tbody tr.selected:hover td, .table-hover tbody tr.selected:hover th {
+  color: #5d6d8d;
+}

@@ -1,0 +1,73 @@
+﻿@model List<Modelo.Proxy.RepSituacao>
+@{
+    Layout = null;
+}
+
+@Html.Hidden("lbAtualizado", (string)ViewBag.UltimaAtualizacao)
+<div>
+    @foreach (Modelo.Proxy.RepSituacao rep in Model)
+    {
+        string classAlerta = "";
+        switch (rep.Situacao)
+        {
+            case 0:
+                classAlerta = "panel-success";
+                break;
+            case 1:
+                classAlerta = "panel-warning";
+                break;
+            default:
+                classAlerta = "panel-danger";
+                break;
+        }
+
+        <div class="col-md-3 col-sm-4">
+            <div class="panel @(classAlerta)">
+                <div class="panel-heading" style="text-align:center; height:74px; overflow:auto">
+                    <h4> @((rep.NumRelogio + " - " + rep.LocalRep)) </h4>
+                </div>
+                <div class="panel-body" style="display: none;">
+                    <div style="height:180px; overflow: auto;">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <i class="fa fa-sticky-note" aria-hidden="true"></i> @rep.DataBilhete.GetValueOrDefault().ToShortDateString() &nbsp; @rep.HoraBilhete
+                            </div>
+                            <div class="row">
+                                <i class="fa fa-certificate" aria-hidden="true"></i> @rep.NSR
+                            </div>
+                            <div class="row">
+                                <i class="fa fa-upload" aria-hidden="true"></i> @rep.IncHoraBilhete.GetValueOrDefault().ToShortDateString() &nbsp; @rep.IncHoraBilhete.GetValueOrDefault().ToShortTimeString()
+                            </div>
+                            <div class="row">
+                                <i class="fa fa-user" aria-hidden="true"></i> @rep.NomeUsuario
+                            </div>
+                            <div class="row">
+                                <i class="fa fa-key" aria-hidden="true"></i> @rep.NumSerie
+                            </div>
+                            <div class="row">
+                                <i class="fa fa-industry" aria-hidden="true"></i> @rep.NomeFabricante
+                            </div>
+                            <div class="row">
+                                <i class="fa fa-tag" aria-hidden="true"></i> @rep.NomeModelo
+                            </div>
+                            <div class="row">
+                                <i class="fa fa-refresh" aria-hidden="true"></i> @rep.TempoRequisicao (Seg.)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <label class="control-label label-sm"><i class="fa fa-plug" aria-hidden="true"></i> @(rep.UltimaComunicacao == null ? "" : rep.UltimaComunicacao.GetValueOrDefault().ToString("dd/MM/yyyy HH:mm"))</label>
+                        </div>
+                        <div class="col-md-5">
+                            <label class="control-label label-sm"><i class="fa fa-chain-broken" aria-hidden="true"></i> @(rep.TempoSemComunicacaoSegundosDDHHMMSS) </label>
+                        </div>
+                    </div>
+                    <button type="button" id="btDetalhes@(rep.NumSerie)" class="btn btn-default btn-sm btDetalhe" onclick="DetalheCard(this)"><span class="fa fa-plus"></span></button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
