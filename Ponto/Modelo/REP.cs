@@ -175,7 +175,7 @@ namespace Modelo
         public DateTime? UltimaIntegracao { get; set; }
 
         [Display(Name = "Tipo Biometria")]
-        public string TipoBio { get; set; }
+        public int IdEquipamentoTipoBiometria { get; set; }
 
         [Display(Name = "Login do REP")]
         [TableHTMLAttribute("Login REP", 15, true, ItensSearch.text, OrderType.none)]
@@ -191,5 +191,8 @@ namespace Modelo
         /// </summary>
         [Display(Name = "Campo Crachá")]
         public Int16 CampoCracha { get; set; }
+
+        public List<ItensCombo> ItensEquipamentoTipoBiometria { get; set; }
+        public virtual EquipamentoTipoBiometria EquipamentoTipoBiometria { get; set; }
     }
 }

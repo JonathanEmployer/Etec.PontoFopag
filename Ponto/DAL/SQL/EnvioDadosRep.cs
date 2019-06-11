@@ -31,9 +31,9 @@ namespace DAL.SQL
             SELECTALL = @"SELECT * FROM EnvioDadosRep";
 
             INSERT = @"     INSERT INTO EnvioDadosRep 
-                                (Codigo, IDRep, bOperacao, incdata, inchora, incusuario)
+                                (Codigo, IDRep, bOperacao, incdata, inchora, incusuario, TipoComunicacao)
                             VALUES
-                                (@Codigo, @IDRep, @bOperacao, @incdata, @inchora, @incusuario)
+                                (@Codigo, @IDRep, @bOperacao, @incdata, @inchora, @incusuario, @TipoComunicacao)
                             SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"     UPDATE EnvioDadosRep SET
@@ -43,6 +43,7 @@ namespace DAL.SQL
                                 , altdata = @altdata
                                 , althora = @althora
                                 , altusuario = @altusuario
+                                , TipoComunicacao = @TipoComunicacao
                             WHERE id = @id";
 
             DELETE = @"DELETE FROM EnvioDadosRep WHERE id = @id";
@@ -74,7 +75,7 @@ namespace DAL.SQL
                     ((Modelo.EnvioDadosRep)obj).Codigo = Convert.ToInt32(dr["Codigo"]);
                     ((Modelo.EnvioDadosRep)obj).idRelogioSelecionado = Convert.ToInt32(dr["IDRep"]);
                     ((Modelo.EnvioDadosRep)obj).bOperacao = dr["bOperacao"] is DBNull ? (Int16)0 : Convert.ToInt16(dr["bOperacao"]);
-
+                    ((Modelo.EnvioDadosRep)obj).TipoComunicacao = dr["TipoComunicacao"].ToString();
                     return true;
                 }
                 else
@@ -113,7 +114,8 @@ namespace DAL.SQL
                 new SqlParameter ("@altusuario", SqlDbType.VarChar),
                 new SqlParameter ("@incdata", SqlDbType.DateTime),
                 new SqlParameter ("@inchora", SqlDbType.DateTime),
-                new SqlParameter ("@incusuario", SqlDbType.VarChar)
+                new SqlParameter ("@incusuario", SqlDbType.VarChar),
+                new SqlParameter ("@TipoComunicacao", SqlDbType.Char)
             };
             return parms;
         }
@@ -140,7 +142,7 @@ namespace DAL.SQL
             parms[7].Value = obj.Incdata;
             parms[8].Value = obj.Inchora;
             parms[9].Value = obj.Incusuario;
-
+            parms[10].Value = ((Modelo.EnvioDadosRep)obj).TipoComunicacao;
         }
 
         /// <summary>
@@ -283,7 +285,14 @@ namespace DAL.SQL
                            rep.numrelogio,
                            rep.local AS LocalRelogio,
                            equipamento.nomeModelo AS ModeloRelogio,
-                           enviodadosrep.incdata
+                           enviodadosrep.incdata,
+		                   CASE WHEN enviodadosrep.TipoComunicacao = 'E' THEN 
+		                      'Enviar'
+		                   WHEN enviodadosrep.TipoComunicacao = 'R' THEN 
+		                      'Receber'
+		                   ELSE 
+		                      'Empresa/Funcionario'
+		                   END as TipoComunicacao
                            FROM dbo.EnvioDadosRep enviodadosrep
                            JOIN rep rep ON rep.id = enviodadosrep.IDRep
                            JOIN equipamentohomologado equipamento ON equipamento.id = rep.idequipamentohomologado";

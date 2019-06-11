@@ -1,19 +1,12 @@
 ﻿using Modelo;
-using BLLIntegracaoPNL = BLL.IntegracaoPainel;
 using PontoWeb.Controllers.BLLWeb;
-using PontoWeb.Models;
 using PontoWeb.Security;
 using ProgressReporting.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using BLL_N.JobManager.Hangfire;
 
@@ -76,7 +69,7 @@ namespace PontoWeb.Controllers
                 throw;
             }
         }
-        
+
         [Authorize]
         public JsonResult GetFunsComParms(int opcao)
         {
@@ -165,6 +158,91 @@ namespace PontoWeb.Controllers
             }
         }
 
+        [Authorize]
+        public ActionResult InativarFuncionarioRFID(int idfuncionario, int idrfid)
+        {
+            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+            string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
+            BLL.FuncionarioRFID bllFuncionarioRFID = new BLL.FuncionarioRFID(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(conn, usr);
+
+            try
+            {
+                FuncionarioRFID funcionarioRFID = bllFuncionarioRFID.LoadObject(idrfid);
+                funcionarioRFID.Ativo = false;
+
+                Dictionary<string, string> erros = new Dictionary<string, string>();
+
+                erros = bllFuncionarioRFID.Salvar(Acao.Alterar, funcionarioRFID);
+
+                if (erros.Count > 0)
+                {
+                    ViewBag.ErrosRFID = erros;
+                }
+
+                return PartialFuncionarioRFID(bllFuncionario, idfuncionario, usr);
+
+            }
+            catch (Exception ex)
+            {
+                BLL.cwkFuncoes.LogarErro(ex);
+                return Json(new
+                {
+                    Success = false,
+                    Erro = ex.Message
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [Authorize]
+        public ActionResult AdicionarFuncionarioRFID(int idfuncionario, string Senha, string Cracha, int TipoCracha)
+        {
+            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+            string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
+            BLL.FuncionarioRFID bllFuncionarioRFID = new BLL.FuncionarioRFID(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(conn, usr);
+
+            try
+            {
+                Funcionario funcionario = bllFuncionario.LoadObject(idfuncionario);
+                bllFuncionario.SetSenha(funcionario, Senha);
+                bllFuncionario.Salvar(Acao.Alterar, funcionario);
+
+                Dictionary<string, string> erros = new Dictionary<string, string>();
+                erros = bllFuncionarioRFID.Salvar(Acao.Incluir, new FuncionarioRFID
+                {
+                    IdFuncionario = idfuncionario,
+                    Codigo = bllFuncionarioRFID.MaxCodigo(),
+                    RFID = TipoCracha == 0 ? Convert.ToInt64(Cracha) : (long?)null,
+                    MIFARE = TipoCracha == 1 ? Cracha : string.Empty
+                });
+                if (erros.Count > 0)
+                {
+                    string erro = string.Join(";", erros.Select(x => x.Key + "=" + x.Value).ToArray());
+                    return Json(new { Success = false, Erro = erro }, JsonRequestBehavior.AllowGet);
+                }
+                return PartialFuncionarioRFID(bllFuncionario, idfuncionario, usr);
+            }
+            catch (Exception ex)
+            {
+                BLL.cwkFuncoes.LogarErro(ex);
+                return Json(new { Success = false, Erro = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        private ActionResult PartialFuncionarioRFID(BLL.Funcionario bllFuncionario, int idfuncionario, Cw_Usuario usr)
+        {
+            BLL.FuncionarioRFID bllFuncionarioRFID = new BLL.FuncionarioRFID(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
+
+            Funcionario funcionario = new Funcionario();
+            funcionario = bllFuncionario.LoadObject(idfuncionario);
+            funcionario.FuncionarioRFID = bllFuncionarioRFID.GetAllListByFuncionario(idfuncionario).Where(x => x.Ativo).ToList();
+            funcionario.Senha = bllFuncionario.GetSenha(funcionario);
+
+            return PartialView("FuncionarioRFID", funcionario);
+
+        }
+
         protected override ActionResult Salvar(Funcionario funcionario)
         {
             string connString = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
@@ -188,6 +266,10 @@ namespace PontoWeb.Controllers
             {
                 try
                 {
+                    funcionario.RFID = null;
+                    funcionario.Senha = null;
+                    funcionario.TipoCracha = null;
+
                     Funcionario DadosAntFunc = bllFuncionario.LoadObject(funcionario.Id);
                     tratamentoSenhas(funcionario, DadosAntFunc);
                     if (funcionario.Pis != null)
@@ -433,10 +515,16 @@ namespace PontoWeb.Controllers
             BLL.Empresa bllEmpresa = new BLL.Empresa(conn, usr);
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(conn, usr);
             BLL.FuncionarioHistorico bllFuncHist = new BLL.FuncionarioHistorico(conn, usr);
+            BLL.Biometria bllBiometria = new BLL.Biometria(conn, usr);
+            BLL.FuncionarioRFID bllFuncionarioRFID = new BLL.FuncionarioRFID(conn, usr);
+
+
             Empresa empresaFuncionario = new Empresa();
             Funcionario funcionario = new Funcionario();
             PreencheTipoVinculo(conn, usr);
             funcionario = bllFuncionario.LoadObject(id);
+            funcionario.Biometrias = bllBiometria.GetBiometriaTipoBiometria(id);
+            funcionario.FuncionarioRFID = bllFuncionarioRFID.GetAllListByFuncionario(id).Where(x => x.Ativo).ToList();
 
             BLL.Parametros bllparm = new BLL.Parametros(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
             Modelo.Parametros parm = new Parametros();
@@ -488,6 +576,7 @@ namespace PontoWeb.Controllers
                 Empresa empresaPrincipal = bllEmpresa.GetEmpresaPrincipal();
                 ViewBag.RegistradorEmpresa = empresaPrincipal.utilizaregistradorfunc;
             }
+
 
             AdicionaFotoPadrao(funcionario);
             funcionario.Tipohorario = funcionario.IdHorarioDinamico.GetValueOrDefault() > 0 ? Convert.ToInt16(3) : funcionario.Tipohorario;
@@ -656,52 +745,52 @@ namespace PontoWeb.Controllers
                     }
                     else
                         if (tipoPosicao == "2") // Registro Anterior
+                    {
+                        if (func.Id > 0)
                         {
-                            if (func.Id > 0)
+                            lFunc = bllFuncionario.GetProximoOuAnterior(Convert.ToInt32(tipoFiltro), idIdentificacao, 10, func.Nome, 1, 1);
+                            lFunc = lFunc.OrderBy(o => o.Nome).ToList();
+                            int posicaoAtual = lFunc.IndexOf(lFunc.Where(x => x.Id == func.Id).FirstOrDefault());
+                            if (posicaoAtual > 0)
                             {
-                                lFunc = bllFuncionario.GetProximoOuAnterior(Convert.ToInt32(tipoFiltro), idIdentificacao, 10, func.Nome, 1, 1);
-                                lFunc = lFunc.OrderBy(o => o.Nome).ToList();
-                                int posicaoAtual = lFunc.IndexOf(lFunc.Where(x => x.Id == func.Id).FirstOrDefault());
-                                if (posicaoAtual > 0)
-                                {
-                                    proximoFunc = lFunc[posicaoAtual - 1];
-                                }
-                                else
-                                {
-                                    proximoFunc = lFunc.FirstOrDefault();
-                                }
+                                proximoFunc = lFunc[posicaoAtual - 1];
                             }
                             else
                             {
-                                lFunc = bllFuncionario.GetProximoOuAnterior(Convert.ToInt32(tipoFiltro), idIdentificacao, 10, func.Nome, 0, 1);
                                 proximoFunc = lFunc.FirstOrDefault();
                             }
                         }
                         else
+                        {
+                            lFunc = bllFuncionario.GetProximoOuAnterior(Convert.ToInt32(tipoFiltro), idIdentificacao, 10, func.Nome, 0, 1);
+                            proximoFunc = lFunc.FirstOrDefault();
+                        }
+                    }
+                    else
                             if (tipoPosicao == "3") // Proximo Registro
+                    {
+                        if (func.Id > 0)
+                        {
+                            lFunc = bllFuncionario.GetProximoOuAnterior(Convert.ToInt32(tipoFiltro), idIdentificacao, 10, func.Nome, 0, 0);
+                            int posicaoAtual = lFunc.IndexOf(lFunc.Where(x => x.Id == func.Id).FirstOrDefault());
+                            if (lFunc.Count() > posicaoAtual + 1)
                             {
-                                if (func.Id > 0)
-                                {
-                                    lFunc = bllFuncionario.GetProximoOuAnterior(Convert.ToInt32(tipoFiltro), idIdentificacao, 10, func.Nome, 0, 0);
-                                    int posicaoAtual = lFunc.IndexOf(lFunc.Where(x => x.Id == func.Id).FirstOrDefault());
-                                    if (lFunc.Count() > posicaoAtual + 1)
-                                    {
-                                        proximoFunc = lFunc[posicaoAtual + 1];
-                                    }
-                                }
-                                else
-                                {
-                                    lFunc = bllFuncionario.GetProximoOuAnterior(Convert.ToInt32(tipoFiltro), idIdentificacao, 10, "", 0, 0);
-                                    proximoFunc = lFunc.FirstOrDefault();
-                                }
+                                proximoFunc = lFunc[posicaoAtual + 1];
                             }
-                            else
+                        }
+                        else
+                        {
+                            lFunc = bllFuncionario.GetProximoOuAnterior(Convert.ToInt32(tipoFiltro), idIdentificacao, 10, "", 0, 0);
+                            proximoFunc = lFunc.FirstOrDefault();
+                        }
+                    }
+                    else
                                 if (tipoPosicao == "4") // Ultimo registro
-                                {
-                                    lFunc = bllFuncionario.GetProximoOuAnterior(Convert.ToInt32(tipoFiltro), idIdentificacao, 10, "", 1, 0);
-                                    lFunc = lFunc.OrderBy(o => o.Nome).ToList();
-                                    proximoFunc = lFunc.LastOrDefault();
-                                }
+                    {
+                        lFunc = bllFuncionario.GetProximoOuAnterior(Convert.ToInt32(tipoFiltro), idIdentificacao, 10, "", 1, 0);
+                        lFunc = lFunc.OrderBy(o => o.Nome).ToList();
+                        proximoFunc = lFunc.LastOrDefault();
+                    }
 
 
                     if (proximoFunc != null)
@@ -728,7 +817,8 @@ namespace PontoWeb.Controllers
                     BLL.cwkFuncoes.LogarErro(ex);
                     return Json(new { funcionario = "Erro ao Buscar Funcionario", primeiro = true, ultimo = false }, JsonRequestBehavior.AllowGet);
                 }
-            } return retornoErro;
+            }
+            return retornoErro;
         }
 
         [PermissoesFiltro(Roles = "FuncionarioConsultar")]
@@ -834,7 +924,7 @@ namespace PontoWeb.Controllers
                     }
                     else
                     {
-                        errosCustom.Add(err.Key+" = "+err.Value);
+                        errosCustom.Add(err.Key + " = " + err.Value);
                     }
                 }
             }
@@ -842,7 +932,7 @@ namespace PontoWeb.Controllers
             if (errosCustom.Count > 0)
             {
                 string erro = string.Join(";", errosCustom);
-                ModelState.AddModelError("CustomError", erro); 
+                ModelState.AddModelError("CustomError", erro);
             }
         }
 
@@ -885,7 +975,7 @@ namespace PontoWeb.Controllers
                     UsuarioPontoWeb user = bllUser.LoadObjectByCodigo(codigo);
                     funcionario.IdCw_Usuario = user.Id;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     funcionario.IdCw_Usuario = null;
                 }
@@ -903,7 +993,7 @@ namespace PontoWeb.Controllers
                     Pessoa pessoa = bllPessoa.GetPessoaPorCodigo(codigo).FirstOrDefault();
                     funcionario.IdPessoaSupervisor = pessoa.Id;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     funcionario.IdPessoaSupervisor = null;
                 }

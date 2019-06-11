@@ -7,6 +7,7 @@ using System.Text;
 using System.Linq;
 using System.Data.SqlClient;
 using Modelo.Proxy;
+using Modelo;
 
 namespace DAL.FB
 {
@@ -983,6 +984,11 @@ namespace DAL.FB
         }
 
         public List<PxyGridHorarioDinamico> GetAllGrid2(int tipoRelogio)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Adicionar(ModeloBase obj, bool Codigo)
         {
             throw new NotImplementedException();
         }

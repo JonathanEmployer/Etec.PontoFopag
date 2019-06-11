@@ -17,15 +17,13 @@
             <div class="row">
                 @Html.GridFor(nomeTabela, Model.GetType(), false, "EnvioDadosRep", "DadosGrid");
             </div>
-            <div class="row" style="padding-top:10px;"> 
-            </div>
         </div>
         <div class="panel-footer">
             <div class="row">
                 <div class="center-block">
                     <div class="col-md-12" style="text-align:right">
                         <a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
-                        <a href="#" id="btIncluir" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
+                        @*<a href="#" id="btIncluir" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>*@
                         <a href="#" id="btExcluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
                     </div>
                 </div>
@@ -36,11 +34,33 @@
 
 <script>
     var nomeTabela = "#" + '@nomeTabela';
-    var controller = 'EnvioDadosRep';
+    var controller = "EnvioDadosRep";
     $(document).ready(function () {
         cwk_EventoDbClickEditar('Consultar', controller, nomeTabela);
-        cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', controller, nomeTabela);
-        cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', controller, nomeTabela);
+
+        $(nomeTabela + ' tbody').on('dblclick', 'tr', function () {
+            var id = GetIdSelecionadoTable(nomeTabela);
+            var td = $(this).find('td').eq(6).html();
+            if (td === 'Receber' || td === 'Enviar') {
+                controller = 'ManutencaoBiometrica';
+            }
+            ChamaCadastro(controller, 'Consultar', id);
+        });
+
+        $('#btConsultar').click(function(){
+            var id = GetIdSelecionadoTable(nomeTabela);
+            if (id != '' && id > 0) {
+                var td = $(nomeTabela + ' > tbody > tr.selected > td').eq(6).html();
+                if (td === 'Receber' || td === 'Enviar') {
+                    controller = 'ManutencaoBiometrica';
+                }
+                ChamaCadastro(controller, 'Consultar', id);
+            }
+        });
+
+        //cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', controller, nomeTabela);
+
+        //cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', controller, nomeTabela);
         cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir', controller, nomeTabela, 'Envio excluído com sucesso. (Esse processo não garante que os dados não tenham sido enviados para o relógio) ', "","O Registro será excluído da fila de processamento, porém não encerrará o processo caso o rep já esteja processando esse registro, ou seja, pode ser que esse cadastro já tenha sido recebido pelo rep.");
     });
 </script>

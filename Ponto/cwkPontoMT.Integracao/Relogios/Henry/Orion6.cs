@@ -7,6 +7,7 @@ using Kernel7x;
 using System.Reflection;
 using System.IO;
 using System.Threading;
+using cwkPontoMT.Integracao.Entidades;
 
 namespace cwkPontoMT.Integracao.Relogios.Henry
 {
@@ -529,6 +530,11 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
         }
 
         public override int UltimoNSR()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<Biometria> GetBiometria(out string erros)
         {
             throw new NotImplementedException();
         }

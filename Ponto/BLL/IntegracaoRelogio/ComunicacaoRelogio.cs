@@ -168,7 +168,6 @@ namespace BLL.IntegracaoRelogio
                         relogio.SetDados(objRep.IP, objRep.Porta, objRep.Senha,
                             (TipoComunicacao)objRep.TipoComunicacao, objRep.NumRelogio, objRep.Local);
                         relogio.SetNumeroSerie(objRep.NumSerie);
-                        relogio.SetBiometrico(objRep.Biometrico);
                     }
                     break;
                 case (short)TipoRelogio.MDREPPrintPointIII:

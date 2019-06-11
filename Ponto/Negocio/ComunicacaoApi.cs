@@ -191,6 +191,41 @@ namespace Negocio
             }
         }
 
+        public async Task<HttpResponseMessage> EnviarBiometria(Biometria Biometria)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                try
+                {
+                    var retorno = new HttpResponseMessage();
+                    string str = "api/Biometria";
+                    string contentJson = JsonConvert.SerializeObject(Biometria);
+                    log.Info("Json do Rep " + Biometria.idRep + " Enviado: " + contentJson);
+                    HttpContent content = new StringContent(contentJson, Encoding.UTF8, "application/json");
+                    log.Info(Biometria.idRep + " Token recebido");
+                    httpClient.DefaultRequestHeaders.Add("Authorization", "bearer " + token);
+                    httpClient.BaseAddress = new Uri(VariaveisGlobais.UrlWebAPi);
+                    httpClient.Timeout = TimeSpan.FromMinutes(60);
+                    HttpResponseMessage response = await httpClient.PostAsync(str, content);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        log.Info(Biometria.idRep + " Sucesso ao logar no sistema");
+                        retorno = await response.Content.ReadAsAsync<HttpResponseMessage>();
+                    }
+                    else
+                    {
+                        log.Error(Biometria.idRep + " Falha ao logar no sistema");
+                        TratarErroRetornoApi(response, "Enviar Biometria");
+                    }
+                    return retorno;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+
         public async Task<ResultadoImportacao> EnviarLinhasAfdServidor(List<RegistroAFD> registros)
         {
             using (var httpClient = new HttpClient())

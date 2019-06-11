@@ -1,19 +1,17 @@
-﻿using cwkPontoMT.Integracao;
-using DAL.SQL;
+﻿using DAL.SQL;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace BLL
 {
     public class EnvioDadosRep
     {
         DAL.IEnvioDadosRep dalEnvioEmpresaFuncionariosRep;
-        private string ConnectionString;
-        private Modelo.Cw_Usuario UsuarioLogado;
+        private readonly string ConnectionString;
+        private readonly Modelo.Cw_Usuario UsuarioLogado;
         public EnvioDadosRep() : this(null)
         {
 
@@ -70,7 +68,7 @@ namespace BLL
             }
 
             if (objeto.bEnviarEmpresa &&
-            (objeto.listEnvioDadosRepDet == null || objeto.listEnvioDadosRepDet.Where(x => x.idEmpresa != null).Count() == 0 ))
+            (objeto.listEnvioDadosRepDet == null || objeto.listEnvioDadosRepDet.Where(x => x.idEmpresa != null).Count() == 0))
             {
                 ret.Add("Grid Empresas", "Nenhum Empresa selecionada.");
             }
@@ -104,12 +102,16 @@ namespace BLL
             }
             return erros;
         }
+        public void Salvar(Modelo.EnvioDadosRep objeto)
+        {
+            dalEnvioEmpresaFuncionariosRep.Incluir(objeto);
+        }
 
 
         public Dictionary<string, string> GerarArquivoDeEnvioParaDownload(ref string caminho, DirectoryInfo pasta, Modelo.EnvioDadosRep env, Modelo.REP objRep, Modelo.ProgressBar objProgressBar, out string nomeArquivoSemExt, string connectionString)
         {
             BLL.Empresa bllEmpresa = new BLL.Empresa(ConnectionString, UsuarioLogado);
-            Modelo.Empresa objEmpresa =  env.Empresas.Where(e => e.Id == objRep.IdEmpresa).FirstOrDefault();
+            Modelo.Empresa objEmpresa = env.Empresas.Where(e => e.Id == objRep.IdEmpresa).FirstOrDefault();
             List<Modelo.Funcionario> listaFuncionarios = new List<Modelo.Funcionario>();
             nomeArquivoSemExt = Guid.NewGuid().ToString();
             if (env.bEnviarFunc)
@@ -124,7 +126,7 @@ namespace BLL
             return retorno;
         }
 
-        public List<Modelo.Proxy.PxyEnvioDadosRepGrid> GetGrid ()
+        public List<Modelo.Proxy.PxyEnvioDadosRepGrid> GetGrid()
         {
             return dalEnvioEmpresaFuncionariosRep.GetGrid();
         }

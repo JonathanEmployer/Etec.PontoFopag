@@ -1,12 +1,12 @@
 ﻿using br.com.cwork.cwkhexacomm;
 using cwkPontoMT.Integracao.Auxiliares.Henry.HexaParseStrategies;
+using cwkPontoMT.Integracao.Entidades;
 using org.bouncycastle.util.encoders;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
-using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Web.Script.Serialization;
@@ -42,7 +42,7 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
             header += DateTime.Now.ToString("HHmm");
 
             log.Debug(NumeroSerie + " Cabeçalho:");
-            log.Debug(NumeroSerie + " "+ header);
+            log.Debug(NumeroSerie + " " + header);
             string retorno = String.Empty;
             if (nsrInicio <= 0)
             {
@@ -129,7 +129,7 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                         throw new Exception("Falha ao realizar a autenticação no equipamento após 10 tentativas. Aguarde alguns instantes, ou reinicie o REP para tentar novamente.");
                     }
                 }
-                
+
                 DateTime dtRelogio = RecebeHoraRelogio(rep, aes);
                 var res = EnviaDtHora_IniFimHorarioVerao(rep, aes, dtRelogio, inicio, termino);
 
@@ -215,7 +215,7 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                                 }
                             }
                         }
-                        
+
                     }
                     catch (Exception e)
                     {
@@ -257,7 +257,7 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                 var errosDic = PopularErros();
                 DateTime? inicioHorarioVerao = null;
                 DateTime? fimHorarioVerao = null;
-                
+
                 rep.Conectar();
                 rep.Autenticar(aes);
                 RecebeIniFimHorarioVerao(rep, aes, out inicioHorarioVerao, out fimHorarioVerao);
@@ -337,11 +337,20 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                     {
                         bool validaBiometria = biometrico;
                         string segundoCodigo = String.Empty;
-                        if (item.RFID.GetValueOrDefault() > 0)
+                        if (item.RFID.GetValueOrDefault() > 0 && ModeloRep == "R2")
                         {
                             validaBiometria = false;
                             segundoCodigo = item.RFID.ToString();
                         }
+                        else if (ModeloRep == "R4")
+                        {
+                            if (item.MIFARE.GetValueOrDefault() > 0)
+                            {
+                                validaBiometria = false;
+                                segundoCodigo = item.MIFARE.ToString();
+                            }
+                        }
+
                         var res = EnviaFuncionario(rep, aes, Operacao.Inclusao, item.Pis, item.Nome, validaBiometria, item.DsCodigo, segundoCodigo);
 
                         if (res.Info > 0)
@@ -374,6 +383,22 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                     }
                 }
 
+                if (Empregados.Count() > 0)
+                {
+                    Empregados.GroupBy(x => x.DsCodigo).ToList().ForEach(x =>
+                    {
+                        var empregado = Empregados.Where(y => y.DsCodigo == x.Key).ToList();
+                        if (empregado.Count() > 0)
+                        {
+                            var qtdeBiometria = empregado.Where(e => e.valorBiometria != null).Count();
+                            var biometrias = new List<string>();
+                            if (qtdeBiometria > 0)
+                                biometrias = empregado.Select(b => Encoding.Default.GetString(b.valorBiometria)).ToList();
+                            EnviaFuncionarioBiometria(x.Key, qtdeBiometria, biometrias, rep, aes);
+                        }
+                    });
+                }
+
                 IList<string> err = erros.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
                 if (err.Count > 0)
                 {
@@ -401,7 +426,461 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
             }
         }
 
+
+        public override List<Biometria> GetBiometria(out string erros)
+        {
+            var listBiometria = new List<Biometria>();
+
+            try
+            {
+
+                if (TipoBiometria == "Verde")
+                {
+                    HexaRep rep = new HexaRep(IP, Convert.ToInt32(Porta), UsuarioREP, SenhaUsuarioREP);
+
+                    string aes = GetChaveAES();
+
+                    erros = String.Empty;
+                    var errosDic = PopularErros();
+                    rep.Conectar();
+                    int count = 0;
+                    while (rep.Autenticado() == java.lang.Boolean.FALSE && count < 10)
+                    {
+                        rep.Autenticar(aes);
+                        if (rep.Autenticado() == java.lang.Boolean.FALSE)
+                        {
+                            log.Debug(NumeroSerie + " Erro na comunicação, tentando novamente, ping = " + PingHost(IP));
+                            Thread.Sleep(1000);
+                        }
+
+                        count++;
+                        if (count >= 10)
+                        {
+                            log.Debug(NumeroSerie + " Falha ao se autenticar com o REP.");
+                            throw new Exception("Falha ao realizar a autenticação no equipamento após 10 tentativas. Aguarde alguns instantes, ou reinicie o REP para tentar novamente.");
+                        }
+                    }
+                    erros = "";
+
+                    foreach (var empregado in Empregados)
+                    {
+                        erros += "";
+                        try
+                        {
+                            var result = new BiometricMessage();
+                            result = RecebeBiometriaVerde(rep, empregado.DsCodigo, aes);
+
+                            if (result.Info > 0)
+                            {
+                                erros += "Erro: " + errosDic[result.Info] + ". Código: " + result.Info + Environment.NewLine;
+                            }
+
+
+                            var codigoBiometria = 0;
+                            if (result.Dados.Count() > 0)
+                            {
+                                foreach (var biometria in result.Dados)
+                                {
+                                    listBiometria.Add(new Biometria()
+                                    {
+                                        codigo = codigoBiometria++,
+                                        valorBiometria = (byte[])biometria,
+                                        idfuncionario = empregado.id,
+                                        idRep = IdRelogio
+                                    });
+                                }
+                            }
+                            else
+                            {
+                                listBiometria.Add(new Biometria()
+                                {
+                                    codigo = codigoBiometria++,
+                                    valorBiometria = Encoding.UTF8.GetBytes("0"),
+                                    idfuncionario = empregado.id,
+                                    idRep = IdRelogio
+                                });
+                            }
+                        }
+                        catch (Exception e)
+                        {
+
+                            throw e;
+                        }
+                    }
+                }
+                else
+                {
+
+                    var tcpRep = new TcpRep();
+                    var repAutenticado = tcpRep.ConnectTcp(IP, Convert.ToInt32(Porta), UsuarioREP, SenhaUsuarioREP);
+
+
+                    erros = String.Empty;
+                    var errosDic = PopularErros();
+
+                    int count = 0;
+                    while (!repAutenticado && count < 10)
+                    {
+                        repAutenticado = tcpRep.ConnectTcp(IP, Convert.ToInt32(Porta), UsuarioREP, SenhaUsuarioREP);
+                        if (repAutenticado)
+                        {
+                            log.Debug(NumeroSerie + " Erro na comunicação, tentando novamente, ping = " + PingHost(IP));
+                            Thread.Sleep(1000);
+                        }
+
+                        count++;
+                        if (count >= 10)
+                        {
+                            log.Debug(NumeroSerie + " Falha ao se autenticar com o REP.");
+                            throw new Exception("Falha ao realizar a autenticação no equipamento após 10 tentativas. Aguarde alguns instantes, ou reinicie o REP para tentar novamente.");
+                        }
+                    }
+                    erros = "";
+
+                    foreach (var empregado in Empregados)
+                    {
+                        erros += "";
+                        try
+                        {
+                            var result = new BiometricMessage();
+                            result = RecebeBiometriaVermelha(tcpRep, empregado.DsCodigo);
+
+                            if (result.Info > 0)
+                            {
+                                erros += "Erro: " + errosDic[result.Info] + ". Código: " + result.Info + Environment.NewLine;
+                            }
+
+
+                            var codigoBiometria = 0;
+                            if (result.Dados.Count() > 0)
+                            {
+                                foreach (var biometria in result.Dados)
+                                {
+                                    listBiometria.Add(new Biometria()
+                                    {
+                                        codigo = codigoBiometria++,
+                                        valorBiometria = (byte[])biometria,
+                                        idfuncionario = empregado.id,
+                                        idRep = IdRelogio
+                                    });
+                                }
+                            }
+                            else
+                            {
+                                listBiometria.Add(new Biometria()
+                                {
+                                    codigo = codigoBiometria++,
+                                    valorBiometria = Encoding.UTF8.GetBytes("0"),
+                                    idfuncionario = empregado.id,
+                                    idRep = IdRelogio
+                                });
+                            }
+                        }
+                        catch (Exception e)
+                        {
+
+                            throw e;
+                        }
+                    }
+                }
+                return listBiometria;
+            }
+            catch (Exception e)
+            {
+                erros = "";
+                erros += e.Message;
+                throw e;
+            }
+        }
+
+
         #region Métodos Auxiliares Henry
+
+        private IMessage EnviaFuncionarioBiometria(string Referencia, int QtdeBio, List<string> ValorBiometria, HexaRep rep, string aes)
+        {
+            string result = "";
+
+            if (QtdeBio == 0)
+            {
+                result = "E]" + Referencia;
+
+                IMessage msg = null;
+                int count = 0;
+
+                try
+                {
+                    while (count < 10)
+                    {
+                        try
+                        {
+                            Thread.Sleep(300);
+                            string retorno = rep.Comunicar(aes, "01", "ED", "00", result);
+                            IParseStrategy strat = HexaParseStrategyFactory.Produce("ED");
+                            msg = strat.Parse("ED", retorno);
+                            break;
+                        }
+                        catch (java.lang.IllegalArgumentException iae)
+                        {
+                            throw iae;
+                        }
+                        catch (java.lang.IllegalStateException ise)
+                        {
+                            throw ise;
+                        }
+                        catch (Exception)
+                        {
+                            count++;
+                            if (count >= 10)
+                            {
+                                throw new Exception("Falha ao receber o retorno do equipamento após 10 tentativas. Reinicie o REP e tente novamente.");
+                            }
+                            continue;
+                        }
+                    }
+
+                    return msg;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+            else
+            {
+                if (TipoBiometria == "Verde")
+                {
+                    result = "T]" + Referencia + "}B}B}";
+                }
+                else
+                {
+                    result = "D]" + Referencia + "}" + 1 + "}";
+                }
+
+                IMessage msg = null;
+                int count = 0;
+
+                try
+                {
+
+                    for (int i = 0; i < QtdeBio; i++)
+                    {
+                        var commandBio = result;
+                        if (TipoBiometria == "Verde")
+                            commandBio += i + "}514{" + ValorBiometria[i];
+
+                        else
+                        {
+                            commandBio += i + "{" + ValorBiometria[i];
+                        }
+                        //result += i + "{" + ValorBiometria[i];
+
+                        while (count < 10)
+                        {
+                            try
+                            {
+                                Thread.Sleep(300);
+                                string retorno = rep.Comunicar(aes, "01", "ED", "00", commandBio);
+                                IParseStrategy strat = HexaParseStrategyFactory.Produce("ED");
+                                msg = strat.Parse("ED", retorno);
+                                break;
+                            }
+                            catch (java.lang.IllegalArgumentException iae)
+                            {
+                                throw iae;
+                            }
+                            catch (java.lang.IllegalStateException ise)
+                            {
+                                throw ise;
+                            }
+                            catch (Exception)
+                            {
+                                count++;
+                                if (count >= 10)
+                                {
+                                    throw new Exception("Falha ao receber o retorno do equipamento após 10 tentativas. Reinicie o REP e tente novamente.");
+                                }
+                                continue;
+                            }
+                        }
+                    }
+
+                    return msg;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        private BiometricMessage RecebeBiometriaVerde(HexaRep rep, string CodFuncionario, string aes)
+        {
+
+            string result = "Q]" + CodFuncionario;
+            int QtdBiometria = 1;
+            BiometricMessage msg = new BiometricMessage();
+            int count = 0;
+
+            while (count < 10)
+            {
+                try
+                {
+                    string retorno = rep.Comunicar(aes, "01", "RD", "00", result);
+                    IParseStrategy strat = HexaParseStrategyFactory.Produce("RD");
+                    msg = strat.ParseBiometric("Q", retorno, TipoBiometria);
+                    QtdBiometria = int.Parse(Encoding.UTF8.GetString((byte[])msg.Dados[0]));
+                    if (QtdBiometria == 0)
+                    {
+                        msg.Info = 0;
+                        msg.Indice = 0;
+                        msg.Comando = "";
+                        msg.Dados = new List<object>();
+                    }
+                    else
+                    {
+                        msg = new BiometricMessage();
+                    }
+                    break;
+                }
+                catch (java.lang.IllegalArgumentException iae)
+                {
+                    throw iae;
+                }
+                catch (java.lang.IllegalStateException ise)
+                {
+                    throw ise;
+                }
+                catch (Exception)
+                {
+                    count++;
+                    if (count >= 10)
+                    {
+                        throw new Exception("Falha ao receber o retorno do equipamento após 10 tentativas. Reinicie o REP e tente novamente.");
+                    }
+                    continue;
+                }
+            }
+            result = "T]" + CodFuncionario + "}B}N}";
+
+            for (int i = 0; i < QtdBiometria; i++)
+            {
+                while (count < 10)
+                {
+                    try
+                    {
+                        var command = result + i;
+
+                        string retorno = rep.Comunicar(aes, "01", "RD", "00", command);
+                        IParseStrategy strat = HexaParseStrategyFactory.Produce("RD");
+                        var msgBio = strat.ParseBiometric("RD", retorno, TipoBiometria);
+
+                        msg.Dados.Add(msgBio.Dados[0]);
+                    }
+                    catch (java.lang.IllegalArgumentException iae)
+                    {
+                        throw iae;
+                    }
+                    catch (java.lang.IllegalStateException ise)
+                    {
+                        throw ise;
+                    }
+                    catch (Exception)
+                    {
+                        count++;
+                        if (count >= 10)
+                        {
+                            throw new Exception("Falha ao receber o retorno do equipamento após 10 tentativas. Reinicie o REP e tente novamente.");
+                        }
+                        continue;
+                    }
+                    break;
+                }
+            }
+
+            return new BiometricMessage() { Info = msg.Info, Indice = msg.Indice, Comando = msg.Comando, Dados = msg.Dados };
+        }
+        private BiometricMessage RecebeBiometriaVermelha(TcpRep rep, string CodFuncionario)
+        {
+
+            string result = "Q]" + CodFuncionario;
+            int QtdBiometria = 1;
+            BiometricMessage msg = new BiometricMessage();
+            int count = 0;
+
+            while (count < 10)
+            {
+                try
+                {
+                    QtdBiometria = int.Parse(rep.ReceiveBiometricsAmount("01+RD+00+Q]" + CodFuncionario));
+                    if (QtdBiometria == 0)
+                    {
+                        msg.Info = 0;
+                        msg.Indice = 0;
+                        msg.Comando = "";
+                        msg.Dados = new List<object>();
+                    }
+                    else
+                    {
+                        msg = new BiometricMessage();
+                    }
+                    break;
+                }
+                catch (java.lang.IllegalArgumentException iae)
+                {
+                    throw iae;
+                }
+                catch (java.lang.IllegalStateException ise)
+                {
+                    throw ise;
+                }
+                catch (Exception)
+                {
+                    count++;
+                    if (count >= 10)
+                    {
+                        throw new Exception("Falha ao receber o retorno do equipamento após 10 tentativas. Reinicie o REP e tente novamente.");
+                    }
+                    continue;
+                }
+            }
+
+            result = "D]" + CodFuncionario + "}";
+
+            for (int i = 0; i < QtdBiometria; i++)
+            {
+                while (count < 10)
+                {
+                    try
+                    {
+                        var command = result + i;
+
+                        var bio = rep.ReceiveBiometrics("01+RD+00+" + command, 48);
+
+                        msg.Dados.Add(Encoding.Default.GetBytes(bio));
+                    }
+                    catch (java.lang.IllegalArgumentException iae)
+                    {
+                        throw iae;
+                    }
+                    catch (java.lang.IllegalStateException ise)
+                    {
+                        throw ise;
+                    }
+                    catch (Exception)
+                    {
+                        count++;
+                        if (count >= 10)
+                        {
+                            throw new Exception("Falha ao receber o retorno do equipamento após 10 tentativas. Reinicie o REP e tente novamente.");
+                        }
+                        continue;
+                    }
+                    break;
+                }
+            }
+
+            return new BiometricMessage() { Info = msg.Info, Indice = msg.Indice, Comando = msg.Comando, Dados = msg.Dados };
+        }
 
         private DateTime RecebeHoraRelogio(HexaRep rep, string aes)
         {
@@ -520,7 +999,7 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                 }
             }
             return msg;
-            
+
         }
 
         private IMessage EnviaEmpresa(HexaRep rep, string aes, TipoEmpregador tipoEmp, string CnpjCpf, string Cei, string RazaoSocial, string Local)
@@ -767,10 +1246,10 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                         {
                             string strFinal = rep.Comunicar(aes, "01", "RR", "00", "N]" + step.ToString() + "]" + nsrInicial.ToString());
                             msg2 = stratRR.Parse("RR", strFinal);
-                            
+
                             foreach (var item in ((TicketMessage)msg2).Tickets)
                             {
-                                log.Debug("AFD_" + NumeroSerie + "_" + data + "Linha "+item.TicketCompleto);
+                                log.Debug("AFD_" + NumeroSerie + "_" + data + "Linha " + item.TicketCompleto);
                             }
 
                             if (((TicketMessage)msg2).Tickets.Where(t => t.TipoTicket == 3) != null)
@@ -877,7 +1356,7 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                 if (nsrInicio == 0)
                 {
                     nsrInicio = 1;
-                } 
+                }
                 if (nsrFim == 0)
                 {
                     nsrFim = Int32.MaxValue;
@@ -954,7 +1433,7 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                                 {
                                     throw new Exception("Relógio não acatou o comando solicitado corretamente");
                                 }
-                            } 
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -983,15 +1462,15 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                             continue;
                         }
                     }
-                    log.Debug(NumeroSerie + " Avaliando proxima Interacao, passa para proxima se " + nsrFim + "(nsrFim)>= (" + nsrInicio + "(nsrInicio)) && " + msg2.Info + "(msg2.Info) != 50 &&" + infoRetorno +"(infoRetorno) != 50");
+                    log.Debug(NumeroSerie + " Avaliando proxima Interacao, passa para proxima se " + nsrFim + "(nsrFim)>= (" + nsrInicio + "(nsrInicio)) && " + msg2.Info + "(msg2.Info) != 50 &&" + infoRetorno + "(infoRetorno) != 50");
                 } while (nsrFim >= (nsrInicio) && msg2.Info != 50 && infoRetorno != 50);
 
                 log.Debug(NumeroSerie + " Adicionando a(s) batida(s) encontrada(s) no string builder.");
-                foreach (var item in batidas.Where( w => w.NSR >= nsrIniOriginal && w.NSR <= nsrFimOriginal))
+                foreach (var item in batidas.Where(w => w.NSR >= nsrIniOriginal && w.NSR <= nsrFimOriginal))
                 {
                     sb.AppendLine(item.ToString());
                 }
-                log.Debug(NumeroSerie + " Batidas retornadas = "+sb.ToString());
+                log.Debug(NumeroSerie + " Batidas retornadas = " + sb.ToString());
             }
             catch (java.lang.IllegalStateException)
             {
@@ -1020,7 +1499,7 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
             try
             {
                 string[] retorno = strFinal.Split('+');
-                infoRetorno = Convert.ToInt32(retorno[2].Substring(0,3));
+                infoRetorno = Convert.ToInt32(retorno[2].Substring(0, 3));
             }
             catch (Exception)
             {
@@ -1259,7 +1738,7 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
             StringBuilder sb = new StringBuilder();
             foreach (var item in empregados)
             {
-                sb.AppendLine("1+1+I[0" + item.Pis +"["+item.Nome+"["+Convert.ToInt16(item.Biometria).ToString()+"[1["+item.DsCodigo);
+                sb.AppendLine("1+1+I[0" + item.Pis + "[" + item.Nome + "[" + Convert.ToInt16(item.Biometria).ToString() + "[1[" + item.DsCodigo);
             }
             return sb.ToString();
         }
@@ -1267,7 +1746,7 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
         private string ExportaEmpregador(Entidades.Empresa empregador)
         {
             return "2+" + (int)empregador.TipoDocumento + "]" + GetStringSomenteAlfanumericoESimbolosPermitidos(empregador.Documento) + "]"
-                + (String.IsNullOrEmpty(empregador.CEI) ? "            " : empregador.CEI)+"]"+empregador.RazaoSocial+"]"+empregador.Local;
+                + (String.IsNullOrEmpty(empregador.CEI) ? "            " : empregador.CEI) + "]" + empregador.RazaoSocial + "]" + empregador.Local;
         }
 
         public override bool ExportacaoHabilitada()
@@ -1352,7 +1831,7 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
             }
             catch (Exception ex)
             {
-                throw new Exception("Erro ao buscar ultimo NSR, erro: "+ex.Message);
+                throw new Exception("Erro ao buscar ultimo NSR, erro: " + ex.Message);
             }
             return int.MaxValue;
         }

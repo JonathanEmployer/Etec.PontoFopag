@@ -5,6 +5,7 @@ using System.Text;
 using RepTrilobit;
 using System.IO;
 using System.Data;
+using cwkPontoMT.Integracao.Entidades;
 
 namespace cwkPontoMT.Integracao.Relogios
 {
@@ -234,6 +235,11 @@ namespace cwkPontoMT.Integracao.Relogios
         }
 
         public override int UltimoNSR()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<Biometria> GetBiometria(out string erros)
         {
             throw new NotImplementedException();
         }

@@ -1,18 +1,18 @@
-﻿using ModeloAux;
+﻿using cwkPontoMT.Integracao.Entidades;
+using ModeloAux;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using cwkPontoMT.Integracao.Entidades;
 
 namespace Negocio
 {
     public class EnvioEmpresaEFuncionarios : ComunicacaoRelogio
     {
-        private Empresa empresa = new Empresa();
-        private List<Empregado> empregados = new List<Empregado>();
-        private int operacao; // 0 inclusão, 1 exclusão
+        private readonly Empresa empresa = new Empresa();
+        private readonly List<Empregado> empregados = new List<Empregado>();
+        private readonly int operacao; // 0 inclusão, 1 exclusão
+        private readonly string tipoComunicacao;
 
         public EnvioEmpresaEFuncionarios(ModeloAux.RepViewModel rep, Modelo.Proxy.PxyConfigComunicadorServico config, DateTime dataHoraComando, ImportacaoDadosRep dadosImp)
             : base(rep, config, dataHoraComando)
@@ -20,6 +20,7 @@ namespace Negocio
             empresa = dadosImp.Empresas.FirstOrDefault();
             empregados = dadosImp.Empregados.ToList();
             operacao = dadosImp.EnvioDadosRep.bOperacao;
+            tipoComunicacao = dadosImp.EnvioDadosRep.TipoComunicacao;
         }
 
         protected override void SetDadosEnvio()
@@ -30,6 +31,22 @@ namespace Negocio
                 ValidarQtdDigitosRelogio();
                 relogio.SetEmpresa(empresa);
                 SetDadosFuncionarios(erros);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        protected override void SetDadosReceber()
+        {
+            var erros = new StringBuilder();
+            try
+            {
+                ValidarQtdDigitosRelogio();
+                SetDadosFuncionarios(erros);
+                relogio.SetIdRelogio(rep.Id);
+                relogio.SetTipoBio(rep.TipoBiometria);
             }
             catch (Exception e)
             {
@@ -57,6 +74,8 @@ namespace Negocio
                 }
             }
             relogio.SetEmpregados(empregados);
+            relogio.SetTipoComunicacaoBiometria(tipoComunicacao);
+            relogio.SetModeloRep(rep.NomeModelo);
         }
 
         protected void ValidarQtdDigitosRelogio()
@@ -79,13 +98,34 @@ namespace Negocio
             }
             else
                 if (operacao == 1)
-                {
+            {
 
-                    if (!relogio.RemoveFuncionariosRep(out erros))
+                if (!relogio.RemoveFuncionariosRep(out erros))
+                {
+                    throw new Exception(erros);
+                }
+            }
+        }
+
+        protected override void EfetuarRecebimento(ComunicacaoApi comApi)
+        {
+            string erros;
+            if (operacao == 0)
+            {
+                var result = relogio.GetBiometria(out erros);
+
+                if (!string.IsNullOrEmpty(erros))
+                {
+                    throw new Exception(erros);
+                }
+                if (result != null)
+                {
+                    foreach (var item in result)
                     {
-                        throw new Exception(erros);
+                        comApi.EnviarBiometria(new Modelo.Biometria() { Codigo = item.codigo, idfuncionario = item.idfuncionario, idRep = item.idRep, valorBiometria = item.valorBiometria }).Wait();
                     }
                 }
+            }
         }
 
         protected override Dictionary<string, string> EfetuarEnvio(ref string caminho, System.IO.DirectoryInfo pasta)

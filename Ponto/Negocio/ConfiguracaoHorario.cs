@@ -70,5 +70,15 @@ namespace Negocio
         {
             throw new NotImplementedException();
         }
+
+        protected override void SetDadosReceber()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void EfetuarRecebimento(ComunicacaoApi comApi)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

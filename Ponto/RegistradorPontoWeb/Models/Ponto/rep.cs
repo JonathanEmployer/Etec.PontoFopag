@@ -51,7 +51,7 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<int> CodigoLocal { get; set; }
         public short TipoIP { get; set; }
         public Nullable<System.DateTime> UltimaIntegracao { get; set; }
-        public int TipoBiometria { get; set; }
+        public int IdEquipamentoTipoBiometria { get; set; }
         public string CpfRep { get; set; }
         public string LoginRep { get; set; }
         public string SenhaRep { get; set; }

@@ -10,6 +10,7 @@ namespace DAL
         Modelo.Cw_Usuario UsuarioLogado { get; set; }
         int MaxCodigo();
         DataTable GetAll();
+        void Adicionar(Modelo.ModeloBase obj, bool Codigo);
         void Incluir(Modelo.ModeloBase obj);
         void Alterar(Modelo.ModeloBase obj);
         void Excluir(Modelo.ModeloBase obj);

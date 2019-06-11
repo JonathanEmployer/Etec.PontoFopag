@@ -57,393 +57,419 @@
                 {
                     <div class="alert alert-info" role="alert" style="margin-bottom:0">@Html.Raw(ViewBag.MensagemFechamento)</div>
                 }
-                <div class="row">
-                    <div class="col-md-9" style="padding-right:0">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Dscodigo, new { @class = "control-label label-sm" })
-                                    @Html.TextBoxFor(model => model.Dscodigo, ViewBag.Disabled ? (object)new { @class = "form-control  input-sm", @disabled = true } : new { @class = "form-control  input-sm", @autofocus = "autofocus" }).IsReadonly(integrado)
-                                    @Html.HiddenFor(model => model.Dscodigo)
-                                    @Html.ValidationMessageFor(model => model.Dscodigo)
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Codigofolha, new { @class = "control-label label-sm" })
-                                    @Html.TextBoxFor(model => model.Codigofolha, ViewBag.Disabled ? (object)new { @class = "form-control  input-sm", @autofocus = "autofocus" } : new { @class = "form-control  input-sm" }).IsReadonly(integrado)
-                                    @Html.ValidationMessageFor(model => model.Codigofolha)
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Matricula, new { @class = "control-label label-sm" })
-                                    @Html.TextBoxFor(model => model.Matricula, new { @class = "form-control  input-sm" }).IsReadonly(integrado)
-                                    @Html.ValidationMessageFor(model => model.Matricula)
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Carteira, new { @class = "control-label label-sm" })
-                                    @Html.TextBoxFor(model => model.Carteira, new { @class = "form-control  input-sm" }).IsReadonly(integrado)
-                                    @Html.ValidationMessageFor(model => model.Carteira)
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Pis, new { @class = "control-label label-sm" })
-                                    @Html.TextBoxFor(model => model.Pis, new { @class = "form-control  input-sm pis" }).IsReadonly(integrado)
-                                    @Html.ValidationMessageFor(model => model.Pis)
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.CPF, new { @class = "control-label label-sm" })
-                                    @Html.TextBoxFor(model => model.CPF, new { @class = "form-control  input-sm cpf" }).IsReadonly(integrado)
-                                    @Html.ValidationMessageFor(model => model.CPF)
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Salario, new { @class = "control-label label-sm" })
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-addon">R$</span>
-                                        @Html.TextBoxFor(model => model.Salario, new { @class = "form-control  input-sm money" }).IsReadonly(integrado)
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Salario)
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Email, new { @class = "control-label label-sm" })
-                                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control  input-sm" })
-                                    @Html.ValidationMessageFor(model => model.Email)
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Nome, new { @class = "control-label label-sm" })
-                                    @Html.TextBoxFor(model => model.Nome, new { @class = "form-control  input-sm" }).IsReadonly(integrado)
-                                    @Html.ValidationMessageFor(model => model.Nome)
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group input-group-sm">
-                                    @Html.LabelFor(model => model.Dataadmissao, new { @class = "control-label label-sm" })
-                                    <div class="input-group input-group-sm">
-                                        @Html.TextBoxFor(model => model.Dataadmissao, new { @class = "form-control input-sm MascDate datepickerfunc", id = "dtAdmissao" }).IsReadonly((Model.Dataadmissao == null ? DateTime.MaxValue : Model.Dataadmissao) <= Model.DataUltimoFechamento).IsReadonly(integrado)
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-primary" id="btnAdmissao" type="button" @(((Model.Dataadmissao == null ? DateTime.MaxValue : Model.Dataadmissao) <= Model.DataUltimoFechamento) == true ? "disabled" : "")><span class="glyphicon glyphicon-calendar"></span></button>
-                                        </span>
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Dataadmissao)
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group input-group-sm">
-                                    @Html.LabelFor(model => model.Datademissao, new { @class = "control-label label-sm" })
-                                    <div class="input-group input-group-sm">
-                                        @Html.TextBoxFor(model => model.Datademissao, new { @class = "form-control input-sm MascDate datepickerfunc", id = "dtDemissao" }).IsDisabled((Model.Datademissao == null ? DateTime.MaxValue : Model.Datademissao) <= Model.DataUltimoFechamento).IsReadonly(integrado)
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-primary" id="btnDemissao" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
-                                        </span>
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Datademissao)
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Empresa, new { @class = "control-label label-sm" })
-                                    <div class="input-group input-group-sm">
-                                        @Html.TextBoxFor(model => model.Empresa, new { @class = "form-control  input-sm", id = "lkpEmpresa" }).IsReadonly(integrado)
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-primary" id="btnEmpresa" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                                        </span>
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Empresa)
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Departamento, new { @class = "control-label label-sm" })
-                                    <div class="input-group input-group-sm">
-                                        @Html.TextBoxFor(model => model.Departamento, new { @class = "form-control  input-sm", id = "lkpDepart" }).IsReadonly(integrado)
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-primary" id="btnDepart" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                                        </span>
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Departamento)
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Funcao, new { @class = "control-label label-sm" })
-                                    <div class="input-group input-group-sm">
-                                        @Html.TextBoxFor(model => model.Funcao, new { @class = "form-control  input-sm", id = "lkpFuncao" }).IsReadonly(integrado)
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-primary" id="btnFuncao" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                                        </span>
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Funcao)
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Tipohorario, new { @class = "control-label label-sm" })
-                                    @Html.DropDownListFor(model => model.Tipohorario, cwkPontoWeb.Models.Helpers.EnumHelper.GetSelectedItemList<Modelo.Listas.TipoHorario>(1), ViewBag.Disabled ? (object)new { @class = "form-control input-sm", @disabled = true, style = "height: 25px;" } : new { @class = "form-control input-sm", style = "height: 25px;" })
-                                    @Html.HiddenFor(model => model.Tipohorario)
-                                    @Html.ValidationMessageFor(model => model.Tipohorario)
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div id="divHorario">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.Horario, new { @class = "control-label label-sm" })
-                                        <div class="input-group input-group-sm">
-                                            @Html.TextBoxFor(model => model.Horario, ViewBag.Disabled ? (object)new { @class = "form-control  input-sm", @disabled = true, id = "lkpHorario" } : new { @class = "form-control  input-sm", id = "lkpHorario" })
-                                            <span class="input-group-btn">
-                                                @if (ViewBag.Disabled)
-                                                {
-                                                    <button class="btn btn-primary" id="btnHorario" type="button" disabled><span class="glyphicon glyphicon-search"></span></button>
-                                                }
-                                                else
-                                                {
-                                                    <button class="btn btn-primary" id="btnHorario" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                                                }
-                                            </span>
-                                        </div>
-                                        @Html.HiddenFor(model => model.Horario)
-                                        @Html.ValidationMessageFor(model => model.Horario)
-                                    </div>
-                                </div>
-                                <div id="divHorarioDinamico">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.HorarioDinamico, new { @class = "control-label label-sm" })
-                                        <div class="input-group input-group-sm">
-                                            @Html.TextBoxFor(model => model.HorarioDinamico, ViewBag.Disabled ? (object)new { @class = "form-control  input-sm", @disabled = true, id = "lkpHorarioDinamico" } : new { @class = "form-control  input-sm", id = "lkpHorarioDinamico" })
-                                            <span class="input-group-btn">
-                                                @if (ViewBag.Disabled)
-                                                {
-                                                    <button class="btn btn-primary" id="btnHorarioDinamico" type="button" disabled><span class="glyphicon glyphicon-search"></span></button>
-                                                }
-                                                else
-                                                {
-                                                    <button class="btn btn-primary" id="btnHorarioDinamico" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                                                }
-                                            </span>
-                                        </div>
-                                        @Html.HiddenFor(model => model.HorarioDinamico)
-                                        @Html.ValidationMessageFor(model => model.HorarioDinamico)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                @Html.ValidationMessageFor(model => model.CicloSequenciaIndice)
-                            </div>
-                            <div class="col-md-12" id="divHorarioDinamicoDetalhes">
-
-                            </div>
-                        </div>
-                        <div class="row">
-                            @if (ViewBag.RegistradorEmpresa)
-                            {
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.Mob_Senha, new { @class = "control-label label-sm" })
-                                        @Html.PasswordFor(model => model.Mob_Senha, new { @class = "form-control  input-sm", value = Model.Mob_Senha })
-                                        @Html.ValidationMessageFor(model => model.Mob_Senha)
-                                    </div>
-                                </div>
-                            }
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Supervisor, new { @class = "control-label label-sm" })
-                                    <div class="input-group input-group-sm">
-                                        @Html.TextBoxFor(model => model.Supervisor, new { @class = "form-control  input-sm", id = "lkpSupervisor" })
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-primary" id="btnSupervisor" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                                        </span>
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Supervisor)
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.PessoaSupervisor, new { @class = "control-label label-sm" })
-                                    <div class="input-group input-group-sm">
-                                        @Html.TextBoxFor(model => model.PessoaSupervisor, new { @class = "form-control  input-sm", id = "lkpPessoaSupervisor" }).IsReadonly(integrado)
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-primary" id="btnPessoaSupervisor" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                                        </span>
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.PessoaSupervisor)
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-7">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Alocacao, new { @class = "control-label label-sm" })
-                                    <div class="input-group input-group-sm">
-                                        @Html.TextBoxFor(model => model.Alocacao, new { @class = "form-control  input-sm", id = "lkpAlocacao" })
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-primary" id="btnAlocacao" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                                        </span>
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Alocacao)
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.TipoVinculo, new { @class = "control-label label-sm" })
-                                    @Html.DropDownListFor(model => model.IdTipoVinculo, new SelectList(ViewBag.Campos, "Value", "Text", Model.IdTipoVinculo == null ? 0 : Model.IdTipoVinculo), new { @class = "form-control input-sm comboSearch", style = "height: 25px;" })
-                                    @Html.ValidationMessageFor(model => model.IdTipoVinculo)
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class=" col-md-6">
-                                <div class="panel panel-default" style="margin-bottom:4px">
-                                    <div class="panel-heading" style="padding-top:1px; padding-bottom:2px">
-                                        @Html.LabelFor(model => model.TipoMaoObra, new { @class = "label-sm" }) &nbsp;
-                                    </div>
-                                    <div class="panel-body" style="padding-top:8px; padding-bottom:5px">
-                                        <div class="radio-inline" data-toggle="radioTipo" style="margin-top:-4px">
-                                            @Html.RadioButtonFor(model => model.TipoMaoObra, 0, new { id = "idRadioDireta", name = "rdioTipo" })
-                                            <label class="label-sm" for="idRadioDireta">Direta</label>
-                                        </div>
-                                        <div class="radio-inline" data-toggle="radioTipo" style="margin-top:-4px">
-                                            @Html.RadioButtonFor(model => model.TipoMaoObra, 1, new { id = "idRadioIndireta", name = "rdioTipo" })
-                                            <label class="label-sm" for="idRadioIndireta">Indireta</label>
-                                        </div>
-                                        <div class="radio-inline" data-toggle="radioTipo" style="margin-top:-4px">
-                                            @Html.RadioButtonFor(model => model.TipoMaoObra, 2, new { id = "idRadiomensalista", name = "rdioTipo" })
-                                            <label class="label-sm" for="idRadioMensalista">Mensalista</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class=" col-md-6">
-                                <div class="panel panel-default" style="margin-bottom:4px">
-                                    <div class="panel-heading" style="padding-top:1px; padding-bottom:2px">
-                                        @Html.Label("Informações Relógio Ponto", new { @class = "control-label label-sm" })
-                                    </div>
-                                    <div class="panel-body" style="padding-top:8px; padding-bottom:5px">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    @Html.LabelFor(model => model.Senha, new { @class = "control-label label-sm" })
-                                                    @Html.PasswordFor(model => model.Senha, new { @class = "form-control  input-sm", value = Model.Senha })
-                                                    @Html.ValidationMessageFor(model => model.Senha)
-                                                </div>
+                <div id="Tabs" role="tabpanel">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="active">
+                            <a href="#funcionario" aria-controls="funcionario" role="tab" data-toggle="tab">Funcionário</a>
+                        </li>
+                        <li><a href="#rep" aria-controls="rep" role="tab" data-toggle="tab">REP</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content" style="padding-top: 20px">
+                        <div role="tabpanel" class="tab-pane active" id="funcionario">
+                            <div class="row">
+                                <div class="col-md-9" style="padding-right:0">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Dscodigo, new { @class = "control-label label-sm" })
+                                                @Html.TextBoxFor(model => model.Dscodigo, ViewBag.Disabled ? (object)new { @class = "form-control  input-sm", @disabled = true } : new { @class = "form-control  input-sm", @autofocus = "autofocus" }).IsReadonly(integrado)
+                                                @Html.HiddenFor(model => model.Dscodigo)
+                                                @Html.ValidationMessageFor(model => model.Dscodigo)
                                             </div>
-                                            <div class="col-md-6">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Codigofolha, new { @class = "control-label label-sm" })
+                                                @Html.TextBoxFor(model => model.Codigofolha, ViewBag.Disabled ? (object)new { @class = "form-control  input-sm", @autofocus = "autofocus" } : new { @class = "form-control  input-sm" }).IsReadonly(integrado)
+                                                @Html.ValidationMessageFor(model => model.Codigofolha)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Matricula, new { @class = "control-label label-sm" })
+                                                @Html.TextBoxFor(model => model.Matricula, new { @class = "form-control  input-sm" }).IsReadonly(integrado)
+                                                @Html.ValidationMessageFor(model => model.Matricula)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Carteira, new { @class = "control-label label-sm" })
+                                                @Html.TextBoxFor(model => model.Carteira, new { @class = "form-control  input-sm" }).IsReadonly(integrado)
+                                                @Html.ValidationMessageFor(model => model.Carteira)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Pis, new { @class = "control-label label-sm" })
+                                                @Html.TextBoxFor(model => model.Pis, new { @class = "form-control  input-sm pis" }).IsReadonly(integrado)
+                                                @Html.ValidationMessageFor(model => model.Pis)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.CPF, new { @class = "control-label label-sm" })
+                                                @Html.TextBoxFor(model => model.CPF, new { @class = "form-control  input-sm cpf" }).IsReadonly(integrado)
+                                                @Html.ValidationMessageFor(model => model.CPF)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Salario, new { @class = "control-label label-sm" })
+                                                <div class="input-group input-group-sm">
+                                                    <span class="input-group-addon">R$</span>
+                                                    @Html.TextBoxFor(model => model.Salario, new { @class = "form-control  input-sm money" }).IsReadonly(integrado)
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Salario)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Email, new { @class = "control-label label-sm" })
+                                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control  input-sm" })
+                                                @Html.ValidationMessageFor(model => model.Email)
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Nome, new { @class = "control-label label-sm" })
+                                                @Html.TextBoxFor(model => model.Nome, new { @class = "form-control  input-sm" }).IsReadonly(integrado)
+                                                @Html.ValidationMessageFor(model => model.Nome)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group input-group-sm">
+                                                @Html.LabelFor(model => model.Dataadmissao, new { @class = "control-label label-sm" })
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBoxFor(model => model.Dataadmissao, new { @class = "form-control input-sm MascDate datepickerfunc", id = "dtAdmissao" }).IsReadonly((Model.Dataadmissao == null ? DateTime.MaxValue : Model.Dataadmissao) <= Model.DataUltimoFechamento).IsReadonly(integrado)
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-primary" id="btnAdmissao" type="button" @(((Model.Dataadmissao == null ? DateTime.MaxValue : Model.Dataadmissao) <= Model.DataUltimoFechamento) == true ? "disabled" : "")><span class="glyphicon glyphicon-calendar"></span></button>
+                                                    </span>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Dataadmissao)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group input-group-sm">
+                                                @Html.LabelFor(model => model.Datademissao, new { @class = "control-label label-sm" })
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBoxFor(model => model.Datademissao, new { @class = "form-control input-sm MascDate datepickerfunc", id = "dtDemissao" }).IsDisabled((Model.Datademissao == null ? DateTime.MaxValue : Model.Datademissao) <= Model.DataUltimoFechamento).IsReadonly(integrado)
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-primary" id="btnDemissao" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                    </span>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Datademissao)
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Empresa, new { @class = "control-label label-sm" })
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBoxFor(model => model.Empresa, new { @class = "form-control  input-sm", id = "lkpEmpresa" }).IsReadonly(integrado)
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-primary" id="btnEmpresa" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                    </span>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Empresa)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Departamento, new { @class = "control-label label-sm" })
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBoxFor(model => model.Departamento, new { @class = "form-control  input-sm", id = "lkpDepart" }).IsReadonly(integrado)
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-primary" id="btnDepart" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                    </span>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Departamento)
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Funcao, new { @class = "control-label label-sm" })
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBoxFor(model => model.Funcao, new { @class = "form-control  input-sm", id = "lkpFuncao" }).IsReadonly(integrado)
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-primary" id="btnFuncao" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                    </span>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Funcao)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Tipohorario, new { @class = "control-label label-sm" })
+                                                @Html.DropDownListFor(model => model.Tipohorario, cwkPontoWeb.Models.Helpers.EnumHelper.GetSelectedItemList<Modelo.Listas.TipoHorario>(1), ViewBag.Disabled ? (object)new { @class = "form-control input-sm", @disabled = true, style = "height: 25px;" } : new { @class = "form-control input-sm", style = "height: 25px;" })
+                                                @Html.HiddenFor(model => model.Tipohorario)
+                                                @Html.ValidationMessageFor(model => model.Tipohorario)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div id="divHorario">
                                                 <div class="form-group">
-                                                    @Html.LabelFor(model => model.RFID, new { @class = "control-label label-sm" })
+                                                    @Html.LabelFor(model => model.Horario, new { @class = "control-label label-sm" })
                                                     <div class="input-group input-group-sm">
-                                                        @Html.TextBoxFor(model => model.RFID, new { @class = "form-control  input-sm", id = "lkpHistorioRFID", value = Model.RFID })
+                                                        @Html.TextBoxFor(model => model.Horario, ViewBag.Disabled ? (object)new { @class = "form-control  input-sm", @disabled = true, id = "lkpHorario" } : new { @class = "form-control  input-sm", id = "lkpHorario" })
                                                         <span class="input-group-btn">
-                                                            <button class="btn btn-primary" id="btnHistoricoRFID" type="button"><span class="glyphicon glyphicon-time"></span></button>
-                                                        </span>
-                                                        <span class="input-group-btn">
-                                                            <button class="btn btn-default" id="btnInfoRFID" type="button"><span class="glyphicon glyphicon-info-sign"></span></button>
+                                                            @if (ViewBag.Disabled)
+                                                            {
+                                                                <button class="btn btn-primary" id="btnHorario" type="button" disabled><span class="glyphicon glyphicon-search"></span></button>
+                                                            }
+                                                            else
+                                                            {
+                                                                <button class="btn btn-primary" id="btnHorario" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                            }
                                                         </span>
                                                     </div>
-                                                    @Html.ValidationMessageFor(model => model.RFID)
+                                                    @Html.HiddenFor(model => model.Horario)
+                                                    @Html.ValidationMessageFor(model => model.Horario)
                                                 </div>
+                                            </div>
+                                            <div id="divHorarioDinamico">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.HorarioDinamico, new { @class = "control-label label-sm" })
+                                                    <div class="input-group input-group-sm">
+                                                        @Html.TextBoxFor(model => model.HorarioDinamico, ViewBag.Disabled ? (object)new { @class = "form-control  input-sm", @disabled = true, id = "lkpHorarioDinamico" } : new { @class = "form-control  input-sm", id = "lkpHorarioDinamico" })
+                                                        <span class="input-group-btn">
+                                                            @if (ViewBag.Disabled)
+                                                            {
+                                                                <button class="btn btn-primary" id="btnHorarioDinamico" type="button" disabled><span class="glyphicon glyphicon-search"></span></button>
+                                                            }
+                                                            else
+                                                            {
+                                                                <button class="btn btn-primary" id="btnHorarioDinamico" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                            }
+                                                        </span>
+                                                    </div>
+                                                    @Html.HiddenFor(model => model.HorarioDinamico)
+                                                    @Html.ValidationMessageFor(model => model.HorarioDinamico)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            @Html.ValidationMessageFor(model => model.CicloSequenciaIndice)
+                                        </div>
+                                        <div class="col-md-12" id="divHorarioDinamicoDetalhes">
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        @if (ViewBag.RegistradorEmpresa)
+                                        {
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Mob_Senha, new { @class = "control-label label-sm" })
+                                                    @Html.PasswordFor(model => model.Mob_Senha, new { @class = "form-control  input-sm", value = Model.Mob_Senha })
+                                                    @Html.ValidationMessageFor(model => model.Mob_Senha)
+                                                </div>
+                                            </div>
+                                        }
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Supervisor, new { @class = "control-label label-sm" })
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBoxFor(model => model.Supervisor, new { @class = "form-control  input-sm", id = "lkpSupervisor" })
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-primary" id="btnSupervisor" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                    </span>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Supervisor)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.PessoaSupervisor, new { @class = "control-label label-sm" })
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBoxFor(model => model.PessoaSupervisor, new { @class = "form-control  input-sm", id = "lkpPessoaSupervisor" }).IsReadonly(integrado)
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-primary" id="btnPessoaSupervisor" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                    </span>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.PessoaSupervisor)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Alocacao, new { @class = "control-label label-sm" })
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBoxFor(model => model.Alocacao, new { @class = "form-control  input-sm", id = "lkpAlocacao" })
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-primary" id="btnAlocacao" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                    </span>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Alocacao)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.TipoVinculo, new { @class = "control-label label-sm" })
+                                                @Html.DropDownListFor(model => model.IdTipoVinculo, new SelectList(ViewBag.Campos, "Value", "Text", Model.IdTipoVinculo == null ? 0 : Model.IdTipoVinculo), new { @class = "form-control input-sm comboSearch", style = "height: 25px;" })
+                                                @Html.ValidationMessageFor(model => model.IdTipoVinculo)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class=" col-md-6">
+                                            <div class="panel panel-default" style="margin-bottom:4px">
+                                                <div class="panel-heading" style="padding-top:1px; padding-bottom:2px">
+                                                    @Html.LabelFor(model => model.TipoMaoObra, new { @class = "label-sm" }) &nbsp;
+                                                </div>
+                                                <div class="panel-body" style="padding-top:8px; padding-bottom:5px">
+                                                    <div class="radio-inline" data-toggle="radioTipo" style="margin-top:-4px">
+                                                        @Html.RadioButtonFor(model => model.TipoMaoObra, 0, new { id = "idRadioDireta", name = "rdioTipo" })
+                                                        <label class="label-sm" for="idRadioDireta">Direta</label>
+                                                    </div>
+                                                    <div class="radio-inline" data-toggle="radioTipo" style="margin-top:-4px">
+                                                        @Html.RadioButtonFor(model => model.TipoMaoObra, 1, new { id = "idRadioIndireta", name = "rdioTipo" })
+                                                        <label class="label-sm" for="idRadioIndireta">Indireta</label>
+                                                    </div>
+                                                    <div class="radio-inline" data-toggle="radioTipo" style="margin-top:-4px">
+                                                        @Html.RadioButtonFor(model => model.TipoMaoObra, 2, new { id = "idRadiomensalista", name = "rdioTipo" })
+                                                        <label class="label-sm" for="idRadioMensalista">Mensalista</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">  </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="well" style="padding-top:5px; padding-bottom:5px;">
+                                        <div class="row table-bordered" style="background-color: white; padding-top: 5px; padding-bottom: 5px;">
+                                            <div>
+                                                <div class="row" style="padding-bottom:5px;">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-12" style="text-align:center">
+                                                            <canvas id="meuCanvas" width="640" height="480" class="hidden"></canvas>
+                                                            <img id="imgFunc" alt="Foto" class="img-responsive img-thumbnail" src="data:image/jpg;base64,@Model.Foto" />
+                                                            @Html.ValidationMessageFor(model => model.Foto)
+                                                            @Html.HiddenFor(model => model.Foto, new { id = "base" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="text-align:center">
+                                                    <span class="btn btn-primary btn-sm btn-file">
+                                                        <span class="glyphicon glyphicon-folder-open"></span>
+                                                        <input type="file" name="imgUp" value="" id="imgUp" data-errormsg="Tipo de imagem incorreta!">
+                                                    </span>
+                                                    <button class="btn btn btn-danger btn-sm" type="button" id="imgDelete"><span class="glyphicon glyphicon-trash"></span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div style="padding-left:7px">
+                                                    <div class="checkbox">
+                                                        @Html.CheckBoxFor(model => model.bFuncionarioativo)
+                                                        @Html.LabelFor(model => model.bFuncionarioativo, new { @class = "control-label label-sm" })
+                                                    </div>
+                                                    <div class="checkbox">
+                                                        @if ((Model.Dataadmissao == null ? DateTime.MaxValue : Model.Dataadmissao) <= Model.DataUltimoFechamento)
+                                                        {
+                                                            @Html.CheckBoxDisabledFor(model => model.bNaoentrarbanco.ToString())
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.CheckBoxFor(model => model.bNaoentrarbanco)
+                                                        }
+                                                        @Html.LabelFor(model => model.bNaoentrarbanco, new { @class = "control-label label-sm" })
+                                                    </div>
+                                                    <div class="checkbox">
+                                                        @if ((Model.Dataadmissao == null ? DateTime.MaxValue : Model.Dataadmissao) <= Model.DataUltimoFechamento)
+                                                        {
+                                                            @Html.CheckBoxDisabledFor(model => model.bNaoentrarcompensacao.ToString())
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.CheckBoxFor(model => model.bNaoentrarcompensacao)
+                                                        }
+                                                        @Html.LabelFor(model => model.bNaoentrarcompensacao, new { @class = "control-label label-sm" })
+                                                    </div>
+                                                    @if (ViewBag.RegistradorEmpresa)
+                                                    {
+                                                        <div class="checkbox">
+                                                            @Html.CheckBoxFor(model => model.utilizaregistrador)
+                                                            @Html.LabelFor(model => model.utilizaregistrador, new { @class = "control-label label-sm" })
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Campoobservacao, new { @class = "control-label label-sm" })
+                                                @Html.TextAreaFor(model => model.Campoobservacao, new { @class = "form-control  input-sm" })
+                                                @Html.ValidationMessageFor(model => model.Campoobservacao)
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">  </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="well" style="padding-top:5px; padding-bottom:5px;">
-                            <div class="row table-bordered" style="background-color: white; padding-top: 5px; padding-bottom: 5px;">
-                                <div>
-                                    <div class="row" style="padding-bottom:5px;">
-                                        <div class="col-md-12">
-                                            <div class="col-md-12" style="text-align:center">
-                                                <canvas id="meuCanvas" width="640" height="480" class="hidden"></canvas>
-                                                <img id="imgFunc" alt="Foto" class="img-responsive img-thumbnail" src="data:image/jpg;base64,@Model.Foto" />
-                                                @Html.ValidationMessageFor(model => model.Foto)
-                                                @Html.HiddenFor(model => model.Foto, new { id = "base" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row" style="text-align:center">
-                                        <span class="btn btn-primary btn-sm btn-file">
-                                            <span class="glyphicon glyphicon-folder-open"></span>
-                                            <input type="file" name="imgUp" value="" id="imgUp" data-errormsg="Tipo de imagem incorreta!">
-                                        </span>
-                                        <button class="btn btn btn-danger btn-sm" type="button" id="imgDelete"><span class="glyphicon glyphicon-trash"></span></button>
-                                    </div>
-                                </div>
-                            </div>
+                        <div role="tabpanel" class="tab-pane" id="rep">
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div style="padding-left:7px">
-                                        <div class="checkbox">
-                                            @Html.CheckBoxFor(model => model.bFuncionarioativo)
-                                            @Html.LabelFor(model => model.bFuncionarioativo, new { @class = "control-label label-sm" })
+                                <div class=" col-md-6">
+                                    <div id="partialViewContainerDiv">
+                                        @Html.Partial("FuncionarioRFID", Model)
+                                    </div>
+                                </div>
+                                <div class=" col-md-6">
+                                    <div class="panel panel-default" style="margin-bottom:4px">
+                                        <div class="panel-heading" style="padding-top:1px; padding-bottom:2px">
+                                            @Html.LabelFor(model => model.Biometrias, new { @class = "control-label label-sm" })
                                         </div>
-                                        <div class="checkbox">
-                                            @if ((Model.Dataadmissao == null ? DateTime.MaxValue : Model.Dataadmissao) <= Model.DataUltimoFechamento)
+                                        <div class="panel-body" style="padding-top:8px; padding-bottom:5px">
+                                            @foreach (var b in Model.Biometrias)
                                             {
-                                                @Html.CheckBoxDisabledFor(model => model.bNaoentrarbanco.ToString())
+                                                <div class="row" style="padding-bottom:8px;">
+                                                    <div class="form-group">
+                                                        <div class="form-inline">
+                                                            <div class="col-sm-12">
+                                                                <div class="form-group">
+                                                                    @Html.LabelFor(m => b.Quantidade, new { @class = "control-label label-sm" })
+                                                                    @Html.TextBoxFor(m => b.Quantidade, new { @class = "disabled form-control input-sm", disabled = "disabled"@*, @style = "width: 40px"*@})
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    @Html.TextBoxFor(m => b.Tecnologia, new { @class = "disabled form-control input-sm", disabled = "disabled" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             }
-                                            else
+                                            @if (Model.Biometrias == null || Model.Biometrias.Count == 0)
                                             {
-                                                @Html.CheckBoxFor(model => model.bNaoentrarbanco)
+                                                <label> Nenhum registro encontrado </label>
                                             }
-                                            @Html.LabelFor(model => model.bNaoentrarbanco, new { @class = "control-label label-sm" })
                                         </div>
-                                        <div class="checkbox">
-                                            @if ((Model.Dataadmissao == null ? DateTime.MaxValue : Model.Dataadmissao) <= Model.DataUltimoFechamento)
-                                            {
-                                                @Html.CheckBoxDisabledFor(model => model.bNaoentrarcompensacao.ToString())
-                                            }
-                                            else
-                                            {
-                                                @Html.CheckBoxFor(model => model.bNaoentrarcompensacao)
-                                            }
-                                            @Html.LabelFor(model => model.bNaoentrarcompensacao, new { @class = "control-label label-sm" })
-                                        </div>
-                                        @if (ViewBag.RegistradorEmpresa)
-                                        {
-                                            <div class="checkbox">
-                                                @Html.CheckBoxFor(model => model.utilizaregistrador)
-                                                @Html.LabelFor(model => model.utilizaregistrador, new { @class = "control-label label-sm" })
-                                            </div>
-                                        }
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Campoobservacao, new { @class = "control-label label-sm" })
-                                    @Html.TextAreaFor(model => model.Campoobservacao, new { @class = "form-control  input-sm" })
-                                    @Html.ValidationMessageFor(model => model.Campoobservacao)
-                                </div>
-                            </div>
+                            <div class="row">  </div>
                         </div>
                     </div>
                 </div>
+
+
             </div>
             <div class="panel-footer">
                 <div class="row">
@@ -466,6 +492,90 @@
     </div>
 }
 <script>
+    function addRow(idfuncionario) {
+        var senha = $('#txtSenha').val();
+        var cracha = Number($('#lkpHistorioRFID').val());
+        if ((cracha === '' || cracha === 0) || ($("input[name=rdioTipo]:checked").val() != '0' && $("input[name=rdioTipo]:checked").val() != '1')) {
+            //if (senha === '') {
+            //    $('#txtSenha').addClass('input-validation-error');
+            //    $('#vsSenha').removeClass('field-validation-valid');
+            //    $('#vsSenha').addClass('field-validation-error');
+            //    $('#vsSenha').html('Campo obrigatório');
+            //    $('#txtSenha').focus();
+            //}
+            if (cracha === '' || cracha === 0) {
+                $('#lkpHistorioRFID').addClass('input-validation-error');
+                $('#vsRfid').removeClass('field-validation-valid');
+                $('#vsRfid').addClass('field-validation-error');
+                $('#vsRfid').html('Campo obrigatório');
+                $('#lkpHistorioRFID').val('');
+                $('#lkpHistorioRFID').focus();
+            }
+            if ($("input[name=rdioTipo]:checked").val() != '0' && $("input[name=rdioTipo]:checked").val() != '1') {
+                $('#vsTipo').removeClass('field-validation-valid');
+                $('#vsTipo').addClass('field-validation-error');
+                $('#vsTipo').html('Campo obrigatório');
+            }
+            return false;
+        }
+        else {
+            $('#txtSenha').removeClass('input-validation-error');
+            $('#vsSenha').addClass('field-validation-valid');
+            $('#vsSenha').removeClass('field-validation-error');
+
+            $('#lkpHistorioRFID').removeClass('input-validation-error');
+            $('#vsTipo').addClass('field-validation-valid');
+            $('#vsTipo').removeClass('field-validation-error');
+
+            $.ajax({
+                url: "/Funcionario/AdicionarFuncionarioRFID",
+                type: "GET",
+                beforeSend: function () {
+                    $("#loading").modal();
+                },
+                data: {
+                    idfuncionario,
+                    Senha: document.getElementById('txtSenha').value,
+                    Cracha: document.getElementById('lkpHistorioRFID').value,
+                    TipoCracha: $("input[name=rdioTipo]:checked").val()
+                },
+                dataType: 'html',
+                success: function (result) {
+                    $('#partialViewContainerDiv').html(result);
+                    $('#txtSenha').val('').focus();
+                },
+                complete: function () {
+                    $("#loading").modal('hide')
+                }
+            });
+        }
+    }
+
+    function deleteRow(idfuncionario, idrfid) {
+        if (confirm('Deseja realmente excluir este crachá?')) {
+            $.ajax({
+                url: "/Funcionario/InativarFuncionarioRFID",
+                type: "GET",
+                data: { idfuncionario, idrfid },
+                dataType: 'html',
+                beforeSend: function () {
+                    $("#loading").modal();
+                },
+                success: function (result) {
+                    $('#partialViewContainerDiv').html(result);
+                },
+                complete: function () {
+                    $("#loading").modal('hide')
+                }
+            })
+        }
+    }
+
+    $(document).on('click', '#btnHistoricoRFID', function () {
+        var idfuncionario = $('#idFuncionario').val();
+        cwk_CadastroAjaxParam('Grid', 'FuncionarioRFID', $('#idFuncionario').val(), "", "");
+    });
+
     $(document).ready(function () {
         cwk_EventoConsulta("#btnDepart",            "#lkpDepart",           "EventoConsulta",   "Departamento",                     "#lkpEmpresa");
         cwk_EventoConsulta("#btnEmpresa",           "#lkpEmpresa",          "EventoConsulta",   "Empresa",                          "");
@@ -532,12 +642,6 @@
     $("#Tipohorario").change(function () {
         $("#lkpHorario").val('');
     });
-
-    $("#btnHistoricoRFID").click(function () {
-        var idfuncionario = $('#idFuncionario').val();
-        cwk_CadastroAjaxParam('Grid', 'FuncionarioRFID', $('#idFuncionario').val(), "", "");
-    });
-
     function verificaTamanhoImagem(img) {
         $(img).one("load", function () {
             if ((img.height > 480) || (img.width > 640)) {

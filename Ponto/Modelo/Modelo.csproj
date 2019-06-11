@@ -279,6 +279,9 @@
     </Compile>
     <Compile Include="Enumeradores.cs" />
     <Compile Include="BloqueioFuncionario.cs" />
+    <Compile Include="ManutencaoBiometrica.cs" />
+    <Compile Include="Proxy\pxyManutencaoBiometricaFuncionarioGrid.cs" />
+    <Compile Include="TipoBiometria.cs" />
     <Compile Include="FuncionarioRFID.cs" />
     <Compile Include="HorarioDinamicoCicloSequencia.cs" />
     <Compile Include="HorarioDinamicoCiclo.cs" />
@@ -539,6 +542,7 @@
     <Compile Include="Tipos.cs" />
     <Compile Include="TipoVinculo.cs" />
     <Compile Include="TokenResponse.cs" />
+    <Compile Include="EquipamentoTipoBiometria.cs" />
     <Compile Include="TotaisMarcacao.cs" />
     <Compile Include="TotalHoras.cs" />
     <Compile Include="pxyLogErroImportacao.cs" />
@@ -551,6 +555,7 @@
     <Compile Include="Utils\ExportToXlsAttribute.cs" />
     <Compile Include="Utils\Extensoes.cs" />
     <Compile Include="Utils\IsComparable.cs" />
+    <Compile Include="Utils\ItensCombo.cs" />
     <Compile Include="Utils\MetodosValidacao.cs" />
     <Compile Include="Utils\MinDateAttribute.cs" />
     <Compile Include="Utils\DateRangeLessThanAttribute.cs" />

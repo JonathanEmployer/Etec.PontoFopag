@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Data;
 using System.Data.SqlClient;
-using System.Reflection;
 using System.Linq;
-using System.ComponentModel;
+using System.Reflection;
+using System.Text;
 
 namespace DAL.SQL
 {
@@ -18,7 +17,7 @@ namespace DAL.SQL
         private Modelo.Cw_Usuario _UsuarioLogado;
         public virtual Modelo.Cw_Usuario UsuarioLogado
         {
-            get 
+            get
             {
                 return _UsuarioLogado;
             }
@@ -252,7 +251,7 @@ namespace DAL.SQL
                 SqlParameter[] parms = new SqlParameter[0];
                 return Convert.ToInt32(db.ExecuteScalar(CommandType.Text, MAXCOD, parms)) + 1;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return 1;
             }
@@ -308,12 +307,27 @@ namespace DAL.SQL
 
             cmd.Parameters.Clear();
         }
+        protected virtual void IncluirAux(SqlTransaction trans, Modelo.ModeloBase obj, bool Codigo)
+        {
+            if (Codigo)
+            {
+                TrataCodigoDuplicado(trans, obj);
+            }
+            SetDadosInc(obj);
+            SqlParameter[] parms = GetParameters();
+            SetParameters(parms, obj);
+
+            SqlCommand cmd = TransactDbOps.ExecNonQueryCmd(trans, CommandType.Text, INSERT, true, parms);
+            obj.Id = Convert.ToInt32(cmd.Parameters["@id"].Value);
+
+            cmd.Parameters.Clear();
+        }
 
         private void TrataCodigoDuplicado(SqlTransaction trans, Modelo.ModeloBase obj)
         {
             if (!obj.NaoValidaCodigo)
             {
-                int codigoExiste = TransactDbOps.CountCampo(trans, TABELA, "codigo", ((Modelo.ModeloBase)obj).Codigo, ((Modelo.ModeloBase)obj).Id);
+                int codigoExiste = TransactDbOps.CountCampo(trans, TABELA, "codigo", obj.Codigo, obj.Id);
 
                 if (codigoExiste > 0 && !obj.ForcarNovoCodigo)
                 {
@@ -321,7 +335,7 @@ namespace DAL.SQL
                 }
                 else if (codigoExiste > 0 && obj.ForcarNovoCodigo)
                 {
-                    ((Modelo.ModeloBase)obj).Codigo = MaxCodigo() + 1;
+                    obj.Codigo = MaxCodigo() + 1;
                     TrataCodigoDuplicado(trans, obj);
                 }
             }
@@ -340,6 +354,27 @@ namespace DAL.SQL
                     try
                     {
                         IncluirAux(trans, obj);
+                        trans.Commit();
+                    }
+
+                    catch (Exception ex)
+                    {
+                        trans.Rollback();
+                        throw (ex);
+                    }
+                }
+            }
+        }
+
+        public virtual void Adicionar(Modelo.ModeloBase obj, bool Codigo)
+        {
+            using (SqlConnection conn = db.GetConnection)
+            {
+                using (SqlTransaction trans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        IncluirAux(trans, obj, Codigo);
                         trans.Commit();
                     }
 
@@ -873,7 +908,7 @@ namespace DAL.SQL
                             {
                                 try
                                 {
-                                    EnviarBulkCopy(dt, conexao, transaction, command,comando, nomeTempTable);
+                                    EnviarBulkCopy(dt, conexao, transaction, command, comando, nomeTempTable);
                                     transaction.Commit();
                                 }
                                 catch (Exception ex)
@@ -887,13 +922,13 @@ namespace DAL.SQL
 
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
         }
 
-        private void EnviarBulkCopy( DataTable dt, SqlConnection conexao, SqlTransaction transaction, SqlCommand command, string comando, string nomeTempTable)
+        private void EnviarBulkCopy(DataTable dt, SqlConnection conexao, SqlTransaction transaction, SqlCommand command, string comando, string nomeTempTable)
         {
             command.CommandText = CreateTempTABLE(nomeTempTable, dt);
             command.ExecuteNonQuery();
@@ -905,7 +940,7 @@ namespace DAL.SQL
                 bulkcopy.WriteToServer(dt);
                 bulkcopy.Close();
             }
-            
+
             // Updating destination table, and dropping temp table
             command.CommandTimeout = 300;
             command.CommandText = comando;

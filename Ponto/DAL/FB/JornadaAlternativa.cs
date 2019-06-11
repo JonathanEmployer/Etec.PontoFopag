@@ -711,6 +711,11 @@ namespace DAL.FB
             throw new NotImplementedException();
         }
 
+        public void Adicionar(ModeloBase obj, bool Codigo)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

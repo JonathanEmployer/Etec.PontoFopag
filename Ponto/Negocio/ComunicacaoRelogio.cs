@@ -53,6 +53,22 @@ namespace Negocio
             }
         }
 
+
+        public bool Receber(ComunicacaoApi comApi)
+        {
+            try
+            {
+                SetRelogio();
+                SetDadosReceber();
+                EfetuarRecebimento(comApi);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         private Dictionary<string, string> ExportarWeb(ref string caminho, DirectoryInfo pasta)
         {
             try
@@ -193,12 +209,16 @@ namespace Negocio
             {
                 relogio.timeZoneInfoRep = TimeZoneInfo.FindSystemTimeZoneById(rep.IdTimeZoneInfo);
             }
-
+            relogio.TipoBiometria = rep.TipoBiometria;
         }
 
         protected abstract void SetDadosEnvio();
 
+        protected abstract void SetDadosReceber();
+
         protected abstract void EfetuarEnvio();
+
+        protected abstract void EfetuarRecebimento(ComunicacaoApi comApi);
 
         protected abstract Dictionary<string, string> EfetuarEnvio(ref string caminho, DirectoryInfo pasta);
 

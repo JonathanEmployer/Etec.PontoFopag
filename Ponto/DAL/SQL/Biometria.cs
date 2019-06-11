@@ -20,9 +20,9 @@ namespace DAL.SQL
             SELECTALL = @"   SELECT * FROM biometria";
 
             INSERT = @"  INSERT INTO biometria
-							(codigo, valorBiometria, idfuncionario, incdata, inchora, incusuario)
+							(codigo, valorBiometria, idfuncionario, incdata, inchora, incusuario, IdRep)
 							VALUES
-							(@codigo, @valorBiometria, @idfuncionario, @incdata, @inchora, @incusuario) 
+							(@codigo, @valorBiometria, @idfuncionario, @incdata, @inchora, @incusuario, @idrep) 
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE biometria SET
@@ -92,8 +92,9 @@ namespace DAL.SQL
 				new SqlParameter ("@incusuario", SqlDbType.VarChar),
 				new SqlParameter ("@altdata", SqlDbType.DateTime),
 				new SqlParameter ("@althora", SqlDbType.DateTime),
-				new SqlParameter ("@altusuario", SqlDbType.VarChar)
-			};
+				new SqlParameter ("@altusuario", SqlDbType.VarChar),
+                new SqlParameter ("@idrep", SqlDbType.VarChar)
+            };
             return parms;
         }
 
@@ -113,6 +114,7 @@ namespace DAL.SQL
             parms[7].Value = ((Modelo.Biometria)obj).Altdata;
             parms[8].Value = ((Modelo.Biometria)obj).Althora;
             parms[9].Value = ((Modelo.Biometria)obj).Altusuario;
+            parms[10].Value = ((Modelo.Biometria)obj).idRep;
         }
 
         public Modelo.Biometria LoadObject(int id)
@@ -220,6 +222,62 @@ namespace DAL.SQL
             }
 
             return lstBiometria;
+        }
+
+        private string SqlGetBiometriaTipoBiometria()
+        {
+            string sql = @"
+    select 
+		count(1) as Quantidade,
+		tb.Descricao as Tecnologia
+	from biometria b
+	join rep r on r.id = b.IdRep
+	join EquipamentoTipoBiometria etb on etb.id = r.IdEquipamentoTipoBiometria 
+	join TipoBiometria tb on tb.id = etb.IdTipoBiometria
+	where b.idfuncionario = @idfuncionario
+	group by b.IdRep, tb.Descricao";
+            return sql;
+        }
+
+        public List<Modelo.Biometria> GetBiometriaTipoBiometria(int IdFuncionario)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter ("@idfuncionario", IdFuncionario )
+            };
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SqlGetBiometriaTipoBiometria(), parms);
+
+            List<Modelo.Biometria> lista = new List<Modelo.Biometria>();
+            try
+            {
+                while (dr.Read())
+                {
+                    Modelo.Biometria objBiometria = new Modelo.Biometria();
+                    AuxSetInstanceBiometriaTipoBiometria(dr, objBiometria);
+                    lista.Add(objBiometria);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+
+            return lista;
+        }
+
+        private void AuxSetInstanceBiometriaTipoBiometria(SqlDataReader dr, Modelo.Biometria obj)
+        {
+            ((Modelo.Biometria)obj).Quantidade = Convert.ToInt32(dr["Quantidade"]);
+            ((Modelo.Biometria)obj).Tecnologia = Convert.ToString(dr["Tecnologia"]);
         }
     }
 }

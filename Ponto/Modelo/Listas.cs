@@ -232,22 +232,5 @@ namespace Modelo
             Domingo = 7,
             Indefinido = -1
         }
-
-        public enum TipoBiometria
-        {
-            [Description("Não Biometrico")]
-            NaoBiometrico = 0,
-            Sony = 1,
-            Veriprint = 2,
-            [Description("Veriprint para SmartCard")]
-            VeriprintSmartcard = 3,
-            Geomok = 4,
-            [Description("Geomok para SmartCard")]
-            GeomokSmartcard = 5,
-            [Description("Bio Sagem")]
-            BioSagem = 6,
-            [Description("Bio Sagem para SmartCard")]
-            BioSagemSmartCard = 7
-        }
     }
 }

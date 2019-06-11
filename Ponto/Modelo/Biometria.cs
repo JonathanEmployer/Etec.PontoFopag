@@ -13,6 +13,11 @@ namespace Modelo
         public Byte[] valorBiometria { get; set; }
         public int idfuncionario { get; set; }
 
+        public int Quantidade { get; set; }
+        public int idRep { get; set; }
+        public string Tipo { get; set; }
+        public string Tecnologia { get; set; }
+
         public Biometria()
         {
 

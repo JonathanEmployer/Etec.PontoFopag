@@ -201,9 +201,12 @@
                             <li class="dropdown-submenu">
                                 <a href="#">Rep</a>
                                 <ul class="dropdown-menu">
-                                    <li> @Html.ActionLink("Enviar Empresa e Funcionários", "Grid", "EnvioDadosRep")</li>
+                                    <li> @Html.ActionLink("Manutenção Biométrica", "Index", "ManutencaoBiometrica")</li>
+                                    @*<li> @Html.ActionLink("Enviar Empresa e Funcionários", "Grid", "EnvioDadosRep")</li>*@
+                                    <li> @Html.ActionLink("Enviar Empresa e Funcionários", "Cadastrar", "EnvioDadosRep")</li>
                                     <li>@Html.ActionLink("Configurar Horário Relógio", "Cadastrar", "EnvioConfiguracoesDataHora")</li>
                                     <li>@Html.ActionLink("Log Comunicador", "GridComunicador", "EnvioDadosRep")</li>
+                                    <li> @Html.ActionLink("Log Rep", "Grid", "EnvioDadosRep")</li>
                                 </ul>
                             </li>
                             <li role="presentation" class="divider"></li>

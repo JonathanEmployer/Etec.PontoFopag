@@ -2,6 +2,12 @@
 @using PontoWeb.Helpers
 @{
     ViewBag.Title = "Cadastrar Rep";
+
+    var tipoBiometria = new List<Modelo.Utils.ItensCombo>();
+    if (Model != null)
+    {
+        tipoBiometria = Model.ItensEquipamentoTipoBiometria;
+    }
 }
 @using (Html.BeginForm())
 {
@@ -35,20 +41,6 @@
                             @Html.LabelFor(model => model.NumRelogio, new { @class = "control-label label-sm" })
                             @Html.TextBoxFor(model => model.NumRelogio, new { @class = "form-control  input-sm" })
                             @Html.ValidationMessageFor(model => model.NumRelogio)
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Biometrico, new { @class = "control-label label-sm" })
-                            @Html.CheckBoxFor(model => model.Biometrico, new { @class = "checkbox" })
-                            @Html.ValidationMessageFor(model => model.Biometrico)
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.TipoBio, new { @class = "control-label label-sm disabled" })
-                            @Html.DropDownListFor(model => model.TipoBio, cwkPontoWeb.Models.Helpers.EnumHelper.GetSelectedItemList<Modelo.Listas.TipoBiometria>(0), new { @class = "form-control input-sm", style = "height: 25px;" })
-                            @Html.ValidationMessageFor(model => model.TipoBio)
                         </div>
                     </div>
                 </div>
@@ -202,18 +194,32 @@
                 </div>
                 <div class="row">
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             @Html.LabelFor(model => model.QtdDigitos, new { @class = "control-label label-sm" })
                             @Html.TextBoxFor(model => model.QtdDigitos, new { @class = "form-control  input-sm" })
                             @Html.ValidationMessageFor(model => model.QtdDigitos)
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Senha, new { @class = "control-label label-sm" })
                             @Html.PasswordFor(model => model.Senha, new { @class = "form-control  input-sm", value = Model.Senha })
                             @Html.ValidationMessageFor(model => model.Senha)
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Biometrico, new { @class = "control-label label-sm" })
+                            @Html.CheckBoxFor(model => model.Biometrico, new { @class = "checkbox" })
+                            @Html.ValidationMessageFor(model => model.Biometrico)
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IdEquipamentoTipoBiometria, new { @class = "control-label label-sm disabled" })
+                            @Html.DropDownListFor(m => m.IdEquipamentoTipoBiometria, new SelectList(tipoBiometria, "Id", "Descricao"), "Selecione", new { @id = "DllTipoBiometria", @class = "form-control input-sm", style = "height: 25px;" })
+                            @Html.ValidationMessageFor(model => model.IdEquipamentoTipoBiometria)
                         </div>
                     </div>
                 </div>
@@ -349,6 +355,16 @@
                     else {
                         $("#lkpEquipamentoHomologadoStr").css('color', 'red');
                     }
+
+                    var DllTipoBiometria = $("#DllTipoBiometria");
+                    DllTipoBiometria.empty(); 
+
+                    DllTipoBiometria.append(new Option("Selecione", "0"));
+                    
+                    $.each(ret.EquipamentoTipoBiometria, function (index, item) {
+                        var p = new Option(item.Descricao, item.Id);
+                        DllTipoBiometria.append(p);
+                    });
 
                     ExibeDivImportacao(ret.IdentificacaoRelogio, ret.ServicoComunicador);
                     ExibeEscolhaCampoCracha(ret.IdentificacaoRelogio);

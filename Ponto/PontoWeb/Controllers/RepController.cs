@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using PontoWeb.Controllers.BLLWeb;
 using BLL_N.JobManager.Hangfire;
 using System.Data.Entity;
+using Modelo.Utils;
 
 namespace PontoWeb.Controllers
 {
@@ -132,6 +133,9 @@ namespace PontoWeb.Controllers
 
             Modelo.REP repAntigo = bllRep.LoadObject(rep.Id);
             string senhaAntiga = repAntigo == null ? String.Empty : repAntigo.Senha;
+
+            BLL.EquipamentoTipoBiometria bllEquipamentoTipoBiometria = new BLL.EquipamentoTipoBiometria(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+            rep.ItensEquipamentoTipoBiometria = bllEquipamentoTipoBiometria.GetAllList(rep.IdEquipamentoHomologado);
 
             ValidaEmpresa(rep);
             ValidarForm(rep);
@@ -264,6 +268,9 @@ namespace PontoWeb.Controllers
             rep = bllRep.LoadObject(id);
             BLL.EquipamentoHomologado bllEquipamentoHomologado = new BLL.EquipamentoHomologado(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
             rep.EquipamentoHomologado = bllEquipamentoHomologado.LoadByCodigoModelo(rep.NumSerie);
+            BLL.EquipamentoTipoBiometria bllEquipamentoTipoBiometria = new BLL.EquipamentoTipoBiometria(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+            rep.ItensEquipamentoTipoBiometria = bllEquipamentoTipoBiometria.GetAllList(rep.IdEquipamentoHomologado);
+
             bool integraComunicador = IntegraComunicadorRep(rep.EquipamentoHomologado);
             if (integraComunicador)
             {
@@ -394,8 +401,10 @@ namespace PontoWeb.Controllers
             int identificacaoRelogio = 0;
             bool servicoComunicador = false;
             bool integraComunicador = false;
+            var ItensEquipamentoTipoBiometria = new List<ItensCombo>();
             BLL.BilhetesImp BLLBilhetesImp = new BLL.BilhetesImp(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
             Int64 ultimoNSR = 0;
+
             if (!String.IsNullOrEmpty(NumRelogio))
             {
                 ultimoNSR = BLLBilhetesImp.GetUltimoNSRRep(NumRelogio);   
@@ -406,6 +415,9 @@ namespace PontoWeb.Controllers
                 Modelo.EquipamentoHomologado EquipamentoHomologado = bllEquipamentoHomologado.LoadByCodigoModelo(NumSerie);
                 if (EquipamentoHomologado != null)
                 {
+                    BLL.EquipamentoTipoBiometria bllEquipamentoTipoBiometria = new BLL.EquipamentoTipoBiometria(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+                    ItensEquipamentoTipoBiometria = bllEquipamentoTipoBiometria.GetAllList(EquipamentoHomologado.Id);
+
                     nomeEquipamentoHomologado = EquipamentoHomologado.nomeModelo;
                     idEquipamentoHomologado = EquipamentoHomologado.Id;
                     identificacaoRelogio = EquipamentoHomologado.identificacaoRelogio;
@@ -422,12 +434,12 @@ namespace PontoWeb.Controllers
                     }
                     
                 }
-                return Json(new { Successo = true, Erro = " ", EquipamentoHomNome = nomeEquipamentoHomologado, EquipamentoHomID = idEquipamentoHomologado, IdentificacaoRelogio = identificacaoRelogio, UltimoNSR = ultimoNSR, ServicoComunicador = servicoComunicador, IntegraComunicador = integraComunicador }, JsonRequestBehavior.AllowGet);
+                return Json(new { Successo = true, Erro = " ", EquipamentoHomNome = nomeEquipamentoHomologado, EquipamentoHomID = idEquipamentoHomologado, IdentificacaoRelogio = identificacaoRelogio, UltimoNSR = ultimoNSR, ServicoComunicador = servicoComunicador, IntegraComunicador = integraComunicador, EquipamentoTipoBiometria = ItensEquipamentoTipoBiometria }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 BLL.cwkFuncoes.LogarErro(ex);
-                return Json(new { Successo = false, Erro = ex.Message, EquipamentoHomNome = nomeEquipamentoHomologado, EquipamentoHomID = idEquipamentoHomologado, IdentificacaoRelogio = identificacaoRelogio, UltimoNSR = ultimoNSR, ServicoComunicador = servicoComunicador, IntegraComunicador = integraComunicador }, JsonRequestBehavior.AllowGet);
+                return Json(new { Successo = false, Erro = ex.Message, EquipamentoHomNome = nomeEquipamentoHomologado, EquipamentoHomID = idEquipamentoHomologado, IdentificacaoRelogio = identificacaoRelogio, UltimoNSR = ultimoNSR, ServicoComunicador = servicoComunicador, IntegraComunicador = integraComunicador, EquipamentoTipoBiometria = ItensEquipamentoTipoBiometria }, JsonRequestBehavior.AllowGet);
             }
 
         }

@@ -59,7 +59,7 @@ namespace DAL.SQL
                                     , rep.CodigoLocal
                                     , rep.TipoIP
                                     , rep.UltimaIntegracao
-                                    , rep.TipoBiometria
+                                    , rep.IdEquipamentoTipoBiometria
                                     , rep.CpfRep
                                     , rep.LoginRep
                                     , rep.SenhaRep
@@ -115,9 +115,9 @@ namespace DAL.SQL
             SELECTPID += PermissaoUsuarioEmpresa(UsuarioLogado, SELECTPID, "rep.idempresa", null);
 
             INSERT = @"  INSERT INTO rep
-							(codigo, numserie, local, incdata, inchora, incusuario, numrelogio, relogio, senha, tipocomunicacao, porta, ip, qtdDigitos, biometrico, idempresa, idequipamentohomologado, UltimoNSR, ImportacaoAtivada, TempoRequisicao, DataInicioImportacao, IdTimeZoneInfo, CodigoLocal, TipoIP, UltimaIntegracao, TipoBiometria, CpfRep, LoginRep, SenhaRep, CampoCracha)
+							(codigo, numserie, local, incdata, inchora, incusuario, numrelogio, relogio, senha, tipocomunicacao, porta, ip, qtdDigitos, biometrico, idempresa, idequipamentohomologado, UltimoNSR, ImportacaoAtivada, TempoRequisicao, DataInicioImportacao, IdTimeZoneInfo, CodigoLocal, TipoIP, UltimaIntegracao, IdEquipamentoTipoBiometria, CpfRep, LoginRep, SenhaRep, CampoCracha)
 							VALUES
-							(@codigo, @numserie, @local, @incdata, @inchora, @incusuario, @numrelogio, @relogio, @senha, @tipocomunicacao, @porta, @ip, @qtdDigitos, @biometrico, @idempresa, @idequipamentohomologado, @UltimoNSR, @ImportacaoAtivada, @TempoRequisicao, @DataInicioImportacao, @IdTimeZoneInfo, @CodigoLocal, @TipoIP, @UltimaIntegracao, @TipoBiometria, @CpfRep, @LoginRep, @SenhaRep, @CampoCracha)
+							(@codigo, @numserie, @local, @incdata, @inchora, @incusuario, @numrelogio, @relogio, @senha, @tipocomunicacao, @porta, @ip, @qtdDigitos, @biometrico, @idempresa, @idequipamentohomologado, @UltimoNSR, @ImportacaoAtivada, @TempoRequisicao, @DataInicioImportacao, @IdTimeZoneInfo, @CodigoLocal, @TipoIP, @UltimaIntegracao, @IdEquipamentoTipoBiometria, @CpfRep, @LoginRep, @SenhaRep, @CampoCracha)
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE rep SET
@@ -145,7 +145,7 @@ namespace DAL.SQL
                             , CodigoLocal = @CodigoLocal
                             , TipoIP = @TipoIP
                             , UltimaIntegracao = @UltimaIntegracao
-                            , TipoBiometria = @TipoBiometria
+                            , IdEquipamentoTipoBiometria = @IdEquipamentoTipoBiometria
                             , CpfRep = @CpfRep
                             , LoginRep = @LoginRep
                             , SenhaRep = @SenhaRep
@@ -202,7 +202,6 @@ namespace DAL.SQL
             ((Modelo.REP)obj).Porta = Convert.ToString(dr["porta"]);
             ((Modelo.REP)obj).IP = Convert.ToString(dr["ip"]);
             ((Modelo.REP)obj).QtdDigitos = Convert.ToInt32(dr["qtdDigitos"]);
-            ((Modelo.REP)obj).Biometrico = Convert.ToBoolean(dr["biometrico"]);
             ((Modelo.REP)obj).IdEmpresa = dr["idempresa"] is DBNull ? 0 : Convert.ToInt32(dr["idempresa"]);
             ((Modelo.REP)obj).empresaNome = Convert.ToString(dr["empresa"]);
             ((Modelo.REP)obj).modeloNome = Convert.ToString(dr["modeloNome"]);
@@ -229,7 +228,10 @@ namespace DAL.SQL
             }
             if (!(dr["UltimaIntegracao"] is DBNull))
                 ((Modelo.REP)obj).UltimaIntegracao = Convert.ToDateTime(dr["UltimaIntegracao"]);
-            ((Modelo.REP)obj).TipoBio = Convert.ToString(dr["TipoBiometria"]);
+            if (!(dr["IdEquipamentoTipoBiometria"] is DBNull))
+                ((Modelo.REP)obj).IdEquipamentoTipoBiometria = int.Parse(dr["IdEquipamentoTipoBiometria"].ToString());
+            else
+                ((Modelo.REP)obj).IdEquipamentoTipoBiometria = 0;
             ((Modelo.REP)obj).CpfRep = Convert.ToString(dr["CpfRep"]);
             ((Modelo.REP)obj).LoginRep = Convert.ToString(dr["LoginRep"]);
             ((Modelo.REP)obj).SenhaRep = Convert.ToString(dr["SenhaRep"]);
@@ -268,7 +270,7 @@ namespace DAL.SQL
                 new SqlParameter ("@CodigoLocal", SqlDbType.Int),
                 new SqlParameter ("@TipoIP", SqlDbType.SmallInt),
                 new SqlParameter ("@UltimaIntegracao", SqlDbType.DateTime),
-                new SqlParameter ("@TipoBiometria", SqlDbType.VarChar),
+                new SqlParameter ("@IdEquipamentoTipoBiometria", SqlDbType.VarChar),
                 new SqlParameter ("@CpfRep", SqlDbType.VarChar),
                 new SqlParameter ("@LoginRep", SqlDbType.VarChar),
                 new SqlParameter ("@SenhaRep", SqlDbType.VarChar),
@@ -315,7 +317,7 @@ namespace DAL.SQL
             parms[25].Value = ((Modelo.REP)obj).CodigoLocal;
             parms[26].Value = ((Modelo.REP)obj).TipoIP;
             parms[27].Value = ((Modelo.REP)obj).UltimaIntegracao;
-            parms[28].Value = ((Modelo.REP)obj).TipoBio;
+            parms[28].Value = ((Modelo.REP)obj).IdEquipamentoTipoBiometria;
             parms[29].Value = ((Modelo.REP)obj).CpfRep;
             parms[30].Value = ((Modelo.REP)obj).LoginRep;
             parms[31].Value = ((Modelo.REP)obj).SenhaRep;
@@ -465,6 +467,8 @@ namespace DAL.SQL
                              FROM rep
                              LEFT JOIN empresa ON empresa.id = rep.idempresa 
                              LEFT JOIN equipamentohomologado ON equipamentohomologado.id = rep.idequipamentohomologado
+                             LEFT JOIN equipamentotipobiometria ON equipamentotipobiometria.id = rep.IdEquipamentoTipoBiometria
+                             LEFT JOIN tipobiometria ON tipobiometria.id = equipamentotipobiometria.Idtipobiometria                
                            WHERE 1 = 1 "
                            + GetWhereSelectAll();
             aux += PermissaoUsuarioEmpresa(UsuarioLogado, aux, "rep.idempresa", null);

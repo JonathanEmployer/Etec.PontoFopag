@@ -79,5 +79,10 @@ namespace cwkPontoMT.Integracao.Auxiliares.Henry.HexaParseStrategies.Impl
                                                               .ToArray());
             return r;
         }
+
+        public BiometricMessage ParseBiometric(string command, string msg, string TipoBiometria)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -162,9 +162,12 @@ namespace cwkWebAPIPontoWeb.Controllers
 	                            , coalesce(r.local, '') as EnderecoEmpregador
 	                            , coalesce(e.cei, '') as CEI
 	                            , coalesce(e.cnpj, e.cpf, '') as CpfCnpjEmpregador
+                                , tb.Descricao as TipoBiometria
                             from rep r 
                             left join equipamentohomologado eh on r.idequipamentohomologado = eh.id
                             left join empresa e on r.idempresa = e.id
+                            left join EquipamentoTipoBiometria et on r.IdEquipamentoTipoBiometria = et.Id
+							left join TipoBiometria tb on et.IdTipoBiometria = tb.Id
                            where r.id in (select * from [dbo].[F_RetornaTabelaLista] (@idsRelogios,','));";
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -196,6 +199,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                     idr.EnvioDadosRep.Incdata = ldr.Incdata;
                     idr.EnvioDadosRep.Inchora = ldr.Inchora;
                     idr.EnvioDadosRep.Incusuario = ldr.Incusuario;
+                    idr.EnvioDadosRep.TipoComunicacao = ldr.TipoComunicacao;
                     LImportacaoDadosRep.Add(idr);
                 }
                 
@@ -203,23 +207,28 @@ namespace cwkWebAPIPontoWeb.Controllers
         }
         private static void CarregaFuncionarios(string connectionStr, ImportacaoDadosRep importacaoDadosRep, IList<Modelo.EnvioDadosRepDet> dadosRepDetalhe)
         {
-            string idsFuncionarios = String.Join(",", dadosRepDetalhe.Select(x => x.idFuncionario));
+            string idsFuncionarios = String.Join(",", dadosRepDetalhe.Select(x => x.idFuncionario)); 
             List<Empregado> LFunc = new List<Empregado>();
             using (var conn = new SqlConnection(connectionStr))
             {
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.Parameters.AddWithValue("@idsFuncionarios", string.Join(",", idsFuncionarios));
+                    cmd.Parameters.AddWithValue("@idRep", importacaoDadosRep.Rep.Id);
                     conn.Open();
-                    cmd.CommandText = @"select 1 Biometria,
-	                                           DsCodigo,
-	                                           Nome,
-	                                           Pis,
-	                                           '' Senha,
-                                               Matricula,
-                                               RFID 
-                                          from funcionario func
-                                         where func.id in (select * from [dbo].[F_RetornaTabelaLista] (@idsFuncionarios,','));";
+                    cmd.CommandText = @"select  1 Biometria,
+		                                        DsCodigo,
+	                                            Nome,
+	                                            Pis,
+	                                            '' Senha,
+                                                Matricula,
+                                                (select top(1) RFID from FuncionarioRFID where IdFuncionario = func.id and Ativo = 1 and RFID is not null) RFID,
+		                                        (select top(1) MIFARE from FuncionarioRFID where IdFuncionario = func.id and Ativo = 1 and MIFARE is not null) MIFARE,
+		                                        b.valorBiometria,
+                                                func.id
+                                        from funcionario func
+                                        left join biometria b on b.idfuncionario = func.id and b.IdRep = @idRep
+                                        where func.id in (select * from [dbo].[F_RetornaTabelaLista] (@idsFuncionarios,','));";
                     using (var reader = cmd.ExecuteReader())
                     {
                         if (reader.HasRows)

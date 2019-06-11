@@ -1,14 +1,8 @@
-﻿using BLL_N.IntegracaoRep;
+﻿using cwkPontoMT.Integracao;
+using ModeloAux;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Entity.SqlServer;
-using System.Diagnostics;
-using Modelo;
-using ModeloAux;
-using cwkPontoMT.Integracao;
 
 namespace Negocio
 {
@@ -145,7 +139,6 @@ namespace Negocio
                         {
                             Log.EnviarLogApi(rep, "Envio de Horário de Verão", "Envio de Horário de Verão, data inicio =  " + envHorarioVerao.dtInicioHorarioVerao.GetValueOrDefault().ToString("dd/MM/yyyy") + ", data fim = " + envHorarioVerao.dtFimHorarioVerao.GetValueOrDefault().ToString("dd/MM/yyyy"), "", Modelo.Enumeradores.SituacaoLog.Informacao);
                             ConfiguracaoHorario ch = new ConfiguracaoHorario(rep, config, envHorarioVerao.Inchora.GetValueOrDefault());
-                            bool exibirLog = true;
                             ch.SetHorarioVerao(envHorarioVerao.dtInicioHorarioVerao, envHorarioVerao.dtFimHorarioVerao);
                             retorno = ch.Enviar();
                         }
@@ -170,23 +163,49 @@ namespace Negocio
                 ComunicacaoApi comApi = new ComunicacaoApi(config.TokenAccess);
                 List<ImportacaoDadosRep> envConf = comApi.GetEmpFuncExpRepAsync(new List<int> { rep.Id }).Result;
                 bool retorno = true;
+                bool EmpregadorFuncionario = false;
+
                 try
                 {
-                    Log.EnviarLogApi(rep, "Envio de Empresa/Funcionários", "Enviando/Excluindo dados de Empresa/Funcionários", "", Modelo.Enumeradores.SituacaoLog.Informacao);
                     foreach (ImportacaoDadosRep enviar in envConf)
                     {
-                        EnvioEmpresaEFuncionarios envEmpFunc = new EnvioEmpresaEFuncionarios(rep, config, enviar.EnvioDadosRep.Inchora.GetValueOrDefault(), enviar);
-                        retorno = envEmpFunc.Enviar();
+                        rep.TipoBiometria = enviar.Rep.TipoBiometria;
+                        EmpregadorFuncionario = false;
+                        if (enviar.EnvioDadosRep.TipoComunicacao != "R")
+                        {
+                            if (enviar.EnvioDadosRep.TipoComunicacao != "E")
+                            {
+                                EmpregadorFuncionario = true;
+                                Log.EnviarLogApi(rep, "Envio de Empresa/Funcionários", "Enviando/Excluindo dados de Empresa/Funcionários", "", Modelo.Enumeradores.SituacaoLog.Informacao);
+                            }
+                            else
+                                Log.EnviarLogApi(rep, "Envio de Biometrias", "Enviando dados de Biometria", "", Modelo.Enumeradores.SituacaoLog.Informacao);
+
+                            EnvioEmpresaEFuncionarios envEmpFunc = new EnvioEmpresaEFuncionarios(rep, config, enviar.EnvioDadosRep.Inchora.GetValueOrDefault(), enviar);
+                            retorno = envEmpFunc.Enviar();
+                        }
+                        if (enviar.EnvioDadosRep.TipoComunicacao == "R")
+                        {
+                            Log.EnviarLogApi(rep, "Recebimento de Biometrias", "Recebendo dados de Biometria", "", Modelo.Enumeradores.SituacaoLog.Informacao);
+                            EnvioEmpresaEFuncionarios envEmpFunc = new EnvioEmpresaEFuncionarios(rep, config, enviar.EnvioDadosRep.Inchora.GetValueOrDefault(), enviar);
+                            retorno = envEmpFunc.Receber(comApi);
+                        }
                         if (retorno)
                         {
                             Dictionary<int, string> retDel = comApi.DeletaEmpFuncExpRep(new List<int> { enviar.EnvioDadosRep.Id }).Result;
                         }
                     }
-                    Log.EnviarLogApi(rep, "Envio de Empresa/Funcionários", "Comando enviado com sucesso", "", Modelo.Enumeradores.SituacaoLog.Sucesso);
+                    if (EmpregadorFuncionario)
+                        Log.EnviarLogApi(rep, "Envio de Empresa/Funcionários", "Comando enviado com sucesso", "", Modelo.Enumeradores.SituacaoLog.Sucesso);
+                    else
+                        Log.EnviarLogApi(rep, "Envio/Recebimento de Biometria", "Comando enviado com sucesso", "", Modelo.Enumeradores.SituacaoLog.Sucesso);
                 }
                 catch (Exception ex)
                 {
-                    Log.EnviarLogApi(rep, "Envio de Empresa/Funcionários", "Erro ao enviar comando, Erro: " + ex.Message, " Detalhes: " + ex.StackTrace, Modelo.Enumeradores.SituacaoLog.Erro);
+                    if (EmpregadorFuncionario)
+                        Log.EnviarLogApi(rep, "Envio de Empresa/Funcionários", "Erro ao enviar comando, Erro: " + ex.Message, " Detalhes: " + ex.StackTrace, Modelo.Enumeradores.SituacaoLog.Erro);
+                    else
+                        Log.EnviarLogApi(rep, "Envio/Recebimento de Biometria", "Erro ao enviar comando, Erro: " + ex.Message, " Detalhes: " + ex.StackTrace, Modelo.Enumeradores.SituacaoLog.Erro);
                 }
             }
         }

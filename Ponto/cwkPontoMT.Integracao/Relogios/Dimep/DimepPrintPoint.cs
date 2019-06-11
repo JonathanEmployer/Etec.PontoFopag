@@ -1,4 +1,5 @@
-﻿using org.cesar.dmplight.watchComm.api;
+﻿using cwkPontoMT.Integracao.Entidades;
+using org.cesar.dmplight.watchComm.api;
 using org.cesar.dmplight.watchComm.business;
 using org.cesar.dmplight.watchComm.impl;
 using org.cesar.dmplight.watchComm.impl.printpoint;
@@ -366,6 +367,11 @@ namespace cwkPontoMT.Integracao.Relogios.Dimep
         }
 
         public override int UltimoNSR()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<Biometria> GetBiometria(out string erros)
         {
             throw new NotImplementedException();
         }

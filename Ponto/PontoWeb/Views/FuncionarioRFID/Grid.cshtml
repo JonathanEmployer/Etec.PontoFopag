@@ -1,4 +1,4 @@
-﻿@model Modelo.FuncionarioRFID
+﻿@model List<Modelo.FuncionarioRFID>
 @using System.Web.Optimization
 
 @{
@@ -10,13 +10,37 @@
 <div class="divCenterMedio">
     <div class="panel panel-default" style="padding:0; margin-bottom:0px;">
         <div class="panel-heading">
-            @Html.ActionLink("X", "Grid", "FuncionarioRFID", null, new { @class = "close" })
+            <a href="#" id="" onclick="FecharModalRFID()" class="close">X</a>
             <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
         </div>
         <div class="panel-body panelConteudo" id="panelBodyFixo">
        
             <div class="row">
-                @Html.GridFor(nomeTabela, Model.GetType(), false, nomeTabela, "DadosGrid/" + Model.IdFuncionario)
+                @foreach (var b in Model)
+                {
+                <div class="col-sm-12">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            @Html.Label("Número crachá", new { @class = "control-label label-sm" })
+                            @if (b.RFID.HasValue && b.RFID.Value != 0)
+                            {
+                                @Html.TextBoxFor(m => b.RFID, new { @class = "disabled form-control input-sm", disabled = "disabled" })
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(m => b.MIFARE, new { @class = "disabled form-control input-sm", disabled = "disabled" })
+                            }
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            @Html.Label("Tipo do crachá", new { @class = "control-label label-sm" })
+                            @Html.TextBox("txtTipoCracha", b.RFID.HasValue && b.RFID.Value != 0 ? "RFID" : "MIFARE", new { @class = "disabled form-control input-sm", disabled = "disabled" })
+
+                        </div>
+                    </div>
+                </div>
+                }
             </div>
         </div>
         <div class="panel-footer">

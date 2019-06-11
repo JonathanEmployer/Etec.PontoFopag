@@ -1,0 +1,101 @@
+﻿@model Modelo.Funcionario
+@{
+    Model.RFID = null;
+}
+
+<div class="panel panel-default" style="margin-bottom:4px">
+    <div class="panel-heading" style="padding-top:1px; padding-bottom:2px">
+        @Html.Label("Crachá Proximidade", new { @class = "control-label label-sm" })
+    </div>
+    <div class="panel-body" style="padding-top:8px; padding-bottom:5px">
+        @Html.ValidationMessage("CustomError")
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Senha, new { @class = "control-label label-sm" })
+                    @Html.PasswordFor(model => model.Senha, new { id = "txtSenha", @class = "form-control  input-sm", value = Model.Senha})
+                    @Html.ValidationMessageFor(model => model.Senha, null, new { id = "vsSenha"})
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RFID, new { @class = "control-label label-sm" })
+                    <div class="input-group input-group-sm">
+                        @Html.TextBoxFor(model => model.RFID, new { @class = "form-control  input-sm", id = "lkpHistorioRFID", value = Model.RFID})
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" id="btnHistoricoRFID" type="button"><span class="glyphicon glyphicon-time"></span></button>
+                        </span>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" id="btnInfoRFID" type="button"><span class="glyphicon glyphicon-info-sign"></span></button>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.RFID, null, new { id = "vsRfid" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel-body" style="padding-top:8px; padding-bottom:5px">
+                    <div class="radio-inline" data-toggle="radioTipo" style="margin-top:-4px">
+                        @*@Html.RadioButtonFor(model => model.TipoCracha, 0, new { id = "idRadioRFID", name = "rdioTipo" })*@
+                        <input type="radio" name="rdioTipo" value="0" checked>
+                        <label class="label-sm" for="idRadioRFID">RFID(wiegand)</label>
+                    </div>
+                    <div class="radio-inline" data-toggle="radioTipo" style="margin-top:-4px">
+                        @*@Html.RadioButtonFor(model => model.TipoCracha, 1, new { id = "idRadioMIFARE", name = "rdioTipo" })*@
+                        <input type="radio" name="rdioTipo" value="1">
+                        <label class="label-sm" for="idRadioMIFARE">MIFARE</label>
+                    </div>
+                    <button type="button" onclick="addRow(@Model.Id)" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span></button>
+                </div>
+                @Html.ValidationMessage("radioTipoCracha", null, new { id = "vsTipo" })
+            </div>
+            <div>
+                @foreach (var b in Model.FuncionarioRFID)
+                {
+                    <div class="row" style="padding-bottom:8px;">
+
+                        <div class="form-group">
+                            <div class="form-inline">
+                                <div class="col-sm-12">
+                                    @Html.HiddenFor(m => b.Id)
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Senha, new { @class = "control-label label-sm" })
+                                            @Html.PasswordFor(model => model.Senha, new { @class = "disabled form-control  input-sm", value = Model.Senha, disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.Senha)
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            @Html.Label("Número crachá", new { @class = "control-label label-sm" })
+                                            @if (b.RFID.HasValue && b.RFID.Value != 0)
+                                            {
+                                                @Html.TextBoxFor(m => b.RFID, new { @class = "disabled form-control input-sm", disabled = "disabled" })
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(m => b.MIFARE, new { @class = "disabled form-control input-sm", disabled = "disabled" })
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            @Html.Label("Tipo do crachá", new { @class = "control-label label-sm" })
+                                            @Html.TextBox("txtTipoCracha", b.RFID.HasValue && b.RFID.Value != 0 ? "RFID" : "MIFARE", new { @class = "disabled form-control input-sm", disabled = "disabled" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <button type="button" onclick=" deleteRow(@Model.Id, @b.Id)" class="btn btn-danger btn-sm" style="margin-top:20px;margin-left:15px"><span class="glyphicon glyphicon-trash"></span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

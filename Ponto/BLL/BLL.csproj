@@ -253,6 +253,7 @@
     <Compile Include="Alocacao.cs" />
     <Compile Include="Biometria.cs" />
     <Compile Include="CamposSelecionadosRelCartaoPonto.cs" />
+    <Compile Include="EquipamentoTipoBiometria.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="FuncionarioRFID.cs" />
     <Compile Include="HorarioDinamicoCicloSequencia.cs" />

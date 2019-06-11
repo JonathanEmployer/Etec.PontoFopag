@@ -1,4 +1,5 @@
 ﻿using cwkPontoMT.Integracao.Auxiliares.IDData;
+using cwkPontoMT.Integracao.Entidades;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -685,6 +686,11 @@ namespace cwkPontoMT.Integracao.Relogios.IDData
         }
 
         public override int UltimoNSR()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<Biometria> GetBiometria(out string erros)
         {
             throw new NotImplementedException();
         }

@@ -75,7 +75,7 @@ namespace BLL
                 ret.Add("txtCodigo", "Campo obrigatório.");
             }
 
-            if (objeto.RFID == 0)
+            if (objeto.RFID == 0 && string.IsNullOrEmpty(objeto.MIFARE))
             {
                 ret.Add("txtRFID", "Campo obrigatório.");
             }

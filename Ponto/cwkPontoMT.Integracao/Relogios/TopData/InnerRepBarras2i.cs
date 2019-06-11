@@ -5,6 +5,7 @@ using System.Text;
 using System.Data;
 using System.Threading;
 using Sdk_Inner_Rep;
+using cwkPontoMT.Integracao.Entidades;
 
 namespace cwkPontoMT.Integracao.Relogios.TopData
 {
@@ -529,6 +530,11 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
         }
 
         public override int UltimoNSR()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<Biometria> GetBiometria(out string erros)
         {
             throw new NotImplementedException();
         }

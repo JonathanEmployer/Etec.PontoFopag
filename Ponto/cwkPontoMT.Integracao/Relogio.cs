@@ -44,10 +44,21 @@ namespace cwkPontoMT.Integracao
         {
             NumeroSerie = NumSerie;
         }
-
+        public void SetIdRelogio(int idRelogio)
+        {
+            IdRelogio = idRelogio;
+        }
+        public void SetModeloRep(string modeloRep)
+        {
+            ModeloRep = modeloRep;
+        }
         public void SetBiometrico(bool biometrico)
         {
             Biometrico = biometrico;
+        }
+        public void SetTipoComunicacaoBiometria(string tipoComunicacaoBiometria)
+        {
+            TipoComunicacaoBiometria = tipoComunicacaoBiometria;
         }
 
         public void SetTimeZoneInfoRep(TimeZoneInfo timeZoneInfoRep)
@@ -84,6 +95,8 @@ namespace cwkPontoMT.Integracao
         public TipoComunicacao TipoComunicacao { get; set; }
         public string NumeroRelogio { get; set; }
         public string NumeroSerie { get; set; }
+        public int IdRelogio { get; set; }
+        public string ModeloRep { get; set; }
         public bool Biometrico { get; set; }
         public string Local { get; set; }
         public List<Entidades.Empregado> Empregados { get; set; }
@@ -94,8 +107,10 @@ namespace cwkPontoMT.Integracao
         public string Conn { get; set; }
         public string TipoBiometria { get; set; }
         public Int16 CampoCracha { get; set; }
+        public string TipoComunicacaoBiometria { get; set; }
 
         public abstract List<RegistroAFD> GetAFD(DateTime dataI, DateTime dataF);
+        public abstract List<Biometria> GetBiometria(out string erros);
         public abstract List<RegistroAFD> GetAFDNsr(DateTime dataI, DateTime dataF, int nsrInicio, int nsrFim, bool ordemDecrescente);
         public abstract bool ConfigurarHorarioVerao(DateTime inicio, DateTime termino, out string erros);
         public abstract bool ConfigurarHorarioRelogio(DateTime horario, out string erros);

@@ -23,9 +23,9 @@ namespace DAL.SQL
             SELECTALL = @"   SELECT * FROM FuncionarioRFID";
 
             INSERT = @"  INSERT INTO FuncionarioRFID
-							(codigo, incdata, inchora, incusuario, RFID, IdFuncionario)
+							(codigo, incdata, inchora, incusuario, RFID, IdFuncionario, MIFARE)
 							VALUES
-							(@codigo, @incdata, @inchora, @incusuario, @RFID,@IdFuncionario) 
+							(@codigo, @incdata, @inchora, @incusuario, @RFID,@IdFuncionario, @MIFARE) 
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @" UPDATE FuncionarioRFID SET
@@ -35,6 +35,7 @@ namespace DAL.SQL
 							, altusuario    = @altusuario
                             , RFID          = @RFID
                             , IdFuncionario = @IdFuncionario
+                            , Ativo = @Ativo
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM FuncionarioRFID WHERE id = @id";
@@ -62,7 +63,9 @@ namespace DAL.SQL
                 new SqlParameter ("@althora", SqlDbType.DateTime),
                 new SqlParameter ("@altusuario", SqlDbType.VarChar),
                 new SqlParameter ("@RFID", SqlDbType.BigInt),
-                new SqlParameter ("@IdFuncionario", SqlDbType.Int)
+                new SqlParameter ("@IdFuncionario", SqlDbType.Int),
+                new SqlParameter ("@Ativo", SqlDbType.Bit),
+                new SqlParameter ("@MIFARE", SqlDbType.VarChar)
            };
             return parms;
         }
@@ -102,7 +105,8 @@ namespace DAL.SQL
             ((Modelo.FuncionarioRFID)obj).Codigo = Convert.ToInt32(dr["codigo"]);
             ((Modelo.FuncionarioRFID)obj).IdFuncionario = (dr["IdFuncionario"] is DBNull ? 0 : Convert.ToInt32(dr["IdFuncionario"]));
             ((Modelo.FuncionarioRFID)obj).RFID = (dr["RFID"] is DBNull ? 0 : Convert.ToInt32(dr["RFID"]));
-
+            ((Modelo.FuncionarioRFID)obj).MIFARE = Convert.ToString(dr["MIFARE"]);
+            ((Modelo.FuncionarioRFID)obj).Ativo = Convert.ToBoolean(dr["Ativo"]);
         }
 
         protected override void SetParameters(SqlParameter[] parms, ModeloBase obj)
@@ -121,6 +125,8 @@ namespace DAL.SQL
             parms[7].Value = ((Modelo.FuncionarioRFID)obj).Altusuario;
             parms[8].Value = ((Modelo.FuncionarioRFID)obj).RFID;
             parms[9].Value = ((Modelo.FuncionarioRFID)obj).IdFuncionario;
+            parms[10].Value = ((Modelo.FuncionarioRFID)obj).Ativo;
+            parms[11].Value = ((Modelo.FuncionarioRFID)obj).MIFARE;
         }
 
         public Modelo.FuncionarioRFID LoadObject(int id)

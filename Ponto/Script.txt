@@ -1,0 +1,107 @@
+CREATE TABLE [dbo].[TipoBiometria](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Descricao] [varchar](100) NOT NULL,
+ CONSTRAINT [PK_TipoBiometria] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 90) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+insert into tipobiometria values 
+('Vermelha')
+insert into tipobiometria values 
+('Verde')
+insert into tipobiometria values 
+('Branca')
+insert into tipobiometria values 
+('Não Biometrico')
+insert into tipobiometria values 
+('Biometria Padrão')
+insert into tipobiometria values 
+('Sony')
+insert into tipobiometria values 
+('Veriprint')
+insert into tipobiometria values 
+('VeriprintSmartcard')
+insert into tipobiometria values 
+('Geomok')
+insert into tipobiometria values 
+('GeomokSmartcard')
+insert into tipobiometria values 
+('BioSagem')
+insert into tipobiometria values 
+('BioSagemSmartCard')
+
+
+CREATE TABLE [dbo].[EquipamentoTipoBiometria](
+	[Id] [int] identity(1,1) not null,
+	[IdEquipamentoHomologado] [int] NOT NULL,
+	[IdTipoBiometria] [int] NOT NULL,
+ CONSTRAINT [PK_EquipamentoTipoBiometria] PRIMARY KEY CLUSTERED 
+(
+	[Id]
+),
+CONSTRAINT UC_EquipamentoTipoBiometria UNIQUE (IdEquipamentoHomologado, IdTipoBiometria)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+insert into EquipamentoTipoBiometria 
+select id, 4 from equipamentohomologado where codigomodelo in(
+select SUBSTRING(numserie, 6, 5) from Rep where biometrico = 1 and SUBSTRING(numserie, 6, 5) != '00000'
+group by SUBSTRING(numserie, 6, 5)
+)
+
+ALTER TABLE rep DROP CONSTRAINT ValorInicial;
+ALTER TABLE rep DROP COLUMN TipoBiometria;
+ALTER TABLE rep ADD IdEquipamentoTipoBiometria int null
+ALTER TABLE [dbo].[Rep]  WITH CHECK ADD  CONSTRAINT [fk_Rep_EquipamentoTipoBiometria] FOREIGN KEY([IdEquipamentoTipoBiometria])
+REFERENCES [dbo].[EquipamentoTipoBiometria] ([Id])
+
+insert into EquipamentoTipoBiometria values ((select id from equipamentohomologado where codigoModelo = '00432'), 1);
+insert into EquipamentoTipoBiometria values ((select id from equipamentohomologado where codigoModelo = '00432'), 2);
+insert into EquipamentoTipoBiometria values ((select id from equipamentohomologado where codigoModelo = '00432'), 3);
+insert into EquipamentoTipoBiometria values ((select id from equipamentohomologado where codigoModelo = '00433'), 1);
+insert into EquipamentoTipoBiometria values ((select id from equipamentohomologado where codigoModelo = '00433'), 2);
+insert into EquipamentoTipoBiometria values ((select id from equipamentohomologado where codigoModelo = '00433'), 3);
+insert into EquipamentoTipoBiometria values ((select id from equipamentohomologado where codigoModelo = '00434'), 1);
+insert into EquipamentoTipoBiometria values ((select id from equipamentohomologado where codigoModelo = '00434'), 2);
+insert into EquipamentoTipoBiometria values ((select id from equipamentohomologado where codigoModelo = '00434'), 3);
+insert into EquipamentoTipoBiometria values ((select id from equipamentohomologado where codigoModelo = '00435'), 1);
+insert into EquipamentoTipoBiometria values ((select id from equipamentohomologado where codigoModelo = '00435'), 2);
+insert into EquipamentoTipoBiometria values ((select id from equipamentohomologado where codigoModelo = '00435'), 3);
+insert into EquipamentoTipoBiometria values ((select id from equipamentohomologado where codigoModelo = '00436'), 1);
+insert into EquipamentoTipoBiometria values ((select id from equipamentohomologado where codigoModelo = '00436'), 2);
+insert into EquipamentoTipoBiometria values ((select id from equipamentohomologado where codigoModelo = '00436'), 3);
+
+UPDATE
+    rep_ap 
+SET
+    rep_ap.IdEquipamentoTipoBiometria = tipbio.Id
+FROM
+    rep AS rep_ap
+    INNER JOIN equipamentohomologado AS equip ON rep_ap.idequipamentohomologado = equip.id
+	inner join EquipamentoTipoBiometria as tipbio on tipbio.IdEquipamentoHomologado = equip.id
+WHERE
+    tipbio.IdEquipamentoHomologado not in(437, 435)
+
+ALTER TABLE biometria ADD IdRep int null
+ALTER TABLE [dbo].[biometria]  WITH CHECK ADD  CONSTRAINT [fk_Biometria_Rep] FOREIGN KEY([IdRep])
+REFERENCES [dbo].[Rep] ([Id])
+ALTER TABLE FuncionarioRFID ADD MIFARE varchar(30) null
+ALTER TABLE FuncionarioRFID ADD Ativo bit null 
+ALTER TABLE [dbo].[FuncionarioRFID] ADD  CONSTRAINT [Default_FuncionarioRFID_Ativo]  DEFAULT ((1)) FOR [Ativo]
+UPDATE FuncionarioRFID SET Ativo = 1
+ALTER TABLE [FuncionarioRFID] ALTER COLUMN [Ativo] BIT NOT NULL
+ALTER TABLE funcionariorfid ALTER COLUMN RFID int NULL
+
+insert into cw_acesso values (
+ (select MAX(codigo) + 1 from cw_acesso), NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,
+ 'ManutencaoBiometria', 'Manutenção Biometria',	'Manutenção',	0,	0,	1,	0
+)
+
+ALTER TABLE EnvioDadosRep ADD TipoComunicacao char(1) null
+
+
+ALTER TABLE biometria ADD CONSTRAINT UC_Biometria UNIQUE (codigo,idfuncionario, IdRep);

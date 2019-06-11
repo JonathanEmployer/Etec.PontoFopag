@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Controlid;
 using System.IO;
+using cwkPontoMT.Integracao.Entidades;
 
 namespace cwkPontoMT.Integracao.Relogios.ControlID
 {
@@ -505,6 +506,11 @@ namespace cwkPontoMT.Integracao.Relogios.ControlID
         }
 
         public override int UltimoNSR()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<Biometria> GetBiometria(out string erros)
         {
             throw new NotImplementedException();
         }

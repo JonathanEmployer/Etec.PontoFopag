@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using FirebirdSql.Data.Isql;
 using System.Data.SqlClient;
+using Modelo;
 
 namespace DAL.FB
 {
@@ -647,6 +648,11 @@ namespace DAL.FB
         }
 
         public void AtualizarRegistros<T>(List<T> list, SqlTransaction trans, SqlConnection con)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Adicionar(ModeloBase obj, bool Codigo)
         {
             throw new NotImplementedException();
         }

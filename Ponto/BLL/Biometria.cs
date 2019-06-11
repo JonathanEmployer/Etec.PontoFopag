@@ -1,10 +1,7 @@
 ﻿using DAL.SQL;
-using Modelo.Proxy;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 using Veridis.Biometric;
 
 namespace BLL
@@ -12,8 +9,8 @@ namespace BLL
     public class Biometria : IBLL<Modelo.Biometria>
     {
         DAL.IBiometria dalBiometria;
-        private string ConnectionString;
-        private Modelo.Cw_Usuario UsuarioLogado;
+        private readonly string ConnectionString;
+        private readonly Modelo.Cw_Usuario UsuarioLogado;
 
         public Biometria()
             : this(null)
@@ -104,6 +101,11 @@ namespace BLL
             return erros;
         }
 
+        public void Salvar(Modelo.Biometria Biometria)
+        {
+            dalBiometria.Adicionar(Biometria, false);
+        }
+
         public Modelo.Biometria LoadObjectByCodigo(int codBiometria)
         {
             return dalBiometria.LoadObjectByCodigo(codBiometria);
@@ -164,5 +166,11 @@ namespace BLL
 
             return idFuncionario;
         }
+
+        public List<Modelo.Biometria> GetBiometriaTipoBiometria(int IdFuncionario)
+        {
+            return dalBiometria.GetBiometriaTipoBiometria(IdFuncionario);
+        }
+
     }
 }

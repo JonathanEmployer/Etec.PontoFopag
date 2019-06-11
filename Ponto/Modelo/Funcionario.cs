@@ -22,7 +22,7 @@ namespace Modelo
         [RegularExpression(@"^\d+$", ErrorMessage = "Informar apenas números")]
         [TableHTMLAttribute("Código", 1, true, ItensSearch.text, OrderType.none, ColumnType.automatico)]
         public string Dscodigo { get; set; }
-        
+
         /// <summary>
         /// Matrícula do Funcionário
         /// </summary>
@@ -31,7 +31,7 @@ namespace Modelo
         [StringLength(50, ErrorMessage = "Número máximo de caracteres: {1}")]
         [TableHTMLAttribute("Matrícula", 3, true, ItensSearch.text, OrderType.none)]
         public string Matricula { get; set; }
-       
+
         /// <summary>
         /// Nome do Funcionário
         /// </summary>
@@ -39,13 +39,13 @@ namespace Modelo
         [StringLength(100, ErrorMessage = "Número máximo de caracteres: {1}")]
         [TableHTMLAttribute("Nome", 2, true, ItensSearch.text, OrderType.asc)]
         public string Nome { get; set; }
-        
+
         /// <summary>
         /// Código da Folha
         /// </summary>
         [Display(Name = "Código Folha")]
-        public Int32 Codigofolha { get; set; }       
-       
+        public Int32 Codigofolha { get; set; }
+
         /// <summary>
         /// Identificação da Empresa
         /// </summary>
@@ -67,20 +67,20 @@ namespace Modelo
         /// Identificação do Horário
         /// </summary>
         public int Idhorario { get; set; }
-        
+
         /// <summary>
         /// Tipo do horário
         /// </summary>
         [Display(Name = "Tipo Horário")]
         public Int16 Tipohorario { get; set; }
-        
+
         /// <summary>
         /// Número da Carteira do Funcionário
         /// </summary>
         [StringLength(50, ErrorMessage = "Número máximo de caracteres: {1}")]
         [TableHTMLAttribute("Carteira", 7, true, ItensSearch.text, OrderType.none)]
         public string Carteira { get; set; }
-        
+
         /// <summary>
         /// Data de Admissão do Funcionário
         /// </summary>
@@ -99,7 +99,7 @@ namespace Modelo
             }
         }
         public DateTime? Dataadmissao_Ant { get; set; }
-        
+
         /// <summary>
         /// Data de Demissão do Funcionário
         /// </summary>
@@ -117,13 +117,13 @@ namespace Modelo
             }
         }
         public DateTime? Datademissao_Ant { get; set; }
-        
+
         /// <summary>
         /// Salário do Funcionário
         /// </summary>
         [Display(Name = "Salário")]
         public decimal Salario { get; set; }
-        
+
         /// <summary>
         /// Flag de funcionário ativo ou não
         /// </summary>
@@ -156,11 +156,11 @@ namespace Modelo
             set { Naoentrarbanco = value ? (short)1 : (short)0; }
         }
         public Int16 Naoentrarbanco_Ant { get; set; }
-        
+
         /// <summary>
         /// Flag que marca se o funcionário vai ou não entrar na Compensação
         /// </summary>
-        public Int16 Naoentrarcompensacao_Ant { get; set; } 
+        public Int16 Naoentrarcompensacao_Ant { get; set; }
         public Int16 Naoentrarcompensacao { get; set; }
 
         [Display(Name = "Não Entrar na Compensação")]
@@ -170,23 +170,23 @@ namespace Modelo
             set { Naoentrarcompensacao = value ? (short)1 : (short)0; }
         }
         public Int16 Excluido { get; set; }
-        
+
         /// <summary>
         /// Observação do Funcionário
         /// </summary>
         [StringLength(100, ErrorMessage = "Número máximo de caracteres: {1}")]
         [Display(Name = "Observação")]
         public string Campoobservacao { get; set; }
-       
+
         /// <summary>
         /// Foto do Funcionário
         /// </summary>
         public string Foto { get; set; }
-        
+
         /// <summary>
         /// Número do PIS do Funcionário
         /// </summary>
-        [StringLength(20, ErrorMessage = "Número máximo de caracteres: {1}")] 
+        [StringLength(20, ErrorMessage = "Número máximo de caracteres: {1}")]
         public string Pis { get; set; }
 
         [Required(ErrorMessage = "Campo Obrigatório")]
@@ -202,6 +202,7 @@ namespace Modelo
         public string Senha { get; set; }
 
         [Display(Name = "Crachá proximidade")]
+        [Range(0, double.MaxValue, ErrorMessage = "Campo inválido")]
         public Int64? RFID { get; set; }
         public Int64? RFID_Ant { get; set; }
 
@@ -222,7 +223,7 @@ namespace Modelo
         [RequiredIf("utilizaregistrador", true, "Utiliza Registrador", "Selecionado")]
         [Display(Name = "Senha Mobile")]
         public String Mob_Senha { get; set; }
-        
+
         [Required(ErrorMessage = "Campo Obrigatório")]
         [RequiredIf("utilizaregistrador", true, "Utiliza Registrador", "Selecionado")]
         [Display(Name = "CPF")]
@@ -259,7 +260,10 @@ namespace Modelo
 
         [Display(Name = "Mão de Obra")]
         public int? TipoMaoObra { get; set; }
-        
+
+        [Display(Name = "Tipo do Crachá")]
+        public int? TipoCracha { get; set; }
+
         private Int32? _IdCw_Usuario;
         /// <summary>
         /// FK para a funcionalidade de Usuário Supervisor
@@ -300,7 +304,10 @@ namespace Modelo
 
         public int? IdIntegracaoPainel { get; set; }
         public string Email { get; set; }
+        [Display(Name = "Biometria")]
         public List<Modelo.Biometria> Biometrias { get; set; }
+
+        public List<FuncionarioRFID> FuncionarioRFID { get; set; }
 
         public int? diaInicioFechamento { get; set; }
         public int? diaFimfechamento { get; set; }

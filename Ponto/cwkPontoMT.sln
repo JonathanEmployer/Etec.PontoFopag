@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.271
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29001.49
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0008117E-A0AC-4C66-814E-67A2189667EF}"
 	ProjectSection(SolutionItems) = preProject
@@ -971,22 +971,22 @@ Global
 		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Debug|x64.Build.0 = Debug
 		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Debug|x86.ActiveCfg = Debug
 		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Debug|x86.Build.0 = Debug
-		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Desenvolvimento|Any CPU.ActiveCfg = Desenvolvimento
-		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Desenvolvimento|Any CPU.Build.0 = Desenvolvimento
-		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Desenvolvimento|Mixed Platforms.ActiveCfg = Desenvolvimento
-		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Desenvolvimento|Mixed Platforms.Build.0 = Desenvolvimento
-		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Desenvolvimento|x64.ActiveCfg = Desenvolvimento
-		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Desenvolvimento|x64.Build.0 = Desenvolvimento
-		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Desenvolvimento|x86.ActiveCfg = Desenvolvimento
-		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Desenvolvimento|x86.Build.0 = Desenvolvimento
-		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Homologacao|Any CPU.ActiveCfg = Homologacao
-		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Homologacao|Any CPU.Build.0 = Homologacao
-		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Homologacao|Mixed Platforms.ActiveCfg = Homologacao
-		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Homologacao|Mixed Platforms.Build.0 = Homologacao
-		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Homologacao|x64.ActiveCfg = Homologacao
-		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Homologacao|x64.Build.0 = Homologacao
-		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Homologacao|x86.ActiveCfg = Homologacao
-		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Homologacao|x86.Build.0 = Homologacao
+		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Desenvolvimento|Any CPU.ActiveCfg = Debug
+		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Desenvolvimento|Any CPU.Build.0 = Debug
+		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Desenvolvimento|Mixed Platforms.ActiveCfg = Debug
+		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Desenvolvimento|Mixed Platforms.Build.0 = Debug
+		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Desenvolvimento|x64.ActiveCfg = Debug
+		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Desenvolvimento|x64.Build.0 = Debug
+		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Desenvolvimento|x86.ActiveCfg = Debug
+		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Desenvolvimento|x86.Build.0 = Debug
+		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Homologacao|Any CPU.ActiveCfg = Release
+		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Homologacao|Any CPU.Build.0 = Release
+		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Homologacao|Mixed Platforms.ActiveCfg = Release
+		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Homologacao|Mixed Platforms.Build.0 = Release
+		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Homologacao|x64.ActiveCfg = Release
+		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Homologacao|x64.Build.0 = Release
+		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Homologacao|x86.ActiveCfg = Release
+		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Homologacao|x86.Build.0 = Release
 		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Release|Any CPU.ActiveCfg = Release
 		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Release|Any CPU.Build.0 = Release
 		{D9F6562A-C53E-4658-892C-E6E608D8453D}.Release|Mixed Platforms.ActiveCfg = Release

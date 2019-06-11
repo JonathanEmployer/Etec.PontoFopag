@@ -1,4 +1,5 @@
-﻿using cwkPontoMT.Integracao.Relogios.Dimep.UtilsDimep;
+﻿using cwkPontoMT.Integracao.Entidades;
+using cwkPontoMT.Integracao.Relogios.Dimep.UtilsDimep;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -458,6 +459,11 @@ namespace cwkPontoMT.Integracao.Relogios.Dimep
             DimepUtils dimepUtils = new DimepUtils(NumeroSerie, dataComando, Conn);
             RELOGIOS rel = dimepUtils.getRelogio();
             return Convert.ToInt32(rel.ULTIMONSR);
+        }
+
+        public override List<Biometria> GetBiometria(out string erros)
+        {
+            throw new NotImplementedException();
         }
     }
 }

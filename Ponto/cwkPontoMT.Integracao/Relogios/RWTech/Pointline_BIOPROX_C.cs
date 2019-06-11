@@ -1,4 +1,5 @@
-﻿using System;
+﻿using cwkPontoMT.Integracao.Entidades;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -73,6 +74,11 @@ namespace cwkPontoMT.Integracao.Relogios.RWTech
         }
 
         public override int UltimoNSR()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<Biometria> GetBiometria(out string erros)
         {
             throw new NotImplementedException();
         }

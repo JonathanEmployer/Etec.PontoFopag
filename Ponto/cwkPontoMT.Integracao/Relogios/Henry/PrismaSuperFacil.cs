@@ -1,4 +1,5 @@
-﻿using System;
+﻿using cwkPontoMT.Integracao.Entidades;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -84,7 +85,11 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
         public override List<RegistroAFD> GetAFD(DateTime dataI, DateTime dataF)
         {
             return GetAFDNsr(dataI, dataF, 0, 0, true);
-           
+        }
+
+        public override List<Biometria> GetBiometria(out string erros)
+        {
+            throw new NotImplementedException();
         }
 
         public override bool ConfigurarHorarioVerao(DateTime inicio, DateTime termino, out string erros)
@@ -251,6 +256,9 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                     {
                         string res = EnviaFuncionario(Operacao.Inclusao, item.Pis, item.Nome, biometrico, item.DsCodigo, String.Empty);
                         erros += trataRetorno(res, out info, out oper);
+
+
+
                     }
                     catch (Exception e)
                     {
@@ -258,6 +266,12 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                         throw e;
                     }
                 }
+
+                Empregados.GroupBy(x => x.DsCodigo).ToList().ForEach(x =>
+                {
+                    var empregado = Empregados.Where(y => y.DsCodigo == x.Key).ToList();
+                    EnviaFuncionarioBiometria(x.Key, empregado.Count(), empregado.Select(b => Encoding.UTF8.GetString(b.valorBiometria)).ToList());
+                });
 
                 IList<string> err = erros.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
                 if (err.Count > 0)
@@ -283,7 +297,7 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
         }
 
         #region Métodos Auxiliares Henry
-        
+
         private DateTime RecebeHoraRelogio()
         {
             try
@@ -445,17 +459,53 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
             {
                 throw e;
             }
+
+        }
+        private string EnviaFuncionarioBiometria(string Referencia, int QtdeBio, List<string> ValorBiometria)
+        {
+            string result = "01+ED+00+D]" + Referencia + "}" + QtdeBio + "}";
+            for (int i = 0; i < QtdeBio; i++)
+            {
+                result += i + "{" + ValorBiometria[i];
+            }
+
+            try
+            {
+                return EnviaDadosRep(result);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
+
+        private List<string> RecebeBiometria(int CodFuncionario)
+        {
+            var resultado = new List<string>();
+            string info = "";
+            string oper = "";
+
+            string dadosEnvio = "01+RD+00+D]" + CodFuncionario;
+
+            try
+            {
+                var result = trataRetorno(EnviaDadosRep(dadosEnvio), out info, out oper);
+                resultado = result.Substring(result.IndexOf('{') + 1).Split('{').ToList();
+            }
+            catch (Exception)
+            {
+            }
+
+            return resultado;
+        }
         private string RecebeMarcacoes(DateTime? inicio, DateTime? fim)
         {
-            int step = 3;           // Step fixo em 3 para não dar problemas de buffer ao 
             Int32 nsrInicial = 0;   // pegar registros de alteração/envio de empresa que são grandes
             Int32 nsrFinal = 0;
             string resultado = "";
             string info = "";
             string oper = "";
-            string dados = "";
 
             if (inicio.HasValue && fim.HasValue)
             {
@@ -511,7 +561,7 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
             try
             {
                 nsrInicial = nsrInicio > 0 ? nsrInicio : 1;
-                
+
             }
             catch (Exception)
             {
@@ -543,7 +593,7 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                 try
                 {
                     // Diferença entre o Ultimo NSR a ser coletado e o Ultimo Coletado (nsrInicial - 1)
-                    int difNsr = (nsrFinal - (nsrInicial -1));
+                    int difNsr = (nsrFinal - (nsrInicial - 1));
                     if (difNsr < 3)
                     {
                         // Se a diferença entre o inicial e o Final for menor que o step, seta o step com a diferença, pra não trazer mais NSR que o solicitado ou que existe no equipamento (para evitar problemas ne memória no equipamento quando pede mais nsr que existe.)
@@ -566,7 +616,7 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                             throw ex;
                         }
                     }
-                    
+
                     // Adiciona o quantidade coletada ao NSR Inicial para colocar o NSR Inicial no Próximo NSR a ser Coletado
                     nsrInicial += step;
                 }
@@ -899,15 +949,15 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
             StringBuilder sb = new StringBuilder();
             foreach (var item in empregados)
             {
-                sb.AppendLine("1+1+I[0" + item.Pis +"["+item.Nome+"["+Convert.ToInt16(item.Biometria).ToString()+"[1["+item.DsCodigo);
+                sb.AppendLine("1+1+I[0" + item.Pis + "[" + item.Nome + "[" + Convert.ToInt16(item.Biometria).ToString() + "[1[" + item.DsCodigo);
             }
             return sb.ToString();
         }
 
         private string ExportaEmpregador(Entidades.Empresa empregador)
         {
-            return "2+"+ (int)empregador.TipoDocumento + "]"+GetStringSomenteAlfanumerico(empregador.Documento)+"]"
-                + (String.IsNullOrEmpty(empregador.CEI) ? "            " : empregador.CEI)+"]"+empregador.RazaoSocial+"]"+empregador.Local;
+            return "2+" + (int)empregador.TipoDocumento + "]" + GetStringSomenteAlfanumerico(empregador.Documento) + "]"
+                + (String.IsNullOrEmpty(empregador.CEI) ? "            " : empregador.CEI) + "]" + empregador.RazaoSocial + "]" + empregador.Local;
         }
 
         public override bool ExportacaoHabilitada()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using cwkPontoMT.Integracao.Entidades;
 using System.IO;
+using System.Linq;
 
 namespace BLL.IntegracaoRelogio
 {
@@ -24,7 +25,7 @@ namespace BLL.IntegracaoRelogio
         protected override void EfetuarEnvio()
         {
             string erros;
-            if (!relogio.EnviarEmpregadorEEmpregados(objRep.Biometrico, out erros))
+            if (!relogio.EnviarEmpregadorEEmpregados(objRep.EquipamentoTipoBiometria.TipoBiometria.Id != 9 ? true : false, out erros))
             {
                 throw new Exception(erros);
             }

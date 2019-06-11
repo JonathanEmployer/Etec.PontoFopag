@@ -5,6 +5,7 @@ using System.Text;
 using CKREPII.Adapter;
 using CKREPII.Modelo;
 using System.IO;
+using cwkPontoMT.Integracao.Entidades;
 
 namespace cwkPontoMT.Integracao.Relogios.Proveu
 {
@@ -316,6 +317,11 @@ namespace cwkPontoMT.Integracao.Relogios.Proveu
         }
 
         public override int UltimoNSR()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<Biometria> GetBiometria(out string erros)
         {
             throw new NotImplementedException();
         }

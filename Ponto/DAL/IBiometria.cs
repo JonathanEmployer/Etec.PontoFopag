@@ -14,5 +14,6 @@ namespace DAL
 
         Modelo.Biometria LoadObjectByCodigo(int codBiometria);
         List<Modelo.Biometria> LoadPorFuncionario(int idfuncionario);
+        List<Modelo.Biometria> GetBiometriaTipoBiometria(int IdFuncionario);
     }
 }

@@ -270,11 +270,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Auxiliares\Henry\HexaParseStrategies\BiometricMessage.cs" />
     <Compile Include="Auxiliares\Henry\HexaParseStrategies\GeneralMessage.cs" />
     <Compile Include="Auxiliares\Henry\HexaParseStrategies\HexaParseStrategyFactory.cs" />
     <Compile Include="Auxiliares\Henry\HexaParseStrategies\IMessage.cs" />
     <Compile Include="Auxiliares\Henry\HexaParseStrategies\Impl\RecebeDataHoraStrategy.cs" />
     <Compile Include="Auxiliares\Henry\HexaParseStrategies\Impl\RecebeMarcacoesStrategy.cs" />
+    <Compile Include="Auxiliares\Henry\HexaParseStrategies\Impl\RecebeBiometriaStrategy.cs" />
     <Compile Include="Auxiliares\Henry\HexaParseStrategies\Impl\RecebeRetornoGeralStrategy.cs" />
     <Compile Include="Auxiliares\Henry\HexaParseStrategies\Impl\RecebeTotalMarcacoesStrategy.cs" />
     <Compile Include="Auxiliares\Henry\HexaParseStrategies\IParseStrategy.cs" />
@@ -286,6 +288,7 @@
     <Compile Include="Auxiliares\IDData\CSocketClient.cs" />
     <Compile Include="Auxiliares\IDData\Defines.cs" />
     <Compile Include="Auxiliares\REPZPM.cs" />
+    <Compile Include="Entidades\Biometria.cs" />
     <Compile Include="Relogios\Ahgora\Ah10.cs" />
     <Compile Include="Relogios\ControlID\IDClass.cs" />
     <Compile Include="Relogios\Dimep\AGENDAMENTOS.cs">
@@ -602,6 +605,7 @@
     <Compile Include="TipoComunicacao.cs" />
     <Compile Include="TipoRelogio.cs" />
     <Compile Include="Util.cs" />
+    <Compile Include="Util\TcpRep.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

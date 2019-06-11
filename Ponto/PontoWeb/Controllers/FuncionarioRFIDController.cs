@@ -16,7 +16,10 @@ namespace PontoWeb.Controllers
         //[PermissoesFiltro(Roles = "FuncionarioRFID")]
         public ActionResult Grid(int id)
         {
-            return View(new Modelo.FuncionarioRFID() { IdFuncionario = id });
+            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+            BLL.FuncionarioRFID bllFuncionarioRFID = new BLL.FuncionarioRFID(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
+
+            return View(bllFuncionarioRFID.GetAllListByFuncionario(id));
         }
 
 

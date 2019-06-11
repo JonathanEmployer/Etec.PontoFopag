@@ -53,5 +53,7 @@ namespace Modelo
 
         public string idsEmpresasSelecionadas { get; set; }
         public string idsFuncionariosSelecionados { get; set; }
+        public string TipoComunicacao { get; set; }
+        
     }
 }

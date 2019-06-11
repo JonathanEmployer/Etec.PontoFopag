@@ -1,43 +1,124 @@
-﻿using System;
+﻿using Quartz;
+using Quartz.Impl;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using D = DAL.SQL;
 using System.Data;
-using BLL;
-using Modelo.Proxy;
-using System.IO;
-using GerarExcel;
-using CentralCliente;
-using Modelo.Proxy.IntegracaoTerceiro.DB1;
-using cwkPontoMT.Integracao;
-using BLL_N.IntegracaoRep;
-using cwkPontoMT.Integracao.Relogios.Dimep;
-using System.Threading;
-using System.Data.Entity.SqlServer;
-using BLL.IntegracaoRelogio;
-using System.Data.SqlClient;
-using System.Data.Entity.Core.EntityClient;
-using DAL.SQL;
-using System.Web.Script.Serialization;
+using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 
 namespace TesteProgramacao
 {
     class Program
     {
+        private static IScheduler _scheduler;
+        private static EventLog eventLog1;
         static void Main(string[] args)
         {
-            //teste reflection
-            var teste = new testes();
-            var t = teste.GetBllObjects(new string[] {"HorarioDinamico", "HorarioDinamicoCiclo" });
-            ((BLL.HorarioDinamicoCiclo)t[0]).GetAll();
+            ////teste reflection
+            //var teste = new testes();
+            //var t = teste.GetBllObjects(new string[] {"HorarioDinamico", "HorarioDinamicoCiclo" });
+            //((BLL.HorarioDinamicoCiclo)t[0]).GetAll();
             //teste.ExecutarTestes = true;
 
             //teste.ImportarBilhetesImp_teste(0);
             //teste.MetodosOld(0);
             //teste.GetImportadosPeriodo(0);
+            //  string fghjk = "";
+            //  var tt = new PrismaSuperFacil();
+            //  tt.IP = "192.168.100.11";
+            //  tt.Porta = "3000";
+            //var ret =  tt.RecebeMarcacoes(true, out fghjk);
+
+            //var teste = Modelo.CriptoString.Decrypt("mt/z2ugxzZnWKQ8YIHtoJWGHGHzsvmQDlJnaKzfnPn4QZWq12Dd6I88mE2iSFvJ+YbRYJQR+BnC7kiXIVMFdnLZ/Zpcfj3jX+rBKfkHi0z5l1Uc0/tvjaWKk5WJzyEfz/An09Fwjjc97uCueCAwSx2ufrLaUAz8IBw1HyKI08dD+JELVPFgv+rkyTw/dGXulbuIhQywa4nk4dzGmi1jAH0jpLLDrBhEhHrfdNOF5AI4=");
+            //var teste = Modelo.CriptoString.Encrypt(
+            //    @"Data Source=EMPVW02250\DEV;initial catalog=PONTOFOPAG_EMPLOYER;user id=pontofopag_app;password=123;MultipleActiveResultSets=true;Asynchronous Processing=true");
+
+
+            //string s = "AwNcKQABIAGMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAIUAAAAAAAAAAw/////////+/+qqqqqqqqqmVVVVVVVVVVVEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAyiA2ePA9IXg8PzN5imh++UCEbXmGh2x5mJVo+KzDa/lK2l54lttheI46Lv2QQyP8zkomfTRjEf1kbWx8RHAsfb57eP3ep2f9bMZgfGbIa33a6mL8eOxb/GsGs/y1B1v9sjJ59b4+IfQ0WZN06K5p9NS5bPXYzgr1wNdh9aDwWXVm8rF1qwpY9U0MsvREUDftWP4AbZj+Wey0knvgrJoSZJqhFOQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwNgLQABIAGKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAIUAAAAAAAAAAM///////////uqqqqqqqqqmVVVVVVVVVVVEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlhsu+EwhMXlaZ2z5oGlreMhyenm0eGl43oIO+MCiavmusFr4rLtiebTKV/ggFjh9piUjfOAwJP1IRBH9ek9s/Z5QefxWUSv91l54/RSRZXx8qGn8ltZZ/N7xAH2c9Fr9yQBX/coUe/XWICN1dqNfddqoC3Vuult0KM5Z9C7dWfVm57P1AhEdaQAcIehGOZLtfLACbdS0YO1q0LDtxuZZbV7ZsuBUMTblxNta5R8AXl0jAADcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            //string ret = "";
+
+            //byte[] theBytes = Encoding.UTF8.GetBytes(s);
+
+            //foreach (char c in s)
+            //{
+            //    // Código numérico do caractere.
+            //    int asc = (int)c;
+            //    // Concatena a representação string dos 
+            //    // números binários separados por espaço.
+            //    ret += Convert.ToString(asc, 2);
+            //}
+            //// Exibe o resultado
+            //Console.WriteLine(ret);
+            //// Separa os números binários e joga o resulatado
+            //// num array de strings.
+            //string[] strBin = ret.Trim().Split(' ');
+            //string rec = "";
+
+            //foreach (string ele in strBin)
+            //{
+            //    // Converte a representação string do número
+            //    // num caractere.
+            //    char car = (char)Convert.ToInt32(ele, 2);
+            //    // Concatena os caracteres.
+            //    rec += car;
+            //}
+
+            //// Exibe o resultado.
+            //Console.WriteLine(rec);
+
+
+            //new Negocio.Integracao().EnviarComandosRep(null, null);
+            //var teste = Modelo.CriptoString.Decrypt("pahjC5VRm/fOW1CrE4tf+g==");
+
+            //var result = "3+D]433}1}0{sdjfhasjdfhgakdgfhaksjdfhgaksdjagksdfhgaskdfhgaksdfh{sdjnfkjasdfhlakjsdfhlakjsdfhlakjdfhalskdjfha";
+            //var resultado = result.Substring(result.IndexOf('{')+1).Split('{').ToList();
+
+            new ComunicadorServico.ServicoComunicador();
+            eventLog1 = new System.Diagnostics.EventLog();
+            if (!System.Diagnostics.EventLog.SourceExists("ServIntegracaoPontofopag"))
+            {
+                System.Diagnostics.EventLog.CreateEventSource(
+                    "ServIntegracaoPontofopag", "LogServComunicadorPontofopag");
+            }
+            eventLog1.Source = "ServIntegracaoPontofopag";
+            eventLog1.Log = "LogServComunicadorPontofopag";
+
+            eventLog1.WriteEntry("Serviço Comunicador Iniciado.", EventLogEntryType.Information);
+            //log.Info("Serviço Comunicador Iniciado, gerando agendamentos...");
+            ISchedulerFactory sf = new StdSchedulerFactory();
+            _scheduler = sf.GetScheduler().Result;
+            if (!_scheduler.IsStarted)
+                _scheduler.Start();
+
+            IJobDetail job = JobBuilder.Create<Negocio.Jobs.MonitorarRepsJob>()
+                    .WithIdentity("MonitorarReps", "MonitorReps")
+                    .Build();
+
+            // Adiciona o trabalho para executar a cada 1 minuto
+            ITrigger trigger = TriggerBuilder.Create()
+                .WithIdentity("VericarReps", "MonitorReps")
+                .StartNow()
+                .WithSimpleSchedule(x => x
+                      .WithIntervalInMinutes(11000)
+                      //.RepeatForever()
+                      )
+                .Build();
+
+            // Agenda o job
+            _scheduler.ScheduleJob(job, trigger);
+
+            IJobDetail jobReciclar = JobBuilder.Create<Negocio.Jobs.ReiniciaServico>()
+                        .WithIdentity("ReciclarServico", "ReciclaServico")
+                        .Build();
+            ITrigger triggerReciclar = TriggerBuilder.Create()
+                .WithIdentity("Recicla", "ReciclaServico")
+                .WithCronSchedule("0 0 2 ? * SAT *")
+                .Build();
+            _scheduler.ScheduleJob(jobReciclar, triggerReciclar);
+
+
+            Console.Read();
         }
     }
     class testes

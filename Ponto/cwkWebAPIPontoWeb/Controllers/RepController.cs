@@ -78,11 +78,11 @@ namespace cwkWebAPIPontoWeb.Controllers
 									WHERE edrd.IDFuncionario IS NOT NULL AND edr.IDRep = r.id),0) EnviarFuncionario
 								, r.UltimaIntegracao
                                 , r.IdTimeZoneInfo
-                                , r.TipoBiometria
                                 , r.CpfRep
                                 , r.LoginRep
                                 , r.SenhaRep
                                 , r.CampoCracha
+                                , r.IdEquipamentoTipoBiometria
                             from rep r
                             left join equipamentohomologado eh on r.idequipamentohomologado = eh.id
                             left join empresa e on r.idempresa = e.id

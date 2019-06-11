@@ -1,4 +1,5 @@
-﻿using System;
+﻿using cwkPontoMT.Integracao.Entidades;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -325,6 +326,11 @@ namespace cwkPontoMT.Integracao.Relogios.Telematica
             {
                 throw new Exception("Não foi possível obter o último NSR, mensagem: " + e.Message);
             }
+        }
+
+        public override List<Biometria> GetBiometria(out string erros)
+        {
+            throw new NotImplementedException();
         }
     }
 }

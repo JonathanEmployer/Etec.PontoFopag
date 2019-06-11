@@ -8,5 +8,6 @@ namespace cwkPontoMT.Integracao.Auxiliares.Henry.HexaParseStrategies
     public interface IParseStrategy
     {
         IMessage Parse(string command, string msg);
+        BiometricMessage ParseBiometric(string command, string msg, string TipoBiometria);
     }
 }

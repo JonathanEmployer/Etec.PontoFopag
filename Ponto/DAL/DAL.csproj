@@ -215,6 +215,7 @@
     <Compile Include="FB\UsuarioPontoWeb.cs" />
     <Compile Include="IListaEventosEvento.cs" />
     <Compile Include="IListaEventos.cs" />
+    <Compile Include="IEquipamentoTipoBiometria.cs" />
     <Compile Include="IHorarioDinamicoCiclo.cs" />
     <Compile Include="IHorarioDinamicoCicloSequencia.cs" />
     <Compile Include="IHorarioDinamico.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="IHorarioDinamicoPHExtra.cs" />
     <Compile Include="SQL\ListaEventos.cs" />
     <Compile Include="SQL\ListaEventosEvento.cs" />
+    <Compile Include="SQL\EquipamentoTipoBiometria.cs" />
     <Compile Include="SQL\FuncionarioRFID.cs" />
     <Compile Include="IAFD.cs" />
     <Compile Include="IAlertasDisponiveis.cs" />

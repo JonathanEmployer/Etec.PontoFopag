@@ -31,5 +31,8 @@ namespace Modelo.Proxy
 
         [TableHTMLAttribute("Data/Hora Inclusão", 6, true, ItensSearch.text, OrderType.asc)]
         public string IncDataStr { get {return IncData.ToString("dd/MM/yyyy"); } }
+
+        [TableHTMLAttribute("Tipo Comunicação", 7, true, ItensSearch.text, OrderType.asc)]
+        public string TipoComunicacao { get; set; }
     }
 }

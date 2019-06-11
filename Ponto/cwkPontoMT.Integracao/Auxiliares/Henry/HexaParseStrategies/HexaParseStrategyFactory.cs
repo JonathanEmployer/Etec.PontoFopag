@@ -18,6 +18,8 @@ namespace cwkPontoMT.Integracao.Auxiliares.Henry.HexaParseStrategies
                     return new RecebeMarcacoesStrategy();
                 case "RQ":
                     return new RecebeTotalMarcacoesStrategy();
+                case "RD":
+                    return new RecebeBiometriaStrategy();
                 default:
                     return new RecebeRetornoGeralStrategy();
             }

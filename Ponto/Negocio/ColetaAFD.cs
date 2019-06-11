@@ -108,5 +108,15 @@ namespace Negocio
             Log.EnviarLogApi(rep, comando, res.ToString(), " Retorno AFD = "+jsonRetorno, Modelo.Enumeradores.SituacaoLog.Informacao);
             return result;
         }
+
+        protected override void SetDadosReceber()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void EfetuarRecebimento(ComunicacaoApi comApi)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

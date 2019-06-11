@@ -452,6 +452,7 @@
     <Compile Include="Controllers\LogErroPainelAPIController.cs" />
     <Compile Include="Controllers\ManutencaoBilhetesController.cs" />
     <Compile Include="Controllers\ManutencaoDiariaController.cs" />
+    <Compile Include="Controllers\ManutencaoBiometricaController.cs" />
     <Compile Include="Controllers\MarcacaoController.cs" />
     <Compile Include="Controllers\MudancaHorarioController.cs" />
     <Compile Include="Controllers\MudCodigoFuncController.cs" />
@@ -1721,6 +1722,8 @@
     <None Include="Web.Homologacao.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <Content Include="Views\ManutencaoBiometrica\Index.cshtml" />
+    <Content Include="Views\Funcionario\FuncionarioRFID.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Arquivos\" />
