@@ -1728,7 +1728,6 @@
     <Folder Include="Content\Landing\img\images\" />
     <Folder Include="Controllers\ProgressBar\" />
     <Folder Include="images\" />
-    <Folder Include="SqlServerTypes\" />
     <Folder Include="Views\GetFuncsRel\" />
     <Folder Include="Views\RelatorioFiltroFuncionarioGeral\" />
   </ItemGroup>
