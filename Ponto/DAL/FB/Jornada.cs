@@ -6,6 +6,7 @@ using System.Text;
 using FirebirdSql.Data.FirebirdClient;
 using System.Data.SqlClient;
 using Modelo;
+using Modelo.Proxy;
 
 namespace DAL.FB
 {
@@ -343,6 +344,11 @@ namespace DAL.FB
         }
 
         public void Adicionar(ModeloBase obj, bool Codigo)
+        {
+            throw new NotImplementedException();
+        }
+
+        List<PxyIdPeriodo> IJornada.GetFuncionariosRecalculo(int id)
         {
             throw new NotImplementedException();
         }

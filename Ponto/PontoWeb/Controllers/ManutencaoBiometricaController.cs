@@ -163,7 +163,7 @@ namespace PontoWeb.Controllers
                 envDetLocal = new EnvioDadosRepDet();
                 envDetLocal.idEmpresa = null;
                 envDetLocal.idFuncionario = Convert.ToInt32(idFuncionario);
-                envDetLocal.acao = Acao.Incluir;
+                envDetLocal.Acao = Acao.Incluir;
                 envDetLocal.Codigo = ultimoCodigo++;
                 obj.ListEnvioDadosRepDet.Add(envDetLocal);
             }
