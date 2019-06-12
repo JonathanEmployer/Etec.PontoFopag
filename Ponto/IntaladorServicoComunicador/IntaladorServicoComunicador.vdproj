@@ -689,6 +689,12 @@
         "Entry"
         {
         "MsmKey" = "8:_61F44B922950946179D0F3453E44C271"
+        "OwnerKey" = "8:_E19E1C67A8A414714598FD1B52646B3D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_61F44B922950946179D0F3453E44C271"
         "OwnerKey" = "8:_30F752A41FC84531B93C273750987B8A"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -6822,15 +6828,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Serviço Comunicador"
-        "ProductCode" = "8:{E91D09BA-92AA-412E-8B1D-A4F059D9BACB}"
-        "PackageCode" = "8:{B57A6F65-C5B2-4E62-88AD-764A76E5233A}"
+        "ProductCode" = "8:{B3579002-5002-4F79-8363-E8567157089B}"
+        "PackageCode" = "8:{1AF1BD16-6697-42B6-97A0-998AFD99DF1E}"
         "UpgradeCode" = "8:{0FD46B73-43A1-40D3-9EEE-C98E3BB41F86}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:2.73.0001"
+        "ProductVersion" = "8:2.73.0002"
         "Manufacturer" = "8:Employer Tecnologia"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
