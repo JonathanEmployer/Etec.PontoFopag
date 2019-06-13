@@ -19,6 +19,7 @@ namespace PontoWeb.Controllers.Relatorios
 {
     public class RelatorioRegistrosController : Controller
     {
+        #region Métodos Get
         [Authorize]
         [PermissoesFiltro(Roles = "RelatorioRegistroConsultar")]
         public ActionResult Registros()
@@ -28,12 +29,13 @@ namespace PontoWeb.Controllers.Relatorios
 			viewModel.FimPeriodo = DateTime.Now.Date;
 			return View(viewModel);
 		}
-		#endregion
+        #endregion
 
+        #region Métodos Post
         [Authorize]
         [PermissoesFiltro(Roles = "RelatorioRegistroConsultar")]
         [HttpPost]
-        public ActionResult Registros(pxyRelPontoWeb imp)
+        public ActionResult Registros(RelatorioPadraoModel imp)
         {
             ValidarRelatorio(imp);
             if (ModelState.IsValid)
