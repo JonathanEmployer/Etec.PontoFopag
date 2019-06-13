@@ -19,9 +19,9 @@ namespace PontoWeb.Controllers.Relatorios
 {
     public class RelatorioRegistrosController : Controller
     {
-		#region Métodos Get
-
-		public ActionResult Registros()
+        [Authorize]
+        [PermissoesFiltro(Roles = "RelatorioRegistroConsultar")]
+        public ActionResult Registros()
         {
            	RelatorioPadraoModel viewModel = new RelatorioPadraoModel();
 			viewModel.InicioPeriodo = DateTime.Now.Date.AddMonths(-1);
@@ -30,10 +30,10 @@ namespace PontoWeb.Controllers.Relatorios
 		}
 		#endregion
 
-		#region Métodos Post
-
-		[HttpPost]
-        public ActionResult Registros(RelatorioPadraoModel imp)
+        [Authorize]
+        [PermissoesFiltro(Roles = "RelatorioRegistroConsultar")]
+        [HttpPost]
+        public ActionResult Registros(pxyRelPontoWeb imp)
         {
             ValidarRelatorio(imp);
             if (ModelState.IsValid)
