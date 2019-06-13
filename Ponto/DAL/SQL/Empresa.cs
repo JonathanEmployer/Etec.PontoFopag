@@ -587,7 +587,7 @@ namespace DAL.SQL
             return (int)db.ExecuteScalar(CommandType.Text, aux, parms);
         }
 
-        /// <summary>
+         /// <summary>
         /// Método que retorna a empresa principal
         /// </summary>
         /// <returns></returns>
@@ -854,6 +854,22 @@ namespace DAL.SQL
                     dr.Close();
                 dr.Dispose();
             }
+        }
+
+        public bool ConsultaBloqueiousuariosEmpresa()
+        {
+            int bloq = 1;
+            SqlParameter[] parms = new SqlParameter[] { new SqlParameter("@Bloq", SqlDbType.Int) };
+            parms[0].Value = bloq;
+            string aux = @"SELECT bloqueiousuarios FROM dbo.empresa where bloqueiousuarios = @Bloq";
+
+            var controEmp = db.ExecuteScalar(CommandType.Text, aux, parms);
+            var Bloq = Convert.ToInt32(controEmp);
+            if (controEmp == null)
+            {
+                return false;
+            }
+            return true;
         }
         #endregion
     }

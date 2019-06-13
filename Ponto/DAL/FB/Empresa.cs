@@ -435,5 +435,10 @@ namespace DAL.FB
         {
             throw new NotImplementedException();
         }
+
+        public bool ConsultaBloqueiousuariosEmpresa()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

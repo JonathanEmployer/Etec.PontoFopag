@@ -75,6 +75,11 @@ namespace BLL
             return lEmp;
         }
 
+        public bool ConsultaBloqueiousuariosEmpresa()
+        {
+           return dalEmpresa.ConsultaBloqueiousuariosEmpresa();
+        }
+
         public DataTable GetAll()
         {
             return dalEmpresa.GetAll();

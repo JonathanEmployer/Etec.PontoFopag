@@ -110,20 +110,20 @@ namespace DAL.SQL
         protected override SqlParameter[] GetParameters()
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@id", SqlDbType.Int),
-				new SqlParameter ("@codigo", SqlDbType.Int),
-				new SqlParameter ("@login", SqlDbType.VarChar),
-				new SqlParameter ("@senha", SqlDbType.VarChar),
-				new SqlParameter ("@nome", SqlDbType.VarChar),
-				new SqlParameter ("@tipo", SqlDbType.Int),
-				new SqlParameter ("@idgrupo", SqlDbType.Int),
-				new SqlParameter ("@incdata", SqlDbType.DateTime),
-				new SqlParameter ("@inchora", SqlDbType.DateTime),
-				new SqlParameter ("@incusuario", SqlDbType.VarChar),
-				new SqlParameter ("@altdata", SqlDbType.DateTime),
-				new SqlParameter ("@althora", SqlDbType.DateTime),
-				new SqlParameter ("@altusuario", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@id", SqlDbType.Int),
+                new SqlParameter ("@codigo", SqlDbType.Int),
+                new SqlParameter ("@login", SqlDbType.VarChar),
+                new SqlParameter ("@senha", SqlDbType.VarChar),
+                new SqlParameter ("@nome", SqlDbType.VarChar),
+                new SqlParameter ("@tipo", SqlDbType.Int),
+                new SqlParameter ("@idgrupo", SqlDbType.Int),
+                new SqlParameter ("@incdata", SqlDbType.DateTime),
+                new SqlParameter ("@inchora", SqlDbType.DateTime),
+                new SqlParameter ("@incusuario", SqlDbType.VarChar),
+                new SqlParameter ("@altdata", SqlDbType.DateTime),
+                new SqlParameter ("@althora", SqlDbType.DateTime),
+                new SqlParameter ("@altusuario", SqlDbType.VarChar),
                 new SqlParameter ("@EMAIL", SqlDbType.VarChar),
                 new SqlParameter ("@SENHAEMAIL", SqlDbType.VarChar),
                 new SqlParameter ("@SMTP", SqlDbType.VarChar),
@@ -143,7 +143,7 @@ namespace DAL.SQL
                 new SqlParameter ("@utilizaregistradordesktop", SqlDbType.Bit),
                 new SqlParameter ("@CpfUsuario", SqlDbType.VarChar),
                 new SqlParameter ("@PermissaoConcluirFluxoPnl", SqlDbType.Bit)
-			};
+            };
             return parms;
         }
 
@@ -188,14 +188,26 @@ namespace DAL.SQL
             parms[29].Value = ((Modelo.Cw_Usuario)obj).utilizaregistradordesktop;
             parms[30].Value = ((Modelo.Cw_Usuario)obj).CPFUsuario;
             parms[31].Value = ((Modelo.Cw_Usuario)obj).PermissaoConcluirFluxoPnl;
-            
+
+            if (((Modelo.Cw_Usuario)obj).UtilizaControleEmpresa)
+            {
+                SetaBloqueiousuarios();
+            }
+            else
+            {
+                int UtilizaControleEmpresa = 1;
+                if (!ConsultaUtilizaControleEmpresa(UtilizaControleEmpresa))
+                {
+                    ZeraBloqueiousuarios();
+                }
+            }                      
         }
 
         public List<Modelo.UsuarioPontoWeb> GetAllList()
         {
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, SELECTALLLIST, null);
             List<Modelo.UsuarioPontoWeb> listaRetorno = new List<Modelo.UsuarioPontoWeb>();
-           
+
             try
             {
                 AutoMapper.Mapper.CreateMap<IDataReader, Modelo.UsuarioPontoWeb>();
@@ -355,8 +367,39 @@ namespace DAL.SQL
             string comando = @"DELETE FROM empresacwusuario WHERE idcw_usuario = @id";
             db.ExecNonQueryCmd(CommandType.Text, comando, true, parms);
         }
+
+        public bool ConsultaUtilizaControleEmpresa(int utilizacontroleempresa)
+        {
+            SqlParameter[] parms = new SqlParameter[] { new SqlParameter("@utilizacontroleempresa", SqlDbType.Int) };
+            parms[0].Value = utilizacontroleempresa;
+            string aux = @"SELECT utilizacontroleempresa, Count(*) FROM cw_usuario where utilizacontroleempresa = @utilizacontroleempresa GROUP BY utilizacontroleempresa HAVING Count(*) > 1 ";
+
+             var controEmp = db.ExecuteScalar(CommandType.Text, aux, parms);
+            if (controEmp==null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public void SetaBloqueiousuarios()
+        {
+            Modelo.Empresa objEmpresa = new Modelo.Empresa();
+            SqlParameter[] parms = new SqlParameter[] { };
+            string aux = @"UPDATE empresa set bloqueiousuarios = 1 WHERE bloqueiousuarios = 0";
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            
+            return;
+        }
+
+        public void ZeraBloqueiousuarios()
+        {
+            Modelo.Empresa objEmpresa = new Modelo.Empresa();
+            SqlParameter[] parms = new SqlParameter[] { };
+            string aux = @"UPDATE empresa set bloqueiousuarios = 0 WHERE bloqueiousuarios = 1";
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+
+            return;
+        }
     }
-
-
-
 }

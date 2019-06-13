@@ -20,12 +20,11 @@ namespace PontoWeb.Controllers
         public override ActionResult Grid()
         {
             var cwu = Usuario.GetUsuarioLogadoCache();
-            BLL.Empresa bllEmp = new BLL.Empresa(cwu.ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
-            var lista = bllEmp.GetAllList();
-            Empresa e = lista.FirstOrDefault(f => f.bPrincipal);
-            if (e != null)
+            BLL.Empresa bllEmpresa = new BLL.Empresa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+            var UsuarioEmpresa = bllEmpresa.ConsultaBloqueiousuariosEmpresa();
+            if (UsuarioEmpresa)
             {
-                ViewBag.ControleUsuario = e.Bloqueiousuarios;
+                ViewBag.ControleUsuario = true;
             }
             else
             {
