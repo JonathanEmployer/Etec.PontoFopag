@@ -301,9 +301,13 @@ namespace PontoWeb.Controllers
                                     {
                                         datai = funcionario.Datademissao_Ant.GetValueOrDefault();
                                     }
-                                    else
+                                    else if (funcionario.Datademissao_Ant == null)
                                     {
                                         datai = funcionario.Datademissao.GetValueOrDefault();
+                                    }
+                                    else 
+                                    {
+                                        datai = funcionario.Datademissao_Ant.GetValueOrDefault();
                                     }
                                     dataf = datai.AddMonths(1);
                                 }

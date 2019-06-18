@@ -582,18 +582,18 @@ namespace BLL
             ConsiderarHEFeriadoPHoraNoturna(ref feriadoProximoDia);
 
             //Verifica se o funcionário está demitido
-            if (dataDemissao != null && dataDemissao <= data)
+            if (dataDemissao != null && dataDemissao < data)
             {
                 idFuncionario = Convert.ToInt32(pMarcacao["idfuncionario"]);
                 this.PreencheFuncionarioDemitido();
-                if (VerificaAlteracaoMarcao(pMarcacao, objMarcacaoAnt))
-                {
-                    objMarcacao.Acao = Modelo.Acao.Alterar;
-                    pMarcacoes.Add(objMarcacao);
-                }
-                return;
+                   if (VerificaAlteracaoMarcao(pMarcacao, objMarcacaoAnt))
+                   {
+                        objMarcacao.Acao = Modelo.Acao.Alterar;
+                        pMarcacoes.Add(objMarcacao);
+                   }
+                   return;
             }
-
+            
             //Verifica se a data é anterior a Data de admissão do funcionário
             if (dataAdmissao != null && data < dataAdmissao)
             {
@@ -732,10 +732,10 @@ namespace BLL
                 if (horasFaltasMin == 0 && horasFaltaNoturnaMin == 0 && ocorrencia.Contains("Falta"))
                     ocorrencia = ocorrencia.Replace("Falta", "").Trim();
 
-            }
+            }       
             this.LocalizaOcorrencia(ref ocorrencia, ref abono, ref semcalc, ref abonoD, ref abonoN, ref semAbono);
             this.TestaMarcacoesCorretas();
-
+            setaOcorrenciaDemitido();
             //Caso existam vários banco para o mesmo dia, retorna verdadeiro no mais prioritário
             if (!this.CalculaBancoHoras(idFuncionario, pMarcacoes))
                 return;
@@ -749,9 +749,13 @@ namespace BLL
                     LegendasConcatenadas = cwkFuncoes.ConcatenarStrings(LegendasConcatenadas, "J");
                     //Colocado para atualziar a ocorrencia somente quando não for banco de horas
                     //CRNC - 18/01/2010
-                    if ((bancoHorasCre == "---:--") && (bancoHorasDeb == "---:--"))
+                    if ((bancoHorasCre == "---:--") && (bancoHorasDeb == "---:--") && (dataDemissao != data))
                     {
                         ocorrencia = "Jornada Alternativa";
+                    }
+                    else if ((bancoHorasCre == "---:--") && (bancoHorasDeb == "---:--") && (dataDemissao == data))
+                    {
+                        setaOcorrenciaDemitido();
                     }
                 }
             }
@@ -1613,7 +1617,7 @@ namespace BLL
             {
                 if (CreditoBH > 0 || DebitoBH > 0)
                 {
-                    if (ocorrencia != "Marcações Incorretas")
+                    if (ocorrencia != "Marcações Incorretas" && dataDemissao != data)
                     {
                         if (CreditoBH == DebitoBH)
                         {
@@ -1635,8 +1639,12 @@ namespace BLL
                             }
                         }
                     }
+                    else if (ocorrencia != "Marcações Incorretas" && dataDemissao == data)
+                    {
+                        setaOcorrenciaDemitido();
+                    }
 
-                    bancoHorasCre = Modelo.cwkFuncoes.ConvertMinutosHora2(3, CreditoBH) != "000:00" ? Modelo.cwkFuncoes.ConvertMinutosHora2(3, CreditoBH) : "---:--";
+                        bancoHorasCre = Modelo.cwkFuncoes.ConvertMinutosHora2(3, CreditoBH) != "000:00" ? Modelo.cwkFuncoes.ConvertMinutosHora2(3, CreditoBH) : "---:--";
                     bancoHorasDeb = Modelo.cwkFuncoes.ConvertMinutosHora2(3, DebitoBH) != "000:00" ? Modelo.cwkFuncoes.ConvertMinutosHora2(3, DebitoBH) : "---:--"; ;
                 }
             }
@@ -4855,6 +4863,14 @@ namespace BLL
             }
         }
 
+        ///No caso de ocorrencia no mesmo dia de demissão seta ocorrencia como "Funcionário Demitido"
+        private void setaOcorrenciaDemitido()
+        {
+            if (dataDemissao == data)
+            {
+                ocorrencia = "Funcionário Demitido";
+            }
+        }
         /// <summary>
         /// Preenche funcionario não admitido, separado para organização do código
         /// </summary>
@@ -4869,7 +4885,7 @@ namespace BLL
             bancoHorasCre = "---:--";
             bancoHorasDeb = "---:--";
             ocorrencia = "Funcionário Demitido";
-            AdicionalNoturno = 0;
+            AdicionalNoturno = 0;         
         }
 
         /// <summary>
