@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -119,10 +120,36 @@ namespace BLL.Relatorios.V2
 			dtV.Sort = "nome,dataSemFormat,Matrícula";
 			dtRelatorio = dtV.ToTable();
 
-			_progressBar.setaMensagem("Gerando Arquivo...");
+            dtRelatorio.Columns.Add("Hra_BH_Positivas", typeof(String));
+            dtRelatorio.Columns.Add("Hra_BH_Negativas", typeof(String));
+            dtRelatorio.Columns.Add("DataFormatada", typeof(String));
+
+            foreach (DataRow row in dtRelatorio.Rows)
+            {
+                row["DataFormatada"] = Convert.ToDateTime((row["Data"]).ToString()).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture); ;
+                if (row["Hra_Banco_Horas"].ToString().Contains("-"))
+                {
+                    row["Hra_BH_Negativas"] = row["Hra_Banco_Horas"].ToString().Replace("-", "");
+                }
+                else if (!(row["Hra_Banco_Horas"].ToString().Contains("-")))
+                {
+                    if (row["Hra_Banco_Horas"].ToString().Contains("0:00"))
+                    {
+                        row["Hra_BH_Positivas"] = row["Hra_Banco_Horas"];
+                        row["Hra_BH_Negativas"] = row["Hra_Banco_Horas"];
+                    }
+                    else
+                    {
+                        row["Hra_BH_Positivas"] = row["Hra_Banco_Horas"];
+                    }
+                        
+                }
+            }
+
+            _progressBar.setaMensagem("Gerando Arquivo...");
 			// Cria o Dicionario das Colunas do Excel a ser gerado do relatório
 			Dictionary<string, GerarExcel.Modelo.Coluna> colunasExcel = new Dictionary<string, GerarExcel.Modelo.Coluna>();
-			colunasExcel.Add("Data", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Data", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("DataFormatada", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.DATA, NomeColuna = "Data", Visivel = true, NomeColunaNegrito = true });
 			colunasExcel.Add("Dia", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Dia", Visivel = true, NomeColunaNegrito = true });
 			colunasExcel.Add("Nome", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Nome", Visivel = true, NomeColunaNegrito = true });
 			colunasExcel.Add("Matrícula", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Matrícula", Visivel = true, NomeColunaNegrito = true });
@@ -130,26 +157,26 @@ namespace BLL.Relatorios.V2
 			colunasExcel.Add("Departamento", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Departamento", Visivel = true, NomeColunaNegrito = true });
 			//colunasExcel.Add("Contrato", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Contrato", Visivel = true, NomeColunaNegrito = true });
 			colunasExcel.Add("Função", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Função", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Jornada", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Jornada", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Ent1", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Ent. 01", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Sai1", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Saí. 01", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Ent2", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Ent. 02", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Sai2", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Saí. 02", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Ent3", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Ent. 03", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Sai3", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Saí. 03", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Ent4", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Ent. 04", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Sai4", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Saí. 04", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Ent5", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Ent. 05", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Sai5", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Saí. 05", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Ent6", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Ent. 06", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Sai6", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Saí. 06", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Ent7", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Ent. 07", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Sai7", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Saí. 07", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Ent8", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Ent. 08", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Sai8", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Saí. 08", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Desconsideradas", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Desconsideradas", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("H. Diurnas", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "H. Diurnas", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("H. Noturnas", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "H. Noturnas", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Jornada", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Jornada", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Ent1", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Ent. 01", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Sai1", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Saí. 01", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Ent2", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Ent. 02", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Sai2", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Saí. 02", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Ent3", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Ent. 03", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Sai3", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Saí. 03", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Ent4", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Ent. 04", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Sai4", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Saí. 04", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Ent5", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Ent. 05", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Sai5", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Saí. 05", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Ent6", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Ent. 06", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Sai6", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Saí. 06", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Ent7", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Ent. 07", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Sai7", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Saí. 07", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Ent8", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Ent. 08", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Sai8", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Saí. 08", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Desconsideradas", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Desconsideradas", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("H. Diurnas", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "H. Diurnas", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("H. Noturnas", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "H. Noturnas", Visivel = true, NomeColunaNegrito = true });
 			ColunasAddDinamic = ColunasAddDinamic.Distinct().ToList();
 			try
 			{
@@ -161,15 +188,16 @@ namespace BLL.Relatorios.V2
 			}
 			foreach (string nomeColuna in ColunasAddDinamic.Distinct())
 			{
-				colunasExcel.Add(nomeColuna, new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = nomeColuna, Visivel = true, NomeColunaNegrito = true });
+				colunasExcel.Add(nomeColuna, new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = nomeColuna, Visivel = true, NomeColunaNegrito = true });
 			}
-			colunasExcel.Add("Ad. Noturno", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Ad. Noturno", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Dsr", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Dsr", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Faltas", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Faltas", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Créd. BH", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Créd. BH", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Déb. BH", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Déb. BH", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Hra_Banco_Horas", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Saldo BH", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Total", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Total", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Ad. Noturno", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Ad. Noturno", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Dsr", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Dsr", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Faltas", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Faltas", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Créd. BH", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Créd. BH", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Déb. BH", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Déb. BH", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("Hra_BH_Positivas", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA3, NomeColuna = "Saldo BH positivo", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("Hra_BH_Negativas", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA3, NomeColuna = "Saldo BH negativo", Visivel = true, NomeColunaNegrito = true });
+			colunasExcel.Add("Total", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Total", Visivel = true, NomeColunaNegrito = true });
 			colunasExcel.Add("Ocorrência", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Ocorrência", Visivel = true, NomeColunaNegrito = true });
 
 			byte[] Arquivo = null;
