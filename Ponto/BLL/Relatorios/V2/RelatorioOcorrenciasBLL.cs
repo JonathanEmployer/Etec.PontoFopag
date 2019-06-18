@@ -4,6 +4,7 @@ using Modelo.Relatorios;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace BLL.Relatorios.V2
@@ -74,8 +75,15 @@ namespace BLL.Relatorios.V2
 		{
 			RelatorioOcorrenciasModel parms = ((RelatorioOcorrenciasModel)_relatorioFiltro);
 			DataTable Dt = GetDados(parms);
-			string idsTipoEscolhido = string.Empty;
-			string nomerel = String.Empty;
+            Dt.Columns.Add("Data", typeof(String));
+            foreach (DataRow row in Dt.Rows)
+            {
+                row["Data"] = Convert.ToDateTime((row["data"]).ToString()).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+            }
+            Dt.Columns["Data"].SetOrdinal(6);
+            Dt.Columns.Remove("data");
+            string idsTipoEscolhido = string.Empty;
+    		string nomerel = String.Empty;
 			string texto = String.Empty;
 			string nomeDoArquivo = String.Empty;
 
