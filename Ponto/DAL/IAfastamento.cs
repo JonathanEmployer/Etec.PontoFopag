@@ -2,6 +2,7 @@ using System;
 using System.Data;
 using System.Collections.Generic;
 using Modelo;
+using Modelo.Proxy.Relatorios;
 
 namespace DAL
 {
@@ -24,5 +25,6 @@ namespace DAL
         int? GetIdAfastamentoPorIdMarcacao(int IdMarcacao);
         List<Modelo.Afastamento> GetAfastamentoFuncionarioPeriodo(int idFuncionario, DateTime pDataInicial, DateTime pDataFinal, bool apenasFerias);
         List<Modelo.Afastamento> GetAfastamentoFuncionarioPeriodo(List<int> idFuncionario, DateTime pDataInicial, DateTime pDataFinal, bool apenasFerias);
+        List<PxyRelAfastamento> GetRelatorioAfastamentoFolha(List<int> idsFuncs, DateTime pDataI, DateTime pDataF, Int16 absenteismo, bool considerarAbonado, bool considerarParcial, bool considerarSemCalculo, bool considerarSuspensao, bool considerarSemAbono);
     }
 }

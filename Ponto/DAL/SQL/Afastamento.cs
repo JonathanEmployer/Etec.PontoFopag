@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Modelo.Proxy.Relatorios;
 
 namespace DAL.SQL
 {
@@ -862,87 +863,6 @@ namespace DAL.SQL
 
         #endregion
 
-        public DataTable GetParaRelatorioAbono(int pTipo, string pIdentificacao, DateTime pDataI, DateTime pDataF, int pModoOrdenacao, int pAgrupaDepartamento, string pIdsOcorrenciasSelecionados)
-        {
-            SqlParameter[] parms = new SqlParameter[]
-            {                     
-                    new SqlParameter("@datai", SqlDbType.DateTime),
-                    new SqlParameter("@dataf", SqlDbType.DateTime),
-                    new SqlParameter("@modoOrdenacao", SqlDbType.Int),
-                    new SqlParameter("@idsOcorrencias", SqlDbType.VarChar)
-            };
-
-            parms[0].Value = pDataI;
-            parms[1].Value = pDataF;
-            parms[2].Value = pModoOrdenacao;
-            parms[3].Value = pIdsOcorrenciasSelecionados;
-
-            string SQL = " select * "
-                          + ", dbo.FN_CONVMIN(d.abonoParcialMin) abonoParcial "
-                          + ", dbo.FN_CONVMIN(d.abonoTotalMin) abonoTotal "
-                     + " from ( "
-                              + " select f.nome funcionario "
-                            + ", f.dscodigo "
-                            + ", a.idocorrencia "
-                            + ", o.descricao ocorrencia "
-                            + ", d.descricao departamento "
-                            + ", e.nome empresa "
-                            + ", case when ISNULL(e.cnpj, '') <> '' then e.cnpj else e.cpf end AS cnpj_cpf "
-                            + ", a.datai inicioabono "
-                            + ", a.dataf fimabono "
-                            + ", m.data dtmarcacao "
-                            + ", m.dia "
-                            + ", a.abonado "
-                            + ", a.parcial "
-                            + ", case when a.parcial = 0 then dbo.FN_CONVHORA(m.horastrabalhadas) + dbo.FN_CONVHORA(m.horastrabalhadasnoturnas) else '0' end abonototalmin "
-                            + ", case when a.parcial = 1 then dbo.FN_CONVHORA(a.horai) + dbo.FN_CONVHORA(a.horaf) else '0' end abonoparcialmin "
-                          + " from afastamento a "
-                          + " inner join marcacao_view m on m.data between a.datai and a.dataf "
-                          + " left join funcionario f on f.id = m.idfuncionario "
-                          + " left join departamento d on f.iddepartamento = d.id "
-                          + " left join empresa e on e.id = f.idempresa "
-                          + " left join ocorrencia o on o.id = a.idocorrencia "
-                          + " where ((a.tipo = 0 and a.idfuncionario = f.id) or "
-                          + " (a.tipo = 1 and a.iddepartamento = f.iddepartamento) or "
-                          + " (a.tipo = 2 and a.idempresa = f.idempresa)) and a.abonado = 1 "
-                          + " and a.datai >= @datai AND m.data <= @dataf "
-                          + " and o.id in (select * from F_RetornaTabelaLista (@idsOcorrencias, ',')) ";
-
-            switch (pTipo)
-            {
-                //Empresa
-                case 0:
-                    SQL += "AND f.idempresa IN " + pIdentificacao;
-                    break;
-                //Departamento
-                case 1:
-                    SQL += "AND f.iddepartamento IN " + pIdentificacao;
-                    break;
-                //Individual
-                case 2:
-                    SQL += "AND f.id IN " + pIdentificacao;
-                    break;
-            }
-
-            SQL += ") D ";
-
-            String orderBy = "ORDER BY ";
-            if (pAgrupaDepartamento == 1)
-                orderBy += "d.departamento, ";
-
-            orderBy += "d.funcionario, d.dtMarcacao";
-            SQL += orderBy;
-
-            DataTable dt = new DataTable();
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SQL, parms);
-            dt.Load(dr);
-            if (!dr.IsClosed)
-                dr.Close();
-            dr.Dispose();
-
-            return dt;
-        }
-
         public IList<Modelo.Proxy.pxyAbonosPorMarcacao> GetAbonosPorMarcacoes(IList<int> idFuncionarios, DateTime dataIni, DateTime dataFin)
         {
             SqlParameter[] parms = new SqlParameter[]
@@ -1092,5 +1012,205 @@ namespace DAL.SQL
             int? Id = Convert.ToInt32(db.ExecuteScalar(CommandType.Text, sql, parms));
             return Id;
         }
+
+        #region Sql Relatorio
+        public DataTable GetParaRelatorioAbono(int pTipo, string pIdentificacao, DateTime pDataI, DateTime pDataF, int pModoOrdenacao, int pAgrupaDepartamento, string pIdsOcorrenciasSelecionados)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                    new SqlParameter("@datai", SqlDbType.DateTime),
+                    new SqlParameter("@dataf", SqlDbType.DateTime),
+                    new SqlParameter("@modoOrdenacao", SqlDbType.Int),
+                    new SqlParameter("@idsOcorrencias", SqlDbType.VarChar)
+            };
+
+            parms[0].Value = pDataI;
+            parms[1].Value = pDataF;
+            parms[2].Value = pModoOrdenacao;
+            parms[3].Value = pIdsOcorrenciasSelecionados;
+
+            string SQL = " select * "
+                          + ", dbo.FN_CONVMIN(d.abonoParcialMin) abonoParcial "
+                          + ", dbo.FN_CONVMIN(d.abonoTotalMin) abonoTotal "
+                     + " from ( "
+                              + " select f.nome funcionario "
+                            + ", f.dscodigo "
+                            + ", a.idocorrencia "
+                            + ", o.descricao ocorrencia "
+                            + ", d.descricao departamento "
+                            + ", e.nome empresa "
+                            + ", case when ISNULL(e.cnpj, '') <> '' then e.cnpj else e.cpf end AS cnpj_cpf "
+                            + ", a.datai inicioabono "
+                            + ", a.dataf fimabono "
+                            + ", m.data dtmarcacao "
+                            + ", m.dia "
+                            + ", a.abonado "
+                            + ", a.parcial "
+                            + ", case when a.parcial = 0 then dbo.FN_CONVHORA(m.horastrabalhadas) + dbo.FN_CONVHORA(m.horastrabalhadasnoturnas) else '0' end abonototalmin "
+                            + ", case when a.parcial = 1 then dbo.FN_CONVHORA(a.horai) + dbo.FN_CONVHORA(a.horaf) else '0' end abonoparcialmin "
+                          + " from afastamento a "
+                          + " inner join marcacao_view m on m.data between a.datai and a.dataf "
+                          + " left join funcionario f on f.id = m.idfuncionario "
+                          + " left join departamento d on f.iddepartamento = d.id "
+                          + " left join empresa e on e.id = f.idempresa "
+                          + " left join ocorrencia o on o.id = a.idocorrencia "
+                          + " where ((a.tipo = 0 and a.idfuncionario = f.id) or "
+                          + " (a.tipo = 1 and a.iddepartamento = f.iddepartamento) or "
+                          + " (a.tipo = 2 and a.idempresa = f.idempresa)) and a.abonado = 1 "
+                          + " and a.datai >= @datai AND m.data <= @dataf "
+                          + " and o.id in (select * from F_RetornaTabelaLista (@idsOcorrencias, ',')) ";
+
+            switch (pTipo)
+            {
+                //Empresa
+                case 0:
+                    SQL += "AND f.idempresa IN " + pIdentificacao;
+                    break;
+                //Departamento
+                case 1:
+                    SQL += "AND f.iddepartamento IN " + pIdentificacao;
+                    break;
+                //Individual
+                case 2:
+                    SQL += "AND f.id IN " + pIdentificacao;
+                    break;
+            }
+
+            SQL += ") D ";
+
+            String orderBy = "ORDER BY ";
+            if (pAgrupaDepartamento == 1)
+                orderBy += "d.departamento, ";
+
+            orderBy += "d.funcionario, d.dtMarcacao";
+            SQL += orderBy;
+
+            DataTable dt = new DataTable();
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SQL, parms);
+            dt.Load(dr);
+            if (!dr.IsClosed)
+                dr.Close();
+            dr.Dispose();
+
+            return dt;
+        }
+
+        public List<PxyRelAfastamento> GetRelatorioAfastamentoFolha(List<int> idsFuncs, DateTime pDataI, DateTime pDataF, Int16 absenteismo, bool considerarAbonado, bool considerarParcial, bool considerarSemCalculo, bool considerarSuspensao, bool considerarSemAbono)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                    new SqlParameter("@dtInicioPeriodo", SqlDbType.DateTime),
+                    new SqlParameter("@dtFimPeriodo", SqlDbType.DateTime),
+                    new SqlParameter("@tiposAbono", SqlDbType.VarChar),
+                    new SqlParameter("@Absenteismo", SqlDbType.SmallInt),
+                    new SqlParameter("@funcionarios", SqlDbType.VarChar)
+            };
+
+            List<int> tiposAbono = new List<int>();
+            if (considerarParcial)
+            {
+                tiposAbono.Add(2);
+            }
+            else if (considerarAbonado)
+            {
+                tiposAbono.Add(1);
+            }
+            else if (considerarSemCalculo)
+            {
+                tiposAbono.Add(3);
+            }
+            else if (considerarSuspensao)
+            {
+                tiposAbono.Add(4);
+            }
+            else if (considerarSemAbono)
+            {
+                tiposAbono.Add(5);
+            }
+
+            parms[0].Value = pDataI;
+            parms[1].Value = pDataF;
+            parms[2].Value = String.Join(",", tiposAbono);
+            parms[3].Value = absenteismo;
+            parms[4].Value = String.Join(",", idsFuncs);
+
+            string SQL = @" select p.[data] AfastamentoData, t.*
+  from FN_DatasPeriodo(@dtInicioPeriodo, @dtFimPeriodo) p
+ inner join (
+    select *
+    from (
+        select *
+        from (
+                select
+                    fun.id FuncionarioID,
+                    fun.dscodigo FuncionarioCodigo,
+                    fun.nome FuncionarioNome,
+                    fun.CPF FuncionarioCpf,
+                    fun.matricula FuncionarioMatricula,
+                    a.id AfastamentoId,
+                    a.codigo AfastamentoCodigo,
+                    a.descricao AfastamentoDescricao,
+                    a.abonado AfastamentoAbonado,
+                    a.parcial AfastamentoParcial,
+                    a.semcalculo AfastamentoSemCalculo,
+                    a.bSuspensao AfastamentoSuspensao,
+                    a.SemAbono AfastamentoSemAbono,
+                    a.datai AfastamentoDataInicio,
+                    a.dataf AfastamentoDataFim,
+                    a.horai AfastamentoAbonoParcialDiurno,
+                    dbo.FN_CONVHORA(a.horai) AfastamentoAbonoParcialDiurnoMin,
+                    a.horaf AfastamentoAbonoParcialNoturno,
+                    dbo.FN_CONVHORA(a.horaf) AfastamentoAbonoParcialNoturnoMin,
+                    a.idocorrencia OcorrenciaID,
+                    a.idIntegracao AfastamentoIdIntegrador,
+                    a.Observacao AfastamentoObservacao,
+                    o.descricao OcorrenciaDescricao,
+                    o.absenteismo OcorrenciaAbsenteismo,
+                    case WHEN a.parcial = 1 THEN 2
+                            WHEN a.abonado = 1 THEN 1
+                            WHEN a.SemCalculo = 1 THEN 3
+                            WHEN a.bSuspensao = 1 THEN 4
+                            WHEN a.SemAbono = 1 THEN 5
+                            else 0
+                    END TipoAbono
+                from funcionario fun
+                left join contratofuncionario cf on cf.idfuncionario  = fun.id
+                inner join afastamento a on a.idfuncionario = fun.id or a.iddepartamento = fun.iddepartamento or a.idempresa = fun.idempresa or a.idcontrato = cf.id
+                INNER JOIN ocorrencia o on a.idocorrencia = o.id
+                where fun.id in (select id FROM funcionario fi where fi.funcionarioativo = 1 and fi.excluido = 0)
+                    and ((a.datai between @dtInicioPeriodo and @dtFimPeriodo) or
+                        (a.dataf between @dtInicioPeriodo and @dtFimPeriodo) or
+                        (@dtInicioPeriodo between a.datai and a.dataf) or
+                        (@dtFimPeriodo between a.datai and a.dataf) 
+                        )
+                    and (@Absenteismo = 2 or o.absenteismo = @Absenteismo)
+                    and fun.id IN (select * from dbo.F_ClausulaIn(@funcionarios))
+            ) t WHERE t.TipoAbono in (select * from dbo.F_ClausulaIn(@tiposAbono))
+    ) x
+    ) t on p.[data] BETWEEN t.AfastamentoDataInicio and t.AfastamentoDataFim
+    order by FuncionarioID, p.[data] ";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SQL, parms);
+            List<PxyRelAfastamento> lista = new List<PxyRelAfastamento>();
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, PxyRelAfastamento>();
+                lista = AutoMapper.Mapper.Map<List<PxyRelAfastamento>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
+        #endregion
     }
 }

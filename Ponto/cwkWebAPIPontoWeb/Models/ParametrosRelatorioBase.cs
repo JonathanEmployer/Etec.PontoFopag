@@ -15,7 +15,7 @@ namespace cwkWebAPIPontoWeb.Models
         /// </summary>
         public string InicioPeriodo { get; set; }
         /// <summary>
-        /// Data Finalo do Período
+        /// Data final do período
         /// </summary>
         public string FimPeriodo { get; set; }
 
