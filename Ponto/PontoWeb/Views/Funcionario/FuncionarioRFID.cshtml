@@ -21,7 +21,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.RFID, new { @class = "control-label label-sm" })
                     <div class="input-group input-group-sm">
-                        @Html.TextBoxFor(model => model.RFID, new { @class = "form-control  input-sm", id = "lkpHistorioRFID", value = Model.RFID})
+                        @Html.TextBoxFor(model => model.RFID, new { @class = "form-control  input-sm", id = "lkpHistorioRFID", value = Model.RFID, onkeyup = "limitarInput(this)", maxlength = 20 })
                         <span class="input-group-btn">
                             <button class="btn btn-primary" id="btnHistoricoRFID" type="button"><span class="glyphicon glyphicon-time"></span></button>
                         </span>
@@ -36,15 +36,15 @@
                 <div class="panel-body" style="padding-top:8px; padding-bottom:5px">
                     <div class="radio-inline" data-toggle="radioTipo" style="margin-top:-4px">
                         @*@Html.RadioButtonFor(model => model.TipoCracha, 0, new { id = "idRadioRFID", name = "rdioTipo" })*@
-                        <input type="radio" name="rdioTipo" value="0" checked>
+                        <input type="radio" button onclick = "radiomarcado()" name="rdioTipo" value="0" id="RFID"checked>
                         <label class="label-sm" for="idRadioRFID">RFID(wiegand)</label>
                     </div>
                     <div class="radio-inline" data-toggle="radioTipo" style="margin-top:-4px">
                         @*@Html.RadioButtonFor(model => model.TipoCracha, 1, new { id = "idRadioMIFARE", name = "rdioTipo" })*@
-                        <input type="radio" name="rdioTipo" value="1">
+                        <input type="radio" name="rdioTipo" value="1" button onclick = "radiomarcado()" id="MIFARE">
                         <label class="label-sm" for="idRadioMIFARE">MIFARE</label>
                     </div>
-                    <button type="button" onclick="addRow(@Model.Id)" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span></button>
+                    <button type="button"  onclick="addRow(@Model.Id)" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span></button>
                 </div>
                 @Html.ValidationMessage("radioTipoCracha", null, new { id = "vsTipo" })
             </div>
@@ -99,3 +99,18 @@
         </div>
     </div>
 </div>
+<script>
+    
+    function limitarInput(obj)
+    {
+        if ($("#MIFARE").is(":checked"))
+        {
+            obj.value = obj.value.substring(0,20);   
+        }
+        else if ($("#RFID").is(":checked"))
+        {
+           obj.value = obj.value.substring(0, 8);
+        }
+    }
+    
+</script>

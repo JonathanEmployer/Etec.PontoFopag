@@ -14,6 +14,7 @@ namespace BLL.Util
         public float HorizontalMargin { get; set; }
         public float VerticalMargin { get; set; }
         public Rectangle pagina { get; set; }
+        public string htmlAux { get; set; }
 
         public HtmlReport()
             : this ("", 15.0f, 15.0f)
@@ -36,7 +37,7 @@ namespace BLL.Util
         public byte[] RenderPDF(string htmlText, bool CabecaoRodape, bool exibeEmissaoPagina)
         {
             byte[] renderedBuffer;
-
+            htmlAux = htmlText;
             try
             {
                 using (MemoryStream outputMemoryStream = new MemoryStream())
@@ -47,7 +48,7 @@ namespace BLL.Util
                         pdfWriter.CloseStream = false;
                         if (CabecaoRodape)
                         {
-                            PageEventHelper pageEventHelper = new PageEventHelper(nomeRel, exibeEmissaoPagina, false);
+                            PageEventHelper pageEventHelper = new PageEventHelper(nomeRel, exibeEmissaoPagina, false, htmlAux);
                             pdfWriter.PageEvent = pageEventHelper;
                         }
                         pdfDocument.Open();
@@ -124,7 +125,7 @@ namespace BLL.Util
                 PdfWriter writer = PdfWriter.GetInstance(document, output);
                 if (CabecaoRodape)
                 {
-                    PageEventHelper pageEventHelper = new PageEventHelper(nomeRel, exibeEmissaoPagina, true);
+                    PageEventHelper pageEventHelper = new PageEventHelper(nomeRel, exibeEmissaoPagina, true, htmlAux);
                     writer.PageEvent = pageEventHelper;
                 }
 
@@ -221,11 +222,13 @@ namespace BLL.Util
         private string nomeRel = "";
         private bool exibeEmissaoPagina = false;
         private bool merge = false;
-        public PageEventHelper(string nomeRel, bool exibeEmissaoPagina, bool merge)
+        private string HtmlAux;
+        public PageEventHelper(string nomeRel, bool exibeEmissaoPagina, bool merge, string htmlAux)
         {
             this.nomeRel = nomeRel;
             this.exibeEmissaoPagina = exibeEmissaoPagina;
             this.merge = merge;
+            this.HtmlAux = htmlAux;
         }
 
         public override void OnOpenDocument(PdfWriter writer, Document document)
@@ -250,11 +253,18 @@ namespace BLL.Util
         public override void OnEndPage(iTextSharp.text.pdf.PdfWriter writer, iTextSharp.text.Document document)
         {
             base.OnEndPage(writer, document);
-
+           
             String text = "";
             if (exibeEmissaoPagina)
             {
-                text = "Data emissão: " + dataImpressao.ToString("dd/MM/yyyy HH:mm") + "   -   Página " + writer.PageNumber + " de ";
+                if ((HtmlAux.Contains("Relatório Espelho de Ponto Eletrônico Detalhado")) || (HtmlAux.Contains("Espelho de Ponto Eletrônico")))
+                {
+                    text = "                                                                       Página " + writer.PageNumber + " de ";
+                }
+                else if (!(HtmlAux.Contains("Relatório Espelho de Ponto Eletrônico Detalhado")))
+                {
+                    text = "Data emissão: " + dataImpressao.ToString("dd/MM/yyyy HH:mm") + "   -   Página " + writer.PageNumber + " de ";
+                } 
             }
 
             //Add paging to header

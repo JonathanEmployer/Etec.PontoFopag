@@ -79,7 +79,6 @@ namespace BLL_N.JobManager.Hangfire.Job
                 BLL.cwkFuncoes.LogarErro(ex);
                 throw ex;
             }
-
         }
 
         private void CalculaMarcacao(List<int> idsFuncionario, DateTime dataInicial, DateTime dataFinal)

@@ -16,7 +16,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// </summary>
     //[Authorize]
     //[ApiExplorerSettings(IgnoreApi = true)]
-    public class FeriasController : ApiController
+    public class FeriasController :  ExtendedApiController
     {
         // POST: Ferias
         /// <summary>
@@ -97,9 +97,11 @@ namespace cwkWebAPIPontoWeb.Controllers
                             if (erros.Count > 0)
                             {
                                 TrataErros(erros);
+                                TrataErroModelState(new RetornoErro());
                             }
                             else
                             {
+                                BLLAPI.Marcacao.RecalcularAfastamento(DadosAntAfastamento, usuarioPontoWeb);
                                 return Request.CreateResponse(HttpStatusCode.OK, af);
                             }
                         }
@@ -155,9 +157,11 @@ namespace cwkWebAPIPontoWeb.Controllers
                             if (erros.Count > 0)
                             {
                                 TrataErros(erros);
+                                TrataErroModelState(new RetornoErro());
                             }
                             else
                             {
+                                BLLAPI.Marcacao.RecalcularAfastamento(DadosAntAfastamento, usuarioPontoWeb);
                                 return Request.CreateResponse(HttpStatusCode.OK, af);
                             }
                         }
@@ -278,11 +282,14 @@ namespace cwkWebAPIPontoWeb.Controllers
 
                     if (idAfastamento != null && idAfastamento > 0)
                     {
-                        Dictionary<string, string> erros = afastamentocontroller.ExecutaAfastamento(idAfastamento);
+                        Modelo.Afastamento afastamento = new Afastamento();
+                        Dictionary<string, string> erros = afastamentocontroller.ExecutaAfastamento(idAfastamento, out afastamento);
                         if (erros.Count > 0)
                         {
                             TrataErros(erros);
+                            TrataErroModelState(new RetornoErro());
                         }
+                        BLLAPI.Marcacao.RecalcularAfastamento(afastamento, usuarioPontoWeb);
                         return Request.CreateResponse(HttpStatusCode.OK);
                     }
                     else
