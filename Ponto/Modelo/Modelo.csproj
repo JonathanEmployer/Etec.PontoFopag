@@ -324,7 +324,6 @@
     <Compile Include="Proxy\PxySaldoBancoHoras.cs" />
     <Compile Include="Proxy\pxyTransferirBilhetesContrato.cs" />
     <Compile Include="Proxy\Relatorios\PxyGridRelFechamentoPercentualHE.cs" />
-    <Compile Include="Proxy\Relatorios\PxyRelAfastamento.cs" />
     <Compile Include="Proxy\Relatorios\PxyRelatorioHorasInItinere.cs" />
     <Compile Include="Proxy\pxyHistoricoAlteracaoHorario.cs" />
     <Compile Include="Proxy\Relatorios\PxyRelatorioInconsistencias.cs" />

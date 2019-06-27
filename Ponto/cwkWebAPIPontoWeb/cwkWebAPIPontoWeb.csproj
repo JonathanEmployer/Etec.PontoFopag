@@ -376,7 +376,6 @@
     <Compile Include="Controllers\RegistraPontoBaseController.cs" />
     <Compile Include="Controllers\RegistraPontoController.cs" />
     <Compile Include="Controllers\RelatorioConferenciaHorasController.cs" />
-    <Compile Include="Controllers\RelatorioAfastamentoController.cs" />
     <Compile Include="Controllers\RelatorioHorasTrabalhadasPorFuncionarioController.cs" />
     <Compile Include="Controllers\RelatorioInconsistenciasController.cs" />
     <Compile Include="Controllers\RelatorioOcorrenciasController.cs" />
@@ -444,7 +443,6 @@
     <Compile Include="Models\RateioHorasExtras.cs" />
     <Compile Include="Models\RelatorioInconsistenciasParam.cs" />
     <Compile Include="Models\RelatorioOcorrenciasParam.cs" />
-    <Compile Include="Models\RelatorioAfastamentoParam.cs" />
     <Compile Include="Models\RelatorioSaldoBancoHoras.cs" />
     <Compile Include="Models\RelatorioTratamentoDePontoParam.cs" />
     <Compile Include="Models\RelClassHorasExtrasParam.cs" />

@@ -4,7 +4,6 @@ using System.Data;
 using System.Linq;
 using System.Collections;
 using DAL.SQL;
-using Modelo.Proxy.Relatorios;
 
 namespace BLL
 {
@@ -382,11 +381,6 @@ namespace BLL
         public List<Modelo.Afastamento> GetAfastamentoFuncionarioPeriodo(List<int> idsFuncionarios, DateTime pDataInicial, DateTime pDataFinal)
         {
             return dalAfastamento.GetAfastamentoFuncionarioPeriodo(idsFuncionarios, pDataInicial, pDataFinal, false);
-        }
-
-        public List<PxyRelAfastamento> GetRelatorioAfastamentoFolha(List<int> idsFuncs, DateTime pDataI, DateTime pDataF, Int16 absenteismo, bool considerarAbonado, bool considerarParcial, bool considerarSemCalculo, bool considerarSuspensao, bool considerarSemAbono)
-        {
-            return dalAfastamento.GetRelatorioAfastamentoFolha(idsFuncs, pDataI, pDataF, absenteismo, considerarAbonado, considerarParcial, considerarSemCalculo, considerarSuspensao, considerarSemAbono);
         }
     }
 }

@@ -4,7 +4,6 @@ using FirebirdSql.Data.FirebirdClient;
 using System.Collections.Generic;
 using Modelo;
 using System.Data.SqlClient;
-using Modelo.Proxy.Relatorios;
 
 namespace DAL.FB
 {
@@ -675,11 +674,6 @@ namespace DAL.FB
         }
 
         public void AtualizarRegistros<T>(List<T> list, SqlTransaction trans, SqlConnection con)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<PxyRelAfastamento> GetRelatorioAfastamentoFolha(List<int> idsFuncs, DateTime pDataI, DateTime pDataF, short absenteismo, bool considerarAbonado, bool considerarParcial, bool considerarSemCalculo, bool considerarSuspensao, bool considerarSemAbono)
         {
             throw new NotImplementedException();
         }
