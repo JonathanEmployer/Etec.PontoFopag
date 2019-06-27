@@ -395,9 +395,7 @@ namespace BLL_N.JobManager.Hangfire
 
         public Modelo.Proxy.PxyJobReturn RelatorioManutencaoDiaria(IRelatorioModel parametros)
         {
-            var par = (RelatorioManutencaoDiariaModel)parametros;
-            var qtd = par.IdSelecionados.Split(',').ToList().Count();
-            var descricaoParametros = String.Format("Período {0} a {1} e {2}", par.InicioPeriodo.ToShortDateString(), par.FimPeriodo.ToShortDateString(), (par.TipoSelecao == 0 ? (qtd + " Empresas ") : (qtd + " Departamentos ")));
+            var descricaoParametros = GetDescricaoParametrosDataJob(parametros);
 
             JobControl jobControl = GerarJobControl("Relatório de Manutenção Diária", descricaoParametros);
             jobControl.PermiteCancelar = true;

@@ -164,12 +164,7 @@ namespace DAL.SQL
                             , LoginBloqueioEdicaoPnlRh
                             , DataConclusaoFluxoPnlRh
                             , LoginConclusaoFluxoPnlRh
-                            , horaExtraInterjornada
-                            , horasTrabalhadasDentroFeriadoDiurna
-                            , horasTrabalhadasDentroFeriadoNoturna
-                            , horasPrevistasDentroFeriadoDiurna
-                            , horasPrevistasDentroFeriadoNoturna
-                            )
+                            , horaExtraInterjornada)
 							VALUES
 							(@idfuncionario, @codigo, @dscodigo, @legenda, @data, @dia
                             , case when @entrada_1 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @entrada_1 )) end
@@ -255,12 +250,7 @@ namespace DAL.SQL
                             , @LoginBloqueioEdicaoPnlRh
                             , @DataConclusaoFluxoPnlRh
                             , @LoginConclusaoFluxoPnlRh) 
-                            , case when @horaExtraInterjornada = '--:--' then null else convert(varchar,  @horaExtraInterjornada 
-                            , @horasTrabalhadasDentroFeriadoDiurna
-                            , @horasTrabalhadasDentroFeriadoNoturna
-                            , @horasPrevistasDentroFeriadoDiurna
-                            , @horasPrevistasDentroFeriadoNoturna
-                        ) end
+                            , case when @horaExtraInterjornada = '--:--' then null else convert(varchar,  @horaExtraInterjornada ) end
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE marcacao SET idfuncionario = @idfuncionario
@@ -353,10 +343,6 @@ namespace DAL.SQL
                             , DataConclusaoFluxoPnlRh = @DataConclusaoFluxoPnlRh
                             , LoginConclusaoFluxoPnlRh = @LoginConclusaoFluxoPnlRh
                             , horaExtraInterjornada = case when @horaExtraInterjornada = '--:--' then null else convert(varchar,  @horaExtraInterjornada ) end
-                            , horasTrabalhadasDentroFeriadoDiurna = @horasTrabalhadasDentroFeriadoDiurna
-                            , horasTrabalhadasDentroFeriadoNoturna = @horasTrabalhadasDentroFeriadoNoturna
-                            , horasPrevistasDentroFeriadoDiurna = @horasPrevistasDentroFeriadoDiurna
-                            , horasPrevistasDentroFeriadoNoturna = @horasPrevistasDentroFeriadoNoturna
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM marcacao WHERE id = @id";
@@ -491,10 +477,6 @@ namespace DAL.SQL
             ((Modelo.Marcacao)obj).DataConclusaoFluxoPnlRh = (dr["DataConclusaoFluxoPnlRh"]) is DBNull ? (DateTime?)null : Convert.ToDateTime(dr["DataConclusaoFluxoPnlRh"]);
             ((Modelo.Marcacao)obj).LoginConclusaoFluxoPnlRh = (dr["LoginConclusaoFluxoPnlRh"]) is DBNull ? null : Convert.ToString(dr["LoginConclusaoFluxoPnlRh"]);
             ((Modelo.Marcacao)obj).horaExtraInterjornada = Convert.ToString(dr["horaExtraInterjornada"]);
-            ((Modelo.Marcacao)obj).HorasTrabalhadasDentroFeriadoDiurna = Convert.ToString(dr["horasTrabalhadasDentroFeriadoDiurna"]);
-            ((Modelo.Marcacao)obj).HorasTrabalhadasDentroFeriadoNoturna = Convert.ToString(dr["HorasTrabalhadasDentroFeriadoNoturna"]);
-            ((Modelo.Marcacao)obj).HorasPrevistasDentroFeriadoDiurna = Convert.ToString(dr["horasPrevistasDentroFeriadoDiurna"]);
-            ((Modelo.Marcacao)obj).HorasPrevistasDentroFeriadoNoturna = Convert.ToString(dr["horasPrevistasDentroFeriadoNoturna"]);
             if (ColunaExiste("Tratamento_Ent_1", dr))
             {
                 ((Modelo.Marcacao)obj).Tratamento_Ent_1 = (dr["Tratamento_Ent_1"]) is DBNull ? "--" : Convert.ToString(dr["Tratamento_Ent_1"]);
@@ -613,11 +595,7 @@ namespace DAL.SQL
                 new SqlParameter ("@LoginBloqueioEdicaoPnlRh", SqlDbType.VarChar),
                 new SqlParameter ("@DataConclusaoFluxoPnlRh", SqlDbType.DateTime),
                 new SqlParameter ("@LoginConclusaoFluxoPnlRh", SqlDbType.DateTime),
-                new SqlParameter ("@horaExtraInterjornada", SqlDbType.VarChar),
-                new SqlParameter ("@horasTrabalhadasDentroFeriadoDiurna", SqlDbType.VarChar),
-                new SqlParameter ("@horasTrabalhadasDentroFeriadoNoturna", SqlDbType.VarChar),
-                new SqlParameter ("@horasPrevistasDentroFeriadoDiurna", SqlDbType.VarChar),
-                new SqlParameter ("@horasPrevistasDentroFeriadoNoturna", SqlDbType.VarChar)
+                new SqlParameter ("@horaExtraInterjornada", SqlDbType.VarChar)
             };
             return parms;
         }
@@ -735,10 +713,6 @@ namespace DAL.SQL
             parms[91].Value = ((Modelo.Marcacao)obj).DataConclusaoFluxoPnlRh;
             parms[92].Value = ((Modelo.Marcacao)obj).LoginConclusaoFluxoPnlRh;
             parms[93].Value = ((Modelo.Marcacao)obj).horaExtraInterjornada;
-            parms[94].Value = ((Modelo.Marcacao)obj).HorasTrabalhadasDentroFeriadoDiurna;
-            parms[95].Value = ((Modelo.Marcacao)obj).HorasTrabalhadasDentroFeriadoNoturna;
-            parms[96].Value = ((Modelo.Marcacao)obj).HorasPrevistasDentroFeriadoDiurna;
-            parms[97].Value = ((Modelo.Marcacao)obj).HorasPrevistasDentroFeriadoNoturna;
         }
 
         public Modelo.Marcacao LoadObject(int id)
@@ -1046,11 +1020,7 @@ namespace DAL.SQL
                     new DataColumn ("LoginBloqueioEdicaoPnlRh", typeof(string)),
                     new DataColumn ("DataConclusaoFluxoPnlRh", typeof(DateTime)),
                     new DataColumn ("LoginConclusaoFluxoPnlRh", typeof(string)),
-                    new DataColumn ("horaExtraInterjornada", typeof(string)),
-                    new DataColumn ("horasTrabalhadasDentroFeriadoDiurna", typeof(string)),
-                    new DataColumn ("horasTrabalhadasDentroFeriadoNoturna", typeof(string)),
-                    new DataColumn ("horasPrevistasDentroFeriadoDiurna", typeof(string)),
-                    new DataColumn ("horasPrevistasDentroFeriadoNoturna", typeof(string))
+                    new DataColumn ("horaExtraInterjornada", typeof(string))
                 };
                 DataTable dt = new DataTable();
                 dt.Columns.AddRange(colunas);
@@ -1163,10 +1133,6 @@ namespace DAL.SQL
                         row["DataConclusaoFluxoPnlRh"] = marc.DataConclusaoFluxoPnlRh == null ? DBNull.Value : (object)marc.DataConclusaoFluxoPnlRh;
                         row["LoginConclusaoFluxoPnlRh"] = marc.LoginConclusaoFluxoPnlRh == null ? DBNull.Value : (object)marc.LoginConclusaoFluxoPnlRh;
                         row["horaExtraInterjornada"] = marc.horaExtraInterjornada;
-                        row["horasTrabalhadasDentroFeriadoDiurna"] = marc.HorasTrabalhadasDentroFeriadoDiurna;
-                        row["horasTrabalhadasDentroFeriadoNoturna"] = marc.HorasTrabalhadasDentroFeriadoNoturna;
-                        row["horasPrevistasDentroFeriadoDiurna"] = marc.HorasPrevistasDentroFeriadoDiurna;
-                        row["horasPrevistasDentroFeriadoNoturna"] = marc.HorasPrevistasDentroFeriadoNoturna;
                         dt.Rows.Add(row);
                     }
                     catch (Exception e)
@@ -1290,10 +1256,6 @@ namespace DAL.SQL
                         bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("DataConclusaoFluxoPnlRh", "DataConclusaoFluxoPnlRh"));
                         bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("LoginConclusaoFluxoPnlRh", "LoginConclusaoFluxoPnlRh"));
                         bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("horaExtraInterjornada", "horaExtraInterjornada"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("horasTrabalhadasDentroFeriadoDiurna", "horasTrabalhadasDentroFeriadoDiurna"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("horasTrabalhadasDentroFeriadoNoturna", "horasTrabalhadasDentroFeriadoNoturna"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("horasPrevistasDentroFeriadoDiurna", "horasPrevistasDentroFeriadoDiurna"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("horasPrevistasDentroFeriadoNoturna", "horasPrevistasDentroFeriadoNoturna"));
                         bulkCopy.BatchSize = 5000;
                         bulkCopy.DestinationTableName = "#marcacaoI";
 
@@ -1393,11 +1355,7 @@ namespace DAL.SQL
                   LoginBloqueioEdicaoPnlRh,
                   DataConclusaoFluxoPnlRh,
                   LoginConclusaoFluxoPnlRh,
-				  horaExtraInterjornada,
-                  horasTrabalhadasDentroFeriadoDiurna,
-                  horasTrabalhadasDentroFeriadoNoturna,
-                  horasPrevistasDentroFeriadoDiurna,
-                  horasPrevistasDentroFeriadoNoturna
+				  horaExtraInterjornada
                 )
                 SELECT  idfuncionario ,
                         codigo ,
@@ -1560,11 +1518,7 @@ namespace DAL.SQL
                         LoginBloqueioEdicaoPnlRh,
                         DataConclusaoFluxoPnlRh,
                         LoginConclusaoFluxoPnlRh,
-						horaExtraInterjornada,
-                        horasTrabalhadasDentroFeriadoDiurna,
-                        horasTrabalhadasDentroFeriadoNoturna,
-                        horasPrevistasDentroFeriadoDiurna,
-                        horasPrevistasDentroFeriadoNoturna
+						horaExtraInterjornada
 						from #marcacaoI ";
 
                     cmd = new SqlCommand(sqlTransfer, conn, trans);
@@ -1714,11 +1668,7 @@ namespace DAL.SQL
                 new DataColumn ("LoginBloqueioEdicaoPnlRh", typeof(string)),
                 new DataColumn ("DataConclusaoFluxoPnlRh", typeof(DateTime)),
                 new DataColumn ("LoginConclusaoFluxoPnlRh", typeof(string)),
-                new DataColumn () { ColumnName = "horaExtraInterjornada", DataType = typeof(string), MaxLength = 5},
-                new DataColumn () { ColumnName = "horasTrabalhadasDentroFeriadoDiurna", DataType = typeof(string), MaxLength = 5},
-                new DataColumn () { ColumnName = "horasTrabalhadasDentroFeriadoNoturna", DataType = typeof(string), MaxLength = 5},
-                new DataColumn () { ColumnName = "horasPrevistasDentroFeriadoDiurna", DataType = typeof(string), MaxLength = 5},
-                new DataColumn () { ColumnName = "horasPrevistasDentroFeriadoNoturna", DataType = typeof(string), MaxLength = 5}
+                new DataColumn () { ColumnName = "horaExtraInterjornada", DataType = typeof(string), MaxLength = 5}
             };
                 dt.Columns.AddRange(colunas);
                 #endregion
@@ -1831,10 +1781,6 @@ namespace DAL.SQL
                         row["DataConclusaoFluxoPnlRh"] = marc.DataConclusaoFluxoPnlRh == null ? DBNull.Value : (object)marc.DataConclusaoFluxoPnlRh;
                         row["LoginConclusaoFluxoPnlRh"] = marc.LoginConclusaoFluxoPnlRh == null ? DBNull.Value : (object)marc.LoginConclusaoFluxoPnlRh;
                         row["horaExtraInterjornada"] = marc.horaExtraInterjornada;
-                        row["horasTrabalhadasDentroFeriadoDiurna"] = marc.HorasTrabalhadasDentroFeriadoDiurna;
-                        row["horasTrabalhadasDentroFeriadoNoturna"] = marc.HorasTrabalhadasDentroFeriadoNoturna;
-                        row["horasPrevistasDentroFeriadoDiurna"] = marc.HorasPrevistasDentroFeriadoDiurna;
-                        row["horasPrevistasDentroFeriadoNoturna"] = marc.HorasPrevistasDentroFeriadoNoturna;
                         dt.Rows.Add(row);
                     }
                     catch (Exception e)
@@ -1971,11 +1917,7 @@ namespace DAL.SQL
                 new DataColumn ("LoginBloqueioEdicaoPnlRh", typeof(string)),
                 new DataColumn ("DataConclusaoFluxoPnlRh", typeof(DateTime)),
                 new DataColumn ("LoginConclusaoFluxoPnlRh", typeof(string)),
-                new DataColumn ("horaExtraInterjornada", typeof(string)),
-                new DataColumn ("horasTrabalhadasDentroFeriadoDiurna", typeof(string)),
-                new DataColumn ("horasTrabalhadasDentroFeriadoNoturna", typeof(string)),
-                new DataColumn ("horasPrevistasDentroFeriadoDiurna", typeof(string)),
-                new DataColumn ("horasPrevistasDentroFeriadoNoturna", typeof(string))
+                new DataColumn ("horaExtraInterjornada", typeof(string))
             };
                 dt.Columns.AddRange(colunas);
                 #endregion
@@ -2086,10 +2028,6 @@ namespace DAL.SQL
                     row["DataConclusaoFluxoPnlRh"] = marc.DataConclusaoFluxoPnlRh == null ? DBNull.Value : (object)marc.DataConclusaoFluxoPnlRh;
                     row["LoginConclusaoFluxoPnlRh"] = marc.LoginConclusaoFluxoPnlRh == null ? DBNull.Value : (object)marc.LoginConclusaoFluxoPnlRh;
                     row["horaExtraInterjornada"] = marc.horaExtraInterjornada;
-                    row["horasTrabalhadasDentroFeriadoDiurna"] = marc.HorasTrabalhadasDentroFeriadoDiurna;
-                    row["horasTrabalhadasDentroFeriadoNoturna"] = marc.HorasTrabalhadasDentroFeriadoNoturna;
-                    row["horasPrevistasDentroFeriadoDiurna"] = marc.HorasPrevistasDentroFeriadoDiurna;
-                    row["horasPrevistasDentroFeriadoNoturna"] = marc.HorasPrevistasDentroFeriadoNoturna;
                     dt.Rows.Add(row);
                 }
                 #endregion
@@ -4913,29 +4851,6 @@ WHERE
             dr.Dispose();
 
             return lastDate;
-        }
-
-        public DataTable GetDataUltimaMarcacaoFuncionario(List<int> idsFuncionarios)
-        {
-            SqlParameter[] parms = new SqlParameter[1]
-            {
-                    new SqlParameter("@Identificadores", SqlDbType.Structured)
-            };
-            parms[0].Value = CreateDataTableIdentificadores(idsFuncionarios.Select(s => (long)s).ToList());
-            parms[0].TypeName = "Identificadores";
-
-            string sql = @" SELECT idfuncionario, max(data) data 
-                              FROM dbo.marcacao m
-                             INNER JOIN @Identificadores F ON m.idfuncionario = f.Identificador
-                             GROUP BY idfuncionario  ";
-            DataTable dt = new DataTable();
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
-            dt.Load(dr);
-            if (!dr.IsClosed)
-                dr.Close();
-            dr.Dispose();
-
-            return dt;
         }
 
         public bool SetarDocumentoWorkFlow(int idMarcacao)

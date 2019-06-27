@@ -495,26 +495,6 @@
     function addRow(idfuncionario) {
         var senha = $('#txtSenha').val();
         var cracha = Number($('#lkpHistorioRFID').val());
-        var rd = $("input[name=rdioTipo]:checked").val();
-        if (rd == 0) {
-            if (($('#lkpHistorioRFID').val().length) > 8)
-            {
-                $('#vsRfid').removeClass('field-validation-valid');
-                $('#vsRfid').addClass('field-validation-error');
-                $('#vsRfid').html('(RFID) Tamnaho maximo 8 caracteres');
-                return false;
-            }
-        }
-        else if (rd == 1) {
-            if (($('#lkpHistorioRFID').val().length) < 10)
-            {    
-                $('#vsRfid').removeClass('field-validation-valid');
-                $('#vsRfid').addClass('field-validation-error');
-                $('#vsRfid').html('(MIFARE) Tamnaho minimo 10 caracteres');
-                return false;
-            }
-       
-        }
         if ((cracha === '' || cracha === 0) || ($("input[name=rdioTipo]:checked").val() != '0' && $("input[name=rdioTipo]:checked").val() != '1')) {
             //if (senha === '') {
             //    $('#txtSenha').addClass('input-validation-error');

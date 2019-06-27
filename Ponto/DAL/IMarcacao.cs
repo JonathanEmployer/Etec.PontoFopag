@@ -95,7 +95,5 @@ namespace DAL
         DataTable ConclusoesBloqueioPnlRh(string idsFuncionarios, DateTime dataInicial, DateTime dataFinal, int tipoFiltro);
 
         void ManipulaDocumentoWorkFlowPnlRH(int idMarcacao, int idDocumentoWorkflow, bool documentoWorkflowAberto);
-
-        DataTable GetDataUltimaMarcacaoFuncionario(List<int> idsFuncionarios);
     }
 }

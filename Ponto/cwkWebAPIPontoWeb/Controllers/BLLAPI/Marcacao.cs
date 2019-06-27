@@ -1,8 +1,5 @@
 ﻿using cwkWebAPIPontoWeb.Utils;
-using Hangfire;
-using Hangfire.States;
 using Modelo;
-using Modelo.Proxy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -91,51 +88,6 @@ namespace cwkWebAPIPontoWeb.Controllers.BLLAPI
             {
                 throw ex;
             }
-        }
-
-        /// <summary>
-        /// Calcula Funcionários por períodos distintos em Thred
-        /// </summary>
-        /// <param name="funcsRecalculo">Lista dos funcionários com as datas</param>
-        /// <param name="user">usuário logado</param>
-        /// <param name="conexao">connection string</param>
-        /// <param name="pb">Obj progress, pode ser informado nulo</param>
-        public static void ThreadRecalculaMarcacaoFuncionariosPeriodo(List<PxyFuncionariosRecalcular> funcsRecalculo, Modelo.Cw_Usuario user, string conexao, Modelo.ProgressBar pb)
-        {
-            Thread m;
-            Action met = () => BLL_N.JobManager.CalculoMarcacoes.Recalcular(funcsRecalculo, user, conexao, pb);
-            m = new Thread(new ThreadStart(met));
-            m.Start();
-        }
-
-        public static void FilaRecalculaMarcacaoFuncionariosPeriodo(List<PxyFuncionariosRecalcular> funcsRecalculo, Modelo.Cw_Usuario user, string conexao, Modelo.ProgressBar pb)
-        {
-            var client = new BackgroundJobClient();
-            #if DEBUG
-                    EnqueuedState state = new EnqueuedState(BLL.cwkFuncoes.RemoveAcentosECaracteresEspeciais(Environment.MachineName.ToLower()));
-            #else
-                   EnqueuedState state = new EnqueuedState("normal");
-            #endif
-            var jobId = client.Create(() => BLL_N.JobManager.CalculoMarcacoes.Recalcular(funcsRecalculo, user, conexao, pb), state);
-        }
-
-        public static void RecalcularAfastamento(Afastamento afastamento, UsuarioPontoWeb user)
-        {
-            var funcsCalcular = new List<PxyFuncionariosRecalcular>();
-            DateTime dtIni = afastamento.Datai.GetValueOrDefault();
-            if (afastamento.Datai_Ant < afastamento.Datai && afastamento.Datai_Ant != null)
-            {
-                dtIni = afastamento.Datai_Ant.GetValueOrDefault();
-            }
-
-            DateTime? dtFim = afastamento.Dataf.GetValueOrDefault();
-            if ((afastamento.Dataf_Ant > afastamento.Dataf && afastamento.Dataf_Ant != null) || (afastamento.Datai_Ant != null && afastamento.Dataf_Ant == null))
-            {
-                dtFim = afastamento.Dataf_Ant;
-            }
-
-            funcsCalcular.Add(new PxyFuncionariosRecalcular() { IdFuncionario = afastamento.IdFuncionario, DataInicio = dtIni, DataFim = dtFim });
-            BLLAPI.Marcacao.FilaRecalculaMarcacaoFuncionariosPeriodo(funcsCalcular, user, user.ConnectionString, new ProgressBar());
         }
     }
 }

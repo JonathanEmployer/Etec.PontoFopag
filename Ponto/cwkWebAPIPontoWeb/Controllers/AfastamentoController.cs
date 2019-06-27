@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace cwkWebAPIPontoWeb.Controllers
 {
@@ -14,7 +15,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// <summary>
     /// Métodos Referentes ao Cadastro de Afastamento
     /// </summary>
-    public class AfastamentoController : ExtendedApiController
+    public class AfastamentoController : ApiController
     {
         /// <summary>
         /// Cadastrar/Alterar Afastamento.
@@ -26,13 +27,14 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Cadastrar(Models.Afastamento Afastamento)
         {
             RetornoErro retErro = new RetornoErro();
-            BLL.Afastamento bllAfastamento = new BLL.Afastamento(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
-            BLL.Marcacao bllMarcacao = new BLL.Marcacao(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+            string connectionStr = MetodosAuxiliares.Conexao();
+            BLL.Afastamento bllAfastamento = new BLL.Afastamento(connectionStr);
+            BLL.Marcacao bllMarcacao = new BLL.Marcacao(connectionStr);
 
             if (ModelState.IsValid)
             {
                 int? idFuncionario, idOcorrencia;
-                ValidaDados(Afastamento, usuarioPontoWeb.ConnectionString, out idFuncionario, out idOcorrencia);
+                ValidaDados(Afastamento, connectionStr, out idFuncionario, out idOcorrencia);
 
                 if (ModelState.IsValid)
                 {
@@ -104,11 +106,9 @@ namespace cwkWebAPIPontoWeb.Controllers
                             if (erros.Count > 0)
                             {
                                 TrataErros(erros);
-                                TrataErroModelState(new RetornoErro());
                             }
                             else
                             {
-                                BLLAPI.Marcacao.RecalcularAfastamento(DadosAntAfastamento, usuarioPontoWeb);
                                 return Request.CreateResponse(HttpStatusCode.OK, Afastamento);
                             }
                         }
@@ -170,11 +170,9 @@ namespace cwkWebAPIPontoWeb.Controllers
                             if (erros.Count > 0)
                             {
                                 TrataErros(erros);
-                                TrataErroModelState(new RetornoErro());
                             }
                             else
                             {
-                                BLLAPI.Marcacao.RecalcularAfastamento(DadosAntAfastamento, usuarioPontoWeb);
                                 return Request.CreateResponse(HttpStatusCode.OK, Afastamento);
                             }
                         }
@@ -188,6 +186,7 @@ namespace cwkWebAPIPontoWeb.Controllers
             }
             return TrataErroModelState(retErro);
         }
+
 
         private void ValidaDados(Models.Afastamento Afastamento, string connectionStr, out int? idFuncionario, out int? idOcorrencia)
         {
@@ -220,18 +219,13 @@ namespace cwkWebAPIPontoWeb.Controllers
             }
         }
 
-        /// <summary>
-        /// Método para excluir afastamento
-        /// </summary>
-        /// <param name="id">Identificador</param>
-        /// <param name="tipo">0 - Identificador será id do integrador; 1 - Identificador será id do regisgtro; 2 - Identificador será o id da marcação</param>
-        /// <returns></returns>
         [HttpDelete]
         [TratamentoDeErro]
         public HttpResponseMessage Excluir(string id, int tipo)
         {
             RetornoErro retErro = new RetornoErro();
-            BLL.Afastamento bllAfastamento = new BLL.Afastamento(usuarioPontoWeb.ConnectionString);
+            string connectionStr = MetodosAuxiliares.Conexao();
+            BLL.Afastamento bllAfastamento = new BLL.Afastamento(connectionStr);
             try
             {
                 if (ModelState.IsValid)
@@ -240,14 +234,11 @@ namespace cwkWebAPIPontoWeb.Controllers
 
                     if (idAfastamento != null && idAfastamento > 0)
                     {
-                        Modelo.Afastamento afastamento = new Afastamento();
-                        Dictionary<string, string> erros = ExecutaAfastamento(idAfastamento, out afastamento);
+                        Dictionary<string, string> erros = ExecutaAfastamento(idAfastamento);
                         if (erros.Count > 0)
                         {
                             TrataErros(erros);
-                            TrataErroModelState(new RetornoErro());
                         }
-                        BLLAPI.Marcacao.RecalcularAfastamento(afastamento, usuarioPontoWeb);
                         return Request.CreateResponse(HttpStatusCode.OK);
                     }
                     else
@@ -292,13 +283,12 @@ namespace cwkWebAPIPontoWeb.Controllers
             return idAfastamento;
         }
 
-        public Dictionary<string, string> ExecutaAfastamento(int? idAfastamento, out Modelo.Afastamento afastamento)
+        public Dictionary<string, string> ExecutaAfastamento(int? idAfastamento)
         {
             BLL.Afastamento bllAfastamento = new BLL.Afastamento(MetodosAuxiliares.Conexao());
             Dictionary<string, string> erros = new Dictionary<string, string>();
-            afastamento = bllAfastamento.LoadObject(idAfastamento.GetValueOrDefault());
+            Modelo.Afastamento afastamento = bllAfastamento.LoadObject(idAfastamento.GetValueOrDefault());
             PreencheDadosAnt(afastamento);
-
             return bllAfastamento.Salvar(Acao.Excluir, afastamento);
         }
 

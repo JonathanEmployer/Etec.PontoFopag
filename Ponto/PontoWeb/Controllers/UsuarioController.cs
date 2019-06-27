@@ -568,7 +568,7 @@ namespace PontoWeb.Controllers
             //Se o projeto estiver em Debug faz o login automático
 #if DEBUG
              String con = System.Configuration.ConfigurationManager.ConnectionStrings["ConnCentralCliente"].ConnectionString;
-            if (con.ToUpper().Contains(@"\PRD"))
+            if (con.Contains(@"\PRD"))
             {
                 user.login = "comercial";
                 user.Password = "comercialpfp";
@@ -580,7 +580,8 @@ namespace PontoWeb.Controllers
             }
             else if (con.Contains(@"\DEV"))
             {
-                return View(user);
+                user.login = "devemployer";
+                user.Password = "pfpdev";
             }
             else if (con.Contains(@"Data Source=localhost"))
             {

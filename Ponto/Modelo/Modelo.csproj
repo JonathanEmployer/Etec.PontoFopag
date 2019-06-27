@@ -280,7 +280,6 @@
     <Compile Include="Enumeradores.cs" />
     <Compile Include="BloqueioFuncionario.cs" />
     <Compile Include="ManutencaoBiometrica.cs" />
-    <Compile Include="Proxy\PxyFuncionariosRecalcular.cs" />
     <Compile Include="Proxy\pxyManutencaoBiometricaFuncionarioGrid.cs" />
     <Compile Include="TipoBiometria.cs" />
     <Compile Include="FuncionarioRFID.cs" />

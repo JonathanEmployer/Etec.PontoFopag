@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BLL_N.JobManager.Hangfire;
 using Microsoft.Owin;
 using Owin;
 
@@ -14,13 +13,6 @@ namespace cwkWebAPIPontoWeb
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-            ConfigureHangfire();
-        }
-
-        private static void ConfigureHangfire()
-        {
-            HangfireConfig hangConfig = new HangfireConfig();
-            hangConfig.ConfigureHangfireClient();
         }
     }
 }

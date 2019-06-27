@@ -19,7 +19,7 @@ namespace BLL.Relatorios.V2
 			RelatorioPadraoModel parms = ((RelatorioPadraoModel)_relatorioFiltro);
 			((RelatorioPadraoModel)_relatorioFiltro).NomeArquivo = "Relatório_de _Registros" + parms.InicioPeriodo.ToString("ddMMyyyy") + "_" + parms.FimPeriodo.ToString("ddMMyyyy");
 		}
-          
+
         protected override string GetRelatorioExcel()
 		{
 			BLL.Marcacao bllMarcacao = new BLL.Marcacao(_usuario.ConnectionString, _usuario);
@@ -204,10 +204,10 @@ namespace BLL.Relatorios.V2
 			Arquivo = GerarExcel.GerarExcel.Gerar(colunasExcel, dtRelatorio);
 			string nomear = "Relatório_de _Registros" + parms.InicioPeriodo.ToString("ddMMyyyy") + "_" + parms.FimPeriodo.ToString("ddMMyyyy");
 			ParametrosReportExcel p = new ParametrosReportExcel() { NomeArquivo = nomear, TipoArquivo = Enumeradores.TipoArquivo.Excel, RenderedBytes = Arquivo };
-            string caminho = base.GerarArquivoExcel(p);
+			string caminho = base.GerarArquivoExcel(p);
 			return caminho;
 		}
-        
+
         protected override string GetRelatorioHTML()
         {
             throw new NotImplementedException();

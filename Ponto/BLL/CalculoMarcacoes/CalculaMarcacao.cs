@@ -107,7 +107,7 @@ namespace BLL
 
         private int tipoHorario, diaSemanaDsr
         , entrada_1MinHD, entrada_2MinHD, entrada_3MinHD, entrada_4MinHD
-        , saida_1MinHD, saida_2MinHD, saida_3MinHD, saida_4MinHD, limite_max, limite_min, ordenabilhetesaida, horasTrabalhadasDentroFeriadoParcialDiurna, horasTrabalhadasDentroFeriadoParcialNoturna, horasPrevistasDentroFeriadoParcialDiurna, horasPrevistasDentroFeriadoParcialNoturna;
+        , saida_1MinHD, saida_2MinHD, saida_3MinHD, saida_4MinHD, limite_max, limite_min, ordenabilhetesaida, horasTrabalhadasDentroFeriadoParcialDiurna, horasTrabalhadasDentroFeriadoParcialNoturna;
 
         private int? totalTrabalhadaDiurnaMin, totalTrabalhadaNoturnaMin, cargaHorariaMistaMin;
 
@@ -546,6 +546,7 @@ namespace BLL
             horasExtraDiurnaFeriadoMin = 0;
             horasExtraNoturnaFeriadoMin = 0;
             feriadoProximoDia = false;
+
             //Se estiver calculando e algum dos tratamentos estiver com o campo importado = 2, mudo ele para 1
             tratamentosMarcacao.Where(w => w.Importado == 2).ToList().ForEach(f => f.Importado = 1);
             //Guarda dados anterior
@@ -555,7 +556,7 @@ namespace BLL
 
             legenda = BuscaLegenda();
             LegendasConcatenadas = BuscaLegendaConcatenada();
-            CalculaHorasPrevistasDentroFeriado();
+
             //Não executa calculo de horas para dia compensado
             if (idCompensado != 0)
             {
@@ -646,7 +647,7 @@ namespace BLL
                 consideraAdHTrabalhadas = Convert.ToInt16(objJornadaAlternativa.CalculoAdicionalNoturno);
                 conversaoHoranoturna = Convert.ToInt16(objJornadaAlternativa.ConversaoHoraNoturna);
             }
-            else
+			else
             {
                 horarioD = Modelo.cwkFuncoes.ConvertHorasMinuto(totalTrabalhadaDiurna);
                 horarioN = Modelo.cwkFuncoes.ConvertHorasMinuto(totalTrabalhadaNoturna);
@@ -785,7 +786,7 @@ namespace BLL
             horaExtraInterjornada = CalculaHoraExtraInterjornada(tratamentosDia, tratamentosDiaAnterior, horasExtrasDiurnaMin + horasExtraNoturnaMin); //Para setar no dia seguinte
 
             if (VerificaAlteracaoMarcao(pMarcacao, objMarcacaoAnt))
-            {
+            {    
                 objMarcacao.Acao = Modelo.Acao.Alterar;
                 pMarcacoes.Add(objMarcacao);
 
@@ -808,13 +809,6 @@ namespace BLL
                     }
                 }
             }
-        }
-
-        private void CalculaHorasPrevistasDentroFeriado()
-        {
-            int[] entrada = new int[4] { entrada_1MinHD, entrada_2MinHD, entrada_3MinHD, entrada_4MinHD };
-            int[] saida = new int[4] { saida_1MinHD, saida_2MinHD, saida_3MinHD, saida_4MinHD };
-            CalculaHorasTrabalhadasNoFeriado(entrada, saida, inicioAdNoturno, fimAdNoturno, feriadoParcialInicioMin, feriadoParcialFimMin, out horasPrevistasDentroFeriadoParcialDiurna, out horasPrevistasDentroFeriadoParcialNoturna);
         }
 
         private bool VerificaAlteracaoMarcao(DataRow pMarcacao, Modelo.Marcacao objMarcacaoAnt)
@@ -3006,6 +3000,7 @@ namespace BLL
             {
                 int[] entrada = new int[4] { entrada_1MinHD, entrada_2MinHD, entrada_3MinHD, entrada_4MinHD };
                 int[] saida = new int[4] { saida_1MinHD, saida_2MinHD, saida_3MinHD, saida_4MinHD };
+
                 RemoveRegistrosDentroFeriadoParcial(ref entrada, ref saida);
                 entrada_1MinHD = entrada[0];
                 entrada_2MinHD = entrada[1];
@@ -3030,7 +3025,7 @@ namespace BLL
 			if (marcaCargaHorariaMistaHD == null)
 				marcaCargaHorariaMistaHD = 0;
 
-            BLL.CalculoHoras.QtdHorasDiurnaNoturna(HoraEntrada, HoraSaida, inicioAdNoturno, fimAdNoturno, ref CargaHorariaD, ref CargaHorariaN);
+			BLL.CalculoHoras.QtdHorasDiurnaNoturna(HoraEntrada, HoraSaida, inicioAdNoturno, fimAdNoturno, ref CargaHorariaD, ref CargaHorariaN);
 			CargaHorariaM = CargaHorariaD + CargaHorariaN;
 			Marcacargahorariamista = marcaCargaHorariaMistaHD.Value; //CRNC - 09/01/2010   
 		}
@@ -4141,10 +4136,6 @@ namespace BLL
             obj.DataBloqueioEdicaoPnlRh = pMarcacao["DataBloqueioEdicaoPnlRh"] is DBNull ? (DateTime?)null : Convert.ToDateTime(pMarcacao["DataBloqueioEdicaoPnlRh"]);
             obj.LoginBloqueioEdicaoPnlRh = pMarcacao["LoginBloqueioEdicaoPnlRh"] is DBNull ? null : Convert.ToString(pMarcacao["LoginBloqueioEdicaoPnlRh"]);
             obj.horaExtraInterjornada = Convert.ToString(pMarcacao["horaExtraInterjornada"]);
-            obj.HorasTrabalhadasDentroFeriadoDiurna = Convert.ToString(pMarcacao["horasTrabalhadasDentroFeriadoDiurna"]);
-            obj.HorasTrabalhadasDentroFeriadoNoturna = Convert.ToString(pMarcacao["horasTrabalhadasDentroFeriadoNoturna"]);
-            obj.HorasPrevistasDentroFeriadoDiurna = Convert.ToString(pMarcacao["horasPrevistasDentroFeriadoDiurna"]);
-            obj.HorasPrevistasDentroFeriadoNoturna = Convert.ToString(pMarcacao["horasPrevistasDentroFeriadoNoturna"]);
             return obj;
         }
 
@@ -4244,10 +4235,6 @@ namespace BLL
             objMarcacao.DataBloqueioEdicaoPnlRh = pMarcacao["DataBloqueioEdicaoPnlRh"] is DBNull ? (DateTime?)null : Convert.ToDateTime(pMarcacao["DataBloqueioEdicaoPnlRh"]);
             objMarcacao.LoginBloqueioEdicaoPnlRh = pMarcacao["LoginBloqueioEdicaoPnlRh"] is DBNull ? null : Convert.ToString(pMarcacao["LoginBloqueioEdicaoPnlRh"]);
             objMarcacao.horaExtraInterjornada = horaExtraInterjornada;
-            objMarcacao.HorasTrabalhadasDentroFeriadoDiurna = Modelo.cwkFuncoes.ConvertMinutosHora(horasTrabalhadasDentroFeriadoParcialDiurna);
-            objMarcacao.HorasTrabalhadasDentroFeriadoNoturna = Modelo.cwkFuncoes.ConvertMinutosHora(horasTrabalhadasDentroFeriadoParcialNoturna);
-            objMarcacao.HorasPrevistasDentroFeriadoDiurna = Modelo.cwkFuncoes.ConvertMinutosHora(horasPrevistasDentroFeriadoParcialDiurna);
-            objMarcacao.HorasPrevistasDentroFeriadoNoturna = Modelo.cwkFuncoes.ConvertMinutosHora(horasPrevistasDentroFeriadoParcialNoturna);
         }
 
         private void SetaVariaveisMarcacao(DataRow pMarcacao)
@@ -4353,10 +4340,6 @@ namespace BLL
             DataBloqueioEdicaoPnlRh = pMarcacao["DataBloqueioEdicaoPnlRh"] is DBNull ? (DateTime?)null : Convert.ToDateTime(pMarcacao["DataBloqueioEdicaoPnlRh"]);
             LoginBloqueioEdicaoPnlRh = pMarcacao["LoginBloqueioEdicaoPnlRh"] is DBNull ? null : Convert.ToString(pMarcacao["LoginBloqueioEdicaoPnlRh"]);
             horaExtraInterjornada = Convert.ToString(pMarcacao["horaExtraInterjornada"]);
-            horasTrabalhadasDentroFeriadoParcialDiurna = Modelo.cwkFuncoes.ConvertHorasMinuto(Convert.ToString(pMarcacao["horasTrabalhadasDentroFeriadoDiurna"]));
-            horasTrabalhadasDentroFeriadoParcialNoturna = Modelo.cwkFuncoes.ConvertHorasMinuto(Convert.ToString(pMarcacao["horasTrabalhadasDentroFeriadoNoturna"]));
-            horasPrevistasDentroFeriadoParcialDiurna = Modelo.cwkFuncoes.ConvertHorasMinuto(Convert.ToString(pMarcacao["horasPrevistasDentroFeriadoDiurna"]));
-            horasPrevistasDentroFeriadoParcialNoturna = Modelo.cwkFuncoes.ConvertHorasMinuto(Convert.ToString(pMarcacao["horasPrevistasDentroFeriadoNoturna"]));
 
             legenda = Convert.ToString(pMarcacao["Legenda"]).Trim();
             bancoHorasCre = Convert.ToString(pMarcacao["Bancohorascre"]);
@@ -4841,7 +4824,7 @@ namespace BLL
                 CargaHorariaM = Modelo.cwkFuncoes.ConvertHorasMinuto(objJornadaAlternativa.TotalMista);
 
                 pMarcaCargaMista = objJornadaAlternativa.CargaMista;
-                CalculaHorasTrabalhadasNoFeriado(HoraEntrada, HoraSaida, inicioAdNoturno, fimAdNoturno, feriadoParcialInicioMin, feriadoParcialFimMin, out horasPrevistasDentroFeriadoParcialDiurna, out horasPrevistasDentroFeriadoParcialNoturna);
+
                 if (objJornadaAlternativa.CargaMista == 1)
                 {
                     BLL.CalculoHoras.QtdHorasDiurnaNoturna(HoraEntrada, HoraSaida, inicioAdNoturno, fimAdNoturno, ref CargaHorariaD, ref CargaHorariaN);

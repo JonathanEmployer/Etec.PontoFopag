@@ -436,10 +436,6 @@ namespace DAL.SQL
             comando.AppendLine(", marcacao.DataBloqueioEdicaoPnlRh");
             comando.AppendLine(", marcacao.LoginBloqueioEdicaoPnlRh");
             comando.AppendLine(", marcacao.horaExtraInterjornada");
-            comando.AppendLine(", marcacao.horasTrabalhadasDentroFeriadoDiurna");
-            comando.AppendLine(", marcacao.horasTrabalhadasDentroFeriadoNoturna");
-            comando.AppendLine(", marcacao.horasPrevistasDentroFeriadoDiurna");
-            comando.AppendLine(", marcacao.horasPrevistasDentroFeriadoNoturna");
             comando.AppendLine(", horario.DSRPorPercentual");
             comando.AppendLine(" FROM marcacao_view AS marcacao");
             comando.AppendLine(" INNER JOIN horario ON horario.id = marcacao.idhorario");
@@ -706,10 +702,6 @@ namespace DAL.SQL
                         ", marcacao.DataBloqueioEdicaoPnlRh " +
                         ", marcacao.LoginBloqueioEdicaoPnlRh " +
                         ", marcacao.horaExtraInterjornada " +
-                        ", marcacao.horasTrabalhadasDentroFeriadoDiurna " +
-                        ", marcacao.horasTrabalhadasDentroFeriadoNoturna " +
-                        ", marcacao.horasPrevistasDentroFeriadoDiurna " +
-                        ", marcacao.horasPrevistasDentroFeriadoNoturna " +
                         ", HorarioInItinere.MarcaDiaBool DiaPossuiInItinere " +
                         ", HorarioInItinere.PercentualDentroJornada PercentualDentroJornadaInItinere " +
                         ", HorarioInItinere.PercentualDentroFora PercentualForaJornadaInItinere " +
@@ -1072,10 +1064,6 @@ namespace DAL.SQL
                         ", feriado.HoraInicio AS FeriadoParcialInicio " +
                         ", feriado.HoraFim AS FeriadoParcialFim " +
                         ", marcacao.horaExtraInterjornada " +
-                        ", marcacao.horasTrabalhadasDentroFeriadoDiurna " +
-                        ", marcacao.horasTrabalhadasDentroFeriadoNoturna " +
-                        ", marcacao.horasPrevistasDentroFeriadoDiurna " +
-                        ", marcacao.horasPrevistasDentroFeriadoNoturna " +
                         ", horariodetalhe.id idHorarioDetalhe " +
                         ", horario.idhorariodinamico " +
                         ", parametros.MomentoPreAssinalado " +
@@ -1452,10 +1440,6 @@ namespace DAL.SQL
                         , feriado.HoraInicio AS FeriadoParcialInicio 
                         , feriado.HoraFim AS FeriadoParcialFim 
                         , marcacao.horaExtraInterjornada 
-                        , marcacao.horasTrabalhadasDentroFeriadoDiurna 
-                        , marcacao.horasTrabalhadasDentroFeriadoNoturna 
-                        , marcacao.horasPrevistasDentroFeriadoDiurna 
-                        , marcacao.horasPrevistasDentroFeriadoNoturna 
                         , horariodetalhe.id idHorarioDetalhe 
                         , horario.idhorariodinamico 
                         , parametros.MomentoPreAssinalado 

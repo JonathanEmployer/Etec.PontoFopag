@@ -67,18 +67,7 @@ namespace BLL.Relatorios.V2
         private DataTable GetDados(RelatorioManutencaoDiariaModel parms)
         {
             BLL.CartaoPonto bllCartaoPonto = new BLL.CartaoPonto(_usuario.ConnectionString, _usuario);
-            string empresas, departamentos;
-            if (parms.TipoSelecao == 0)
-            {
-                empresas = "(" + String.Join(",", parms.IdSelecionados.Split(',')) + ")";
-                departamentos = "";
-            }
-            else
-            {
-                empresas = "";
-                departamentos = "(" + String.Join(",", parms.IdSelecionados.Split(',')) + ")";
-            }
-            DataTable Dt = bllCartaoPonto.GetCartaoPontoDiariaWeb(parms.InicioPeriodo, parms.FimPeriodo, empresas, departamentos, parms.TipoSelecao, _progressBar);
+            DataTable Dt = bllCartaoPonto.GetCartaoPontoDiariaWeb(parms.InicioPeriodo, parms.FimPeriodo, "(" + String.Join(",", parms.IdSelecionados.Split(',')) + ")", "(" + String.Join(",", parms.IdSelecionados.Split(',')) + ")", parms.TipoSelecao, _progressBar);
             return Dt;
         }
     }

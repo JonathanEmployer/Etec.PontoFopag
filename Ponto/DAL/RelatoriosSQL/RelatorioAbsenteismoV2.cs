@@ -132,11 +132,7 @@ namespace DAL.RelatoriosSQL
 							                                CASE WHEN t.totalTrabalhadaMin > 0 THEN t.TotalHorasFaltasMin
 								                                    ELSE 0 END Atrasos,
 															TotalCreBHMin,
-															TotalDebBHMin,
-															FeriadoParcial,
-															FeriadoParcialInicio,
-															FeriadoParcialFim,
-															FeriadoID
+															TotalDebBHMin
 					                                    FROM (
 							                                SELECT  m.data,
 									                                f.nome NomeFuncionario,
@@ -149,12 +145,13 @@ namespace DAL.RelatoriosSQL
 									                                D.descricao Departamento,
 									                                fo.codigo CodigoFuncao,
 									                                fo.descricao Funcao,
-																	CASE WHEN ISNULL(abst.absenteismo, 1) = 1  and (feriado.id is null OR feriado.Parcial = 1) THEN
-																			IIF(ja.id IS NULL, 
-																				IIF(h.marcacargahorariamista = 0, dbo.FN_CONVHORA(hd.totaltrabalhadadiurna) + dbo.FN_CONVHORA(hd.totaltrabalhadanoturna), dbo.FN_CONVHORA(hd.cargahorariamista)),
-																				IIF(ja.cargamista = 0, dbo.FN_CONVHORA(ja.totaltrabalhadadiurna) + dbo.FN_CONVHORA(ja.totaltrabalhadanoturna), dbo.FN_CONVHORA(ja.totalmista))
-																				) - (dbo.FN_CONVHORA(m.horasPrevistasDentroFeriadoDiurna) + dbo.FN_CONVHORA(m.horasPrevistasDentroFeriadoNoturna)) 
-																		ELSE 0 end horasTrabalhadasPrevistasMin,
+																	IIF(ISNULL(abst.absenteismo, 1) = 1, 
+									                                    IIF(ja.id IS NULL, 
+										                                    IIF(h.marcacargahorariamista = 0, dbo.FN_CONVHORA(hd.totaltrabalhadadiurna) + dbo.FN_CONVHORA(hd.totaltrabalhadanoturna), dbo.FN_CONVHORA(hd.cargahorariamista)),
+										                                    IIF(ja.cargamista = 0, dbo.FN_CONVHORA(ja.totaltrabalhadadiurna) + dbo.FN_CONVHORA(ja.totaltrabalhadanoturna), dbo.FN_CONVHORA(ja.totalmista))
+									                                    ), 
+                                                                        0
+                                                                    ) horasTrabalhadasPrevistasMin,
 									                                dbo.FN_CONVHORA(m.horastrabalhadas) + dbo.FN_CONVHORA(m.horastrabalhadasnoturnas) trabalhadaMin,
 									                                dbo.FN_CONVHORA(m.totalHorasTrabalhadas) totalTrabalhadaMin,
 									                                dbo.FN_CONVHORA(m.horasextrasdiurna) + dbo.FN_CONVHORA(m.horasextranoturna) HorasExtrasMin,
@@ -164,15 +161,11 @@ namespace DAL.RelatoriosSQL
 									                                dbo.FN_CONVHORA(af.horai) + dbo.FN_CONVHORA(af.horaf) qtdAbonoParcial,
 									                                dbo.FN_CONVHORA(m.horasfaltas) + dbo.FN_CONVHORA(m.horasfaltanoturna) TotalHorasFaltasMin,
 																	dbo.FN_CONVHORA(m.bancohorascre) TotalCreBHMin,
-																	dbo.FN_CONVHORA(m.bancohorasdeb) TotalDebBHMin,
-																	feriado.Parcial AS FeriadoParcial,
-																	feriado.HoraInicio AS FeriadoParcialInicio,
-																	feriado.HoraFim AS FeriadoParcialFim,
-																	feriado.id as FeriadoID
+																	dbo.FN_CONVHORA(m.bancohorasdeb) TotalDebBHMin
 							                                    FROM dbo.funcionario AS f 
 							                                    INNER JOIN dbo.funcao AS fo ON fo.id = f.idfuncao
 							                                    INNER JOIN dbo.departamento AS D ON f.iddepartamento = D.id
-							                                    INNER JOIN dbo.marcacao_view m WITH ( NOLOCK ) ON m.idfuncionario = f.id AND m.data BETWEEN @datainicial AND @datafinal and m.data >= f.dataadmissao and (f.datademissao is null or m.data <= f.datademissao)
+							                                    INNER JOIN dbo.marcacao_view m WITH ( NOLOCK ) ON m.idfuncionario = f.id AND m.data BETWEEN @datainicial AND @datafinal and m.data >= f.dataadmissao and (f.datademissao is null or m.data <= f.datademissao) and m.data not in (select data from dbo.feriado)
 							                                    INNER JOIN dbo.horario H ON m.idhorario = H.id
 							                                    LEFT JOIN dbo.horariodetalhe hd ON hd.idhorario = m.idhorario 
 												                                AND ((h.tipohorario = 1 AND hd.dia = DATEPART(WEEKDAY, m.data)) OR
@@ -228,23 +221,6 @@ namespace DAL.RelatoriosSQL
 																	                                )
 												                                    )
 											                                ) ORDER BY af.inchora DESC) abst
-					                                    --Busca Feriado
-                                                     OUTER APPLY (SELECT TOP(1) * FROM feriado where h.desconsiderarferiado = 0
-                                                             AND feriado.data = m.data 
-                                                             AND ( feriado.tipoferiado = 0 
-                                                                 OR ( feriado.tipoferiado = 1 
-                                                                     AND feriado.idempresa = f.idempresa 
-                                                                     ) 
-                                                                 OR ( feriado.tipoferiado = 2 
-                                                                     AND feriado.iddepartamento = f.iddepartamento 
-                                                                     ) 
-                                                                 OR ( feriado.tipoferiado = 3 
-                                                                     AND EXISTS ( SELECT * 
-                                                                                     FROM   FeriadoFuncionario FFUNC 
-                                                                                     WHERE  feriado.id = FFUNC.idFeriado 
-                                                                                         AND FFUNC.idFuncionario = f.id ) 
-                                                                     ) 
-                                                                 )) feriado 
 
 							                                    WHERE f.id IN (SELECT * FROM dbo.F_ClausulaIn(@idsFuncionarios))
 						                                    ) t

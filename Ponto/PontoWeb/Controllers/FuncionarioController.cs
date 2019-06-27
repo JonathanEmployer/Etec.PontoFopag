@@ -207,31 +207,21 @@ namespace PontoWeb.Controllers
                 Funcionario funcionario = bllFuncionario.LoadObject(idfuncionario);
                 bllFuncionario.SetSenha(funcionario, Senha);
                 bllFuncionario.Salvar(Acao.Alterar, funcionario);
-                
+
                 Dictionary<string, string> erros = new Dictionary<string, string>();
-                if (((TipoCracha == 0) && (Cracha.Length <= 8)) || ((TipoCracha == 1) && (Cracha.Length >= 10)))
+                erros = bllFuncionarioRFID.Salvar(Acao.Incluir, new FuncionarioRFID
                 {
-                    erros = bllFuncionarioRFID.Salvar(Acao.Incluir, new FuncionarioRFID
-                    {
-                        IdFuncionario = idfuncionario,
-                        Codigo = bllFuncionarioRFID.MaxCodigo(),
-                        RFID = TipoCracha == 0 ? Convert.ToInt64(Cracha) : (long?)null,
-                        MIFARE = TipoCracha == 1 ? Cracha : string.Empty
-
-                    });
-
-                    if (erros.Count > 0)
-                    {
-                        string erro = string.Join(";", erros.Select(x => x.Key + "=" + x.Value).ToArray());
-                        return Json(new { Success = false, Erro = erro }, JsonRequestBehavior.AllowGet);
-                    }
-                }
-                else
+                    IdFuncionario = idfuncionario,
+                    Codigo = bllFuncionarioRFID.MaxCodigo(),
+                    RFID = TipoCracha == 0 ? Convert.ToInt64(Cracha) : (long?)null,
+                    MIFARE = TipoCracha == 1 ? Cracha : string.Empty
+                });
+                if (erros.Count > 0)
                 {
-                    return Json(new { Success = false, Erro = "Numero de caracteres era muito grande ou muito pequeno. Favor verificar." }, JsonRequestBehavior.AllowGet);         
+                    string erro = string.Join(";", erros.Select(x => x.Key + "=" + x.Value).ToArray());
+                    return Json(new { Success = false, Erro = erro }, JsonRequestBehavior.AllowGet);
                 }
                 return PartialFuncionarioRFID(bllFuncionario, idfuncionario, usr);
-               
             }
             catch (Exception ex)
             {

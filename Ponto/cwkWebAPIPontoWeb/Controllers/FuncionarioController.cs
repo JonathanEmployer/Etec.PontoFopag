@@ -487,7 +487,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage GetAllFuncs(Int16 ativo, Int16 excluido)
         {
             RetornoErro retErro = new RetornoErro();
-            BLL.Funcionario bllFunc = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+            BLL.Funcionario bllFunc = new BLL.Funcionario(UsuarioPontoWeb.ConnectionString, UsuarioPontoWeb);
             try
             {
                 DataTable dtFuncs = bllFunc.CarregarTodosParaAPI(ativo, excluido);
