@@ -995,6 +995,18 @@
             </param>
             <returns>Retorna Relatório ou dados para o relatório de acordo com o parâmetro.</returns>
         </member>
+        <member name="T:cwkWebAPIPontoWeb.Controllers.RelatorioAfastamentoController">
+            <summary>
+            Controller Responsável pelos dados do Relatório de Afastamento
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.RelatorioAfastamentoController.RelatorioAfastamento(cwkWebAPIPontoWeb.Models.RelatorioAfastamentoParam)">
+            <summary>
+            Método responsável por retornar os dados do Relatório Afastamentos
+            </summary>
+            <param name="parametros">Parâmetros do Relatório</param>
+            <returns></returns>
+        </member>
         <member name="M:cwkWebAPIPontoWeb.Controllers.RelatorioHorasTrabalhadasPorFuncionarioController.RelatorioHorasTrabalhadasPorFuncionario(cwkWebAPIPontoWeb.Models.GetHorasTrabalhadas)">
             <summary>
             Retorna o total de horas trabalhadas por dia por funcionário
@@ -1139,7 +1151,7 @@
         </member>
         <member name="P:cwkWebAPIPontoWeb.Models.ParametrosRelatorioBase.FimPeriodo">
             <summary>
-            Data Finalo do Período
+            Data final do período
             </summary>
         </member>
         <member name="P:cwkWebAPIPontoWeb.Models.ParametrosRelatorioBase.CPFsMatriculas">
@@ -1330,6 +1342,41 @@
         <member name="T:cwkWebAPIPontoWeb.Models.RelatorioOcorrenciasParam">
             <summary>
             Parâmetros de carga do relatório de ocorrencias.
+            </summary>
+        </member>
+        <member name="T:cwkWebAPIPontoWeb.Models.RelatorioAfastamentoParam">
+            <summary>
+            Parâmetros para retorno dos dados para relatório de afastamentos
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.RelatorioAfastamentoParam.Absenteismo">
+            <summary>
+            Considerar ou não afastamentos com parâmetro para relatório de absenteismo (0 - apenas o que não esta marcado, 1 - apenas o que esta marcado, 2 - Ambos)
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.RelatorioAfastamentoParam.ConsiderarAbonado">
+            <summary>
+            Considerar afastamentos do tipo abonado
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.RelatorioAfastamentoParam.considerarParcial">
+            <summary>
+            Considerar afastamentos do tipo parcial
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.RelatorioAfastamentoParam.considerarSemCalculo">
+            <summary>
+            Considerar afastamentos do tipo Sem Calculo
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.RelatorioAfastamentoParam.considerarSuspensao">
+            <summary>
+            Considerar afastamentos do tipo Suspensão
+            </summary>
+        </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.RelatorioAfastamentoParam.considerarSemAbono">
+            <summary>
+            Considerar afastamentos do tipo Sem Abono
             </summary>
         </member>
         <member name="T:cwkWebAPIPontoWeb.Models.RelatorioTratamentoDePontoParam">

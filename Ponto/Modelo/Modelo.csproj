@@ -280,7 +280,6 @@
     <Compile Include="Enumeradores.cs" />
     <Compile Include="BloqueioFuncionario.cs" />
     <Compile Include="ManutencaoBiometrica.cs" />
-    <Compile Include="Proxy\PxyFuncionariosRecalcular.cs" />
     <Compile Include="Proxy\pxyManutencaoBiometricaFuncionarioGrid.cs" />
     <Compile Include="TipoBiometria.cs" />
     <Compile Include="FuncionarioRFID.cs" />
@@ -324,6 +323,7 @@
     <Compile Include="Proxy\PxySaldoBancoHoras.cs" />
     <Compile Include="Proxy\pxyTransferirBilhetesContrato.cs" />
     <Compile Include="Proxy\Relatorios\PxyGridRelFechamentoPercentualHE.cs" />
+    <Compile Include="Proxy\Relatorios\PxyRelAfastamento.cs" />
     <Compile Include="Proxy\Relatorios\PxyRelatorioHorasInItinere.cs" />
     <Compile Include="Proxy\pxyHistoricoAlteracaoHorario.cs" />
     <Compile Include="Proxy\Relatorios\PxyRelatorioInconsistencias.cs" />
