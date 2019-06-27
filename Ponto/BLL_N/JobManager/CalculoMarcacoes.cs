@@ -155,6 +155,30 @@ namespace BLL_N.JobManager
             return dtMarcacoes;
         }
 
+        public static void Recalcular(List<PxyFuncionariosRecalcular> funcsRecalculo, Modelo.Cw_Usuario user, string conexao, Modelo.ProgressBar pb)
+        {
+            if (pb.incrementaPB == null)
+            {
+                pb.incrementaPB = new Modelo.IncrementaProgressBar(SetaValorProgressBar);
+                pb.setaMensagem = new Modelo.SetaMensagem(SetaMensagem);
+                pb.setaMinMaxPB = new Modelo.SetaMinMaxProgressBar(SetaMinMaxProgressBar);
+                pb.setaValorPB = new Modelo.SetaValorProgressBar(SetaValorProgressBar);
+            }
+
+            List<PxyFuncionariosRecalcular> FuncsSemDataFim = funcsRecalculo.Where(w => w.DataFim == null).ToList();
+            if (FuncsSemDataFim.Count > 0)
+            {
+                DAL.SQL.Marcacao dalMarcacao = new DAL.SQL.Marcacao(new DataBase(conexao));
+                DataTable dt = dalMarcacao.GetDataUltimaMarcacaoFuncionario(funcsRecalculo.Select(s => s.IdFuncionario).ToList());
+                dt.AsEnumerable().ToList().ForEach(f => FuncsSemDataFim.Where(w => w.IdFuncionario == f.Field<int>("idfuncionario")).ToList().ForEach(fi => fi.DataFim = f.Field<DateTime>("data")));
+            }
+
+            foreach (var grupo in funcsRecalculo.Where( w=> w.DataFim != null && w.DataInicio <= w.DataFim).GroupBy(g => new { g.DataInicio, g.DataFim }))
+            {
+                CalculaMarcacoes(grupo.Select(s => s.IdFuncionario).ToList(), grupo.Key.DataInicio, grupo.Key.DataFim.GetValueOrDefault(), conexao, user, pb);
+            }
+        }
+
         #region Métodos para progress
         private static void SetaValorProgressBar(int valor)
         {

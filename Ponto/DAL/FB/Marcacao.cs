@@ -2524,5 +2524,10 @@ namespace DAL.FB
         {
             throw new NotImplementedException();
         }
+
+        public DataTable GetDataUltimaMarcacaoFuncionario(List<int> idsFuncionarios)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

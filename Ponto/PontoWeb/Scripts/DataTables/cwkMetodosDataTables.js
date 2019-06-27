@@ -761,24 +761,16 @@ function cwk_DataTableRelatorio(idTabela, altura, paginar, qtdRegistroPagina, Ca
     $(".dataTables_wrapper .dataTables_filter label").css({ "margin-bottom": "-5px" });
 
     // Marca/Desmarca registro quando clica na linha
-    $('#'+idTabela+' tbody').on('click', 'tr', function () {
-        //$(this).toggleClass('selected');
-        //var sel = 'N';
-        //if ($(this).hasClass('selected')) {
-        //    sel = 'S';
-        //}
-        //table.api().rows($(this)).iterator('row', function (context, index) {
-        //    var coluna = table.api().cell(index, '.Selecionar');
-        //    if (coluna.data() != null) {
-        //        coluna.data(sel);
-        //    }
-        //});
-
-       
+    table.on('select', function (e, dt, type, indexes) {
         if (CallBackSelecao != undefined) {
             CallBackSelecao();
         }
-    });
+    })
+        .on('deselect', function (e, dt, type, indexes) {
+            if (CallBackSelecao != undefined) {
+                CallBackSelecao();
+            }
+        });
 
      //Aplica o filtro
     $("#" + idTabela + "_wrapper thead tr#filterrow input").on('keyup change input', function () {
@@ -974,21 +966,12 @@ function cwk_DataTableRelatorioGridEmp(idTabela, altura, paginar, qtdRegistroPag
     // Corrige tamanho do panel onde fica o filtro geral e a quantidade de registros da Grid
     $(".dataTables_wrapper .dataTables_filter label").css({ "margin-bottom": "-5px" });
 
-    // Marca/Desmarca registro quando clica na linha
-    $('#' + idTabela + ' tbody').on('click', 'tr', function () {
-        //$(this).toggleClass('selected');
-        //var sel = 'N';
-        //if ($(this).hasClass('selected')) {
-        //    sel = 'S';
-        //}
-        //table.api().rows($(this)).iterator('row', function (context, index) {
-        //    var coluna = table.api().cell(index, '.Selecionar');
-        //    if (coluna.data() != null) {
-        //        coluna.data(sel);
-        //    }
-        //});
-
-
+    table.on('select', function (e, dt, type, indexes) {
+        if (CallBackSelecao != undefined) {
+            CallBackSelecao();
+        }
+    })
+    .on('deselect', function (e, dt, type, indexes) {
         if (CallBackSelecao != undefined) {
             CallBackSelecao();
         }
@@ -1010,18 +993,16 @@ function cwk_DataTableRelatorioGridEmp(idTabela, altura, paginar, qtdRegistroPag
 // Função que pega todos os registros selecionados em uma grid e retorna uma lista de ids
 // Parâmetro idTable = Id da Tabela (Não passar # no início.)
 function GetSelecionados(idTable) {
-    var selecionados = '';
-    var table = $('#' + idTable.replace("#", "")).dataTable();
-    table.api().rows('.selected').iterator('row', function (context, index) {
-        var idSel = table.api().cell(index, 0).data();
-        if (selecionados === '') {
-            selecionados = idSel;
-        }
-        else {
-            selecionados = selecionados + ',' + idSel;
-        }
-    });
-    return selecionados;
+    var id = '';    
+    try {     
+        var table = $('#' + idTable.replace("#", "")).DataTable();
+            id = table.rows(table.$("tr.selected")).ids().toArray().join();
+    }
+    catch (err) {
+        var table2 = $('#' + idTable.replace("#", "")).DataTable();
+        id = table2.rows(table2.$("tr.selected")).ids().toArray().join();
+    }
+    return id;
 }
 
 // Função que recebe uma lista de ids e seleciona os registros no datatable

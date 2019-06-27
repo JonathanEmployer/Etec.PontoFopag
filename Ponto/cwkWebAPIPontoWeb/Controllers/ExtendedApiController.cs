@@ -1,22 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Net.Http;
 using System.Web.Http;
 using System.Net;
 using Modelo;
 using System.Web.Http.Description;
 using cwkWebAPIPontoWeb.Models;
-using System.Text;
-using System.IO;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using System.Web.Script.Serialization;
 using System.Configuration;
-using SimpleCrypto;
 using Employer.STS.AuthenticateStandAlone;
-using System.Web.Http.Controllers;
 
 namespace cwkWebAPIPontoWeb.Controllers
 {
@@ -33,7 +25,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         /// <summary>
         /// Objeto que contém o nome(Login) do usuário, Conexão e CS
         /// </summary>
-        public Modelo.UsuarioPontoWeb UsuarioPontoWeb { 
+        public Modelo.UsuarioPontoWeb usuarioPontoWeb { 
             get 
             {
                 return _usuarioPontoWeb ?? (_usuarioPontoWeb = cwkWebAPIPontoWeb.Utils.MetodosAuxiliares.UsuarioPontoWebNovo(this.ActionContext));

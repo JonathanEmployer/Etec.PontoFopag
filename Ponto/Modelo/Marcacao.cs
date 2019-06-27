@@ -62,6 +62,10 @@ namespace Modelo
             this.Ocorrencia = "";
             ExpHorasextranoturna = "--:--";
             horaExtraInterjornada = "--:--";
+            HorasTrabalhadasDentroFeriadoDiurna = "--:--";
+            HorasTrabalhadasDentroFeriadoNoturna = "--:--";
+            HorasPrevistasDentroFeriadoDiurna = "--:--";
+            HorasPrevistasDentroFeriadoNoturna = "--:--";
             LegendasConcatenadas = "";
 
             Afastamento = new Modelo.Afastamento();
@@ -930,6 +934,12 @@ namespace Modelo
         public string TotalIntervalo { get; set; }
         public string Interjornada { get; set; }
         public string horaExtraInterjornada { get; set; }
+
+        public string HorasTrabalhadasDentroFeriadoDiurna { get; set; }
+        public string HorasTrabalhadasDentroFeriadoNoturna { get; set; }
+        public string HorasPrevistasDentroFeriadoDiurna { get; set; }
+        public string HorasPrevistasDentroFeriadoNoturna { get; set; }
+
         public int IdDocumentoWorkflow { get; set; }
         public bool DocumentoWorkflowAberto { get; set; }
         [Display(Name = "Não Considerar In Itinere")]
@@ -1041,6 +1051,11 @@ namespace Modelo
         public string LoginBloqueioEdicaoPnlRh { get; set; }
         public DateTime? DataConclusaoFluxoPnlRh { get; set; }
         public string LoginConclusaoFluxoPnlRh { get; set; }
+
+        public string HorasTrabalhadasDentroFeriadoDiurna { get; set; }
+        public string HorasTrabalhadasDentroFeriadoNoturna { get; set; }
+        public string HorasPrevistasDentroFeriadoDiurna { get; set; }
+        public string HorasPrevistasDentroFeriadoNoturna { get; set; }
     }
 
     public class GridMarcacoes

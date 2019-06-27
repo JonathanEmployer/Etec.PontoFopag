@@ -488,6 +488,14 @@
             <param name="Afastamento">Json com os dados de função</param>
             <returns> Retorna json de função quando cadastrado com sucesso, quando apresentar erro retorno um json de erro.</returns>
         </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.AfastamentoController.Excluir(System.String,System.Int32)">
+            <summary>
+            Método para excluir afastamento
+            </summary>
+            <param name="id">Identificador</param>
+            <param name="tipo">0 - Identificador será id do integrador; 1 - Identificador será id do regisgtro; 2 - Identificador será o id da marcação</param>
+            <returns></returns>
+        </member>
         <member name="T:cwkWebAPIPontoWeb.Controllers.BilhetesController">
             <summary>
             Controler para retornar uma lista de marcações contendo os totalizadores de horas
@@ -550,6 +558,15 @@
             <param name="pIdTipo">Lista de IDs referente ao tipo</param>
             <param name="pDataInicial">Data Inicial</param>
             <param name="pDataFinal">Data Final</param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.BLLAPI.Marcacao.ThreadRecalculaMarcacaoFuncionariosPeriodo(System.Collections.Generic.List{Modelo.Proxy.PxyFuncionariosRecalcular},Modelo.Cw_Usuario,System.String,Modelo.ProgressBar)">
+            <summary>
+            Calcula Funcionários por períodos distintos em Thred
+            </summary>
+            <param name="funcsRecalculo">Lista dos funcionários com as datas</param>
+            <param name="user">usuário logado</param>
+            <param name="conexao">connection string</param>
+            <param name="pb">Obj progress, pode ser informado nulo</param>
         </member>
         <member name="M:cwkWebAPIPontoWeb.Controllers.BLLAPI.Rep.GetReps(System.String)">
             <summary>
@@ -698,7 +715,7 @@
             <param name="cnpjCPF">Código CNPJ/CPF da Empresa Cadastrada</param>
             <returns> Retorna um HttpResponseMessage Ok quando excluído com sucesso, quando apresentar erro retorno um json de erro.</returns>
         </member>
-        <member name="P:cwkWebAPIPontoWeb.Controllers.ExtendedApiController.UsuarioPontoWeb">
+        <member name="P:cwkWebAPIPontoWeb.Controllers.ExtendedApiController.usuarioPontoWeb">
             <summary>
             Objeto que contém o nome(Login) do usuário, Conexão e CS
             </summary>
