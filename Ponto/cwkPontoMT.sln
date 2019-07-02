@@ -49,8 +49,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConversorSQL", "ConversorSQ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorrigeEmpresaCopiaIlegal", "CorrigeEmpresaCopiaIlegal\CorrigeEmpresaCopiaIlegal.csproj", "{697D1A57-23AB-43ED-BF99-FEF1CF480739}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cwkGerenciador", "Clube\cwkGerenciador\cwkGerenciador.csproj", "{FD5B47FB-DCA5-4EE1-B141-01CB9B3ACAA2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PontoWeb", "PontoWeb\PontoWeb.csproj", "{BD521475-1920-4DBA-827B-0A6324E19937}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{4AA014FD-60E6-471D-90B7-3F72C6756E83}"
@@ -1084,7 +1082,7 @@ Global
 		SolutionGuid = {1D7A40C0-B3AB-4D63-8992-E5548B7A9086}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 32
+		SccNumberOfProjects = 30
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://tfs.employer.com.br:8080/tfs/defaultcollection
 		SccLocalPath0 = .
@@ -1195,10 +1193,6 @@ Global
 		SccProjectTopLevelParentUniqueName30 = cwkPontoMT.sln
 		SccProjectName30 = ComunicadorServico
 		SccLocalPath30 = ComunicadorServico
-		SccProjectUniqueName31 = Clube\\cwkGerenciador\\cwkGerenciador.csproj
-		SccProjectTopLevelParentUniqueName31 = cwkPontoMT.sln
-		SccProjectName31 = Clube/cwkGerenciador
-		SccLocalPath31 = Clube\\cwkGerenciador
 	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true
