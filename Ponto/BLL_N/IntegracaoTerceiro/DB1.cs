@@ -233,9 +233,9 @@ namespace BLL_N.IntegracaoTerceiro
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    throw;
+                    throw e;
                 }
             }
             else
