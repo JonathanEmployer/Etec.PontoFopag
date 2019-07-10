@@ -24,32 +24,32 @@
                             @Html.ValidationMessageFor(model => Model.TipoSelecao)
                         </div>
                         <div class="row" style="padding-bottom:4px;">
-                            <div id="divPeriodo" class="col-md-12">
+                            <div id="divPeriodo" class="col-md-4">
                                 <div class="panel panel-default" id="pnlData">
                                     <div class="panel-heading" style="padding-top:5px; padding-bottom:5px">
+                                        <label class="control-label label-sm">Período</label>
+                                    </div>
+                                    <div class="panel-body">
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="col-md-2"><label class="control-label label-sm">Período</label></div>
-                                                <div class="col-md-8">
-                                                    <div class="row">
-                                                        <div class="col-md-5">
-                                                            <div class="input-group input-group-sm">
-                                                                @Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "InicioPeriodo" })
-                                                                <span class="input-group-btn">
-                                                                    <button class="btn btn-primary" id="btnDtInicio" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
-                                                                </span>
-                                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <div class="input-group input-group-sm">
+                                                            @Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "InicioPeriodo" })
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-primary" id="btnDtInicio" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                            </span>
                                                         </div>
-                                                        <div class="col-md-1">
-                                                            @Html.Label("a", new { @class = "label-sm" })
-                                                        </div>
-                                                        <div class="col-md-5">
-                                                            <div class="input-group input-group-sm">
-                                                                @Html.TextBoxFor(model => Model.FimPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "FimPeriodo" })
-                                                                <span class="input-group-btn">
-                                                                    <button class="btn btn-primary" id="btnDtFim" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
-                                                                </span>
-                                                            </div>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        @Html.Label("a", new { @class = "label-sm" })
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="input-group input-group-sm">
+                                                            @Html.TextBoxFor(model => Model.FimPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "FimPeriodo" })
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-primary" id="btnDtFim" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -66,13 +66,53 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" style="padding-top:6px; padding-bottom:6px">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label class="control-label label-sm">Funcionário</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-9">
+                                                        <div class="form-group input-group-sm" style="margin-bottom:0">
+                                                            <div class="radio-inline" data-toggle="radio">
+                                                                <input type="radio" name="rdFuncionarioFiltro" value="0" />
+                                                                <label class="label-sm" for="rdbRet">Inativo</label>
+                                                            </div>
+                                                            <div class="radio-inline" data-toggle="radio">
+                                                                <input type="radio" name="rdFuncionarioFiltro" value="1" checked />
+                                                                <label class="label-sm" for="rdbRet">Ativo</label>
+                                                            </div>
+                                                            <div class="radio-inline" data-toggle="radio">
+                                                                <input type="radio" name="rdFuncionarioFiltro" value="2" />
+                                                                <label class="label-sm" for="rdbRet">Ambos</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group input-group-sm" style="margin-bottom:0">
+                                                            <button class="btn btn-primary btn-xs" id="btnBuscarFiltro" type="button">Buscar</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 @Html.HiddenFor(x => x.IdSelecionados)
                                 @Html.ValidationMessageFor(x => x.IdSelecionados)
                                 <div class="row">
-                                    @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorio()).GetType(), true, "GetFuncsRel", "GetFuns")
+                                    @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorio()).GetType(), true, "GetFuncsRel", "GetFunsVazioXaxo", "EventoFuncionarioRowCollor", "", null, "")
                                 </div>
                             </div>
                         </div>
@@ -126,7 +166,16 @@
 			errorArray["IdSelecionados"] = null;
             $("form").validate().showErrors(errorArray);
         });
+
+        $("#btnBuscarFiltro").click(function () { EventoFuncionarioFiltro(); });
     });
+
+    function EventoFuncionarioFiltro()
+    {
+        let x = $("input[name='rdFuncionarioFiltro']:checked").val();
+        let y = '/GetFuncsRel/GetFunsComParms';
+        EventoFuncionarioFiltroRequest(x,y);
+    }
 
     $("#btnXls").click(function (event) {
         if (!validaForm()) {
