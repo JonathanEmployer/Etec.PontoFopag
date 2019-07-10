@@ -36,7 +36,7 @@ namespace BLL_N.JobManager.Hangfire
                 default:
                     break;
             }
-            string parametrosExibicao = String.Format("Período {0} a {1}, {2}", obj.DataI.GetValueOrDefault().ToShortDateString(), obj.DataF.GetValueOrDefault().ToShortDateString(), tipo);
+            string parametrosExibicao = String.Format("Período {0} a {1}, {2}", obj.DataI.GetValueOrDefault().ToShortDateString(), obj.DataF.GetValueOrDefault().ToShortDateString(), obj.idSelecionados.Split(',').Length);
             
             JobControl jobControl = GerarJobControl("Exportação de dados para folha", parametrosExibicao);
             string idJob = new BackgroundJobClient().Create<ExportacoesJob>(x => x.ExportaArquivoFolhaPgto(null, jobControl, dataBase, usuarioLogado, obj), _enqueuedStateNormal);

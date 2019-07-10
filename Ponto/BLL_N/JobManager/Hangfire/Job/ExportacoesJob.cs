@@ -23,30 +23,40 @@ namespace BLL_N.JobManager.Hangfire.Job
             SetParametersBase(context, jobReport, db, usuario);
             try
             {
-                BLL.ExportacaoCampos bllExpArquivos = new BLL.ExportacaoCampos(userPF.ConnectionString, userPF);
-                byte[] res = bllExpArquivos.ExportarFolhaWeb(obj.DataI, obj.DataF, obj.TipoSelecao, obj.Identificacao, obj.IdLayout, pb, null);
-
-                using (MemoryStream stream = new MemoryStream(res))
+                if (!String.IsNullOrEmpty(obj.idSelecionados))
                 {
-                    string nomeArquivo = "Exportação-Folha";
-                    if (obj.DataI.HasValue && obj.DataF.HasValue)
-                    {
-                        nomeArquivo += "-" + obj.DataI.Value.ToString("dd-MM-yyyy") + "-" + obj.DataF.Value.ToString("dd-MM-yyyy");
-                    }
-                    nomeArquivo += ".txt";
-                    string nomeArquivoZIP;
 
-                    MemoryStream arquivoZipado = new MemoryStream();
-                    using (ZipFile zip = new ZipFile())
-                    {
-                        zip.AddEntry(nomeArquivo, stream);
-                        nomeArquivoZIP = nomeArquivo.Replace("txt", "");
-                        zip.Save(arquivoZipado);
-                    }
-                    ArquivoBLL arquivobll = new ArquivoBLL(userPF, pb);
-                    string caminhoArquivo = arquivobll.SaveFile(nomeArquivoZIP, "zip", arquivoZipado.ToArray());
+                    BLL_N.Exportacao.ExportacaoWebfopag bllexportacaowfp = new BLL_N.Exportacao.ExportacaoWebfopag();
+                    List<Int32> idsFuncs = obj.idSelecionados.Split(',').Select(s => Convert.ToInt32(s)).ToList();
+                    List <String> res = bllexportacaowfp.ExportarTxt(obj.DataI, obj.DataF, idsFuncs, obj.IdLayout, pb, obj.IdListaEventos, userPF.ConnectionString, userPF);
+                    byte[] rest = res.SelectMany(s =>System.Text.Encoding.UTF8.GetBytes(s + Environment.NewLine)).ToArray();
 
-                    JobControlManager.UpdateFileDownload(context, caminhoArquivo);
+                    using (MemoryStream stream = new MemoryStream(rest))
+                    {
+                        string nomeArquivo = "Exportação-Folha";
+                        if (obj.DataI.HasValue && obj.DataF.HasValue)
+                        {
+                            nomeArquivo += "-" + obj.DataI.Value.ToString("dd-MM-yyyy") + "-" + obj.DataF.Value.ToString("dd-MM-yyyy");
+                        }
+                        nomeArquivo += ".txt";
+                        string nomeArquivoZIP;
+
+                        MemoryStream arquivoZipado = new MemoryStream();
+                        using (ZipFile zip = new ZipFile())
+                        {
+                            zip.AddEntry(nomeArquivo, stream);
+                            nomeArquivoZIP = nomeArquivo.Replace("txt", "");
+                            zip.Save(arquivoZipado);
+                        }
+                        ArquivoBLL arquivobll = new ArquivoBLL(userPF, pb);
+                        string caminhoArquivo = arquivobll.SaveFile(nomeArquivoZIP, "zip", arquivoZipado.ToArray());
+
+                        JobControlManager.UpdateFileDownload(context, caminhoArquivo);
+                    }
+                }
+                else
+                {
+                    throw new Exception("Nenhum funcionário selecionado");
                 }
             }
             catch (Exception ex)

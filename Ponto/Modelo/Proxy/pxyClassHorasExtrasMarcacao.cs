@@ -7,6 +7,8 @@ namespace Modelo.Proxy
 {
     public class pxyClassHorasExtrasMarcacao
     {
+        [TableHTMLAttribute("Id", 0, false, ItensSearch.none, OrderType.none)]
+        public int Id { get { return IdClassificacaoHorasExtras; } }
         public int IdMarcacao { get; set; }
         public DateTime Data { get; set; }
         public string Dia { get; set; }

@@ -19,7 +19,7 @@ namespace PontoWeb.Controllers
         [PermissoesFiltro(Roles = "ExportacaoFolhaAlterar")]
         public ActionResult Alterar(int id)
         {
-            return GetPagina(id);
+          return GetPagina(id);
         }
 
         [PermissoesFiltro(Roles = "ExportacaoFolhaAlterar")]
@@ -66,16 +66,27 @@ namespace PontoWeb.Controllers
             return SalvarWebfopag(obj);
         }
 
-        public ActionResult SalvarWebfopag(pxyExportacaoFolha obj)           
+        public ActionResult SalvarWebfopag(pxyExportacaoFolha obj)
         {
             ModelState.Remove("Empresa");
+           
             if (ModelState.IsValid)
             {
                 try
                 {
-                    HangfireManagerExportacoes hfm = new HangfireManagerExportacoes(_user.DataBase);
-                    Modelo.Proxy.PxyJobReturn ret = hfm.ExportaArquivoWebfopag(obj);
-                    return new JsonResult { Data = new { success = true, job = ret } };
+                    if (obj.IdLayout != 0)
+                    {
+                        HangfireManagerExportacoes hfm = new HangfireManagerExportacoes(_user.DataBase);
+                        Modelo.Proxy.PxyJobReturn ret = hfm.ExportaArquivoFolhaPgto(obj);
+                        return new JsonResult { Data = new { success = true, job = ret } };
+                    }
+                    else if (obj.IdLayout ==0)
+                    {
+                        HangfireManagerExportacoes hfm = new HangfireManagerExportacoes(_user.DataBase);
+                        Modelo.Proxy.PxyJobReturn ret = hfm.ExportaArquivoWebfopag(obj);
+                        return new JsonResult { Data = new { success = true, job = ret } };
+                    }
+
                 }
                 catch (Exception ex)
                 {

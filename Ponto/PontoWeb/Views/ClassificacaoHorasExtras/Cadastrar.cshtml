@@ -9,7 +9,7 @@
     <div class="divCenterPequeno" id="divCadastroClassificacao">
         <div class="panel panel-default" style="padding:0">
             <div class="panel-heading salvando">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="xfecharCadastroModal">X</button>
+                <button type="button" class="close" id="xfecharCadastroModal">X</button>
                 <h3 class="panel-title titulo-pagina">Cadastro de Classificação Hora Extra</h3>
             </div>
             <div class="panel-body panelConteudo">
@@ -119,7 +119,7 @@
                             <button type="submit" class="btn btn-success salvando">
                                 <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
                             </button>
-                            <button type="button" data-dismiss="modal" aria-hidden="true" id="fecharCadastroModal" class="btn btn-danger salvando"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                            <button type="button" id="fecharCadastroModal" class="btn btn-danger salvando"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
                         </div>
                     </div>
                 </div>
@@ -148,9 +148,6 @@
             cwk_EventoConsultaUnico(e, this, "", "Classificacao", "", "");
             limpaErro($('#lkpCodigoDescricaoClassificacao').attr('name'));
         });
-
-        cwk_EventoIncluirAjaxParam('#fecharCadastroModal', 'ClassificadasMarcacao', 'ClassificacaoHorasExtras', parametros = { id: '@Model.IdMarcacao' }, "");
-        cwk_EventoIncluirAjaxParam('#xfecharCadastroModal', 'ClassificadasMarcacao', 'ClassificacaoHorasExtras', parametros = { id: '@Model.IdMarcacao' }, "");
 
         $('form').submit(function () {
             if ($(this).valid()) {
@@ -182,6 +179,10 @@
             $("#divClassificacao").hide();
         }
     }
+
+    $('#fecharCadastroModal,#xfecharCadastroModal').click(function () {
+        cwk_CadastroAjaxParam('ClassificadasMarcacao', 'ClassificacaoHorasExtras', @Model.IdMarcacao);
+    });
 </script>
 @if (ViewBag.Consultar == 1)
 {

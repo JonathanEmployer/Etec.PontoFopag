@@ -56,7 +56,7 @@
         var altura = cwk_AlturaTela() * 25 / 100;
         $(document).ready(function () {
             var nomeTabela = "#" + '@nomeTabela';
-            cwk_DbClickCadastroEditarAjaxParam('Alterar', 'ClassificacaoHorasExtras', '#tbClassificacoesHorasExtras', nomeTabela, { idMarc: '@Model.FirstOrDefault().IdMarcacao' });
+            cwk_DbClickCadastroEditarAjaxParam('Alterar', 'ClassificacaoHorasExtras',  nomeTabela, { idMarc: '@Model.FirstOrDefault().IdMarcacao' });
             @if (@Model.FirstOrDefault().NaoClassificadasMin > 0)
             {
                 <text>
