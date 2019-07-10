@@ -23,7 +23,7 @@ namespace BLL_N.JobManager.Hangfire.Job
 
         }
 
-        public void RecalculaMarcacao(PerformContext context, JobControl jobReport, string db, string usuario, List<PxyIdPeriodo> funcsPeriodo)
+        public void RecalculaMarcacao(PerformContext context, JobControl jobReport, string db, string usuario, List<PxyIdPeriodo> funcsPeriodo, bool considerarInativos = false)
         {
             try
             {
@@ -31,7 +31,36 @@ namespace BLL_N.JobManager.Hangfire.Job
                 var grupo = funcsPeriodo.GroupBy(u => new { u.InicioPeriodo, u.FimPeriodo }).Select(s => new { DataInicial = s.Key.InicioPeriodo, DataFinal = s.Key.FimPeriodo, Dados = s.ToList() }).ToList();
                 foreach (var item in grupo)
                 {
-                    RecalculaMarcacao(context, jobReport, db, usuario, item.Dados.Select(s => s.Id).ToList(), (DateTime)item.DataInicial, (DateTime)item.DataFinal);
+                    RecalculaMarcacao(context, jobReport, db, usuario, item.Dados.Select(s => s.Id).ToList(), (DateTime)item.DataInicial, (DateTime)item.DataFinal, considerarInativos);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                BLL.cwkFuncoes.LogarErro(ex);
+                throw ex;
+            }
+        }
+
+        public void RecalculaMarcacao(PerformContext context, JobControl jobReport, string db, string usuario, List<PxyFuncionariosRecalcular> funcsRecalculo, bool considerarInativos = false)
+        {
+            try
+            {
+                List<PxyFuncionariosRecalcular> FuncsSemDataFim = funcsRecalculo.Where(w => w.DataFim == null).ToList();
+                if (FuncsSemDataFim.Count > 0)
+                {
+                    string conexao = BLL.cwkFuncoes.ConstroiConexao(db).ConnectionString;
+                    DAL.SQL.Marcacao dalMarcacao = new DAL.SQL.Marcacao(new DataBase(conexao));
+                    DataTable dt = dalMarcacao.GetDataUltimaMarcacaoFuncionario(funcsRecalculo.Select(s => s.IdFuncionario).ToList());
+                    dt.AsEnumerable().ToList().ForEach(f => FuncsSemDataFim.Where(w => w.IdFuncionario == f.Field<int>("idfuncionario")).ToList().ForEach(fi => fi.DataFim = f.Field<DateTime>("data")));
+                }
+
+                foreach (var grupo in funcsRecalculo.Where(w => w.DataFim != null && w.DataInicio <= w.DataFim).GroupBy(g => new {
+                    g.DataInicio,
+                    g.DataFim
+                }))
+                {
+                    RecalculaMarcacao(context, jobReport, db, usuario, grupo.Select(s => s.IdFuncionario).ToList(), grupo.Key.DataInicio, grupo.Key.DataFim.GetValueOrDefault(), considerarInativos);
                 }
 
             }
@@ -85,12 +114,12 @@ namespace BLL_N.JobManager.Hangfire.Job
             List<int> idsFuncionarios = bllFuncionario.GetIDsByTipo(pTipo, pIdsTipo, false, false);
             RecalculaMarcacao(context, jobReport, db, usuario, idsFuncionarios, dataInicial, dataFinal, null, null);
         }
-        public void RecalculaMarcacao(PerformContext context, JobControl jobReport, string db, string usuario, List<int> idsFuncionario, DateTime dataInicial, DateTime dataFinal)
+        public void RecalculaMarcacao(PerformContext context, JobControl jobReport, string db, string usuario, List<int> idsFuncionario, DateTime dataInicial, DateTime dataFinal, bool considerarInativos = false)
         {
-            RecalculaMarcacao(context, jobReport, db, usuario, idsFuncionario, dataInicial, dataFinal, null, null);
+            RecalculaMarcacao(context, jobReport, db, usuario, idsFuncionario, dataInicial, dataFinal, null, null, considerarInativos);
         }
 
-        public void RecalculaMarcacao(PerformContext context, JobControl jobReport, string db, string usuario, List<int> idsFuncionario, DateTime dataInicial, DateTime dataFinal, DateTime? dataInicial_Ant, DateTime? dataFinal_Ant)
+        public void RecalculaMarcacao(PerformContext context, JobControl jobReport, string db, string usuario, List<int> idsFuncionario, DateTime dataInicial, DateTime dataFinal, DateTime? dataInicial_Ant, DateTime? dataFinal_Ant, bool considerarInativos = false)
         {
             SetParametersBase(context, jobReport, db, usuario);
 
@@ -100,7 +129,7 @@ namespace BLL_N.JobManager.Hangfire.Job
 
                 foreach (var p in periodos)
                 {
-                    CalculaMarcacao(idsFuncionario, p.Item1, p.Item2);
+                    CalculaMarcacao(idsFuncionario, p.Item1, p.Item2, considerarInativos);
                 }
             }
             catch (Exception ex)
@@ -110,7 +139,7 @@ namespace BLL_N.JobManager.Hangfire.Job
             }
         }
 
-        private void CalculaMarcacao(List<int> idsFuncionario, DateTime dataInicial, DateTime dataFinal)
+        private void CalculaMarcacao(List<int> idsFuncionario, DateTime dataInicial, DateTime dataFinal, bool considerarInativos = false)
         {
             dataInicial = dataInicial.Date;
             dataFinal = dataFinal.Date;
@@ -136,7 +165,7 @@ namespace BLL_N.JobManager.Hangfire.Job
             DAL.SQL.CalculaMarcacao dalCalculaMarcacao = new DAL.SQL.CalculaMarcacao(new DataBase(userPF.ConnectionString));
             dalCalculaMarcacao.UsuarioLogado = userPF;
             //DataTable dtMarcacoes = dalCalculaMarcacao.GetMarcacoesCalculo(idsFuncionario, dataInicial, dataFinal, false, false);
-            DataTable dtMarcacoes = (DataTable)ExecuteMethodThredCancellation(() => dalCalculaMarcacao.GetMarcacoesCalculo(idsFuncionario, dataInicial, dataFinal, false, false));
+            DataTable dtMarcacoes = (DataTable)ExecuteMethodThredCancellation(() => dalCalculaMarcacao.GetMarcacoesCalculo(idsFuncionario, dataInicial, dataFinal, considerarInativos, false));
             BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(userPF.ConnectionString, userPF);
             List<Modelo.BilhetesImp> tratamentomarcacaoList = (List<Modelo.BilhetesImp>)ExecuteMethodThredCancellation(() => bllBilhetesImp.GetImportadosPeriodo(idsFuncionario, dataInicial, dataFinal, false));
             List<int> idsBH = dtMarcacoes.AsEnumerable().Where(r => !r.IsNull("idbancohoras")).Select(s => s.Field<int>("idbancohoras")).Distinct().ToList();

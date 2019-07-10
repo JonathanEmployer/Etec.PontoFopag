@@ -97,7 +97,7 @@ namespace BLL
 
         int idFuncionario, idFuncao, idDepartamento, idEmpresa;
 
-        private DateTime? dataAdmissao, dataDemissao;
+        private DateTime? dataAdmissao, dataDemissao, dataInativacao;
 
         private short naoEntrarNaCompensacao, naoEntrarBancoFunc;
 
@@ -581,10 +581,18 @@ namespace BLL
             ConsiderarHEFeriadoPHoraNoturna(ref feriadoProximoDia);
 
             //Verifica se o funcionário está demitido
-            if (dataDemissao != null && dataDemissao < data)
+            if ((dataDemissao != null && dataDemissao < data) || (dataInativacao != null && dataInativacao <= data))
             {
                 idFuncionario = Convert.ToInt32(pMarcacao["idfuncionario"]);
-                this.PreencheFuncionarioDemitido();
+                if (dataDemissao != null && dataDemissao < data)
+                {
+                    this.PreencheFuncionarioDemitido();
+                }
+                else
+                {
+                    this.PreencheFuncionarioInativo();
+                }
+                
                    if (VerificaAlteracaoMarcao(pMarcacao, objMarcacaoAnt))
                    {
                         objMarcacao.Acao = Modelo.Acao.Alterar;
@@ -4260,6 +4268,7 @@ namespace BLL
             diaInt = Modelo.cwkFuncoes.Dia(data);
             dataAdmissao = pMarcacao["dataadmissao"] is DBNull ? null : (DateTime?)(pMarcacao["dataadmissao"]);
             dataDemissao = pMarcacao["datademissao"] is DBNull ? null : (DateTime?)(pMarcacao["datademissao"]);
+            dataInativacao = pMarcacao["dataInativacao"] is DBNull ? null : (DateTime?)(pMarcacao["dataInativacao"]);
 
             //Seta o id do funcionário
             idFuncionario = Convert.ToInt32(pMarcacao["idfuncionario"]);
@@ -4893,6 +4902,18 @@ namespace BLL
         /// </summary>
         private void PreencheFuncionarioDemitido()
         {
+            ZeraValores();
+            ocorrencia = "Funcionário Demitido";
+        }
+
+        private void PreencheFuncionarioInativo()
+        {
+            ZeraValores();
+            ocorrencia = "Funcionário Inativo";
+        }
+
+        private void ZeraValores()
+        {
             horasTrabalhadasMin = 0;
             horasTrabalhadasNoturnasMin = 0;
             horasExtrasDiurnaMin = 0;
@@ -4901,8 +4922,7 @@ namespace BLL
             horasFaltaNoturnaMin = 0;
             bancoHorasCre = "---:--";
             bancoHorasDeb = "---:--";
-            ocorrencia = "Funcionário Demitido";
-            AdicionalNoturno = 0;         
+            AdicionalNoturno = 0;
         }
 
         /// <summary>

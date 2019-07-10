@@ -1279,6 +1279,11 @@
             Data de Demissão do Funcionário
             </summary>
         </member>
+        <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.DataInativacao">
+            <summary>
+            Data de Inativação do funcionário
+            </summary>
+        </member>
         <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.DocumentoEmpresa">
             <summary>
             CNPJ da Empresa onde o Funcionário esta Registrado
@@ -1301,7 +1306,8 @@
         </member>
         <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.FuncionarioAtivo">
             <summary>
-            Indica se o Funcionário esta ativo
+            Campo obsoleto, será removido em versões futuras, não utilizar, caso esteja sendo enviado na requisição removê-lo.
+            Campo substituído pela DataInativacao
             </summary>
         </member>
         <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.CampoObservacao">

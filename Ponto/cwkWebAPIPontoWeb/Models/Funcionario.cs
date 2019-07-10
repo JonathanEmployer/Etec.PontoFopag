@@ -66,6 +66,12 @@ namespace cwkWebAPIPontoWeb.Models
         [DataType(DataType.Date, ErrorMessage = "Data inválida")]
         public DateTime? Datademissao { get; set; }
         /// <summary>
+        /// Data de Inativação do funcionário
+        /// </summary>
+        [DataType(DataType.Date, ErrorMessage = "Data inválida")]
+        public DateTime? DataInativacao { get; set; }
+        
+        /// <summary>
         /// CNPJ da Empresa onde o Funcionário esta Registrado
         /// </summary>
         public Int64 DocumentoEmpresa { get; set; }
@@ -82,7 +88,8 @@ namespace cwkWebAPIPontoWeb.Models
         /// </summary>
         public string DescricaoFuncao { get; set; }
         /// <summary>
-        /// Indica se o Funcionário esta ativo
+        /// Campo obsoleto, será removido em versões futuras, não utilizar, caso esteja sendo enviado na requisição removê-lo.
+        /// Campo substituído pela DataInativacao
         /// </summary>
         public bool FuncionarioAtivo { get; set; }
         /// <summary>

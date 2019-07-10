@@ -263,12 +263,15 @@ namespace BLL
             {
                 if (!marcacoesPeriodo.Exists(m => m.Data == data))
                 {
-                    objMarcacao = AuxAtualizaData(objFuncionario.Dataadmissao.Value, objFuncionario.Datademissao, objFuncionario.Id, objFuncionario.Dscodigo, objFuncionario.Idhorario, objFuncionario.Idfuncao, objFuncionario.Iddepartamento, objFuncionario.Idempresa, objFuncionario.Naoentrarbanco, horarios, data, jornadasAlternativas, pFechamentoBHDLista, feriadoLista, bancoHorasLista, pInclusaoBancoLista, afastamentosList, mudancaHorarioList, parametros, false, fechamentos);
-                    marcacoes.Add(objMarcacao);
+                    if (data < objFuncionario.DataInativacao)
+                    {
+                        objMarcacao = AuxAtualizaData(objFuncionario.Dataadmissao.Value, objFuncionario.Datademissao, objFuncionario.Id, objFuncionario.Dscodigo, objFuncionario.Idhorario, objFuncionario.Idfuncao, objFuncionario.Iddepartamento, objFuncionario.Idempresa, objFuncionario.Naoentrarbanco, horarios, data, jornadasAlternativas, pFechamentoBHDLista, feriadoLista, bancoHorasLista, pInclusaoBancoLista, afastamentosList, mudancaHorarioList, parametros, false, fechamentos);
+                        marcacoes.Add(objMarcacao);
+                    }
                 }
             });
 
-            this.Salvar(Modelo.Acao.Incluir, marcacoes.ToList());
+            this.Salvar(Modelo.Acao.Incluir, marcacoes.OrderBy(o => o.Idfuncionario).ThenBy(o => o.Data).ToList());
         }
 
         public Dictionary<string, string> AtualizaData(List<Modelo.Parametros> Parametros, List<Modelo.Horario> pListaHorario, DateTime pDataI, DateTime pDataF, List<Modelo.Funcionario> ListFuncionario, List<Modelo.InclusaoBanco> InclusaoBancoLista, List<Modelo.JornadaAlternativa> JornadasAlternativas, List<Modelo.FechamentoBHD> FechamentoBHDLista, List<Modelo.Feriado> FeriadoLista, List<Modelo.BancoHoras> BancoHorasLista, List<Modelo.Afastamento> AfastamentosLista, List<Modelo.Contrato> ContratoLista, List<Modelo.MudancaHorario> MudancaHorarioList, List<Modelo.Marcacao> MarcacoesPeriodo, IList<Modelo.Proxy.pxyFechamentoPontoFuncionario> Fechamentos)
@@ -282,7 +285,7 @@ namespace BLL
              {
                  Parallel.ForEach(ListFuncionario, options, (funcionario) =>
                       {
-                          if (!MarcacoesPeriodo.Exists(m => m.Data == data && m.Idfuncionario == funcionario.Id))
+                          if (!MarcacoesPeriodo.Exists(m => m.Data == data && m.Idfuncionario == funcionario.Id) && data < funcionario.DataInativacao)
                           {
                               objMarcacao = AuxAtualizaData(
                                                      funcionario,

@@ -1,15 +1,12 @@
 ﻿using Modelo;
 using PontoWeb.Controllers.BLLWeb;
 using PontoWeb.Security;
-using ProgressReporting.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
-using BLL_N.JobManager.Hangfire;
-using Modelo.Proxy;
 
 namespace PontoWeb.Controllers
 {
@@ -299,44 +296,7 @@ namespace PontoWeb.Controllers
                     {
                         try
                         {
-                            DateTime datai = DateTime.Now.AddMonths(-1);
-                            DateTime dataf = DateTime.Now.AddMonths(2);
-
-                           
-                            if (true == true || (funcionario.Funcionarioativo != funcionario.Funcionarioativo_Ant)
-                                || (funcionario.Dataadmissao_Ant != funcionario.Dataadmissao) || (funcionario.Datademissao_Ant != funcionario.Datademissao)
-                                || (funcionario.Naoentrarbanco_Ant != funcionario.Naoentrarbanco) || (funcionario.Naoentrarcompensacao_Ant != funcionario.Naoentrarcompensacao))
-                            {
-                                if (funcionario.Datademissao_Ant != funcionario.Datademissao)
-                                {
-                                    if ((funcionario.Datademissao == null)||(funcionario.Datademissao > funcionario.Datademissao_Ant))
-                                    {
-                                        datai = funcionario.Datademissao_Ant.GetValueOrDefault();
-                                    }
-                                    else if ((funcionario.Datademissao_Ant == null)|| (funcionario.Datademissao < funcionario.Datademissao_Ant))
-                                    {
-                                        datai = funcionario.Datademissao.GetValueOrDefault();
-                                    }
-
-                                }
-                                else if (funcionario.Dataadmissao_Ant != funcionario.Dataadmissao && funcionario.Dataadmissao_Ant != null)
-                                {
-                                    datai = funcionario.Dataadmissao_Ant.GetValueOrDefault();
-                                    dataf = funcionario.Dataadmissao.GetValueOrDefault();
-                                    if (datai > dataf)
-                                    {
-                                        datai = funcionario.Dataadmissao.GetValueOrDefault();
-                                        dataf = funcionario.Dataadmissao_Ant.GetValueOrDefault();
-                                    }
-                                }
-
-                                HangfireManagerCalculos hfm = new HangfireManagerCalculos(usuarioLogado.DataBase,"","","/Funcionario/Grid");
-                                string parametrosExibicao = String.Format("Funcionário {0} | {1}", funcionario.Codigo, funcionario.Nome);
-
-                                List<PxyFuncionariosRecalcular> funcsPeriodo = new List<PxyFuncionariosRecalcular>();
-                                funcsPeriodo.Add(new PxyFuncionariosRecalcular() { IdFuncionario = funcionario.Id, DataInicio = datai });
-                                Modelo.Proxy.PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de marcações do funcionário", parametrosExibicao, funcsPeriodo);
-                            }
+                            BLL_N.JobManager.CalculoMarcacoes.RecalculaEdicaoFuncionario(funcionario, usuarioLogado, true);
 
                             //Se o Funcionário utiliza registrador insere funcionario no Central do cliente
                             if (funcionario.utilizaregistrador)
@@ -382,6 +342,7 @@ namespace PontoWeb.Controllers
             ViewBag.BloqueiaDadosIntegrados = parm.BloqueiaDadosIntegrados;
             AdicionaFotoPadrao(funcionario);
             PreencheTipoVinculo(connString, usuarioLogado);
+            funcionario.FuncionarioRFID = funcionario.FuncionarioRFID == null ? new List<FuncionarioRFID>() : funcionario.FuncionarioRFID;
             return View("Cadastrar", funcionario);
         }
 

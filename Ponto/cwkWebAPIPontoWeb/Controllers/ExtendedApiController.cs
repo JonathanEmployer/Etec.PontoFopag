@@ -9,6 +9,7 @@ using System.Web.Http.Description;
 using cwkWebAPIPontoWeb.Models;
 using System.Configuration;
 using Employer.STS.AuthenticateStandAlone;
+using System.Web.Http.Controllers;
 
 namespace cwkWebAPIPontoWeb.Controllers
 {
@@ -344,6 +345,11 @@ namespace cwkWebAPIPontoWeb.Controllers
         public void SetaMensagem(string mensagem)
         {
 
+        }
+
+        public string GetRawPostData()
+        {
+            return (string)Request.Properties["rawpostdata"];
         }
     }
 }

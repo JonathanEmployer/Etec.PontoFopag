@@ -144,6 +144,11 @@ namespace Modelo
                 return bFuncionarioativo == true ? "Sim" : "Não";
             }
         }
+
+        [TableHTMLAttribute("Data Inativação", 12, true, ItensSearch.text, OrderType.none)]
+        [Display(Name = "Data Inativação")]
+        public DateTime? DataInativacao { get; set; }
+        public DateTime? DataInativacao_Ant { get; set; }
         /// <summary>
         /// Flag que marca se o funcionário vai ou não entrar no BH
         /// </summary>

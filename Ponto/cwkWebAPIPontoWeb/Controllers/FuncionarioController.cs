@@ -1,7 +1,6 @@
 ﻿using CentralCliente;
 using cwkWebAPIPontoWeb.Utils;
 using Modelo;
-using Modelo.Proxy;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -28,6 +27,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         [TratamentoDeErro]
         public HttpResponseMessage Cadastrar(LModel.Funcionario funcionario)
         {
+            var jsonRequisicao = GetRawPostData();
             RetornoErro retErro = new RetornoErro();
             Usuario usu = new Usuario();
             funcionario.CPF = Utils.MetodosAuxiliares.FormatarCPF(funcionario.CPF);
@@ -87,6 +87,19 @@ namespace cwkWebAPIPontoWeb.Controllers
                         DadosAntFunc.Senha = BLL.ClSeguranca.Criptografar(funcionario.SenhaRelogio == null ? "" : funcionario.SenhaRelogio);
                         DadosAntFunc.Dataadmissao = funcionario.Dataadmissao;
                         DadosAntFunc.Datademissao = funcionario.Datademissao;
+                        
+                        //Remover o IF inteiro quando campo FuncionarioAtivo for removido, quanter apenas o que esta no ELSE
+                        if (jsonRequisicao.IndexOf("FuncionarioAtivo", StringComparison.CurrentCultureIgnoreCase) >= 0 && jsonRequisicao.IndexOf("DataInativacao", StringComparison.CurrentCultureIgnoreCase) == -1)
+                        {
+                            if (funcionario.FuncionarioAtivo)
+                                DadosAntFunc.DataInativacao = null;
+                            else DadosAntFunc.DataInativacao = DadosAntFunc.DataInativacao == null ? (DadosAntFunc.Datademissao??DateTime.Now.Date) : DadosAntFunc.DataInativacao;
+                        }
+                        else
+                        {
+                            DadosAntFunc.DataInativacao = funcionario.DataInativacao;
+                        }
+
                         DadosAntFunc.Idempresa = emp.Id;
                         DadosAntFunc.Iddepartamento = IdDep.GetValueOrDefault();
                         DadosAntFunc.Idfuncao = IdFuncao.GetValueOrDefault();
@@ -159,10 +172,11 @@ namespace cwkWebAPIPontoWeb.Controllers
                         erros = bllFuncionario.Salvar(acao, DadosAntFunc);
                         if (erros.Count > 0)
                         {
-                            TrataErros(erros);
+                            TrataErrosFuncionario(erros);
                         }
                         else
                         {
+                            BLL_N.JobManager.CalculoMarcacoes.RecalculaEdicaoFuncionario(DadosAntFunc, usuarioPontoWeb, true);
                             funcionario.Codigo = DadosAntFunc.Codigo;
                             return Request.CreateResponse(HttpStatusCode.OK, funcionario);
                         }
@@ -224,7 +238,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                         erros = bllFuncionario.Salvar(Acao.Excluir, funcionario);
                         if (erros.Count > 0)
                         {
-                            TrataErros(erros);
+                            TrataErrosFuncionario(erros);
                         }
                         else
                         {
@@ -373,12 +387,10 @@ namespace cwkWebAPIPontoWeb.Controllers
             return Request.CreateResponse(HttpStatusCode.BadRequest, retErro);
         }
 
-        private void TrataErros(Dictionary<string, string> erros)
+        private void TrataErrosFuncionario(Dictionary<string, string> erros)
         {
             //Componente Ex:txtCodigo, Nome no modelo onde o erro será adicionado Ex: Codigo
             Dictionary<string, string> ComponenteToModel = new Dictionary<string, string>();
-            ComponenteToModel.Add("txtPis", "Pis");
-            ComponenteToModel.Add("txtCPF", "CPF");
             ComponenteToModel.Add("txtCodigoDS", "Codigo");
 
             foreach (var item in ComponenteToModel)
@@ -386,6 +398,10 @@ namespace cwkWebAPIPontoWeb.Controllers
                 ErroToModelState(erros, item);
                 erros = erros.Where(x => !x.Key.Equals(item.Key)).ToDictionary(x => x.Key, x => x.Value);
             }
+
+            var camposComErro = typeof(LModel.Funcionario).GetProperties().Where(w => erros.Select(s => s.Key).Contains(w.Name)).Select(s => s.Name);
+            erros.Where(w => camposComErro.Contains(w.Key)).ToList().ForEach(f => ModelState.AddModelError(f.Key, f.Value));
+            camposComErro.ToList().ForEach(f => erros.Remove(f));
 
             if (erros.Count() > 0)
             {

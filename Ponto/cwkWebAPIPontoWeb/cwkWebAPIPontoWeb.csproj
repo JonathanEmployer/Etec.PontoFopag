@@ -388,6 +388,7 @@
     <Compile Include="Controllers\RepLogController.cs" />
     <Compile Include="Controllers\RetornaBilhetesOriginaisController.cs" />
     <Compile Include="Controllers\SaldoBancoHorasMesController.cs" />
+    <Compile Include="Controllers\SaveRawPostData.cs" />
     <Compile Include="Controllers\UsuarioRegistradorController.cs" />
     <Compile Include="CriptoString.cs" />
     <Compile Include="Global.asax.cs">

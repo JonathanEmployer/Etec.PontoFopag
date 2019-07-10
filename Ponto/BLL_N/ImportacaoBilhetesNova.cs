@@ -181,7 +181,7 @@ namespace BLL_N
                             int.TryParse(hangfireContext.BackgroundJob.Id, out idJob);
                             jobReport.JobId = idJob;
                             JobControl jobControl = HangfireManagerBase.GerarJobControl("Calculo de marcações de bilhetes importados", jobReport);
-                            var childHangfireJobId = new BackgroundJobClient().ContinueWith<CalculosJob>(hangfireContext.BackgroundJob.Id, x => x.RecalculaMarcacao(null, jobControl, database, usuarioLogado.Login, idsFuncs, dataInicial.GetValueOrDefault(), dataFinal.GetValueOrDefault()), new EnqueuedState("normal"));
+                            var childHangfireJobId = new BackgroundJobClient().ContinueWith<CalculosJob>(hangfireContext.BackgroundJob.Id, x => x.RecalculaMarcacao(null, jobControl, database, usuarioLogado.Login, idsFuncs, dataInicial.GetValueOrDefault(), dataFinal.GetValueOrDefault(), false), new EnqueuedState("normal"));
                         }
                         else
                         {

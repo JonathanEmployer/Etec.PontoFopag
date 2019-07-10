@@ -1,4 +1,5 @@
 ﻿using BLL_N.Hubs;
+using BLL_N.JobManager.Hangfire;
 using DAL.SQL;
 using Hangfire.Console;
 using Hangfire.Server;
@@ -176,6 +177,46 @@ namespace BLL_N.JobManager
             foreach (var grupo in funcsRecalculo.Where( w=> w.DataFim != null && w.DataInicio <= w.DataFim).GroupBy(g => new { g.DataInicio, g.DataFim }))
             {
                 CalculaMarcacoes(grupo.Select(s => s.IdFuncionario).ToList(), grupo.Key.DataInicio, grupo.Key.DataFim.GetValueOrDefault(), conexao, user, pb);
+            }
+        }
+
+        public static void RecalculaEdicaoFuncionario(Modelo.Funcionario funcionario, Modelo.UsuarioPontoWeb usuarioLogado, bool considerarInativos = false)
+        {
+            DateTime datai = DateTime.Now.AddMonths(-1);
+            DateTime dataf = DateTime.Now.AddMonths(2);
+            if ((funcionario.Funcionarioativo != funcionario.Funcionarioativo_Ant)
+                                || (funcionario.Dataadmissao_Ant != funcionario.Dataadmissao) || (funcionario.Datademissao_Ant != funcionario.Datademissao)
+                                || (funcionario.Naoentrarbanco_Ant != funcionario.Naoentrarbanco) || (funcionario.Naoentrarcompensacao_Ant != funcionario.Naoentrarcompensacao) || funcionario.DataInativacao != funcionario.DataInativacao_Ant)
+            {
+                if (funcionario.Datademissao_Ant != funcionario.Datademissao)
+                {
+                    if ((funcionario.Datademissao == null) || (funcionario.Datademissao > funcionario.Datademissao_Ant))
+                    {
+                        datai = funcionario.Datademissao_Ant.GetValueOrDefault();
+                    }
+                    else if ((funcionario.Datademissao_Ant == null) || (funcionario.Datademissao < funcionario.Datademissao_Ant))
+                    {
+                        datai = funcionario.Datademissao.GetValueOrDefault();
+                    }
+
+                }
+                else if (funcionario.Dataadmissao_Ant != funcionario.Dataadmissao && funcionario.Dataadmissao_Ant != null)
+                {
+                    datai = funcionario.Dataadmissao_Ant.GetValueOrDefault();
+                    dataf = funcionario.Dataadmissao.GetValueOrDefault();
+                    if (datai > dataf)
+                    {
+                        datai = funcionario.Dataadmissao.GetValueOrDefault();
+                        dataf = funcionario.Dataadmissao_Ant.GetValueOrDefault();
+                    }
+                }
+
+                HangfireManagerCalculos hfm = new HangfireManagerCalculos(usuarioLogado.DataBase, usuarioLogado.Login, "", "/Funcionario/Grid");
+                string parametrosExibicao = String.Format("Funcionário {0} | {1}", funcionario.Codigo, funcionario.Nome);
+
+                List<PxyFuncionariosRecalcular> funcsPeriodo = new List<PxyFuncionariosRecalcular>();
+                funcsPeriodo.Add(new PxyFuncionariosRecalcular() { IdFuncionario = funcionario.Id, DataInicio = datai });
+                Modelo.Proxy.PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de marcações do funcionário", parametrosExibicao, funcsPeriodo, considerarInativos);
             }
         }
 

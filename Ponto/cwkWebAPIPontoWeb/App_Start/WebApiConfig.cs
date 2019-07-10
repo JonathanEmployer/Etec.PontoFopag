@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
+using cwkWebAPIPontoWeb.Controllers;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 
@@ -19,6 +20,7 @@ namespace cwkWebAPIPontoWeb
 
             // Rotas de API Web
             config.MapHttpAttributeRoutes();
+            config.MessageHandlers.Add(new SaveRawPostData());
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

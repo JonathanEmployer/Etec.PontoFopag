@@ -173,6 +173,7 @@ namespace DAL.SQL
                                     , func.carteira AS carteira
                                     , func.dataadmissao
                                     , func.funcionarioativo
+                                    , func.DataInativacao
                                     , func.CPF
                                     , func.TipoMaoObra
                                     , func.IdAlocacao
@@ -217,6 +218,7 @@ namespace DAL.SQL
        func.datademissao,
        func.salario,
        func.funcionarioativo,
+       func.DataInativacao,
        func.naoentrarbanco,
        func.naoentrarcompensacao,
        func.excluido,
@@ -291,6 +293,7 @@ namespace DAL.SQL
                                        func.datademissao,
                                        func.salario,
                                        func.funcionarioativo,
+                                       func.DataInativacao,
                                        func.naoentrarbanco,
                                        func.naoentrarcompensacao,
                                        func.excluido,
@@ -359,6 +362,7 @@ namespace DAL.SQL
                                        func.datademissao,
                                        func.salario,
                                        func.funcionarioativo,
+                                       func.DataInativacao,
                                        func.naoentrarbanco,
                                        func.naoentrarcompensacao,
                                        func.excluido,
@@ -429,6 +433,7 @@ namespace DAL.SQL
                                        f.datademissao,
                                        f.salario,
                                        f.funcionarioativo,
+                                       f.DataInativacao,
                                        f.naoentrarbanco,
                                        f.naoentrarcompensacao,
                                        f.excluido,
@@ -484,6 +489,7 @@ namespace DAL.SQL
                                        f.datademissao,
                                        f.salario,
                                        f.funcionarioativo,
+                                       f.DataInativacao,
                                        f.naoentrarbanco,
                                        f.naoentrarcompensacao,
                                        f.excluido,
@@ -523,9 +529,9 @@ namespace DAL.SQL
                             WHERE ct.id = @idcontrato";
 
             INSERT = @"  INSERT INTO funcionario
-							( codigo,  dscodigo,  matricula,  nome,  codigofolha,  idempresa,  iddepartamento,  idfuncao,  idhorario,  tipohorario,  carteira,  dataadmissao,  datademissao,  salario,  funcionarioativo,  naoentrarbanco,  naoentrarcompensacao,  excluido,  campoobservacao,  foto,  incdata,  inchora,  incusuario,  pis,  senha,  toleranciaentrada,  toleranciasaida,  quantidadetickets,  tipotickets,  CPF,  Mob_Senha,  idcw_usuario,  utilizaregistrador,  idIntegracao,  IdPessoaSupervisor,  TipoMaoObra,  IdAlocacao,  IdTipoVinculo,  IdIntegracaoPainel,  Email,  RFID,  IdHorarioDinamico,  CicloSequenciaIndice)
+							( codigo,  dscodigo,  matricula,  nome,  codigofolha,  idempresa,  iddepartamento,  idfuncao,  idhorario,  tipohorario,  carteira,  dataadmissao,  datademissao,  salario,  naoentrarbanco,  naoentrarcompensacao,  excluido,  campoobservacao,  foto,  incdata,  inchora,  incusuario,  pis,  senha,  toleranciaentrada,  toleranciasaida,  quantidadetickets,  tipotickets,  CPF,  Mob_Senha,  idcw_usuario,  utilizaregistrador,  idIntegracao,  IdPessoaSupervisor,  TipoMaoObra,  IdAlocacao,  IdTipoVinculo,  IdIntegracaoPainel,  Email,  RFID,  IdHorarioDinamico,  CicloSequenciaIndice,  DataInativacao)
 							VALUES
-							(@codigo, @dscodigo, @matricula, @nome, @codigofolha, @idempresa, @iddepartamento, @idfuncao, @idhorario, @tipohorario, @carteira, @dataadmissao, @datademissao, @salario, @funcionarioativo, @naoentrarbanco, @naoentrarcompensacao, @excluido, @campoobservacao, @foto, @incdata, @inchora, @incusuario, @pis, @senha, @toleranciaentrada, @toleranciasaida, @quantidadetickets, @tipotickets, @CPF, @Mob_Senha, @idcw_usuario, @utilizaregistrador, @idIntegracao, @IdPessoaSupervisor, @TipoMaoObra, @IdAlocacao, @IdTipoVinculo, @IdIntegracaoPainel, @Email, @RFID, @IdHorarioDinamico, @CicloSequenciaIndice)
+							(@codigo, @dscodigo, @matricula, @nome, @codigofolha, @idempresa, @iddepartamento, @idfuncao, @idhorario, @tipohorario, @carteira, @dataadmissao, @datademissao, @salario, @naoentrarbanco, @naoentrarcompensacao, @excluido, @campoobservacao, @foto, @incdata, @inchora, @incusuario, @pis, @senha, @toleranciaentrada, @toleranciasaida, @quantidadetickets, @tipotickets, @CPF, @Mob_Senha, @idcw_usuario, @utilizaregistrador, @idIntegracao, @IdPessoaSupervisor, @TipoMaoObra, @IdAlocacao, @IdTipoVinculo, @IdIntegracaoPainel, @Email, @RFID, @IdHorarioDinamico, @CicloSequenciaIndice, @DataInativacao)
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE funcionario SET codigo = @codigo
@@ -542,7 +548,6 @@ namespace DAL.SQL
 							, dataadmissao = @dataadmissao
 							, datademissao = @datademissao
 							, salario = @salario
-							, funcionarioativo = @funcionarioativo
 							, naoentrarbanco = @naoentrarbanco
 							, naoentrarcompensacao = @naoentrarcompensacao
 							, excluido = @excluido
@@ -571,6 +576,7 @@ namespace DAL.SQL
                             , RFID = @RFID
                             , IdHorarioDinamico = @IdHorarioDinamico
                             , CicloSequenciaIndice = @CicloSequenciaIndice
+                            , DataInativacao = @DataInativacao
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM funcionario WHERE id = @id";
@@ -691,7 +697,6 @@ namespace DAL.SQL
             ((Modelo.Funcionario)obj).Idfuncao_Ant = ((Modelo.Funcionario)obj).Idfuncao;
             ((Modelo.Funcionario)obj).Dataadmissao_Ant = ((Modelo.Funcionario)obj).Dataadmissao;
             ((Modelo.Funcionario)obj).Datademissao_Ant = ((Modelo.Funcionario)obj).Datademissao;
-            ((Modelo.Funcionario)obj).Funcionarioativo_Ant = ((Modelo.Funcionario)obj).Funcionarioativo;
             ((Modelo.Funcionario)obj).CPF = dr["CPF"] is DBNull ? String.Empty : Convert.ToString(dr["CPF"]);
             ((Modelo.Funcionario)obj).Mob_Senha = dr["Mob_Senha"] is DBNull ? String.Empty : Convert.ToString(dr["Mob_Senha"]);
             ((Modelo.Funcionario)obj).Jornada = dr["jornada"] is DBNull ? String.Empty : Convert.ToString(dr["jornada"]);
@@ -732,6 +737,7 @@ namespace DAL.SQL
             ((Modelo.Funcionario)obj).IdHorarioDinamico = dr["IdHorarioDinamico"] is DBNull ? (Int32?)null : Convert.ToInt32(dr["IdHorarioDinamico"]);
             ((Modelo.Funcionario)obj).CicloSequenciaIndice = dr["CicloSequenciaIndice"] is DBNull ? (Int32?)null : Convert.ToInt32(dr["CicloSequenciaIndice"]);
             ((Modelo.Funcionario)obj).HorarioDinamico = dr["HorarioDinamico"] is DBNull ? String.Empty : Convert.ToString(dr["HorarioDinamico"]);
+            ((Modelo.Funcionario)obj).DataInativacao = (dr["DataInativacao"] is DBNull ? null : (DateTime?)(dr["DataInativacao"]));
         }
 
         protected override SqlParameter[] GetParameters()
@@ -753,7 +759,6 @@ namespace DAL.SQL
                 new SqlParameter ("@dataadmissao", SqlDbType.DateTime),
                 new SqlParameter ("@datademissao", SqlDbType.DateTime),
                 new SqlParameter ("@salario", SqlDbType.Decimal),
-                new SqlParameter ("@funcionarioativo", SqlDbType.TinyInt),
                 new SqlParameter ("@naoentrarbanco", SqlDbType.TinyInt),
                 new SqlParameter ("@naoentrarcompensacao", SqlDbType.TinyInt),
                 new SqlParameter ("@excluido", SqlDbType.TinyInt),
@@ -784,7 +789,8 @@ namespace DAL.SQL
                 new SqlParameter ("@Email", SqlDbType.VarChar),
                 new SqlParameter ("@RFID", SqlDbType.BigInt),
                 new SqlParameter ("@IdHorarioDinamico", SqlDbType.Int),
-                new SqlParameter ("@CicloSequenciaIndice", SqlDbType.Int)
+                new SqlParameter ("@CicloSequenciaIndice", SqlDbType.Int),
+                new SqlParameter ("@DataInativacao", SqlDbType.DateTime)
             };
             return parms;
         }
@@ -816,38 +822,41 @@ namespace DAL.SQL
                 parms[13].Value = DBNull.Value;
 
             parms[14].Value = ((Modelo.Funcionario)obj).Salario;
-            parms[15].Value = ((Modelo.Funcionario)obj).Funcionarioativo;
-            parms[16].Value = ((Modelo.Funcionario)obj).Naoentrarbanco;
-            parms[17].Value = ((Modelo.Funcionario)obj).Naoentrarcompensacao;
-            parms[18].Value = ((Modelo.Funcionario)obj).Excluido;
-            parms[19].Value = ((Modelo.Funcionario)obj).Campoobservacao;
-            parms[20].Value = ((Modelo.Funcionario)obj).Foto;
-            parms[21].Value = ((Modelo.Funcionario)obj).Incdata;
-            parms[22].Value = ((Modelo.Funcionario)obj).Inchora;
-            parms[23].Value = ((Modelo.Funcionario)obj).Incusuario;
-            parms[24].Value = ((Modelo.Funcionario)obj).Altdata;
-            parms[25].Value = ((Modelo.Funcionario)obj).Althora;
-            parms[26].Value = ((Modelo.Funcionario)obj).Altusuario;
-            parms[27].Value = ((Modelo.Funcionario)obj).Pis;
-            parms[28].Value = ((Modelo.Funcionario)obj).Senha;
-            parms[29].Value = ((Modelo.Funcionario)obj).ToleranciaEntrada;
-            parms[30].Value = ((Modelo.Funcionario)obj).ToleranciaSaida;
-            parms[31].Value = ((Modelo.Funcionario)obj).QuantidadeTickets;
-            parms[32].Value = ((Modelo.Funcionario)obj).TipoTickets;
-            parms[33].Value = ((Modelo.Funcionario)obj).CPF;
-            parms[34].Value = ((Modelo.Funcionario)obj).Mob_Senha;
-            parms[35].Value = ((Modelo.Funcionario)obj).IdCw_Usuario;
-            parms[36].Value = ((Modelo.Funcionario)obj).utilizaregistrador;
-            parms[37].Value = ((Modelo.Funcionario)obj).idIntegracao;
-            parms[38].Value = ((Modelo.Funcionario)obj).IdPessoaSupervisor;
-            parms[39].Value = ((Modelo.Funcionario)obj).TipoMaoObra;
-            parms[40].Value = ((Modelo.Funcionario)obj).IdAlocacao;
-            parms[41].Value = ((Modelo.Funcionario)obj).IdTipoVinculo == 0 ? null : ((Modelo.Funcionario)obj).IdTipoVinculo;
-            parms[42].Value = ((Modelo.Funcionario)obj).IdIntegracaoPainel == 0 ? null : ((Modelo.Funcionario)obj).IdIntegracaoPainel;
-            parms[43].Value = ((Modelo.Funcionario)obj).Email;
-            parms[44].Value = ((Modelo.Funcionario)obj).RFID == 0 ? null : ((Modelo.Funcionario)obj).RFID;
-            parms[45].Value = ((Modelo.Funcionario)obj).IdHorarioDinamico == 0 ? null : ((Modelo.Funcionario)obj).IdHorarioDinamico;
-            parms[46].Value = ((Modelo.Funcionario)obj).CicloSequenciaIndice == 0 ? null : ((Modelo.Funcionario)obj).CicloSequenciaIndice;
+            parms[15].Value = ((Modelo.Funcionario)obj).Naoentrarbanco;
+            parms[16].Value = ((Modelo.Funcionario)obj).Naoentrarcompensacao;
+            parms[17].Value = ((Modelo.Funcionario)obj).Excluido;
+            parms[18].Value = ((Modelo.Funcionario)obj).Campoobservacao;
+            parms[19].Value = ((Modelo.Funcionario)obj).Foto;
+            parms[20].Value = ((Modelo.Funcionario)obj).Incdata;
+            parms[21].Value = ((Modelo.Funcionario)obj).Inchora;
+            parms[22].Value = ((Modelo.Funcionario)obj).Incusuario;
+            parms[23].Value = ((Modelo.Funcionario)obj).Altdata;
+            parms[24].Value = ((Modelo.Funcionario)obj).Althora;
+            parms[25].Value = ((Modelo.Funcionario)obj).Altusuario;
+            parms[26].Value = ((Modelo.Funcionario)obj).Pis;
+            parms[27].Value = ((Modelo.Funcionario)obj).Senha;
+            parms[28].Value = ((Modelo.Funcionario)obj).ToleranciaEntrada;
+            parms[29].Value = ((Modelo.Funcionario)obj).ToleranciaSaida;
+            parms[30].Value = ((Modelo.Funcionario)obj).QuantidadeTickets;
+            parms[31].Value = ((Modelo.Funcionario)obj).TipoTickets;
+            parms[32].Value = ((Modelo.Funcionario)obj).CPF;
+            parms[33].Value = ((Modelo.Funcionario)obj).Mob_Senha;
+            parms[34].Value = ((Modelo.Funcionario)obj).IdCw_Usuario;
+            parms[35].Value = ((Modelo.Funcionario)obj).utilizaregistrador;
+            parms[36].Value = ((Modelo.Funcionario)obj).idIntegracao;
+            parms[37].Value = ((Modelo.Funcionario)obj).IdPessoaSupervisor;
+            parms[38].Value = ((Modelo.Funcionario)obj).TipoMaoObra;
+            parms[39].Value = ((Modelo.Funcionario)obj).IdAlocacao;
+            parms[40].Value = ((Modelo.Funcionario)obj).IdTipoVinculo == 0 ? null : ((Modelo.Funcionario)obj).IdTipoVinculo;
+            parms[41].Value = ((Modelo.Funcionario)obj).IdIntegracaoPainel == 0 ? null : ((Modelo.Funcionario)obj).IdIntegracaoPainel;
+            parms[42].Value = ((Modelo.Funcionario)obj).Email;
+            parms[43].Value = ((Modelo.Funcionario)obj).RFID == 0 ? null : ((Modelo.Funcionario)obj).RFID;
+            parms[44].Value = ((Modelo.Funcionario)obj).IdHorarioDinamico == 0 ? null : ((Modelo.Funcionario)obj).IdHorarioDinamico;
+            parms[45].Value = ((Modelo.Funcionario)obj).CicloSequenciaIndice == 0 ? null : ((Modelo.Funcionario)obj).CicloSequenciaIndice;
+            if (((Modelo.Funcionario)obj).DataInativacao != null && ((Modelo.Funcionario)obj).DataInativacao != new DateTime())
+                parms[46].Value = (((Modelo.Funcionario)obj).DataInativacao).Value.Date;
+            else
+                parms[46].Value = DBNull.Value;
         }
 
         public bool VerificaCodigoDuplicado(string pCodigo)
@@ -999,6 +1008,7 @@ namespace DAL.SQL
                                            func.datademissao,
                                            func.salario,
                                            func.funcionarioativo,
+                                           func.DataInativacao,
                                            func.naoentrarbanco,
                                            func.naoentrarcompensacao,
                                            func.excluido,
@@ -1716,6 +1726,7 @@ namespace DAL.SQL
                                            funcionario.datademissao,
                                            funcionario.salario,
                                            funcionario.funcionarioativo,
+                                           funcionario.DataInativacao,
                                            funcionario.naoentrarbanco,
                                            funcionario.naoentrarcompensacao,
                                            funcionario.excluido,
@@ -1982,6 +1993,7 @@ namespace DAL.SQL
                 ,func.Email
                 ,func.excluido
                 ,func.funcionarioativo
+                ,func.DataInativacao
                 ,func.id
                 ,func.IdAlocacao
                 ,func.idcw_usuario
@@ -2500,6 +2512,7 @@ namespace DAL.SQL
                                    func.datademissao,
                                    func.salario,
                                    func.funcionarioativo,
+                                   func.DataInativacao,
                                    func.naoentrarbanco,
                                    func.naoentrarcompensacao,
                                    func.excluido,
@@ -2599,6 +2612,7 @@ namespace DAL.SQL
 		                            CONVERT(VARCHAR(12),func.dataadmissao,103) DataAdmissao,
 		                            CONVERT(VARCHAR(12),func.datademissao,103) DataDemissao,
 		                            CASE WHEN func.funcionarioativo = 1 THEN 'Sim' ELSE 'Não' END Ativo,
+                                    CONVERT(VARCHAR(12),func.DataInativacao,103) DataInativacao,
 		                            CASE WHEN horario.tipohorario = 2 THEN 'Flexível' ELSE 'Normal' END TipoHorario,
 		                            CASE WHEN func.naoentrarbanco = 0 THEN 'Sim' ELSE 'Não' END EntraBancoHoras,
 		                            CASE WHEN func.naoentrarcompensacao = 0 THEN 'Sim' ELSE 'Não' END EntraCompensacao,
@@ -2682,6 +2696,7 @@ namespace DAL.SQL
                                    func.Email,
                                    func.excluido,
                                    func.funcionarioativo,
+                                   func.DataInativacao,
                                    func.id,
                                    func.IdAlocacao,
                                    func.idcw_usuario,
@@ -2804,6 +2819,7 @@ namespace DAL.SQL
                                    func.datademissao,
                                    func.salario,
                                    func.funcionarioativo,
+                                   func.DataInativacao,
                                    func.naoentrarbanco,
                                    func.naoentrarcompensacao,
                                    func.excluido,
@@ -2918,6 +2934,7 @@ namespace DAL.SQL
                                    func.datademissao,
                                    func.salario,
                                    func.funcionarioativo,
+                                   func.DataInativacao,
                                    func.naoentrarbanco,
                                    func.naoentrarcompensacao,
                                    func.excluido,
@@ -3024,6 +3041,7 @@ namespace DAL.SQL
                                    func.datademissao,
                                    func.salario,
                                    func.funcionarioativo,
+                                   func.DataInativacao,
                                    func.naoentrarbanco,
                                    func.naoentrarcompensacao,
                                    func.excluido,
@@ -3120,6 +3138,7 @@ namespace DAL.SQL
                                     func.datademissao,
                                     func.salario,
                                     func.funcionarioativo,
+                                    func.DataInativacao,
                                     func.naoentrarbanco,
                                     func.naoentrarcompensacao,
                                     func.excluido,
@@ -3222,6 +3241,7 @@ namespace DAL.SQL
                                     func.datademissao,
                                     func.salario,
                                     func.funcionarioativo,
+                                    func.DataInativacao,
                                     func.naoentrarbanco,
                                     func.naoentrarcompensacao,
                                     func.excluido,
@@ -3315,6 +3335,7 @@ namespace DAL.SQL
                                     func.datademissao,
                                     func.salario,
                                     func.funcionarioativo,
+                                    func.DataInativacao,
                                     func.naoentrarbanco,
                                     func.naoentrarcompensacao,
                                     func.excluido,
@@ -3408,6 +3429,7 @@ namespace DAL.SQL
                                    func.datademissao,
                                    func.salario,
                                    func.funcionarioativo,
+                                   func.DataInativacao,
                                    func.naoentrarbanco,
                                    func.naoentrarcompensacao,
                                    func.excluido,
@@ -3507,6 +3529,7 @@ namespace DAL.SQL
                                    func.datademissao,
                                    func.salario,
                                    func.funcionarioativo,
+                                   func.DataInativacao,
                                    func.naoentrarbanco,
                                    func.naoentrarcompensacao,
                                    func.excluido,
@@ -3725,6 +3748,7 @@ namespace DAL.SQL
                                    funcionario.datademissao,
                                    funcionario.salario,
                                    funcionario.funcionarioativo,
+                                   funcionario.DataInativacao,
                                    funcionario.naoentrarbanco,
                                    funcionario.naoentrarcompensacao,
                                    funcionario.excluido,
@@ -3828,6 +3852,7 @@ namespace DAL.SQL
                                    funcionario.datademissao,
                                    funcionario.salario,
                                    funcionario.funcionarioativo,
+                                   funcionario.DataInativacao,
                                    funcionario.naoentrarbanco,
                                    funcionario.naoentrarcompensacao,
                                    funcionario.excluido,
@@ -3930,6 +3955,7 @@ namespace DAL.SQL
                                    funcionario.datademissao,
                                    funcionario.salario,
                                    funcionario.funcionarioativo,
+                                   funcionario.DataInativacao,
                                    funcionario.naoentrarbanco,
                                    funcionario.naoentrarcompensacao,
                                    funcionario.excluido,
@@ -4039,6 +4065,7 @@ namespace DAL.SQL
                                    func.datademissao,
                                    func.salario,
                                    func.funcionarioativo,
+                                   func.DataInativacao,
                                    func.naoentrarbanco,
                                    func.naoentrarcompensacao,
                                    func.excluido,
@@ -4157,6 +4184,7 @@ namespace DAL.SQL
                                        func.datademissao,
                                        func.salario,
                                        func.funcionarioativo,
+                                       func.DataInativacao,
                                        func.naoentrarbanco,
                                        func.naoentrarcompensacao,
                                        func.excluido,
@@ -4252,6 +4280,7 @@ namespace DAL.SQL
                                        func.datademissao,
                                        func.salario,
                                        func.funcionarioativo,
+                                       func.DataInativacao,
                                        func.naoentrarbanco,
                                        func.naoentrarcompensacao,
                                        func.excluido,
@@ -4403,6 +4432,7 @@ namespace DAL.SQL
                                     , func.pis
                                     , func.nome
                                     , func.funcionarioativo
+                                    , func.DataInativacao
                                     , func.matricula AS matricula
                                     , ISNULL (func.dataadmissao,' ') AS dataadmissao
                                     , ISNULL (func.datademissao,' ') AS datademissao
@@ -4462,6 +4492,7 @@ namespace DAL.SQL
                                    func.datademissao,
                                    func.salario,
                                    func.funcionarioativo,
+                                   func.DataInativacao,
                                    func.naoentrarbanco,
                                    func.naoentrarcompensacao,
                                    func.excluido,
@@ -4612,6 +4643,7 @@ namespace DAL.SQL
                                            func.datademissao,
                                            func.salario,
                                            func.funcionarioativo,
+                                           func.DataInativacao,
                                            func.naoentrarbanco,
                                            func.naoentrarcompensacao,
                                            func.excluido,
@@ -4822,7 +4854,7 @@ namespace DAL.SQL
             };
             parms[0].Value = pIDs;
             string sql = @"select [id], [codigo], [dscodigo], [matricula], [nome], [codigofolha], [idempresa], [iddepartamento], [idfuncao], [idhorario], [tipohorario]
-                                  ,[carteira], [dataadmissao], [datademissao], [salario], [funcionarioativo], [naoentrarbanco], [naoentrarcompensacao], [excluido]
+                                  ,[carteira], [dataadmissao], [datademissao], [salario], [funcionarioativo], [DataInativacao], [naoentrarbanco], [naoentrarcompensacao], [excluido]
                                   ,[campoobservacao], [incdata], [inchora], [incusuario], [altdata], [althora], [altusuario], [pis], [senha], [toleranciaentrada]
                                   ,[toleranciasaida], [quantidadetickets], [tipotickets], [CPF], [Mob_Senha], [idcw_usuario], [IdPessoaSupervisor], [TipoMaoObra]
                               from funcionario f
@@ -5135,7 +5167,7 @@ namespace DAL.SQL
             parms[0].Value = String.Join(",", lPis);
 
             string sql = @"select f.id, f.dscodigo, f.nome, f.pis, f.idempresa, f.iddepartamento, f.idfuncao, f.idhorario, f.tipohorario, f.dataadmissao,
-	                               f.datademissao, f.funcionarioativo, f.excluido, f.matricula
+	                               f.datademissao, f.funcionarioativo, f.DataInativacao, f.excluido, f.matricula
                               from funcionario f
                              where CONVERT(DECIMAL, replace(replace(replace(f.pis,'.',''),'-',''),'/','')) in (select CONVERT(DECIMAL, replace(replace(replace(valor,'.',''),'-',''),'/',''))  from dbo.F_ClausulaIn(@lPis))";
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
@@ -5300,6 +5332,7 @@ namespace DAL.SQL
                                    f.datademissao,
                                    f.salario,
                                    f.funcionarioativo,
+                                   f.DataInativacao,
                                    f.naoentrarbanco,
                                    f.naoentrarcompensacao,
                                    f.excluido,
@@ -5386,6 +5419,7 @@ namespace DAL.SQL
 			                            f.dataadmissao ,
 			                            f.datademissao ,
 			                            f.funcionarioativo ,
+                                        f.DataInativacao,
 			                            f.excluido,
 			                            COUNT(*) OVER(PARTITION BY f.pis ORDER BY pis) qtd
 	                            FROM    funcionario f
@@ -5444,6 +5478,7 @@ namespace DAL.SQL
                                        func.datademissao,
                                        func.salario,
                                        func.funcionarioativo,
+                                       func.DataInativacao,
                                        func.naoentrarbanco,
                                        func.naoentrarcompensacao,
                                        func.excluido,
