@@ -59,6 +59,14 @@ namespace BLL_N.JobManager.Hangfire
             return jobReturn;
         }
 
+        public PxyJobReturn RecalculaMarcacao(string nomeProcesso, string parametrosExibicao, List<PxyFuncionariosRecalcular> funcsRecalculo)
+        {
+            JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
+            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.RecalculaMarcacao(null, jobControl, dataBase, usuarioLogado, funcsRecalculo), _enqueuedStateNormal);                                                                       
+            PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
+            return jobReturn;
+        }
+
         public PxyJobReturn RecalculaMarcacao(string nomeProcesso, string parametrosExibicao, List<int> idsFuncionario, DateTime dataInicial, DateTime dataFinal, DateTime dataInicial_Ant, DateTime dataFinal_Ant)
         {
             JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);

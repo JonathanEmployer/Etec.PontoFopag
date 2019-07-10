@@ -468,7 +468,7 @@ namespace BLL
                 //Verifica se o funcionário está demitido
                 if (pDataDemissao != null && pDataDemissao <= objMarcacao.Data)
                 {
-                    objMarcacao.Ocorrencia = "Funcionário Demitido";
+                    PreencheFuncionarioDemitido(objMarcacao);
                 }
                 else
                 {

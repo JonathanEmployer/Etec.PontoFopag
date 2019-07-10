@@ -42,6 +42,35 @@ namespace BLL_N.JobManager.Hangfire.Job
             }
         }
 
+        public void RecalculaMarcacao(PerformContext context, JobControl jobReport, string db, string usuario, List<PxyFuncionariosRecalcular> funcsRecalculo)
+        {
+            try
+            {
+                List<PxyFuncionariosRecalcular> FuncsSemDataFim = funcsRecalculo.Where(w => w.DataFim == null).ToList();
+                if (FuncsSemDataFim.Count > 0)
+                {
+                    string conexao = BLL.cwkFuncoes.ConstroiConexao(db).ConnectionString;
+                    DAL.SQL.Marcacao dalMarcacao = new DAL.SQL.Marcacao(new DataBase(conexao));
+                    DataTable dt = dalMarcacao.GetDataUltimaMarcacaoFuncionario(funcsRecalculo.Select(s => s.IdFuncionario).ToList());
+                    dt.AsEnumerable().ToList().ForEach(f => FuncsSemDataFim.Where(w => w.IdFuncionario == f.Field<int>("idfuncionario")).ToList().ForEach(fi => fi.DataFim = f.Field<DateTime>("data")));
+                }
+
+                foreach (var grupo in funcsRecalculo.Where(w => w.DataFim != null && w.DataInicio <= w.DataFim).GroupBy(g => new {
+                    g.DataInicio,
+                    g.DataFim
+                }))
+                {
+                    RecalculaMarcacao(context, jobReport, db, usuario, grupo.Select(s => s.IdFuncionario).ToList(), grupo.Key.DataInicio, grupo.Key.DataFim.GetValueOrDefault());
+                }
+
+            }
+            catch (Exception ex)
+            {
+                BLL.cwkFuncoes.LogarErro(ex);
+                throw ex;
+            }
+        }
+
         public void RecalculaMarcacao(PerformContext context, JobControl jobReport, string db, string usuario, int? pTipo, int pIdsTipo, DateTime dataInicial, DateTime dataFinal)
         {
             RecalculaMarcacao(context, jobReport, db, usuario, pTipo, new List<int> { pIdsTipo }, dataInicial, dataFinal);

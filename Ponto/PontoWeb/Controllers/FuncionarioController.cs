@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using BLL_N.JobManager.Hangfire;
+using Modelo.Proxy;
 
 namespace PontoWeb.Controllers
 {
@@ -259,9 +260,8 @@ namespace PontoWeb.Controllers
             UsuarioPontoWeb usuarioLogado = Usuario.GetUsuarioPontoWebLogadoCache();
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(connString, usuarioLogado);
             BLL.Empresa bllEmpresa = new BLL.Empresa(connString, usuarioLogado);
-
             Modelo.Funcionario funcionarioAntigo = bllFuncionario.LoadObject(funcionario.Id);
-
+            
             ValidarForm(funcionario);
 
             Modelo.Empresa empresaFuncionario = GetEmpresaFuncionario(funcionario, bllEmpresa);
@@ -301,25 +301,23 @@ namespace PontoWeb.Controllers
                         {
                             DateTime datai = DateTime.Now.AddMonths(-1);
                             DateTime dataf = DateTime.Now.AddMonths(2);
+
+                           
                             if (true == true || (funcionario.Funcionarioativo != funcionario.Funcionarioativo_Ant)
                                 || (funcionario.Dataadmissao_Ant != funcionario.Dataadmissao) || (funcionario.Datademissao_Ant != funcionario.Datademissao)
                                 || (funcionario.Naoentrarbanco_Ant != funcionario.Naoentrarbanco) || (funcionario.Naoentrarcompensacao_Ant != funcionario.Naoentrarcompensacao))
                             {
                                 if (funcionario.Datademissao_Ant != funcionario.Datademissao)
                                 {
-                                    if (funcionario.Datademissao == null)
+                                    if ((funcionario.Datademissao == null)||(funcionario.Datademissao > funcionario.Datademissao_Ant))
                                     {
                                         datai = funcionario.Datademissao_Ant.GetValueOrDefault();
                                     }
-                                    else if (funcionario.Datademissao_Ant == null)
+                                    else if ((funcionario.Datademissao_Ant == null)|| (funcionario.Datademissao < funcionario.Datademissao_Ant))
                                     {
                                         datai = funcionario.Datademissao.GetValueOrDefault();
                                     }
-                                    else 
-                                    {
-                                        datai = funcionario.Datademissao_Ant.GetValueOrDefault();
-                                    }
-                                    dataf = datai.AddMonths(1);
+
                                 }
                                 else if (funcionario.Dataadmissao_Ant != funcionario.Dataadmissao && funcionario.Dataadmissao_Ant != null)
                                 {
@@ -334,7 +332,10 @@ namespace PontoWeb.Controllers
 
                                 HangfireManagerCalculos hfm = new HangfireManagerCalculos(usuarioLogado.DataBase,"","","/Funcionario/Grid");
                                 string parametrosExibicao = String.Format("Funcionário {0} | {1}", funcionario.Codigo, funcionario.Nome);
-                                Modelo.Proxy.PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de marcações do funcionário", parametrosExibicao, new List<int> { funcionario.Id} , datai, dataf);
+
+                                List<PxyFuncionariosRecalcular> funcsPeriodo = new List<PxyFuncionariosRecalcular>();
+                                funcsPeriodo.Add(new PxyFuncionariosRecalcular() { IdFuncionario = funcionario.Id, DataInicio = datai });
+                                Modelo.Proxy.PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de marcações do funcionário", parametrosExibicao, funcsPeriodo);
                             }
 
                             //Se o Funcionário utiliza registrador insere funcionario no Central do cliente
