@@ -724,6 +724,7 @@ namespace DAL.SQL
 						", marcacao.Bancohorasdeb " +
 						", marcacao.Horascompensadas " +
                         ", marcacao.Dsr " +
+                        ", funcionario.datainativacao " +
                 "FROM marcacao_view as marcacao " +
                 "INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario " +
                 "INNER JOIN horario ON horario.id = marcacao.idhorario " +
@@ -1084,6 +1085,7 @@ namespace DAL.SQL
 						", marcacao.Bancohorasdeb " +
 						", marcacao.Horascompensadas " +
                         ", marcacao.Dsr " +
+                        ", funcionario.datainativacao " +
                 "FROM marcacao_view as marcacao " +
                 "INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario " +
                 "INNER JOIN horario ON horario.id = marcacao.idhorario " +
