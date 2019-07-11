@@ -738,6 +738,7 @@ namespace DAL.SQL
             ((Modelo.Funcionario)obj).CicloSequenciaIndice = dr["CicloSequenciaIndice"] is DBNull ? (Int32?)null : Convert.ToInt32(dr["CicloSequenciaIndice"]);
             ((Modelo.Funcionario)obj).HorarioDinamico = dr["HorarioDinamico"] is DBNull ? String.Empty : Convert.ToString(dr["HorarioDinamico"]);
             ((Modelo.Funcionario)obj).DataInativacao = (dr["DataInativacao"] is DBNull ? null : (DateTime?)(dr["DataInativacao"]));
+            ((Modelo.Funcionario)obj).DataInativacao_Ant = ((Modelo.Funcionario)obj).DataInativacao;
         }
 
         protected override SqlParameter[] GetParameters()

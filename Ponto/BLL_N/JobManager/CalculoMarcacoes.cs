@@ -183,7 +183,6 @@ namespace BLL_N.JobManager
         public static void RecalculaEdicaoFuncionario(Modelo.Funcionario funcionario, Modelo.UsuarioPontoWeb usuarioLogado, bool considerarInativos = false)
         {
             DateTime datai = DateTime.Now.AddMonths(-1);
-            DateTime dataf = DateTime.Now.AddMonths(2);
             if ((funcionario.Funcionarioativo != funcionario.Funcionarioativo_Ant)
                                 || (funcionario.Dataadmissao_Ant != funcionario.Dataadmissao) || (funcionario.Datademissao_Ant != funcionario.Datademissao)
                                 || (funcionario.Naoentrarbanco_Ant != funcionario.Naoentrarbanco) || (funcionario.Naoentrarcompensacao_Ant != funcionario.Naoentrarcompensacao) || funcionario.DataInativacao != funcionario.DataInativacao_Ant)
@@ -203,11 +202,20 @@ namespace BLL_N.JobManager
                 else if (funcionario.Dataadmissao_Ant != funcionario.Dataadmissao && funcionario.Dataadmissao_Ant != null)
                 {
                     datai = funcionario.Dataadmissao_Ant.GetValueOrDefault();
-                    dataf = funcionario.Dataadmissao.GetValueOrDefault();
-                    if (datai > dataf)
+                }
+                else if (funcionario.DataInativacao_Ant != funcionario.DataInativacao)
+                {
+                    if (funcionario.DataInativacao_Ant == null && funcionario.DataInativacao != null)
                     {
-                        datai = funcionario.Dataadmissao.GetValueOrDefault();
-                        dataf = funcionario.Dataadmissao_Ant.GetValueOrDefault();
+                        datai = funcionario.DataInativacao.GetValueOrDefault();
+                    }
+                    else if (funcionario.DataInativacao_Ant != null && funcionario.DataInativacao == null)
+                    {
+                        datai = funcionario.DataInativacao_Ant.GetValueOrDefault();
+                    }
+                    else 
+                    {
+                        datai = funcionario.DataInativacao_Ant > funcionario.DataInativacao ? funcionario.DataInativacao_Ant.GetValueOrDefault() : funcionario.DataInativacao.GetValueOrDefault();
                     }
                 }
 
