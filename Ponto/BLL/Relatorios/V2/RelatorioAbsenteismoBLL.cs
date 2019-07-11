@@ -92,8 +92,8 @@ namespace BLL.Relatorios.V2
                                                                            });
                 absenteismos = absenteismosSintetico;
                 nomerel = "rptAbsenteismoSintetico.rdlc";
-                nomeDoArquivo = "Relatório_Absenteismo_Sintetico_" + parms.InicioPeriodo.ToShortDateString() + "_" +
-                parms.FimPeriodo.ToShortDateString();
+                nomeDoArquivo = "Relatório_Absenteismo_Sintetico_" + parms.InicioPeriodo.ToString("ddMMyyyy") + "_" +
+                parms.FimPeriodo.ToString("ddMMyyyy");
             }
             else
             {
