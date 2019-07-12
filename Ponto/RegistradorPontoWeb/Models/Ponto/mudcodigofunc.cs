@@ -33,7 +33,7 @@ namespace RegistradorPontoWeb.Models.Ponto
     
         public virtual departamento departamento { get; set; }
         public virtual empresa empresa { get; set; }
-        public virtual funcionario funcionario { get; set; }
         public virtual horario horario { get; set; }
+        public virtual funcionario funcionario { get; set; }
     }
 }

@@ -45,8 +45,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual contrato contrato { get; set; }
         public virtual departamento departamento { get; set; }
         public virtual empresa empresa { get; set; }
-        public virtual funcionario funcionario { get; set; }
         public virtual LancamentoLoteFuncionario LancamentoLoteFuncionario { get; set; }
         public virtual ocorrencia ocorrencia { get; set; }
+        public virtual funcionario funcionario { get; set; }
     }
 }

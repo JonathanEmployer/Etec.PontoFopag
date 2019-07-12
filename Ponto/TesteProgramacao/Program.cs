@@ -1,4 +1,5 @@
-﻿using Quartz;
+﻿using Modelo.EntityFramework.MonitorPontofopag;
+using Quartz;
 using Quartz.Impl;
 using System;
 using System.Collections.Generic;
@@ -73,50 +74,14 @@ namespace TesteProgramacao
 
             //var result = "3+D]433}1}0{sdjfhasjdfhgakdgfhaksjdfhgaksdjagksdfhgaskdfhgaksdfh{sdjnfkjasdfhlakjsdfhlakjsdfhlakjdfhalskdjfha";
             //var resultado = result.Substring(result.IndexOf('{')+1).Split('{').ToList();
+            
 
-            new ComunicadorServico.ServicoComunicador();
-            eventLog1 = new System.Diagnostics.EventLog();
-            if (!System.Diagnostics.EventLog.SourceExists("ServIntegracaoPontofopag"))
-            {
-                System.Diagnostics.EventLog.CreateEventSource(
-                    "ServIntegracaoPontofopag", "LogServComunicadorPontofopag");
-            }
-            eventLog1.Source = "ServIntegracaoPontofopag";
-            eventLog1.Log = "LogServComunicadorPontofopag";
 
-            eventLog1.WriteEntry("Serviço Comunicador Iniciado.", EventLogEntryType.Information);
-            //log.Info("Serviço Comunicador Iniciado, gerando agendamentos...");
-            ISchedulerFactory sf = new StdSchedulerFactory();
-            _scheduler = sf.GetScheduler().Result;
-            if (!_scheduler.IsStarted)
-                _scheduler.Start();
 
-            IJobDetail job = JobBuilder.Create<Negocio.Jobs.MonitorarRepsJob>()
-                    .WithIdentity("MonitorarReps", "MonitorReps")
-                    .Build();
-
-            // Adiciona o trabalho para executar a cada 1 minuto
-            ITrigger trigger = TriggerBuilder.Create()
-                .WithIdentity("VericarReps", "MonitorReps")
-                .StartNow()
-                .WithSimpleSchedule(x => x
-                      .WithIntervalInMinutes(11000)
-                      //.RepeatForever()
-                      )
-                .Build();
-
-            // Agenda o job
-            _scheduler.ScheduleJob(job, trigger);
-
-            IJobDetail jobReciclar = JobBuilder.Create<Negocio.Jobs.ReiniciaServico>()
-                        .WithIdentity("ReciclarServico", "ReciclaServico")
-                        .Build();
-            ITrigger triggerReciclar = TriggerBuilder.Create()
-                .WithIdentity("Recicla", "ReciclaServico")
-                .WithCronSchedule("0 0 2 ? * SAT *")
-                .Build();
-            _scheduler.ScheduleJob(jobReciclar, triggerReciclar);
-
+            //Método para teste de erros na fila de calculo do pontofopag.
+            //Para testar basta passar o número do id do job e debugar
+            TesteHangfire th = new TesteHangfire();
+            th.Simular(562629);
 
             Console.Read();
         }

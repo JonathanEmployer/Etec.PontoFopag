@@ -25,7 +25,10 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<int> idLancamentoLote { get; set; }
         public Nullable<int> tipohorario { get; set; }
         public Nullable<int> idhorario { get; set; }
+        public Nullable<int> idHorarioDinamico { get; set; }
+        public Nullable<int> CicloSequenciaIndice { get; set; }
     
         public virtual LancamentoLote LancamentoLote { get; set; }
+        public virtual HorarioDinamico HorarioDinamico { get; set; }
     }
 }

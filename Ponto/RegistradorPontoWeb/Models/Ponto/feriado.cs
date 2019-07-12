@@ -34,6 +34,9 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<System.DateTime> althora { get; set; }
         public string altusuario { get; set; }
         public Nullable<int> IdIntegracao { get; set; }
+        public bool Parcial { get; set; }
+        public string HoraInicio { get; set; }
+        public string HoraFim { get; set; }
     
         public virtual departamento departamento { get; set; }
         public virtual empresa empresa { get; set; }

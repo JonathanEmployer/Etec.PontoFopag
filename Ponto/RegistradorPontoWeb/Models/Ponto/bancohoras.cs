@@ -127,5 +127,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public string SaldoBh_7 { get; set; }
         public string SaldoBh_8 { get; set; }
         public string SaldoBh_9 { get; set; }
+        public string LimiteBancoHorasSemanal { get; set; }
     }
 }

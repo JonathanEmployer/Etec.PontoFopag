@@ -23,11 +23,11 @@ namespace RegistradorPontoWeb.Models.Ponto
             this.empresacwusuario = new HashSet<empresacwusuario>();
             this.EnvioDadosRepDet = new HashSet<EnvioDadosRepDet>();
             this.feriado = new HashSet<feriado>();
-            this.funcionario = new HashSet<funcionario>();
             this.IP = new HashSet<IP>();
             this.EmpresaLogo = new HashSet<EmpresaLogo>();
             this.mudcodigofunc = new HashSet<mudcodigofunc>();
             this.ocorrenciaempresa = new HashSet<ocorrenciaempresa>();
+            this.funcionario = new HashSet<funcionario>();
             this.rep = new HashSet<rep>();
         }
     
@@ -91,8 +91,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<feriado> feriado { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<funcionario> funcionario { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IP> IP { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmpresaLogo> EmpresaLogo { get; set; }
@@ -100,6 +98,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual ICollection<mudcodigofunc> mudcodigofunc { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ocorrenciaempresa> ocorrenciaempresa { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<funcionario> funcionario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<rep> rep { get; set; }
     }

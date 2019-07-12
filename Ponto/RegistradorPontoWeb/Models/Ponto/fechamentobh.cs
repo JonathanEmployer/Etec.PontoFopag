@@ -34,6 +34,12 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<System.DateTime> altdata { get; set; }
         public Nullable<System.DateTime> althora { get; set; }
         public string altusuario { get; set; }
+        public string MotivoFechamento { get; set; }
+        public Nullable<int> IdBancoHoras { get; set; }
+        public Nullable<bool> PagamentoHoraCreAuto { get; set; }
+        public Nullable<bool> PagamentoHoraDebAuto { get; set; }
+        public string LimiteHorasPagamentoCredito { get; set; }
+        public string LimiteHorasPagamentoDebito { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<fechamentobhd> fechamentobhd { get; set; }

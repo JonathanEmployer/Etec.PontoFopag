@@ -19,6 +19,7 @@ namespace RegistradorPontoWeb.Models.Ponto
         {
             this.horariodetalhe = new HashSet<horariodetalhe>();
             this.jornadaalternativa = new HashSet<jornadaalternativa>();
+            this.HorarioDinamicoCiclo = new HashSet<HorarioDinamicoCiclo>();
         }
     
         public int id { get; set; }
@@ -43,5 +44,7 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual ICollection<horariodetalhe> horariodetalhe { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<jornadaalternativa> jornadaalternativa { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HorarioDinamicoCiclo> HorarioDinamicoCiclo { get; set; }
     }
 }

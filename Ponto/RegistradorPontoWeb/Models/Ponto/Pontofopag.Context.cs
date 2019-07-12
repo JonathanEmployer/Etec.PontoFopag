@@ -74,13 +74,11 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual DbSet<feriado> feriado { get; set; }
         public virtual DbSet<FeriadoFuncionario> FeriadoFuncionario { get; set; }
         public virtual DbSet<funcao> funcao { get; set; }
-        public virtual DbSet<funcionario> funcionario { get; set; }
         public virtual DbSet<funcionariohistorico> funcionariohistorico { get; set; }
         public virtual DbSet<horario> horario { get; set; }
         public virtual DbSet<horariodetalhe> horariodetalhe { get; set; }
         public virtual DbSet<HorarioInItinere> HorarioInItinere { get; set; }
         public virtual DbSet<horariophextra> horariophextra { get; set; }
-        public virtual DbSet<Importacaoautomatica> Importacaoautomatica { get; set; }
         public virtual DbSet<importalayouttexto> importalayouttexto { get; set; }
         public virtual DbSet<inclusaobanco> inclusaobanco { get; set; }
         public virtual DbSet<inconsistencia> inconsistencia { get; set; }
@@ -111,18 +109,29 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual DbSet<Pessoa> Pessoa { get; set; }
         public virtual DbSet<provisorio> provisorio { get; set; }
         public virtual DbSet<RegistroPonto> RegistroPonto { get; set; }
-        public virtual DbSet<rep> rep { get; set; }
-        public virtual DbSet<RepHistoricoLocal> RepHistoricoLocal { get; set; }
         public virtual DbSet<RepLog> RepLog { get; set; }
         public virtual DbSet<Revendas> Revendas { get; set; }
         public virtual DbSet<TAB_Configuracao_CDC_Tabela> TAB_Configuracao_CDC_Tabela { get; set; }
         public virtual DbSet<TAB_Tipo_Configuracao_CDC_Tabela> TAB_Tipo_Configuracao_CDC_Tabela { get; set; }
-        public virtual DbSet<tipobilhetes> tipobilhetes { get; set; }
         public virtual DbSet<TipoVinculo> TipoVinculo { get; set; }
         public virtual DbSet<AlertasDisponiveis> AlertasDisponiveis { get; set; }
         public virtual DbSet<cw_grupoacesso> cw_grupoacesso { get; set; }
-        public virtual DbSet<inclusaobanco_bkp> inclusaobanco_bkp { get; set; }
         public virtual DbSet<TabelasPontoCDC> TabelasPontoCDC { get; set; }
+        public virtual DbSet<funcionario> funcionario { get; set; }
+        public virtual DbSet<FuncionarioRFID> FuncionarioRFID { get; set; }
+        public virtual DbSet<HorarioDinamico> HorarioDinamico { get; set; }
+        public virtual DbSet<HorarioDinamicoCiclo> HorarioDinamicoCiclo { get; set; }
+        public virtual DbSet<HorarioDinamicoCicloSequencia> HorarioDinamicoCicloSequencia { get; set; }
+        public virtual DbSet<HorarioDinamicoLimiteDdsr> HorarioDinamicoLimiteDdsr { get; set; }
+        public virtual DbSet<HorarioDinamicoPHExtra> HorarioDinamicoPHExtra { get; set; }
+        public virtual DbSet<TipoBiometria> TipoBiometria { get; set; }
+        public virtual DbSet<AFD> AFD { get; set; }
+        public virtual DbSet<BilhetesImpEnvioAviso> BilhetesImpEnvioAviso { get; set; }
+        public virtual DbSet<EquipamentoTipoBiometria> EquipamentoTipoBiometria { get; set; }
+        public virtual DbSet<Importacaoautomatica> Importacaoautomatica { get; set; }
+        public virtual DbSet<rep> rep { get; set; }
+        public virtual DbSet<RepHistoricoLocal> RepHistoricoLocal { get; set; }
+        public virtual DbSet<tipobilhetes> tipobilhetes { get; set; }
     
         [DbFunction("PontofopagEntities", "F_BancoHoras")]
         public virtual IQueryable<F_BancoHoras_Result> F_BancoHoras(Nullable<System.DateTime> data, Nullable<int> idFuncionario)

@@ -12,12 +12,9 @@ namespace RegistradorPontoWeb.Models.Ponto
     using System;
     using System.Collections.Generic;
     
-    public partial class Importacaoautomatica
+    public partial class BilhetesImpEnvioAviso
     {
-        public int ID { get; set; }
-        public int IDTipoBilhete { get; set; }
-        public System.DateTime UltimaImportacao { get; set; }
-        public string Tamanhoarquivo { get; set; }
+        public int id { get; set; }
         public Nullable<int> codigo { get; set; }
         public Nullable<System.DateTime> incdata { get; set; }
         public Nullable<System.DateTime> inchora { get; set; }
@@ -25,7 +22,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<System.DateTime> altdata { get; set; }
         public Nullable<System.DateTime> althora { get; set; }
         public string altusuario { get; set; }
+        public Nullable<int> idBilhetesImp { get; set; }
     
-        public virtual tipobilhetes tipobilhetes { get; set; }
+        public virtual bilhetesimp bilhetesimp { get; set; }
     }
 }

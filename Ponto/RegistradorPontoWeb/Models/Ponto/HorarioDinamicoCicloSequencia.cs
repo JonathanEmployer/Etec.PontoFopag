@@ -12,24 +12,22 @@ namespace RegistradorPontoWeb.Models.Ponto
     using System;
     using System.Collections.Generic;
     
-    public partial class inclusaobanco_bkp
+    public partial class HorarioDinamicoCicloSequencia
     {
         public int id { get; set; }
         public int codigo { get; set; }
-        public Nullable<System.DateTime> data { get; set; }
-        public Nullable<int> tipo { get; set; }
-        public Nullable<int> identificacao { get; set; }
-        public Nullable<int> tipocreditodebito { get; set; }
-        public string credito { get; set; }
-        public string debito { get; set; }
-        public Nullable<int> fechado { get; set; }
-        public Nullable<int> idusuario { get; set; }
         public Nullable<System.DateTime> incdata { get; set; }
         public Nullable<System.DateTime> inchora { get; set; }
         public string incusuario { get; set; }
         public Nullable<System.DateTime> altdata { get; set; }
         public Nullable<System.DateTime> althora { get; set; }
         public string altusuario { get; set; }
-        public Nullable<int> idLancamentoLoteFuncionario { get; set; }
+        public int indice { get; set; }
+        public bool trabalha { get; set; }
+        public bool folga { get; set; }
+        public bool dsr { get; set; }
+        public Nullable<int> idhorariodinamicoCiclo { get; set; }
+    
+        public virtual HorarioDinamicoCiclo HorarioDinamicoCiclo { get; set; }
     }
 }

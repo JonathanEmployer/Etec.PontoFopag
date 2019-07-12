@@ -114,6 +114,11 @@ namespace RegistradorPontoWeb.Models.Ponto
         public string LoginBloqueioEdicaoPnlRh { get; set; }
         public Nullable<System.DateTime> DataConclusaoFluxoPnlRh { get; set; }
         public string LoginConclusaoFluxoPnlRh { get; set; }
+        public string horaExtraInterjornada { get; set; }
+        public string horasTrabalhadasDentroFeriadoDiurna { get; set; }
+        public string horasTrabalhadasDentroFeriadoNoturna { get; set; }
+        public string horasPrevistasDentroFeriadoDiurna { get; set; }
+        public string horasPrevistasDentroFeriadoNoturna { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClassificacaoHorasExtras> ClassificacaoHorasExtras { get; set; }
@@ -121,7 +126,7 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual fechamentobh fechamentobh { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<fechamentobhdHE> fechamentobhdHE { get; set; }
-        public virtual funcionario funcionario { get; set; }
         public virtual horario horario { get; set; }
+        public virtual funcionario funcionario { get; set; }
     }
 }

@@ -27,6 +27,7 @@ namespace RegistradorPontoWeb.Models.Ponto
             this.FeriadoFuncionario = new HashSet<FeriadoFuncionario>();
             this.LogErroPainelAPI = new HashSet<LogErroPainelAPI>();
             this.funcionariohistorico = new HashSet<funcionariohistorico>();
+            this.FuncionarioRFID = new HashSet<FuncionarioRFID>();
             this.LancamentoLoteFuncionario = new HashSet<LancamentoLoteFuncionario>();
             this.marcacao = new HashSet<marcacao>();
             this.marcacaoacesso = new HashSet<marcacaoacesso>();
@@ -50,7 +51,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<System.DateTime> dataadmissao { get; set; }
         public Nullable<System.DateTime> datademissao { get; set; }
         public Nullable<decimal> salario { get; set; }
-        public Nullable<int> funcionarioativo { get; set; }
         public Nullable<int> naoentrarbanco { get; set; }
         public Nullable<int> naoentrarcompensacao { get; set; }
         public Nullable<int> excluido { get; set; }
@@ -79,6 +79,11 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<int> IdTipoVinculo { get; set; }
         public string Email { get; set; }
         public Nullable<int> IdIntegracaoPainel { get; set; }
+        public Nullable<long> RFID { get; set; }
+        public Nullable<int> idHorarioDinamico { get; set; }
+        public Nullable<int> CicloSequenciaIndice { get; set; }
+        public Nullable<System.DateTime> DataInativacao { get; set; }
+        public Nullable<bool> funcionarioativo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<afastamento> afastamento { get; set; }
@@ -101,6 +106,7 @@ namespace RegistradorPontoWeb.Models.Ponto
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FeriadoFuncionario> FeriadoFuncionario { get; set; }
         public virtual funcao funcao { get; set; }
+        public virtual HorarioDinamico HorarioDinamico { get; set; }
         public virtual horario horario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LogErroPainelAPI> LogErroPainelAPI { get; set; }
@@ -108,6 +114,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual TipoVinculo TipoVinculo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<funcionariohistorico> funcionariohistorico { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FuncionarioRFID> FuncionarioRFID { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LancamentoLoteFuncionario> LancamentoLoteFuncionario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

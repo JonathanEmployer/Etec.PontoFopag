@@ -12,28 +12,33 @@ namespace RegistradorPontoWeb.Models.Ponto
     using System;
     using System.Collections.Generic;
     
-    public partial class EnvioDadosRep
+    public partial class HorarioDinamicoCiclo
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public EnvioDadosRep()
+        public HorarioDinamicoCiclo()
         {
-            this.EnvioDadosRepDet = new HashSet<EnvioDadosRepDet>();
+            this.HorarioDinamicoCicloSequencia = new HashSet<HorarioDinamicoCicloSequencia>();
         }
     
-        public int ID { get; set; }
-        public Nullable<int> Codigo { get; set; }
-        public Nullable<int> IDRep { get; set; }
-        public Nullable<bool> bOperacao { get; set; }
+        public int id { get; set; }
+        public int codigo { get; set; }
         public Nullable<System.DateTime> incdata { get; set; }
         public Nullable<System.DateTime> inchora { get; set; }
         public string incusuario { get; set; }
         public Nullable<System.DateTime> altdata { get; set; }
         public Nullable<System.DateTime> althora { get; set; }
         public string altusuario { get; set; }
-        public string TipoComunicacao { get; set; }
+        public int indice { get; set; }
+        public int qtdSequencia { get; set; }
+        public Nullable<int> preassinaladas1 { get; set; }
+        public Nullable<int> preassinaladas2 { get; set; }
+        public Nullable<int> preassinaladas3 { get; set; }
+        public int idjornada { get; set; }
+        public int idHorarioDinamico { get; set; }
     
+        public virtual HorarioDinamico HorarioDinamico { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EnvioDadosRepDet> EnvioDadosRepDet { get; set; }
-        public virtual rep rep { get; set; }
+        public virtual ICollection<HorarioDinamicoCicloSequencia> HorarioDinamicoCicloSequencia { get; set; }
+        public virtual jornada jornada { get; set; }
     }
 }

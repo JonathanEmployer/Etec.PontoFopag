@@ -19,8 +19,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         {
             this.afastamento = new HashSet<afastamento>();
             this.feriado = new HashSet<feriado>();
-            this.funcionario = new HashSet<funcionario>();
             this.mudcodigofunc = new HashSet<mudcodigofunc>();
+            this.funcionario = new HashSet<funcionario>();
         }
     
         public int id { get; set; }
@@ -44,8 +44,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<feriado> feriado { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<funcionario> funcionario { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<mudcodigofunc> mudcodigofunc { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<funcionario> funcionario { get; set; }
     }
 }
