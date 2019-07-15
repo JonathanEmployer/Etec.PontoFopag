@@ -117,7 +117,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual DbSet<AlertasDisponiveis> AlertasDisponiveis { get; set; }
         public virtual DbSet<cw_grupoacesso> cw_grupoacesso { get; set; }
         public virtual DbSet<TabelasPontoCDC> TabelasPontoCDC { get; set; }
-        public virtual DbSet<funcionario> funcionario { get; set; }
         public virtual DbSet<FuncionarioRFID> FuncionarioRFID { get; set; }
         public virtual DbSet<HorarioDinamico> HorarioDinamico { get; set; }
         public virtual DbSet<HorarioDinamicoCiclo> HorarioDinamicoCiclo { get; set; }
@@ -126,12 +125,12 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual DbSet<HorarioDinamicoPHExtra> HorarioDinamicoPHExtra { get; set; }
         public virtual DbSet<TipoBiometria> TipoBiometria { get; set; }
         public virtual DbSet<AFD> AFD { get; set; }
-        public virtual DbSet<BilhetesImpEnvioAviso> BilhetesImpEnvioAviso { get; set; }
         public virtual DbSet<EquipamentoTipoBiometria> EquipamentoTipoBiometria { get; set; }
         public virtual DbSet<Importacaoautomatica> Importacaoautomatica { get; set; }
         public virtual DbSet<rep> rep { get; set; }
         public virtual DbSet<RepHistoricoLocal> RepHistoricoLocal { get; set; }
         public virtual DbSet<tipobilhetes> tipobilhetes { get; set; }
+        public virtual DbSet<funcionario> funcionario { get; set; }
     
         [DbFunction("PontofopagEntities", "F_BancoHoras")]
         public virtual IQueryable<F_BancoHoras_Result> F_BancoHoras(Nullable<System.DateTime> data, Nullable<int> idFuncionario)

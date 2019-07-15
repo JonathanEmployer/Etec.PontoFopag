@@ -166,7 +166,6 @@
         <AssociationConnector Association="PontofopagModel.FK_MudancaHorario_LancamentoLoteFuncionario" />
         <AssociationConnector Association="PontofopagModel.FK_ocorrenciaempresa_ocorrencia" />
         <AssociationConnector Association="PontofopagModel.FK_TAB_Configuracao_CDC_Tabela_1" />
-        <EntityTypeShape EntityType="PontofopagModel.funcionario" Width="1.5" PointX="4" PointY="81.875" />
         <EntityTypeShape EntityType="PontofopagModel.FuncionarioRFID" Width="1.5" PointX="7.5" PointY="81.125" />
         <EntityTypeShape EntityType="PontofopagModel.HorarioDinamico" Width="1.5" PointX="0.75" PointY="60.625" />
         <EntityTypeShape EntityType="PontofopagModel.HorarioDinamicoCiclo" Width="1.5" PointX="4.5" PointY="43.125" />
@@ -175,6 +174,28 @@
         <EntityTypeShape EntityType="PontofopagModel.HorarioDinamicoPHExtra" Width="1.5" PointX="3" PointY="74.375" />
         <EntityTypeShape EntityType="PontofopagModel.TipoBiometria" Width="1.5" PointX="13.125" PointY="18.75" />
         <EntityTypeShape EntityType="PontofopagModel.AFD" Width="1.5" PointX="15.125" PointY="18.75" />
+        <AssociationConnector Association="PontofopagModel.FK__horario__idHorar__00115387" />
+        <AssociationConnector Association="PontofopagModel.FK__Lancament__idHor__07B2754F" />
+        <AssociationConnector Association="PontofopagModel.FK__mudancaho__idHor__010577C0" />
+        <AssociationConnector Association="PontofopagModel.fk_HorarioDinamico_HorarioDinamicoCiclo" />
+        <AssociationConnector Association="PontofopagModel.FK_HorarioDinamico_HorarioDinamicoLimiteDdsr" />
+        <AssociationConnector Association="PontofopagModel.fk_HorarioDinamico_HorarioDinamicoPhExtra" />
+        <AssociationConnector Association="PontofopagModel.fk_HDCic_HorarioDinamicoCicloSequencia" />
+        <AssociationConnector Association="PontofopagModel.fk_jornada_HorarioDinamicoCiclo" />
+        <EntityTypeShape EntityType="PontofopagModel.EquipamentoTipoBiometria" Width="1.5" PointX="20" PointY="30.625" />
+        <EntityTypeShape EntityType="PontofopagModel.Importacaoautomatica" Width="1.5" PointX="26.75" PointY="37.75" />
+        <EntityTypeShape EntityType="PontofopagModel.rep" Width="1.5" PointX="22.25" PointY="37.125" />
+        <EntityTypeShape EntityType="PontofopagModel.RepHistoricoLocal" Width="1.5" PointX="24.5" PointY="52.75" />
+        <EntityTypeShape EntityType="PontofopagModel.tipobilhetes" Width="1.5" PointX="24.5" PointY="35.875" />
+        <AssociationConnector Association="PontofopagModel.fk_Biometria_Rep" />
+        <AssociationConnector Association="PontofopagModel.FK_rep_empresa" />
+        <AssociationConnector Association="PontofopagModel.FK_EnvioDadosRep_rep" />
+        <AssociationConnector Association="PontofopagModel.fk_Rep_EquipamentoTipoBiometria" />
+        <AssociationConnector Association="PontofopagModel.FK_Importacaoautomatica_tipobilhetes" />
+        <AssociationConnector Association="PontofopagModel.FK_RepHistoricoLocal_Rep" />
+        <AssociationConnector Association="PontofopagModel.fk_RepLog_Rep" />
+        <AssociationConnector Association="PontofopagModel.FK_tipobilhetes_rep" />
+        <EntityTypeShape EntityType="PontofopagModel.funcionario" Width="1.5" PointX="21.25" PointY="69.5" />
         <AssociationConnector Association="PontofopagModel.FK_afastamento_funcionario" />
         <AssociationConnector Association="PontofopagModel.FK_AlertasFuncionario_funcionario" />
         <AssociationConnector Association="PontofopagModel.FK_Funcionario_Alocacao" />
@@ -188,7 +209,7 @@
         <AssociationConnector Association="PontofopagModel.FK_FechamentoPontoFuncionario_Funcionario" />
         <AssociationConnector Association="PontofopagModel.fk_FeriadoFuncionario_Funcionario" />
         <AssociationConnector Association="PontofopagModel.FK_funcionario_funcao" />
-        <AssociationConnector Association="PontofopagModel.FK__funcionar__idHor__08A69988" />
+        <AssociationConnector Association="PontofopagModel.FK__funcionar__idHor__599FFB2E" />
         <AssociationConnector Association="PontofopagModel.FK_funcionario_horario" />
         <AssociationConnector Association="PontofopagModel.fk_funcionario_idFuncionario" />
         <AssociationConnector Association="PontofopagModel.FK_Funcionario_Pessoa" />
@@ -201,29 +222,6 @@
         <AssociationConnector Association="PontofopagModel.FK_mudancahorario_funcionario" />
         <AssociationConnector Association="PontofopagModel.FK_mudcodigofunc_funcionario" />
         <AssociationConnector Association="PontofopagModel.fk_RegistroPonto_Funcionarios" />
-        <AssociationConnector Association="PontofopagModel.FK__horario__idHorar__00115387" />
-        <AssociationConnector Association="PontofopagModel.FK__Lancament__idHor__07B2754F" />
-        <AssociationConnector Association="PontofopagModel.FK__mudancaho__idHor__010577C0" />
-        <AssociationConnector Association="PontofopagModel.fk_HorarioDinamico_HorarioDinamicoCiclo" />
-        <AssociationConnector Association="PontofopagModel.FK_HorarioDinamico_HorarioDinamicoLimiteDdsr" />
-        <AssociationConnector Association="PontofopagModel.fk_HorarioDinamico_HorarioDinamicoPhExtra" />
-        <AssociationConnector Association="PontofopagModel.fk_HDCic_HorarioDinamicoCicloSequencia" />
-        <AssociationConnector Association="PontofopagModel.fk_jornada_HorarioDinamicoCiclo" />
-        <EntityTypeShape EntityType="PontofopagModel.BilhetesImpEnvioAviso" Width="1.5" PointX="18" PointY="102.5" />
-        <EntityTypeShape EntityType="PontofopagModel.EquipamentoTipoBiometria" Width="1.5" PointX="20" PointY="30.625" />
-        <EntityTypeShape EntityType="PontofopagModel.Importacaoautomatica" Width="1.5" PointX="26.75" PointY="37.75" />
-        <EntityTypeShape EntityType="PontofopagModel.rep" Width="1.5" PointX="22.25" PointY="37.125" />
-        <EntityTypeShape EntityType="PontofopagModel.RepHistoricoLocal" Width="1.5" PointX="24.5" PointY="52.75" />
-        <EntityTypeShape EntityType="PontofopagModel.tipobilhetes" Width="1.5" PointX="24.5" PointY="35.875" />
-        <AssociationConnector Association="PontofopagModel.fk_BilhetesImp_BilhetesImpEnvioAviso" />
-        <AssociationConnector Association="PontofopagModel.fk_Biometria_Rep" />
-        <AssociationConnector Association="PontofopagModel.FK_rep_empresa" />
-        <AssociationConnector Association="PontofopagModel.FK_EnvioDadosRep_rep" />
-        <AssociationConnector Association="PontofopagModel.fk_Rep_EquipamentoTipoBiometria" />
-        <AssociationConnector Association="PontofopagModel.FK_Importacaoautomatica_tipobilhetes" />
-        <AssociationConnector Association="PontofopagModel.FK_RepHistoricoLocal_Rep" />
-        <AssociationConnector Association="PontofopagModel.fk_RepLog_Rep" />
-        <AssociationConnector Association="PontofopagModel.FK_tipobilhetes_rep" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

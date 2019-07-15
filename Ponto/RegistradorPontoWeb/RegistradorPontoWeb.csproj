@@ -214,9 +214,6 @@
     <Compile Include="Models\Ponto\bilhetesimp.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Ponto\BilhetesImpEnvioAviso.cs">
-      <DependentUpon>Pontofopag.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Ponto\biometria.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>

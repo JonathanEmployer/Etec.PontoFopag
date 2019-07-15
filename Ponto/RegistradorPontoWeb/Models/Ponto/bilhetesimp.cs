@@ -18,7 +18,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public bilhetesimp()
         {
             this.LocalizacaoRegistroPonto = new HashSet<LocalizacaoRegistroPonto>();
-            this.BilhetesImpEnvioAviso = new HashSet<BilhetesImpEnvioAviso>();
         }
     
         public int id { get; set; }
@@ -56,7 +55,5 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual RegistroPonto RegistroPonto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LocalizacaoRegistroPonto> LocalizacaoRegistroPonto { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BilhetesImpEnvioAviso> BilhetesImpEnvioAviso { get; set; }
     }
 }

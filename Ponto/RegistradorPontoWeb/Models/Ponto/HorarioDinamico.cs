@@ -17,13 +17,13 @@ namespace RegistradorPontoWeb.Models.Ponto
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public HorarioDinamico()
         {
-            this.funcionario = new HashSet<funcionario>();
             this.horario = new HashSet<horario>();
             this.LancamentoLoteMudancaHorario = new HashSet<LancamentoLoteMudancaHorario>();
             this.mudancahorario = new HashSet<mudancahorario>();
             this.HorarioDinamicoCiclo = new HashSet<HorarioDinamicoCiclo>();
             this.HorarioDinamicoLimiteDdsr = new HashSet<HorarioDinamicoLimiteDdsr>();
             this.HorarioDinamicoPHExtra = new HashSet<HorarioDinamicoPHExtra>();
+            this.funcionario = new HashSet<funcionario>();
         }
     
         public int id { get; set; }
@@ -109,8 +109,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public bool DSRPorPercentual { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<funcionario> funcionario { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<horario> horario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LancamentoLoteMudancaHorario> LancamentoLoteMudancaHorario { get; set; }
@@ -122,5 +120,7 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual ICollection<HorarioDinamicoLimiteDdsr> HorarioDinamicoLimiteDdsr { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HorarioDinamicoPHExtra> HorarioDinamicoPHExtra { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<funcionario> funcionario { get; set; }
     }
 }

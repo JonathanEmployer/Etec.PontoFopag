@@ -34,7 +34,7 @@ namespace RegistradorPontoWeb.Models.Ponto
     
         public virtual horario horario { get; set; }
         public virtual LancamentoLoteFuncionario LancamentoLoteFuncionario { get; set; }
-        public virtual funcionario funcionario { get; set; }
         public virtual HorarioDinamico HorarioDinamico { get; set; }
+        public virtual funcionario funcionario { get; set; }
     }
 }

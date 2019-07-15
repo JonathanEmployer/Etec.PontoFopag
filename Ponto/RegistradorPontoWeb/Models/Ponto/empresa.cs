@@ -27,8 +27,8 @@ namespace RegistradorPontoWeb.Models.Ponto
             this.EmpresaLogo = new HashSet<EmpresaLogo>();
             this.mudcodigofunc = new HashSet<mudcodigofunc>();
             this.ocorrenciaempresa = new HashSet<ocorrenciaempresa>();
-            this.funcionario = new HashSet<funcionario>();
             this.rep = new HashSet<rep>();
+            this.funcionario = new HashSet<funcionario>();
         }
     
         public int id { get; set; }
@@ -99,8 +99,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ocorrenciaempresa> ocorrenciaempresa { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<funcionario> funcionario { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<rep> rep { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<funcionario> funcionario { get; set; }
     }
 }

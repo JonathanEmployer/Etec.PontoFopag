@@ -143,8 +143,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual ICollection<mudancahorario> mudancahorario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<mudcodigofunc> mudcodigofunc { get; set; }
+        public virtual HorarioDinamico HorarioDinamico { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<funcionario> funcionario { get; set; }
-        public virtual HorarioDinamico HorarioDinamico { get; set; }
     }
 }

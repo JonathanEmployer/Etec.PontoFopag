@@ -26,7 +26,7 @@ namespace RegistradorPontoWeb.Models.Ponto
         public string altusuario { get; set; }
         public Nullable<int> IdRep { get; set; }
     
-        public virtual funcionario funcionario { get; set; }
         public virtual rep rep { get; set; }
+        public virtual funcionario funcionario { get; set; }
     }
 }
