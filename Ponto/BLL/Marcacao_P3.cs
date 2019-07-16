@@ -263,7 +263,7 @@ namespace BLL
             {
                 if (!marcacoesPeriodo.Exists(m => m.Data == data))
                 {
-                    if (data < objFuncionario.DataInativacao)
+                    if (data < (objFuncionario.DataInativacao ?? DateTime.MaxValue))
                     {
                         objMarcacao = AuxAtualizaData(objFuncionario.Dataadmissao.Value, objFuncionario.Datademissao, objFuncionario.Id, objFuncionario.Dscodigo, objFuncionario.Idhorario, objFuncionario.Idfuncao, objFuncionario.Iddepartamento, objFuncionario.Idempresa, objFuncionario.Naoentrarbanco, horarios, data, jornadasAlternativas, pFechamentoBHDLista, feriadoLista, bancoHorasLista, pInclusaoBancoLista, afastamentosList, mudancaHorarioList, parametros, false, fechamentos);
                         marcacoes.Add(objMarcacao);
@@ -285,7 +285,7 @@ namespace BLL
              {
                  Parallel.ForEach(ListFuncionario, options, (funcionario) =>
                       {
-                          if (!MarcacoesPeriodo.Exists(m => m.Data == data && m.Idfuncionario == funcionario.Id) && data < funcionario.DataInativacao)
+                          if (!MarcacoesPeriodo.Exists(m => m.Data == data && m.Idfuncionario == funcionario.Id) && data < (funcionario.DataInativacao ?? DateTime.MaxValue))
                           {
                               objMarcacao = AuxAtualizaData(
                                                      funcionario,
