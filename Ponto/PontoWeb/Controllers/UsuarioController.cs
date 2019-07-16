@@ -572,9 +572,9 @@ namespace PontoWeb.Controllers
             {
                 user.login = "comercial";
                 user.Password = "comercialpfp";
-            } else if (con.ToUpper().Contains(@"\hom"))
+            } else if (con.ToUpper().Contains(@"\HOM"))
             {
-                user.login = "homjmalucelli";
+                user.login = "homemployer";
                 user.Password = "pfphom";
             }
             else if (con.ToUpper().Contains(@"\DEV"))
@@ -582,7 +582,7 @@ namespace PontoWeb.Controllers
                 user.login = "devtibrasil";
                 user.Password = "pfpdev";
             }
-            else if (con.ToUpper().Contains(@"Data Source=localhost"))
+            else if (con.ToUpper().Contains(@"DATA SOURCE=LOCALHOST"))
             {
                 user.login = "localemployer";
                 user.Password = "pfphom";

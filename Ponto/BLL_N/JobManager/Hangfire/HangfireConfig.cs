@@ -2,6 +2,7 @@
 using Hangfire.Console;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,14 +34,13 @@ namespace BLL_N.JobManager.Hangfire
                     prioridadeAntigaPontoWeb
                 };
 
-            bool isDebugMode = false;
-            #if DEBUG
-                isDebugMode = true;
-            #endif
             //Quando em Debug não adiciona as prioridades que devem ser processadas apenas pela produção.
-            if (!isDebugMode)
+
+            string queuesConfig = ConfigurationManager.AppSettings["hangfireQueues"];
+
+            if (!String.IsNullOrEmpty(queuesConfig))
             {
-                queues.AddRange("critico,normal,pequeno".Split(','));
+                queues.AddRange(queuesConfig.Split(','));
             }
 
             return queues.ToArray();
