@@ -5,7 +5,7 @@
     if (!String.IsNullOrEmpty(Model.IdIntegracao) && ViewBag.BloqueiaDadosIntegrados)
     {
         integrado = true;
-    }    
+    }
 }
 @using (Html.BeginForm())
 {
@@ -28,7 +28,7 @@
     @Html.HiddenFor(model => model.Datai_Ant);
     @Html.HiddenFor(model => model.Dataf_Ant);
     @Html.HiddenFor(model => model.IdIntegracao);
-    
+
     <div class="divCenterMedio">
         <div class="panel panel-default" style="padding:0">
             <div class="panel-heading salvando">
@@ -299,14 +299,33 @@
             },
             success: function (ret) {
                 if (ret.Success === true) {
-                        $("#txtHoraI").val(ret.HorasAbonoPadrao);
-                        $("#txtHoraI").prop('readonly', false);
-                        $("#txtHoraF").val(ret.HorasAbonoPadraoNoturno);
-                        $("#txtHoraF").prop('readonly', false);
-                        $("#BParcial").prop("checked", true);
-                        $("#BAbonado").prop("checked", true);
-                        $("#BAbonado").prop("readonly", true);
-                    $
+                    $(".checkboxafast").prop("checked", false);
+                    $(".checkboxafast").prop("readonly", false);
+                    $("#txtHoraI").val("");
+                    $("#txtHoraI").prop('readonly', true);
+                    $("#txtHoraF").val("");
+                    $("#txtHoraF").prop('readonly', true);
+                    switch (ret.DefaultTipoAfastamento) {
+                        case 1:
+                            if (ret.HorasAbonoPadrao != "" || ret.HorasAbonoPadraoNoturno != "") {
+                                $('#BParcial').trigger('click');
+                                $("#txtHoraI").val(ret.HorasAbonoPadrao);
+                                $("#txtHoraF").val(ret.HorasAbonoPadraoNoturno);
+                            }
+                            else {
+                                $('#BAbonado').trigger('click');
+                            }
+                            break;
+                        case 2:
+                            $('#BSemCalculo').trigger('click');
+                            break;
+                        case 3:
+                            $('#bSuspensao').trigger('click');
+                            break;
+                        case 4:
+                            $('#SemAbono').trigger('click');
+                            break;
+                    }
                 } else {
                     cwkErroTit('Erro!', ret.Erro);
                 }

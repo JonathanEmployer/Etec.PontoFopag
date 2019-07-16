@@ -31,12 +31,13 @@ namespace DAL.SQL
                                     , ocorrencia.HorasAbonoPadraoNoturno
                                     , ocorrencia.Sigla
 									, ocorrencia.Ativo
+                                    , ocorrencia.DefaultTipoAfastamento
                              FROM ocorrencia";
 
 			INSERT = @"  INSERT INTO ocorrencia
-							( codigo,  descricao,  incdata,  inchora,  incusuario,  absenteismo,  TipoAbono,  ExibePaineldoRH,  ObrigarAnexoPainel, OcorrenciaFerias,  HorasAbonoPadrao,  HorasAbonoPadraoNoturno,  Sigla, Ativo)
+							( codigo,  descricao,  incdata,  inchora,  incusuario,  absenteismo,  TipoAbono,  ExibePaineldoRH,  ObrigarAnexoPainel, OcorrenciaFerias,  HorasAbonoPadrao,  HorasAbonoPadraoNoturno,  Sigla, Ativo,  DefaultTipoAfastamento)
 							VALUES
-							(@codigo, @descricao, @incdata, @inchora, @incusuario, @absenteismo, @TipoAbono, @ExibePaineldoRH, @ObrigarAnexoPainel, @OcorrenciaFerias, @HorasAbonoPadrao, @HorasAbonoPadraoNoturno, @Sigla, @Ativo) 
+							(@codigo, @descricao, @incdata, @inchora, @incusuario, @absenteismo, @TipoAbono, @ExibePaineldoRH, @ObrigarAnexoPainel, @OcorrenciaFerias, @HorasAbonoPadrao, @HorasAbonoPadraoNoturno, @Sigla, @Ativo, @DefaultTipoAfastamento) 
 						SET @id = SCOPE_IDENTITY()";
 
 			UPDATE = @"  UPDATE ocorrencia SET
@@ -53,6 +54,7 @@ namespace DAL.SQL
                             , HorasAbonoPadraoNoturno = @HorasAbonoPadraoNoturno
                             , Sigla = @Sigla
 							, Ativo = @Ativo
+                            , DefaultTipoAfastamento = @DefaultTipoAfastamento
 						WHERE id = @id";
 
 			DELETE = @"  DELETE FROM ocorrencia WHERE id = @id";
@@ -105,6 +107,7 @@ namespace DAL.SQL
 			((Modelo.Ocorrencia)obj).HorasAbonoPadraoNoturno = Convert.ToString(dr["HorasAbonoPadraoNoturno"]);
 			((Modelo.Ocorrencia)obj).Sigla = Convert.ToString(dr["Sigla"]);
 			((Modelo.Ocorrencia)obj).Ativo = dr["Ativo"] is DBNull ? false : Convert.ToBoolean(dr["Ativo"]);
+            ((Modelo.Ocorrencia)obj).DefaultTipoAfastamento = Convert.ToInt16(dr["DefaultTipoAfastamento"]);
 		}
 
 		protected override SqlParameter[] GetParameters()
@@ -128,7 +131,8 @@ namespace DAL.SQL
 				new SqlParameter ("@HorasAbonoPadrao", SqlDbType.VarChar),
 				new SqlParameter ("@HorasAbonoPadraoNoturno", SqlDbType.VarChar),
 				new SqlParameter ("@Sigla", SqlDbType.VarChar),
-				new SqlParameter ("@Ativo", SqlDbType.Bit)
+				new SqlParameter ("@Ativo", SqlDbType.Bit),
+                new SqlParameter ("@DefaultTipoAfastamento", SqlDbType.SmallInt)
 			};
 			return parms;
 		}
@@ -157,6 +161,7 @@ namespace DAL.SQL
 			parms[15].Value = ((Modelo.Ocorrencia)obj).HorasAbonoPadraoNoturno;
 			parms[16].Value = ((Modelo.Ocorrencia)obj).Sigla;
 			parms[17].Value = ((Modelo.Ocorrencia)obj).Ativo;
+            parms[18].Value = ((Modelo.Ocorrencia)obj).DefaultTipoAfastamento;
 		}
 
 		public Modelo.Ocorrencia LoadObject(int id)

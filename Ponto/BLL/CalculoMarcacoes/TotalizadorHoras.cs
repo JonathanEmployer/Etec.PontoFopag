@@ -558,7 +558,7 @@ namespace BLL
 
         private bool AfastamentoEhDessaMarcacao(DateTime data, Modelo.Afastamento a)
         {
-            return data >= a.Datai && data <= a.Dataf
+            return data >= a.Datai && data <= (a.Dataf == null ? DateTime.MaxValue : a.Dataf)
                    && (
                        (a.Tipo == 0 && a.IdFuncionario == idFuncionario) ||
                        (a.Tipo == 1 && a.IdDepartamento == idDepartamento) ||

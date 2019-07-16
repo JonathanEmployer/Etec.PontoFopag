@@ -505,6 +505,8 @@ namespace BLL_N.JobManager.Hangfire.Job
         public void CalculaAfastamento(PerformContext context, JobControl jobReport, string db, string usuario, Modelo.Afastamento pAfastamento)
         {
             int tipoRecalculo = 0, idRecalculo = 0;
+            pAfastamento.Dataf = (pAfastamento.Dataf == null ? DateTime.Now.AddMonths(1) : pAfastamento.Dataf.Value);
+            pAfastamento.Dataf_Ant = (pAfastamento.Dataf_Ant == null ? DateTime.Now.AddMonths(1) : pAfastamento.Dataf_Ant.Value);
 
             #region AtualizaDadosAnterior
             if (pAfastamento.Acao != Modelo.Acao.Incluir)

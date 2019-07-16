@@ -74,9 +74,9 @@ namespace DAL.RelatoriosSQL
                                            INNER JOIN ocorrencia oc
                                                ON af.idocorrencia = oc.id 
                                        WHERE (
-                                                (@datainicial >= af.datai AND @datainicial <= af.dataf)
-                                                OR (@datafinal >= af.datai AND @datafinal <= af.dataf)
-                                                OR (@datainicial <= af.datai AND @datafinal >= af.dataf)
+                                                (@datainicial >= af.datai AND @datainicial <= isnull(af.dataf, '9999-12-31'))
+                                                OR (@datafinal >= af.datai AND @datafinal <= isnull(af.dataf, '9999-12-31'))
+                                                OR (@datainicial <= af.datai AND @datafinal >= isnull(af.dataf, '9999-12-31'))
                                              )
                                              AND (
                                                      (af.idfuncionario = O.idFuncionario)
@@ -341,7 +341,7 @@ namespace DAL.RelatoriosSQL
                                                 LEFT JOIN afastamento af
                                                     ON af.abonado = 1
                                                        AND I.data
-                                                       BETWEEN af.datai AND af.dataf
+                                                       BETWEEN af.datai AND isnull(af.dataf, '9999-12-31')
                                                        AND (
                                                                (af.idfuncionario = I.idFuncionario)
                                                                OR (

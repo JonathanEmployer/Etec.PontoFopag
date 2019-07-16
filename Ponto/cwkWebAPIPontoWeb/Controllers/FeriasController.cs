@@ -75,7 +75,8 @@ namespace cwkWebAPIPontoWeb.Controllers
                                 BLL.Ocorrencia bllocorrencia = new BLL.Ocorrencia(connectionStr);
                                 int? idocorrencia = bllocorrencia.getOcorrenciaNome("Férias");
                                 DadosAntAfastamento.IdOcorrencia = idocorrencia.GetValueOrDefault();
-                                DadosAntAfastamento.BAbonado = true;
+                                Modelo.Ocorrencia ocorrencia = bllocorrencia.LoadObject(idocorrencia.GetValueOrDefault());
+                                DadosAntAfastamento.SetTipoAfastamentoPorDefaulOcorrencia(ocorrencia);
                                 DadosAntAfastamento.Observacao = af.Observacao;
                             }
                             else
@@ -146,9 +147,8 @@ namespace cwkWebAPIPontoWeb.Controllers
                             int? idocorrencia = bllocorrencia.getOcorrenciaNome("Férias");
                             DadosAntAfastamento.IdOcorrencia = idocorrencia.GetValueOrDefault();
                             DadosAntAfastamento.Tipo = 0;
-                            DadosAntAfastamento.BAbonado = false;
-                            DadosAntAfastamento.SemAbono = true;
-
+                            var ocorrencia = bllocorrencia.LoadObject(idocorrencia.GetValueOrDefault());
+                            DadosAntAfastamento.SetTipoAfastamentoPorDefaulOcorrencia(ocorrencia);
                             DadosAntAfastamento.Observacao = af.Observacao;
 
                             Dictionary<string, string> erros = new Dictionary<string, string>();

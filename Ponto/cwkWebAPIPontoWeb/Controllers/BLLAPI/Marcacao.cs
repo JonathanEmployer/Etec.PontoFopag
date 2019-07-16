@@ -128,7 +128,7 @@ namespace cwkWebAPIPontoWeb.Controllers.BLLAPI
                 dtIni = afastamento.Datai_Ant.GetValueOrDefault();
             }
 
-            DateTime? dtFim = afastamento.Dataf.GetValueOrDefault();
+            DateTime? dtFim = afastamento.Dataf;
             if ((afastamento.Dataf_Ant > afastamento.Dataf && afastamento.Dataf_Ant != null) || (afastamento.Datai_Ant != null && afastamento.Dataf_Ant == null))
             {
                 dtFim = afastamento.Dataf_Ant;

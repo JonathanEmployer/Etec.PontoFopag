@@ -435,7 +435,7 @@ namespace DAL.FB
             {
                 AtribuiCampos(dr, objAfastamento);
 
-                if (pData >= objAfastamento.Datai && pData <= objAfastamento.Dataf)
+                if (pData >= objAfastamento.Datai && pData <= (objAfastamento.Dataf == null ? DateTime.MaxValue : objAfastamento.Dataf))
                 {
                     return true;
                 }
@@ -458,7 +458,7 @@ namespace DAL.FB
             while (dr.Read())
             {
                 AtribuiCampos(dr, objAfastamento);                
-                if (pData >= objAfastamento.Datai && pData <= objAfastamento.Dataf)
+                if (pData >= objAfastamento.Datai && pData <= (objAfastamento.Dataf == null ? DateTime.MaxValue :  objAfastamento.Dataf))
                 {
                     Modelo.Ocorrencia objOcorrencia = new Modelo.Ocorrencia();
                     DAL.FB.Ocorrencia dalOcorrencia = DAL.FB.Ocorrencia.GetInstancia;
@@ -654,12 +654,12 @@ namespace DAL.FB
             throw new NotImplementedException();
         }
 
-        public List<Modelo.Afastamento> GetAfastamentoFuncionarioPeriodo(int idFuncionario, DateTime pDataInicial, DateTime pDataFinal, bool apenasFerias)
+        public List<Modelo.Afastamento> GetAfastamentoFuncionarioPeriodo(int idFuncionario, DateTime pDataInicial, DateTime? pDataFinal, bool apenasFerias)
         {
             throw new NotImplementedException();
         }
 
-        public List<Modelo.Afastamento> GetAfastamentoFuncionarioPeriodo(List<int> idFuncionario, DateTime pDataInicial, DateTime pDataFinal, bool apenasFerias)
+        public List<Modelo.Afastamento> GetAfastamentoFuncionarioPeriodo(List<int> idFuncionario, DateTime pDataInicial, DateTime? pDataFinal, bool apenasFerias)
         {
             throw new NotImplementedException();
         }

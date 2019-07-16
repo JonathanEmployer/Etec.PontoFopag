@@ -217,7 +217,7 @@ namespace BLL
                             && ((a.Tipo == 0 && a.IdFuncionario == idFuncionario)
                             || (a.Tipo == 1 && a.IdDepartamento == idDepartamento)
                             || (a.Tipo == 2 && a.IdEmpresa == idEmpresa))
-                            && data >= a.Datai && data <= a.Dataf).FirstOrDefault();
+                            && data >= a.Datai && data <= (a.Dataf == null ? DateTime.MaxValue : a.Dataf)).FirstOrDefault();
                         if (afastamentosInserir != null)
                         {
                             listaOcorrencias = AtribuiOcorrencias(listaOcorrencias);
@@ -251,7 +251,7 @@ namespace BLL
                             ((a.Tipo == 0 && a.IdFuncionario == idFuncionario)
                             || (a.Tipo == 1 && a.IdDepartamento == idDepartamento)
                             || (a.Tipo == 2 && a.IdEmpresa == idEmpresa))
-                            && data >= a.Datai && data <= a.Dataf).ToList();
+                            && data >= a.Datai && data <= (a.Dataf == null ? DateTime.MaxValue : a.Dataf)).ToList();
 
                         foreach (Modelo.Afastamento afas in afastamentosInserir)
                         {

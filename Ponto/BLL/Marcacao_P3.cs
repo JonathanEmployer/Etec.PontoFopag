@@ -154,7 +154,7 @@ namespace BLL
             if (pAfastamentoList.Count > 0)
             {
                 //Existe um afastamento para aquela data?
-                if (pAfastamentoList.Exists(a => (a.Datai <= pObjMarcacao.Data) && (a.Dataf >= pObjMarcacao.Data) && ((a.Tipo == 0 && a.IdFuncionario == pIdFuncionario) || (a.Tipo == 1 && a.IdDepartamento == pIdDepartamento) || (a.Tipo == 2 && a.IdEmpresa == pIdEmpresa))))
+                if (pAfastamentoList.Exists(a => (a.Datai <= pObjMarcacao.Data) && ((a.Dataf == null ? DateTime.MaxValue : a.Dataf) >= pObjMarcacao.Data) && ((a.Tipo == 0 && a.IdFuncionario == pIdFuncionario) || (a.Tipo == 1 && a.IdDepartamento == pIdDepartamento) || (a.Tipo == 2 && a.IdEmpresa == pIdEmpresa))))
                 {
                     legenda = "A";
                     LegendasConcatenadas = cwkFuncoes.ConcatenarStrings(LegendasConcatenadas, "A");
@@ -1498,9 +1498,9 @@ namespace BLL
             if (pAfastamentoList.Count > 0)
             {
                 //Existe um afastamento para aquela data?
-                if (pAfastamentoList.Exists(a => (a.Datai <= pData) && (a.Dataf >= pData) && ((a.Tipo == 0 && a.IdFuncionario == pIdFuncionario) || (a.Tipo == 1 && a.IdDepartamento == pIdDepartamento) || (a.Tipo == 2 && a.IdEmpresa == pIdEmpresa))))
+                if (pAfastamentoList.Exists(a => (a.Datai <= pData) && ((a.Dataf == null ? DateTime.MaxValue : a.Dataf) >= pData) && ((a.Tipo == 0 && a.IdFuncionario == pIdFuncionario) || (a.Tipo == 1 && a.IdDepartamento == pIdDepartamento) || (a.Tipo == 2 && a.IdEmpresa == pIdEmpresa))))
                 {
-                    return pAfastamentoList.Find(a => (a.Datai <= pData) && (a.Dataf >= pData) && ((a.Tipo == 0 && a.IdFuncionario == pIdFuncionario) || (a.Tipo == 1 && a.IdDepartamento == pIdDepartamento) || (a.Tipo == 2 && a.IdEmpresa == pIdEmpresa)));
+                    return pAfastamentoList.Find(a => (a.Datai <= pData) && ((a.Dataf == null ? DateTime.MaxValue : a.Dataf) >= pData) && ((a.Tipo == 0 && a.IdFuncionario == pIdFuncionario) || (a.Tipo == 1 && a.IdDepartamento == pIdDepartamento) || (a.Tipo == 2 && a.IdEmpresa == pIdEmpresa)));
                 }
             }
 

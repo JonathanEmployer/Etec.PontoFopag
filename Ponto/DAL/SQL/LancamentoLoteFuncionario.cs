@@ -349,7 +349,7 @@ namespace DAL.SQL
 			                             inner join LancamentoLotefuncionario llf on ll.id = llf.idlancamentolote
 			                             inner join funcionario f on f.id = llf.idfuncionario
 			                             inner join lancamentoloteafastamento lla on ll.id = lla.idlancamentolote
-			                              left join afastamento as a on ( (lla.dataI between a.datai and a.dataf or lla.dataF between a.datai and a.dataf ) and
+			                              left join afastamento as a on ( (lla.dataI between a.datai and isnull(a.dataf, '9999-12-31') or lla.dataF between a.datai and isnull(a.dataf, '9999-12-31') ) and
 											                              ( ( a.idfuncionario = f.id) or 
 												                            ( a.iddepartamento = f.iddepartamento and a.idempresa = f.idempresa) or 
 												                            (a.iddepartamento is null and a.idempresa = f.idempresa))

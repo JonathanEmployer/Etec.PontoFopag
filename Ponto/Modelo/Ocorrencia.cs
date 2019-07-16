@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Modelo
@@ -102,8 +103,27 @@ namespace Modelo
 		[TableHTMLAttribute("Horas Abono Padrão Noturno", 9, true, ItensSearch.text, OrderType.none)]
 		public string HorasAbonoPadraoNoturno { get; set; }
 
-		[Display(Name = "Sigla")]
-		[TableHTMLAttribute("Sigla", 10, true, ItensSearch.text, OrderType.none)]
-		public string Sigla { get; set; }
-	}
+        [Display(Name = "Sigla")]
+        [TableHTMLAttribute("Sigla", 10, true, ItensSearch.text, OrderType.none )]
+        public string Sigla { get; set; }
+
+        public Int16 DefaultTipoAfastamento { get; set; }
+        [Display(Name = "Tipo Abono Padrão")]
+        [TableHTMLAttribute("Tipo Abono Padrão", 11, true, ItensSearch.text, OrderType.none)]
+        public string DefaultTipoAfastamentoStr
+        {
+            get
+            {
+                switch (DefaultTipoAfastamento)
+                {
+                    case 0: return "Não Informado";
+                    case 1: return "Abonado";
+                    case 2: return "Sem Cálculo";
+                    case 3: return "Suspensão";
+                    case 4: return "Sem Abono";
+                    default: return "";
+                }
+            }
+        }
+    }
 }

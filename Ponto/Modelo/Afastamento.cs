@@ -56,8 +56,6 @@ namespace Modelo
         /// </summary>
 
         [DisplayName("Data Final")]
-        [Required(ErrorMessage = "Campo Data Final Obrigatório")]
-        [MinDate("01/01/1760")]
         public DateTime? Dataf { get; set; }
         [TableHTMLAttribute("Data Final", 4, true, ItensSearch.text, OrderType.none)]
         public string DataFinalStr
@@ -272,5 +270,27 @@ namespace Modelo
         public bool OcorrenciaTipoFerias { get; set; }
         [DisplayName("Sem Abono")]
         public bool SemAbono { get; set; }
+
+        public void SetTipoAfastamentoPorDefaulOcorrencia(Modelo.Ocorrencia ocorrencia)
+        {
+            switch (ocorrencia.DefaultTipoAfastamento)
+            {
+                case 1:
+                    this.BAbonado = true;
+                    break;
+                case 2:
+                    this.BSemCalculo = true;
+                    break;
+                case 3:
+                    this.bSuspensao = true;
+                    break;
+                case 4:
+                    this.SemAbono = true;
+                    break;
+                default:
+                    this.BAbonado = true;
+                    break;
+            }
+        }
     }
 }

@@ -565,14 +565,33 @@
                     },
                     success: function (ret) {
                         if (ret.Success === true) {
-                            $("#txtAbonoDiurno").val(ret.HorasAbonoPadrao);
-                            $("#txtAbonoDiurno").prop('readonly', false);
-                            $("#txtAbonoNoturno").val(ret.HorasAbonoPadraoNoturno);
-                            $("#txtAbonoNoturno").prop('readonly', false);
-                            $("#BParcial").prop("checked", true);
-                            $("#BAbonado").prop("checked", true);
-                            $("#BAbonado").prop("readonly", true);
-                            $
+                            $(".checkboxafast").prop("checked", false);
+                            $(".checkboxafast").prop("readonly", false);
+                            $("#txtAbonoDiurno").val("");
+                            $("#txtAbonoDiurno").prop('readonly', true);
+                            $("#txtAbonoNoturno").val("");
+                            $("#txtAbonoNoturno").prop('readonly', true);
+                            switch (ret.DefaultTipoAfastamento) {
+                                case 1:
+                                    if (ret.HorasAbonoPadrao != "" || ret.HorasAbonoPadraoNoturno != "") {
+                                        $('#BParcial').trigger('click');
+                                        $("#txtAbonoDiurno").val(ret.HorasAbonoPadrao);
+                                        $("#txtAbonoNoturno").val(ret.HorasAbonoPadraoNoturno);
+                                    }
+                                    else {
+                                        $('#BAbonado').trigger('click');
+                                    }
+                                    break;
+                                case 2:
+                                    $('#BSemCalculo').trigger('click');
+                                    break;
+                                case 3:
+                                    $('#bSuspensao').trigger('click');
+                                    break;
+                                case 4:
+                                    $('#BSemAbonoBool').trigger('click');
+                                    break;
+                            }
                         } else {
                             cwkErroTit('Erro!', ret.Erro);
                         }
@@ -707,6 +726,8 @@
         $(componente).prop("readonly", valor);
         $(componente).attr("readonly", valor);
     }
+
+
 
     $(".checkboxafast").click(function (event) {
         validaCheck(event);

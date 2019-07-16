@@ -328,7 +328,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                     {
                         Models.PeriodoFerias periodo = new Models.PeriodoFerias();
                         periodo.Inicio = afastamento.Datai.Value;
-                        periodo.Fim = afastamento.Dataf.Value;
+                        periodo.Fim = afastamento.Dataf == null ? DateTime.Now.AddMonths(1) : afastamento.Dataf.Value;
                         EspelhoPonto.PeriodosFerias.Add(periodo);
                     }
 

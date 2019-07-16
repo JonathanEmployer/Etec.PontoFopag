@@ -190,7 +190,7 @@ namespace BLL
 
         private IEnumerable<Modelo.Afastamento> GetAfastamentosDataOcorrencia(AbsenteismoLinha linha, DateTime data)
         {
-            return afastamentos.Where(a => data >= a.Datai && data <= a.Dataf && a.CodigoOcorrencia == linha.codigoOcorrencia
+            return afastamentos.Where(a => data >= a.Datai && data <= (a.Dataf == null ? DateTime.MaxValue : a.Dataf) && a.CodigoOcorrencia == linha.codigoOcorrencia
                                                                            && (
                                                                            (a.Tipo == 0 && a.IdFuncionario == linha.IdFuncionario) ||
                                                                            (a.Tipo == 1 && a.IdDepartamento == linha.IdDepartamento) ||

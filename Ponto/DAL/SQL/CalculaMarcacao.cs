@@ -273,7 +273,7 @@ namespace DAL.SQL
 																              t.Marc_data between ja.datainicial and ja.datafinal)
 									   ) di
 					              inner join afastamento as a on a.abonado = 1 and
-																 di.Marc_data between a.datai and a.dataf and 
+																 di.Marc_data between a.datai and isnull(a.dataf, '9999-12-31') and 
 																 ( a.idfuncionario = di.idfuncionario or 
 																  (a.iddepartamento = di.iddepartamento and a.idempresa = di.idempresa) or 
 																  (a.iddepartamento is null and a.idempresa = di.idempresa)
@@ -740,19 +740,19 @@ namespace DAL.SQL
                 "                  FROM afastamento          " +
                 "                 WHERE afastamento.tipo = 0 " +
                 "                   AND afastamento.idfuncionario = marcacao.idfuncionario " +
-                "                   AND marcacao.data BETWEEN afastamento.datai AND afastamento.dataf " +
+                "                   AND marcacao.data BETWEEN afastamento.datai AND isnull(afastamento.dataf, '9999-12-31') " +
                 "                 ORDER BY inchora " +
                 "                ) afastamentofunc " +
                 "LEFT JOIN afastamento afastamentodep ON afastamentodep.tipo = 1 " +
                 "AND afastamentodep.iddepartamento = funcionario.iddepartamento " +
                 "AND marcacao.data >= afastamentodep.datai " +
-                "AND marcacao.data <= afastamentodep.dataf " +
+                "AND marcacao.data <= isnull(afastamentodep.dataf, '9999-12-31') " +
                 "LEFT JOIN afastamento afastamentoemp ON afastamentoemp.tipo = 2 " +
                 "AND afastamentoemp.idempresa = funcionario.idempresa " +
                 "AND marcacao.data >= afastamentoemp.datai " +
-                "AND marcacao.data <= afastamentoemp.dataf " +
+                "AND marcacao.data <= isnull(afastamentoemp.dataf, '9999-12-31') " +
                 ////afastamento por contrato
-                "LEFT JOIN afastamento afastamentocont ON afastamentocont.tipo = 3 AND afastamentocont.idcontrato in (SELECT idcontrato FROM contratofuncionario cf WHERE cf.idfuncionario = funcionario.id) AND marcacao.data >= afastamentocont.datai AND marcacao.data <= afastamentocont.dataf " +
+                "LEFT JOIN afastamento afastamentocont ON afastamentocont.tipo = 3 AND afastamentocont.idcontrato in (SELECT idcontrato FROM contratofuncionario cf WHERE cf.idfuncionario = funcionario.id) AND marcacao.data >= afastamentocont.datai AND marcacao.data <= isnull(afastamentocont.dataf, '9999-12-31') " +
                 ////
 
                 // Busca Feriado
@@ -1101,19 +1101,19 @@ namespace DAL.SQL
                 "                  FROM afastamento          " +
                 "                 WHERE afastamento.tipo = 0 " +
                 "                   AND afastamento.idfuncionario = marcacao.idfuncionario " +
-                "                   AND marcacao.data BETWEEN afastamento.datai AND afastamento.dataf " +
+                "                   AND marcacao.data BETWEEN afastamento.datai AND isnull(afastamento.dataf, '9999-12-31') " +
                 "                 ORDER BY inchora " +
                 "                ) afastamentofunc " +
                 "LEFT JOIN afastamento afastamentodep ON afastamentodep.tipo = 1 " +
                 "AND afastamentodep.iddepartamento = funcionario.iddepartamento " +
                 "AND marcacao.data >= afastamentodep.datai " +
-                "AND marcacao.data <= afastamentodep.dataf " +
+                "AND marcacao.data <= isnull(afastamentodep.dataf, '9999-12-31') " +
                 "LEFT JOIN afastamento afastamentoemp ON afastamentoemp.tipo = 2 " +
                 "AND afastamentoemp.idempresa = funcionario.idempresa " +
                 "AND marcacao.data >= afastamentoemp.datai " +
-                "AND marcacao.data <= afastamentoemp.dataf " +
+                "AND marcacao.data <= isnull(afastamentoemp.dataf, '9999-12-31') " +
                 ////afastamento por contrato
-                "LEFT JOIN afastamento afastamentocont ON afastamentocont.tipo = 3 AND afastamentocont.idcontrato in (SELECT idcontrato FROM contratofuncionario cf WHERE cf.idfuncionario = funcionario.id) AND marcacao.data >= afastamentocont.datai AND marcacao.data <= afastamentocont.dataf " +
+                "LEFT JOIN afastamento afastamentocont ON afastamentocont.tipo = 3 AND afastamentocont.idcontrato in (SELECT idcontrato FROM contratofuncionario cf WHERE cf.idfuncionario = funcionario.id) AND marcacao.data >= afastamentocont.datai AND marcacao.data <= isnull(afastamentocont.dataf, '9999-12-31') " +
                 ////
                 // Busca Feriado
                 " OUTER APPLY (SELECT TOP(1) * FROM feriado where horario.desconsiderarferiado = 0 " +
@@ -1482,19 +1482,19 @@ namespace DAL.SQL
                                  FROM afastamento          
                                 WHERE afastamento.tipo = 0 
                                   AND afastamento.idfuncionario = marcacao.idfuncionario 
-                                  AND marcacao.data BETWEEN afastamento.datai AND afastamento.dataf 
+                                  AND marcacao.data BETWEEN afastamento.datai AND isnull(afastamento.dataf, '9999-12-31') 
                                 ORDER BY inchora 
                                ) afastamentofunc 
                LEFT JOIN afastamento afastamentodep ON afastamentodep.tipo = 1 
                AND afastamentodep.iddepartamento = funcionario.iddepartamento 
                AND marcacao.data >= afastamentodep.datai 
-               AND marcacao.data <= afastamentodep.dataf 
+               AND marcacao.data <= isnull(afastamentodep.dataf, '9999-12-31') 
                LEFT JOIN afastamento afastamentoemp ON afastamentoemp.tipo = 2 
                AND afastamentoemp.idempresa = funcionario.idempresa 
                AND marcacao.data >= afastamentoemp.datai 
-               AND marcacao.data <= afastamentoemp.dataf 
+               AND marcacao.data <= isnull(afastamentoemp.dataf, '9999-12-31') 
                --afastamento por contrato
-               LEFT JOIN afastamento afastamentocont ON afastamentocont.tipo = 3 AND afastamentocont.idcontrato in (SELECT idcontrato FROM contratofuncionario cf WHERE cf.idfuncionario = funcionario.id) AND marcacao.data >= afastamentocont.datai AND marcacao.data <= afastamentocont.dataf 
+               LEFT JOIN afastamento afastamentocont ON afastamentocont.tipo = 3 AND afastamentocont.idcontrato in (SELECT idcontrato FROM contratofuncionario cf WHERE cf.idfuncionario = funcionario.id) AND marcacao.data >= afastamentocont.datai AND marcacao.data <= isnull(afastamentocont.dataf, '9999-12-31') 
                --Busca Feriado
                 OUTER APPLY (SELECT TOP(1) * FROM feriado where horario.desconsiderarferiado = 0 
                         AND feriado.data = marcacao.data 

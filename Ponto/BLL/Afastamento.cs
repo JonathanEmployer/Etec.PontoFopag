@@ -107,11 +107,6 @@ namespace BLL
                 ret.Add("txtDatai", "Campo obrigatório.");
             }
 
-            if (objeto.Dataf == null)
-            {
-                ret.Add("txtDataf", "Campo obrigatório.");
-            }
-
             if (objeto.Tipo == -1)
             {
                 ret.Add("rgTipo", "Campo obrigatório.");
@@ -156,15 +151,15 @@ namespace BLL
                     }
                 }
 
-                if (objeto.Datai != null && objeto.Dataf != null)
+                if (objeto.Datai != null)
                 {
-                    if (objeto.Dataf.Value < objeto.Datai.Value)
+                    if (objeto.Dataf != null && objeto.Dataf.Value < objeto.Datai.Value)
                     {
                         ret.Add("txtDataf", "A data final deve ser maior ou igual a data inicial.");
                     }
-                    else if (objeto.Acao != Modelo.Acao.Excluir && VerificaExiste(objeto.Id, objeto.Datai.Value, objeto.Dataf.Value, objeto.Tipo, identificacao))
+                    else if (objeto.Acao != Modelo.Acao.Excluir && VerificaExiste(objeto.Id, objeto.Datai.Value, (objeto.Dataf == null ? DateTime.MaxValue : objeto.Dataf.Value), objeto.Tipo, identificacao))
                     {
-                        ret.Add("rgTipo", "Já existe um registro gravado dentro deste perído.");
+                        ret.Add("rgTipo", "Existe afastamento cadastrado para o período informado. Gentileza verificar.");
                     }
                 }
 
@@ -240,7 +235,7 @@ namespace BLL
         /// <returns>true: existe um afastamento; false: não existe um afastamento</returns>
         public bool PossuiRegistro(DateTime pData, int pEmpresa, int pDepartamento, int pFuncionario, List<Modelo.Afastamento> pAfastamentoList)
         {
-            return pAfastamentoList.Exists(a => (a.Datai <= pData && a.Dataf >= pData) && ((a.Tipo == 0 && a.IdFuncionario == pFuncionario) || (a.Tipo == 1 && a.IdDepartamento == pDepartamento) || (a.Tipo == 2 && a.IdEmpresa == pEmpresa)));
+            return pAfastamentoList.Exists(a => (a.Datai <= pData && (a.Dataf == null ? DateTime.MaxValue : a.Dataf) >= pData) && ((a.Tipo == 0 && a.IdFuncionario == pFuncionario) || (a.Tipo == 1 && a.IdDepartamento == pDepartamento) || (a.Tipo == 2 && a.IdEmpresa == pEmpresa)));
         }
 
         public void LocalizaOcorrencia(List<Modelo.Afastamento> pAfastamentos, DateTime pData, int pEmpresa, int pDepartamento, int pFuncionario, ref string pOcorrencia, ref int pAbono, ref bool pSemCalc, ref string pAbonoD, ref string pAbonoN)
@@ -255,7 +250,7 @@ namespace BLL
             Modelo.Afastamento objAfastamento = null;
 
             //Verifica se possui registro por Funcionario
-            var aux = pAfastamentos.Where(a => pData >= a.Datai && pData <= a.Dataf);
+            var aux = pAfastamentos.Where(a => pData >= a.Datai && pData <= (a.Dataf == null ? DateTime.MaxValue : a.Dataf));
 
             if (aux.Count() == 0)
                 return;
@@ -375,11 +370,11 @@ namespace BLL
             return dalAfastamento.GetAfastamentoFuncionarioPeriodo(idFuncionario, pDataInicial, pDataFinal, true);
         }
 
-        public List<Modelo.Afastamento> GetAfastamentoFuncionarioPeriodo(int idFuncionario, DateTime pDataInicial, DateTime pDataFinal)
+        public List<Modelo.Afastamento> GetAfastamentoFuncionarioPeriodo(int idFuncionario, DateTime pDataInicial, DateTime? pDataFinal)
         {
             return dalAfastamento.GetAfastamentoFuncionarioPeriodo(idFuncionario, pDataInicial, pDataFinal, false);
         }
-        public List<Modelo.Afastamento> GetAfastamentoFuncionarioPeriodo(List<int> idsFuncionarios, DateTime pDataInicial, DateTime pDataFinal)
+        public List<Modelo.Afastamento> GetAfastamentoFuncionarioPeriodo(List<int> idsFuncionarios, DateTime pDataInicial, DateTime? pDataFinal)
         {
             return dalAfastamento.GetAfastamentoFuncionarioPeriodo(idsFuncionarios, pDataInicial, pDataFinal, false);
         }

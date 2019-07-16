@@ -1,5 +1,4 @@
-﻿using cwkWebAPIPontoWeb.Utils;
-using Modelo;
+﻿using Modelo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,10 +59,12 @@ namespace cwkWebAPIPontoWeb.Controllers
                                 DadosAntAfastamento.Tipo = 0;
                                 DadosAntAfastamento.IdFuncionario = idFuncionario.GetValueOrDefault();
                                 DadosAntAfastamento.IdOcorrencia = Afastamento.IdOcorrencia.GetValueOrDefault();
-                                DadosAntAfastamento.BAbonado = true;
+                                Modelo.Ocorrencia ocorrencia = GetOcorrencia(usuarioPontoWeb.ConnectionString, DadosAntAfastamento.IdOcorrencia);
+                                DadosAntAfastamento.SetTipoAfastamentoPorDefaulOcorrencia(ocorrencia);
                                 DadosAntAfastamento.Observacao = Afastamento.Observacao;
                                 if (Afastamento.Parcial)
                                 {
+                                    DadosAntAfastamento.BAbonado = true;
                                     DadosAntAfastamento.BParcial = true;
                                     DadosAntAfastamento.Horai = Afastamento.HorasAbonoDiurno;
                                     DadosAntAfastamento.Horaf = Afastamento.HorasAbonoNoturno;
@@ -85,6 +86,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                                 DadosAntAfastamento.Observacao = Afastamento.Observacao;
                                 if (Afastamento.Parcial)
                                 {
+                                    DadosAntAfastamento.BAbonado = true;
                                     DadosAntAfastamento.BParcial = true;
                                     DadosAntAfastamento.Horai = Afastamento.HorasAbonoDiurno;
                                     DadosAntAfastamento.Horaf = Afastamento.HorasAbonoNoturno;
@@ -93,7 +95,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                                 {
                                     DadosAntAfastamento.BParcial = false;
                                 }
-                                Modelo.Marcacao marc = bllMarcacao.getListaMarcacao(2, idFuncionario.GetValueOrDefault(), Afastamento.DataInicial, Afastamento.DataFinal).FirstOrDefault();
+                                Modelo.Marcacao marc = bllMarcacao.getListaMarcacao(2, idFuncionario.GetValueOrDefault(), Afastamento.DataInicial, (Afastamento.DataFinal == null ? DateTime.Now.AddMonths(1) : Afastamento.DataFinal.GetValueOrDefault())).FirstOrDefault();
                                 DadosAntAfastamento.Horai = marc.Horasfaltas;
                                 DadosAntAfastamento.Horaf = marc.Horasfaltanoturna;
                             }
@@ -139,6 +141,9 @@ namespace cwkWebAPIPontoWeb.Controllers
                                 acao = Acao.Incluir;
                                 DadosAntAfastamento.IdIntegracao = Afastamento.IdIntegracao;
                                 DadosAntAfastamento.Codigo = Afastamento.Codigo.GetValueOrDefault();
+                                Modelo.Ocorrencia ocorrencia = GetOcorrencia(usuarioPontoWeb.ConnectionString, Afastamento.IdOcorrencia.GetValueOrDefault());
+                                DadosAntAfastamento.SetTipoAfastamentoPorDefaulOcorrencia(ocorrencia);
+                                DadosAntAfastamento.IdOcorrencia = Afastamento.IdOcorrencia.GetValueOrDefault();
                             }
                             else
                             {
@@ -148,6 +153,7 @@ namespace cwkWebAPIPontoWeb.Controllers
 
                             if (Afastamento.Parcial)
                             {
+                                DadosAntAfastamento.BAbonado = true;
                                 DadosAntAfastamento.BParcial = true;
                                 DadosAntAfastamento.Horai = Afastamento.HorasAbonoDiurno;
                                 DadosAntAfastamento.Horaf = Afastamento.HorasAbonoNoturno;
@@ -156,12 +162,11 @@ namespace cwkWebAPIPontoWeb.Controllers
                             {
                                 DadosAntAfastamento.BParcial = false;
                             }
+
                             DadosAntAfastamento.Datai = Afastamento.DataInicial;
                             DadosAntAfastamento.Dataf = Afastamento.DataFinal;
                             DadosAntAfastamento.IdFuncionario = idFuncionario.GetValueOrDefault();
-                            DadosAntAfastamento.IdOcorrencia = idOcorrencia.GetValueOrDefault();
                             DadosAntAfastamento.Tipo = 0;
-                            DadosAntAfastamento.BAbonado = true;
                             DadosAntAfastamento.Observacao = Afastamento.Observacao;
 
                             Dictionary<string, string> erros = new Dictionary<string, string>();
@@ -187,6 +192,12 @@ namespace cwkWebAPIPontoWeb.Controllers
                 }
             }
             return TrataErroModelState(retErro);
+        }
+
+        private Modelo.Ocorrencia GetOcorrencia(string connectionStr, int idOcorrencia)
+        {
+            BLL.Ocorrencia bllOcorrencia = new BLL.Ocorrencia(connectionStr);
+            return bllOcorrencia.LoadObject(idOcorrencia);
         }
 
         private void ValidaDados(Models.Afastamento Afastamento, string connectionStr, out int? idFuncionario, out int? idOcorrencia)
@@ -216,6 +227,10 @@ namespace cwkWebAPIPontoWeb.Controllers
                 if (idOcorrencia == 0)
                 {
                     ModelState.AddModelError("IdIntegracaoOcorrencia", "Ocorrência não cadastrado no Pontofopag");
+                }
+                else
+                {
+                    Afastamento.IdOcorrencia = idOcorrencia;
                 }
             }
         }
@@ -268,7 +283,7 @@ namespace cwkWebAPIPontoWeb.Controllers
 
         public int? RetornaIdAfastamento(string id, int tipo)
         {
-            BLL.Afastamento bllAfastamento = new BLL.Afastamento(MetodosAuxiliares.Conexao());
+            BLL.Afastamento bllAfastamento = new BLL.Afastamento(usuarioPontoWeb.ConnectionString);
 
             int? idAfastamento;
             if (tipo == 0)
@@ -294,7 +309,7 @@ namespace cwkWebAPIPontoWeb.Controllers
 
         public Dictionary<string, string> ExecutaAfastamento(int? idAfastamento, out Modelo.Afastamento afastamento)
         {
-            BLL.Afastamento bllAfastamento = new BLL.Afastamento(MetodosAuxiliares.Conexao());
+            BLL.Afastamento bllAfastamento = new BLL.Afastamento(usuarioPontoWeb.ConnectionString);
             Dictionary<string, string> erros = new Dictionary<string, string>();
             afastamento = bllAfastamento.LoadObject(idAfastamento.GetValueOrDefault());
             PreencheDadosAnt(afastamento);

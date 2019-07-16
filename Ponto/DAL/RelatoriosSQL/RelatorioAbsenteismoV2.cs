@@ -192,7 +192,7 @@ namespace DAL.RelatoriosSQL
 							                                    OUTER APPLY ( SELECT TOP(1) * 
 											                                    FROM dbo.afastamento af
 											                                WHERE af.abonado = 1
-											                                    AND m.data BETWEEN af.datai AND af.dataf
+											                                    AND m.data BETWEEN af.datai AND isnull(af.dataf, '9999-12-31')
 											                                    AND ((af.idfuncionario = f.id) OR
 												                                    (
 														                                af.iddepartamento = f.iddepartamento
@@ -212,7 +212,7 @@ namespace DAL.RelatoriosSQL
 																OUTER APPLY ( SELECT TOP(1) oc.absenteismo
 											                                    FROM dbo.afastamento af
 																				LEFT JOIN ocorrencia oc ON oc.id = af.idocorrencia
-											                                WHERE m.data BETWEEN af.datai AND af.dataf 
+											                                WHERE m.data BETWEEN af.datai AND isnull(af.dataf , '9999-12-31')
 											                                    AND ((af.idfuncionario = f.id) OR
 												                                    (
 														                                af.iddepartamento = f.iddepartamento

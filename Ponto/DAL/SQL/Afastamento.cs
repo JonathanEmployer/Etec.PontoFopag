@@ -176,7 +176,7 @@ namespace DAL.SQL
                             INNER JOIN empresa on empresa.id = funcionario.idempresa
                             left join contrato ct on ct.id = afastamento.idcontrato
                              WHERE afastamento.datai = @data 
-                             AND afastamento.dataf = @data 
+                             AND isnull(afastamento.dataf, '9999-12-31') = @data 
                              AND afastamento.idfuncionario = @idfuncionario
                              AND afastamento.tipo = 0"
                             + GetWhereSelectAll();
@@ -189,9 +189,9 @@ namespace DAL.SQL
             {
                 return @"   SELECT ISNULL(COUNT(id), 0) AS qt
                             FROM afastamento
-                            WHERE ((@datainicial >= datai AND @datainicial <= dataf)
-                            OR (@datafinal >= datai AND @datafinal <= dataf)
-                            OR (@datainicial <= datai AND @datafinal >= dataf))
+                            WHERE ((@datainicial >= datai AND @datainicial <= isnull(dataf, '9999-12-31'))
+                            OR (@datafinal >= datai AND @datafinal <= isnull(dataf, '9999-12-31'))
+                            OR (@datainicial <= datai AND @datafinal >= isnull(dataf, '9999-12-31')))
                             AND tipo = @tipo
                             AND id <> @id
                             AND ((idfuncionario = @identificacao AND tipo = 0)
@@ -277,7 +277,10 @@ namespace DAL.SQL
             ((Modelo.Afastamento)obj).Tipo = Convert.ToInt32(dr["tipo"]);
             ((Modelo.Afastamento)obj).Abonado = Convert.ToInt16(dr["abonado"]);
             ((Modelo.Afastamento)obj).Datai = Convert.ToDateTime(dr["datai"]);
-            ((Modelo.Afastamento)obj).Dataf = Convert.ToDateTime(dr["dataf"]);
+            if (!(dr["dataf"] is DBNull))
+            {
+                ((Modelo.Afastamento)obj).Dataf = Convert.ToDateTime(dr["dataf"]);
+            }
             ((Modelo.Afastamento)obj).IdFuncionario = (dr["idfuncionario"] is DBNull ? 0 : Convert.ToInt32(dr["idfuncionario"]));
             ((Modelo.Afastamento)obj).IdEmpresa = (dr["idempresa"] is DBNull ? 0 : Convert.ToInt32(dr["idempresa"]));
             ((Modelo.Afastamento)obj).IdDepartamento = (dr["iddepartamento"] is DBNull ? 0 : Convert.ToInt32(dr["iddepartamento"]));
@@ -425,7 +428,7 @@ namespace DAL.SQL
                 default: break;
             }
 
-            aux += " AND afastamento.datai >= @datai AND afastamento.dataf <= @dataf";
+            aux += " AND afastamento.datai >= @datai AND isnull(afastamento.dataf, '9999-12-31') <= @dataf";
 
             switch (pTipo)
             {
@@ -532,9 +535,9 @@ namespace DAL.SQL
             parms[0].Value = pDataInicial;
             parms[1].Value = pDataFinal;
 
-            string aux = SELECTALLLIST + " WHERE ((@datai >= datai AND @datai <= dataf) " +
-                              " OR (@dataf >= datai AND @dataf <= dataf) " +
-                              " OR (@datai <= datai AND @dataf >= dataf)) " +
+            string aux = SELECTALLLIST + " WHERE ((@datai >= datai AND @datai <= isnull(dataf, '9999-12-31')) " +
+                              " OR (@dataf >= datai AND @dataf <= isnull(dataf, '9999-12-31')) " +
+                              " OR (@datai <= datai AND @dataf >= isnull(dataf, '9999-12-31'))) " +
                               " ORDER BY id";
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
@@ -560,12 +563,12 @@ namespace DAL.SQL
             return lista;
         }
 
-        public List<Modelo.Afastamento> GetAfastamentoFuncionarioPeriodo(int idFuncionario, DateTime pDataInicial, DateTime pDataFinal, bool apenasFerias)
+        public List<Modelo.Afastamento> GetAfastamentoFuncionarioPeriodo(int idFuncionario, DateTime pDataInicial, DateTime? pDataFinal, bool apenasFerias)
         {
             return GetAfastamentoFuncionarioPeriodo(new List<int> { idFuncionario}, pDataInicial, pDataFinal, apenasFerias);
         }
 
-        public List<Modelo.Afastamento> GetAfastamentoFuncionarioPeriodo(List<int> idsFuncionarios, DateTime pDataInicial, DateTime pDataFinal, bool apenasFerias)
+        public List<Modelo.Afastamento> GetAfastamentoFuncionarioPeriodo(List<int> idsFuncionarios, DateTime pDataInicial, DateTime? pDataFinal, bool apenasFerias)
         {
             SqlParameter[] parms = new SqlParameter[]
             {
@@ -578,7 +581,7 @@ namespace DAL.SQL
             string _listIdsFuncionarios = string.Join(",",idsFuncionarios);
             string sql = SELECTALLLIST;
             
-            sql += string.Format( @"where afastamento.id in (
+            sql += string.Format(@"where afastamento.id in (
                         select
 	                        a.id
                         from funcionario fun
@@ -591,9 +594,9 @@ namespace DAL.SQL
 	                        fun.id in ({0})
 	                        and (
 			                        (a.datai between @dtInicioPeriodo and @dtFimPeriodo) or
-			                        (a.dataf between @dtInicioPeriodo and @dtFimPeriodo) or
-			                        (@dtInicioPeriodo between a.datai and a.dataf) or
-			                        (@dtFimPeriodo between a.datai and a.dataf) )
+			                        (isnull(a.dataf, '9999-12-31') between @dtInicioPeriodo and @dtFimPeriodo) or
+			                        (@dtInicioPeriodo between a.datai and isnull(a.dataf, '9999-12-31')) or
+			                        (@dtFimPeriodo between a.datai and isnull(a.dataf, '9999-12-31')) )
                 )", _listIdsFuncionarios);
 
             if (apenasFerias)
@@ -655,9 +658,9 @@ namespace DAL.SQL
                 left join funcionario fun on afastamento.idfuncionario = fun.id
                 left join empresa e on ct.idempresa = e.id
                 inner join ocorrencia ON ocorrencia.Id = afastamento.Idocorrencia
-                 WHERE ((@datai >= datai AND @datai <= dataf) 
-                 OR (@dataf >= datai AND @dataf <= dataf) 
-                 OR (@datai <= datai AND @dataf >= dataf)) 
+                 WHERE ((@datai >= datai AND @datai <= isnull(dataf, '9999-12-31')) 
+                 OR (@dataf >= datai AND @dataf <= isnull(dataf, '9999-12-31')) 
+                 OR (@datai <= datai AND @dataf >= isnull(dataf, '9999-12-31'))) 
                 ";
             if (where != null)
                 aux += " AND (" + where + " )";
@@ -703,7 +706,7 @@ namespace DAL.SQL
             {
                 AtribuiCampos(dr, objAfastamento);
 
-                if (pData >= objAfastamento.Datai && pData <= objAfastamento.Dataf)
+                if (pData >= objAfastamento.Datai && pData <= (objAfastamento.Dataf == null ? DateTime.MaxValue : objAfastamento.Dataf))
                 {
                     return true;
                 }
@@ -907,7 +910,7 @@ namespace DAL.SQL
 		                            , o.descricao descricaoOcorrencia
                                     , a.Observacao
 	                            FROM afastamento a
-	                            INNER JOIN marcacao_view m ON m.data BETWEEN a.datai AND a.dataf
+	                            INNER JOIN marcacao_view m ON m.data BETWEEN a.datai AND isnull(a.dataf, '9999-12-31')
 	                            LEFT JOIN funcionario f ON f.id = m.idfuncionario
 	                            LEFT JOIN ocorrencia o ON o.id = a.idocorrencia
 	                            WHERE ((a.tipo = 0 AND a.idfuncionario = f.id) OR 
@@ -1007,7 +1010,7 @@ namespace DAL.SQL
             SqlParameter[] parms = new SqlParameter[0];
             DataTable dt = new DataTable();
             string sql = @"SELECT a.id FROM afastamento a
-                            INNER JOIN marcacao m ON a.idfuncionario = m.idfuncionario AND a.datai = m.data AND a.dataf = m.data
+                            INNER JOIN marcacao m ON a.idfuncionario = m.idfuncionario AND a.datai = m.data AND isnull(a.dataf, '9999-12-31') = m.data
                             WHERE m.id = " + IdMarcacao;
             int? Id = Convert.ToInt32(db.ExecuteScalar(CommandType.Text, sql, parms));
             return Id;

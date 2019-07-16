@@ -146,7 +146,7 @@ namespace PontoWeb.Controllers
                     erro = trataErro(erro);
                     return Json(new { Success = false, Erro = erro }, JsonRequestBehavior.AllowGet);
                 }
-                return Json(new { Success = true, Erro = " ", HorasAbonoPadrao = oc.HorasAbonoPadrao, HorasAbonoPadraoNoturno = oc.HorasAbonoPadraoNoturno }, JsonRequestBehavior.AllowGet);
+                return Json(new { Success = true, Erro = " ", DefaultTipoAfastamento = oc.DefaultTipoAfastamento, HorasAbonoPadrao = oc.HorasAbonoPadrao, HorasAbonoPadraoNoturno = oc.HorasAbonoPadraoNoturno }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

@@ -974,7 +974,7 @@
         if (cwk_AlturaTela() <= 768) {
             altura = cwk_AlturaTela() * 9 / 100;
         }
-        cwk_EventoConsulta("#btnOcorrencia", "#lkpOcorrencia", "EventoConsulta", "Ocorrencia", "");
+        cwk_EventoConsulta("#btnOcorrencia", "#lkpOcorrencia", "EventoConsulta", "Ocorrencia", "",callbackocorrencias);
 
         var oTb = cwk_MicroTBTheme2("#tbTotalizadores", altura, "", false, '<"H"fr>t<"F"p>');
         lkpGenerico();
@@ -1009,7 +1009,6 @@
             guardaValorAnterior(identManut);
         })
         desabilitaEdicaoMarcacao();
-        HabilitaDesabilitaSuspensao();
 
         $('form').submit(function () {
             var valido = true;
@@ -1062,17 +1061,6 @@
     });
 
 
-
-    function HabilitaDesabilitaSuspensao() {
-        if ($('#bSuspensaoBool').is(':checked')) {
-            LimpaAfastamento();
-            HabilitarCampoSuspensao();
-        }
-        else {
-            DesabilitarCampoSuspensao();
-        }
-    }
-
     function desabilitaEdicaoMarcacao() {
         //Desabilito as marcações que não podem ser alteradas e guardo os valores iniciais
         $(".time").each(function () {
@@ -1097,28 +1085,6 @@
         lkpJustificativaAnt = $("#lkpJustificativa" + identCampo).val();
         txtMotivoAnt = $("#txtMotivo" + identCampo).val();
         txtAcaoAnt = $("txtAcao" + identCampo).val();
-    }
-
-    $('#bSuspensaoBool').click(function () {
-        if ($(this).is(':checked')) {
-
-            LimpaAfastamento();
-            HabilitarCampoSuspensao();
-        } else {
-            DesabilitarCampoSuspensao();
-        }
-    })
-
-    function HabilitarCampoSuspensao() {
-        HabilitaDesabilitaComponente("#BAbonadoBool", true);
-        HabilitaDesabilitaComponente("#BSemCalculoBool", true);
-        HabilitaDesabilitaComponente("#btnAbonoParcial", true);
-    }
-
-    function DesabilitarCampoSuspensao() {
-        HabilitaDesabilitaComponente("#BAbonadoBool", false);
-        HabilitaDesabilitaComponente("#BSemCalculoBool", false);
-        HabilitaDesabilitaComponente("#btnAbonoParcial", false);
     }
 
     function HabilitaDesabilitaComponente(componente, valor) {
@@ -1401,6 +1367,7 @@
     function LimpaAfastamento() {
         $('#BAbonadoBool').prop("checked", false);
         $('#BSemCalculoBool').prop("checked", false);
+        $('#bSemAbonoBool').prop("checked", false);
     }
 
     function LimpaOcorrenciaAfastamento() {
@@ -1436,6 +1403,7 @@
         recalculaFaltaAposAbonoNoturno();
         AbonoAnt["AbonoParcialDiurno"] = $("#txtAbonoParcialDiurno").val();
         AbonoAnt["AbonoParcialNoturno"] = $("#txtAbonoParcialNoturno").val();
+        $('#BAbonadoBool').trigger('click');
         $("#divLoadAbonoParcialModal").modal();
         });
 
@@ -1496,12 +1464,14 @@
         if ($(this).is(':checked')) {
             $("#BSemCalculoBool").prop("checked", false);
             $("#bSemAbonoBool").prop("checked", false);
+            $("#bSuspensaoBool").prop("checked", false);
         }
     });
     $("#BSemCalculoBool").change(function (event) {
         if ($(this).is(':checked')) {
             $("#BAbonadoBool").prop("checked", false);
             $("#bSemAbonoBool").prop("checked", false);
+            $("#bSuspensaoBool").prop("checked", false);
         }
     });
 
@@ -1509,10 +1479,17 @@
         if ($(this).is(':checked')) {
             $("#BAbonadoBool").prop("checked", false);
             $("#BSemCalculoBool").prop("checked", false);
+            $("#bSuspensaoBool").prop("checked", false);
         }
     });
 
-
+        $("#bSuspensaoBool").change(function (event) {
+        if ($(this).is(':checked')) {
+            $("#BAbonadoBool").prop("checked", false);
+            $("#BSemCalculoBool").prop("checked", false);
+            $("#bSemAbonoBool").prop("checked", false);
+        }
+    });
 
     //Fim Javascript referente a afastamento
 
@@ -1672,7 +1649,39 @@
             
         }
 
-
+    function callbackocorrencias() {
+        ocorrencia = $("#lkpOcorrencia").val();
+        $.ajax({
+            url: '/Afastamento/CarregaOcorrencia',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                'ocorrencia': ocorrencia
+            },
+            success: function (ret) {
+                if (ret.Success === true) {
+                    $(".checkboxHN").prop("checked", false);
+                    $(".checkboxHN").prop("readonly", false);
+                    switch (ret.DefaultTipoAfastamento) {
+                        case 1:
+                                $('#BAbonadoBool').trigger('click');
+                            break;
+                        case 2:
+                            $('#BSemCalculoBool').trigger('click');
+                            break;
+                        case 3:
+                            $('#bSuspensaoBool').trigger('click');
+                            break;
+                        case 4:
+                            $('#bSemAbonoBool').trigger('click');
+                            break;
+                    }
+                } else {
+                    cwkErroTit('Erro!', ret.Erro);
+                }
+            },
+        });
+    }
     </script>
 @*Script Coloca tela para consulta*@
 @if ((int)TempData["Consultar"] == 1)

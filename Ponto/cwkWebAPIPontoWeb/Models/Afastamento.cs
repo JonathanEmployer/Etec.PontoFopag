@@ -13,8 +13,7 @@ namespace cwkWebAPIPontoWeb.Models
         public int? Codigo { get; set; }
         [Required]
         public DateTime DataInicial { get; set; }
-        [Required]
-        public DateTime DataFinal { get; set; }
+        public DateTime? DataFinal { get; set; }
         public int? IdIntegracaoFuncionario { get; set; }
         public int? IdIntegracaoOcorrencia { get; set; }
 

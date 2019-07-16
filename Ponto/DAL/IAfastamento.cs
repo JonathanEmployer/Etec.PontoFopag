@@ -23,8 +23,8 @@ namespace DAL
         List<Modelo.FechamentoPonto> FechamentoPontoAfastamento(int idAfastamento);
         IList<Modelo.Proxy.pxyAbonosPorMarcacao> GetAbonosPorMarcacoes(IList<int> idFuncionarios, DateTime dataIni, DateTime dataFin);
         int? GetIdAfastamentoPorIdMarcacao(int IdMarcacao);
-        List<Modelo.Afastamento> GetAfastamentoFuncionarioPeriodo(int idFuncionario, DateTime pDataInicial, DateTime pDataFinal, bool apenasFerias);
-        List<Modelo.Afastamento> GetAfastamentoFuncionarioPeriodo(List<int> idFuncionario, DateTime pDataInicial, DateTime pDataFinal, bool apenasFerias);
+        List<Modelo.Afastamento> GetAfastamentoFuncionarioPeriodo(int idFuncionario, DateTime pDataInicial, DateTime? pDataFinal, bool apenasFerias);
+        List<Modelo.Afastamento> GetAfastamentoFuncionarioPeriodo(List<int> idFuncionario, DateTime pDataInicial, DateTime? pDataFinal, bool apenasFerias);
         List<PxyRelAfastamento> GetRelatorioAfastamentoFolha(List<int> idsFuncs, DateTime pDataI, DateTime pDataF, Int16 absenteismo, bool considerarAbonado, bool considerarParcial, bool considerarSemCalculo, bool considerarSuspensao, bool considerarSemAbono);
     }
 }

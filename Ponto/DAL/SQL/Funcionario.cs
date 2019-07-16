@@ -5604,7 +5604,7 @@ namespace DAL.SQL
 														                            (f.tipoferiado = 2 and f.iddepartamento = func.iddepartamento) or
 														                            (f.tipoferiado = 3 and EXISTS (SELECT * FROM  dbo.FeriadoFuncionario fu WHERE f.id = fu.idFeriado AND fu.idFuncionario = func.id)))
 	                              LEFT JOIN dbo.marcacao marc ON marc.idfuncionario = func.id AND marc.data = dt.data
-	                              LEFT JOIN dbo.afastamento afast ON dt.data BETWEEN afast.datai AND afast.dataf AND afast.abonado = 1 AND afast.parcial = 0 AND (afast.idfuncionario = func.id OR 
+	                              LEFT JOIN dbo.afastamento afast ON dt.data BETWEEN afast.datai AND isnull(afast.dataf, '9999-12-31') AND afast.abonado = 1 AND afast.parcial = 0 AND (afast.idfuncionario = func.id OR 
 																							                            afast.idempresa = func.idempresa OR
                                                                                                                         afast.iddepartamento = func.iddepartamento OR
 																							                            afast.idcontrato IN (SELECT cf.idcontrato FROM dbo.contratofuncionario cf WHERE cf.idfuncionario = func.id ))

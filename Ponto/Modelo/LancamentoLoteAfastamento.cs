@@ -41,8 +41,6 @@ namespace Modelo
         /// Data Final do Afastamento
         /// </summary>
         [DisplayName("Data Final")]
-        [Required(ErrorMessage = "Campo Data Final Obrigatório")]
-        [MinDate("01/01/1760")]
         public DateTime? DataF { get; set; }
 
         /// <summary>
