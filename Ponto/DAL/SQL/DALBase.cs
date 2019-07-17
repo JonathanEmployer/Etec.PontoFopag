@@ -864,14 +864,7 @@ namespace DAL.SQL
         }
         public virtual void AtualizarRegistros<T>(List<T> list, SqlTransaction trans)
         {
-            DataTable dt = new DataTable();
-            dt = list.ToDataTable();
-            dt.AsEnumerable().ToList().ForEach(r =>
-            {
-                r["AltData"] = DateTime.Now.Date;
-                r["AltHora"] = DateTime.Now;
-                r["Altusuario"] = UsuarioLogado.Login;
-            });
+            DataTable dt = GerarDataTable(list);
             List<string> colunas = dt.Columns.Cast<DataColumn>().Select(x => x.ColumnName).Except(new List<string>() { "Inchora", "Incdata", "Incusuario", "Id" }).ToList(); //GetParameters().ToList().Select(s => s.ParameterName.Replace("@","")).Where(w => w.ToUpper() != "ID").ToList();
             String nomeTempTable = "U" + TABELA;
             string comando = @" UPDATE " + TABELA + " SET " + String.Join(", " + Environment.NewLine, colunas.Select(s => s + " = temp." + s));
@@ -928,7 +921,20 @@ namespace DAL.SQL
             }
         }
 
-        private void EnviarBulkCopy(DataTable dt, SqlConnection conexao, SqlTransaction transaction, SqlCommand command, string comando, string nomeTempTable)
+        public virtual DataTable GerarDataTable<T>(List<T> list)
+        {
+            DataTable dt = new DataTable();
+            dt = list.ToDataTable();
+            dt.AsEnumerable().ToList().ForEach(r =>
+            {
+                r["AltData"] = DateTime.Now.Date;
+                r["AltHora"] = DateTime.Now;
+                r["Altusuario"] = UsuarioLogado.Login;
+            });
+            return dt;
+        }
+
+        public void EnviarBulkCopy(DataTable dt, SqlConnection conexao, SqlTransaction transaction, SqlCommand command, string comando, string nomeTempTable)
         {
             command.CommandText = CreateTempTABLE(nomeTempTable, dt);
             command.ExecuteNonQuery();

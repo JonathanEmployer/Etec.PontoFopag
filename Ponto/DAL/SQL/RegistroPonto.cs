@@ -557,5 +557,20 @@ namespace DAL.SQL
             }
             return lista.FirstOrDefault();
         }
+
+
+        public override DataTable GerarDataTable<T>(List<T> list)
+        {
+            var dt = base.GerarDataTable(list);
+            dt.Columns.Add("acao", typeof(int));
+
+            var convert = (list.Cast<Modelo.RegistroPonto>()).ToList();
+
+            for (int i = 0; i < convert.Count; i++)
+            {
+                dt.Rows[i]["acao"] = (int)(convert[i].Acao);
+            }
+            return dt;
+        }
     }
 }
