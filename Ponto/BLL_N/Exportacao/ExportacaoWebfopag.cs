@@ -123,6 +123,15 @@ namespace BLL_N.Exportacao
                         CampoPis.Tamanho = 12;
                         CampoPis.Formatoevento = string.Empty;
 
+                        Modelo.ExportacaoCampos CampoNome = new Modelo.ExportacaoCampos();
+                        CampoNome.Tipo = "Nome do Funcionário";
+                        CampoNome.Codigo = 10;
+                        CampoNome.Delimitador = ";";
+                        CampoNome.Posicao = 86;
+                        CampoNome.Qualificador = "[nenhum]";
+                        CampoNome.Tamanho = 99;
+                        CampoNome.Formatoevento = string.Empty;
+
                         listalayoutwfp.Add(CampoCPF);
                         listalayoutwfp.Add(CampoCodigoEvento);
                         listalayoutwfp.Add(CampoValorEvento);
@@ -132,6 +141,7 @@ namespace BLL_N.Exportacao
                         listalayoutwfp.Add(CampoCodigoEmpresa);
                         listalayoutwfp.Add(CampoCodigoMatricula);
                         listalayoutwfp.Add(CampoPis);
+                        listalayoutwfp.Add(CampoNome);
                         #endregion
 
                         byte[] res = bllExportacao.ExportarFolhaWeb(dataI, dataF, idsFuncs, idLayout, progressBar, listalayoutwfp, idsEventos);
@@ -164,7 +174,7 @@ namespace BLL_N.Exportacao
                                     {
                                         wfp.Percentual = "";
                                     }
-
+                                   
                                     wfp.CodigoEvento = itens[1];
                                     wfp.ValorEvento = itens[2];
                                     wfp.codigoFunc = itens[4];
@@ -178,6 +188,7 @@ namespace BLL_N.Exportacao
                                     wfp.Mes = dataF.GetValueOrDefault().Month.ToString();
                                     wfp.EstruturaCentroResultado = "";
                                     wfp.CeiObra = "";
+                                    wfp.Nome = itens[9];
                                     listwfp.Add(wfp);
                                 }
                             }

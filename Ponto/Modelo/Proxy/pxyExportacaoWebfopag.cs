@@ -8,6 +8,8 @@ namespace Modelo.Proxy
 {
     public class pxyExportacaoWebfopag
     {
+        [ExportToXls("nome", 10)]
+        public string Nome { get; set; }
         [ExportToXls("cpf", 10)]
         public string CPF { get; set; }
         [ExportToXls("pis", 10)]
