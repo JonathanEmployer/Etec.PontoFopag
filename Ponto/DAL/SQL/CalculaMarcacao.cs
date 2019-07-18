@@ -441,6 +441,7 @@ namespace DAL.SQL
             comando.AppendLine(", marcacao.horasPrevistasDentroFeriadoDiurna");
             comando.AppendLine(", marcacao.horasPrevistasDentroFeriadoNoturna");
             comando.AppendLine(", horario.DSRPorPercentual");
+            comando.AppendLine(", marcacao.naoconsiderarferiado");
             comando.AppendLine(" FROM marcacao_view AS marcacao");
             comando.AppendLine(" INNER JOIN horario ON horario.id = marcacao.idhorario");
             comando.AppendLine(" WHERE marcacao.idfuncionario = @idfuncionario");
@@ -725,6 +726,7 @@ namespace DAL.SQL
 						", marcacao.Horascompensadas " +
                         ", marcacao.Dsr " +
                         ", funcionario.datainativacao " +
+                        ", marcacao.naoconsideraferiado " +
                 "FROM marcacao_view as marcacao " +
                 "INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario " +
                 "INNER JOIN horario ON horario.id = marcacao.idhorario " +
@@ -1086,6 +1088,7 @@ namespace DAL.SQL
 						", marcacao.Horascompensadas " +
                         ", marcacao.Dsr " +
                         ", funcionario.datainativacao " +
+                        ", marcacao.naoconsiderarferiado " +
                 "FROM marcacao_view as marcacao " +
                 "INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario " +
                 "INNER JOIN horario ON horario.id = marcacao.idhorario " +
@@ -1467,6 +1470,7 @@ namespace DAL.SQL
 						, marcacao.Horascompensadas
                         , marcacao.Dsr
                         , funcionario.datainativacao
+                        , marcacao.naoconsiderarferiado
                FROM marcacao_view as marcacao with (nolock)
                INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario 
                INNER JOIN horario ON horario.id = marcacao.idhorario 

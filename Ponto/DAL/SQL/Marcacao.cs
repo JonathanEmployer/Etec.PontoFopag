@@ -169,6 +169,7 @@ namespace DAL.SQL
                             , horasTrabalhadasDentroFeriadoNoturna
                             , horasPrevistasDentroFeriadoDiurna
                             , horasPrevistasDentroFeriadoNoturna
+                            , naoconsiderarferiado
                             )
 							VALUES
 							(@idfuncionario, @codigo, @dscodigo, @legenda, @data, @dia
@@ -260,6 +261,7 @@ namespace DAL.SQL
                             , @horasTrabalhadasDentroFeriadoNoturna
                             , @horasPrevistasDentroFeriadoDiurna
                             , @horasPrevistasDentroFeriadoNoturna
+                            , @naoconsiderarferiado
                         ) end
 						SET @id = SCOPE_IDENTITY()";
 
@@ -357,6 +359,7 @@ namespace DAL.SQL
                             , horasTrabalhadasDentroFeriadoNoturna = @horasTrabalhadasDentroFeriadoNoturna
                             , horasPrevistasDentroFeriadoDiurna = @horasPrevistasDentroFeriadoDiurna
                             , horasPrevistasDentroFeriadoNoturna = @horasPrevistasDentroFeriadoNoturna
+                            , naoconsiderarferiado = @naoconsiderarferiado
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM marcacao WHERE id = @id";
@@ -495,6 +498,7 @@ namespace DAL.SQL
             ((Modelo.Marcacao)obj).HorasTrabalhadasDentroFeriadoNoturna = Convert.ToString(dr["HorasTrabalhadasDentroFeriadoNoturna"]);
             ((Modelo.Marcacao)obj).HorasPrevistasDentroFeriadoDiurna = Convert.ToString(dr["horasPrevistasDentroFeriadoDiurna"]);
             ((Modelo.Marcacao)obj).HorasPrevistasDentroFeriadoNoturna = Convert.ToString(dr["horasPrevistasDentroFeriadoNoturna"]);
+            ((Modelo.Marcacao)obj).NaoConsiderarFeriado = (dr["naoconsiderarferiado"] is DBNull ? (short)0 : Convert.ToInt16(dr["naoconsiderarferiado"]));
             if (ColunaExiste("Tratamento_Ent_1", dr))
             {
                 ((Modelo.Marcacao)obj).Tratamento_Ent_1 = (dr["Tratamento_Ent_1"]) is DBNull ? "--" : Convert.ToString(dr["Tratamento_Ent_1"]);
@@ -617,7 +621,8 @@ namespace DAL.SQL
                 new SqlParameter ("@horasTrabalhadasDentroFeriadoDiurna", SqlDbType.VarChar),
                 new SqlParameter ("@horasTrabalhadasDentroFeriadoNoturna", SqlDbType.VarChar),
                 new SqlParameter ("@horasPrevistasDentroFeriadoDiurna", SqlDbType.VarChar),
-                new SqlParameter ("@horasPrevistasDentroFeriadoNoturna", SqlDbType.VarChar)
+                new SqlParameter ("@horasPrevistasDentroFeriadoNoturna", SqlDbType.VarChar),
+                new SqlParameter ("@naoconsiderarferiado", SqlDbType.Int)
             };
             return parms;
         }
@@ -739,6 +744,7 @@ namespace DAL.SQL
             parms[95].Value = ((Modelo.Marcacao)obj).HorasTrabalhadasDentroFeriadoNoturna;
             parms[96].Value = ((Modelo.Marcacao)obj).HorasPrevistasDentroFeriadoDiurna;
             parms[97].Value = ((Modelo.Marcacao)obj).HorasPrevistasDentroFeriadoNoturna;
+            parms[98].Value = ((Modelo.Marcacao)obj).NaoConsiderarFeriado;
         }
 
         public Modelo.Marcacao LoadObject(int id)
@@ -1050,7 +1056,8 @@ namespace DAL.SQL
                     new DataColumn ("horasTrabalhadasDentroFeriadoDiurna", typeof(string)),
                     new DataColumn ("horasTrabalhadasDentroFeriadoNoturna", typeof(string)),
                     new DataColumn ("horasPrevistasDentroFeriadoDiurna", typeof(string)),
-                    new DataColumn ("horasPrevistasDentroFeriadoNoturna", typeof(string))
+                    new DataColumn ("horasPrevistasDentroFeriadoNoturna", typeof(string)),
+                    new DataColumn ("naoconsiderarferiado", typeof(Int16))
                 };
                 DataTable dt = new DataTable();
                 dt.Columns.AddRange(colunas);
@@ -1167,6 +1174,7 @@ namespace DAL.SQL
                         row["horasTrabalhadasDentroFeriadoNoturna"] = marc.HorasTrabalhadasDentroFeriadoNoturna;
                         row["horasPrevistasDentroFeriadoDiurna"] = marc.HorasPrevistasDentroFeriadoDiurna;
                         row["horasPrevistasDentroFeriadoNoturna"] = marc.HorasPrevistasDentroFeriadoNoturna;
+                        row["naoconsiderarferiado"] = marc.NaoConsiderarFeriado;
                         dt.Rows.Add(row);
                     }
                     catch (Exception e)
@@ -1294,6 +1302,7 @@ namespace DAL.SQL
                         bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("horasTrabalhadasDentroFeriadoNoturna", "horasTrabalhadasDentroFeriadoNoturna"));
                         bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("horasPrevistasDentroFeriadoDiurna", "horasPrevistasDentroFeriadoDiurna"));
                         bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("horasPrevistasDentroFeriadoNoturna", "horasPrevistasDentroFeriadoNoturna"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("naoconsiderarferiado", "naoconsiderarferiado"));
                         bulkCopy.BatchSize = 5000;
                         bulkCopy.DestinationTableName = "#marcacaoI";
 
@@ -1397,7 +1406,8 @@ namespace DAL.SQL
                   horasTrabalhadasDentroFeriadoDiurna,
                   horasTrabalhadasDentroFeriadoNoturna,
                   horasPrevistasDentroFeriadoDiurna,
-                  horasPrevistasDentroFeriadoNoturna
+                  horasPrevistasDentroFeriadoNoturna,
+                  naoconsiderarferiado
                 )
                 SELECT  idfuncionario ,
                         codigo ,
@@ -1564,7 +1574,8 @@ namespace DAL.SQL
                         horasTrabalhadasDentroFeriadoDiurna,
                         horasTrabalhadasDentroFeriadoNoturna,
                         horasPrevistasDentroFeriadoDiurna,
-                        horasPrevistasDentroFeriadoNoturna
+                        horasPrevistasDentroFeriadoNoturna,
+                        naoconsiderarferiado
 						from #marcacaoI ";
 
                     cmd = new SqlCommand(sqlTransfer, conn, trans);
@@ -1718,7 +1729,8 @@ namespace DAL.SQL
                 new DataColumn () { ColumnName = "horasTrabalhadasDentroFeriadoDiurna", DataType = typeof(string), MaxLength = 5},
                 new DataColumn () { ColumnName = "horasTrabalhadasDentroFeriadoNoturna", DataType = typeof(string), MaxLength = 5},
                 new DataColumn () { ColumnName = "horasPrevistasDentroFeriadoDiurna", DataType = typeof(string), MaxLength = 5},
-                new DataColumn () { ColumnName = "horasPrevistasDentroFeriadoNoturna", DataType = typeof(string), MaxLength = 5}
+                new DataColumn () { ColumnName = "horasPrevistasDentroFeriadoNoturna", DataType = typeof(string), MaxLength = 5},
+                new DataColumn ("naoconsiderarferiado", objMarcacao.NaoConsiderarFeriado.GetType())
             };
                 dt.Columns.AddRange(colunas);
                 #endregion
@@ -1835,6 +1847,7 @@ namespace DAL.SQL
                         row["horasTrabalhadasDentroFeriadoNoturna"] = marc.HorasTrabalhadasDentroFeriadoNoturna;
                         row["horasPrevistasDentroFeriadoDiurna"] = marc.HorasPrevistasDentroFeriadoDiurna;
                         row["horasPrevistasDentroFeriadoNoturna"] = marc.HorasPrevistasDentroFeriadoNoturna;
+                        row["naoconsiderarferiado"] = marc.NaoConsiderarFeriado;
                         dt.Rows.Add(row);
                     }
                     catch (Exception e)
@@ -1975,7 +1988,8 @@ namespace DAL.SQL
                 new DataColumn ("horasTrabalhadasDentroFeriadoDiurna", typeof(string)),
                 new DataColumn ("horasTrabalhadasDentroFeriadoNoturna", typeof(string)),
                 new DataColumn ("horasPrevistasDentroFeriadoDiurna", typeof(string)),
-                new DataColumn ("horasPrevistasDentroFeriadoNoturna", typeof(string))
+                new DataColumn ("horasPrevistasDentroFeriadoNoturna", typeof(string)),
+                new DataColumn ("naoconsiderarferiado", objMarcacao.NaoConsiderarFeriado.GetType())
             };
                 dt.Columns.AddRange(colunas);
                 #endregion
@@ -2090,6 +2104,7 @@ namespace DAL.SQL
                     row["horasTrabalhadasDentroFeriadoNoturna"] = marc.HorasTrabalhadasDentroFeriadoNoturna;
                     row["horasPrevistasDentroFeriadoDiurna"] = marc.HorasPrevistasDentroFeriadoDiurna;
                     row["horasPrevistasDentroFeriadoNoturna"] = marc.HorasPrevistasDentroFeriadoNoturna;
+                    row["NaoConsiderarFeriado"] = marc.NaoConsiderarFeriado;
                     dt.Rows.Add(row);
                 }
                 #endregion

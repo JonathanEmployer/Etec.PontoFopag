@@ -346,6 +346,15 @@
                             </label>
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                            <label>
+                                @Html.CheckBoxFor(model => model.ConsiderarFeriadoBool, new { @class = "checkboxHN" })
+                                @Html.DisplayNameFor(model => model.ConsiderarFeriadoBool)
+                                @Html.ValidationMessageFor(model => model.ConsiderarFeriadoBool)
+                            </label>
+                        </div>
+                    </div>
                 </div>
                 <div class="jumbotron col-md-12" style="padding:5px; margin-bottom:0">
                     <div class="col-md-9" style="padding:0">

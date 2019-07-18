@@ -540,6 +540,16 @@ namespace Modelo
             set { Abonardsr = value ? (short)1 : (short)0; }
         }
         public Int16 Totalizadoresalterados { get; set; }
+         /// <summary>
+        /// Variável do Flag que marca se vai Abonar DSR ou não
+        /// </summary>
+        public Int16 NaoConsiderarFeriado { get; set; }
+        [Display(Name = "Não Considerar Feriado")]
+        public bool ConsiderarFeriadoBool
+        {
+            get { return NaoConsiderarFeriado == 1 ? true : false; }
+            set { NaoConsiderarFeriado = value ? (short)1 : (short)0; }
+        }
         /// <summary>
         /// Calcula Horas Extras Diurna
         /// </summary>

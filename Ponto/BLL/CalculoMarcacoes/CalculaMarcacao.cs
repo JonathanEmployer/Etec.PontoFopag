@@ -83,7 +83,7 @@ namespace BLL
 
         private decimal InItinerePercDentroJornada, InItinerePercForaJornada;
 
-        private short dsr, folgaMarcacao, naoConsiderarCafe, naoEntrarBanco, semCalculo;
+        private short dsr, folgaMarcacao, naoConsiderarCafe, naoEntrarBanco, semCalculo, naoConsiderarFeriado;
         private bool neutroMarcacao, documentoWorkflowAberto, NaoConsiderarInItinere, bCafe;
 
         DateTime data;
@@ -1112,7 +1112,7 @@ namespace BLL
                     }
                 }
 
-                if (idFeriado != null)
+                if (idFeriado != null && naoConsiderarFeriado == 0)
                 {
                     CalculoDeJornadaNoturnaComFeriado();
                 }
@@ -1125,7 +1125,7 @@ namespace BLL
         /// </summary>
         private void CalculoDeJornadaNoturnaComFeriado()
         {
-            if (bConsiderarHEFeriadoPHoraNoturna && idFeriado != null)
+            if (bConsiderarHEFeriadoPHoraNoturna && idFeriado != null && naoConsiderarFeriado == 0)
             {
                 DataTable Marcacao = dalCalculaMarcacao.GetMarcacoesCalculo(2, idFuncionario, data.AddDays(-1), data.AddDays(-1), false, true, false);
                 if (Marcacao.Rows.Count > 0)
@@ -1810,7 +1810,7 @@ namespace BLL
                     }
                 }
 
-                if (idFeriado != null)
+                if (idFeriado != null && naoConsiderarFeriado == 0)
                 {
                     fdia = 8;
                 }
@@ -2442,7 +2442,7 @@ namespace BLL
 
         private bool CalculaHoraExtraFalta(string abonoD, string abonoN, int adicionalNoturno, bool feriadoProximoDia)
         {
-            bool feriadoNoDia = (idFeriado != null);
+            bool feriadoNoDia = (idFeriado != null && naoConsiderarFeriado ==0);
             if (feriadoNoDia && separaExtraFalta == 1)
                 separaExtraFalta = 0;
 
@@ -2488,7 +2488,7 @@ namespace BLL
             int ExtrasToleradasD = 0;
             int ExtrasToleradasN = 0;
             bool toleranciaPorBatida = false;
-            if (flagFolga.GetValueOrDefault() != 1 && folgaMarcacao != 1 && (idFeriado == null || feriadoParcial == true))
+            if (flagFolga.GetValueOrDefault() != 1 && folgaMarcacao != 1 && (idFeriado == null  || feriadoParcial == true || naoConsiderarFeriado==1))
             {
                 if (separaExtraFalta == 0)
                     //o calculo de horas toleradas para separa_extra_e_falta será executado dentro da rotina separa extra e falta 
@@ -4153,6 +4153,7 @@ namespace BLL
             obj.HorasTrabalhadasDentroFeriadoNoturna = Convert.ToString(pMarcacao["horasTrabalhadasDentroFeriadoNoturna"]);
             obj.HorasPrevistasDentroFeriadoDiurna = Convert.ToString(pMarcacao["horasPrevistasDentroFeriadoDiurna"]);
             obj.HorasPrevistasDentroFeriadoNoturna = Convert.ToString(pMarcacao["horasPrevistasDentroFeriadoNoturna"]);
+            obj.NaoConsiderarFeriado = Convert.ToInt16(pMarcacao["naoconsiderarferiado"]);
             return obj;
         }
 
@@ -4256,6 +4257,7 @@ namespace BLL
             objMarcacao.HorasTrabalhadasDentroFeriadoNoturna = Modelo.cwkFuncoes.ConvertMinutosHora(horasTrabalhadasDentroFeriadoParcialNoturna);
             objMarcacao.HorasPrevistasDentroFeriadoDiurna = Modelo.cwkFuncoes.ConvertMinutosHora(horasPrevistasDentroFeriadoParcialDiurna);
             objMarcacao.HorasPrevistasDentroFeriadoNoturna = Modelo.cwkFuncoes.ConvertMinutosHora(horasPrevistasDentroFeriadoParcialNoturna);
+            objMarcacao.NaoConsiderarFeriado = Convert.ToInt16(pMarcacao["naoconsiderarferiado"]);
         }
 
         private void SetaVariaveisMarcacao(DataRow pMarcacao)
@@ -4366,6 +4368,7 @@ namespace BLL
             horasTrabalhadasDentroFeriadoParcialNoturna = Modelo.cwkFuncoes.ConvertHorasMinuto(Convert.ToString(pMarcacao["horasTrabalhadasDentroFeriadoNoturna"]));
             horasPrevistasDentroFeriadoParcialDiurna = Modelo.cwkFuncoes.ConvertHorasMinuto(Convert.ToString(pMarcacao["horasPrevistasDentroFeriadoDiurna"]));
             horasPrevistasDentroFeriadoParcialNoturna = Modelo.cwkFuncoes.ConvertHorasMinuto(Convert.ToString(pMarcacao["horasPrevistasDentroFeriadoNoturna"]));
+            naoConsiderarFeriado = pMarcacao["naoconsiderarferiado"] is DBNull ? Convert.ToInt16(0) : Convert.ToInt16(pMarcacao["naoconsiderarferiado"]);
 
             legenda = Convert.ToString(pMarcacao["Legenda"]).Trim();
             bancoHorasCre = Convert.ToString(pMarcacao["Bancohorascre"]);
@@ -4946,7 +4949,7 @@ namespace BLL
 
         private string BuscaLegenda()
         {
-            if (idFeriado != null)
+            if (idFeriado != null && naoConsiderarFeriado == 0)
             {
                 //Tem um feriado naquela data               
                 return "F";
@@ -4962,12 +4965,12 @@ namespace BLL
 
         private string BuscaLegendaConcatenada()
         {
-            if ((idFeriado != null) && (idAfastamentoFunc != null || idAfastamentoDep != null || idAfastamentoEmp != null || idAfastamentoCont != null))
+            if ((idFeriado != null && naoConsiderarFeriado == 0) && (idAfastamentoFunc != null || idAfastamentoDep != null || idAfastamentoEmp != null || idAfastamentoCont != null))
             {
                 return "F,A";
             }
 
-            if (idFeriado != null)
+            if (idFeriado != null && naoConsiderarFeriado == 0)
             {
                 //Tem um feriado naquela data               
                 return "F";
