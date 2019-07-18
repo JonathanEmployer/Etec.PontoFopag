@@ -26,7 +26,7 @@ namespace RegistradorPontoWeb.Models.Ponto
         public int idOcorrencia { get; set; }
         public Nullable<int> abonado { get; set; }
         public System.DateTime dataI { get; set; }
-        public System.DateTime dataF { get; set; }
+        public Nullable<System.DateTime> dataF { get; set; }
         public string abonoDiurno { get; set; }
         public string abonoNoturno { get; set; }
         public Nullable<int> parcial { get; set; }

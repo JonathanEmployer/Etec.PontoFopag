@@ -54,7 +54,6 @@
         <EntityTypeShape EntityType="PontofopagModel.funcao" Width="1.5" PointX="6" PointY="71.875" />
         <EntityTypeShape EntityType="PontofopagModel.funcionariohistorico" Width="1.5" PointX="10.5" PointY="54.375" />
         <EntityTypeShape EntityType="PontofopagModel.horario" Width="1.5" PointX="6" PointY="81.125" />
-        <EntityTypeShape EntityType="PontofopagModel.horariodetalhe" Width="1.5" PointX="19.25" PointY="38.5" />
         <EntityTypeShape EntityType="PontofopagModel.HorarioInItinere" Width="1.5" PointX="8.25" PointY="95" />
         <EntityTypeShape EntityType="PontofopagModel.horariophextra" Width="1.5" PointX="8.25" PointY="99.5" />
         <EntityTypeShape EntityType="PontofopagModel.importalayouttexto" Width="1.5" PointX="13.75" PointY="5.75" />
@@ -146,14 +145,12 @@
         <AssociationConnector Association="PontofopagModel.FK_FechamentoPontoFuncionario_FechamentoPonto" />
         <AssociationConnector Association="PontofopagModel.fk_FeriadoFuncionario_Feriado" />
         <AssociationConnector Association="PontofopagModel.FK_horario_parametros" />
-        <AssociationConnector Association="PontofopagModel.FK_horariodetalhe_horario" />
         <AssociationConnector Association="PontofopagModel.FK_HorarioInItinere_horario" />
         <AssociationConnector Association="PontofopagModel.FK_horariophextra_horario" />
         <AssociationConnector Association="PontofopagModel.FK_limiteddsr_horario" />
         <AssociationConnector Association="PontofopagModel.FK_marcacao_horario" />
         <AssociationConnector Association="PontofopagModel.FK_mudancahorario_horario" />
         <AssociationConnector Association="PontofopagModel.FK_mudcodigofunc_horario" />
-        <AssociationConnector Association="PontofopagModel.FK_horariodetalhe_jornada" />
         <AssociationConnector Association="PontofopagModel.fk_InclusaoBanco_justificativa" />
         <AssociationConnector Association="PontofopagModel.FK_jornadaalternativa_jornada" />
         <AssociationConnector Association="PontofopagModel.fk_LancamentoLoteBilhetesImp_Justificativa" />
@@ -222,6 +219,9 @@
         <AssociationConnector Association="PontofopagModel.FK_mudancahorario_funcionario" />
         <AssociationConnector Association="PontofopagModel.FK_mudcodigofunc_funcionario" />
         <AssociationConnector Association="PontofopagModel.fk_RegistroPonto_Funcionarios" />
+        <EntityTypeShape EntityType="PontofopagModel.horariodetalhe" Width="1.5" PointX="8.25" PointY="55.25" />
+        <AssociationConnector Association="PontofopagModel.FK_horariodetalhe_horario" />
+        <AssociationConnector Association="PontofopagModel.FK_horariodetalhe_jornada" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

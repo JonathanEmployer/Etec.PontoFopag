@@ -17,7 +17,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public horario()
         {
-            this.horariodetalhe = new HashSet<horariodetalhe>();
             this.HorarioInItinere = new HashSet<HorarioInItinere>();
             this.horariophextra = new HashSet<horariophextra>();
             this.limiteddsr = new HashSet<limiteddsr>();
@@ -25,6 +24,7 @@ namespace RegistradorPontoWeb.Models.Ponto
             this.mudancahorario = new HashSet<mudancahorario>();
             this.mudcodigofunc = new HashSet<mudcodigofunc>();
             this.funcionario = new HashSet<funcionario>();
+            this.horariodetalhe = new HashSet<horariodetalhe>();
         }
     
         public int id { get; set; }
@@ -130,8 +130,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual Classificacao Classificacao { get; set; }
         public virtual parametros parametros { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<horariodetalhe> horariodetalhe { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HorarioInItinere> HorarioInItinere { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<horariophextra> horariophextra { get; set; }
@@ -146,5 +144,7 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual HorarioDinamico HorarioDinamico { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<funcionario> funcionario { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<horariodetalhe> horariodetalhe { get; set; }
     }
 }

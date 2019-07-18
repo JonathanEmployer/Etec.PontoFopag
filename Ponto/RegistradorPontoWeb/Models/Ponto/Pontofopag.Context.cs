@@ -76,7 +76,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual DbSet<funcao> funcao { get; set; }
         public virtual DbSet<funcionariohistorico> funcionariohistorico { get; set; }
         public virtual DbSet<horario> horario { get; set; }
-        public virtual DbSet<horariodetalhe> horariodetalhe { get; set; }
         public virtual DbSet<HorarioInItinere> HorarioInItinere { get; set; }
         public virtual DbSet<horariophextra> horariophextra { get; set; }
         public virtual DbSet<importalayouttexto> importalayouttexto { get; set; }
@@ -131,6 +130,7 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual DbSet<RepHistoricoLocal> RepHistoricoLocal { get; set; }
         public virtual DbSet<tipobilhetes> tipobilhetes { get; set; }
         public virtual DbSet<funcionario> funcionario { get; set; }
+        public virtual DbSet<horariodetalhe> horariodetalhe { get; set; }
     
         [DbFunction("PontofopagEntities", "F_BancoHoras")]
         public virtual IQueryable<F_BancoHoras_Result> F_BancoHoras(Nullable<System.DateTime> data, Nullable<int> idFuncionario)

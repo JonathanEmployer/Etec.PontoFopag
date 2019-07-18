@@ -38,7 +38,7 @@
           <Property Name="SemAbono" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.AFD' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.AFD' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AFD">
           <Key>
             <PropertyRef Name="Id" />
@@ -106,7 +106,7 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.AFD' does not have a primary
           <Property Name="Descricao" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.AlertasDisponiveis' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.AlertasDisponiveis' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AlertasDisponiveis">
           <Key>
             <PropertyRef Name="id" />
@@ -601,7 +601,7 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.AlertasDisponiveis' does not
           <Property Name="StrAcesso" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.cw_grupoacesso' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.cw_grupoacesso' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="cw_grupoacesso">
           <Key>
             <PropertyRef Name="ID" />
@@ -1451,7 +1451,6 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.cw_grupoacesso' does not hav
           <Property Name="marcacargahorariamista" Type="int" />
           <Property Name="idjornada" Type="int" />
           <Property Name="neutro" Type="int" />
-          <Property Name="diaescrito" Type="varchar" MaxLength="4" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="diadescricao" Type="varchar" MaxLength="4" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="CicloSequenciaIndice" Type="int" />
         </EntityType>
@@ -1932,7 +1931,7 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.cw_grupoacesso' does not hav
           <Property Name="idOcorrencia" Type="int" Nullable="false" />
           <Property Name="abonado" Type="int" />
           <Property Name="dataI" Type="datetime" Nullable="false" />
-          <Property Name="dataF" Type="datetime" Nullable="false" />
+          <Property Name="dataF" Type="datetime" />
           <Property Name="abonoDiurno" Type="varchar" MaxLength="5" />
           <Property Name="abonoNoturno" Type="varchar" MaxLength="5" />
           <Property Name="parcial" Type="int" />
@@ -2298,6 +2297,7 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.cw_grupoacesso' does not hav
           <Property Name="HorasAbonoPadrao" Type="varchar" MaxLength="5" />
           <Property Name="HorasAbonoPadraoNoturno" Type="varchar" MaxLength="5" />
           <Property Name="Ativo" Type="bit" Nullable="false" />
+          <Property Name="DefaultTipoAfastamento" Type="smallint" Nullable="false" />
         </EntityType>
         <EntityType Name="ocorrenciaempresa">
           <Key>
@@ -2556,7 +2556,7 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.cw_grupoacesso' does not hav
           <Property Name="Des_Tipo_Configuracao_CDC_Tabela" Type="varchar" MaxLength="100" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.TabelasPontoCDC' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TabelasPontoCDC">
           <Key>
             <PropertyRef Name="AtivaCdc" />
@@ -2621,7 +2621,7 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not ha
           <Property Name="altusuario" Type="varchar" MaxLength="20" />
           <Property Name="descricao" Type="varchar" MaxLength="200" Nullable="false" />
         </EntityType>
-        <Association Name="FK__funcionar__idHor__599FFB2E">
+        <Association Name="FK__funcionar__idHor__08A69988">
           <End Role="HorarioDinamico" Type="Self.HorarioDinamico" Multiplicity="0..1" />
           <End Role="funcionario" Type="Self.funcionario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2633,7 +2633,7 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not ha
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__horario__idHorar__510AB52D">
+        <Association Name="FK__horario__idHorar__00115387">
           <End Role="HorarioDinamico" Type="Self.HorarioDinamico" Multiplicity="0..1" />
           <End Role="horario" Type="Self.horario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2645,7 +2645,7 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not ha
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Lancament__idHor__58ABD6F5">
+        <Association Name="FK__Lancament__idHor__07B2754F">
           <End Role="HorarioDinamico" Type="Self.HorarioDinamico" Multiplicity="0..1" />
           <End Role="LancamentoLoteMudancaHorario" Type="Self.LancamentoLoteMudancaHorario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2657,7 +2657,7 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not ha
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__mudancaho__idHor__51FED966">
+        <Association Name="FK__mudancaho__idHor__010577C0">
           <End Role="HorarioDinamico" Type="Self.HorarioDinamico" Multiplicity="0..1" />
           <End Role="mudancahorario" Type="Self.mudancahorario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -4875,19 +4875,19 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not ha
     [TabelasPontoCDC].[Tabela] AS [Tabela]
     FROM [dbo].[TabelasPontoCDC] AS [TabelasPontoCDC]</DefiningQuery>
           </EntitySet>
-          <AssociationSet Name="FK__funcionar__idHor__599FFB2E" Association="Self.FK__funcionar__idHor__599FFB2E">
+          <AssociationSet Name="FK__funcionar__idHor__08A69988" Association="Self.FK__funcionar__idHor__08A69988">
             <End Role="HorarioDinamico" EntitySet="HorarioDinamico" />
             <End Role="funcionario" EntitySet="funcionario" />
           </AssociationSet>
-          <AssociationSet Name="FK__horario__idHorar__510AB52D" Association="Self.FK__horario__idHorar__510AB52D">
+          <AssociationSet Name="FK__horario__idHorar__00115387" Association="Self.FK__horario__idHorar__00115387">
             <End Role="HorarioDinamico" EntitySet="HorarioDinamico" />
             <End Role="horario" EntitySet="horario" />
           </AssociationSet>
-          <AssociationSet Name="FK__Lancament__idHor__58ABD6F5" Association="Self.FK__Lancament__idHor__58ABD6F5">
+          <AssociationSet Name="FK__Lancament__idHor__07B2754F" Association="Self.FK__Lancament__idHor__07B2754F">
             <End Role="HorarioDinamico" EntitySet="HorarioDinamico" />
             <End Role="LancamentoLoteMudancaHorario" EntitySet="LancamentoLoteMudancaHorario" />
           </AssociationSet>
-          <AssociationSet Name="FK__mudancaho__idHor__51FED966" Association="Self.FK__mudancaho__idHor__51FED966">
+          <AssociationSet Name="FK__mudancaho__idHor__010577C0" Association="Self.FK__mudancaho__idHor__010577C0">
             <End Role="HorarioDinamico" EntitySet="HorarioDinamico" />
             <End Role="mudancahorario" EntitySet="mudancahorario" />
           </AssociationSet>
@@ -5694,7 +5694,6 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not ha
           <EntitySet Name="funcao" EntityType="PontofopagModel.funcao" />
           <EntitySet Name="funcionariohistorico" EntityType="PontofopagModel.funcionariohistorico" />
           <EntitySet Name="horario" EntityType="PontofopagModel.horario" />
-          <EntitySet Name="horariodetalhe" EntityType="PontofopagModel.horariodetalhe" />
           <EntitySet Name="HorarioInItinere" EntityType="PontofopagModel.HorarioInItinere" />
           <EntitySet Name="horariophextra" EntityType="PontofopagModel.horariophextra" />
           <EntitySet Name="importalayouttexto" EntityType="PontofopagModel.importalayouttexto" />
@@ -5939,10 +5938,6 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not ha
             <End Role="parametros" EntitySet="parametros" />
             <End Role="horario" EntitySet="horario" />
           </AssociationSet>
-          <AssociationSet Name="FK_horariodetalhe_horario" Association="PontofopagModel.FK_horariodetalhe_horario">
-            <End Role="horario" EntitySet="horario" />
-            <End Role="horariodetalhe" EntitySet="horariodetalhe" />
-          </AssociationSet>
           <AssociationSet Name="FK_HorarioInItinere_horario" Association="PontofopagModel.FK_HorarioInItinere_horario">
             <End Role="horario" EntitySet="horario" />
             <End Role="HorarioInItinere" EntitySet="HorarioInItinere" />
@@ -5966,10 +5961,6 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not ha
           <AssociationSet Name="FK_mudcodigofunc_horario" Association="PontofopagModel.FK_mudcodigofunc_horario">
             <End Role="horario" EntitySet="horario" />
             <End Role="mudcodigofunc" EntitySet="mudcodigofunc" />
-          </AssociationSet>
-          <AssociationSet Name="FK_horariodetalhe_jornada" Association="PontofopagModel.FK_horariodetalhe_jornada">
-            <End Role="jornada" EntitySet="jornada" />
-            <End Role="horariodetalhe" EntitySet="horariodetalhe" />
           </AssociationSet>
           <AssociationSet Name="fk_InclusaoBanco_justificativa" Association="PontofopagModel.fk_InclusaoBanco_justificativa">
             <End Role="justificativa" EntitySet="justificativa" />
@@ -6200,6 +6191,15 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not ha
           <AssociationSet Name="fk_RegistroPonto_Funcionarios" Association="PontofopagModel.fk_RegistroPonto_Funcionarios">
             <End Role="funcionario" EntitySet="funcionario" />
             <End Role="RegistroPonto" EntitySet="RegistroPonto" />
+          </AssociationSet>
+          <EntitySet Name="horariodetalhe" EntityType="PontofopagModel.horariodetalhe" />
+          <AssociationSet Name="FK_horariodetalhe_horario" Association="PontofopagModel.FK_horariodetalhe_horario">
+            <End Role="horario" EntitySet="horario" />
+            <End Role="horariodetalhe" EntitySet="horariodetalhe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_horariodetalhe_jornada" Association="PontofopagModel.FK_horariodetalhe_jornada">
+            <End Role="jornada" EntitySet="jornada" />
+            <End Role="horariodetalhe" EntitySet="horariodetalhe" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="afastamento">
@@ -7520,7 +7520,6 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not ha
           <Property Name="Ativo" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Classificacao" Relationship="PontofopagModel.FK_Horario_Classificacao" FromRole="horario" ToRole="Classificacao" />
           <NavigationProperty Name="parametros" Relationship="PontofopagModel.FK_horario_parametros" FromRole="horario" ToRole="parametros" />
-          <NavigationProperty Name="horariodetalhe" Relationship="PontofopagModel.FK_horariodetalhe_horario" FromRole="horario" ToRole="horariodetalhe" />
           <NavigationProperty Name="HorarioInItinere" Relationship="PontofopagModel.FK_HorarioInItinere_horario" FromRole="horario" ToRole="HorarioInItinere" />
           <NavigationProperty Name="horariophextra" Relationship="PontofopagModel.FK_horariophextra_horario" FromRole="horario" ToRole="horariophextra" />
           <NavigationProperty Name="limiteddsr" Relationship="PontofopagModel.FK_limiteddsr_horario" FromRole="horario" ToRole="limiteddsr" />
@@ -7536,64 +7535,7 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not ha
           <Property Name="DataBaseCicloSequencia" Type="DateTime" Precision="3" />
           <NavigationProperty Name="HorarioDinamico" Relationship="PontofopagModel.FK__horario__idHorar__00115387" FromRole="horario" ToRole="HorarioDinamico" />
           <NavigationProperty Name="funcionario" Relationship="PontofopagModel.FK_funcionario_horario" FromRole="horario" ToRole="funcionario" />
-        </EntityType>
-        <EntityType Name="horariodetalhe">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="codigo" Type="Int32" Nullable="false" />
-          <Property Name="idhorario" Type="Int32" />
-          <Property Name="dia" Type="Int32" />
-          <Property Name="data" Type="DateTime" Precision="3" />
-          <Property Name="entrada_1" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="entrada_2" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="entrada_3" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="entrada_4" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="saida_1" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="saida_2" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="saida_3" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="saida_4" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="toleranciaantesent_1" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="toleranciaantesent_2" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="toleranciaantesent_3" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="toleranciaantesent_4" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="toleranciadepoisent_1" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="toleranciadepoisent_2" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="toleranciadepoisent_3" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="toleranciadepoisent_4" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="toleranciaantessai_1" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="toleranciaantessai_2" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="toleranciaantessai_3" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="toleranciaantessai_4" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="toleranciadepoissai_1" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="toleranciadepoissai_2" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="toleranciadepoissai_3" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="toleranciadepoissai_4" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="totaltrabalhadadiurna" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="totaltrabalhadanoturna" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="cargahorariamista" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="flagfolga" Type="Int32" />
-          <Property Name="diadsr" Type="Int32" />
-          <Property Name="bcarregar" Type="Int32" />
-          <Property Name="incdata" Type="DateTime" Precision="3" />
-          <Property Name="inchora" Type="DateTime" Precision="3" />
-          <Property Name="incusuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="altdata" Type="DateTime" Precision="3" />
-          <Property Name="althora" Type="DateTime" Precision="3" />
-          <Property Name="altusuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="intervaloautomatico" Type="Int32" />
-          <Property Name="preassinaladas1" Type="Int32" />
-          <Property Name="preassinaladas2" Type="Int32" />
-          <Property Name="preassinaladas3" Type="Int32" />
-          <Property Name="marcacargahorariamista" Type="Int32" />
-          <Property Name="idjornada" Type="Int32" />
-          <Property Name="neutro" Type="Int32" />
-          <Property Name="diadescricao" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
-          <NavigationProperty Name="horario" Relationship="PontofopagModel.FK_horariodetalhe_horario" FromRole="horariodetalhe" ToRole="horario" />
-          <NavigationProperty Name="jornada" Relationship="PontofopagModel.FK_horariodetalhe_jornada" FromRole="horariodetalhe" ToRole="jornada" />
-          <Property Name="CicloSequenciaIndice" Type="Int32" />
-          <Property Name="diaescrito" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="horariodetalhe" Relationship="PontofopagModel.FK_horariodetalhe_horario" FromRole="horario" ToRole="horariodetalhe" />
         </EntityType>
         <EntityType Name="HorarioInItinere">
           <Key>
@@ -7779,9 +7721,9 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not ha
           <Property Name="altdata" Type="DateTime" Precision="3" />
           <Property Name="althora" Type="DateTime" Precision="3" />
           <Property Name="altusuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="horariodetalhe" Relationship="PontofopagModel.FK_horariodetalhe_jornada" FromRole="jornada" ToRole="horariodetalhe" />
           <NavigationProperty Name="jornadaalternativa" Relationship="PontofopagModel.FK_jornadaalternativa_jornada" FromRole="jornada" ToRole="jornadaalternativa" />
           <NavigationProperty Name="HorarioDinamicoCiclo" Relationship="PontofopagModel.fk_jornada_HorarioDinamicoCiclo" FromRole="jornada" ToRole="HorarioDinamicoCiclo" />
+          <NavigationProperty Name="horariodetalhe" Relationship="PontofopagModel.FK_horariodetalhe_jornada" FromRole="jornada" ToRole="horariodetalhe" />
         </EntityType>
         <EntityType Name="jornadaalternativa">
           <Key>
@@ -7908,7 +7850,7 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not ha
           <Property Name="idOcorrencia" Type="Int32" Nullable="false" />
           <Property Name="abonado" Type="Int32" />
           <Property Name="dataI" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="dataF" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dataF" Type="DateTime" Precision="3" />
           <Property Name="abonoDiurno" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="abonoNoturno" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="parcial" Type="Int32" />
@@ -8308,6 +8250,7 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not ha
           <NavigationProperty Name="LancamentoLoteAfastamento" Relationship="PontofopagModel.FK_LancamentoLoteAfastamento_Ocorrencia" FromRole="ocorrencia" ToRole="LancamentoLoteAfastamento" />
           <NavigationProperty Name="ocorrenciaempresa" Relationship="PontofopagModel.FK_ocorrenciaempresa_ocorrencia" FromRole="ocorrencia" ToRole="ocorrenciaempresa" />
           <Property Name="Ativo" Type="Boolean" Nullable="false" />
+          <Property Name="DefaultTipoAfastamento" Type="Int16" Nullable="false" />
         </EntityType>
         <EntityType Name="ocorrenciaempresa">
           <Key>
@@ -9210,20 +9153,6 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not ha
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_horariodetalhe_horario">
-          <End Type="PontofopagModel.horario" Role="horario" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="PontofopagModel.horariodetalhe" Role="horariodetalhe" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="horario">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="horariodetalhe">
-              <PropertyRef Name="idhorario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_HorarioInItinere_horario">
           <End Type="PontofopagModel.horario" Role="horario" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -9297,18 +9226,6 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not ha
             </Principal>
             <Dependent Role="mudcodigofunc">
               <PropertyRef Name="idhorarionormal" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_horariodetalhe_jornada">
-          <End Type="PontofopagModel.jornada" Role="jornada" Multiplicity="0..1" />
-          <End Type="PontofopagModel.horariodetalhe" Role="horariodetalhe" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="jornada">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="horariodetalhe">
-              <PropertyRef Name="idjornada" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -10405,6 +10322,89 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not ha
             </Principal>
             <Dependent Role="RegistroPonto">
               <PropertyRef Name="IdFuncionario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="horariodetalhe">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codigo" Type="Int32" Nullable="false" />
+          <Property Name="idhorario" Type="Int32" />
+          <Property Name="dia" Type="Int32" />
+          <Property Name="data" Type="DateTime" Precision="3" />
+          <Property Name="entrada_1" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="entrada_2" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="entrada_3" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="entrada_4" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="saida_1" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="saida_2" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="saida_3" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="saida_4" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="toleranciaantesent_1" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="toleranciaantesent_2" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="toleranciaantesent_3" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="toleranciaantesent_4" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="toleranciadepoisent_1" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="toleranciadepoisent_2" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="toleranciadepoisent_3" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="toleranciadepoisent_4" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="toleranciaantessai_1" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="toleranciaantessai_2" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="toleranciaantessai_3" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="toleranciaantessai_4" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="toleranciadepoissai_1" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="toleranciadepoissai_2" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="toleranciadepoissai_3" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="toleranciadepoissai_4" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="totaltrabalhadadiurna" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="totaltrabalhadanoturna" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="cargahorariamista" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="flagfolga" Type="Int32" />
+          <Property Name="diadsr" Type="Int32" />
+          <Property Name="bcarregar" Type="Int32" />
+          <Property Name="incdata" Type="DateTime" Precision="3" />
+          <Property Name="inchora" Type="DateTime" Precision="3" />
+          <Property Name="incusuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="altdata" Type="DateTime" Precision="3" />
+          <Property Name="althora" Type="DateTime" Precision="3" />
+          <Property Name="altusuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="intervaloautomatico" Type="Int32" />
+          <Property Name="preassinaladas1" Type="Int32" />
+          <Property Name="preassinaladas2" Type="Int32" />
+          <Property Name="preassinaladas3" Type="Int32" />
+          <Property Name="marcacargahorariamista" Type="Int32" />
+          <Property Name="idjornada" Type="Int32" />
+          <Property Name="neutro" Type="Int32" />
+          <Property Name="diadescricao" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="CicloSequenciaIndice" Type="Int32" />
+          <NavigationProperty Name="horario" Relationship="PontofopagModel.FK_horariodetalhe_horario" FromRole="horariodetalhe" ToRole="horario" />
+          <NavigationProperty Name="jornada" Relationship="PontofopagModel.FK_horariodetalhe_jornada" FromRole="horariodetalhe" ToRole="jornada" />
+        </EntityType>
+        <Association Name="FK_horariodetalhe_horario">
+          <End Type="PontofopagModel.horario" Role="horario" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PontofopagModel.horariodetalhe" Role="horariodetalhe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="horario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="horariodetalhe">
+              <PropertyRef Name="idhorario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_horariodetalhe_jornada">
+          <End Type="PontofopagModel.jornada" Role="jornada" Multiplicity="0..1" />
+          <End Type="PontofopagModel.horariodetalhe" Role="horariodetalhe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="jornada">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="horariodetalhe">
+              <PropertyRef Name="idjornada" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -12005,63 +12005,6 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not ha
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="horariodetalhe">
-            <EntityTypeMapping TypeName="PontofopagModel.horariodetalhe">
-              <MappingFragment StoreEntitySet="horariodetalhe">
-                <ScalarProperty Name="diaescrito" ColumnName="diaescrito" />
-                <ScalarProperty Name="CicloSequenciaIndice" ColumnName="CicloSequenciaIndice" />
-                <ScalarProperty Name="diadescricao" ColumnName="diadescricao" />
-                <ScalarProperty Name="neutro" ColumnName="neutro" />
-                <ScalarProperty Name="idjornada" ColumnName="idjornada" />
-                <ScalarProperty Name="marcacargahorariamista" ColumnName="marcacargahorariamista" />
-                <ScalarProperty Name="preassinaladas3" ColumnName="preassinaladas3" />
-                <ScalarProperty Name="preassinaladas2" ColumnName="preassinaladas2" />
-                <ScalarProperty Name="preassinaladas1" ColumnName="preassinaladas1" />
-                <ScalarProperty Name="intervaloautomatico" ColumnName="intervaloautomatico" />
-                <ScalarProperty Name="altusuario" ColumnName="altusuario" />
-                <ScalarProperty Name="althora" ColumnName="althora" />
-                <ScalarProperty Name="altdata" ColumnName="altdata" />
-                <ScalarProperty Name="incusuario" ColumnName="incusuario" />
-                <ScalarProperty Name="inchora" ColumnName="inchora" />
-                <ScalarProperty Name="incdata" ColumnName="incdata" />
-                <ScalarProperty Name="bcarregar" ColumnName="bcarregar" />
-                <ScalarProperty Name="diadsr" ColumnName="diadsr" />
-                <ScalarProperty Name="flagfolga" ColumnName="flagfolga" />
-                <ScalarProperty Name="cargahorariamista" ColumnName="cargahorariamista" />
-                <ScalarProperty Name="totaltrabalhadanoturna" ColumnName="totaltrabalhadanoturna" />
-                <ScalarProperty Name="totaltrabalhadadiurna" ColumnName="totaltrabalhadadiurna" />
-                <ScalarProperty Name="toleranciadepoissai_4" ColumnName="toleranciadepoissai_4" />
-                <ScalarProperty Name="toleranciadepoissai_3" ColumnName="toleranciadepoissai_3" />
-                <ScalarProperty Name="toleranciadepoissai_2" ColumnName="toleranciadepoissai_2" />
-                <ScalarProperty Name="toleranciadepoissai_1" ColumnName="toleranciadepoissai_1" />
-                <ScalarProperty Name="toleranciaantessai_4" ColumnName="toleranciaantessai_4" />
-                <ScalarProperty Name="toleranciaantessai_3" ColumnName="toleranciaantessai_3" />
-                <ScalarProperty Name="toleranciaantessai_2" ColumnName="toleranciaantessai_2" />
-                <ScalarProperty Name="toleranciaantessai_1" ColumnName="toleranciaantessai_1" />
-                <ScalarProperty Name="toleranciadepoisent_4" ColumnName="toleranciadepoisent_4" />
-                <ScalarProperty Name="toleranciadepoisent_3" ColumnName="toleranciadepoisent_3" />
-                <ScalarProperty Name="toleranciadepoisent_2" ColumnName="toleranciadepoisent_2" />
-                <ScalarProperty Name="toleranciadepoisent_1" ColumnName="toleranciadepoisent_1" />
-                <ScalarProperty Name="toleranciaantesent_4" ColumnName="toleranciaantesent_4" />
-                <ScalarProperty Name="toleranciaantesent_3" ColumnName="toleranciaantesent_3" />
-                <ScalarProperty Name="toleranciaantesent_2" ColumnName="toleranciaantesent_2" />
-                <ScalarProperty Name="toleranciaantesent_1" ColumnName="toleranciaantesent_1" />
-                <ScalarProperty Name="saida_4" ColumnName="saida_4" />
-                <ScalarProperty Name="saida_3" ColumnName="saida_3" />
-                <ScalarProperty Name="saida_2" ColumnName="saida_2" />
-                <ScalarProperty Name="saida_1" ColumnName="saida_1" />
-                <ScalarProperty Name="entrada_4" ColumnName="entrada_4" />
-                <ScalarProperty Name="entrada_3" ColumnName="entrada_3" />
-                <ScalarProperty Name="entrada_2" ColumnName="entrada_2" />
-                <ScalarProperty Name="entrada_1" ColumnName="entrada_1" />
-                <ScalarProperty Name="data" ColumnName="data" />
-                <ScalarProperty Name="dia" ColumnName="dia" />
-                <ScalarProperty Name="idhorario" ColumnName="idhorario" />
-                <ScalarProperty Name="codigo" ColumnName="codigo" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="HorarioInItinere">
             <EntityTypeMapping TypeName="PontofopagModel.HorarioInItinere">
               <MappingFragment StoreEntitySet="HorarioInItinere">
@@ -12730,6 +12673,7 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not ha
           <EntitySetMapping Name="ocorrencia">
             <EntityTypeMapping TypeName="PontofopagModel.ocorrencia">
               <MappingFragment StoreEntitySet="ocorrencia">
+                <ScalarProperty Name="DefaultTipoAfastamento" ColumnName="DefaultTipoAfastamento" />
                 <ScalarProperty Name="Ativo" ColumnName="Ativo" />
                 <ScalarProperty Name="HorasAbonoPadraoNoturno" ColumnName="HorasAbonoPadraoNoturno" />
                 <ScalarProperty Name="HorasAbonoPadrao" ColumnName="HorasAbonoPadrao" />
@@ -13422,6 +13366,62 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not ha
                 <ScalarProperty Name="nome" ColumnName="nome" />
                 <ScalarProperty Name="matricula" ColumnName="matricula" />
                 <ScalarProperty Name="dscodigo" ColumnName="dscodigo" />
+                <ScalarProperty Name="codigo" ColumnName="codigo" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="horariodetalhe">
+            <EntityTypeMapping TypeName="PontofopagModel.horariodetalhe">
+              <MappingFragment StoreEntitySet="horariodetalhe">
+                <ScalarProperty Name="CicloSequenciaIndice" ColumnName="CicloSequenciaIndice" />
+                <ScalarProperty Name="diadescricao" ColumnName="diadescricao" />
+                <ScalarProperty Name="neutro" ColumnName="neutro" />
+                <ScalarProperty Name="idjornada" ColumnName="idjornada" />
+                <ScalarProperty Name="marcacargahorariamista" ColumnName="marcacargahorariamista" />
+                <ScalarProperty Name="preassinaladas3" ColumnName="preassinaladas3" />
+                <ScalarProperty Name="preassinaladas2" ColumnName="preassinaladas2" />
+                <ScalarProperty Name="preassinaladas1" ColumnName="preassinaladas1" />
+                <ScalarProperty Name="intervaloautomatico" ColumnName="intervaloautomatico" />
+                <ScalarProperty Name="altusuario" ColumnName="altusuario" />
+                <ScalarProperty Name="althora" ColumnName="althora" />
+                <ScalarProperty Name="altdata" ColumnName="altdata" />
+                <ScalarProperty Name="incusuario" ColumnName="incusuario" />
+                <ScalarProperty Name="inchora" ColumnName="inchora" />
+                <ScalarProperty Name="incdata" ColumnName="incdata" />
+                <ScalarProperty Name="bcarregar" ColumnName="bcarregar" />
+                <ScalarProperty Name="diadsr" ColumnName="diadsr" />
+                <ScalarProperty Name="flagfolga" ColumnName="flagfolga" />
+                <ScalarProperty Name="cargahorariamista" ColumnName="cargahorariamista" />
+                <ScalarProperty Name="totaltrabalhadanoturna" ColumnName="totaltrabalhadanoturna" />
+                <ScalarProperty Name="totaltrabalhadadiurna" ColumnName="totaltrabalhadadiurna" />
+                <ScalarProperty Name="toleranciadepoissai_4" ColumnName="toleranciadepoissai_4" />
+                <ScalarProperty Name="toleranciadepoissai_3" ColumnName="toleranciadepoissai_3" />
+                <ScalarProperty Name="toleranciadepoissai_2" ColumnName="toleranciadepoissai_2" />
+                <ScalarProperty Name="toleranciadepoissai_1" ColumnName="toleranciadepoissai_1" />
+                <ScalarProperty Name="toleranciaantessai_4" ColumnName="toleranciaantessai_4" />
+                <ScalarProperty Name="toleranciaantessai_3" ColumnName="toleranciaantessai_3" />
+                <ScalarProperty Name="toleranciaantessai_2" ColumnName="toleranciaantessai_2" />
+                <ScalarProperty Name="toleranciaantessai_1" ColumnName="toleranciaantessai_1" />
+                <ScalarProperty Name="toleranciadepoisent_4" ColumnName="toleranciadepoisent_4" />
+                <ScalarProperty Name="toleranciadepoisent_3" ColumnName="toleranciadepoisent_3" />
+                <ScalarProperty Name="toleranciadepoisent_2" ColumnName="toleranciadepoisent_2" />
+                <ScalarProperty Name="toleranciadepoisent_1" ColumnName="toleranciadepoisent_1" />
+                <ScalarProperty Name="toleranciaantesent_4" ColumnName="toleranciaantesent_4" />
+                <ScalarProperty Name="toleranciaantesent_3" ColumnName="toleranciaantesent_3" />
+                <ScalarProperty Name="toleranciaantesent_2" ColumnName="toleranciaantesent_2" />
+                <ScalarProperty Name="toleranciaantesent_1" ColumnName="toleranciaantesent_1" />
+                <ScalarProperty Name="saida_4" ColumnName="saida_4" />
+                <ScalarProperty Name="saida_3" ColumnName="saida_3" />
+                <ScalarProperty Name="saida_2" ColumnName="saida_2" />
+                <ScalarProperty Name="saida_1" ColumnName="saida_1" />
+                <ScalarProperty Name="entrada_4" ColumnName="entrada_4" />
+                <ScalarProperty Name="entrada_3" ColumnName="entrada_3" />
+                <ScalarProperty Name="entrada_2" ColumnName="entrada_2" />
+                <ScalarProperty Name="entrada_1" ColumnName="entrada_1" />
+                <ScalarProperty Name="data" ColumnName="data" />
+                <ScalarProperty Name="dia" ColumnName="dia" />
+                <ScalarProperty Name="idhorario" ColumnName="idhorario" />
                 <ScalarProperty Name="codigo" ColumnName="codigo" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
