@@ -5447,6 +5447,8 @@ WHERE
                         REPLACE(CONVERT(VARCHAR(6), DECRYPTBYKEY(campo25)), '--:--', '') AS 'Dsr' ,
                         REPLACE(ISNULL(CONVERT(VARCHAR(5), DECRYPTBYKEY(campo19)), ''),
                                 '--:--', '') AS 'Faltas' ,
+                        vm.horasfaltas As horasfaltadiurna,
+						vm.horasfaltanoturna,
                         vm.data 'dataSemFormat' ,
                         vm.folga 'folga' ,
                         vm.neutro 'neutro' ,

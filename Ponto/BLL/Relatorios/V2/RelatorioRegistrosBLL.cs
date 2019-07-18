@@ -192,8 +192,9 @@ namespace BLL.Relatorios.V2
 			}
 			colunasExcel.Add("Ad. Noturno", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Ad. Noturno", Visivel = true, NomeColunaNegrito = true });
 			colunasExcel.Add("Dsr", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Dsr", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Faltas", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Faltas", Visivel = true, NomeColunaNegrito = true });
-			colunasExcel.Add("Créd. BH", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Créd. BH", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("horasfaltadiurna", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Faltas Diu", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("horasfaltanoturna", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Faltas Not", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("Créd. BH", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Créd. BH", Visivel = true, NomeColunaNegrito = true });
 			colunasExcel.Add("Déb. BH", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Déb. BH", Visivel = true, NomeColunaNegrito = true });
             colunasExcel.Add("Hra_BH_Positivas", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA3, NomeColuna = "Saldo BH positivo", Visivel = true, NomeColunaNegrito = true });
             colunasExcel.Add("Hra_BH_Negativas", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA3, NomeColuna = "Saldo BH negativo", Visivel = true, NomeColunaNegrito = true });
