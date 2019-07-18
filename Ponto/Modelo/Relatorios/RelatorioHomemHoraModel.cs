@@ -26,5 +26,8 @@ namespace Modelo.Relatorios
         [Display(Name = "Selecionar Ocorrência")]
 
         public bool bOcorrencia { get; set; }
-    }
+
+        public int HorasClassParametro { get; set; }
+
+          }
 }

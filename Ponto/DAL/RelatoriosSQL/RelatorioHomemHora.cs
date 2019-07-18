@@ -32,202 +32,239 @@ namespace DAL.RelatoriosSQL
                     new SqlParameter("@idsFuncionarios", SqlDbType.VarChar, idsFuncionarios.Length),
                     new SqlParameter("@datainicial", SqlDbType.DateTime),
                     new SqlParameter("@datafinal", SqlDbType.DateTime),
-                    new SqlParameter("@idsOcorrencias", SqlDbType.VarChar)
+                    new SqlParameter("@idsOcorrencias", SqlDbType.VarChar),
             };
-            parms[0].Value = idsFuncionarios;
+            parms[0].Value = String.Join(",", idsFuncionarios);            
             parms[1].Value = pDataInicial;
             parms[2].Value = pDataFinal;
             if (idsOcorrencias.Length > 0)
             {
                 parms[3].Value = idsOcorrencias;
-            } 
-
+            }
+            
             string aux = @"SELECT @idsFuncionarios idsparam,
-                                   O.Contrato,
-                                   O.CIA,
-                                   O.COY,
-                                   O.Planta,
-                                   O.DescDepartamento Departamento,
-                                   O.matricula Matricula,
-                                   O.nome Empregado,
-                                   O.DescFuncao Funcao,
-                                   O.DescTipoMaoObra TipoMaoObra,
-                                   O.datademissao DataRescisao,
-                                   O.descricao DescricaoHorario,
-                                   CONVERT(DECIMAL(10, 2), ROUND((O.HorasHoristaMin * 1.0) / 60, 2)) HorasHorista,
-                                   CONVERT(DECIMAL(10, 2), ROUND((O.HorasMensalistaMin * 1.0) / 60, 2)) HorasMensalista,
-                                   CONVERT(DECIMAL(10, 2), ROUND((O.HorasExtrasHoristasMin * 1.0) / 60, 2)) HorasExtrasHorista,
-                                   CONVERT(DECIMAL(10, 2), ROUND((O.HorasExtrasMensalistasMin * 1.0) / 60, 2)) HorasExtrasMensalista,
-                                   CONVERT(DECIMAL(10, 2), ROUND((O.Bancohorascre * 1.0) / 60, 2)) Bancohorascre,
-                                   CONVERT(DECIMAL(10, 2), ROUND((O.Bancohorasdeb * 1.0) / 60, 2)) Bancohorasdeb,
-                                   CONVERT(DECIMAL(10, 2), ROUND((O.AbonoLegal * 1.0) / 60, 2)) FaltaAbonadaLegal,
-                                   CONVERT(DECIMAL(10, 2), ROUND((O.AbonoNaoLegal * 1.0) / 60, 2)) FaltaAbonadaNaoLegal,
-                                   CONVERT(DECIMAL(10, 2), ROUND((O.OutrosAbonos * 1.0) / 60, 2)) OutrosAbonos,
-                                   CONVERT(DECIMAL(10, 2), ROUND((O.Atrasos * 1.0) / 60, 2)) Atraso,
-                                   CONVERT(DECIMAL(10, 2), ROUND((O.Faltas * 1.0) / 60, 2)) Faltas,
-                                   ' ' Absenteismo,
-                                   '               ' Comentarios,
-                                   STUFF(
-                                   (
-                                       SELECT ', ' + oc.Sigla
-                                       FROM afastamento af
-                                           INNER JOIN ocorrencia oc
-                                               ON af.idocorrencia = oc.id 
-                                       WHERE (
-                                                (@datainicial >= af.datai AND @datainicial <= isnull(af.dataf, '9999-12-31'))
-                                                OR (@datafinal >= af.datai AND @datafinal <= isnull(af.dataf, '9999-12-31'))
-                                                OR (@datainicial <= af.datai AND @datafinal >= isnull(af.dataf, '9999-12-31'))
-                                             )
-                                             AND (
-                                                     (af.idfuncionario = O.idFuncionario)
-                                                     OR (
-                                                            af.iddepartamento = O.idDepartamentoFunc
-                                                            AND af.idempresa = O.idEmpresaFuncf
-                                                        )
-                                                     OR (
-                                                            af.idempresa IS NULL
-                                                            AND af.idempresa = O.idEmpresaFuncf
-                                                        )
-                                                     OR (af.idcontrato IN (
-                                                                              SELECT idcontrato
-                                                                              FROM contratofuncionario
-                                                                              WHERE idfuncionario = O.idFuncionario
-                                                                          )
-                                                        )
-                                                 )
+                                  O.Contrato,
+                                  O.CIA,
+                                  O.COY,
+                                  O.Planta,
+                                  O.DescDepartamento Departamento,
+                                  O.matricula Matricula,
+                                  O.nome Empregado,
+                                  O.DescFuncao Funcao,
+                                  O.DescTipoMaoObra TipoMaoObra,
+								   O.datademissao DataRescisao,
+								   O.descricao DescricaoHorario,                                   
+								  CONVERT(DECIMAL(10, 2), ROUND((O.HorasHoristaMin * 1.0) / 60, 2)) HorasHorista,
+                                  CONVERT(DECIMAL(10, 2), ROUND((O.HorasMensalistaMin * 1.0) / 60, 2)) HorasMensalista,
+                                  CONVERT(DECIMAL(10, 2), ROUND((O.HorasExtrasHoristasMin * 1.0) / 60, 2)) HorasExtrasHorista,
+                                  CONVERT(DECIMAL(10, 2), ROUND((O.HorasExtrasMensalistasMin * 1.0) / 60, 2)) HorasExtrasMensalista,
+                                  CONVERT(DECIMAL(10, 2), ROUND((O.Bancohorascre * 1.0) / 60, 2)) Bancohorascre,
+                                  CONVERT(DECIMAL(10, 2), ROUND((O.Bancohorasdeb * 1.0) / 60, 2)) Bancohorasdeb,
+                                  CONVERT(DECIMAL(10, 2), ROUND((O.AbonoLegal * 1.0) / 60, 2)) FaltaAbonadaLegal,
+                                  CONVERT(DECIMAL(10, 2), ROUND((O.AbonoNaoLegal * 1.0) / 60, 2)) FaltaAbonadaNaoLegal,
+                                  CONVERT(DECIMAL(10, 2), ROUND((O.OutrosAbonos * 1.0) / 60, 2)) OutrosAbonos,
+                                  CONVERT(DECIMAL(10, 2), ROUND((O.Atrasos * 1.0) / 60, 2)) Atraso,
+                                  CONVERT(DECIMAL(10, 2), ROUND((O.Faltas * 1.0) / 60, 2)) Faltas,
+                                  ' ' Absenteismo,
+                                  '               ' Comentarios,
+                                  STUFF(
+                                  (
+                                      SELECT ', ' + oc.Sigla
+                                      FROM afastamento af
+                                          INNER JOIN ocorrencia oc
+                                              ON af.idocorrencia = oc.id 
+                                      WHERE (
+                                               (@datainicial >= af.datai AND @datainicial <= af.dataf)
+                                               OR (@datafinal >= af.datai AND @datafinal <= af.dataf)
+                                               OR (@datainicial <= af.datai AND @datafinal >= af.dataf)
+                                            )
+                                            AND (
+                                                    (af.idfuncionario = O.idFuncionario)
+                                                    OR (
+                                                           af.iddepartamento = O.idDepartamentoFunc
+                                                           AND af.idempresa = O.idEmpresaFuncf
+                                                       )
+                                                    OR (
+                                                           af.idempresa IS NULL
+                                                           AND af.idempresa = O.idEmpresaFuncf
+                                                       )
+                                                    OR (af.idcontrato IN (
+                                                                             SELECT idcontrato
+                                                                             FROM contratofuncionario
+                                                                             WHERE idfuncionario = O.idFuncionario
+                                                                         )
+                                                       )
+                                                )
 											AND (@idsOcorrencias is null or af.idocorrencia in (SELECT * FROM dbo.F_ClausulaIn(@idsOcorrencias)))
-                                       GROUP BY oc.Sigla
-                                       FOR XML PATH('')
-                                   ),
-                                   1,
-                                   2,
-                                   ''
-                                        ) SiglasAfastamento
-                            FROM
-                            (
-                                SELECT G.idFuncionario,
-                                       G.idEmpresaFuncf,
-                                       G.idDepartamentoFunc,
-                                       G.Contrato,
-                                       G.CIA,
-                                       G.COY,
-                                       G.Planta,
-                                       G.DescDepartamento,
-                                       G.matricula,
-                                       G.nome,
-                                       G.DescFuncao,
-                                       G.DescTipoMaoObra,
-                                       G.datademissao,
-                                       G.descricao,
-                                       SUM(G.HorasHoristaMin) HorasHoristaMin,
-                                       SUM(G.HorasMensalistaMin) HorasMensalistaMin,
-                                       SUM(G.HorasExtrasHoristasMin) HorasExtrasHoristasMin,
-                                       SUM(G.HorasExtrasMensalistasMin) HorasExtrasMensalistasMin,
-                                       SUM(G.bancohorascre) Bancohorascre,
-                                       SUM(G.bancohorasdeb) Bancohorasdeb,
-                                       SUM(G.AbonoLegal) AbonoLegal,
-                                       SUM(G.AbonoNaoLegal) AbonoNaoLegal,
-                                       SUM(G.OutrosAbonos) OutrosAbonos,
-                                       SUM(G.Atrasos) Atrasos,
-                                       SUM(G.falta) Faltas,
-                                       SUM(G.TotalHorasFaltasMin) TotalHorasFaltasMin,
-                                       SUM(G.totalTrabalhadaMin) totalTrabalhadaMin,
-                                       SUM(G.TotalHorasExtrasMin) TotalHorasExtrasMin
-                                FROM
-                                (
-                                    SELECT E.*,
-                                           CASE
-                                               WHEN E.TipoAbono = 0 THEN
-                                                   E.TotalAbonoMin
-                                               ELSE
-                                                   0
-                                           END AbonoLegal,
-                                           CASE
-                                               WHEN E.TipoAbono = 1 THEN
-                                                   E.TotalAbonoMin
-                                               ELSE
-                                                   0
-                                           END AbonoNaoLegal,
-                                           CASE
-                                               WHEN E.TipoAbono = 2 THEN
-                                                   E.TotalAbonoMin
-                                               ELSE
-                                                   0
-                                           END OutrosAbonos,
-                                           CASE
-                                               WHEN E.TipoAbono = 3 THEN
-                                                   E.TotalAbonoMin
-                                               ELSE
-                                                   0
-                                           END HoraTrabalhada,
-                                           CASE
-                                               WHEN E.totalTrabalhadaMin = 0 THEN
-                                                   E.TotalHorasFaltasMin
-                                               ELSE
-                                                   0
-                                           END falta,
-                                           CASE
-                                               WHEN E.totalTrabalhadaMin > 0 THEN
-                                                   E.TotalHorasFaltasMin
-                                               ELSE
-                                                   0
-                                           END Atrasos
-                                    FROM
-                                    (
-                                        SELECT H.*,
-                                               CASE
-                                                   WHEN H.HoristaMensalista = 1 THEN
-                                                       IIF(H.TipoAbono = 3,totalTrabalhadaMin,totalTrabalhadaMin  - TotalAbonoMin )
-                                                   ELSE
-                                                       0
-                                               END HorasHoristaMin,
-                                               CASE
-                                                   WHEN H.HoristaMensalista = 0 THEN
-                                                       IIF(H.TipoAbono = 3,totalTrabalhadaMin,totalTrabalhadaMin  - TotalAbonoMin )
-                                                   ELSE
-                                                       0
-                                               END HorasMensalistaMin,
-                                               CASE
-                                                   WHEN H.HoristaMensalista = 1 THEN
-                                                       TotalHorasExtrasMin
-                                                   ELSE
-                                                       0
-                                               END HorasExtrasHoristasMin,
-                                               CASE
-                                                   WHEN H.HoristaMensalista = 0 THEN
-                                                       TotalHorasExtrasMin
-                                                   ELSE
-                                                       0
-                                               END HorasExtrasMensalistasMin
-                                        FROM
-                                        (
-                                            SELECT I.*,
-                                                   oc.TipoAbono,
-                                                   oc.Sigla SiglaAfastamento,
-                                                   CASE
-                                                       WHEN af.parcial = 1 THEN
-                                                           dbo.FN_CONVHORA(af.horai) + dbo.FN_CONVHORA(af.horaf)
-                                                       WHEN af.abonado = 1 THEN
-                                                           IIF(
-                                                               totalTrabalhadaMin > totalHorasTrabalhadasMin
-                                                               AND
-                                                               (
-                                                                   SELECT COUNT(*)
-                                                                   FROM dbo.bilhetesimp b
-                                                                   WHERE b.mar_data = I.data
-                                                                         AND b.IdFuncionario = I.idFuncionario
-                                                                         AND b.ocorrencia != 'D'
-                                                               ) % 2 = 0,
-                                                               totalTrabalhadaMin - totalHorasTrabalhadasMin,
-                                                               totalTrabalhadaMin)
-                                                       ELSE
-                                                           0
-                                                   END TotalAbonoMin
-                                            FROM
-                                            (
+                                      GROUP BY oc.Sigla
+                                      FOR XML PATH('')
+                                  ),
+                                  1,
+                                  2,
+                                  ''
+                                       ) SiglasAfastamento,
+                                CONVERT(DECIMAL(10, 2), ROUND((O.TotalHorasExtrasClassificadasHoristaMin * 1.0) / 60, 2)) TotalHorasExtrasClassificadasHoristaMin,
+                                CONVERT(DECIMAL(10, 2), ROUND((O.TotalHorasExtrasClassificadasMensalistaMin * 1.0) / 60, 2)) TotalHorasExtrasClassificadasMensalistaMin,
+								CONVERT(DECIMAL(10, 2), ROUND((O.TotalHorasExtrasNaoClassificadasHoristaMin * 1.0) / 60, 2)) TotalHorasExtrasNaoClassificadasHoristaMin,
+								CONVERT(DECIMAL(10, 2), ROUND((O.TotalHorasExtrasNaoClassificadasMensalistaMin * 1.0) / 60, 2)) TotalHorasExtrasNaoClassificadasMensalistaMin
+                           FROM
+                           (
+                               SELECT G.idFuncionario,
+                                      G.idEmpresaFuncf,
+                                      G.idDepartamentoFunc,
+                                      G.Contrato,
+                                      G.CIA,
+                                      G.COY,
+                                      G.Planta,
+                                      G.DescDepartamento,
+                                      G.matricula,
+                                      G.nome,
+                                      G.DescFuncao,
+                                      G.DescTipoMaoObra,
+                                      G.datademissao,
+                                      G.descricao,
+                                      SUM(G.HorasHoristaMin) HorasHoristaMin,
+                                      SUM(G.HorasMensalistaMin) HorasMensalistaMin,
+                                      SUM(G.HorasExtrasHoristasMin) HorasExtrasHoristasMin,
+                                      SUM(G.HorasExtrasMensalistasMin) HorasExtrasMensalistasMin,
+                                      SUM(G.bancohorascre) Bancohorascre,
+                                      SUM(G.bancohorasdeb) Bancohorasdeb,
+                                      SUM(G.AbonoLegal) AbonoLegal,
+                                      SUM(G.AbonoNaoLegal) AbonoNaoLegal,
+                                      SUM(G.OutrosAbonos) OutrosAbonos,
+                                      SUM(G.Atrasos) Atrasos,
+                                      SUM(G.falta) Faltas,
+                                      SUM(G.TotalHorasFaltasMin) TotalHorasFaltasMin,
+                                      SUM(G.totalTrabalhadaMin) totalTrabalhadaMin,
+                                      SUM(G.TotalHorasExtrasMin) TotalHorasExtrasMin,
+                                      SUM(TotalHorasExtrasClassificadasHoristaMin) TotalHorasExtrasClassificadasHoristaMin,
+                                      SUM(TotalHorasExtrasClassificadasMensalistaMin) TotalHorasExtrasClassificadasMensalistaMin,
+                                      SUM(TotalHorasExtrasNaoClassificadasHoristaMin) TotalHorasExtrasNaoClassificadasHoristaMin,
+                                      SUM(TotalHorasExtrasNaoClassificadasMensalistaMin) TotalHorasExtrasNaoClassificadasMensalistaMin 
+                               FROM
+                               (
+                                   SELECT E.*,
+                                          CASE
+                                              WHEN E.TipoAbono = 0 THEN
+                                                  E.TotalAbonoMin
+                                              ELSE
+                                                  0
+                                          END AbonoLegal,
+                                          CASE
+                                              WHEN E.TipoAbono = 1 THEN
+                                                  E.TotalAbonoMin
+                                              ELSE
+                                                  0
+                                          END AbonoNaoLegal,
+                                          CASE
+                                              WHEN E.TipoAbono = 2 THEN
+                                                  E.TotalAbonoMin
+                                              ELSE
+                                                  0
+                                          END OutrosAbonos,
+                                          CASE
+                                              WHEN E.TipoAbono = 3 THEN
+                                                  E.TotalAbonoMin
+                                              ELSE
+                                                  0
+                                          END HoraTrabalhada,
+                                          CASE
+                                              WHEN E.totalTrabalhadaMin = 0 THEN
+                                                  E.TotalHorasFaltasMin
+                                              ELSE
+                                                  0
+                                          END falta,
+                                          CASE
+                                              WHEN E.totalTrabalhadaMin > 0 THEN
+                                                  E.TotalHorasFaltasMin
+                                              ELSE
+                                                  0
+                                          END Atrasos
+                                   FROM
+                                   (
+                                       SELECT H.*,
+                                              CASE
+                                                  WHEN H.HoristaMensalista = 1 THEN
+                                                      IIF(H.TipoAbono = 3,totalTrabalhadaMin,totalTrabalhadaMin  - TotalAbonoMin )
+                                                  ELSE
+                                                      0
+                                              END HorasHoristaMin,
+                                              CASE
+                                                  WHEN H.HoristaMensalista = 0 THEN
+                                                      IIF(H.TipoAbono = 3,totalTrabalhadaMin,totalTrabalhadaMin  - TotalAbonoMin )
+                                                  ELSE
+                                                      0
+                                              END HorasMensalistaMin,
+                                              CASE
+                                                  WHEN H.HoristaMensalista = 1 THEN
+                                                      TotalHorasExtrasMin
+                                                  ELSE
+                                                      0
+                                              END HorasExtrasHoristasMin,
+                                              CASE
+                                                  WHEN H.HoristaMensalista = 0 THEN
+                                                      TotalHorasExtrasMin
+                                                  ELSE
+                                                      0
+                                              END HorasExtrasMensalistasMin,
+                                              
+
+                                              CASE
+                                                  WHEN H.HoristaMensalista = 1 THEN
+                                                      TotalHorasExtrasClassificadasMin
+                                                  ELSE
+                                                      0
+                                              END TotalHorasExtrasClassificadasHoristaMin,
+                                              CASE
+                                                  WHEN H.HoristaMensalista = 0 THEN
+                                                      TotalHorasExtrasClassificadasMin
+                                                  ELSE
+                                                      0
+                                              END TotalHorasExtrasClassificadasMensalistaMin,
+
+
+                                              CASE
+                                                  WHEN H.HoristaMensalista = 1 THEN
+                                                      TotalHorasExtrasMin - TotalHorasExtrasClassificadasMin
+                                                  ELSE
+                                                      0
+                                              END TotalHorasExtrasNaoClassificadasHoristaMin,
+                                              CASE
+                                                  WHEN H.HoristaMensalista = 0 THEN
+                                                      TotalHorasExtrasMin - TotalHorasExtrasClassificadasMin
+                                                  ELSE
+                                                      0
+                                              END TotalHorasExtrasNaoClassificadasMensalistaMin
+                                       FROM
+                                       (
+                                           SELECT I.*,
+                                                  oc.TipoAbono,
+                                                  oc.Sigla SiglaAfastamento,
+                                                  CASE
+                                                      WHEN af.parcial = 1 THEN
+                                                          dbo.FN_CONVHORA(af.horai) + dbo.FN_CONVHORA(af.horaf)
+                                                      WHEN af.abonado = 1 THEN
+                                                          IIF(
+                                                              totalTrabalhadaMin > totalHorasTrabalhadasMin
+                                                              AND
+                                                              (
+                                                                  SELECT COUNT(*)
+                                                                  FROM dbo.bilhetesimp b
+                                                                  WHERE b.mar_data = I.data
+                                                                        AND b.IdFuncionario = I.idFuncionario
+                                                                        AND b.ocorrencia != 'D'
+                                                              ) % 2 = 0,
+                                                              totalTrabalhadaMin - totalHorasTrabalhadasMin,
+                                                              totalTrabalhadaMin)
+                                                      ELSE
+                                                          0
+                                                  END TotalAbonoMin,
+                                                  IIF(che.Tipo = -1, TotalHorasExtrasMin,  dbo.FN_CONVHORA(che.horasClassificadas)) TotalHorasExtrasClassificadasMin
+                                           FROM
+                                           (
                                                 SELECT D.*,
                                                        H.tipohorario,
-                                                       horarioFuncionario.descricao,
+                                                       H.descricao,
                                                        H.HoristaMensalista,
                                                        CASE
                                                            WHEN H.HoristaMensalista = 1 THEN
@@ -256,7 +293,8 @@ namespace DAL.RelatoriosSQL
                                                        m.horasfaltanoturna,
                                                        dbo.FN_CONVHORA(m.horasfaltas) + dbo.FN_CONVHORA(m.horasfaltanoturna) TotalHorasFaltasMin,
                                                        dbo.FN_CONVHORA(m.bancohorascre) bancohorascre,
-                                                       dbo.FN_CONVHORA(m.bancohorasdeb) bancohorasdeb
+                                                       dbo.FN_CONVHORA(m.bancohorasdeb) bancohorasdeb,
+                                                       M.id IdMarcacao
                                                 FROM
                                                 (
                                                     SELECT f.id idFuncionario,
@@ -333,54 +371,57 @@ namespace DAL.RelatoriosSQL
                                                         ON m.idfuncionario = D.idFuncionario
                                                     INNER JOIN horario H
                                                         ON m.idhorario = H.id
-                                                    INNER JOIN horario horarioFuncionario
-                                                        ON horarioFuncionario.id = D.idhorario
                                                 WHERE m.data
-                                                BETWEEN @datainicial AND @datafinal
-                                            ) I
-                                                LEFT JOIN afastamento af
-                                                    ON af.abonado = 1
-                                                       AND I.data
-                                                       BETWEEN af.datai AND isnull(af.dataf, '9999-12-31')
-                                                       AND (
-                                                               (af.idfuncionario = I.idFuncionario)
-                                                               OR (
-                                                                      af.iddepartamento = I.idDepartamentoFunc
-                                                                      AND af.idempresa = I.idEmpresaFuncf
-                                                                  )
-                                                               OR (
-                                                                      af.idempresa IS NULL
-                                                                      AND af.idempresa = I.idEmpresaFuncf
-                                                                  )
-                                                               OR (af.idcontrato IN (
-                                                                                        SELECT idcontrato
-                                                                                        FROM contratofuncionario
-                                                                                        WHERE idfuncionario = I.idFuncionario
-                                                                                    )
-                                                                  )
-                                                           )
+                                                BETWEEN @datainicial AND @datafinal 
+				 ) I  
+                                       LEFT JOIN afastamento af
+                                                   ON af.abonado = 1
+                                                      AND I.data
+                                                      BETWEEN af.datai AND af.dataf
+                                                      AND (
+                                                              (af.idfuncionario = I.idFuncionario)
+                                                              OR (
+                                                                     af.iddepartamento = I.idDepartamentoFunc
+                                                                     AND af.idempresa = I.idEmpresaFuncf
+                                                                 )
+                                                              OR (
+                                                                     af.idempresa IS NULL
+                                                                     AND af.idempresa = I.idEmpresaFuncf
+                                                                 )
+                                                              OR (af.idcontrato IN (
+                                                                                       SELECT idcontrato
+                                                                                       FROM contratofuncionario
+                                                                                       WHERE idfuncionario = I.idFuncionario
+                                                                                   )
+                                                                 )
+                                                          )
 														   AND (@idsOcorrencias is null or AF.idocorrencia in (SELECT * FROM dbo.F_ClausulaIn(@idsOcorrencias)))
-                                                LEFT JOIN ocorrencia oc
-                                                    ON oc.id = af.idocorrencia
-                                        ) H
-                                    ) E
-                                ) G
-                                GROUP BY G.Contrato,
-                                         G.CIA,
-                                         G.COY,
-                                         G.Planta,
-                                         G.DescDepartamento,
-                                         G.matricula,
-                                         G.nome,
-                                         G.DescFuncao,
-                                         G.DescTipoMaoObra,
-                                         G.datademissao,
-                                         G.descricao,
-                                         G.idFuncionario,
-                                         G.idEmpresaFuncf,
-                                         G.idDepartamentoFunc
-                            ) O
-                            ORDER BY O.Contrato;";
+                                               LEFT JOIN ocorrencia oc
+                                                   ON oc.id = af.idocorrencia
+                                              CROSS APPLY (SELECT SUM(dbo.FN_CONVHORA(che.qtdHoraClassificada)) horasClassificadas,
+                                                                  MIN(IIF(tipo = 1, -1,tipo)) tipo
+                                                             FROM ClassificacaoHorasExtras che 
+                                                            WHERE che.idMarcacao = i.IdMarcacao) che
+
+                                       ) H
+                                   ) E
+                               ) G
+                               GROUP BY G.Contrato,
+                                        G.CIA,
+                                        G.COY,
+                                        G.Planta,
+                                        G.DescDepartamento,
+                                        G.matricula,
+                                        G.nome,
+                                        G.DescFuncao,
+                                        G.DescTipoMaoObra,
+                                        G.datademissao,
+                                        G.descricao,
+                                        G.idFuncionario,
+                                        G.idEmpresaFuncf,
+                                        G.idDepartamentoFunc
+                           ) O
+                           ORDER BY O.Contrato;";
             DataTable dt = new DataTable();
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);

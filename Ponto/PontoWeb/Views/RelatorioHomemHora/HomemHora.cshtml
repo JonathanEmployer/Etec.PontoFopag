@@ -73,6 +73,26 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="radio-inline">
+                                                @Html.RadioButtonFor(model => model.HorasClassParametro, 0, new { id = "rdbTods", name = "rdioHorasClassParm" })
+                                                <label class="label-sm" for="rdbTods">Todas Horas Extras</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="radio-inline">
+                                                @Html.RadioButtonFor(model => model.HorasClassParametro, 1, new { id = "rdbEC", name = "rdioHorasClassParm" })
+                                                <label class="label-sm" for="rdbEC">Somente Horas Extras Classificadas</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="radio-inline">
+                                                @Html.RadioButtonFor(model => model.HorasClassParametro, 2, new { id = "rdbEnC", name = "rdioHorasClassParm" })
+                                                <label class="label-sm" for="rdbEnC">Somente Horas Extras não Classificadas</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -123,7 +143,7 @@
         $('.datepickerpt').datepicker().on('hide', function (ev) {
             $("#pnlData").removeClass("panel-danger").removeClass("panel-success");
             $("#pnlData").addClass("panel-default");
-            errorArray["Intervalo"] = null;
+              errorArray["Intervalo"] = null;
             $("form").validate().showErrors(errorArray);
             if ((this.id == "InicioPeriodo") && (($("#InicioPeriodo").val() != null && $("#InicioPeriodo").val() != "") && ($("#FimPeriodo").val() == null || $("#FimPeriodo").val() == ""))) {
                 var inid = new Date(ev.date);
@@ -135,9 +155,9 @@
                 $('#FimPeriodo').val(endDateString);
                 $('#FimPeriodo').datepicker('update');
             }
-//            validaPeriodo(this);
+            //validaPeriodo(this);
             validaPeriodo("#InicioPeriodo", "#FimPeriodo", "#pnlData", "Intervalo", "form", true);
-
+         
         });
 
         $('#tbFun tbody').on('click', 'tr', function () {
@@ -148,7 +168,7 @@
 
     $("#bOcorrencia").on("click", ValidaOcorrencia);
 
-    function ValidaOcorrencia() {
+       function ValidaOcorrencia() {
         if ($("#bOcorrencia").is(':checked'))
             $("#tbOcorrencias, #divTbOcorrencia").show();
         else
