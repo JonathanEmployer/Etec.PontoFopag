@@ -27,8 +27,8 @@ namespace DAL.SQL
                                                         che.Observacao,
                                                         che.Integrado,
 					                                    dbo.FN_CONVHORA(m.horasextrasdiurna) + dbo.FN_CONVHORA(m.horasextranoturna) HorasExtrasRealizadaMin,
-														CASE WHEN (che.Tipo = 1 and (dbo.FN_CONVHORA(m.horasextrasdiurna) + dbo.FN_CONVHORA(m.calchorasextranoturna) > ISNULL(ct.total,0))) THEN 
-							                                        (dbo.FN_CONVHORA(m.horasextrasdiurna) + dbo.FN_CONVHORA(m.calchorasextranoturna) -
+														CASE WHEN (che.Tipo = 1 and (dbo.FN_CONVHORA(m.horasextrasdiurna) + dbo.FN_CONVHORA(m.horasextranoturna) > ISNULL(ct.total,0))) THEN 
+							                                        (dbo.FN_CONVHORA(m.horasextrasdiurna) + dbo.FN_CONVHORA(m.horasextranoturna) -
 								                                    ISNULL(ct.total,0))
 							                                    ELSE dbo.FN_CONVHORA(che.qtdHoraClassificada) end ClassificadasMin,
                                                         h.IdClassificacao idPreClassificacao,
