@@ -119,6 +119,7 @@ namespace RegistradorPontoWeb.Models.Ponto
         public string horasTrabalhadasDentroFeriadoNoturna { get; set; }
         public string horasPrevistasDentroFeriadoDiurna { get; set; }
         public string horasPrevistasDentroFeriadoNoturna { get; set; }
+        public short naoconsiderarferiado { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClassificacaoHorasExtras> ClassificacaoHorasExtras { get; set; }

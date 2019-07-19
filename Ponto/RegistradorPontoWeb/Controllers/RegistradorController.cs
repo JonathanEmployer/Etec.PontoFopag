@@ -1,18 +1,13 @@
 ﻿using AutoMapper;
-using GeoTimeZone;
 using RegistradorPontoWeb.Controllers.BLL;
 using RegistradorPontoWeb.Models;
 using System;
 using System.Web.Mvc;
-using TimeZoneConverter;
 using ModeloPonto = RegistradorPontoWeb.Models.Ponto;
 using System.Linq;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
 using RegistradorPontoWeb.Models.Ponto;
-using System.Data.Entity;
-using System.Threading.Tasks;
 
 namespace RegistradorPontoWeb.Controllers
 {

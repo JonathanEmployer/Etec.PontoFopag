@@ -38,7 +38,7 @@
           <Property Name="SemAbono" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.AFD' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.AFD' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AFD">
           <Key>
             <PropertyRef Name="Id" />
@@ -106,7 +106,7 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.AFD' does not have a prima
           <Property Name="Descricao" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.AlertasDisponiveis' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.AlertasDisponiveis' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AlertasDisponiveis">
           <Key>
             <PropertyRef Name="id" />
@@ -601,7 +601,7 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.AlertasDisponiveis' does n
           <Property Name="StrAcesso" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.cw_grupoacesso' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.cw_grupoacesso' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="cw_grupoacesso">
           <Key>
             <PropertyRef Name="ID" />
@@ -1451,6 +1451,7 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.cw_grupoacesso' does not h
           <Property Name="marcacargahorariamista" Type="int" />
           <Property Name="idjornada" Type="int" />
           <Property Name="neutro" Type="int" />
+          <Property Name="diaescrito" Type="varchar" MaxLength="4" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="diadescricao" Type="varchar" MaxLength="4" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="CicloSequenciaIndice" Type="int" />
         </EntityType>
@@ -2211,6 +2212,7 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.cw_grupoacesso' does not h
           <Property Name="horasTrabalhadasDentroFeriadoNoturna" Type="varchar" MaxLength="5" />
           <Property Name="horasPrevistasDentroFeriadoDiurna" Type="varchar" MaxLength="5" />
           <Property Name="horasPrevistasDentroFeriadoNoturna" Type="varchar" MaxLength="5" />
+          <Property Name="naoconsiderarferiado" Type="smallint" Nullable="false" />
         </EntityType>
         <EntityType Name="marcacaoacesso">
           <Key>
@@ -2556,7 +2558,7 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.cw_grupoacesso' does not h
           <Property Name="Des_Tipo_Configuracao_CDC_Tabela" Type="varchar" MaxLength="100" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.TabelasPontoCDC' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.TabelasPontoCDC' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TabelasPontoCDC">
           <Key>
             <PropertyRef Name="AtivaCdc" />
@@ -2621,7 +2623,7 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.TabelasPontoCDC' does not 
           <Property Name="altusuario" Type="varchar" MaxLength="20" />
           <Property Name="descricao" Type="varchar" MaxLength="200" Nullable="false" />
         </EntityType>
-        <Association Name="FK__funcionar__idHor__08A69988">
+        <Association Name="FK__funcionar__idHor__599FFB2E">
           <End Role="HorarioDinamico" Type="Self.HorarioDinamico" Multiplicity="0..1" />
           <End Role="funcionario" Type="Self.funcionario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2633,7 +2635,7 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.TabelasPontoCDC' does not 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__horario__idHorar__00115387">
+        <Association Name="FK__horario__idHorar__510AB52D">
           <End Role="HorarioDinamico" Type="Self.HorarioDinamico" Multiplicity="0..1" />
           <End Role="horario" Type="Self.horario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2645,7 +2647,7 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.TabelasPontoCDC' does not 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Lancament__idHor__07B2754F">
+        <Association Name="FK__Lancament__idHor__58ABD6F5">
           <End Role="HorarioDinamico" Type="Self.HorarioDinamico" Multiplicity="0..1" />
           <End Role="LancamentoLoteMudancaHorario" Type="Self.LancamentoLoteMudancaHorario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2657,7 +2659,7 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.TabelasPontoCDC' does not 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__mudancaho__idHor__010577C0">
+        <Association Name="FK__mudancaho__idHor__51FED966">
           <End Role="HorarioDinamico" Type="Self.HorarioDinamico" Multiplicity="0..1" />
           <End Role="mudancahorario" Type="Self.mudancahorario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -4875,19 +4877,19 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.TabelasPontoCDC' does not 
     [TabelasPontoCDC].[Tabela] AS [Tabela]
     FROM [dbo].[TabelasPontoCDC] AS [TabelasPontoCDC]</DefiningQuery>
           </EntitySet>
-          <AssociationSet Name="FK__funcionar__idHor__08A69988" Association="Self.FK__funcionar__idHor__08A69988">
+          <AssociationSet Name="FK__funcionar__idHor__599FFB2E" Association="Self.FK__funcionar__idHor__599FFB2E">
             <End Role="HorarioDinamico" EntitySet="HorarioDinamico" />
             <End Role="funcionario" EntitySet="funcionario" />
           </AssociationSet>
-          <AssociationSet Name="FK__horario__idHorar__00115387" Association="Self.FK__horario__idHorar__00115387">
+          <AssociationSet Name="FK__horario__idHorar__510AB52D" Association="Self.FK__horario__idHorar__510AB52D">
             <End Role="HorarioDinamico" EntitySet="HorarioDinamico" />
             <End Role="horario" EntitySet="horario" />
           </AssociationSet>
-          <AssociationSet Name="FK__Lancament__idHor__07B2754F" Association="Self.FK__Lancament__idHor__07B2754F">
+          <AssociationSet Name="FK__Lancament__idHor__58ABD6F5" Association="Self.FK__Lancament__idHor__58ABD6F5">
             <End Role="HorarioDinamico" EntitySet="HorarioDinamico" />
             <End Role="LancamentoLoteMudancaHorario" EntitySet="LancamentoLoteMudancaHorario" />
           </AssociationSet>
-          <AssociationSet Name="FK__mudancaho__idHor__010577C0" Association="Self.FK__mudancaho__idHor__010577C0">
+          <AssociationSet Name="FK__mudancaho__idHor__51FED966" Association="Self.FK__mudancaho__idHor__51FED966">
             <End Role="HorarioDinamico" EntitySet="HorarioDinamico" />
             <End Role="mudancahorario" EntitySet="mudancahorario" />
           </AssociationSet>
@@ -8152,6 +8154,7 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.TabelasPontoCDC' does not 
           <Property Name="horasPrevistasDentroFeriadoDiurna" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="horasPrevistasDentroFeriadoNoturna" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="funcionario" Relationship="PontofopagModel.FK_marcacao_funcionario" FromRole="marcacao" ToRole="funcionario" />
+          <Property Name="naoconsiderarferiado" Type="Int16" Nullable="false" />
         </EntityType>
         <EntityType Name="marcacaoacesso">
           <Key>
@@ -10381,6 +10384,7 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.TabelasPontoCDC' does not 
           <Property Name="CicloSequenciaIndice" Type="Int32" />
           <NavigationProperty Name="horario" Relationship="PontofopagModel.FK_horariodetalhe_horario" FromRole="horariodetalhe" ToRole="horario" />
           <NavigationProperty Name="jornada" Relationship="PontofopagModel.FK_horariodetalhe_jornada" FromRole="horariodetalhe" ToRole="jornada" />
+          <Property Name="diaescrito" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <Association Name="FK_horariodetalhe_horario">
           <End Type="PontofopagModel.horario" Role="horario" Multiplicity="0..1">
@@ -12504,6 +12508,7 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.TabelasPontoCDC' does not 
           <EntitySetMapping Name="marcacao">
             <EntityTypeMapping TypeName="PontofopagModel.marcacao">
               <MappingFragment StoreEntitySet="marcacao">
+                <ScalarProperty Name="naoconsiderarferiado" ColumnName="naoconsiderarferiado" />
                 <ScalarProperty Name="horasPrevistasDentroFeriadoNoturna" ColumnName="horasPrevistasDentroFeriadoNoturna" />
                 <ScalarProperty Name="horasPrevistasDentroFeriadoDiurna" ColumnName="horasPrevistasDentroFeriadoDiurna" />
                 <ScalarProperty Name="horasTrabalhadasDentroFeriadoNoturna" ColumnName="horasTrabalhadasDentroFeriadoNoturna" />
@@ -13374,6 +13379,7 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.TabelasPontoCDC' does not 
           <EntitySetMapping Name="horariodetalhe">
             <EntityTypeMapping TypeName="PontofopagModel.horariodetalhe">
               <MappingFragment StoreEntitySet="horariodetalhe">
+                <ScalarProperty Name="diaescrito" ColumnName="diaescrito" />
                 <ScalarProperty Name="CicloSequenciaIndice" ColumnName="CicloSequenciaIndice" />
                 <ScalarProperty Name="diadescricao" ColumnName="diadescricao" />
                 <ScalarProperty Name="neutro" ColumnName="neutro" />
