@@ -81,7 +81,7 @@ namespace TesteProgramacao
             //Método para teste de erros na fila de calculo do pontofopag.
             //Para testar basta passar o número do id do job e debugar
             TesteHangfire th = new TesteHangfire();
-            th.Simular(562629);
+            th.Simular(598367);
 
             Console.Read();
         }

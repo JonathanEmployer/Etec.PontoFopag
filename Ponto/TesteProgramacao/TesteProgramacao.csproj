@@ -192,6 +192,10 @@
       <Project>{2349e863-a386-4c8d-9504-835e5a3d1156}</Project>
       <Name>Negocio</Name>
     </ProjectReference>
+    <ProjectReference Include="..\REL\REL.csproj">
+      <Project>{c0239a00-eef2-497a-a643-9260e0196e8d}</Project>
+      <Name>REL</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

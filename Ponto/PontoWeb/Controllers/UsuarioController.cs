@@ -593,7 +593,7 @@ namespace PontoWeb.Controllers
             }
 
                 string retorno = "";
-            if (Usuario.ValidaUsuario(user.login, user.Password, ref retorno))
+            if (Usuario.ValidaUsuario(user, ref retorno))
             {
                 tl.Tentativas = 0;
                 tl.UltimaTentativa = DateTime.Now;
@@ -634,7 +634,7 @@ namespace PontoWeb.Controllers
 
                 if (captchaValido)
                 {
-                    if (Usuario.ValidaUsuario(user.login, user.Password, ref retorno))
+                    if (Usuario.ValidaUsuario(user, ref retorno))
                     {
                         tl.Tentativas = 0;
                         tl.UltimaTentativa = DateTime.Now;

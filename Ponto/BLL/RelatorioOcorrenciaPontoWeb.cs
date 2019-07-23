@@ -130,7 +130,8 @@ namespace BLL
                 new DataColumn("CPF"),
                 new DataColumn("Observacao"),
                 new DataColumn("Competencia"),
-                new DataColumn("IdDocumentoWorkflow")
+                new DataColumn("IdDocumentoWorkflow"),
+                new DataColumn("nomeRelatorio")
             };
 
             ret.Columns.AddRange(colunas);

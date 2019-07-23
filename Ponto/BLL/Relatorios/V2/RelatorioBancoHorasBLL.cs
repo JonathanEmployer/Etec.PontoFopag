@@ -94,27 +94,36 @@ namespace BLL.Relatorios.V2
                     dt = bllBancoHoras.GetRelatorioHorario(parms.InicioPeriodo, parms.FimPeriodo, parms.TipoSelecao, ids);
                     nomeDoArquivo = "Relatório_Banco_de_Horas_Individual_" + parms.InicioPeriodo.ToString("ddMMyyyy") + "_" + parms.FimPeriodo.ToString("ddMMyyyy");
                     _progressBar.setaMensagem("Gerando Arquivo Excel...");
+                    string dtAnt = "";
                     foreach (DataRow row in dt.Rows)
                     {
-                        row["data"] = Convert.ToDateTime((row["data"]).ToString()).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+                        if (!String.IsNullOrEmpty((row["data"]).ToString()))
+                        {
+                            dtAnt = Convert.ToDateTime((row["data"]).ToString()).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+                            row["data"] = dtAnt;
+                        }
+                        else if (!String.IsNullOrEmpty(dtAnt))
+                        {
+                            row["data"] = dtAnt;
+                        }
                         row["dataadmissao"] = Convert.ToDateTime((row["dataadmissao"]).ToString()).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
                         row["bancohorascre"] = BLL.cwkFuncoes.RemoveZeroEsqerdaHora((row["bancohorascre"]).ToString());
                         row["bancohorasdeb"] = BLL.cwkFuncoes.RemoveZeroEsqerdaHora((row["bancohorasdeb"]).ToString());
                         row["saldobh"] = BLL.cwkFuncoes.RemoveZeroEsqerdaHora((row["saldobh"]).ToString());
 
                         BLL.cwkFuncoes.RemoveTracosHoraRow(row, new List<string>() { "horEntrada1",
-                                                                                  "horSaida1",
-                                                                                  "horEntrada2",
-                                                                                  "horSaida2",
-                                                                                  "entrada_1",
-                                                                                  "saida_1",
-                                                                                  "entrada_2",
-                                                                                  "saida_2",
-                                                                                  "entrada_3",
-                                                                                  "saida_3",
-                                                                                  "entrada_4",
-                                                                                  "saida_4"
-                                                                                });
+                                                                                "horSaida1",
+                                                                                "horEntrada2",
+                                                                                "horSaida2",
+                                                                                "entrada_1",
+                                                                                "saida_1",
+                                                                                "entrada_2",
+                                                                                "saida_2",
+                                                                                "entrada_3",
+                                                                                "saida_3",
+                                                                                "entrada_4",
+                                                                                "saida_4"
+                                                                            });
                     }
                     _progressBar.setaMensagem("Gerando Arquivo Excel...");
                     // Cria o Dicionario das Colunas do Excel a ser gerado do relatório

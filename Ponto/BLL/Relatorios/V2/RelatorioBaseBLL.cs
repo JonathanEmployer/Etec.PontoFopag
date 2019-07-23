@@ -48,7 +48,7 @@ namespace BLL.Relatorios
         {
             _pathRelatorios = ConfigurationManager.AppSettings["ArquivosPontofopag"];
             if (String.IsNullOrEmpty(_pathRelatorios))
-                throw new Exception("O patch(Caminho) para salvar os relatório não foi informado, informe no arquivo de configuração o valor da variavel PathRelatorios");
+                throw new Exception("O patch(Caminho) para salvar os relatório não foi informado, informe no arquivo de configuração o valor da variavel ArquivosPontofopag");
 
             if (String.IsNullOrEmpty(usuario.DataBase))
                 throw new Exception("Nome do banco de dados não encontrado");

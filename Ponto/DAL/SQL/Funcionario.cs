@@ -69,8 +69,7 @@ namespace DAL.SQL
 							 LEFT JOIN pessoa pe ON pe.id = func.IdPessoaSupervisor
                              LEFT JOIN Alocacao ON alocacao.id = func.idAlocacao
                              LEFT JOIN TipoVinculo ON TipoVinculo.id = func.idTipoVinculo
-                             WHERE ISNULL(func.excluido, 0) = 0 " +
-                             GetWhereSelectAll();
+                             WHERE ISNULL(func.excluido, 0) = 0 ";
             }
         }
 
@@ -109,9 +108,8 @@ namespace DAL.SQL
                              LEFT JOIN pessoa pe ON pe.id = func.IdPessoaSupervisor
                              LEFT JOIN Alocacao ON alocacao.id = func.idAlocacao
                              LEFT JOIN TipoVinculo ON TipoVinculo.id = func.idTipoVinculo
-                             WHERE ISNULL(func.excluido, 0) = 0  AND ISNULL(func.funcionarioativo, 0) = 1 " +
-                             GetWhereSelectAll() +
-                             " ORDER BY LOWER(func.nome)";
+                             WHERE ISNULL(func.excluido, 0) = 0  AND ISNULL(func.funcionarioativo, 0) = 1 
+                             ORDER BY LOWER(func.nome)";
             }
         }
 
@@ -149,8 +147,7 @@ namespace DAL.SQL
                              LEFT JOIN pessoa pe ON pe.id = func.IdPessoaSupervisor
                              LEFT JOIN Alocacao ON alocacao.id = func.idAlocacao
                              LEFT JOIN TipoVinculo ON TipoVinculo.id = func.idTipoVinculo
-                             WHERE ISNULL(func.excluido, 0) = 1 " +
-                             GetWhereSelectAll();
+                             WHERE ISNULL(func.excluido, 0) = 1 ";
             }
         }
 
@@ -189,9 +186,8 @@ namespace DAL.SQL
                              LEFT JOIN pessoa pe ON pe.id = func.IdPessoaSupervisor
                              LEFT JOIN Alocacao ON alocacao.id = func.idAlocacao
                              LEFT JOIN TipoVinculo ON TipoVinculo.id = func.idTipoVinculo
-                             WHERE ISNULL(func.excluido, 0) = 0 " +
-                             GetWhereSelectAll() +
-                             " ORDER BY func.nome";
+                             WHERE ISNULL(func.excluido, 0) = 0 
+                             ORDER BY func.nome";
             }
             set
             {
@@ -1135,53 +1131,6 @@ namespace DAL.SQL
             }
         }
 
-        private string GetWhereSelectAll()
-        {
-            return GetWhereSelectAll("");
-        }
-
-        /// <summary>
-        ///  Método que adiciona a permissão por empresa no select
-        /// </summary>
-        /// <param name="campoIdEmpresa">Informar o campo com o Alias do ID da Empresa (ex: func.idEmpresa)</param>
-        /// <returns>Parte do select com a permissão pro empresa</returns>
-        private string GetWhereSelectAll(string campoIdEmpresa)
-        {
-            if (UsuarioLogado != null)
-            {
-                Empresa dalEmpresa = new Empresa(db);
-                dalEmpresa.UsuarioLogado = UsuarioLogado;
-                if (dalEmpresa.FazerRestricaoUsuarios())
-                {
-                    campoIdEmpresa = String.IsNullOrEmpty(campoIdEmpresa) ? "emp.id" : campoIdEmpresa;
-                    return " AND (SELECT COUNT(id) FROM empresacwusuario WHERE empresacwusuario.idcw_usuario = "
-                        + UsuarioLogado.Id.ToString() + " AND empresacwusuario.idempresa = "+campoIdEmpresa+") > 0 ";
-                }
-            }
-
-            return "";
-        }
-
-        private string GetWhereSelectAll(bool webApi)
-        {
-            if (webApi)
-            {
-                return "";
-            }
-            else
-            {
-                if (UsuarioLogado == null)
-                {
-                    if (new Empresa(db).FazerRestricaoUsuarios())
-                    {
-                        return " AND (SELECT COUNT(id) FROM empresacwusuario WHERE empresacwusuario.idcw_usuario = "
-                            + Modelo.cwkGlobal.objUsuarioLogado.Id.ToString() + " AND empresacwusuario.idempresa = emp.id) > 0 ";
-                    }
-                }
-                return "";
-            }
-        }
-
         #region Relatórios
 
         public DataTable GetOrdenadoPorNomeRel(string pInicial, string pFinal, string pEmpresas)
@@ -2117,7 +2066,6 @@ namespace DAL.SQL
                 comando += " and func.nome like '%' +@nome + '%'";
             }
 
-            comando += GetWhereSelectAll();
             comando += PermissaoUsuarioFuncionario(UsuarioLogado, comando, "func.idempresa", "func.id", null);
             comando += " ORDER BY LOWER(func.nome)";
 
@@ -2197,7 +2145,6 @@ namespace DAL.SQL
                             FROM funcionario 
                             INNER JOIN empresa emp ON emp.id = funcionario.idempresa
                             WHERE funcionario.idfuncao = @idfuncao AND funcionario.funcionarioativo = 1 AND ISNULL(funcionario.excluido, 0) = 0 AND funcionario.datademissao IS NULL ";
-            comando += GetWhereSelectAll();
             comando += " ORDER BY nome";
 
             return db.ExecuteReader(CommandType.Text, comando, parms);
@@ -2226,9 +2173,8 @@ namespace DAL.SQL
                              LEFT JOIN funcao ON funcao.id = func.idFuncao
                              LEFT JOIN cw_usuario cwu ON cwu.id = func.idcw_usuario
                              LEFT JOIN pessoa pe ON pe.id = func.IdPessoaSupervisor
-                             WHERE func.funcionarioativo = 1 AND ISNULL(func.excluido, 0) = 0 "
-                             + GetWhereSelectAll()
-                             + " ORDER BY func.nome";
+                             WHERE func.funcionarioativo = 1 AND ISNULL(func.excluido, 0) = 0 
+                             ORDER BY func.nome";
 
             return db.ExecuteReader(CommandType.Text, comando, parms);
 
@@ -2470,16 +2416,11 @@ namespace DAL.SQL
 
         #region Listagem em List
 
-        public List<int> GetIds(bool VerificarPermissaoUsuario)
+        public List<int> GetIds()
         {
             List<int> lista = new List<int>();
 
             string comando = "SELECT func.id FROM funcionario func";
-
-            if (VerificarPermissaoUsuario)
-            {
-                comando += GetWhereSelectAll("func.idEmpresa"); 
-            }
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, comando, new SqlParameter[] { });
 
@@ -2495,12 +2436,6 @@ namespace DAL.SQL
             dr.Dispose();
 
             return lista;
-        }
-
-
-        public List<int> GetIds()
-        {
-            return GetIds(false);
         }
 
         /// <summary>
@@ -3718,7 +3653,6 @@ namespace DAL.SQL
             }
 
             comando += " AND func.funcionarioativo = 1 AND ISNULL(func.excluido, 0) = 0";
-            comando += GetWhereSelectAll("func.idEmpresa");
             comando += PermissaoUsuarioFuncionario(UsuarioLogado, comando, "func.idempresa", "func.id", null);
             if (!String.IsNullOrEmpty(nomeFuncionario))
             {
@@ -4428,7 +4362,6 @@ namespace DAL.SQL
                              FROM funcionario func
                              INNER JOIN empresa emp ON emp.id = func.idempresa
                              WHERE LEN(func.pis) BETWEEN 11 AND 12 "
-                         + GetWhereSelectAll(webApi)
                          + "  ORDER BY func.excluido, ISNULL(func.datademissao, DATEADD(YEAR, 1000, GETDATE())) DESC, ISNULL(func.althora, DATEADD(YEAR, 1000, GETDATE())) DESC";
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, null);
@@ -4451,8 +4384,6 @@ namespace DAL.SQL
                              FROM funcionario func
                              INNER JOIN empresa emp ON emp.id = func.idempresa
                              WHERE LEN(func.pis) BETWEEN 11 AND 12 ";
-
-            aux += GetWhereSelectAll();
 
             //aux += PermissaoUsuarioFuncionario(UsuarioLogado, aux, "func.idempresa", "func.id", null);
 
@@ -4742,8 +4673,7 @@ namespace DAL.SQL
                              LEFT JOIN Alocacao ON alocacao.id = func.idAlocacao
                              LEFT JOIN TipoVinculo ON TipoVinculo.id = func.idTipoVinculo
                              LEFT JOIN HorarioDinamico HDN ON HDN.id = func.idhorariodinamico
-                             WHERE ISNULL(func.excluido, 0) = 1 " +
-                             GetWhereSelectAll();
+                             WHERE ISNULL(func.excluido, 0) = 1 ";
                 sql += PermissaoUsuarioFuncionario(UsuarioLogado, sql, "func.idempresa", "func.id", null);
                 sql += " ORDER BY func.nome ASC";
 
@@ -5160,7 +5090,6 @@ namespace DAL.SQL
 
             if (verificaPermissao)
             {
-                sql += GetWhereSelectAll("f.idEmpresa");
                 sql = sql + PermissaoUsuarioFuncionario(UsuarioLogado, sql, "f.idempresa", "f.id", null);
             }
 
@@ -5275,7 +5204,6 @@ namespace DAL.SQL
 
             if (verificaPermissao)
             {
-                _sql += GetWhereSelectAll("f.idEmpresa");
                 _sql = _sql + PermissaoUsuarioFuncionario(UsuarioLogado, _sql, "f.idempresa", "f.id", null);
             }
 

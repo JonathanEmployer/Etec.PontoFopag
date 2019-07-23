@@ -60,7 +60,6 @@ namespace DAL
         List<Modelo.Funcionario> GetTabelaMarcacao(int tipo, int identificacao, string consultaNomeFuncionario);
 
         List<int> GetIds();
-        List<int> GetIds(bool VerificarPermissaoUsuario);
         Hashtable GetHashCodigoId();
         Hashtable GetHashCodigoFunc();
         DataTable GetPisCodigo(bool webApi);

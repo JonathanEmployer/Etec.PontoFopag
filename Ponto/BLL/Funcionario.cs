@@ -416,11 +416,6 @@ namespace BLL
             return dalFuncionario.GetIds();
         }
 
-        public List<int> GetIds(bool VerificarPermissaoUsuario)
-        {
-            return dalFuncionario.GetIds(VerificarPermissaoUsuario);
-        }
-
         /// <summary>
         /// Retorna uma tabela hash onde o código é a chave e o id é o valor
         /// </summary>

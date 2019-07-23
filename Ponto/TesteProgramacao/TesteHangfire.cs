@@ -31,8 +31,10 @@ namespace TesteProgramacao
                 Type magicType = Type.GetType(invocationData.Type);
                 ConstructorInfo magicConstructor = magicType.GetConstructor(Type.EmptyTypes);
                 object magicClassObject = magicConstructor.Invoke(new object[] { });
+                List<String> tiposStr = FromJson<List<String>>(invocationData.ParameterTypes);
 
-                MethodInfo magicMethod = magicType.GetMethod(invocationData.Method);
+                Type[] tiposParametros = tiposStr.Select(f => Type.GetType(f)).ToArray();
+                MethodInfo magicMethod = magicType.GetMethod(invocationData.Method, tiposParametros);
                 object magicValue = magicMethod.Invoke(magicClassObject, dados.Args.ToArray());
             }
             catch (Exception e)

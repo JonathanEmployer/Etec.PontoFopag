@@ -14,11 +14,11 @@ namespace PontoWeb.Controllers.BLLWeb
 {
     public static class Usuario
 	{
-		public static bool ValidaUsuario(string usuario, string senha, ref string retorno)
+		public static bool ValidaUsuario(UsuarioLogin userLogin, ref string retorno)
 		{
 			ICryptoService crypto = new PBKDF2();
 			bool IsValid = false;
-			CentralCliente.Usuario user = BuscaUsuarioCentralCliente(usuario);
+			CentralCliente.Usuario user = BuscaUsuarioCentralCliente(userLogin.login);
 			if (user != null)
 			{
 				if (String.IsNullOrEmpty(user.connectionString))
@@ -26,7 +26,7 @@ namespace PontoWeb.Controllers.BLLWeb
 					retorno = "Nenhum banco de dados vinculado ao usuário, Por favor entre em contato com o suporte!";
 					return IsValid;
 				}
-				string passCrypto = crypto.Compute(senha, user.PasswordSalt);
+				string passCrypto = crypto.Compute(userLogin.Password, user.PasswordSalt);
 				if (crypto.Compare(user.Password, passCrypto))
 				{
 					try
@@ -35,7 +35,10 @@ namespace PontoWeb.Controllers.BLLWeb
 						AdicionaUsuarioCache(user);
 						AtualizaUsuarioCentralCliente(user);
 						IsValid = true;
-					}
+                        //Adiciona o login como o usuário, pois se o usuário logou com e-mail, altero para o nome de usuário
+                        userLogin.login = user.Login;
+
+                    }
 					catch (Exception e)
 					{
 						retorno = e.Message;
