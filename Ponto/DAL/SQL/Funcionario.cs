@@ -461,7 +461,7 @@ namespace DAL.SQL
                                        f.IdTipoVinculo,
                                        f.Email,
                                        f.IdIntegracaoPainel,
-                                       func.RFID, 
+                                       f.RFID, 
                                         '' foto
 	                            , CONVERT(varchar, emp.codigo) + ' | ' + emp.nome as NomeEmpresa  
 	                            , ct.codigocontrato as CodigoContrato
@@ -517,7 +517,7 @@ namespace DAL.SQL
                                        f.IdTipoVinculo,
                                        f.Email,
                                        f.IdIntegracaoPainel,
-                                       func.RFID, 
+                                       f.RFID, 
                                         '' foto
 		                            , CONVERT(varchar, emp.codigo) + ' | ' + emp.nome as NomeEmpresa  
 		                            , ct.codigocontrato as CodigoContrato
@@ -620,10 +620,55 @@ namespace DAL.SQL
 
         public string SqlLoadByCpfeMatricula()
         {
-            return @"        SELECT   func.*
-                             FROM funcionario func 
-                             WHERE CONVERT(BIGINT,REPLACE(REPLACE(func.cpf,'-',''),'.','')) = @cpf
-							 and func.matricula = @matricula";
+            return @"        SELECT   f.id,
+                                       f.codigo,
+                                       f.dscodigo,
+                                       f.matricula,
+                                       f.nome,
+                                       f.codigofolha,
+                                       f.idempresa,
+                                       f.iddepartamento,
+                                       f.idfuncao,
+                                       f.idhorario,
+                                       f.tipohorario,
+                                       f.carteira,
+                                       f.dataadmissao,
+                                       f.datademissao,
+                                       f.salario,
+                                       f.funcionarioativo,
+                                       f.DataInativacao,
+                                       f.naoentrarbanco,
+                                       f.naoentrarcompensacao,
+                                       f.excluido,
+                                       f.campoobservacao,
+                                       f.incdata,
+                                       f.inchora,
+                                       f.incusuario,
+                                       f.altdata,
+                                       f.althora,
+                                       f.altusuario,
+                                       f.pis,
+                                       f.senha,
+                                       f.toleranciaentrada,
+                                       f.toleranciasaida,
+                                       f.quantidadetickets,
+                                       f.tipotickets,
+                                       f.CPF,
+                                       f.Mob_Senha,
+                                       f.idcw_usuario,
+                                       f.utilizaregistrador,
+                                       f.idIntegracao,
+                                       f.IdPessoaSupervisor,
+                                       f.TipoMaoObra,
+                                       f.IdAlocacao,
+                                       f.IdTipoVinculo,
+                                       f.Email,
+                                       f.IdIntegracaoPainel,
+                                       f.RFID, 
+                                        '' foto
+                             FROM funcionario f 
+                             WHERE CONVERT(BIGINT,REPLACE(REPLACE(f.cpf,'-',''),'.','')) = @cpf
+							 and f.matricula = @matricula";
         }
 
 
@@ -5044,8 +5089,6 @@ namespace DAL.SQL
 
         public Modelo.Funcionario GetFuncionarioPorCpfeMatricula(Int64 cpf, string matricula)
         {
-            try
-            {
                 SqlParameter[] parms = new SqlParameter[]
                 {
                     new SqlParameter("@cpf", SqlDbType.BigInt),
@@ -5057,21 +5100,9 @@ namespace DAL.SQL
 
                 string sql = SqlLoadByCpfeMatricula();
                 SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
-                try
-                {
-                    AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Funcionario>();
-                    lista = AutoMapper.Mapper.Map<List<Modelo.Funcionario>>(dr);
-                }
-                catch
-                {
-
-                }
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Funcionario>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Funcionario>>(dr);
                 return lista.OrderByDescending(x => x.Funcionarioativo).FirstOrDefault();
-            }
-            catch
-            {
-                return new Modelo.Funcionario();
-            }
         }
 
         /// <summary>
