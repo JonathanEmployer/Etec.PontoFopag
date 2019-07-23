@@ -31,7 +31,7 @@ namespace BLL.Relatorios.V2
 			RelatorioCartaoPontoHTMLModel parms = (RelatorioCartaoPontoHTMLModel)_relatorioFiltro;
 			IList<int> funcs = parms.IdSelecionados.Split(',').Select(int.Parse).ToList();
 
-			IList<pxyCartaoPontoEmployer> cps = bllCartaoPonto.BuscaDadosRelatorio(funcs, parms.InicioPeriodo, parms.FimPeriodo, _progressBar, parms.OrdemRelatorio);
+			IList<pxyCartaoPontoEmployer> cps = bllCartaoPonto.BuscaDadosRelatorio(funcs, parms.InicioPeriodo, parms.FimPeriodo, _progressBar, parms.OrdemRelatorio, parms.quebraAuto);
 
 			PxyCPEMarcacao marc = new PxyCPEMarcacao();
 			List<Modelo.Utils.CartaoPontoCamposParaCustomizacao> campos = GetPropertiesCartaoPontoCustom.GetProperties(marc.GetType());

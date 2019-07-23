@@ -164,7 +164,7 @@ namespace BLL.Relatorios.V2
 
             DataTable dt = bllCartaoPonto.GetCartaoPontoRel(parms.InicioPeriodo,
                 parms.FimPeriodo, "", "",
-                "(" + parms.IdSelecionados + ")", parms.TipoSelecao, parms.TipoTurno, parms.TipoSelecao, _progressBar, false, "");
+                "(" + parms.IdSelecionados + ")", parms.TipoSelecao, parms.TipoTurno, parms.TipoSelecao, _progressBar, false, "", true);
 
             if (dt.Rows.Count > 0)
             {

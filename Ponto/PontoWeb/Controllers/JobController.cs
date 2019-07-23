@@ -201,7 +201,7 @@ namespace ProgressReporting.Controllers
 
                     DataTable Dt = bllCartaoPonto.GetCartaoPontoRel(imp.InicioPeriodo,
                         imp.FimPeriodo, empresas, departamentos,
-                        funcionarios, imp.TipoSelecao, imp.TipoTurno, imp.TipoSelecao, objProgressBar, false, "");
+                        funcionarios, imp.TipoSelecao, imp.TipoTurno, imp.TipoSelecao, objProgressBar, false, "", true);
 
                     if (Dt.Rows.Count > 0)
                     {
@@ -344,7 +344,7 @@ namespace ProgressReporting.Controllers
                     usuarioLogado.ConnectionString = usuario.connectionString;
                     BLL.CartaoPontoV2 bllCartaoPonto = new BLL.CartaoPontoV2(usuario.ConnectionStringDecrypt, usuarioLogado);
                     IList<int> funcs = imp.idSelecionados.Split(',').Select(int.Parse).ToList();
-                    IList<pxyCartaoPontoEmployer> cps = bllCartaoPonto.BuscaDadosRelatorio(funcs, imp.InicioPeriodo, imp.FimPeriodo, objProgressBar, imp.OrdemRelatorio);
+                    IList<pxyCartaoPontoEmployer> cps = bllCartaoPonto.BuscaDadosRelatorio(funcs, imp.InicioPeriodo, imp.FimPeriodo, objProgressBar, imp.OrdemRelatorio, true);
 
                     PxyCPEMarcacao marc = new PxyCPEMarcacao();
                     List<Modelo.Utils.CartaoPontoCamposParaCustomizacao> campos = GetPropertiesCartaoPontoCustom.GetProperties(marc.GetType());
@@ -986,7 +986,7 @@ namespace ProgressReporting.Controllers
 
                     objProgressBar.setaMensagem("Carregando dados...");
 
-                    Dt = bllCartaoPonto.GetCartaoPontoRel(imp.InicioPeriodo, imp.FimPeriodo, "()", "()", "(" + imp.idSelecionados + ")", 2, 0, 0, objProgressBar, false, "");
+                    Dt = bllCartaoPonto.GetCartaoPontoRel(imp.InicioPeriodo, imp.FimPeriodo, "()", "()", "(" + imp.idSelecionados + ")", 2, 0, 0, objProgressBar, false, "",true);
                     if (Dt.Rows.Count > 0)
                     {
                         DataTable DtFiltrado = null;
@@ -2419,7 +2419,7 @@ namespace ProgressReporting.Controllers
                     usuarioLogado.ConnectionString = usuario.connectionString;
                     BLL.CartaoPontoV2 bllCartaoPonto = new BLL.CartaoPontoV2(usuario.ConnectionStringDecrypt, usuarioLogado);
                     IList<int> funcs = imp.idSelecionados.Split(',').Select(int.Parse).ToList();
-                    IList<pxyCartaoPontoEmployer> cps = bllCartaoPonto.BuscaDadosRelatorio(funcs, imp.InicioPeriodo, imp.FimPeriodo, objProgressBar, imp.OrdemRelatorio);
+                    IList<pxyCartaoPontoEmployer> cps = bllCartaoPonto.BuscaDadosRelatorio(funcs, imp.InicioPeriodo, imp.FimPeriodo, objProgressBar, imp.OrdemRelatorio, true);
 
 
                     IList<pxyRelatorioHorasNoturnas> rel = new List<pxyRelatorioHorasNoturnas>();
