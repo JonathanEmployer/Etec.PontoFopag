@@ -130,6 +130,11 @@ namespace BLL
             return dalJustificativa.GetAllList();
         }
 
+        public List<Modelo.Justificativa> GetAllListConsultaEvento()
+        {
+            return dalJustificativa.GetAllListConsultaEvento();
+        }
+
         public List<Modelo.Justificativa> GetAllPorExibePaineldoRH()
         {
             return dalJustificativa.GetAllPorExibePaineldoRH();

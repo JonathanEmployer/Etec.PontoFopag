@@ -10,7 +10,8 @@ namespace DAL
         int? GetIdPorCod(int Cod);
         Modelo.Justificativa LoadObject(int id);
         bool BuscaJustificativa(string pNomeDescricao);
-        List<Modelo.Justificativa> GetAllList();
+        List<Modelo.Justificativa> GetAllList(); 
+        List<Modelo.Justificativa> GetAllListConsultaEvento();
         List<Modelo.Justificativa> GetAllPorExibePaineldoRH();
         Modelo.Justificativa LoadObjectByCodigo(int pCodigo);
         int GetIdPorIdIntegracao(int IdIntegracao);

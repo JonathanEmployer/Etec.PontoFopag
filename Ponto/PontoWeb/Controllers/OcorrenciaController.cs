@@ -179,7 +179,7 @@ namespace PontoWeb.Controllers
 
             if (lOcorrencia.Count == 0)
             {
-                lOcorrencia = bllOcorrencia.GetAllList();
+                lOcorrencia = bllOcorrencia.GetAllListConsultaEvento();
                 if (!String.IsNullOrEmpty(consulta))
                 {
                     lOcorrencia = lOcorrencia.Where(p => p.Descricao.ToUpper().Contains(consulta.ToUpper())).ToList();

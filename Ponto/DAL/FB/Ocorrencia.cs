@@ -282,5 +282,10 @@ namespace DAL.FB
         {
             throw new NotImplementedException();
         }
+
+        public List<Modelo.Ocorrencia> GetAllListConsultaEvento()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

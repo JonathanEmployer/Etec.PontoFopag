@@ -77,6 +77,11 @@ namespace BLL
             return dalOcorrencia.GetAllList();
         }
 
+        public List<Modelo.Ocorrencia> GetAllListConsultaEvento()
+        {
+            return dalOcorrencia.GetAllListConsultaEvento();
+        }
+
         public List<Modelo.Ocorrencia> GetAllPorExibePainelRHPorEmpresa(int idEmpresa)
         {
             return dalOcorrencia.GetAllPorExibePainelRHPorEmpresa(idEmpresa);

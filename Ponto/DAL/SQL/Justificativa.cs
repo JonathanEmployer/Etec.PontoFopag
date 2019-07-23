@@ -286,11 +286,42 @@ namespace DAL.SQL
             return lista;
         }
 
+        public List<Modelo.Justificativa> GetAllListConsultaEvento()
+        {
+            SqlParameter[] parms = new SqlParameter[0];
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, "SELECT * FROM justificativa WHERE ativo = 1", parms);
+
+            List<Modelo.Justificativa> lista = new List<Modelo.Justificativa>();
+            try
+            {
+                while (dr.Read())
+                {
+                    Modelo.Justificativa objJustificativa = new Modelo.Justificativa();
+                    AuxSetInstance(dr, objJustificativa);
+                    lista.Add(objJustificativa);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
+
         public List<Modelo.Justificativa> GetAllPorExibePaineldoRH()
         {
             SqlParameter[] parms = new SqlParameter[0];
 
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, "SELECT * FROM justificativa where ExibePaineldoRH = 1", parms);
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, "SELECT * FROM justificativa where ExibePaineldoRH = 1 and ativo = 1", parms);
 
             List<Modelo.Justificativa> lista = new List<Modelo.Justificativa>();
             try

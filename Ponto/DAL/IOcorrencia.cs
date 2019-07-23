@@ -9,6 +9,7 @@ namespace DAL
     {
         Modelo.Ocorrencia LoadObject(int id);
         List<Modelo.Ocorrencia> GetAllList();
+        List<Modelo.Ocorrencia> GetAllListConsultaEvento();
         List<Modelo.Ocorrencia> GetAllPorExibePaineldoRH();
         List<Modelo.Ocorrencia> GetAllPorExibePainelRHPorEmpresa(int idEmpresa);
         List<Modelo.Ocorrencia> GetAllListPorIds(List<int> ids);

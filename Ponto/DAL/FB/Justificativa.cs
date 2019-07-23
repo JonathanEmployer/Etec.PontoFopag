@@ -226,5 +226,10 @@ namespace DAL.FB
         {
             throw new NotImplementedException();
         }
+
+        public List<Modelo.Justificativa> GetAllListConsultaEvento()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

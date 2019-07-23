@@ -174,7 +174,7 @@ namespace PontoWeb.Controllers
 
             if (ljust.Count == 0)
             {
-                ljust = bllJustificativa.GetAllList();
+                ljust = bllJustificativa.GetAllListConsultaEvento();
                 if (!String.IsNullOrEmpty(consulta))
                 {
                     ljust = ljust.Where(p => p.Descricao.ToUpper().Contains(consulta.ToUpper())).ToList();
