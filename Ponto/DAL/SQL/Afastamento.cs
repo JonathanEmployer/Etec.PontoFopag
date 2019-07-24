@@ -9,7 +9,7 @@ using Modelo.Proxy.Relatorios;
 namespace DAL.SQL
 {
     public class Afastamento : DAL.SQL.DALBase, DAL.IAfastamento
-    {        
+    {
         public Afastamento(DataBase database)
         {
             db = database;
@@ -311,28 +311,28 @@ namespace DAL.SQL
         protected override SqlParameter[] GetParameters()
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@id", SqlDbType.Int),
-				new SqlParameter ("@codigo", SqlDbType.Int),
-				new SqlParameter ("@descricao", SqlDbType.VarChar),
-				new SqlParameter ("@idocorrencia", SqlDbType.Int),
-				new SqlParameter ("@tipo", SqlDbType.Int),
-				new SqlParameter ("@abonado", SqlDbType.TinyInt),
-				new SqlParameter ("@datai", SqlDbType.DateTime),
-				new SqlParameter ("@dataf", SqlDbType.DateTime),
-				new SqlParameter ("@idfuncionario", SqlDbType.Int),
-				new SqlParameter ("@idempresa", SqlDbType.Int),
-				new SqlParameter ("@iddepartamento", SqlDbType.Int),
-				new SqlParameter ("@horai", SqlDbType.VarChar),
-				new SqlParameter ("@horaf", SqlDbType.VarChar),
-				new SqlParameter ("@parcial", SqlDbType.TinyInt),
-				new SqlParameter ("@semcalculo", SqlDbType.TinyInt),
-				new SqlParameter ("@incdata", SqlDbType.DateTime),
-				new SqlParameter ("@inchora", SqlDbType.DateTime),
-				new SqlParameter ("@incusuario", SqlDbType.VarChar),
-				new SqlParameter ("@altdata", SqlDbType.DateTime),
-				new SqlParameter ("@althora", SqlDbType.DateTime),
-				new SqlParameter ("@altusuario", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@id", SqlDbType.Int),
+                new SqlParameter ("@codigo", SqlDbType.Int),
+                new SqlParameter ("@descricao", SqlDbType.VarChar),
+                new SqlParameter ("@idocorrencia", SqlDbType.Int),
+                new SqlParameter ("@tipo", SqlDbType.Int),
+                new SqlParameter ("@abonado", SqlDbType.TinyInt),
+                new SqlParameter ("@datai", SqlDbType.DateTime),
+                new SqlParameter ("@dataf", SqlDbType.DateTime),
+                new SqlParameter ("@idfuncionario", SqlDbType.Int),
+                new SqlParameter ("@idempresa", SqlDbType.Int),
+                new SqlParameter ("@iddepartamento", SqlDbType.Int),
+                new SqlParameter ("@horai", SqlDbType.VarChar),
+                new SqlParameter ("@horaf", SqlDbType.VarChar),
+                new SqlParameter ("@parcial", SqlDbType.TinyInt),
+                new SqlParameter ("@semcalculo", SqlDbType.TinyInt),
+                new SqlParameter ("@incdata", SqlDbType.DateTime),
+                new SqlParameter ("@inchora", SqlDbType.DateTime),
+                new SqlParameter ("@incusuario", SqlDbType.VarChar),
+                new SqlParameter ("@altdata", SqlDbType.DateTime),
+                new SqlParameter ("@althora", SqlDbType.DateTime),
+                new SqlParameter ("@altusuario", SqlDbType.VarChar),
                 new SqlParameter ("@idcontrato", SqlDbType.Int),
                 new SqlParameter ("@NomeContrato", SqlDbType.VarChar),
                 new SqlParameter ("@bSuspensao", SqlDbType.Bit),
@@ -340,7 +340,7 @@ namespace DAL.SQL
                 new SqlParameter ("@idLancamentoLoteFuncionario", SqlDbType.Int),
                 new SqlParameter ("@Observacao", SqlDbType.VarChar),
                 new SqlParameter ("@SemAbono", SqlDbType.Bit)
-			};
+            };
             return parms;
         }
 
@@ -486,9 +486,9 @@ namespace DAL.SQL
 
         private SqlDataReader getPeriodoFuncionario(int pIdFuncionario)
         {
-            SqlParameter[] parms = new SqlParameter[] 
-            { 
-                new SqlParameter("@idfuncionario", SqlDbType.Int, 4) 
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@idfuncionario", SqlDbType.Int, 4)
             };
             parms[0].Value = pIdFuncionario;
 
@@ -499,10 +499,10 @@ namespace DAL.SQL
 
         private SqlDataReader getPeriodoDepartemento(int pIdEmpresa, int pIdDepartamento)
         {
-            SqlParameter[] parms = new SqlParameter[] 
-            { 
-                  new SqlParameter("@idempresa", SqlDbType.Int, 4) 
-                , new SqlParameter("@iddepartamento", SqlDbType.Int, 4) 
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                  new SqlParameter("@idempresa", SqlDbType.Int, 4)
+                , new SqlParameter("@iddepartamento", SqlDbType.Int, 4)
             };
             parms[0].Value = pIdEmpresa;
             parms[1].Value = pIdDepartamento;
@@ -514,9 +514,9 @@ namespace DAL.SQL
 
         private SqlDataReader getPeriodoEmpresa(int pIdEmpresa)
         {
-            SqlParameter[] parms = new SqlParameter[] 
-            { 
-                  new SqlParameter("@idempresa", SqlDbType.Int, 4) 
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                  new SqlParameter("@idempresa", SqlDbType.Int, 4)
             };
             parms[0].Value = pIdEmpresa;
 
@@ -527,10 +527,10 @@ namespace DAL.SQL
 
         public List<Modelo.Afastamento> GetPeriodo(DateTime pDataInicial, DateTime pDataFinal)
         {
-            SqlParameter[] parms = new SqlParameter[] 
-            { 
-                new SqlParameter("@datai", SqlDbType.DateTime) 
-                ,new SqlParameter("@dataf", SqlDbType.DateTime) 
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@datai", SqlDbType.DateTime)
+                ,new SqlParameter("@dataf", SqlDbType.DateTime)
             };
             parms[0].Value = pDataInicial;
             parms[1].Value = pDataFinal;
@@ -580,7 +580,7 @@ namespace DAL.SQL
 
             string _listIdsFuncionarios = string.Join(",",idsFuncionarios);
             string sql = SELECTALLLIST;
-            
+
             sql += string.Format(@"where afastamento.id in (
                         select
 	                        a.id
@@ -604,7 +604,7 @@ namespace DAL.SQL
                 sql += " and ocorrencia.OcorrenciaFerias = 1 ";
             }
 
-       
+
 
             List<Modelo.Afastamento> ret = new List<Modelo.Afastamento>();
 
@@ -622,10 +622,10 @@ namespace DAL.SQL
 
         public List<Modelo.Afastamento> GetParaExportacaoFolha(DateTime dataI, DateTime dataF, string idsOcorrencias, bool considerarAbsenteismo, List<int> IdsFuncs)
         {
-            SqlParameter[] parms = new SqlParameter[] 
-            { 
-                new SqlParameter("@datai", SqlDbType.DateTime) 
-                ,new SqlParameter("@dataf", SqlDbType.DateTime) 
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@datai", SqlDbType.DateTime)
+                ,new SqlParameter("@dataf", SqlDbType.DateTime)
             };
             parms[0].Value = dataI;
             parms[1].Value = dataF;
@@ -768,7 +768,7 @@ namespace DAL.SQL
 
         public Modelo.Afastamento LoadParaManutencao(DateTime pData, int pIdFuncionario)
         {
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@data", SqlDbType.DateTime),
                 new SqlParameter("@idfuncionario", SqlDbType.Int)
@@ -869,7 +869,7 @@ namespace DAL.SQL
         public IList<Modelo.Proxy.pxyAbonosPorMarcacao> GetAbonosPorMarcacoes(IList<int> idFuncionarios, DateTime dataIni, DateTime dataFin)
         {
             SqlParameter[] parms = new SqlParameter[]
-            {                     
+            {
                     new SqlParameter("@idFuncionarios", SqlDbType.VarChar),
                     new SqlParameter("@dataIni", SqlDbType.DateTime),
                     new SqlParameter("@dataFin", SqlDbType.DateTime)
@@ -961,7 +961,7 @@ namespace DAL.SQL
 
         public List<Modelo.FechamentoPonto> FechamentoPontoAfastamento(int idAfastamento)
         {
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@id", SqlDbType.Int)
             };
