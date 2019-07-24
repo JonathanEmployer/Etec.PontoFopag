@@ -1105,8 +1105,7 @@ namespace DAL.SQL
                     new SqlParameter("@dtInicioPeriodo", SqlDbType.DateTime),
                     new SqlParameter("@dtFimPeriodo", SqlDbType.DateTime),
                     new SqlParameter("@tiposAbono", SqlDbType.VarChar),
-                    new SqlParameter("@Absenteismo", SqlDbType.SmallInt),
-                    new SqlParameter("@funcionarios", SqlDbType.VarChar)
+                    new SqlParameter("@Absenteismo", SqlDbType.SmallInt)
             };
 
             List<int> tiposAbono = new List<int>();
@@ -1135,63 +1134,72 @@ namespace DAL.SQL
             parms[1].Value = pDataF;
             parms[2].Value = String.Join(",", tiposAbono);
             parms[3].Value = absenteismo;
-            parms[4].Value = String.Join(",", idsFuncs);
+            string _listIdsFuncionarios = String.Join(",", idsFuncs);
 
-            string SQL = @" select p.[data] AfastamentoData, t.*
-  from FN_DatasPeriodo(@dtInicioPeriodo, @dtFimPeriodo) p
- inner join (
-    select *
-    from (
-        select *
-        from (
-                select
-                    fun.id FuncionarioID,
-                    fun.dscodigo FuncionarioCodigo,
-                    fun.nome FuncionarioNome,
-                    fun.CPF FuncionarioCpf,
-                    fun.matricula FuncionarioMatricula,
-                    a.id AfastamentoId,
-                    a.codigo AfastamentoCodigo,
-                    a.descricao AfastamentoDescricao,
-                    a.abonado AfastamentoAbonado,
-                    a.parcial AfastamentoParcial,
-                    a.semcalculo AfastamentoSemCalculo,
-                    a.bSuspensao AfastamentoSuspensao,
-                    a.SemAbono AfastamentoSemAbono,
-                    a.datai AfastamentoDataInicio,
-                    a.dataf AfastamentoDataFim,
-                    a.horai AfastamentoAbonoParcialDiurno,
-                    dbo.FN_CONVHORA(a.horai) AfastamentoAbonoParcialDiurnoMin,
-                    a.horaf AfastamentoAbonoParcialNoturno,
-                    dbo.FN_CONVHORA(a.horaf) AfastamentoAbonoParcialNoturnoMin,
-                    a.idocorrencia OcorrenciaID,
-                    a.idIntegracao AfastamentoIdIntegrador,
-                    a.Observacao AfastamentoObservacao,
-                    o.descricao OcorrenciaDescricao,
-                    o.absenteismo OcorrenciaAbsenteismo,
-                    case WHEN a.parcial = 1 THEN 2
-                            WHEN a.abonado = 1 THEN 1
-                            WHEN a.SemCalculo = 1 THEN 3
-                            WHEN a.bSuspensao = 1 THEN 4
-                            WHEN a.SemAbono = 1 THEN 5
-                            else 0
-                    END TipoAbono
-                from funcionario fun
-                left join contratofuncionario cf on cf.idfuncionario  = fun.id
-                inner join afastamento a on a.idfuncionario = fun.id or a.iddepartamento = fun.iddepartamento or a.idempresa = fun.idempresa or a.idcontrato = cf.id
-                INNER JOIN ocorrencia o on a.idocorrencia = o.id
-                where fun.id in (select id FROM funcionario fi where fi.funcionarioativo = 1 and fi.excluido = 0)
-                    and ((a.datai between @dtInicioPeriodo and @dtFimPeriodo) or
-                        (a.dataf between @dtInicioPeriodo and @dtFimPeriodo) or
-                        (@dtInicioPeriodo between a.datai and a.dataf) or
-                        (@dtFimPeriodo between a.datai and a.dataf) 
-                        )
-                    and (@Absenteismo = 2 or o.absenteismo = @Absenteismo)
-                    and fun.id IN (select * from dbo.F_ClausulaIn(@funcionarios))
-            ) t WHERE t.TipoAbono in (select * from dbo.F_ClausulaIn(@tiposAbono))
-    ) x
-    ) t on p.[data] BETWEEN t.AfastamentoDataInicio and t.AfastamentoDataFim
-    order by FuncionarioID, p.[data] ";
+            string SQL = string.Format(@" select p.[data] AfastamentoData, t.*
+                                            from FN_DatasPeriodo(@dtInicioPeriodo, @dtFimPeriodo) p
+                                            inner join (
+                                            select *
+                                            from (
+                                                select *
+                                                from (
+                                                        select
+                                                            fun.id FuncionarioID,
+                                                            fun.dscodigo FuncionarioCodigo,
+                                                            fun.nome FuncionarioNome,
+                                                            fun.CPF FuncionarioCpf,
+                                                            fun.matricula FuncionarioMatricula,
+                                                            a.id AfastamentoId,
+                                                            a.codigo AfastamentoCodigo,
+                                                            a.descricao AfastamentoDescricao,
+                                                            a.abonado AfastamentoAbonado,
+                                                            a.parcial AfastamentoParcial,
+                                                            a.semcalculo AfastamentoSemCalculo,
+                                                            a.bSuspensao AfastamentoSuspensao,
+                                                            a.SemAbono AfastamentoSemAbono,
+                                                            a.datai AfastamentoDataInicio,
+                                                            a.dataf AfastamentoDataFim,
+                                                            a.horai AfastamentoAbonoParcialDiurno,
+                                                            dbo.FN_CONVHORA(a.horai) AfastamentoAbonoParcialDiurnoMin,
+                                                            a.horaf AfastamentoAbonoParcialNoturno,
+                                                            dbo.FN_CONVHORA(a.horaf) AfastamentoAbonoParcialNoturnoMin,
+                                                            a.idocorrencia OcorrenciaID,
+                                                            a.idIntegracao AfastamentoIdIntegrador,
+                                                            a.Observacao AfastamentoObservacao,
+                                                            o.descricao OcorrenciaDescricao,
+                                                            o.absenteismo OcorrenciaAbsenteismo,
+                                                            case WHEN a.parcial = 1 THEN 2
+                                                                    WHEN a.abonado = 1 THEN 1
+                                                                    WHEN a.SemCalculo = 1 THEN 3
+                                                                    WHEN a.bSuspensao = 1 THEN 4
+                                                                    WHEN a.SemAbono = 1 THEN 5
+                                                                    else 0
+                                                            END TipoAbono
+                                                        from funcionario fun
+                                                        inner join afastamento a on a.idfuncionario = fun.id or a.iddepartamento = fun.iddepartamento or a.idempresa = fun.idempresa
+                                                        INNER JOIN ocorrencia o on a.idocorrencia = o.id
+                                                        where (@Absenteismo = 2 or o.absenteismo = @Absenteismo)
+                                                            and a.id in (
+                                                                select
+	                                                                a.id
+                                                                from funcionario fun
+	                                                                left join contratofuncionario cf on cf.idfuncionario  = fun.id
+	                                                                inner join afastamento a on a.idfuncionario = fun.id or a.iddepartamento = fun.iddepartamento or a.idempresa = fun.idempresa or a.idcontrato = cf.id
+	                                                                inner join ocorrencia oc on oc.id = a.idocorrencia
+	                                                                left join dbo.departamento dep on dep.id = fun.iddepartamento
+	                                                                left join dbo.empresa emp on emp.id = fun.idempresa
+                                                                where 
+	                                                                fun.id in ({0})
+	                                                                and (
+			                                                                (a.datai between @dtInicioPeriodo and @dtFimPeriodo) or
+			                                                                (isnull(a.dataf, '9999-12-31') between @dtInicioPeriodo and @dtFimPeriodo) or
+			                                                                (@dtInicioPeriodo between a.datai and isnull(a.dataf, '9999-12-31')) or
+			                                                                (@dtFimPeriodo between a.datai and isnull(a.dataf, '9999-12-31')) )
+                                                        )
+                                                        ) t WHERE t.TipoAbono in (select * from dbo.F_ClausulaIn(@tiposAbono))
+                                            ) x
+                                            ) t on p.[data] BETWEEN t.AfastamentoDataInicio and t.AfastamentoDataFim
+                                            order by FuncionarioID, p.[data] ", _listIdsFuncionarios);
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, SQL, parms);
             List<PxyRelAfastamento> lista = new List<PxyRelAfastamento>();

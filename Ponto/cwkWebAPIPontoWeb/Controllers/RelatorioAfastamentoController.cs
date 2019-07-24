@@ -53,10 +53,13 @@ namespace cwkWebAPIPontoWeb.Controllers
                     {
                         if (!String.IsNullOrEmpty(CpfMatricula.CPF) && !String.IsNullOrEmpty(CpfMatricula.Matricula))
                         {
-                            Modelo.Funcionario func = funcionarios.Where(w => Convert.ToInt64(BLL.cwkFuncoes.ApenasNumeros(w.CPF)) == Convert.ToInt64(BLL.cwkFuncoes.ApenasNumeros(CpfMatricula.CPF)) && w.Matricula == CpfMatricula.Matricula).FirstOrDefault();
-                            if (func != null && func.Id > 0)
+                            List<Modelo.Funcionario> funcs = funcionarios.Where(w => Convert.ToInt64(BLL.cwkFuncoes.ApenasNumeros(w.CPF)) == Convert.ToInt64(BLL.cwkFuncoes.ApenasNumeros(CpfMatricula.CPF)) && w.Matricula == CpfMatricula.Matricula).ToList();
+                            foreach (var func in funcs)
                             {
-                                idsFuncs.Add(func.Id);
+                                if (func != null && func.Id > 0)
+                                {
+                                    idsFuncs.Add(func.Id);
+                                }
                             }
                         }
                     });
