@@ -153,7 +153,8 @@ namespace DAL.SQL
         {
             SqlParameter[] parms = new SqlParameter[0];
             DataTable dt = new DataTable();
-            int? Id = Convert.ToInt32(db.ExecuteScalar(CommandType.Text, "select top 1 id from justificativa where codigo = " + Cod, parms));
+            string consulta = String.Format("select top 1 id from justificativa where codigo = {0} and ativo = 1 ", Cod);
+            int? Id = Convert.ToInt32(db.ExecuteScalar(CommandType.Text, consulta, parms));
 
             return Id;
         }

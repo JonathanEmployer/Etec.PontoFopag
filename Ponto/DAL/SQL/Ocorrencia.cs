@@ -192,7 +192,8 @@ namespace DAL.SQL
 
 			string sql = " SELECT * " +
 							" FROM ocorrencia" +
-							" WHERE codigo = @codigo";
+							" WHERE codigo = @codigo" +
+                              " AND ativo = 1 ";
 
 			SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 
