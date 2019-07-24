@@ -32,7 +32,7 @@ namespace PontoWeb.Controllers.Relatorios
             DateTime di = Convert.ToDateTime("2016-06-01");
             DateTime df = Convert.ToDateTime("2016-06-30");
             IList<int> funcs = new List<int>() { 15, 172 };
-            IList<pxyCartaoPontoEmployer> cps = bllCartaoPonto.BuscaDadosRelatorio(funcs, di, df, null,0, true);
+            IList<pxyCartaoPontoEmployer> cps = bllCartaoPonto.BuscaDadosRelatorio(funcs, di, df, null,0);
             return View(cps.ToList());
         }
         #endregion
@@ -77,7 +77,7 @@ namespace PontoWeb.Controllers.Relatorios
             string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
             UsuarioPontoWeb pw = Usuario.GetUsuarioPontoWebLogadoCache();
             BLL.CartaoPontoV2 bllCartaoPonto = new BLL.CartaoPontoV2(conn, pw);
-            IList<pxyCartaoPontoEmployer> cps = bllCartaoPonto.BuscaDadosRelatorio(funcs, dataIni, dataFin, null, 0, true);
+            IList<pxyCartaoPontoEmployer> cps = bllCartaoPonto.BuscaDadosRelatorio(funcs, dataIni, dataFin, null, 0);
 
 
             ConcurrentBag<RelatorioParts> cartoes = new ConcurrentBag<RelatorioParts>();

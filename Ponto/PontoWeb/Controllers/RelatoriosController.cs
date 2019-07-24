@@ -193,7 +193,7 @@ namespace PontoWeb.Controllers
                     objProgressBar.setaMensagem = this.SetaMensagem;
                     objProgressBar.setaMinMaxPB = this.SetaMinMaxProgressBar;
                     objProgressBar.setaValorPB = this.SetaValorProgressBar;
-                    Dt = bllCartaoPonto.GetCartaoPontoRel(dataIni, dataFin, "", "", "(" + funcionario.Id + ")", 2, 0, idHorario, objProgressBar, false, "",true);
+                    Dt = bllCartaoPonto.GetCartaoPontoRel(dataIni, dataFin, "", "", "(" + funcionario.Id + ")", 2, 0, idHorario, objProgressBar, false, "");
                     string nomerel = "rptCartaoPontoIndividual.rdlc";
                     string ds = "dsCartaoPonto_DataTable1";
                     string nomeArquivo = funcionario.Nome + " - " + dataFin.ToString("MM/yyyy");

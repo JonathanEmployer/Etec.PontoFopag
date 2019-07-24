@@ -92,7 +92,7 @@ namespace BLL.Relatorios.V2
             List<int> ids = parms.IdSelecionados.Split(',').Where(w => !String.IsNullOrEmpty(w)).Select(s => int.Parse(s)).ToList(); // Solução para quando o sistema envia dados de cache e falta id, ficando os dados por exemplo: ,124,315,355,      Como essa lista de string é jogada direto para o select colocando entre os parenteses isso da problema, essa solução "retira" as virgulas desnecessárias
             DataTable Dt = bllCartaoPonto.GetCartaoPontoRel(parms.InicioPeriodo,
                 parms.FimPeriodo, "", "",
-                "(" + String.Join(",", ids) + ")", parms.TipoSelecao, parms.TipoTurno, parms.TipoSelecao, _progressBar, false, "", parms.quebraAuto);
+                "(" + String.Join(",", ids) + ")", parms.TipoSelecao, parms.TipoTurno, parms.TipoSelecao, _progressBar, false, "");
             return Dt;
         }
 

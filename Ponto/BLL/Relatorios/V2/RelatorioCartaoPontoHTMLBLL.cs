@@ -42,7 +42,7 @@ namespace BLL.Relatorios.V2
             IList<int> funcs = parms.IdSelecionados.Split(',').Select(int.Parse).ToList();
 
             _progressBar.setaMensagem("Agrupando dados...");
-            IList<pxyCartaoPontoEmployer> cps = bllCartaoPonto.BuscaDadosRelatorio(funcs, parms.InicioPeriodo, parms.FimPeriodo, _progressBar, parms.OrdemRelatorio, parms.quebraAuto);
+            IList<pxyCartaoPontoEmployer> cps = bllCartaoPonto.BuscaDadosRelatorio(funcs, parms.InicioPeriodo, parms.FimPeriodo, _progressBar, parms.OrdemRelatorio);
             return cps;
         }
 

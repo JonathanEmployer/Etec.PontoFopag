@@ -87,7 +87,7 @@ namespace BLL
             dalHorarioDetalhe.UsuarioLogado = usuarioLogado;
         }
 
-        public DataTable GetCartaoPontoRel(DateTime dataInicial, DateTime dataFinal, string empresas, string departamentos, string funcionarios, int tipo, int normalFlexivel, int idhorario, Modelo.ProgressBar pPBRecalculo, bool ordenaDeptoFuncionario, string filtro, bool quebraAuto)
+        public DataTable GetCartaoPontoRel(DateTime dataInicial, DateTime dataFinal, string empresas, string departamentos, string funcionarios, int tipo, int normalFlexivel, int idhorario, Modelo.ProgressBar pPBRecalculo, bool ordenaDeptoFuncionario, string filtro)
         {
             try
             {
@@ -329,7 +329,7 @@ namespace BLL
                     ref percDomingo, ref percFolga, ref percFeriado);
 
 
-                if ((dataFinal - dataInicial).TotalDays > 31 && quebraAuto ==true)
+                if ((dataFinal - dataInicial).TotalDays > 31)
                 {
                     BLL.Empresa bllEmpresa = new BLL.Empresa(ConnectionString, UsuarioLogado);
                     List<Modelo.Empresa> objEmpresas = bllEmpresa.GetAllList();
