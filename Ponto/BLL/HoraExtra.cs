@@ -59,7 +59,9 @@ namespace BLL
                     PercentualHoraExtra[] horariosPHExtra = new PercentualHoraExtra[10];
                     BLL.TotalizadorHorasFuncionario.AtribuaPercentuaisExtra(horariosPHExtra, drMarcacao);
                     int idFuncionario = Convert.ToInt32(drMarcacao["idFuncionario"]);
-                    int flagFolga = drMarcacao["flagfolganormal"] is DBNull ? Convert.ToInt16(0) : Convert.ToInt16(drMarcacao["flagfolganormal"]);
+                    int flagfolganormal = drMarcacao["flagfolganormal"] is DBNull ? Convert.ToInt16(0) : Convert.ToInt16(drMarcacao["flagfolganormal"]);
+                    int flagfolgaflexivel = drMarcacao["flagfolgaflexivel"] is DBNull ? Convert.ToInt16(0) : Convert.ToInt16(drMarcacao["flagfolgaflexivel"]);
+                    int flagFolga = flagfolganormal == 1 || flagfolgaflexivel == 1 ? 1 : 0;
                     short consideraSabadoSemana = Convert.ToInt16(drMarcacao["considerasabadosemana"]);
                     short consideraDomingoSemana = Convert.ToInt16(drMarcacao["consideradomingosemana"]);
                     short tipoAcumulo = Convert.ToInt16(drMarcacao["tipoacumulo"]);
