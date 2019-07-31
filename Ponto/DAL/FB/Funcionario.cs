@@ -1903,5 +1903,10 @@ public List<int> GetIdsFuncsAtivos(string condicao)
         {
             throw new NotImplementedException();
         }
+
+        public DataTable GetPisCodigo(List<string> pis)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

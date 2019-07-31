@@ -4372,8 +4372,11 @@ namespace DAL.SQL
 
             return dt;
         }
-
         public DataTable GetPisCodigo()
+        {
+            return GetPisCodigo(new List<string> ());
+        }
+        public DataTable GetPisCodigo(List<string> pis)
         {
             DataTable dt = new DataTable();
 
@@ -4381,11 +4384,17 @@ namespace DAL.SQL
                                     , (case when LEN(func.pis) = 11 then '0' + func.pis else func.pis end) AS pis
                                     , func.excluido
                                     , func.funcionarioativo
+                                    , func.id
                              FROM funcionario func
                              INNER JOIN empresa emp ON emp.id = func.idempresa
                              WHERE LEN(func.pis) BETWEEN 11 AND 12 ";
 
             //aux += PermissaoUsuarioFuncionario(UsuarioLogado, aux, "func.idempresa", "func.id", null);
+
+            if (pis != null && pis.Count() > 0)
+            {
+                aux += " and func.pis in ('"+String.Join("','", pis) +"') ";
+            }
 
             aux += "  ORDER BY func.excluido, ISNULL(func.datademissao, DATEADD(YEAR, 1000, GETDATE())) DESC, ISNULL(func.althora, DATEADD(YEAR, 1000, GETDATE())) DESC";
 

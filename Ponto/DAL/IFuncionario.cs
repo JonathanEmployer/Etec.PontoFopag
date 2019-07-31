@@ -62,6 +62,8 @@ namespace DAL
         List<int> GetIds();
         Hashtable GetHashCodigoId();
         Hashtable GetHashCodigoFunc();
+
+        DataTable GetPisCodigo(List<string> pis);
         DataTable GetPisCodigo(bool webApi);
         DataTable GetPisCodigo();
         Hashtable GetHashIdFunc();

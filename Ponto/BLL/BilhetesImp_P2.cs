@@ -106,8 +106,8 @@ namespace BLL
                 bllRep = new BLL.REP(ConnectionString, usuarioLogado);
                 bllFunc = new BLL.Funcionario(ConnectionString, usuarioLogado);
             }
-
-            if (!ValidaImportacaoBilhetes(plistaTipoBilhetes, pArquivo, pBilhete, pFuncionario, pDataI, pDataF, log))
+            List<string> listaPis = new List<string>();
+            if (!ValidaImportacaoBilhetes(plistaTipoBilhetes, pArquivo, pBilhete, pFuncionario, pDataI, pDataF, log, out listaPis))
             {
                 return false;
             }
@@ -133,7 +133,7 @@ namespace BLL
             DataTable pisFuncionarios = null;
             if (plistaTipoBilhetes.Where(t => (t.FormatoBilhete == 3 || t.FormatoBilhete == 4 || t.FormatoBilhete == 5) && t.BImporta).Count() > 0)
             {
-                pisFuncionarios = dalFuncionario.GetPisCodigo();
+                pisFuncionarios = dalFuncionario.GetPisCodigo(listaPis.Distinct().Select(s => s.TrimStart(new Char[] { '0' })).ToList());
             }
 
             //Percorre os tipos de bilhete cadastrados, importando seus arquivos
@@ -200,7 +200,8 @@ namespace BLL
                     qtdLidos = registros.Count;
                     Modelo.BilhetesImp objBilhete;
                     List<Modelo.BilhetesImp> listaBilhetes = new List<Modelo.BilhetesImp>();
-                    listaFuncionario = bllFunc.GetAllListComDataUltimoFechamento(false);
+                    List<int> idsFuncs = pisFuncionarios.AsEnumerable().Select(l => l.Field<Int32>("id")).ToList();
+                    listaFuncionario = bllFunc.GetAllListComDataUltimoFechamento(false, idsFuncs);
                     foreach (RegistroAFD reg in registros)
                     {
                         if (reg.Campo01 != "999999999")
@@ -424,7 +425,8 @@ namespace BLL
             {
                 bllRep = new BLL.REP(ConnectionString, usuarioLogado);
                 bllFunc = new BLL.Funcionario(ConnectionString, usuarioLogado);
-                listaFuncionario = bllFunc.GetAllListComDataUltimoFechamento(true);
+                List<int> idsFuncs = pisFuncionarios.AsEnumerable().Select(l => l.Field<Int32>("id")).ToList();
+                listaFuncionario = bllFunc.GetAllListComDataUltimoFechamento(true, idsFuncs);
                 bllHorario = new BLL.Horario(ConnectionString, usuarioLogado);
             }
 
@@ -519,6 +521,12 @@ namespace BLL
                     }
                     else if (linha.Substring(9, 1) == "3")
                     {
+                        // Condição adicionada para descartar o registro que possuir na posição 9 o numero 3 (que seria registro de ponto) mas que possua 100 caracteres e as primeiros não forem numéricos, pois pode ser que seja a linha da assinatura digital e coincidentemente ela tenha na posição 9 o numero 3
+                        int conv = 0;
+                        if (linha.Length == 100 && !int.TryParse(linha.Substring(0, 9), out conv))
+                        {
+                            continue;
+                        }
                         DateTime dataBil = Convert.ToDateTime(linha.Substring(10, 2) + "/" + linha.Substring(12, 2) + "/" + linha.Substring(14, 4));
                         if (pDataI.HasValue && dataBil < pDataI.Value)
                         {
@@ -1211,7 +1219,7 @@ namespace BLL
             File.Copy(pArquivo, novo, true);
         }
 
-        public bool ValidaImportacaoBilhetes(List<Modelo.TipoBilhetes> plistaTipoBilhetes, string pArquivo, int pBilhete, string pFuncionario, DateTime? pDataI, DateTime? pDataF, List<string> log)
+        public bool ValidaImportacaoBilhetes(List<Modelo.TipoBilhetes> plistaTipoBilhetes, string pArquivo, int pBilhete, string pFuncionario, DateTime? pDataI, DateTime? pDataF, List<string> log, out List<string> listaPis)
         {
             objProgressBar.setaValorPB(5);
             ObjProgressBar.setaMensagem("Validando arquivo de bilhetes...");
@@ -1235,6 +1243,7 @@ namespace BLL
             validar.Add('$', '$');
             validar.Add('%', '%');
             DateTime data;
+            listaPis = new List<string>();
             foreach (Modelo.TipoBilhetes tp in plistaTipoBilhetes)
             {
                 if (tp.BImporta == false)
@@ -1347,6 +1356,7 @@ namespace BLL
                                             }
                                         }
                                     }
+                                    listaPis.Add(linha.Substring(22, 12));
                                     break;
                             }
                         }
@@ -1369,6 +1379,12 @@ namespace BLL
                                     //faz validacao do tipo 3
                                     if (linha.Length != 38)
                                     {
+                                        // Condição adicionada para descartar o registro que possuir na posição 9 o numero 3 (que seria registro de ponto) mas que possua 100 caracteres e as primeiros não forem numéricos, pois pode ser que seja a linha da assinatura digital e coincidentemente ela tenha na posição 9 o numero 3
+                                        int conv = 0;
+                                        if (linha.Length == 100 && !int.TryParse(linha.Substring(0, 9), out conv))
+                                        {
+                                            continue;
+                                        }
                                         log.Add(String.Format("Linha {0}: Layout diferente de REP (AFD)", qtdLidos));
                                         arquivoOk = false;
                                         qtdErrados++;
@@ -1386,6 +1402,7 @@ namespace BLL
                                             }
                                         }
                                     }
+                                    listaPis.Add(linha.Substring(22, 12));
                                     break;
                             }
                         }
