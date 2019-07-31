@@ -158,7 +158,7 @@ namespace BLL.Relatorios.V2
                     HorasTrabNoturna = item.horasTrabNoturna,
                     HorasAdNoturno = item.horasAdNoturno,
                     HorasExtraDiurna = item.horasExtraDiurna,
-                    HorasExtraNoturna = item.horasAdNoturno,
+                    HorasExtraNoturna = item.horasExtraNoturna,
                     HorasExtraInterjornada = item.horasExtraInterjornada,
                     HorasFaltaDiurna = item.horasFaltaDiurna,
                     HorasFaltaNoturna = item.horasFaltaNoturna,
