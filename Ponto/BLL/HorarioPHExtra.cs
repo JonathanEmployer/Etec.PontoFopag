@@ -591,7 +591,7 @@ namespace BLL
                 dt = dalHorarioPHExtra.GetPercentualHoraExtra(dataInicial, dataFinal, empresas, departamentos, funcionarios, tipo);
             }
 
-            pb.setaMinMaxPB(0, dt.Rows.Count);
+            pb.setaMinMaxPB(0, dt.Rows.Count+1);
             pb.setaValorPB(0);
 
             DataTable ret = new DataTable();
@@ -645,6 +645,10 @@ namespace BLL
             ret.Columns.Add("totalFaltaD");
             /*24*/
             ret.Columns.Add("totalFaltaN");
+            /*25*/
+            ret.Columns.Add("totalHoraTrabExtraMin");
+            /*26*/
+            ret.Columns.Add("totalHoraTrabExtraStr");
             #endregion
 
             int totalTrabD = 0, totalTrabN = 0, totalExtraD = 0, totalExtraN = 0, totalFaltaD = 0, totalFaltaN = 0;
@@ -698,7 +702,9 @@ namespace BLL
                     Modelo.cwkFuncoes.ConvertMinutosHora(6,totalExtraD),
                     Modelo.cwkFuncoes.ConvertMinutosHora(6,totalExtraN),
                     Modelo.cwkFuncoes.ConvertMinutosHora(6,totalFaltaD),
-                    Modelo.cwkFuncoes.ConvertMinutosHora(6,totalFaltaN)                    
+                    Modelo.cwkFuncoes.ConvertMinutosHora(6,totalFaltaN),
+                    objTotalHoras.TotalHorasTrabalhadas_ExtrasMin,
+                    objTotalHoras.TotalHorasTrabalhadas_Extras
                 };
 
                 ret.Rows.Add(values);
