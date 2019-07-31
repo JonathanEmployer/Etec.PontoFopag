@@ -568,6 +568,7 @@ namespace PontoWeb.Controllers
             //Se o projeto estiver em Debug faz o login automático
 #if DEBUG
              String con = System.Configuration.ConfigurationManager.ConnectionStrings["ConnCentralCliente"].ConnectionString;
+
             if (con.ToUpper().Contains(@"\PRD"))
             {
                 user.login = "comercial";
