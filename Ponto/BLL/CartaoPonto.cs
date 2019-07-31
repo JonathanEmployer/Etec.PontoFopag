@@ -382,7 +382,7 @@ namespace BLL
                     }
                     else
                     {
-                        int ultimoDiaMes = Convert.ToDateTime("1/" + inicioPeriodo.Month + "/" + inicioPeriodo.Year).Day;
+                        int ultimoDiaMes = DateTime.DaysInMonth(inicioPeriodo.Year, inicioPeriodo.Month);
                         if (ultimoDiaMes < fimfechamento)
                         {
                             fimPeriodo = Convert.ToDateTime(ultimoDiaMes + "/" + inicioPeriodo.Month + "/" + inicioPeriodo.Year);
