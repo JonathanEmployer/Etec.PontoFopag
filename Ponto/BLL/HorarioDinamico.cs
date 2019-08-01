@@ -771,7 +771,6 @@ namespace BLL
 
                 var dtHorariosGerarHorariosDetalhe = from row in registroRefazer.AsEnumerable()
                                                      group row by new { idhorario = row.Field<int>("idhorario"), idhorariodinamico = row.Field<int>("idhorariodinamico") } into grp
-                                                     orderby grp.Key
                                                      select new
                                                      {
                                                          idhorario = grp.Key.idhorario,
