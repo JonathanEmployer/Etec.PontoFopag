@@ -1,10 +1,14 @@
 ﻿using Modelo.EntityFramework.MonitorPontofopag;
+using Modelo.Proxy;
+using Newtonsoft.Json;
 using Quartz;
 using Quartz.Impl;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -74,18 +78,110 @@ namespace TesteProgramacao
 
             //var result = "3+D]433}1}0{sdjfhasjdfhgakdgfhaksjdfhgaksdjagksdfhgaskdfhgaksdfh{sdjnfkjasdfhlakjsdfhlakjsdfhlakjdfhalskdjfha";
             //var resultado = result.Substring(result.IndexOf('{')+1).Split('{').ToList();
-            
 
 
+            //string cs = "PONTOFOPAG_TIBRASIL";
+            //CorrigiHorariosDivergentes(cs);
 
-            //Método para teste de erros na fila de calculo do pontofopag.
-            //Para testar basta passar o número do id do job e debugar
-            TesteHangfire th = new TesteHangfire();
-            th.Simular(598367);
+            Console.ReadLine();
 
-            Console.Read();
+            ////Método para teste de erros na fila de calculo do pontofopag.
+            ////Para testar basta passar o número do id do job e debugar
+            //TesteHangfire th = new TesteHangfire();
+            //th.Simular(598367);
+
+            //Console.Read();
+        }
+
+        private static void CorrigiHorariosDivergentes(string cs)
+        {
+            List<PxyFuncionariosRecalcular> funcsRecalculo = new List<PxyFuncionariosRecalcular>();
+            string connectionString = BLL.cwkFuncoes.ConstroiConexao(cs).ConnectionString;
+            using (SqlConnection connection =
+            new SqlConnection(connectionString))
+            {
+                string queryString = @"select data,idhorariocalc, idhorario, idfuncionario, id
+                                            INTO #Temp
+                                              from (
+                                            select id, idhorario, data, legenda, idfuncionario,
+	                                               (select top(1) idhorario from mudancahorario with (nolock) where data <= marcacao.data and idfuncionario = marcacao.idfuncionario order by data desc, id) idhorariocalc
+                                              from marcacao with (nolock)
+                                             where data between '2019-07-01 00:00:00.000' and DATEADD(MONTH,1, GETDATE())
+                                               and idfechamentobh is null
+                                               and idFechamentoPonto is null
+                                               ) t where idhorario <> idhorariocalc and idhorariocalc is not null
+
+                                            select f.nome, t.idfuncionario, min(data) dataIni, max(data) dataFin
+                                            from #Temp t
+                                            inner join funcionario f on t.idfuncionario = f.id
+                                            group by f.nome, t.idfuncionario
+                                            order by nome";
+
+                try
+                {
+                    connection.Open();
+                    using (SqlCommand command = connection.CreateCommand())
+                    {
+                        command.CommandText = queryString;
+                        command.CommandType = CommandType.Text;
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                PxyFuncionariosRecalcular rec = new PxyFuncionariosRecalcular();
+                                rec.IdFuncionario = (int)reader["idfuncionario"];
+                                rec.DataInicio = (DateTime)reader["dataIni"];
+                                rec.DataFim = (DateTime)reader["dataFin"];
+                                funcsRecalculo.Add(rec);
+                            }
+                        }
+
+                        string update = @"
+                                        update marcacao
+                                           set idhorario = t.idhorariocalc
+                                         from marcacao
+                                         inner join #Temp t on marcacao.id = t.id
+                                        ";
+                        command.CommandText = update;
+                        command.CommandType = CommandType.Text;
+                        Int32 contador = Convert.ToInt32(command.ExecuteScalar());
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
+            string nomeArquivo = Guid.NewGuid().ToString();
+            string patch = @"D:\Temp\" + nomeArquivo + ".txt";
+
+            using (StreamWriter file = File.CreateText(patch))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                //serialize object directly into file stream
+                serializer.Serialize(file, funcsRecalculo);
+            }
+
+            //string patch = @"D:\Temp\b57b2e5a-eb60-497f-b7a8-07f33dfb5090.txt";
+            List<PxyFuncionariosRecalcular> funcsRecalculoRecuperado = new List<PxyFuncionariosRecalcular>();
+            var jsonText = File.ReadAllText(patch);
+            funcsRecalculoRecuperado = JsonConvert.DeserializeObject<List<PxyFuncionariosRecalcular>>(jsonText);
+
+            foreach (var item in funcsRecalculoRecuperado.GroupBy(g => new { g.DataInicio, g.DataFim }))
+            {
+                Console.WriteLine("\t{0}\t{1}\t{2}",
+                            String.Join(",", item.Select(s => s.IdFuncionario)),
+                            item.Key.DataInicio,
+                            item.Key.DataFim);
+            }
+
+            Console.WriteLine("Recalculando funcionários");
+            BLL_N.JobManager.Hangfire.Job.CalculosJob cj = new BLL_N.JobManager.Hangfire.Job.CalculosJob();
+            cj.RecalculaMarcacao(null, new JobControl(), cs, "produtoemployer", funcsRecalculo);
         }
     }
+
     class testes
     {
         public Modelo.Cw_Usuario usuarioControle { get; set; }
