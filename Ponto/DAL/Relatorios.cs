@@ -247,6 +247,7 @@ namespace DAL
                                 e.id idEmpresa,
                                 convert(varchar,e.codigo) +' | '+ e.nome Empresa,
                                 d.id idDepartamento,
+								ISNULL(p.RazaoSocial,'') AS PessoaSupervisor,
                                 convert(varchar,d.codigo) +' | '+ d.descricao Departamento,
                                 fu.id idFuncao,
                                 CONVERT(varchar, fu.codigo) + ' | '+ fu.descricao Funcao,
@@ -258,7 +259,8 @@ namespace DAL
 									) Contrato,
                                 f.Funcionarioativo
                             from funcionario f
-                                inner join empresa e on e.id = f.idempresa
+								left join dbo.Pessoa p ON p.id = f.IdPessoaSupervisor
+                                inner join empresa e on e.id = f.idempresa								
                                 inner join departamento d on d.id = f.iddepartamento
                                 inner join funcao fu on fu.id = f.idfuncao
                              inner join horario h on f.idhorario = h.id
@@ -675,6 +677,7 @@ namespace DAL
 	                               e.id idEmpresa,
 	                               convert(varchar,e.codigo) +' | '+ e.nome Empresa,
 	                               d.id idDepartamento,
+                                   ISNULL(p.RazaoSocial,'') AS PessoaSupervisor,
 	                               convert(varchar,d.codigo) +' | '+ d.descricao Departamento,
 	                               fu.id idFuncao,
 	                               CONVERT(varchar, fu.codigo) + ' | '+ fu.descricao Funcao,
@@ -692,6 +695,7 @@ namespace DAL
                                    llf.UltimaAcao,
                                    CONVERT(varchar, ho.codigo) + ' | '+ ho.descricao AS DescHorario
                               from funcionario f
+							  left join dbo.Pessoa p ON p.id = f.IdPessoaSupervisor
                              inner join empresa e on e.id = f.idempresa
                              inner join departamento d on d.id = f.iddepartamento
                              inner join funcao fu on fu.id = f.idfuncao

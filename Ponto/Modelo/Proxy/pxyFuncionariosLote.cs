@@ -8,7 +8,7 @@ namespace Modelo.Proxy
     public class pxyFuncionariosLote : pxyFuncionarioRelatorio
     {
         public bool Efetivado { get; set; }
-        [TableHTMLAttribute("Efetivado", 10, true, ItensSearch.select, OrderType.none)]
+        [TableHTMLAttribute("Efetivado", 11, true, ItensSearch.select, OrderType.none)]
         public string EfetivadoStr { 
             get {
                 return Efetivado ? "Sim" : "Não";
@@ -16,7 +16,7 @@ namespace Modelo.Proxy
         }
         public int UltimaAcao { get; set; }
 
-        [TableHTMLAttribute("Última Ação", 11, true, ItensSearch.select, OrderType.none)]
+        [TableHTMLAttribute("Última Ação", 12, true, ItensSearch.select, OrderType.none)]
         public string UltimaAcaoStr
         {
             get
@@ -24,7 +24,7 @@ namespace Modelo.Proxy
                 return Enum.GetName(typeof(Acao), UltimaAcao);
             }
         }
-        [TableHTMLAttribute("Erro", 12, true, ItensSearch.select, OrderType.none)]
+        [TableHTMLAttribute("Erro", 13, true, ItensSearch.select, OrderType.none)]
         public string DescricaoErro { get; set; }
     }
 }
