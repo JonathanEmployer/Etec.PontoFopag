@@ -257,11 +257,7 @@ namespace BLL.Util
             String text = "";
             if (exibeEmissaoPagina)
             {
-                if ((HtmlAux.Contains("Relatório Espelho de Ponto Eletrônico Detalhado")) || (HtmlAux.Contains("Espelho de Ponto Eletrônico")))
-                {
-                    text = "                                                                       Página " + writer.PageNumber + " de ";
-                }
-                else if (!(HtmlAux.Contains("Relatório Espelho de Ponto Eletrônico Detalhado")))
+                if (!((HtmlAux.Contains("Relatório Espelho de Ponto Eletrônico Detalhado")) || (HtmlAux.Contains("Espelho de Ponto Eletrônico"))))
                 {
                     text = "Data emissão: " + dataImpressao.ToString("dd/MM/yyyy HH:mm") + "   -   Página " + writer.PageNumber + " de ";
                 } 
@@ -300,7 +296,10 @@ namespace BLL.Util
             }
             if (exibeEmissaoPagina)
             {
-                headerTemplate.ShowText((writer.PageNumber - corrigePageNumber).ToString());
+                if (!((HtmlAux.Contains("Relatório Espelho de Ponto Eletrônico Detalhado")) || (HtmlAux.Contains("Espelho de Ponto Eletrônico"))))
+                {
+                    headerTemplate.ShowText((writer.PageNumber - corrigePageNumber).ToString());
+                }                    
             }
             headerTemplate.EndText();
         }
