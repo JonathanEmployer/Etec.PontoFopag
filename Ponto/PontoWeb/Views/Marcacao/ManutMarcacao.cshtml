@@ -1361,7 +1361,7 @@
     //Inicio Javascript referente a afastamento
     $("#btnExcluiAfastamento").click(function () {
         if ($("#lkpOcorrencia").val() != "" || $("#BAbonadoBool").is(":checked") || $("#BSemCalculoBool").is(":checked") || $("#txtAbonoParcialDiurno").val() != "" || $("#txtAbonoParcialNoturno").val() != "") {
-            cwkConfirmacao("", "", fCallBackExcluiu);
+            cwkConfirmacao("", "", fCallBackExcluiu);            
         } else { cwkNotificacao("Não há afastamento para ser excluído!"); }
     });
 
@@ -1370,7 +1370,6 @@
         LimpaOcorrenciaAfastamento();
         $('#bSuspensaoBool').prop("checked", false);
         $('#bSemAbonoBool').prop("checked", false);
-        DesabilitarCampoSuspensao();
     }
 
     function LimpaAfastamento() {
