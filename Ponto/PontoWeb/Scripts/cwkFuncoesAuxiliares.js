@@ -379,6 +379,69 @@ function DiferencaHoras(hora1min, hora2min, resultadomin) {
     };
 }
 
+//Função recebe dois parametros de horas e um de resultado, e quando pelo menos 2 parametros forem passados a rotina calcula o terceiro baseado na Divisao
+//Exemplo de uso na rotina acima
+function multiplicacaoHoras(hora1min, hora2min, resultadomin) {
+    if (hora1min && hora2min) {
+        resultadomin =  hora1min * hora2min;
+    }
+    else {
+        if (hora1min && resultadomin) {
+            hora2min = parseInt(resultadomin) / parseInt(hora1min);
+        }
+        else if (hora2min && resultadomin) { hora1min = parseInt(resultadomin) / hora2min };
+    }
+
+    if (!isNaN(hora1min) && hora1min) {
+        hora1min = Math.abs(hora1min)
+    }
+
+    if (!isNaN(hora2min) && hora2min) {
+        hora2min = Math.abs(hora2min)
+    }
+
+    if (!isNaN(resultadomin) && resultadomin) {
+        resultadomin = Math.abs(resultadomin)
+    }
+
+    return {
+        hora1: hora1min,
+        hora2: hora2min,
+        resultado: resultadomin
+    };
+}
+
+//Função recebe dois parametros de horas e um de resultado, e quando pelo menos 2 parametros forem passados a rotina calcula o terceiro baseado na Multiplicacao
+//Exemplo de uso na rotina acima
+function divisaoHoras(hora1min, hora2min, resultadomin) {
+    if (hora1min && hora2min) {
+        resultadomin = (parseInt(hora1min) / hora2min);
+    }
+    else {
+        if (hora1min && resultadomin) {
+            hora2min = parseInt(hora1min) / parseInt(resultadomin);
+        }
+        else if (hora2min && resultadomin) { hora1min = parseInt(hora2min) * parseInt(resultadomin) };
+    }
+
+    if (!isNaN(hora1min) && hora1min) {
+        hora1min = Math.abs(hora1min)
+    }
+
+    if (!isNaN(hora2min) && hora2min) {
+        hora2min = Math.abs(hora2min)
+    }
+
+    if (!isNaN(resultadomin) && resultadomin) {
+        resultadomin = Math.abs(resultadomin)
+    }
+
+    return {
+        hora1: hora1min,
+        hora2: hora2min,
+        resultado: resultadomin
+    };
+}
 function subtraiHoras(horaMaior, horaMenor) {
     if (isNaN(horaMaior) || !horaMaior) {
         horaMaior = 0;
