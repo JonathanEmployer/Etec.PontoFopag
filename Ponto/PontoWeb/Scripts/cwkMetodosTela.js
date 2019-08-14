@@ -292,19 +292,21 @@ $(function () {
             text: layout,
             styling: "bootstrap3",
             type: typeNotify,
-            hide: false,
-            modules: {
-                Buttons: {
+            delay: 5000,
+            Buttons: {
                     closer: false,
                     sticker: false
-                }
             }
         });
 
-        PNotifyComplete.get().css('cursor', 'pointer').click(function (e) {
-            if ($(e.target).is('.ui-pnotify-closer *, .ui-pnotify-sticker *')) return;
+        PNotifyComplete.get().click(function () {
             PNotifyComplete.remove();
         });
+
+        //PNotifyComplete.get().css('cursor', 'pointer').click(function (e) {
+        //    if ($(e.target).is('.ui-pnotify-closer *, .ui-pnotify-sticker *')) return;
+        //    PNotifyComplete.remove();
+        //});
 
         var divpr = job.UrlReferencia.replace(/\//g, "");
         if (divpr !== window.location.pathname.replace(/\//g, "")) {
