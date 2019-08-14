@@ -264,7 +264,7 @@ namespace DAL.RelatoriosSQL
                                            (
                                                 SELECT D.*,
                                                        H.tipohorario,
-                                                       H.descricao,
+                                                       horarioFuncionario.descricao,
                                                        H.HoristaMensalista,
                                                        CASE
                                                            WHEN H.HoristaMensalista = 1 THEN
@@ -371,6 +371,8 @@ namespace DAL.RelatoriosSQL
                                                         ON m.idfuncionario = D.idFuncionario
                                                     INNER JOIN horario H
                                                         ON m.idhorario = H.id
+													INNER JOIN horario horarioFuncionario
+                                                        ON horarioFuncionario.id = D.idhorario
                                                 WHERE m.data
                                                 BETWEEN @datainicial AND @datafinal 
 				 ) I  
