@@ -544,7 +544,7 @@ namespace cwkPontoMT.Integracao.Relogios.ControlID
             dscodigo = Convert.ToInt32(item.DsCodigo);
             senha = item.Senha;
             codBarras = item.DsCodigo;
-            RFID = item.RFID.GetValueOrDefault();//Pegar o valor do campo RFID a ser desenvolvido
+            RFID = (item.MIFARE ?? item.RFID).GetValueOrDefault();//Pegar o valor do campo RFID a ser desenvolvido
         }
 
         private void DadosEmpregador(out string documento, out int tipodoc, out string cei, out string razaosocial, out string local, out string cpf)

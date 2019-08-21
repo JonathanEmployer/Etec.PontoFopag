@@ -2428,33 +2428,36 @@ namespace BLL
                     {
                         total += BLL.CalculoHoras.QtdHoras(Entrada[i], Saida[i]);
                     }
-                    else
+                    else 
                     {
-                        int agora = Modelo.cwkFuncoes.ConvertHorasMinuto(DateTime.Now.ToShortTimeString());
+                        #region Old method to calculate hours
+                        //int agora = Modelo.cwkFuncoes.ConvertHorasMinuto(DateTime.Now.ToShortTimeString());
 
-                        //Se a marcação é do dia corrente ou se é jornada que passa da meia noite
-                        if (Convert.ToDateTime(data).ToShortDateString() == DateTime.Now.ToShortDateString() || (jornada24 && Convert.ToDateTime(data).ToShortDateString() == DateTime.Now.AddDays(-1).ToShortDateString()))
-                        {
-                            // Se jornada passa da meia noite adiciono mais 24 horas
-                            if (jornada24 && Convert.ToDateTime(data).ToShortDateString() == DateTime.Now.AddDays(-1).ToShortDateString())
-                            {
-                                agora += 1440;
-                            }
-                            total += agora - Entrada[i];
-                        }
-                        else
-                        {
-                            // Se jornada passa da meia noite e é referente a um dia que já passou considero 48 horas (meia noite do outro dia ao qual ele entrou.)
-                            if (jornada24)
-                            {
-                                agora = 2880;
-                            }
-                            else
-                            {
-                                agora = 1440;
-                            }
-                            total += agora - Entrada[i];
-                        }
+                        ////Se a marcação é do dia corrente ou se é jornada que passa da meia noite
+                        //if (Convert.ToDateTime(data).ToShortDateString() == DateTime.Now.ToShortDateString() || (jornada24 && Convert.ToDateTime(data).ToShortDateString() == DateTime.Now.AddDays(-1).ToShortDateString()))
+                        //{
+                        //    // Se jornada passa da meia noite adiciono mais 24 horas
+                        //    if (jornada24 && Convert.ToDateTime(data).ToShortDateString() == DateTime.Now.AddDays(-1).ToShortDateString())
+                        //    {
+                        //        agora += 1440;
+                        //    }
+                        //    total += agora - Entrada[i];
+                        //}
+                        //else
+                        //{
+                        //    // Se jornada passa da meia noite e é referente a um dia que já passou considero 48 horas (meia noite do outro dia ao qual ele entrou.)
+                        //    if (jornada24)
+                        //    {
+                        //        agora = 2880;
+                        //    }
+                        //    else
+                        //    {
+                        //        agora = 1440;
+                        //    }
+                        //    total += agora - Entrada[i];
+                        //}
+                        #endregion
+                        total += 0;
                     }
                 }
             }

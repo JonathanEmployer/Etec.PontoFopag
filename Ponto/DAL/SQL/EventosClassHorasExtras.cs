@@ -343,9 +343,9 @@ namespace DAL.SQL
             List<Modelo.EventosClassHorasExtras> novos = new List<Modelo.EventosClassHorasExtras>();
             foreach (int idClass in listClassNova)
             {
-                novos.Add(new Modelo.EventosClassHorasExtras() { IdEventos = eve.Id, IdClassificacao = idClass });
-            }
+                novos.Add(new Modelo.EventosClassHorasExtras() { IdEventos = eve.Id, IdClassificacao = idClass, Codigo= MaxCodigo() });
+            }            
             return novos;
-        }
+        }              
     }
 }

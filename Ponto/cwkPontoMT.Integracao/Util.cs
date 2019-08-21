@@ -434,5 +434,28 @@ namespace cwkPontoMT.Integracao
             return ficou;
             //return Regex.Replace(ficou, "[^0-9a-zA-Z ]+", "", RegexOptions.IgnoreCase);
         }
+
+        public static int ConvertWiegandToDecimal(string wiegand)
+        {
+            int facilityCode = 0;
+            int cardNumber = 0;
+            if (wiegand.Contains("-"))
+            {
+                facilityCode = Convert.ToInt32(wiegand.Split('-')[0]);
+                cardNumber = Convert.ToInt32(wiegand.Split('-')[1]);
+            }
+            else
+            {
+                facilityCode = Convert.ToInt32(wiegand.Substring(0, wiegand.Length - 5));
+                cardNumber = Convert.ToInt32(wiegand.Substring(wiegand.Length - 5));
+            }
+
+            string hexValueFacilityCode = facilityCode.ToString("X");
+            string hexValueCardNumber = cardNumber.ToString("X");
+            string hexCartao = hexValueFacilityCode + hexValueCardNumber;
+
+            int intValue = int.Parse(hexCartao, System.Globalization.NumberStyles.HexNumber);
+            return intValue;
+        }
     }
 }

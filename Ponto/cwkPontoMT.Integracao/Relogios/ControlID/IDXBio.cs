@@ -175,7 +175,22 @@ namespace cwkPontoMT.Integracao.Relogios.ControlID
                     bool gravouEmpregado = false;
                     try
                     {
-                        int RFIDint32 = Convert.ToInt32(item.RFID);
+                        int RFIDint32 = 0;
+                        try
+                        {
+                            if (item.MIFARE.GetValueOrDefault() > 0 || item.RFID.GetValueOrDefault() == 0)
+                            {
+                                RFIDint32 = Convert.ToInt32(item.MIFARE.GetValueOrDefault());
+                            }
+                            else
+                            {
+                                RFIDint32 = Util.ConvertWiegandToDecimal(item.RFID.GetValueOrDefault().ToString());
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            throw new Exception("Erro ao converter o número do RFID");
+                        }
 
                         sucessoEmpregado = rep.GravarUsuario(Convert.ToInt64(item.Pis), item.Nome, Convert.ToInt32(item.DsCodigo), item.Senha, "", RFIDint32, 0, out gravouEmpregado);
 

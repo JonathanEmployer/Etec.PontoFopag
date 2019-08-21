@@ -318,7 +318,7 @@
             <div class="row">
                 <div class="col-xs-12 center-block">
                     <div style="text-align: right">
-                        <button type="submit" class="btn btn-success salvando">
+                        <button type="submit" class="btn btn-success salvando desabilitar" id="btnsalvar" >
                             <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
                         </button>
                         <a class="btn btn-danger salvando"
@@ -338,6 +338,7 @@
         $(":input[type='text']:enabled:visible:first").focus();
         var redHora = $('#ReducaoHoraNoturna').val();
         ValidaReducaoHoraNoturna(redHora);
+        document.getElementById(id).disabled=false;
     });
 
     $('#ReducaoHoraNoturna').on('input', function () {
@@ -394,15 +395,16 @@
         $('#SpanCalcRed').addClass("glyphicon");
         $('#SpanCalcRed').addClass("glyphicon-remove-sign");
     }
-
+    
     $('form').submit(function () {
-        if ($(this).valid() && validaForm()) {
+            if ($(this).valid() && validaFormt()) {
+            document.getElementById('btnsalvar').disabled=true;
             return true;
         }
         return false;
     });
 
-    function validaForm() {
+    function validaFormt() {
         if ($('#SpanCalcRed').hasClass("alert-danger")) {
             var msgErro = 'Regra inválida!';
             if ($('#ReducaoHoraNoturna').val() == "" || $('#ReducaoHoraNoturna').val() == null || $('#ReducaoHoraNoturna').val() == undefined) {
