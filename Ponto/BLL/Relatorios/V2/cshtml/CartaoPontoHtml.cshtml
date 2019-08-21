@@ -90,14 +90,15 @@
                         Relatório Espelho de Ponto Eletrônico Detalhado
                     </div>
 
-                        <table style="border:1px solid black; width:100%; font-size: 7pt;">
-                            <thead>
-                                <tr><th colspan="3" style="padding:5px; text-align:left">Empregador: @cp.pxyFuncionarioCabecalhoRel.EmpresaNome &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; CNPJ: @cp.pxyFuncionarioCabecalhoRel.EmpresaCNPJCPF</th></tr>
-                                <tr><th colspan="3" style="padding:5px; text-align:left">Endereço: @enderecoEmpresa</th></tr>
-                                <tr><th colspan="3" style="padding:5px; text-align:left">Empregado: @cp.pxyFuncionarioCabecalhoRel.Pis - @cp.pxyFuncionarioCabecalhoRel.Nome</th></tr>
-                                <tr><th style="width:150px; padding:5px; text-align:left">Admissão: @cp.pxyFuncionarioCabecalhoRel.DataAdmissao</th><th style="padding:5px;">Matrícula: @cp.pxyFuncionarioCabecalhoRel.Matricula</th><th style="padding:5px; text-align:right">Período: @cp.Periodo &nbsp; &nbsp; &nbsp; &nbsp; Emissão: @DateTime.Now.ToString("dd/MM/yyyy HH:mm") - Pag. @pagina / @totalPag </th></tr>
-                            </thead>
-                        </table>
+                    <table style="border:1px solid black; width:100%; font-size: 7pt;">
+                        <thead>
+                            <tr><th colspan="3" style="padding:5px; text-align:left">Empregador: @cp.pxyFuncionarioCabecalhoRel.EmpresaNome &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; CNPJ: @cp.pxyFuncionarioCabecalhoRel.EmpresaCNPJCPF</th></tr>
+                            <tr><th colspan="3" style="padding:5px; text-align:left">Endereço: @enderecoEmpresa</th></tr>
+                            <tr><th colspan="3" style="padding:5px; text-align:left">Empregado: @cp.pxyFuncionarioCabecalhoRel.Pis - @cp.pxyFuncionarioCabecalhoRel.Nome</th></tr>
+                            <tr><th style="width:150px; padding:5px; text-align:left">Admissão: @cp.pxyFuncionarioCabecalhoRel.DataAdmissao</th><th style="padding:5px;">Matrícula: @cp.pxyFuncionarioCabecalhoRel.Matricula</th><th style="padding:5px; text-align:right">Período: @cp.Periodo &nbsp; &nbsp; &nbsp; &nbsp; Emissão: @DateTime.Now.ToString("dd/MM/yyyy HH:mm") - Pag. @pagina / @totalPag </th></tr>
+                            <tr><th colspan="3" style="padding:5px; text-align:left"><b>Legenda:</b>&nbsp;&nbsp;&nbsp;<b>A</b>- Afastamento &nbsp;&nbsp;&nbsp;<b>F</b>- Feriado&nbsp;&nbsp;&nbsp;<b>I</b>- Inclusão Banco Horas &nbsp;&nbsp;&nbsp;<b>*</b>- Marcações Alteradas &nbsp;&nbsp;&nbsp;<b>J</b>- Jornada Alternativa &nbsp;&nbsp;&nbsp;<b>M</b>- Mudança de Horário</th></tr>
+                        </thead>
+                    </table>
                     //Fim Cabeçalho relatório
                     <table style="width:100%; margin-top: 3px;" cellspacing="0">
                         <tr class="classtr Cinza">

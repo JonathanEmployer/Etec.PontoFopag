@@ -66,93 +66,94 @@
 			@foreach (Modelo.Proxy.pxyCartaoPontoEmployer cartao in Model)
 			{
 				<table style="width:100%; repeat-header: yes; border-collapse: inherit;" cellspacing="0">
-					<thead>
-						<tr>
-							<th style="width: 34px"></th> @*Data*@
-							<th style="width: 22px"></th> @*Dia*@
-							<th style="width: 22px"></th> @*Ent 1*@
-							<th style="width: 22px"></th> @*Sai 1*@
-							<th style="width: 22px"></th> @*Ent 2*@
-							<th style="width: 22px"></th> @*Sai 2*@
+                    <thead>
+                        <tr>
+                            <th style="width: 34px"></th> @*Data*@
+                            <th style="width: 22px"></th> @*Dia*@
+                            <th style="width: 22px"></th> @*Ent 1*@
+                            <th style="width: 22px"></th> @*Sai 1*@
+                            <th style="width: 22px"></th> @*Ent 2*@
+                            <th style="width: 22px"></th> @*Sai 2*@
 
-							@foreach (Modelo.Utils.CartaoPontoCamposParaCustomizacao campo in campos)
-							{
-								if (campo.NomePropriedade == "TratamentoEventos")
-								{
-									<th style="width: 30px"></th>
-									<th style="width: 24px"></th>
-									<th style="width: 28px"></th>
-								}
-								else
-								{
-									string tamnhoColuna = "";
-									if (campo.TamanhoPX > 0)
-									{
-										tamnhoColuna = "width:" + campo.TamanhoPX + "px";
-									}
-									<th style="@tamnhoColuna"></th>
-								}
-							}
-						</tr>
-						<tr>
-							<th colspan="@qtdColunasRel" scope="colgroup" class="classNomeRel" style="white-space: nowrap; padding-top:10px">Espelho de Ponto Eletrônico</th>
-						</tr>
-						@{
-							string enderecoEmpresa = String.IsNullOrEmpty(cartao.pxyFuncionarioCabecalhoRel.AlocacaoEndereco) ? cartao.pxyFuncionarioCabecalhoRel.EmpresaEndereco : cartao.pxyFuncionarioCabecalhoRel.AlocacaoEndereco;
-						}
+                            @foreach (Modelo.Utils.CartaoPontoCamposParaCustomizacao campo in campos)
+                            {
+                                if (campo.NomePropriedade == "TratamentoEventos")
+                                {
+                                    <th style="width: 30px"></th>
+                                    <th style="width: 24px"></th>
+                                    <th style="width: 28px"></th>
+                                }
+                                else
+                                {
+                                    string tamnhoColuna = "";
+                                    if (campo.TamanhoPX > 0)
+                                    {
+                                        tamnhoColuna = "width:" + campo.TamanhoPX + "px";
+                                    }
+                                    <th style="@tamnhoColuna"></th>
+                                }
+                            }
+                        </tr>
+                        <tr>
+                            <th colspan="@qtdColunasRel" scope="colgroup" class="classNomeRel" style="white-space: nowrap; padding-top:10px">Espelho de Ponto Eletrônico</th>
+                        </tr>
+                        @{
+                            string enderecoEmpresa = String.IsNullOrEmpty(cartao.pxyFuncionarioCabecalhoRel.AlocacaoEndereco) ? cartao.pxyFuncionarioCabecalhoRel.EmpresaEndereco : cartao.pxyFuncionarioCabecalhoRel.AlocacaoEndereco;
+                        }
 
-						<tr class="classTrTh"><th colspan="@qtdColunasRel" scope="colgroup" style=" padding:5px; text-align:left" class="BordaL BordaR BordaT">Empregador: @cartao.pxyFuncionarioCabecalhoRel.EmpresaNome</th></tr>
-						<tr class="classTrTh"><th colspan="@qtdColunasRel" scope="colgroup" style=" padding:5px; text-align:left" class="BordaL BordaR">Endereço: @enderecoEmpresa</th></tr>
-						<tr class="classTrTh"><th colspan="@qtdColunasRel" scope="colgroup" style=" padding:5px; text-align:left" class="BordaL BordaR">Empregado: @cartao.pxyFuncionarioCabecalhoRel.Pis - @cartao.pxyFuncionarioCabecalhoRel.Nome</th></tr>
-						<tr class="classTrTh">
-							<th colspan="@qtdColunasRel" scope="colgroup" class="BordaL BordaR">
-								<table style="width:100%; border-collapse: inherit;" cellspacing="0">
-									<tr class="classTrTh">
-										<th width=" 30%" style="text-align:left; padding:5px;">
-											Admissão: @cartao.pxyFuncionarioCabecalhoRel.DataAdmissao.ToString("dd/MM/yyyy")
-										</th>
-										<th width="20%" style="padding: 5px;">Matrícula: @cartao.pxyFuncionarioCabecalhoRel.Matricula</th>
-										<th width="50%" style="text-align:right; padding:5px;">Período: @cartao.Periodo &nbsp; &nbsp; &nbsp; &nbsp; Emissão: @DateTime.Now.ToString("dd/MM/yyyy HH:mm")</th>
-									</tr>
-								</table>
-							</th>
-						</tr>
-						<tr class="classtr Cinza">
-							<th style="text-align:center; width: 100px" class="BordaL BordaB BordaT BordaR" rowspan="2" scope="rowgroup">Data</th>
-							<th style="text-align:center" class="BordaB BordaT BordaR" rowspan="2" scope="rowgroup">Dia</th>
-							<th style="text-align:center" class="BordaB BordaT BordaR" colspan="4" scope="colgroup">Jornada Realizada</th>
-							@foreach (Modelo.Utils.CartaoPontoCamposParaCustomizacao campo in campos)
-							{
-								if (campo.NomePropriedade == "TratamentoEventos")
-								{
-									<th style="text-align:center" class="BordaB BordaT BordaR" colspan="3" scope="colgroup"> Tratamentos / eventos</th>
-								}
-								else
-								{
-									<th style="text-align:center" class="BordaB BordaT BordaR" rowspan="2" scope="rowgroup">
-										@campo.Header
-										@if ((campo.NomePropriedade == "BancoHoras") || (campo.NomePropriedade == "BancoHorasCredito" && !cartao.Totalizador.SaldoAnteriorBH.Contains("-")) || (campo.NomePropriedade == "BancoHorasDebito" && cartao.Totalizador.SaldoAnteriorBH.Contains("-")))
-										{
-											<br />
-											@cartao.Totalizador.SaldoAnteriorBH
-										}
-									</th>
-								}
-							}
-						</tr>
-						<tr class="classtr Cinza">
-							<th style="text-align:center" class="BordaB BordaR Cinza">Ent.</th>
-							<th style="text-align:center" class="BordaB Cinza BordaR">Saí.</th>
-							<th style="text-align:center" class="BordaB Cinza BordaR">Ent.</th>
-							<th style="text-align:center" class="BordaB Cinza BordaR">Saí.</th>
-							@if (campos.Where(w => w.NomePropriedade == "TratamentoEventos").Count() > 0)
-							{
-								<th style="text-align:center" class="BordaB Cinza BordaR">Horário</th>
-								<th style="text-align:center" class="BordaB Cinza BordaR">Ocor.</th>
-								<th style="text-align:center" class="BordaB Cinza BordaR">Motivo</th>
-							}
-						</tr>
-					</thead>
+                        <tr class="classTrTh"><th colspan="@qtdColunasRel" scope="colgroup" style=" padding:5px; text-align:left" class="BordaL BordaR BordaT">Empregador: @cartao.pxyFuncionarioCabecalhoRel.EmpresaNome</th></tr>
+                        <tr class="classTrTh"><th colspan="@qtdColunasRel" scope="colgroup" style=" padding:5px; text-align:left" class="BordaL BordaR">Endereço: @enderecoEmpresa</th></tr>
+                        <tr class="classTrTh"><th colspan="@qtdColunasRel" scope="colgroup" style=" padding:5px; text-align:left" class="BordaL BordaR">Empregado: @cartao.pxyFuncionarioCabecalhoRel.Pis - @cartao.pxyFuncionarioCabecalhoRel.Nome</th></tr>
+                        <tr class="classTrTh">
+                            <th colspan="@qtdColunasRel" scope="colgroup" class="BordaL BordaR">
+                                <table style="width:100%; border-collapse: inherit;" cellspacing="0">
+                                    <tr class="classTrTh">
+                                        <th width=" 30%" style="text-align:left; padding:5px;">
+                                            Admissão: @cartao.pxyFuncionarioCabecalhoRel.DataAdmissao.ToString("dd/MM/yyyy")
+                                        </th>
+                                        <th width="20%" style="padding: 5px;">Matrícula: @cartao.pxyFuncionarioCabecalhoRel.Matricula</th>
+                                        <th width="50%" style="text-align:right; padding:5px;">Período: @cartao.Periodo &nbsp; &nbsp; &nbsp; &nbsp; Emissão: @DateTime.Now.ToString("dd/MM/yyyy HH:mm")</th>
+                                    </tr>
+                                </table>
+                            </th>
+                        </tr>
+                        <tr class="classTrTh"><th colspan="@qtdColunasRel" scope="colgroup" style=" padding:5px; text-align:left" class="BordaL BordaR"><b>Legenda:</b>&nbsp;&nbsp;&nbsp;<b>A</b>- Afastamento &nbsp;&nbsp;&nbsp;<b>F</b>- Feriado&nbsp;&nbsp;&nbsp;<b>I</b>- Inclusão Banco Horas &nbsp;&nbsp;&nbsp;<b>*</b>- Marcações Alteradas &nbsp;&nbsp;&nbsp;<b>J</b>- Jornada Alternativa &nbsp;&nbsp;&nbsp;<b>M</b>- Mudança de Horário</th></tr>
+                        <tr class="classtr Cinza">
+                            <th style="text-align:center; width: 100px" class="BordaL BordaB BordaT BordaR" rowspan="2" scope="rowgroup">Data</th>
+                            <th style="text-align:center" class="BordaB BordaT BordaR" rowspan="2" scope="rowgroup">Dia</th>
+                            <th style="text-align:center" class="BordaB BordaT BordaR" colspan="4" scope="colgroup">Jornada Realizada</th>
+                            @foreach (Modelo.Utils.CartaoPontoCamposParaCustomizacao campo in campos)
+                            {
+                                if (campo.NomePropriedade == "TratamentoEventos")
+                                {
+                                    <th style="text-align:center" class="BordaB BordaT BordaR" colspan="3" scope="colgroup"> Tratamentos / eventos</th>
+                                }
+                                else
+                                {
+                                    <th style="text-align:center" class="BordaB BordaT BordaR" rowspan="2" scope="rowgroup">
+                                        @campo.Header
+                                        @if ((campo.NomePropriedade == "BancoHoras") || (campo.NomePropriedade == "BancoHorasCredito" && !cartao.Totalizador.SaldoAnteriorBH.Contains("-")) || (campo.NomePropriedade == "BancoHorasDebito" && cartao.Totalizador.SaldoAnteriorBH.Contains("-")))
+                                        {
+                                            <br />
+                                            @cartao.Totalizador.SaldoAnteriorBH
+                                        }
+                                    </th>
+                                }
+                            }
+                        </tr>
+                        <tr class="classtr Cinza">
+                            <th style="text-align:center" class="BordaB BordaR Cinza">Ent.</th>
+                            <th style="text-align:center" class="BordaB Cinza BordaR">Saí.</th>
+                            <th style="text-align:center" class="BordaB Cinza BordaR">Ent.</th>
+                            <th style="text-align:center" class="BordaB Cinza BordaR">Saí.</th>
+                            @if (campos.Where(w => w.NomePropriedade == "TratamentoEventos").Count() > 0)
+                            {
+                                <th style="text-align:center" class="BordaB Cinza BordaR">Horário</th>
+                                <th style="text-align:center" class="BordaB Cinza BordaR">Ocor.</th>
+                                <th style="text-align:center" class="BordaB Cinza BordaR">Motivo</th>
+                            }
+                        </tr>
+                    </thead>
 
 					<tbody>
 						@foreach (Modelo.Proxy.PxyCPEMarcacao marc in cartao.Marcacao)
