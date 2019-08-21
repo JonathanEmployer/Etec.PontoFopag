@@ -341,9 +341,11 @@ namespace DAL.SQL
         public List<Modelo.EventosClassHorasExtras> GerarEventosClassHorasExtrasPorEvento(Modelo.Eventos eve, List<int> listClassNova)
         {
             List<Modelo.EventosClassHorasExtras> novos = new List<Modelo.EventosClassHorasExtras>();
+            var i = MaxCodigo();
             foreach (int idClass in listClassNova)
-            {
-                novos.Add(new Modelo.EventosClassHorasExtras() { IdEventos = eve.Id, IdClassificacao = idClass, Codigo= MaxCodigo() });
+            {       
+                novos.Add(new Modelo.EventosClassHorasExtras() { IdEventos = eve.Id, IdClassificacao = idClass, Codigo= i});
+                i++;
             }            
             return novos;
         }              
