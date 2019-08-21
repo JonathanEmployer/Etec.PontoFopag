@@ -68,6 +68,16 @@
                                         @Html.ValidationMessageFor(model => model.FimAdNoturno)
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="checkbox" style="margin:2px">
+                                            <label>
+                                                @Html.CheckBoxFor(model => model.Flg_Estender_Periodo_Noturno)
+                                                @Html.LabelFor(model => model.Flg_Estender_Periodo_Noturno, new { @class = "control-label label-sm", @style = "font-weight: bold;" })
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
                                 <p></p>
                                 <div class="row">
                                     <div class="col-md-7">

@@ -47,14 +47,15 @@ namespace DAL.SQL
                                     , ISNULL(parm.toleranciaAdicionalNoturno, 0) AS toleranciaAdicionalNoturno
                                     , parm.MomentoPreAssinalado
                                     , Flg_Separar_Trabalhadas_Noturna_Extras_Noturna
+                                    , Flg_Estender_Periodo_Noturno
                              FROM parametros parm left JOIN horario h ON parm.IdHorarioPadraoFunc = h.id";
 
             SELECTPRI = @"   SELECT TOP 1 parametros.*, CONVERT(varchar, h.codigo) + ' | ' + h.descricao as NomeHorario  FROM parametros  left JOIN horario h ON parametros.IdHorarioPadraoFunc = h.id ORDER BY parametros.codigo";
 
             INSERT = @"  INSERT INTO parametros
-							( codigo,  descricao,  inicioadnoturno,  fimadnoturno,  thoraextra,  thorafalta,  tipocompactador,  fazerbackupentrada,  fazerbackupsaida,  verificarbilhetes,  faltaemdias,  imprimeresponsavel,  imprimeobservacao,  tipohoraextrafalta,  imprimirnumrelogio,  campoobservacao,  incdata,  inchora,  incusuario,  arquivobackup,  ExportarValorZerado,  DiaFechamentoInicial,  DiaFechamentoFinal,  MudaPeriodoImediatamento,  bConsiderarHEFeriadoPHoraNoturna,  Email,  SenhaEmail,  SMTP,  SSL,  Porta,  PercAdicNoturno,  ReducaoHoraNoturna,  LogoEmpresa,  THoraExtraEntrada,  THoraExtraSaida,  THoraFaltaEntrada,  THoraFaltaSaida,  HabilitarControleInItinere,  IntegrarSalarioFunc,  BloqueiaDadosIntegrados,  IdHorarioPadraoFunc,  TipoHorarioPadraoFunc,  TIntervaloExtra,  TIntervaloFalta,  toleranciaAdicionalNoturno,  MomentoPreAssinalado, Flg_Separar_Trabalhadas_Noturna_Extras_Noturna)
+							( codigo,  descricao,  inicioadnoturno,  fimadnoturno,  thoraextra,  thorafalta,  tipocompactador,  fazerbackupentrada,  fazerbackupsaida,  verificarbilhetes,  faltaemdias,  imprimeresponsavel,  imprimeobservacao,  tipohoraextrafalta,  imprimirnumrelogio,  campoobservacao,  incdata,  inchora,  incusuario,  arquivobackup,  ExportarValorZerado,  DiaFechamentoInicial,  DiaFechamentoFinal,  MudaPeriodoImediatamento,  bConsiderarHEFeriadoPHoraNoturna,  Email,  SenhaEmail,  SMTP,  SSL,  Porta,  PercAdicNoturno,  ReducaoHoraNoturna,  LogoEmpresa,  THoraExtraEntrada,  THoraExtraSaida,  THoraFaltaEntrada,  THoraFaltaSaida,  HabilitarControleInItinere,  IntegrarSalarioFunc,  BloqueiaDadosIntegrados,  IdHorarioPadraoFunc,  TipoHorarioPadraoFunc,  TIntervaloExtra,  TIntervaloFalta,  toleranciaAdicionalNoturno,  MomentoPreAssinalado, Flg_Separar_Trabalhadas_Noturna_Extras_Noturna, Flg_Estender_Periodo_Noturno)
 							VALUES
-							(@codigo, @descricao, @inicioadnoturno, @fimadnoturno, @thoraextra, @thorafalta, @tipocompactador, @fazerbackupentrada, @fazerbackupsaida, @verificarbilhetes, @faltaemdias, @imprimeresponsavel, @imprimeobservacao, @tipohoraextrafalta, @imprimirnumrelogio, @campoobservacao, @incdata, @inchora, @incusuario, @arquivobackup, @ExportarValorZerado, @DiaFechamentoInicial, @DiaFechamentoFinal, @MudaPeriodoImediatamento, @bConsiderarHEFeriadoPHoraNoturna, @Email, @SenhaEmail, @SMTP, @SSL, @Porta, @PercAdicNoturno, @ReducaoHoraNoturna, @LogoEmpresa, @THoraExtraEntrada, @THoraExtraSaida, @THoraFaltaEntrada, @THoraFaltaSaida, @HabilitarControleInItinere, @IntegrarSalarioFunc, @BloqueiaDadosIntegrados, @IdHorarioPadraoFunc, @TipoHorarioPadraoFunc, @TIntervaloExtra, @TIntervaloFalta, @toleranciaAdicionalNoturno, @MomentoPreAssinalado, @Flg_Separar_Trabalhadas_Noturna_Extras_Noturna) 
+							(@codigo, @descricao, @inicioadnoturno, @fimadnoturno, @thoraextra, @thorafalta, @tipocompactador, @fazerbackupentrada, @fazerbackupsaida, @verificarbilhetes, @faltaemdias, @imprimeresponsavel, @imprimeobservacao, @tipohoraextrafalta, @imprimirnumrelogio, @campoobservacao, @incdata, @inchora, @incusuario, @arquivobackup, @ExportarValorZerado, @DiaFechamentoInicial, @DiaFechamentoFinal, @MudaPeriodoImediatamento, @bConsiderarHEFeriadoPHoraNoturna, @Email, @SenhaEmail, @SMTP, @SSL, @Porta, @PercAdicNoturno, @ReducaoHoraNoturna, @LogoEmpresa, @THoraExtraEntrada, @THoraExtraSaida, @THoraFaltaEntrada, @THoraFaltaSaida, @HabilitarControleInItinere, @IntegrarSalarioFunc, @BloqueiaDadosIntegrados, @IdHorarioPadraoFunc, @TipoHorarioPadraoFunc, @TIntervaloExtra, @TIntervaloFalta, @toleranciaAdicionalNoturno, @MomentoPreAssinalado, @Flg_Separar_Trabalhadas_Noturna_Extras_Noturna, @Flg_Estender_Periodo_Noturno) 
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE parametros SET
@@ -105,6 +106,7 @@ namespace DAL.SQL
                             , toleranciaAdicionalNoturno = @toleranciaAdicionalNoturno
                             , MomentoPreAssinalado = @MomentoPreAssinalado
                             , Flg_Separar_Trabalhadas_Noturna_Extras_Noturna = @Flg_Separar_Trabalhadas_Noturna_Extras_Noturna
+                            , Flg_Estender_Periodo_Noturno = @Flg_Estender_Periodo_Noturno
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM parametros WHERE id = @id";
@@ -194,7 +196,7 @@ namespace DAL.SQL
             ((Modelo.Parametros)obj).ToleranciaAdicionalNoturno = dr["toleranciaAdicionalNoturno"] is DBNull ? 0 : Convert.ToInt32(dr["toleranciaAdicionalNoturno"]);
             ((Modelo.Parametros)obj).MomentoPreAssinalado = dr["MomentoPreAssinalado"] is DBNull ? (Int16)0 : Convert.ToInt16(dr["MomentoPreAssinalado"]);
             ((Modelo.Parametros)obj).Flg_Separar_Trabalhadas_Noturna_Extras_Noturna = dr["Flg_Separar_Trabalhadas_Noturna_Extras_Noturna"] is DBNull ? false : Convert.ToBoolean(dr["Flg_Separar_Trabalhadas_Noturna_Extras_Noturna"]);
-
+            ((Modelo.Parametros)obj).Flg_Estender_Periodo_Noturno = dr["Flg_Estender_Periodo_Noturno"] is DBNull ? false : Convert.ToBoolean(dr["Flg_Estender_Periodo_Noturno"]);
         }
 
         protected override SqlParameter[] GetParameters()
@@ -251,7 +253,8 @@ namespace DAL.SQL
                 new SqlParameter ("@TIntervaloFalta", SqlDbType.VarChar),
                 new SqlParameter ("@toleranciaAdicionalNoturno", SqlDbType.Int),
                 new SqlParameter ("@MomentoPreAssinalado", SqlDbType.SmallInt),
-                new SqlParameter ("@Flg_Separar_Trabalhadas_Noturna_Extras_Noturna", SqlDbType.SmallInt)
+                new SqlParameter ("@Flg_Separar_Trabalhadas_Noturna_Extras_Noturna", SqlDbType.SmallInt),
+                new SqlParameter ("@Flg_Estender_Periodo_Noturno", SqlDbType.SmallInt)  
             };
             return parms;
         }
@@ -313,6 +316,7 @@ namespace DAL.SQL
             parms[48].Value = ((Modelo.Parametros)obj).ToleranciaAdicionalNoturno;
             parms[49].Value = ((Modelo.Parametros)obj).MomentoPreAssinalado;
             parms[50].Value = ((Modelo.Parametros)obj).Flg_Separar_Trabalhadas_Noturna_Extras_Noturna;
+            parms[51].Value = ((Modelo.Parametros)obj).Flg_Estender_Periodo_Noturno;
         }
 
         public Modelo.Parametros LoadObject(int id)
@@ -466,6 +470,21 @@ namespace DAL.SQL
                                                                                     where f.id = @idfuncionario", parms));
 
             return Separar;
+        }
+
+        public bool Flg_Estender_Periodo_Noturno(int idfuncionario)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@idfuncionario", SqlDbType.Int)
+            };
+            parms[0].Value = idfuncionario;
+            bool EstenderNoturno = Convert.ToBoolean(db.ExecuteScalar(CommandType.Text, @"select ISNULL(p.Flg_Estender_Periodo_Noturno, 0) from funcionario f
+                                                                                    left join horario h on f.idhorario = h.id
+                                                                                    left join parametros p on h.idparametro = p.id
+                                                                                    where f.id = @idfuncionario", parms));
+
+            return EstenderNoturno;
         }
 
         #endregion

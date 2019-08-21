@@ -340,6 +340,11 @@ namespace DAL.FB
             throw new NotImplementedException();
         }
 
+        public bool Flg_Estender_Periodo_Noturno(int idfuncionario)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

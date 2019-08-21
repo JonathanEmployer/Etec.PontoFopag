@@ -275,5 +275,11 @@ namespace Modelo
         [Display(Name = "Separar Trabalhadas Not. / Extra Not.")]
         public bool Flg_Separar_Trabalhadas_Noturna_Extras_Noturna { get; set; }
 
+        /// <summary>
+        /// Estender período do Ad. Noturno
+        /// </summary>
+        [Display(Name = "Estender período do Ad. Noturno")]
+        public bool Flg_Estender_Periodo_Noturno { get; set; }
+
     }
 }

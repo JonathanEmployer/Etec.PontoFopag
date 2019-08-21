@@ -542,7 +542,7 @@ namespace BLL
             this.SetaVariaveisAfastamento(pMarcacao);
             this.SetaVariaveisHorario(pMarcacao);
             this.SetaVariaveisMarcacao(pMarcacao);
-
+            
             horasExtraDiurnaFeriadoMin = 0;
             horasExtraNoturnaFeriadoMin = 0;
             feriadoProximoDia = false;
@@ -552,6 +552,28 @@ namespace BLL
             List<Modelo.BilhetesImp> tratamentosMarcacaoAnt = new Modelo.BilhetesImp().Clone(tratamentosMarcacao);
             PreencheMarcacao(pMarcacao);
             Modelo.Marcacao objMarcacaoAnt = new Modelo.Marcacao().Clone(objMarcacao);
+
+            //Verifica Parametro Estender Periodo Noturno
+            bllParametros = new BLL.Parametros(ConnectionString, UsuarioLogado);
+            if (bllParametros.Flg_Estender_Periodo_Noturno(idFuncionario))
+            {
+                if((saida_1Min > saida_2Min) && (saida_2Min < 0))
+                {
+                    fimAdNoturno = saida_1Min;
+                }
+                else if ((saida_2Min > saida_3Min) && (saida_3Min < 0))
+                {
+                    fimAdNoturno = saida_2Min;
+                }
+                else if ((saida_3Min > saida_4Min) && (saida_4Min < 0))
+                {
+                    fimAdNoturno = saida_3Min;
+                }
+                else if (saida_4Min > saida_3Min)
+                {
+                    fimAdNoturno = saida_4Min;
+                }
+            }
 
             legenda = BuscaLegenda();
             LegendasConcatenadas = BuscaLegendaConcatenada();
@@ -778,13 +800,12 @@ namespace BLL
             horasExtraNoturnaMin += horasExtraNoturnaFeriadoMin;
             AdicionalNoturno += horasExtraNoturnaFeriadoMin;
 
-            bllParametros = new BLL.Parametros(ConnectionString, UsuarioLogado);
             if (bllParametros.Flg_Separar_Trabalhadas_Noturna_Extras_Noturna(idFuncionario))
             {
                 AdicionalNoturno -= horasExtraNoturnaMin;
             }
 
-
+                    
             List<Modelo.BilhetesImp> tratamentosDia = tratamentomarcacaoList.Where(x => x.Mar_data == data && x.DsCodigo == Convert.ToString(pMarcacao["dscodigo"])).ToList();
             List<Modelo.BilhetesImp> tratamentosDiaAnterior = tratamentomarcacaoList.Where(x => x.Mar_data == data.AddDays(-1) && x.DsCodigo == Convert.ToString(pMarcacao["dscodigo"])).ToList();
             List<Modelo.BilhetesImp> tratamentosDiaSeguinte = tratamentomarcacaoList.Where(x => x.Mar_data == data.AddDays(1) && x.DsCodigo == Convert.ToString(pMarcacao["dscodigo"])).ToList();
@@ -4576,7 +4597,7 @@ namespace BLL
             tHoraExtraIntervaloMin = pMarcacao["TIntervaloExtra"] == System.DBNull.Value ? (int?)null : Convert.ToInt32(pMarcacao["TIntervaloExtra"]);
             tHoraFaltaIntervaloMin = pMarcacao["TIntervaloFalta"] == System.DBNull.Value ? (int?)null : Convert.ToInt32(pMarcacao["TIntervaloFalta"]);
             inicioAdNoturno = Convert.ToInt32(pMarcacao["inicioadnoturnomin"]);
-            fimAdNoturno = Convert.ToInt32(pMarcacao["fimadnoturnomin"]);
+            fimAdNoturno = Convert.ToInt32(pMarcacao["fimadnoturnomin"]); 
             ordenabilhetesaida = Convert.ToInt32(pMarcacao["ordenabilhetesaida"]);
             limite_max = Convert.ToInt32(pMarcacao["limitemax"]);
             limite_min = Convert.ToInt32(pMarcacao["limitemin"]);
