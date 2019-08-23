@@ -2,6 +2,7 @@
 using BLL.Relatorios.V2;
 using Modelo.Relatorios;
 using Modelo.EntityFramework.MonitorPontofopag;
+using System.Threading;
 
 namespace BLL_N.JobManager.Hangfire.Job
 {
@@ -268,6 +269,12 @@ namespace BLL_N.JobManager.Hangfire.Job
             RelatorioTotalHorasBLL rel = new RelatorioTotalHorasBLL(relatorioFiltro, userPF, pb);
             string caminhoArquivo = rel.GetRelatorio();
             JobControlManager.UpdateFileDownload(context, caminhoArquivo);
+        }
+
+        public int GerarJobsTesteProcessamento(PerformContext context, int tempo)
+        {
+            Thread.Sleep(tempo*1000);
+            return tempo;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace MonitorJobs
             try
             {
                 ConfigureAuth(app);
-                CriaUsuarioPadrao();
+                //CriaUsuarioPadrao();
 
                 ConfigHangFireDashboard(app);
             }

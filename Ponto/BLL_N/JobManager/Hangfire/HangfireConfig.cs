@@ -3,9 +3,11 @@ using Hangfire.Console;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Hangfire.Azure.ServiceBusQueue;
+using Hangfire.SqlServer;
+using Microsoft.ServiceBus;
+using Microsoft.ServiceBus.Messaging;
+using Microsoft.Azure;
 
 namespace BLL_N.JobManager.Hangfire
 {
@@ -13,29 +15,53 @@ namespace BLL_N.JobManager.Hangfire
     {
         public void ConfigureHangfireClient()
         {
-            GlobalConfiguration.Configuration
-                .UseSqlServerStorage("MonitorPontofopag")
-                .UseMsmqQueues(@".\Private$\hangfire-calc", HangfireQueues())
-                .UseConsole();
-            // Specify other options here
-
-            GlobalConfiguration.Configuration.UseFilter(new AutomaticRetryAttribute
+            var connectionStringServiceBus = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
+            if (string.IsNullOrEmpty(connectionStringServiceBus))
             {
-                Attempts = 3
-            })
-            .UseFilter(new HangfireJobFilterAttribute());
+                GlobalConfiguration.Configuration
+                .UseSqlServerStorage("MonitorPontofopag")
+                .UseMsmqQueues(@".\Private$\hangfire-calc", HangfireQueues());
+            }
+            else
+            {
+                var namespaceManager = NamespaceManager.CreateFromConnectionString(connectionStringServiceBus);
+                string[] queues = HangfireQueues();
+                foreach (var queue in queues)
+                {
+                    if (!namespaceManager.QueueExists(queue))
+                        namespaceManager.CreateQueue(queue);
+                }
+                
+                var sqlStorage = new SqlServerStorage("MonitorPontofopag");
+                Action<QueueDescription> configureAction = qd =>
+                {
+                    qd.MaxSizeInMegabytes = 5120;
+                    qd.DefaultMessageTimeToLive = new TimeSpan(0, 1, 0);
+                };
+                sqlStorage.UseServiceBusQueues(new ServiceBusQueueOptions
+                {
+                    ConnectionString = connectionStringServiceBus,
+                    Configure = configureAction,
+                    Queues = queues,
+                    CheckAndCreateQueues = false,
+                    LoopReceiveTimeout = TimeSpan.FromMilliseconds(1000)
+                });
+                GlobalConfiguration.Configuration.UseStorage(sqlStorage);
+            }
+           
+            GlobalConfiguration.Configuration
+                .UseConsole()
+                .UseFilter(new AutomaticRetryAttribute{ Attempts = 3 })
+                .UseFilter(new HangfireJobFilterAttribute());
         }
 
         private string[] HangfireQueues()
         {
             //A ordem do hangfire é alfabética, não importa os nomes.
             string prioridadeAntigaPontoWeb = BLL.cwkFuncoes.RemoveAcentosECaracteresEspeciais(Environment.MachineName.ToLower()); // Prioridade para atender a progress antiga do Pontoweb
-            List<string> queues = new List<string>() {
-                    prioridadeAntigaPontoWeb
-                };
+            List<string> queues = new List<string>() { prioridadeAntigaPontoWeb };
 
             //Quando em Debug não adiciona as prioridades que devem ser processadas apenas pela produção.
-
             string queuesConfig = ConfigurationManager.AppSettings["hangfireQueues"];
 
             if (!String.IsNullOrEmpty(queuesConfig))
@@ -55,6 +81,6 @@ namespace BLL_N.JobManager.Hangfire
             return new BackgroundJobServer(options);
         }
 
-        
+
     }
 }

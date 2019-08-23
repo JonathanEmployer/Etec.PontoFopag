@@ -526,6 +526,12 @@ namespace BLL_N.JobManager.Hangfire
             return jobReturn;
         }
 
+        public string GerarJobsTesteProcessamento(int tempo, string queued)
+        {
+            string idJob = new BackgroundJobClient().Create<RelatoriosJob>(x => x.GerarJobsTesteProcessamento(null, tempo), new EnqueuedState(queued));
+            return idJob;
+        }
+
         #region Metodos
 
         public string GetDescricaoParametrosFun(IRelatorioModel parametros)
