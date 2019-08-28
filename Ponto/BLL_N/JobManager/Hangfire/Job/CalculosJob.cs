@@ -218,7 +218,7 @@ namespace BLL_N.JobManager.Hangfire.Job
             pb.incrementaPBCMensagem(1, String.Format("Calculando DSR (Quantidade {0}/{1})", stepCalc++, qtdLote));
             Parallel.ForEach(lote, (currentFile) =>
             {
-                if (currentFile.Marcacoes.Count > 0)
+                if (currentFile.DtMarcacoes.Rows.Count > 0)
                 {
                     pb.incrementaPBCMensagem(0, String.Format("Calculando DSR (Quantidade {0}/{1})", stepCalc++, qtdLote));
                     BLL.CalculaMarcacao bllCalculaMarcacao = new BLL.CalculaMarcacao(currentFile.DtMarcacoes, tratamentomarcacaoList, bancoHorasList, jornadaAlternativaList, fechamentoBHDList, ocorrenciaList, compensacaoList, pbInt, userPF.ConnectionString, userPF);

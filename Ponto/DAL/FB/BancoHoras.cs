@@ -799,5 +799,10 @@ namespace DAL.FB
         {
             throw new NotImplementedException();
         }
+
+        public DataTable GetCredDebBancoHorasComSaldoPeriodo(List<int> idsFuncionarios, DateTime pdataInicial, DateTime pDataFinal)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

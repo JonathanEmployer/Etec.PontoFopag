@@ -24,5 +24,6 @@ namespace DAL
         Modelo.BancoHoras BancoHorasPorFuncionario(DateTime data, int idFuncionario);
         //DataTable GetCreditoDebitoCalculoBanco(DateTime pInicial, DateTime pFinal, List<int> idsFuncs);
         List<Modelo.BancoHoras> GetAllListFuncs(bool verificaPermissao, List<int> idsFuncs);
+        DataTable GetCredDebBancoHorasComSaldoPeriodo(List<int> idsFuncionarios, DateTime pdataInicial, DateTime pDataFinal);
     }
 }

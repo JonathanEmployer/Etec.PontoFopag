@@ -2,6 +2,7 @@
 using Modelo;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -48,7 +49,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                     Dictionary<string, string> erros = new Dictionary<string, string>();
                     BLL.Funcionario bllFuncionario = new BLL.Funcionario(connectionStr);
                     Funcionario func = bllFuncionario.GetFuncionarioPorCpfeMatricula(CPFint, Matricula);
-                    if (func == null || func.Id == null)
+                    if (func == null || func.Id == 0)
                     {
                         retErro.erroGeral = "Funcionário não Encontrado - Combinação CPF e Matrícula não encontrada";
                         return Request.CreateResponse(HttpStatusCode.NotFound, retErro);
@@ -57,8 +58,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                     BLL.ConfirmacaoPainel bllConfirmacao;
                     BuscaPeriodoFechamento(ref MesBase, ref AnoBase, connectionStr, func, out datainicio, out datafim, out diafechamentoinicial, out diafechamentofinal, out bllConfirmacao);
 
-                    List<Models.SaldoBancoHorasMes>Lista = new List<Models.SaldoBancoHorasMes>();
-
+                    List<Models.SaldoBancoHorasMes> lSaldoBancoHorasMes = new List<Models.SaldoBancoHorasMes>();
 
                     for (int i = 0; i < QuantidadeMesesAnteriores; i++)
                     {
@@ -68,14 +68,14 @@ namespace cwkWebAPIPontoWeb.Controllers
                         DateTime mesdemissao;
                         if (func.Datademissao != null)
                         {
-                            mesdemissao = new DateTime(func.Datademissao.Value.Year, func.Datademissao.GetValueOrDefault().Month, 1);    
+                            mesdemissao = new DateTime(func.Datademissao.Value.Year, func.Datademissao.GetValueOrDefault().Month, 1);
                         }
                         else
                         {
                             mesdemissao = periodofechamento.DataFechamentoFinal.AddMonths(1);
                         }
                         DateTime mesfechamento = new DateTime(periodofechamento.DataFechamentoFinal.Year, periodofechamento.DataFechamentoFinal.Month, 1);
-                        
+
                         if (mesdemissao >= mesfechamento)
                         {
                             if (periodofechamento.DataFechamentoFinal < func.Dataadmissao)
@@ -83,32 +83,27 @@ namespace cwkWebAPIPontoWeb.Controllers
                                 break;
                             }
 
-                            Modelo.TotalHoras objTotalHoras = new Modelo.TotalHoras(periodofechamento.DataFechamentoInicial, periodofechamento.DataFechamentoFinal);
-
                             BLL.Marcacao dalMarcacao = new BLL.Marcacao(connectionStr);
-                            int qtd = dalMarcacao.QuantidadeMarcacoes(func.Id, periodofechamento.DataFechamentoInicial, periodofechamento.DataFechamentoFinal);
 
                             if (periodofechamento.DataFechamentoFinal.Date >= DateTime.Now.Date)
                             {
                                 periodofechamento.DataFechamentoFinal = DateTime.Now.AddDays(-1);
                             }
-                            
-                            if (!((func.bFuncionarioativo || func.Excluido == 1) && qtd == 0))
+
+                            if ((func.bFuncionarioativo && func.Excluido == 0))
                             {
-                                var totalizadorHoras = new BLL.TotalizadorHorasFuncionario(func, periodofechamento.DataFechamentoInicial, periodofechamento.DataFechamentoFinal, connectionStr, null);
-                                totalizadorHoras.TotalizeHorasEBancoHoras(objTotalHoras);
-
-
                                 Models.SaldoBancoHorasMes SaldoBancoHorasMes = new Models.SaldoBancoHorasMes();
 
-                                SaldoBancoHorasMes.BancoHorasAcumulado = objTotalHoras.sinalSaldoBHAtual + objTotalHoras.saldoBHAtual;
-                                SaldoBancoHorasMes.BancoHorasMensal = objTotalHoras.sinalSaldoBHPeriodo + objTotalHoras.saldoBHPeriodo;
+                                SaldoBancoHorasMes.BancoHorasAcumulado = "00:00";
+                                SaldoBancoHorasMes.BancoHorasMensal = "00:00";
+                                SaldoBancoHorasMes.PeriodoInicio = periodofechamento.DataFechamentoInicial;
+                                SaldoBancoHorasMes.PeriodoFim = periodofechamento.DataFechamentoFinal;
                                 SaldoBancoHorasMes.Data = Convert.ToDateTime("01/" + MesBase + "/" + AnoBase);
                                 SaldoBancoHorasMes.MesAno = SaldoBancoHorasMes.Data.ToString("MMMM", CultureInfo.CreateSpecificCulture("pt")).ToUpper().Substring(0, 3) + "/" + AnoBase;
 
                                 Modelo.ConfirmacaoPainel confirmacao = bllConfirmacao.GetPorMesAnoIdFunc(MesBase, AnoBase, func.Id);
                                 SaldoBancoHorasMes.ConfirmadoPainel = confirmacao != null && confirmacao.Id > 0 ? true : false;
-                                Lista.Add(SaldoBancoHorasMes);
+                                lSaldoBancoHorasMes.Add(SaldoBancoHorasMes);
                             }
                         }
 
@@ -122,7 +117,30 @@ namespace cwkWebAPIPontoWeb.Controllers
                             AnoBase--;
                         }
                     }
-                    return Request.CreateResponse(HttpStatusCode.OK, Lista);
+
+                    BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(connectionStr);
+                    var ini = lSaldoBancoHorasMes.Min(s => s.PeriodoInicio);
+                    var fin = lSaldoBancoHorasMes.Max(s => s.PeriodoFim);
+                    DataTable bancoSaldo = bllBancoHoras.GetCredDebBancoHorasComSaldoPeriodo(new List<int>() { func.Id }, ini, fin);
+                    List<Models.SaldoBancoHorasMes> lSaldoBancoHorasMesRetorno = new List<Models.SaldoBancoHorasMes>();
+                    foreach (var saldos in lSaldoBancoHorasMes)
+                    {
+                        if (bancoSaldo.Rows.Count > 0)
+                        {
+                            DataTable dtCompetencia = bancoSaldo.AsEnumerable().Where(w => Convert.ToDateTime(w["Data"]) >= saldos.PeriodoInicio.Date && Convert.ToDateTime(w["Data"]) <= saldos.PeriodoFim.Date).CopyToDataTable();
+                            if (dtCompetencia != null && dtCompetencia.Rows.Count > 0)
+                            {
+                                DataRow[] dataRows = dtCompetencia.Select().OrderBy(u => u["data"]).ToArray();
+                                decimal totalMensal = dataRows.Select(s => Convert.ToDecimal(s["SaldoDiaMin"])).Sum();
+                                DataRow t = dataRows.LastOrDefault();
+                                string saldoMensal = (dataRows.LastOrDefault()).Field<string>("SaldoBancoHoras");
+                                saldos.BancoHorasMensal = cwkFuncoes.ConvertMinutosHoraNegativo(totalMensal);
+                                saldos.BancoHorasAcumulado = saldoMensal;
+                                lSaldoBancoHorasMesRetorno.Add(saldos);
+                            } 
+                        }
+                    }
+                    return Request.CreateResponse(HttpStatusCode.OK, lSaldoBancoHorasMesRetorno);
                 }
                 catch (Exception e)
                 {

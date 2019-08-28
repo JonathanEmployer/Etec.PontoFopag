@@ -972,5 +972,10 @@ namespace BLL
         {
             return dalBancoHoras.GetAllListFuncs(verificaPermissao, idsFuncs);
         }
+
+        public DataTable GetCredDebBancoHorasComSaldoPeriodo(List<int> idsFuncionarios, DateTime pdataInicial, DateTime pDataFinal)
+        {
+            return dalBancoHoras.GetCredDebBancoHorasComSaldoPeriodo(idsFuncionarios, pdataInicial, pDataFinal);
+        }
      }
 }

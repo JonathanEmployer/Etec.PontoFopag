@@ -273,17 +273,18 @@ namespace DAL.SQL
             return lista;
         }
 
-        
-
         public List<Modelo.Proxy.pxyClassHorasExtrasMarcacao> GetClassificacoesMarcacao(int idMarcacao)
+        {
+            return GetClassificacoesMarcacao(new List<int>() { idMarcacao });
+        }
+
+        public List<Modelo.Proxy.pxyClassHorasExtrasMarcacao> GetClassificacoesMarcacao(List<int> idsMarcacao)
         {
             SqlParameter[] parms = new SqlParameter[]
             {
-                new SqlParameter("@idMarcacao", SqlDbType.Int)
             };
-            parms[0].Value = idMarcacao;
 
-            string sql = @"SELECT E.*,
+            string sql = string.Format(@"SELECT E.*,
 	                       dbo.FN_CONVMIN(e.ClassificadasMin) Classificadas,
 						   dbo.FN_CONVMIN(TotalClassificadasMin) TotalClassificadas,
 	                       dbo.FN_CONVMIN(e.HorasExtrasRealizadaMin) HorasExtrasRealizada,
@@ -309,10 +310,10 @@ namespace DAL.SQL
                                    Observacao,
                                    Integrado
 		                      FROM ( " + ClassificacaoMarcacao + @"  
-							  WHERE m.id = @idMarcacao
+							  WHERE m.id in ({0})
 			                ) D
 		                ) I 
-	                ) E ORDER BY E.NomeFuncionario, E.Data";
+	                ) E ORDER BY E.NomeFuncionario, E.Data", string.Join(",", idsMarcacao));
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 

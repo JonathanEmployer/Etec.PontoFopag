@@ -2638,219 +2638,128 @@ namespace DAL.SQL
             return dt;
         }
 
-        #region Select TotalizaHoras
-        private string sqlTotalizaHoras = @"SELECT marcacao.id 
-                , marcacao.idhorario 
-                , marcacao.horasfaltas 
-                , funcionario.idfuncao 
-                , funcionario.idempresa 
-                , funcionario.iddepartamento 
-                , marcacao.idfuncionario 
-                , marcacao.horasfaltanoturna 
-                , marcacao.horasextranoturna 
-                , marcacao.horasextrasdiurna 
-                , marcacao.horastrabalhadas 
-                , marcacao.horastrabalhadasnoturnas 
-                , ISNULL(marcacao.valordsr, '') AS valordsr
-                , ISNULL(marcacao.legenda, '') AS legenda
-                , ISNULL(marcacao.bancohorascre, '---:--') AS bancohorascre
-                , ISNULL(marcacao.bancohorasdeb, '---:--') AS bancohorasdeb
-                , ISNULL(marcacao.dia, '') AS dia
-                , marcacao.data 
-                , marcacao.folga 
-                , marcacao.neutro
-                , marcacao.totalHorasTrabalhadas
-                , horario.tipohorario 
-                , horario.considerasabadosemana 
-                , horario.consideradomingosemana 
-                , horario.tipoacumulo 
-				, horario.SeparaExtraNoturnaPercentual
-                , horariophextra50.percentualextra AS percentualextra50
-                , horariophextra50.quantidadeextra AS quantidadeextra50
-	            , horariophextra50.percentualExtraNoturna AS percentualExtraNoturna50
-                , horariophextra50.quantidadeExtraNoturna AS quantidadeExtraNoturna50
-                , horariophextra60.percentualextra AS percentualextra60
-                , horariophextra60.quantidadeextra AS quantidadeextra60
-	            , horariophextra60.percentualExtraNoturna AS percentualExtraNoturna60
-                , horariophextra60.quantidadeExtraNoturna AS quantidadeExtraNoturna60
-                , horariophextra70.percentualextra AS percentualextra70
-                , horariophextra70.quantidadeextra AS quantidadeextra70
-	            , horariophextra70.percentualExtraNoturna AS percentualExtraNoturna70
-                , horariophextra70.quantidadeExtraNoturna AS quantidadeExtraNoturna70
-                , horariophextra80.percentualextra AS percentualextra80
-                , horariophextra80.quantidadeextra AS quantidadeextra80
-	            , horariophextra80.percentualExtraNoturna AS percentualExtraNoturna80
-                , horariophextra80.quantidadeExtraNoturna AS quantidadeExtraNoturna80
-                , horariophextra90.percentualextra AS percentualextra90
-                , horariophextra90.quantidadeextra AS quantidadeextra90
-	            , horariophextra90.percentualExtraNoturna AS percentualExtraNoturna90
-                , horariophextra90.quantidadeExtraNoturna AS quantidadeExtraNoturna90
-                , horariophextra100.percentualextra AS percentualextra100
-                , horariophextra100.quantidadeextra AS quantidadeextra100
-	            , horariophextra100.percentualExtraNoturna AS percentualExtraNoturna100
-                , horariophextra100.quantidadeExtraNoturna AS quantidadeExtraNoturna100
-                , horariophextrasab.percentualextra AS percentualextrasab
-                , horariophextrasab.quantidadeextra AS quantidadeextrasab
-	            , horariophextrasab.percentualExtraNoturna AS percentualExtraNoturnasab
-                , horariophextrasab.quantidadeExtraNoturna AS quantidadeExtraNoturnasab
-                , horariophextradom.percentualextra AS percentualextradom
-                , horariophextradom.quantidadeextra AS quantidadeextradom
-	            , horariophextradom.percentualExtraNoturna AS percentualExtraNoturnadom
-                , horariophextradom.quantidadeExtraNoturna AS quantidadeExtraNoturnadom
-                , horariophextrafer.percentualextra AS percentualextrafer
-                , horariophextrafer.quantidadeextra AS quantidadeextrafer
-	            , horariophextrafer.percentualExtraNoturna AS percentualExtraNoturnafer
-                , horariophextrafer.quantidadeExtraNoturna AS quantidadeExtraNoturnafer
-                , horariophextrafol.percentualextra AS percentualextrafol
-                , horariophextrafol.quantidadeextra AS quantidadeextrafol
-	            , horariophextrafol.percentualExtraNoturna AS percentualExtraNoturnafol
-                , horariophextrafol.quantidadeExtraNoturna AS quantidadeExtraNoturnafol
-                , horariodetalhenormal.totaltrabalhadadiurna AS chdiurnanormal 
-                , horariodetalhenormal.totaltrabalhadanoturna AS chnoturnanormal 
-                , horariodetalhenormal.flagfolga AS flagfolganormal 
-                , horariodetalhenormal.neutro AS flagneutronormal 
-                , horariodetalhenormal.cargahorariamista AS cargamistanormal 
-                , horariodetalheflexivel.totaltrabalhadadiurna AS chdiurnaflexivel 
-                , horariodetalheflexivel.totaltrabalhadanoturna AS chnoturnaflexivel 
-                , horariodetalheflexivel.flagfolga AS flagfolgaflexivel 
-                , horariodetalheflexivel.neutro AS flagneutroflexivel 
-                , horariodetalheflexivel.cargahorariamista AS cargamistaflexivel 
-                , ISNULL(marcacao.exphorasextranoturna, '--:--') AS exphorasextranoturna
-                , ISNULL(horariophextra50.percentualextrasegundo, 0) AS percextraprimeiro1
-                , ISNULL(horariophextra50.percentualextrasegundoNoturna, 0) AS percextraprimeiroNoturna1
-                , horariophextra50.tipoacumulo AS tipoacumulo1
-                , ISNULL(horariophextra60.percentualextrasegundo, 0) AS percextraprimeiro2
-                , ISNULL(horariophextra60.percentualextrasegundoNoturna, 0) AS percextraprimeiroNoturna2
-                , horariophextra60.tipoacumulo AS tipoacumulo2
-                , ISNULL(horariophextra70.percentualextrasegundo, 0) AS percextraprimeiro3
-                , ISNULL(horariophextra70.percentualextrasegundoNoturna, 0) AS percextraprimeiroNoturna3
-                , horariophextra70.tipoacumulo AS tipoacumulo3
-                , ISNULL(horariophextra80.percentualextrasegundo, 0) AS percextraprimeiro4
-                , ISNULL(horariophextra80.percentualextrasegundoNoturna, 0) AS percextraprimeiroNoturna4
-                , horariophextra80.tipoacumulo AS tipoacumulo4
-                , ISNULL(horariophextra90.percentualextrasegundo, 0) AS percextraprimeiro5
-                , ISNULL(horariophextra90.percentualextrasegundoNoturna, 0) AS percextraprimeiroNoturna5
-                , horariophextra90.tipoacumulo AS tipoacumulo5
-                , ISNULL(horariophextra100.percentualextrasegundo, 0) AS percextraprimeiro6
-                , ISNULL(horariophextra100.percentualextrasegundoNoturna, 0) AS percextraprimeiroNoturna6
-                , horariophextra100.tipoacumulo AS tipoacumulo6
-                , ISNULL(horariophextrasab.percentualextrasegundo, 0) AS percextraprimeiro7
-                , ISNULL(horariophextrasab.percentualextrasegundoNoturna, 0) AS percextraprimeiroNoturna7
-                , horariophextrasab.tipoacumulo AS tipoacumulo7
-                , ISNULL(horariophextradom.percentualextrasegundo, 0) AS percextraprimeiro8
-                , ISNULL(horariophextradom.percentualextrasegundoNoturna, 0) AS percextraprimeiroNoturna8
-                , horariophextradom.tipoacumulo AS tipoacumulo8
-                , ISNULL(horariophextrafer.percentualextrasegundo, 0) AS percextraprimeiro9
-                , ISNULL(horariophextrafer.percentualextrasegundoNoturna, 0) AS percextraprimeiroNoturna9
-                , horariophextrafer.tipoacumulo AS tipoacumulo9
-                , ISNULL(horariophextrafol.percentualextrasegundo, 0) AS percextraprimeiro10
-                , ISNULL(horariophextrafol.percentualextrasegundoNoturna, 0) AS percextraprimeiroNoturna10
-                , horariophextrafol.tipoacumulo AS tipoacumulo10
-                , marcacao.InItinereHrsDentroJornada, marcacao.InItinereHrsForaJornada, marcacao.InItinerePercDentroJornada, marcacao.InItinerePercForaJornada
-                , ISNULL(marcacao.LegendasConcatenadas, '') AS LegendasConcatenadas
-                , ISNULL(marcacao.AdicionalNoturno, '') AS AdicionalNoturno
-                , p.PercAdicNoturno
-                , marcacao.horaExtraInterjornada
-                , marcacao.entrada_1, marcacao.entrada_2, marcacao.entrada_3, marcacao.entrada_5, marcacao.entrada_4, marcacao.entrada_6, marcacao.entrada_7, marcacao.entrada_8
-				, marcacao.saida_1, marcacao.saida_2, marcacao.saida_3, marcacao.saida_4, marcacao.saida_5, marcacao.saida_6, marcacao.saida_7, marcacao.saida_8
-				, feriado.id idferiado
-				, feriado.Parcial AS FeriadoParcial 
-				, feriado.HoraInicio AS FeriadoParcialInicio 
-				, feriado.HoraFim AS FeriadoParcialFim
-                , p.inicioadnoturno AS inicioAdNoturno
-				, p.fimadnoturno AS fimAdNoturno
-                 FROM marcacao_view AS marcacao
-                 INNER JOIN horario ON horario.id = marcacao.idhorario
-                 INNER JOIN dbo.parametros p ON horario.idparametro = p.id
-                 INNER JOIN horariophextra horariophextra50 ON horariophextra50.idhorario = marcacao.idhorario AND horariophextra50.codigo = 0
-                 INNER JOIN horariophextra horariophextra60 ON horariophextra60.idhorario = marcacao.idhorario AND horariophextra60.codigo = 1
-                 INNER JOIN horariophextra horariophextra70 ON horariophextra70.idhorario = marcacao.idhorario AND horariophextra70.codigo = 2
-                 INNER JOIN horariophextra horariophextra80 ON horariophextra80.idhorario = marcacao.idhorario AND horariophextra80.codigo = 3
-                 INNER JOIN horariophextra horariophextra90 ON horariophextra90.idhorario = marcacao.idhorario AND horariophextra90.codigo = 4
-                 INNER JOIN horariophextra horariophextra100 ON horariophextra100.idhorario = marcacao.idhorario AND horariophextra100.codigo = 5
-                 INNER JOIN horariophextra horariophextrasab ON horariophextrasab.idhorario = marcacao.idhorario AND horariophextrasab.codigo = 6
-                 INNER JOIN horariophextra horariophextradom ON horariophextradom.idhorario = marcacao.idhorario AND horariophextradom.codigo = 7
-                 INNER JOIN horariophextra horariophextrafer ON horariophextrafer.idhorario = marcacao.idhorario AND horariophextrafer.codigo = 8
-                 INNER JOIN horariophextra horariophextrafol ON horariophextrafol.idhorario = marcacao.idhorario AND horariophextrafol.codigo = 9
-                 LEFT JOIN horariodetalhe horariodetalhenormal ON horariodetalhenormal.idhorario = marcacao.idhorario
-                 AND horario.tipohorario = 1 AND horariodetalhenormal.dia = (CASE WHEN (DATEPART(WEEKDAY, marcacao.data)-1) = 0 THEN 7 ELSE(DATEPART(WEEKDAY, marcacao.data)-1) END) 
-                 LEFT JOIN horariodetalhe horariodetalheflexivel ON horariodetalheflexivel.idhorario = marcacao.idhorario
-                 AND horario.tipohorario = 2 AND horariodetalheflexivel.data = marcacao.data
-                 INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario 
-                 OUTER APPLY (SELECT TOP(1) * FROM feriado where horario.desconsiderarferiado = 0 
-                         AND feriado.data = marcacao.data 
-                         AND ( feriado.tipoferiado = 0 
-                             OR ( feriado.tipoferiado = 1 
-                                 AND feriado.idempresa = funcionario.idempresa 
-                                 ) 
-                             OR ( feriado.tipoferiado = 2 
-                                 AND feriado.iddepartamento = funcionario.iddepartamento 
-                                 ) 
-                             OR ( feriado.tipoferiado = 3 
-                                 AND EXISTS ( SELECT * 
-                                                 FROM   FeriadoFuncionario FFUNC 
-                                                 WHERE  feriado.id = FFUNC.idFeriado 
-                                                     AND FFUNC.idFuncionario = funcionario.id ) 
-                                 ) 
-                             )) feriado";
-        #endregion
-
         public DataTable GetParaTotalizaHoras(int pIdFuncionario, DateTime pdataInicial, DateTime pDataFinal, bool PegaInativos)
         {
-            SqlParameter[] parms = new SqlParameter[3]
-            { 
-                    new SqlParameter("@idfuncionario", SqlDbType.Int),
-                    new SqlParameter("@datainicial", SqlDbType.DateTime),
-                    new SqlParameter("@datafinal", SqlDbType.DateTime)
-            };
-            parms[0].Value = pIdFuncionario;
-            parms[1].Value = pdataInicial;
-            parms[2].Value = pDataFinal;
-
-            string aux = sqlTotalizaHoras +
-                " WHERE marcacao.idfuncionario = @idfuncionario ";
-
-            if (PegaInativos)
-            {
-                aux += " AND ISNULL(funcionario.excluido,0) = 0 AND marcacao.data >= @datainicial AND marcacao.data <= @datafinal ORDER BY marcacao.data";
-            }
-            else
-            {
-                aux += " AND ISNULL(funcionario.excluido,0) = 0 AND funcionarioativo = 1 AND marcacao.data >= @datainicial AND marcacao.data <= @datafinal ORDER BY marcacao.data";
-            }
-
-            DataTable dt = new DataTable();
-
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
-            dt.Load(dr);
-            if (!dr.IsClosed)
-                dr.Close();
-            dr.Dispose();
-
-            return dt;
+            return GetParaTotalizaHorasFuncs(new List<int>() { pIdFuncionario }, pdataInicial, pDataFinal, PegaInativos);
         }
 
         public DataTable GetParaTotalizaHorasFuncs(List<int> pIdFuncs, DateTime pdataInicial, DateTime pDataFinal, bool PegaInativos)
         {
-            SqlParameter[] parms = new SqlParameter[2]
+            SqlParameter[] parms = new SqlParameter[4]
             {
-                    new SqlParameter("@datainicial", SqlDbType.DateTime),
-                    new SqlParameter("@datafinal", SqlDbType.DateTime)
+                new SqlParameter("@Identificadores", SqlDbType.Structured),
+                new SqlParameter("@datainicial", SqlDbType.DateTime),
+                new SqlParameter("@datafinal", SqlDbType.DateTime),
+                new SqlParameter("@pegaInativos", SqlDbType.Bit)
             };
-            parms[0].Value = pdataInicial;
-            parms[1].Value = pDataFinal;
+            IEnumerable<long> ids = pIdFuncs.Select(s => (long)s);
+            parms[0].Value = CreateDataTableIdentificadores(ids);
+            parms[0].TypeName = "Identificadores";
+            parms[1].Value = pdataInicial;
+            parms[2].Value = pDataFinal;
+            parms[3].Value = PegaInativos;
 
-            string aux = sqlTotalizaHoras +
-                " WHERE marcacao.idfuncionario in ( "+ String.Join(",",pIdFuncs) +")" ;
+            string aux = @"	SELECT *
+                            INTO #horariophextra
+                            FROM dbo.FnGethorariophextra()
 
-            if (PegaInativos)
-            {
-                aux += " AND ISNULL(funcionario.excluido,0) = 0 AND marcacao.data >= @datainicial AND marcacao.data <= @datafinal ORDER BY marcacao.data";
-            }
-            else
-            {
-                aux += " AND ISNULL(funcionario.excluido,0) = 0 AND funcionarioativo = 1 AND marcacao.data >= @datainicial AND marcacao.data <= @datafinal ORDER BY marcacao.data";
-            }
+                            /*Adiciona os funcionarios do filtro em uma tabela temporaria*/
+                            CREATE TABLE #funcionarios
+                                (
+                                    idfuncionario INT PRIMARY KEY CLUSTERED
+                                );
+                            INSERT  INTO #funcionarios
+                                    SELECT  Identificador
+                                    FROM    @Identificadores; 
+
+                            /*Select para o relatório*/
+                            SELECT  marcacao.id 
+                            , marcacao.idhorario 
+                            , marcacao.horasfaltas 
+                            , f.idfuncao 
+                            , f.idempresa 
+                            , f.iddepartamento 
+                            , marcacao.idfuncionario 
+                            , marcacao.horasfaltanoturna 
+                            , marcacao.horasextranoturna 
+                            , marcacao.horasextrasdiurna 
+                            , marcacao.horastrabalhadas 
+                            , marcacao.horastrabalhadasnoturnas 
+                            , ISNULL(marcacao.valordsr, '') AS valordsr
+                            , ISNULL(marcacao.legenda, '') AS legenda
+                            , ISNULL(marcacao.bancohorascre, '---:--') AS bancohorascre
+                            , ISNULL(marcacao.bancohorasdeb, '---:--') AS bancohorasdeb
+                            , ISNULL(marcacao.dia, '') AS dia
+                            , marcacao.data 
+                            , marcacao.folga 
+                            , marcacao.neutro
+                            , marcacao.totalHorasTrabalhadas
+                            , h.tipohorario 
+                            , h.considerasabadosemana 
+                            , h.consideradomingosemana 
+                            , h.tipoacumulo 
+				            , h.SeparaExtraNoturnaPercentual
+                            , hphe.*
+                            , horariodetalhenormal.totaltrabalhadadiurna AS chdiurnanormal 
+                            , horariodetalhenormal.totaltrabalhadanoturna AS chnoturnanormal 
+                            , horariodetalhenormal.flagfolga AS flagfolganormal 
+                            , horariodetalhenormal.neutro AS flagneutronormal 
+                            , horariodetalhenormal.cargahorariamista AS cargamistanormal 
+                            , horariodetalheflexivel.totaltrabalhadadiurna AS chdiurnaflexivel 
+                            , horariodetalheflexivel.totaltrabalhadanoturna AS chnoturnaflexivel 
+                            , horariodetalheflexivel.flagfolga AS flagfolgaflexivel 
+                            , horariodetalheflexivel.neutro AS flagneutroflexivel 
+                            , horariodetalheflexivel.cargahorariamista AS cargamistaflexivel 
+                            , ISNULL(marcacao.exphorasextranoturna, '--:--') AS exphorasextranoturna
+                            , marcacao.InItinereHrsDentroJornada, marcacao.InItinereHrsForaJornada, marcacao.InItinerePercDentroJornada, marcacao.InItinerePercForaJornada
+                            , ISNULL(marcacao.LegendasConcatenadas, '') AS LegendasConcatenadas
+                            , ISNULL(marcacao.AdicionalNoturno, '') AS AdicionalNoturno
+                            , p.PercAdicNoturno
+                            , marcacao.horaExtraInterjornada
+                            , marcacao.entrada_1, marcacao.entrada_2, marcacao.entrada_3, marcacao.entrada_5, marcacao.entrada_4, marcacao.entrada_6, marcacao.entrada_7, marcacao.entrada_8
+				            , marcacao.saida_1, marcacao.saida_2, marcacao.saida_3, marcacao.saida_4, marcacao.saida_5, marcacao.saida_6, marcacao.saida_7, marcacao.saida_8
+				            , feriado.id idferiado
+				            , feriado.Parcial AS FeriadoParcial 
+				            , feriado.HoraInicio AS FeriadoParcialInicio 
+				            , feriado.HoraFim AS FeriadoParcialFim
+                            , p.inicioadnoturno AS inicioAdNoturno
+				            , p.fimadnoturno AS fimAdNoturno
+                            FROM    dbo.marcacao_view AS marcacao  WITH ( NOLOCK )
+                                    JOIN #funcionarios fff WITH ( NOLOCK ) ON marcacao.idfuncionario = fff.idfuncionario
+						            JOIN dbo.horario AS h ON marcacao.idhorario = h.id
+						            JOIN dbo.parametros p ON h.idparametro = p.id
+                                    LEFT JOIN funcionario f ON marcacao.idfuncionario = f.id
+                                    LEFT JOIN #horariophextra hphe ON hphe.idhorario = marcacao.idhorario
+                                    LEFT JOIN horariodetalhe horariodetalhenormal WITH ( NOLOCK ) ON horariodetalhenormal.idhorario = marcacao.idhorario
+                                                                                            AND h.tipohorario = 1
+                                                                                            AND horariodetalhenormal.diadescricao = marcacao.dia
+                                    LEFT JOIN horariodetalhe horariodetalheflexivel WITH ( NOLOCK ) ON horariodetalheflexivel.idhorario = marcacao.idhorario
+                                                                                            AND h.tipohorario = 2
+                                                                                            AND horariodetalheflexivel.data = marcacao.data
+						            OUTER APPLY (SELECT TOP(1) * FROM feriado where h.desconsiderarferiado = 0 
+                                        AND feriado.data = marcacao.data 
+                                        AND ( feriado.tipoferiado = 0 
+                                            OR ( feriado.tipoferiado = 1 
+                                                AND feriado.idempresa = f.idempresa 
+                                                ) 
+                                            OR ( feriado.tipoferiado = 2 
+                                                AND feriado.iddepartamento = f.iddepartamento 
+                                                ) 
+                                            OR ( feriado.tipoferiado = 3 
+                                                AND EXISTS ( SELECT * 
+                                                                FROM   FeriadoFuncionario FFUNC 
+                                                                WHERE  feriado.id = FFUNC.idFeriado 
+                                                                    AND FFUNC.idFuncionario = f.id ) 
+                                                ) 
+                                            )) feriado
+                            WHERE   marcacao.data BETWEEN @datainicial AND @datafinal
+				                and ISNULL(f.excluido,0) = 0
+				                and (@pegaInativos = 1 OR
+					                @pegaInativos = 0 AND f.funcionarioativo = 1)
+                            ORDER BY marcacao.data;
+
+                            DROP TABLE #funcionarios;
+                            DROP TABLE #horariophextra; ";
 
             DataTable dt = new DataTable();
 

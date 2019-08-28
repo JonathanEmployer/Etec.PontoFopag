@@ -173,6 +173,11 @@ namespace BLL
             return dalClassificacaoHorasExtras.GetMarcacoesClassificar(idsFuncionarios, datainicial, datafinal);
         }
 
+        public List<Modelo.Proxy.pxyClassHorasExtrasMarcacao> GetClassificacoesMarcacao(List<int> idsMarcacao)
+        {
+            return dalClassificacaoHorasExtras.GetClassificacoesMarcacao(idsMarcacao);
+        }
+
         public List<Modelo.Proxy.pxyClassHorasExtrasMarcacao> GetClassificacoesMarcacao(int idMarcacao)
         {
             return dalClassificacaoHorasExtras.GetClassificacoesMarcacao(idMarcacao);

@@ -14,6 +14,7 @@ namespace DAL
         IList<Modelo.Proxy.PxyFuncionarioHorasExtrasClassificadas> TotalHorasExtrasClassificadasPorFuncionario(List<int> idsFuncionarios, DateTime datainicial, DateTime datafinal, List<int> idsClassificacao);
         void ExcluirClassificacoesHEPreClassificadas(List<int> idsFuncionarios, DateTime datainicial, DateTime datafinal);
         void PreClassificarHorasExtras(List<int> idsFuncionarios, DateTime datainicial, DateTime datafinal);
+        List<Modelo.Proxy.pxyClassHorasExtrasMarcacao> GetClassificacoesMarcacao(List<int> idsMarcacao);
     }
 }
 

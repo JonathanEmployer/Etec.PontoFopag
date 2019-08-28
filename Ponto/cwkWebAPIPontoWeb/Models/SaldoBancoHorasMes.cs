@@ -9,6 +9,8 @@ namespace cwkWebAPIPontoWeb.Models
     {
         public string MesAno { get; set; }
         public DateTime Data { get; set; }
+        public DateTime PeriodoInicio { get; set; }
+        public DateTime PeriodoFim { get; set; }
         public string BancoHorasMensal { get; set; }
         public string BancoHorasAcumulado { get; set; }
         public bool ConfirmadoPainel { get; set; }

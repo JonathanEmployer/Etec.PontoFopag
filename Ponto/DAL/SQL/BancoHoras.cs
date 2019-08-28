@@ -1463,6 +1463,109 @@ FROM    ( SELECT    t.IdFuncionario ,
             return lista.FirstOrDefault();
         }
 
+        public DataTable GetCredDebBancoHorasComSaldoPeriodo(List<int> idsFuncionarios, DateTime pdataInicial, DateTime pDataFinal)
+        {
+            string aux = "";
+            SqlParameter[] parms = new SqlParameter[3]
+            {
+                    new SqlParameter("@Identificadores", SqlDbType.Structured),
+                    new SqlParameter("@datainicial", SqlDbType.DateTime),
+                    new SqlParameter("@datafinal", SqlDbType.DateTime)
+            };
+            IEnumerable<long> ids = idsFuncionarios.Select(s => (long)s);
+            parms[0].Value = CreateDataTableIdentificadores(ids);
+            parms[0].TypeName = "Identificadores";
+            parms[1].Value = pdataInicial;
+            parms[2].Value = pDataFinal;
+
+            #region Select Otimizado
+            aux = @"
+                    /*Adiciona os funcionarios do filtro em uma tabela temporaria*/
+                    CREATE TABLE #funcionarios
+                        (
+                            idfuncionario INT PRIMARY KEY CLUSTERED
+                        );
+                    INSERT  INTO #funcionarios
+                            SELECT  Identificador
+                            FROM    @Identificadores; 
+
+                    /*Tabela temporária para o banco de horas por funcionário*/
+                    CREATE TABLE #funcionariobancodehoras
+                        (
+                            id INT PRIMARY KEY CLUSTERED ,
+                            idfuncionario INT ,
+                            data DATETIME ,
+                            Hra_Banco_Horas VARCHAR(200)
+                        );
+                    INSERT INTO #funcionariobancodehoras
+                    SELECT * FROM [dbo].[F_BancoHorasNew](@datainicial, @datafinal, @Identificadores)
+
+
+                    /*Select para o relatório*/
+                    select Data,
+	                       DataBr,
+	                       Dia,
+	                       Nome,
+	                       Matricula,
+	                       idFuncionario,
+	                       isnull(dbo.FN_CONVMINNULAVEL(SaldoBancoHorasAntMin, 1), '00:00') SaldoBancoHorasAnt,
+	                       SaldoBancoHorasAntMin,
+	                       CredBH,
+	                       CredBHMin,
+	                       DebBH,
+	                       DebBHMin,
+	                       SaldoDiaMin,
+	                       SaldoBancoHoras,
+	                       SaldoBancoHorasMin
+                      from (
+	                    select *,
+		                       (SaldoBancoHorasMin - (CredBHMin - DebBHMin)) SaldoBancoHorasAntMin,
+		                       (CredBHMin - DebBHMin) SaldoDiaMin
+	                      from (
+		                    select *,
+			                       dbo.FN_CONVHORA(CredBH) CredBHMin,
+			                       dbo.FN_CONVHORA(DebBH) DebBHMin,
+			                       dbo.FN_CONVHORA(SaldoBancoHoras) SaldoBancoHorasMin
+		                      from (
+			                    SELECT  CONVERT(VARCHAR(10), vm.data, 103) 'DataBr' ,
+					                    vm.data,
+					                    vm.dia 'Dia' ,
+					                    vm.nome 'Nome' ,
+					                    vm.matricula 'Matricula' ,
+                        
+					                    REPLACE(REPLACE(CONVERT(VARCHAR(6), DECRYPTBYKEY(vm.campo23)), '--:--',
+									                    ''), '-', '') AS 'CredBH' ,
+					                    REPLACE(REPLACE(CONVERT(VARCHAR(6), DECRYPTBYKEY(vm.campo24)), '--:--',
+									                    ''), '-', '') AS 'DebBH' ,
+					                    vm.idfuncionario 'idFuncionario' ,
+					                    ISNULL(banco.Hra_Banco_Horas, '00:00') AS 'SaldoBancoHoras'
+			                    FROM    dbo.VW_Marcacao vm  WITH ( NOLOCK )
+					                    JOIN #funcionarios fff WITH ( NOLOCK ) ON vm.idfuncionario = fff.idfuncionario
+					                    LEFT JOIN #funcionariobancodehoras banco ON vm.id = banco.id
+                        
+			                    WHERE   vm.data BETWEEN @datainicial AND @datafinal
+			                    ) D
+		                    ) I
+	                    ) E
+                    ORDER BY E.nome ,
+		                     E.data,
+		                     E.matricula
+
+                    DROP TABLE #funcionarios;
+                    DROP TABLE #funcionariobancodehoras;
+            ";
+            #endregion
+
+            DataTable dt = new DataTable();
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            dt.Load(dr);
+            if (!dr.IsClosed)
+                dr.Close();
+            dr.Dispose();
+
+            return dt;
+        }
+
         public List<Modelo.Proxy.PxyBancoHorasCreditos> GetCreditosBH(DateTime pDataI, DateTime pDataF, List<int> ids)
         {
             SqlParameter[] parms = new SqlParameter[]

@@ -126,7 +126,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                     BLL.Ocorrencia bllOco = new BLL.Ocorrencia(connectionStr);
                     List<Modelo.Ocorrencia> ocorrencias = bllOco.GetAllList(false);
 
-
+                    var classificacoesPeriodo = bllclasshe.GetClassificacoesMarcacao(ListaMarcacao.Select(s => s.Id).Distinct().ToList());
                     foreach (var item in ListaMarcacao)
                     {
                         Models.Marcacao marc = new Models.Marcacao();
@@ -175,7 +175,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                         }
 
 
-                        marc.Classificacoes = bllclasshe.GetClassificacoesMarcacao(marc.Id);
+                        marc.Classificacoes = classificacoesPeriodo.Where(w => w.IdMarcacao == marc.Id).ToList();
                         if (marc.Classificacoes.FirstOrDefault().NaoClassificadasMin > 0)
                         {
                             marc.ClassificarHorasExtras = true;
@@ -183,6 +183,16 @@ namespace cwkWebAPIPontoWeb.Controllers
                         else
                         {
                             marc.ClassificarHorasExtras = false;
+                        }
+                        Modelo.Proxy.pxyClassHorasExtrasMarcacao classhe = new Modelo.Proxy.pxyClassHorasExtrasMarcacao();
+                        if (marc.Classificacoes != null && marc.Classificacoes.Count > 0)
+                        {
+                            classhe = marc.Classificacoes.Where(x => x.Tipo == 1).FirstOrDefault();
+                            if (classhe != null)
+                            {
+                                marc.ClassificacaoDescricao = classhe.ClassificacaoDescricao;
+                                marc.ClassificacaoId = classhe.IdClassificacao;
+                            }
                         }
 
                         marc.Afastamento = GetAfastamento(afastamentos, ocorrencias, item);
@@ -254,24 +264,6 @@ namespace cwkWebAPIPontoWeb.Controllers
 
                     List<int> listfunc = new List<int>();
                     listfunc.Add(func.Id);
-                    List<Modelo.Proxy.pxyClassHorasExtrasMarcacao> classhes = new List<Modelo.Proxy.pxyClassHorasExtrasMarcacao>();
-
-
-                    foreach (var item in EspelhoPonto.ListaMarcacao)
-                    {
-                        Modelo.Proxy.pxyClassHorasExtrasMarcacao classhe = new Modelo.Proxy.pxyClassHorasExtrasMarcacao();
-                        classhe = bllclasshe.GetClassificacoesMarcacao(item.Id).Where(x => x.Tipo == 1).FirstOrDefault();
-                        if (classhe != null)
-                        {
-                            item.ClassificacaoDescricao = classhe.ClassificacaoDescricao;
-                            item.ClassificacaoId = classhe.IdClassificacao;
-                        }
-                    }
-
-                    foreach (var item in classhes.Where(w => w.Tipo == 1))
-                    {
-                        EspelhoPonto.ListaMarcacao.Where(x => x.Id == item.IdMarcacao).ToList().ForEach(x => { x.ClassificacaoDescricao = item.ClassificacaoDescricao; x.ClassificacaoId = item.IdClassificacao; });
-                    }
 
                     EspelhoPonto.TotalizadorEspelhoPonto = TotalizadorEspelhoPonto;
                     //Criar parâmetro para setar este campo como True ou False, na Empresa.
