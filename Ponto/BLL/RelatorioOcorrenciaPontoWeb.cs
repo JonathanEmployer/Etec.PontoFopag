@@ -144,7 +144,7 @@ namespace BLL
             Modelo.Ocorrencia objOcorrencia = null;
             Modelo.Funcionario objFuncionario = new Modelo.Funcionario();
             List<Modelo.JornadaAlternativa> listaJornadaAlternativa = null;
-            List<Modelo.Justificativa> ListaJustificativas = bllJustificativa.GetAllList();
+            List<Modelo.Justificativa> ListaJustificativas = bllJustificativa.GetAllList(false);
 
             foreach (DataRow marc in listaMarcacao.Rows)
             {
@@ -241,7 +241,7 @@ namespace BLL
                         {
                             if (OcorrenciasSelecionadas.Count == 0)
                             {
-                                listaOcorrencias = bllOcorrencia.GetAllList();
+                                listaOcorrencias = bllOcorrencia.GetAllList(false);
                             }
                             else
                             {
@@ -484,7 +484,7 @@ namespace BLL
         {
             if (listaOcorrencias == null)
             {
-                listaOcorrencias = bllOcorrencia.GetAllList();
+                listaOcorrencias = bllOcorrencia.GetAllList(false);
             }
             return listaOcorrencias;
         }

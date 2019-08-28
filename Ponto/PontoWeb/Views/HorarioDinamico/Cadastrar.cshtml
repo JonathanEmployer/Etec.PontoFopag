@@ -34,6 +34,7 @@
                         <li class="active"><a href="#pnlTurnoFlexivel" data-toggle="tab" id="liPnlTurnoFlexivel" style="padding:5px;">Turno</a></li>
                         <li><a href="#pnlParametros" data-toggle="tab" id="liPnlParametros" style="padding:5px;">Parâmetros</a></li>
                         <li><a href="#pnlDSR" data-toggle="tab" id="liPnlDSR" style="padding:5px;">DSR</a></li>
+                        <li><a href="#pnlRestricoes" data-toggle="tab" id="liPnlRestricoes" style="padding:5px;">Restrições</a></li>
                     </ul>
                     <div class="tab-content" style="padding-top:5px;">
                         @*TAB Horario Dinâmico *@
@@ -625,6 +626,93 @@
                                 </div>
                             </div>
                         </div>
+
+                        @*TAB Restrições*@
+                    <div class="tab-pane fade" id="pnlRestricoes">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        @Html.Label("Tipo", new { @class = "control-label label-sm" })
+                                    </div>
+                                    <div class="col-md-11">
+                                        <div class="row">
+                                            <div class="form-group input-group-sm">
+                                                <div class="col-md-3">
+                                                    <div class="radio-inline" data-toggle="radio">
+                                                        @Html.RadioButton("TipoRestricao", 0, new { id = "idTipoRestricaoEmpresa", @class = "radioRestricao", @checked = true })
+                                                        @Html.Label("lbRestricaoEmpresa", "Empresa", new { @class = "control-label label-sm", @for = "idTipoRestricaoEmpresa" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="radio-inline" data-toggle="radio">
+                                                        @Html.RadioButton("TipoRestricao", 1, new { id = "idTipoRestricaoContrato", @class = "radioRestricao" })
+                                                        @Html.Label("lbRestricaoContrato", "Contrato", new { @class = "control-label label-sm", @for = "idTipoRestricaoContrato" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-10">
+                                    <div id="divEmpresa">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.Label("Empresa", new { @class = "control-label label-sm" })
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBox("Empresa", "", new { @class = "form-control  input-sm", id = "lkpEmpresa" })
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-primary" id="btnEmpresa" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="divContrato" hidden>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.Label("Contrato", new { @class = "control-label label-sm" })
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBox("Contrato", "", new { @class = "form-control  input-sm", id = "lkpContrato" })
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-primary" id="btnContrato" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <br />
+                                    <button type="button" id="btnInserirNovaRestricao" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-plus"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="padding-top:2px; padding-bottom:0">
+                                @Html.Label("", "Restrições", new { @class = "control-label label-sm" })
+                            </div>
+                            <div class="panel-body" style="padding-top:5px; padding-bottom:5px">
+                                <table id="tbRestricao" class="table table-bordered table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th>Tipo</th>
+                                            <th>Descrição</th>
+                                            <th>Opções</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="divRestricoes">
+                                        @for (int i = 0; i < Model.HorarioDinamicoRestricao.Count; i++)
+                                        {
+                                            @Html.EditorFor(m => Model.HorarioDinamicoRestricao[i], "Restricoes")
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -1188,6 +1276,7 @@
             bloquearTodosCamposCiclo()
         else if (tipoBloqueio == 'bloqueio')
             bloquearCamposFechamento();
+        $('#pnlRestricoes').find('input, textarea, button, select').removeAttr('disabled');
     }
 
     function bloquearTodosCampos() {
@@ -1979,6 +2068,42 @@
         Items.LHorariosDinamicosPHExtra = new Array();
         Items.LimitesDDsrProporcionais = new Array();
         Items.LHorarioCiclo = 0;
+
+        //Gera Objetos HorarioDinamicoRestricao
+        Items.HorarioDinamicoRestricao = new Array();
+        $(".divRestricao").each(function () {
+            var div = this;
+            var jHorarioRestricao = new Object();
+
+            var propriedadesSalvar = [];
+            $("input[name*='HorarioDinamicoRestricao[']", this).each(function () {
+                propriedadesSalvar.push($(this).attr("name"));
+            });
+
+            $("select[name*='HorarioDinamicoRestricao[']", this).each(function () {
+                propriedadesSalvar.push($(this).attr("name"));
+            });
+
+            $.each($.unique(propriedadesSalvar), function (i, val) {
+                element = $("input[name='" + val + "']", div);
+                name = element.attr("name");
+                if (name === "undefined") {
+                    element = $("select[name='" + val + "']", div);
+                    name = element.attr("name");
+                }
+                name = name.substr(name.indexOf(".") + 1, name.length);
+                if ($(element).attr("type") == "checkbox") {
+                    value = element.is(':checked');
+                }
+                else {
+                    value = element.val();
+                }
+
+                jHorarioRestricao[name] = value;
+            });
+            Items.HorarioDinamicoRestricao.push(jHorarioRestricao);
+        });
+
         //Items.QtdCiclo = _ciclos.length;
         //Gera o Json do Horário
         $(".horario").each(function () {
@@ -2301,5 +2426,76 @@
         $('#DSRPorPercentual').val(habilitado);
     }
 
+</script>
+@*Scripts referente a Restricao*@
+<script>
+    $(document).ready(function () {
+        cwk_EventoConsulta("#btnEmpresa", "#lkpEmpresa", "EventoConsulta", "Empresa", "");
+        cwk_EventoConsulta("#btnContrato", "#lkpContrato", "EventoConsulta", "Contrato", "");
+    });
+
+    $("#btnInserirNovaRestricao").click(function (e) {
+        var itemIndex = $(".divRestricao").length;
+        e.preventDefault();
+        var tipoRest = $('input[name=TipoRestricao]:checked').val();
+        var restr = $("#lkpEmpresa").val();
+        if (tipoRest == 1) {
+            restr = $("#lkpContrato").val();
+        }
+
+        if (isEmpty(restr)) {
+            cwkAlerta('Selecione uma restrição');
+        }
+        else if ($('#tbRestricao tr:not([style*="display: none"]) td:contains(' + restr + ')').length > 0) {
+            cwkAlerta('Restrição já existe');
+        } else {
+            $("#loading").modal();
+            var idHor = $("#idHorario").val();
+
+            var obj = { index: itemIndex, tipoRestricao: tipoRest, restricao: restr, idHorario: idHor };
+            var url = '@Url.Action("AdicionaNovaRestricao", "HorarioDinamico")' + "?" + $.param(obj, true);
+            url = decodeURIComponent(url);
+
+            $.post(url, function (data) {
+                if (data.Success == true) {
+                    $("#divRestricoes").prepend(data.HTML);
+                    $("#lkpEmpresa").val("");
+                    $("#lkpContrato").val("");
+                }
+                else {
+                    cwkErro(data.Erro)
+                }
+                $("#loading").modal('hide');
+            }).fail(function (xhr, status, error) {
+                $("#loading").modal('hide');
+                cwkErro("An AJAX error occured: " + status + "\nError: " + error);
+            });
+        }
+    });
+
+    function excluirRestricao(btn) {
+        var containerRestricaoAtual = $(btn).closest('.divRestricao');
+        containerRestricaoAtual.hide();
+        console.log("Marcar = "+$(containerRestricaoAtual).children( ".marcarExcluido" ).attr('id'))
+        $(containerRestricaoAtual).children(".marcarExcluido").val(true);
+    }
+
+    function validaPesquisaRestricao() {
+        if ($('#idTipoRestricaoEmpresa').is(':checked')) {
+            $("#divEmpresa").show();
+            $("#divContrato").hide();
+            $("#lkpContrato").val("");
+        };
+
+        if ($('#idTipoRestricaoContrato').is(':checked')) {
+            $("#divEmpresa").hide();
+            $("#lkpEmpresa").val("");
+            $("#divContrato").show();
+        };
+    }
+
+    $(".radioRestricao").change(function () {
+        validaPesquisaRestricao();
+    });
 </script>
 

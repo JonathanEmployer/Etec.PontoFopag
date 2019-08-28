@@ -235,12 +235,10 @@
     <Compile Include="FB\Inconsistencia.cs" />
     <Compile Include="FB\Jornada.cs" />
     <Compile Include="FB\JornadaAlternativa.cs" />
-    <Compile Include="FB\Justificativa.cs" />
     <Compile Include="FB\LayoutExportacao.cs" />
     <Compile Include="FB\Marcacao.cs" />
     <Compile Include="FB\MudancaHorario.cs" />
     <Compile Include="FB\MudCodigoFunc.cs" />
-    <Compile Include="FB\Ocorrencia.cs" />
     <Compile Include="FB\OcorrenciaEmpresa.cs" />
     <Compile Include="FB\Parametros.cs" />
     <Compile Include="FB\Provisorio.cs" />
@@ -249,6 +247,10 @@
     <Compile Include="FB\TipoBilhetes.cs" />
     <Compile Include="FB\Tratamentomarcacao.cs" />
     <Compile Include="FB\UsuarioPontoWeb.cs" />
+    <Compile Include="IHorarioDinamicoRestricao.cs" />
+    <Compile Include="IJustificativaRestricao.cs" />
+    <Compile Include="IOcorrenciaRestricao.cs" />
+    <Compile Include="IHorarioRestricao.cs" />
     <Compile Include="IListaEventosEvento.cs" />
     <Compile Include="IListaEventos.cs" />
     <Compile Include="IEquipamentoTipoBiometria.cs" />
@@ -257,6 +259,10 @@
     <Compile Include="IHorarioDinamico.cs" />
     <Compile Include="IHorarioDinamicoLimiteDdsr.cs" />
     <Compile Include="IHorarioDinamicoPHExtra.cs" />
+    <Compile Include="SQL\JustificaticaRestricao.cs" />
+    <Compile Include="SQL\OcorrenciaRestricao.cs" />
+    <Compile Include="SQL\HorarioDinamicoRestricao.cs" />
+    <Compile Include="SQL\HorarioRestricao.cs" />
     <Compile Include="SQL\ListaEventos.cs" />
     <Compile Include="SQL\ListaEventosEvento.cs" />
     <Compile Include="SQL\EquipamentoTipoBiometria.cs" />

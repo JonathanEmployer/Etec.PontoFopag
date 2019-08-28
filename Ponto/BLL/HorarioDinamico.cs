@@ -57,14 +57,14 @@ namespace BLL
             return dalHorarioDinamico.GetAll();
         }
 
-        public List<Modelo.HorarioDinamico> GetAllList()
+        public List<Modelo.HorarioDinamico> GetAllList(bool validaPermissaoUser)
         {
-            return dalHorarioDinamico.GetAllList();
+            return dalHorarioDinamico.GetAllList(validaPermissaoUser);
         }
 
-        public List<Modelo.HorarioDinamico> GetPorDescricao(string descricao)
+        public List<Modelo.HorarioDinamico> GetPorDescricao(string descricao, bool validaPermissaoUser)
         {
-            return dalHorarioDinamico.GetPorDescricao(descricao);
+            return dalHorarioDinamico.GetPorDescricao(descricao, validaPermissaoUser);
         }
 
         public Modelo.HorarioDinamico LoadObject(int id)
@@ -364,9 +364,9 @@ namespace BLL
         //    return dalHorario.FechamentoPontoHorario(ids);
         //}
 
-        public Modelo.HorarioDinamico LoadObjectByCodigo(int codigo)
+        public Modelo.HorarioDinamico LoadObjectByCodigo(int codigo, bool validaPermissaoUser)
         {
-            return dalHorarioDinamico.LoadObjectByCodigo(codigo);
+            return dalHorarioDinamico.LoadObjectByCodigo(codigo, validaPermissaoUser);
         }
 
         public Modelo.HorarioDinamico LoadObjectAllChildren(int id)

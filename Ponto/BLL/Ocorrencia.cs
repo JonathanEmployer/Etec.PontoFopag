@@ -30,16 +30,6 @@ namespace BLL
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
 
             dalOcorrencia = new DAL.SQL.Ocorrencia(new DataBase(ConnectionString));
-
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    dalOcorrencia = new DAL.SQL.Ocorrencia(new DataBase(ConnectionString));
-                    break;
-                case 2:
-                    dalOcorrencia = DAL.FB.Ocorrencia.GetInstancia;
-                    break;
-            }
             dalOcorrencia.UsuarioLogado = usuarioLogado;
         }
 
@@ -72,14 +62,14 @@ namespace BLL
             return dalOcorrencia.GetHashIdDescricao();
         }
 
-        public List<Modelo.Ocorrencia> GetAllList()
+        public List<Modelo.Ocorrencia> GetAllList(bool validaPermissaoUser)
         {
-            return dalOcorrencia.GetAllList();
+            return dalOcorrencia.GetAllList(validaPermissaoUser);
         }
 
-        public List<Modelo.Ocorrencia> GetAllListConsultaEvento()
+        public List<Modelo.Ocorrencia> GetAllListConsultaEvento(bool validaPermissaoUser)
         {
-            return dalOcorrencia.GetAllListConsultaEvento();
+            return dalOcorrencia.GetAllListConsultaEvento(validaPermissaoUser);
         }
 
         public List<Modelo.Ocorrencia> GetAllPorExibePainelRHPorEmpresa(int idEmpresa)
@@ -154,9 +144,9 @@ namespace BLL
             return dalOcorrencia.getOcorrenciaNome(pDescricao);
         }
 
-        public Modelo.Ocorrencia LoadObjectByCodigo(int pCodigo)
+        public Modelo.Ocorrencia LoadObjectByCodigo(int pCodigo, bool validaPermissaoUser)
         {
-            return dalOcorrencia.LoadObjectByCodigo(pCodigo);
+            return dalOcorrencia.LoadObjectByCodigo(pCodigo, validaPermissaoUser);
         }
 
         public List<Modelo.Ocorrencia> GetAllListPorIds(List<int> ids)

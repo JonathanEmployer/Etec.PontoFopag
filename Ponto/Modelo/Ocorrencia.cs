@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Modelo
@@ -125,5 +126,7 @@ namespace Modelo
                 }
             }
         }
+
+        public IList<OcorrenciaRestricao> OcorrenciaRestricao { get; set; }
     }
 }

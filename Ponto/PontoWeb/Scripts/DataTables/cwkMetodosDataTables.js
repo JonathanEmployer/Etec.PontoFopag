@@ -1216,6 +1216,18 @@ function cwk_EventoClickCadastroAlterar(botao, acao, controller, nomeTabela) {
     });
 }
 
+function eventoClickCopiarHorario(botao, acao, controller, nomeTabela) {
+    $(botao).on("click", function () {
+        var idHorario = GetIdSelecionadoTable(nomeTabela);
+        if (idHorario > 0) {
+            var url = "/" + controller + "/" + acao + "?idHorario=" + idHorario;
+            window.location = url;
+        } else {
+            cwkErroTit('Selecione um Registro!', 'Antes de alterar um registro é necessário selecioná-lo!');
+        }
+    });
+}
+
 // Adiciona o evento click que irá chamar a tela de excluir do objeto
 // Deverá ser passado por parâmetro a mensagem de exclusão.
 // Esse método irá usar as funções dentro da biblioteca de métodos ajax. Certifique-se que ela foi declarada.

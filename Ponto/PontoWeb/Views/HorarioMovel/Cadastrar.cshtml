@@ -1,7 +1,5 @@
 ﻿@model Modelo.Horario
 @{
-    /**/
-
     ViewBag.Title = "Cadastrar Horário Flexível";
     if (Model.IdHorarioDinamico.GetValueOrDefault() > 0)
     {
@@ -21,7 +19,7 @@
 
 @using (Html.BeginForm())
 {
-    @Html.HiddenFor(model => model.Id, new { id = "idHorarioMovel", @class = "horario" })
+    @Html.HiddenFor(model => model.Id, new { id = "idHorario", @class = "horario" })
     @Html.HiddenFor(model => model.Incdata, new { @class = "horario" })
     @Html.HiddenFor(model => model.Inchora, new { @class = "horario" })
     @Html.HiddenFor(model => model.Incusuario, new { @class = "horario" })
@@ -60,6 +58,7 @@
                         {
                             <li><a href="#pnlInItinere" data-toggle="tab" id="liPnlInItinere" style="padding:5px;">In Itinere</a></li>
                         }
+                        <li><a href="#pnlRestricoes" data-toggle="tab" id="liPnlRestricoes" style="padding:5px;">Restrições</a></li>
                     </ul>
                     <div class="tab-content" style="padding-top:5px;">
                         @*Turno Flexível*@
@@ -1256,6 +1255,12 @@
                                 </div>
                             </div>
                         </div>
+
+                        @*Restrições*@
+                        <div class="tab-pane fade" id="pnlRestricoes">
+                            @Html.Partial("_HorarioRestricao", Model)
+                        </div>
+                        @*Encerra div class*@
                     </div>
                 </div>
             </div>
@@ -1880,6 +1885,7 @@
         Items.LHorariosPHExtra = new Array();
         Items.LimitesDDsrProporcionais = new Array();
         Items.LHorariosAItinere = new Array();
+        Items.HorarioRestricao = new Array();
         //Gera o Json do Horário
         $(".horario").each(function () {
             element = $(this);
@@ -1958,6 +1964,42 @@
                 jLHorariosAItinere[name] = value;
             });
             Items.LHorariosAItinere.push(jLHorariosAItinere);
+        });
+
+        
+
+        //Gera Objetos HorarioRestricao
+        $(".divRestricao").each(function () {
+            var div = this;
+            var jHorarioRestricao = new Object();
+
+            var propriedadesSalvar = [];
+            $("input[name*='HorarioRestricao[']", this).each(function () {
+                propriedadesSalvar.push($(this).attr("name"));
+            });
+
+            $("select[name*='HorarioRestricao[']", this).each(function () {
+                propriedadesSalvar.push($(this).attr("name"));
+            });
+
+            $.each($.unique(propriedadesSalvar), function (i, val) {
+                element = $("input[name='" + val + "']", div);
+                name = element.attr("name");
+                if (name === "undefined") {
+                    element = $("select[name='" + val + "']", div);
+                    name = element.attr("name");
+                }
+                name = name.substr(name.indexOf(".") + 1, name.length);
+                if ($(element).attr("type") == "checkbox") {
+                    value = element.is(':checked');
+                }
+                else {
+                    value = element.val();
+                }
+
+                jHorarioRestricao[name] = value;
+            });
+            Items.HorarioRestricao.push(jHorarioRestricao);
         });
 
 
@@ -2411,6 +2453,7 @@
     <script>
         $(document).ready(function () {
             $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+            $('#pnlRestricoes').find('input, textarea, button, select').removeAttr('disabled');
         })
     </script>
 }

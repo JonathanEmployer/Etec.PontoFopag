@@ -246,7 +246,7 @@ namespace BLL
 						{
 							if (OcorrenciasSelecionadas.Count == 0)
 							{
-								listaOcorrencias = bllOcorrencia.GetAllList();
+								listaOcorrencias = bllOcorrencia.GetAllList(false);
 							}
 							else
 							{
@@ -428,7 +428,7 @@ namespace BLL
 		{
 			if (listaOcorrencias == null)
 			{
-				listaOcorrencias = bllOcorrencia.GetAllList();
+				listaOcorrencias = bllOcorrencia.GetAllList(false);
 			}
 			return listaOcorrencias;
 		}

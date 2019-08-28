@@ -1009,6 +1009,57 @@ namespace DAL.SQL
             }
         }
 
+        public virtual int ExcluirRegistros(List<Modelo.ModeloBase> list, SqlTransaction trans)
+        {
+            int ret = 0;
+            if (list != null && list.Count > 0)
+            {
+                List<int> ids = list.Select(s => s.Id).ToList();
+                ret = ExcluirRegistros(ids, trans);
+            }
+            return ret;
+        }
+
+        private int ExcluirRegistros(List<int> ids, SqlTransaction trans)
+        {
+            string comando = String.Format("delete from {0} where id in ({1})", TABELA, String.Join(",", ids));
+            int ret = 0;
+            if (trans != null)
+            {
+                using (SqlCommand command = new SqlCommand("", trans.Connection, trans))
+                {
+                    ret = TransactDbOps.ExecuteNonQuery(trans, CommandType.Text, comando, null);
+                }
+            }
+            else
+            {
+                using (SqlConnection conexao = new SqlConnection(db.ConnectionString))
+                {
+                    if (conexao.State != ConnectionState.Open)
+                        conexao.Open();
+
+                    using (SqlTransaction transaction = conexao.BeginTransaction())
+                    {
+                        using (SqlCommand command = new SqlCommand("", conexao, transaction))
+                        {
+
+                            try
+                            {
+                                ret = TransactDbOps.ExecuteNonQuery(trans, CommandType.Text, comando, null);
+                                transaction.Commit();
+                            }
+                            catch (Exception)
+                            {
+                                transaction.Rollback();
+                                throw;
+                            }
+                        }
+                    }
+                }
+            }
+            return ret;
+        }
+
         public static object ChangeType(object value, Type conversion)
         {
             var t = conversion;

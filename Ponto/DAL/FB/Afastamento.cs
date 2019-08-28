@@ -461,8 +461,6 @@ namespace DAL.FB
                 if (pData >= objAfastamento.Datai && pData <= (objAfastamento.Dataf == null ? DateTime.MaxValue :  objAfastamento.Dataf))
                 {
                     Modelo.Ocorrencia objOcorrencia = new Modelo.Ocorrencia();
-                    DAL.FB.Ocorrencia dalOcorrencia = DAL.FB.Ocorrencia.GetInstancia;
-                    objOcorrencia = dalOcorrencia.LoadObject(objAfastamento.IdOcorrencia);
                     pOcorrencia = objOcorrencia.Descricao;
 
                     if (objAfastamento.Horai == "--:--" && objAfastamento.Horaf == "--:--" && objAfastamento.Abonado == 1)

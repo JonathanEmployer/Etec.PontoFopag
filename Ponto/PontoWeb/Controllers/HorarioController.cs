@@ -1,14 +1,10 @@
 ﻿using BLL_N.JobManager.Hangfire;
 using Modelo;
-using Modelo.Utils;
 using PontoWeb.Controllers.BLLWeb;
-using PontoWeb.Models;
 using PontoWeb.Security;
-using ProgressReporting.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace PontoWeb.Controllers
@@ -28,7 +24,7 @@ namespace PontoWeb.Controllers
             {
                 var usr = Usuario.GetUsuarioPontoWebLogadoCache();
                 BLL.Horario bllHorario = new BLL.Horario(usr.ConnectionString, usr);
-                List<Modelo.Horario> dados = bllHorario.GetAllList(false, false, 1);
+                List<Modelo.Horario> dados = bllHorario.GetAllList(false, false, 1, true);
                 JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
                 jsonResult.MaxJsonLength = int.MaxValue;
                 return jsonResult;
@@ -208,11 +204,12 @@ namespace PontoWeb.Controllers
                 try
                 {
                     Modelo.Horario horarioAnt = bllHorario.LoadObject(obj.Id);
-                    if (horarioAnt.Ativo != obj.Ativo || horarioAnt.Descricao != obj.Descricao)
+                    if (horarioAnt.Ativo != obj.Ativo || horarioAnt.Descricao != obj.Descricao || (obj.HorarioRestricao != null && obj.HorarioRestricao.Where(w => w.Id == 0 || w.Excluir).Count() > 0))
                     {
                         horarioAnt.Ativo = obj.Ativo;
                         horarioAnt.Descricao = obj.Descricao;
                         horarioAnt.PossuiFechamento = obj.PossuiFechamento;
+                        horarioAnt.HorarioRestricao = obj.HorarioRestricao;
                         obj = horarioAnt;
                         Dictionary<string, string> erros = new Dictionary<string, string>();
                         erros = bllHorario.Salvar(Modelo.Acao.Alterar, obj);
@@ -409,6 +406,11 @@ namespace PontoWeb.Controllers
                 #endregion 
             }
 
+            if (horario.HorarioRestricao == null)
+            {
+                horario.HorarioRestricao = new List<HorarioRestricao>(); 
+            }
+            
             return View("Cadastrar", horario);
         }
 
@@ -629,7 +631,7 @@ namespace PontoWeb.Controllers
                 catch (Exception) { codigo = -1; }
                 if (codigo != -1)
                 {
-                    int id = bllHorario.GetIdPorCodigo(codigo).GetValueOrDefault();
+                    int id = bllHorario.GetIdPorCodigo(codigo, true).GetValueOrDefault();
                     Horario horario = bllHorario.LoadObject(id);
                     if (horario != null && horario.Id > 0 && horario.Ativo)
                     {
@@ -677,7 +679,7 @@ namespace PontoWeb.Controllers
             catch (Exception) { codigo = -1; }
             if (codigo != -1)
             {
-                int id = bllHorario.GetIdPorCodigo(codigo).GetValueOrDefault();
+                int id = bllHorario.GetIdPorCodigo(codigo, true).GetValueOrDefault();
                 Horario horario = bllHorario.LoadObject(id);
 
                 if (horario != null && horario.Id > 0 && horario.TipoHorario == 1 && horario.Ativo)
@@ -689,7 +691,7 @@ namespace PontoWeb.Controllers
                 if (horarios.Count > 0)
                     lHorario = horarios;
                 else
-                    lHorario = bllHorario.GetHorarioNormalMovelList(1).Where(w => w.Ativo).ToList();
+                    lHorario = bllHorario.GetHorarioNormalMovelList(1, true).Where(w => w.Ativo).ToList();
 
                 if (!String.IsNullOrEmpty(consulta))
                 {
@@ -711,7 +713,7 @@ namespace PontoWeb.Controllers
             catch (Exception) { codigo = -1; }
             if (codigo != -1)
             {
-                int id = bllHorario.GetIdPorCodigo(codigo).GetValueOrDefault();
+                int id = bllHorario.GetIdPorCodigo(codigo, true).GetValueOrDefault();
                 List<Horario> lHorarioMovel = new List<Horario>();
                 Horario horario = bllHorario.LoadObject(id);
 
@@ -724,7 +726,7 @@ namespace PontoWeb.Controllers
                 if (horarios.Count > 0)
                     lHorario = horarios;
                 else
-                    lHorario = bllHorario.GetHorarioNormalMovelList(2);
+                    lHorario = bllHorario.GetHorarioNormalMovelList(2, true);
                 if (!String.IsNullOrEmpty(consulta))
                 {
                     lHorario = lHorario.Where(p => p.Descricao.ToUpper().Contains(consulta.ToUpper())).ToList();
@@ -750,7 +752,7 @@ namespace PontoWeb.Controllers
             {
                 cod = 0;
             }
-            int? idHorario = bllHorario.GetIdPorCodigo(cod);
+            int? idHorario = bllHorario.GetIdPorCodigo(cod, true);
             return idHorario.GetValueOrDefault();
         }
         #endregion
@@ -796,14 +798,16 @@ namespace PontoWeb.Controllers
         public static Horario CopiaHorario(UsuarioPontoWeb usr, BLL.Horario bllhorario, BLL.Parametros bllParms, BLL.Jornada bllJornada, Horario novoHorario, Horario horarioantigo)
         {
             AutoMapper.Mapper.CreateMap<Horario, Horario>().ForMember(x => x.Id, opt => opt.Ignore()).ForMember(x => x.Altdata, opt => opt.Ignore()).ForMember(x => x.Althora, opt => opt.Ignore()).ForMember(x => x.Altusuario, opt => opt.Ignore()).ForMember(x => x.Codigo, opt => opt.Ignore());
-            AutoMapper.Mapper.CreateMap<HorarioDetalhe, HorarioDetalhe>().ForMember(x => x.Id, opt => opt.Ignore()).ForMember(x => x.Altdata, opt => opt.Ignore()).ForMember(x => x.Althora, opt => opt.Ignore()).ForMember(x => x.Altusuario, opt => opt.Ignore()).ForMember(x => x.Incdata, opt => opt.Ignore()).ForMember(x => x.Inchora, opt => opt.Ignore()).ForMember(x => x.Incusuario, opt => opt.Ignore()).ForMember(x => x.Codigo, opt => opt.Ignore());
-            AutoMapper.Mapper.CreateMap<HorarioPHExtra, HorarioPHExtra>().ForMember(x => x.Id, opt => opt.Ignore()).ForMember(x => x.Altdata, opt => opt.Ignore()).ForMember(x => x.Althora, opt => opt.Ignore()).ForMember(x => x.Altusuario, opt => opt.Ignore()).ForMember(x => x.Incdata, opt => opt.Ignore()).ForMember(x => x.Inchora, opt => opt.Ignore()).ForMember(x => x.Incusuario, opt => opt.Ignore()).ForMember(x => x.Codigo, opt => opt.Ignore());
-            AutoMapper.Mapper.CreateMap<HorarioAItinere, HorarioAItinere>().ForMember(x => x.Id, opt => opt.Ignore()).ForMember(x => x.Altdata, opt => opt.Ignore()).ForMember(x => x.Althora, opt => opt.Ignore()).ForMember(x => x.Altusuario, opt => opt.Ignore()).ForMember(x => x.Incdata, opt => opt.Ignore()).ForMember(x => x.Inchora, opt => opt.Ignore()).ForMember(x => x.Incusuario, opt => opt.Ignore()).ForMember(x => x.Codigo, opt => opt.Ignore());
+            AutoMapper.Mapper.CreateMap<HorarioDetalhe, HorarioDetalhe>().ForMember(x => x.Id, opt => opt.Ignore()).ForMember(x => x.Idhorario, opt => opt.Ignore()).ForMember(x => x.Altdata, opt => opt.Ignore()).ForMember(x => x.Althora, opt => opt.Ignore()).ForMember(x => x.Altusuario, opt => opt.Ignore()).ForMember(x => x.Incdata, opt => opt.Ignore()).ForMember(x => x.Inchora, opt => opt.Ignore()).ForMember(x => x.Incusuario, opt => opt.Ignore()).ForMember(x => x.Codigo, opt => opt.Ignore());
+            AutoMapper.Mapper.CreateMap<HorarioPHExtra, HorarioPHExtra>().ForMember(x => x.Id, opt => opt.Ignore()).ForMember(x => x.Idhorario, opt => opt.Ignore()).ForMember(x => x.Altdata, opt => opt.Ignore()).ForMember(x => x.Althora, opt => opt.Ignore()).ForMember(x => x.Altusuario, opt => opt.Ignore()).ForMember(x => x.Incdata, opt => opt.Ignore()).ForMember(x => x.Inchora, opt => opt.Ignore()).ForMember(x => x.Incusuario, opt => opt.Ignore()).ForMember(x => x.Codigo, opt => opt.Ignore());
+            AutoMapper.Mapper.CreateMap<HorarioAItinere, HorarioAItinere>().ForMember(x => x.Id, opt => opt.Ignore()).ForMember(x => x.Idhorario, opt => opt.Ignore()).ForMember(x => x.Altdata, opt => opt.Ignore()).ForMember(x => x.Althora, opt => opt.Ignore()).ForMember(x => x.Altusuario, opt => opt.Ignore()).ForMember(x => x.Incdata, opt => opt.Ignore()).ForMember(x => x.Inchora, opt => opt.Ignore()).ForMember(x => x.Incusuario, opt => opt.Ignore()).ForMember(x => x.Codigo, opt => opt.Ignore());
+            AutoMapper.Mapper.CreateMap<HorarioRestricao, HorarioRestricao>().ForMember(x => x.Id, opt => opt.Ignore()).ForMember(x => x.IdHorario, opt => opt.Ignore()).ForMember(x => x.Altdata, opt => opt.Ignore()).ForMember(x => x.Althora, opt => opt.Ignore()).ForMember(x => x.Altusuario, opt => opt.Ignore()).ForMember(x => x.Incdata, opt => opt.Ignore()).ForMember(x => x.Inchora, opt => opt.Ignore()).ForMember(x => x.Incusuario, opt => opt.Ignore()).ForMember(x => x.Codigo, opt => opt.Ignore());
 
             var _horario = AutoMapper.Mapper.Map<Modelo.Horario, Modelo.Horario>(horarioantigo, novoHorario);
             _horario.Codigo = bllhorario.MaxCodigo();
             _horario.Ativo = true;
             _horario.Descricao = "";
+            _horario.HorariosPHExtra.ToList().ForEach(f => { f.Id = 0; f.Idhorario = 0; f.Inchora = null; f.Incdata = null; f.Incusuario = null; f.Althora = null; f.Altdata = null; f.Altusuario = null; });
 
             _horario.LHorariosDetalhe = (_horario.HorariosDetalhe.Count() > 0) ? _horario.HorariosDetalhe.ToList() : new List<HorarioDetalhe>();
             _horario.LHorariosPHExtra = (_horario.HorariosPHExtra.Count() > 0) ? _horario.HorariosPHExtra.ToList() : new List<HorarioPHExtra>();
@@ -822,21 +826,39 @@ namespace PontoWeb.Controllers
 
             if (horarioantigo.TipoHorario == 1)
             {
+                List<Modelo.Jornada> jornadas = new List<Jornada>();
+                jornadas = bllJornada.GetAllList(_horario.HorariosDetalhe.Select(s => s.Idjornada.GetValueOrDefault()).Distinct().ToList());
                 _horario.HorariosDetalhe.ToList().ForEach((hdet) =>
                 {
                     hdet.Acao = Acao.Incluir;
-                    Jornada jornada = bllJornada.LoadObject(hdet.Idjornada.GetValueOrDefault());
-                    hdet.DescJornada = (jornada.Codigo != 0) ? jornada.Codigo + " | " + jornada.horarios : string.Empty;
+                    if (hdet.Idjornada.GetValueOrDefault() > 0)
+                    {
+                        Jornada jornada = jornadas.Where(w => w.Id == hdet.Idjornada.GetValueOrDefault()).FirstOrDefault();
+                        hdet.DescJornada = (jornada.Codigo != 0) ? jornada.Codigo + " | " + jornada.horarios : string.Empty;
+                    }
+                    else
+                    {
+                        hdet.DescJornada = string.Empty;
+                    }
                 });
                 _horario.DescJornadaCopiar = _horario.HorariosDetalhe.FirstOrDefault().DescJornada;
             }
             else if (horarioantigo.TipoHorario == 2)
             {
+                List<Modelo.Jornada> jornadas = new List<Jornada>();
+                jornadas = bllJornada.GetAllList(_horario.HorariosFlexiveis.Select(s => s.Idjornada.GetValueOrDefault()).Distinct().ToList());
                 _horario.HorariosFlexiveis.ForEach((hflex) =>
                 {
                     hflex.Acao = Acao.Incluir;
-                    Jornada jornada = bllJornada.LoadObject(hflex.Idjornada.GetValueOrDefault());
-                    hflex.DescJornada = (jornada.Codigo != 0) ? jornada.Codigo + " | " + jornada.horarios : string.Empty;
+                    if (hflex.Idjornada.GetValueOrDefault() > 0)
+                    {
+                        Jornada jornada = jornadas.Where(w => w.Id == hflex.Idjornada.GetValueOrDefault()).FirstOrDefault();
+                        hflex.DescJornada = (jornada.Codigo != 0) ? jornada.Codigo + " | " + jornada.horarios : string.Empty; 
+                    }
+                    else
+                    {
+                        hflex.DescJornada = string.Empty;
+                    }
                 });
                 _horario.DescJornadaCopiar = _horario.HorariosFlexiveis.FirstOrDefault().DescJornada;
             }
@@ -897,5 +919,58 @@ namespace PontoWeb.Controllers
         //    }
         //    return true;
         //}
+
+        [HttpPost]
+        public ActionResult AdicionaNovaRestricao(int index, int tipoRestricao, string restricao, int idHorario)
+        {
+            try
+            {
+                var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+                int? idEmpresa = null;
+                int? idContrato = null;
+                string codigo = "";
+                int codigoInt;
+                try
+                {
+                    codigo = restricao.Split('|')[0];
+                    int.TryParse(codigo, out codigoInt);
+                }
+                catch (Exception)
+                {
+                    throw new Exception(string.Format("Valor ({0}) informado para pesquisa inválido, valor esperado no formato \"0 | descricao\"", restricao));
+                }
+
+                if (tipoRestricao == 0)
+                {
+                    idEmpresa = new BLL.Empresa(usr.ConnectionString, usr).GetIdsPorCodigos(new List<int>() { codigoInt }).FirstOrDefault();
+                    if (idEmpresa.GetValueOrDefault() == 0) throw new Exception(String.Format("Empresa {0} não encontrato", restricao));
+                }
+                else
+                {
+                    idContrato = new BLL.Contrato(usr.ConnectionString, usr).getId(codigoInt, null, null);
+                    if (idContrato.GetValueOrDefault() == 0) throw new Exception(String.Format("Contrato {0} não encontrato", restricao));
+                }
+
+                var horario = new Modelo.Horario();
+                horario.HorarioRestricao = new List<Modelo.HorarioRestricao>();
+                horario.HorarioRestricao.Add(
+                    new HorarioRestricao()
+                    {
+                        IdEmpresa = idEmpresa,
+                        IdContrato = idContrato,
+                        DescEmpresa = restricao,
+                        IdHorario = idHorario
+                    }
+                ); ;
+                string novo = RenderViewToString("AddNovaRestricao", horario);
+                novo = novo.Replace("HorarioRestricao_0__", "HorarioRestricao_" + index + "__");
+                novo = novo.Replace("HorarioRestricao[0].", "HorarioRestricao[" + index + "].");
+                return Json ( new { Success = true, HTML = novo }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { Success = false, Erro = e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

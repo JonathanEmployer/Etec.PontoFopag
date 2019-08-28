@@ -96,9 +96,9 @@ namespace BLL
             return dalHorario.GetPorDescricao(pHorarios);
         }
 
-        public int? GetIdPorCodigo(int Cod)
+        public int? GetIdPorCodigo(int Cod, bool validaPermissaoUser)
         {
-            return dalHorario.GetIdPorCodigo(Cod);
+            return dalHorario.GetIdPorCodigo(Cod, validaPermissaoUser);
         }
 
         public DataTable GetHorarioNormal()
@@ -111,9 +111,9 @@ namespace BLL
             return dalHorario.GetHorarioMovel();
         }
 
-        public List<Modelo.Horario> GetHorarioNormalMovelList(int tipoHorario)
+        public List<Modelo.Horario> GetHorarioNormalMovelList(int tipoHorario, bool validaPermissaoUser)
         {
-            return dalHorario.GetHorarioNormalMovelList(tipoHorario);
+            return dalHorario.GetHorarioNormalMovelList(tipoHorario, validaPermissaoUser);
         }
 
         public List<Modelo.Horario> getPorParametro(int pIdParametro)
@@ -392,9 +392,9 @@ namespace BLL
             return dalHorario.GetAllList(carregaHorarioDetalhe, carregaPercentuais);
         }
 
-        public List<Modelo.Horario> GetAllList(bool carregaHorarioDetalhe, bool carregaPercentuais, int tipohorario)
+        public List<Modelo.Horario> GetAllList(bool carregaHorarioDetalhe, bool carregaPercentuais, int tipohorario, bool validaPermissaoUser)
         {
-            return dalHorario.GetAllList(carregaHorarioDetalhe, carregaPercentuais, tipohorario);
+            return dalHorario.GetAllList(carregaHorarioDetalhe, carregaPercentuais, tipohorario, validaPermissaoUser);
         }
 
 

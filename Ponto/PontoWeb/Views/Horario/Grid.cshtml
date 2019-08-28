@@ -67,16 +67,7 @@
         cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', controller, nomeTabela);
         cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', controller, nomeTabela);
         cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir', controller, nomeTabela, 'Horário excluído com sucesso.');
-
-        $('#btCopiar').on("click", function () {
-            var idHorario = GetIdSelecionadoTable(nomeTabela);
-            if (idHorario > 0) {
-                var url = "/" + controller + "/" + 'CopiarHorario' + "?idHorario=" + idHorario;
-                window.location = url;
-            } else {
-                cwkErroTit('Selecione um Registro!', 'Antes de alterar um registro é necessário selecioná-lo!');
-            }
-        });
+        eventoClickCopiarHorario('#btCopiar', 'CopiarHorario', controller, nomeTabela);
     });
 
     function CallBackLoadGrid() {

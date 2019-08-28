@@ -32,16 +32,8 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    dalJustificativa = new DAL.SQL.Justificativa(new DataBase(ConnectionString));
-                    dalJustificativa.UsuarioLogado = usuarioLogado;
-                    break;
-                case 2:
-                    dalJustificativa = DAL.FB.Justificativa.GetInstancia;
-                    break;
-            }
+            dalJustificativa = new DAL.SQL.Justificativa(new DataBase(ConnectionString));
+            dalJustificativa.UsuarioLogado = usuarioLogado;
         }
         
 
@@ -125,14 +117,14 @@ namespace BLL
             return dalJustificativa.getId(pValor, pCampo, pValor2);
         }
 
-        public List<Modelo.Justificativa> GetAllList()
+        public List<Modelo.Justificativa> GetAllList(bool validaPermissaoUser)
         {
-            return dalJustificativa.GetAllList();
+            return dalJustificativa.GetAllList(validaPermissaoUser);
         }
 
-        public List<Modelo.Justificativa> GetAllListConsultaEvento()
+        public List<Modelo.Justificativa> GetAllListConsultaEvento(bool validaPermissaoUser)
         {
-            return dalJustificativa.GetAllListConsultaEvento();
+            return dalJustificativa.GetAllListConsultaEvento(validaPermissaoUser);
         }
 
         public List<Modelo.Justificativa> GetAllPorExibePaineldoRH()
@@ -140,9 +132,9 @@ namespace BLL
             return dalJustificativa.GetAllPorExibePaineldoRH();
         }
 
-        public int? GetIdPorCod(int Cod)
+        public int? GetIdPorCod(int Cod, bool validaPermissaoUser)
         {
-            return dalJustificativa.GetIdPorCod(Cod);
+            return dalJustificativa.GetIdPorCod(Cod, validaPermissaoUser);
         }
 
         public int GetIdPorIdIntegracao(int IdIntegracao)

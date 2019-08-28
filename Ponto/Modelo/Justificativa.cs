@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Modelo
@@ -40,5 +41,7 @@ namespace Modelo
 				return Ativo == true ? "Sim" : "Não";
 			}
 		}
-	}
+
+        public List<JustificativaRestricao> JustificativaRestricao { get; set; }
+    }
 }

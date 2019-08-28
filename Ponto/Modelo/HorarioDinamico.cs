@@ -514,6 +514,8 @@ namespace Modelo
         public IList<Modelo.HorarioDinamicoCiclo> LHorarioCiclo { get; set; }
         public Parametros Parametro { get; set; }
         public bool PossuiFechamento { get; set; }
+
+        public IList<HorarioDinamicoRestricao> HorarioDinamicoRestricao { get; set; }
     }
 }
 

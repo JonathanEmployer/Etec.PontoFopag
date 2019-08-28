@@ -6,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
 
 namespace DAL
 {
@@ -41,9 +39,12 @@ namespace DAL
             return sql;
         }
 
-        public string GetAllOcorrencias()
+        public string GetAllOcorrencias(Modelo.Cw_Usuario usuarioLogado)
         {
-            string sql = "select o.id, o.codigo, o.descricao from ocorrencia o";;
+            DAL.SQL.Ocorrencia dalOcorrencia = new Ocorrencia(db);
+            dalOcorrencia.UsuarioLogado = usuarioLogado;
+
+            string sql = "select o.id, o.codigo, o.descricao from ocorrencia o where 1 = 1 " + dalOcorrencia.AddPermissaoUsuario("o.id");
             return sql;
         }
 
@@ -63,7 +64,7 @@ namespace DAL
             pxyRelAfastamento res = new pxyRelAfastamento();
             List<Modelo.Proxy.pxyFuncionarioRelatorio> fucRrel = new List<Modelo.Proxy.pxyFuncionarioRelatorio>();
             SqlParameter[] parms = new SqlParameter[0];
-            SqlDataReader drOco = db.ExecuteReader(CommandType.Text, GetAllOcorrencias(), parms);
+            SqlDataReader drOco = db.ExecuteReader(CommandType.Text, GetAllOcorrencias(UsuarioLogado), parms);
 
             string sql = @"select f.id, 
 	                               f.codigo, 
@@ -112,32 +113,6 @@ namespace DAL
                 }
                 dr.Dispose();
 
-                if (!drOco.IsClosed)
-                {
-                    drOco.Close();
-                }
-                drOco.Dispose();
-            }
-            return res;
-        }
-
-        public pxyRelAfastamento GetRelAfastamento()
-        {
-            pxyRelAfastamento res = pxyRelAfastamento.Produce(GetRelBase());
-            SqlParameter[] parms = new SqlParameter[0];
-            SqlDataReader drOco = db.ExecuteReader(CommandType.Text, GetAllOcorrencias(), parms);
-
-            try
-            {
-                var mapOco = Mapper.CreateMap<IDataReader, Modelo.Ocorrencia>();
-                res.OcorrenciasAfastamento = Mapper.Map<List<Modelo.Ocorrencia>>(drOco);
-            }
-            catch (Exception ex)
-            {
-                throw (ex);
-            }
-            finally
-            {
                 if (!drOco.IsClosed)
                 {
                     drOco.Close();
@@ -471,11 +446,15 @@ namespace DAL
 
             SqlParameter[] parms = new SqlParameter[] { };
 
+            DAL.SQL.Horario dalHorario = new DAL.SQL.Horario(new DataBase(UsuarioLogado.ConnectionString));
+            dalHorario.UsuarioLogado = UsuarioLogado;
             string sql = @"SELECT   hor.id,
 		                            hor.codigo
                     , convert(varchar, hor.codigo) + ' | ' + hor.descricao as descricao
                     , case when hor.tipohorario = 1 then 'Normal' else 'Flexível' end AS tipo
-                FROM horario hor";
+                FROM horario hor 
+                WHERE 1 = 1 ";
+            sql += dalHorario.AddPermissaoUsuario("hor.id");
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 
             try

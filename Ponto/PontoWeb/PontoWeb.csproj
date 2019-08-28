@@ -1760,12 +1760,21 @@
     <Content Include="Views\ListaEventos\Grid.cshtml" />
     <Content Include="Views\RelatorioTotalHoras\Index.cshtml" />
     <Content Include="Views\RelatorioTotalHoras\RelatorioTotalHorasHtml.cshtml" />
+    <Content Include="Views\Shared\_HorarioRestricao.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\HorarioDinamicoRestricao.cshtml" />
+    <Content Include="Views\HorarioDinamico\AdicionaNovaRestricao.cshtml" />
+    <Content Include="Views\Ocorrencia\AdicionaNovaRestricao.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\OcorrenciaRestricao.cshtml" />
+    <Content Include="Views\Justificativa\AdicionaNovaRestricao.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\JustificativaRestricao.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.DebugPRD.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <Content Include="Views\Shared\EditorTemplates\HorarioRestricao.cshtml" />
+    <Content Include="Views\Horario\AddNovaRestricao.cshtml" />
     <None Include="Web.Desenvolvimento.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

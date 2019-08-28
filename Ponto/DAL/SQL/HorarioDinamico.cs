@@ -42,6 +42,13 @@ namespace DAL.SQL
             set { _dalHorarioDinamicoLimiteDdsr = value; }
         }
 
+        private DAL.SQL.HorarioDinamicoRestricao _dalHorarioDinamicoRestricao;
+        public DAL.SQL.HorarioDinamicoRestricao dalHorarioDinamicoRestricao
+        {
+            get { return _dalHorarioDinamicoRestricao; }
+            set { _dalHorarioDinamicoRestricao = value; }
+        }
+
         public HorarioDinamico(DataBase database)
         {
             db = database;
@@ -49,6 +56,7 @@ namespace DAL.SQL
             dalHorarioDinamicoDinamicoCiclo = new HorarioDinamicoCiclo(db);
             _dalHorarioDinamicoCicloSequencia = new HorarioDinamicoCicloSequencia(db);
             _dalHorarioDinamicoLimiteDdsr = new HorarioDinamicoLimiteDdsr(db);
+            _dalHorarioDinamicoRestricao = new HorarioDinamicoRestricao(db);
             dalParametros = new Parametros(db);
 
             TABELA = "horariodinamico";
@@ -482,7 +490,7 @@ namespace DAL.SQL
             return objHorarioDinamico;
         }
 
-        public List<Modelo.HorarioDinamico> GetAllList(List<int> ids)
+        public List<Modelo.HorarioDinamico> GetAllList(List<int> ids, bool validaPermissaoUser)
         {
             SqlParameter[] parms = new SqlParameter[]
             {
@@ -493,6 +501,11 @@ namespace DAL.SQL
             if (ids.Count > 0)
             {
                 cmd += " AND h.id in (SELECT * FROM dbo.f_clausulaIn(@ids))";
+            }
+
+            if (validaPermissaoUser)
+            {
+                cmd += AddPermissaoUsuario("h.id");
             }
 
             List<Modelo.HorarioDinamico> listaHorario = new List<Modelo.HorarioDinamico>();
@@ -510,12 +523,12 @@ namespace DAL.SQL
             return listaHorario;
         }
 
-        public List<Modelo.HorarioDinamico> GetAllList()
+        public List<Modelo.HorarioDinamico> GetAllList(bool validaPermissaoUser)
         {
-            return GetAllList(new List<int>());
+            return GetAllList(new List<int>(), validaPermissaoUser);
         }
 
-        public Modelo.HorarioDinamico LoadObjectByCodigo(int codigo)
+        public Modelo.HorarioDinamico LoadObjectByCodigo(int codigo, bool validaPermissaoUser)
         {
             SqlParameter[] parms = new SqlParameter[1]
                 {
@@ -524,6 +537,11 @@ namespace DAL.SQL
             parms[0].Value = codigo;
             string cmd = SELECTALL + " and h.codigo = @Codigo ";
 
+            if (validaPermissaoUser)
+            {
+                cmd += AddPermissaoUsuario("h.id");
+            }
+
             Modelo.HorarioDinamico horarioDinamico = new Modelo.HorarioDinamico();
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, cmd, parms);
             SetInstance(dr, horarioDinamico);
@@ -531,7 +549,7 @@ namespace DAL.SQL
             return horarioDinamico;
         }
 
-        public List<Modelo.HorarioDinamico> GetPorDescricao(string descricao)
+        public List<Modelo.HorarioDinamico> GetPorDescricao(string descricao, bool validaPermissaoUser)
         {
             SqlParameter[] parms = new SqlParameter[1]
             {
@@ -540,6 +558,11 @@ namespace DAL.SQL
             parms[0].Value = descricao;
             string cmd = SELECTALL + " and h.descricao like ('%'+@descricao+'%') ";
 
+            if (validaPermissaoUser)
+            {
+                cmd += AddPermissaoUsuario("h.id");
+            }
+            
             List<Modelo.HorarioDinamico> listaHorario = new List<Modelo.HorarioDinamico>();
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, cmd, parms);
             while (dr.Read())
@@ -563,7 +586,7 @@ namespace DAL.SQL
         public List<Modelo.HorarioDinamico> LoadObjectAllChildren(List<int> ids)
         {
             //Carrega os Horarios
-            List<Modelo.HorarioDinamico> horarios = GetAllList(ids);
+            List<Modelo.HorarioDinamico> horarios = GetAllList(ids, false);
 
             if (horarios.Count > 0)
             {
@@ -586,6 +609,9 @@ namespace DAL.SQL
                 //Carrega e vincula os parâmetros de DDsr proporcianl aos seus respectivos horários
                 List<Modelo.HorarioDinamicoLimiteDdsr> horarioDinamicoLimiteDdsr = dalHorarioDinamicoLimiteDdsr.LoadObjectByHorarioDinamico(horarios.Select(s => s.Id).ToList());
                 horarios.ForEach(f => f.LimitesDDsrProporcionais = horarioDinamicoLimiteDdsr.Where(w => w.IdHorarioDinamico == f.Id).ToList());
+                //Carrega e vincula as restrições aos seus respectivos horários
+                List<Modelo.HorarioDinamicoRestricao> horarioDinamicoRestricao = dalHorarioDinamicoRestricao.LoadObjectByHorarioDinamico(horarios.Select(s => s.Id).ToList());
+                horarios.ForEach(f => f.HorarioDinamicoRestricao = horarioDinamicoRestricao.Where(w => w.IdHorarioDinamico == f.Id).ToList());
             }
             return horarios;
         }
@@ -627,6 +653,7 @@ namespace DAL.SQL
             //salvar sequencia
             dalHorarioDinamicoCicloSequencia.InserirRegistros(((Modelo.HorarioDinamico)obj).LHorarioCiclo.SelectMany(s => s.LHorarioCicloSequencia).ToList(), trans);
             AuxSalvarLimitesDDSRProporcional(trans, (Modelo.HorarioDinamico)obj);
+            AuxSalvarHorarioDinamicoRestricao(trans, (Modelo.HorarioDinamico)obj);
             cmd.Parameters.Clear();
 
             // trans.Rollback();
@@ -651,15 +678,44 @@ namespace DAL.SQL
             if (obj.LHorariosDinamicosPHExtra != null && obj.LHorariosDinamicosPHExtra.Count > 0)
             {
                 obj.LHorariosDinamicosPHExtra.ToList().ForEach(f => { f.IdHorarioDinamico = obj.Id; });
-                dalHorarioDinamicoPHExtra.AtualizarRegistros(obj.LHorariosDinamicosPHExtra.ToList(), trans); 
+                dalHorarioDinamicoPHExtra.AtualizarRegistros(obj.LHorariosDinamicosPHExtra.ToList(), trans);
             }
 
             //Salvar horario ciclo
             AlterarAux_SalvarCiclo(trans, obj);
             AlterarAux_SalvarSequencia(trans, obj);
             AuxSalvarLimitesDDSRProporcional(trans, obj);
+            AuxSalvarHorarioDinamicoRestricao(trans, obj);
 
             cmd.Parameters.Clear();
+        }
+
+        private void AuxSalvarHorarioDinamicoRestricao(SqlTransaction trans, Modelo.HorarioDinamico obj)
+        {
+            IList<Modelo.HorarioDinamicoRestricao> restricoes = ((Modelo.HorarioDinamico)obj).HorarioDinamicoRestricao;
+            restricoes.ToList().ForEach(f => f.IdHorarioDinamico = ((Modelo.HorarioDinamico)obj).Id);
+            if (restricoes != null && restricoes.Count > 0)
+            {
+                var despresaDuplicados = restricoes.GroupBy(g => new { g.Acao, g.Excluir, g.IdContrato, g.IdEmpresa, g.IdHorarioDinamico, g.TipoRestricao });
+                List<Modelo.HorarioDinamicoRestricao> registrosSalvar = new List<Modelo.HorarioDinamicoRestricao>();
+                foreach (var grupos in despresaDuplicados)
+                {
+                    Modelo.HorarioDinamicoRestricao horarioRestricaoOperacao = grupos.FirstOrDefault();
+                    registrosSalvar.Add(horarioRestricaoOperacao);
+                }
+                var RegistrosExcluir = registrosSalvar.Where(w => w.Excluir && w.Id > 0).ToList();
+                if (RegistrosExcluir.Count() > 0)
+                {
+                    List<Modelo.ModeloBase> RegistrosExcluirBase = RegistrosExcluir.ConvertAll(x => (Modelo.ModeloBase)x);
+                    dalHorarioDinamicoRestricao.ExcluirRegistros(RegistrosExcluirBase, trans);
+                }
+
+                var RegistrosIncluir = registrosSalvar.Where(w => !w.Excluir && w.Id == 0).ToList();
+                if (RegistrosIncluir.Count() > 0)
+                {
+                    dalHorarioDinamicoRestricao.InserirRegistros(RegistrosIncluir, trans);
+                }
+            }
         }
 
         private void AuxSalvarLimitesDDSRProporcional(SqlTransaction trans, Modelo.HorarioDinamico obj)
@@ -840,7 +896,7 @@ namespace DAL.SQL
                               left join cw_usuario usuInc on hdm.incusuario = usuInc.login
                               left join cw_usuario usuAlt on hdm.incusuario = usuAlt.login
                               left join parametros p on hdm.idparametro = p.id
-                             where (@ativo = -1 or @ativo = hdm.Ativo)";
+                             where (@ativo = -1 or @ativo = hdm.Ativo) " + AddPermissaoUsuario("hdm.id");
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, consulta, parms);
 
@@ -964,12 +1020,13 @@ namespace DAL.SQL
 
         public void ExcluirListAndAllChildren(List<int> ids)
         {
-            SqlParameter[] parms = { new SqlParameter("@ids", SqlDbType.VarChar) };
-            parms[0].Value = ids;
+            SqlParameter[] parms = { new SqlParameter("@idhorarioDinamico", SqlDbType.VarChar) };
+            parms[0].Value = String.Join(",", ids);
             string deleteAll = @"delete from horariodinamicociclosequencia where idhorariodinamicociclo in (select id from HorarioDinamicoCiclo where idhorariodinamico in (select * from F_ClausulaIn(@idhorarioDinamico)))
                                 delete from HorarioDinamicoCiclo where idhorariodinamico in (select * from F_ClausulaIn(@idhorarioDinamico))
                                 delete from HorarioDinamicophextra where idhorariodinamico in (select * from F_ClausulaIn(@idhorarioDinamico))
                                 delete from HorarioDinamicoLimiteDdsr where idhorariodinamico in (select * from F_ClausulaIn(@idhorarioDinamico))
+                                delete from HorarioDinamicoRestricao where idhorariodinamico in (select * from F_ClausulaIn(@idhorarioDinamico))
                                 delete from horariodinamico where id in (select * from F_ClausulaIn(@idhorarioDinamico))";
 
             SqlCommand cmd = db.ExecNonQueryCmd(CommandType.Text, deleteAll, true, parms);
@@ -1012,6 +1069,47 @@ namespace DAL.SQL
             dr.Dispose();
 
             return dt;
+        }
+        #endregion
+
+        #region Permissões
+        /// <summary>
+        /// Esse método adicionará a condição de acordo com a permissão do usuário e a restrição de permissão do horário.
+        /// </summary>
+        /// <param name="campoIdHorarioDinamico">informar o campo que está o id do horário, por exemplo em uma consulta "select * from horario where 1 = 1 " informar horario.id em uma consulta com alias "select h.* from horario h where 1 = 1 " informar h.id ... </param>
+        /// <returns></returns>
+        public string AddPermissaoUsuario(string campoIdHorarioDinamico)
+        {
+            if (UsuarioLogado != null)
+            {
+                string condicionalEmpresa = String.Format(@" (EXISTS ((SELECT 1
+									 FROM empresacwusuario eu
+									inner join HorarioDinamicoRestricao hr on eu.idempresa = hr.IdEmpresa
+												   WHERE eu.idcw_usuario = {0} AND hr.IdHorarioDinamico = {1}))
+								  ) ", UsuarioLogado.Id, campoIdHorarioDinamico);
+                string condicionalContrato = String.Format(@" (EXISTS ((SELECT 1
+									 FROM contratousuario cu
+									inner join HorarioDinamicoRestricao hr on cu.idcontrato = hr.IdContrato
+												   WHERE cu.idcwusuario = {0} AND hr.IdHorarioDinamico = {1}))
+								  ) ", UsuarioLogado.Id, campoIdHorarioDinamico);
+                string condicionalHorarioSemRestricao = String.Format(@" (NOT EXISTS(SELECT 1
+                                                      FROM HorarioDinamicoRestricao hr
+                                                    WHERE hr.IdHorarioDinamico = {0} )) ", campoIdHorarioDinamico);
+
+                if (UsuarioLogado.UtilizaControleEmpresa && UsuarioLogado.UtilizaControleContratos)
+                {
+                    return String.Format(" AND ({0} OR {1} OR {2}) ", condicionalHorarioSemRestricao, condicionalEmpresa, condicionalContrato);
+                }
+                else if (UsuarioLogado.UtilizaControleEmpresa && !UsuarioLogado.UtilizaControleContratos)
+                {
+                    return String.Format(" AND ({0} OR {1}) ", condicionalHorarioSemRestricao, condicionalEmpresa);
+                }
+                else if (UsuarioLogado.UtilizaControleContratos && !UsuarioLogado.UtilizaControleEmpresa)
+                {
+                    return String.Format(" AND ({0} OR {1}) ", condicionalHorarioSemRestricao, condicionalContrato);
+                }
+            }
+            return "";
         }
         #endregion
     }

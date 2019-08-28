@@ -21,6 +21,7 @@ namespace PontoWeb.Controllers
 {
     public class HorarioDinamicoController : IControllerPontoWeb<HorarioDinamico>
     {
+        private UsuarioPontoWeb _usr = Usuario.GetUsuarioPontoWebLogadoCache();
         public override ActionResult Grid()
         {
             return View(new Modelo.Proxy.PxyGridHorarioDinamico());
@@ -31,8 +32,7 @@ namespace PontoWeb.Controllers
         {
             try
             {
-                var usr = Usuario.GetUsuarioPontoWebLogadoCache();
-                BLL.HorarioDinamico bllHorario = new BLL.HorarioDinamico(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
+                BLL.HorarioDinamico bllHorario = new BLL.HorarioDinamico(_usr.ConnectionString, _usr);
                 List<Modelo.Proxy.PxyGridHorarioDinamico> dados = bllHorario.GridHorarioDinamico(-1);
                 JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
                 jsonResult.MaxJsonLength = int.MaxValue;
@@ -52,26 +52,26 @@ namespace PontoWeb.Controllers
             return GetPagina(id);
         }
 
-        //[PermissoesFiltro(Roles = "HorarioDinamicoCadastrar")]
+        [PermissoesFiltro(Roles = "HorarioDinamicoCadastrar")]
         public override ActionResult Cadastrar()
         {
             return GetPagina(0);
         }
 
-        //[PermissoesFiltro(Roles = "HorarioDinamicoCadastrar")]
+        [PermissoesFiltro(Roles = "HorarioDinamicoCadastrar")]
         [HttpPost]
         public override ActionResult Cadastrar([JsonBinder]HorarioDinamico horario)
         {
             return Salvar(horario);
         }
 
-        //[PermissoesFiltro(Roles = "HorarioDinamicoAlterar")]
+        [PermissoesFiltro(Roles = "HorarioDinamicoAlterar")]
         public override ActionResult Alterar(int id)
         {
             return GetPagina(id);
         }
 
-        //[PermissoesFiltro(Roles = "HorarioDinamicoAlterar")]
+        [PermissoesFiltro(Roles = "HorarioDinamicoAlterar")]
         [HttpPost]
         public override ActionResult Alterar([JsonBinder]HorarioDinamico horario)
         {
@@ -82,9 +82,7 @@ namespace PontoWeb.Controllers
         [HttpPost]
         public override ActionResult Excluir(int id)
         {
-            string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
-            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
-            BLL.HorarioDinamico bllHorarioDinamico = new BLL.HorarioDinamico(conn, usr);
+            BLL.HorarioDinamico bllHorarioDinamico = new BLL.HorarioDinamico(_usr.ConnectionString, _usr);
             try
             {
                 bllHorarioDinamico.ExcluirListAndAllChildren(new List<int>() { id });
@@ -104,12 +102,9 @@ namespace PontoWeb.Controllers
         #region métodos auxiliares para exibir/salvar página
         protected override ActionResult GetPagina(int id)
         {
-            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
-            string conn = usr.ConnectionString;
-
-            BLL.HorarioDinamico bllHorarioDinamico = new BLL.HorarioDinamico(conn, usr);
-            BLL.Jornada bllJornada = new BLL.Jornada(conn, usr);
-            BLL.Parametros bllParametros = new BLL.Parametros(conn, usr);
+            BLL.HorarioDinamico bllHorarioDinamico = new BLL.HorarioDinamico(_usr.ConnectionString, _usr);
+            BLL.Jornada bllJornada = new BLL.Jornada(_usr.ConnectionString, _usr);
+            BLL.Parametros bllParametros = new BLL.Parametros(_usr.ConnectionString, _usr);
             HorarioDinamico horario = new HorarioDinamico();
 
             if (id == 0)
@@ -184,7 +179,12 @@ namespace PontoWeb.Controllers
                     }
                 }
                 #endregion
-            }         
+            }
+
+            if (horario.HorarioDinamicoRestricao == null)
+            {
+                horario.HorarioDinamicoRestricao = new List<HorarioDinamicoRestricao>();
+            }
 
             return View("Cadastrar", horario);
         }
@@ -203,19 +203,18 @@ namespace PontoWeb.Controllers
 
         protected override ActionResult Salvar(HorarioDinamico obj)
         {
-            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
-            string conn = usr.ConnectionString;
-            BLL.HorarioDinamico bllHorarioDinamico = new BLL.HorarioDinamico(conn, usr);
+            BLL.HorarioDinamico bllHorarioDinamico = new BLL.HorarioDinamico(_usr.ConnectionString, _usr);
             if (obj.PossuiFechamento) // Se possuir fechamento permite alterar apenas alguns campos
             {
                 try
                 {
                     Modelo.HorarioDinamico horarioAnt = bllHorarioDinamico.LoadObjectAllChildren(obj.Id);
-                    if (horarioAnt.Ativo != obj.Ativo || horarioAnt.Descricao != obj.Descricao)
+                    if (horarioAnt.Ativo != obj.Ativo || horarioAnt.Descricao != obj.Descricao || (obj.HorarioDinamicoRestricao != null && obj.HorarioDinamicoRestricao.Where(w => w.Id == 0 || w.Excluir).Count() > 0))
                     {
                         horarioAnt.Ativo = obj.Ativo;
                         horarioAnt.Descricao = obj.Descricao;
                         horarioAnt.PossuiFechamento = obj.PossuiFechamento;
+                        horarioAnt.HorarioDinamicoRestricao = obj.HorarioDinamicoRestricao;
                         obj = horarioAnt;
                         Dictionary<string, string> erros = new Dictionary<string, string>();
                         erros = bllHorarioDinamico.Salvar(Modelo.Acao.Alterar, obj);
@@ -272,7 +271,7 @@ namespace PontoWeb.Controllers
                         else
                         {
                             List<PxyIdPeriodo> funcsPeriodo = bllHorarioDinamico.FuncionariosParaRecalculoObject(obj.Id);
-                            HangfireManagerCalculos hfm = new HangfireManagerCalculos(usr.DataBase, "", "", "/HorarioDinamico/Grid");
+                            HangfireManagerCalculos hfm = new HangfireManagerCalculos(_usr.DataBase, "", "", "/HorarioDinamico/Grid");
                             string parametrosExibicao = String.Format("Horário dinâmico {0} | {1}, {2} funcionários.", obj.Codigo, obj.Descricao, funcsPeriodo.Count);
                             Modelo.Proxy.PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de marcações por horário", parametrosExibicao, funcsPeriodo);
                             return Json(new { redirectTo = Url.Action("Grid") });
@@ -401,7 +400,7 @@ namespace PontoWeb.Controllers
         public ActionResult DadosParametros(string parametro)
         {
             int id = ParametroController.BuscaIdParametro(parametro);
-            BLL.Parametros bllParametro = new BLL.Parametros(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+            BLL.Parametros bllParametro = new BLL.Parametros(_usr.ConnectionString, _usr);
             Parametros param = bllParametro.LoadObject(id);
             return Json(new { inicioAdNoturno = param.InicioAdNoturno, fimAdNoturno = param.FimAdNoturno });
         }
@@ -468,14 +467,14 @@ namespace PontoWeb.Controllers
         [Authorize]
         public ActionResult EventoConsulta(String consulta)
         {
-            BLL.HorarioDinamico bllHorarioDinamico = new BLL.HorarioDinamico(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+            BLL.HorarioDinamico bllHorarioDinamico = new BLL.HorarioDinamico(_usr.ConnectionString, _usr);
             IList<HorarioDinamico> lHorarioDinamico = new List<HorarioDinamico>();
             int codigo = -1;
             try { codigo = Int32.Parse(consulta); }
             catch (Exception) { codigo = -1; }
             if (codigo != -1)
             {
-                HorarioDinamico horarioDinamico = bllHorarioDinamico.LoadObjectByCodigo(codigo);
+                HorarioDinamico horarioDinamico = bllHorarioDinamico.LoadObjectByCodigo(codigo, true);
                 if (horarioDinamico != null && horarioDinamico.Id > 0 && horarioDinamico.Ativo)
                 {
                     lHorarioDinamico.Add(horarioDinamico);
@@ -486,11 +485,11 @@ namespace PontoWeb.Controllers
             {
                 if (!String.IsNullOrEmpty(consulta))
                 {
-                    lHorarioDinamico = bllHorarioDinamico.GetPorDescricao(consulta);
+                    lHorarioDinamico = bllHorarioDinamico.GetPorDescricao(consulta, true);
                 }
                 else
                 {
-                    lHorarioDinamico = bllHorarioDinamico.GetAllList();
+                    lHorarioDinamico = bllHorarioDinamico.GetAllList(true);
                 }
                 if (lHorarioDinamico.Count > 0)
                 {
@@ -521,9 +520,6 @@ namespace PontoWeb.Controllers
 
         public ActionResult Selecionar(string horario, int? idHorarioDinamico)
         {
-            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
-            string conn = usr.ConnectionString;
-
             int id = 0;
             if (!String.IsNullOrEmpty(horario))
             {
@@ -535,13 +531,13 @@ namespace PontoWeb.Controllers
             }
             
 
-            BLL.HorarioDinamico bllHorarioDinamico = new BLL.HorarioDinamico(conn, usr);
+            BLL.HorarioDinamico bllHorarioDinamico = new BLL.HorarioDinamico(_usr.ConnectionString, _usr);
             Modelo.HorarioDinamico hd = bllHorarioDinamico.LoadObjectAllChildren(id);
             if (hd != null && hd.Id > 0)
             {
                 if (hd.LHorarioCiclo != null && hd.LHorarioCiclo.Count > 0)
                 {
-                    BLL.Jornada bllJornada = new BLL.Jornada(conn, usr);
+                    BLL.Jornada bllJornada = new BLL.Jornada(_usr.ConnectionString, _usr);
                     List<Modelo.Jornada> jornadas = bllJornada.GetAllList(hd.LHorarioCiclo.Select(s => s.Idjornada).ToList());
                     if (jornadas != null && jornadas.Count() > 0)
                     {
@@ -553,6 +549,58 @@ namespace PontoWeb.Controllers
             
             return View("HorarioDinamicoSelecionar", hd);
         }
-            #endregion
+        #endregion
+
+        [HttpPost]
+        public ActionResult AdicionaNovaRestricao(int index, int tipoRestricao, string restricao, int idHorario)
+        {
+            try
+            {
+                int? idEmpresa = null;
+                int? idContrato = null;
+                string codigo = "";
+                int codigoInt;
+                try
+                {
+                    codigo = restricao.Split('|')[0];
+                    int.TryParse(codigo, out codigoInt);
+                }
+                catch (Exception)
+                {
+                    throw new Exception(string.Format("Valor ({0}) informado para pesquisa inválido, valor esperado no formato \"0 | descricao\"", restricao));
+                }
+
+                if (tipoRestricao == 0)
+                {
+                    idEmpresa = new BLL.Empresa(_usr.ConnectionString, _usr).GetIdsPorCodigos(new List<int>() { codigoInt }).FirstOrDefault();
+                    if (idEmpresa.GetValueOrDefault() == 0) throw new Exception(String.Format("Empresa {0} não encontrato", restricao));
+                }
+                else
+                {
+                    idContrato = new BLL.Contrato(_usr.ConnectionString, _usr).getId(codigoInt, null, null);
+                    if (idContrato.GetValueOrDefault() == 0) throw new Exception(String.Format("Contrato {0} não encontrato", restricao));
+                }
+
+                var horario = new Modelo.HorarioDinamico();
+                horario.HorarioDinamicoRestricao = new List<Modelo.HorarioDinamicoRestricao>();
+                horario.HorarioDinamicoRestricao.Add(
+                    new HorarioDinamicoRestricao()
+                    {
+                        IdEmpresa = idEmpresa,
+                        IdContrato = idContrato,
+                        DescEmpresa = restricao,
+                        IdHorarioDinamico = idHorario
+                    }
+                ); ;
+                string novo = RenderViewToString("AdicionaNovaRestricao", horario);
+                novo = novo.Replace("HorarioDinamicoRestricao_0__", "HorarioDinamicoRestricao_" + index + "__");
+                novo = novo.Replace("HorarioDinamicoRestricao[0].", "HorarioDinamicoRestricao[" + index + "].");
+                return Json(new { Success = true, HTML = novo }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { Success = false, Erro = e.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
+    }
 }

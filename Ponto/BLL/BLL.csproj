@@ -282,6 +282,10 @@
   <ItemGroup>
     <Compile Include="Afastamento.cs" />
     <Compile Include="AFD.cs" />
+    <Compile Include="HorarioDinamicoRestricao.cs" />
+    <Compile Include="JustificativaRestricao.cs" />
+    <Compile Include="OcorrenciaRestricao.cs" />
+    <Compile Include="HorarioRestricao.cs" />
     <Compile Include="ListaEventos.cs" />
     <Compile Include="AlertasDisponiveis.cs" />
     <Compile Include="ListaEventosEvento.cs" />

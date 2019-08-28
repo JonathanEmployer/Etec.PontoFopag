@@ -30,17 +30,9 @@ namespace BLL
             else            
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
 
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 2:
-                    dalOcorrenciaEmpresa = DAL.FB.OcorrenciaEmpresa.GetInstancia;
-                    dalOcorrencia = DAL.FB.Ocorrencia.GetInstancia;
-                    break;
-                default:
-                    dalOcorrenciaEmpresa = new DAL.SQL.OcorrenciaEmpresa(new DataBase(ConnectionString));
-                    dalOcorrencia = new DAL.SQL.Ocorrencia(new DataBase(ConnectionString));
-                    break;
-            }
+
+            dalOcorrenciaEmpresa = new DAL.SQL.OcorrenciaEmpresa(new DataBase(ConnectionString));
+            dalOcorrencia = new DAL.SQL.Ocorrencia(new DataBase(ConnectionString));
 
             dalOcorrencia.UsuarioLogado = usuarioLogado;
             dalOcorrenciaEmpresa.UsuarioLogado = usuarioLogado;

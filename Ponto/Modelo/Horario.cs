@@ -822,6 +822,8 @@ namespace Modelo
             //this.LHorariosAItinere = listaAI;
             this.HorariosAItinere = listaAI.ToArray();
         }
+
+        public IList<HorarioRestricao> HorarioRestricao { get; set; }
     }
 }
 

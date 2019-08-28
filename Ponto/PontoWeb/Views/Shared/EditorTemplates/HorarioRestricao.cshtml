@@ -1,0 +1,29 @@
+﻿@model Modelo.HorarioRestricao
+
+    <tr class="divRestricao">
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.Incdata)
+        @Html.HiddenFor(model => model.Inchora)
+        @Html.HiddenFor(model => model.Incusuario)
+        @Html.HiddenFor(model => model.Altdata)
+        @Html.HiddenFor(model => model.Althora)
+        @Html.HiddenFor(model => model.Altusuario)
+        @Html.HiddenFor(m => m.IdHorario)
+        @Html.HiddenFor(m => m.IdEmpresa)
+        @Html.HiddenFor(m => m.IdContrato)
+        @Html.HiddenFor(m => m.Codigo)
+        @Html.HiddenFor(m => m.Excluir, new { @class = "marcarExcluido" })
+        @Html.HiddenFor(m => m.TipoRestricao)
+        @Html.HiddenFor(m => m.DescEmpresa)
+        @Html.HiddenFor(m => m.DescContrato)
+        <td>
+            @Html.DisplayFor(m => m.TipoRestricao)
+        </td>
+        <td>
+            @Html.DisplayFor(m => m.DescEmpresa)
+            @Html.DisplayFor(m => m.DescContrato)
+        </td>
+        <td>
+            <button type="button" id="btnExcluirRestricao" class="btn btn-sm btn-danger excluirRestricao" onclick="excluirRestricao(this)"><span class="glyphicon glyphicon-trash"></span></button>
+        </td>
+    </tr>

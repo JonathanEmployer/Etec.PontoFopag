@@ -915,19 +915,19 @@ namespace DAL.FB
             return lista;
         }
 
-        public int? GetIdPorCodigo(int Cod)
+        public int? GetIdPorCodigo(int Cod, bool validaPermissaoUser)
         {
             throw new NotImplementedException();
         }
 
-        public List<Modelo.Horario> GetAllList(bool carregaHorarioDetalhe, bool carregaPercentuais, int tipohorario)
+        public List<Modelo.Horario> GetAllList(bool carregaHorarioDetalhe, bool carregaPercentuais, int tipohorario, bool validaPermissaoUser)
         {
             throw new NotImplementedException();
         }
         #endregion
 
 
-        public List<Modelo.Horario> GetHorarioNormalMovelList(int tipoHorario)
+        public List<Modelo.Horario> GetHorarioNormalMovelList(int tipoHorario, bool validaPermissaoUser)
         {
             throw new NotImplementedException();
         }

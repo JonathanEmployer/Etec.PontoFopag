@@ -11,11 +11,18 @@ namespace DAL.SQL
 {
 	public class Ocorrencia : DAL.SQL.DALBase, DAL.IOcorrencia
 	{
+        private DAL.SQL.OcorrenciaRestricao _dalOcorrenciaRestricao;
+        public DAL.SQL.OcorrenciaRestricao dalOcorrenciaRestricao
+        {
+            get { return _dalOcorrenciaRestricao; }
+            set { _dalOcorrenciaRestricao = value; }
+        }
 
-		public Ocorrencia(DataBase database)
+        public Ocorrencia(DataBase database)
 		{
 			db = database;
-			TABELA = "ocorrencia";
+            _dalOcorrenciaRestricao = new OcorrenciaRestricao(db);
+            TABELA = "ocorrencia";
 
 			SELECTPID = @"   SELECT * FROM ocorrencia WHERE id = @id";
 
@@ -164,7 +171,55 @@ namespace DAL.SQL
             parms[18].Value = ((Modelo.Ocorrencia)obj).DefaultTipoAfastamento;
 		}
 
-		public Modelo.Ocorrencia LoadObject(int id)
+        protected override void IncluirAux(SqlTransaction trans, Modelo.ModeloBase obj)
+        {
+            base.IncluirAux(trans, obj);
+            AuxSalvarOcorrenciaRestricao(trans, ((Modelo.Ocorrencia)obj));
+        }
+        protected override void AlterarAux(SqlTransaction trans, Modelo.ModeloBase objBase)
+        {
+            base.AlterarAux(trans, objBase);
+            AuxSalvarOcorrenciaRestricao(trans, ((Modelo.Ocorrencia)objBase));
+        }
+
+        protected override void ExcluirAux(SqlTransaction trans, Modelo.ModeloBase objBase)
+        {
+            dalOcorrenciaRestricao.ExcluirByOcorrencias(trans, new List<int>() { objBase.Id });
+            base.ExcluirAux(trans, objBase);
+        }
+
+        private void AuxSalvarOcorrenciaRestricao(SqlTransaction trans, Modelo.Ocorrencia obj)
+        {
+            IList<Modelo.OcorrenciaRestricao> restricoes = ((Modelo.Ocorrencia)obj).OcorrenciaRestricao;
+            if (restricoes != null && restricoes.Count > 0)
+            {
+                restricoes.ToList().ForEach(f => f.IdOcorrencia = ((Modelo.Ocorrencia)obj).Id);
+                if (restricoes != null && restricoes.Count > 0)
+                {
+                    var despresaDuplicados = restricoes.GroupBy(g => new { g.Acao, g.Excluir, g.IdContrato, g.IdEmpresa, g.IdOcorrencia, g.TipoRestricao });
+                    List<Modelo.OcorrenciaRestricao> registrosSalvar = new List<Modelo.OcorrenciaRestricao>();
+                    foreach (var grupos in despresaDuplicados)
+                    {
+                        Modelo.OcorrenciaRestricao ocorrenciaRestricaoOperacao = grupos.FirstOrDefault();
+                        registrosSalvar.Add(ocorrenciaRestricaoOperacao);
+                    }
+                    var RegistrosExcluir = registrosSalvar.Where(w => w.Excluir && w.Id > 0).ToList();
+                    if (RegistrosExcluir.Count() > 0)
+                    {
+                        List<Modelo.ModeloBase> RegistrosExcluirBase = RegistrosExcluir.ConvertAll(x => (Modelo.ModeloBase)x);
+                        dalOcorrenciaRestricao.ExcluirRegistros(RegistrosExcluirBase, trans);
+                    }
+
+                    var RegistrosIncluir = registrosSalvar.Where(w => !w.Excluir && w.Id == 0).ToList();
+                    if (RegistrosIncluir.Count() > 0)
+                    {
+                        dalOcorrenciaRestricao.InserirRegistros(RegistrosIncluir, trans);
+                    }
+                } 
+            }
+        }
+
+        public Modelo.Ocorrencia LoadObject(int id)
 		{
 			SqlDataReader dr = LoadDataReader(id);
 
@@ -181,7 +236,7 @@ namespace DAL.SQL
 			return objOcorrencia;
 		}
 
-		public Modelo.Ocorrencia LoadObjectByCodigo(int pCodigo)
+		public Modelo.Ocorrencia LoadObjectByCodigo(int pCodigo, bool validaPermissaoUser)
 		{
 
 			SqlParameter[] parms = new SqlParameter[]
@@ -194,6 +249,10 @@ namespace DAL.SQL
 							" FROM ocorrencia" +
 							" WHERE codigo = @codigo" +
                               " AND ativo = 1 ";
+            if (validaPermissaoUser)
+            {
+                sql += AddPermissaoUsuario("ocorrencia.id");
+            }
 
 			SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 
@@ -239,11 +298,16 @@ namespace DAL.SQL
 			return lista;
 		}
 
-		public List<Modelo.Ocorrencia> GetAllList()
+		public List<Modelo.Ocorrencia> GetAllList(bool validaPermissaoUser)
 		{
 			SqlParameter[] parms = new SqlParameter[0];
+            string sql = "SELECT * FROM ocorrencia where 1 = 1 ";
+            if (validaPermissaoUser)
+            {
+                sql += AddPermissaoUsuario("ocorrencia.id");
+            }
 
-			SqlDataReader dr = db.ExecuteReader(CommandType.Text, "SELECT * FROM ocorrencia", parms);
+			SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 
 			List<Modelo.Ocorrencia> lista = new List<Modelo.Ocorrencia>();
 			try
@@ -270,11 +334,17 @@ namespace DAL.SQL
 			return lista;
 		}
 
-        public List<Modelo.Ocorrencia> GetAllListConsultaEvento()
+        public List<Modelo.Ocorrencia> GetAllListConsultaEvento(bool validaPermissaoUser)
         {
             SqlParameter[] parms = new SqlParameter[0];
 
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, "SELECT * FROM ocorrencia WHERE ativo = 1", parms);
+            string sql = "SELECT * FROM ocorrencia WHERE ativo = 1 ";
+            if (validaPermissaoUser)
+            {
+                sql += AddPermissaoUsuario("ocorrencia.id");
+            }
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 
             List<Modelo.Ocorrencia> lista = new List<Modelo.Ocorrencia>();
             try
@@ -478,6 +548,47 @@ namespace DAL.SQL
 			return Id;
 		}
 
-		#endregion
-	}
+        #endregion
+
+        #region Permissões
+        /// <summary>
+        /// Esse método adicionará a condição de acordo com a permissão do usuário e a restrição de permissão da ocorrencia.
+        /// </summary>
+        /// <param name="campoIdOcorrencia">informar o campo que está o id da ocorrencia, por exemplo em uma consulta "select * from ocorrencia where 1 = 1 " informar ocorrencia.id em uma consulta com alias "select O.* from ocorrencia h where 1 = 1 " informar O.id ... </param>
+        /// <returns></returns>
+        public string AddPermissaoUsuario(string campoIdOcorrencia)
+        {
+            if (UsuarioLogado != null)
+            {
+                string condicionalEmpresa = String.Format(@" (EXISTS ((SELECT 1
+									 FROM empresacwusuario eu
+									inner join OcorrenciaRestricao oc on eu.idempresa = oc.IdEmpresa
+												   WHERE eu.idcw_usuario = {0} AND oc.IdOcorrencia = {1}))
+								  ) ", UsuarioLogado.Id, campoIdOcorrencia);
+                string condicionalContrato = String.Format(@" (EXISTS ((SELECT 1
+									 FROM contratousuario cu
+									inner join OcorrenciaRestricao oc on cu.idcontrato = oc.IdContrato
+												   WHERE cu.idcwusuario = {0} AND oc.IdOcorrencia = {1}))
+								  ) ", UsuarioLogado.Id, campoIdOcorrencia);
+                string condicionalOcorrenciaSemRestricao = String.Format(@" (NOT EXISTS(SELECT 1
+                                                      FROM OcorrenciaRestricao oc
+                                                    WHERE oc.idOcorrencia = {0} )) ", campoIdOcorrencia);
+
+                if (UsuarioLogado.UtilizaControleEmpresa && UsuarioLogado.UtilizaControleContratos)
+                {
+                    return String.Format(" AND ({0} OR {1} OR {2}) ", condicionalOcorrenciaSemRestricao, condicionalEmpresa, condicionalContrato);
+                }
+                else if (UsuarioLogado.UtilizaControleEmpresa && !UsuarioLogado.UtilizaControleContratos)
+                {
+                    return String.Format(" AND ({0} OR {1}) ", condicionalOcorrenciaSemRestricao, condicionalEmpresa);
+                }
+                else if (UsuarioLogado.UtilizaControleContratos && !UsuarioLogado.UtilizaControleEmpresa)
+                {
+                    return String.Format(" AND ({0} OR {1}) ", condicionalOcorrenciaSemRestricao, condicionalContrato);
+                }
+            }
+            return "";
+        }
+        #endregion
+    }
 }

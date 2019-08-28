@@ -8,20 +8,18 @@
     <thead>
         <tr>
             <th>Código</th>
+            <th>Código do Contrato | Descrição</th>
             <th>Empresa</th>
-            <th>Código do Contrato</th>
-            <th>Descrição</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr id="@item.Id">
-                <td>@item.Codigo</td>
-                <td>@item.NomeEmpresa</td>
-                <td>@item.CodigoContrato</td>
-                <td>@item.DescricaoContrato</td>
-            </tr>
+        <tr id="@item.Id">
+            <td>@item.Codigo</td>
+            <td>@String.Format("{0} - {1}", item.CodigoContrato, @item.DescricaoContrato)</td>
+            <td>@item.NomeEmpresa</td>
+        </tr>
         }
 </table>
            

@@ -40,24 +40,28 @@ namespace DAL
             return sql;
         }
 
-        public string GetAllOcorrencias()
+        public string GetAllOcorrencias(Modelo.Cw_Usuario usuarioLogado)
         {
-            string sql = "select o.id, o.codigo, o.descricao from ocorrencia o"; ;
+            Ocorrencia dalOcorrencia = new Ocorrencia(db);
+            dalOcorrencia.UsuarioLogado = usuarioLogado;
+            string sql = "select o.id, o.codigo, o.descricao from ocorrencia o where 1 = 1 "+ dalOcorrencia.AddPermissaoUsuario("o.id");
             return sql;
         }
 
-        public string GetAllJustificativas()
+        public string GetAllJustificativas(Modelo.Cw_Usuario usuarioLogado)
         {
-            string sql = "select o.id, o.codigo, o.descricao from justificativa o"; ;
+            Justificativa dalJustificativa = new Justificativa(db);
+            dalJustificativa.UsuarioLogado = usuarioLogado;
+            string sql = "select o.id, o.codigo, o.descricao from justificativa o  where 1 = 1 " + dalJustificativa.AddPermissaoUsuario("o.id");
             return sql;
         }
 
-        public pxyRelOcorrencias GetRelOcorrencias(pxyRelPontoWeb pxyRelPW)
+        public pxyRelOcorrencias GetRelOcorrencias(pxyRelPontoWeb pxyRelPW, Modelo.Cw_Usuario UsuarioLogado)
         {
             pxyRelOcorrencias res = pxyRelOcorrencias.Produce(pxyRelPW);
             SqlParameter[] parms = new SqlParameter[0];
-            SqlDataReader drOcors = db.ExecuteReader(CommandType.Text, GetAllOcorrencias(), parms);
-            SqlDataReader drJust = db.ExecuteReader(CommandType.Text, GetAllJustificativas(), parms);
+            SqlDataReader drOcors = db.ExecuteReader(CommandType.Text, GetAllOcorrencias(UsuarioLogado), parms);
+            SqlDataReader drJust = db.ExecuteReader(CommandType.Text, GetAllJustificativas(UsuarioLogado), parms);
 
             try
             {

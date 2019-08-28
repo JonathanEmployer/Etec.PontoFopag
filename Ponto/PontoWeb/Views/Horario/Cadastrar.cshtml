@@ -40,6 +40,7 @@
                         <li><a href="#pnlDSR" data-toggle="tab" id="liPnlDSR" style="padding:5px;">DSR</a></li>
                         <li><a href="#pnlIntervaloAutomatico" data-toggle="tab" id="liPnlIntervaloAutomatico" style="padding:5px;">Intervalo Automático</a></li>
                         <li><a href="#pnlInItinere" data-toggle="tab" id="liPnlInItinere" style="padding:5px;">In Itinere</a></li>
+                        <li><a href="#pnlRestricoes" data-toggle="tab" id="liPnlRestricoes" style="padding:5px;">Restrições</a></li>
                     </ul>
                     <div class="tab-content" style="padding-top:5px;">
                         @*Turno Normal*@
@@ -815,9 +816,10 @@
 
                         </div>
 
-
-
-
+                        @*Restrições*@
+                        <div class="tab-pane fade" id="pnlRestricoes">
+                            @Html.Partial("_HorarioRestricao", Model)
+                        </div>
                         @*Encerra div class*@
                     </div>
                 </div>
@@ -1484,7 +1486,6 @@
             $(foraJornada).val(0);
         }
     }
-
 </script>
 @if (ViewBag.Consultar == 1 || Model.PossuiFechamento)
 {
@@ -1502,6 +1503,7 @@
             $('#chkInativarHorario').removeAttr('disabled');
             $('#Descricao').removeAttr('disabled');
             $('#btnSalvar').removeAttr('disabled');
+            $('#pnlRestricoes').find('input, textarea, button, select').removeAttr('disabled');
         })
     </script>
 }

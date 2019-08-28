@@ -39,7 +39,7 @@ namespace BLL
 
             try
             {
-                IList<Modelo.Justificativa> justificativas = bllJust.GetAllList();
+                IList<Modelo.Justificativa> justificativas = bllJust.GetAllList(false);
                 if (objProgressBar != null)
                 {
                     objProgressBar.GetValueOrDefault().setaMensagem("Carregando dados do(s) " + idsFuncs.Count() + " funcionário(s)");

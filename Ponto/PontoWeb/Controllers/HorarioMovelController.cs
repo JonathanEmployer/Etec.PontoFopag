@@ -402,6 +402,7 @@ namespace PontoWeb.Controllers
             var listaDiaSemanaIniFolga = GerarListaDiaSEmanaIniFolga(horario);
 
             ViewBag.ListaDiaSemanaIniFolga = listaDiaSemanaIniFolga;
+            horario.HorarioRestricao = horario.HorarioRestricao ?? new List<HorarioRestricao>();
             #endregion
             return View("Cadastrar", horario);
         }
@@ -460,11 +461,12 @@ namespace PontoWeb.Controllers
                 try
                 {
                     Modelo.Horario horarioAnt = bllHorario.LoadObject(obj.Id);
-                    if (horarioAnt.Ativo != obj.Ativo || horarioAnt.Descricao != obj.Descricao)
+                    if (horarioAnt.Ativo != obj.Ativo || horarioAnt.Descricao != obj.Descricao || (obj.HorarioRestricao != null && obj.HorarioRestricao.Where(w => w.Id == 0 || w.Excluir).Count() > 0))
                     {
                         horarioAnt.Ativo = obj.Ativo;
                         horarioAnt.Descricao = obj.Descricao;
                         horarioAnt.PossuiFechamento = obj.PossuiFechamento;
+                        horarioAnt.HorarioRestricao = obj.HorarioRestricao;
                         obj = horarioAnt;
                         Dictionary<string, string> erros = new Dictionary<string, string>();
                         erros = bllHorario.Salvar(Modelo.Acao.Alterar, obj);
@@ -553,7 +555,7 @@ namespace PontoWeb.Controllers
         #endregion
 
         [PermissoesFiltro(Roles = "HorarioMovelCadastrar")]
-        public ActionResult CopiarHorario(int id)
+        public ActionResult CopiarHorario(int idHorario)
         {
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
             string conn = usr.ConnectionString;
@@ -561,7 +563,7 @@ namespace PontoWeb.Controllers
             BLL.Parametros bllParms = new BLL.Parametros(conn, usr);
             BLL.Jornada bllJornada = new BLL.Jornada(conn, usr);
             Horario novoHorario = new Horario();
-            Horario horarioantigo = bllhorario.LoadObject(id);
+            Horario horarioantigo = bllhorario.LoadObject(idHorario);
 
             novoHorario = HorarioController.CopiaHorario(usr, bllhorario, bllParms, bllJornada, novoHorario, horarioantigo);
 
@@ -745,7 +747,7 @@ namespace PontoWeb.Controllers
             catch (Exception) { codigo = -1; }
             if (codigo != -1)
             {
-                int id = bllHorario.GetIdPorCodigo(codigo).GetValueOrDefault();
+                int id = bllHorario.GetIdPorCodigo(codigo, true).GetValueOrDefault();
                 Horario horario = bllHorario.LoadObject(id);
                 if (horario != null && horario.Id > 0 && horario.Ativo)
                 {
@@ -758,7 +760,7 @@ namespace PontoWeb.Controllers
                 if (horarios.Count > 0)
                     lHorario = horarios;
                 else
-                    lHorario = bllHorario.GetHorarioNormalMovelList(2).Where(w => w.Ativo).ToList();
+                    lHorario = bllHorario.GetHorarioNormalMovelList(2, true).Where(w => w.Ativo).ToList();
                 if (!String.IsNullOrEmpty(consulta))
                 {
                     lHorario = lHorario.Where(p => p.Descricao.ToUpper().Contains(consulta.ToUpper())).ToList();
@@ -783,7 +785,7 @@ namespace PontoWeb.Controllers
             {
                 cod = 0;
             }
-            int? idHorario = bllHorario.GetIdPorCodigo(cod);
+            int? idHorario = bllHorario.GetIdPorCodigo(cod, true);
             return idHorario.GetValueOrDefault();
         }
         #endregion

@@ -21,35 +21,132 @@
             </div>
             <div class="panel-body panelConteudo">
                 @Html.ValidationMessage("CustomError")
-				<div class="row">
-					<div class="col-md-3">
-						<div class="form-group">
-							@Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
-							@Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm" })
-							@Html.ValidationMessageFor(model => model.Codigo)
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="form-group">
-							@Html.LabelFor(model => model.ExibePaineldoRH, new { @class = "control-label label-sm" })
-							@Html.CheckBoxFor(model => model.ExibePaineldoRH, new { @class = "checkbox" })
-							@Html.ValidationMessageFor(model => model.ExibePaineldoRH)
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="form-group">
-							@Html.LabelFor(model => model.Ativo, new { @class = "control-label label-sm" })
-							@Html.CheckBoxFor(model => model.Ativo, new { @class = "checkbox" })
-							@Html.ValidationMessageFor(model => model.Ativo)
-						</div>
-					</div>
-				</div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Descricao, new { @class = "control-label label-sm" })
-                            @Html.TextBoxFor(model => model.Descricao, new { @class = "form-control  input-sm" })
-                            @Html.ValidationMessageFor(model => model.Descricao)
+                <div class="tabbable" style="margin-top:0;">
+                    <ul class="nav nav-tabs" id="hnTab">
+                        <li class="active"><a href="#pnlGeral" data-toggle="tab" id="liPnlGeral" style="padding:5px;">Geral</a></li>
+                        <li><a href="#pnlRestricoes" data-toggle="tab" id="liPnlRestricoes" style="padding:5px;">Restrições</a></li>
+                    </ul>
+                    <div class="tab-content" style="padding-top:5px;">
+                        @*TAB Parametros Gerais *@
+                        <div class="tab-pane fade in active" id="pnlGeral">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
+                                        @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm" })
+                                        @Html.ValidationMessageFor(model => model.Codigo)
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ExibePaineldoRH, new { @class = "control-label label-sm" })
+                                        @Html.CheckBoxFor(model => model.ExibePaineldoRH, new { @class = "checkbox" })
+                                        @Html.ValidationMessageFor(model => model.ExibePaineldoRH)
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Ativo, new { @class = "control-label label-sm" })
+                                        @Html.CheckBoxFor(model => model.Ativo, new { @class = "checkbox" })
+                                        @Html.ValidationMessageFor(model => model.Ativo)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Descricao, new { @class = "control-label label-sm" })
+                                        @Html.TextBoxFor(model => model.Descricao, new { @class = "form-control  input-sm" })
+                                        @Html.ValidationMessageFor(model => model.Descricao)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*TAB Restricoes *@
+                        <div class="tab-pane fade" id="pnlRestricoes">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            @Html.Label("Tipo", new { @class = "control-label label-sm" })
+                                        </div>
+                                        <div class="col-md-11">
+                                            <div class="row">
+                                                <div class="form-group input-group-sm">
+                                                    <div class="col-md-3">
+                                                        <div class="radio-inline" data-toggle="radio">
+                                                            @Html.RadioButton("TipoRestricao", 0, new { id = "idTipoRestricaoEmpresa", @class = "radioRestricao", @checked = true })
+                                                            @Html.Label("lbRestricaoEmpresa", "Empresa", new { @class = "control-label label-sm", @for = "idTipoRestricaoEmpresa" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="radio-inline" data-toggle="radio">
+                                                            @Html.RadioButton("TipoRestricao", 1, new { id = "idTipoRestricaoContrato", @class = "radioRestricao" })
+                                                            @Html.Label("lbRestricaoContrato", "Contrato", new { @class = "control-label label-sm", @for = "idTipoRestricaoContrato" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-md-10">
+                                        <div id="divEmpresa">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.Label("Empresa", new { @class = "control-label label-sm" })
+                                                    <div class="input-group input-group-sm">
+                                                        @Html.TextBox("Empresa", "", new { @class = "form-control  input-sm", id = "lkpEmpresa" })
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-primary" id="btnEmpresa" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="divContrato" hidden>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.Label("Contrato", new { @class = "control-label label-sm" })
+                                                    <div class="input-group input-group-sm">
+                                                        @Html.TextBox("Contrato", "", new { @class = "form-control  input-sm", id = "lkpContrato" })
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-primary" id="btnContrato" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <br />
+                                        <button type="button" id="btnInserirNovaRestricao" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-plus"></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="padding-top:2px; padding-bottom:0">
+                                    @Html.Label("", "Restrições", new { @class = "control-label label-sm" })
+                                </div>
+                                <div class="panel-body" style="padding-top:5px; padding-bottom:5px">
+                                    <table id="tbRestricao" class="table table-bordered table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th>Tipo</th>
+                                                <th>Descrição</th>
+                                                <th>Opções</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="divRestricoes">
+                                            @for (int i = 0; i < Model.JustificativaRestricao.Count; i++)
+                                            {
+                                                @Html.EditorFor(m => Model.JustificativaRestricao[i], "Restricoes")
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -83,3 +180,75 @@
         })
     </script>
 }
+
+@*Scripts referente a Restricao*@
+<script>
+    $(document).ready(function () {
+        cwk_EventoConsulta("#btnEmpresa", "#lkpEmpresa", "EventoConsulta", "Empresa", "");
+        cwk_EventoConsulta("#btnContrato", "#lkpContrato", "EventoConsulta", "Contrato", "");
+    });
+
+        $("#btnInserirNovaRestricao").click(function (e) {
+        var itemIndex = $(".divRestricao").length;
+        e.preventDefault();
+        var tipoRest = $('input[name=TipoRestricao]:checked').val();
+        var restr = $("#lkpEmpresa").val();
+        if (tipoRest == 1) {
+            restr = $("#lkpContrato").val();
+        }
+
+        if (isEmpty(restr)) {
+            cwkAlerta('Selecione uma restrição');
+        }
+        else if ($('#tbRestricao tr:not([style*="display: none"]) td:contains(' + restr + ')').length > 0) {
+            cwkAlerta('Restrição já existe');
+        } else {
+            $("#loading").modal();
+            var idjus = $("#idJustificativa").val();
+
+            var obj = { index: itemIndex, tipoRestricao: tipoRest, restricao: restr, idJustificativa: idjus };
+            var url = '@Url.Action("AdicionaNovaRestricao", "Justificativa")' + "?" + $.param(obj, true);
+            url = decodeURIComponent(url);
+            $.get(url, function (data) {
+                if (data.Success == true) {
+                    $("#divRestricoes").prepend(data.HTML);
+                    $("#lkpEmpresa").val("");
+                    $("#lkpContrato").val("");
+                }
+                else {
+                    cwkErro(data.Erro)
+                }
+                $("#loading").modal('hide');
+
+            }).fail(function (xhr, status, error) {
+                $("#loading").modal('hide');
+                cwkErro("An AJAX error occured: " + status + "\nError: " + error);
+            });
+        }
+    });
+
+    function excluirRestricao(btn) {
+        var containerRestricaoAtual = $(btn).closest('.divRestricao');
+        containerRestricaoAtual.hide();
+        console.log("Marcar = "+$(containerRestricaoAtual).children( ".marcarExcluido" ).attr('id'))
+        $(containerRestricaoAtual).children(".marcarExcluido").val(true);
+    }
+
+    function validaPesquisaRestricao() {
+        if ($('#idTipoRestricaoEmpresa').is(':checked')) {
+            $("#divEmpresa").show();
+            $("#divContrato").hide();
+            $("#lkpContrato").val("");
+        };
+
+        if ($('#idTipoRestricaoContrato').is(':checked')) {
+            $("#divEmpresa").hide();
+            $("#lkpEmpresa").val("");
+            $("#divContrato").show();
+        };
+    }
+
+    $(".radioRestricao").change(function () {
+        validaPesquisaRestricao();
+    });
+</script>

@@ -68,8 +68,7 @@
         cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', controller, nomeTabela);
         cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir', controller, nomeTabela, 'Horário Flexível excluído com sucesso.');
         cwk_EventoAlterarAjaxParam('#btImprimirGradeHorario', 'Index', 'RelatorioHorarioMovel', nomeTabela, "");
-        cwk_EventoAlterarAjaxParam('#btCopiar', 'CopiarHorario', controller, nomeTabela, "");
-
+        eventoClickCopiarHorario('#btCopiar', 'CopiarHorario', controller, nomeTabela);
     });
 
     function CallBackLoadGrid() {

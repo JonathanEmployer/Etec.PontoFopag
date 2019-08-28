@@ -8,10 +8,17 @@ namespace DAL.SQL
 {
     public class Justificativa : DAL.SQL.DALBase, DAL.IJustificativa
     {
+        private DAL.SQL.JustificativaRestricao _dalJustificativaRestricao;
+        public DAL.SQL.JustificativaRestricao dalJustificativaRestricao
+        {
+            get { return _dalJustificativaRestricao; }
+            set { _dalJustificativaRestricao = value; }
+        }
 
         public Justificativa(DataBase database)
         {
             db = database;
+            _dalJustificativaRestricao = new JustificativaRestricao(db);
             TABELA = "justificativa";
 
             SELECTPID = @"   SELECT * FROM justificativa WHERE id = @id";
@@ -133,6 +140,54 @@ namespace DAL.SQL
 			parms[11].Value = ((Modelo.Justificativa)obj).Ativo;
 		}
 
+        protected override void IncluirAux(SqlTransaction trans, Modelo.ModeloBase obj)
+        {
+            base.IncluirAux(trans, obj);
+            AuxSalvarJustificativaRestricao(trans, ((Modelo.Justificativa)obj));
+        }
+        protected override void AlterarAux(SqlTransaction trans, Modelo.ModeloBase objBase)
+        {
+            base.AlterarAux(trans, objBase);
+            AuxSalvarJustificativaRestricao(trans, ((Modelo.Justificativa)objBase));
+        }
+
+        protected override void ExcluirAux(SqlTransaction trans, Modelo.ModeloBase objBase)
+        {
+            dalJustificativaRestricao.ExcluirByJustificativas(trans, new List<int>() { objBase.Id });
+            base.ExcluirAux(trans, objBase);
+        }
+
+        private void AuxSalvarJustificativaRestricao(SqlTransaction trans, Modelo.Justificativa obj)
+        {
+            IList<Modelo.JustificativaRestricao> restricoes = ((Modelo.Justificativa)obj).JustificativaRestricao;
+            if (restricoes != null && restricoes.Count > 0)
+            {
+                restricoes.ToList().ForEach(f => f.IdJustificativa = ((Modelo.Justificativa)obj).Id);
+                if (restricoes != null && restricoes.Count > 0)
+                {
+                    var despresaDuplicados = restricoes.GroupBy(g => new { g.Acao, g.Excluir, g.IdContrato, g.IdEmpresa, g.IdJustificativa, g.TipoRestricao });
+                    List<Modelo.JustificativaRestricao> registrosSalvar = new List<Modelo.JustificativaRestricao>();
+                    foreach (var grupos in despresaDuplicados)
+                    {
+                        Modelo.JustificativaRestricao JustificativaRestricaoOperacao = grupos.FirstOrDefault();
+                        registrosSalvar.Add(JustificativaRestricaoOperacao);
+                    }
+                    var RegistrosExcluir = registrosSalvar.Where(w => w.Excluir && w.Id > 0).ToList();
+                    if (RegistrosExcluir.Count() > 0)
+                    {
+                        List<Modelo.ModeloBase> RegistrosExcluirBase = RegistrosExcluir.ConvertAll(x => (Modelo.ModeloBase)x);
+                        dalJustificativaRestricao.ExcluirRegistros(RegistrosExcluirBase, trans);
+                    }
+
+                    var RegistrosIncluir = registrosSalvar.Where(w => !w.Excluir && w.Id == 0).ToList();
+                    if (RegistrosIncluir.Count() > 0)
+                    {
+                        dalJustificativaRestricao.InserirRegistros(RegistrosIncluir, trans);
+                    }
+                }
+            }
+        }
+
         public Modelo.Justificativa LoadObject(int id)
         {
             SqlDataReader dr = LoadDataReader(id);
@@ -149,11 +204,15 @@ namespace DAL.SQL
             return objJustificativa;
         }
 
-        public int? GetIdPorCod(int Cod)
+        public int? GetIdPorCod(int Cod, bool validaPermissaoUser)
         {
             SqlParameter[] parms = new SqlParameter[0];
             DataTable dt = new DataTable();
             string consulta = String.Format("select top 1 id from justificativa where codigo = {0} and ativo = 1 ", Cod);
+            if (validaPermissaoUser)
+            {
+                consulta += AddPermissaoUsuario("justificativa.id");
+            }
             int? Id = Convert.ToInt32(db.ExecuteScalar(CommandType.Text, consulta, parms));
 
             return Id;
@@ -256,11 +315,15 @@ namespace DAL.SQL
 
         }
 
-        public List<Modelo.Justificativa> GetAllList()
+        public List<Modelo.Justificativa> GetAllList(bool validaPermissaoUser)
         {
             SqlParameter[] parms = new SqlParameter[0];
-
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, "SELECT * FROM justificativa", parms);
+            string sql = " SELECT * FROM justificativa where 1 = 1 ";
+            if (validaPermissaoUser)
+            {
+                sql += AddPermissaoUsuario(" justificativa.id ");
+            }
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 
             List<Modelo.Justificativa> lista = new List<Modelo.Justificativa>();
             try
@@ -287,11 +350,17 @@ namespace DAL.SQL
             return lista;
         }
 
-        public List<Modelo.Justificativa> GetAllListConsultaEvento()
+        public List<Modelo.Justificativa> GetAllListConsultaEvento(bool validaPermissaoUser)
         {
             SqlParameter[] parms = new SqlParameter[0];
 
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, "SELECT * FROM justificativa WHERE ativo = 1", parms);
+            string consulta = " SELECT * FROM justificativa WHERE ativo = 1 ";
+            if (validaPermissaoUser)
+            {
+                consulta += AddPermissaoUsuario("justificativa.id");
+            }
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, consulta, parms);
 
             List<Modelo.Justificativa> lista = new List<Modelo.Justificativa>();
             try
@@ -395,6 +464,47 @@ namespace DAL.SQL
             }
 
             return result;
+        }
+        #endregion
+
+        #region Permissões
+        /// <summary>
+        /// Esse método adicionará a condição de acordo com a permissão do usuário e a restrição de permissão da Justificativa.
+        /// </summary>
+        /// <param name="campoIdJustificativa">informar o campo que está o id da Justificativa, por exemplo em uma consulta "select * from Justificativa where 1 = 1 " informar Justificativa.id em uma consulta com alias "select O.* from Justificativa h where 1 = 1 " informar O.id ... </param>
+        /// <returns></returns>
+        public string AddPermissaoUsuario(string campoIdJustificativa)
+        {
+            if (UsuarioLogado != null)
+            {
+                string condicionalEmpresa = String.Format(@" (EXISTS ((SELECT 1
+									 FROM empresacwusuario eu
+									inner join JustificativaRestricao jr on eu.idempresa = jr.IdEmpresa
+												   WHERE eu.idcw_usuario = {0} AND jr.IdJustificativa = {1}))
+								  ) ", UsuarioLogado.Id, campoIdJustificativa);
+                string condicionalContrato = String.Format(@" (EXISTS ((SELECT 1
+									 FROM contratousuario cu
+									inner join JustificativaRestricao jr on cu.idcontrato = jr.IdContrato
+												   WHERE cu.idcwusuario = {0} AND jr.IdJustificativa = {1}))
+								  ) ", UsuarioLogado.Id, campoIdJustificativa);
+                string condicionalJustificativaSemRestricao = String.Format(@" (NOT EXISTS(SELECT 1
+                                                      FROM JustificativaRestricao jr
+                                                    WHERE jr.idJustificativa = {0} )) ", campoIdJustificativa);
+
+                if (UsuarioLogado.UtilizaControleEmpresa && UsuarioLogado.UtilizaControleContratos)
+                {
+                    return String.Format(" AND ({0} OR {1} OR {2}) ", condicionalJustificativaSemRestricao, condicionalEmpresa, condicionalContrato);
+                }
+                else if (UsuarioLogado.UtilizaControleEmpresa && !UsuarioLogado.UtilizaControleContratos)
+                {
+                    return String.Format(" AND ({0} OR {1}) ", condicionalJustificativaSemRestricao, condicionalEmpresa);
+                }
+                else if (UsuarioLogado.UtilizaControleContratos && !UsuarioLogado.UtilizaControleEmpresa)
+                {
+                    return String.Format(" AND ({0} OR {1}) ", condicionalJustificativaSemRestricao, condicionalContrato);
+                }
+            }
+            return "";
         }
         #endregion
     }

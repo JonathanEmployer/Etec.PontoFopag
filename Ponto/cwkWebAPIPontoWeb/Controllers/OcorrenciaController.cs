@@ -96,7 +96,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                     List<Models.Ocorrencia> listaOcorrencias = new List<Models.Ocorrencia>();
                     List<Modelo.Ocorrencia> ocorrencias = new List<Modelo.Ocorrencia>();
 
-                        ocorrencias = bllOco.GetAllList();
+                        ocorrencias = bllOco.GetAllList(false);
 
                     foreach (var item in ocorrencias)
                     {

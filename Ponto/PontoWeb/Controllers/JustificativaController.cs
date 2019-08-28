@@ -1,6 +1,5 @@
 ﻿using Modelo;
 using PontoWeb.Controllers.BLLWeb;
-using PontoWeb.Models;
 using PontoWeb.Security;
 using System;
 using System.Collections.Generic;
@@ -14,8 +13,6 @@ namespace PontoWeb.Controllers
         [PermissoesFiltro(Roles = "Justificativa")]
         public override ActionResult Grid()
         {
-            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
-            BLL.Justificativa bllJustificativa = new BLL.Justificativa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
             return View(new Modelo.Justificativa());
         }
 
@@ -25,8 +22,8 @@ namespace PontoWeb.Controllers
             try
             {
                 var usr = Usuario.GetUsuarioPontoWebLogadoCache();
-                BLL.Justificativa bllJustificativa = new BLL.Justificativa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
-                List<Modelo.Justificativa> dados = bllJustificativa.GetAllList();
+                BLL.Justificativa bllJustificativa = new BLL.Justificativa(usr.ConnectionString, usr);
+                List<Modelo.Justificativa> dados = bllJustificativa.GetAllList(true);
                 JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
                 jsonResult.MaxJsonLength = int.MaxValue;
                 return jsonResult;
@@ -134,16 +131,19 @@ namespace PontoWeb.Controllers
         protected override ActionResult GetPagina(int id)
         {
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
-            BLL.Justificativa bllJustificativa = new BLL.Justificativa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
+            BLL.Justificativa bllJustificativa = new BLL.Justificativa(usr.ConnectionString, usr);
             Justificativa justificativa = new Justificativa();
             if (id == 0)
             {
                 justificativa.Codigo = bllJustificativa.MaxCodigo();
                 justificativa.Ativo = true;
+                justificativa.JustificativaRestricao = new List<JustificativaRestricao>();
             }
             else
             {
                 justificativa = bllJustificativa.LoadObject(id);
+                BLL.JustificativaRestricao bllJustificativaRestricao = new BLL.JustificativaRestricao(usr.ConnectionString, usr);
+                justificativa.JustificativaRestricao = bllJustificativaRestricao.GetAllListByJustificativas(new List<int>() { justificativa.Id });
             }
             return View("Cadastrar", justificativa);
         }
@@ -164,7 +164,7 @@ namespace PontoWeb.Controllers
             catch (Exception) { codigo = -1; }
             if (codigo != -1)
             {
-                int id = bllJustificativa.GetIdPorCod(codigo).GetValueOrDefault();
+                int id = bllJustificativa.GetIdPorCod(codigo, true).GetValueOrDefault();
                 Justificativa just = bllJustificativa.LoadObject(id);
                 if (just != null && just.Id > 0)
                 {
@@ -174,7 +174,7 @@ namespace PontoWeb.Controllers
 
             if (ljust.Count == 0)
             {
-                ljust = bllJustificativa.GetAllListConsultaEvento();
+                ljust = bllJustificativa.GetAllListConsultaEvento(true);
                 if (!String.IsNullOrEmpty(consulta))
                 {
                     ljust = ljust.Where(p => p.Descricao.ToUpper().Contains(consulta.ToUpper())).ToList();
@@ -228,6 +228,58 @@ namespace PontoWeb.Controllers
             catch (Exception)
             {
                 return 0;
+            }
+        }
+
+        public ActionResult AdicionaNovaRestricao(int index, int tipoRestricao, string restricao, int idJustificativa)
+        {
+            var _usr = Usuario.GetUsuarioPontoWebLogadoCache();
+            try
+            {
+                int? idEmpresa = null;
+                int? idContrato = null;
+                string codigo = "";
+                int codigoInt;
+                try
+                {
+                    codigo = restricao.Split('|')[0];
+                    int.TryParse(codigo, out codigoInt);
+                }
+                catch (Exception)
+                {
+                    throw new Exception(string.Format("Valor ({0}) informado para pesquisa inválido, valor esperado no formato \"0 | descricao\"", restricao));
+                }
+
+                if (tipoRestricao == 0)
+                {
+                    idEmpresa = new BLL.Empresa(_usr.ConnectionString, _usr).GetIdsPorCodigos(new List<int>() { codigoInt }).FirstOrDefault();
+                    if (idEmpresa.GetValueOrDefault() == 0) throw new Exception(String.Format("Empresa {0} não encontrato", restricao));
+                }
+                else
+                {
+                    idContrato = new BLL.Contrato(_usr.ConnectionString, _usr).getId(codigoInt, null, null);
+                    if (idContrato.GetValueOrDefault() == 0) throw new Exception(String.Format("Contrato {0} não encontrato", restricao));
+                }
+
+                var Justificativa = new Modelo.Justificativa();
+                Justificativa.JustificativaRestricao = new List<Modelo.JustificativaRestricao>();
+                Justificativa.JustificativaRestricao.Add(
+                    new JustificativaRestricao()
+                    {
+                        IdEmpresa = idEmpresa,
+                        IdContrato = idContrato,
+                        DescEmpresa = restricao,
+                        IdJustificativa = idJustificativa
+                    }
+                );
+                string novo = RenderViewToString("AdicionaNovaRestricao", Justificativa);
+                novo = novo.Replace("JustificativaRestricao_0__", "JustificativaRestricao_" + index + "__");
+                novo = novo.Replace("JustificativaRestricao[0].", "JustificativaRestricao[" + index + "].");
+                return Json(new { Success = true, HTML = novo }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { Success = false, Erro = e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
     }

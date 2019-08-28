@@ -1,15 +1,11 @@
 ﻿using Modelo;
 using Modelo.Proxy;
-using Newtonsoft.Json;
 using PontoWeb.Controllers.BLLWeb;
-using PontoWeb.Models;
 using PontoWeb.Security;
-using PontoWeb.Utils;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace PontoWeb.Controllers
@@ -390,13 +386,13 @@ namespace PontoWeb.Controllers
             switch (obj.TipoHorarioPadraoFunc)
             {
                 case 1:
-                    lHorarioNormalMovel = bllHorario.GetHorarioNormalMovelList(1);
+                    lHorarioNormalMovel = bllHorario.GetHorarioNormalMovelList(1, false);
                     break;
                 case 2:
-                    lHorarioNormalMovel = bllHorario.GetHorarioNormalMovelList(2);
+                    lHorarioNormalMovel = bllHorario.GetHorarioNormalMovelList(2, false);
                     break;
                 default:
-                    lHorarioNormalMovel = bllHorario.GetHorarioNormalMovelList(1);
+                    lHorarioNormalMovel = bllHorario.GetHorarioNormalMovelList(1, false);
                     break;
             }
 

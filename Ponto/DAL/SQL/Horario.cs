@@ -41,6 +41,14 @@ namespace DAL.SQL
             set { _dalParametros = value; }
         }
 
+        private DAL.SQL.HorarioRestricao _dalHorarioRestricao;
+
+        public DAL.SQL.HorarioRestricao dalHorarioRestricao
+        {
+            get { return _dalHorarioRestricao; }
+            set { _dalHorarioRestricao = value; }
+        }
+
         public string SELECTREL { get; set; }
         public string SELECTTIP { get; set; }
 
@@ -52,6 +60,8 @@ namespace DAL.SQL
             dalLimitesDDsr = new LimiteDDsr(db);
             dalHorarioAItinere = new HorarioAItinere(db);
             dalParametros = new Parametros(db);
+            dalHorarioRestricao = new HorarioRestricao(db);
+            
             TABELA = "horario";
 
             SELECTPID = @"  SELECT   
@@ -653,11 +663,16 @@ namespace DAL.SQL
                 objHorario.HorariosAItinere = new Modelo.HorarioAItinere[9];
 
                 List<Modelo.HorarioAItinere> listaAI = dalHorarioAItinere.LoadPorHorario(objHorario.Id);
-
                 if (listaAI != null)
                 {
                     objHorario.HorariosAItinere = listaAI.ToArray();
                     objHorario.LHorariosAItinere = listaAI;
+                }
+
+                objHorario.HorarioRestricao = dalHorarioRestricao.GetAllListByHorarios(new List<int>() { objHorario.Id });
+                foreach (var item in objHorario.HorarioRestricao)
+                {
+                    item.Acao = Modelo.Acao.Alterar;
                 }
             }
             catch (Exception ex)
@@ -733,6 +748,11 @@ namespace DAL.SQL
                 {
                     dalLimitesDDsr.Excluir(item);
                 }
+            }
+            if (((Modelo.Horario)obj).HorarioRestricao != null)
+            {
+                ((Modelo.Horario)obj).HorarioRestricao.ToList().ForEach(f => f.Excluir = true);
+                HorarioRestricaoSalvar(trans, obj); 
             }
             base.ExcluirAux(trans, obj);
         }
@@ -894,6 +914,38 @@ namespace DAL.SQL
                     }
                 }
             }
+            HorarioRestricaoSalvar(trans, obj);
+        }
+
+        private void HorarioRestricaoSalvar(SqlTransaction trans, Modelo.ModeloBase obj)
+        {
+            if (((Modelo.Horario)obj).HorarioRestricao != null)
+            {
+                IList<Modelo.HorarioRestricao> restricoes = ((Modelo.Horario)obj).HorarioRestricao;
+                restricoes.ToList().ForEach(f => f.IdHorario = ((Modelo.Horario)obj).Id);
+                if (restricoes != null && restricoes.Count > 0)
+                {
+                    var despresaDuplicados = restricoes.GroupBy(g => new { g.Acao, g.Excluir, g.IdContrato, g.IdEmpresa, g.IdHorario, g.TipoRestricao });
+                    List<Modelo.HorarioRestricao> registrosSalvar = new List<Modelo.HorarioRestricao>();
+                    foreach (var grupos in despresaDuplicados)
+                    {
+                        Modelo.HorarioRestricao horarioRestricaoOperacao = grupos.FirstOrDefault();
+                        registrosSalvar.Add(horarioRestricaoOperacao);
+                    }
+                    var RegistrosExcluir = registrosSalvar.Where(w => w.Excluir && w.Id > 0).ToList();
+                    if (RegistrosExcluir.Count() > 0)
+                    {
+                        List<Modelo.ModeloBase> RegistrosExcluirBase = RegistrosExcluir.ConvertAll(x => (Modelo.ModeloBase)x);
+                        dalHorarioRestricao.ExcluirRegistros(RegistrosExcluirBase, trans);
+                    }
+
+                    var RegistrosIncluir = registrosSalvar.Where(w => !w.Excluir && w.Id == 0).ToList();
+                    if (RegistrosIncluir.Count() > 0)
+                    {
+                        dalHorarioRestricao.InserirRegistros(RegistrosIncluir, trans);
+                    }
+                }
+            }
         }
 
         protected override void AlterarAux(SqlTransaction trans, Modelo.ModeloBase obj)
@@ -1003,11 +1055,16 @@ namespace DAL.SQL
             cmd.Parameters.Clear();
         }
 
-        public int? GetIdPorCodigo(int Cod)
+        public int? GetIdPorCodigo(int Cod, bool validaPermissaoUser)
         {
             SqlParameter[] parms = new SqlParameter[0];
             DataTable dt = new DataTable();
-            int? Id = Convert.ToInt32(db.ExecuteScalar(CommandType.Text, "select top 1 id from horario where codigo = " + Cod, parms));
+            string consulta = "select top 1 id from horario where codigo = " + Cod;
+            if (validaPermissaoUser)
+            {
+                consulta += AddPermissaoUsuario(" horario.id");
+            }
+            int? Id = Convert.ToInt32(db.ExecuteScalar(CommandType.Text, consulta, parms));
 
             return Id;
         }
@@ -1070,7 +1127,7 @@ namespace DAL.SQL
             return dt;
         }
 
-        public List<Modelo.Horario> GetHorarioNormalMovelList(int tipoHorario)
+        public List<Modelo.Horario> GetHorarioNormalMovelList(int tipoHorario, bool validaPermissaoUser)
         {
             SqlParameter[] parms = new SqlParameter[1] { new SqlParameter("@tipohorario", SqlDbType.Int) };
             parms[0].Value = tipoHorario;
@@ -1090,8 +1147,12 @@ namespace DAL.SQL
                         LEFT JOIN classificacao class on class.id = hor.idclassificacao
                     WHERE 
                         hor.tipohorario = @tipohorario
-                        and hor.idhorariodinamico is null
-                    ORDER BY hor.descricao ";
+                        and hor.idhorariodinamico is null ";
+            if (validaPermissaoUser)
+            {
+                aux += AddPermissaoUsuario("hor.id");
+            }
+            aux += @" ORDER BY hor.descricao ";
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
             List<Modelo.Horario> listaHorario = new List<Modelo.Horario>();
@@ -1332,7 +1393,7 @@ namespace DAL.SQL
 	                    LEFT JOIN parametros parms ON parms.id = h.idparametro
 	                WHERE 
                         h.tipohorario = @tipohorario 
-                        and h.idhorariodinamico is null ";
+                        and h.idhorariodinamico is null " + AddPermissaoUsuario("h.id");
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
             try
@@ -1355,7 +1416,7 @@ namespace DAL.SQL
             return lista;
         }
 
-        public List<Modelo.Horario> GetAllList(bool carregaHorarioDetalhe, bool carregaPercentuais, int tipohorario)
+        public List<Modelo.Horario> GetAllList(bool carregaHorarioDetalhe, bool carregaPercentuais, int tipohorario, bool validaPermissaoUser)
         {
             SqlParameter[] parms = new SqlParameter[1] { new SqlParameter("@tipohorario", SqlDbType.Int) };
             parms[0].Value = tipohorario;
@@ -1372,6 +1433,11 @@ namespace DAL.SQL
                                 LEFT JOIN classificacao class ON class.id = horario.idclassificacao 
                             WHERE 
                                 (horario.tipohorario = @tipohorario or @tipohorario = 0) ";
+
+            if (validaPermissaoUser)
+            {
+                cmd += AddPermissaoUsuario("horario.id");
+            }
 
             List<Modelo.HorarioDetalhe> listaHorariosDetalhe = null;
             if (carregaHorarioDetalhe)
@@ -1962,6 +2028,47 @@ namespace DAL.SQL
             dr.Dispose();
 
             return listaHorario;
+        }
+        #endregion
+
+        #region Permissões
+        /// <summary>
+        /// Esse método adicionará a condição de acordo com a permissão do usuário e a restrição de permissão do horário.
+        /// </summary>
+        /// <param name="campoIdHorario">informar o campo que está o id do horário, por exemplo em uma consulta "select * from horario where 1 = 1 " informar horario.id em uma consulta com alias "select h.* from horario h where 1 = 1 " informar h.id ... </param>
+        /// <returns></returns>
+        public string AddPermissaoUsuario(string campoIdHorario)
+        {
+            if (UsuarioLogado != null)
+            {
+                string condicionalEmpresa = String.Format(@" (EXISTS ((SELECT 1
+									 FROM empresacwusuario eu
+									inner join HorarioRestricao hr on eu.idempresa = hr.IdEmpresa
+												   WHERE eu.idcw_usuario = {0} AND hr.IdHorario = {1}))
+								  ) ", UsuarioLogado.Id, campoIdHorario);
+                string condicionalContrato = String.Format(@" (EXISTS ((SELECT 1
+									 FROM contratousuario cu
+									inner join HorarioRestricao hr on cu.idcontrato = hr.IdContrato
+												   WHERE cu.idcwusuario = {0} AND hr.IdHorario = {1}))
+								  ) ", UsuarioLogado.Id, campoIdHorario);
+                string condicionalHorarioSemRestricao = String.Format(@" (NOT EXISTS(SELECT 1
+                                                      FROM HorarioRestricao hr
+                                                    WHERE hr.IdHorario = {0} )) ", campoIdHorario);
+            
+                if (UsuarioLogado.UtilizaControleEmpresa && UsuarioLogado.UtilizaControleContratos)
+                {
+                    return String.Format(" AND ({0} OR {1} OR {2}) ", condicionalHorarioSemRestricao, condicionalEmpresa, condicionalContrato);
+                }
+                else if (UsuarioLogado.UtilizaControleEmpresa && !UsuarioLogado.UtilizaControleContratos)
+                {
+                    return String.Format(" AND ({0} OR {1}) ", condicionalHorarioSemRestricao, condicionalEmpresa);
+                }
+                else if (UsuarioLogado.UtilizaControleContratos && !UsuarioLogado.UtilizaControleEmpresa)
+                {
+                    return String.Format(" AND ({0} OR {1}) ", condicionalHorarioSemRestricao, condicionalContrato);
+                }
+            }
+            return "";
         }
         #endregion
     }

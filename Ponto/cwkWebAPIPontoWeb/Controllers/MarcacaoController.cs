@@ -124,7 +124,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                     IList<Modelo.Proxy.pxyAbonosPorMarcacao> afastamentos = bllAfastamento.GetAbonosPorMarcacoes(lfunc, Convert.ToDateTime(periodofechamento.DataFechamentoInicial), Convert.ToDateTime(periodofechamento.DataFechamentoFinal));
 
                     BLL.Ocorrencia bllOco = new BLL.Ocorrencia(connectionStr);
-                    List<Modelo.Ocorrencia> ocorrencias = bllOco.GetAllList();
+                    List<Modelo.Ocorrencia> ocorrencias = bllOco.GetAllList(false);
 
 
                     foreach (var item in ListaMarcacao)

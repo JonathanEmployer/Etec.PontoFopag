@@ -26,13 +26,6 @@ namespace BLL
             return res;
         }
 
-        public pxyRelAfastamento GetListagemRelAfastamento()
-        {
-            pxyRelAfastamento res = new pxyRelAfastamento();
-            res = dal.GetRelAfastamento();
-            return res;
-        }
-
         public pxyRelManutDiaria GetListagemRelDeptos(Modelo.UsuarioPontoWeb UsuarioLogado)
         {
             pxyRelManutDiaria res = new pxyRelManutDiaria();
@@ -81,7 +74,7 @@ namespace BLL
         {
             pxyRelOcorrencias res = new pxyRelOcorrencias();
             pxyRelPontoWeb pxyRelPW = dal.GetFuncionariosRelBase(UsuarioLogado);
-            res = dalOco.GetRelOcorrencias(pxyRelPW);
+            res = dalOco.GetRelOcorrencias(pxyRelPW, UsuarioLogado);
             return res;
         }
 

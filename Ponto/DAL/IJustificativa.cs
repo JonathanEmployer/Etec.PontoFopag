@@ -7,11 +7,11 @@ namespace DAL
 {
     public interface IJustificativa : DAL.IDAL
     {
-        int? GetIdPorCod(int Cod);
+        int? GetIdPorCod(int Cod, bool validaPermissaoUser);
         Modelo.Justificativa LoadObject(int id);
         bool BuscaJustificativa(string pNomeDescricao);
-        List<Modelo.Justificativa> GetAllList(); 
-        List<Modelo.Justificativa> GetAllListConsultaEvento();
+        List<Modelo.Justificativa> GetAllList(bool validaPermissaoUser); 
+        List<Modelo.Justificativa> GetAllListConsultaEvento(bool validaPermissaoUser);
         List<Modelo.Justificativa> GetAllPorExibePaineldoRH();
         Modelo.Justificativa LoadObjectByCodigo(int pCodigo);
         int GetIdPorIdIntegracao(int IdIntegracao);

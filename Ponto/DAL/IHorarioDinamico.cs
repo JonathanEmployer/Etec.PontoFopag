@@ -9,9 +9,9 @@ namespace DAL
     public interface IHorarioDinamico : DAL.IDAL
     {
         Modelo.HorarioDinamico LoadObject(int id);
-        List<Modelo.HorarioDinamico> GetAllList();
-        Modelo.HorarioDinamico LoadObjectByCodigo(int codigo);
-        List<Modelo.HorarioDinamico> GetPorDescricao(string descricao);
+        List<Modelo.HorarioDinamico> GetAllList(bool validaPermissaoUser);
+        Modelo.HorarioDinamico LoadObjectByCodigo(int codigo, bool validaPermissaoUser);
+        List<Modelo.HorarioDinamico> GetPorDescricao(string descricao, bool validaPermissaoUser);
 
         Modelo.HorarioDinamico LoadObjectAllChildren(int id);
         List<Modelo.HorarioDinamico> LoadObjectAllChildren(List<int> ids);
