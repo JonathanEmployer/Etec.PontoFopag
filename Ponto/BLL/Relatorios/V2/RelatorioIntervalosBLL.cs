@@ -30,7 +30,7 @@ namespace BLL.Relatorios.V2
 			CartaoPonto bllCartaoPonto = new CartaoPonto(_usuario.ConnectionString, _usuario);
 			_progressBar.setaMensagem("Carregando dados...");
 
-			return bllCartaoPonto.GetCartaoPontoRel(parms.InicioPeriodo, parms.FimPeriodo, "()", "()", "(" + parms.IdSelecionados + ")", 2, 0, 0, _progressBar, false, "");
+			return bllCartaoPonto.GetCartaoPontoRel(parms.InicioPeriodo, parms.FimPeriodo, "()", "()", "(" + parms.IdSelecionados + ")", 2, 0, 0, _progressBar, false, "", true);
 		}
 
         protected override string GetRelatorioPDF()

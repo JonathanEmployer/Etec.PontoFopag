@@ -135,6 +135,19 @@
                             </div>
                         </div>
                     </div>
+                    @*Quebra Automatica*@
+                    <div class="row">
+                        <div class="col-xs-6 center-block">
+                            <div style="text-align: left">
+                                <div class="checkbox" spellcheck="true">
+                                    <label style="">
+                                        @Html.CheckBoxFor(model => model.quebraAuto, new { @class = "checkbox", id = "CheckboxAuto" })
+                                        @Html.Label("Quebra Automática (PDF)", new { @class = "control-label label-sm", @style = "font-weight:bold", @for = "quebraAuto" })
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             @Html.HiddenFor(x => x.IdSelecionados)
@@ -180,6 +193,7 @@
     cwk_DataCalendario('#btnDtInicio', '#InicioPeriodo');
     cwk_DataCalendario('#btnDtFim', '#FimPeriodo');
     $(document).ready(function () {
+        $("#CheckboxAuto").prop('checked', true);
         $('.datepickerpt').datepicker().on('hide', function (ev) {
             $("#pnlData").removeClass("panel-danger").removeClass("panel-success");
             $("#pnlData").addClass("panel-default");

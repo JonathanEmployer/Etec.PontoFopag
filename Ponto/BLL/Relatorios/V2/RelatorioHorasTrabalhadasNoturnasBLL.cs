@@ -20,7 +20,7 @@ namespace BLL.Relatorios.V2
 			_progressBar.setaMensagem("Carregando dados...");
 			BLL.CartaoPontoV2 bllCartaoPonto = new BLL.CartaoPontoV2(_usuario.ConnectionString, _usuario);
 			IList<int> funcs = parms.IdSelecionados.Split(',').Select(int.Parse).ToList();
-			IList<pxyCartaoPontoEmployer> cps = bllCartaoPonto.BuscaDadosRelatorio(funcs, parms.InicioPeriodo, parms.FimPeriodo, _progressBar, 0);
+			IList<pxyCartaoPontoEmployer> cps = bllCartaoPonto.BuscaDadosRelatorio(funcs, parms.InicioPeriodo, parms.FimPeriodo, _progressBar, 0, true);
 
 
 			IList<pxyRelatorioHorasNoturnas> rel = new List<pxyRelatorioHorasNoturnas>();

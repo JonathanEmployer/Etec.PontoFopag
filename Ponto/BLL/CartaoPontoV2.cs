@@ -25,7 +25,7 @@ namespace BLL
         /// <param name="objProgressBar">Objeto progress bar</param>
         /// <param name="ordemRelatorio">Ordem do relatório (0 = Ordenado por empresa, depois nome do funcionário; 1 = Ordenado por nome de funcionário)</param>
         /// <returns></returns>
-        public IList<pxyCartaoPontoEmployer> BuscaDadosRelatorio(IList<int> idsFuncs, DateTime dtIni, DateTime dtFin, ProgressBar? objProgressBar, int ordemRelatorio)
+        public IList<pxyCartaoPontoEmployer> BuscaDadosRelatorio(IList<int> idsFuncs, DateTime dtIni, DateTime dtFin, ProgressBar? objProgressBar, int ordemRelatorio, bool quebraAuto)
         {
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(conn, usuarioLogado);
             BLL.Empresa bllEmpresa = new BLL.Empresa(conn, usuarioLogado);
@@ -58,7 +58,7 @@ namespace BLL
 
                 IList<Modelo.Empresa> emps = bllEmpresa.GetEmpresaByIds(funcs.Select(s => s.IdEmpresa).Distinct().ToList());
                 //Verifica quantas quebras pode ter o período e multiplica na quantidade do progress bar
-                int qtdQuebraPeriodo = QuebraPeridoPorPeriodoFechamento(dtIni, dtFin, bllContrato, emps, funcs.FirstOrDefault()).Count();
+                int qtdQuebraPeriodo = QuebraPeridoPorPeriodoFechamento(dtIni, dtFin, bllContrato, emps, funcs.FirstOrDefault(), quebraAuto).Count();
                 if (qtdQuebraPeriodo > 0)
                 {
                     totalCalc *= qtdQuebraPeriodo;
@@ -77,7 +77,7 @@ namespace BLL
 
                 foreach (Modelo.Proxy.PxyFuncionarioCabecalhoRel func in funcs)
                 {
-                    Dictionary<DateTime, DateTime> periodos = QuebraPeridoPorPeriodoFechamento(dtIni, dtFin, bllContrato, emps, func);
+                    Dictionary<DateTime, DateTime> periodos = QuebraPeridoPorPeriodoFechamento(dtIni, dtFin, bllContrato, emps, func, quebraAuto);
 
                     foreach (KeyValuePair<DateTime, DateTime> periodo in periodos.OrderBy(i => i.Key))
                     {
@@ -91,9 +91,14 @@ namespace BLL
                         }
 
                         pxyCartaoPontoEmployer cp = new pxyCartaoPontoEmployer();
+                        cp.QuebraAutHTML = quebraAuto;
                         cp.pxyFuncionarioCabecalhoRel = func;
                         List<Modelo.Marcacao> marcs = bllMarcacao.GetCartaoPontoV2(new List<int> { func.IdFunc }, dataIniPer, dataFinPer);
                         TimeSpan ts = dataFinPer - dataIniPer;
+                        if (quebraAuto == false)
+                        {   //Numero linhas de paginas + 8 linha de marc por cada dia. 
+                            cp.NumeroLinha = ts.Days * 8;
+                        }
                         if (ts.TotalDays + 1 > marcs.Count())
                         {
                             Modelo.Funcionario objFuncionario = new Modelo.Funcionario();
@@ -151,14 +156,11 @@ namespace BLL
             return cps;
         }
 
-        private Dictionary<DateTime, DateTime> QuebraPeridoPorPeriodoFechamento(DateTime dtIni, DateTime dtFin, BLL.Contrato bllContrato, IList<Modelo.Empresa> emps, Modelo.Proxy.PxyFuncionarioCabecalhoRel func)
+        private Dictionary<DateTime, DateTime> QuebraPeridoPorPeriodoFechamento(DateTime dtIni, DateTime dtFin, BLL.Contrato bllContrato, IList<Modelo.Empresa> emps, Modelo.Proxy.PxyFuncionarioCabecalhoRel func, bool quebraAuto)
         {
             Dictionary<DateTime, DateTime> periodos = new Dictionary<DateTime, DateTime>();
-            if ((dtFin - dtIni).TotalDays <= 31)
-            {
-                periodos.Add(dtIni, dtFin);
-            }
-            else
+            
+            if ((dtFin - dtIni).TotalDays > 31 && quebraAuto == true)
             {
                 int inicioFechamento, fimfechamento;
                 DateTime inicioPeriodo, fimPeriodo;
@@ -189,6 +191,10 @@ namespace BLL
                         inicioPeriodo = fimPeriodo.AddDays(1);
                     }
                 }
+            }
+            else 
+            {
+                periodos.Add(dtIni, dtFin);
             }
             return periodos;
         }

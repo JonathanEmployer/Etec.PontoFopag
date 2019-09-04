@@ -87,7 +87,7 @@ namespace BLL
             dalHorarioDetalhe.UsuarioLogado = usuarioLogado;
         }
 
-        public DataTable GetCartaoPontoRel(DateTime dataInicial, DateTime dataFinal, string empresas, string departamentos, string funcionarios, int tipo, int normalFlexivel, int idhorario, Modelo.ProgressBar pPBRecalculo, bool ordenaDeptoFuncionario, string filtro)
+        public DataTable GetCartaoPontoRel(DateTime dataInicial, DateTime dataFinal, string empresas, string departamentos, string funcionarios, int tipo, int normalFlexivel, int idhorario, Modelo.ProgressBar pPBRecalculo, bool ordenaDeptoFuncionario, string filtro, bool quebraAuto)
         {
             try
             {
@@ -142,6 +142,9 @@ namespace BLL
                 string saldobancohorasfechamento = "";
                 bool existeBH = false;
                 bool b24Horas = false;
+                string AdicionalNoturno= "";
+                int totalAdicionalNoturno = 0;
+                int qtdAdNot=0;
 
                 pPBRecalculo.setaValorPB(0);
                 pPBRecalculo.setaMinMaxPB(0, dt.Rows.Count);
@@ -152,7 +155,7 @@ namespace BLL
                 bool bInseriuDois = false;
                 List<string> percExtras = null;
                 string percSabado = "", percDomingo = "", percFolga = "", percFeriado = "";
-                IList<Modelo.EmpresaLogo> EmpresasLogos = new List<Modelo.EmpresaLogo>();
+                IList<Modelo.EmpresaLogo> EmpresasLogos = new List<Modelo.EmpresaLogo>();                              
                 foreach (DataRow row in dt.Rows)
                 {
                     try
@@ -309,7 +312,11 @@ namespace BLL
                             entrada_3, entrada_4, saida_1, saida_2, saida_3, saida_4,
                             horasTrabalhadasDiurna, horasTrabalhadasNoturna, bInseriuDois,
                             row, folga, batidas, objTotalHoras, logoEmpresa);
-
+                        if(row["AdicionalNoturno"].ToString() !="" && row["AdicionalNoturno"].ToString() != "--:--")
+                        {
+                            qtdAdNot++;                           
+                        }
+                        
                         count++;
 
                         pPBRecalculo.incrementaPB(1);
@@ -328,8 +335,15 @@ namespace BLL
                     ref objTotalHoras, HorariosPHExtra, bInseriuDois, percExtras, ref percSabado,
                     ref percDomingo, ref percFolga, ref percFeriado);
 
+                         
+                ret.Columns.Add("qtdAdNot", typeof(String));
 
-                if ((dataFinal - dataInicial).TotalDays > 31)
+                foreach (DataRow row in ret.Rows)
+                {
+                    row["qtdAdNot"] = qtdAdNot;
+                }
+
+                if ((dataFinal - dataInicial).TotalDays > 31 && quebraAuto ==true)
                 {
                     BLL.Empresa bllEmpresa = new BLL.Empresa(ConnectionString, UsuarioLogado);
                     List<Modelo.Empresa> objEmpresas = bllEmpresa.GetAllList();
@@ -578,7 +592,7 @@ namespace BLL
                     row["id"],
                     row["idhorario"],
                     row["legenda"],
-                    String.Format("{0:00}", ((DateTime)row["data"]).Day) + "/" + ((DateTime)row["data"]).Month.ToString(),
+                    row["data"] = Convert.ToDateTime((row["data"]).ToString()).ToString("dd/MM/yy"),
                     Modelo.cwkFuncoes.DiaSemana(Convert.ToDateTime(row["data"]), Modelo.cwkFuncoes.TipoDiaSemana.Reduzido).Trim(new char[] {'.'}),
                     //Entradas
                     batidas[0],
@@ -624,7 +638,7 @@ namespace BLL
                     row["InItinerePercDentroJornada"],
                     row["InItinereHrsForaJornada"],
                     row["InItinerePercForaJornada"],
-                    row["AdicionalNoturno"],
+                    row["AdicionalNoturno"].ToString() == "--:--" ? "" : row["AdicionalNoturno"].ToString(),
                     row["PercAdicNoturno"],
                     row["horaExtraInterjornada"],
                     folga ? "" : entrada_1 == "--:--" ? "" : entrada_1,
@@ -685,7 +699,7 @@ namespace BLL
                     0,
                     0,
                     logoEmpresa,
-                    ((DateTime)row["data"])
+                    ((DateTime)row["data"])                   
                 };
             ret.Rows.Add(values);
 
@@ -696,7 +710,7 @@ namespace BLL
                     "",
                     "",
                     "",
-                    String.Format("{0:00}", ((DateTime)row["data"]).Day) + "/" + ((DateTime)row["data"]).Month.ToString(),
+                    row["data"] = Convert.ToDateTime((row["data"]).ToString()).ToString("dd/MM/yy"),
                     "",         
                     //Entradas           
                     batidas[8],
@@ -742,7 +756,7 @@ namespace BLL
                     0,
                     "--:--",
                     0,
-                    row["AdicionalNoturno"],
+                    row["AdicionalNoturno"].ToString() == "--:--" ? "" : row["AdicionalNoturno"].ToString(),
                     row["PercAdicNoturno"],
                     "",
                     folga ? "" : entrada_3 == "--:--" ? "" : entrada_3,
@@ -1108,7 +1122,8 @@ namespace BLL
                 new DataColumn("TotalBancoHorasCre"),
                 new DataColumn("TotalBancoHorasDeb"),
                 new DataColumn("LogoEmpresa"),
-                new DataColumn("DataMarcacao")
+                new DataColumn("DataMarcacao"),                
+                new DataColumn("totalAdicionalNoturno")
             };
 
             ret.Columns.AddRange(colunasHora);
@@ -1232,6 +1247,8 @@ namespace BLL
             row["creditodebitobhatual"] = existeBH ? creditodebitobhatual : "";
             row["saldobancohorasfechamento"] = saldobancohorasfechamento;
             row["existebh"] = existeBH ? 1 : 0;
+            row["totalnoturnageral"] = objTotalHoras.horasTrabNoturna;
+            row["totalAdicionalNoturno"] = objTotalHoras.horasAdNoturno;             
 
             SetTotalAbonoDsr(ret.Rows[indice], dataInicial, dataFinal);
         }
@@ -1323,7 +1340,8 @@ namespace BLL
                 new DataColumn("totalDSRHoras"),
                 new DataColumn("totalAbonoDias"),
                 new DataColumn("totalAbonoHoras"),
-                new DataColumn("qtdDDSR")
+                new DataColumn("qtdDDSR"),                
+                new DataColumn("totalAdicionalNoturno"),
             };
 
             ret.Columns.AddRange(colunasHora);
