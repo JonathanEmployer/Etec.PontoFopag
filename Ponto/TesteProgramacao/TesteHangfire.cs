@@ -25,7 +25,11 @@ namespace TesteProgramacao
                 }
 
                 InvocationData invocationData = FromJson<InvocationData>(job.InvocationData);
-                
+
+                if (invocationData.Arguments == null && job.Arguments != null)
+                {
+                    invocationData.Arguments = job.Arguments;
+                }
                 var dados = invocationData.Deserialize();
 
                 Type magicType = Type.GetType(invocationData.Type);

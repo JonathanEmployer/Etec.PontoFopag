@@ -267,7 +267,7 @@ namespace BLL.Relatorios.V2
 
             var empPrincipal = bllEmpresa.GetEmpresaPrincipal();
             nomeEmpresa = empPrincipal.Nome;
-            List<int> idsFuncs = parms.IdSelecionados.Split(',').Select(int.Parse).ToList();
+            List<int> idsFuncs = parms.IdSelecionados.Split(',').Where(w => !string.IsNullOrEmpty(w)).Select(int.Parse).ToList();
 
             Dt = bllFuncionario.GetOrdenadoPorNomeRel(idsFuncs);
             

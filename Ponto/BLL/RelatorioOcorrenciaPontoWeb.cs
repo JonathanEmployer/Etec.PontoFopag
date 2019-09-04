@@ -511,7 +511,7 @@ namespace BLL
             idDocumentoWorkflow = pMarc["IdDocumentoWorkflow"].ToString();
 
             marcacoes = (pEntradas[0] != "--:--" ? pEntradas[0] : "") +
-                            (pSaidas[0] != "--:--" ? (pEntradas[0] != "--:--" ? " - " : "") + pSaidas[0] : "") +
+                            (pSaidas[0] != "--:--" ? (pEntradas[0] != "--:--" ? " - " : "") + pSaidas[0] : " - ") +
                             (pEntradas[1] != "--:--" ? (pSaidas[0] != "--:--" ? " - " : "") + pEntradas[1] : "") +
                             (pSaidas[1] != "--:--" ? (pEntradas[1] != "--:--" ? " - " : "") + pSaidas[1] : "") +
                             (pEntradas[2] != "--:--" ? (pSaidas[1] != "--:--" ? " - " : "") + pEntradas[2] : "") +
@@ -526,6 +526,9 @@ namespace BLL
                             (pSaidas[6] != "--:--" ? (pEntradas[6] != "--:--" ? " - " : "") + pSaidas[6] : "") +
                             (pEntradas[7] != "--:--" ? (pSaidas[6] != "--:--" ? " - " : "") + pEntradas[7] : "") +
                             (pSaidas[7] != "--:--" ? (pEntradas[7] != "--:--" ? " - " : "") + pSaidas[7] : "");
+
+            marcacoes = marcacoes.StartsWith(" - ")? marcacoes.Remove(0, 2) : marcacoes;
+            marcacoes = marcacoes.EndsWith(" - ") ? marcacoes.Remove(marcacoes.Length - 3) : marcacoes;
         }
 
         private void SetaVariaveisPorOcorrencia(DataRow pMarc, Modelo.Afastamento afastamento)

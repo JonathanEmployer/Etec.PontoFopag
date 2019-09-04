@@ -259,7 +259,7 @@ namespace DAL.RelatoriosSQL
                                                       ELSE
                                                           0
                                                   END TotalAbonoMin,
-                                                  IIF(che.Tipo = -1, TotalHorasExtrasMin,  dbo.FN_CONVHORA(che.horasClassificadas)) TotalHorasExtrasClassificadasMin
+                                                  IIF(che.Tipo = -1, TotalHorasExtrasMin,  che.horasClassificadas) TotalHorasExtrasClassificadasMin
                                            FROM
                                            (
                                                 SELECT D.*,
