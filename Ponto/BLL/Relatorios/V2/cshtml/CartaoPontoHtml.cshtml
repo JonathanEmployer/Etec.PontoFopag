@@ -55,20 +55,16 @@
 
         <div class="classRelatorio">
             @{
-
+        
                 bool possuiAN = cp.Marcacao.Where(s => s.pxyCPETratamentos.Where(se => se.Ocorrencia == "AN").Count() > 0).Count() > 0;
                 int linhasPorPagina = 53 - (possuiAN == true ? 1 : 0);
                 int linhasMarcacao = linhasPorPagina;
                 cp.Posicao = 0;
                 int itensPorPagina = 0;
                 itensPorPagina += cp.Marcacao.Select(s => s.pxyCPEJornadaRealizada.Count() > s.pxyCPETratamentos.Count() ? s.pxyCPEJornadaRealizada.Count() : s.pxyCPETratamentos.Count()).Sum();
-
+        
                 int LinhasJornadas = cp.Jornadas.Count();
                 int LinhasMotivosT = cp.MotivosTratamentos.Count();
-                if (cp.QuebraAutHTML == false)
-                {
-                    linhasMarcacao = cp.NumeroLinha;
-                }
                 if (LinhasJornadas > LinhasMotivosT)
                 {
                     linhasMarcacao -= LinhasJornadas;

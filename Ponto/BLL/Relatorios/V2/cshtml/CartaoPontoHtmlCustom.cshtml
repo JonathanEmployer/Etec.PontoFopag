@@ -64,18 +64,16 @@
 	<div style="background-color:white">
 		<div class="classRelatorio">
 			@foreach (Modelo.Proxy.pxyCartaoPontoEmployer cartao in Model)
-            {
-                string repHeader = cartao.QuebraAutHTML == true ? "yes" : "no";
-
-				<table style="width:100%; repeat-header: "@repHeader"; border-collapse: inherit;" cellspacing="0">
-					<thead>
-						<tr>
-							<th style="width: 34px"></th> @*Data*@
-							<th style="width: 22px"></th> @*Dia*@
-							<th style="width: 22px"></th> @*Ent 1*@
-							<th style="width: 22px"></th> @*Sai 1*@
-							<th style="width: 22px"></th> @*Ent 2*@
-							<th style="width: 22px"></th> @*Sai 2*@
+			{
+				<table style="width:100%; repeat-header: yes; border-collapse: inherit;" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th style="width: 34px"></th> @*Data*@
+                            <th style="width: 22px"></th> @*Dia*@
+                            <th style="width: 22px"></th> @*Ent 1*@
+                            <th style="width: 22px"></th> @*Sai 1*@
+                            <th style="width: 22px"></th> @*Ent 2*@
+                            <th style="width: 22px"></th> @*Sai 2*@
 
                             @foreach (Modelo.Utils.CartaoPontoCamposParaCustomizacao campo in campos)
                             {

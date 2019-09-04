@@ -174,12 +174,8 @@ namespace Modelo
         public List<Modelo.GrupoHorasPorPercentual> GruposPercentual { get; set; }
         public bool HabilitarControleInItinere { get; set; }
 
-        /// <summary>
-        /// Resumo do Total Adicional Noturno
-        /// </summary>        
         public string horasAdNoturno { get; set; }
         private int _horasAdNoturnoMin;
-        public int qtdAdNot { get; set; }
 
         public int horasAdNoturnoMin
         {

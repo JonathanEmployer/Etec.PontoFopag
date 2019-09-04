@@ -20,8 +20,6 @@ namespace Modelo.Proxy
         public int LinhasQuebra { get; set; }
         public int Posicao { get; set; }
         public List<Modelo.CamposSelecionadosRelCartaoPonto>  CamposSelecionados { get; set; }
-        public bool QuebraAutHTML { get; set; }
-        public int NumeroLinha { get; set; }
     }
 
     public class PxyCPETotais
