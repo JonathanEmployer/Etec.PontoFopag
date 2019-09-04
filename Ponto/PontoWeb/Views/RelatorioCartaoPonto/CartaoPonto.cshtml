@@ -154,7 +154,7 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group input-group-sm" style="margin-bottom:0">
-                                                            <button class="btn btn-primary btn-xs" id="btnBuscarFiltro" type="button">Buscar</button>
+                                                        <button class="btn btn-primary btn-xs" id="btnBuscarFiltro" type="button">Buscar</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -164,12 +164,25 @@
                             </div>
                         </div>
                     </div>
+                    @*Quebrada Automatica*@
+                    <div class="row">
+                        <div class="col-xs-6 center-block">
+                            <div style="text-align: left">
+                                <div class="checkbox" spellcheck="true">
+                                    <label style="">
+                                        @Html.CheckBoxFor(model => model.quebraAuto, new { @class = "checkbox", id = "CheckboxAuto" })
+                                        @Html.Label("Quebra Automática (PDF)", new { @class = "control-label label-sm", @style = "font-weight:bold", @for = "quebraAuto" })
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             @Html.HiddenFor(x => x.IdSelecionados)
                             @Html.ValidationMessageFor(x => x.IdSelecionados)
                             <div class="row">
-                                @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorio()).GetType(), true, "GetFuncsRel", "GetFunsVazioXaxo", "EventoFuncionarioRowCollor","",null,"")
+                                @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorio()).GetType(), true, "GetFuncsRel", "GetFunsVazioXaxo", "EventoFuncionarioRowCollor", "", null, "")
                             </div>
                         </div>
                     </div>
@@ -209,7 +222,7 @@
     cwk_DataCalendario('#btnDtInicio', '#InicioPeriodo');
     cwk_DataCalendario('#btnDtFim', '#FimPeriodo');
     $(document).ready(function () {
-
+        $("#CheckboxAuto").prop('checked', true);
         $('.datepickerpt').datepicker().on('hide', function (ev) { EventoDatePicker(ev); });
         $('.datepickerpt').datepicker().on('hide', function (ev) {
             $("#pnlData").removeClass("panel-danger").removeClass("panel-success");

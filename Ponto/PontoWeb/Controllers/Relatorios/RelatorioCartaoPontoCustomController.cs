@@ -38,7 +38,7 @@ namespace PontoWeb.Controllers.Relatorios
 			DateTime di = Convert.ToDateTime("2019-02-09");
 			DateTime df = Convert.ToDateTime("2019-03-11");
 			IList<int> funcs = new List<int>() { 40498 };
-			IList<pxyCartaoPontoEmployer> cps = bllCartaoPonto.BuscaDadosRelatorio(funcs, di, df, null, 0);
+			IList<pxyCartaoPontoEmployer> cps = bllCartaoPonto.BuscaDadosRelatorio(funcs, di, df, null, 0, true);
 
 			PxyCPEMarcacao marc = new PxyCPEMarcacao();
 			List<Modelo.Utils.CartaoPontoCamposParaCustomizacao> campos =  GetPropertiesCartaoPontoCustom.GetProperties(marc.GetType());
@@ -94,7 +94,7 @@ namespace PontoWeb.Controllers.Relatorios
             string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
             UsuarioPontoWeb pw = Usuario.GetUsuarioPontoWebLogadoCache();
             BLL.CartaoPontoV2 bllCartaoPonto = new BLL.CartaoPontoV2(conn, pw);
-            IList<pxyCartaoPontoEmployer> cps = bllCartaoPonto.BuscaDadosRelatorio(funcs, dataIni, dataFin, null, 0);
+            IList<pxyCartaoPontoEmployer> cps = bllCartaoPonto.BuscaDadosRelatorio(funcs, dataIni, dataFin, null, 0, true);
 
 
             ConcurrentBag<RelatorioParts> cartoes = new ConcurrentBag<RelatorioParts>();
