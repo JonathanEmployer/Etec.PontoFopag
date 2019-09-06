@@ -127,9 +127,11 @@ namespace cwkWebAPIPontoWeb.Controllers
                     {
                         if (bancoSaldo.Rows.Count > 0)
                         {
-                            DataTable dtCompetencia = bancoSaldo.AsEnumerable().Where(w => Convert.ToDateTime(w["Data"]) >= saldos.PeriodoInicio.Date && Convert.ToDateTime(w["Data"]) <= saldos.PeriodoFim.Date).CopyToDataTable();
-                            if (dtCompetencia != null && dtCompetencia.Rows.Count > 0)
+                            var filtrada = bancoSaldo.AsEnumerable().Where(w => Convert.ToDateTime(w["Data"]) >= saldos.PeriodoInicio.Date && Convert.ToDateTime(w["Data"]) <= saldos.PeriodoFim.Date);
+                            
+                            if (filtrada != null && filtrada.Count() > 0)
                             {
+                                DataTable dtCompetencia = filtrada.CopyToDataTable();
                                 DataRow[] dataRows = dtCompetencia.Select().OrderBy(u => u["data"]).ToArray();
                                 decimal totalMensal = dataRows.Select(s => Convert.ToDecimal(s["SaldoDiaMin"])).Sum();
                                 DataRow t = dataRows.LastOrDefault();
