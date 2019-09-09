@@ -47,7 +47,7 @@ namespace BLL
         private Modelo.Cw_Usuario UsuarioLogado;
         private List<Modelo.JornadaAlternativa> jornadasAlternativasList;
         private int totalExtraDiurna = 0, totalExtraNoturna = 0, totalFaltaDiurna = 0, totalFaltaNoturna = 0, totalExtraNoturnaBH = 0, totalInterjornadaExtra = 0;
-        private int totalTrabDiurna = 0, totalTrabNoturna = 0, totalDDSR = 0, qtdDDSR = 0, totalAtrasoDiurno = 0, totalAtrasoNoturno = 0, totalAdNoturno = 0;
+        private int totalTrabDiurna = 0, totalTrabNoturna = 0, totalDDSR = 0, qtdDDSR = 0, totalAtrasoDiurno = 0, totalAtrasoNoturno = 0, totalAdNoturno = 0, qtdAdNot = 0;
         private double percAdicNoturno;
         private int totalFaltas = 0, horasfaltasD = 0, horasfaltasN = 0, totalDiasAbonados = 0, totalDiasDSR = 0, totalMinutosAbono = 0, totalMinutosDSR = 0, totalHorasInItinerePercDentroJornada = 0, totalHorasInItinerePercForaJornada = 0;
         private int[,] listTotalHorasGeral = new int[10, 3];
@@ -277,6 +277,7 @@ namespace BLL
                                     percAdicNoturno = 0;
                                 }
                             }
+                            qtdAdNot++;
                         }
                         int ddsr = Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["valordsr"]);
 
@@ -602,6 +603,7 @@ namespace BLL
             objTotalHoras.horasextranoturnaBHMin = totalExtraNoturnaBH;
             objTotalHoras.horasExtraInterjornada = Modelo.cwkFuncoes.ConvertMinutosHora(3, totalInterjornadaExtra);
             objTotalHoras.horasExtraInterjornadaMin = totalInterjornadaExtra;
+            objTotalHoras.qtdAdNot = qtdAdNot;
         }
 
         private void TotalizePercentuaisExtra(ref DateTime pDataF, int[,] listTotalHorasGeral, int[,] listTotalHoras, PercentualHoraExtra[] HorariosPHExtra, Modelo.HorarioDetalhe objHorarioDetalhe, DataRow marc, ref DateTime data, ref int indice, ref int diaFinalSemana, bool trocaMes, int dia, int idhorario, int horaExtraNoturna, int horaExtraDiurna, int totalExtra)

@@ -142,9 +142,6 @@ namespace BLL
                 string saldobancohorasfechamento = "";
                 bool existeBH = false;
                 bool b24Horas = false;
-                string AdicionalNoturno= "";
-                int totalAdicionalNoturno = 0;
-                int qtdAdNot=0;
 
                 pPBRecalculo.setaValorPB(0);
                 pPBRecalculo.setaMinMaxPB(0, dt.Rows.Count);
@@ -155,7 +152,7 @@ namespace BLL
                 bool bInseriuDois = false;
                 List<string> percExtras = null;
                 string percSabado = "", percDomingo = "", percFolga = "", percFeriado = "";
-                IList<Modelo.EmpresaLogo> EmpresasLogos = new List<Modelo.EmpresaLogo>();                              
+                IList<Modelo.EmpresaLogo> EmpresasLogos = new List<Modelo.EmpresaLogo>();
                 foreach (DataRow row in dt.Rows)
                 {
                     try
@@ -214,7 +211,8 @@ namespace BLL
                             iddepartamentoAnt = iddepartamento;
                             idfuncaoAnt = idfuncao;
 
-                            dtBancoHoras.Rows.Clear();
+                            if (quebraAuto == false)
+                            { dtBancoHoras.Rows.Clear(); }
                             dtBancoHoras.Rows.Add(row.ItemArray);
                         }
                         else
@@ -311,8 +309,7 @@ namespace BLL
                         bInseriuDois = InsereRegistrosDataSet(ret, entrada_1, entrada_2,
                             entrada_3, entrada_4, saida_1, saida_2, saida_3, saida_4,
                             horasTrabalhadasDiurna, horasTrabalhadasNoturna, bInseriuDois,
-                            row, folga, batidas, objTotalHoras, logoEmpresa);                        
-
+                            row, folga, batidas, objTotalHoras, logoEmpresa);
                         count++;
 
                         pPBRecalculo.incrementaPB(1);
@@ -324,22 +321,7 @@ namespace BLL
                     }
                 }
 
-                AtualizaFuncAnterior(dataInicial, dataFinal, dtBancoHoras, ret, idfuncionario,
-                    idempresa, iddepartamento, idfuncao, jornadasAlternativas, bancosdehoras,
-                    fechamentosbh, fechamentosbhd, ref creditodebitobh, ref creditodebitobhanterior,
-                    ref creditodebitobhatual, ref saldobancohorasfechamento, ref existeBH,
-                    ref objTotalHoras, HorariosPHExtra, bInseriuDois, percExtras, ref percSabado,
-                    ref percDomingo, ref percFolga, ref percFeriado);
-
-                         
-                ret.Columns.Add("qtdAdNot", typeof(String));
-
-                foreach (DataRow row in ret.Rows)
-                {
-                    row["qtdAdNot"] = qtdAdNot;
-                }
-
-                if ((dataFinal - dataInicial).TotalDays > 31 && quebraAuto ==true)
+                if ((dataFinal - dataInicial).TotalDays > 31 && quebraAuto == true)
                 {
                     BLL.Empresa bllEmpresa = new BLL.Empresa(ConnectionString, UsuarioLogado);
                     List<Modelo.Empresa> objEmpresas = bllEmpresa.GetAllList();
@@ -348,6 +330,12 @@ namespace BLL
                     colunaGrupoData.AllowDBNull = true;
                     colunaGrupoData.Unique = false;
 
+                    DataColumn colunaGrupo = dtBancoHoras.Columns.Add("ColunaGrupoData", typeof(Int32));
+                    colunaGrupoData.AllowDBNull = true;
+                    colunaGrupoData.Unique = false;
+                    DataTable dtAll = ret.Clone();
+                    DataTable dtRet = ret.Clone();
+                    DataTable dtBanco = dtBancoHoras.Clone();
                     foreach (int idFunc in idsFuncs)
                     {
                         int idEmp = dt.AsEnumerable().Where(r => r.Field<int>("idfuncionario") == idFunc).FirstOrDefault().Field<int>("idempresa");
@@ -357,9 +345,40 @@ namespace BLL
                         {
                             ret.AsEnumerable().Where(row => Convert.ToInt32(row.Field<string>("idfuncionario")) == idFunc && Convert.ToDateTime(row.Field<string>("DataMarcacao")) >= periodo.Key && Convert.ToDateTime(row.Field<string>("DataMarcacao")) <= periodo.Value).ToList<DataRow>()
                                .ForEach(r => { r["ColunaGrupoData"] = grupo; });
+
+                            dtBancoHoras.AsEnumerable().Where(row => Convert.ToInt32(row.Field<string>("idfuncionario")) == idFunc && Convert.ToDateTime(row.Field<string>("data")) >= periodo.Key && Convert.ToDateTime(row.Field<string>("data")) <= periodo.Value).ToList<DataRow>()
+                               .ForEach(r => { r["ColunaGrupoData"] = grupo; });
+
+                            ret.DefaultView.RowFilter = "idfuncionario =" + idFunc;
+                            dtRet = (ret.DefaultView).ToTable();
+                            dtRet.DefaultView.RowFilter = "ColunaGrupoData =" + grupo;
+                            dtRet = (dtRet.DefaultView).ToTable();
+
+                            dtBancoHoras.DefaultView.RowFilter = "idfuncionario =" + idFunc;
+                            dtBanco = (dtBancoHoras.DefaultView).ToTable();
+                            dtBanco.DefaultView.RowFilter = "ColunaGrupoData =" + grupo;
+                            dtBanco = (dtBanco.DefaultView).ToTable();
+
+                            AtualizaFuncAnterior(periodo.Key, periodo.Value, dtBanco, dtRet, idfuncionario,
+                            idempresa, iddepartamento, idfuncao, jornadasAlternativas, bancosdehoras,
+                            fechamentosbh, fechamentosbhd, ref creditodebitobh, ref creditodebitobhanterior,
+                            ref creditodebitobhatual, ref saldobancohorasfechamento, ref existeBH,
+                            ref objTotalHoras, HorariosPHExtra, bInseriuDois, percExtras, ref percSabado,
+                            ref percDomingo, ref percFolga, ref percFeriado);
+                            dtAll.Merge(dtRet);
                             grupo++;
                         }
                     }
+                    return dtAll;
+                }
+                else
+                {
+                    AtualizaFuncAnterior(dataInicial, dataFinal, dtBancoHoras, ret, idfuncionario,
+                    idempresa, iddepartamento, idfuncao, jornadasAlternativas, bancosdehoras,
+                    fechamentosbh, fechamentosbhd, ref creditodebitobh, ref creditodebitobhanterior,
+                    ref creditodebitobhatual, ref saldobancohorasfechamento, ref existeBH,
+                    ref objTotalHoras, HorariosPHExtra, bInseriuDois, percExtras, ref percSabado,
+                    ref percDomingo, ref percFolga, ref percFeriado);
                 }
 
                 return ret;
@@ -487,7 +506,7 @@ namespace BLL
                         inicioFechamento = param.DiaFechamentoInicial;
                         fimfechamento = param.DiaFechamentoFinal;
                     }
-                    
+
                 }
             }
         }
@@ -596,12 +615,12 @@ namespace BLL
                     batidas[4],
                     batidas[6],
                     //Saidas
-                    batidas[1],                    
-                    batidas[3],                    
-                    batidas[5],                    
+                    batidas[1],
+                    batidas[3],
+                    batidas[5],
                     batidas[7],
                     row["horastrabalhadas"].ToString() == "--:--" ? "" : row["horastrabalhadas"].ToString(),
-                    row["horasextrasdiurna"].ToString() == "--:--" ? "" : row["horasextrasdiurna"].ToString(),                   
+                    row["horasextrasdiurna"].ToString() == "--:--" ? "" : row["horasextrasdiurna"].ToString(),
                     row["horasfaltas"].ToString() == "--:--" ? "" : row["horasfaltas"].ToString(),
                     row["entradaextra"].ToString() == "--:--" ? "" : row["entradaextra"].ToString(),
                     row["saidaextra"].ToString() == "--:--" ? "" : row["saidaextra"].ToString(),
@@ -627,7 +646,7 @@ namespace BLL
                     row["idfuncionario"],
                     row["bancohorascre"],
                     row["bancohorasdeb"],
-                    imprimeobs ? observacao : "", 
+                    imprimeobs ? observacao : "",
                     row["LimiteInterjornada"],
                     row["Interjornada"],
                     row["InItinereHrsDentroJornada"],
@@ -640,7 +659,7 @@ namespace BLL
                     folga ? "" : entrada_1 == "--:--" ? "" : entrada_1,
                     folga ? "" : entrada_2 == "--:--" ? "" : entrada_2,
                     folga ? "" : saida_1 == "--:--" ? "" : saida_1,
-                    folga ? "" : saida_2 == "--:--" ? "" : saida_2,                    
+                    folga ? "" : saida_2 == "--:--" ? "" : saida_2,
                     Modelo.cwkFuncoes.ConvertMinutosHora(3,horasTrabalhadasDiurna),
                     Modelo.cwkFuncoes.ConvertMinutosHora(3,horasTrabalhadasNoturna),
                     "",
@@ -695,7 +714,7 @@ namespace BLL
                     0,
                     0,
                     logoEmpresa,
-                    ((DateTime)row["data"])                   
+                    ((DateTime)row["data"])
                 };
             ret.Rows.Add(values);
 
@@ -741,10 +760,10 @@ namespace BLL
                     "",
                     "",
                     "",
-                    "",    
+                    "",
                     row["idfuncionario"],
                     row["bancohorascre"],
-                    row["bancohorasdeb"],                    
+                    row["bancohorasdeb"],
                     imprimeobs ? observacao : "",
                     "",
                     "",
@@ -996,7 +1015,7 @@ namespace BLL
                 str.Append(objMarcacao.Data.ToShortDateString());
                 str.Append(" foi alterada.");
                 str.AppendLine(" Para voltar a utilizar o sistema entre em contato com a revenda.");
-                throw new Exception (str.ToString());
+                throw new Exception(str.ToString());
             }
             return true;
         }
@@ -1047,7 +1066,7 @@ namespace BLL
                     , "percentualextraNoturnafol", "quantidadeextraNoturnafol", "percextraprimeiroNoturna1", "percextraprimeiroNoturna2", "percextraprimeiroNoturna3", "percextraprimeiroNoturna4"
                     , "percextraprimeiroNoturna5", "percextraprimeiroNoturna6", "percextraprimeiroNoturna7", "percextraprimeiroNoturna8", "percextraprimeiroNoturna9", "percextraprimeiroNoturna10"
                     , "SeparaExtraNoturnaPercentual", "TotalIntervaloPrevL","idferiado","FeriadoParcial","FeriadoParcialInicio","FeriadoParcialFim","inicioAdNoturno","fimAdNoturno"
-				}, c.ColumnName) == -1)
+                }, c.ColumnName) == -1)
                 {
                     ret.Columns.Add(c.ColumnName);
                 }
@@ -1059,7 +1078,7 @@ namespace BLL
 
 
             DataColumn[] colunasHora = new DataColumn[]
-            {         
+            {
                 new DataColumn("hentrada_1"),
                 new DataColumn("hentrada_2"),
                 new DataColumn("hsaida_1"),
@@ -1118,8 +1137,9 @@ namespace BLL
                 new DataColumn("TotalBancoHorasCre"),
                 new DataColumn("TotalBancoHorasDeb"),
                 new DataColumn("LogoEmpresa"),
-                new DataColumn("DataMarcacao"),                
-                new DataColumn("totalAdicionalNoturno")
+                new DataColumn("DataMarcacao"),
+                new DataColumn("totalAdicionalNoturno"),
+                new DataColumn("qtdAdNot")
             };
 
             ret.Columns.AddRange(colunasHora);
@@ -1168,6 +1188,7 @@ namespace BLL
 
             //Percentuais extra
             StringBuilder str = new StringBuilder();
+            percExtras.Clear();
             foreach (var item in objTotalHoras.RateioHorasExtras.OrderBy(r => r.Key))
             {
                 str.Append(String.Format("{0:000}", item.Key) + "%          ");
@@ -1244,7 +1265,8 @@ namespace BLL
             row["saldobancohorasfechamento"] = saldobancohorasfechamento;
             row["existebh"] = existeBH ? 1 : 0;
             row["totalnoturnageral"] = objTotalHoras.horasTrabNoturna;
-            row["totalAdicionalNoturno"] = objTotalHoras.horasAdNoturno;             
+            row["totalAdicionalNoturno"] = objTotalHoras.horasAdNoturno;
+            row["qtdAdNot"] = objTotalHoras.qtdAdNot;
 
             SetTotalAbonoDsr(ret.Rows[indice], dataInicial, dataFinal);
         }
@@ -1298,7 +1320,7 @@ namespace BLL
 
 
             DataColumn[] colunasHora = new DataColumn[]
-            {              
+            {
                 new DataColumn("hentrada_1"),
                 new DataColumn("hentrada_2"),
                 new DataColumn("hsaida_1"),
@@ -1336,8 +1358,9 @@ namespace BLL
                 new DataColumn("totalDSRHoras"),
                 new DataColumn("totalAbonoDias"),
                 new DataColumn("totalAbonoHoras"),
-                new DataColumn("qtdDDSR"),                
+                new DataColumn("qtdDDSR"),
                 new DataColumn("totalAdicionalNoturno"),
+                new DataColumn("qtdAdNot")
             };
 
             ret.Columns.AddRange(colunasHora);
@@ -1585,12 +1608,12 @@ namespace BLL
                     batidas[4],
                     batidas[6],
                     //Saidas
-                    batidas[1],                    
-                    batidas[3],                    
-                    batidas[5],                    
+                    batidas[1],
+                    batidas[3],
+                    batidas[5],
                     batidas[7],
                     row["horastrabalhadas"].ToString() == "--:--" ? "" : row["horastrabalhadas"].ToString(),
-                    row["horasextrasdiurna"].ToString() == "--:--" ? "" : row["horasextrasdiurna"].ToString(),                   
+                    row["horasextrasdiurna"].ToString() == "--:--" ? "" : row["horasextrasdiurna"].ToString(),
                     row["horasfaltas"].ToString() == "--:--" ? "" : row["horasfaltas"].ToString(),
                     row["entradaextra"].ToString() == "--:--" ? "" : row["entradaextra"].ToString(),
                     row["saidaextra"].ToString() == "--:--" ? "" : row["saidaextra"].ToString(),
@@ -1617,7 +1640,7 @@ namespace BLL
                     folga ? "" : objHorarioDetalhe.Entrada_1 == "--:--" ? "" : objHorarioDetalhe.Entrada_1,
                     folga ? "" : objHorarioDetalhe.Entrada_2 == "--:--" ? "" : objHorarioDetalhe.Entrada_2,
                     folga ? "" : objHorarioDetalhe.Saida_1 == "--:--" ? "" : objHorarioDetalhe.Saida_1,
-                    folga ? "" : objHorarioDetalhe.Saida_2 == "--:--" ? "" : objHorarioDetalhe.Saida_2,                    
+                    folga ? "" : objHorarioDetalhe.Saida_2 == "--:--" ? "" : objHorarioDetalhe.Saida_2,
                     Modelo.cwkFuncoes.ConvertMinutosHora(3,horasTrabalhadasDiurna),
                     Modelo.cwkFuncoes.ConvertMinutosHora(3,horasTrabalhadasNoturna),
                     "",//objTotalHoras.horasTrabDiurna,
@@ -1638,11 +1661,11 @@ namespace BLL
                     percSabado,
                     percDomingo,
                     percFolga,
-                    percFeriado,                            
+                    percFeriado,
                     "",//existeBH ? objTotalHoras.saldoBHPeriodo : "",
                     existeBH ? creditodebitobh : "",
                     "",//existeBH ? objTotalHoras.saldoAnteriorBH : "",
-                    existeBH ? creditodebitobhanterior : "",                    
+                    existeBH ? creditodebitobhanterior : "",
                     "",//existeBH ? objTotalHoras.saldoBHAtual : "",
                     existeBH ? creditodebitobhatual : "",
                     saldobancohorasfechamento,
@@ -1696,13 +1719,13 @@ namespace BLL
                     "",
                     "",
                     "",
-                    "",      
+                    "",
                     "",//existeBH ? objTotalHoras.creditoBHPeriodo : "",
                     "",//existeBH ? objTotalHoras.debitoBHPeriodo : "",
                     folga ? "" : objHorarioDetalhe.Entrada_3 == "--:--" ? "" : objHorarioDetalhe.Entrada_3,
                     folga ? "" : objHorarioDetalhe.Entrada_4 == "--:--" ? "" : objHorarioDetalhe.Entrada_4,
                     folga ? "" : objHorarioDetalhe.Saida_3 == "--:--" ? "" : objHorarioDetalhe.Saida_3,
-                    folga ? "" : objHorarioDetalhe.Saida_4 == "--:--" ? "" : objHorarioDetalhe.Saida_4,                    
+                    folga ? "" : objHorarioDetalhe.Saida_4 == "--:--" ? "" : objHorarioDetalhe.Saida_4,
                     Modelo.cwkFuncoes.ConvertMinutosHora(3,horasTrabalhadasDiurna),
                     Modelo.cwkFuncoes.ConvertMinutosHora(3,horasTrabalhadasNoturna),
                     "",//objTotalHoras.horasTrabDiurna,
@@ -1723,11 +1746,11 @@ namespace BLL
                     percSabado,
                     percDomingo,
                     percFolga,
-                    percFeriado,                            
+                    percFeriado,
                     "",//existeBH ? "Saldo do Mês: " + objTotalHoras.saldoBHPeriodo : "",
                     existeBH ? creditodebitobh : "",
                     "",//existeBH ? "Saldo Anterior: " + objTotalHoras.saldoAnteriorBH : "",
-                    existeBH ? creditodebitobhanterior : "",                    
+                    existeBH ? creditodebitobhanterior : "",
                     "",//existeBH ? "Saldo Atual: " + objTotalHoras.saldoBHAtual : "",
                     existeBH ? creditodebitobhatual : "",
                     saldobancohorasfechamento,
@@ -1819,25 +1842,25 @@ namespace BLL
         {
             List<int> _intListDptos, _intListIdFunc;
             _intListDptos = departamentos.Trim(new char[] { '(', ')' }).Split(',').Select(int.Parse).ToList();
-            _intListIdFunc = pBllFuncionario.GetIdsFuncsPorIdsEmpOuDepOuContra(_intListDptos, null,null, true, true, true);
+            _intListIdFunc = pBllFuncionario.GetIdsFuncsPorIdsEmpOuDepOuContra(_intListDptos, null, null, true, true, true);
 
-            return TratarMarcacoes( pDataInicial, pDataFinal, _intListIdFunc, pBllFuncionario);
+            return TratarMarcacoes(pDataInicial, pDataFinal, _intListIdFunc, pBllFuncionario);
         }
 
         public bool TratarMarcacoesPorEmpresa(DateTime pDataInicial, DateTime pDataFinal, string empresas, Funcionario pBllFuncionario)
         {
             List<int> _intListEmpresas, _intListIdFunc;
             _intListEmpresas = empresas.Trim(new char[] { '(', ')' }).Split(',').Select(int.Parse).ToList();
-            _intListIdFunc = pBllFuncionario.GetIdsFuncsPorIdsEmpOuDepOuContra(null,null,_intListEmpresas, false, true, true);
+            _intListIdFunc = pBllFuncionario.GetIdsFuncsPorIdsEmpOuDepOuContra(null, null, _intListEmpresas, false, true, true);
 
             return TratarMarcacoes(pDataInicial, pDataFinal, _intListIdFunc, pBllFuncionario);
         }
 
         public DataTable GetCartaoPontoDiariaWeb(DateTime dataInicial, DateTime dataFinal, string empresas, string departamentos, int tipo, Modelo.ProgressBar pPBRecalculo)
         {
-            BLL.JornadaAlternativa          bllJornadaAlternativa   = new BLL.JornadaAlternativa(ConnectionString, UsuarioLogado);   
-            BLL.Empresa                     bllEmpresa              = new BLL.Empresa(ConnectionString, UsuarioLogado);
-            BLL.Funcionario                 bllFunc                 = new BLL.Funcionario(ConnectionString, UsuarioLogado);
+            BLL.JornadaAlternativa bllJornadaAlternativa = new BLL.JornadaAlternativa(ConnectionString, UsuarioLogado);
+            BLL.Empresa bllEmpresa = new BLL.Empresa(ConnectionString, UsuarioLogado);
+            BLL.Funcionario bllFunc = new BLL.Funcionario(ConnectionString, UsuarioLogado);
 
             System.Diagnostics.Stopwatch tempo = new System.Diagnostics.Stopwatch();
             tempo.Start();
@@ -1847,14 +1870,14 @@ namespace BLL
 
             bool _tratarMarcacoes;
 
-            if (!string.IsNullOrEmpty(departamentos.Replace("(","").Replace(")","")))
+            if (!string.IsNullOrEmpty(departamentos.Replace("(", "").Replace(")", "")))
                 _tratarMarcacoes = TratarMarcacoesPorDepartamento(dataInicial, dataFinal, departamentos, bllFunc);
-            else if(! string.IsNullOrEmpty(empresas.Replace("(", "").Replace(")", "")))
+            else if (!string.IsNullOrEmpty(empresas.Replace("(", "").Replace(")", "")))
                 _tratarMarcacoes = TratarMarcacoesPorEmpresa(dataInicial, dataFinal, empresas, bllFunc);
             pPBRecalculo.incrementaPBCMensagem(1, "Carregando Marcações...");
 
             DataTable dt = dalCartaoPonto.GetCartaoPontoDiaria(dataInicial, dataFinal, empresas, departamentos, tipo);
-            int maxProgres = (dt.Rows.Count * 2)+1;
+            int maxProgres = (dt.Rows.Count * 2) + 1;
             pPBRecalculo.setaMinMaxPB(0, maxProgres);
             if (dt.Rows.Count > 0)
             {
@@ -1881,7 +1904,7 @@ namespace BLL
             }
 
             DataColumn[] colunasHora = new DataColumn[]
-            {              
+            {
                 new DataColumn("hentrada_1"),
                 new DataColumn("hentrada_2"),
                 new DataColumn("hsaida_1"),
@@ -2130,12 +2153,12 @@ namespace BLL
                     batidas[4],
                     batidas[6],
                     //Saidas
-                    batidas[1],                    
-                    batidas[3],                    
-                    batidas[5],                    
+                    batidas[1],
+                    batidas[3],
+                    batidas[5],
                     batidas[7],
                     row["horastrabalhadas"].ToString() == "--:--" ? "" : row["horastrabalhadas"].ToString(),
-                    row["horasextrasdiurna"].ToString() == "--:--" ? "" : row["horasextrasdiurna"].ToString(),                   
+                    row["horasextrasdiurna"].ToString() == "--:--" ? "" : row["horasextrasdiurna"].ToString(),
                     row["horasfaltas"].ToString() == "--:--" ? "" : row["horasfaltas"].ToString(),
                     row["entradaextra"].ToString() == "--:--" ? "" : row["entradaextra"].ToString(),
                     row["saidaextra"].ToString() == "--:--" ? "" : row["saidaextra"].ToString(),
@@ -2162,7 +2185,7 @@ namespace BLL
                     folga ? "" : objHorarioDetalhe.Entrada_1 == "--:--" ? "" : objHorarioDetalhe.Entrada_1,
                     folga ? "" : objHorarioDetalhe.Entrada_2 == "--:--" ? "" : objHorarioDetalhe.Entrada_2,
                     folga ? "" : objHorarioDetalhe.Saida_1 == "--:--" ? "" : objHorarioDetalhe.Saida_1,
-                    folga ? "" : objHorarioDetalhe.Saida_2 == "--:--" ? "" : objHorarioDetalhe.Saida_2,                    
+                    folga ? "" : objHorarioDetalhe.Saida_2 == "--:--" ? "" : objHorarioDetalhe.Saida_2,
                     Modelo.cwkFuncoes.ConvertMinutosHora(3,horasTrabalhadasDiurna),
                     Modelo.cwkFuncoes.ConvertMinutosHora(3,horasTrabalhadasNoturna),
                     "",//objTotalHoras.horasTrabDiurna,
@@ -2183,11 +2206,11 @@ namespace BLL
                     percSabado,
                     percDomingo,
                     percFolga,
-                    percFeriado,                            
+                    percFeriado,
                     "",//existeBH ? objTotalHoras.saldoBHPeriodo : "",
                     existeBH ? creditodebitobh : "",
                     "",//existeBH ? objTotalHoras.saldoAnteriorBH : "",
-                    existeBH ? creditodebitobhanterior : "",                    
+                    existeBH ? creditodebitobhanterior : "",
                     "",//existeBH ? objTotalHoras.saldoBHAtual : "",
                     existeBH ? creditodebitobhatual : "",
                     saldobancohorasfechamento,
@@ -2243,13 +2266,13 @@ namespace BLL
                     "",
                     "",
                     "",
-                    "",      
+                    "",
                     "",//existeBH ? objTotalHoras.creditoBHPeriodo : "",
                     "",//existeBH ? objTotalHoras.debitoBHPeriodo : "",
                     folga ? "" : objHorarioDetalhe.Entrada_3 == "--:--" ? "" : objHorarioDetalhe.Entrada_3,
                     folga ? "" : objHorarioDetalhe.Entrada_4 == "--:--" ? "" : objHorarioDetalhe.Entrada_4,
                     folga ? "" : objHorarioDetalhe.Saida_3 == "--:--" ? "" : objHorarioDetalhe.Saida_3,
-                    folga ? "" : objHorarioDetalhe.Saida_4 == "--:--" ? "" : objHorarioDetalhe.Saida_4,                    
+                    folga ? "" : objHorarioDetalhe.Saida_4 == "--:--" ? "" : objHorarioDetalhe.Saida_4,
                     Modelo.cwkFuncoes.ConvertMinutosHora(3,horasTrabalhadasDiurna),
                     Modelo.cwkFuncoes.ConvertMinutosHora(3,horasTrabalhadasNoturna),
                     "",//objTotalHoras.horasTrabDiurna,
@@ -2270,11 +2293,11 @@ namespace BLL
                     percSabado,
                     percDomingo,
                     percFolga,
-                    percFeriado,                            
+                    percFeriado,
                     "",//existeBH ? "Saldo do Mês: " + objTotalHoras.saldoBHPeriodo : "",
                     existeBH ? creditodebitobh : "",
                     "",//existeBH ? "Saldo Anterior: " + objTotalHoras.saldoAnteriorBH : "",
-                    existeBH ? creditodebitobhanterior : "",                    
+                    existeBH ? creditodebitobhanterior : "",
                     "",//existeBH ? "Saldo Atual: " + objTotalHoras.saldoBHAtual : "",
                     existeBH ? creditodebitobhatual : "",
                     saldobancohorasfechamento,
