@@ -127,7 +127,7 @@ namespace BLL
                 List<Modelo.FechamentoBH> fechamentosbh = dalFechamentoBH.GetAllListFuncs(idsFuncs, false);
                 List<Modelo.FechamentoBHD> fechamentosbhd = dalFechamentoBHD.GetAllList();
 
-                int chdiurna = 0, chnoturna = 0;
+                int chdiurna = 0, chnoturna = 0, chcargamista =0, chmistaflexivel = 0;
                 string entrada_1, entrada_2, entrada_3, entrada_4;
                 string saida_1, saida_2, saida_3, saida_4;
 
@@ -141,7 +141,7 @@ namespace BLL
                 string creditodebitobhatual = "";
                 string saldobancohorasfechamento = "";
                 bool existeBH = false;
-                bool b24Horas = false;
+                bool b24Horas = false;                
 
                 pPBRecalculo.setaValorPB(0);
                 pPBRecalculo.setaMinMaxPB(0, dt.Rows.Count);
@@ -246,6 +246,8 @@ namespace BLL
                             {
                                 chdiurna = Modelo.cwkFuncoes.ConvertHorasMinuto(row["chdiurnanormal"].ToString());
                                 chnoturna = Modelo.cwkFuncoes.ConvertHorasMinuto(row["chnoturnanormal"].ToString());
+                                chcargamista = Modelo.cwkFuncoes.ConvertHorasMinuto(row["cargamistanormal"].ToString());
+                                chdiurna = chdiurna == 0 && chnoturna == 0 ? chdiurna = chcargamista : chdiurna;
                                 entrada_1 = row["entrada_1normal"].ToString();
                                 entrada_2 = row["entrada_2normal"].ToString();
                                 entrada_3 = row["entrada_3normal"].ToString();
@@ -253,7 +255,7 @@ namespace BLL
                                 saida_1 = row["saida_1normal"].ToString();
                                 saida_2 = row["saida_2normal"].ToString();
                                 saida_3 = row["saida_3normal"].ToString();
-                                saida_4 = row["saida_4normal"].ToString();
+                                saida_4 = row["saida_4normal"].ToString();                                
                             }
                             else
                             {
@@ -274,6 +276,8 @@ namespace BLL
                                 {
                                     chdiurna = Modelo.cwkFuncoes.ConvertHorasMinuto(row["chdiurnaflexivel"].ToString());
                                     chnoturna = Modelo.cwkFuncoes.ConvertHorasMinuto(row["chnoturnaflexivel"].ToString());
+                                    chmistaflexivel = Modelo.cwkFuncoes.ConvertHorasMinuto(row["cargamistaflexivel"].ToString());
+                                    chdiurna = chdiurna == 0 && chnoturna == 0 ? chdiurna = chmistaflexivel : chdiurna;
                                     entrada_1 = row["entrada_1flexivel"].ToString();
                                     entrada_2 = row["entrada_2flexivel"].ToString();
                                     entrada_3 = row["entrada_3flexivel"].ToString();
@@ -292,9 +296,9 @@ namespace BLL
                             && row["legenda"].ToString() != "F" //Feriado                    
                             && !folga //Folga
                             )
-                        {
-                            horasTrabalhadasDiurna += chdiurna;
-                            horasTrabalhadasNoturna += chnoturna;
+                        {                            
+                            horasTrabalhadasDiurna = chdiurna;
+                            horasTrabalhadasNoturna = chnoturna;
                             horasFaltaDiurna += Modelo.cwkFuncoes.ConvertHorasMinuto(row["horasfaltas"].ToString());
                             horasFaltaNoturna += Modelo.cwkFuncoes.ConvertHorasMinuto(row["horasfaltanoturna"].ToString());
                         }
@@ -1139,7 +1143,11 @@ namespace BLL
                 new DataColumn("LogoEmpresa"),
                 new DataColumn("DataMarcacao"),
                 new DataColumn("totalAdicionalNoturno"),
-                new DataColumn("qtdAdNot")
+                new DataColumn("qtdAdNot"),
+                new DataColumn("totalHorasaTrabDiurna"),
+                new DataColumn("totalHorasaTrabNoturna"),
+                new DataColumn("totalHorasaTrabalhar")
+
             };
 
             ret.Columns.AddRange(colunasHora);
@@ -1159,7 +1167,7 @@ namespace BLL
         {
             #region Atualiza os totais do funcionário anterior
             objTotalHoras = new Modelo.TotalHoras(dataInicial, dataFinal);
-
+            
             var totalizadorHoras = new BLL.TotalizadorHorasFuncionario(idempresa, iddepartamento, idfuncionario,
                 idfuncao, dataInicial, dataFinal, jornadasAlternativas, dtBancoHoras, null, null, ConnectionString, UsuarioLogado);
             totalizadorHoras.TotalizeHoras(objTotalHoras);
@@ -1196,7 +1204,7 @@ namespace BLL
                 str.Append("   " + Modelo.cwkFuncoes.ConvertMinutosHora(3, item.Value.Noturno));
                 percExtras.Add(str.ToString());
                 str.Remove(0, str.Length);
-            }
+            }            
 
             #region Saldo do Banco de Horas Fechamento
 
@@ -1208,6 +1216,52 @@ namespace BLL
                 saldobancohorasfechamento = "Saldo Banco de Horas [" + objFechamentoBH.Data.Value.ToShortDateString() + "] ->>  " + objFechamentoBHD.Saldobh;
                 saldobancohorasfechamento += objFechamentoBHD.Tiposaldo == 1 ? " Débito" : objFechamentoBHD.Tiposaldo == 0 ? " Crédito" : "";
 
+            }
+            #endregion
+
+            #region Total Horas a Trabalhar
+            string HorasaTrabDiurna = "", HorasaTrabNoturna = "", totalHorasaTrab="";
+            int totalaTrabDiurna = 0, totalaTrabNoturna = 0, i=0, idfuncionarioAnt=0, totalHorasaTrabMin = 0;
+
+            if (ret.Rows.Count > 0)
+            {
+                DataRow lastRow = ret.Rows[ret.Rows.Count - 1];
+                 
+                foreach (DataRow row in ret.Rows)
+                {
+                    idfuncionario = Convert.ToInt32(row["idfuncionario"].ToString());
+                    if (idfuncionario != idfuncionarioAnt)
+                    {
+                        HorasaTrabDiurna = "";
+                        HorasaTrabNoturna = "";
+                        totalHorasaTrab = "";
+                        totalaTrabDiurna = 0;
+                        totalaTrabNoturna = 0;
+                        totalHorasaTrabMin = 0;
+                        i = 0;
+                    }
+                        if (!(row["legenda"].ToString() == "F"))
+                    {
+                        HorasaTrabDiurna = row["totaltrabalhadadiurna"].ToString();
+                        totalaTrabDiurna += Modelo.cwkFuncoes.ConvertHorasMinuto(HorasaTrabDiurna);
+                        HorasaTrabNoturna = row["totaltrabalhadanoturna"].ToString();
+                        totalaTrabNoturna += Modelo.cwkFuncoes.ConvertHorasMinuto(HorasaTrabNoturna);                        
+                    }
+                    
+                    DataRow currentRow = ret.Rows[i];
+                    if (currentRow == lastRow || (idfuncionarioAnt == idfuncionario))
+                    {
+                        totalHorasaTrabMin = totalaTrabDiurna + totalaTrabNoturna;
+                        totalHorasaTrab = Modelo.cwkFuncoes.ConvertMinutosHoraNegativo(totalHorasaTrabMin);
+                        HorasaTrabDiurna = Modelo.cwkFuncoes.ConvertMinutosHoraNegativo(totalaTrabDiurna);
+                        HorasaTrabNoturna = Modelo.cwkFuncoes.ConvertMinutosHoraNegativo(totalaTrabNoturna);                        
+                        row["totalHorasaTrabDiurna"] = HorasaTrabDiurna;
+                        row["totalHorasaTrabNoturna"] = HorasaTrabNoturna;
+                        row["totalHorasaTrabalhar"] = totalHorasaTrab;                        
+                    }
+                    idfuncionarioAnt = idfuncionario;
+                    i++;
+                }
             }
 
             #endregion
@@ -1225,7 +1279,7 @@ namespace BLL
                 }
             }
 
-            #endregion
+            #endregion           
         }
 
         private void AuxAtualizaFuncAnterior(int indice, DataTable ret, string creditodebitobh,
@@ -1266,7 +1320,7 @@ namespace BLL
             row["existebh"] = existeBH ? 1 : 0;
             row["totalnoturnageral"] = objTotalHoras.horasTrabNoturna;
             row["totalAdicionalNoturno"] = objTotalHoras.horasAdNoturno;
-            row["qtdAdNot"] = objTotalHoras.qtdAdNot;
+            row["qtdAdNot"] = objTotalHoras.qtdAdNot;            
 
             SetTotalAbonoDsr(ret.Rows[indice], dataInicial, dataFinal);
         }
@@ -1360,7 +1414,9 @@ namespace BLL
                 new DataColumn("totalAbonoHoras"),
                 new DataColumn("qtdDDSR"),
                 new DataColumn("totalAdicionalNoturno"),
-                new DataColumn("qtdAdNot")
+                new DataColumn("qtdAdNot"),
+                new DataColumn("totalaTrabDiurna"),
+                new DataColumn("totalaTrabNoturna")
             };
 
             ret.Columns.AddRange(colunasHora);
@@ -1763,7 +1819,7 @@ namespace BLL
                     ret.Rows.Add(values2);
                 }
                 #endregion
-
+                
                 count++;
 
                 pPBRecalculo.Value++;
