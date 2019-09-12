@@ -211,7 +211,7 @@ namespace BLL
                             iddepartamentoAnt = iddepartamento;
                             idfuncaoAnt = idfuncao;
 
-                            if (quebraAuto == false)
+                            if ((dataFinal - dataInicial).TotalDays < 31 || quebraAuto == false)
                             { dtBancoHoras.Rows.Clear(); }
                             dtBancoHoras.Rows.Add(row.ItemArray);
                         }
