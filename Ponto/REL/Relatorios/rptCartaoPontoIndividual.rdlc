@@ -426,14 +426,6 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
           <DataField>qtdAdNot</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="totalHorasaTrabDiurna">
-          <DataField>totalHorasaTrabDiurna</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="totalHorasaTrabNoturna">
-          <DataField>totalHorasaTrabNoturna</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="ColunaGrupoData">
           <DataField>ColunaGrupoData</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -441,7 +433,7 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>dsCartaoPonto</rd:DataSetName>
-        <rd:SchemaPath>C:\tfs\Ponto\Branchs\Bugs\Ponto\REL\dsCartaoPonto.xsd</rd:SchemaPath>
+        <rd:SchemaPath>C:\tfs\Ponto\Branchs\76629-AddCheckboxRelCartãoPonto\Ponto\REL\dsCartaoPonto.xsd</rd:SchemaPath>
         <rd:TableName>DataTable1</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
@@ -597,6 +589,7 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           </Style>
                         </Textbox>
                         <ColSpan>9</ColSpan>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -6210,7 +6203,7 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Last(Fields!totalHorasaTrabDiurna.Value)</Value>
+                                  <Value>=Last(Fields!totaltrabalhadadiurna.Value)</Value>
                                   <Style>
                                     <FontFamily>Courier New</FontFamily>
                                     <FontSize>6.5pt</FontSize>
@@ -6249,7 +6242,7 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Last(Fields!totalHorasaTrabNoturna.Value)</Value>
+                                  <Value>=Last(Fields!totaltrabalhadanoturna.Value)</Value>
                                   <Style>
                                     <FontFamily>Courier New</FontFamily>
                                     <FontSize>6.5pt</FontSize>
@@ -6281,7 +6274,7 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                     <TablixCell />
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox2">
+                        <Textbox Name="Textbox381">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -6289,18 +6282,13 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                               <TextRuns>
                                 <TextRun>
                                   <Value />
-                                  <Style>
-                                    <FontFamily>Courier New</FontFamily>
-                                    <FontSize>6.5pt</FontSize>
-                                  </Style>
+                                  <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
+                              <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox2</rd:DefaultName>
+                          <rd:DefaultName>Textbox381</rd:DefaultName>
                           <Style>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -10171,7 +10159,7 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
       </DefaultValue>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
-  </ReportParameters>  
+  </ReportParameters>
   <EmbeddedImages>
     <EmbeddedImage Name="Super_Mario_3D_logo">
       <MIMEType>image/png</MIMEType>

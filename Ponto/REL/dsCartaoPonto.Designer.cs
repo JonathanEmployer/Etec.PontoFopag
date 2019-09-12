@@ -1980,12 +1980,6 @@ namespace REL {
             
             private global::System.Data.DataColumn columnqtdAdNot;
             
-            private global::System.Data.DataColumn columntotalHorasaTrabDiurna;
-            
-            private global::System.Data.DataColumn columntotalHorasaTrabNoturna;
-            
-            private global::System.Data.DataColumn columntotalHorasaTrabalhar;
-            
             private global::System.Data.DataColumn columnColunaGrupoData;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2783,30 +2777,6 @@ namespace REL {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn totalHorasaTrabDiurnaColumn {
-                get {
-                    return this.columntotalHorasaTrabDiurna;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn totalHorasaTrabNoturnaColumn {
-                get {
-                    return this.columntotalHorasaTrabNoturna;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn totalHorasaTrabalharColumn {
-                get {
-                    return this.columntotalHorasaTrabalhar;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public global::System.Data.DataColumn ColunaGrupoDataColumn {
                 get {
                     return this.columnColunaGrupoData;
@@ -2945,9 +2915,6 @@ namespace REL {
                         string AdicionalNoturno, 
                         string totalAdicionalNoturno, 
                         string qtdAdNot, 
-                        string totalHorasaTrabDiurna, 
-                        string totalHorasaTrabNoturna, 
-                        string totalHorasaTrabalhar, 
                         string ColunaGrupoData) {
                 DataTable1Row rowDataTable1Row = ((DataTable1Row)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
@@ -3046,9 +3013,6 @@ namespace REL {
                         AdicionalNoturno,
                         totalAdicionalNoturno,
                         qtdAdNot,
-                        totalHorasaTrabDiurna,
-                        totalHorasaTrabNoturna,
-                        totalHorasaTrabalhar,
                         ColunaGrupoData};
                 rowDataTable1Row.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDataTable1Row);
@@ -3174,9 +3138,6 @@ namespace REL {
                 this.columnAdicionalNoturno = base.Columns["AdicionalNoturno"];
                 this.columntotalAdicionalNoturno = base.Columns["totalAdicionalNoturno"];
                 this.columnqtdAdNot = base.Columns["qtdAdNot"];
-                this.columntotalHorasaTrabDiurna = base.Columns["totalHorasaTrabDiurna"];
-                this.columntotalHorasaTrabNoturna = base.Columns["totalHorasaTrabNoturna"];
-                this.columntotalHorasaTrabalhar = base.Columns["totalHorasaTrabalhar"];
                 this.columnColunaGrupoData = base.Columns["ColunaGrupoData"];
             }
             
@@ -3373,12 +3334,6 @@ namespace REL {
                 base.Columns.Add(this.columntotalAdicionalNoturno);
                 this.columnqtdAdNot = new global::System.Data.DataColumn("qtdAdNot", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnqtdAdNot);
-                this.columntotalHorasaTrabDiurna = new global::System.Data.DataColumn("totalHorasaTrabDiurna", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columntotalHorasaTrabDiurna);
-                this.columntotalHorasaTrabNoturna = new global::System.Data.DataColumn("totalHorasaTrabNoturna", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columntotalHorasaTrabNoturna);
-                this.columntotalHorasaTrabalhar = new global::System.Data.DataColumn("totalHorasaTrabalhar", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columntotalHorasaTrabalhar);
                 this.columnColunaGrupoData = new global::System.Data.DataColumn("ColunaGrupoData", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnColunaGrupoData);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
@@ -8778,54 +8733,6 @@ namespace REL {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string totalHorasaTrabDiurna {
-                get {
-                    try {
-                        return ((string)(this[this.tableDataTable1.totalHorasaTrabDiurnaColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'totalHorasaTrabDiurna\' in table \'DataTable1\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableDataTable1.totalHorasaTrabDiurnaColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string totalHorasaTrabNoturna {
-                get {
-                    try {
-                        return ((string)(this[this.tableDataTable1.totalHorasaTrabNoturnaColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'totalHorasaTrabNoturna\' in table \'DataTable1\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableDataTable1.totalHorasaTrabNoturnaColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string totalHorasaTrabalhar {
-                get {
-                    try {
-                        return ((string)(this[this.tableDataTable1.totalHorasaTrabalharColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'totalHorasaTrabalhar\' in table \'DataTable1\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableDataTable1.totalHorasaTrabalharColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public string ColunaGrupoData {
                 get {
                     try {
@@ -9954,42 +9861,6 @@ namespace REL {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetqtdAdNotNull() {
                 this[this.tableDataTable1.qtdAdNotColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IstotalHorasaTrabDiurnaNull() {
-                return this.IsNull(this.tableDataTable1.totalHorasaTrabDiurnaColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SettotalHorasaTrabDiurnaNull() {
-                this[this.tableDataTable1.totalHorasaTrabDiurnaColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IstotalHorasaTrabNoturnaNull() {
-                return this.IsNull(this.tableDataTable1.totalHorasaTrabNoturnaColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SettotalHorasaTrabNoturnaNull() {
-                this[this.tableDataTable1.totalHorasaTrabNoturnaColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IstotalHorasaTrabalharNull() {
-                return this.IsNull(this.tableDataTable1.totalHorasaTrabalharColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SettotalHorasaTrabalharNull() {
-                this[this.tableDataTable1.totalHorasaTrabalharColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

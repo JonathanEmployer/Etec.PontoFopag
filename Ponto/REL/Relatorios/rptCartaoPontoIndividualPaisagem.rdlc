@@ -426,18 +426,6 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
           <DataField>qtdAdNot</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="totalHorasaTrabDiurna">
-          <DataField>totalHorasaTrabDiurna</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="totalHorasaTrabNoturna">
-          <DataField>totalHorasaTrabNoturna</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="totalHorasaTrabalhar">
-          <DataField>totalHorasaTrabalhar</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="ColunaGrupoData">
           <DataField>ColunaGrupoData</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -445,7 +433,7 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>dsCartaoPonto</rd:DataSetName>
-        <rd:SchemaPath>C:\tfs\Ponto\Branchs\Bugs\Ponto\REL\dsCartaoPonto.xsd</rd:SchemaPath>
+        <rd:SchemaPath>C:\tfs\Ponto\Branchs\76629-AddCheckboxRelCartãoPonto\Ponto\REL\dsCartaoPonto.xsd</rd:SchemaPath>
         <rd:TableName>DataTable1</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
@@ -3199,6 +3187,7 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           </Style>
                         </Textbox>
                         <ColSpan>2</ColSpan>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -5081,7 +5070,7 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>A Trab:</Value>
+                                  <Value>Trab.:</Value>
                                   <Style>
                                     <FontFamily>Courier New</FontFamily>
                                     <FontSize>6.5pt</FontSize>
@@ -5115,7 +5104,7 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Last(Fields!totalHorasaTrabalhar.Value)</Value>
+                                  <Value>=Last(Fields!diurnanoturnageral.Value)</Value>
                                   <Style>
                                     <FontFamily>Courier New</FontFamily>
                                     <FontSize>6.5pt</FontSize>
@@ -5139,7 +5128,6 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           </Style>
                         </Textbox>
                         <ColSpan>2</ColSpan>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -5520,14 +5508,14 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox1035">
+                        <Textbox Name="Textbox1033">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Trab.:</Value>
+                                  <Value>Extras:</Value>
                                   <Style>
                                     <FontFamily>Courier New</FontFamily>
                                     <FontSize>6.5pt</FontSize>
@@ -5539,11 +5527,14 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox1032</rd:DefaultName>
+                          <rd:DefaultName>Textbox1033</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
                             </Border>
+                            <TopBorder>
+                              <Style>None</Style>
+                            </TopBorder>
                             <PaddingTop>1pt</PaddingTop>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
@@ -5554,14 +5545,14 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                     <TablixCell />
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="textbox465">
+                        <Textbox Name="textbox471">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Last(Fields!diurnanoturnageral.Value)</Value>
+                                  <Value>=Last(Fields!totalextrageral.Value)</Value>
                                   <Style>
                                     <FontFamily>Courier New</FontFamily>
                                     <FontSize>6.5pt</FontSize>
@@ -5573,7 +5564,7 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>textbox41</rd:DefaultName>
+                          <rd:DefaultName>textbox52</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -6206,14 +6197,14 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox1036">
+                        <Textbox Name="Textbox1034">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Extras:</Value>
+                                  <Value>Falta:</Value>
                                   <Style>
                                     <FontFamily>Courier New</FontFamily>
                                     <FontSize>6.5pt</FontSize>
@@ -6225,7 +6216,7 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox1033</rd:DefaultName>
+                          <rd:DefaultName>Textbox1034</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -6243,14 +6234,14 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                     <TablixCell />
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="textbox472">
+                        <Textbox Name="textbox480">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Last(Fields!totalextrageral.Value)</Value>
+                                  <Value>=Last(Fields!totalfaltageral.Value)</Value>
                                   <Style>
                                     <FontFamily>Courier New</FontFamily>
                                     <FontSize>6.5pt</FontSize>
@@ -6262,7 +6253,7 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>textbox52</rd:DefaultName>
+                          <rd:DefaultName>textbox36</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -6892,14 +6883,14 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox1037">
+                        <Textbox Name="Textbox1035">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Falta:</Value>
+                                  <Value>Banco:</Value>
                                   <Style>
                                     <FontFamily>Courier New</FontFamily>
                                     <FontSize>6.5pt</FontSize>
@@ -6929,14 +6920,14 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                     <TablixCell />
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="textbox481">
+                        <Textbox Name="textbox51">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Last(Fields!totalfaltageral.Value)</Value>
+                                  <Value>=Last(Fields!saldobancohorasatual.Value)</Value>
                                   <Style>
                                     <FontFamily>Courier New</FontFamily>
                                     <FontSize>6.5pt</FontSize>
@@ -6948,21 +6939,54 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>textbox36</rd:DefaultName>
+                          <rd:DefaultName>textbox50</rd:DefaultName>
+                          <ZIndex>43</ZIndex>
                           <Style>
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
+                            <PaddingTop>1pt</PaddingTop>
+                            <PaddingBottom>1pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <ColSpan>2</ColSpan>
                       </CellContents>
                     </TablixCell>
-                    <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="creditodebitobhatual2">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Last(Fields!creditodebitobhatual.Value)</Value>
+                                  <Style>
+                                    <FontFamily>Courier New</FontFamily>
+                                    <FontSize>6.5pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>creditodebitobhatual</rd:DefaultName>
+                          <ZIndex>42</ZIndex>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <RightBorder>
+                              <Style>Dashed</Style>
+                            </RightBorder>
+                            <PaddingTop>1pt</PaddingTop>
+                            <PaddingBottom>1pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="textbox485">
