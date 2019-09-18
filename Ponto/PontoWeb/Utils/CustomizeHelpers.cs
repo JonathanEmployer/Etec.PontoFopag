@@ -58,18 +58,26 @@ namespace PontoWeb.Utils
         public static MvcHtmlString TipoServidor(this HtmlHelper helper)
         {
             string tipoServidor = "";
+            string msg = "";
 
-            if (ConfigurationManager.AppSettings["ApiPontofopag"].Contains("hom") || ConfigurationManager.AppSettings["ApiPontofopag"].Contains("localhost"))
+            if (ConfigurationManager.ConnectionStrings["ConnCentralCliente"].ConnectionString.ToUpper().Contains("HOM"))
             {
-                string msg = "Ambiente de Homologação";
-                if (ConfigurationManager.AppSettings["ApiPontofopag"].Contains("localhost"))
-                {
-                    msg = "Ambiente Local";
-                }
-                
-                tipoServidor =  "<div class=\"alert alert-info\" style=\"position:fixed; margin:-130px 50px;\"> "+
-                                "    <h1>"+msg+" <span class=\"glyphicon glyphicon-exclamation-sign\"></span></h1> "+
-                                "</div>";
+                msg = "Homologação";                
+            }
+            else if(ConfigurationManager.ConnectionStrings["ConnCentralCliente"].ConnectionString.ToUpper().Contains("DEV"))
+            {
+                msg = "Desenvolvimento";
+            }
+            else if (ConfigurationManager.ConnectionStrings["ConnCentralCliente"].ConnectionString.ToUpper().Contains("SUP"))
+            {
+                msg = "Suporte";
+            }
+
+            if (!string.IsNullOrWhiteSpace(msg))
+            {
+                tipoServidor = "<div class=\"alert alert-info\" style=\"position:fixed; margin:-130px 50px;\"> " +
+                "    <h1>Ambiente de <b>" + msg + "</b> <span class=\"glyphicon glyphicon-exclamation-sign\"></span></h1> " +
+                "</div>";
             }
 
             return new MvcHtmlString(tipoServidor);
