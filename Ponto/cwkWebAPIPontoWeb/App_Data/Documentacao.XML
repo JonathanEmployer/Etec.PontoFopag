@@ -739,6 +739,18 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:cwkWebAPIPontoWeb.Controllers.FechamentoPontoController">
+            <summary>
+            Método para buscar o último fechamento de Ponto e de Banco de Horas do Funcionário
+            </summary>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.FechamentoPontoController.Get(System.Collections.Generic.List{Modelo.Proxy.PxyCPFMatricula})">
+            <summary>
+                Método para buscar o último fechamento de Ponto e de Banco de Horas do Funcionário
+            </summary>
+            <param name="parametros">Combinação de CPF e Matricula dos Funcionários a consultar</param>
+            <returns></returns>
+        </member>
         <member name="M:cwkWebAPIPontoWeb.Controllers.FeriadoController.Cadastrar(cwkWebAPIPontoWeb.Models.Feriado)">
             <summary>
             Cadastrar/Alterar Feriado.

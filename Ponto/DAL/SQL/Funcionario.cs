@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using AutoMapper;
 using System.Linq;
+using Modelo.Proxy;
 
 namespace DAL.SQL
 {
@@ -5756,6 +5757,61 @@ where 1=1
             dr.Dispose();
 
             return dt;
+        }
+
+        public List<PxyUltimoFechamentoPonto> GetUltimoFechamentoPontoFuncionarios(List<int> idsFuncs)
+        {
+            SqlParameter[] parms = new SqlParameter[1]
+            {
+                    new SqlParameter("@idsFuncs", SqlDbType.Structured)
+            };
+            parms[0].Value = CreateDataTableIdentificadores(idsFuncs.Select(s => (long)s));
+            parms[0].TypeName = "Identificadores";
+
+            #region Select
+            string aux = @"
+                select *,
+                        case WHEN UltimoFechamentoPonto IS NULL and UltimoFechamentoBanco IS NOT NULL THEN
+                                 UltimoFechamentoBanco
+                             WHEN UltimoFechamentoPonto IS NOT NULL AND UltimoFechamentoBanco IS NULL THEN
+		                        UltimoFechamentoPonto
+                             WHEN UltimoFechamentoPonto > UltimoFechamentoBanco THEN
+		                        UltimoFechamentoPonto
+                             ELSE UltimoFechamentoBanco end UltimoFechamento
+                          from (
+	                        select f.dscodigo Codigo,
+		                           f.CPF,
+		                           f.matricula Matricula,
+		                           f.pis Pis,
+		                           f.nome Nome,
+		                           (select max(fp.dataFechamento) from FechamentoPonto fp inner join FechamentoPontoFuncionario fpf on fp.id = fpf.idFechamentoPonto and fpf.idfuncionario = f.id) UltimoFechamentoPonto,
+		                           (select max(fbh.data) from fechamentobh fbh inner join fechamentobhd fbhd on fbh.id = fbhd.idfechamentobh and fbhd.identificacao = f.id) UltimoFechamentoBanco
+	                        from funcionario f
+	                        inner JOIN @idsFuncs t on t.Identificador = f.id
+                        ) t
+                ";
+            #endregion
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            List<PxyUltimoFechamentoPonto> lista = new List<PxyUltimoFechamentoPonto>();
+            try
+            {
+                Mapper.CreateMap<IDataReader, PxyUltimoFechamentoPonto>();
+                lista = Mapper.Map<List<PxyUltimoFechamentoPonto>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
         }
 
     }

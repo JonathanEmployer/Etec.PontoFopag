@@ -6,6 +6,7 @@ using System.Linq;
 using FileHelpers;
 using DAL.SQL;
 using BLLIntegracaoPNL = BLL.IntegracaoPainel;
+using Modelo.Proxy;
 
 namespace BLL
 {
@@ -1988,6 +1989,11 @@ namespace BLL
         public DataTable GetPeriodoFechamentoPonto(List<int> idsFuncs)
         {
             return dalFuncionario.GetPeriodoFechamentoPonto(idsFuncs);
+        }
+
+        public List<PxyUltimoFechamentoPonto> GetUltimoFechamentoPontoFuncionarios(List<int> idsFuncs)
+        {
+            return dalFuncionario.GetUltimoFechamentoPontoFuncionarios(idsFuncs);
         }
     }
 }

@@ -1908,5 +1908,10 @@ public List<int> GetIdsFuncsAtivos(string condicao)
         {
             throw new NotImplementedException();
         }
+
+        public List<PxyUltimoFechamentoPonto> GetUltimoFechamentoPontoFuncionarios(List<int> idsFuncs)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Data;
 using System.Collections.Generic;
 using System.Collections;
 using Modelo;
+using Modelo.Proxy;
 
 namespace DAL
 {
@@ -127,6 +128,7 @@ namespace DAL
         DataTable GetPeriodoFechamentoPonto(List<int> idsFuncs);
 
         List<int> GetIdsFuncsPorIdsEmpOuDepOuFuncaoOuContra(int idFuncao, int idDep, int idCont, int idEmp, bool verificaPermissao, bool removeInativo, bool removeExcluido);
+        List<PxyUltimoFechamentoPonto> GetUltimoFechamentoPontoFuncionarios(List<int> idsFuncs);
     }
 }
 

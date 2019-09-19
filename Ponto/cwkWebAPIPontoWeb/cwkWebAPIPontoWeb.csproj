@@ -373,6 +373,7 @@
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\ExportaArquivosController.cs" />
     <Compile Include="Controllers\ExtendedApiController.cs" />
+    <Compile Include="Controllers\FechamentoPontoController.cs" />
     <Compile Include="Controllers\FeriadoController.cs" />
     <Compile Include="Controllers\FeriasController.cs" />
     <Compile Include="Controllers\FuncaoController.cs" />
