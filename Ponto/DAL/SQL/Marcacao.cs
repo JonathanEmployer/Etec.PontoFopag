@@ -4003,7 +4003,7 @@ WHERE
                                  LEFT JOIN empresa ON empresa.id = func.idempresa
                                  WHERE funcionarioativo = 1 AND ISNULL(func.excluido,0) = 0 AND marcacao.data between @dataIni and @dataFin ";
             }
-            aux += GetWhereSelectAll();
+            //aux += GetWhereSelectAll();
 
             aux += PermissaoUsuarioFuncionario(UsuarioLogado, aux, "func.idempresa", "func.id", null);
 
