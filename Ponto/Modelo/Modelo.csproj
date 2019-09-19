@@ -265,6 +265,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AFD.cs" />
+    <Compile Include="AutoMapper\ConfigureAutoMapper.cs" />
     <Compile Include="JustificativaRestricao.cs" />
     <Compile Include="OcorrenciaRestricao.cs" />
     <Compile Include="HorarioDinamicoRestricao.cs" />

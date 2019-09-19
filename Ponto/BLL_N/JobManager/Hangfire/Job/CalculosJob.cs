@@ -216,17 +216,19 @@ namespace BLL_N.JobManager.Hangfire.Job
             qtdLote = lote.Count();
             stepCalc = 1;
             pb.incrementaPBCMensagem(1, String.Format("Calculando DSR (Quantidade {0}/{1})", stepCalc++, qtdLote));
-            Parallel.ForEach(lote, (currentFile) =>
+            Parallel.ForEach(lote, new ParallelOptions() { MaxDegreeOfParallelism = 4 }, (currentFile) =>
             {
                 if (currentFile.DtMarcacoes.Rows.Count > 0)
                 {
-                    pb.incrementaPBCMensagem(0, String.Format("Calculando DSR (Quantidade {0}/{1})", stepCalc++, qtdLote));
+                    Interlocked.Increment(ref stepCalc);
+                    pb.incrementaPBCMensagem(0, String.Format("Calculando DSR (Quantidade {0}/{1})", stepCalc, qtdLote));
                     BLL.CalculaMarcacao bllCalculaMarcacao = new BLL.CalculaMarcacao(currentFile.DtMarcacoes, tratamentomarcacaoList, bancoHorasList, jornadaAlternativaList, fechamentoBHDList, ocorrenciaList, compensacaoList, pbInt, userPF.ConnectionString, userPF);
                     List<Modelo.Marcacao> lt = bllCalculaMarcacao.CalculaDSR(false, false);
                     currentFile.Marcacoes = lt;
                     currentFile.Bilhetes = new List<Modelo.BilhetesImp>();
                 }
             });
+
 
             pb.incrementaPBCMensagem(1, "Salvando DSR");
             bllCalculaMarcacaoAnt.SalvarMarcacoesCalculadas(lote.ToList(), pb, msgSalvando);

@@ -15,6 +15,7 @@ namespace cwkWebAPIPontoWeb
         {
             ConfigureAuth(app);
             ConfigureHangfire();
+            Modelo.AutoMapper.ConfigureAutoMapper.Initialize();
         }
 
         private static void ConfigureHangfire()

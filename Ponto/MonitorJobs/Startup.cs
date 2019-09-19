@@ -27,6 +27,7 @@ namespace MonitorJobs
                 //CriaUsuarioPadrao();
 
                 ConfigHangFireDashboard(app);
+                Modelo.AutoMapper.ConfigureAutoMapper.Initialize();
             }
             catch (Exception e)
             {

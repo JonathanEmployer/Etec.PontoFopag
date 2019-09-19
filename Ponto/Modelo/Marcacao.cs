@@ -9,9 +9,6 @@ namespace Modelo
     {
         public Marcacao()
         {
-            Mapper.CreateMap<Marcacao, Marcacao>();
-
-
             Entrada_1 = "--:--";
             Entrada_2 = "--:--";
             Entrada_3 = "--:--";

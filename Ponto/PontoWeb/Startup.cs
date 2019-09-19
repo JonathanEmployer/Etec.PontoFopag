@@ -4,6 +4,7 @@ using Hangfire.SqlServer;
 using Microsoft.Owin;
 using Hangfire.Console;
 using BLL_N.JobManager.Hangfire;
+using AutoMapper;
 
 [assembly: OwinStartup(typeof(PontoWeb.Startup))]
 
@@ -16,6 +17,7 @@ namespace PontoWeb
             app.MapSignalR();
             ConfigureAuth(app);
             ConfigureHangfire();
+            Modelo.AutoMapper.ConfigureAutoMapper.Initialize();
 
             //var options = new DashboardOptions
             //{
