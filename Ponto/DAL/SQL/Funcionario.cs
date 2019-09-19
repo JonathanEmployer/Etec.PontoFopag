@@ -319,7 +319,7 @@ namespace DAL.SQL
                                        func.Email,
                                        func.IdIntegracaoPainel,
                                        func.RFID,
-                                       '' foto
+                                       func.foto
                                     , convert(varchar,horario.codigo)+' | '+horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+empresa.nome as empresa
                                     , convert(varchar,departamento.codigo)+' | '+departamento.descricao AS departamento
