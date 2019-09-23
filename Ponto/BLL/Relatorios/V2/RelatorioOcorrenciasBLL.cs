@@ -73,12 +73,17 @@ namespace BLL.Relatorios.V2
 
 		protected override string GetRelatorioPDF()
 		{
-			RelatorioOcorrenciasModel parms = ((RelatorioOcorrenciasModel)_relatorioFiltro);
-			DataTable Dt = GetDados(parms);
+			RelatorioOcorrenciasModel parms = ((RelatorioOcorrenciasModel)_relatorioFiltro);         
+            DataTable Dt = GetDados(parms);
             Dt.Columns.Add("Data", typeof(String));
+            Dt.Columns.Add("bancohorasdebMin", typeof(Int32));
+            int bancohorasdebMIN = 0;
+
             foreach (DataRow row in Dt.Rows)
             {
                 row["Data"] = Convert.ToDateTime((row["data"]).ToString()).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                bancohorasdebMIN = Modelo.cwkFuncoes.ConvertHorasMinuto(row["bancohorasdeb"].ToString());
+                row["bancohorasdebMin"] = bancohorasdebMIN;
             }
             Dt.Columns["Data"].SetOrdinal(6);
             Dt.Columns.Remove("data");
@@ -121,8 +126,6 @@ namespace BLL.Relatorios.V2
 			parametros.Add(p3);
 			ReportParameter p4 = new ReportParameter("quebraDepartamento", agruparDepartamento.ToString());
 			parametros.Add(p4);
-			nomerel = "rptOcorrenciaPorFuncionarioData.rdlc";
-			texto = "Relatório de Ocorrências por Matrícula";
 
 			ParametrosReportView parametrosReport = new ParametrosReportView()
 			{
