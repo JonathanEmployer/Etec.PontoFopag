@@ -295,6 +295,7 @@
     <Compile Include="IHorarioDinamico.cs" />
     <Compile Include="IHorarioDinamicoLimiteDdsr.cs" />
     <Compile Include="IHorarioDinamicoPHExtra.cs" />
+    <Compile Include="IParametroWebfopag.cs" />
     <Compile Include="SQL\JustificaticaRestricao.cs" />
     <Compile Include="SQL\OcorrenciaRestricao.cs" />
     <Compile Include="SQL\HorarioDinamicoRestricao.cs" />
@@ -432,6 +433,7 @@
     <Compile Include="SQL\OcorrenciaEmpresa.cs" />
     <Compile Include="SQL\ParametroPainelRH.cs" />
     <Compile Include="SQL\LogErroPainelAPI.cs" />
+    <Compile Include="SQL\ParametroWebfopag.cs" />
     <Compile Include="SQL\Pessoa.cs" />
     <Compile Include="SQL\IP.cs" />
     <Compile Include="SQL\LancamentoLoteAfastamento.cs" />

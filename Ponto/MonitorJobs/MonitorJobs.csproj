@@ -151,6 +151,7 @@
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=4.0.40306.1554, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.4.0.4.403061554\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
@@ -275,6 +276,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\TabLogErro.cs" />
     <Compile Include="Negocio\Bases.cs" />
+    <Compile Include="Negocio\ImportarRegistrosColetor.cs" />
     <Compile Include="Negocio\EnviarRegistroPonto.cs" />
     <Compile Include="Negocio\GerarMarcacoes.cs" />
     <Compile Include="Negocio\ImportarRegistrosPonto.cs" />
@@ -427,6 +429,9 @@
       <Project>{c0239a00-eef2-497a-a643-9260e0196e8d}</Project>
       <Name>REL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

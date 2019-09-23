@@ -71,6 +71,7 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<int> toleranciaAdicionalNoturno { get; set; }
         public short MomentoPreAssinalado { get; set; }
         public Nullable<bool> Flg_Separar_Trabalhadas_Noturna_Extras_Noturna { get; set; }
+        public bool Flg_Estender_Periodo_Noturno { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<horario> horario { get; set; }

@@ -28,6 +28,8 @@ namespace MonitorJobs.Jobs
                 interacao++;
                 #endregion
 
+                AgendarImportacaoRegistrosColetor(item);
+
                 #region Processo em teste
                 AgendarEnvioRegistros(item);
                 #endregion
@@ -62,6 +64,23 @@ namespace MonitorJobs.Jobs
                 else
                     idJob = String.Format(idJob, item.Nome);
                 RecurringJob.AddOrUpdate(idJob, () => Negocio.EnviarRegistroPonto.EnviarRegistroPontoCS(item.Nome), "*/1 * * * *", queue: "pequeno"); 
+            }
+        }
+
+        private static void AgendarImportacaoRegistrosColetor(Models.Bases item)
+        {
+            if (item.Nome.Contains("PONTOFOPAG_MONSANTO"))
+            {
+                DateTime database = Convert.ToDateTime("2019-09-18 22:00:00").ToUniversalTime();
+                int hora = database.Hour;
+                int minuto = database.Minute;
+                string[] nome = item.Nome.Split('_');
+                String idJob = "ImportarRegistrosColetor{0}";
+                if (nome.Count() > 1)
+                    idJob = String.Format(idJob, String.Join("_", nome.Skip(1).ToArray()));
+                else
+                    idJob = String.Format(idJob, item.Nome);
+                RecurringJob.AddOrUpdate(idJob, () => Negocio.ImportarRegistrosColetor.Processar(item.Nome), string.Format("{0} {1} * * *",minuto, hora), queue: "normal");
             }
         }
 

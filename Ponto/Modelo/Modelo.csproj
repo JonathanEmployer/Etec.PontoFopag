@@ -357,9 +357,11 @@
     <Compile Include="Enumeradores.cs" />
     <Compile Include="BloqueioFuncionario.cs" />
     <Compile Include="ManutencaoBiometrica.cs" />
+    <Compile Include="ParametroWebfopag.cs" />
     <Compile Include="Proxy\PxyFuncionariosRecalcular.cs" />
     <Compile Include="Proxy\pxyManutencaoBiometricaFuncionarioGrid.cs" />
     <Compile Include="Proxy\PxyUltimoFechamentoPonto.cs" />
+    <Compile Include="Proxy\Webfopag\PxyRetornoColetor.cs" />
     <Compile Include="TipoBiometria.cs" />
     <Compile Include="FuncionarioRFID.cs" />
     <Compile Include="HorarioDinamicoCicloSequencia.cs" />
