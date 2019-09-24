@@ -88,35 +88,38 @@ namespace BLL
                 ret.Add("rgTipohoras", "Campo obrigatório.");
             }
 
-            if (objeto.PercentualExtra1 > 0 && objeto.He50 == 0 && objeto.He50N == 0)
-                ret.Add("txtPercentualExtra1", "Percentual Extra 1: Selecione Diurna e/ou Noturna.");
+            if (!objeto.ClassificarHorasExtras)
+            {
+                if (objeto.PercentualExtra1 > 0 && objeto.He50 == 0 && objeto.He50N == 0)
+                    ret.Add("PercentualExtra1", "Percentual Extra 1: Selecione Diurna e/ou Noturna.");
 
-            if (objeto.PercentualExtra2 > 0 && objeto.He60 == 0 && objeto.He60N == 0)
-                ret.Add("txtPercentualExtra2", "Percentual Extra 2: Selecione Diurna e/ou Noturna.");
+                if (objeto.PercentualExtra2 > 0 && objeto.He60 == 0 && objeto.He60N == 0)
+                    ret.Add("PercentualExtra2", "Percentual Extra 2: Selecione Diurna e/ou Noturna.");
 
-            if (objeto.PercentualExtra3 > 0 && objeto.He70 == 0 && objeto.He70N == 0)
-                ret.Add("txtPercentualExtra3", "Percentual Extra 3: Selecione Diurna e/ou Noturna.");
+                if (objeto.PercentualExtra3 > 0 && objeto.He70 == 0 && objeto.He70N == 0)
+                    ret.Add("PercentualExtra3", "Percentual Extra 3: Selecione Diurna e/ou Noturna.");
 
-            if (objeto.PercentualExtra4 > 0 && objeto.He80 == 0 && objeto.He80N == 0)
-                ret.Add("txtPercentualExtra4", "Percentual Extra 4: Selecione Diurna e/ou Noturna.");
+                if (objeto.PercentualExtra4 > 0 && objeto.He80 == 0 && objeto.He80N == 0)
+                    ret.Add("PercentualExtra4", "Percentual Extra 4: Selecione Diurna e/ou Noturna.");
 
-            if (objeto.PercentualExtra5 > 0 && objeto.He90 == 0 && objeto.He90N == 0)
-                ret.Add("txtPercentualExtra5", "Percentual Extra 5: Selecione Diurna e/ou Noturna.");
+                if (objeto.PercentualExtra5 > 0 && objeto.He90 == 0 && objeto.He90N == 0)
+                    ret.Add("PercentualExtra5", "Percentual Extra 5: Selecione Diurna e/ou Noturna.");
 
-            if (objeto.PercentualExtra6 > 0 && objeto.He100 == 0 && objeto.He100N == 0)
-                ret.Add("txtPercentualExtra6", "Percentual Extra 6: Selecione Diurna e/ou Noturna.");
+                if (objeto.PercentualExtra6 > 0 && objeto.He100 == 0 && objeto.He100N == 0)
+                    ret.Add("PercentualExtra6", "Percentual Extra 6: Selecione Diurna e/ou Noturna.");
 
-            if (objeto.PercentualExtra7 > 0 && objeto.Hesab == 0 && objeto.HesabN == 0)
-                ret.Add("txtPercentualExtra7", "Percentual Extra 7: Selecione Diurna e/ou Noturna.");
+                if (objeto.PercentualExtra7 > 0 && objeto.Hesab == 0 && objeto.HesabN == 0)
+                    ret.Add("PercentualExtra7", "Percentual Extra 7: Selecione Diurna e/ou Noturna.");
 
-            if (objeto.PercentualExtra8 > 0 && objeto.Hedom == 0 && objeto.HedomN == 0)
-                ret.Add("txtPercentualExtra8", "Percentual Extra 8: Selecione Diurna e/ou Noturna.");
+                if (objeto.PercentualExtra8 > 0 && objeto.Hedom == 0 && objeto.HedomN == 0)
+                    ret.Add("PercentualExtra8", "Percentual Extra 8: Selecione Diurna e/ou Noturna.");
 
-            if (objeto.PercentualExtra9 > 0 && objeto.Hefer == 0 && objeto.HeferN == 0)
-                ret.Add("txtPercentualExtra9", "Percentual Extra 9: Selecione Diurna e/ou Noturna.");
+                if (objeto.PercentualExtra9 > 0 && objeto.Hefer == 0 && objeto.HeferN == 0)
+                    ret.Add("PercentualExtra9", "Percentual Extra 9: Selecione Diurna e/ou Noturna.");
 
-            if (objeto.PercentualExtra10 > 0 && objeto.Folga == 0 && objeto.FolgaN == 0)
-                ret.Add("txtPercentualExtra10", "Percentual Extra 10: Selecione Diurna e/ou Noturna.");
+                if (objeto.PercentualExtra10 > 0 && objeto.Folga == 0 && objeto.FolgaN == 0)
+                    ret.Add("PercentualExtra10", "Percentual Extra 10: Selecione Diurna e/ou Noturna."); 
+            }
 
             return ret;
         }

@@ -612,14 +612,17 @@
     function validarHorasExtras() {
         var errorArray = {};
         var ret = true;
-        for (var i = 1; i <= 10; i++) {
-            if (Number($('#txt_he_' + i).val()) > 0 && ((!$('#chk_he_' + i).is(':checked')) && (!$('#chk_hen_' + i).is(':checked')))) {
-                var campovalidar = $('#txt_he_' + i).attr('name');
-                errorArray[campovalidar] = 'Campo com horas preenchidas, devem ser obrigatoriamente marcados com pelo menos uma das opções (Diurna/Noturna)';
-                validator.showErrors(errorArray);
-                ret = false;
+        if (!($('#chkClassificarHorasExtras').is(':checked'))) {
+            for (var i = 1; i <= 10; i++) {
+                if ((!$('#chk_he_' + i).is(':checked')) && Number($('#txt_he_' + i).val()) > 0 && ((!$('#chk_he_' + i).is(':checked')) && (!$('#chk_hen_' + i).is(':checked')))) {
+                    var campovalidar = $('#txt_he_' + i).attr('name');
+                    errorArray[campovalidar] = 'Campo com horas preenchidas, devem ser obrigatoriamente marcados com pelo menos uma das opções (Diurna/Noturna)';
+                    validator.showErrors(errorArray);
+                    ret = false;
+                }
             }
         }
+        
         return ret;
     }
 

@@ -211,46 +211,49 @@ namespace PontoWeb.Controllers
 
         protected override void ValidarForm(Eventos obj)
         {
-            string msg = "Campo com horas preenchidas, devem ser obrigatóriamente marcados com pelo menos uma das opções (Diurna/Noturna)";
-            if (obj.PercentualExtra1 > 0 && (!obj.bHe50 && !obj.bHe50N))
+            if (!obj.ClassificarHorasExtras)
             {
-                ModelState["PercentualExtra1"].Errors.Add(msg);
-            }
-            if (obj.PercentualExtra2 > 0 && (!obj.bHe60 && !obj.bHe60N))
-            {
-                ModelState["PercentualExtra2"].Errors.Add(msg);
-            }
-            if (obj.PercentualExtra3 > 0 && (!obj.bHe70 && !obj.bHe70N))
-            {
-                ModelState["PercentualExtra3"].Errors.Add(msg);
-            }
-            if (obj.PercentualExtra4 > 0 && (!obj.bHe80 && !obj.bHe80N))
-            {
-                ModelState["PercentualExtra4"].Errors.Add(msg);
-            }
-            if (obj.PercentualExtra5 > 0 && (!obj.bHe90 && !obj.bHe90N))
-            {
-                ModelState["PercentualExtra5"].Errors.Add(msg);
-            }
-            if (obj.PercentualExtra6 > 0 && (!obj.bHe100 && !obj.bHe100N))
-            {
-                ModelState["PercentualExtra6"].Errors.Add(msg);
-            }
-            if (obj.PercentualExtra7 > 0 && (!obj.bHesab && !obj.bHesabN))
-            {
-                ModelState["PercentualExtra7"].Errors.Add(msg);
-            }
-            if (obj.PercentualExtra8 > 0 && (!obj.bHedom && !obj.bHedomN))
-            {
-                ModelState["PercentualExtra8"].Errors.Add(msg);
-            }
-            if (obj.PercentualExtra9 > 0 && (!obj.bHefer && !obj.bHeferN))
-            {
-                ModelState["PercentualExtra9"].Errors.Add(msg);
-            }
-            if (obj.PercentualExtra10 > 0 && (!obj.bFolga && !obj.bFolgaN))
-            {
-                ModelState["PercentualExtra10"].Errors.Add(msg);
+                string msg = "Campo com horas preenchidas, devem ser obrigatóriamente marcados com pelo menos uma das opções (Diurna/Noturna)";
+                if (obj.PercentualExtra1 > 0 && (!obj.bHe50 && !obj.bHe50N))
+                {
+                    ModelState["PercentualExtra1"].Errors.Add(msg);
+                }
+                if (obj.PercentualExtra2 > 0 && (!obj.bHe60 && !obj.bHe60N))
+                {
+                    ModelState["PercentualExtra2"].Errors.Add(msg);
+                }
+                if (obj.PercentualExtra3 > 0 && (!obj.bHe70 && !obj.bHe70N))
+                {
+                    ModelState["PercentualExtra3"].Errors.Add(msg);
+                }
+                if (obj.PercentualExtra4 > 0 && (!obj.bHe80 && !obj.bHe80N))
+                {
+                    ModelState["PercentualExtra4"].Errors.Add(msg);
+                }
+                if (obj.PercentualExtra5 > 0 && (!obj.bHe90 && !obj.bHe90N))
+                {
+                    ModelState["PercentualExtra5"].Errors.Add(msg);
+                }
+                if (obj.PercentualExtra6 > 0 && (!obj.bHe100 && !obj.bHe100N))
+                {
+                    ModelState["PercentualExtra6"].Errors.Add(msg);
+                }
+                if (obj.PercentualExtra7 > 0 && (!obj.bHesab && !obj.bHesabN))
+                {
+                    ModelState["PercentualExtra7"].Errors.Add(msg);
+                }
+                if (obj.PercentualExtra8 > 0 && (!obj.bHedom && !obj.bHedomN))
+                {
+                    ModelState["PercentualExtra8"].Errors.Add(msg);
+                }
+                if (obj.PercentualExtra9 > 0 && (!obj.bHefer && !obj.bHeferN))
+                {
+                    ModelState["PercentualExtra9"].Errors.Add(msg);
+                }
+                if (obj.PercentualExtra10 > 0 && (!obj.bFolga && !obj.bFolgaN))
+                {
+                    ModelState["PercentualExtra10"].Errors.Add(msg);
+                } 
             }
         }
     }
