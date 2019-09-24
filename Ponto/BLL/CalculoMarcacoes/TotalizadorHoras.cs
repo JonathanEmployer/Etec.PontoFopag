@@ -482,14 +482,12 @@ namespace BLL
                     totalFaltas++;
                 }
 
-                if (horasfaltasD < objHorarioDetalhe.TotaltrabalhadadiurnaMin)
+                if ((horasfaltasD + horasfaltasN) < (objHorarioDetalhe.TotaltrabalhadadiurnaMin + objHorarioDetalhe.TotaltrabalhadanoturnaMin))
                 {
                     totalAtrasoDiurno += horasfaltasD;
-                }
-                if (horasfaltasN < objHorarioDetalhe.TotaltrabalhadanoturnaMin)
-                {
                     totalAtrasoNoturno += horasfaltasN;
                 }
+
                 totalFaltaDiurna += horasfaltasD;
                 totalFaltaNoturna += horasfaltasN;
             }
