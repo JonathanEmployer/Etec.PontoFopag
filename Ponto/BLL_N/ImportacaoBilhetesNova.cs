@@ -10,6 +10,7 @@ using System.Linq;
 using BLL_N.JobManager.Hangfire;
 using BLL_N.JobManager.Hangfire.Job;
 using Modelo.EntityFramework.MonitorPontofopag;
+using Hangfire.Common;
 
 namespace BLL_N
 {
@@ -181,7 +182,8 @@ namespace BLL_N
                             int.TryParse(hangfireContext.BackgroundJob.Id, out idJob);
                             jobReport.JobId = idJob;
                             JobControl jobControl = HangfireManagerBase.GerarJobControl("Calculo de marcações de bilhetes importados", jobReport);
-                            var childHangfireJobId = new BackgroundJobClient().ContinueWith<CalculosJob>(hangfireContext.BackgroundJob.Id, x => x.RecalculaMarcacao(null, jobControl, database, usuarioLogado.Login, idsFuncs, dataInicial.GetValueOrDefault(), dataFinal.GetValueOrDefault(), false), new EnqueuedState("normal"));
+                            string originalQueue = HangfireManagerBase.GetOriginalQueue(hangfireContext);
+                            var childHangfireJobId = new BackgroundJobClient().ContinueJobWith<CalculosJob>(hangfireContext.BackgroundJob.Id, x => x.RecalculaMarcacao(null, jobControl, database, usuarioLogado.Login, idsFuncs, dataInicial.GetValueOrDefault(), dataFinal.GetValueOrDefault(), false), new EnqueuedState(string.IsNullOrEmpty(originalQueue) ? "normal" : originalQueue));
                         }
                         else
                         {

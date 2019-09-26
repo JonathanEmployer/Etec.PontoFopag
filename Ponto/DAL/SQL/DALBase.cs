@@ -583,7 +583,7 @@ namespace DAL.SQL
                     condicional = "where";
                     if (sql.IndexOf("Where", StringComparison.OrdinalIgnoreCase) >= 0)
                     {
-                        condicional = "and";
+                        condicional = " and ";
                     }
                 }
                 sql = "";

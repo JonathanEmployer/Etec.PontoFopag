@@ -1917,7 +1917,7 @@
     {
         ciclo.JornadaInfo = [];
         ciclo.JornadaInfo.descricao = ciclo.DescJornada;
-        ciclo.JornadaInfo.codigo =  ciclo.DescJornada.substring(0, ciclo.DescJornada.indexOf('|')).trimEnd();;
+        ciclo.JornadaInfo.codigo =  $.trim(ciclo.DescJornada.substring(0, ciclo.DescJornada.indexOf('|')));
         ciclo.JornadaInfo.horarios = tratarHora(JSON.parse(JSON.stringify(ciclo.DescJornada)));
         ciclo.JornadaInfo.horariosJson = preencheHoraPreAssinaladaJson(JSON.parse(JSON.stringify(_modeloJornada)), ciclo.JornadaInfo.horarios);
 

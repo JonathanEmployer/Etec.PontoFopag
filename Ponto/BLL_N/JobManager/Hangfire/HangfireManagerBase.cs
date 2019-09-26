@@ -6,6 +6,8 @@ using Modelo.Relatorios;
 using System.Linq;
 using Modelo.EntityFramework.MonitorPontofopag;
 using Hangfire.States;
+using Hangfire.Server;
+using Hangfire.Common;
 
 namespace BLL_N.JobManager.Hangfire
 {
@@ -108,6 +110,13 @@ namespace BLL_N.JobManager.Hangfire
 			RelatorioBaseModel parms = (RelatorioBaseModel)parametros;
 			return String.Format("Data {0} de {1} funcionários {2}", parms.InicioPeriodo.ToShortDateString(), parms.IdSelecionados.Split(',').ToList().Count(), string.IsNullOrEmpty(parms.TipoArquivo) ? "" : String.Format("({0})", parms.TipoArquivo));
 		}
-		#endregion
-	}
+        #endregion
+
+        public static string GetOriginalQueue(PerformContext hangfireContext)
+        {
+            return SerializationHelper.Deserialize<string>(hangfireContext.Connection.GetJobParameter(
+                                        hangfireContext.BackgroundJob.Id,
+                                        "OriginalQueue"));
+        }
+    }
 }

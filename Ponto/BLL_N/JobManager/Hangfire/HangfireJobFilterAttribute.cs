@@ -155,7 +155,8 @@ namespace BLL_N.JobManager.Hangfire
             if (enqueuedState != null)
             {
                 // Checking if an original queue is already set
-                var originalQueue = JobHelper.FromJson<string>(context.Connection.GetJobParameter(
+                
+                var originalQueue = SerializationHelper.Deserialize<string>(context.Connection.GetJobParameter(
                     context.BackgroundJob.Id,
                     "OriginalQueue"));
 
@@ -170,7 +171,7 @@ namespace BLL_N.JobManager.Hangfire
                     context.Connection.SetJobParameter(
                         context.BackgroundJob.Id,
                         "OriginalQueue",
-                        JobHelper.ToJson(enqueuedState.Queue));
+                        SerializationHelper.Serialize(enqueuedState.Queue));
                 }
             }
         }

@@ -150,7 +150,7 @@ namespace BLL.IntegracaoRelogio
                         (TipoComunicacao)objRep.TipoComunicacao, objRep.NumRelogio, objRep.Local);
 
                     Int64 senhaConvertida = 0;
-                    if (!Int64.TryParse(UsuarioLogado.SenhaRep, out senhaConvertida))
+                    if (UsuarioLogado.SenhaRep != null && !Int64.TryParse(UsuarioLogado.SenhaRep, out senhaConvertida))
                     {
                         throw new Exception("A senha de comunicação deve ser composta somente por números para o equipamento Henry HEXA C.");
                     }

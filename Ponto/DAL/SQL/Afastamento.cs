@@ -178,8 +178,7 @@ namespace DAL.SQL
                              WHERE afastamento.datai = @data 
                              AND isnull(afastamento.dataf, '9999-12-31') = @data 
                              AND afastamento.idfuncionario = @idfuncionario
-                             AND afastamento.tipo = 0"
-                            + GetWhereSelectAll();
+                             AND afastamento.tipo = 0";
             }
         }
 
