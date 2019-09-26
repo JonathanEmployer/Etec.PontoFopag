@@ -133,10 +133,28 @@ namespace cwkWebAPIPontoWeb.Controllers
                             {
                                 DataTable dtCompetencia = filtrada.CopyToDataTable();
                                 DataRow[] dataRows = dtCompetencia.Select().OrderBy(u => u["data"]).ToArray();
-                                decimal totalMensal = dataRows.Select(s => Convert.ToDecimal(s["SaldoDiaMin"])).Sum();
-                                DataRow t = dataRows.LastOrDefault();
-                                string saldoMensal = (dataRows.LastOrDefault()).Field<string>("SaldoBancoHoras");
+                                decimal totalMensal = 0;
+                                foreach (var linha in dataRows)
+                                {
+                                    if (!linha.IsNull("dataFechamento") && linha.Field<DateTime>("Data") == linha.Field<DateTime>("dataFechamento"))
+                                    {
+                                        if (linha.Field<Int32>("tiposaldo") == 0)
+                                        {
+                                            totalMensal = linha.Field<Int32>("SaldoFechamento");
+                                        }
+                                        else
+                                        {
+                                            totalMensal = -linha.Field<Int32>("SaldoFechamento");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        totalMensal += linha.Field<Int32>("SaldoDiaMin");
+                                    }
+                                }
+
                                 saldos.BancoHorasMensal = cwkFuncoes.ConvertMinutosHoraNegativo(totalMensal);
+                                string saldoMensal = (dataRows.LastOrDefault()).Field<string>("SaldoBancoHoras");
                                 saldos.BancoHorasAcumulado = saldoMensal;
                                 lSaldoBancoHorasMesRetorno.Add(saldos);
                             } 
@@ -147,7 +165,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                 catch (Exception e)
                 {
                     BLL.cwkFuncoes.LogarErro(e);
-                    return Request.CreateResponse(HttpStatusCode.NotFound, retErro);
+                    return Request.CreateResponse(HttpStatusCode.NotFound, retErro.erroGeral = e.Message);
                 }
             }
             return TrataErroModelState(retErro);

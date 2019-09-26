@@ -179,7 +179,7 @@ namespace PontoWeb.Controllers
                         else
                         {
                             //Atualiza as marcações
-                            bllMarcacao.InsereMarcacoesNaoExistentes(objBancoHoras.Tipo, objBancoHoras.Identificacao, objBancoHoras.DataInicial.Value, objFechamentoBH.Data.Value, objProgress, false);
+                            bllMarcacao.InsereMarcacoesNaoExistentes(objFechamentoBH.Tipo, idTipo, objBancoHoras.DataInicial.Value, objFechamentoBH.Data.Value, objProgress, false);
 
                             //Realiza o fechamento do banco de horas por funcionario
                             bllFechamentoBH.ChamaCalculaFechamento(objBancoHoras, objFechamentoBH, ref listaobjFechamentoBHDPercentual, obj.PagamentoHoraCreAuto, obj.LimiteHorasPagamentoCredito, obj.PagamentoHoraDebAuto, obj.LimiteHorasPagamentoDebito, ref objProgress);

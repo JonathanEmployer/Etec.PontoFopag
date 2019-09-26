@@ -1494,6 +1494,10 @@ FROM    ( SELECT    t.IdFuncionario ,
                         (
                             id INT PRIMARY KEY CLUSTERED ,
                             idfuncionario INT ,
+							idfechamento INT,
+							dataFechamento datetime,
+							tiposaldo INT,
+                            saldo INT,
                             data DATETIME ,
                             Hra_Banco_Horas VARCHAR(200)
                         );
@@ -1516,7 +1520,11 @@ FROM    ( SELECT    t.IdFuncionario ,
 	                       DebBHMin,
 	                       SaldoDiaMin,
 	                       SaldoBancoHoras,
-	                       SaldoBancoHorasMin
+	                       SaldoBancoHorasMin,
+                           SaldoFechamento,
+						   idfechamento,
+						   dataFechamento,
+						   tiposaldo
                       from (
 	                    select *,
 		                       (SaldoBancoHorasMin - (CredBHMin - DebBHMin)) SaldoBancoHorasAntMin,
@@ -1536,9 +1544,13 @@ FROM    ( SELECT    t.IdFuncionario ,
 					                    REPLACE(REPLACE(CONVERT(VARCHAR(6), DECRYPTBYKEY(vm.campo23)), '--:--',
 									                    ''), '-', '') AS 'CredBH' ,
 					                    REPLACE(REPLACE(CONVERT(VARCHAR(6), DECRYPTBYKEY(vm.campo24)), '--:--',
-									                    ''), '-', '') AS 'DebBH' ,
+									                    ''), '-', '') AS 'DebBH',
 					                    vm.idfuncionario 'idFuncionario' ,
-					                    ISNULL(banco.Hra_Banco_Horas, '00:00') AS 'SaldoBancoHoras'
+					                    ISNULL(banco.Hra_Banco_Horas, '00:00') AS 'SaldoBancoHoras',
+                                        banco.Saldo SaldoFechamento,
+										banco.idfechamento,
+										banco.dataFechamento,
+                                        banco.tiposaldo
 			                    FROM    dbo.VW_Marcacao vm  WITH ( NOLOCK )
 					                    JOIN #funcionarios fff WITH ( NOLOCK ) ON vm.idfuncionario = fff.idfuncionario
 					                    LEFT JOIN #funcionariobancodehoras banco ON vm.id = banco.id
