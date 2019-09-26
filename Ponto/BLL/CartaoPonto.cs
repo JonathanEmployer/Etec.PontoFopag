@@ -323,14 +323,14 @@ namespace BLL
 
                         throw;
                     }
-                }
+                }                
 
                 if ((dataFinal - dataInicial).TotalDays > 31 && quebraAuto == true)
                 {
                     BLL.Empresa bllEmpresa = new BLL.Empresa(ConnectionString, UsuarioLogado);
                     List<Modelo.Empresa> objEmpresas = bllEmpresa.GetAllList();
 
-                    DataColumn colunaGrupoData = ret.Columns.Add("ColunaGrupoData", typeof(Int32));
+                    DataColumn colunaGrupoData = ret.Columns.Add("ColunaGrupoData", typeof(Int32));                    
                     colunaGrupoData.AllowDBNull = true;
                     colunaGrupoData.Unique = false;
 
@@ -660,6 +660,7 @@ namespace BLL
                     row["AdicionalNoturno"].ToString() == "--:--" ? "" : row["AdicionalNoturno"].ToString(),
                     row["PercAdicNoturno"],
                     row["horaExtraInterjornada"],
+                    row["PessoaSupervisor"],
                     folga ? "" : entrada_1 == "--:--" ? "" : entrada_1,
                     folga ? "" : entrada_2 == "--:--" ? "" : entrada_2,
                     folga ? "" : saida_1 == "--:--" ? "" : saida_1,
@@ -778,6 +779,7 @@ namespace BLL
                     row["AdicionalNoturno"].ToString() == "--:--" ? "" : row["AdicionalNoturno"].ToString(),
                     row["PercAdicNoturno"],
                     "",
+                    row["PessoaSupervisor"],
                     folga ? "" : entrada_3 == "--:--" ? "" : entrada_3,
                     folga ? "" : entrada_4 == "--:--" ? "" : entrada_4,
                     folga ? "" : saida_3 == "--:--" ? "" : saida_3,
@@ -1044,7 +1046,6 @@ namespace BLL
             foreach (DataColumn c in dt.Columns)
             {
 
-
                 if (Array.IndexOf(new string[] { "entrada_5", "entrada_6", "entrada_7", "entrada_8"
                     , "saida_5", "saida_6", "saida_7", "saida_8", "valordsr", "tipohorario"
                     , "idempresa", "iddepartamento", "idfuncao"
@@ -1146,7 +1147,7 @@ namespace BLL
                 new DataColumn("qtdAdNot"),
                 new DataColumn("totalHorasaTrabDiurna"),
                 new DataColumn("totalHorasaTrabNoturna"),
-                new DataColumn("totalHorasaTrabalhar")
+                new DataColumn("totalHorasaTrabalhar")               
 
             };
 

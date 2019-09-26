@@ -1986,6 +1986,8 @@ namespace REL {
             
             private global::System.Data.DataColumn columntotalHorasaTrabalhar;
             
+            private global::System.Data.DataColumn columnPessoaSupervisor;
+            
             private global::System.Data.DataColumn columnColunaGrupoData;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2807,6 +2809,14 @@ namespace REL {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn PessoaSupervisorColumn {
+                get {
+                    return this.columnPessoaSupervisor;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public global::System.Data.DataColumn ColunaGrupoDataColumn {
                 get {
                     return this.columnColunaGrupoData;
@@ -2948,6 +2958,7 @@ namespace REL {
                         string totalHorasaTrabDiurna, 
                         string totalHorasaTrabNoturna, 
                         string totalHorasaTrabalhar, 
+                        string PessoaSupervisor, 
                         string ColunaGrupoData) {
                 DataTable1Row rowDataTable1Row = ((DataTable1Row)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
@@ -3049,6 +3060,7 @@ namespace REL {
                         totalHorasaTrabDiurna,
                         totalHorasaTrabNoturna,
                         totalHorasaTrabalhar,
+                        PessoaSupervisor,
                         ColunaGrupoData};
                 rowDataTable1Row.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDataTable1Row);
@@ -3177,6 +3189,7 @@ namespace REL {
                 this.columntotalHorasaTrabDiurna = base.Columns["totalHorasaTrabDiurna"];
                 this.columntotalHorasaTrabNoturna = base.Columns["totalHorasaTrabNoturna"];
                 this.columntotalHorasaTrabalhar = base.Columns["totalHorasaTrabalhar"];
+                this.columnPessoaSupervisor = base.Columns["PessoaSupervisor"];
                 this.columnColunaGrupoData = base.Columns["ColunaGrupoData"];
             }
             
@@ -3379,6 +3392,8 @@ namespace REL {
                 base.Columns.Add(this.columntotalHorasaTrabNoturna);
                 this.columntotalHorasaTrabalhar = new global::System.Data.DataColumn("totalHorasaTrabalhar", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columntotalHorasaTrabalhar);
+                this.columnPessoaSupervisor = new global::System.Data.DataColumn("PessoaSupervisor", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPessoaSupervisor);
                 this.columnColunaGrupoData = new global::System.Data.DataColumn("ColunaGrupoData", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnColunaGrupoData);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
@@ -8826,6 +8841,22 @@ namespace REL {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string PessoaSupervisor {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.PessoaSupervisorColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PessoaSupervisor\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.PessoaSupervisorColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public string ColunaGrupoData {
                 get {
                     try {
@@ -9990,6 +10021,18 @@ namespace REL {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SettotalHorasaTrabalharNull() {
                 this[this.tableDataTable1.totalHorasaTrabalharColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsPessoaSupervisorNull() {
+                return this.IsNull(this.tableDataTable1.PessoaSupervisorColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetPessoaSupervisorNull() {
+                this[this.tableDataTable1.PessoaSupervisorColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

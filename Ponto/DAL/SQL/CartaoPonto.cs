@@ -273,7 +273,8 @@ namespace DAL.SQL
 				                                , feriado.HoraInicio AS FeriadoParcialInicio 
 				                                , feriado.HoraFim AS FeriadoParcialFim
                                                 , parametros.inicioadnoturno AS inicioAdNoturno
-				                                , parametros.fimadnoturno AS fimAdNoturno
+				                                , parametros.fimadnoturno AS fimAdNoturno,
+                                                pe.RazaoSocial AS PessoaSupervisor			
 			                              FROM marcacao AS marcacao (NOLOCK)
                                          INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario
                                          INNER JOIN horario     ON horario.id = marcacao.idhorario
@@ -285,7 +286,8 @@ namespace DAL.SQL
                                          INNER JOIN #horariophextra as hphe on hphe.idhorario = marcacao.idhorario
                                           LEFT JOIN horariodetalhe AS horariodetalhenormal ON horariodetalhenormal.idhorario = marcacao.idhorario AND horario.tipohorario = 1 AND horariodetalhenormal.dia = (CASE WHEN (DATEPART(WEEKDAY, marcacao.data) - 1) = 0 THEN 7 ELSE (DATEPART(WEEKDAY, marcacao.data) - 1) END)
                                           LEFT JOIN horariodetalhe AS horariodetalheflexivel ON horariodetalheflexivel.idhorario = marcacao.idhorario AND horario.tipohorario = 2 AND horariodetalheflexivel.data = marcacao.data
-                                        OUTER APPLY (SELECT TOP(1) * FROM feriado where horario.desconsiderarferiado = 0 
+                                          LEFT JOIN pessoa pe ON pe.id = funcionario.IdPessoaSupervisor
+                                          OUTER APPLY (SELECT TOP(1) * FROM feriado where horario.desconsiderarferiado = 0 
                                                  AND feriado.data = marcacao.data 
                                                  AND ( feriado.tipoferiado = 0 
                                                      OR ( feriado.tipoferiado = 1 
