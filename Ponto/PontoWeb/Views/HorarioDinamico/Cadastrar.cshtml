@@ -759,6 +759,20 @@
     }
 </style>
 <script>
+    // Tratar incompatibilidade do navegador Edge com a função forEach
+    if (typeof Array.prototype.forEach != 'function') {
+	Array.prototype.forEach = function (callback) {
+		for (var i = 0; i < this.length; i++) {
+			callback.apply(this, [this[i], i, this]);
+		}
+	 };
+	}
+
+	if (window.NodeList && !NodeList.prototype.forEach) {
+		NodeList.prototype.forEach = Array.prototype.forEach;
+    }  
+    // Fim tratar incompatibilidade do navegador Edge com a função forEach
+
     (function ($) {
         $.fn.updateValidation = function () {
             var $this = $(this);
