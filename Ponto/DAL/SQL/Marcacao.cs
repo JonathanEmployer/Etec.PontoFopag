@@ -5313,7 +5313,7 @@ WHERE
                         Hra_Banco_Horas VARCHAR(200)
                     );
                 INSERT INTO #funcionariobancodehoras
-                SELECT * FROM [dbo].[F_BancoHorasNew](@datainicial, @datafinal, @Identificadores)
+                SELECT id, idfuncionario, data, Hra_Banco_Horas FROM [dbo].[F_BancoHorasNew](@datainicial, @datafinal, @Identificadores)
 
 
                 /*Select para o relatório*/
