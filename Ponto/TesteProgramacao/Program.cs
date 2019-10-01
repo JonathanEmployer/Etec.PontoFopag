@@ -199,7 +199,7 @@ namespace TesteProgramacao
         public void metodoGenericoCTRL(bool teste)
         {
             ExecutarTestes = teste;
-            connectionString = @"Data Source=empvw02250\homst;initial catalog=CentralCliente;user id=pontofopag_app;password=123;Application Name=cwkpontoweb;MultipleActiveResultSets=true;Asynchronous Processing=true";
+            connectionString = @"Data Source=empvw02250\hom;initial catalog=CentralCliente;user id=pontofopag_app;password=123;Application Name=cwkpontoweb;MultipleActiveResultSets=true;Asynchronous Processing=true";
             usuarioControle = new Modelo.Cw_Usuario();
             usuarioControle.Login = "employer";
             bllList = GetBllList();
