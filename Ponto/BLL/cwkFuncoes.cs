@@ -547,7 +547,7 @@ namespace BLL
             int diasNoMes = DateTime.DaysInMonth(Ano, Mes);
             if (diafechamentoinicial > 15)
             {
-                datainicio.AddMonths(-1);
+                datainicio = datainicio.AddMonths(-1);
             }
             if (diafechamentofinal == 30 || diafechamentofinal == 31 || diafechamentofinal == 0)
             {
