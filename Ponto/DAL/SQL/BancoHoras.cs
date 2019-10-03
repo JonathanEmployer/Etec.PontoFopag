@@ -767,7 +767,6 @@ namespace DAL.SQL
 						f.id in ({0}) ", String.Join(",", idsFuncs)) + sql;
                 sql += @" and bh.id in ( select * from #tempIDsBH)";
             }
-            sql += GetWhereSelectAll();
 
             if (verificaPermissao)
             {
