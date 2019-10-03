@@ -238,8 +238,11 @@ namespace BLL
                     fimfechamento = param.DiaFechamentoFinal;
                 }
             }
+            if (fimfechamento == 30 || fimfechamento == 31 || fimfechamento == 0)
+            {
+                fimfechamento = 0;
+            }
         }
-
         private static void SetaPadroesParaRel(pxyCartaoPontoEmployer cp)
         {
             if (cp.Jornadas.Count() == 0)
