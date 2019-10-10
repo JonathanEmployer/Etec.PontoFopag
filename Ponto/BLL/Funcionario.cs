@@ -7,6 +7,7 @@ using FileHelpers;
 using DAL.SQL;
 using BLLIntegracaoPNL = BLL.IntegracaoPainel;
 using Modelo.Proxy;
+using Modelo;
 
 namespace BLL
 {
@@ -702,9 +703,13 @@ namespace BLL
             return false;
         }
 
-        public Dictionary<string, string> ValidaObjeto(Modelo.Funcionario objeto)
+        public Dictionary<string, string> ValidaObjeto(Modelo.Funcionario objeto, Modelo.Acao acao)
         {
             Dictionary<string, string> ret = new Dictionary<string, string>();
+            if (acao == Modelo.Acao.Excluir && objeto.DataInativacao == null)
+            {
+                ret.Add("DataInativacao", " Exclusão não permitida. Funcionário sem 'data de inativação' preenchida.");
+            }
             if (objeto.Codigo <= 0)
             {
                 ret.Add("Codigo", "Campo obrigatório.");
@@ -789,7 +794,7 @@ namespace BLL
                 {
                     ret.Add("Pis", "O PIS informado é inválido.");
                 }
-            }
+            }          
 
 
             BLL.Horario bllHorario = new BLL.Horario(ConnectionString, UsuarioLogado);
@@ -905,7 +910,7 @@ namespace BLL
 
         public Dictionary<string, string> Salvar(Modelo.Acao pAcao, Modelo.Funcionario objeto)
         {
-            Dictionary<string, string> erros = ValidaObjeto(objeto);
+            Dictionary<string, string> erros = ValidaObjeto(objeto, pAcao);
 
             try
             {
@@ -1089,7 +1094,7 @@ namespace BLL
         {
             Dictionary<string, string> erros = new Dictionary<string, string>();
             if (tipo == 1)
-                erros = ValidaObjeto(objeto);
+                erros = ValidaObjeto(objeto, pAcao);
             if (tipo == 2)
                 erros = ValidaObjeto1(objeto);
 
@@ -1994,6 +1999,11 @@ namespace BLL
         public List<PxyUltimoFechamentoPonto> GetUltimoFechamentoPontoFuncionarios(List<int> idsFuncs)
         {
             return dalFuncionario.GetUltimoFechamentoPontoFuncionarios(idsFuncs);
+        }
+
+        public Dictionary<string, string> ValidaObjeto(Modelo.Funcionario objeto)
+        {
+            throw new NotImplementedException();
         }
     }
 }
