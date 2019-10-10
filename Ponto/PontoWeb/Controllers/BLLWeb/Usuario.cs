@@ -384,8 +384,9 @@ namespace PontoWeb.Controllers.BLLWeb
 				BLL.UsuarioPontoWeb bllUpw = new BLL.UsuarioPontoWeb(cwu.ConnectionStringDecrypt);
 				usuarioPontoWeb = bllUpw.LoadObject(cwu.id);
 				BLL.Empresa bllEmp = new BLL.Empresa(cwu.ConnectionStringDecrypt, usuarioPontoWeb);
-				usuarioPontoWeb.EmpresaPrincipal = bllEmp.GetEmpresaPrincipal();
+				usuarioPontoWeb.EmpresaPrincipal = bllEmp.GetEmpresaPrincipal();                    
                 usuarioPontoWeb.ConnectionString = cwu.ConnectionStringDecrypt;
+                usuarioPontoWeb.ConsultaUtilizaRegistradorAllEmp = bllEmp.ConsultaUtilizaRegistradorAllEmp();
 				// se conseguiu pegar no banco, seta no cache.
 				if (usuarioPontoWeb != null && !String.IsNullOrEmpty(usuarioPontoWeb.Login))
 				{

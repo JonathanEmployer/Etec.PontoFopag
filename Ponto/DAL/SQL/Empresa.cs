@@ -871,6 +871,22 @@ namespace DAL.SQL
             }
             return true;
         }
+
+        public bool ConsultaUtilizaRegistradorAllEmp()
+        {
+            int utiliza = 1;
+            SqlParameter[] parms = new SqlParameter[] { new SqlParameter("@utiliza", SqlDbType.Int) };
+            parms[0].Value = utiliza;
+            string aux = @"SELECT utilizaregistradorfunc FROM dbo.empresa where utilizaregistradorfunc = @utiliza";
+
+            var controEmp = db.ExecuteScalar(CommandType.Text, aux, parms);
+            var Bloq = Convert.ToInt32(controEmp);
+            if (controEmp == null)
+            {
+                return false;
+            }
+            return true;
+        }
         #endregion
     }
 }

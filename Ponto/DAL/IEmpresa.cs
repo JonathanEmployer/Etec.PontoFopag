@@ -24,5 +24,6 @@ namespace DAL
         List<Modelo.Empresa> GetEmpresaByIds(List<int> ids);
         List<int> GetIdsPorCodigos(List<int> codigos);
         List<int> GetAllIds();
+        bool ConsultaUtilizaRegistradorAllEmp();
     }
 }

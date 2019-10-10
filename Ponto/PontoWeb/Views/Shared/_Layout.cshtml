@@ -255,7 +255,7 @@
                             <li class="dropdown-submenu">
                                 <a href="#">Específicos</a>
                                 <ul class="dropdown-menu">
-                                    @if (@PontoWeb.Controllers.BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache().EmpresaPrincipal.utilizaregistradorfunc)
+                                    @if (@PontoWeb.Controllers.BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache().ConsultaUtilizaRegistradorAllEmp)
                                     {
                                         <li>@Html.ActionLink("Localização de Registro Ponto", "Index", "RelatorioLocalizacaoRegistroPonto")</li>
                                     }

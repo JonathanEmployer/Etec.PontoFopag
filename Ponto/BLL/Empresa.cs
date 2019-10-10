@@ -526,5 +526,9 @@ namespace BLL
         {
             return dalEmpresa.GetAllIds();
         }
+        public bool ConsultaUtilizaRegistradorAllEmp()
+        {
+            return dalEmpresa.ConsultaUtilizaRegistradorAllEmp();
+        }
     }
 }

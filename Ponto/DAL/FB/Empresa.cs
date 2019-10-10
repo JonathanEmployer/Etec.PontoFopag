@@ -440,5 +440,9 @@ namespace DAL.FB
         {
             throw new NotImplementedException();
         }
+        public bool ConsultaUtilizaRegistradorAllEmp()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

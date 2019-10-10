@@ -14,7 +14,7 @@ namespace Modelo
             System.Data.SqlClient.SqlConnectionStringBuilder builder = new System.Data.SqlClient.SqlConnectionStringBuilder(ConnectionString);
             return builder["Initial Catalog"] as string;
         } }
-
         public string CentroServico { get; set; }
+        public bool ConsultaUtilizaRegistradorAllEmp { get; set; }
     }
 }
