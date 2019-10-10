@@ -637,9 +637,15 @@ namespace PontoWeb.Controllers
         [Authorize]
         public ActionResult GetTabelaMarcacao(String consulta, String filtro, String tipo)
         {
-            BLL.Funcionario bllFuncionario = new BLL.Funcionario(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+            UsuarioPontoWeb usr = Usuario.GetUsuarioPontoWebLogadoCache();
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(usr.ConnectionString, usr);
             int idIdentificacao = 0;
-            if (tipo == "2")
+            if (tipo == "5" && !string.IsNullOrEmpty(filtro))
+            {
+                BLL.Contrato bllContrato = new BLL.Contrato(usr.ConnectionString, usr);
+                idIdentificacao = bllContrato.GetIdByConsulta(filtro);
+            }
+            else if (tipo == "2")
             {
                 idIdentificacao = DepartamentoController.BuscaIdDepartamento(filtro);
             }
@@ -656,13 +662,14 @@ namespace PontoWeb.Controllers
             {
                 int id = bllFuncionario.GetIdDsCodigo(codigo.ToString());
                 Funcionario func = bllFuncionario.LoadObject(id);
-                if (func.Funcionarioativo == 1 && func.Excluido == 0 && func != null && func.Id > 0 && ((tipo == "2" && func.Iddepartamento == idIdentificacao) || (tipo == "1" && func.Idempresa == idIdentificacao) || tipo == "3"))
+                if (func.Funcionarioativo == 1 && func.Excluido == 0 && func != null && func.Id > 0 && ((tipo == "2" && func.Iddepartamento == idIdentificacao) || (tipo == "1" && func.Idempresa == idIdentificacao) || tipo == "3" || tipo == "5"))
                 {
+
                     lFunc.Add(func);
                 }
             }
 
-            if (lFunc.Count == 0 && (tipo == "1" || tipo == "2" || tipo == "3"))
+            if (lFunc.Count == 0 && (tipo == "1" || tipo == "2" || tipo == "3" || tipo == "5"))
             {
                 lFunc = bllFuncionario.GetTabelaMarcacao(Convert.ToInt32(tipo), idIdentificacao, consulta);
 

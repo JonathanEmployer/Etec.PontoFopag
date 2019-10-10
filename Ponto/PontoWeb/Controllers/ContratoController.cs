@@ -212,9 +212,8 @@ namespace PontoWeb.Controllers
 
         private List<Contrato> PesquisaContratos(String consulta, String filtro)
         {
-            string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
-            BLL.Contrato bllCont = new BLL.Contrato(conn, usr);
+            BLL.Contrato bllCont = new BLL.Contrato(usr.ConnectionString, usr);
             List<Contrato> conts = new List<Contrato>();
             int idEmpresa = 0;
 
@@ -261,7 +260,7 @@ namespace PontoWeb.Controllers
                     conts = bllCont.GetAllList();
                 }
 
-                Modelo.Contrato cont = new Modelo.Contrato { Codigo = 0, NomeEmpresa = "TODOS OS CONTRATOS" };
+                Modelo.Contrato cont = new Modelo.Contrato { Codigo = 0, CodigoContrato = "0", DescricaoContrato = "TODOS", NomeEmpresa = "TODAS" };
                 conts.Add(cont);
 
                 return conts;

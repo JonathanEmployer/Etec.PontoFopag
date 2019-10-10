@@ -206,5 +206,17 @@ namespace BLL
             return dalContrato.ContratosPorFuncionario(idFuncionario);
         }
 
+        public int GetIdByConsulta(string consulta)
+        {
+            int codigo = -1;
+            try { codigo = Int32.Parse(consulta.Split('|').FirstOrDefault()); }
+            catch (Exception) { codigo = -1; }
+            if (codigo != -1)
+            {
+                return getId(codigo, null, null);
+            }
+            return 0;
+        }
+
     }
 }

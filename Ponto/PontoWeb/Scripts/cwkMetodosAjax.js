@@ -155,7 +155,6 @@ function ajax_ExcluirRegistro(acao, controller, id, mensagem, tb, callBackSucess
                 label: "Excluir!",
                 className: "btn-primary",
                 callback: function () {
-                    console.log("Iniciando exclusão");
                     $.ajax({
                         url: '/' + controller + '/' + acao,
                         type: 'POST',
@@ -417,7 +416,6 @@ function ajax_CarregarConsultaEventoTab(acao, controller, consulta, campo, filtr
                     var tbPesquisa = $("#divLoadModalLkp table").eq(0).DataTable();
 
                     if (tbPesquisa.rows().count() === 1 && botao === false) {
-
                         var dados = tbPesquisa.rows(0).data()[0];
                         var id = dados[0].replace('undefined', '');
                         var nome = dados[1].replace('undefined', '');
@@ -461,20 +459,18 @@ function ajax_CarregarConsultaEventoTab(acao, controller, consulta, campo, filtr
                         });
                         $('#tbSel tbody tr').dblclick(function () {
                             $(this).addClass('selected');
-                            var id = '';
-                            var nome = '';
                             var ids = cwk_GetIdSelecionado(tbPesquisa);
                             if (ids >= 0) {
-                                tbPesquisa.$("tr").filter(".selected").each(function (index, row) {
-                                    id = $(row).find("td:eq(0)").text().replace('undefined', '');
-                                    nome = $(row).find("td:eq(" + posicaoNome + ")").text().replace('undefined', '');
-                                    $(campo).val(id + ' | ' + nome);
-                                    $("#divLoadModalLkp").modal('hide');
-                                    setaFocoProximo(campo);
-                                    if (eventoCallBack && typeof (eventoCallBack) !== "undefined" && eventoCallBack !== "") {
-                                        eventoCallBack(campo);
-                                    }
-                                })
+                                var dados = tbPesquisa.rows('.selected').data()[0];
+                                var id = dados[0].replace('undefined', '');
+                                var nome = dados[1].replace('undefined', '');
+                                $(campo).val(id + ' | ' + nome);
+                                $("#divLoadModalLkp").modal('hide');
+                                $.unblockUI();
+                                setaFocoProximo(campo);
+                                if (eventoCallBack && typeof (eventoCallBack) !== "undefined" && eventoCallBack !== "") {
+                                    eventoCallBack(campo);
+                                }
                             } else {
                                 if (eventoCallBackErro && typeof (eventoCallBackErro) !== "undefined" && eventoCallBackErro !== "") {
                                     eventoCallBackErro(campo);

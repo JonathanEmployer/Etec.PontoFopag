@@ -1466,9 +1466,9 @@ function cwk_tbEventroConsulta(nomeTabela, bfiltro) {
 $(document).on('keydown', 'input', function (e) {
     if (e.which == 13) e.preventDefault();
 });
-        $(nomeTabela+' thead tr:eq(1) th').each(function () {
+    $(nomeTabela + ' thead tr:eq(1) th').each(function () {
             var title = $(nomeTabela + ' thead tr:eq(0) th').eq($(this).index()).text();
-            title = title.replace(/\ /g, '').replace(/\./g, '').replace(/\//g, '');
+            title = title.replace(/[^a-zA-Z0-9]/g, '_');
             if ($(this).hasClass('text') || $(this).hasClass('select')) {
                 var tipoCampo = 'text';
                 if ($(this).hasClass('select')) {
@@ -1516,7 +1516,7 @@ $(document).on('keydown', 'input', function (e) {
                 this.api().columns().every(function (index) {
                     var coluna = this;
                     var nomeColuna = $(coluna.header()).html();
-                    nomeColuna = nomeColuna.replace(/\ /g, '').replace(/\./g, '').replace(/\//g, '');
+                    nomeColuna = nomeColuna.replace(/[^a-zA-Z0-9]/g, '_');
                     var campoPesquisa = $(nomeTabela + 'psq' + nomeColuna);
 
                     // Funcionalidade da pesquisa

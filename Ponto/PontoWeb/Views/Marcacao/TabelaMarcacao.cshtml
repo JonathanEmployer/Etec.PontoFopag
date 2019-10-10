@@ -316,7 +316,11 @@
 
             var tipo = 2;
             var campo = "#lkpDepartamento";
-            if (codigoDep > 0 && codigoEmp > 0) {
+            if (codigoCont > 0) {
+                var tipo = 5;
+                var campo = "#lkpContrato";
+            }
+            else if (codigoDep > 0 && codigoEmp > 0) {
                 var tipo = 2;
                 var campo = "#lkpDepartamento";
             }
@@ -389,7 +393,7 @@
 
     function callBackEmpresa(campo) {
         $("#lkpDepartamento").val("0 | TODOS OS DEPARTAMENTOS");
-        $("#lkpContrato").val("0 | TODOS OS DEPARTAMENTOS");
+        $("#lkpContrato").val("0 | TODOS OS CONTRATOS");
         ValidaDadosEmpresa(campo);
         if (codigoEmp != "0") {
             ajax_GetObjetoExecCallBack("Empresa", "PeriodoFechamento", { 'codigo': codigoEmp }, PeriodoFechamentoPonto);

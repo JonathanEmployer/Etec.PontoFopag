@@ -3307,67 +3307,72 @@ WHERE
             List<Modelo.MarcacaoLista> lista = new List<Modelo.MarcacaoLista>();
             while (dr.Read())
             {
-                Modelo.Marcacao objMarcacao = new Modelo.Marcacao();
-                AuxSetInstance(dr, objMarcacao);
-
-                Modelo.MarcacaoLista objMarcLista = new Modelo.MarcacaoLista();
-
-                objMarcLista.Id = objMarcacao.Id;
-                objMarcLista.IdFuncionario = objMarcacao.Idfuncionario;
-                objMarcLista.Data = objMarcacao.Data.ToShortDateString();
-                objMarcLista.Dia = objMarcacao.Dia;
-                objMarcLista.Funcionario = objMarcacao.Funcionario;
-                objMarcLista.Legenda = objMarcacao.Legenda;
-                objMarcLista.Entrada_1 = objMarcacao.Entrada_1;
-                objMarcLista.Entrada_2 = objMarcacao.Entrada_2;
-                objMarcLista.Entrada_3 = objMarcacao.Entrada_3;
-                objMarcLista.Entrada_4 = objMarcacao.Entrada_4;
-                objMarcLista.Saida_1 = objMarcacao.Saida_1;
-                objMarcLista.Saida_2 = objMarcacao.Saida_2;
-                objMarcLista.Saida_3 = objMarcacao.Saida_3;
-                objMarcLista.Saida_4 = objMarcacao.Saida_4;
-                objMarcLista.Horasextrasdiurna = objMarcacao.Horasextrasdiurna;
-                objMarcLista.Horasextranoturna = objMarcacao.Horasextranoturna;
-                objMarcLista.Horasfaltas = objMarcacao.Horasfaltas;
-                objMarcLista.Horasfaltanoturna = objMarcacao.Horasfaltanoturna;
-                objMarcLista.Horastrabalhadas = objMarcacao.Horastrabalhadas;
-                objMarcLista.Horastrabalhadasnoturnas = objMarcacao.Horastrabalhadasnoturnas;
-                objMarcLista.Bancohorascre = objMarcacao.Bancohorascre;
-                objMarcLista.Bancohorasdeb = objMarcacao.Bancohorasdeb;
-                objMarcLista.Ocorrencia = objMarcacao.Ocorrencia;
-
-                objMarcLista.NaoConsiderarInItinere = objMarcacao.NaoConsiderarInItinere;
-                objMarcLista.InItinereHrsDentroJornada = objMarcacao.InItinereHrsDentroJornada;
-                objMarcLista.InItinereHrsForaJornada = objMarcacao.InItinereHrsForaJornada;
-                objMarcLista.InItinerePercDentroJornada = objMarcacao.InItinerePercDentroJornada;
-                objMarcLista.InItinerePercForaJornada = objMarcacao.InItinerePercForaJornada;
-                objMarcLista.LegendasConcatenadas = objMarcacao.LegendasConcatenadas;
-                objMarcLista.AdicionalNoturno = objMarcacao.AdicionalNoturno;
-                objMarcLista.horaExtraInterjornada = objMarcacao.horaExtraInterjornada;
-
-                lista.Add(objMarcLista);
-
-                if (objMarcacao.Entrada_5 != "--:--" && !String.IsNullOrEmpty(objMarcacao.Entrada_5))
-                {
-                    Modelo.MarcacaoLista objMarcLista2 = new Modelo.MarcacaoLista();
-                    objMarcLista2.Id = objMarcacao.Id;
-                    objMarcLista2.Entrada_1 = objMarcacao.Entrada_5;
-                    objMarcLista2.Entrada_2 = objMarcacao.Entrada_6;
-                    objMarcLista2.Entrada_3 = objMarcacao.Entrada_7;
-                    objMarcLista2.Entrada_4 = objMarcacao.Entrada_8;
-                    objMarcLista2.Saida_1 = objMarcacao.Saida_5;
-                    objMarcLista2.Saida_2 = objMarcacao.Saida_6;
-                    objMarcLista2.Saida_3 = objMarcacao.Saida_7;
-                    objMarcLista2.Saida_4 = objMarcacao.Saida_8;
-
-                    lista.Add(objMarcLista2);
-                }
+                PreencherMarcacaoLista(dr, lista);
             }
             if (!dr.IsClosed)
                 dr.Close();
             dr.Dispose();
 
             return lista;
+        }
+
+        private void PreencherMarcacaoLista(SqlDataReader dr, List<Modelo.MarcacaoLista> lista)
+        {
+            Modelo.Marcacao objMarcacao = new Modelo.Marcacao();
+            AuxSetInstance(dr, objMarcacao);
+
+            Modelo.MarcacaoLista objMarcLista = new Modelo.MarcacaoLista();
+
+            objMarcLista.Id = objMarcacao.Id;
+            objMarcLista.IdFuncionario = objMarcacao.Idfuncionario;
+            objMarcLista.Data = objMarcacao.Data.ToShortDateString();
+            objMarcLista.Dia = objMarcacao.Dia;
+            objMarcLista.Funcionario = objMarcacao.Funcionario;
+            objMarcLista.Legenda = objMarcacao.Legenda;
+            objMarcLista.Entrada_1 = objMarcacao.Entrada_1;
+            objMarcLista.Entrada_2 = objMarcacao.Entrada_2;
+            objMarcLista.Entrada_3 = objMarcacao.Entrada_3;
+            objMarcLista.Entrada_4 = objMarcacao.Entrada_4;
+            objMarcLista.Saida_1 = objMarcacao.Saida_1;
+            objMarcLista.Saida_2 = objMarcacao.Saida_2;
+            objMarcLista.Saida_3 = objMarcacao.Saida_3;
+            objMarcLista.Saida_4 = objMarcacao.Saida_4;
+            objMarcLista.Horasextrasdiurna = objMarcacao.Horasextrasdiurna;
+            objMarcLista.Horasextranoturna = objMarcacao.Horasextranoturna;
+            objMarcLista.Horasfaltas = objMarcacao.Horasfaltas;
+            objMarcLista.Horasfaltanoturna = objMarcacao.Horasfaltanoturna;
+            objMarcLista.Horastrabalhadas = objMarcacao.Horastrabalhadas;
+            objMarcLista.Horastrabalhadasnoturnas = objMarcacao.Horastrabalhadasnoturnas;
+            objMarcLista.Bancohorascre = objMarcacao.Bancohorascre;
+            objMarcLista.Bancohorasdeb = objMarcacao.Bancohorasdeb;
+            objMarcLista.Ocorrencia = objMarcacao.Ocorrencia;
+
+            objMarcLista.NaoConsiderarInItinere = objMarcacao.NaoConsiderarInItinere;
+            objMarcLista.InItinereHrsDentroJornada = objMarcacao.InItinereHrsDentroJornada;
+            objMarcLista.InItinereHrsForaJornada = objMarcacao.InItinereHrsForaJornada;
+            objMarcLista.InItinerePercDentroJornada = objMarcacao.InItinerePercDentroJornada;
+            objMarcLista.InItinerePercForaJornada = objMarcacao.InItinerePercForaJornada;
+            objMarcLista.LegendasConcatenadas = objMarcacao.LegendasConcatenadas;
+            objMarcLista.AdicionalNoturno = objMarcacao.AdicionalNoturno;
+            objMarcLista.horaExtraInterjornada = objMarcacao.horaExtraInterjornada;
+
+            lista.Add(objMarcLista);
+
+            if (objMarcacao.Entrada_5 != "--:--" && !String.IsNullOrEmpty(objMarcacao.Entrada_5))
+            {
+                Modelo.MarcacaoLista objMarcLista2 = new Modelo.MarcacaoLista();
+                objMarcLista2.Id = objMarcacao.Id;
+                objMarcLista2.Entrada_1 = objMarcacao.Entrada_5;
+                objMarcLista2.Entrada_2 = objMarcacao.Entrada_6;
+                objMarcLista2.Entrada_3 = objMarcacao.Entrada_7;
+                objMarcLista2.Entrada_4 = objMarcacao.Entrada_8;
+                objMarcLista2.Saida_1 = objMarcacao.Saida_5;
+                objMarcLista2.Saida_2 = objMarcacao.Saida_6;
+                objMarcLista2.Saida_3 = objMarcacao.Saida_7;
+                objMarcLista2.Saida_4 = objMarcacao.Saida_8;
+
+                lista.Add(objMarcLista2);
+            }
         }
 
         public List<Modelo.Marcacao> GetPorDepartamento(int pDepartamento, DateTime pdataInicial, DateTime pDataFinal, bool PegaInativos)
@@ -3526,58 +3531,7 @@ WHERE
             List<Modelo.MarcacaoLista> lista = new List<Modelo.MarcacaoLista>();
             while (dr.Read())
             {
-                Modelo.Marcacao objMarcacao = new Modelo.Marcacao();
-                AuxSetInstance(dr, objMarcacao);
-
-                Modelo.MarcacaoLista objMarcLista = new Modelo.MarcacaoLista();
-                objMarcLista.Id = objMarcacao.Id;
-                objMarcLista.IdFuncionario = objMarcacao.Idfuncionario;
-                objMarcLista.Funcionario = objMarcacao.Funcionario;
-                objMarcLista.Legenda = objMarcacao.Legenda;
-                objMarcLista.Entrada_1 = objMarcacao.Entrada_1;
-                objMarcLista.Entrada_2 = objMarcacao.Entrada_2;
-                objMarcLista.Entrada_3 = objMarcacao.Entrada_3;
-                objMarcLista.Entrada_4 = objMarcacao.Entrada_4;
-                objMarcLista.Saida_1 = objMarcacao.Saida_1;
-                objMarcLista.Saida_2 = objMarcacao.Saida_2;
-                objMarcLista.Saida_3 = objMarcacao.Saida_3;
-                objMarcLista.Saida_4 = objMarcacao.Saida_4;
-                objMarcLista.Horasextrasdiurna = objMarcacao.Horasextrasdiurna;
-                objMarcLista.Horasextranoturna = objMarcacao.Horasextranoturna;
-                objMarcLista.Horasfaltas = objMarcacao.Horasfaltas;
-                objMarcLista.Horasfaltanoturna = objMarcacao.Horasfaltanoturna;
-                objMarcLista.Horastrabalhadas = objMarcacao.Horastrabalhadas;
-                objMarcLista.Horastrabalhadasnoturnas = objMarcacao.Horastrabalhadasnoturnas;
-                objMarcLista.Bancohorascre = objMarcacao.Bancohorascre;
-                objMarcLista.Bancohorasdeb = objMarcacao.Bancohorasdeb;
-                objMarcLista.Ocorrencia = objMarcacao.Ocorrencia;
-
-                objMarcLista.NaoConsiderarInItinere = objMarcacao.NaoConsiderarInItinere;
-                objMarcLista.InItinereHrsDentroJornada = objMarcacao.InItinereHrsDentroJornada;
-                objMarcLista.InItinereHrsForaJornada = objMarcacao.InItinereHrsForaJornada;
-                objMarcLista.InItinerePercDentroJornada = objMarcacao.InItinerePercDentroJornada;
-                objMarcLista.InItinerePercForaJornada = objMarcacao.InItinerePercForaJornada;
-                objMarcLista.LegendasConcatenadas = objMarcacao.LegendasConcatenadas;
-                objMarcLista.AdicionalNoturno = objMarcacao.AdicionalNoturno;
-                objMarcLista.horaExtraInterjornada = objMarcacao.horaExtraInterjornada;
-
-                lista.Add(objMarcLista);
-
-                if (objMarcacao.Entrada_5 != "--:--" && !String.IsNullOrEmpty(objMarcacao.Entrada_5))
-                {
-                    Modelo.MarcacaoLista objMarcLista2 = new Modelo.MarcacaoLista();
-                    objMarcLista2.Id = objMarcacao.Id;
-                    objMarcLista2.Entrada_1 = objMarcacao.Entrada_5;
-                    objMarcLista2.Entrada_2 = objMarcacao.Entrada_6;
-                    objMarcLista2.Entrada_3 = objMarcacao.Entrada_7;
-                    objMarcLista2.Entrada_4 = objMarcacao.Entrada_8;
-                    objMarcLista2.Saida_1 = objMarcacao.Saida_5;
-                    objMarcLista2.Saida_2 = objMarcacao.Saida_6;
-                    objMarcLista2.Saida_3 = objMarcacao.Saida_7;
-                    objMarcLista2.Saida_4 = objMarcacao.Saida_8;
-
-                    lista.Add(objMarcLista2);
-                }
+                PreencherMarcacaoLista(dr, lista);
             }
             if (!dr.IsClosed)
                 dr.Close();
@@ -3616,60 +3570,7 @@ WHERE
             List<Modelo.MarcacaoLista> lista = new List<Modelo.MarcacaoLista>();
             while (dr.Read())
             {
-                Modelo.Marcacao objMarcacao = new Modelo.Marcacao();
-                AuxSetInstance(dr, objMarcacao);
-
-                Modelo.MarcacaoLista objMarcLista = new Modelo.MarcacaoLista();
-                objMarcLista.Id = objMarcacao.Id;
-                objMarcLista.IdFuncionario = objMarcacao.Idfuncionario;
-                objMarcLista.Data = objMarcacao.Data.ToShortDateString();
-                objMarcLista.Dia = objMarcacao.Dia;
-                objMarcLista.Funcionario = objMarcacao.Funcionario;
-                objMarcLista.Legenda = objMarcacao.Legenda;
-                objMarcLista.Entrada_1 = objMarcacao.Entrada_1;
-                objMarcLista.Entrada_2 = objMarcacao.Entrada_2;
-                objMarcLista.Entrada_3 = objMarcacao.Entrada_3;
-                objMarcLista.Entrada_4 = objMarcacao.Entrada_4;
-                objMarcLista.Saida_1 = objMarcacao.Saida_1;
-                objMarcLista.Saida_2 = objMarcacao.Saida_2;
-                objMarcLista.Saida_3 = objMarcacao.Saida_3;
-                objMarcLista.Saida_4 = objMarcacao.Saida_4;
-                objMarcLista.Horasextrasdiurna = objMarcacao.Horasextrasdiurna;
-                objMarcLista.Horasextranoturna = objMarcacao.Horasextranoturna;
-                objMarcLista.Horasfaltas = objMarcacao.Horasfaltas;
-                objMarcLista.Horasfaltanoturna = objMarcacao.Horasfaltanoturna;
-                objMarcLista.Horastrabalhadas = objMarcacao.Horastrabalhadas;
-                objMarcLista.Horastrabalhadasnoturnas = objMarcacao.Horastrabalhadasnoturnas;
-                objMarcLista.Bancohorascre = objMarcacao.Bancohorascre;
-                objMarcLista.Bancohorasdeb = objMarcacao.Bancohorasdeb;
-                objMarcLista.Ocorrencia = objMarcacao.Ocorrencia;
-
-                objMarcLista.NaoConsiderarInItinere = objMarcacao.NaoConsiderarInItinere;
-                objMarcLista.InItinereHrsDentroJornada = objMarcacao.InItinereHrsDentroJornada;
-                objMarcLista.InItinereHrsForaJornada = objMarcacao.InItinereHrsForaJornada;
-                objMarcLista.InItinerePercDentroJornada = objMarcacao.InItinerePercDentroJornada;
-                objMarcLista.InItinerePercForaJornada = objMarcacao.InItinerePercForaJornada;
-                objMarcLista.LegendasConcatenadas = objMarcacao.LegendasConcatenadas;
-                objMarcLista.AdicionalNoturno = objMarcacao.AdicionalNoturno;
-                objMarcLista.horaExtraInterjornada = objMarcacao.horaExtraInterjornada;
-
-                lista.Add(objMarcLista);
-
-                if (objMarcacao.Entrada_5 != "--:--" && !String.IsNullOrEmpty(objMarcacao.Entrada_5))
-                {
-                    Modelo.MarcacaoLista objMarcLista2 = new Modelo.MarcacaoLista();
-                    objMarcLista2.Id = objMarcacao.Id;
-                    objMarcLista2.Entrada_1 = objMarcacao.Entrada_5;
-                    objMarcLista2.Entrada_2 = objMarcacao.Entrada_6;
-                    objMarcLista2.Entrada_3 = objMarcacao.Entrada_7;
-                    objMarcLista2.Entrada_4 = objMarcacao.Entrada_8;
-                    objMarcLista2.Saida_1 = objMarcacao.Saida_5;
-                    objMarcLista2.Saida_2 = objMarcacao.Saida_6;
-                    objMarcLista2.Saida_3 = objMarcacao.Saida_7;
-                    objMarcLista2.Saida_4 = objMarcacao.Saida_8;
-
-                    lista.Add(objMarcLista2);
-                }
+                PreencherMarcacaoLista(dr, lista);
             }
             if (!dr.IsClosed)
                 dr.Close();
