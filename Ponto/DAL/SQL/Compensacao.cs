@@ -128,15 +128,15 @@ namespace DAL.SQL
 
         private string SqlGetAll()
         {
-            string sql = SELECTALLLIST + GetWhereSelectAll();
-            return PermissaoUsuarioFuncionarioCompensacao(UsuarioLogado, sql, true);
+            string sql = SELECTALLLIST;
+            return PermissaoUsuarioFuncionarioCompensacao(UsuarioLogado, sql, false);
         }
 
         private string SqlLoadByID()
         {
 
             string sql = SELECTALLLIST + " AND comp.id = @id";
-            return PermissaoUsuarioFuncionarioCompensacao(UsuarioLogado, sql, true);
+            return PermissaoUsuarioFuncionarioCompensacao(UsuarioLogado, sql, false);
         }
 
         #region Metodos
