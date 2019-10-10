@@ -9,6 +9,7 @@ using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace BLL_N.JobManager.Hangfire.Job
 {
@@ -164,8 +165,11 @@ namespace BLL_N.JobManager.Hangfire.Job
                 {
                     ultimoReport = DateTime.Now;
                     jobRetornoAnt = jobRetorno;
-                    context.WriteLine("Progresso = " + JsonConvert.SerializeObject(jobRetorno));
-                    NotificationHub.ReportarJobProgresso(jobRetorno);
+                    Task.Run(() => {
+                        context.WriteLine("Progresso = " + JsonConvert.SerializeObject(jobRetorno));
+                        NotificationHub.ReportarJobProgresso(jobRetorno);
+                    });
+                    
                 }
             }
         }
