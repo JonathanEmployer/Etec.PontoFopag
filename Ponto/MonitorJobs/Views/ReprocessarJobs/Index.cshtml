@@ -1,0 +1,22 @@
+﻿@model MonitorJobs.Models.ListaJobs
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Reprocessar Jobs Hangfire</h2>
+
+@if (string.IsNullOrEmpty(Model.IdsJobs))
+{
+    using (Html.BeginForm())
+    {
+        @Html.TextAreaFor(m => m.IdsJobs)
+        <button type="submit"> Reprocessar</button>
+    }
+}
+else
+{
+    <h2>Jobs Adicionados na fila para processamento: @Model.IdsJobs</h2>
+}
+
+

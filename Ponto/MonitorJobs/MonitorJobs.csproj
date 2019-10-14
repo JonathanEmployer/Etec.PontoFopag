@@ -257,6 +257,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\ErrosController.cs" />
     <Compile Include="Controllers\LogErroController.cs" />
+    <Compile Include="Controllers\ReprocessarJobsController.cs" />
     <Compile Include="DAL\TabLogErro.cs" />
     <Compile Include="Jobs\ControleInstancias.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -273,6 +274,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bases.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ListaJobs.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\TabLogErro.cs" />
     <Compile Include="Negocio\Bases.cs" />
@@ -375,6 +377,7 @@
     <Content Include="Views\LogErro\Index.cshtml" />
     <Content Include="Views\Erros\Erro.cshtml" />
     <Content Include="Views\Erros\HttpError404.cshtml" />
+    <Content Include="Views\ReprocessarJobs\Index.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

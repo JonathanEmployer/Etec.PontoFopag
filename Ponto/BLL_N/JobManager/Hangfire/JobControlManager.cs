@@ -224,10 +224,18 @@ namespace BLL_N.JobManager.Hangfire
             JobControl job = new JobControl();
             using (var db = new MONITOR_PONTOFOPAGEntities())
             {
-                job = db.JobControl.Where(w => w.JobId == jobId).FirstOrDefault();
-                if (job.StatusNovo == DeletedState.StateName || job.StatusNovo == FailedState.StateName)
+                try
                 {
-                    job.Reprocessar = true;
+                    job = db.JobControl.Where(w => w.JobId == jobId).FirstOrDefault();
+                    if (job.StatusNovo == DeletedState.StateName || job.StatusNovo == FailedState.StateName)
+                    {
+                        job.Reprocessar = true;
+                    }
+                }
+                catch (Exception e)
+                {
+
+                    throw e;
                 }
             }
 
