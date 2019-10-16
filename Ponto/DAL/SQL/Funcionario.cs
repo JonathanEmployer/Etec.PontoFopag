@@ -244,7 +244,8 @@ namespace DAL.SQL
        func.Email,
        func.IdIntegracaoPainel,
        func.RFID, 
-        '' foto
+        '' foto,
+        '' contrato
                                     , horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+empresa.nome as empresa
                                     , convert(varchar,departamento.codigo)+' | '+departamento.descricao AS departamento
@@ -1087,6 +1088,7 @@ namespace DAL.SQL
                                            func.IdIntegracaoPainel,
                                            func.RFID,
                                            '' foto,
+                                            '' contrato,
                                 horario.descricao AS jornada ,
                                 CONVERT(VARCHAR, empresa.codigo) + ' | ' + empresa.nome AS empresa ,
                                 CONVERT(VARCHAR, departamento.codigo) + ' | ' + departamento.descricao AS departamento ,
@@ -2529,7 +2531,8 @@ namespace DAL.SQL
                                    func.Email,
                                    func.IdIntegracaoPainel,
                                    func.RFID,
-                                    '' foto
+                                    '' foto,
+                                    '' contrato
                                     , horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+ empresa.nome as empresa  
                                     , convert(varchar,departamento.codigo)+' | '+ departamento.descricao AS departamento
@@ -2955,7 +2958,8 @@ namespace DAL.SQL
                                    func.Email,
                                    func.IdIntegracaoPainel,
                                    func.RFID, 
-                                   '' foto
+                                   '' foto,
+                                   '' contrato
                                     , horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+ empresa.nome as empresa  
                                     , convert(varchar,departamento.codigo)+' | '+ departamento.descricao AS departamento
@@ -3062,7 +3066,8 @@ namespace DAL.SQL
                                    func.Email,
                                    func.IdIntegracaoPainel,
                                    func.RFID, 
-                                    '' foto
+                                    '' foto,
+                                    '' contrato
                                     , horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+ empresa.nome as empresa  
                                     , convert(varchar,departamento.codigo)+' | '+ departamento.descricao AS departamento
@@ -3159,7 +3164,8 @@ namespace DAL.SQL
                                     func.Email,
                                     func.IdIntegracaoPainel,
                                     func.RFID,
-                                    '' foto
+                                    '' foto,
+                                    '' contrato
                                     , horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+empresa.nome as empresa  
                                     , convert(varchar,departamento.codigo)+' | '+ departamento.descricao AS departamento
@@ -3262,7 +3268,8 @@ namespace DAL.SQL
                                     func.Email,
                                     func.IdIntegracaoPainel,
                                     func.RFID,        
-                                    '' foto
+                                    '' foto,
+                                    '' contrato
                                     , horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+empresa.nome as empresa
                                     , coalesce(convert(varchar,cwu.codigo) + ' | ' + cwu.nome, '') AS supervisor
@@ -3356,7 +3363,8 @@ namespace DAL.SQL
                                     func.Email,
                                     func.IdIntegracaoPainel,
                                     func.RFID,
-                                    '' foto
+                                    '' foto, 
+                                    '' contrato
                                     , horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+empresa.nome as empresa
                                     , convert(varchar,departamento.codigo)+' | '+departamento.descricao AS departamento
@@ -3550,7 +3558,8 @@ namespace DAL.SQL
                                    func.Email,
                                    func.IdIntegracaoPainel,
                                    func.RFID, 
-                                    '' foto
+                                    '' foto,
+                                    '' contrato
                                     , horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+empresa.nome as empresa
                                     , departamento.descricao AS departamento
@@ -3768,7 +3777,8 @@ namespace DAL.SQL
                                    funcionario.Email,
                                    funcionario.IdIntegracaoPainel,
                                    funcionario.RFID, 
-                                    '' foto
+                                    '' foto,
+                                    '' contrato
                          , horario.descricao AS jornada
                          , convert(varchar,empresa.codigo)+' | '+empresa.nome as empresa
                          , departamento.descricao AS departamento
@@ -3872,7 +3882,8 @@ namespace DAL.SQL
                                    funcionario.Email,
                                    funcionario.IdIntegracaoPainel,
                                    funcionario.RFID, 
-                                    '' foto
+                                    '' foto,
+                                    '' contrato
                          , horario.descricao AS jornada
                          , convert(varchar,empresa.codigo)+' | '+empresa.nome as empresa
                          , departamento.descricao AS departamento
@@ -3975,7 +3986,8 @@ namespace DAL.SQL
                                    funcionario.Email,
                                    funcionario.IdIntegracaoPainel,
                                    funcionario.RFID, 
-                                           '' foto
+                                    '' foto,
+                                    '' contrato
                          , horario.descricao AS jornada
                          , convert(varchar,empresa.codigo)+' | '+empresa.nome as empresa
                          , departamento.descricao AS departamento
@@ -4085,7 +4097,8 @@ namespace DAL.SQL
                                    func.Email,
                                    func.IdIntegracaoPainel,
                                    func.RFID, 
-                                    '' foto
+                                    '' foto,
+                                    '' contrato
                                     , horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+empresa.nome as empresa
                                     , convert(varchar,departamento.codigo)+' | '+departamento.descricao AS departamento
@@ -4204,7 +4217,8 @@ namespace DAL.SQL
                                        func.Email,
                                        func.IdIntegracaoPainel,
                                        func.RFID, 
-                                        '' foto
+                                        '' foto,
+                                       '' contrato
                                     , horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+empresa.nome as empresa
                                     , convert(varchar,departamento.codigo)+' | '+departamento.descricao AS departamento
@@ -4300,7 +4314,8 @@ namespace DAL.SQL
                                        func.Email,
                                        func.IdIntegracaoPainel,
                                        func.RFID, 
-                                        '' foto
+                                        '' foto,
+                                        '' contrato
                                     , horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+empresa.nome as empresa
                                     , convert(varchar,departamento.codigo)+' | '+departamento.descricao AS departamento
@@ -4518,7 +4533,8 @@ namespace DAL.SQL
                                    func.Email,
                                    func.IdIntegracaoPainel,
                                    func.RFID, 
-                                    '' foto
+                                    '' foto,
+                                    '' contrato
                                     , horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+ empresa.nome as empresa  
                                     , convert(varchar,departamento.codigo)+' | '+ departamento.descricao AS departamento
@@ -4669,7 +4685,8 @@ namespace DAL.SQL
                                            func.Email,
                                            func.IdIntegracaoPainel,
                                            func.RFID, 
-                                           '' foto
+                                           '' foto,
+                                            '' contrato
                                     , CAST(func.dscodigo AS BIGINT) AS dscodigo
                                     , func.matricula matricula
                                     , horario.descricao AS jornada
