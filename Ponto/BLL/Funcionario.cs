@@ -1445,6 +1445,107 @@ namespace BLL
 
             return ret;
         }
+        
+        #region Contrato Funcionario
+        public void SetContratoFuncionarioIntegracao(int idIntegracao, int idIntegracaoContrato, Acao acao)
+        {
+            BLL.Contrato bllContrato = new BLL.Contrato(ConnectionString);
+            BLL.ContratoFuncionario bllContratoFuncionario = new BLL.ContratoFuncionario(ConnectionString);
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(ConnectionString);
+            Dictionary<string, string> erros = new Dictionary<string, string>();
+
+            try
+            {
+                int idIntegrFunc =idIntegracao;
+                int? funcid = bllFuncionario.GetIdporIdIntegracao(idIntegrFunc);
+                int? idIntegrContr = idIntegracaoContrato;
+                int? contid = bllContrato.GetIdPorIdIntegracao(idIntegrContr.GetValueOrDefault());              
+                if (funcid > 0 && contid > 0)
+                {
+                    Modelo.Contrato Contrato = bllContrato.LoadObject(contid.GetValueOrDefault());
+                    Modelo.ContratoFuncionario ContratoFunc = new Modelo.ContratoFuncionario();
+                    BLL.ContratoFuncionario bllContratoFun = new BLL.ContratoFuncionario(ConnectionString);
+                    
+                    ContratoFunc.IdContrato = contid.GetValueOrDefault();
+                    ContratoFunc.IdFuncionario = funcid.GetValueOrDefault();
+                    
+                    int idContratoAnt = bllContratoFun.getContratoId(ContratoFunc.IdFuncionario); 
+                    int CodigoContratoAnt = bllContratoFun.getContratoCodigo(idContratoAnt, ContratoFunc.IdFuncionario);
+                    int IdContratoFuncAnt = CodigoContratoAnt != 0 ? bllContratoFun.getId(CodigoContratoAnt, null, null) : 0;
+
+                    Modelo.ContratoFuncionario ContFunc = new Modelo.ContratoFuncionario();
+                    if ((acao == Acao.Incluir || acao == Acao.Alterar) && (idContratoAnt != contid))
+                    {
+                        if (idContratoAnt != ContratoFunc.IdContrato && idContratoAnt != 0)
+                        {
+                            Modelo.ContratoFuncionario ContFuncAnt = new Modelo.ContratoFuncionario();
+                            ContFuncAnt = bllContratoFuncionario.LoadObject(IdContratoFuncAnt);
+                            acao = Acao.Alterar;
+                            ContFuncAnt.excluido = 1;
+                            erros = bllContratoFuncionario.Salvar(acao, ContFuncAnt);
+                        }
+                        ContFunc.IdContrato = contid.GetValueOrDefault();
+                        ContFunc.IdFuncionario = funcid.GetValueOrDefault();
+                        ContFunc.Codigo = bllContratoFuncionario.MaxCodigo();
+                        acao = Acao.Incluir;
+                        erros = bllContratoFuncionario.Salvar(acao, ContFunc);
+                    }
+                    else if (contid != 0 && acao == Acao.Excluir)
+                    {
+                        ContFunc = bllContratoFuncionario.LoadObject(IdContratoFuncAnt);
+                        acao = Acao.Alterar;
+                        ContFunc.Acao = Acao.Alterar;
+                        ContFunc.excluido = 1;
+                        erros = bllContratoFuncionario.Salvar(acao, ContFunc);
+                    }
+
+                }
+
+                return;
+            }
+            catch (Exception ex)
+            {
+                BLL.cwkFuncoes.LogarErro(ex); 
+            }
+            return;
+        }
+
+        public void SetContratoFuncionario(int idfuncionario, string contratofunc)
+        {
+            BLL.Contrato bllContrato = new BLL.Contrato(ConnectionString, UsuarioLogado);
+            BLL.ContratoFuncionario bllContratoFun = new BLL.ContratoFuncionario(ConnectionString, UsuarioLogado);
+            int idContratoAnt = bllContratoFun.getContratoId(idfuncionario);
+            int CodigoContratoAnt = bllContratoFun.getContratoCodigo(idContratoAnt, idfuncionario);
+            int IdAnt = CodigoContratoAnt != 0 ? bllContratoFun.getId(CodigoContratoAnt, null, null) : 0;
+            int CodContrato = contratofunc != null ? Convert.ToInt32(contratofunc.Split(new string[] { " | " }, StringSplitOptions.RemoveEmptyEntries)[0]) : 0;
+            int IdContrato = CodContrato != 0 ? bllContrato.getId(CodContrato, null, null) : 0;
+            if (idContratoAnt != IdContrato)
+            {
+                Modelo.ContratoFuncionario ContFuncAnt = new Modelo.ContratoFuncionario();
+                ContFuncAnt = bllContratoFun.LoadObject(IdAnt);
+                ContFuncAnt.excluido = 1;
+                if (contratofunc != null && IdContrato != 0)
+                {
+                    if (idContratoAnt != 0)
+                    {
+                        bllContratoFun.Salvar(Acao.Alterar, ContFuncAnt);
+                    }
+                    Modelo.ContratoFuncionario objContra = new Modelo.ContratoFuncionario();
+                    objContra.IdContrato = IdContrato;
+                    objContra.IdFuncionario = idfuncionario;
+                    objContra.Codigo = bllContratoFun.MaxCodigo();
+                    bllContratoFun.Salvar(Acao.Incluir, objContra);
+                }
+                else
+                {
+                    bllContratoFun.Salvar(Acao.Alterar, ContFuncAnt);
+                }
+            }
+
+            return;
+        }
+
+        #endregion
 
         public List<Modelo.Funcionario> GetAllListPorContrato(int idContrato)
         {

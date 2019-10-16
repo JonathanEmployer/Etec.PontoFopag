@@ -60,14 +60,16 @@ namespace DAL.SQL
                                    ,idfuncionario
                                    ,incdata
                                    ,inchora
-                                   ,incusuario)
+                                   ,incusuario
+                                   , excluido)
                              VALUES
                                    (@codigo
                                    ,@idcontrato
                                    ,@idfuncionario
                                    ,@incdata
                                    ,@inchora
-                                   ,@incusuario)
+                                   ,@incusuario
+                                   ,@excluido)
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"
@@ -81,6 +83,7 @@ namespace DAL.SQL
                              ,altdata = @altdata
                              ,althora = @althora
                              ,altusuario = @altusuario
+                             ,excluido = @excluido
 					   WHERE id = @id";
 
             DELETE = @"  DELETE FROM contratofuncionario WHERE id = @id";
@@ -231,6 +234,7 @@ namespace DAL.SQL
             ((Modelo.ContratoFuncionario)obj).NomeEmpresa = Convert.ToString(dr["NomeEmpresa"]);
             ((Modelo.ContratoFuncionario)obj).CodigoContrato = Convert.ToString(dr["CodigoContrato"]);
             ((Modelo.ContratoFuncionario)obj).NomeFuncionario = Convert.ToString(dr["NomeFuncionario"]);
+            ((Modelo.ContratoFuncionario)obj).excluido = Convert.ToInt32(dr["excluido"]);
         }
 
         protected override SqlParameter[] GetParameters()
@@ -246,8 +250,9 @@ namespace DAL.SQL
 				new SqlParameter ("@incusuario", SqlDbType.VarChar),
 				new SqlParameter ("@altdata", SqlDbType.DateTime),
 				new SqlParameter ("@althora", SqlDbType.DateTime),
-				new SqlParameter ("@altusuario", SqlDbType.VarChar)
-			};
+				new SqlParameter ("@altusuario", SqlDbType.VarChar),
+                new SqlParameter ("@excluido", SqlDbType.VarChar)
+            };
             return parms;
         }
 
@@ -267,6 +272,7 @@ namespace DAL.SQL
             parms[7].Value = ((Modelo.ContratoFuncionario)obj).Altdata;
             parms[8].Value = ((Modelo.ContratoFuncionario)obj).Althora;
             parms[9].Value = ((Modelo.ContratoFuncionario)obj).Altusuario;
+            parms[10].Value = ((Modelo.ContratoFuncionario)obj).excluido;
         }
 
         public pxyContratoFuncionario GetListaFuncionariosLiberadosBloqueadosPorContrato(int idContrato)
@@ -383,11 +389,57 @@ namespace DAL.SQL
         {
             SqlParameter[] parms = new SqlParameter[0];
             DataTable dt = new DataTable();
-            string sql = "SELECT TOP 1 cf.id FROM dbo.contratofuncionario cf INNER JOIN contrato c ON c.id = cf.idcontrato where cf.idcontrato =  " + idcontrato + " and cf.idfuncionario = " + idfuncionario;
+            string sql = "SELECT TOP 1 cf.id FROM dbo.contratofuncionario cf INNER JOIN contrato c ON c.id = cf.idcontrato where cf.idcontrato =  " + idcontrato + " and cf.idfuncionario = " + idfuncionario + "and excluido = 0";
             sql += PermissaoUsuarioEmpresa(UsuarioLogado, sql, "c.idempresa", null);
             int? Id = Convert.ToInt32(db.ExecuteScalar(CommandType.Text, sql, parms));
             return Id;
         }
 
+
+        public int getContratoId(int idfuncionario)
+        {
+            try
+            {
+                SqlParameter[] parms = new SqlParameter[]
+                {
+                    new SqlParameter("@idfuncionario", SqlDbType.Int, 0),
+                    
+                };
+                parms[0].Value = idfuncionario;
+               
+
+                string aux = "SELECT TOP(1)idcontrato FROM contratofuncionario WHERE idfuncionario = @idfuncionario and excluido=0 ORDER BY incdata desc";
+                
+                return (int)db.ExecuteScalar(CommandType.Text, aux, parms);
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        public int getContratoCodigo(int idcontrato, int idfuncionario)
+        {
+            try
+            {
+                SqlParameter[] parms = new SqlParameter[]
+                {
+                    new SqlParameter("@idcontrato", SqlDbType.Int, 0),
+                    new SqlParameter("@idfuncionario", SqlDbType.Int, 1)
+
+                };
+                parms[0].Value = idcontrato;
+                parms[1].Value = idfuncionario;
+
+
+                string aux = "SELECT TOP(1)codigo FROM contratofuncionario WHERE idcontrato = @idcontrato and idfuncionario = @idfuncionario ORDER BY incdata desc";
+
+                return (int)db.ExecuteScalar(CommandType.Text, aux, parms);
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
     }
 }

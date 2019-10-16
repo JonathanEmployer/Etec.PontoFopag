@@ -219,5 +219,10 @@ namespace DAL.FB
         {
             throw new NotImplementedException();
         }
+
+        public bool CWUtilizaControleContratos()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

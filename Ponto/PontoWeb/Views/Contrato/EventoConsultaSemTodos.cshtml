@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Modelo.Contrato>
+@using System.Web.Optimization
+
+@{
+    Layout = "~/Views/Shared/_LayoutConsulta.cshtml";
+}
+<table id="tbSel" class="table table-striped table-bordered table-hover table-condensed nowrap" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Código do Contrato | Descrição</th>
+            <th>Empresa</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr id="@item.Id">
+            <td>@item.Codigo</td>
+            <td>@String.Format("{0} - {1}", item.CodigoContrato, @item.DescricaoContrato)</td>
+            <td>@item.NomeEmpresa</td>
+        </tr>
+        }
+</table>
+           

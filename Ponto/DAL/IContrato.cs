@@ -17,5 +17,6 @@ namespace DAL
         Modelo.PeriodoFechamento PeriodoFechamento(int idContrato);
         Modelo.PeriodoFechamento PeriodoFechamentoPorCodigo(int codigoContrato);
         List<Modelo.Contrato> ContratosPorFuncionario(int idFuncionario);
+        bool ValidaContratoCodigo(int codcontrato, int idempresa);
     }
 }

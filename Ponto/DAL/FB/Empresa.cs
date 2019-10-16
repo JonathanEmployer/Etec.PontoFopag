@@ -444,5 +444,15 @@ namespace DAL.FB
         {
             throw new NotImplementedException();
         }
+
+        public bool UtilizaControleContratos()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int getCodigo(int pValor, string pCampo, int? pValor2)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1769,6 +1769,7 @@
     <Content Include="Views\Shared\EditorTemplates\OcorrenciaRestricao.cshtml" />
     <Content Include="Views\Justificativa\AdicionaNovaRestricao.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\JustificativaRestricao.cshtml" />
+    <Content Include="Views\Contrato\EventoConsultaSemTodos.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

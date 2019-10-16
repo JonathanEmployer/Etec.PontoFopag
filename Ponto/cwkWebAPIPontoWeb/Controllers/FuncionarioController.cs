@@ -176,6 +176,8 @@ namespace cwkWebAPIPontoWeb.Controllers
                         }
                         else
                         {
+                            BLL.ContratoFuncionario bllContratoFun = new BLL.ContratoFuncionario(connectionStr);
+                            bllFuncionario.SetContratoFuncionarioIntegracao(funcionario.IdIntegracao, (funcionario.IdintegracaoContrato).GetValueOrDefault(), acao);
                             BLL_N.JobManager.CalculoMarcacoes.RecalculaEdicaoFuncionario(DadosAntFunc, usuarioPontoWeb, true);
                             funcionario.Codigo = DadosAntFunc.Codigo;
                             return Request.CreateResponse(HttpStatusCode.OK, funcionario);
@@ -223,13 +225,17 @@ namespace cwkWebAPIPontoWeb.Controllers
             RetornoErro retErro = new RetornoErro();
             string connectionStr = MetodosAuxiliares.Conexao();
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(connectionStr);
+            BLL.ContratoFuncionario bllContratoFun = new BLL.ContratoFuncionario(connectionStr);
+            BLL.Contrato bllContrato = new BLL.Contrato(connectionStr);
 
             if (ModelState.IsValid)
             {
                 try
                 {
                     int? idfuncionario = bllFuncionario.GetIdporIdIntegracao(IdIntegracao);
-
+                    int idContratoAnt = bllContratoFun.getContratoId((idfuncionario).GetValueOrDefault());
+                    Modelo.Contrato objContr= bllContrato.LoadObject(idContratoAnt);
+                    int idIntegracaoContrato = objContr.idIntegracao.GetValueOrDefault();
                     Modelo.Funcionario funcionario = bllFuncionario.LoadObject(idfuncionario.GetValueOrDefault());
 
                     if (funcionario.Id > 0 && funcionario.Id != null)
@@ -242,6 +248,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                         }
                         else
                         {
+                            bllFuncionario.SetContratoFuncionarioIntegracao(IdIntegracao, idIntegracaoContrato, Acao.Alterar);
                             return Request.CreateResponse(HttpStatusCode.OK, funcionario);
                         }
                     }
@@ -538,5 +545,5 @@ namespace cwkWebAPIPontoWeb.Controllers
 
         public string NomeEmpresa { get; set; }
 
-    }
+    }   
 }

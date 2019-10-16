@@ -261,7 +261,7 @@ namespace PontoWeb.Controllers
             
             ValidarForm(funcionario);
 
-            Modelo.Empresa empresaFuncionario = GetEmpresaFuncionario(funcionario, bllEmpresa);
+            Modelo.Empresa empresaFuncionario = GetEmpresaFuncionario(funcionario, bllEmpresa);          
             if (empresaFuncionario != null)
                 ViewBag.RegistradorEmpresa = empresaFuncionario.utilizaregistradorfunc;
             else
@@ -296,8 +296,8 @@ namespace PontoWeb.Controllers
                     {
                         try
                         {
-                            BLL_N.JobManager.CalculoMarcacoes.RecalculaEdicaoFuncionario(funcionario, usuarioLogado, true);
-
+                            bllFuncionario.SetContratoFuncionario(funcionario.Id, funcionario.Contrato);
+                            BLL_N.JobManager.CalculoMarcacoes.RecalculaEdicaoFuncionario(funcionario, usuarioLogado, true);                            
                             //Se o Funcionário utiliza registrador insere funcionario no Central do cliente
                             if (funcionario.utilizaregistrador)
                             {
@@ -305,7 +305,7 @@ namespace PontoWeb.Controllers
                                 {
                                     TrataErroInclusaoCentralCliente();
                                     AdicionaFotoPadrao(funcionario);
-                                    PreencheTipoVinculo(connString, usuarioLogado);
+                                    PreencheTipoVinculo(connString, usuarioLogado);                                    
                                     return View("Cadastrar", funcionario);
                                 }
                             }
@@ -467,7 +467,7 @@ namespace PontoWeb.Controllers
 
             return empresaRetorno;
         }
-
+    
         private Acao EscolhaDaAcao(Funcionario funcionario)
         {
             Acao acao = new Acao();
@@ -576,6 +576,7 @@ namespace PontoWeb.Controllers
         {
             ValidaEmpresa(funcionario);
             ValidaDepartamento(funcionario);
+            ValidaContrato(funcionario);
             ValidaFotoFuncionario(funcionario);
             ValidaFuncao(funcionario);
             ValidaHorario(funcionario);
@@ -584,8 +585,6 @@ namespace PontoWeb.Controllers
             ValidaFechamento(funcionario);
             ValidaAlocacao(funcionario);
         }
-
-
 
         [Authorize]
         public ActionResult EventoConsulta(String consulta, String filtro)
@@ -919,8 +918,6 @@ namespace PontoWeb.Controllers
             }
         }
 
-
-
         #region Validações
 
         private static void ValidaFotoFuncionario(Funcionario funcionario)
@@ -1092,6 +1089,18 @@ namespace PontoWeb.Controllers
                 ModelState["Datademissao"].Errors.Add("A data de demissão não pode ser menor que a data do último fechamento.");
             }
         }
+        private void ValidaContrato(Funcionario funcionario)
+        {
+            if (funcionario.Contrato != null)
+            {
+                int CodContrato = Convert.ToInt32(funcionario.Contrato.Split(new string[] { " | " }, StringSplitOptions.RemoveEmptyEntries)[0]);
+                BLL.Contrato bllContrato = new BLL.Contrato(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+                bool validacontrato = bllContrato.ValidaContratoCodigo(CodContrato, funcionario.Idempresa);
+                if (validacontrato == false)                
+                { ModelState["Contrato"].Errors.Add("Contrato " + funcionario.Contrato + " não pertence a empresa selecionada!"); }             
+            }
+        }
+
         #endregion
     }
 }

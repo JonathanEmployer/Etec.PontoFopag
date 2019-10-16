@@ -12,5 +12,6 @@ namespace Modelo
         public string NomeEmpresa { get; set; }
         public string CodigoContrato { get; set; }
         public string NomeFuncionario { get; set; }
+        public int excluido { get; set; }
     }
 }

@@ -58,6 +58,6 @@ namespace PontoWeb.Controllers
                 }
             }
             return RedirectToAction("Grid", "Contrato");
-        }
+        }        
     }
 }

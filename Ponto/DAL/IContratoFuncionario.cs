@@ -15,5 +15,8 @@ namespace DAL
         ContratoFuncionario LoadPorCodigo(int codigo);
         pxyContratoFuncionario GetListaFuncionariosLiberadosBloqueadosPorContrato(int idContrato);
         int? GetIdPorIdContratoeIdFuncionario(int idcontrato, int idfuncionario);
+        int getContratoId( int idfuncionario);
+        int getContratoCodigo(int idcontrato, int idfuncionario);
+
     }
 }

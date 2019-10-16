@@ -80,6 +80,10 @@ namespace BLL
            return dalEmpresa.ConsultaBloqueiousuariosEmpresa();
         }
 
+        public bool UtilizaControleContratos()
+        {
+            return dalEmpresa.UtilizaControleContratos();
+        }               
         public DataTable GetAll()
         {
             return dalEmpresa.GetAll();

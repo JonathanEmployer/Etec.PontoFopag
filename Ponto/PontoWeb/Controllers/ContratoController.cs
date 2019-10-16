@@ -14,6 +14,18 @@ namespace PontoWeb.Controllers
         [PermissoesFiltro(Roles = "Contrato")]
         public override ActionResult Grid()
         {
+            var cwu = Usuario.GetUsuarioLogadoCache();
+            BLL.EmpresaCw_Usuario bllEmpresaCwUsuario = new BLL.EmpresaCw_Usuario(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+            var CWUsuarioCont = bllEmpresaCwUsuario.CWUtilizaControleContratos();
+          
+            if (CWUsuarioCont)
+            {
+                ViewBag.ControleUsuario = true;
+            }
+            else
+            {
+                ViewBag.ControleUsuario = false;
+            }
             return View(new Modelo.Contrato());
         }
 
@@ -205,12 +217,21 @@ namespace PontoWeb.Controllers
         [Authorize]
         public ActionResult EventoConsulta(String consulta, String filtro)
         {
-            List<Contrato> res = PesquisaContratos(consulta, filtro);
+            bool parametro = true;
+            List<Contrato> res = PesquisaContratos(consulta, filtro, parametro);
             ViewBag.Title = "Pesquisar Contratos";
             return View(res);
         }
 
-        private List<Contrato> PesquisaContratos(String consulta, String filtro)
+        [Authorize]
+        public ActionResult EventoConsultaSemTodos(String consulta, String filtro)
+        {
+            List<Contrato> res = PesquisaContratos(consulta, filtro, false);
+            ViewBag.Title = "Pesquisar Contratos";
+            return View(res);
+        }
+
+        private List<Contrato> PesquisaContratos(String consulta, String filtro, bool parametro)
         {
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
             BLL.Contrato bllCont = new BLL.Contrato(usr.ConnectionString, usr);
@@ -229,7 +250,7 @@ namespace PontoWeb.Controllers
             if (codigo != -1)
             {
                 Contrato ct = bllCont.LoadPorCodigo(codigo);
-                if ((ct.Id != 0) || (consulta == "0"))
+                if ((ct.Id != 0) || (consulta == "0") && parametro ==true)
                 {
                     if (consulta == "0")
                     {
@@ -259,10 +280,11 @@ namespace PontoWeb.Controllers
                 {
                     conts = bllCont.GetAllList();
                 }
-
-                Modelo.Contrato cont = new Modelo.Contrato { Codigo = 0, CodigoContrato = "0", DescricaoContrato = "TODOS", NomeEmpresa = "TODAS" };
-                conts.Add(cont);
-
+                if (parametro)
+                {
+                    Modelo.Contrato cont = new Modelo.Contrato { Codigo = 0, NomeEmpresa = "TODOS OS CONTRATOS" };
+                    conts.Add(cont);
+                }
                 return conts;
             }
         }
@@ -295,6 +317,6 @@ namespace PontoWeb.Controllers
                 ret.Erro = e.Message;
             }
             return Json(ret, JsonRequestBehavior.AllowGet);
-        }
+        }        
     }
 }

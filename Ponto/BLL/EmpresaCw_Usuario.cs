@@ -156,5 +156,10 @@ namespace BLL
         {
             return dalEmpresaUsuario.GetUsuarioPorCodigo(codigo);
         }
+
+        public bool CWUtilizaControleContratos()
+        {
+            return dalEmpresaUsuario.CWUtilizaControleContratos();
+        }
     }
 }

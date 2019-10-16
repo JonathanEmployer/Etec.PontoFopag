@@ -543,6 +543,28 @@ namespace DAL.SQL
             return lista;
         }
 
+        public bool ValidaContratoCodigo(int codcontrato, int idempresa)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+                {
+                    new SqlParameter("@codcontrato", SqlDbType.Int, 0),
+                    new SqlParameter("@idempresa", SqlDbType.Int, 1)
+
+                };
+            parms[0].Value = codcontrato;
+            parms[1].Value = idempresa;
+
+            string aux = @"SELECT 1 FROM contrato WHERE codigo = @codcontrato and idempresa = @idempresa";
+
+            var codigoContr = db.ExecuteScalar(CommandType.Text, aux, parms);
+            var Contr = Convert.ToInt32(codigoContr);
+            if (codigoContr == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
         #endregion
     }
 }

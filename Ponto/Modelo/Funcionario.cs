@@ -295,6 +295,8 @@ namespace Modelo
         [Display(Name = "Pessoa Supervisor")]
         public string PessoaSupervisor { get; set; }
 
+        [Display(Name = "Contrato")]
+        public string Contrato { get; set; }
         public Pessoa ObjPessoaSupervisor { get; set; }
 
         [Display(Name = "Utiliza Registrador")]

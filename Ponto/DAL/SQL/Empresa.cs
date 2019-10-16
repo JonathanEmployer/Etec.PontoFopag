@@ -887,6 +887,22 @@ namespace DAL.SQL
             }
             return true;
         }
+
+        public bool UtilizaControleContratos()
+        {
+            int contr = 1;
+            SqlParameter[] parms = new SqlParameter[] { new SqlParameter("@Contr", SqlDbType.Int) };
+            parms[0].Value = contr;
+            string aux = @"SELECT utilizacontrolecontratos FROM dbo.empresa where utilizacontrolecontratos = @Contr";
+
+            var controContr = db.ExecuteScalar(CommandType.Text, aux, parms);
+            var Contr = Convert.ToInt32(controContr);
+            if (controContr == null)
+            {
+                return false;
+            }
+            return true;
+        }
         #endregion
     }
 }

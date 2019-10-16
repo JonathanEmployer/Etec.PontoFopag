@@ -31,57 +31,61 @@ namespace Modelo.Proxy
         [TableHTMLAttribute("Função", 7, true, ItensSearch.select, OrderType.none)]
         public string Funcao { get; set; }
 
-        [TableHTMLAttribute("Carteira", 8, true, ItensSearch.text, OrderType.none)]
+        public int IdContrato { get; set; }
+        [TableHTMLAttribute("Contrato", 8, true, ItensSearch.select, OrderType.none)]
+        public string Contrato { get; set; }
+
+        [TableHTMLAttribute("Carteira", 9, true, ItensSearch.text, OrderType.none)]
         public string Carteira { get; set; }
 
-        [TableHTMLAttribute("CPF", 9, true, ItensSearch.text, OrderType.none)]
+        [TableHTMLAttribute("CPF", 10, true, ItensSearch.text, OrderType.none)]
         public string CPF { get; set; }
 
-        [TableHTMLAttribute("Código Folha", 10, true, ItensSearch.text, OrderType.none)]
+        [TableHTMLAttribute("Código Folha", 11, true, ItensSearch.text, OrderType.none)]
         public int? CodigoFolha { get; set; }
 
-        [TableHTMLAttribute("Pis", 11, true, ItensSearch.text, OrderType.none)]
+        [TableHTMLAttribute("Pis", 12, true, ItensSearch.text, OrderType.none)]
         public string Pis { get; set; }
 
-        [TableHTMLAttribute("Admissão", 12, true, ItensSearch.text, OrderType.none, ColumnType.data)]
+        [TableHTMLAttribute("Admissão", 13, true, ItensSearch.text, OrderType.none, ColumnType.data)]
         public string DataAdmissao { get; set; }
 
-        [TableHTMLAttribute("Demissão", 13, true, ItensSearch.text, OrderType.none, ColumnType.data)]
+        [TableHTMLAttribute("Demissão", 14, true, ItensSearch.text, OrderType.none, ColumnType.data)]
         public string DataDemissao { get; set; }
 
-        [TableHTMLAttribute("Ativo", 14, true, ItensSearch.select, OrderType.none)]
+        [TableHTMLAttribute("Ativo", 15, true, ItensSearch.select, OrderType.none)]
         public string Ativo { get; set; }
-        [TableHTMLAttribute("Data Inativação", 15, true, ItensSearch.text, OrderType.none, ColumnType.data)]
+        [TableHTMLAttribute("Data Inativação", 16, true, ItensSearch.text, OrderType.none, ColumnType.data)]
         public string DataInativacao { get; set; }
 
-        [TableHTMLAttribute("Tipo Horário", 16, true, ItensSearch.select, OrderType.none)]
+        [TableHTMLAttribute("Tipo Horário", 17, true, ItensSearch.select, OrderType.none)]
         public string TipoHorario { get; set; }
 
-        [TableHTMLAttribute("Supervisor", 17, true, ItensSearch.select, OrderType.none)]
+        [TableHTMLAttribute("Supervisor", 18, true, ItensSearch.select, OrderType.none)]
         public string Supervisor { get; set; }
 
-        [TableHTMLAttribute("Pessoa Supervisor", 18, true, ItensSearch.select, OrderType.none)]
+        [TableHTMLAttribute("Pessoa Supervisor", 19, true, ItensSearch.select, OrderType.none)]
         public string PessoaSupervisor { get; set; }
 
-        [TableHTMLAttribute("Entra Banco Hora", 19, true, ItensSearch.select, OrderType.none)]
+        [TableHTMLAttribute("Entra Banco Hora", 20, true, ItensSearch.select, OrderType.none)]
         public string EntraBancoHoras { get; set; }
 
-        [TableHTMLAttribute("Entra Compensação", 20, true, ItensSearch.select, OrderType.none)]
+        [TableHTMLAttribute("Entra Compensação", 21, true, ItensSearch.select, OrderType.none)]
         public string EntraCompensacao { get; set; }
 
-        [TableHTMLAttribute("Utiliza Registrador", 21, true, ItensSearch.select, OrderType.none)]
+        [TableHTMLAttribute("Utiliza Registrador", 22, true, ItensSearch.select, OrderType.none)]
         public string Utilizaregistrador { get; set; }
 
-        [TableHTMLAttribute("Tipo Mão Obra", 22, true, ItensSearch.select, OrderType.none)]
+        [TableHTMLAttribute("Tipo Mão Obra", 23, true, ItensSearch.select, OrderType.none)]
         public string TipoMaoObra { get; set; }
 
-        [TableHTMLAttribute("Alocação", 23, true, ItensSearch.select, OrderType.none)]
+        [TableHTMLAttribute("Alocação", 24, true, ItensSearch.select, OrderType.none)]
         public string Alocacao { get; set; }
 
-        [TableHTMLAttribute("Tipo Vínculo", 24, true, ItensSearch.select, OrderType.none)]
+        [TableHTMLAttribute("Tipo Vínculo", 25, true, ItensSearch.select, OrderType.none)]
         public string TipoVinculo { get; set; }
 
-        [TableHTMLAttribute("RFID", 25, true, ItensSearch.text, OrderType.none)]
+        [TableHTMLAttribute("RFID", 26, true, ItensSearch.text, OrderType.none)]
         public Int64? RFID { get; set; }
 
     }

@@ -334,9 +334,14 @@
                                         </div>
                                         <div class="col-md-5">
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.TipoVinculo, new { @class = "control-label label-sm" })
-                                                @Html.DropDownListFor(model => model.IdTipoVinculo, new SelectList(ViewBag.Campos, "Value", "Text", Model.IdTipoVinculo == null ? 0 : Model.IdTipoVinculo), new { @class = "form-control input-sm comboSearch", style = "height: 25px;" })
-                                                @Html.ValidationMessageFor(model => model.IdTipoVinculo)
+                                                @Html.LabelFor(model => model.Contrato, new { @class = "control-label label-sm" })
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBoxFor(model => model.Contrato, new { @class = "form-control  input-sm", id = "lkpContrato" }).IsReadonly(integrado)
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-primary" id="btnContrato" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                    </span>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Contrato)
                                             </div>
                                         </div>
                                     </div>
@@ -360,6 +365,13 @@
                                                         <label class="label-sm" for="idRadioMensalista">Mensalista</label>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.TipoVinculo, new { @class = "control-label label-sm" })
+                                                @Html.DropDownListFor(model => model.IdTipoVinculo, new SelectList(ViewBag.Campos, "Value", "Text", Model.IdTipoVinculo == null ? 0 : Model.IdTipoVinculo), new { @class = "form-control input-sm comboSearch", style = "height: 25px;" })
+                                                @Html.ValidationMessageFor(model => model.IdTipoVinculo)
                                             </div>
                                         </div>
                                     </div>
@@ -503,9 +515,9 @@
         <div class="modal_dialog modal_part" id="tn_select"></div>
     </div>
 }
-<script>
+<script>   
     function addRow(idfuncionario) {
-        var senha = $('#txtSenha').val();
+        var senha = $('#txtSenha').val();        
         var cracha = Number($('#lkpHistorioRFID').val());
         var rd = $("input[name=rdioTipo]:checked").val();
         if (rd == 0) {
@@ -608,8 +620,9 @@
         cwk_CadastroAjaxParam('Grid', 'FuncionarioRFID', $('#idFuncionario').val(), "", "");
     });
 
-    $(document).ready(function () {
-        cwk_EventoConsulta("#btnDepart",            "#lkpDepart",           "EventoConsulta",   "Departamento",                     "#lkpEmpresa");
+    $(document).ready(function () {        
+        cwk_EventoConsulta("#btnDepart",            "#lkpDepart",           "EventoConsulta",   "Departamento",          "#lkpEmpresa");
+        cwk_EventoConsulta("#btnContrato",          "#lkpContrato",         "EventoConsultaSemTodos",    "Contrato",              "#lkpEmpresa");
         cwk_EventoConsulta("#btnEmpresa",           "#lkpEmpresa",          "EventoConsulta",   "Empresa",                          "");
         cwk_EventoConsulta("#btnFuncao",            "#lkpFuncao",           "EventoConsulta",   "Funcao",                           "");
         cwk_EventoConsulta("#btnAlocacao",          "#lkpAlocacao",         "EventoConsulta",   "Alocacao",                         "")
@@ -617,7 +630,7 @@
         cwk_EventoConsulta("#btnHorario", "#lkpHorario", "EventoConsulta", "Horario", "#Tipohorario");
         cwk_EventoConsulta("#btnHorarioDinamico", "#lkpHorarioDinamico", "EventoConsulta", "HorarioDinamico", "", GetHorarioDinamico);
         cwk_EventoConsulta("#btnSupervisor",        "#lkpSupervisor",       "EventoConsulta",   "Usuario",                          "");
-        cwk_EventoConsulta("#btnPessoaSupervisor",  "#lkpPessoaSupervisor", "EventoConsulta",   "Pessoa",                           "");
+        cwk_EventoConsulta("#btnPessoaSupervisor",  "#lkpPessoaSupervisor", "EventoConsulta",   "Pessoa",                           "");        
         ValidaTipoHorario();
         GetHorarioDinamico();
 
@@ -665,8 +678,9 @@
 
     $("#lkpEmpresa").change(function () {
         $('#lkpDepart').val('');
+         $('#lkpContrato').val('');
     });
-
+    
 
     $("#imgUp").change(function () {
         readImage(this)

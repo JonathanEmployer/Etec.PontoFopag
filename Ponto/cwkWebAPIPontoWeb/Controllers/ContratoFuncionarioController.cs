@@ -52,23 +52,40 @@ namespace cwkWebAPIPontoWeb.Controllers
                         {
                             Modelo.Contrato Contrato = bllContrato.LoadObject(contid.GetValueOrDefault());
                             Modelo.ContratoFuncionario ContratoFunc = new Modelo.ContratoFuncionario();
+                            BLL.ContratoFuncionario bllContratoFun = new BLL.ContratoFuncionario(connectionStr);                          
 
                             ContratoFunc.IdContrato = contid.GetValueOrDefault();
                             ContratoFunc.IdFuncionario = funcid.GetValueOrDefault();
 
                             int? idcontratofuncionario = bllContratoFuncionario.GetIdPorIdContratoeIdFuncionario(contid.GetValueOrDefault(), funcid.GetValueOrDefault());
-                            Modelo.ContratoFuncionario ContFunc = new Modelo.ContratoFuncionario();
+                            int idContratoAnt = bllContratoFun.getContratoId(ContratoFunc.IdFuncionario);
+                            int CodigoContrato = bllContratoFun.getContratoCodigo(idContratoAnt, ContratoFunc.IdFuncionario);
+                            int IdAnt = CodigoContrato != 0 ? bllContratoFun.getId(CodigoContrato, null, null) : 0;
+                            
+                            Modelo.ContratoFuncionario ContFunc = new Modelo.ContratoFuncionario();                            
                             if (idcontratofuncionario == 0 && acao == Acao.Incluir)
                             {
+                                if (idContratoAnt !=ContratoFunc.IdContrato && idContratoAnt != 0)
+                                {
+                                    Modelo.ContratoFuncionario ContFuncAnt = new Modelo.ContratoFuncionario();
+                                    ContFuncAnt = bllContratoFuncionario.LoadObject(IdAnt);
+                                    acao = Acao.Alterar;                                                                      
+                                    ContFuncAnt.excluido = 1;                                    
+                                    erros = SalvarContratoFuncionario(acao, bllContratoFuncionario, erros, item, ContFuncAnt);
+                                }
                                 ContFunc.IdContrato = contid.GetValueOrDefault();
                                 ContFunc.IdFuncionario = funcid.GetValueOrDefault();
-                                ContFunc.Codigo = bllContratoFuncionario.MaxCodigo();
+                                ContFunc.Codigo = bllContratoFuncionario.MaxCodigo();                            
+                                acao = Acao.Incluir;
                                 erros = SalvarContratoFuncionario(acao, bllContratoFuncionario, erros, item, ContFunc);
                             }
                             else if(idcontratofuncionario != 0 && acao == Acao.Excluir)
                             {
-                               ContFunc = bllContratoFuncionario.LoadObject(idcontratofuncionario.GetValueOrDefault());
-                               erros = SalvarContratoFuncionario(acao, bllContratoFuncionario, erros, item, ContFunc);
+                                ContFunc = bllContratoFuncionario.LoadObject(idcontratofuncionario.GetValueOrDefault());
+                                acao = Acao.Alterar;
+                                ContFunc.Acao = Acao.Alterar;
+                                ContFunc.excluido = 1;
+                                erros = SalvarContratoFuncionario(acao, bllContratoFuncionario, erros, item, ContFunc);
                             }
                             
                         }

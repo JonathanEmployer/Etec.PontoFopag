@@ -14,5 +14,6 @@ namespace DAL
         List<EmpresaCw_Usuario> GetListaPorEmpresa(int idEmpresa);
         pxyEmpresaCwUsuario GetListaUsuariosLiberadosBloquadosPorEmpresa(int idEmpresa);
         Cw_Usuario GetUsuarioPorCodigo(int codigo);
+        bool CWUtilizaControleContratos();
     }
 }

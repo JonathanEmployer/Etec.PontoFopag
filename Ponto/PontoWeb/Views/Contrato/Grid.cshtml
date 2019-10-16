@@ -24,8 +24,10 @@
             <div class="row">
                 <div class="col-xs-5 center-block">
                     <div style="text-align: left">
-                        <a href="#" id="btAlterarUsuarios" class="btn btn btn-primary"><span class="fa fa-user"></span>&nbsp;Usuários</a>
-                        <a href="#" id="btAlterarFuncionarios" class="btn btn btn-primary"><span class="fa fa-user"></span>&nbsp;Funcionários</a>
+                        @if (ViewBag.ControleUsuario)
+                        {
+                            <a href="#" id="btAlterarUsuarios" class="btn btn btn-primary"><span class="fa fa-user"></span>&nbsp;Usuários</a>
+                        }
                     </div>
                 </div>
                 <div class="col-xs-7 center-block">
@@ -47,8 +49,7 @@
         
         cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', 'Contrato');
         cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', 'Contrato', nomeTabela);
-        cwk_EventoClickCadastroAlterar('#btAlterarUsuarios', 'Alterar', 'ContratoUsuario', nomeTabela);
-        cwk_EventoClickCadastroAlterar('#btAlterarFuncionarios', 'Alterar', 'ContratoFuncionario', nomeTabela);
+        cwk_EventoClickCadastroAlterar('#btAlterarUsuarios', 'Alterar', 'ContratoUsuario', nomeTabela);        
         cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', 'Contrato', nomeTabela);
         cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir', 'Contrato', nomeTabela, 'Contrato excluído com sucesso.');
     });

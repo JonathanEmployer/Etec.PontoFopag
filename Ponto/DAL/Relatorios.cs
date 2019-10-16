@@ -230,7 +230,7 @@ namespace DAL
 								   (select top(1) CONVERT(varchar, c.codigocontrato) + ' | '+ c.descricaocontrato 
 								      from contratofuncionario cf
 									  left join contrato c on cf.idcontrato = c.id 
-									 where cf.idfuncionario = f.id
+									 where cf.idfuncionario = f.id and cf.excluido =0
 									) Contrato,
                                 f.Funcionarioativo
                             from funcionario f
@@ -666,7 +666,7 @@ namespace DAL
 							                            FROM contratofuncionario cf
 							                            INNER JOIN contrato AS c
 								                            ON cf.idcontrato = c.id
-							                            WHERE f.id = cf.idfuncionario
+							                            WHERE f.id = cf.idfuncionario and cf.excluido =0
 							                            FOR XML PATH (''))
 						                            , 1, 1, '') Contrato,
 								   llf.efetivado,

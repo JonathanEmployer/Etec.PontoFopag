@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Modelo.Proxy;
 using AutoMapper;
 using System.Linq;
+using Modelo;
 
 namespace DAL.SQL
 {
@@ -285,6 +286,22 @@ namespace DAL.SQL
             }
 
             return result;
+        }
+
+        public bool CWUtilizaControleContratos()
+        {
+            int contr = 1;
+            SqlParameter[] parms = new SqlParameter[] { new SqlParameter("@Contr", SqlDbType.Int) };
+            parms[0].Value = contr;
+            string aux = @"SELECT utilizacontrolecontratos FROM dbo.cw_usuario where utilizacontrolecontratos = @Contr";
+
+            var controContr = db.ExecuteScalar(CommandType.Text, aux, parms);
+            var Contr = Convert.ToInt32(controContr);
+            if (controContr == null)
+            {
+                return false;
+            }
+            return true;
         }
 
         #endregion

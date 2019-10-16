@@ -286,6 +286,7 @@ namespace DAL.SQL
                                        func.idhorario,
                                        func.tipohorario,
                                        func.carteira,
+                                       uContr.contrato,
                                        func.dataadmissao,
                                        func.datademissao,
                                        func.salario,
@@ -341,8 +342,9 @@ namespace DAL.SQL
                              LEFT JOIN Alocacao ON alocacao.id = func.idAlocacao
                              LEFT JOIN TipoVinculo ON TipoVinculo.id = func.idTipoVinculo
                              LEFT JOIN HorarioDinamico HDN ON HDN.id = func.idhorariodinamico
+                             OUTER APPLY(SELECT TOP 1 cfun.inchora,CASE WHEN cont.codigo is null THEN '-' ELSE CONCAT(cont.codigo,' | ',cont.codigocontrato,' - ',cont.descricaocontrato) END contrato FROM dbo.contratofuncionario cfun LEFT JOIN dbo.contrato cont ON cont.id = cfun.idcontrato 
+												WHERE func.id = cfun.idfuncionario and cfun.excluido =0 ) AS uContr                                
                              WHERE func.id = @id";
-
             SELECTPCPF = @"   SELECT   func.id,
                                        func.codigo,
                                        func.dscodigo,
@@ -355,6 +357,7 @@ namespace DAL.SQL
                                        func.idhorario,
                                        func.tipohorario,
                                        func.carteira,
+                                       uContr.contrato,
                                        func.dataadmissao,
                                        func.datademissao,
                                        func.salario,
@@ -410,6 +413,8 @@ namespace DAL.SQL
                              LEFT JOIN Alocacao ON alocacao.id = func.idAlocacao
                              LEFT JOIN TipoVinculo ON TipoVinculo.id = func.idTipoVinculo
                              LEFT JOIN HorarioDinamico HDN ON HDN.id = func.idhorariodinamico
+                            OUTER APPLY(SELECT TOP 1 cfun.inchora,CASE WHEN cont.codigo is null THEN '-' ELSE CONCAT(cont.codigo,' | ',cont.codigocontrato,' - ',cont.descricaocontrato) END contrato FROM dbo.contratofuncionario cfun LEFT JOIN dbo.contrato cont ON cont.id = cfun.idcontrato 
+												WHERE func.id = cfun.idfuncionario and cfun.excluido =0 ) AS uContr
                              WHERE convert(BIGINT,isnull(replace(replace(func.CPF,'.',''),'-',''),0)) = convert(BIGINT,isnull((replace(replace(@CPF,'.',''),'-','')),0))";
 
             SELECTCONT = @"
@@ -714,6 +719,7 @@ namespace DAL.SQL
             ((Modelo.Funcionario)obj).Idhorario = (dr["idhorario"] is DBNull ? 0 : Convert.ToInt32(dr["idhorario"]));
             ((Modelo.Funcionario)obj).Tipohorario = Convert.ToInt16(dr["tipohorario"]);
             ((Modelo.Funcionario)obj).Carteira = Convert.ToString(dr["carteira"]);
+            ((Modelo.Funcionario)obj).Contrato = Convert.ToString(dr["contrato"]);
             ((Modelo.Funcionario)obj).Dataadmissao = Convert.ToDateTime(dr["dataadmissao"]);
             ((Modelo.Funcionario)obj).Datademissao = (dr["datademissao"] is DBNull ? null : (DateTime?)(dr["datademissao"]));
             ((Modelo.Funcionario)obj).Salario = Convert.ToDecimal(dr["salario"]);
@@ -2587,7 +2593,8 @@ namespace DAL.SQL
 		                            func.dscodigo Codigo,
 		                            func.nome Nome,
 		                            func.matricula Matricula,
-		                            func.carteira Carteira,
+		                            func.carteira Carteira,	
+                                    uContr.contrato contrato,			
 		                            func.CPF CPF,
 		                            func.codigofolha CodigoFolha,
 		                            func.pis Pis,
@@ -2620,8 +2627,11 @@ namespace DAL.SQL
                                     LEFT JOIN Alocacao ON Alocacao.id = func.IdAlocacao
                                     LEFT JOIN Pessoa pe ON pe.id = func.IdPessoaSupervisor
                                     LEFT JOIN TipoVinculo ON TipoVinculo.id = func.IdTipoVinculo
-                             WHERE  func.id in (select id from funcionario where funcionario.excluido = 0) 
-                            ";
+									OUTER APPLY(SELECT TOP 1 cfun.inchora,CASE WHEN cont.codigo is null THEN '-' ELSE CONCAT(cont.codigo,' | ',cont.codigocontrato,' - ',cont.descricaocontrato) END contrato 
+                                                FROM dbo.contratofuncionario cfun LEFT JOIN dbo.contrato cont ON cont.id = cfun.idcontrato 
+												    WHERE func.id = cfun.idfuncionario and cfun.excluido =0 ) AS uContr                             
+                                    WHERE  func.id in (select id from funcionario where funcionario.excluido = 0)
+                                    ";
 
             if (flag == 0)
                 aux += "and func.funcionarioativo = 0 ";

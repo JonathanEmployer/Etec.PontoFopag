@@ -204,7 +204,12 @@ namespace BLL
         public List<Modelo.Contrato> ContratosPorFuncionario(int idFuncionario)
         {
             return dalContrato.ContratosPorFuncionario(idFuncionario);
+        }        
+        public bool ValidaContratoCodigo(int codcontrato, int idempresa)
+        {
+            return dalContrato.ValidaContratoCodigo(codcontrato,idempresa);
         }
+
 
         public int GetIdByConsulta(string consulta)
         {

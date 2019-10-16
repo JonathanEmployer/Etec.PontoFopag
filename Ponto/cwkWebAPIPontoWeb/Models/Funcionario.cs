@@ -108,6 +108,6 @@ namespace cwkWebAPIPontoWeb.Models
         public int? IdintegracaoContrato { get; set; }
 
         public bool FuncionarioExcluido { get; set; }
-        public int? TipoMaoObra { get; set; }
+        public int? TipoMaoObra { get; set; }       
     }
 }

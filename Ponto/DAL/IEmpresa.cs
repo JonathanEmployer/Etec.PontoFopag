@@ -15,6 +15,7 @@ namespace DAL
         Modelo.Empresa GetEmpresaPrincipal();
         string GetPrimeiroCwk(out string mensagem);
         bool ConsultaBloqueiousuariosEmpresa();
+        bool UtilizaControleContratos();
         bool RelatorioAbsenteismoLiberado();
         bool ModuloRefeitorioLiberado();
         List<Modelo.Proxy.pxyEmpresa> GetAllListPxyEmpresa(string filtro);
