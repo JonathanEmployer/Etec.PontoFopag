@@ -54,9 +54,9 @@ namespace DAL.SQL
             SELECTPID = @"   SELECT empresa.*,  CONVERT(varchar, h.codigo) + ' | ' + h.descricao as NomeHorario FROM empresa  left JOIN horario h ON empresa.idhorariopadraofunc = h.id WHERE empresa.id = @id";
 
             INSERT = @"  INSERT INTO empresa
-							(codigo, bprincipal, tipolicenca, quantidade, nome, endereco, cidade, estado, cep, cnpj, cpf, chave, incdata, inchora, incusuario, cei, numeroserie, bdalterado, bloqueiousuarios, relatorioabsenteismo, exportacaohorasabonadas, modulorefeitorio, IDRevenda, validade, ultimoacesso, utilizacontrolecontratos, relatorioInconsistencia, relatorioComparacaoBilhetes, utilizaregistradorfunc, IdIntegracao, DiaFechamentoInicial, DiaFechamentoFinal, PermiteClassHorasExtrasPainel, BloqueiaJustificativaForaPeriodo, DtInicioJustificativa, DtFimJustificativa, IdHorarioPadraoFunc, TipoHorarioPadraoFunc, PermiteAbonoParcialPainel, LimitarQtdAbono)
+							(codigo, bprincipal, tipolicenca, quantidade, nome, endereco, cidade, estado, cep, cnpj, cpf, chave, incdata, inchora, incusuario, cei, numeroserie, bdalterado, bloqueiousuarios, relatorioabsenteismo, exportacaohorasabonadas, modulorefeitorio, IDRevenda, validade, ultimoacesso, utilizacontrolecontratos, relatorioInconsistencia, relatorioComparacaoBilhetes, utilizaregistradorfunc, IdIntegracao, DiaFechamentoInicial, DiaFechamentoFinal, PermiteClassHorasExtrasPainel, BloqueiaJustificativaForaPeriodo, DtInicioJustificativa, DtFimJustificativa, IdHorarioPadraoFunc, TipoHorarioPadraoFunc, PermiteAbonoParcialPainel, LimitarQtdAbono, bloqueioEdicaoEmp)
 							VALUES
-							(@codigo, @bprincipal, @tipolicenca, @quantidade, @nome, @endereco, @cidade, @estado, @cep, @cnpj, @cpf, @chave, @incdata, @inchora, @incusuario, @cei, @numeroserie, @bdalterado, @bloqueiousuarios, @relatorioabsenteismo, @exportacaohorasabonadas, @modulorefeitorio, @IDRevenda, @validade, @ultimoacesso, @utilizacontrolecontratos, @relatorioInconsistencia, @relatorioComparacaoBilhetes, @utilizaregistradorfunc, @IdIntegracao, @DiaFechamentoInicial, @DiaFechamentoFinal, @PermiteClassHorasExtrasPainel, @BloqueiaJustificativaForaPeriodo, @DtInicioJustificativa, @DtFimJustificativa, @IdHorarioPadraoFunc, @TipoHorarioPadraoFunc, @PermiteAbonoParcialPainel, @LimitarQtdAbono) 
+							(@codigo, @bprincipal, @tipolicenca, @quantidade, @nome, @endereco, @cidade, @estado, @cep, @cnpj, @cpf, @chave, @incdata, @inchora, @incusuario, @cei, @numeroserie, @bdalterado, @bloqueiousuarios, @relatorioabsenteismo, @exportacaohorasabonadas, @modulorefeitorio, @IDRevenda, @validade, @ultimoacesso, @utilizacontrolecontratos, @relatorioInconsistencia, @relatorioComparacaoBilhetes, @utilizaregistradorfunc, @IdIntegracao, @DiaFechamentoInicial, @DiaFechamentoFinal, @PermiteClassHorasExtrasPainel, @BloqueiaJustificativaForaPeriodo, @DtInicioJustificativa, @DtFimJustificativa, @IdHorarioPadraoFunc, @TipoHorarioPadraoFunc, @PermiteAbonoParcialPainel, @LimitarQtdAbono, @bloqueioEdicaoEmp) 
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE empresa SET
@@ -100,6 +100,7 @@ namespace DAL.SQL
                             , TipoHorarioPadraoFunc = @TipoHorarioPadraoFunc
                             , PermiteAbonoParcialPainel = @PermiteAbonoParcialPainel
                             , LimitarQtdAbono = @LimitarQtdAbono
+                            , bloqueioEdicaoEmp = @bloqueioEdicaoEmp
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM empresa WHERE id = @id";
@@ -192,6 +193,7 @@ namespace DAL.SQL
             }
             ((Modelo.Empresa)obj).PermiteAbonoParcialPainel = dr["PermiteAbonoParcialPainel"] is DBNull ? false : Convert.ToBoolean(dr["PermiteAbonoParcialPainel"]);
             ((Modelo.Empresa)obj).LimitarQtdAbono = dr["LimitarQtdAbono"] is DBNull ? false : Convert.ToBoolean(dr["LimitarQtdAbono"]);
+            ((Modelo.Empresa)obj).bloqueioEdicaoEmp = dr["bloqueioEdicaoEmp"] is DBNull ? 0 : Convert.ToInt32(dr["bloqueioEdicaoEmp"]);
         }
 
         protected override SqlParameter[] GetParameters()
@@ -241,7 +243,8 @@ namespace DAL.SQL
                 new SqlParameter ("@IdHorarioPadraoFunc", SqlDbType.Int),
                 new SqlParameter ("@TipoHorarioPadraoFunc", SqlDbType.Int),
                 new SqlParameter ("@PermiteAbonoParcialPainel", SqlDbType.Bit),
-                new SqlParameter ("@LimitarQtdAbono", SqlDbType.Bit)
+                new SqlParameter ("@LimitarQtdAbono", SqlDbType.Bit),
+                new SqlParameter ("@bloqueioEdicaoEmp", SqlDbType.Bit)
             };
             return parms;
         }
@@ -296,6 +299,7 @@ namespace DAL.SQL
             parms[41].Value = ((Modelo.Empresa)obj).TipoHorarioPadraoFunc;
             parms[42].Value = ((Modelo.Empresa)obj).PermiteAbonoParcialPainel;
             parms[43].Value = ((Modelo.Empresa)obj).LimitarQtdAbono;
+            parms[44].Value = ((Modelo.Empresa)obj).bloqueioEdicaoEmp;
         }
 
         //public override void Incluir(Modelo.ModeloBase obj)

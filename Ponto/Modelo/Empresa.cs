@@ -15,6 +15,7 @@ namespace Modelo
             this.Incdata = new DateTime();
             this.Inchora = new DateTime();
             this.Validade = DateTime.MaxValue;
+            this.bloqueioEdicaoEmp = 0;
         }
         [TableHTMLAttribute("Código", 1, true, ItensSearch.text, OrderType.none)]
         public int CodigoGrid { get { return this.Codigo; } }
@@ -309,5 +310,6 @@ namespace Modelo
                 return PermiteAbonoParcialPainelDescricao;
             }
         }
+        public int bloqueioEdicaoEmp { get; set; }
     }
 }

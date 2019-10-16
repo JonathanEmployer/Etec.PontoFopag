@@ -17,7 +17,7 @@ namespace PontoWeb.Controllers
         {
             var cwu = Usuario.GetUsuarioLogadoCache();
             BLL.Empresa bllEmpresa = new BLL.Empresa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
-            var UsuarioEmpresa = bllEmpresa.ConsultaBloqueiousuariosEmpresa();
+            var UsuarioEmpresa = bllEmpresa.ConsultaBloqueiousuariosEmpresa();            
             if (UsuarioEmpresa)
             {
                 ViewBag.ControleUsuario = true;
@@ -63,7 +63,7 @@ namespace PontoWeb.Controllers
 
         [PermissoesFiltro(Roles = "EmpresaAlterar")]
         public override ActionResult Alterar(int id)
-        {
+        {          
             return GetPagina(id);
         }
 
@@ -265,6 +265,10 @@ namespace PontoWeb.Controllers
             {
 
                 ViewBag.Disabled = true;
+            }
+            if(e.bloqueioEdicaoEmp == 1)
+            {
+                ViewBag.Consultar = 1;
             }
 
             BLL.EmpresaLogo bllEmpresaLogo = new BLL.EmpresaLogo(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
