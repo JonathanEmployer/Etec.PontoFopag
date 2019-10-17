@@ -129,7 +129,7 @@ namespace PontoWeb.Controllers
                 throw new Exception("Erro ao carregar o funcionário com as batidas alocadas");
 
             int idf = funcAlocado.Id;
-            funcTransferir = bllFuncionario.GetAllListPorPis(new List<string>() { funcAlocado.Pis }).Where(w => w.Id != idf).OrderByDescending(o => o.bFuncionarioativo).ThenByDescending(t => t.Dataadmissao).FirstOrDefault();
+            funcTransferir = bllFuncionario.GetAllListPorPis(new List<string>() { funcAlocado.Pis }).Where(w => w.Id != idf && w.Excluido == 0).OrderByDescending(o => o.bFuncionarioativo).ThenByDescending(t => t.Dataadmissao).FirstOrDefault();
             if (funcTransferir == null || funcTransferir.Id == 0)
                 throw new Exception("Erro ao carregar o funcionário a ser alocado as batidas");
 
