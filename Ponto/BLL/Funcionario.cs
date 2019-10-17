@@ -403,7 +403,7 @@ namespace BLL
             return dalFuncionario.GetAllListByIds(funcionarios);
         }
 
-        public List<Modelo.Funcionario> GetExcluidosList()
+        public List<PxyFuncionarioExcluidoGrid> GetExcluidosList()
         {
             return dalFuncionario.GetExcluidosList();
         }

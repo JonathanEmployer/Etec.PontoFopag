@@ -74,7 +74,7 @@ namespace DAL
         int GetIdDsCodigoProximidade(string pDsCodigo);
         Modelo.Funcionario LoadObjectByCodigo(int codigo);
 
-        List<Funcionario> GetExcluidosList();
+        List<PxyFuncionarioExcluidoGrid> GetExcluidosList();
         List<Modelo.Funcionario> GetAllListPorContrato(int idContrato);
         List<Modelo.Funcionario> GetAllListContratos();
         IList<Modelo.Proxy.pxyFuncionarioRelatorio> GetRelFuncionariosRelatorios(string filtro);

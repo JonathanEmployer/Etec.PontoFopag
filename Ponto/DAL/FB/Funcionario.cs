@@ -1626,7 +1626,7 @@ namespace DAL.FB
             throw new NotImplementedException();
         }
 
-        public List<Modelo.Funcionario> GetExcluidosList()
+        public List<PxyFuncionarioExcluidoGrid> GetExcluidosList()
         {
             throw new NotImplementedException();
         }

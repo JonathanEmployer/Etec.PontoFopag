@@ -1,4 +1,5 @@
 ﻿using BLL_N.JobManager.Hangfire;
+using Modelo.Proxy;
 using PontoWeb.Controllers.BLLWeb;
 using PontoWeb.Security;
 using System;
@@ -14,7 +15,7 @@ namespace PontoWeb.Controllers
         [PermissoesFiltro(Roles = "FuncionarioExcluido")]
         public ActionResult Grid()
         {
-            return View(new Modelo.Funcionario());
+            return View(new PxyFuncionarioExcluidoGrid());
         }
 
         [Authorize]
@@ -23,7 +24,7 @@ namespace PontoWeb.Controllers
             try
             {
                 BLL.Funcionario bllFuncionario = new BLL.Funcionario(_usr.ConnectionString, _usr);
-                List<Modelo.Funcionario> dados = bllFuncionario.GetExcluidosList();
+                List<PxyFuncionarioExcluidoGrid> dados = bllFuncionario.GetExcluidosList();
                 JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
                 jsonResult.MaxJsonLength = int.MaxValue;
                 return jsonResult;

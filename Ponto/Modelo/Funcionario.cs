@@ -145,10 +145,20 @@ namespace Modelo
             }
         }
 
-        [TableHTMLAttribute("Data Inativação", 12, true, ItensSearch.text, OrderType.none)]
+        
         [Display(Name = "Data Inativação")]
         public DateTime? DataInativacao { get; set; }
         public DateTime? DataInativacao_Ant { get; set; }
+
+        [TableHTMLAttribute("Data Inativação", 12, true, ItensSearch.text, OrderType.none, ColumnType.data)]
+        public string DataInativacaoDesc
+        {
+            get
+            {
+                return DataInativacao == null ? "" : DataInativacao.GetValueOrDefault().ToString("dd/MM/yyyy");
+            }
+        }
+
         /// <summary>
         /// Flag que marca se o funcionário vai ou não entrar no BH
         /// </summary>

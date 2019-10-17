@@ -4633,110 +4633,54 @@ namespace DAL.SQL
             return objFunc;
         }
 
-        public List<Modelo.Funcionario> GetExcluidosList()
+        public List<PxyFuncionarioExcluidoGrid> GetExcluidosList()
         {
-            List<Modelo.Funcionario> lista = new List<Modelo.Funcionario>();
+            List<PxyFuncionarioExcluidoGrid> lista = new List<PxyFuncionarioExcluidoGrid>();
 
+            SqlParameter[] parms = new SqlParameter[] { };
+
+            string sql = @" SELECT func.id [Id],
+		                             func.nome [Nome],
+		                             func.dscodigo [Codigo],
+		                             func.matricula [Matricula],
+		                             CONVERT(VARCHAR, horario.codigo) + ' | ' +horario.descricao AS  [Horario],
+		                             CONVERT(varchar,emp.codigo)+' | '+emp.nome as  [Empresa],
+		                             CONVERT(varchar,departamento.codigo)+' | '+departamento.descricao AS  [Departamento],
+                                     CONVERT(varchar,funcao.codigo) + ' | ' + funcao.descricao AS  [Funcao],
+		                             func.carteira [Carteira],
+		                             func.CPF [CPF],
+		                             func.dataadmissao [DataAdmissao],
+                                     func.datademissao [DataDemissao],
+		                             func.DataInativacao [DataInativacao],
+		                             func.idempresa
+                                FROM funcionario func WITH (NOLOCK)
+                                LEFT JOIN empresa emp ON emp.id = func.idempresa
+                                LEFT JOIN departamento ON departamento.id = func.iddepartamento
+                                LEFT JOIN horario ON horario.id = func.idhorario
+                                LEFT JOIN funcao ON funcao.id = func.idFuncao
+                               WHERE func.excluido = 1 ";
+            sql += PermissaoUsuarioFuncionario(UsuarioLogado, sql, "func.idempresa", "func.id", null);
+            sql += " ORDER BY func.nome ASC ";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
             try
             {
-                SqlParameter[] parms = new SqlParameter[] { };
-
-                string sql = @"   SELECT   func.id,
-                                           func.codigo,
-                                           func.dscodigo,
-                                           func.matricula,
-                                           func.nome,
-                                           func.codigofolha,
-                                           func.idempresa,
-                                           func.iddepartamento,
-                                           func.idfuncao,
-                                           func.idhorario,
-                                           func.tipohorario,
-                                           func.carteira,
-                                           func.dataadmissao,
-                                           func.datademissao,
-                                           func.salario,
-                                           func.funcionarioativo,
-                                           func.DataInativacao,
-                                           func.naoentrarbanco,
-                                           func.naoentrarcompensacao,
-                                           func.excluido,
-                                           func.campoobservacao,
-                                           func.incdata,
-                                           func.inchora,
-                                           func.incusuario,
-                                           func.altdata,
-                                           func.althora,
-                                           func.altusuario,
-                                           func.pis,
-                                           func.senha,
-                                           func.toleranciaentrada,
-                                           func.toleranciasaida,
-                                           func.quantidadetickets,
-                                           func.tipotickets,
-                                           func.CPF,
-                                           func.Mob_Senha,
-                                           func.idcw_usuario,
-                                           func.utilizaregistrador,
-                                           func.idIntegracao,
-                                           func.IdPessoaSupervisor,
-                                           func.TipoMaoObra,
-                                           func.IdAlocacao,
-                                           func.IdTipoVinculo,
-                                           func.Email,
-                                           func.IdIntegracaoPainel,
-                                           func.RFID, 
-                                           '' foto,
-                                            '' contrato
-                                    , CAST(func.dscodigo AS BIGINT) AS dscodigo
-                                    , func.matricula matricula
-                                    , horario.descricao AS jornada
-                                    , convert(varchar,emp.codigo)+' | '+emp.nome as empresa
-                                    , convert(varchar,departamento.codigo)+' | '+departamento.descricao AS departamento
-                                    , convert(varchar,funcao.codigo) + ' | ' + funcao.descricao AS funcao
-                                    , coalesce(convert(varchar,cwu.codigo) + ' | ' + cwu.nome, '') AS supervisor
-                                    , coalesce(convert(varchar, pe.codigo) + ' | ' + pe.razaosocial, '') as PessoaSupervisor
-                                    , convert(varchar,Alocacao.codigo) + ' | ' + Alocacao.descricao AS Alocacao
-                                    , convert(varchar,TipoVinculo.codigo) + ' | ' + TipoVinculo.descricao AS TipoVinculo
-                                    , func.IdHorarioDinamico
-                                    , func.CicloSequenciaIndice
-                                    , convert(varchar,HDN.codigo) +' | '+HDN.descricao HorarioDinamico
-                             FROM funcionario func
-                             LEFT JOIN empresa emp ON emp.id = func.idempresa
-                             LEFT JOIN departamento ON departamento.id = func.iddepartamento
-                             LEFT JOIN horario ON horario.id = func.idhorario
-                             LEFT JOIN funcao ON funcao.id = func.idFuncao
-                             LEFT JOIN cw_usuario cwu ON cwu.id = func.idcw_usuario
-                             LEFT JOIN pessoa pe ON pe.id = func.IdPessoaSupervisor
-                             LEFT JOIN Alocacao ON alocacao.id = func.idAlocacao
-                             LEFT JOIN TipoVinculo ON TipoVinculo.id = func.idTipoVinculo
-                             LEFT JOIN HorarioDinamico HDN ON HDN.id = func.idhorariodinamico
-                             WHERE ISNULL(func.excluido, 0) = 1 ";
-                sql += PermissaoUsuarioFuncionario(UsuarioLogado, sql, "func.idempresa", "func.id", null);
-                sql += " ORDER BY func.nome ASC";
-
-                SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
-                if (dr.HasRows)
-                {
-                    while (dr.Read())
-                    {
-                        Modelo.Funcionario objFuncionario = new Modelo.Funcionario();
-                        AuxSetInstance(dr, objFuncionario);
-
-                        lista.Add(objFuncionario);
-                    }
-                }
+                var mapOco = Mapper.CreateMap<IDataReader, PxyFuncionarioExcluidoGrid>();
+                lista = Mapper.Map<List<PxyFuncionarioExcluidoGrid>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
                 if (!dr.IsClosed)
+                {
                     dr.Close();
+                }
                 dr.Dispose();
             }
-            catch (Exception e)
-            {
-                throw e;
-            }
-
             return lista;
-
         }
 
         public IList<Modelo.Proxy.pxyFuncionarioRelatorio> GetRelFuncionariosRelatorios(string filtro)
