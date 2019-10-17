@@ -15,6 +15,7 @@ namespace BLL
         DAL.SQL.HorarioPHExtra dalHorarioPhextra;
         DAL.SQL.LimiteDDsr dalLimiteDDsr;
         DAL.IHorarioDinamico dalHorarioDinamico;
+        DAL.SQL.CalculaMarcacao dalCalculaMarcacao;
         private string ConnectionString;
         private Modelo.Cw_Usuario UsuarioLogado;
 
@@ -30,20 +31,19 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    DataBase db = new DataBase(ConnectionString);
-                    dalHorarioDinamico = new DAL.SQL.HorarioDinamico(db);
-                    dalHorario = new DAL.SQL.Horario(db);
-                    dalHorarioPhextra = new DAL.SQL.HorarioPHExtra(db);
-                    dalLimiteDDsr = new DAL.SQL.LimiteDDsr(db);
-                    break;
-            }
+
+            DataBase db = new DataBase(ConnectionString);
+            dalHorarioDinamico = new DAL.SQL.HorarioDinamico(db);
+            dalHorario = new DAL.SQL.Horario(db);
+            dalHorarioPhextra = new DAL.SQL.HorarioPHExtra(db);
+            dalLimiteDDsr = new DAL.SQL.LimiteDDsr(db);
+            dalCalculaMarcacao = new DAL.SQL.CalculaMarcacao(db);
+
             dalHorarioDinamico.UsuarioLogado = usuarioLogado;
             dalHorario.UsuarioLogado = usuarioLogado;
             dalHorarioPhextra.UsuarioLogado = usuarioLogado;
             dalLimiteDDsr.UsuarioLogado = usuarioLogado;
+            dalCalculaMarcacao.UsuarioLogado = usuarioLogado;
             UsuarioLogado = usuarioLogado;
         }
 
@@ -819,6 +819,13 @@ namespace BLL
                 }
             }
             return retorno;
+        }
+
+        public void GerarHorarioDetalheDinamicoDeAcordoMarcacoes()
+        {
+            DataTable dtMarcacoes = dalCalculaMarcacao.GetMarcacoesGerarHorariosDinamicos();
+            BLL.HorarioDinamico bllHorarioDinamico = new BLL.HorarioDinamico(ConnectionString, UsuarioLogado);
+            bllHorarioDinamico.GerarHorariosDetalhesAPartirMarcacoes(dtMarcacoes);
         }
 
         public int QuantidadeMarcacoesVinculadas(int idHorarioDinamico)

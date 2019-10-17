@@ -46,6 +46,308 @@ namespace DAL.SQL
             db = database;
             dalMarcacao = new DAL.SQL.Marcacao(db);
         }
+
+        #region sqls
+        public const string _sqlCalculoMarcacao = @" SELECT 
+                          marcacao.id 
+                        , marcacao.codigo 
+                        , marcacao.idcompensado 
+                        , marcacao.data 
+                        , marcacao.dia 
+                        , marcacao.ocorrencia 
+                        , marcacao.abonardsr 
+                        , marcacao.totalizadoresalterados 
+                        , marcacao.calchorasextrasdiurna 
+                        , marcacao.calchorasextranoturna 
+                        , marcacao.calchorasfaltas 
+                        , marcacao.calchorasfaltanoturna 
+                        , marcacao.naoentrarbanco 
+                        , marcacao.naoentrarnacompensacao 
+                        , marcacao.naoconsiderarcafe 
+                        , marcacao.semcalculo 
+                        , marcacao.folga 
+                        , marcacao.neutro 
+                        , marcacao.totalHorasTrabalhadas 
+                        , marcacao.dscodigo 
+                        , marcacao.idfechamentobh 
+                        , marcacao.idhorario 
+                        , marcacao.idfuncionario 
+                        , marcacao.entradaextra 
+                        , marcacao.saidaextra 
+                        , marcacao.entrada_1 
+                        , marcacao.entrada_2 
+                        , marcacao.entrada_3 
+                        , marcacao.entrada_4 
+                        , marcacao.entrada_5 
+                        , marcacao.entrada_6 
+                        , marcacao.entrada_7 
+                        , marcacao.entrada_8 
+                        , marcacao.saida_1 
+                        , marcacao.saida_2 
+                        , marcacao.saida_3 
+                        , marcacao.saida_4 
+                        , marcacao.saida_5 
+                        , marcacao.saida_6 
+                        , marcacao.saida_7 
+                        , marcacao.saida_8 
+                        , marcacao.ent_num_relogio_1 
+                        , marcacao.ent_num_relogio_2 
+                        , marcacao.ent_num_relogio_3 
+                        , marcacao.ent_num_relogio_4 
+                        , marcacao.ent_num_relogio_5 
+                        , marcacao.ent_num_relogio_6 
+                        , marcacao.ent_num_relogio_7 
+                        , marcacao.ent_num_relogio_8 
+                        , marcacao.sai_num_relogio_1 
+                        , marcacao.sai_num_relogio_2 
+                        , marcacao.sai_num_relogio_3 
+                        , marcacao.sai_num_relogio_4 
+                        , marcacao.sai_num_relogio_5 
+                        , marcacao.sai_num_relogio_6 
+                        , marcacao.sai_num_relogio_7 
+                        , marcacao.sai_num_relogio_8 
+                        , marcacao.incdata 
+                        , marcacao.inchora 
+                        , marcacao.incusuario  
+						, ([dbo].CONVERTHORAMINUTOV2(marcacao.horastrabalhadas)) AS horastrabalhadasmin 
+                        , ([dbo].CONVERTHORAMINUTOV2(marcacao.horastrabalhadasnoturnas)) AS horastrabalhadasnoturnasmin 
+                        , ([dbo].CONVERTHORAMINUTOV2(marcacao.horasfaltas)) AS horasfaltasmin 
+                        , ([dbo].CONVERTHORAMINUTOV2(marcacao.horasfaltanoturna)) AS horasfaltanoturnamin 
+                        , ([dbo].CONVERTHORAMINUTOV2(marcacao.horasextrasdiurna)) AS horasextrasdiurnamin 
+                        , ([dbo].CONVERTHORAMINUTOV2(marcacao.horasextranoturna)) AS horasextranoturnamin 
+                        , ([dbo].CONVERTHORAMINUTOV2(ISNULL(marcacao.valordsr, '--:--'))) AS valordsrmin 
+                        , ([dbo].CONVERTHORAMINUTOV2(ISNULL(marcacao.horascompensadas, '--:--'))) AS horascompensadasmin 
+						, ([dbo].[convertbatidaminutoV2](marcacao.entrada_1)) AS entrada_1min 
+                        , ([dbo].[convertbatidaminutoV2](marcacao.entrada_2)) AS entrada_2min 
+                        , ([dbo].[convertbatidaminutoV2](marcacao.entrada_3)) AS entrada_3min 
+                        , ([dbo].[convertbatidaminutoV2](marcacao.entrada_4)) AS entrada_4min 
+                        , ([dbo].[convertbatidaminutoV2](marcacao.entrada_5)) AS entrada_5min 
+                        , ([dbo].[convertbatidaminutoV2](marcacao.entrada_6)) AS entrada_6min 
+                        , ([dbo].[convertbatidaminutoV2](marcacao.entrada_7)) AS entrada_7min 
+                        , ([dbo].[convertbatidaminutoV2](marcacao.entrada_8)) AS entrada_8min 
+						, ([dbo].[convertbatidaminutoV2](marcacao.saida_1)) AS saida_1min 
+                        , ([dbo].[convertbatidaminutoV2](marcacao.saida_2)) AS saida_2min 
+                        , ([dbo].[convertbatidaminutoV2](marcacao.saida_3)) AS saida_3min 
+                        , ([dbo].[convertbatidaminutoV2](marcacao.saida_4)) AS saida_4min 
+                        , ([dbo].[convertbatidaminutoV2](marcacao.saida_5)) AS saida_5min 
+                        , ([dbo].[convertbatidaminutoV2](marcacao.saida_6)) AS saida_6min 
+                        , ([dbo].[convertbatidaminutoV2](marcacao.saida_7)) AS saida_7min 
+                        , ([dbo].[convertbatidaminutoV2](marcacao.saida_8)) AS saida_8min 
+
+                        , funcionario.idfuncao 
+                        , funcionario.iddepartamento 
+                        , funcionario.idempresa 
+                        , funcionario.dataadmissao 
+                        , funcionario.datademissao 
+                        , funcionario.naoentrarbanco AS naoentrarbancofunc 
+                        , funcionario.naoentrarcompensacao AS naocompensacaofunc 
+                        , horario.tipohorario 
+                        , horario.consideraadhtrabalhadas 
+                        , horario.conversaohoranoturna 
+                        , horario.dias_cafe_1 
+                        , horario.dias_cafe_2 
+                        , horario.dias_cafe_3 
+                        , horario.dias_cafe_4 
+                        , horario.dias_cafe_5 
+                        , horario.dias_cafe_6 
+                        , horario.dias_cafe_7 
+                        , horario.diasemanadsr 
+                        , horario.marcacargahorariamista AS marcacargahorariamistahorario 
+                        , horario.habilitaperiodo01 
+                        , horario.habilitaperiodo02 
+                        , horario.consideraradicionalnoturnointerv 
+                        , ISNULL(parametros.toleranciaAdicionalNoturno, 0) AS toleranciaAdicionalNoturno 
+                        , [dbo].CONVERTHORAMINUTOV2(horario.limitemax) AS limitemax 
+                        , [dbo].CONVERTHORAMINUTOV2(horario.limitemin) AS limitemin 
+                        , ISNULL(horario.ordenabilhetesaida, 0) AS ordenabilhetesaida 
+                        , ISNULL(horario.DescontarAtrasoInItinere, 0) DescontarAtrasoInItinere 
+                        , ISNULL(horario.DescontarFaltaInItinere, 0) DescontarFaltaInItinere 
+                        , ISNULL(horario.HabilitaInItinere, -1)  HabilitaInItinere 
+                        , horariodetalhe.diadsr 
+                        , horariodetalhe.intervaloautomatico 
+                        , horariodetalhe.preassinaladas1 
+                        , horariodetalhe.preassinaladas2 
+                        , horariodetalhe.preassinaladas3 
+                        , horariodetalhe.dia
+                        , horariodetalhe.entrada_1 AS entrada_1hd 
+                        , horariodetalhe.entrada_2 AS entrada_2hd 
+                        , horariodetalhe.entrada_3 AS entrada_3hd 
+                        , horariodetalhe.entrada_4 AS entrada_4hd 
+                        , horariodetalhe.saida_1 AS saida_1hd 
+                        , horariodetalhe.saida_2 AS saida_2hd 
+                        , horariodetalhe.saida_3 AS saida_3hd 
+                        , horariodetalhe.saida_4 AS saida_4hd 
+                        , [dbo].CONVERTBATIDAMINUTOV2(horariodetalhe.entrada_1) AS entrada_1minhd 
+                        , [dbo].CONVERTBATIDAMINUTOV2(horariodetalhe.entrada_2) AS entrada_2minhd 
+                        , [dbo].CONVERTBATIDAMINUTOV2(horariodetalhe.entrada_3) AS entrada_3minhd 
+                        , [dbo].CONVERTBATIDAMINUTOV2(horariodetalhe.entrada_4) AS entrada_4minhd 
+                        , [dbo].CONVERTBATIDAMINUTOV2(horariodetalhe.saida_1) AS saida_1minhd 
+                        , [dbo].CONVERTBATIDAMINUTOV2(horariodetalhe.saida_2) AS saida_2minhd 
+                        , [dbo].CONVERTBATIDAMINUTOV2(horariodetalhe.saida_3) AS saida_3minhd 
+                        , [dbo].CONVERTBATIDAMINUTOV2(horariodetalhe.saida_4) AS saida_4minhd 
+                        , [dbo].CONVERTHORAMINUTOV2(horariodetalhe.totaltrabalhadadiurna) AS totaltrabalhadadiurnamin 
+                        , [dbo].CONVERTHORAMINUTOV2(horariodetalhe.totaltrabalhadanoturna) AS totaltrabalhadanoturnamin 
+                        , [dbo].CONVERTHORAMINUTOV2(horariodetalhe.cargahorariamista) AS cargahorariamistamin 
+                        , horariodetalhe.totaltrabalhadadiurna 
+                        , horariodetalhe.totaltrabalhadanoturna 
+                        , horariodetalhe.cargahorariamista 
+                        , horariodetalhe.marcacargahorariamista AS marcacargahorariamistahd 
+                        , horariodetalhe.bcarregar 
+                        , horariodetalhe.flagfolga 
+                        , horariodetalhe.neutro flagneutro 
+
+						,(SELECT id FROM [dbo].[F_BancoHoras] (marcacao.data, funcionario.id)) AS idbancohoras  
+
+						, feriado.id AS idferiado 
+                        , afastamentofunc.id AS idafastamentofunc 
+                        , afastamentofunc.abonado AS abonadofunc 
+                        , afastamentofunc.semcalculo AS semcalculofunc 
+                        , afastamentofunc.semabono AS semabonofunc 
+                        , afastamentofunc.horai AS horaifunc 
+                        , afastamentofunc.horaf AS horaffunc 
+                        , afastamentofunc.idocorrencia AS idocorrenciafunc 
+                        , afastamentodep.id AS idafastamentodep 
+                        , afastamentodep.abonado AS abonadodep 
+                        , afastamentodep.semcalculo AS semcalculodep 
+                        , afastamentodep.semabono AS semabonodep 
+                        , afastamentodep.horai AS horaidep 
+                        , afastamentodep.horaf AS horafdep 
+                        , afastamentodep.idocorrencia AS idocorrenciadep 
+                        , afastamentoemp.id AS idafastamentoemp 
+                        , afastamentoemp.abonado AS abonadoemp 
+                        , afastamentoemp.semcalculo AS semcalculoemp 
+                        , afastamentoemp.semabono AS semabonoemp 
+                        , afastamentoemp.horai AS horaiemp 
+                        , afastamentoemp.horaf AS horafemp 
+                        , afastamentoemp.idocorrencia AS idocorrenciaemp 
+                        , afastamentocont.id AS idafastamentocont 
+                        , afastamentocont.abonado AS abonadocont 
+                        , afastamentocont.semcalculo AS semcalculocont 
+                        , afastamentocont.semabono AS semabonocont 
+                        , afastamentocont.horai AS horaicont 
+                        , afastamentocont.horaf AS horafcont 
+                        , afastamentocont.idocorrencia AS idocorrenciacont 
+                        , jornadaalternativa_view.id AS idjornadaalternativa
+
+						,(SELECT TOP(1) id FROM mudancahorario WHERE mudancahorario.idfuncionario = marcacao.idfuncionario AND mudancahorario.data = marcacao.data ORDER BY mudancahorario.id DESC) AS idmudancahorario 
+
+						, marcacao.tipohoraextrafalta 
+                        , parametros.thoraextra 
+                        , parametros.thorafalta 
+                        , [dbo].ConvertHoraMinutoV2Nulavel(parametros.thoraextra) AS thoraextramin 
+                        , [dbo].ConvertHoraMinutoV2Nulavel(parametros.thoraextraEntrada) AS thoraextraEntradamin 
+                        , [dbo].ConvertHoraMinutoV2Nulavel(parametros.thoraextraSaida) AS thoraextraSaidamin 
+                        , [dbo].ConvertHoraMinutoV2Nulavel(parametros.thorafalta) AS thorafaltamin 
+                        , [dbo].ConvertHoraMinutoV2Nulavel(parametros.thorafaltaEntrada) AS thorafaltaEntradamin 
+                        , [dbo].ConvertHoraMinutoV2Nulavel(parametros.thorafaltaSaida) AS thorafaltaSaidamin 
+                        , [dbo].CONVERTHORAMINUTOV2(parametros.inicioadnoturno) AS inicioadnoturnomin 
+                        , [dbo].CONVERTHORAMINUTOV2(parametros.fimadnoturno) AS fimadnoturnomin 
+                        , [dbo].ConvertHoraMinutoV2Nulavel(parametros.TIntervaloExtra) AS TIntervaloExtra 
+                        , [dbo].ConvertHoraMinutoV2Nulavel(parametros.TIntervaloFalta) AS TIntervaloFalta 
+
+						, marcacao.exphorasextranoturna 
+                        , parametros.bConsiderarHEFeriadoPHoraNoturna 
+                        , parametros.reducaohoranoturna 
+                        , parametros.HabilitarControleInItinere 
+                        , funcionario.nome nomeFuncionario 
+                        , marcacao.IdDocumentoWorkflow 
+                        , marcacao.DocumentoWorkflowAberto 
+                        , marcacao.InItinereHrsDentroJornada 
+                        , marcacao.InItinerePercDentroJornada 
+                        , marcacao.InItinereHrsForaJornada 
+                        , marcacao.InItinerePercForaJornada 
+                        , marcacao.NaoConsiderarInItinere 
+                        , marcacao.idfechamentoponto 
+                        , marcacao.Interjornada 
+                        , marcacao.LegendasConcatenadas 
+                        , marcacao.AdicionalNoturno 
+                        , marcacao.DataBloqueioEdicaoPnlRh 
+                        , marcacao.LoginBloqueioEdicaoPnlRh 
+                        , HorarioInItinere.MarcaDiaBool DiaPossuiInItinere 
+                        , HorarioInItinere.PercentualDentroJornada PercentualDentroJornadaInItinere 
+                        , HorarioInItinere.PercentualDentroFora PercentualForaJornadaInItinere 
+                        , feriado.Parcial AS FeriadoParcial 
+                        , feriado.HoraInicio AS FeriadoParcialInicio 
+                        , feriado.HoraFim AS FeriadoParcialFim 
+                        , marcacao.horaExtraInterjornada 
+                        , marcacao.horasTrabalhadasDentroFeriadoDiurna 
+                        , marcacao.horasTrabalhadasDentroFeriadoNoturna 
+                        , marcacao.horasPrevistasDentroFeriadoDiurna 
+                        , marcacao.horasPrevistasDentroFeriadoNoturna 
+                        , horariodetalhe.id idHorarioDetalhe 
+                        , horario.idhorariodinamico 
+                        , parametros.MomentoPreAssinalado 
+                        , marcacao.Legenda
+						, marcacao.Bancohorascre
+						, marcacao.Bancohorasdeb
+						, marcacao.Horascompensadas
+                        , marcacao.Dsr
+                        , funcionario.datainativacao
+                        , marcacao.naoconsiderarferiado
+               FROM marcacao_view as marcacao with (nolock)
+               INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario 
+               INNER JOIN horario ON horario.id = marcacao.idhorario 
+               INNER JOIN parametros ON parametros.id = horario.idparametro 
+               LEFT JOIN horariodetalhe 
+               ON horariodetalhe.idhorario = marcacao.idhorario AND 
+               ((horario.tipohorario = 2 AND horariodetalhe.data = marcacao.data) OR 
+               (horariodetalhe.idhorario = marcacao.idhorario 
+               AND horario.tipohorario = 1  
+               AND horariodetalhe.dia = (CASE WHEN (CAST(DATEPART(WEEKDAY, marcacao.data) AS INT)-1) = 0 THEN 7 ELSE (CAST(DATEPART(WEEKDAY, marcacao.data) AS INT)-1) END))) 
+               OUTER APPLY (                              
+                               SELECT TOP 1 *              
+                                 FROM afastamento          
+                                WHERE afastamento.tipo = 0 
+                                  AND afastamento.idfuncionario = marcacao.idfuncionario 
+                                  AND marcacao.data BETWEEN afastamento.datai AND isnull(afastamento.dataf, '9999-12-31') 
+                                ORDER BY inchora 
+                               ) afastamentofunc 
+               LEFT JOIN afastamento afastamentodep ON afastamentodep.tipo = 1 
+               AND afastamentodep.iddepartamento = funcionario.iddepartamento 
+               AND marcacao.data >= afastamentodep.datai 
+               AND marcacao.data <= isnull(afastamentodep.dataf, '9999-12-31') 
+               LEFT JOIN afastamento afastamentoemp ON afastamentoemp.tipo = 2 
+               AND afastamentoemp.idempresa = funcionario.idempresa 
+               AND marcacao.data >= afastamentoemp.datai 
+               AND marcacao.data <= isnull(afastamentoemp.dataf, '9999-12-31') 
+               --afastamento por contrato
+               LEFT JOIN afastamento afastamentocont ON afastamentocont.tipo = 3 AND afastamentocont.idcontrato in (SELECT idcontrato FROM contratofuncionario cf WHERE cf.idfuncionario = funcionario.id) AND marcacao.data >= afastamentocont.datai AND marcacao.data <= isnull(afastamentocont.dataf, '9999-12-31') 
+               --Busca Feriado
+                OUTER APPLY (SELECT TOP(1) * FROM feriado where horario.desconsiderarferiado = 0 
+                        AND feriado.data = marcacao.data 
+                        AND ( feriado.tipoferiado = 0 
+                            OR ( feriado.tipoferiado = 1 
+                                AND feriado.idempresa = funcionario.idempresa 
+                                ) 
+                            OR ( feriado.tipoferiado = 2 
+                                AND feriado.iddepartamento = funcionario.iddepartamento 
+                                ) 
+                            OR ( feriado.tipoferiado = 3 
+                                AND EXISTS ( SELECT * 
+                                                FROM   FeriadoFuncionario FFUNC 
+                                                WHERE  feriado.id = FFUNC.idFeriado 
+                                                    AND FFUNC.idFuncionario = funcionario.id ) 
+                                ) 
+                            )) feriado 
+               -- Busca InItinere
+               LEFT JOIN dbo.HorarioInItinere ON HorarioInItinere.idhorario = marcacao.idhorario 
+                                   AND HorarioInItinere.Dia = ( CASE WHEN Feriado.id IS NOT NULL THEN 8 
+               													WHEN horariodetalhe.flagfolga = 1 OR marcacao.folga = 1 THEN 9 
+               													WHEN ( CAST(DATEPART(WEEKDAY, marcacao.data) AS INT) - 1 ) = 0 THEN 7 
+               													ELSE ( CAST(DATEPART(WEEKDAY, marcacao.data) AS INT) - 1 ) 
+                                                      END ) 
+               LEFT JOIN jornadaalternativa_view ON 
+               ((jornadaalternativa_view.tipo = 0 AND jornadaalternativa_view.identificacao = funcionario.idempresa) 
+               OR (jornadaalternativa_view.tipo = 1 AND jornadaalternativa_view.identificacao = funcionario.iddepartamento) 
+               OR (jornadaalternativa_view.tipo = 2 AND jornadaalternativa_view.identificacao = funcionario.id) 
+               OR (jornadaalternativa_view.tipo = 3 AND jornadaalternativa_view.identificacao = funcionario.idfuncao)) 
+               AND (jornadaalternativa_view.datacompensada = marcacao.data 
+               OR (jornadaalternativa_view.datacompensada IS NULL 
+               AND marcacao.data >= jornadaalternativa_view.datainicial 
+               AND marcacao.data <= jornadaalternativa_view.datafinal))
+            ";
+        #endregion
+
         #region Calculo DSR
         public DataTable GetFuncionariosDSRWebApi(int? pTipo, int pIdentificacao, DateTime pDataI, DateTime pDataF)
         {
@@ -496,301 +798,8 @@ namespace DAL.SQL
             parms[0].Value = pDataI;
             parms[1].Value = pDataF;
 
-            string aux = "SELECT marcacao.id " +
-                        ", marcacao.codigo " +
-                        ", marcacao.idcompensado " +
-                        ", marcacao.data " +
-                        ", marcacao.dia " +
-                        ", marcacao.ocorrencia " +
-                        ", marcacao.abonardsr " +
-                        ", marcacao.totalizadoresalterados " +
-                        ", marcacao.calchorasextrasdiurna " +
-                        ", marcacao.calchorasextranoturna " +
-                        ", marcacao.calchorasfaltas " +
-                        ", marcacao.calchorasfaltanoturna " +
-                        ", marcacao.naoentrarbanco " +
-                        ", marcacao.naoentrarnacompensacao " +
-                        ", marcacao.naoconsiderarcafe " +
-                        ", marcacao.semcalculo " +
-                        ", marcacao.folga " +
-                        ", marcacao.neutro " +
-                        ", marcacao.totalHorasTrabalhadas " +
-                        ", marcacao.dscodigo " +
-                        ", marcacao.idfechamentobh " +
-                        ", marcacao.idhorario " +
-                        ", marcacao.idfuncionario " +
-                        ", marcacao.entradaextra " +
-                        ", marcacao.saidaextra " +
-                        ", marcacao.entrada_1 " +
-                        ", marcacao.entrada_2 " +
-                        ", marcacao.entrada_3 " +
-                        ", marcacao.entrada_4 " +
-                        ", marcacao.entrada_5 " +
-                        ", marcacao.entrada_6 " +
-                        ", marcacao.entrada_7 " +
-                        ", marcacao.entrada_8 " +
-                        ", marcacao.saida_1 " +
-                        ", marcacao.saida_2 " +
-                        ", marcacao.saida_3 " +
-                        ", marcacao.saida_4 " +
-                        ", marcacao.saida_5 " +
-                        ", marcacao.saida_6 " +
-                        ", marcacao.saida_7 " +
-                        ", marcacao.saida_8 " +
-                        ", marcacao.ent_num_relogio_1 " +
-                        ", marcacao.ent_num_relogio_2 " +
-                        ", marcacao.ent_num_relogio_3 " +
-                        ", marcacao.ent_num_relogio_4 " +
-                        ", marcacao.ent_num_relogio_5 " +
-                        ", marcacao.ent_num_relogio_6 " +
-                        ", marcacao.ent_num_relogio_7 " +
-                        ", marcacao.ent_num_relogio_8 " +
-                        ", marcacao.sai_num_relogio_1 " +
-                        ", marcacao.sai_num_relogio_2 " +
-                        ", marcacao.sai_num_relogio_3 " +
-                        ", marcacao.sai_num_relogio_4 " +
-                        ", marcacao.sai_num_relogio_5 " +
-                        ", marcacao.sai_num_relogio_6 " +
-                        ", marcacao.sai_num_relogio_7 " +
-                        ", marcacao.sai_num_relogio_8 " +
-                        ", marcacao.incdata " +
-                        ", marcacao.inchora " +
-                        ", marcacao.incusuario " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(marcacao.horastrabalhadas)) AS horastrabalhadasmin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(marcacao.horastrabalhadasnoturnas)) AS horastrabalhadasnoturnasmin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(marcacao.horasfaltas)) AS horasfaltasmin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(marcacao.horasfaltanoturna)) AS horasfaltanoturnamin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(marcacao.horasextrasdiurna)) AS horasextrasdiurnamin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(marcacao.horasextranoturna)) AS horasextranoturnamin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(marcacao.valordsr, '--:--'))) AS valordsrmin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(marcacao.horascompensadas, '--:--'))) AS horascompensadasmin " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.entrada_1)) AS entrada_1min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.entrada_2)) AS entrada_2min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.entrada_3)) AS entrada_3min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.entrada_4)) AS entrada_4min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.entrada_5)) AS entrada_5min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.entrada_6)) AS entrada_6min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.entrada_7)) AS entrada_7min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.entrada_8)) AS entrada_8min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.saida_1)) AS saida_1min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.saida_2)) AS saida_2min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.saida_3)) AS saida_3min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.saida_4)) AS saida_4min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.saida_5)) AS saida_5min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.saida_6)) AS saida_6min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.saida_7)) AS saida_7min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.saida_8)) AS saida_8min " +
-                        ", funcionario.idfuncao " +
-                        ", funcionario.iddepartamento " +
-                        ", funcionario.idempresa " +
-                        ", funcionario.dataadmissao " +
-                        ", funcionario.datademissao " +
-                        ", funcionario.naoentrarbanco AS naoentrarbancofunc " +
-                        ", funcionario.naoentrarcompensacao AS naocompensacaofunc " +
-                        ", horario.tipohorario " +
-                        ", horario.consideraadhtrabalhadas " +
-                        ", horario.conversaohoranoturna " +
-                        ", horario.dias_cafe_1 " +
-                        ", horario.dias_cafe_2 " +
-                        ", horario.dias_cafe_3 " +
-                        ", horario.dias_cafe_4 " +
-                        ", horario.dias_cafe_5 " +
-                        ", horario.dias_cafe_6 " +
-                        ", horario.dias_cafe_7 " +
-                        ", horario.diasemanadsr " +
-                        ", horario.marcacargahorariamista AS marcacargahorariamistahorario " +
-                        ", horario.habilitaperiodo01 " +
-                        ", horario.habilitaperiodo02 " +
-                        ", horario.consideraradicionalnoturnointerv " +
-                        ", ISNULL(parametros.toleranciaAdicionalNoturno, 0) AS toleranciaAdicionalNoturno " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(horario.limitemax, '--:--'))) AS limitemax " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(horario.limitemin, '--:--'))) AS limitemin " +
-                        ", ISNULL(horario.ordenabilhetesaida, 0) AS ordenabilhetesaida " +
-                        ", ISNULL(horario.DescontarAtrasoInItinere, 0) DescontarAtrasoInItinere " +
-                        ", ISNULL(horario.DescontarFaltaInItinere, 0) DescontarFaltaInItinere " +
-                        ", ISNULL(horario.HabilitaInItinere, -1)  HabilitaInItinere " +
-                        ", horariodetalhe.diadsr " +
-                        ", horariodetalhe.intervaloautomatico AS intervaloautomatico " +
-                        ", horariodetalhe.preassinaladas1 AS preassinaladas1 " +
-                        ", horariodetalhe.preassinaladas2 AS preassinaladas2 " +
-                        ", horariodetalhe.preassinaladas3 AS preassinaladas3 " +
-                        ", horariodetalhe.dia AS dia " +
-                        ", horariodetalhe.entrada_1 AS entrada_1hd " +
-                        ", horariodetalhe.entrada_2 AS entrada_2hd " +
-                        ", horariodetalhe.entrada_3 AS entrada_3hd " +
-                        ", horariodetalhe.entrada_4 AS entrada_4hd " +
-                        ", horariodetalhe.saida_1 AS saida_1hd " +
-                        ", horariodetalhe.saida_2 AS saida_2hd " +
-                        ", horariodetalhe.saida_3 AS saida_3hd " +
-                        ", horariodetalhe.saida_4 AS saida_4hd " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(ISNULL(horariodetalhe.entrada_1, '--:--'))) AS entrada_1minhd " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(ISNULL(horariodetalhe.entrada_2, '--:--'))) AS entrada_2minhd " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(ISNULL(horariodetalhe.entrada_3, '--:--'))) AS entrada_3minhd " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(ISNULL(horariodetalhe.entrada_4, '--:--'))) AS entrada_4minhd " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(ISNULL(horariodetalhe.saida_1, '--:--'))) AS saida_1minhd " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(ISNULL(horariodetalhe.saida_2, '--:--'))) AS saida_2minhd " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(ISNULL(horariodetalhe.saida_3, '--:--'))) AS saida_3minhd " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(ISNULL(horariodetalhe.saida_4, '--:--'))) AS saida_4minhd " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(horariodetalhe.totaltrabalhadadiurna, '--:--'))) AS totaltrabalhadadiurnamin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(horariodetalhe.totaltrabalhadanoturna, '--:--'))) AS totaltrabalhadanoturnamin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(horariodetalhe.cargahorariamista, '--:--'))) AS cargahorariamistamin " +
-                        ", horariodetalhe.totaltrabalhadadiurna " +
-                        ", horariodetalhe.totaltrabalhadanoturna " +
-                        ", horariodetalhe.cargahorariamista " +
-                        ", horariodetalhe.marcacargahorariamista AS marcacargahorariamistahd " +
-                        ", horariodetalhe.bcarregar " +
-                        ", horariodetalhe.flagfolga " +
-                        ", horariodetalhe.neutro flagneutro " +
-                        ", (SELECT id FROM [dbo].[F_BancoHoras] (marcacao.data, funcionario.id)) AS idbancohoras  " +
-                        ", feriado.id AS idferiado " +
-                        ", afastamentofunc.id AS idafastamentofunc " +
-                        ", afastamentofunc.abonado AS abonadofunc " +
-                        ", afastamentofunc.semcalculo AS semcalculofunc " +
-                        ", afastamentofunc.semabono AS semabonofunc " +
-                        ", afastamentofunc.horai AS horaifunc " +
-                        ", afastamentofunc.horaf AS horaffunc " +
-                        ", afastamentofunc.idocorrencia AS idocorrenciafunc " +
-                        ", afastamentodep.id AS idafastamentodep " +
-                        ", afastamentodep.abonado AS abonadodep " +
-                        ", afastamentodep.semcalculo AS semcalculodep " +
-                        ", afastamentodep.semabono as semabonodep " +
-                        ", afastamentodep.horai AS horaidep " +
-                        ", afastamentodep.horaf AS horafdep " +
-                        ", afastamentodep.idocorrencia AS idocorrenciadep " +
-                        ", afastamentoemp.id AS idafastamentoemp " +
-                        ", afastamentoemp.abonado AS abonadoemp " +
-                        ", afastamentoemp.semcalculo AS semcalculoemp " +
-                        ", afastamentoemp.semabono as semabonoemp " +
-                        ", afastamentoemp.horai AS horaiemp " +
-                        ", afastamentoemp.horaf AS horafemp " +
-                        //// afastamento por contrato
-                        ",  afastamentocont.id AS idafastamentocont " +
-                        ",  afastamentocont.abonado AS abonadocont " +
-                        ",  afastamentocont.semcalculo AS semcalculocont " +
-                        ",  afastamentocont.semabono AS semabonocont " +
-                        ",  afastamentocont.horai AS horaicont " +
-                        ",  afastamentocont.horaf AS horafcont " +
-                        ",  afastamentocont.idocorrencia AS idocorrenciacont " +
-                        ////
-                        ", afastamentoemp.idocorrencia AS idocorrenciaemp " +
-                        ", jornadaalternativa_view.id AS idjornadaalternativa " +
-                        ", (SELECT TOP(1) id FROM mudancahorario WHERE mudancahorario.idfuncionario = marcacao.idfuncionario AND mudancahorario.data = marcacao.data ORDER BY mudancahorario.id DESC) AS idmudancahorario " +
-                        ", marcacao.tipohoraextrafalta " +
-                        ", parametros.thoraextra " +
-                        ", parametros.thorafalta " +
-                        ", (SELECT [dbo].FN_ConvHoraNulavel(parametros.thoraextra,1)) AS thoraextramin " +
-                        ", (SELECT [dbo].FN_ConvHoraNulavel(parametros.thoraextraEntrada,1)) AS thoraextraEntradamin " +
-                        ", (SELECT [dbo].FN_ConvHoraNulavel(parametros.thoraextraSaida,1)) AS thoraextraSaidamin " +
-                        ", (SELECT [dbo].FN_ConvHoraNulavel(parametros.thorafalta,1)) AS thorafaltamin " +
-                        ", (SELECT [dbo].FN_ConvHoraNulavel(parametros.thorafaltaEntrada,1)) AS thorafaltaEntradamin " +
-                        ", (SELECT [dbo].FN_ConvHoraNulavel(parametros.thorafaltaSaida,1)) AS thorafaltaSaidamin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(parametros.inicioadnoturno, '--:--'))) AS inicioadnoturnomin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(parametros.fimadnoturno, '--:--'))) AS fimadnoturnomin " +
-                        ", (SELECT [dbo].FN_ConvHoraNulavel(parametros.TIntervaloExtra,1)) AS TIntervaloExtra " +
-                        ", (SELECT [dbo].FN_ConvHoraNulavel(parametros.TIntervaloFalta,1)) AS TIntervaloFalta " +
-                        ", marcacao.exphorasextranoturna " +
-                        ", parametros.bConsiderarHEFeriadoPHoraNoturna " +
-                        ", parametros.reducaohoranoturna " +
-                        ", parametros.HabilitarControleInItinere " +
-                        ", funcionario.nome nomeFuncionario " +
-                        ", marcacao.idfechamentoponto " +
-                        ", marcacao.Interjornada " +
-                        ", marcacao.IdDocumentoWorkflow " +
-                        ", marcacao.DocumentoWorkflowAberto " +
-                        ", marcacao.InItinereHrsDentroJornada " +
-                        ", marcacao.InItinerePercDentroJornada " +
-                        ", marcacao.InItinereHrsForaJornada " +
-                        ", marcacao.InItinerePercForaJornada  " +
-                        ", marcacao.NaoConsiderarInItinere " +
-                        ", marcacao.LegendasConcatenadas " +
-                        ", marcacao.AdicionalNoturno " +
-                        ", marcacao.DataBloqueioEdicaoPnlRh " +
-                        ", marcacao.LoginBloqueioEdicaoPnlRh " +
-                        ", marcacao.horaExtraInterjornada " +
-                        ", marcacao.horasTrabalhadasDentroFeriadoDiurna " +
-                        ", marcacao.horasTrabalhadasDentroFeriadoNoturna " +
-                        ", marcacao.horasPrevistasDentroFeriadoDiurna " +
-                        ", marcacao.horasPrevistasDentroFeriadoNoturna " +
-                        ", HorarioInItinere.MarcaDiaBool DiaPossuiInItinere " +
-                        ", HorarioInItinere.PercentualDentroJornada PercentualDentroJornadaInItinere " +
-                        ", HorarioInItinere.PercentualDentroFora PercentualForaJornadaInItinere " +
-                        ", feriado.Parcial AS FeriadoParcial " +
-                        ", feriado.HoraInicio AS FeriadoParcialInicio " +
-                        ", feriado.HoraFim AS FeriadoParcialFim " +
-                        ", horariodetalhe.id idHorarioDetalhe " +
-                        ", horario.idhorariodinamico " +
-                        ", parametros.MomentoPreAssinalado " +
-                        ", marcacao.Legenda " +
-						", marcacao.Bancohorascre " +
-						", marcacao.Bancohorasdeb " +
-						", marcacao.Horascompensadas " +
-                        ", marcacao.Dsr " +
-                        ", funcionario.datainativacao " +
-                        ", marcacao.naoconsiderarferiado " +
-                "FROM marcacao_view as marcacao " +
-                "INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario " +
-                "INNER JOIN horario ON horario.id = marcacao.idhorario " +
-                "INNER JOIN parametros ON parametros.id = horario.idparametro " +
-                "LEFT JOIN horariodetalhe " +
-                "ON horariodetalhe.idhorario = marcacao.idhorario AND " +
-                "((horario.tipohorario = 2 AND horariodetalhe.data = marcacao.data) OR " +
-                "(horariodetalhe.idhorario = marcacao.idhorario " +
-                "AND horario.tipohorario = 1  " +
-                "AND horariodetalhe.dia = (CASE WHEN (CAST(DATEPART(WEEKDAY, marcacao.data) AS INT)-1) = 0 THEN 7 ELSE (CAST(DATEPART(WEEKDAY, marcacao.data) AS INT)-1) END))) " +
-                "OUTER APPLY (                              " +
-                "                SELECT TOP 1 *              " +
-                "                  FROM afastamento          " +
-                "                 WHERE afastamento.tipo = 0 " +
-                "                   AND afastamento.idfuncionario = marcacao.idfuncionario " +
-                "                   AND marcacao.data BETWEEN afastamento.datai AND isnull(afastamento.dataf, '9999-12-31') " +
-                "                 ORDER BY inchora " +
-                "                ) afastamentofunc " +
-                "LEFT JOIN afastamento afastamentodep ON afastamentodep.tipo = 1 " +
-                "AND afastamentodep.iddepartamento = funcionario.iddepartamento " +
-                "AND marcacao.data >= afastamentodep.datai " +
-                "AND marcacao.data <= isnull(afastamentodep.dataf, '9999-12-31') " +
-                "LEFT JOIN afastamento afastamentoemp ON afastamentoemp.tipo = 2 " +
-                "AND afastamentoemp.idempresa = funcionario.idempresa " +
-                "AND marcacao.data >= afastamentoemp.datai " +
-                "AND marcacao.data <= isnull(afastamentoemp.dataf, '9999-12-31') " +
-                ////afastamento por contrato
-                "LEFT JOIN afastamento afastamentocont ON afastamentocont.tipo = 3 AND afastamentocont.idcontrato in (SELECT idcontrato FROM contratofuncionario cf WHERE cf.idfuncionario = funcionario.id) AND marcacao.data >= afastamentocont.datai AND marcacao.data <= isnull(afastamentocont.dataf, '9999-12-31') " +
-                ////
-
-                // Busca Feriado
-                " OUTER APPLY (SELECT TOP(1) * FROM feriado where horario.desconsiderarferiado = 0 " +
-                "         AND feriado.data = marcacao.data " +
-                "         AND ( feriado.tipoferiado = 0 " +
-                "             OR ( feriado.tipoferiado = 1 " +
-                "                 AND feriado.idempresa = funcionario.idempresa " +
-                "                 ) " +
-                "             OR ( feriado.tipoferiado = 2 " +
-                "                 AND feriado.iddepartamento = funcionario.iddepartamento " +
-                "                 ) " +
-                "             OR ( feriado.tipoferiado = 3 " +
-                "                 AND EXISTS ( SELECT * " +
-                "                                 FROM   FeriadoFuncionario FFUNC " +
-                "                                 WHERE  feriado.id = FFUNC.idFeriado " +
-                "                                     AND FFUNC.idFuncionario = funcionario.id ) " +
-                "                 ) " +
-                "             )) feriado " +
-                // Busca InItinere
-                "LEFT JOIN dbo.HorarioInItinere ON HorarioInItinere.idhorario = marcacao.idhorario " +
-                "                    AND HorarioInItinere.Dia = ( CASE WHEN Feriado.id IS NOT NULL THEN 8 " +
-                "													WHEN horariodetalhe.flagfolga = 1 OR marcacao.folga = 1 THEN 9 " +
-                "													WHEN ( CAST(DATEPART(WEEKDAY, marcacao.data) AS INT) - 1 ) = 0 THEN 7 " +
-                "													ELSE ( CAST(DATEPART(WEEKDAY, marcacao.data) AS INT) - 1 ) " +
-                "                                       END ) " +
-                "LEFT JOIN jornadaalternativa_view ON " +
-                "((jornadaalternativa_view.tipo = 0 AND jornadaalternativa_view.identificacao = funcionario.idempresa) " +
-                "OR (jornadaalternativa_view.tipo = 1 AND jornadaalternativa_view.identificacao = funcionario.iddepartamento) " +
-                "OR (jornadaalternativa_view.tipo = 2 AND jornadaalternativa_view.identificacao = funcionario.id) " +
-                "OR (jornadaalternativa_view.tipo = 3 AND jornadaalternativa_view.identificacao = funcionario.idfuncao)) " +
-                "AND (jornadaalternativa_view.datacompensada = marcacao.data " +
-                "OR (jornadaalternativa_view.datacompensada IS NULL " +
-                "AND marcacao.data >= jornadaalternativa_view.datainicial " +
-                "AND marcacao.data <= jornadaalternativa_view.datafinal)) ";
-            aux += "WHERE ISNULL(marcacao.idfechamentoponto,0) = 0 AND ";
+            string aux = _sqlCalculoMarcacao;
+            aux += " WHERE ISNULL(marcacao.idfechamentoponto,0) = 0 AND ";
             if (pegaInativos)
             {
                 if (!pegaExcluidos)
@@ -856,312 +865,8 @@ namespace DAL.SQL
             parms[0].Value = pDataI;
             parms[1].Value = pDataF;
 
-            string aux = "SELECT marcacao.id " +
-                        ", marcacao.codigo " +
-                        ", marcacao.idcompensado " +
-                        ", marcacao.data " +
-                        ", marcacao.dia " +
-                        ", marcacao.ocorrencia " +
-                        ", marcacao.abonardsr " +
-                        ", marcacao.totalizadoresalterados " +
-                        ", marcacao.calchorasextrasdiurna " +
-                        ", marcacao.calchorasextranoturna " +
-                        ", marcacao.calchorasfaltas " +
-                        ", marcacao.calchorasfaltanoturna " +
-                        ", marcacao.naoentrarbanco " +
-                        ", marcacao.naoentrarnacompensacao " +
-                        ", marcacao.naoconsiderarcafe " +
-                        ", marcacao.semcalculo " +
-                        ", marcacao.folga " +
-                        ", marcacao.neutro " +
-                        ", marcacao.totalHorasTrabalhadas " +
-                        ", marcacao.dscodigo " +
-                        ", marcacao.idfechamentobh " +
-                        ", marcacao.idhorario " +
-                        ", marcacao.idfuncionario " +
-                        ", marcacao.entradaextra " +
-                        ", marcacao.saidaextra " +
-                        ", marcacao.entrada_1 " +
-                        ", marcacao.entrada_2 " +
-                        ", marcacao.entrada_3 " +
-                        ", marcacao.entrada_4 " +
-                        ", marcacao.entrada_5 " +
-                        ", marcacao.entrada_6 " +
-                        ", marcacao.entrada_7 " +
-                        ", marcacao.entrada_8 " +
-                        ", marcacao.saida_1 " +
-                        ", marcacao.saida_2 " +
-                        ", marcacao.saida_3 " +
-                        ", marcacao.saida_4 " +
-                        ", marcacao.saida_5 " +
-                        ", marcacao.saida_6 " +
-                        ", marcacao.saida_7 " +
-                        ", marcacao.saida_8 " +
-                        ", marcacao.ent_num_relogio_1 " +
-                        ", marcacao.ent_num_relogio_2 " +
-                        ", marcacao.ent_num_relogio_3 " +
-                        ", marcacao.ent_num_relogio_4 " +
-                        ", marcacao.ent_num_relogio_5 " +
-                        ", marcacao.ent_num_relogio_6 " +
-                        ", marcacao.ent_num_relogio_7 " +
-                        ", marcacao.ent_num_relogio_8 " +
-                        ", marcacao.sai_num_relogio_1 " +
-                        ", marcacao.sai_num_relogio_2 " +
-                        ", marcacao.sai_num_relogio_3 " +
-                        ", marcacao.sai_num_relogio_4 " +
-                        ", marcacao.sai_num_relogio_5 " +
-                        ", marcacao.sai_num_relogio_6 " +
-                        ", marcacao.sai_num_relogio_7 " +
-                        ", marcacao.sai_num_relogio_8 " +
-                        ", marcacao.incdata " +
-                        ", marcacao.inchora " +
-                        ", marcacao.incusuario " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(marcacao.horastrabalhadas)) AS horastrabalhadasmin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(marcacao.horastrabalhadasnoturnas)) AS horastrabalhadasnoturnasmin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(marcacao.horasfaltas)) AS horasfaltasmin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(marcacao.horasfaltanoturna)) AS horasfaltanoturnamin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(marcacao.horasextrasdiurna)) AS horasextrasdiurnamin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(marcacao.horasextranoturna)) AS horasextranoturnamin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(marcacao.valordsr, '--:--'))) AS valordsrmin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(marcacao.horascompensadas, '--:--'))) AS horascompensadasmin " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.entrada_1)) AS entrada_1min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.entrada_2)) AS entrada_2min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.entrada_3)) AS entrada_3min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.entrada_4)) AS entrada_4min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.entrada_5)) AS entrada_5min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.entrada_6)) AS entrada_6min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.entrada_7)) AS entrada_7min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.entrada_8)) AS entrada_8min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.saida_1)) AS saida_1min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.saida_2)) AS saida_2min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.saida_3)) AS saida_3min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.saida_4)) AS saida_4min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.saida_5)) AS saida_5min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.saida_6)) AS saida_6min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.saida_7)) AS saida_7min " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(marcacao.saida_8)) AS saida_8min " +
-                        ", funcionario.idfuncao " +
-                        ", funcionario.iddepartamento " +
-                        ", funcionario.idempresa " +
-                        ", funcionario.dataadmissao " +
-                        ", funcionario.datademissao " +
-                        ", funcionario.naoentrarbanco AS naoentrarbancofunc " +
-                        ", funcionario.naoentrarcompensacao AS naocompensacaofunc " +
-                        ", horario.tipohorario " +
-                        ", horario.consideraadhtrabalhadas " +
-                        ", horario.conversaohoranoturna " +
-                        ", horario.dias_cafe_1 " +
-                        ", horario.dias_cafe_2 " +
-                        ", horario.dias_cafe_3 " +
-                        ", horario.dias_cafe_4 " +
-                        ", horario.dias_cafe_5 " +
-                        ", horario.dias_cafe_6 " +
-                        ", horario.dias_cafe_7 " +
-                        ", horario.diasemanadsr " +
-                        ", horario.marcacargahorariamista AS marcacargahorariamistahorario " +
-                        ", horario.habilitaperiodo01 " +
-                        ", horario.habilitaperiodo02 " +
-                        ", horario.consideraradicionalnoturnointerv " +
-                        ", ISNULL(parametros.toleranciaAdicionalNoturno, 0) AS toleranciaAdicionalNoturno " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(horario.limitemax, '--:--'))) AS limitemax " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(horario.limitemin, '--:--'))) AS limitemin " +
-                        ", ISNULL(horario.ordenabilhetesaida, 0) AS ordenabilhetesaida " +
-                        ", horario.QtdHEPreClassificadas " +
-                        ", horario.IdClassificacao idClassHE " +
-                        ", ISNULL(horario.DescontarAtrasoInItinere, 0) DescontarAtrasoInItinere " +
-                        ", ISNULL(horario.DescontarFaltaInItinere, 0) DescontarFaltaInItinere " +
-                        ", ISNULL(horario.HabilitaInItinere, -1)  HabilitaInItinere " +
-                        ", horariodetalhe.diadsr " +
-                        ", horariodetalhe.intervaloautomatico AS intervaloautomatico " +
-                        ", horariodetalhe.preassinaladas1 AS preassinaladas1 " +
-                        ", horariodetalhe.preassinaladas2 AS preassinaladas2 " +
-                        ", horariodetalhe.preassinaladas3 AS preassinaladas3 " +
-                        ", horariodetalhe.dia AS dia " +
-                        ", horariodetalhe.entrada_1 AS entrada_1hd " +
-                        ", horariodetalhe.entrada_2 AS entrada_2hd " +
-                        ", horariodetalhe.entrada_3 AS entrada_3hd " +
-                        ", horariodetalhe.entrada_4 AS entrada_4hd " +
-                        ", horariodetalhe.saida_1 AS saida_1hd " +
-                        ", horariodetalhe.saida_2 AS saida_2hd " +
-                        ", horariodetalhe.saida_3 AS saida_3hd " +
-                        ", horariodetalhe.saida_4 AS saida_4hd " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(ISNULL(horariodetalhe.entrada_1, '--:--'))) AS entrada_1minhd " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(ISNULL(horariodetalhe.entrada_2, '--:--'))) AS entrada_2minhd " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(ISNULL(horariodetalhe.entrada_3, '--:--'))) AS entrada_3minhd " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(ISNULL(horariodetalhe.entrada_4, '--:--'))) AS entrada_4minhd " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(ISNULL(horariodetalhe.saida_1, '--:--'))) AS saida_1minhd " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(ISNULL(horariodetalhe.saida_2, '--:--'))) AS saida_2minhd " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(ISNULL(horariodetalhe.saida_3, '--:--'))) AS saida_3minhd " +
-                        ", (SELECT [dbo].CONVERTBATIDAMINUTO(ISNULL(horariodetalhe.saida_4, '--:--'))) AS saida_4minhd " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(horariodetalhe.totaltrabalhadadiurna, '--:--'))) AS totaltrabalhadadiurnamin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(horariodetalhe.totaltrabalhadanoturna, '--:--'))) AS totaltrabalhadanoturnamin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(horariodetalhe.cargahorariamista, '--:--'))) AS cargahorariamistamin " +
-                        ", horariodetalhe.totaltrabalhadadiurna " +
-                        ", horariodetalhe.totaltrabalhadanoturna " +
-                        ", horariodetalhe.cargahorariamista " +
-                        ", horariodetalhe.marcacargahorariamista AS marcacargahorariamistahd " +
-                        ", horariodetalhe.bcarregar " +
-                        ", horariodetalhe.flagfolga " +
-                        ", horariodetalhe.neutro flagneutro " +
-                        ", (SELECT id FROM [dbo].[F_BancoHoras] (marcacao.data, funcionario.id)) AS idbancohoras  " +
-                        ", feriado.id AS idferiado " +
-                        ", afastamentofunc.id AS idafastamentofunc " +
-                        ", afastamentofunc.abonado AS abonadofunc " +
-                        ", afastamentofunc.semcalculo AS semcalculofunc " +
-                        ", afastamentofunc.semabono AS semabonofunc " +
-                        ", afastamentofunc.horai AS horaifunc " +
-                        ", afastamentofunc.horaf AS horaffunc " +
-                        ", afastamentofunc.idocorrencia AS idocorrenciafunc " +
-                        ", afastamentodep.id AS idafastamentodep " +
-                        ", afastamentodep.abonado AS abonadodep " +
-                        ", afastamentodep.semcalculo AS semcalculodep " +
-                        ", afastamentodep.semabono AS semabonodep " +
-                        ", afastamentodep.horai AS horaidep " +
-                        ", afastamentodep.horaf AS horafdep " +
-                        ", afastamentodep.idocorrencia AS idocorrenciadep " +
-                        ", afastamentoemp.id AS idafastamentoemp " +
-                        ", afastamentoemp.abonado AS abonadoemp " +
-                        ", afastamentoemp.semcalculo AS semcalculoemp " +
-                        ", afastamentoemp.semabono AS semabonoemp " +
-                        ", afastamentoemp.horai AS horaiemp " +
-                        ", afastamentoemp.horaf AS horafemp " +
-                        ", afastamentoemp.idocorrencia AS idocorrenciaemp " +
-                        //// afastamento por contrato
-                        ",  afastamentocont.id AS idafastamentocont " +
-                        ",  afastamentocont.abonado AS abonadocont " +
-                        ",  afastamentocont.semcalculo AS semcalculocont " +
-                        ",  afastamentocont.semabono AS semabonocont " +
-                        ",  afastamentocont.horai AS horaicont " +
-                        ",  afastamentocont.horaf AS horafcont " +
-                        ",  afastamentocont.idocorrencia AS idocorrenciacont " +
-                        ////
-                        ", jornadaalternativa_view.id AS idjornadaalternativa " +
-                        ", (SELECT TOP(1) id FROM mudancahorario WHERE mudancahorario.idfuncionario = marcacao.idfuncionario AND mudancahorario.data = marcacao.data ORDER BY mudancahorario.id DESC) AS idmudancahorario " +
-                        ", marcacao.tipohoraextrafalta " +
-                        ", parametros.thoraextra " +
-                        ", parametros.thorafalta " +
-                        ", (SELECT [dbo].FN_ConvHoraNulavel(parametros.thoraextra,1)) AS thoraextramin " +
-                        ", (SELECT [dbo].FN_ConvHoraNulavel(parametros.thoraextraEntrada,1)) AS thoraextraEntradamin " +
-                        ", (SELECT [dbo].FN_ConvHoraNulavel(parametros.thoraextraSaida,1)) AS thoraextraSaidamin " +
-                        ", (SELECT [dbo].FN_ConvHoraNulavel(parametros.thorafalta,1)) AS thorafaltamin " +
-                        ", (SELECT [dbo].FN_ConvHoraNulavel(parametros.thorafaltaEntrada,1)) AS thorafaltaEntradamin " +
-                        ", (SELECT [dbo].FN_ConvHoraNulavel(parametros.thorafaltaSaida,1)) AS thorafaltaSaidamin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(parametros.inicioadnoturno, '--:--'))) AS inicioadnoturnomin " +
-                        ", (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(parametros.fimadnoturno, '--:--'))) AS fimadnoturnomin " +
-                        ", (SELECT [dbo].FN_ConvHoraNulavel(parametros.TIntervaloExtra,1)) AS TIntervaloExtra " +
-                        ", (SELECT [dbo].FN_ConvHoraNulavel(parametros.TIntervaloFalta,1)) AS TIntervaloFalta " +
-                        ", marcacao.exphorasextranoturna " +
-                        ", parametros.bConsiderarHEFeriadoPHoraNoturna " +
-                        ", parametros.reducaohoranoturna " +
-                        ", parametros.HabilitarControleInItinere " +
-                        ", funcionario.nome nomeFuncionario " +
-                        ", marcacao.idfechamentoponto " +
-                        ", marcacao.Interjornada " +
-                        ", marcacao.IdDocumentoWorkflow " +
-                        ", marcacao.DocumentoWorkflowAberto " +
-                        ", marcacao.InItinereHrsDentroJornada " +
-                        ", marcacao.InItinerePercDentroJornada " +
-                        ", marcacao.InItinereHrsForaJornada " +
-                        ", marcacao.InItinerePercForaJornada " +
-                        ", marcacao.NaoConsiderarInItinere " +
-                        ", marcacao.LegendasConcatenadas " +
-                        ", marcacao.AdicionalNoturno " +
-                        ", marcacao.DataBloqueioEdicaoPnlRh " +
-                        ", marcacao.LoginBloqueioEdicaoPnlRh " +
-                        ", HorarioInItinere.MarcaDiaBool DiaPossuiInItinere " +
-                        ", HorarioInItinere.PercentualDentroJornada PercentualDentroJornadaInItinere " +
-                        ", HorarioInItinere.PercentualDentroFora PercentualForaJornadaInItinere " +
-                        ", feriado.Parcial AS FeriadoParcial " +
-                        ", feriado.HoraInicio AS FeriadoParcialInicio " +
-                        ", feriado.HoraFim AS FeriadoParcialFim " +
-                        ", marcacao.horaExtraInterjornada " +
-                        ", marcacao.horasTrabalhadasDentroFeriadoDiurna " +
-                        ", marcacao.horasTrabalhadasDentroFeriadoNoturna " +
-                        ", marcacao.horasPrevistasDentroFeriadoDiurna " +
-                        ", marcacao.horasPrevistasDentroFeriadoNoturna " +
-                        ", horariodetalhe.id idHorarioDetalhe " +
-                        ", horario.idhorariodinamico " +
-                        ", parametros.MomentoPreAssinalado " +
-                        ", marcacao.Legenda " +
-						", marcacao.Bancohorascre " +
-						", marcacao.Bancohorasdeb " +
-						", marcacao.Horascompensadas " +
-                        ", marcacao.Dsr " +
-                        ", funcionario.datainativacao " +
-                        ", marcacao.naoconsiderarferiado " +
-                "FROM marcacao_view as marcacao " +
-                "INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario " +
-                "INNER JOIN horario ON horario.id = marcacao.idhorario " +
-                "INNER JOIN parametros ON parametros.id = horario.idparametro " +
-                "LEFT JOIN horariodetalhe " +
-                "ON horariodetalhe.idhorario = marcacao.idhorario AND " +
-                "((horario.tipohorario = 2 AND horariodetalhe.data = marcacao.data) OR " +
-                "(horariodetalhe.idhorario = marcacao.idhorario " +
-                "AND horario.tipohorario = 1  " +
-                "AND horariodetalhe.dia = (CASE WHEN (CAST(DATEPART(WEEKDAY, marcacao.data) AS INT)-1) = 0 THEN 7 ELSE (CAST(DATEPART(WEEKDAY, marcacao.data) AS INT)-1) END))) " +
-                "OUTER APPLY (                              " +
-                "                SELECT TOP 1 *              " +
-                "                  FROM afastamento          " +
-                "                 WHERE afastamento.tipo = 0 " +
-                "                   AND afastamento.idfuncionario = marcacao.idfuncionario " +
-                "                   AND marcacao.data BETWEEN afastamento.datai AND isnull(afastamento.dataf, '9999-12-31') " +
-                "                 ORDER BY inchora " +
-                "                ) afastamentofunc " +
-                "LEFT JOIN afastamento afastamentodep ON afastamentodep.tipo = 1 " +
-                "AND afastamentodep.iddepartamento = funcionario.iddepartamento " +
-                "AND marcacao.data >= afastamentodep.datai " +
-                "AND marcacao.data <= isnull(afastamentodep.dataf, '9999-12-31') " +
-                "LEFT JOIN afastamento afastamentoemp ON afastamentoemp.tipo = 2 " +
-                "AND afastamentoemp.idempresa = funcionario.idempresa " +
-                "AND marcacao.data >= afastamentoemp.datai " +
-                "AND marcacao.data <= isnull(afastamentoemp.dataf, '9999-12-31') " +
-                ////afastamento por contrato
-                "LEFT JOIN afastamento afastamentocont ON afastamentocont.tipo = 3 AND afastamentocont.idcontrato in (SELECT idcontrato FROM contratofuncionario cf WHERE cf.idfuncionario = funcionario.id) AND marcacao.data >= afastamentocont.datai AND marcacao.data <= isnull(afastamentocont.dataf, '9999-12-31') " +
-                ////
-                // Busca Feriado
-                " OUTER APPLY (SELECT TOP(1) * FROM feriado where horario.desconsiderarferiado = 0 " +
-                "         AND feriado.data = marcacao.data " +
-                "         AND ( feriado.tipoferiado = 0 " +
-                "             OR ( feriado.tipoferiado = 1 " +
-                "                 AND feriado.idempresa = funcionario.idempresa " +
-                "                 ) " +
-                "             OR ( feriado.tipoferiado = 2 " +
-                "                 AND feriado.iddepartamento = funcionario.iddepartamento " +
-                "                 ) " +
-                "             OR ( feriado.tipoferiado = 3 " +
-                "                 AND EXISTS ( SELECT * " +
-                "                                 FROM   FeriadoFuncionario FFUNC " +
-                "                                 WHERE  feriado.id = FFUNC.idFeriado " +
-                "                                     AND FFUNC.idFuncionario = funcionario.id ) " +
-                "                 ) " +
-                "             )) feriado " +
-                // InItinere
-                " OUTER APPLY   " +
-                "   (SELECT TOP(1) *  " +
-                "       FROM dbo.HorarioInItinere   " +
-                "      WHERE HorarioInItinere.idhorario = marcacao.idhorario   " +
-                "        AND HorarioInItinere.Dia = (CASE    " +
-                "                                      WHEN feriado.id IS NOT NULL THEN    " +
-                "                                          8    " +
-                "                                      WHEN horariodetalhe.flagfolga = 1    " +
-                "                                           OR marcacao.folga = 1 THEN    " +
-                "                                          9    " +
-                "                                      WHEN(CAST(DATEPART(WEEKDAY, marcacao.data) AS INT) - 1) = 0 THEN    " +
-                "                                          7    " +
-                "                                      ELSE    " +
-                "                                           (CAST(DATEPART(WEEKDAY, marcacao.data) AS INT) - 1)    " +
-                "                                    END)   " +
-                "   ) HorarioInItinere    " +
-                "LEFT JOIN jornadaalternativa_view ON " +
-                "((jornadaalternativa_view.tipo = 0 AND jornadaalternativa_view.identificacao = funcionario.idempresa) " +
-                "OR (jornadaalternativa_view.tipo = 1 AND jornadaalternativa_view.identificacao = funcionario.iddepartamento) " +
-                "OR (jornadaalternativa_view.tipo = 2 AND jornadaalternativa_view.identificacao = funcionario.id) " +
-                "OR (jornadaalternativa_view.tipo = 3 AND jornadaalternativa_view.identificacao = funcionario.idfuncao)) " +
-                "AND (jornadaalternativa_view.datacompensada = marcacao.data " +
-                "OR (jornadaalternativa_view.datacompensada IS NULL " +
-                "AND marcacao.data >= jornadaalternativa_view.datainicial " +
-                "AND marcacao.data <= jornadaalternativa_view.datafinal)) ";
-            aux += "WHERE ISNULL(marcacao.idfechamentoponto,0) = 0 AND ";
+            string aux = _sqlCalculoMarcacao;
+            aux += " WHERE ISNULL(marcacao.idfechamentoponto,0) = 0 AND ";
             if (!recalculaBHFechado)
             {
                 aux += "ISNULL(marcacao.idfechamentobh,0) = 0 AND ";
@@ -1235,304 +940,8 @@ namespace DAL.SQL
             parms[1].Value = pDataF;
             parms[2].Value = String.Join(",", idsFuncionarios);
 
-            string aux = @"SELECT 
-                          marcacao.id 
-                        , marcacao.codigo 
-                        , marcacao.idcompensado 
-                        , marcacao.data 
-                        , marcacao.dia 
-                        , marcacao.ocorrencia 
-                        , marcacao.abonardsr 
-                        , marcacao.totalizadoresalterados 
-                        , marcacao.calchorasextrasdiurna 
-                        , marcacao.calchorasextranoturna 
-                        , marcacao.calchorasfaltas 
-                        , marcacao.calchorasfaltanoturna 
-                        , marcacao.naoentrarbanco 
-                        , marcacao.naoentrarnacompensacao 
-                        , marcacao.naoconsiderarcafe 
-                        , marcacao.semcalculo 
-                        , marcacao.folga 
-                        , marcacao.neutro 
-                        , marcacao.totalHorasTrabalhadas 
-                        , marcacao.dscodigo 
-                        , marcacao.idfechamentobh 
-                        , marcacao.idhorario 
-                        , marcacao.idfuncionario 
-                        , marcacao.entradaextra 
-                        , marcacao.saidaextra 
-                        , marcacao.entrada_1 
-                        , marcacao.entrada_2 
-                        , marcacao.entrada_3 
-                        , marcacao.entrada_4 
-                        , marcacao.entrada_5 
-                        , marcacao.entrada_6 
-                        , marcacao.entrada_7 
-                        , marcacao.entrada_8 
-                        , marcacao.saida_1 
-                        , marcacao.saida_2 
-                        , marcacao.saida_3 
-                        , marcacao.saida_4 
-                        , marcacao.saida_5 
-                        , marcacao.saida_6 
-                        , marcacao.saida_7 
-                        , marcacao.saida_8 
-                        , marcacao.ent_num_relogio_1 
-                        , marcacao.ent_num_relogio_2 
-                        , marcacao.ent_num_relogio_3 
-                        , marcacao.ent_num_relogio_4 
-                        , marcacao.ent_num_relogio_5 
-                        , marcacao.ent_num_relogio_6 
-                        , marcacao.ent_num_relogio_7 
-                        , marcacao.ent_num_relogio_8 
-                        , marcacao.sai_num_relogio_1 
-                        , marcacao.sai_num_relogio_2 
-                        , marcacao.sai_num_relogio_3 
-                        , marcacao.sai_num_relogio_4 
-                        , marcacao.sai_num_relogio_5 
-                        , marcacao.sai_num_relogio_6 
-                        , marcacao.sai_num_relogio_7 
-                        , marcacao.sai_num_relogio_8 
-                        , marcacao.incdata 
-                        , marcacao.inchora 
-                        , marcacao.incusuario  
-						, ([dbo].CONVERTHORAMINUTOV2(marcacao.horastrabalhadas)) AS horastrabalhadasmin 
-                        , ([dbo].CONVERTHORAMINUTOV2(marcacao.horastrabalhadasnoturnas)) AS horastrabalhadasnoturnasmin 
-                        , ([dbo].CONVERTHORAMINUTOV2(marcacao.horasfaltas)) AS horasfaltasmin 
-                        , ([dbo].CONVERTHORAMINUTOV2(marcacao.horasfaltanoturna)) AS horasfaltanoturnamin 
-                        , ([dbo].CONVERTHORAMINUTOV2(marcacao.horasextrasdiurna)) AS horasextrasdiurnamin 
-                        , ([dbo].CONVERTHORAMINUTOV2(marcacao.horasextranoturna)) AS horasextranoturnamin 
-                        , ([dbo].CONVERTHORAMINUTOV2(ISNULL(marcacao.valordsr, '--:--'))) AS valordsrmin 
-                        , ([dbo].CONVERTHORAMINUTOV2(ISNULL(marcacao.horascompensadas, '--:--'))) AS horascompensadasmin 
-						, ([dbo].[convertbatidaminutoV2](marcacao.entrada_1)) AS entrada_1min 
-                        , ([dbo].[convertbatidaminutoV2](marcacao.entrada_2)) AS entrada_2min 
-                        , ([dbo].[convertbatidaminutoV2](marcacao.entrada_3)) AS entrada_3min 
-                        , ([dbo].[convertbatidaminutoV2](marcacao.entrada_4)) AS entrada_4min 
-                        , ([dbo].[convertbatidaminutoV2](marcacao.entrada_5)) AS entrada_5min 
-                        , ([dbo].[convertbatidaminutoV2](marcacao.entrada_6)) AS entrada_6min 
-                        , ([dbo].[convertbatidaminutoV2](marcacao.entrada_7)) AS entrada_7min 
-                        , ([dbo].[convertbatidaminutoV2](marcacao.entrada_8)) AS entrada_8min 
-						, ([dbo].[convertbatidaminutoV2](marcacao.saida_1)) AS saida_1min 
-                        , ([dbo].[convertbatidaminutoV2](marcacao.saida_2)) AS saida_2min 
-                        , ([dbo].[convertbatidaminutoV2](marcacao.saida_3)) AS saida_3min 
-                        , ([dbo].[convertbatidaminutoV2](marcacao.saida_4)) AS saida_4min 
-                        , ([dbo].[convertbatidaminutoV2](marcacao.saida_5)) AS saida_5min 
-                        , ([dbo].[convertbatidaminutoV2](marcacao.saida_6)) AS saida_6min 
-                        , ([dbo].[convertbatidaminutoV2](marcacao.saida_7)) AS saida_7min 
-                        , ([dbo].[convertbatidaminutoV2](marcacao.saida_8)) AS saida_8min 
-
-                        , funcionario.idfuncao 
-                        , funcionario.iddepartamento 
-                        , funcionario.idempresa 
-                        , funcionario.dataadmissao 
-                        , funcionario.datademissao 
-                        , funcionario.naoentrarbanco AS naoentrarbancofunc 
-                        , funcionario.naoentrarcompensacao AS naocompensacaofunc 
-                        , horario.tipohorario 
-                        , horario.consideraadhtrabalhadas 
-                        , horario.conversaohoranoturna 
-                        , horario.dias_cafe_1 
-                        , horario.dias_cafe_2 
-                        , horario.dias_cafe_3 
-                        , horario.dias_cafe_4 
-                        , horario.dias_cafe_5 
-                        , horario.dias_cafe_6 
-                        , horario.dias_cafe_7 
-                        , horario.diasemanadsr 
-                        , horario.marcacargahorariamista AS marcacargahorariamistahorario 
-                        , horario.habilitaperiodo01 
-                        , horario.habilitaperiodo02 
-                        , horario.consideraradicionalnoturnointerv 
-                        , ISNULL(parametros.toleranciaAdicionalNoturno, 0) AS toleranciaAdicionalNoturno 
-                        , [dbo].CONVERTHORAMINUTOV2(horario.limitemax) AS limitemax 
-                        , [dbo].CONVERTHORAMINUTOV2(horario.limitemin) AS limitemin 
-                        , ISNULL(horario.ordenabilhetesaida, 0) AS ordenabilhetesaida 
-                        , ISNULL(horario.DescontarAtrasoInItinere, 0) DescontarAtrasoInItinere 
-                        , ISNULL(horario.DescontarFaltaInItinere, 0) DescontarFaltaInItinere 
-                        , ISNULL(horario.HabilitaInItinere, -1)  HabilitaInItinere 
-                        , horariodetalhe.diadsr 
-                        , horariodetalhe.intervaloautomatico 
-                        , horariodetalhe.preassinaladas1 
-                        , horariodetalhe.preassinaladas2 
-                        , horariodetalhe.preassinaladas3 
-                        , horariodetalhe.dia
-                        , horariodetalhe.entrada_1 AS entrada_1hd 
-                        , horariodetalhe.entrada_2 AS entrada_2hd 
-                        , horariodetalhe.entrada_3 AS entrada_3hd 
-                        , horariodetalhe.entrada_4 AS entrada_4hd 
-                        , horariodetalhe.saida_1 AS saida_1hd 
-                        , horariodetalhe.saida_2 AS saida_2hd 
-                        , horariodetalhe.saida_3 AS saida_3hd 
-                        , horariodetalhe.saida_4 AS saida_4hd 
-                        , [dbo].CONVERTBATIDAMINUTOV2(horariodetalhe.entrada_1) AS entrada_1minhd 
-                        , [dbo].CONVERTBATIDAMINUTOV2(horariodetalhe.entrada_2) AS entrada_2minhd 
-                        , [dbo].CONVERTBATIDAMINUTOV2(horariodetalhe.entrada_3) AS entrada_3minhd 
-                        , [dbo].CONVERTBATIDAMINUTOV2(horariodetalhe.entrada_4) AS entrada_4minhd 
-                        , [dbo].CONVERTBATIDAMINUTOV2(horariodetalhe.saida_1) AS saida_1minhd 
-                        , [dbo].CONVERTBATIDAMINUTOV2(horariodetalhe.saida_2) AS saida_2minhd 
-                        , [dbo].CONVERTBATIDAMINUTOV2(horariodetalhe.saida_3) AS saida_3minhd 
-                        , [dbo].CONVERTBATIDAMINUTOV2(horariodetalhe.saida_4) AS saida_4minhd 
-                        , [dbo].CONVERTHORAMINUTOV2(horariodetalhe.totaltrabalhadadiurna) AS totaltrabalhadadiurnamin 
-                        , [dbo].CONVERTHORAMINUTOV2(horariodetalhe.totaltrabalhadanoturna) AS totaltrabalhadanoturnamin 
-                        , [dbo].CONVERTHORAMINUTOV2(horariodetalhe.cargahorariamista) AS cargahorariamistamin 
-                        , horariodetalhe.totaltrabalhadadiurna 
-                        , horariodetalhe.totaltrabalhadanoturna 
-                        , horariodetalhe.cargahorariamista 
-                        , horariodetalhe.marcacargahorariamista AS marcacargahorariamistahd 
-                        , horariodetalhe.bcarregar 
-                        , horariodetalhe.flagfolga 
-                        , horariodetalhe.neutro flagneutro 
-
-						,(SELECT id FROM [dbo].[F_BancoHoras] (marcacao.data, funcionario.id)) AS idbancohoras  
-
-						, feriado.id AS idferiado 
-                        , afastamentofunc.id AS idafastamentofunc 
-                        , afastamentofunc.abonado AS abonadofunc 
-                        , afastamentofunc.semcalculo AS semcalculofunc 
-                        , afastamentofunc.semabono AS semabonofunc 
-                        , afastamentofunc.horai AS horaifunc 
-                        , afastamentofunc.horaf AS horaffunc 
-                        , afastamentofunc.idocorrencia AS idocorrenciafunc 
-                        , afastamentodep.id AS idafastamentodep 
-                        , afastamentodep.abonado AS abonadodep 
-                        , afastamentodep.semcalculo AS semcalculodep 
-                        , afastamentodep.semabono AS semabonodep 
-                        , afastamentodep.horai AS horaidep 
-                        , afastamentodep.horaf AS horafdep 
-                        , afastamentodep.idocorrencia AS idocorrenciadep 
-                        , afastamentoemp.id AS idafastamentoemp 
-                        , afastamentoemp.abonado AS abonadoemp 
-                        , afastamentoemp.semcalculo AS semcalculoemp 
-                        , afastamentoemp.semabono AS semabonoemp 
-                        , afastamentoemp.horai AS horaiemp 
-                        , afastamentoemp.horaf AS horafemp 
-                        , afastamentoemp.idocorrencia AS idocorrenciaemp 
-                        , afastamentocont.id AS idafastamentocont 
-                        , afastamentocont.abonado AS abonadocont 
-                        , afastamentocont.semcalculo AS semcalculocont 
-                        , afastamentocont.semabono AS semabonocont 
-                        , afastamentocont.horai AS horaicont 
-                        , afastamentocont.horaf AS horafcont 
-                        , afastamentocont.idocorrencia AS idocorrenciacont 
-                        , jornadaalternativa_view.id AS idjornadaalternativa
-
-						,(SELECT TOP(1) id FROM mudancahorario WHERE mudancahorario.idfuncionario = marcacao.idfuncionario AND mudancahorario.data = marcacao.data ORDER BY mudancahorario.id DESC) AS idmudancahorario 
-
-						, marcacao.tipohoraextrafalta 
-                        , parametros.thoraextra 
-                        , parametros.thorafalta 
-                        , [dbo].ConvertHoraMinutoV2Nulavel(parametros.thoraextra) AS thoraextramin 
-                        , [dbo].ConvertHoraMinutoV2Nulavel(parametros.thoraextraEntrada) AS thoraextraEntradamin 
-                        , [dbo].ConvertHoraMinutoV2Nulavel(parametros.thoraextraSaida) AS thoraextraSaidamin 
-                        , [dbo].ConvertHoraMinutoV2Nulavel(parametros.thorafalta) AS thorafaltamin 
-                        , [dbo].ConvertHoraMinutoV2Nulavel(parametros.thorafaltaEntrada) AS thorafaltaEntradamin 
-                        , [dbo].ConvertHoraMinutoV2Nulavel(parametros.thorafaltaSaida) AS thorafaltaSaidamin 
-                        , [dbo].CONVERTHORAMINUTOV2(parametros.inicioadnoturno) AS inicioadnoturnomin 
-                        , [dbo].CONVERTHORAMINUTOV2(parametros.fimadnoturno) AS fimadnoturnomin 
-                        , [dbo].ConvertHoraMinutoV2Nulavel(parametros.TIntervaloExtra) AS TIntervaloExtra 
-                        , [dbo].ConvertHoraMinutoV2Nulavel(parametros.TIntervaloFalta) AS TIntervaloFalta 
-
-						, marcacao.exphorasextranoturna 
-                        , parametros.bConsiderarHEFeriadoPHoraNoturna 
-                        , parametros.reducaohoranoturna 
-                        , parametros.HabilitarControleInItinere 
-                        , funcionario.nome nomeFuncionario 
-                        , marcacao.IdDocumentoWorkflow 
-                        , marcacao.DocumentoWorkflowAberto 
-                        , marcacao.InItinereHrsDentroJornada 
-                        , marcacao.InItinerePercDentroJornada 
-                        , marcacao.InItinereHrsForaJornada 
-                        , marcacao.InItinerePercForaJornada 
-                        , marcacao.NaoConsiderarInItinere 
-                        , marcacao.idfechamentoponto 
-                        , marcacao.Interjornada 
-                        , marcacao.LegendasConcatenadas 
-                        , marcacao.AdicionalNoturno 
-                        , marcacao.DataBloqueioEdicaoPnlRh 
-                        , marcacao.LoginBloqueioEdicaoPnlRh 
-                        , HorarioInItinere.MarcaDiaBool DiaPossuiInItinere 
-                        , HorarioInItinere.PercentualDentroJornada PercentualDentroJornadaInItinere 
-                        , HorarioInItinere.PercentualDentroFora PercentualForaJornadaInItinere 
-                        , feriado.Parcial AS FeriadoParcial 
-                        , feriado.HoraInicio AS FeriadoParcialInicio 
-                        , feriado.HoraFim AS FeriadoParcialFim 
-                        , marcacao.horaExtraInterjornada 
-                        , marcacao.horasTrabalhadasDentroFeriadoDiurna 
-                        , marcacao.horasTrabalhadasDentroFeriadoNoturna 
-                        , marcacao.horasPrevistasDentroFeriadoDiurna 
-                        , marcacao.horasPrevistasDentroFeriadoNoturna 
-                        , horariodetalhe.id idHorarioDetalhe 
-                        , horario.idhorariodinamico 
-                        , parametros.MomentoPreAssinalado 
-                        , marcacao.Legenda
-						, marcacao.Bancohorascre
-						, marcacao.Bancohorasdeb
-						, marcacao.Horascompensadas
-                        , marcacao.Dsr
-                        , funcionario.datainativacao
-                        , marcacao.naoconsiderarferiado
-               FROM marcacao_view as marcacao with (nolock)
-               INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario 
-               INNER JOIN horario ON horario.id = marcacao.idhorario 
-               INNER JOIN parametros ON parametros.id = horario.idparametro 
-               LEFT JOIN horariodetalhe 
-               ON horariodetalhe.idhorario = marcacao.idhorario AND 
-               ((horario.tipohorario = 2 AND horariodetalhe.data = marcacao.data) OR 
-               (horariodetalhe.idhorario = marcacao.idhorario 
-               AND horario.tipohorario = 1  
-               AND horariodetalhe.dia = (CASE WHEN (CAST(DATEPART(WEEKDAY, marcacao.data) AS INT)-1) = 0 THEN 7 ELSE (CAST(DATEPART(WEEKDAY, marcacao.data) AS INT)-1) END))) 
-               OUTER APPLY (                              
-                               SELECT TOP 1 *              
-                                 FROM afastamento          
-                                WHERE afastamento.tipo = 0 
-                                  AND afastamento.idfuncionario = marcacao.idfuncionario 
-                                  AND marcacao.data BETWEEN afastamento.datai AND isnull(afastamento.dataf, '9999-12-31') 
-                                ORDER BY inchora 
-                               ) afastamentofunc 
-               LEFT JOIN afastamento afastamentodep ON afastamentodep.tipo = 1 
-               AND afastamentodep.iddepartamento = funcionario.iddepartamento 
-               AND marcacao.data >= afastamentodep.datai 
-               AND marcacao.data <= isnull(afastamentodep.dataf, '9999-12-31') 
-               LEFT JOIN afastamento afastamentoemp ON afastamentoemp.tipo = 2 
-               AND afastamentoemp.idempresa = funcionario.idempresa 
-               AND marcacao.data >= afastamentoemp.datai 
-               AND marcacao.data <= isnull(afastamentoemp.dataf, '9999-12-31') 
-               --afastamento por contrato
-               LEFT JOIN afastamento afastamentocont ON afastamentocont.tipo = 3 AND afastamentocont.idcontrato in (SELECT idcontrato FROM contratofuncionario cf WHERE cf.idfuncionario = funcionario.id) AND marcacao.data >= afastamentocont.datai AND marcacao.data <= isnull(afastamentocont.dataf, '9999-12-31') 
-               --Busca Feriado
-                OUTER APPLY (SELECT TOP(1) * FROM feriado where horario.desconsiderarferiado = 0 
-                        AND feriado.data = marcacao.data 
-                        AND ( feriado.tipoferiado = 0 
-                            OR ( feriado.tipoferiado = 1 
-                                AND feriado.idempresa = funcionario.idempresa 
-                                ) 
-                            OR ( feriado.tipoferiado = 2 
-                                AND feriado.iddepartamento = funcionario.iddepartamento 
-                                ) 
-                            OR ( feriado.tipoferiado = 3 
-                                AND EXISTS ( SELECT * 
-                                                FROM   FeriadoFuncionario FFUNC 
-                                                WHERE  feriado.id = FFUNC.idFeriado 
-                                                    AND FFUNC.idFuncionario = funcionario.id ) 
-                                ) 
-                            )) feriado 
-               -- Busca InItinere
-               LEFT JOIN dbo.HorarioInItinere ON HorarioInItinere.idhorario = marcacao.idhorario 
-                                   AND HorarioInItinere.Dia = ( CASE WHEN Feriado.id IS NOT NULL THEN 8 
-               													WHEN horariodetalhe.flagfolga = 1 OR marcacao.folga = 1 THEN 9 
-               													WHEN ( CAST(DATEPART(WEEKDAY, marcacao.data) AS INT) - 1 ) = 0 THEN 7 
-               													ELSE ( CAST(DATEPART(WEEKDAY, marcacao.data) AS INT) - 1 ) 
-                                                      END ) 
-               LEFT JOIN jornadaalternativa_view ON 
-               ((jornadaalternativa_view.tipo = 0 AND jornadaalternativa_view.identificacao = funcionario.idempresa) 
-               OR (jornadaalternativa_view.tipo = 1 AND jornadaalternativa_view.identificacao = funcionario.iddepartamento) 
-               OR (jornadaalternativa_view.tipo = 2 AND jornadaalternativa_view.identificacao = funcionario.id) 
-               OR (jornadaalternativa_view.tipo = 3 AND jornadaalternativa_view.identificacao = funcionario.idfuncao)) 
-               AND (jornadaalternativa_view.datacompensada = marcacao.data 
-               OR (jornadaalternativa_view.datacompensada IS NULL 
-               AND marcacao.data >= jornadaalternativa_view.datainicial 
-               AND marcacao.data <= jornadaalternativa_view.datafinal))";
-            aux += "WHERE ISNULL(marcacao.idfechamentoponto,0) = 0 AND ";
+            string aux = _sqlCalculoMarcacao;
+            aux += " WHERE ISNULL(marcacao.idfechamentoponto,0) = 0 AND ";
             if (pegaInativos)
             {
                 if (!pegaExcluidos)
@@ -1555,6 +964,24 @@ namespace DAL.SQL
 
             DataTable dt = new DataTable();
 
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            dt.Load(dr);
+            if (!dr.IsClosed)
+                dr.Close();
+            dr.Dispose();
+
+            return dt;
+        }
+
+        public DataTable GetMarcacoesGerarHorariosDinamicos()
+        {
+            SqlParameter[] parms = new SqlParameter[] { };
+            
+            DataTable dt = new DataTable();
+            string aux = _sqlCalculoMarcacao;
+            aux += @" WHERE ISNULL(marcacao.idfechamentoponto,0) = 0 
+            	        AND horario.idhorariodinamico is not null 
+				        AND horariodetalhe.id is null ";
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
             dt.Load(dr);
             if (!dr.IsClosed)

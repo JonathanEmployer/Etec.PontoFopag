@@ -20,6 +20,9 @@ namespace MonitorJobs.Negocio
             {
                 bllCartaoPonto.TratarMarcacoes(DateTime.Now.Date, DateTime.Now.AddMonths(+1).AddDays(1).Date, idsFuncs, bllFuncionario); 
             }
+
+            BLL.HorarioDinamico bllHorarioDinamico = new BLL.HorarioDinamico(conn.ConnectionString, user);
+            bllHorarioDinamico.GerarHorarioDetalheDinamicoDeAcordoMarcacoes();
         }
     }
 }
