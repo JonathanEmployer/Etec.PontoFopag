@@ -197,7 +197,7 @@ namespace PontoWeb.Controllers
                 //Retiro dos selecionados os que já existiam
                 idsFuncionariosSelecionados.RemoveAll(x => obj.LancamentoLoteFuncionarios.Select(s => s.IdFuncionario).Contains(x));
             }
-
+            int codigo = bllLancamentoLoteFunc.MaxCodigo();
             //Adiciona os novos funcionarios selecionados
             foreach (int idFunc in idsFuncionariosSelecionados)
             {
@@ -205,7 +205,8 @@ namespace PontoWeb.Controllers
                 fpf.IdLancamentoLote = obj.Id;
                 fpf.IdFuncionario = idFunc;
                 fpf.Acao = Acao.Incluir;
-                fpf.Codigo = bllLancamentoLoteFunc.MaxCodigo();
+                fpf.Codigo = codigo;
+                codigo++;
                 fpf.Efetivado = true;
                 fpf.EfetivadoAnt = fpf.Efetivado;
                 if (obj.LancamentoLoteFuncionarios == null)
@@ -219,14 +220,8 @@ namespace PontoWeb.Controllers
             if (idsInclusao.Count > 0)
             {
                 BLL.Funcionario bllFuncionario = new BLL.Funcionario(_usr.ConnectionString, _usr);
-                BLL.Marcacao bllMarcacao = new BLL.Marcacao(_usr.ConnectionString, _usr);
-                List<Funcionario> funcs = bllFuncionario.GetAllListByIds("(" + string.Join(",", idsInclusao) + ")");
-                
-                Parallel.ForEach(funcs,
-                objFuncionario =>
-                {
-                    bllMarcacao.AtualizaData(obj.DataLancamento, obj.DataLancamento, objFuncionario);
-                });
+                BLL.CartaoPonto bllCartaoPonto = new BLL.CartaoPonto(_usr.ConnectionString, _usr);
+                bllCartaoPonto.TratarMarcacoes(obj.DataLancamento, obj.DataLancamento, idsInclusao, bllFuncionario);
             }
 
             obj.Acao = acao;

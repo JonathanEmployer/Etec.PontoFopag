@@ -437,6 +437,8 @@ namespace DAL.SQL
         public void IncluirLancamentoLoteBilhetesImp(SqlTransaction trans, Modelo.LancamentoLote lancLote)
         {
             IList<Modelo.LancamentoLoteFuncionario> lFuncAdd = lancLote.LancamentoLoteFuncionarios.Where(x => x.Acao == Modelo.Acao.Incluir && x.UltimaAcao == (int)Modelo.Acao.Incluir && x.Efetivado == true).ToList();
+            Funcionario dalFunc = new Funcionario(db);
+            List<Modelo.Funcionario> funcs = dalFunc.GetAllListByIds(String.Join(",", lFuncAdd.Select(s => s.IdFuncionario).Distinct()));
             BilhetesImp dalBilhetes = new BilhetesImp(db);
             dalBilhetes.UsuarioLogado = UsuarioLogado;
             if (lFuncAdd.Count() > 0)
@@ -444,8 +446,7 @@ namespace DAL.SQL
                 List<Modelo.BilhetesImp> lBilhetes = new List<Modelo.BilhetesImp>();
                 foreach (Modelo.LancamentoLoteFuncionario lancFuncionario in lFuncAdd)
                 {
-                    Funcionario dalFunc = new Funcionario(db);
-                    Modelo.Funcionario func = dalFunc.LoadObject(lancFuncionario.IdFuncionario);
+                    Modelo.Funcionario func = funcs.Where(w => w.Id == lancFuncionario.IdFuncionario).FirstOrDefault();
                     Modelo.BilhetesImp objBilhete = new Modelo.BilhetesImp();
                     objBilhete.Ordem = "000";
                     objBilhete.Data = Convert.ToDateTime(lancLote.DataLancamento).Date;
@@ -464,6 +465,8 @@ namespace DAL.SQL
                     objBilhete.Idjustificativa = lancLote.LancamentoLoteBilhetesImp.Idjustificativa;
                     objBilhete.Motivo = lancLote.LancamentoLoteBilhetesImp.Motivo;
                     objBilhete.Ocorrencia = lancLote.LancamentoLoteBilhetesImp.Ocorrencia[0];
+                    objBilhete.IdFuncionario = func.Id;
+                    objBilhete.PIS = func.Pis;
                     lBilhetes.Add(objBilhete);
                 }
 
