@@ -161,12 +161,17 @@ namespace cwkWebAPIPontoWeb.Controllers
                             {
                                 throw new Exception("Nenhum horário cadastrado no Pontofopag. ");
                             }
+                            if (DadosAntFunc.Idhorario > 0)
+                            {
+                                Modelo.Horario ObjHorario = bllHorario.LoadObject(DadosAntFunc.Idhorario);
+                                DadosAntFunc.Tipohorario = Convert.ToInt16(ObjHorario.TipoHorario);
+                            }                            
                         }
                         else
                         {
                             acao = Acao.Alterar;
                         }
-                        Dictionary<string, string> erros = new Dictionary<string, string>();
+                        Dictionary<string, string> erros = new Dictionary<string, string>();  
                         DadosAntFunc.NaoRecalcular = true;
                         DadosAntFunc.ForcarNovoCodigo = true;
                         erros = bllFuncionario.Salvar(acao, DadosAntFunc);
