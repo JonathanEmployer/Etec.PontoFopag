@@ -35,9 +35,9 @@ namespace DAL.SQL
                 WHERE afastamento.id = @id";
 
             INSERT = @" INSERT INTO afastamento
-							(codigo, descricao, idocorrencia, tipo, abonado, datai, dataf, idfuncionario, idempresa, iddepartamento, horai, horaf, parcial, semcalculo, incdata, inchora, incusuario, idcontrato, bSuspensao, IdIntegracao, Observacao, SemAbono)
+							(codigo, descricao, idocorrencia, tipo, abonado, datai, dataf, idfuncionario, idempresa, iddepartamento, horai, horaf, parcial, semcalculo, incdata, inchora, incusuario, idcontrato, bSuspensao, IdIntegracao, Observacao, SemAbono, contabilizarjornada)
 							VALUES
-							(@codigo, @descricao, @idocorrencia, @tipo, @abonado, @datai, @dataf, @idfuncionario, @idempresa, @iddepartamento, @horai, @horaf, @parcial, @semcalculo, @incdata, @inchora, @incusuario, @idcontrato, @bSuspensao, @IdIntegracao, @Observacao, @SemAbono)
+							(@codigo, @descricao, @idocorrencia, @tipo, @abonado, @datai, @dataf, @idfuncionario, @idempresa, @iddepartamento, @horai, @horaf, @parcial, @semcalculo, @incdata, @inchora, @incusuario, @idcontrato, @bSuspensao, @IdIntegracao, @Observacao, @SemAbono, @contabilizarjornada)
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE afastamento SET codigo = @codigo
@@ -62,6 +62,7 @@ namespace DAL.SQL
                             , IdIntegracao = @IdIntegracao
                             , Observacao = @Observacao
                             , semabono = @SemAbono
+                            , contabilizarjornada = @contabilizarjornada
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM afastamento WHERE id = @id";
@@ -305,6 +306,7 @@ namespace DAL.SQL
             ((Modelo.Afastamento)obj).IdLancamentoLoteFuncionario = idLancamentoLoteFuncionarioint;
             ((Modelo.Afastamento)obj).Observacao = Convert.ToString(dr["Observacao"]);
             ((Modelo.Afastamento)obj).SemAbono = Convert.ToBoolean(dr["SemAbono"]);
+            ((Modelo.Afastamento)obj).contabilizarjornada = Convert.ToInt16(dr["contabilizarjornada"]);
         }
 
         protected override SqlParameter[] GetParameters()
@@ -338,7 +340,8 @@ namespace DAL.SQL
                 new SqlParameter ("@IdIntegracao", SqlDbType.VarChar),
                 new SqlParameter ("@idLancamentoLoteFuncionario", SqlDbType.Int),
                 new SqlParameter ("@Observacao", SqlDbType.VarChar),
-                new SqlParameter ("@SemAbono", SqlDbType.Bit)
+                new SqlParameter ("@SemAbono", SqlDbType.Bit),
+                new SqlParameter ("@contabilizarjornada", SqlDbType.Bit)
             };
             return parms;
         }
@@ -386,6 +389,7 @@ namespace DAL.SQL
             parms[25].Value = ((Modelo.Afastamento)obj).IdLancamentoLoteFuncionario;
             parms[26].Value = ((Modelo.Afastamento)obj).Observacao;
             parms[27].Value = ((Modelo.Afastamento)obj).SemAbono;
+            parms[28].Value = ((Modelo.Afastamento)obj).contabilizarjornada;
         }
 
         public Modelo.Afastamento LoadObject(int id)

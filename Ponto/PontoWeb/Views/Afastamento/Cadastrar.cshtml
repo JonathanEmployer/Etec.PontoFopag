@@ -216,16 +216,23 @@
                                     </div>
                                 </div>
                                 <div class="col-md-2" style="padding-top:0px; padding-bottom:0px;">
-                                    <div class="checkbox">
+                                    <div class="checkbox" onclick="OcultarCheckContabilizarJornadaT()">
                                         <label>
                                             @Html.CheckBoxFor((model => model.BAbonado), new { id = "BAbonado", @class = "checkboxafast valorNecessario" })
                                             @Html.LabelFor(model => model.BAbonado, new { @class = "control-label label-sm" })
                                             @Html.ValidationMessageFor(model => model.BAbonado)
                                         </label>
                                     </div>
+                                    <div class="checkbox" id="rowcontabilizarjornada">
+                                        <label>
+                                            @Html.CheckBoxFor((model => model.Bcontabilizarjornada), new { id = "BcontabilizarjornadaBool", @class = "checkboxafast valorNecessario" })
+                                            @Html.LabelFor(model => model.Bcontabilizarjornada, new { @class = "control-label label-sm" })
+                                            @Html.ValidationMessageFor(model => model.Bcontabilizarjornada)
+                                        </label>
+                                    </div>
                                 </div>
                                 <div class="col-md-2" style="padding-top:0px; padding-bottom:0px;">
-                                    <div class="checkbox">
+                                    <div class="checkbox" onclick="OcultarCheckContabilizarJornadaT()">
                                         <label>
                                             @Html.CheckBoxFor((model => model.BParcial), new { id = "BParcial", @class = "checkboxafast valorNecessario" })
                                             @Html.LabelFor(model => model.BParcial, new { @class = "control-label label-sm" })
@@ -264,7 +271,7 @@
                                     @Html.ValidationMessageFor(model => model.Horaf)
                                 </div>
                             </div>
-                        </div>
+                        </div>                        
                     </div>
                 </div>
             </div>
@@ -368,6 +375,7 @@
             $("#txtHoraF").prop('readonly', true);
             $("#txtHoraF").val('--:--');
         }
+        OcultarCheckContabilizarJornadaT();
     });
 
     $("#lkpEmpresa").change(function () {
@@ -536,6 +544,15 @@
             $('.valorNecessario').prop('disabled', false);
         });
     }
+
+    function OcultarCheckContabilizarJornadaT() {  
+                if ($("#BAbonado").is(':checked') && (!$("#BParcial").is(':checked')))
+                { $("#rowcontabilizarjornada").show(); }
+                else {
+                    $("#rowcontabilizarjornada").hide();
+                    $("#BcontabilizarjornadaBool").prop("checked", false);                  
+                }
+        }
 </script>
 @if (ViewBag.Consultar == 1 || !String.IsNullOrEmpty(@ViewBag.MensagemBloqueio))
 {

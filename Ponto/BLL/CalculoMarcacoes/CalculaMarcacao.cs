@@ -129,12 +129,12 @@ namespace BLL
         int? idAfastamentoFunc, idAfastamentoDep, idAfastamentoEmp, idAfastamentoCont
         , idOcorrenciaFunc, idOcorrenciaDep, idOcorrenciaEmp, idOcorrenciaCont;
 
-        short? abonadoFunc, abonadoDep, abonadoEmp, abonadoCont, SemCalculoFunc, SemCalculoDep, SemCalculoEmp, SemCalculoCont, SemAbonoFunc, SemAbonoDep, SemAbonoEmp, SemAbonoCont;
+        short? abonadoFunc, abonadoDep, abonadoEmp, abonadoCont, SemCalculoFunc, SemCalculoDep, SemCalculoEmp, SemCalculoCont, SemAbonoFunc, SemAbonoDep, SemAbonoEmp, SemAbonoCont, contabilizarjornadaFunc, contabilizarjornadaDep, contabilizarjornadaCont, contabilizarjornadaEmp;
 
         string horaiFunc, horaiDep, horaiEmp, horaiCont, horafFunc, horafDep, horafEmp, horafCont;
 
         int idOcorrencia;
-        short abonado, semCalculoAfastamento, semAbonoAfastamento;
+        short abonado, semCalculoAfastamento, semAbonoAfastamento, contabilizarjornada;
         string horai, horaf;
 
         #endregion
@@ -650,7 +650,7 @@ namespace BLL
             this.CalculaHorasTrabalhadas(Entrada, Saida);
             this.CalculaTotalHorasTrabalhadas(Entrada, Saida);
             this.CalculaHorasInItinere(Entrada, Saida);
-            this.CalculaAdicionalNoturnoIncluindoIntervalo(Entrada, Saida);
+            this.CalculaAdicionalNoturnoIncluindoIntervalo(Entrada, Saida); 
 
             //Localiza a ocorrencia verificando se tem horas para abonar
             int abono = 0;
@@ -658,7 +658,7 @@ namespace BLL
             bool semAbono = false;
             string abonoD = "--:--";
             string abonoN = "--:--";
-            AdicionalNoturno = 0;
+            AdicionalNoturno = 0;        
             this.LocalizaOcorrencia(ref ocorrencia, ref abono, ref semcalc, ref abonoD, ref abonoN, ref semAbono);
 
             int horarioD = 0;
@@ -2501,7 +2501,7 @@ namespace BLL
             }
             #endregion
 
-            int[] MarSaida = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
+            int[] MarSaida = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 }; 
             int[] MarEntrada = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
 
             this.GetEntradasSaidasValidas(ref MarEntrada, ref MarSaida);
@@ -2536,7 +2536,7 @@ namespace BLL
             string Ocorrencia = "";
 
             //WNO - Separa Extra falta tem prioridade sobre as outras rotinas, pois está setado por marcação.
-            if (separaExtraFalta == 1)
+            if (separaExtraFalta == 1 && contabilizarjornada ==0)
             {
                 bool calculouToleranciaBatidaIntervalo = false;
                 toleranciaPorBatida = ToleranciaPorBatida();
@@ -3063,8 +3063,8 @@ namespace BLL
 				marcaCargaHorariaMistaHD = 0;
 
             BLL.CalculoHoras.QtdHorasDiurnaNoturna(HoraEntrada, HoraSaida, inicioAdNoturno, fimAdNoturno, ref CargaHorariaD, ref CargaHorariaN);
-			CargaHorariaM = CargaHorariaD + CargaHorariaN;
-			Marcacargahorariamista = marcaCargaHorariaMistaHD.Value; //CRNC - 09/01/2010   
+			CargaHorariaM = CargaHorariaD + CargaHorariaN; 
+             Marcacargahorariamista = marcaCargaHorariaMistaHD.Value; //CRNC - 09/01/2010   
 		}
 
         private void RemoveRegistrosDentroFeriadoParcial(ref int[] Entrada, ref int[] Saida)
@@ -3164,12 +3164,13 @@ namespace BLL
 
             if (possuiAbono && abono == 2) //Abono total
             {
-                if (separaExtraFalta != 1) // Apenas retira as horas extras caso não seja para separar extra e falta
+                if (separaExtraFalta != 1 && contabilizarjornada == 0) // Apenas retira as horas extras caso não seja para separar extra e falta
                 {
                     horasExtrasDiurnaMin = 0;
                 }
                 horasFaltasMin = 0;
-
+                //Contabiliza Jornada Trabalhada se estiver flegado.                
+                horasExtrasDiurnaMin = contabilizarjornada == 1 ? horasExtrasDiurnaMin = horasTrabalhadasMin + horasExtrasDiurnaMin : horasExtrasDiurnaMin;
                 horasTrabalhadasMin = horarioD;
             }
             else if (possuiAbono && abono == 1)
@@ -3641,11 +3642,13 @@ namespace BLL
 			}
 			if (possuiAbono && abono == 2)//Abono total
             {
-                if (separaExtraFalta != 1) // Apenas retira as horas extras caso não seja para separar extra e falta
+                if (separaExtraFalta != 1 && contabilizarjornada == 0) // Apenas retira as horas extras caso não seja para separar extra e falta
                 {
                     horasExtraNoturnaMin = 0;
                 }
                 horasFaltaNoturnaMin = 0;
+                //Contabiliza Jornada Trabalhada se estiver flegado.                
+                horasExtraNoturnaMin = contabilizarjornada == 1 ? horasExtraNoturnaMin =horasTrabalhadasNoturnasMin + horasExtraNoturnaMin : horasExtraNoturnaMin;
                 horasTrabalhadasNoturnasMin = horarioN;
             }
             else if (possuiAbono && abono == 1) // Abono parcial
@@ -3782,6 +3785,7 @@ namespace BLL
                 horai = horaiFunc;
                 horaf = horafFunc;
                 idOcorrencia = idOcorrenciaFunc.Value;
+                contabilizarjornada = contabilizarjornadaFunc.Value;
                 AuxLocalizaOcorrencia(ref pOcorrencia, ref pAbono, ref pSemCalc, ref pAbonoD, ref pAbonoN, ref psemAbono);
                 return;
             }
@@ -3795,6 +3799,7 @@ namespace BLL
                 horai = horaiDep;
                 horaf = horafDep;
                 idOcorrencia = idOcorrenciaDep.Value;
+                contabilizarjornada = contabilizarjornadaDep.Value;
                 AuxLocalizaOcorrencia(ref pOcorrencia, ref pAbono, ref pSemCalc, ref pAbonoD, ref pAbonoN, ref psemAbono);
                 return;
             }
@@ -3808,6 +3813,7 @@ namespace BLL
                 horai = horaiEmp;
                 horaf = horafEmp;
                 idOcorrencia = idOcorrenciaEmp.Value;
+                contabilizarjornada = contabilizarjornadaEmp.Value;
                 AuxLocalizaOcorrencia(ref pOcorrencia, ref pAbono, ref pSemCalc, ref pAbonoD, ref pAbonoN, ref psemAbono);
             }
 
@@ -3820,6 +3826,7 @@ namespace BLL
                 horai = horaiCont;
                 horaf = horafCont;
                 idOcorrencia = idOcorrenciaCont.Value;
+                contabilizarjornada = contabilizarjornadaCont.Value;
                 AuxLocalizaOcorrencia(ref pOcorrencia, ref pAbono, ref pSemCalc, ref pAbonoD, ref pAbonoN, ref psemAbono);
             }
         }
@@ -4446,7 +4453,6 @@ namespace BLL
             else
                 idOcorrenciaCont = Convert.ToInt32(pMarcacao["idocorrenciacont"]);
 
-
             if (pMarcacao["abonadofunc"] is DBNull)
                 abonadoFunc = null;
             else
@@ -4488,8 +4494,6 @@ namespace BLL
             else
                 SemCalculoCont = Convert.ToInt16(pMarcacao["semcalculocont"]);
 
-
-
             if (pMarcacao["semabonofunc"] is DBNull)
                 SemAbonoFunc = null;
             else
@@ -4509,7 +4513,6 @@ namespace BLL
                 SemAbonoCont = null;
             else
                 SemAbonoCont = Convert.ToInt16(pMarcacao["semabonocont"]);
-
 
             if (pMarcacao["horaifunc"] is DBNull)
                 horaiFunc = null;
@@ -4550,6 +4553,28 @@ namespace BLL
                 horafCont = null;
             else
                 horafCont = Convert.ToString(pMarcacao["horafcont"]);
+
+            if (pMarcacao["contabilizarjornadafunc"] is DBNull)
+                contabilizarjornadaFunc = null;
+            else
+                contabilizarjornadaFunc = Convert.ToInt16(pMarcacao["contabilizarjornadafunc"]);
+
+            if (pMarcacao["contabilizarjornadadep"] is DBNull)
+                contabilizarjornadaDep = null;
+            else
+                contabilizarjornadaDep = Convert.ToInt16(pMarcacao["contabilizarjornadadep"]);
+
+            if (pMarcacao["contabilizarjornadacont"] is DBNull)
+                contabilizarjornadaCont = null;
+            else
+                contabilizarjornadaCont = Convert.ToInt16(pMarcacao["contabilizarjornadacont"]);
+
+            if (pMarcacao["contabilizarjornadaemp"] is DBNull)
+                contabilizarjornadaEmp = null;
+            else
+                contabilizarjornadaEmp = Convert.ToInt16(pMarcacao["contabilizarjornadaemp"]);
+
+
         }
 
         private void SetaVariaveisHorario(DataRow pMarcacao)

@@ -983,6 +983,7 @@
         if (cwk_AlturaTela() <= 768) {
             altura = cwk_AlturaTela() * 9 / 100;
         }
+        OcultarCheckContabilizarJornadaT();
         cwk_EventoConsulta("#btnOcorrencia", "#lkpOcorrencia", "EventoConsulta", "Ocorrencia", "",callbackocorrencias);
 
         var oTb = cwk_MicroTBTheme2("#tbTotalizadores", altura, "", false, '<"H"fr>t<"F"p>');
@@ -991,7 +992,7 @@
         function callBackSalvaManutMarcacao() {
             carregaGridMarcacao();
             $("#divManutMarcacao").modal("hide");
-        }
+        }           
 
         $('.time, .timeB').mask('00:00');
         $(".time").blur(function () {
@@ -1068,8 +1069,7 @@
             }, 200);
         });
     });
-
-
+        
     function desabilitaEdicaoMarcacao() {
         //Desabilito as marcações que não podem ser alteradas e guardo os valores iniciais
         $(".time").each(function () {
@@ -1359,9 +1359,9 @@
     //Fim Javascript das modals de _ManutMarcBilhete
 
     //Inicio Javascript referente a afastamento
-    $("#btnExcluiAfastamento").click(function () {
+        $("#btnExcluiAfastamento").click(function () {
         if ($("#lkpOcorrencia").val() != "" || $("#BAbonadoBool").is(":checked") || $("#BSemCalculoBool").is(":checked") || $("#txtAbonoParcialDiurno").val() != "" || $("#txtAbonoParcialNoturno").val() != "") {
-            cwkConfirmacao("", "", fCallBackExcluiu);            
+            cwkConfirmacao("", "", fCallBackExcluiu);           
         } else { cwkNotificacao("Não há afastamento para ser excluído!"); }
     });
 
@@ -1376,6 +1376,7 @@
         $('#BAbonadoBool').prop("checked", false);
         $('#BSemCalculoBool').prop("checked", false);
         $('#bSemAbonoBool').prop("checked", false);
+        OcultarCheckContabilizarJornadaT();
     }
 
     function LimpaOcorrenciaAfastamento() {
@@ -1411,7 +1412,7 @@
         recalculaFaltaAposAbonoNoturno();
         AbonoAnt["AbonoParcialDiurno"] = $("#txtAbonoParcialDiurno").val();
         AbonoAnt["AbonoParcialNoturno"] = $("#txtAbonoParcialNoturno").val();
-        $('#BAbonadoBool').trigger('click');
+        //$('#BAbonadoBool').trigger('click');
         $("#divLoadAbonoParcialModal").modal();
         });
 
@@ -1451,10 +1452,10 @@
         }
     });
 
-    $("#btnSalvarAbonoParcial").click(function () {
+        $("#btnSalvarAbonoParcial").click(function () {           
         $("#BAbonadoBool").prop("checked", true);
         recalculaFaltaAposAbonoDiurno();
-        recalculaFaltaAposAbonoNoturno();
+        recalculaFaltaAposAbonoNoturno();        
         var valido = true;
         $("#divAfastamento").find('input:text, input:password, input:file, select, textarea')
             .each(function () {
@@ -1466,6 +1467,7 @@
             $("#divLoadAbonoParcialModal").modal('hide');
         }
         else { cwkErro('Corrija os erros antes de salvar.') }
+        OcultarCheckContabilizarJornadaT();
     });
 
     $("#BAbonadoBool").change(function (event) {
@@ -1498,6 +1500,17 @@
             $("#bSemAbonoBool").prop("checked", false);
         }
     });
+
+        function OcultarCheckContabilizarJornadaT() {            
+            var abonoParcialD = $("#txtAbonoParcialDiurno").val();
+            var abonoParcialN = $("#txtAbonoParcialNoturno").val();
+                if ($("#BAbonadoBool").is(':checked') && ((abonoParcialD =="--:--" || abonoParcialD =="" || abonoParcialD =="00:00")  && (abonoParcialN == "--:--" || abonoParcialN == "" || abonoParcialN == "00:00")))
+                { $("#rowcontabilizarjornada").show(); }
+                else {
+                    $("#rowcontabilizarjornada").hide();
+                    $("#BcontabilizarjornadaBool").prop("checked", false);                  
+                }
+        }
 
     //Fim Javascript referente a afastamento
 

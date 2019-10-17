@@ -205,8 +205,10 @@ namespace DAL.SQL
                         , afastamentofunc.semabono AS semabonofunc 
                         , afastamentofunc.horai AS horaifunc 
                         , afastamentofunc.horaf AS horaffunc 
-                        , afastamentofunc.idocorrencia AS idocorrenciafunc 
+                        , afastamentofunc.idocorrencia AS idocorrenciafunc
+                        , afastamentofunc.contabilizarjornada AS contabilizarjornadafunc
                         , afastamentodep.id AS idafastamentodep 
+                        , afastamentodep.contabilizarjornada AS contabilizarjornadadep
                         , afastamentodep.abonado AS abonadodep 
                         , afastamentodep.semcalculo AS semcalculodep 
                         , afastamentodep.semabono AS semabonodep 
@@ -219,7 +221,8 @@ namespace DAL.SQL
                         , afastamentoemp.semabono AS semabonoemp 
                         , afastamentoemp.horai AS horaiemp 
                         , afastamentoemp.horaf AS horafemp 
-                        , afastamentoemp.idocorrencia AS idocorrenciaemp 
+                        , afastamentoemp.idocorrencia AS idocorrenciaemp
+                        , afastamentoemp.contabilizarjornada AS contabilizarjornadaemp
                         , afastamentocont.id AS idafastamentocont 
                         , afastamentocont.abonado AS abonadocont 
                         , afastamentocont.semcalculo AS semcalculocont 
@@ -227,6 +230,7 @@ namespace DAL.SQL
                         , afastamentocont.horai AS horaicont 
                         , afastamentocont.horaf AS horafcont 
                         , afastamentocont.idocorrencia AS idocorrenciacont 
+                        , afastamentocont.contabilizarjornada AS contabilizarjornadacont
                         , jornadaalternativa_view.id AS idjornadaalternativa
 
 						,(SELECT TOP(1) id FROM mudancahorario WHERE mudancahorario.idfuncionario = marcacao.idfuncionario AND mudancahorario.data = marcacao.data ORDER BY mudancahorario.id DESC) AS idmudancahorario 

@@ -171,6 +171,28 @@ namespace Modelo
                 return BAbonado == true ? "Sim" : "Não";
             }
         }
+
+        /// <summary>
+        /// Abonado
+        /// </summary>
+        /// 
+
+        public Int16 contabilizarjornada { get; set; }
+
+        [DisplayName("Contabilizar Jornada Trabalhada")]
+        public bool Bcontabilizarjornada
+        {
+            get { return contabilizarjornada == 1 ? true : false; }
+            set { contabilizarjornada = value ? (Int16)1 : (Int16)0; }
+        }
+        [TableHTMLAttribute("Contabilizar Jornada Trabalhada", 15, true, ItensSearch.text, OrderType.none)]
+        public string ContabilizarjornadaDesc
+        {
+            get
+            {
+                return Bcontabilizarjornada == true ? "Sim" : "Não";
+            }
+        }
         /// <summary>
         /// Valor Anterior da variável Tipo
         /// </summary>

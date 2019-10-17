@@ -45,7 +45,7 @@
                                     <div class="input-group-addon">@Html.LabelFor(model => model.ocorrencia, new { @class = "input-group-label" })</div>
                                     @Html.TextBoxFor(model => model.ocorrencia, new { @class = "form-control", id = "lkpOcorrencia" })
                                     <span class="input-group-btn">
-                                        <button class="btn btn-primary desabilitar" id="btnOcorrencia" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                        <button class="btn btn-primary desabilitar" id="btnOcorrencia" type="button" onclick="OcultarCheckContabilizarJornadaT()"><span class="glyphicon glyphicon-search"></span></button>
                                     </span>
                                 </div>
                                 @Html.ValidationMessageFor(modal => modal.ocorrencia)
@@ -57,7 +57,7 @@
                     <div class="col-md-9">
                         <div class="row">
                             <div class="col-md-3" style="padding:0">
-                                <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                                <div class="checkbox" style="margin-top:5px; margin-bottom:1px;"onclick="OcultarCheckContabilizarJornadaT()">
                                     <label>
                                         @Html.CheckBoxFor(model => model.BAbonado, new { @class = "checkboxHN", id = "BAbonadoBool" })
                                         @Html.DisplayNameFor(model => model.BAbonado)
@@ -89,6 +89,17 @@
                                         @Html.CheckBoxFor(model => model.SemAbono, new { @class = "checkboxHN", id = "bSemAbonoBool" })
                                         @Html.DisplayNameFor(model => model.SemAbono)
                                         @Html.ValidationMessageFor(model => model.SemAbono)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10" style="padding:0" id="rowcontabilizarjornada">
+                                <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                                    <label>
+                                        @Html.CheckBoxFor(model => model.Bcontabilizarjornada, new { @class = "checkboxHN", id = "BcontabilizarjornadaBool" })
+                                        @Html.DisplayNameFor(model => model.Bcontabilizarjornada)
+                                        @Html.ValidationMessageFor(model => model.Bcontabilizarjornada)
                                     </label>
                                 </div>
                             </div>
@@ -165,7 +176,7 @@
                         <div class="row">
                             <div class="col-xs-12 center-block">
                                 <div style="text-align: right">
-                                    <button id="btnSalvarAbonoParcial" type="button" class="btn btn-success">
+                                    <button id="btnSalvarAbonoParcial" type="button" class="btn btn-success" onclick="OcultarCheckContabilizarJornadaT()">
                                         <span class="glyphicon glyphicon-ok-circle salvando"></span> &nbsp;Salvar&nbsp;&nbsp;
                                     </button>
                                     <button type="button" class="btn btn-danger salvando fecharAbonoParcialModal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
