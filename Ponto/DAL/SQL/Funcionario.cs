@@ -2032,6 +2032,7 @@ namespace DAL.SQL
                 ,func.CicloSequenciaIndice
                 ,convert(varchar,HDN.codigo) +' | '+HDN.descricao HorarioDinamico
                 ,'' foto
+                ,'' contrato
                 , CAST(func.dscodigo AS BIGINT) AS dscodigo 
                 , horario.descricao AS jornada
                 , convert(varchar,emp.codigo)+' | '+emp.nome as empresa
