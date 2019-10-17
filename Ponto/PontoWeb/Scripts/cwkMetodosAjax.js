@@ -305,7 +305,7 @@ function ajax_CarregarDetalhes(acao, Controller, id) {
 
 /// Método que consome um método get com retorno em json e executa uma função passada por callback utilizando os dados retornados
 /// Exemplo TabelaMarcacao.cshtml
-function ajax_GetObjetoExecCallBack(controller, acao, parms, eventoCallBack, bloquearTela) {
+function ajax_GetObjetoExecCallBack(controller, acao, parms, eventoCallBack, bloquearTela, msgBloqueioTela) {
     if (bloquearTela == "" || bloquearTela == undefined) {
         bloquearTela = false;
     }
@@ -317,7 +317,12 @@ function ajax_GetObjetoExecCallBack(controller, acao, parms, eventoCallBack, blo
         data: parms,
         beforeSend: function () {
             if (bloquearTela) {
-                $.blockUI({ message: '<h2>Excluindo<img src="../../Content/img/circulosLoading.GIF"></h2>' });
+                if (!isEmpty(msgBloqueioTela)) {
+                    $.blockUI({ message: '<h2>' + msgBloqueioTela+' <img src="../../Content/img/circulosLoading.GIF"></h2>' });
+                }
+                else {
+                    $.blockUI({ message: '<h2>Excluindo<img src="../../Content/img/circulosLoading.GIF"></h2>' });
+                }
             }
         },
         error: function (xhr, textStatus, errorThrown) {

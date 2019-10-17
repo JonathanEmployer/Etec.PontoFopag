@@ -284,16 +284,13 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        @if (ViewBag.RegistradorEmpresa)
-                                        {
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    @Html.LabelFor(model => model.Mob_Senha, new { @class = "control-label label-sm" })
-                                                    @Html.PasswordFor(model => model.Mob_Senha, new { @class = "form-control  input-sm", value = Model.Mob_Senha })
-                                                    @Html.ValidationMessageFor(model => model.Mob_Senha)
-                                                </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Mob_Senha, new { @class = "control-label label-sm" })
+                                                @Html.PasswordFor(model => model.Mob_Senha, new { @class = "form-control  input-sm", value = Model.Mob_Senha })
+                                                @Html.ValidationMessageFor(model => model.Mob_Senha)
                                             </div>
-                                        }
+                                        </div>
                                         <div class="col-md-5">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.Supervisor, new { @class = "control-label label-sm" })
@@ -425,13 +422,10 @@
                                                         }
                                                         @Html.LabelFor(model => model.bNaoentrarcompensacao, new { @class = "control-label label-sm" })
                                                     </div>
-                                                    @if (ViewBag.RegistradorEmpresa)
-                                                    {
-                                                        <div class="checkbox">
-                                                            @Html.CheckBoxFor(model => model.utilizaregistrador)
-                                                            @Html.LabelFor(model => model.utilizaregistrador, new { @class = "control-label label-sm" })
-                                                        </div>
-                                                    }
+                                                    <div class="checkbox" id="divUtilizaRegistrador" style="display: none;">
+                                                        @Html.CheckBoxFor(model => model.utilizaregistrador)
+                                                        @Html.LabelFor(model => model.utilizaregistrador, new { @class = "control-label label-sm" })
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -660,7 +654,24 @@
         optionsDP['orientation'] = "auto";
 
         $('.datepickerfunc:enabled:not([readonly])').datepicker(optionsDP);
+        validaParametrosEmpresa();
     });
+
+    function validaParametrosEmpresa() {
+        if (!isEmpty($("#lkpEmpresa").val())) {
+            ajax_GetObjetoExecCallBack('Empresa', 'ParametrosEmpresa', {'consulta' : $("#lkpEmpresa").val() }, retornoParametrosEmpresa, true, 'Aguarde');
+        }
+    }
+
+    function retornoParametrosEmpresa(obj) {
+        if (obj.UtilizaRegistrador) {
+            $('#divUtilizaRegistrador').show();
+        }
+        else {
+            $("#utilizaregistrador").prop("checked", false);
+            $('#divUtilizaRegistrador').hide();
+        }
+    }
 
     $("#utilizaregistrador").change(function () {
         validaEdicaoSenhaMobile($("#utilizaregistrador").is(':checked'));

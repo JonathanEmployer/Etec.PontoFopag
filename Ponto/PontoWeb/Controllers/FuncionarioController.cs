@@ -261,12 +261,6 @@ namespace PontoWeb.Controllers
             
             ValidarForm(funcionario);
 
-            Modelo.Empresa empresaFuncionario = GetEmpresaFuncionario(funcionario, bllEmpresa);          
-            if (empresaFuncionario != null)
-                ViewBag.RegistradorEmpresa = empresaFuncionario.utilizaregistradorfunc;
-            else
-                ViewBag.RegistradorEmpresa = false;
-
             Acao acao = EscolhaDaAcao(funcionario);
 
             if (ModelState.IsValid)
@@ -488,7 +482,6 @@ namespace PontoWeb.Controllers
         {
             string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
-            BLL.Empresa bllEmpresa = new BLL.Empresa(conn, usr);
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(conn, usr);
             BLL.FuncionarioHistorico bllFuncHist = new BLL.FuncionarioHistorico(conn, usr);
             BLL.Biometria bllBiometria = new BLL.Biometria(conn, usr);
@@ -542,16 +535,6 @@ namespace PontoWeb.Controllers
             }
 
             funcionario.Historico = bllFuncHist.LoadPorFuncionario(funcionario.Id);
-
-            empresaFuncionario = bllEmpresa.LoadObject(funcionario.Idempresa);
-
-            if ((empresaFuncionario != null) && (empresaFuncionario.Id > 0))
-                ViewBag.RegistradorEmpresa = empresaFuncionario.utilizaregistradorfunc;
-            else
-            {
-                Empresa empresaPrincipal = bllEmpresa.GetEmpresaPrincipal();
-                ViewBag.RegistradorEmpresa = empresaPrincipal.utilizaregistradorfunc;
-            }
 
 
             AdicionaFotoPadrao(funcionario);

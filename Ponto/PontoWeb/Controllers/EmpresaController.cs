@@ -535,6 +535,17 @@ namespace PontoWeb.Controllers
             }
             return idEmpresa;
         }
+
+        public JsonResult ParametrosEmpresa(string consulta)
+        {
+            var user = Usuario.GetUsuarioPontoWebLogadoCache();
+            BLL.Empresa bllEmp = new BLL.Empresa(user.ConnectionString, user);
+            string codigo = consulta.Split('|')[0].Trim();
+            int cod = Convert.ToInt32(codigo);
+            Modelo.Empresa empresa = bllEmp.LoadObjectByCodigo(cod);
+
+            return Json(new { Sucesso = true, UtilizaRegistrador = empresa.utilizaregistradorfunc }, JsonRequestBehavior.AllowGet);
+        }
         #endregion
     }
 }
