@@ -19,9 +19,9 @@ namespace PontoWeb.Models
             this.funcionario = new HashSet<funcionario>();
             this.horariodetalhe = new HashSet<horariodetalhe>();
             this.horariophextra = new HashSet<horariophextra>();
-            this.marcacao = new HashSet<marcacao>();
             this.mudancahorario = new HashSet<mudancahorario>();
             this.mudcodigofunc = new HashSet<mudcodigofunc>();
+            this.marcacao = new HashSet<marcacao>();
         }
     
         public int id { get; set; }
@@ -100,13 +100,38 @@ namespace PontoWeb.Models
         public string FolgaPercBanco { get; set; }
         public Nullable<int> MarcaFeriadoPercBanco { get; set; }
         public Nullable<int> MarcaFolgaPercBanco { get; set; }
+        public bool bUtilizaDDSRProporcional { get; set; }
+        public string LimiteHorasTrabalhadasDia { get; set; }
+        public string LimiteMinimoHorasAlmoco { get; set; }
+        public int DesconsiderarFeriado { get; set; }
+        public bool HoristaMensalista { get; set; }
+        public Nullable<bool> DescontarFeriadoDDSR { get; set; }
+        public string LimiteInterjornada { get; set; }
+        public string QtdHEPreClassificadas { get; set; }
+        public Nullable<int> IdClassificacao { get; set; }
+        public short HabilitaInItinere { get; set; }
+        public bool DescontarAtrasoInItinere { get; set; }
+        public bool DescontarFaltaInItinere { get; set; }
+        public Nullable<int> IdHorarioOrigem { get; set; }
+        public Nullable<System.DateTime> InicioVigencia { get; set; }
+        public bool DDSRConsideraFaltaDuranteSemana { get; set; }
+        public bool Ativo { get; set; }
+        public Nullable<bool> separaExtraNoturnaPercentual { get; set; }
+        public Nullable<int> consideraradicionalnoturnointerv { get; set; }
+        public Nullable<decimal> DescontoHorasDSR { get; set; }
+        public bool DSRPorPercentual { get; set; }
+        public Nullable<int> idHorarioDinamico { get; set; }
+        public Nullable<int> CicloSequenciaIndice { get; set; }
+        public Nullable<System.DateTime> DataBaseCicloSequencia { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual ICollection<funcionario> funcionario { get; set; }
         public virtual parametros parametros { get; set; }
         public virtual ICollection<horariodetalhe> horariodetalhe { get; set; }
         public virtual ICollection<horariophextra> horariophextra { get; set; }
-        public virtual ICollection<marcacao> marcacao { get; set; }
         public virtual ICollection<mudancahorario> mudancahorario { get; set; }
         public virtual ICollection<mudcodigofunc> mudcodigofunc { get; set; }
+        public virtual ICollection<marcacao> marcacao { get; set; }
     }
 }

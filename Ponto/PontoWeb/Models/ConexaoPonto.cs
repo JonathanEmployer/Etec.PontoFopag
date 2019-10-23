@@ -27,7 +27,7 @@ namespace PontoWeb.Models
                     usuarioControle.Nome = usuario.nome;
                     usuarioControle.Tipo = usuario.tipo.HasValue ? usuario.tipo.Value : 0;
                     usuarioControle.IdGrupo = usuario.idgrupo.HasValue ? usuario.idgrupo.Value : 0;
-                    usuarioControle.Email = usuario.email;
+                    usuarioControle.Email = usuario.EMAIL;
 
                     cwkControleUsuario.Facade.AutenticaPontoWeb(strConn, usuarioControle);
                 } 

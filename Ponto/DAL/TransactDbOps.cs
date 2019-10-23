@@ -9,20 +9,11 @@ namespace DAL
 {
     public static class TransactDbOps
     {
-        #region Keys
-        internal static string KEY = "Pc0W10R#m";
-        internal static string OPENKEY = @"OPEN SYMMETRIC KEY PontoMTKey DECRYPTION BY PASSWORD = '" + KEY + "';";
-        internal static string CLOSEKEY = @"declare @chavekey int;
-                                            select @chavekey = count(*) from sys.openkeys where key_name = 'PontoMTKey';
-                                            if @chavekey = 1
-                                               CLOSE SYMMETRIC KEY PontoMTKey;"; 
-        #endregion
-
         public static int ExecuteNonQuery(SqlTransaction trans, CommandType cmdType, string cmdText, params SqlParameter[] cmdParms)
         {
             SqlCommand cmd = new SqlCommand();
             PrepareParameters(cmdParms, true);
-            PrepareCommand(cmd, trans.Connection, trans, cmdType, RetornaComandoKey(cmdText), cmdParms);
+            PrepareCommand(cmd, trans.Connection, trans, cmdType, cmdText, cmdParms);
             int val = cmd.ExecuteNonQuery();
             cmd.Parameters.Clear();
             return val;
@@ -34,7 +25,7 @@ namespace DAL
             cmd.CommandTimeout = 120;
 
             PrepareParameters(cmdParms, removeQuote);
-            PrepareCommand(cmd, trans.Connection, trans, cmdType, RetornaComandoKey(cmdText), cmdParms);
+            PrepareCommand(cmd, trans.Connection, trans, cmdType, cmdText, cmdParms);
 
             int val = cmd.ExecuteNonQuery();
             return cmd;
@@ -48,7 +39,7 @@ namespace DAL
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandTimeout = 120;
                 PrepareParameters(cmdParms, true);
-                PrepareCommand(cmd, trans.Connection, trans, cmdType, RetornaComandoKey(cmdText), cmdParms);
+                PrepareCommand(cmd, trans.Connection, trans, cmdType, cmdText, cmdParms);
                 dr = cmd.ExecuteReader();
             }
             catch (Exception ex)
@@ -66,7 +57,7 @@ namespace DAL
             {
                 SqlCommand cmd = new SqlCommand();
                 PrepareParameters(cmdParms, true);
-                PrepareCommand(cmd, trans.Connection, trans, cmdType, RetornaComandoKey(cmdText), cmdParms);
+                PrepareCommand(cmd, trans.Connection, trans, cmdType, cmdText, cmdParms);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(ds);
                 cmd.Parameters.Clear();
@@ -82,7 +73,7 @@ namespace DAL
         {
             SqlCommand cmd = new SqlCommand();
             PrepareParameters(cmdParms, true);
-            PrepareCommand(cmd, trans.Connection, trans, cmdType, RetornaComandoKey(cmdText), cmdParms);
+            PrepareCommand(cmd, trans.Connection, trans, cmdType, cmdText, cmdParms);
             object obj = cmd.ExecuteScalar();
             cmd.Parameters.Clear();
             return obj;
@@ -98,7 +89,7 @@ namespace DAL
                     IEnumerable<List<string>> comandosParts = splitList<string>(comandos, 1000);
                     foreach (List<string> comands in comandosParts)
                     {
-                        comandoSQL = new SqlCommand(OPENKEY + String.Join("; ", comands) + CLOSEKEY, trans.Connection, trans);
+                        comandoSQL = new SqlCommand(String.Join("; ", comands), trans.Connection, trans);
                         comandoSQL.CommandTimeout = 600;
                         comandoSQL.ExecuteNonQuery();
                     }
@@ -118,7 +109,7 @@ namespace DAL
             {
                 yield return locations.GetRange(i, Math.Min(nSize, locations.Count - i));
             }
-        } 
+        }
 
         public static void ValidaDependencia(SqlTransaction trans, Modelo.ModeloBase obj, string TABELA)
         {
@@ -166,7 +157,7 @@ namespace DAL
             if (id > 0)
                 str.Append(" AND " + tabela + ".id <> @id");
 
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@parametro", SqlDbType.Float, 4),
                 new SqlParameter("@id", SqlDbType.Int)
@@ -189,7 +180,7 @@ namespace DAL
             if (id > 0)
                 str.Append(" AND " + tabela + ".id <> @id");
 
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@parametro", SqlDbType.Int, 4),
                 new SqlParameter("@id", SqlDbType.Int)
@@ -287,17 +278,6 @@ namespace DAL
             return text;
         }
         #endregion
-
-        internal static string RetornaComandoKey(string cmdText)
-        {
-            if (cmdText.Contains("CREATE TRIGGER ")
-                || cmdText.Contains("CREATE UNIQUE INDEX")
-                || cmdText.ToLower().Contains("create function"))
-            {
-                return cmdText;
-            }
-            return OPENKEY + cmdText + ";" + CLOSEKEY;
-        }
         #endregion
     }
 }

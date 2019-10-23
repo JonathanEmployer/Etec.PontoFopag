@@ -29,6 +29,18 @@ namespace PontoWeb.Models
         public Nullable<System.DateTime> althora { get; set; }
         public string altusuario { get; set; }
         public bool absenteismo { get; set; }
+        public Nullable<int> idIntegracao { get; set; }
+        public int TipoAbono { get; set; }
+        public string Sigla { get; set; }
+        public bool ExibePaineldoRH { get; set; }
+        public bool ObrigarAnexoPainel { get; set; }
+        public bool OcorrenciaFerias { get; set; }
+        public string HorasAbonoPadrao { get; set; }
+        public string HorasAbonoPadraoNoturno { get; set; }
+        public bool Ativo { get; set; }
+        public short DefaultTipoAfastamento { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual ICollection<afastamento> afastamento { get; set; }
     }

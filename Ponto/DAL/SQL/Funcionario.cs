@@ -1114,7 +1114,7 @@ namespace DAL.SQL
                             AND ISNULL(func.funcionarioativo, 0) = 1;";
 
                     cmd.Connection = db.GetConnection;
-                    cmd.CommandText = DataBase.RetornaComandoKey(sql);
+                    cmd.CommandText = sql;
                     cmd.CommandTimeout = 600000;
 
 

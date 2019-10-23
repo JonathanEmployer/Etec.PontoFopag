@@ -62,6 +62,10 @@ namespace PontoWeb.Models
         public Nullable<int> marcacargahorariamista { get; set; }
         public Nullable<int> idjornada { get; set; }
         public Nullable<int> neutro { get; set; }
+        public string diadescricao { get; set; }
+        public Nullable<int> CicloSequenciaIndice { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual horario horario { get; set; }
         public virtual jornada jornada { get; set; }

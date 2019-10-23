@@ -155,19 +155,19 @@ namespace DAL.SQL
         protected override SqlParameter[] GetParameters()
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@id", SqlDbType.Int),
-				new SqlParameter ("@codigo", SqlDbType.Int),
-				new SqlParameter ("@data", SqlDbType.DateTime),
-				new SqlParameter ("@tipo", SqlDbType.SmallInt),
-				new SqlParameter ("@efetivado", SqlDbType.SmallInt),
-				new SqlParameter ("@identificacao", SqlDbType.Int),
-				new SqlParameter ("@incdata", SqlDbType.DateTime),
-				new SqlParameter ("@inchora", SqlDbType.DateTime),
-				new SqlParameter ("@incusuario", SqlDbType.VarChar),
-				new SqlParameter ("@altdata", SqlDbType.DateTime),
-				new SqlParameter ("@althora", SqlDbType.DateTime),
-				new SqlParameter ("@altusuario", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@id", SqlDbType.Int),
+                new SqlParameter ("@codigo", SqlDbType.Int),
+                new SqlParameter ("@data", SqlDbType.DateTime),
+                new SqlParameter ("@tipo", SqlDbType.SmallInt),
+                new SqlParameter ("@efetivado", SqlDbType.SmallInt),
+                new SqlParameter ("@identificacao", SqlDbType.Int),
+                new SqlParameter ("@incdata", SqlDbType.DateTime),
+                new SqlParameter ("@inchora", SqlDbType.DateTime),
+                new SqlParameter ("@incusuario", SqlDbType.VarChar),
+                new SqlParameter ("@altdata", SqlDbType.DateTime),
+                new SqlParameter ("@althora", SqlDbType.DateTime),
+                new SqlParameter ("@altusuario", SqlDbType.VarChar),
                 new SqlParameter ("@PagamentoHoraCreAuto", SqlDbType.Bit),
                 new SqlParameter ("@PagamentoHoraDebAuto", SqlDbType.Bit),
                 new SqlParameter ("@LimiteHorasPagamentoCredito", SqlDbType.VarChar),
@@ -225,7 +225,7 @@ namespace DAL.SQL
             {
                 throw (ex);
             }
-            return objFechamentoBH; 
+            return objFechamentoBH;
         }
 
         public List<Modelo.FechamentoBH> GetAllList()
@@ -305,14 +305,14 @@ namespace DAL.SQL
                         dr.Close();
                     }
                     dr.Dispose();
-                } 
+                }
             }
             return lista;
         }
 
         public List<Modelo.FechamentoBH> GetAllListFuncs(List<int> idsFuncs)
         {
-            return this.GetAllListFuncs(idsFuncs,true);
+            return this.GetAllListFuncs(idsFuncs, true);
         }
 
         public List<int> GetIds()
@@ -363,7 +363,7 @@ namespace DAL.SQL
             this.ClearFechamentobhdHE(id);
 
             SqlParameter[] parms = new SqlParameter[1]
-            { 
+            {
                 new SqlParameter("@idfechamentobh", SqlDbType.Int)
             };
             parms[0].Value = id;
@@ -382,7 +382,7 @@ namespace DAL.SQL
         {
             this.ClearFechamentoBHDPercentual(pIdFechamentoBH);
             SqlParameter[] parms = new SqlParameter[1]
-            { 
+            {
                 new SqlParameter("@idfechamentobh", SqlDbType.Int)
             };
             parms[0].Value = pIdFechamentoBH;
@@ -434,7 +434,7 @@ namespace DAL.SQL
         private void ClearFechamentoBHDPercentual(int pIdFechamentoBH)
         {
             SqlParameter[] parms = new SqlParameter[1]
-            { 
+            {
                 new SqlParameter("@idFechamentobh", SqlDbType.Int)
             };
             parms[0].Value = pIdFechamentoBH;
@@ -479,8 +479,8 @@ namespace DAL.SQL
                ", SUM(todos.creditobh) AS creditobh " +
                ", SUM(todos.debitobh) AS debitobh " +
                "FROM " + //O select de baixo tras todas os totais de todos os dias do funcionario
-               "(SELECT (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(CONVERT(varchar(6), decryptbykey(campo23)), '--:--'))) AS creditobh " +
-               ", (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(CONVERT(varchar(6), decryptbykey(campo24)), '--:--'))) AS debitobh " +
+               " (SELECT (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(bancohorascre, '--:--'))) AS creditobh " +
+               ", (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(bancohorasdeb, '--:--'))) AS debitobh " +
                ", funcionario.id " +
                " FROM marcacao AS marcacao " +
                " INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario " +
@@ -606,8 +606,8 @@ namespace DAL.SQL
             string aux;
             int retorno;
             SqlParameter[] parms = new SqlParameter[1]
-            { 
-                new SqlParameter("@codigo", SqlDbType.Int),    
+            {
+                new SqlParameter("@codigo", SqlDbType.Int),
             };
             parms[0].Value = pCodigo;
             aux = @"SELECT COUNT(id) FROM fechamentobh WHERE codigo = @codigo";

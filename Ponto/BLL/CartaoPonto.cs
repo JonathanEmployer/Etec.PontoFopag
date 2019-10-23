@@ -51,30 +51,16 @@ namespace BLL
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
 
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    DataBase db = new DataBase(ConnectionString);
-                    dalCartaoPonto = new DAL.SQL.CartaoPonto(db);
-                    dalMarcacao = new DAL.SQL.CalculaMarcacao(db);
-                    dalFuncionario = new DAL.SQL.Funcionario(db);
-                    dalFechamentoBH = new DAL.SQL.FechamentoBH(db);
-                    dalFechamentoBHD = new DAL.SQL.FechamentoBHD(db);
-                    dalBancoHoras = new DAL.SQL.BancoHoras(db);
-                    dalHorario = new DAL.SQL.Horario(db);
-                    dalHorarioDetalhe = new DAL.SQL.HorarioDetalhe(db);
-                    break;
-                case 2:
-                    dalCartaoPonto = new DAL.FB.CartaoPonto();
-                    dalMarcacao = new DAL.FB.CalculaMarcacao();
-                    dalFuncionario = DAL.FB.Funcionario.GetInstancia;
-                    dalFechamentoBH = DAL.FB.FechamentoBH.GetInstancia;
-                    dalFechamentoBHD = DAL.FB.FechamentoBHD.GetInstancia;
-                    dalBancoHoras = DAL.FB.BancoHoras.GetInstancia;
-                    dalHorario = DAL.FB.Horario.GetInstancia;
-                    dalHorarioDetalhe = DAL.FB.HorarioDetalhe.GetInstancia;
-                    break;
-            }
+            DataBase db = new DataBase(ConnectionString);
+            dalCartaoPonto = new DAL.SQL.CartaoPonto(db);
+            dalMarcacao = new DAL.SQL.CalculaMarcacao(db);
+            dalFuncionario = new DAL.SQL.Funcionario(db);
+            dalFechamentoBH = new DAL.SQL.FechamentoBH(db);
+            dalFechamentoBHD = new DAL.SQL.FechamentoBHD(db);
+            dalBancoHoras = new DAL.SQL.BancoHoras(db);
+            dalHorario = new DAL.SQL.Horario(db);
+            dalHorarioDetalhe = new DAL.SQL.HorarioDetalhe(db);
+
 
             UsuarioLogado = usuarioLogado;
             dalCartaoPonto.UsuarioLogado = usuarioLogado;
@@ -127,7 +113,7 @@ namespace BLL
                 List<Modelo.FechamentoBH> fechamentosbh = dalFechamentoBH.GetAllListFuncs(idsFuncs, false);
                 List<Modelo.FechamentoBHD> fechamentosbhd = dalFechamentoBHD.GetAllList();
 
-                int chdiurna = 0, chnoturna = 0, chcargamista =0, chmistaflexivel = 0;
+                int chdiurna = 0, chnoturna = 0, chcargamista = 0, chmistaflexivel = 0;
                 string entrada_1, entrada_2, entrada_3, entrada_4;
                 string saida_1, saida_2, saida_3, saida_4;
 
@@ -141,7 +127,6 @@ namespace BLL
                 string creditodebitobhatual = "";
                 string saldobancohorasfechamento = "";
                 bool existeBH = false;
-                bool b24Horas = false;                
 
                 pPBRecalculo.setaValorPB(0);
                 pPBRecalculo.setaMinMaxPB(0, dt.Rows.Count);
@@ -255,7 +240,7 @@ namespace BLL
                                 saida_1 = row["saida_1normal"].ToString();
                                 saida_2 = row["saida_2normal"].ToString();
                                 saida_3 = row["saida_3normal"].ToString();
-                                saida_4 = row["saida_4normal"].ToString();                                
+                                saida_4 = row["saida_4normal"].ToString();
                             }
                             else
                             {
@@ -296,7 +281,7 @@ namespace BLL
                             && row["legenda"].ToString() != "F" //Feriado                    
                             && !folga //Folga
                             )
-                        {                            
+                        {
                             horasTrabalhadasDiurna = chdiurna;
                             horasTrabalhadasNoturna = chnoturna;
                             horasFaltaDiurna += Modelo.cwkFuncoes.ConvertHorasMinuto(row["horasfaltas"].ToString());
@@ -323,14 +308,14 @@ namespace BLL
 
                         throw;
                     }
-                }                
+                }
 
                 if ((dataFinal - dataInicial).TotalDays > 31 && quebraAuto == true)
                 {
                     BLL.Empresa bllEmpresa = new BLL.Empresa(ConnectionString, UsuarioLogado);
                     List<Modelo.Empresa> objEmpresas = bllEmpresa.GetAllList();
 
-                    DataColumn colunaGrupoData = ret.Columns.Add("ColunaGrupoData", typeof(Int32));                    
+                    DataColumn colunaGrupoData = ret.Columns.Add("ColunaGrupoData", typeof(Int32));
                     colunaGrupoData.AllowDBNull = true;
                     colunaGrupoData.Unique = false;
 
@@ -1147,7 +1132,7 @@ namespace BLL
                 new DataColumn("qtdAdNot"),
                 new DataColumn("totalHorasaTrabDiurna"),
                 new DataColumn("totalHorasaTrabNoturna"),
-                new DataColumn("totalHorasaTrabalhar")               
+                new DataColumn("totalHorasaTrabalhar")
 
             };
 
@@ -1168,7 +1153,7 @@ namespace BLL
         {
             #region Atualiza os totais do funcionário anterior
             objTotalHoras = new Modelo.TotalHoras(dataInicial, dataFinal);
-            
+
             var totalizadorHoras = new BLL.TotalizadorHorasFuncionario(idempresa, iddepartamento, idfuncionario,
                 idfuncao, dataInicial, dataFinal, jornadasAlternativas, dtBancoHoras, null, null, ConnectionString, UsuarioLogado);
             totalizadorHoras.TotalizeHoras(objTotalHoras);
@@ -1205,7 +1190,7 @@ namespace BLL
                 str.Append("   " + Modelo.cwkFuncoes.ConvertMinutosHora(3, item.Value.Noturno));
                 percExtras.Add(str.ToString());
                 str.Remove(0, str.Length);
-            }            
+            }
 
             #region Saldo do Banco de Horas Fechamento
 
@@ -1221,13 +1206,13 @@ namespace BLL
             #endregion
 
             #region Total Horas a Trabalhar
-            string HorasaTrabDiurna = "", HorasaTrabNoturna = "", totalHorasaTrab="";
-            int totalaTrabDiurna = 0, totalaTrabNoturna = 0, i=0, idfuncionarioAnt=0, totalHorasaTrabMin = 0;
+            string HorasaTrabDiurna = "", HorasaTrabNoturna = "", totalHorasaTrab = "";
+            int totalaTrabDiurna = 0, totalaTrabNoturna = 0, i = 0, idfuncionarioAnt = 0, totalHorasaTrabMin = 0;
 
             if (ret.Rows.Count > 0)
             {
                 DataRow lastRow = ret.Rows[ret.Rows.Count - 1];
-                 
+
                 foreach (DataRow row in ret.Rows)
                 {
                     idfuncionario = Convert.ToInt32(row["idfuncionario"].ToString());
@@ -1241,24 +1226,24 @@ namespace BLL
                         totalHorasaTrabMin = 0;
                         i = 0;
                     }
-                        if (!(row["legenda"].ToString() == "F"))
+                    if (!(row["legenda"].ToString() == "F"))
                     {
                         HorasaTrabDiurna = row["totaltrabalhadadiurna"].ToString();
                         totalaTrabDiurna += Modelo.cwkFuncoes.ConvertHorasMinuto(HorasaTrabDiurna);
                         HorasaTrabNoturna = row["totaltrabalhadanoturna"].ToString();
-                        totalaTrabNoturna += Modelo.cwkFuncoes.ConvertHorasMinuto(HorasaTrabNoturna);                        
+                        totalaTrabNoturna += Modelo.cwkFuncoes.ConvertHorasMinuto(HorasaTrabNoturna);
                     }
-                    
+
                     DataRow currentRow = ret.Rows[i];
                     if (currentRow == lastRow || (idfuncionarioAnt == idfuncionario))
                     {
                         totalHorasaTrabMin = totalaTrabDiurna + totalaTrabNoturna;
                         totalHorasaTrab = Modelo.cwkFuncoes.ConvertMinutosHoraNegativo(totalHorasaTrabMin);
                         HorasaTrabDiurna = Modelo.cwkFuncoes.ConvertMinutosHoraNegativo(totalaTrabDiurna);
-                        HorasaTrabNoturna = Modelo.cwkFuncoes.ConvertMinutosHoraNegativo(totalaTrabNoturna);                        
+                        HorasaTrabNoturna = Modelo.cwkFuncoes.ConvertMinutosHoraNegativo(totalaTrabNoturna);
                         row["totalHorasaTrabDiurna"] = HorasaTrabDiurna;
                         row["totalHorasaTrabNoturna"] = HorasaTrabNoturna;
-                        row["totalHorasaTrabalhar"] = totalHorasaTrab;                        
+                        row["totalHorasaTrabalhar"] = totalHorasaTrab;
                     }
                     idfuncionarioAnt = idfuncionario;
                     i++;
@@ -1321,7 +1306,7 @@ namespace BLL
             row["existebh"] = existeBH ? 1 : 0;
             row["totalnoturnageral"] = objTotalHoras.horasTrabNoturna;
             row["totalAdicionalNoturno"] = objTotalHoras.horasAdNoturno;
-            row["qtdAdNot"] = objTotalHoras.qtdAdNot;            
+            row["qtdAdNot"] = objTotalHoras.qtdAdNot;
 
             SetTotalAbonoDsr(ret.Rows[indice], dataInicial, dataFinal);
         }
@@ -1820,7 +1805,7 @@ namespace BLL
                     ret.Rows.Add(values2);
                 }
                 #endregion
-                
+
                 count++;
 
                 pPBRecalculo.Value++;

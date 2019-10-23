@@ -81,34 +81,34 @@ namespace DAL.SQL
 
             INSERT = @"  INSERT INTO marcacao
 							(idfuncionario, codigo, dscodigo, legenda, data, dia
-                            , campo01
-                            , campo02
-                            , campo03
-                            , campo04
-                            , campo05
-                            , campo06
-                            , campo07
-                            , campo08
-                            , campo09
-                            , campo10
-                            , campo11
-                            , campo12
-                            , campo13
-                            , campo14
-                            , campo15
-                            , campo16
-                            , campo17
-                            , campo18
-                            , campo19
+                            , entrada_1
+                            , entrada_2
+                            , entrada_3
+                            , entrada_4
+                            , entrada_5
+                            , entrada_6
+                            , entrada_7
+                            , entrada_8
+                            , saida_1
+                            , saida_2
+                            , saida_3
+                            , saida_4
+                            , saida_5
+                            , saida_6
+                            , saida_7
+                            , saida_8
+                            , horastrabalhadas
+                            , horasextrasdiurna
+                            , horasfaltas
                             , entradaextra
                             , saidaextra
-                            , campo20
-                            , campo21
-                            , campo22
+                            , horastrabalhadasnoturnas
+                            , horasextranoturna
+                            , horasfaltanoturna
                             , ocorrencia
                             , idhorario
-                            , campo23
-                            , campo24
+                            , bancohorascre
+                            , bancohorasdeb
                             , idfechamentobh
                             , semcalculo
                             , ent_num_relogio_1
@@ -133,7 +133,7 @@ namespace DAL.SQL
                             , idcompensado
                             , naoconsiderarcafe
                             , dsr
-                            , campo25
+                            , valordsr
                             , abonardsr
                             , totalizadoresalterados
                             , calchorasextrasdiurna
@@ -144,7 +144,7 @@ namespace DAL.SQL
                             , inchora
                             , incusuario
                             , folga
-                            , campo26
+                            , exphorasextranoturna
                             , tipohoraextrafalta
                             , chave
                             , neutro
@@ -173,34 +173,34 @@ namespace DAL.SQL
                             )
 							VALUES
 							(@idfuncionario, @codigo, @dscodigo, @legenda, @data, @dia
-                            , case when @entrada_1 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @entrada_1 )) end
-                            , case when @entrada_2 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @entrada_2 )) end
-                            , case when @entrada_3 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @entrada_3 )) end
-                            , case when @entrada_4 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @entrada_4 )) end
-                            , case when @entrada_5 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @entrada_5 )) end
-                            , case when @entrada_6 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @entrada_6 )) end
-                            , case when @entrada_7 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @entrada_7 )) end
-                            , case when @entrada_8 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @entrada_8 )) end
-                            , case when @saida_1 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @saida_1 )) end
-                            , case when @saida_2 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @saida_2 )) end
-                            , case when @saida_3 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @saida_3 )) end
-                            , case when @saida_4 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @saida_4 )) end
-                            , case when @saida_5 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @saida_5 )) end
-                            , case when @saida_6 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @saida_6 )) end
-                            , case when @saida_7 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @saida_7 )) end
-                            , case when @saida_8 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @saida_8 )) end
-                            , case when @horastrabalhadas = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @horastrabalhadas )) end
-                            , case when @horasextrasdiurna = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @horasextrasdiurna )) end
-                            , case when @horasfaltas = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @horasfaltas )) end
+                            , case when @entrada_1 = '--:--' then null else convert(varchar,  @entrada_1 ) end
+                            , case when @entrada_2 = '--:--' then null else convert(varchar,  @entrada_2 ) end
+                            , case when @entrada_3 = '--:--' then null else convert(varchar,  @entrada_3 ) end
+                            , case when @entrada_4 = '--:--' then null else convert(varchar,  @entrada_4 ) end
+                            , case when @entrada_5 = '--:--' then null else convert(varchar,  @entrada_5 ) end
+                            , case when @entrada_6 = '--:--' then null else convert(varchar,  @entrada_6 ) end
+                            , case when @entrada_7 = '--:--' then null else convert(varchar,  @entrada_7 ) end
+                            , case when @entrada_8 = '--:--' then null else convert(varchar,  @entrada_8 ) end
+                            , case when @saida_1 = '--:--' then null else convert(varchar,  @saida_1 ) end
+                            , case when @saida_2 = '--:--' then null else convert(varchar,  @saida_2 ) end
+                            , case when @saida_3 = '--:--' then null else convert(varchar,  @saida_3 ) end
+                            , case when @saida_4 = '--:--' then null else convert(varchar,  @saida_4 ) end
+                            , case when @saida_5 = '--:--' then null else convert(varchar,  @saida_5 ) end
+                            , case when @saida_6 = '--:--' then null else convert(varchar,  @saida_6 ) end
+                            , case when @saida_7 = '--:--' then null else convert(varchar,  @saida_7 ) end
+                            , case when @saida_8 = '--:--' then null else convert(varchar,  @saida_8 ) end
+                            , case when @horastrabalhadas = '--:--' then null else convert(varchar,  @horastrabalhadas ) end
+                            , case when @horasextrasdiurna = '--:--' then null else convert(varchar,  @horasextrasdiurna ) end
+                            , case when @horasfaltas = '--:--' then null else convert(varchar,  @horasfaltas ) end
                             , @entradaextra
                             , @saidaextra
-                            , case when @horastrabalhadasnoturnas = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @horastrabalhadasnoturnas )) end
-                            , case when @horasextranoturna = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @horasextranoturna )) end
-                            , case when @horasfaltanoturna = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @horasfaltanoturna )) end
+                            , case when @horastrabalhadasnoturnas = '--:--' then null else convert(varchar,  @horastrabalhadasnoturnas ) end
+                            , case when @horasextranoturna = '--:--' then null else convert(varchar,  @horasextranoturna ) end
+                            , case when @horasfaltanoturna = '--:--' then null else convert(varchar,  @horasfaltanoturna ) end
                             , @ocorrencia
                             , @idhorario
-                            , encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @bancohorascre ))
-                            , encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @bancohorasdeb ))
+                            , convert(varchar,  @bancohorascre )
+                            , convert(varchar,  @bancohorasdeb )
                             , @idfechamentobh
                             , @semcalculo
                             , @ent_num_relogio_1
@@ -225,7 +225,7 @@ namespace DAL.SQL
                             , @idcompensado
                             , @naoconsiderarcafe
                             , @dsr
-                            , encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @valordsr ))
+                            , convert(varchar,  @valordsr )
                             , @abonardsr
                             , @totalizadoresalterados
                             , @calchorasextrasdiurna
@@ -236,7 +236,7 @@ namespace DAL.SQL
                             , @inchora
                             , @incusuario
                             , @folga
-                            , case when @exphorasextranoturna = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @exphorasextranoturna )) end
+                            , case when @exphorasextranoturna = '--:--' then null else convert(varchar,  @exphorasextranoturna ) end
                             , @tipohoraextrafalta
                             , @chave
                             , @neutro
@@ -256,7 +256,7 @@ namespace DAL.SQL
                             , @LoginBloqueioEdicaoPnlRh
                             , @DataConclusaoFluxoPnlRh
                             , @LoginConclusaoFluxoPnlRh) 
-                            , case when @horaExtraInterjornada = '--:--' then null else convert(varchar,  @horaExtraInterjornada 
+                            , case when @horaExtraInterjornada = '--:--' then null else convert(varchar,  @horaExtraInterjornada) end 
                             , @horasTrabalhadasDentroFeriadoDiurna
                             , @horasTrabalhadasDentroFeriadoNoturna
                             , @horasPrevistasDentroFeriadoDiurna
@@ -271,34 +271,34 @@ namespace DAL.SQL
 							, legenda = @legenda
 							, data = @data
 							, dia = @dia
-							, campo01 = case when @entrada_1 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @entrada_1 )) end
-							, campo02 = case when @entrada_2 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @entrada_2 )) end
-							, campo03 = case when @entrada_3 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @entrada_3 )) end
-							, campo04 = case when @entrada_4 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @entrada_4 )) end
-							, campo05 = case when @entrada_5 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @entrada_5 )) end
-							, campo06 = case when @entrada_6 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @entrada_6 )) end
-							, campo07 = case when @entrada_7 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @entrada_7 )) end
-							, campo08 = case when @entrada_8 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @entrada_8 )) end
-							, campo09 = case when @saida_1 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @saida_1 )) end
-							, campo10 = case when @saida_2 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @saida_2 )) end
-							, campo11 = case when @saida_3 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @saida_3 )) end
-							, campo12 = case when @saida_4 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @saida_4 )) end
-							, campo13 = case when @saida_5 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @saida_5 )) end
-							, campo14 = case when @saida_6 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @saida_6 )) end
-							, campo15 = case when @saida_7 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @saida_7 )) end
-							, campo16 = case when @saida_8 = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @saida_8 )) end
-							, campo17 = case when @horastrabalhadas = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @horastrabalhadas )) end
-							, campo18 = case when @horasextrasdiurna = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @horasextrasdiurna )) end
-							, campo19 = case when @horasfaltas = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @horasfaltas )) end
+							, entrada_1 = case when @entrada_1 = '--:--' then null else convert(varchar,  @entrada_1 ) end
+							, entrada_2 = case when @entrada_2 = '--:--' then null else convert(varchar,  @entrada_2 ) end
+							, entrada_3 = case when @entrada_3 = '--:--' then null else convert(varchar,  @entrada_3 ) end
+							, entrada_4 = case when @entrada_4 = '--:--' then null else convert(varchar,  @entrada_4 ) end
+							, entrada_5 = case when @entrada_5 = '--:--' then null else convert(varchar,  @entrada_5 ) end
+							, entrada_6 = case when @entrada_6 = '--:--' then null else convert(varchar,  @entrada_6 ) end
+							, entrada_7 = case when @entrada_7 = '--:--' then null else convert(varchar,  @entrada_7 ) end
+							, entrada_8 = case when @entrada_8 = '--:--' then null else convert(varchar,  @entrada_8 ) end
+							, saida_1 = case when @saida_1 = '--:--' then null else convert(varchar,  @saida_1 ) end
+							, saida_2 = case when @saida_2 = '--:--' then null else convert(varchar,  @saida_2 ) end
+							, saida_3 = case when @saida_3 = '--:--' then null else convert(varchar,  @saida_3 ) end
+							, saida_4 = case when @saida_4 = '--:--' then null else convert(varchar,  @saida_4 ) end
+							, saida_5 = case when @saida_5 = '--:--' then null else convert(varchar,  @saida_5 ) end
+							, saida_6 = case when @saida_6 = '--:--' then null else convert(varchar,  @saida_6 ) end
+							, saida_7 = case when @saida_7 = '--:--' then null else convert(varchar,  @saida_7 ) end
+							, saida_8 = case when @saida_8 = '--:--' then null else convert(varchar,  @saida_8 ) end
+							, horastrabalhadas = case when @horastrabalhadas = '--:--' then null else convert(varchar,  @horastrabalhadas ) end
+							, horasextrasdiurna = case when @horasextrasdiurna = '--:--' then null else convert(varchar,  @horasextrasdiurna ) end
+							, horasfaltas = case when @horasfaltas = '--:--' then null else convert(varchar,  @horasfaltas ) end
 							, entradaextra = @entradaextra
 							, saidaextra = @saidaextra
-							, campo20 = case when @horastrabalhadasnoturnas = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @horastrabalhadasnoturnas )) end
-							, campo21 = case when @horasextranoturna = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @horasextranoturna )) end
-							, campo22 = case when @horasfaltanoturna = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @horasfaltanoturna )) end
+							, horastrabalhadasnoturnas = case when @horastrabalhadasnoturnas = '--:--' then null else convert(varchar,  @horastrabalhadasnoturnas ) end
+							, horasextranoturna = case when @horasextranoturna = '--:--' then null else convert(varchar,  @horasextranoturna ) end
+							, horasfaltanoturna = case when @horasfaltanoturna = '--:--' then null else convert(varchar,  @horasfaltanoturna ) end
 							, ocorrencia = @ocorrencia
 							, idhorario = @idhorario
-							, campo23 = encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @bancohorascre ))
-							, campo24 = encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @bancohorasdeb ))
+							, bancohorascre = convert(varchar,  @bancohorascre )
+							, bancohorasdeb = convert(varchar,  @bancohorasdeb )
 							, idfechamentobh = @idfechamentobh
 							, semcalculo = @semcalculo
 							, ent_num_relogio_1 = @ent_num_relogio_1
@@ -323,7 +323,7 @@ namespace DAL.SQL
 							, idcompensado = @idcompensado
 							, naoconsiderarcafe = @naoconsiderarcafe
 							, dsr = @dsr
-							, campo25 = encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @valordsr ))
+							, valordsr = convert(varchar,  @valordsr )
 							, abonardsr = @abonardsr
 							, totalizadoresalterados = @totalizadoresalterados
 							, calchorasextrasdiurna = @calchorasextrasdiurna
@@ -334,7 +334,7 @@ namespace DAL.SQL
 							, althora = @althora
 							, altusuario = @altusuario
                             , folga = @folga
-                            , campo26 = case when @exphorasextranoturna = '--:--' then null else encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  @exphorasextranoturna )) end
+                            , exphorasextranoturna = case when @exphorasextranoturna = '--:--' then null else convert(varchar,  @exphorasextranoturna ) end
                             , tipohoraextrafalta = @tipohoraextrafalta
                             , chave = @chave
                             , neutro = @neutro
@@ -1009,32 +1009,32 @@ namespace DAL.SQL
                     new DataColumn ("folga", typeof(Int16)),
                     new DataColumn ("chave", typeof(string)),
                     new DataColumn ("tipohoraextrafalta", typeof(Int16)),
-                    new DataColumn ("campo01", typeof(SqlBinary)),
-                    new DataColumn ("campo02", typeof(SqlBinary)),
-                    new DataColumn ("campo03", typeof(SqlBinary)),
-                    new DataColumn ("campo04", typeof(SqlBinary)),
-                    new DataColumn ("campo05", typeof(SqlBinary)),
-                    new DataColumn ("campo06", typeof(SqlBinary)),
-                    new DataColumn ("campo07", typeof(SqlBinary)),
-                    new DataColumn ("campo08", typeof(SqlBinary)),
-                    new DataColumn ("campo09", typeof(SqlBinary)),
-                    new DataColumn ("campo10", typeof(SqlBinary)),
-                    new DataColumn ("campo11", typeof(SqlBinary)),
-                    new DataColumn ("campo12", typeof(SqlBinary)),
-                    new DataColumn ("campo13", typeof(SqlBinary)),
-                    new DataColumn ("campo14", typeof(SqlBinary)),
-                    new DataColumn ("campo15", typeof(SqlBinary)),
-                    new DataColumn ("campo16", typeof(SqlBinary)),
-                    new DataColumn ("campo17", typeof(SqlBinary)),
-                    new DataColumn ("campo18", typeof(SqlBinary)),
-                    new DataColumn ("campo19", typeof(SqlBinary)),
-                    new DataColumn ("campo20", typeof(SqlBinary)),
-                    new DataColumn ("campo21", typeof(SqlBinary)),
-                    new DataColumn ("campo22", typeof(SqlBinary)),
-                    new DataColumn ("campo23", typeof(SqlBinary)),
-                    new DataColumn ("campo24", typeof(SqlBinary)),
-                    new DataColumn ("campo25", typeof(SqlBinary)),
-                    new DataColumn ("campo26", typeof(SqlBinary)),
+                    new DataColumn ("entrada_1", typeof(string)),
+                    new DataColumn ("entrada_2", typeof(string)),
+                    new DataColumn ("entrada_3", typeof(string)),
+                    new DataColumn ("entrada_4", typeof(string)),
+                    new DataColumn ("entrada_5", typeof(string)),
+                    new DataColumn ("entrada_6", typeof(string)),
+                    new DataColumn ("entrada_7", typeof(string)),
+                    new DataColumn ("entrada_8", typeof(string)),
+                    new DataColumn ("saida_1", typeof(string)),
+                    new DataColumn ("saida_2", typeof(string)),
+                    new DataColumn ("saida_3", typeof(string)),
+                    new DataColumn ("saida_4", typeof(string)),
+                    new DataColumn ("saida_5", typeof(string)),
+                    new DataColumn ("saida_6", typeof(string)),
+                    new DataColumn ("saida_7", typeof(string)),
+                    new DataColumn ("saida_8", typeof(string)),
+                    new DataColumn ("horastrabalhadas", typeof(string)),
+                    new DataColumn ("horasextrasdiurna", typeof(string)),
+                    new DataColumn ("horasfaltas", typeof(string)),
+                    new DataColumn ("horastrabalhadasnoturnas", typeof(string)),
+                    new DataColumn ("horasextranoturna", typeof(string)),
+                    new DataColumn ("horasfaltanoturna", typeof(string)),
+                    new DataColumn ("bancohorascre", typeof(string)),
+                    new DataColumn ("bancohorasdeb", typeof(string)),
+                    new DataColumn ("valordsr", typeof(string)),
+                    new DataColumn ("exphorasextranoturna", typeof(string)),
                     new DataColumn ("neutro", typeof(Int16)),
                     new DataColumn ("totalHorasTrabalhadas", typeof(string)),
                     new DataColumn ("idFechamentoPonto", typeof(int)),
@@ -1083,34 +1083,34 @@ namespace DAL.SQL
                         row["legenda"] = marc.Legenda;
                         row["data"] = Convert.ToDateTime(marc.Data.Date);
                         row["dia"] = marc.Dia;
-                        if (marc.Entrada_1 != "--:--" && marc.Entrada_1 != null) row["campo01"] = StrToByteArray(marc.Entrada_1); // campo01
-                        if (marc.Entrada_2 != "--:--" && marc.Entrada_2 != null) row["campo02"] = StrToByteArray(marc.Entrada_2); // campo02
-                        if (marc.Entrada_3 != "--:--" && marc.Entrada_3 != null) row["campo03"] = StrToByteArray(marc.Entrada_3); // campo03
-                        if (marc.Entrada_4 != "--:--" && marc.Entrada_4 != null) row["campo04"] = StrToByteArray(marc.Entrada_4); // campo04
-                        if (marc.Entrada_5 != "--:--" && marc.Entrada_5 != null) row["campo05"] = StrToByteArray(marc.Entrada_5); // campo05
-                        if (marc.Entrada_6 != "--:--" && marc.Entrada_6 != null) row["campo06"] = StrToByteArray(marc.Entrada_6); // campo06
-                        if (marc.Entrada_7 != "--:--" && marc.Entrada_7 != null) row["campo07"] = StrToByteArray(marc.Entrada_7); // campo07
-                        if (marc.Entrada_8 != "--:--" && marc.Entrada_8 != null) row["campo08"] = StrToByteArray(marc.Entrada_8); // campo08
-                        if (marc.Saida_1 != "--:--" && marc.Saida_1 != null) row["campo09"] = StrToByteArray(marc.Saida_1); // campo09
-                        if (marc.Saida_2 != "--:--" && marc.Saida_2 != null) row["campo10"] = StrToByteArray(marc.Saida_2); // campo10
-                        if (marc.Saida_3 != "--:--" && marc.Saida_3 != null) row["campo11"] = StrToByteArray(marc.Saida_3); // campo11
-                        if (marc.Saida_4 != "--:--" && marc.Saida_4 != null) row["campo12"] = StrToByteArray(marc.Saida_4); // campo12
-                        if (marc.Saida_5 != "--:--" && marc.Saida_5 != null) row["campo13"] = StrToByteArray(marc.Saida_5); // campo13
-                        if (marc.Saida_6 != "--:--" && marc.Saida_6 != null) row["campo14"] = StrToByteArray(marc.Saida_6); // campo14
-                        if (marc.Saida_7 != "--:--" && marc.Saida_7 != null) row["campo15"] = StrToByteArray(marc.Saida_7); // campo15
-                        if (marc.Saida_8 != "--:--" && marc.Saida_8 != null) row["campo16"] = StrToByteArray(marc.Saida_8); // campo16
-                        if (marc.Horastrabalhadas != "--:--" && marc.Horastrabalhadas != null) row["campo17"] = StrToByteArray(marc.Horastrabalhadas); // campo17
-                        if (marc.Horasextrasdiurna != "--:--" && marc.Horasextrasdiurna != null) row["campo18"] = StrToByteArray(marc.Horasextrasdiurna); // campo18
-                        if (marc.Horasfaltas != "--:--" && marc.Horasfaltas != null) row["campo19"] = StrToByteArray(marc.Horasfaltas); // campo19
+                        if (marc.Entrada_1 != "--:--" && marc.Entrada_1 != null) row["entrada_1"] = marc.Entrada_1; // entrada_1
+                        if (marc.Entrada_2 != "--:--" && marc.Entrada_2 != null) row["entrada_2"] = marc.Entrada_2; // entrada_2
+                        if (marc.Entrada_3 != "--:--" && marc.Entrada_3 != null) row["entrada_3"] = marc.Entrada_3; // entrada_3
+                        if (marc.Entrada_4 != "--:--" && marc.Entrada_4 != null) row["entrada_4"] = marc.Entrada_4; // entrada_4
+                        if (marc.Entrada_5 != "--:--" && marc.Entrada_5 != null) row["entrada_5"] = marc.Entrada_5; // entrada_5
+                        if (marc.Entrada_6 != "--:--" && marc.Entrada_6 != null) row["entrada_6"] = marc.Entrada_6; // entrada_6
+                        if (marc.Entrada_7 != "--:--" && marc.Entrada_7 != null) row["entrada_7"] = marc.Entrada_7; // entrada_7
+                        if (marc.Entrada_8 != "--:--" && marc.Entrada_8 != null) row["entrada_8"] = marc.Entrada_8; // entrada_8
+                        if (marc.Saida_1 != "--:--" && marc.Saida_1 != null) row["saida_1"] = marc.Saida_1; // saida_1
+                        if (marc.Saida_2 != "--:--" && marc.Saida_2 != null) row["saida_2"] = marc.Saida_2; // saida_2
+                        if (marc.Saida_3 != "--:--" && marc.Saida_3 != null) row["saida_3"] = marc.Saida_3; // saida_3
+                        if (marc.Saida_4 != "--:--" && marc.Saida_4 != null) row["saida_4"] = marc.Saida_4; // saida_4
+                        if (marc.Saida_5 != "--:--" && marc.Saida_5 != null) row["saida_5"] = marc.Saida_5; // saida_5
+                        if (marc.Saida_6 != "--:--" && marc.Saida_6 != null) row["saida_6"] = marc.Saida_6; // saida_6
+                        if (marc.Saida_7 != "--:--" && marc.Saida_7 != null) row["saida_7"] = marc.Saida_7; // saida_7
+                        if (marc.Saida_8 != "--:--" && marc.Saida_8 != null) row["saida_8"] = marc.Saida_8; // saida_8
+                        if (marc.Horastrabalhadas != "--:--" && marc.Horastrabalhadas != null) row["horastrabalhadas"] = marc.Horastrabalhadas; // horastrabalhadas
+                        if (marc.Horasextrasdiurna != "--:--" && marc.Horasextrasdiurna != null) row["horasextrasdiurna"] = marc.Horasextrasdiurna; // horasextrasdiurna
+                        if (marc.Horasfaltas != "--:--" && marc.Horasfaltas != null) row["horasfaltas"] = marc.Horasfaltas; // horasfaltas
                         row["entradaextra"] = marc.Entradaextra;
                         row["saidaextra"] = marc.Saidaextra;
-                        if (marc.Horastrabalhadasnoturnas != "--:--" && marc.Horastrabalhadasnoturnas != null) row["campo20"] = StrToByteArray(marc.Horastrabalhadasnoturnas); //campo20
-                        if (marc.Horasextranoturna != "--:--" && marc.Horasextranoturna != null) row["campo21"] = StrToByteArray(marc.Horasextranoturna); //campo21
-                        if (marc.Horasfaltanoturna != "--:--" && marc.Horasfaltanoturna != null) row["campo22"] = StrToByteArray(marc.Horasfaltanoturna); //campo22
+                        if (marc.Horastrabalhadasnoturnas != "--:--" && marc.Horastrabalhadasnoturnas != null) row["horastrabalhadasnoturnas"] = marc.Horastrabalhadasnoturnas; //horastrabalhadasnoturnas
+                        if (marc.Horasextranoturna != "--:--" && marc.Horasextranoturna != null) row["horasextranoturna"] = marc.Horasextranoturna; //horasextranoturna
+                        if (marc.Horasfaltanoturna != "--:--" && marc.Horasfaltanoturna != null) row["horasfaltanoturna"] = marc.Horasfaltanoturna; //horasfaltanoturna
                         row["ocorrencia"] = marc.Ocorrencia;
                         row["idhorario"] = marc.Idhorario;
-                        if (marc.Bancohorascre != "--:--" && marc.Bancohorascre != null) row["campo23"] = StrToByteArray(marc.Bancohorascre); //campo23
-                        if (marc.Bancohorasdeb != "--:--" && marc.Bancohorasdeb != null) row["campo24"] = StrToByteArray(marc.Bancohorasdeb); //campo24
+                        if (marc.Bancohorascre != "--:--" && marc.Bancohorascre != null) row["bancohorascre"] = marc.Bancohorascre; //bancohorascre
+                        if (marc.Bancohorasdeb != "--:--" && marc.Bancohorasdeb != null) row["bancohorasdeb"] = marc.Bancohorasdeb; //bancohorasdeb
                         row["idfechamentobh"] = marc.Idfechamentobh == 0 ? DBNull.Value : (object)marc.Idfechamentobh;
                         row["semcalculo"] = marc.Semcalculo;
                         row["ent_num_relogio_1"] = marc.Ent_num_relogio_1;
@@ -1135,7 +1135,7 @@ namespace DAL.SQL
                         row["idcompensado"] = marc.Idcompensado == 0 ? DBNull.Value : (object)marc.Idcompensado;
                         row["naoconsiderarcafe"] = marc.Naoconsiderarcafe;
                         row["dsr"] = marc.Dsr;
-                        if (marc.Valordsr != "--:--" && marc.Valordsr != null) row["campo25"] = StrToByteArray(marc.Valordsr); //campo25
+                        if (marc.Valordsr != "--:--" && marc.Valordsr != null) row["valordsr"] = marc.Valordsr; //valordsr
                         row["Abonardsr"] = marc.Abonardsr;
                         row["Totalizadoresalterados"] = marc.Totalizadoresalterados;
                         row["Calchorasextrasdiurna"] = marc.Calchorasextrasdiurna;
@@ -1148,7 +1148,7 @@ namespace DAL.SQL
                         row["folga"] = marc.Folga;
                         row["neutro"] = marc.Neutro;
                         row["totalHorasTrabalhadas"] = marc.TotalHorasTrabalhadas;
-                        if (marc.ExpHorasextranoturna != "--:--") row["campo26"] = StrToByteArray(marc.ExpHorasextranoturna); //campo26
+                        if (marc.ExpHorasextranoturna != "--:--") row["exphorasextranoturna"] = marc.ExpHorasextranoturna; //exphorasextranoturna
                         row["tipohoraextrafalta"] = marc.TipoHoraExtraFalta;
                         row["chave"] = marc.Chave;
                         row["altdata"] = DBNull.Value;
@@ -1185,8 +1185,6 @@ namespace DAL.SQL
                 }
                 #endregion
 
-                SqlCommand cmd = new SqlCommand(DataBase.OPENKEY, conn, trans);
-                cmd.ExecuteNonQuery();
                 try
                 {
                     dt = dt.AsEnumerable()
@@ -1195,7 +1193,7 @@ namespace DAL.SQL
                                                 .CopyToDataTable();
 
                     #region cria a tabela temporaria para receber os dados do bulkcopy
-                    cmd = new SqlCommand(@"IF Object_ID('tempDB..#marcacaoI','U') is not null DROP TABLE #tabela;
+                    SqlCommand cmd = new SqlCommand(@"IF Object_ID('tempDB..#marcacaoI','U') is not null DROP TABLE #tabela;
                                             SELECT *
                                               into #marcacaoI
                                               from marcacao
@@ -1254,32 +1252,32 @@ namespace DAL.SQL
                         bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("folga", "folga"));
                         bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("chave", "chave"));
                         bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("tipohoraextrafalta", "tipohoraextrafalta"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo01", "campo01"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo02", "campo02"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo03", "campo03"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo04", "campo04"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo05", "campo05"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo06", "campo06"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo07", "campo07"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo08", "campo08"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo09", "campo09"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo10", "campo10"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo11", "campo11"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo12", "campo12"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo13", "campo13"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo14", "campo14"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo15", "campo15"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo16", "campo16"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo17", "campo17"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo18", "campo18"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo19", "campo19"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo20", "campo20"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo21", "campo21"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo22", "campo22"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo23", "campo23"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo24", "campo24"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo25", "campo25"));
-                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("campo26", "campo26"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("entrada_1", "entrada_1"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("entrada_2", "entrada_2"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("entrada_3", "entrada_3"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("entrada_4", "entrada_4"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("entrada_5", "entrada_5"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("entrada_6", "entrada_6"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("entrada_7", "entrada_7"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("entrada_8", "entrada_8"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("saida_1", "saida_1"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("saida_2", "saida_2"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("saida_3", "saida_3"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("saida_4", "saida_4"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("saida_5", "saida_5"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("saida_6", "saida_6"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("saida_7", "saida_7"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("saida_8", "saida_8"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("horastrabalhadas", "horastrabalhadas"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("horasextrasdiurna", "horasextrasdiurna"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("horasfaltas", "horasfaltas"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("horastrabalhadasnoturnas", "horastrabalhadasnoturnas"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("horasextranoturna", "horasextranoturna"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("horasfaltanoturna", "horasfaltanoturna"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("bancohorascre", "bancohorascre"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("bancohorasdeb", "bancohorasdeb"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("valordsr", "valordsr"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("exphorasextranoturna", "exphorasextranoturna"));
                         bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("neutro", "neutro"));
                         bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("totalHorasTrabalhadas", "totalHorasTrabalhadas"));
                         bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("idFechamentoPonto", "idFechamentoPonto"));
@@ -1319,34 +1317,34 @@ namespace DAL.SQL
                   legenda ,
                   data ,
                   dia ,
-                  campo01 ,
-                  campo02 ,
-                  campo03 ,
-                  campo04 ,
-                  campo05 ,
-                  campo06 ,
-                  campo07 ,
-                  campo08 ,
-                  campo09 ,
-                  campo10 ,
-                  campo11 ,
-                  campo12 ,
-                  campo13 ,
-                  campo14 ,
-                  campo15 ,
-                  campo16 ,
-                  campo17 ,
-                  campo18 ,
-                  campo19 ,
+                  entrada_1 ,
+                  entrada_2 ,
+                  entrada_3 ,
+                  entrada_4 ,
+                  entrada_5 ,
+                  entrada_6 ,
+                  entrada_7 ,
+                  entrada_8 ,
+                  saida_1 ,
+                  saida_2 ,
+                  saida_3 ,
+                  saida_4 ,
+                  saida_5 ,
+                  saida_6 ,
+                  saida_7 ,
+                  saida_8 ,
+                  horastrabalhadas ,
+                  horasextrasdiurna ,
+                  horasfaltas ,
                   entradaextra ,
                   saidaextra ,
-                  campo20 ,
-                  campo21 ,
-                  campo22 ,
+                  horastrabalhadasnoturnas ,
+                  horasextranoturna ,
+                  horasfaltanoturna ,
                   ocorrencia ,
                   idhorario ,
-                  campo23 ,
-                  campo24 ,
+                  bancohorascre ,
+                  bancohorasdeb ,
                   idfechamentobh ,
                   semcalculo ,
                   ent_num_relogio_1 ,
@@ -1371,7 +1369,7 @@ namespace DAL.SQL
                   idcompensado ,
                   naoconsiderarcafe ,
                   dsr ,
-                  campo25 ,
+                  valordsr ,
                   abonardsr ,
                   totalizadoresalterados ,
                   calchorasextrasdiurna ,
@@ -1384,7 +1382,7 @@ namespace DAL.SQL
                   folga ,
                   neutro ,
                   totalHorasTrabalhadas ,
-                  campo26 ,
+                  exphorasextranoturna ,
                   tipohoraextrafalta ,
                   chave ,
                   idFechamentoPonto ,
@@ -1415,102 +1413,78 @@ namespace DAL.SQL
                         legenda ,
                         data ,
                         dia ,
-                        CASE WHEN campo01 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo01))
+                        CASE WHEN entrada_1 = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, entrada_1)
                         END ,
-                        CASE WHEN campo02 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo02))
+                        CASE WHEN entrada_2 = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, entrada_2)
                         END ,
-                        CASE WHEN campo03 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo03))
+                        CASE WHEN entrada_3 = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, entrada_3)
                         END ,
-                        CASE WHEN campo04 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo04))
+                        CASE WHEN entrada_4 = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, entrada_4)
                         END ,
-                        CASE WHEN campo05 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo05))
+                        CASE WHEN entrada_5 = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, entrada_5)
                         END ,
-                        CASE WHEN campo06 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo06))
+                        CASE WHEN entrada_6 = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, entrada_6)
                         END ,
-                        CASE WHEN campo07 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo07))
+                        CASE WHEN entrada_7 = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, entrada_7)
                         END ,
-                        CASE WHEN campo08 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo08))
+                        CASE WHEN entrada_8 = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, entrada_8)
                         END ,
-                        CASE WHEN campo09 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo09))
+                        CASE WHEN saida_1 = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, saida_1)
                         END ,
-                        CASE WHEN campo10 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo10))
+                        CASE WHEN saida_2 = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, saida_2)
                         END ,
-                        CASE WHEN campo11 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo11))
+                        CASE WHEN saida_3 = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, saida_3)
                         END ,
-                        CASE WHEN campo12 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo12))
+                        CASE WHEN saida_4 = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, saida_4)
                         END ,
-                        CASE WHEN campo13 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo13))
+                        CASE WHEN saida_5 = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, saida_5)
                         END ,
-                        CASE WHEN campo14 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo14))
+                        CASE WHEN saida_6 = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, saida_6)
                         END ,
-                        CASE WHEN campo15 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo15))
+                        CASE WHEN saida_7 = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, saida_7)
                         END ,
-                        CASE WHEN campo16 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo16))
+                        CASE WHEN saida_8 = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, saida_8)
                         END ,
-                        CASE WHEN campo17 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo17))
+                        CASE WHEN horastrabalhadas = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, horastrabalhadas)
                         END ,
-                        CASE WHEN campo18 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo18))
+                        CASE WHEN horasextrasdiurna = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, horasextrasdiurna)
                         END ,
-                        CASE WHEN campo19 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo19))
+                        CASE WHEN horasfaltas = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, horasfaltas)
                         END ,
                         entradaextra ,
                         saidaextra ,
-                        CASE WHEN campo20 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo20))
+                        CASE WHEN horastrabalhadasnoturnas = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, horastrabalhadasnoturnas)
                         END ,
-                        CASE WHEN campo21 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo21))
+                        CASE WHEN horasextranoturna = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, horasextranoturna)
                         END ,
-                        CASE WHEN campo22 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo22))
+                        CASE WHEN horasfaltanoturna = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, horasfaltanoturna)
                         END ,
                         ocorrencia ,
                         idhorario ,
-                        ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                     CONVERT(VARCHAR, campo23)) ,
-                        ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                     CONVERT(VARCHAR, campo24)) ,
+                        CONVERT(VARCHAR, bancohorascre) ,
+                        CONVERT(VARCHAR, bancohorasdeb) ,
                         idfechamentobh ,
                         semcalculo ,
                         ent_num_relogio_1 ,
@@ -1535,8 +1509,7 @@ namespace DAL.SQL
                         idcompensado ,
                         naoconsiderarcafe ,
                         dsr ,
-                        ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                     CONVERT(VARCHAR, campo25)) ,
+                        CONVERT(VARCHAR, valordsr) ,
                         abonardsr ,
                         totalizadoresalterados ,
                         calchorasextrasdiurna ,
@@ -1549,9 +1522,8 @@ namespace DAL.SQL
                         folga ,
                         neutro ,
                         totalHorasTrabalhadas ,
-                        CASE WHEN campo26 = '--:--' THEN NULL
-                             ELSE ENCRYPTBYKEY(KEY_GUID('PontoMTKey'),
-                                               CONVERT(VARCHAR, campo26))
+                        CASE WHEN exphorasextranoturna = '--:--' THEN NULL
+                             ELSE CONVERT(VARCHAR, exphorasextranoturna)
                         END ,
                         tipohoraextrafalta ,
                         chave ,
@@ -1582,9 +1554,6 @@ namespace DAL.SQL
                     cmd.CommandTimeout = 600;
                     cmd.ExecuteNonQuery();
                     #endregion
-
-                    cmd = new SqlCommand(DataBase.CLOSEKEY, conn, trans);
-                    cmd.ExecuteNonQuery();
                     cmd.Dispose();
                 }
                 catch (Exception e)
@@ -1593,12 +1562,6 @@ namespace DAL.SQL
                     throw e;
                 }
             }
-        }
-
-        public static byte[] StrToByteArray(string strValue)
-        {
-            System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
-            return encoding.GetBytes(strValue);
         }
 
         public void AtualizarMarcacoesEmLote(IEnumerable<Modelo.Marcacao> marcacaoes)
@@ -1684,32 +1647,32 @@ namespace DAL.SQL
                 new DataColumn () { ColumnName = "totalHorasTrabalhadas", DataType = typeof(string), MaxLength = 6},
                 new DataColumn () { ColumnName = "chave", DataType = typeof(string), MaxLength = 255},
                 new DataColumn ("tipohoraextrafalta", objMarcacao.TipoHoraExtraFalta.GetType()),
-                new DataColumn () { ColumnName = "campo01", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "campo02", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "campo03", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "campo04", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "campo05", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "campo06", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "campo07", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "campo08", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "campo09", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "campo10", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "campo11", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "campo12", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "campo13", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "campo14", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "campo15", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "campo16", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "campo17", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "campo18", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "campo19", DataType = typeof(string), MaxLength = 5},
-                new DataColumn () { ColumnName = "campo20", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "campo21", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "campo22", DataType = typeof(string), MaxLength = 5},
-                new DataColumn () { ColumnName = "campo23", DataType = typeof(string), MaxLength = 6}, 
-                new DataColumn () { ColumnName = "campo24", DataType = typeof(string), MaxLength = 6},
-                new DataColumn () { ColumnName = "campo25", DataType = typeof(string), MaxLength = 6},
-                new DataColumn () { ColumnName = "campo26", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "entrada_1", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "entrada_2", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "entrada_3", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "entrada_4", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "entrada_5", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "entrada_6", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "entrada_7", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "entrada_8", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "saida_1", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "saida_2", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "saida_3", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "saida_4", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "saida_5", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "saida_6", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "saida_7", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "saida_8", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "horastrabalhadas", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "horasextrasdiurna", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "horasfaltas", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "horastrabalhadasnoturnas", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "horasextranoturna", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "horasfaltanoturna", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "bancohorascre", DataType = typeof(string), MaxLength = 6},
+                new DataColumn () { ColumnName = "bancohorasdeb", DataType = typeof(string), MaxLength = 6},
+                new DataColumn () { ColumnName = "valordsr", DataType = typeof(string), MaxLength = 6},
+                new DataColumn () { ColumnName = "exphorasextranoturna", DataType = typeof(string), MaxLength = 5},
                 new DataColumn ("idFechamentoPonto", objMarcacao.IdFechamentoPonto.GetType()),
                 new DataColumn () { ColumnName = "Interjornada", DataType = typeof(string), MaxLength = 5},
                 new DataColumn ("IdDocumentoWorkflow", objMarcacao.IdDocumentoWorkflow.GetType()),
@@ -1756,34 +1719,34 @@ namespace DAL.SQL
                         row["legenda"] = marc.Legenda;
                         row["data"] = marc.Data.Date;
                         row["dia"] = marc.Dia;
-                        row["campo01"] = marc.Entrada_1; // campo01
-                        row["campo02"] = marc.Entrada_2; // campo02
-                        row["campo03"] = marc.Entrada_3; // campo03
-                        row["campo04"] = marc.Entrada_4; // campo04
-                        row["campo05"] = marc.Entrada_5; // campo05
-                        row["campo06"] = marc.Entrada_6; // campo06
-                        row["campo07"] = marc.Entrada_7; // campo07
-                        row["campo08"] = marc.Entrada_8; // campo08
-                        row["campo09"] = marc.Saida_1; // campo09
-                        row["campo10"] = marc.Saida_2; // campo10
-                        row["campo11"] = marc.Saida_3; // campo11
-                        row["campo12"] = marc.Saida_4; // campo12
-                        row["campo13"] = marc.Saida_5; // campo13
-                        row["campo14"] = marc.Saida_6; // campo14
-                        row["campo15"] = marc.Saida_7; // campo15
-                        row["campo16"] = marc.Saida_8; // campo16
-                        row["campo17"] = marc.Horastrabalhadas; // campo17
-                        row["campo18"] = marc.Horasextrasdiurna; // campo18
-                        row["campo19"] = marc.Horasfaltas; // campo19
+                        row["entrada_1"] = marc.Entrada_1; // entrada_1
+                        row["entrada_2"] = marc.Entrada_2; // entrada_2
+                        row["entrada_3"] = marc.Entrada_3; // entrada_3
+                        row["entrada_4"] = marc.Entrada_4; // entrada_4
+                        row["entrada_5"] = marc.Entrada_5; // entrada_5
+                        row["entrada_6"] = marc.Entrada_6; // entrada_6
+                        row["entrada_7"] = marc.Entrada_7; // entrada_7
+                        row["entrada_8"] = marc.Entrada_8; // entrada_8
+                        row["saida_1"] = marc.Saida_1; // saida_1
+                        row["saida_2"] = marc.Saida_2; // saida_2
+                        row["saida_3"] = marc.Saida_3; // saida_3
+                        row["saida_4"] = marc.Saida_4; // saida_4
+                        row["saida_5"] = marc.Saida_5; // saida_5
+                        row["saida_6"] = marc.Saida_6; // saida_6
+                        row["saida_7"] = marc.Saida_7; // saida_7
+                        row["saida_8"] = marc.Saida_8; // saida_8
+                        row["horastrabalhadas"] = marc.Horastrabalhadas; // horastrabalhadas
+                        row["horasextrasdiurna"] = marc.Horasextrasdiurna; // horasextrasdiurna
+                        row["horasfaltas"] = marc.Horasfaltas; // horasfaltas
                         row["entradaextra"] = marc.Entradaextra;
                         row["saidaextra"] = marc.Saidaextra;
-                        row["campo20"] = marc.Horastrabalhadasnoturnas; //campo20
-                        row["campo21"] = marc.Horasextranoturna; //campo21
-                        row["campo22"] = marc.Horasfaltanoturna; //campo22
+                        row["horastrabalhadasnoturnas"] = marc.Horastrabalhadasnoturnas; //horastrabalhadasnoturnas
+                        row["horasextranoturna"] = marc.Horasextranoturna; //horasextranoturna
+                        row["horasfaltanoturna"] = marc.Horasfaltanoturna; //horasfaltanoturna
                         row["ocorrencia"] = marc.Ocorrencia;
                         row["idhorario"] = marc.Idhorario;
-                        row["campo23"] = marc.Bancohorascre; //campo23
-                        row["campo24"] = marc.Bancohorasdeb; //campo24
+                        row["bancohorascre"] = marc.Bancohorascre; //bancohorascre
+                        row["bancohorasdeb"] = marc.Bancohorasdeb; //bancohorasdeb
                         row["idfechamentobh"] = marc.Idfechamentobh == 0 ? DBNull.Value : (object)marc.Idfechamentobh;
                         row["semcalculo"] = marc.Semcalculo;
                         row["ent_num_relogio_1"] = marc.Ent_num_relogio_1;
@@ -1808,7 +1771,7 @@ namespace DAL.SQL
                         row["idcompensado"] = marc.Idcompensado == 0 ? DBNull.Value : (object)marc.Idcompensado;
                         row["naoconsiderarcafe"] = marc.Naoconsiderarcafe;
                         row["dsr"] = marc.Dsr;
-                        row["campo25"] = marc.Valordsr; //campo25
+                        row["valordsr"] = marc.Valordsr; //valordsr
                         row["Abonardsr"] = marc.Abonardsr;
                         row["Totalizadoresalterados"] = marc.Totalizadoresalterados;
                         row["Calchorasextrasdiurna"] = marc.Calchorasextrasdiurna;
@@ -1821,7 +1784,7 @@ namespace DAL.SQL
                         row["folga"] = marc.Folga;
                         row["neutro"] = marc.Neutro;
                         row["totalHorasTrabalhadas"] = marc.TotalHorasTrabalhadas;
-                        row["campo26"] = marc.ExpHorasextranoturna; //campo26
+                        row["exphorasextranoturna"] = marc.ExpHorasextranoturna; //exphorasextranoturna
                         row["tipohoraextrafalta"] = marc.TipoHoraExtraFalta;
                         row["chave"] = marc.Chave;
                         row["altdata"] = marc.Altdata;
@@ -1859,18 +1822,12 @@ namespace DAL.SQL
 
                 try
                 {
-                    SqlCommand cmd = new SqlCommand(DataBase.OPENKEY, conn, trans);
-                    cmd.ExecuteNonQuery();
-
                     SqlParameter parm = new SqlParameter("@dados", SqlDbType.Structured);
                     parm.Value = dt;
-                    cmd = new SqlCommand("update_marcacao", conn, trans);
+                    SqlCommand cmd = new SqlCommand("update_marcacao", conn, trans);
                     cmd.CommandTimeout = 600;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(parm);
-                    cmd.ExecuteNonQuery();
-
-                    cmd = new SqlCommand(DataBase.CLOSEKEY, conn, trans);
                     cmd.ExecuteNonQuery();
                 }
                 catch (Exception e)
@@ -1943,32 +1900,32 @@ namespace DAL.SQL
                 new DataColumn ("totalHorasTrabalhadas", typeof(string)),
                 new DataColumn ("chave", typeof(string)),
                 new DataColumn ("tipohoraextrafalta", objMarcacao.TipoHoraExtraFalta.GetType()),
-                new DataColumn ("campo01", typeof(string)), 
-                new DataColumn ("campo02", typeof(string)), 
-                new DataColumn ("campo03", typeof(string)), 
-                new DataColumn ("campo04", typeof(string)), 
-                new DataColumn ("campo05", typeof(string)), 
-                new DataColumn ("campo06", typeof(string)), 
-                new DataColumn ("campo07", typeof(string)), 
-                new DataColumn ("campo08", typeof(string)), 
-                new DataColumn ("campo09", typeof(string)), 
-                new DataColumn ("campo10", typeof(string)), 
-                new DataColumn ("campo11", typeof(string)), 
-                new DataColumn ("campo12", typeof(string)), 
-                new DataColumn ("campo13", typeof(string)), 
-                new DataColumn ("campo14", typeof(string)), 
-                new DataColumn ("campo15", typeof(string)), 
-                new DataColumn ("campo16", typeof(string)), 
-                new DataColumn ("campo17", typeof(string)), 
-                new DataColumn ("campo18", typeof(string)), 
-                new DataColumn ("campo19", typeof(string)),
-                new DataColumn ("campo20", typeof(string)), 
-                new DataColumn ("campo21", typeof(string)), 
-                new DataColumn ("campo22", typeof(string)),
-                new DataColumn ("campo23", typeof(string)), 
-                new DataColumn ("campo24", typeof(string)),
-                new DataColumn ("campo25", typeof(string)),
-                new DataColumn ("campo26", typeof(string)),
+                new DataColumn ("entrada_1", typeof(string)),
+                new DataColumn ("entrada_2", typeof(string)),
+                new DataColumn ("entrada_3", typeof(string)),
+                new DataColumn ("entrada_4", typeof(string)),
+                new DataColumn ("entrada_5", typeof(string)),
+                new DataColumn ("entrada_6", typeof(string)),
+                new DataColumn ("entrada_7", typeof(string)),
+                new DataColumn ("entrada_8", typeof(string)),
+                new DataColumn ("saida_1", typeof(string)),
+                new DataColumn ("saida_2", typeof(string)),
+                new DataColumn ("saida_3", typeof(string)),
+                new DataColumn ("saida_4", typeof(string)),
+                new DataColumn ("saida_5", typeof(string)),
+                new DataColumn ("saida_6", typeof(string)),
+                new DataColumn ("saida_7", typeof(string)),
+                new DataColumn ("saida_8", typeof(string)),
+                new DataColumn ("horastrabalhadas", typeof(string)),
+                new DataColumn ("horasextrasdiurna", typeof(string)),
+                new DataColumn ("horasfaltas", typeof(string)),
+                new DataColumn ("horastrabalhadasnoturnas", typeof(string)),
+                new DataColumn ("horasextranoturna", typeof(string)),
+                new DataColumn ("horasfaltanoturna", typeof(string)),
+                new DataColumn ("bancohorascre", typeof(string)),
+                new DataColumn ("bancohorasdeb", typeof(string)),
+                new DataColumn ("valordsr", typeof(string)),
+                new DataColumn ("exphorasextranoturna", typeof(string)),
                 new DataColumn ("idFechamentoPonto", objMarcacao.IdFechamentoPonto.GetType()),
                 new DataColumn ("Interjornada", typeof(string)),
                 new DataColumn ("IdDocumentoWorkflow", objMarcacao.IdDocumentoWorkflow.GetType()),
@@ -2013,34 +1970,34 @@ namespace DAL.SQL
                     row["legenda"] = marc.Legenda;
                     row["data"] = marc.Data.Date;
                     row["dia"] = marc.Dia;
-                    row["campo01"] = marc.Entrada_1; // campo01
-                    row["campo02"] = marc.Entrada_2; // campo02
-                    row["campo03"] = marc.Entrada_3; // campo03
-                    row["campo04"] = marc.Entrada_4; // campo04
-                    row["campo05"] = marc.Entrada_5; // campo05
-                    row["campo06"] = marc.Entrada_6; // campo06
-                    row["campo07"] = marc.Entrada_7; // campo07
-                    row["campo08"] = marc.Entrada_8; // campo08
-                    row["campo09"] = marc.Saida_1; // campo09
-                    row["campo10"] = marc.Saida_2; // campo10
-                    row["campo11"] = marc.Saida_3; // campo11
-                    row["campo12"] = marc.Saida_4; // campo12
-                    row["campo13"] = marc.Saida_5; // campo13
-                    row["campo14"] = marc.Saida_6; // campo14
-                    row["campo15"] = marc.Saida_7; // campo15
-                    row["campo16"] = marc.Saida_8; // campo16
-                    row["campo17"] = marc.Horastrabalhadas; // campo17
-                    row["campo18"] = marc.Horasextrasdiurna; // campo18
-                    row["campo19"] = marc.Horasfaltas; // campo19
+                    row["entrada_1"] = marc.Entrada_1; // entrada_1
+                    row["entrada_2"] = marc.Entrada_2; // entrada_2
+                    row["entrada_3"] = marc.Entrada_3; // entrada_3
+                    row["entrada_4"] = marc.Entrada_4; // entrada_4
+                    row["entrada_5"] = marc.Entrada_5; // entrada_5
+                    row["entrada_6"] = marc.Entrada_6; // entrada_6
+                    row["entrada_7"] = marc.Entrada_7; // entrada_7
+                    row["entrada_8"] = marc.Entrada_8; // entrada_8
+                    row["saida_1"] = marc.Saida_1; // saida_1
+                    row["saida_2"] = marc.Saida_2; // saida_2
+                    row["saida_3"] = marc.Saida_3; // saida_3
+                    row["saida_4"] = marc.Saida_4; // saida_4
+                    row["saida_5"] = marc.Saida_5; // saida_5
+                    row["saida_6"] = marc.Saida_6; // saida_6
+                    row["saida_7"] = marc.Saida_7; // saida_7
+                    row["saida_8"] = marc.Saida_8; // saida_8
+                    row["horastrabalhadas"] = marc.Horastrabalhadas; // horastrabalhadas
+                    row["horasextrasdiurna"] = marc.Horasextrasdiurna; // horasextrasdiurna
+                    row["horasfaltas"] = marc.Horasfaltas; // horasfaltas
                     row["entradaextra"] = marc.Entradaextra;
                     row["saidaextra"] = marc.Saidaextra;
-                    row["campo20"] = marc.Horastrabalhadasnoturnas; //campo20
-                    row["campo21"] = marc.Horasextranoturna; //campo21
-                    row["campo22"] = marc.Horasfaltanoturna; //campo22
+                    row["horastrabalhadasnoturnas"] = marc.Horastrabalhadasnoturnas; //horastrabalhadasnoturnas
+                    row["horasextranoturna"] = marc.Horasextranoturna; //horasextranoturna
+                    row["horasfaltanoturna"] = marc.Horasfaltanoturna; //horasfaltanoturna
                     row["ocorrencia"] = marc.Ocorrencia;
                     row["idhorario"] = marc.Idhorario;
-                    row["campo23"] = marc.Bancohorascre; //campo23
-                    row["campo24"] = marc.Bancohorasdeb; //campo24
+                    row["bancohorascre"] = marc.Bancohorascre; //bancohorascre
+                    row["bancohorasdeb"] = marc.Bancohorasdeb; //bancohorasdeb
                     row["idfechamentobh"] = marc.Idfechamentobh == 0 ? DBNull.Value : (object)marc.Idfechamentobh;
                     row["semcalculo"] = marc.Semcalculo;
                     row["ent_num_relogio_1"] = marc.Ent_num_relogio_1;
@@ -2065,7 +2022,7 @@ namespace DAL.SQL
                     row["idcompensado"] = marc.Idcompensado == 0 ? DBNull.Value : (object)marc.Idcompensado;
                     row["naoconsiderarcafe"] = marc.Naoconsiderarcafe;
                     row["dsr"] = marc.Dsr;
-                    row["campo25"] = marc.Valordsr; //campo25
+                    row["valordsr"] = marc.Valordsr; //valordsr
                     row["Abonardsr"] = marc.Abonardsr;
                     row["Totalizadoresalterados"] = marc.Totalizadoresalterados;
                     row["Calchorasextrasdiurna"] = marc.Calchorasextrasdiurna;
@@ -2078,7 +2035,7 @@ namespace DAL.SQL
                     row["folga"] = marc.Folga;
                     row["neutro"] = marc.Neutro;
                     row["totalHorasTrabalhadas"] = marc.TotalHorasTrabalhadas;
-                    row["campo26"] = marc.ExpHorasextranoturna; //campo26
+                    row["exphorasextranoturna"] = marc.ExpHorasextranoturna; //exphorasextranoturna
                     row["tipohoraextrafalta"] = marc.TipoHoraExtraFalta;
                     row["chave"] = marc.Chave;
                     row["altdata"] = marc.Altdata;
@@ -2109,19 +2066,14 @@ namespace DAL.SQL
                 }
                 #endregion
 
-                SqlCommand cmd = new SqlCommand(DataBase.OPENKEY, conn, trans);
-                cmd.ExecuteNonQuery();
-
                 SqlParameter parm = new SqlParameter("@dados", SqlDbType.Structured);
                 parm.Value = dt;
-                cmd = new SqlCommand("update_marcacao", conn, trans);
+                SqlCommand cmd = new SqlCommand("update_marcacao", conn, trans);
                 cmd.CommandTimeout = 600;
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(parm);
                 cmd.ExecuteNonQuery();
 
-                cmd = new SqlCommand(DataBase.CLOSEKEY, conn, trans);
-                cmd.ExecuteNonQuery();
                 dt.Dispose();
             }
 
@@ -5179,7 +5131,7 @@ WHERE
         {
             string aux = "";
             SqlParameter[] parms = new SqlParameter[3]
-            { 
+            {
                     new SqlParameter("@Identificadores", SqlDbType.Structured),
                     new SqlParameter("@datainicial", SqlDbType.DateTime),
                     new SqlParameter("@datafinal", SqlDbType.DateTime)
@@ -5262,15 +5214,15 @@ WHERE
                                                 XML PATH('')
                                                 ), 1, 1, '')
                                 ), '') 'Desconsideradas' ,
-                        REPLACE(CASE WHEN campo17 IS NULL THEN '--:--'
-                                        ELSE CONVERT(VARCHAR(5), DECRYPTBYKEY(campo17))
+                        REPLACE(CASE WHEN horastrabalhadas IS NULL THEN '--:--'
+                                        ELSE horastrabalhadas
                                 END, '--:--', '') AS 'H. Diurnas' ,
-                        REPLACE(CASE WHEN campo20 IS NULL THEN '--:--'
-                                        ELSE CONVERT(VARCHAR(5), DECRYPTBYKEY(campo20))
+                        REPLACE(CASE WHEN horastrabalhadasnoturnas IS NULL THEN '--:--'
+                                        ELSE horastrabalhadasnoturnas
                                 END, '--:--', '') AS 'H. Noturnas' ,
                         REPLACE(REPLACE(vm.AdicionalNoturno, '--:--', ''), '--:--', '') AS 'Ad. Noturno' ,
-                        REPLACE(CONVERT(VARCHAR(6), DECRYPTBYKEY(campo25)), '--:--', '') AS 'Dsr' ,
-                        REPLACE(ISNULL(CONVERT(VARCHAR(5), DECRYPTBYKEY(campo19)), ''),
+                        REPLACE(valordsr, '--:--', '') AS 'Dsr' ,
+                        REPLACE(ISNULL(horasfaltas, ''),
                                 '--:--', '') AS 'Faltas' ,
                         vm.horasfaltas As horasfaltadiurna,
 						vm.horasfaltanoturna,
@@ -5331,17 +5283,17 @@ WHERE
                         horariodetalheflexivel.totaltrabalhadanoturna AS 'chnoturnaflexivel' ,
                         horariodetalheflexivel.flagfolga AS 'flagfolgaflexivel' ,
                         horariodetalheflexivel.cargahorariamista AS 'cargamistaflexivel' ,
-                        REPLACE(REPLACE(CONVERT(VARCHAR(6), DECRYPTBYKEY(vm.campo23)), '--:--',
+                        REPLACE(REPLACE(vm.bancohorascre, '--:--',
                                         ''), '-', '') AS 'Créd. BH' ,
-                        REPLACE(REPLACE(CONVERT(VARCHAR(6), DECRYPTBYKEY(vm.campo24)), '--:--',
+                        REPLACE(REPLACE(vm.bancohorasdeb, '--:--',
                                         ''), '-', '') AS 'Déb. BH' ,
                         REPLACE(vm.totalHorasTrabalhadas, '--:--', '') 'Total' ,
                         (CASE WHEN vm.folga = 1 OR horariodetalhenormal.flagfolga = 1 OR horariodetalheflexivel.flagfolga = 1
 							THEN 'Folga'
 							ELSE vm.ocorrencia 
 						END) 'Ocorrência' ,
-                        ISNULL(CONVERT(VARCHAR(5), DECRYPTBYKEY(vm.campo21)), '--:--') 'horasextranoturna' ,
-                        ISNULL(CONVERT(VARCHAR(5), DECRYPTBYKEY(vm.campo18)), '--:--') 'horasextrasdiurna' ,
+                        ISNULL(vm.horasextranoturna, '--:--') 'horasextranoturna' ,
+                        ISNULL(vm.horasextrasdiurna, '--:--') 'horasextrasdiurna' ,
                         vm.idfuncionario 'idFuncionario' ,
                         vm.legenda 'legenda' ,
                         vm.LegendasConcatenadas 'LegendasConcatenadas' ,
@@ -5444,7 +5396,7 @@ WHERE
                 DROP TABLE #horariophextra
                 ";
             #endregion
-            
+
             DataTable dt = new DataTable();
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
             dt.Load(dr);

@@ -28,6 +28,8 @@ namespace PontoWeb.Models
         public Nullable<System.DateTime> althora { get; set; }
         public string altusuario { get; set; }
         public Nullable<int> codigo { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual fechamentobhd fechamentobhd { get; set; }
     }

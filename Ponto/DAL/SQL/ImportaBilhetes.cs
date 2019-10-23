@@ -45,7 +45,7 @@ namespace DAL.SQL
         public Hashtable GetBilhetesImportar(string pDsCodigo, DateTime? pDataI, DateTime? pDataF)
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
+            {
                 new SqlParameter ("@datai", SqlDbType.Date),
                 new SqlParameter ("@dataf", SqlDbType.Date),
                 new SqlParameter ("@dscodigo", SqlDbType.VarChar)
@@ -58,22 +58,22 @@ namespace DAL.SQL
             sql.AppendLine("select    mar.id as marcacaoid");
             sql.AppendLine(", mar.data as data");
 
-            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN campo01 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo01)) END)) as marcacao_ent1");
-            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN campo02 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo02)) END)) as marcacao_ent2");
-            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN campo03 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo03)) END)) as marcacao_ent3");
-            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN campo04 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo04)) END)) as marcacao_ent4");
-            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN campo05 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo05)) END)) as marcacao_ent5");
-            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN campo06 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo06)) END)) as marcacao_ent6");
-            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN campo07 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo07)) END)) as marcacao_ent7");
-            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN campo08 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo08)) END)) as marcacao_ent8");
-            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN campo09 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo09)) END)) as marcacao_sai1");
-            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN campo10 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo10)) END)) as marcacao_sai2");
-            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN campo11 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo11)) END)) as marcacao_sai3");
-            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN campo12 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo12)) END)) as marcacao_sai4");
-            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN campo13 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo13)) END)) as marcacao_sai5");
-            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN campo14 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo14)) END)) as marcacao_sai6");
-            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN campo15 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo15)) END)) as marcacao_sai7");
-            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN campo16 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo16)) END)) as marcacao_sai8");
+            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN mar.entrada_1 IS NULL THEN '--:--' ELSE mar.entrada_1 END)) as marcacao_ent1");
+            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN mar.entrada_2 IS NULL THEN '--:--' ELSE mar.entrada_2 END)) as marcacao_ent2");
+            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN mar.entrada_3 IS NULL THEN '--:--' ELSE mar.entrada_3 END)) as marcacao_ent3");
+            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN mar.entrada_4 IS NULL THEN '--:--' ELSE mar.entrada_4 END)) as marcacao_ent4");
+            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN mar.entrada_5 IS NULL THEN '--:--' ELSE mar.entrada_5 END)) as marcacao_ent5");
+            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN mar.entrada_6 IS NULL THEN '--:--' ELSE mar.entrada_6 END)) as marcacao_ent6");
+            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN mar.entrada_7 IS NULL THEN '--:--' ELSE mar.entrada_7 END)) as marcacao_ent7");
+            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN mar.entrada_8 IS NULL THEN '--:--' ELSE mar.entrada_8 END)) as marcacao_ent8");
+            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN mar.saida_1 IS NULL THEN '--:--' ELSE mar.saida_1 END)) as marcacao_sai1");
+            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN mar.saida_2 IS NULL THEN '--:--' ELSE mar.saida_2 END)) as marcacao_sai2");
+            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN mar.saida_3 IS NULL THEN '--:--' ELSE mar.saida_3 END)) as marcacao_sai3");
+            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN mar.saida_4 IS NULL THEN '--:--' ELSE mar.saida_4 END)) as marcacao_sai4");
+            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN mar.saida_5 IS NULL THEN '--:--' ELSE mar.saida_5 END)) as marcacao_sai5");
+            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN mar.saida_6 IS NULL THEN '--:--' ELSE mar.saida_6 END)) as marcacao_sai6");
+            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN mar.saida_7 IS NULL THEN '--:--' ELSE mar.saida_7 END)) as marcacao_sai7");
+            sql.AppendLine(", (SELECT [dbo].CONVERTBATIDAMINUTO(CASE WHEN mar.saida_8 IS NULL THEN '--:--' ELSE mar.saida_8 END)) as marcacao_sai8");
             sql.AppendLine(", ISNULL(mar.ent_num_relogio_1, '') as ent_num_relogio_1");
             sql.AppendLine(", ISNULL(mar.ent_num_relogio_2, '') as ent_num_relogio_2");
             sql.AppendLine(", ISNULL(mar.ent_num_relogio_3, '') as ent_num_relogio_3");
@@ -162,7 +162,7 @@ namespace DAL.SQL
             //}
             //catch (Exception)
             //{
-                
+
             //    throw;
             //}
             //finally
@@ -222,7 +222,7 @@ namespace DAL.SQL
 
         public DataTable GetFuncionariosImportacao(string dscodigo)
         {
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@dscodigo", SqlDbType.VarChar),
             };
@@ -260,7 +260,7 @@ namespace DAL.SQL
 
         public DataTable GetFuncionariosImportacaoWebApi(string dscodigo)
         {
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@dscodigo", SqlDbType.VarChar),
             };
@@ -322,7 +322,7 @@ namespace DAL.SQL
         public short GetTipoHExtraFalta(int idhorario)
         {
             short ret = 0;
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@idhorario", SqlDbType.Int),
             };

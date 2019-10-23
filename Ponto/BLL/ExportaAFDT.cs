@@ -83,22 +83,13 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    DataBase db = new DataBase(ConnectionString);
-                    dalEmpresa = new DAL.SQL.Empresa(db);
-                    dalMarcacao = new DAL.SQL.Marcacao(db);
-                    dalRep = new DAL.SQL.REP(db);
-                    dalFuncionario = new DAL.SQL.Funcionario(db);
-                    break;
-                case 2:
-                    dalEmpresa = DAL.FB.Empresa.GetInstancia;
-                    dalMarcacao = DAL.FB.Marcacao.GetInstancia;
-                    dalRep = DAL.FB.REP.GetInstancia;
-                    dalFuncionario = DAL.FB.Funcionario.GetInstancia;
-                    break;
-            }
+
+            DataBase db = new DataBase(ConnectionString);
+            dalEmpresa = new DAL.SQL.Empresa(db);
+            dalMarcacao = new DAL.SQL.Marcacao(db);
+            dalRep = new DAL.SQL.REP(db);
+            dalFuncionario = new DAL.SQL.Funcionario(db);
+
             UsuarioLogado = usuarioLogado;
             dalEmpresa.UsuarioLogado = usuarioLogado;
             dalMarcacao.UsuarioLogado = usuarioLogado;
@@ -136,22 +127,13 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    DataBase db = new DataBase(ConnectionString);
-                    dalEmpresa = new DAL.SQL.Empresa(db);
-                    dalMarcacao = new DAL.SQL.Marcacao(db);
-                    dalRep = new DAL.SQL.REP(db);
-                    dalFuncionario = new DAL.SQL.Funcionario(db);
-                    break;
-                case 2:
-                    dalEmpresa = DAL.FB.Empresa.GetInstancia;
-                    dalMarcacao = DAL.FB.Marcacao.GetInstancia;
-                    dalRep = DAL.FB.REP.GetInstancia;
-                    dalFuncionario = DAL.FB.Funcionario.GetInstancia;
-                    break;
-            }
+
+            DataBase db = new DataBase(ConnectionString);
+            dalEmpresa = new DAL.SQL.Empresa(db);
+            dalMarcacao = new DAL.SQL.Marcacao(db);
+            dalRep = new DAL.SQL.REP(db);
+            dalFuncionario = new DAL.SQL.Funcionario(db);
+
             UsuarioLogado = usuarioLogado;
             dalEmpresa.UsuarioLogado = usuarioLogado;
             dalMarcacao.UsuarioLogado = usuarioLogado;

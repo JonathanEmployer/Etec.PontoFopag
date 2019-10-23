@@ -39,7 +39,6 @@ namespace PontoWeb.Models
         public virtual DbSet<cw_acesso> cw_acesso { get; set; }
         public virtual DbSet<cw_acessocampo> cw_acessocampo { get; set; }
         public virtual DbSet<cw_grupo> cw_grupo { get; set; }
-        public virtual DbSet<cw_usuario> cw_usuario { get; set; }
         public virtual DbSet<cwkvsnsys> cwkvsnsys { get; set; }
         public virtual DbSet<departamento> departamento { get; set; }
         public virtual DbSet<diascompensacao> diascompensacao { get; set; }
@@ -69,7 +68,6 @@ namespace PontoWeb.Models
         public virtual DbSet<justificativa> justificativa { get; set; }
         public virtual DbSet<layoutexportacao> layoutexportacao { get; set; }
         public virtual DbSet<layoutimportacaofuncionario> layoutimportacaofuncionario { get; set; }
-        public virtual DbSet<marcacao> marcacao { get; set; }
         public virtual DbSet<marcacaoacesso> marcacaoacesso { get; set; }
         public virtual DbSet<mudancahorario> mudancahorario { get; set; }
         public virtual DbSet<mudcodigofunc> mudcodigofunc { get; set; }
@@ -81,6 +79,8 @@ namespace PontoWeb.Models
         public virtual DbSet<tipobilhetes> tipobilhetes { get; set; }
         public virtual DbSet<jornadaalternativa_view> jornadaalternativa_view { get; set; }
         public virtual DbSet<marcacao_view> marcacao_view { get; set; }
+        public virtual DbSet<marcacao> marcacao { get; set; }
+        public virtual DbSet<cw_usuario> cw_usuario { get; set; }
     
         [DbFunction("cworkpontoEntities", "F_BancoHoras")]
         public virtual IQueryable<F_BancoHoras_Result> F_BancoHoras(Nullable<System.DateTime> data, Nullable<int> idFuncionario)
@@ -148,7 +148,7 @@ namespace PontoWeb.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insert_marcacao");
         }
     
-        public virtual int p_enviaAlertaEntradaAtrasada(Nullable<System.DateTime> ultimaExecucao, Nullable<System.DateTime> dataExecucao, string key, Nullable<int> id, Nullable<System.DateTime> ultimoAviso, string email)
+        public virtual int p_enviaAlertaEntradaAtrasada(Nullable<System.DateTime> ultimaExecucao, Nullable<System.DateTime> dataExecucao, Nullable<System.DateTime> ultimoAviso, Nullable<int> idAlerta, string email, string key)
         {
             var ultimaExecucaoParameter = ultimaExecucao.HasValue ?
                 new ObjectParameter("ultimaExecucao", ultimaExecucao) :
@@ -158,23 +158,23 @@ namespace PontoWeb.Models
                 new ObjectParameter("dataExecucao", dataExecucao) :
                 new ObjectParameter("dataExecucao", typeof(System.DateTime));
     
-            var keyParameter = key != null ?
-                new ObjectParameter("key", key) :
-                new ObjectParameter("key", typeof(string));
-    
-            var idParameter = id.HasValue ?
-                new ObjectParameter("id", id) :
-                new ObjectParameter("id", typeof(int));
-    
             var ultimoAvisoParameter = ultimoAviso.HasValue ?
                 new ObjectParameter("UltimoAviso", ultimoAviso) :
                 new ObjectParameter("UltimoAviso", typeof(System.DateTime));
     
-            var emailParameter = email != null ?
-                new ObjectParameter("email", email) :
-                new ObjectParameter("email", typeof(string));
+            var idAlertaParameter = idAlerta.HasValue ?
+                new ObjectParameter("idAlerta", idAlerta) :
+                new ObjectParameter("idAlerta", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("p_enviaAlertaEntradaAtrasada", ultimaExecucaoParameter, dataExecucaoParameter, keyParameter, idParameter, ultimoAvisoParameter, emailParameter);
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            var keyParameter = key != null ?
+                new ObjectParameter("key", key) :
+                new ObjectParameter("key", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("p_enviaAlertaEntradaAtrasada", ultimaExecucaoParameter, dataExecucaoParameter, ultimoAvisoParameter, idAlertaParameter, emailParameter, keyParameter);
         }
     
         public virtual int p_enviaAlertas(Nullable<System.DateTime> ultimaExecucao, Nullable<System.DateTime> dataExecucao, string key)
@@ -194,7 +194,7 @@ namespace PontoWeb.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("p_enviaAlertas", ultimaExecucaoParameter, dataExecucaoParameter, keyParameter);
         }
     
-        public virtual int p_enviaAlertaSaidaAntecipada(Nullable<System.DateTime> ultimaExecucao, Nullable<System.DateTime> dataExecucao, string key, Nullable<int> id, Nullable<System.DateTime> ultimoAviso, string email)
+        public virtual int p_enviaAlertaSaidaAntecipada(Nullable<System.DateTime> ultimaExecucao, Nullable<System.DateTime> dataExecucao, Nullable<System.DateTime> ultimoAviso, Nullable<int> idAlerta, string email, string key)
         {
             var ultimaExecucaoParameter = ultimaExecucao.HasValue ?
                 new ObjectParameter("ultimaExecucao", ultimaExecucao) :
@@ -204,23 +204,23 @@ namespace PontoWeb.Models
                 new ObjectParameter("dataExecucao", dataExecucao) :
                 new ObjectParameter("dataExecucao", typeof(System.DateTime));
     
-            var keyParameter = key != null ?
-                new ObjectParameter("key", key) :
-                new ObjectParameter("key", typeof(string));
-    
-            var idParameter = id.HasValue ?
-                new ObjectParameter("id", id) :
-                new ObjectParameter("id", typeof(int));
-    
             var ultimoAvisoParameter = ultimoAviso.HasValue ?
                 new ObjectParameter("UltimoAviso", ultimoAviso) :
                 new ObjectParameter("UltimoAviso", typeof(System.DateTime));
     
-            var emailParameter = email != null ?
-                new ObjectParameter("email", email) :
-                new ObjectParameter("email", typeof(string));
+            var idAlertaParameter = idAlerta.HasValue ?
+                new ObjectParameter("idAlerta", idAlerta) :
+                new ObjectParameter("idAlerta", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("p_enviaAlertaSaidaAntecipada", ultimaExecucaoParameter, dataExecucaoParameter, keyParameter, idParameter, ultimoAvisoParameter, emailParameter);
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            var keyParameter = key != null ?
+                new ObjectParameter("key", key) :
+                new ObjectParameter("key", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("p_enviaAlertaSaidaAntecipada", ultimaExecucaoParameter, dataExecucaoParameter, ultimoAvisoParameter, idAlertaParameter, emailParameter, keyParameter);
         }
     
         public virtual int p_enviaAlertasBancoHoras(Nullable<System.DateTime> ultimaExecucao, Nullable<System.DateTime> dataExecucao, Nullable<System.DateTime> ultimoAviso, Nullable<int> idAlerta, string email, string key)

@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0f5315290d834cec8af2ff4b0f2c950f" Name="Diagram1" ZoomLevel="66">
+      <Diagram DiagramId="0f5315290d834cec8af2ff4b0f2c950f" Name="Diagram1" ZoomLevel="55">
         <EntityTypeShape EntityType="PontofopagModel.afastamento" Width="1.5" PointX="21.75" PointY="60.875" />
         <EntityTypeShape EntityType="PontofopagModel.Alertas" Width="1.5" PointX="11.25" PointY="77.25" />
         <EntityTypeShape EntityType="PontofopagModel.AlertasFuncionario" Width="1.5" PointX="13.5" PointY="64.5" />
@@ -24,10 +24,7 @@
         <EntityTypeShape EntityType="PontofopagModel.contrato" Width="1.5" PointX="11.25" PointY="48.125" />
         <EntityTypeShape EntityType="PontofopagModel.contratofuncionario" Width="1.5" PointX="13.5" PointY="54.875" />
         <EntityTypeShape EntityType="PontofopagModel.contratousuario" Width="1.5" PointX="5.25" PointY="66.875" />
-        <EntityTypeShape EntityType="PontofopagModel.cw_acesso" Width="1.5" PointX="3" PointY="55.75" />
-        <EntityTypeShape EntityType="PontofopagModel.cw_acessocampo" Width="1.5" PointX="5.25" PointY="56.5" />
         <EntityTypeShape EntityType="PontofopagModel.cw_grupo" Width="1.5" PointX="0.75" PointY="60.75" />
-        <EntityTypeShape EntityType="PontofopagModel.cw_usuario" Width="1.5" PointX="3" PointY="61.5" />
         <EntityTypeShape EntityType="PontofopagModel.cwkvsnsys" Width="1.5" PointX="2.75" PointY="4.75" />
         <EntityTypeShape EntityType="PontofopagModel.departamento" Width="1.5" PointX="6" PointY="75.75" />
         <EntityTypeShape EntityType="PontofopagModel.diascompensacao" Width="1.5" PointX="16.5" PointY="77.25" />
@@ -52,7 +49,6 @@
         <EntityTypeShape EntityType="PontofopagModel.feriado" Width="1.5" PointX="8.25" PointY="78.375" />
         <EntityTypeShape EntityType="PontofopagModel.FeriadoFuncionario" Width="1.5" PointX="10.5" PointY="72.875" />
         <EntityTypeShape EntityType="PontofopagModel.funcao" Width="1.5" PointX="6" PointY="71.875" />
-        <EntityTypeShape EntityType="PontofopagModel.funcionariohistorico" Width="1.5" PointX="10.5" PointY="54.375" />
         <EntityTypeShape EntityType="PontofopagModel.horario" Width="1.5" PointX="6" PointY="81.125" />
         <EntityTypeShape EntityType="PontofopagModel.HorarioInItinere" Width="1.5" PointX="8.25" PointY="95" />
         <EntityTypeShape EntityType="PontofopagModel.horariophextra" Width="1.5" PointX="8.25" PointY="99.5" />
@@ -75,7 +71,6 @@
         <EntityTypeShape EntityType="PontofopagModel.LocalizacaoRegistroPonto" Width="1.5" PointX="18" PointY="96.625" />
         <EntityTypeShape EntityType="PontofopagModel.LogErroPainelAPI" Width="1.5" PointX="10.5" PointY="127.75" />
         <EntityTypeShape EntityType="PontofopagModel.LogImportacaoWebApi" Width="1.5" PointX="15.75" PointY="9.75" />
-        <EntityTypeShape EntityType="PontofopagModel.marcacao" Width="1.5" PointX="16.5" PointY="55.5" />
         <EntityTypeShape EntityType="PontofopagModel.marcacaoacesso" Width="1.5" PointX="10.5" PointY="119.125" />
         <EntityTypeShape EntityType="PontofopagModel.mudancahorario" Width="1.5" PointX="18.75" PointY="57.25" />
         <EntityTypeShape EntityType="PontofopagModel.mudcodigofunc" Width="1.5" PointX="19.5" PointY="63.125" />
@@ -92,7 +87,6 @@
         <EntityTypeShape EntityType="PontofopagModel.TAB_Tipo_Configuracao_CDC_Tabela" Width="1.5" PointX="0.75" PointY="1.25" />
         <EntityTypeShape EntityType="PontofopagModel.TipoVinculo" Width="1.5" PointX="6" PointY="49.25" />
         <EntityTypeShape EntityType="PontofopagModel.AlertasDisponiveis" Width="1.5" PointX="17.75" PointY="5.75" />
-        <EntityTypeShape EntityType="PontofopagModel.cw_grupoacesso" Width="1.5" PointX="5.25" PointY="61" />
         <EntityTypeShape EntityType="PontofopagModel.TabelasPontoCDC" Width="1.5" PointX="17.75" PointY="15.75" />
         <AssociationConnector Association="PontofopagModel.FK_afastamento_contrato" />
         <AssociationConnector Association="PontofopagModel.FK_afastamento_departamento" />
@@ -109,19 +103,10 @@
         <AssociationConnector Association="PontofopagModel.FK_ClassificacaoHorasExtras_Classificacao" />
         <AssociationConnector Association="PontofopagModel.fk_EventosClassHorasExtras_Classificacao" />
         <AssociationConnector Association="PontofopagModel.FK_Horario_Classificacao" />
-        <AssociationConnector Association="PontofopagModel.fk_ClassificacaoHorasExtras_Marcacao" />
         <AssociationConnector Association="PontofopagModel.FK_diascompensacao_compensacao" />
-        <AssociationConnector Association="PontofopagModel.FK_marcacao_compensacao" />
         <AssociationConnector Association="PontofopagModel.FK_contrato_empresa" />
         <AssociationConnector Association="PontofopagModel.FK_contratofuncionario_contrato" />
         <AssociationConnector Association="PontofopagModel.FK_contratousuario_contrato" />
-        <AssociationConnector Association="PontofopagModel.FK_contratousuario_cw_usuario" />
-        <AssociationConnector Association="PontofopagModel.FK_cw_acesso_cw_grupo" />
-        <AssociationConnector Association="PontofopagModel.FK_cw_acessocampo_cw_acesso" />
-        <AssociationConnector Association="PontofopagModel.FK_cw_grupoacesso_cw_acesso" />
-        <AssociationConnector Association="PontofopagModel.FK_cw_grupoacesso_cw_grupo" />
-        <AssociationConnector Association="PontofopagModel.FK_cw_usuario_cw_grupo" />
-        <AssociationConnector Association="PontofopagModel.FK_empresacwusuario_cw_usuario" />
         <AssociationConnector Association="PontofopagModel.FK_departamento_empresa" />
         <AssociationConnector Association="PontofopagModel.FK_feriado_departamento" />
         <AssociationConnector Association="PontofopagModel.FK_mudcodigofunc_departamento" />
@@ -139,16 +124,13 @@
         <AssociationConnector Association="PontofopagModel.FK_exportacaocampos_layoutexportacao" />
         <AssociationConnector Association="PontofopagModel.FK_fechamentobhd_fechamentobh" />
         <AssociationConnector Association="PontofopagModel.FK_fechamentobhdHE_fechamentobh" />
-        <AssociationConnector Association="PontofopagModel.FK_marcacao_fechamentobh" />
         <AssociationConnector Association="PontofopagModel.FK_fechamentobhdpercentual_fechamentobhd" />
-        <AssociationConnector Association="PontofopagModel.FK_fechamentobhdHE_marcacao" />
         <AssociationConnector Association="PontofopagModel.FK_FechamentoPontoFuncionario_FechamentoPonto" />
         <AssociationConnector Association="PontofopagModel.fk_FeriadoFuncionario_Feriado" />
         <AssociationConnector Association="PontofopagModel.FK_horario_parametros" />
         <AssociationConnector Association="PontofopagModel.FK_HorarioInItinere_horario" />
         <AssociationConnector Association="PontofopagModel.FK_horariophextra_horario" />
         <AssociationConnector Association="PontofopagModel.FK_limiteddsr_horario" />
-        <AssociationConnector Association="PontofopagModel.FK_marcacao_horario" />
         <AssociationConnector Association="PontofopagModel.FK_mudancahorario_horario" />
         <AssociationConnector Association="PontofopagModel.FK_mudcodigofunc_horario" />
         <AssociationConnector Association="PontofopagModel.fk_InclusaoBanco_justificativa" />
@@ -181,18 +163,39 @@
         <AssociationConnector Association="PontofopagModel.fk_jornada_HorarioDinamicoCiclo" />
         <EntityTypeShape EntityType="PontofopagModel.EquipamentoTipoBiometria" Width="1.5" PointX="20" PointY="30.625" />
         <EntityTypeShape EntityType="PontofopagModel.Importacaoautomatica" Width="1.5" PointX="26.75" PointY="37.75" />
-        <EntityTypeShape EntityType="PontofopagModel.rep" Width="1.5" PointX="22.25" PointY="37.125" />
-        <EntityTypeShape EntityType="PontofopagModel.RepHistoricoLocal" Width="1.5" PointX="24.5" PointY="52.75" />
-        <EntityTypeShape EntityType="PontofopagModel.tipobilhetes" Width="1.5" PointX="24.5" PointY="35.875" />
+        <EntityTypeShape EntityType="PontofopagModel.rep" Width="1.5" PointX="22.25" PointY="36.75" />
         <AssociationConnector Association="PontofopagModel.fk_Biometria_Rep" />
         <AssociationConnector Association="PontofopagModel.FK_rep_empresa" />
         <AssociationConnector Association="PontofopagModel.FK_EnvioDadosRep_rep" />
         <AssociationConnector Association="PontofopagModel.fk_Rep_EquipamentoTipoBiometria" />
-        <AssociationConnector Association="PontofopagModel.FK_Importacaoautomatica_tipobilhetes" />
-        <AssociationConnector Association="PontofopagModel.FK_RepHistoricoLocal_Rep" />
         <AssociationConnector Association="PontofopagModel.fk_RepLog_Rep" />
+        <EntityTypeShape EntityType="PontofopagModel.RepHistoricoLocal" Width="1.5" PointX="24.5" PointY="30.5" />
+        <AssociationConnector Association="PontofopagModel.FK_RepHistoricoLocal_Rep" />
+        <EntityTypeShape EntityType="PontofopagModel.tipobilhetes" Width="1.5" PointX="24.5" PointY="37.75" />
+        <AssociationConnector Association="PontofopagModel.FK_Importacaoautomatica_tipobilhetes" />
         <AssociationConnector Association="PontofopagModel.FK_tipobilhetes_rep" />
-        <EntityTypeShape EntityType="PontofopagModel.funcionario" Width="1.5" PointX="21.25" PointY="69.5" />
+        <EntityTypeShape EntityType="PontofopagModel.marcacao" Width="1.5" PointX="23.5" PointY="69.625" />
+        <AssociationConnector Association="PontofopagModel.fk_ClassificacaoHorasExtras_Marcacao" />
+        <AssociationConnector Association="PontofopagModel.FK_marcacao_compensacao" />
+        <AssociationConnector Association="PontofopagModel.FK_marcacao_fechamentobh" />
+        <AssociationConnector Association="PontofopagModel.FK_fechamentobhdHE_marcacao" />
+        <AssociationConnector Association="PontofopagModel.FK_marcacao_horario" />
+        <EntityTypeShape EntityType="PontofopagModel.cw_acesso" Width="1.5" PointX="3" PointY="30.75" />
+        <EntityTypeShape EntityType="PontofopagModel.cw_acessocampo" Width="1.5" PointX="5.25" PointY="31.75" />
+        <EntityTypeShape EntityType="PontofopagModel.cw_grupoacesso" Width="1.5" PointX="5.25" PointY="53.625" />
+        <EntityTypeShape EntityType="PontofopagModel.cw_usuario" Width="1.5" PointX="3" PointY="55.75" />
+        <AssociationConnector Association="PontofopagModel.FK_contratousuario_cw_usuario" />
+        <AssociationConnector Association="PontofopagModel.FK_cw_acesso_cw_grupo" />
+        <AssociationConnector Association="PontofopagModel.FK_cw_acessocampo_cw_acesso" />
+        <AssociationConnector Association="PontofopagModel.FK_cw_grupoacesso_cw_acesso" />
+        <AssociationConnector Association="PontofopagModel.FK_cw_grupoacesso_cw_grupo" />
+        <AssociationConnector Association="PontofopagModel.FK_cw_usuario_cw_grupo" />
+        <AssociationConnector Association="PontofopagModel.FK_empresacwusuario_cw_usuario" />
+        <EntityTypeShape EntityType="PontofopagModel.horariodetalhe" Width="1.5" PointX="8.25" PointY="55.125" />
+        <AssociationConnector Association="PontofopagModel.FK_horariodetalhe_horario" />
+        <AssociationConnector Association="PontofopagModel.FK_horariodetalhe_jornada" />
+        <EntityTypeShape EntityType="PontofopagModel.funcionario" Width="1.5" PointX="16.25" PointY="56.5" />
+        <EntityTypeShape EntityType="PontofopagModel.funcionariohistorico" Width="1.5" PointX="18.5" PointY="82.375" />
         <AssociationConnector Association="PontofopagModel.FK_afastamento_funcionario" />
         <AssociationConnector Association="PontofopagModel.FK_AlertasFuncionario_funcionario" />
         <AssociationConnector Association="PontofopagModel.FK_Funcionario_Alocacao" />
@@ -219,9 +222,6 @@
         <AssociationConnector Association="PontofopagModel.FK_mudancahorario_funcionario" />
         <AssociationConnector Association="PontofopagModel.FK_mudcodigofunc_funcionario" />
         <AssociationConnector Association="PontofopagModel.fk_RegistroPonto_Funcionarios" />
-        <EntityTypeShape EntityType="PontofopagModel.horariodetalhe" Width="1.5" PointX="8.25" PointY="55.25" />
-        <AssociationConnector Association="PontofopagModel.FK_horariodetalhe_horario" />
-        <AssociationConnector Association="PontofopagModel.FK_horariodetalhe_jornada" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

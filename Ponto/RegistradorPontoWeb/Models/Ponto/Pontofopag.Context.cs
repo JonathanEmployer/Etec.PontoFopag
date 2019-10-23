@@ -46,10 +46,7 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual DbSet<contrato> contrato { get; set; }
         public virtual DbSet<contratofuncionario> contratofuncionario { get; set; }
         public virtual DbSet<contratousuario> contratousuario { get; set; }
-        public virtual DbSet<cw_acesso> cw_acesso { get; set; }
-        public virtual DbSet<cw_acessocampo> cw_acessocampo { get; set; }
         public virtual DbSet<cw_grupo> cw_grupo { get; set; }
-        public virtual DbSet<cw_usuario> cw_usuario { get; set; }
         public virtual DbSet<cwkvsnsys> cwkvsnsys { get; set; }
         public virtual DbSet<departamento> departamento { get; set; }
         public virtual DbSet<diascompensacao> diascompensacao { get; set; }
@@ -74,7 +71,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual DbSet<feriado> feriado { get; set; }
         public virtual DbSet<FeriadoFuncionario> FeriadoFuncionario { get; set; }
         public virtual DbSet<funcao> funcao { get; set; }
-        public virtual DbSet<funcionariohistorico> funcionariohistorico { get; set; }
         public virtual DbSet<horario> horario { get; set; }
         public virtual DbSet<HorarioInItinere> HorarioInItinere { get; set; }
         public virtual DbSet<horariophextra> horariophextra { get; set; }
@@ -97,7 +93,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual DbSet<LocalizacaoRegistroPonto> LocalizacaoRegistroPonto { get; set; }
         public virtual DbSet<LogErroPainelAPI> LogErroPainelAPI { get; set; }
         public virtual DbSet<LogImportacaoWebApi> LogImportacaoWebApi { get; set; }
-        public virtual DbSet<marcacao> marcacao { get; set; }
         public virtual DbSet<marcacaoacesso> marcacaoacesso { get; set; }
         public virtual DbSet<mudancahorario> mudancahorario { get; set; }
         public virtual DbSet<mudcodigofunc> mudcodigofunc { get; set; }
@@ -114,7 +109,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual DbSet<TAB_Tipo_Configuracao_CDC_Tabela> TAB_Tipo_Configuracao_CDC_Tabela { get; set; }
         public virtual DbSet<TipoVinculo> TipoVinculo { get; set; }
         public virtual DbSet<AlertasDisponiveis> AlertasDisponiveis { get; set; }
-        public virtual DbSet<cw_grupoacesso> cw_grupoacesso { get; set; }
         public virtual DbSet<TabelasPontoCDC> TabelasPontoCDC { get; set; }
         public virtual DbSet<FuncionarioRFID> FuncionarioRFID { get; set; }
         public virtual DbSet<HorarioDinamico> HorarioDinamico { get; set; }
@@ -129,8 +123,14 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual DbSet<rep> rep { get; set; }
         public virtual DbSet<RepHistoricoLocal> RepHistoricoLocal { get; set; }
         public virtual DbSet<tipobilhetes> tipobilhetes { get; set; }
-        public virtual DbSet<funcionario> funcionario { get; set; }
+        public virtual DbSet<marcacao> marcacao { get; set; }
+        public virtual DbSet<cw_acesso> cw_acesso { get; set; }
+        public virtual DbSet<cw_acessocampo> cw_acessocampo { get; set; }
+        public virtual DbSet<cw_grupoacesso> cw_grupoacesso { get; set; }
+        public virtual DbSet<cw_usuario> cw_usuario { get; set; }
         public virtual DbSet<horariodetalhe> horariodetalhe { get; set; }
+        public virtual DbSet<funcionario> funcionario { get; set; }
+        public virtual DbSet<funcionariohistorico> funcionariohistorico { get; set; }
     
         [DbFunction("PontofopagEntities", "F_BancoHoras")]
         public virtual IQueryable<F_BancoHoras_Result> F_BancoHoras(Nullable<System.DateTime> data, Nullable<int> idFuncionario)

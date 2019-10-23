@@ -1286,14 +1286,14 @@ FROM    ( SELECT    t.IdFuncionario ,
                                                   CONVERT(DATETIME, PeriodosFunc.DataFim))
                                 END AS DataFim ,
                                 SUM(CASE WHEN m.data >= DATEADD(DAY,-1 ,GETDATE()) THEN 0
-									ELSE CASE WHEN dbo.convertbatidaminuto(CONVERT(VARCHAR(6), DECRYPTBYKEY(m.campo23))) < 0
+									ELSE CASE WHEN dbo.convertbatidaminuto(m.bancohorascre) < 0
                                          THEN 0
-                                         ELSE dbo.convertbatidaminuto(CONVERT(VARCHAR(6), DECRYPTBYKEY(m.campo23)))
+                                         ELSE dbo.convertbatidaminuto(m.bancohorascre)
                                     END END) AS BancoHorasCreMin ,
                                 SUM(CASE WHEN m.data >= DATEADD(DAY,-1 ,GETDATE()) THEN 0
-									ELSE CASE WHEN dbo.convertbatidaminuto(CONVERT(VARCHAR(6), DECRYPTBYKEY(m.campo24))) < 0
+									ELSE CASE WHEN dbo.convertbatidaminuto(m.bancohorasdeb) < 0
                                          THEN 0
-                                         ELSE dbo.convertbatidaminuto(CONVERT(VARCHAR(6), DECRYPTBYKEY(m.campo24)))
+                                         ELSE dbo.convertbatidaminuto(m.bancohorasdeb)
                                     END END) AS BancohorasDebMin
                       FROM      dbo.marcacao m
                                 INNER JOIN dbo.funcionario fu ON fu.id = m.idfuncionario
@@ -1539,10 +1539,9 @@ FROM    ( SELECT    t.IdFuncionario ,
 					                    vm.dia 'Dia' ,
 					                    vm.nome 'Nome' ,
 					                    vm.matricula 'Matricula' ,
-                        
-					                    REPLACE(REPLACE(CONVERT(VARCHAR(6), DECRYPTBYKEY(vm.campo23)), '--:--',
+					                    REPLACE(REPLACE(vm.bancohorascre, '--:--',
 									                    ''), '-', '') AS 'CredBH' ,
-					                    REPLACE(REPLACE(CONVERT(VARCHAR(6), DECRYPTBYKEY(vm.campo24)), '--:--',
+					                    REPLACE(REPLACE(vm.bancohorasdeb, '--:--',
 									                    ''), '-', '') AS 'DebBH',
 					                    vm.idfuncionario 'idFuncionario' ,
 					                    ISNULL(banco.Hra_Banco_Horas, '00:00') AS 'SaldoBancoHoras',

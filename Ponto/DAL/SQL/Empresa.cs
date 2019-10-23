@@ -13,7 +13,7 @@ namespace DAL.SQL
 
         public string SELECTLIST { get { return @" SELECT empresa.*,  CONVERT(varchar, h.codigo) + ' | ' + h.descricao as NomeHorario FROM empresa  left JOIN horario h ON empresa.idhorariopadraofunc = h.id"; } }
 
-        public string SELECTPCPF { get { return @" SELECT empresa.*,  CONVERT(varchar, h.codigo) + ' | ' + h.descricao as NomeHorario FROM empresa  left JOIN horario h ON empresa.idhorariopadraofunc = h.id where empresa.cpf = @cpf "; } }
+        protected override string SELECTPCPF { get { return @" SELECT empresa.*,  CONVERT(varchar, h.codigo) + ' | ' + h.descricao as NomeHorario FROM empresa  left JOIN horario h ON empresa.idhorariopadraofunc = h.id where empresa.cpf = @cpf "; } }
 
         public string SELECTPCNPJ { get { return @" SELECT empresa.*,  CONVERT(varchar, h.codigo) + ' | ' + h.descricao as NomeHorario FROM empresa  left JOIN horario h ON empresa.idhorariopadraofunc = h.id where empresa.cnpj = @cnpj "; } }
 
@@ -199,26 +199,26 @@ namespace DAL.SQL
         protected override SqlParameter[] GetParameters()
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@id", SqlDbType.Int),
-				new SqlParameter ("@codigo", SqlDbType.Int),
+            {
+                new SqlParameter ("@id", SqlDbType.Int),
+                new SqlParameter ("@codigo", SqlDbType.Int),
                 new SqlParameter ("@bprincipal", SqlDbType.Bit),//Indica se é a empresa principal ou não
                 new SqlParameter ("@tipolicenca", SqlDbType.SmallInt),//Tipo de licença => 0 - demonstracao, 1 - empresa, 2 - funcionario
                 new SqlParameter ("@quantidade", SqlDbType.Int),//Quantidade de funcionarios que podem ser cadastrados dependendo da versao
 				new SqlParameter ("@nome", SqlDbType.VarChar),
-				new SqlParameter ("@endereco", SqlDbType.VarChar),
-				new SqlParameter ("@cidade", SqlDbType.VarChar),
-				new SqlParameter ("@estado", SqlDbType.VarChar),
-				new SqlParameter ("@cep", SqlDbType.VarChar),
-				new SqlParameter ("@cnpj", SqlDbType.VarChar),
-				new SqlParameter ("@cpf", SqlDbType.VarChar),
+                new SqlParameter ("@endereco", SqlDbType.VarChar),
+                new SqlParameter ("@cidade", SqlDbType.VarChar),
+                new SqlParameter ("@estado", SqlDbType.VarChar),
+                new SqlParameter ("@cep", SqlDbType.VarChar),
+                new SqlParameter ("@cnpj", SqlDbType.VarChar),
+                new SqlParameter ("@cpf", SqlDbType.VarChar),
                 new SqlParameter ("@chave", SqlDbType.VarChar),
-				new SqlParameter ("@incdata", SqlDbType.DateTime),
-				new SqlParameter ("@inchora", SqlDbType.DateTime),
-				new SqlParameter ("@incusuario", SqlDbType.VarChar),
-				new SqlParameter ("@altdata", SqlDbType.DateTime),
-				new SqlParameter ("@althora", SqlDbType.DateTime),
-				new SqlParameter ("@altusuario", SqlDbType.VarChar),
+                new SqlParameter ("@incdata", SqlDbType.DateTime),
+                new SqlParameter ("@inchora", SqlDbType.DateTime),
+                new SqlParameter ("@incusuario", SqlDbType.VarChar),
+                new SqlParameter ("@altdata", SqlDbType.DateTime),
+                new SqlParameter ("@althora", SqlDbType.DateTime),
+                new SqlParameter ("@altusuario", SqlDbType.VarChar),
                 new SqlParameter ("@cei", SqlDbType.VarChar),
                 new SqlParameter ("@numeroserie", SqlDbType.VarChar),
                 new SqlParameter ("@bdalterado", SqlDbType.Int),
@@ -445,7 +445,7 @@ namespace DAL.SQL
                 {
                     sb.AppendLine(" AND (SELECT COUNT(id) FROM empresacwusuario WHERE empresacwusuario.idcw_usuario = "
                         + UsuarioLogado.Id.ToString() + " AND empresacwusuario.idempresa = empresa.id) > 0 ");
-                }                
+                }
             }
             return sb.ToString();
         }
@@ -512,7 +512,7 @@ namespace DAL.SQL
 
         public List<Modelo.Empresa> GetAllListLike(string nome)
         {
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@desc", SqlDbType.VarChar)
             };
@@ -591,7 +591,7 @@ namespace DAL.SQL
             return (int)db.ExecuteScalar(CommandType.Text, aux, parms);
         }
 
-         /// <summary>
+        /// <summary>
         /// Método que retorna a empresa principal
         /// </summary>
         /// <returns></returns>
@@ -689,7 +689,7 @@ namespace DAL.SQL
         /// <returns>Período de Fechamento da empresa</returns>
         public Modelo.PeriodoFechamento PeriodoFechamento(int idEmpresa)
         {
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@idEmpresa", SqlDbType.Int)
             };
@@ -728,7 +728,7 @@ namespace DAL.SQL
         /// <returns>Período de Fechamento da empresa</returns>
         public Modelo.PeriodoFechamento PeriodoFechamentoPorCodigo(int codigoEmp)
         {
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@codigoEmp", SqlDbType.Int)
             };
@@ -761,7 +761,7 @@ namespace DAL.SQL
 
         public List<Modelo.Empresa> GetEmpresaByIds(List<int> ids)
         {
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@ids", SqlDbType.VarChar)
             };
@@ -842,7 +842,7 @@ namespace DAL.SQL
                     dt.Load(dr);
                     dt.AsEnumerable().Where(r => !dt.AsEnumerable().Select(s => s.ItemArray[0]).Contains(r.ItemArray[0])).ToList().ForEach(r => dt.ImportRow(r));
                 }
-                
+
                 if (dt != null && dt.Rows.Count == 0)
                 {
                     return new List<int>();

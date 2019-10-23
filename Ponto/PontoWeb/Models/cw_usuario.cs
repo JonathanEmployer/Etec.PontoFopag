@@ -17,6 +17,7 @@ namespace PontoWeb.Models
         public cw_usuario()
         {
             this.empresacwusuario = new HashSet<empresacwusuario>();
+            this.funcionario = new HashSet<funcionario>();
         }
     
         public int id { get; set; }
@@ -32,18 +33,30 @@ namespace PontoWeb.Models
         public Nullable<System.DateTime> altdata { get; set; }
         public Nullable<System.DateTime> althora { get; set; }
         public string altusuario { get; set; }
-        public string email { get; set; }
-        public string senhaemail { get; set; }
-        public string smtp { get; set; }
-        public Nullable<bool> ssl { get; set; }
-        public string porta { get; set; }
-        public string connectionString { get; set; }
-        public Nullable<int> idUsuarioCentralCliente { get; set; }
+        public string EMAIL { get; set; }
+        public string SENHAEMAIL { get; set; }
+        public string SMTP { get; set; }
+        public Nullable<bool> SSL { get; set; }
+        public string PORTA { get; set; }
         public string PasswordSalt { get; set; }
         public string Password { get; set; }
         public Nullable<System.DateTime> UltimoAcesso { get; set; }
+        public string connectionString { get; set; }
+        public Nullable<int> idUsuarioCentralCliente { get; set; }
+        public bool UtilizaControleContratos { get; set; }
+        public bool UtilizaControleEmpresa { get; set; }
+        public bool UtilizaControleSupervisor { get; set; }
+        public string Cpf { get; set; }
+        public string SenhaRep { get; set; }
+        public string LoginRep { get; set; }
+        public Nullable<bool> utilizaregistradordesktop { get; set; }
+        public string CpfUsuario { get; set; }
+        public Nullable<bool> PermissaoConcluirFluxoPnl { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual cw_grupo cw_grupo { get; set; }
         public virtual ICollection<empresacwusuario> empresacwusuario { get; set; }
+        public virtual ICollection<funcionario> funcionario { get; set; }
     }
 }

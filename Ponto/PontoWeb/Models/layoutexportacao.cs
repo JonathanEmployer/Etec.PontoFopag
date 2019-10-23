@@ -28,6 +28,8 @@ namespace PontoWeb.Models
         public Nullable<System.DateTime> altdata { get; set; }
         public Nullable<System.DateTime> althora { get; set; }
         public string altusuario { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual ICollection<exportacaocampos> exportacaocampos { get; set; }
     }

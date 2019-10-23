@@ -55,6 +55,24 @@ namespace PontoWeb.Models
         public Nullable<System.DateTime> validade { get; set; }
         public string ultimoacesso { get; set; }
         public string connectionString { get; set; }
+        public string InstanciaBD { get; set; }
+        public bool utilizacontrolecontratos { get; set; }
+        public bool relatorioInconsistencia { get; set; }
+        public bool relatorioComparacaoBilhetes { get; set; }
+        public bool utilizaregistradorfunc { get; set; }
+        public Nullable<int> idIntegracao { get; set; }
+        public Nullable<short> DiaFechamentoInicial { get; set; }
+        public Nullable<short> DiaFechamentoFinal { get; set; }
+        public bool PermiteClassHorasExtrasPainel { get; set; }
+        public bool BloqueiaJustificativaForaPeriodo { get; set; }
+        public Nullable<short> DtInicioJustificativa { get; set; }
+        public Nullable<short> DtFimJustificativa { get; set; }
+        public Nullable<int> IdHorarioPadraoFunc { get; set; }
+        public Nullable<int> TipoHorarioPadraoFunc { get; set; }
+        public bool PermiteAbonoParcialPainel { get; set; }
+        public Nullable<bool> LimitarQtdAbono { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual ICollection<afastamento> afastamento { get; set; }
         public virtual ICollection<departamento> departamento { get; set; }

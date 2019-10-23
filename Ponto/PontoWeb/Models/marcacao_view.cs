@@ -91,5 +91,28 @@ namespace PontoWeb.Models
         public string bancohorasdeb { get; set; }
         public string valordsr { get; set; }
         public string exphorasextranoturna { get; set; }
+        public string totalHorasTrabalhadas { get; set; }
+        public Nullable<int> idFechamentoPonto { get; set; }
+        public string Interjornada { get; set; }
+        public Nullable<int> IdDocumentoWorkflow { get; set; }
+        public Nullable<int> DocumentoWorkflowAberto { get; set; }
+        public string InItinereHrsDentroJornada { get; set; }
+        public Nullable<decimal> InItinerePercDentroJornada { get; set; }
+        public string InItinereHrsForaJornada { get; set; }
+        public Nullable<decimal> InItinerePercForaJornada { get; set; }
+        public Nullable<bool> NaoConsiderarInItinere { get; set; }
+        public string LegendasConcatenadas { get; set; }
+        public string AdicionalNoturno { get; set; }
+        public int flgtrabalhou { get; set; }
+        public Nullable<System.DateTime> DataBloqueioEdicaoPnlRh { get; set; }
+        public string LoginBloqueioEdicaoPnlRh { get; set; }
+        public Nullable<System.DateTime> DataConclusaoFluxoPnlRh { get; set; }
+        public string LoginConclusaoFluxoPnlRh { get; set; }
+        public string horaExtraInterjornada { get; set; }
+        public string horasTrabalhadasDentroFeriadoDiurna { get; set; }
+        public string horasTrabalhadasDentroFeriadoNoturna { get; set; }
+        public string horasPrevistasDentroFeriadoDiurna { get; set; }
+        public string horasPrevistasDentroFeriadoNoturna { get; set; }
+        public short naoconsiderarferiado { get; set; }
     }
 }

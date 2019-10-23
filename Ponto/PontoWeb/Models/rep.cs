@@ -39,6 +39,21 @@ namespace PontoWeb.Models
         public bool biometrico { get; set; }
         public Nullable<int> idempresa { get; set; }
         public Nullable<int> idequipamentohomologado { get; set; }
+        public Nullable<int> UltimoNSR { get; set; }
+        public Nullable<bool> ImportacaoAtivada { get; set; }
+        public Nullable<int> TempoRequisicao { get; set; }
+        public Nullable<System.DateTime> DataInicioImportacao { get; set; }
+        public string IdTimeZoneInfo { get; set; }
+        public Nullable<int> CodigoLocal { get; set; }
+        public short TipoIP { get; set; }
+        public Nullable<System.DateTime> UltimaIntegracao { get; set; }
+        public string CpfRep { get; set; }
+        public string LoginRep { get; set; }
+        public string SenhaRep { get; set; }
+        public short CampoCracha { get; set; }
+        public Nullable<int> IdEquipamentoTipoBiometria { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual empresa empresa { get; set; }
         public virtual ICollection<tipobilhetes> tipobilhetes { get; set; }

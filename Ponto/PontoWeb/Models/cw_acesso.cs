@@ -29,7 +29,15 @@ namespace PontoWeb.Models
         public string incusuario { get; set; }
         public Nullable<System.DateTime> altdata { get; set; }
         public Nullable<System.DateTime> althora { get; set; }
-        public string altusuario { get; set; }  
+        public string altusuario { get; set; }
+        public string Controller { get; set; }
+        public string Nome { get; set; }
+        public string Menu { get; set; }
+        public Nullable<short> Consultar { get; set; }
+        public Nullable<short> Excluir { get; set; }
+        public Nullable<short> Cadastrar { get; set; }
+        public Nullable<short> Alterar { get; set; }
+    
         public virtual cw_grupo cw_grupo { get; set; }
         public virtual ICollection<cw_acessocampo> cw_acessocampo { get; set; }
     }

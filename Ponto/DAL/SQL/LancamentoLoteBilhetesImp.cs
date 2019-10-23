@@ -12,55 +12,55 @@ namespace DAL.SQL
     {
         #region Sql utizado para alterar os valores da marcação de acordo com o bilhetes (Alterar/Excluir), de acordo com idsLancamentoFuncionarios.
         string UPDATEBILHETEMARCACAO = @" UPDATE marcacao
-	                                        SET	  campo01 = case	when @acao = 3 and biE1.mar_hora is not null then null 
-								                                    when biE1.mar_hora is not null then encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  biE1.mar_hora ))
-								                                    else campo01 end
-			                                    , campo02 = case	when @acao = 3 and biE2.mar_hora is not null then null 
-								                                    when biE2.mar_hora is not null then encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  biE2.mar_hora ))
-								                                    else campo02 end
-			                                    , campo03 = case	when @acao = 3 and biE3.mar_hora is not null then null 
-								                                    when biE3.mar_hora is not null then encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  biE3.mar_hora ))
-								                                    else campo03 end
-			                                    , campo04 = case	when @acao = 3 and biE4.mar_hora is not null then null 
-								                                    when biE4.mar_hora is not null then encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  biE4.mar_hora ))
-								                                    else campo04 end
-			                                    , campo05 = case	when @acao = 3 and biE5.mar_hora is not null then null 
-								                                    when biE5.mar_hora is not null then encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  biE5.mar_hora ))
-								                                    else campo05 end
-			                                    , campo06 = case	when @acao = 3 and biE6.mar_hora is not null then null 
-								                                    when biE6.mar_hora is not null then encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  biE6.mar_hora ))
-								                                    else campo06 end
-			                                    , campo07 = case	when @acao = 3 and biE7.mar_hora is not null then null 
-								                                    when biE7.mar_hora is not null then encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  biE7.mar_hora ))
-								                                    else campo07 end
-			                                    , campo08 = case	when @acao = 3 and biE8.mar_hora is not null then null 
-								                                    when biE8.mar_hora is not null then encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  biE8.mar_hora ))
-								                                    else campo08 end
+	                                        SET	  entrada_1 = case	when @acao = 3 and biE1.mar_hora is not null then null 
+								                                    when biE1.mar_hora is not null then convert(varchar,  biE1.mar_hora )
+								                                    else entrada_1 end
+			                                    , entrada_2 = case	when @acao = 3 and biE2.mar_hora is not null then null 
+								                                    when biE2.mar_hora is not null then convert(varchar,  biE2.mar_hora )
+								                                    else entrada_2 end
+			                                    , entrada_3 = case	when @acao = 3 and biE3.mar_hora is not null then null 
+								                                    when biE3.mar_hora is not null then convert(varchar,  biE3.mar_hora )
+								                                    else entrada_3 end
+			                                    , entrada_4 = case	when @acao = 3 and biE4.mar_hora is not null then null 
+								                                    when biE4.mar_hora is not null then convert(varchar,  biE4.mar_hora )
+								                                    else entrada_4 end
+			                                    , entrada_5 = case	when @acao = 3 and biE5.mar_hora is not null then null 
+								                                    when biE5.mar_hora is not null then convert(varchar,  biE5.mar_hora )
+								                                    else entrada_5 end
+			                                    , entrada_6 = case	when @acao = 3 and biE6.mar_hora is not null then null 
+								                                    when biE6.mar_hora is not null then convert(varchar,  biE6.mar_hora )
+								                                    else entrada_6 end
+			                                    , entrada_7 = case	when @acao = 3 and biE7.mar_hora is not null then null 
+								                                    when biE7.mar_hora is not null then convert(varchar,  biE7.mar_hora )
+								                                    else entrada_7 end
+			                                    , entrada_8 = case	when @acao = 3 and biE8.mar_hora is not null then null 
+								                                    when biE8.mar_hora is not null then convert(varchar,  biE8.mar_hora )
+								                                    else entrada_8 end
 
-			                                    , campo09 = case	when @acao = 3 and biS1.mar_hora is not null then null 
-								                                    when biS1.mar_hora is not null then encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  biS1.mar_hora ))
-								                                    else campo09 end
-			                                    , campo10 = case	when @acao = 3 and biS2.mar_hora is not null then null 
-								                                    when biS2.mar_hora is not null then encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  biS2.mar_hora ))
-								                                    else campo10 end
-			                                    , campo11 = case	when @acao = 3 and biS3.mar_hora is not null then null 
-								                                    when biS3.mar_hora is not null then encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  biS3.mar_hora ))
-								                                    else campo11 end
-			                                    , campo12 = case	when @acao = 3 and biS4.mar_hora is not null then null 
-								                                    when biS4.mar_hora is not null then encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  biS4.mar_hora ))
-								                                    else campo12 end
-			                                    , campo13 = case	when @acao = 3 and biS5.mar_hora is not null then null 
-								                                    when biS5.mar_hora is not null then encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  biS5.mar_hora ))
-								                                    else campo13 end
-			                                    , campo14 = case	when @acao = 3 and biS6.mar_hora is not null then null 
-								                                    when biS6.mar_hora is not null then encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  biS6.mar_hora ))
-								                                    else campo14 end
-			                                    , campo15 = case	when @acao = 3 and biS7.mar_hora is not null then null 
-								                                    when biS7.mar_hora is not null then encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  biS7.mar_hora ))
-								                                    else campo15 end
-			                                    , campo16 = case	when @acao = 3 and biS8.mar_hora is not null then null 
-								                                    when biS8.mar_hora is not null then encryptbykey(key_guid ('PontoMTKey'), convert(varchar,  biS8.mar_hora ))
-								                                    else campo16 end
+			                                    , saida_1 = case	when @acao = 3 and biS1.mar_hora is not null then null 
+								                                    when biS1.mar_hora is not null then convert(varchar,  biS1.mar_hora )
+								                                    else saida_1 end
+			                                    , saida_2 = case	when @acao = 3 and biS2.mar_hora is not null then null 
+								                                    when biS2.mar_hora is not null then convert(varchar,  biS2.mar_hora )
+								                                    else saida_2 end
+			                                    , saida_3 = case	when @acao = 3 and biS3.mar_hora is not null then null 
+								                                    when biS3.mar_hora is not null then convert(varchar,  biS3.mar_hora )
+								                                    else saida_3 end
+			                                    , saida_4 = case	when @acao = 3 and biS4.mar_hora is not null then null 
+								                                    when biS4.mar_hora is not null then convert(varchar,  biS4.mar_hora )
+								                                    else saida_4 end
+			                                    , saida_5 = case	when @acao = 3 and biS5.mar_hora is not null then null 
+								                                    when biS5.mar_hora is not null then convert(varchar,  biS5.mar_hora )
+								                                    else saida_5 end
+			                                    , saida_6 = case	when @acao = 3 and biS6.mar_hora is not null then null 
+								                                    when biS6.mar_hora is not null then convert(varchar,  biS6.mar_hora )
+								                                    else saida_6 end
+			                                    , saida_7 = case	when @acao = 3 and biS7.mar_hora is not null then null 
+								                                    when biS7.mar_hora is not null then convert(varchar,  biS7.mar_hora )
+								                                    else saida_7 end
+			                                    , saida_8 = case	when @acao = 3 and biS8.mar_hora is not null then null 
+								                                    when biS8.mar_hora is not null then convert(varchar,  biS8.mar_hora )
+								                                    else saida_8 end
 			                                    , ent_num_relogio_1 = case	when @acao = 3 and biE1.mar_hora is not null then '' 
 										                                    when biE1.mar_hora is not null then biE1.mar_relogio
 										                                    else ent_num_relogio_1 end
@@ -203,7 +203,7 @@ namespace DAL.SQL
 
         private void AuxManutencao(SqlTransaction trans, Modelo.ModeloBase obj)
         {
-            
+
         }
 
         protected override bool SetInstance(SqlDataReader dr, Modelo.ModeloBase obj)
@@ -302,22 +302,22 @@ namespace DAL.SQL
         protected override SqlParameter[] GetParameters()
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@id", SqlDbType.Int),
-				new SqlParameter ("@codigo", SqlDbType.Int),
+            {
+                new SqlParameter ("@id", SqlDbType.Int),
+                new SqlParameter ("@codigo", SqlDbType.Int),
                 new SqlParameter ("@incdata", SqlDbType.DateTime),
-				new SqlParameter ("@inchora", SqlDbType.DateTime),
-				new SqlParameter ("@incusuario", SqlDbType.VarChar),
-				new SqlParameter ("@altdata", SqlDbType.DateTime),
-				new SqlParameter ("@althora", SqlDbType.DateTime),
-				new SqlParameter ("@altusuario", SqlDbType.VarChar),
+                new SqlParameter ("@inchora", SqlDbType.DateTime),
+                new SqlParameter ("@incusuario", SqlDbType.VarChar),
+                new SqlParameter ("@altdata", SqlDbType.DateTime),
+                new SqlParameter ("@althora", SqlDbType.DateTime),
+                new SqlParameter ("@altusuario", SqlDbType.VarChar),
                 new SqlParameter ("@idLancamentoLote", SqlDbType.Int),
-				new SqlParameter ("@hora", SqlDbType.VarChar),
+                new SqlParameter ("@hora", SqlDbType.VarChar),
                 new SqlParameter ("@ocorrencia", SqlDbType.VarChar),
                 new SqlParameter ("@motivo", SqlDbType.VarChar),
                 new SqlParameter ("@idjustificativa", SqlDbType.Int),
                 new SqlParameter ("@relogio", SqlDbType.VarChar)
-			};
+            };
             return parms;
         }
 
@@ -364,7 +364,7 @@ namespace DAL.SQL
             List<Modelo.LancamentoLoteBilhetesImp> lista = new List<Modelo.LancamentoLoteBilhetesImp>();
             SqlParameter[] parms = new SqlParameter[0];
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, SELECTALL, parms);
-            SetaListaObjeto(dr,ref lista);
+            SetaListaObjeto(dr, ref lista);
             return lista;
         }
 
@@ -416,7 +416,7 @@ namespace DAL.SQL
         public void ExcluirLancamentoLoteBilhetesImp(SqlTransaction trans, List<int> idlancamentolotefuncionario)
         {
             SqlParameter[] parms = new SqlParameter[2]
-            { 
+            {
                     new SqlParameter("@idsLancamentoLoteFuncionario", SqlDbType.VarChar),
                     new SqlParameter("@acao", SqlDbType.Int)
             };
@@ -505,7 +505,7 @@ namespace DAL.SQL
                 dalBilhetes.AtualizarBilhetesEmLote(lBilhetes, trans);
 
                 SqlParameter[] parms = new SqlParameter[2]
-                { 
+                {
                         new SqlParameter("@idsLancamentoLoteFuncionario", SqlDbType.VarChar),
                         new SqlParameter("@acao", SqlDbType.Int)
                 };
@@ -521,7 +521,7 @@ namespace DAL.SQL
 
         public List<Modelo.BilhetesImp> GetBilhetesLoteFuncionario(List<int> idsLancamentoLoteFuncionario, SqlTransaction trans)
         {
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@ids", SqlDbType.VarChar)
             };

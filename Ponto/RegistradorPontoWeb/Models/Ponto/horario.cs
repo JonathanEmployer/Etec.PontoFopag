@@ -20,11 +20,11 @@ namespace RegistradorPontoWeb.Models.Ponto
             this.HorarioInItinere = new HashSet<HorarioInItinere>();
             this.horariophextra = new HashSet<horariophextra>();
             this.limiteddsr = new HashSet<limiteddsr>();
-            this.marcacao = new HashSet<marcacao>();
             this.mudancahorario = new HashSet<mudancahorario>();
             this.mudcodigofunc = new HashSet<mudcodigofunc>();
-            this.funcionario = new HashSet<funcionario>();
+            this.marcacao = new HashSet<marcacao>();
             this.horariodetalhe = new HashSet<horariodetalhe>();
+            this.funcionario = new HashSet<funcionario>();
         }
     
         public int id { get; set; }
@@ -136,15 +136,15 @@ namespace RegistradorPontoWeb.Models.Ponto
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<limiteddsr> limiteddsr { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<marcacao> marcacao { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<mudancahorario> mudancahorario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<mudcodigofunc> mudcodigofunc { get; set; }
         public virtual HorarioDinamico HorarioDinamico { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<funcionario> funcionario { get; set; }
+        public virtual ICollection<marcacao> marcacao { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<horariodetalhe> horariodetalhe { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<funcionario> funcionario { get; set; }
     }
 }

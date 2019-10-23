@@ -26,5 +26,7 @@ namespace PontoWeb.Models
         public Nullable<System.DateTime> altdata { get; set; }
         public Nullable<System.DateTime> althora { get; set; }
         public string altusuario { get; set; }
+        public bool EquipamentoHomologadoInmetro { get; set; }
+        public bool ServicoComunicador { get; set; }
     }
 }

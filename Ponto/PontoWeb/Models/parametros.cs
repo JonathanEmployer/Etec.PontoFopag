@@ -47,6 +47,32 @@ namespace PontoWeb.Models
         public Nullable<short> DiaFechamentoInicial { get; set; }
         public Nullable<short> DiaFechamentoFinal { get; set; }
         public Nullable<bool> MudaPeriodoImediatamento { get; set; }
+        public string EMAIL { get; set; }
+        public string SENHAEMAIL { get; set; }
+        public string SMTP { get; set; }
+        public Nullable<bool> SSL { get; set; }
+        public string PORTA { get; set; }
+        public Nullable<bool> bConsiderarHEFeriadoPHoraNoturna { get; set; }
+        public Nullable<decimal> PercAdicNoturno { get; set; }
+        public string ReducaoHoraNoturna { get; set; }
+        public string LogoEmpresa { get; set; }
+        public string THoraExtraEntrada { get; set; }
+        public string THoraExtraSaida { get; set; }
+        public string THoraFaltaEntrada { get; set; }
+        public string THoraFaltaSaida { get; set; }
+        public Nullable<bool> HabilitarControleInItinere { get; set; }
+        public bool IntegrarSalarioFunc { get; set; }
+        public bool BloqueiaDadosIntegrados { get; set; }
+        public Nullable<int> IdHorarioPadraoFunc { get; set; }
+        public Nullable<int> TipoHorarioPadraoFunc { get; set; }
+        public string TIntervaloExtra { get; set; }
+        public string TIntervaloFalta { get; set; }
+        public Nullable<int> toleranciaAdicionalNoturno { get; set; }
+        public short MomentoPreAssinalado { get; set; }
+        public Nullable<bool> Flg_Separar_Trabalhadas_Noturna_Extras_Noturna { get; set; }
+        public bool Flg_Estender_Periodo_Noturno { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual ICollection<horario> horario { get; set; }
     }

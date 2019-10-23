@@ -17,6 +17,8 @@ namespace PontoWeb.Models
         public int ID { get; set; }
         public int IDAlertas { get; set; }
         public int IDFuncionario { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual Alertas Alertas { get; set; }
         public virtual funcionario funcionario { get; set; }

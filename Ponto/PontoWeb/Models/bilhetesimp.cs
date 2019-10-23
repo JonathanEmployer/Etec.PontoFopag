@@ -38,5 +38,13 @@ namespace PontoWeb.Models
         public string ocorrencia { get; set; }
         public string motivo { get; set; }
         public Nullable<int> idjustificativa { get; set; }
+        public Nullable<int> nsr { get; set; }
+        public Nullable<int> idLancamentoLoteFuncionario { get; set; }
+        public Nullable<int> IdFuncionario { get; set; }
+        public string PIS { get; set; }
+        public Nullable<System.DateTime> Mar_DataHora { get; set; }
+        public Nullable<int> IdRegistroPonto { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     }
 }

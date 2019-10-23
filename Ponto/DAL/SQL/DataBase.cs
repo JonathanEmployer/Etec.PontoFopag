@@ -7,12 +7,6 @@ namespace DAL.SQL
 {
     public class DataBase : IDataBase
     {
-        internal static string KEY = "Pc0W10R#m";
-        internal static string OPENKEY = @"OPEN SYMMETRIC KEY PontoMTKey DECRYPTION BY PASSWORD = '" + KEY + "';";
-        internal static string CLOSEKEY = @"declare @chavekey int;
-                                            select @chavekey = count(*) from sys.openkeys where key_name = 'PontoMTKey';
-                                            if @chavekey = 1
-                                               CLOSE SYMMETRIC KEY PontoMTKey;";
         private string _ConnectionString;
         internal string ConnectionString
         {
@@ -45,7 +39,7 @@ namespace DAL.SQL
                 {
                     return TentaAtribuirConexao();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     //throw ex;
                     try
@@ -78,28 +72,12 @@ namespace DAL.SQL
             try
             {
                 throw new Exception("Gerando conexão indevidamente");
-                SqlConnectionStringBuilder connBuilder = new SqlConnectionStringBuilder();
-                StackTrace skt = new StackTrace();
-                StackFrame[] skf = skt.GetFrames();
-                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(Modelo.cwkGlobal.CONN_STRING);
-                string nAplicationName = builder.ApplicationName + Modelo.cwkGlobal.objUsuarioLogado.Nome;
-                foreach (var item in skf)
-                {
-                    if (item.GetMethod().Name.ToLower().Contains("dojob"))
-                    {
-                        nAplicationName = nAplicationName + "Job";
-                        break;
-                    }
-                }
-                builder.ApplicationName = nAplicationName;
-
-                return builder.ConnectionString;
             }
             catch (Exception ex)
-            {              
+            {
                 throw ex;
             }
-           
+
         }
 
         internal static bool ConnStringIgual(string str1, string str2)
@@ -118,18 +96,6 @@ namespace DAL.SQL
             }
         }
 
-        internal static string RetornaComandoKey(string cmdText)
-        {
-            if (cmdText.Contains("CREATE TRIGGER ")
-                || cmdText.Contains("CREATE UNIQUE INDEX")
-                || cmdText.ToLower().Contains("create function")
-                || cmdText.Contains("CREATE PROCEDURE"))
-            {
-                return cmdText;
-            }
-            return OPENKEY + cmdText + ";" + CLOSEKEY;
-        }
-
         internal static string SetLanguage(string cmdText)
         {
             return "SET LANGUAGE 'Brazilian'; " + cmdText;
@@ -145,10 +111,10 @@ namespace DAL.SQL
                 {
                     PrepareParameters(cmdParms, true);
                     cmd.CommandTimeout = 600000;
-                    PrepareCommand(cmd, conn, null, cmdType, RetornaComandoKey(cmdText), cmdParms);
+                    PrepareCommand(cmd, conn, null, cmdType, cmdText, cmdParms);
                     int val = cmd.ExecuteNonQuery();
                     cmd.Parameters.Clear();
-                    
+
                     return val;
                 }
                 catch (Exception ex)
@@ -180,7 +146,7 @@ namespace DAL.SQL
                 }
             }
         }
-        
+
         #endregion
 
         #region ExecuteNonQueryCmd
@@ -192,7 +158,7 @@ namespace DAL.SQL
             try
             {
                 PrepareParameters(cmdParms, removeQuote);
-                PrepareCommand(cmd, conn, null, cmdType, RetornaComandoKey(cmdText), cmdParms);
+                PrepareCommand(cmd, conn, null, cmdType, cmdText, cmdParms);
                 int val = cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -215,7 +181,7 @@ namespace DAL.SQL
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandTimeout = 1000;
                 PrepareParameters(cmdParms, true);
-                PrepareCommand(cmd, conn, null, cmdType, RetornaComandoKey(cmdText), cmdParms);
+                PrepareCommand(cmd, conn, null, cmdType, cmdText, cmdParms);
                 dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
             }
             catch (Exception ex)
@@ -232,7 +198,7 @@ namespace DAL.SQL
             SqlConnection conn = GetConnection;
             DataTable ret = new DataTable();
             PrepareParameters(cmdParms, true);
-            using (SqlDataAdapter comm = new SqlDataAdapter(RetornaComandoKey(cmdText), conn))
+            using (SqlDataAdapter comm = new SqlDataAdapter(cmdText, conn))
             {
                 foreach (SqlParameter param in cmdParms)
                 {
@@ -250,7 +216,7 @@ namespace DAL.SQL
 
         public SqlDataReader ExecuteReaderPT(CommandType cmdType, string cmdText, params SqlParameter[] cmdParms)
         {
-           return ExecuteReader(cmdType, SetLanguage(cmdText), cmdParms);
+            return ExecuteReader(cmdType, SetLanguage(cmdText), cmdParms);
         }
         #endregion
 
@@ -263,7 +229,7 @@ namespace DAL.SQL
             {
                 SqlCommand cmd = new SqlCommand();
                 PrepareParameters(cmdParms, true);
-                PrepareCommand(cmd, conn, null, cmdType, RetornaComandoKey(cmdText), cmdParms);
+                PrepareCommand(cmd, conn, null, cmdType, cmdText, cmdParms);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(ds);
                 cmd.Parameters.Clear();
@@ -287,7 +253,7 @@ namespace DAL.SQL
             {
                 SqlCommand cmd = new SqlCommand();
                 PrepareParameters(cmdParms, true);
-                PrepareCommand(cmd, conn, null, cmdType, RetornaComandoKey(cmdText), cmdParms);
+                PrepareCommand(cmd, conn, null, cmdType, cmdText, cmdParms);
                 obj = cmd.ExecuteScalar();
                 cmd.Parameters.Clear();
             }
@@ -383,7 +349,7 @@ namespace DAL.SQL
                                 if (i == (Controle * limite))
                                 {
                                     comandosSql = comandosSql + comandos[i] + ";\n";
-                                    comandoSQL = new SqlCommand(OPENKEY + comandosSql + CLOSEKEY);
+                                    comandoSQL = new SqlCommand(comandosSql);
                                     comandoSQL.Connection = conn;
                                     comandoSQL.Transaction = trans;
                                     comandoSQL.ExecuteNonQuery();
@@ -399,7 +365,7 @@ namespace DAL.SQL
 
                             if (comandosSql != null && comandosSql != "")
                             {
-                                comandoSQL = new SqlCommand(OPENKEY + comandosSql.ToString() + CLOSEKEY);
+                                comandoSQL = new SqlCommand(comandosSql.ToString());
                                 comandoSQL.Connection = conn;
                                 comandoSQL.Transaction = trans;
                                 comandoSQL.ExecuteNonQuery();

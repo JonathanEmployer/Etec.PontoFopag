@@ -80,6 +80,8 @@ namespace PontoWeb.Models
         public Nullable<short> conversaohoranoturna { get; set; }
         public Nullable<short> calculoadnoturno { get; set; }
         public Nullable<int> idjornada { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual ICollection<diasjornadaalternativa> diasjornadaalternativa { get; set; }
         public virtual jornada jornada { get; set; }

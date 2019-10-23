@@ -9,9 +9,6 @@ namespace DAL.SQL
 {
     public class CartaoPonto : DAL.SQL.DALBase, ICartaoPonto
     {
-        private DataBase db;
-        public Modelo.Cw_Usuario UsuarioLogado { get; set; }
-
         public CartaoPonto(DataBase database)
         {
             db = database;
@@ -76,30 +73,30 @@ namespace DAL.SQL
                                                ISNULL(marcacao.legenda, ' ') AS legenda,
                                                marcacao.data,
                                                marcacao.dia,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo01)),'--:--') entrada_1,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo02)),'--:--') entrada_2,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo03)),'--:--') entrada_3,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo04)),'--:--') entrada_4,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo05)),'--:--') entrada_5,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo06)),'--:--') entrada_6,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo07)),'--:--') entrada_7,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo08)),'--:--') entrada_8,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo09)),'--:--') saida_1,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo10)),'--:--') saida_2,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo11)),'--:--') saida_3,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo12)),'--:--') saida_4,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo13)),'--:--') saida_5,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo14)),'--:--') saida_6,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo15)),'--:--') saida_7,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo16)),'--:--') saida_8,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo17)),'--:--') horastrabalhadas,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo18)),'--:--') horasextrasdiurna,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo19)),'--:--') horasfaltas,
+                                               ISNULL(marcacao.entrada_1,'--:--') entrada_1,
+                                               ISNULL(marcacao.entrada_2,'--:--') entrada_2,
+                                               ISNULL(marcacao.entrada_3,'--:--') entrada_3,
+                                               ISNULL(marcacao.entrada_4,'--:--') entrada_4,
+                                               ISNULL(marcacao.entrada_5,'--:--') entrada_5,
+                                               ISNULL(marcacao.entrada_6,'--:--') entrada_6,
+                                               ISNULL(marcacao.entrada_7,'--:--') entrada_7,
+                                               ISNULL(marcacao.entrada_8,'--:--') entrada_8,
+                                               ISNULL(marcacao.saida_1,'--:--') saida_1,
+                                               ISNULL(marcacao.saida_2,'--:--') saida_2,
+                                               ISNULL(marcacao.saida_3,'--:--') saida_3,
+                                               ISNULL(marcacao.saida_4,'--:--') saida_4,
+                                               ISNULL(marcacao.saida_5,'--:--') saida_5,
+                                               ISNULL(marcacao.saida_6,'--:--') saida_6,
+                                               ISNULL(marcacao.saida_7,'--:--') saida_7,
+                                               ISNULL(marcacao.saida_8,'--:--') saida_8,
+                                               ISNULL(marcacao.horastrabalhadas,'--:--') horastrabalhadas,
+                                               ISNULL(marcacao.horasextrasdiurna,'--:--') horasextrasdiurna,
+                                               ISNULL(marcacao.horasfaltas,'--:--') horasfaltas,
                                                marcacao.entradaextra,
                                                marcacao.saidaextra,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo20)),'--:--') AS horastrabalhadasnoturnas,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo21)),'--:--') AS horasextranoturna,
-                                               ISNULL(CONVERT (VARCHAR (5), decryptbykey(campo22)),'--:--') AS horasfaltanoturna,
+                                               ISNULL(marcacao.horastrabalhadasnoturnas,'--:--') AS horastrabalhadasnoturnas,
+                                               ISNULL(marcacao.horasextranoturna,'--:--') AS horasextranoturna,
+                                               ISNULL(marcacao.horasfaltanoturna,'--:--') AS horasfaltanoturna,
                                                marcacao.ocorrencia,
                                                funcionario.dscodigo,
                                                funcionario.nome AS funcionario,
@@ -116,7 +113,7 @@ namespace DAL.SQL
                                                empresa.estado,
                                                parametros.thoraextra,
                                                parametros.thorafalta,
-                                               ISNULL(CONVERT (VARCHAR (6), decryptbykey(campo25)), '--:--') AS valordsr,
+                                               ISNULL(marcacao.valordsr, '--:--') AS valordsr,
                                                funcionario.idempresa,
                                                funcionario.iddepartamento,
                                                funcionario.idfuncao,
@@ -185,15 +182,15 @@ namespace DAL.SQL
                                                horariodetalheflexivel.totaltrabalhadadiurna AS chdiurnaflexivel,
                                                horariodetalheflexivel.totaltrabalhadanoturna AS chnoturnaflexivel,
                                                horariodetalheflexivel.flagfolga AS flagfolgaflexivel,
-                                               ISNULL(CONVERT (VARCHAR (6), decryptbykey(campo23)),'---:--') AS bancohorascre,
-                                               ISNULL(CONVERT (VARCHAR (6), decryptbykey(campo24)),'---:--') bancohorasdeb,
+                                               ISNULL(marcacao.bancohorascre,'---:--') AS bancohorascre,
+                                               ISNULL(marcacao.bancohorasdeb,'---:--') bancohorasdeb,
                                                ISNULL(marcacao.folga, 0) AS folga,
                                                ISNULL(marcacao.chave, '') AS chave,
                                                horario.obs AS observacao,
                                                funcionario.campoobservacao AS observacaofunc,
                                                parametros.imprimeobservacao,
                                                parametros.campoobservacao,
-                                               ISNULL(CONVERT(VARCHAR (5), decryptbykey(campo26)),'--:--') exphorasextranoturna,
+                                               ISNULL(marcacao.exphorasextranoturna,'--:--') exphorasextranoturna,
                                                hphe.percextraprimeiro1,
                                                hphe.tipoacumulo1,
                                                hphe.percextraprimeiro2,
@@ -313,7 +310,7 @@ namespace DAL.SQL
 	                               ) i 
                                WHERE 1 = 1  ";
 
-            
+
 
             DataTable dt = new DataTable();
 
@@ -356,30 +353,30 @@ namespace DAL.SQL
             string aux = "   SELECT    marcacao.id, marcacao.idhorario "
                        + ", ISNULL(marcacao.legenda, ' ') AS legenda "
                        + ", marcacao.data, marcacao.dia "
-                        + " , CASE WHEN campo01 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo01)) END AS entrada_1 "
-                        + " , CASE WHEN campo02 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo02)) END AS entrada_2 "
-                        + " , CASE WHEN campo03 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo03)) END AS entrada_3 "
-                        + " , CASE WHEN campo04 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo04)) END AS entrada_4 "
-                        + " , CASE WHEN campo05 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo05)) END AS entrada_5 "
-                        + " , CASE WHEN campo06 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo06)) END AS entrada_6 "
-                        + " , CASE WHEN campo07 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo07)) END AS entrada_7 "
-                        + " , CASE WHEN campo08 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo08)) END AS entrada_8 "
-                        + " , CASE WHEN campo09 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo09)) END AS saida_1 "
-                        + " , CASE WHEN campo10 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo10)) END AS saida_2 "
-                        + " , CASE WHEN campo11 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo11)) END AS saida_3 "
-                        + " , CASE WHEN campo12 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo12)) END AS saida_4 "
-                        + " , CASE WHEN campo13 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo13)) END AS saida_5 "
-                        + " , CASE WHEN campo14 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo14)) END AS saida_6 "
-                        + " , CASE WHEN campo15 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo15)) END AS saida_7 "
-                        + " , CASE WHEN campo16 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo16)) END AS saida_8 "
-                        + " , CASE WHEN campo17 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo17)) END AS horastrabalhadas "
-                        + " , CASE WHEN campo18 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo18)) END AS horasextrasdiurna "
-                        + " , CASE WHEN campo19 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo19)) END AS horasfaltas "
+                        + " , CASE WHEN marcacao.entrada_1 IS NULL THEN '--:--' ELSE marcacao.entrada_1 END AS entrada_1 "
+                        + " , CASE WHEN marcacao.entrada_2 IS NULL THEN '--:--' ELSE marcacao.entrada_2 END AS entrada_2 "
+                        + " , CASE WHEN marcacao.entrada_3 IS NULL THEN '--:--' ELSE marcacao.entrada_3 END AS entrada_3 "
+                        + " , CASE WHEN marcacao.entrada_4 IS NULL THEN '--:--' ELSE marcacao.entrada_4 END AS entrada_4 "
+                        + " , CASE WHEN marcacao.entrada_5 IS NULL THEN '--:--' ELSE marcacao.entrada_5 END AS entrada_5 "
+                        + " , CASE WHEN marcacao.entrada_6 IS NULL THEN '--:--' ELSE marcacao.entrada_6 END AS entrada_6 "
+                        + " , CASE WHEN marcacao.entrada_7 IS NULL THEN '--:--' ELSE marcacao.entrada_7 END AS entrada_7 "
+                        + " , CASE WHEN marcacao.entrada_8 IS NULL THEN '--:--' ELSE marcacao.entrada_8 END AS entrada_8 "
+                        + " , CASE WHEN marcacao.saida_1 IS NULL THEN '--:--' ELSE marcacao.saida_1 END AS saida_1 "
+                        + " , CASE WHEN marcacao.saida_2 IS NULL THEN '--:--' ELSE marcacao.saida_2 END AS saida_2 "
+                        + " , CASE WHEN marcacao.saida_3 IS NULL THEN '--:--' ELSE marcacao.saida_3 END AS saida_3 "
+                        + " , CASE WHEN marcacao.saida_4 IS NULL THEN '--:--' ELSE marcacao.saida_4 END AS saida_4 "
+                        + " , CASE WHEN marcacao.saida_5 IS NULL THEN '--:--' ELSE marcacao.saida_5 END AS saida_5 "
+                        + " , CASE WHEN marcacao.saida_6 IS NULL THEN '--:--' ELSE marcacao.saida_6 END AS saida_6 "
+                        + " , CASE WHEN marcacao.saida_7 IS NULL THEN '--:--' ELSE marcacao.saida_7 END AS saida_7 "
+                        + " , CASE WHEN marcacao.saida_8 IS NULL THEN '--:--' ELSE marcacao.saida_8 END AS saida_8 "
+                        + " , CASE WHEN marcacao.horastrabalhadas IS NULL THEN '--:--' ELSE marcacao.horastrabalhadas END AS horastrabalhadas "
+                        + " , CASE WHEN marcacao.horasextrasdiurna IS NULL THEN '--:--' ELSE marcacao.horasextrasdiurna END AS horasextrasdiurna "
+                        + " , CASE WHEN marcacao.horasfaltas IS NULL THEN '--:--' ELSE marcacao.horasfaltas END AS horasfaltas "
                         + " , marcacao.entradaextra "
                         + " , marcacao.saidaextra "
-                        + " , CASE WHEN campo20 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo20)) END AS horastrabalhadasnoturnas "
-                        + " , CASE WHEN campo21 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo21)) END AS horasextranoturna "
-                        + " , CASE WHEN campo22 IS NULL THEN '--:--' ELSE CONVERT(varchar(5), decryptbykey(campo22)) END AS horasfaltanoturna "
+                        + " , CASE WHEN marcacao.horastrabalhadasnoturnas IS NULL THEN '--:--' ELSE marcacao.horastrabalhadasnoturnas END AS horastrabalhadasnoturnas "
+                        + " , CASE WHEN marcacao.horasextranoturna IS NULL THEN '--:--' ELSE marcacao.horasextranoturna END AS horasextranoturna "
+                        + " , CASE WHEN marcacao.horasfaltanoturna IS NULL THEN '--:--' ELSE marcacao.horasfaltanoturna END AS horasfaltanoturna "
                         + " , marcacao.ocorrencia "
                         + " , funcionario.dscodigo "
                         + " , funcionario.nome AS funcionario "
@@ -395,7 +392,7 @@ namespace DAL.SQL
                         + " , empresa.estado "
                         + " , parametros.thoraextra "
                         + " , parametros.thorafalta  "
-                        + " , ISNULL(CONVERT(varchar(6), decryptbykey(campo25)), '--:--') AS valordsr "
+                        + " , ISNULL(marcacao.valordsr, '--:--') AS valordsr "
                         + " , funcionario.idempresa "
                         + " , funcionario.iddepartamento "
                         + " , funcionario.idfuncao "
@@ -417,8 +414,8 @@ namespace DAL.SQL
                         + " , ISNULL((SELECT TOP 1 ISNULL(a.ocorrencia,'') FROM bilhetesimp a where a.dscodigo = marcacao.dscodigo and a.mar_data = marcacao.data and a.ent_sai = 'S' and a.posicao = 7),'') AS tratsai_7 "
                         + " , ISNULL((SELECT TOP 1 ISNULL(a.ocorrencia,'') FROM bilhetesimp a where a.dscodigo = marcacao.dscodigo and a.mar_data = marcacao.data and a.ent_sai = 'S' and a.posicao = 8),'') AS tratsai_8 "
                         + " , ISNULL(horario.tipohorario, 0) AS tipohorario "
-                        + " , CONVERT(varchar(6), decryptbykey(campo23)) AS bancohorascre "
-                        + " , CONVERT(varchar(6), decryptbykey(campo24)) AS bancohorasdeb "
+                        + " , marcacao.bancohorascre AS bancohorascre "
+                        + " , marcacao.bancohorasdeb AS bancohorasdeb "
                         + " , ISNULL(marcacao.folga, 0) AS folga "
                         + " , ISNULL(marcacao.chave, '') AS chave "
                         + " FROM marcacao AS marcacao "

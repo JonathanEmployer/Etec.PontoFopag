@@ -19,10 +19,10 @@ namespace PontoWeb.Models
             this.afastamento = new HashSet<afastamento>();
             this.AlertasFuncionario = new HashSet<AlertasFuncionario>();
             this.funcionariohistorico = new HashSet<funcionariohistorico>();
-            this.marcacao = new HashSet<marcacao>();
             this.marcacaoacesso = new HashSet<marcacaoacesso>();
             this.mudancahorario = new HashSet<mudancahorario>();
             this.mudcodigofunc = new HashSet<mudcodigofunc>();
+            this.marcacao = new HashSet<marcacao>();
         }
     
         public int id { get; set; }
@@ -61,6 +61,21 @@ namespace PontoWeb.Models
         public string CPF { get; set; }
         public string Mob_Senha { get; set; }
         public Nullable<System.DateTime> DtNascimento { get; set; }
+        public Nullable<int> idcw_usuario { get; set; }
+        public bool utilizaregistrador { get; set; }
+        public Nullable<int> idIntegracao { get; set; }
+        public Nullable<int> IdPessoaSupervisor { get; set; }
+        public Nullable<int> TipoMaoObra { get; set; }
+        public Nullable<int> IdAlocacao { get; set; }
+        public Nullable<int> IdTipoVinculo { get; set; }
+        public string Email { get; set; }
+        public Nullable<int> IdIntegracaoPainel { get; set; }
+        public Nullable<long> RFID { get; set; }
+        public Nullable<int> idHorarioDinamico { get; set; }
+        public Nullable<int> CicloSequenciaIndice { get; set; }
+        public Nullable<System.DateTime> DataInativacao { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual ICollection<afastamento> afastamento { get; set; }
         public virtual ICollection<AlertasFuncionario> AlertasFuncionario { get; set; }
@@ -69,9 +84,10 @@ namespace PontoWeb.Models
         public virtual funcao funcao { get; set; }
         public virtual horario horario { get; set; }
         public virtual ICollection<funcionariohistorico> funcionariohistorico { get; set; }
-        public virtual ICollection<marcacao> marcacao { get; set; }
         public virtual ICollection<marcacaoacesso> marcacaoacesso { get; set; }
         public virtual ICollection<mudancahorario> mudancahorario { get; set; }
         public virtual ICollection<mudcodigofunc> mudcodigofunc { get; set; }
+        public virtual ICollection<marcacao> marcacao { get; set; }
+        public virtual cw_usuario cw_usuario { get; set; }
     }
 }

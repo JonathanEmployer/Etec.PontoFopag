@@ -100,5 +100,35 @@ namespace PontoWeb.Models
         public string limitehorasDiarios_8 { get; set; }
         public string limitehorasDiarios_9 { get; set; }
         public bool bancoHorasPorPercentual { get; set; }
+        public string LimiteAlertaCredito { get; set; }
+        public string LimiteAlertaDebito { get; set; }
+        public Nullable<bool> FechamentoPercentualHE { get; set; }
+        public string FechamentoPercentualHELimite1 { get; set; }
+        public string FechamentoPercentualHELimite2 { get; set; }
+        public string FechamentoPercentualHEPercentual1 { get; set; }
+        public string FechamentoPercentualHEPercentual2 { get; set; }
+        public Nullable<bool> bancoHorasDiarioMensal { get; set; }
+        public string limiteHorasBancoHorasDiarioMensal { get; set; }
+        public string limitehorasDiarioMensal_1 { get; set; }
+        public string limitehorasDiarioMensal_2 { get; set; }
+        public string limitehorasDiarioMensal_3 { get; set; }
+        public string limitehorasDiarioMensal_4 { get; set; }
+        public string limitehorasDiarioMensal_5 { get; set; }
+        public string limitehorasDiarioMensal_6 { get; set; }
+        public string limitehorasDiarioMensal_7 { get; set; }
+        public string limitehorasDiarioMensal_8 { get; set; }
+        public string limitehorasDiarioMensal_9 { get; set; }
+        public string SaldoBh_1 { get; set; }
+        public string SaldoBh_2 { get; set; }
+        public string SaldoBh_3 { get; set; }
+        public string SaldoBh_4 { get; set; }
+        public string SaldoBh_5 { get; set; }
+        public string SaldoBh_6 { get; set; }
+        public string SaldoBh_7 { get; set; }
+        public string SaldoBh_8 { get; set; }
+        public string SaldoBh_9 { get; set; }
+        public string LimiteBancoHorasSemanal { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     }
 }

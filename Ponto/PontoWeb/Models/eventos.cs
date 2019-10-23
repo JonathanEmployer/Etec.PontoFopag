@@ -71,5 +71,17 @@ namespace PontoWeb.Models
         public short horasabonadas { get; set; }
         public short ocorrenciasselecionadas { get; set; }
         public string idsocorrencias { get; set; }
+        public short HoristaMensalista { get; set; }
+        public bool ClassificarHorasExtras { get; set; }
+        public Nullable<int> PercInItinere1 { get; set; }
+        public Nullable<int> PercInItinere2 { get; set; }
+        public Nullable<int> PercInItinere3 { get; set; }
+        public Nullable<int> PercInItinere4 { get; set; }
+        public Nullable<int> PercInItinere5 { get; set; }
+        public Nullable<int> PercInItinere6 { get; set; }
+        public Nullable<int> CodigoComplemento { get; set; }
+        public Nullable<bool> InterjornadaExtra { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     }
 }
