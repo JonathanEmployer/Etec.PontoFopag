@@ -301,6 +301,10 @@ namespace BLL
                 }
 
             }
+            if (objeto.DescontardsrBool == true && objeto.Diasemanadsr == -1)
+            {
+                ret.Add("Diasemanadsr", "O campo Dia Semana DSR é obrigatório.");
+            }
 
             return ret;
         }

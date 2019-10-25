@@ -213,6 +213,10 @@ namespace PontoWeb.Controllers
                         obj = horarioAnt;
                         Dictionary<string, string> erros = new Dictionary<string, string>();
                         erros = bllHorario.Salvar(Modelo.Acao.Alterar, obj);
+                        if (erros.Count > 0)
+                        {
+                            TrataErros(erros);
+                        }
                     }
                     return RedirectToAction("Grid", "Horario");
                 }
@@ -444,7 +448,7 @@ namespace PontoWeb.Controllers
         {
             VerificaParametro(obj);
             VerificaJornada(obj);
-            ValidaClassificacao(obj);
+            ValidaClassificacao(obj);           
             if (ModelState.ContainsKey("DataInicial"))
             {
                 ModelState.Remove("DataInicial");
@@ -457,7 +461,11 @@ namespace PontoWeb.Controllers
             {
                 ModelState.Remove("DiaSemanaInicioFolga");
             }
-
+            if (ModelState.ContainsKey("HorarioRestricao"))
+            {
+                ModelState.Remove("HorarioRestricao");
+            }
+            
             if (!obj.SeparaExtraNoturnaPercentual)
             {
                 for (int i = 0; i < obj.LHorariosPHExtra.Count; i++)
@@ -467,8 +475,8 @@ namespace PontoWeb.Controllers
                     {
                         ModelState.Remove("LHorariosPHExtra[" + i + "].PercentualExtraNoturna");
                     }
-                }
-            }
+                }                
+            }      
         }
 
         private static void TrataDados(Horario horario)
@@ -531,7 +539,7 @@ namespace PontoWeb.Controllers
             if (erroTratado.Count > 0)
             {
                 string campoErro = "LHorariosDetalhe[0].DescJornada";
-                ModelState[campoErro].Errors.Add(string.Join(";", erroTratado.Select(x => x.Value).ToArray()));
+                ModelState[campoErro].Errors.Add(string.Join(";", erroTratado.Select(x => x.Value).ToArray()));                
             }
 
             erroTratado = erros.Where(x => x.Key.Equals("cbTipoAcumuloSab")).ToDictionary(x => x.Key, x => x.Value);
@@ -566,6 +574,13 @@ namespace PontoWeb.Controllers
                 ModelState[campoErro].Errors.Add(string.Join(";", erroTratado.Select(x => x.Value).ToArray()));
             }
 
+            erroTratado = erros.Where(x => x.Key.Equals("Diasemanadsr")).ToDictionary(x => x.Key, x => x.Value);
+            erros = erros.Where(x => !x.Key.Equals("Diasemanadsr")).ToDictionary(x => x.Key, x => x.Value);
+            if (erroTratado.Count > 0)
+            {
+                string campoErro = "Diasemanadsr";
+                ModelState.AddModelError(campoErro, string.Join(";", erroTratado.Select(x => x.Value).ToArray()));
+            }
             if (erros.Count() > 0)
             {
                 string erro = string.Join(";", erros.Select(x => x.Key + "=" + x.Value).ToArray());
@@ -881,7 +896,7 @@ namespace PontoWeb.Controllers
                 horario.IdClassificacao = null;
             }
 
-        }
+        }        
 
         [PermissoesFiltro(Roles = "HorarioCadastrar")]
         [HttpPost]
