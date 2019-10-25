@@ -58,6 +58,14 @@ namespace cwkWebAPIPontoWeb.Controllers
                     BLL.ConfirmacaoPainel bllConfirmacao;
                     BuscaPeriodoFechamento(ref MesBase, ref AnoBase, connectionStr, func, out datainicio, out datafim, out diafechamentoinicial, out diafechamentofinal, out bllConfirmacao);
 
+                    if (diafechamentoinicial > 15 && diafechamentoinicial < DateTime.Now.Day && MesBase == DateTime.Now.Month)
+                    {
+                        datainicio = datainicio.AddMonths(1);
+                        datafim = datafim.AddMonths(1);
+                        MesBase = datafim.Month;
+                        AnoBase = datafim.Year;
+                    }
+
                     List<Models.SaldoBancoHorasMes> lSaldoBancoHorasMes = new List<Models.SaldoBancoHorasMes>();
 
                     for (int i = 0; i < QuantidadeMesesAnteriores; i++)
