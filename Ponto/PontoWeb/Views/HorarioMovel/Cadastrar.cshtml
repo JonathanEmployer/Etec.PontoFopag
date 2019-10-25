@@ -2219,7 +2219,7 @@
                             }
                         });
                         cwkErroTit("A Página Contém Erros!", "Foram encontrados erros ao salvar a página, por favor verifique!");
-                        $(".salvando").removeClass("disabled");
+                        $(".salvando").removeAttr("disabled");
                     }
                 },
                 complete: function () {
