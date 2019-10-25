@@ -3642,22 +3642,9 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           <ZIndex>18</ZIndex>
                           <Style>
                             <Border>
+                              <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>Dashed</Style>
-                            </RightBorder>
                             <PaddingTop>1pt</PaddingTop>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
@@ -3690,22 +3677,9 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           <ZIndex>16</ZIndex>
                           <Style>
                             <Border>
+                              <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>Dashed</Style>
-                            </RightBorder>
                             <PaddingLeft>0.4pt</PaddingLeft>
                             <PaddingTop>1pt</PaddingTop>
                             <PaddingBottom>1pt</PaddingBottom>
@@ -3737,22 +3711,9 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           <ZIndex>15</ZIndex>
                           <Style>
                             <Border>
+                              <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>Dashed</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>Dashed</Style>
-                            </RightBorder>
                             <PaddingTop>1pt</PaddingTop>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
@@ -3783,22 +3744,9 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           <ZIndex>14</ZIndex>
                           <Style>
                             <Border>
+                              <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>Dashed</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                             <PaddingTop>1pt</PaddingTop>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
@@ -3829,22 +3777,9 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           <ZIndex>13</ZIndex>
                           <Style>
                             <Border>
+                              <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                             <PaddingTop>1pt</PaddingTop>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
@@ -3875,22 +3810,9 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           <ZIndex>12</ZIndex>
                           <Style>
                             <Border>
+                              <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                             <PaddingTop>1pt</PaddingTop>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
@@ -3921,22 +3843,9 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           <ZIndex>11</ZIndex>
                           <Style>
                             <Border>
+                              <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                             <PaddingTop>1pt</PaddingTop>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
@@ -3967,22 +3876,9 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           <ZIndex>10</ZIndex>
                           <Style>
                             <Border>
+                              <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                             <PaddingTop>1pt</PaddingTop>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
@@ -4013,22 +3909,9 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           <ZIndex>9</ZIndex>
                           <Style>
                             <Border>
+                              <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                             <PaddingTop>1pt</PaddingTop>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
@@ -4059,22 +3942,9 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           <ZIndex>8</ZIndex>
                           <Style>
                             <Border>
+                              <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                             <PaddingTop>1pt</PaddingTop>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
@@ -4105,22 +3975,9 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           <ZIndex>7</ZIndex>
                           <Style>
                             <Border>
+                              <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>Dashed</Style>
-                            </RightBorder>
                             <PaddingTop>1pt</PaddingTop>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
@@ -4151,22 +4008,9 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           <ZIndex>7</ZIndex>
                           <Style>
                             <Border>
+                              <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>Dashed</Style>
-                            </RightBorder>
                             <PaddingTop>1pt</PaddingTop>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
@@ -4197,22 +4041,9 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           <ZIndex>6</ZIndex>
                           <Style>
                             <Border>
+                              <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>Dashed</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                             <PaddingTop>1pt</PaddingTop>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
@@ -4243,22 +4074,9 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           <ZIndex>5</ZIndex>
                           <Style>
                             <Border>
+                              <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>Dashed</Style>
-                            </RightBorder>
                             <PaddingTop>1pt</PaddingTop>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
@@ -4289,22 +4107,9 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           <ZIndex>4</ZIndex>
                           <Style>
                             <Border>
+                              <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>Dashed</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                             <PaddingTop>1pt</PaddingTop>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
@@ -4335,22 +4140,9 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           <ZIndex>3</ZIndex>
                           <Style>
                             <Border>
+                              <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>Dashed</Style>
-                            </RightBorder>
                             <PaddingTop>1pt</PaddingTop>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
@@ -4381,22 +4173,9 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           <ZIndex>2</ZIndex>
                           <Style>
                             <Border>
+                              <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>Dashed</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                             <PaddingTop>1pt</PaddingTop>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
@@ -4427,22 +4206,9 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           <ZIndex>1</ZIndex>
                           <Style>
                             <Border>
+                              <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>Dashed</Style>
-                            </RightBorder>
                             <PaddingTop>1pt</PaddingTop>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
@@ -4472,28 +4238,16 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           </Paragraphs>
                           <Style>
                             <Border>
+                              <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Dotted</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>Dashed</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                             <PaddingLeft>0.8pt</PaddingLeft>
                             <PaddingTop>1pt</PaddingTop>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
                         </Textbox>
                         <ColSpan>3</ColSpan>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
