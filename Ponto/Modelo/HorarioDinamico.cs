@@ -22,7 +22,7 @@ namespace Modelo
             Tipoacumulo = -1;
             Horasnormais = 1;
             TipoHorario = 1;
-            Marcacargahorariamista = -1;
+            Marcacargahorariamista = 0;
             Horariodescricao_1 = "--:--";
             Horariodescricao_2 = "--:--";
             Horariodescricao_2 = "--:--";
