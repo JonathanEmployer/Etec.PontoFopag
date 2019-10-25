@@ -670,7 +670,7 @@ namespace BLL
                 string hentrada1 = row["hentrada_1"].ToString();
                 string hentrada2 = row["hentrada_2"].ToString();
 
-                row["DataFormatada"] = Convert.ToDateTime((row["DataMarcacao"]).ToString()).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture); ;
+                row["DataFormatada"] = Convert.ToDateTime((row["DataMarcacao"]).ToString()).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture); 
                 if (hentrada1 == "" || hentrada2 == "")
                 {
                     row["F"] = "=(J"+i+"-I"+i+"+(J"+i+"<I"+i+"))+(L"+i+"-K"+i+"+(L"+i+ "<K" + i + "))";
