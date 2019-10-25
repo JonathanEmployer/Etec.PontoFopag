@@ -813,7 +813,7 @@ namespace BLL
                     ret.Add("Matricula", "A Mátricula inserida já está cadastrada para outro funcionário.");
                 }
 
-                if (objeto.bFuncionarioativo) // Apenas valida se o funcionário em questão não estiver sendo inativado ou inativo
+                if (objeto.bFuncionarioativo || (objeto.DataInativacao == null || objeto.DataInativacao > DateTime.Now)) // Apenas valida se o funcionário em questão não estiver sendo inativado ou inativo
                 {
                     Modelo.Horario horario = bllHorario.LoadObject(objeto.Idhorario);
                     Modelo.Horario horario2Reg = bllHorario.LoadObject(Func2Reg.Idhorario);
