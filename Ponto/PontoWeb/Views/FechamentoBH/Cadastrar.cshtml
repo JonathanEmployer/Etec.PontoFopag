@@ -187,7 +187,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             @Html.LabelFor(model => model.MotivoFechamento, new { @class = "control-label label-sm" })
-                            @Html.TextBoxFor(model => model.MotivoFechamento, new { @class = "form-control input-sm" })
+                            @Html.TextBoxFor(model => model.MotivoFechamento, new { @class = "form-control input-sm", maxlength = 36})
                             @Html.ValidationMessageFor(model => model.MotivoFechamento)
                         </div>
                     </div>

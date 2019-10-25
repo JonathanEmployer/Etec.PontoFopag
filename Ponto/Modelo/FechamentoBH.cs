@@ -192,7 +192,7 @@ namespace Modelo
 
         private string _MotivoFechamento;
         [Display(Name = "Motivo Fechamento")]
-        [StringLength(40, ErrorMessage = "O Motivo de fechamento não pode ser maior que 40 caracteres")]
+        [StringLength(36, ErrorMessage = "O Motivo de fechamento não pode ser maior que 36 caracteres")]
         public string MotivoFechamento
         {
             get { return _MotivoFechamento; }
