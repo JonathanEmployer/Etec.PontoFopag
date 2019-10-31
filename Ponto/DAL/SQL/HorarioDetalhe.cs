@@ -138,6 +138,7 @@ namespace DAL.SQL
             ((Modelo.HorarioDetalhe)obj).Preassinaladas2 = (dr["preassinaladas2"] is DBNull ? (Int16)0 : Convert.ToInt16(dr["preassinaladas2"]));
             ((Modelo.HorarioDetalhe)obj).Preassinaladas3 = (dr["preassinaladas3"] is DBNull ? (Int16)0 : Convert.ToInt16(dr["preassinaladas3"]));
             ((Modelo.HorarioDetalhe)obj).Marcacargahorariamista = dr["marcacargahorariamista"] is DBNull ? (short)0 : Convert.ToInt16(dr["marcacargahorariamista"]);
+            ((Modelo.HorarioDetalhe)obj).Neutro = dr["neutro"] is DBNull || Convert.ToInt16(dr["neutro"]) == 0 ? false : true;
             ((Modelo.HorarioDetalhe)obj).Idjornada = dr["idjornada"] is DBNull ? 0 : Convert.ToInt32(dr["idjornada"]);
             ((Modelo.HorarioDetalhe)obj).ConverteHoraStringToInt();
             if (dr["CicloSequenciaIndice"] != System.DBNull.Value)
@@ -176,6 +177,7 @@ namespace DAL.SQL
             ((Modelo.HorarioDetalhe)obj).Preassinaladas2 = (dr["preassinaladas2"] is DBNull ? (Int16)0 : Convert.ToInt16(dr["preassinaladas2"]));
             ((Modelo.HorarioDetalhe)obj).Preassinaladas3 = (dr["preassinaladas3"] is DBNull ? (Int16)0 : Convert.ToInt16(dr["preassinaladas3"]));
             ((Modelo.HorarioDetalhe)obj).Marcacargahorariamista = dr["marcacargahorariamista"] is DBNull ? (short)0 : Convert.ToInt16(dr["marcacargahorariamista"]);
+            ((Modelo.HorarioDetalhe)obj).Neutro = dr["neutro"] is DBNull || Convert.ToInt16(dr["neutro"]) == 0 ? false : true;
             ((Modelo.HorarioDetalhe)obj).Idjornada = dr["idjornada"] is DBNull ? 0 : Convert.ToInt32(dr["idjornada"]);
             ((Modelo.HorarioDetalhe)obj).ConverteHoraStringToInt();
             if (dr["CicloSequenciaIndice"] != System.DBNull.Value)
