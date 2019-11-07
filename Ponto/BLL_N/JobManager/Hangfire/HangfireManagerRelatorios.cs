@@ -1,14 +1,10 @@
-﻿using BLL.Relatorios.V2;
-using BLL_N.JobManager.Hangfire.Job;
+﻿using BLL_N.JobManager.Hangfire.Job;
 using Hangfire;
 using Hangfire.States;
 using Modelo.EntityFramework.MonitorPontofopag;
 using Modelo.Relatorios;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BLL_N.JobManager.Hangfire
 {
@@ -519,6 +515,23 @@ namespace BLL_N.JobManager.Hangfire
             string idJob = new BackgroundJobClient().Create<RelatoriosJob>(x => x.GetRelatorioTotalHoras(null,
                                                                                                             jobControl,
                                                                                                             (RelatorioPadraoModel)parametros,
+                                                                                                            dataBase,
+                                                                                                            usuarioLogado),
+                                                                                                            _enqueuedStateNormal);
+            Modelo.Proxy.PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
+            return jobReturn;
+        }
+
+        public Modelo.Proxy.PxyJobReturn RelatorioAFDPortaria373(IRelatorioModel parametros)
+        {
+            RelatorioAfdPortaria373Model parms = (RelatorioAfdPortaria373Model)parametros;
+            var descricaoParametros = String.Format("Período {0} a {1}, tipo {2}", parms.InicioPeriodo.ToShortDateString(), parms.FimPeriodo.ToShortDateString(), (parms.TipoArquivo == "PDF" ? "Txt" : parms.TipoArquivo));
+
+            JobControl jobControl = GerarJobControl("Relatório Bilhetes Importados", descricaoParametros);
+            jobControl.PermiteCancelar = true;
+            string idJob = new BackgroundJobClient().Create<RelatoriosJob>(x => x.GetRelatorioAFDPortaria373(null,
+                                                                                                            jobControl,
+                                                                                                            parms,
                                                                                                             dataBase,
                                                                                                             usuarioLogado),
                                                                                                             _enqueuedStateNormal);

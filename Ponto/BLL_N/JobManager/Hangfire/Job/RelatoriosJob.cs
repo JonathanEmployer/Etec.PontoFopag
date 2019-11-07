@@ -271,6 +271,14 @@ namespace BLL_N.JobManager.Hangfire.Job
             JobControlManager.UpdateFileDownload(context, caminhoArquivo);
         }
 
+        public void GetRelatorioAFDPortaria373(PerformContext context, JobControl jobReport, RelatorioAfdPortaria373Model relatorioFiltro, string db, string usuario)
+        {
+            SetParametersBase(context, jobReport, db, usuario);
+            RelatorioAFDPortaria373BLL rel = new RelatorioAFDPortaria373BLL(relatorioFiltro, userPF, pb);
+            string caminhoArquivo = rel.GetRelatorio();
+            JobControlManager.UpdateFileDownload(context, caminhoArquivo);
+        }
+
         public int GerarJobsTesteProcessamento(PerformContext context, int tempo)
         {
             Thread.Sleep(tempo*1000);

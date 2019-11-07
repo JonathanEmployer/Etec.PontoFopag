@@ -767,10 +767,16 @@ namespace PontoWeb.Helpers
             else
             {
             js += @"        
-                    $(nomeTabela + ' tbody').on('click', 'tr', function () {
+                    $(nomeTabela + ' tbody').on('click', 'tr', function () { 
                         " + table.NomeTabela + @"selected = [];
                         if ( $(this).hasClass('selected') ) {
-                            var id = this.id;
+                            $(this).removeClass('selected');
+                        }
+                        else
+                        {
+                            obj" + table.NomeTabela + @".$('tr.selected').removeClass('selected');
+                            $(this).addClass('selected');
+                        var id = this.id;
                             " + table.NomeTabela + @"selected.push(id);
                         }
                         sessionStorage.setItem(nomeTabela+'Selecionados_' + window.location.pathname, JSON.stringify(" + table.NomeTabela + @"selected.join()));

@@ -34,15 +34,8 @@ namespace BLL
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
                 dalREP = new DAL.SQL.REP(new DataBase(ConnectionString));
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    dalREP = new DAL.SQL.REP(new DataBase(ConnectionString));
-                    break;
-                case 2:
-                    dalREP = DAL.FB.REP.GetInstancia;
-                    break;
-            }
+
+            dalREP = new DAL.SQL.REP(new DataBase(ConnectionString));
             dalREP.UsuarioLogado = usuarioLogado;
        }
 
@@ -284,6 +277,11 @@ namespace BLL
         public List<Modelo.Proxy.RepSituacao> VerificarSituacaoReps(int TempoSemComunicacao)
         {
             return dalREP.VerificarSituacaoReps(TempoSemComunicacao);
+        }
+
+        public List<Modelo.Proxy.PxyGridRepsPortaria373> GetGridRepsPortaria373()
+        {
+            return dalREP.GetGridRepsPortaria373();
         }
     }
 }

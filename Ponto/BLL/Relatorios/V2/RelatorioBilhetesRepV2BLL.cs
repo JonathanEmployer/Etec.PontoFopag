@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GerarExcel.Modelo;
 using Modelo;
 using Modelo.Relatorios;
 
 namespace BLL.Relatorios.V2
 {
-	public class RelatorioBilhetesRepV2BLL : RelatorioBaseBLL
+    public class RelatorioBilhetesRepV2BLL : RelatorioBaseBLL
 	{
 		public RelatorioBilhetesRepV2BLL(IRelatorioModel relatorioFiltro, Modelo.UsuarioPontoWeb usuario, ProgressBar progressBar) : base(relatorioFiltro, usuario, progressBar)
 		{

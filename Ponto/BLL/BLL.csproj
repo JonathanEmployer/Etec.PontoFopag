@@ -421,6 +421,7 @@
     <Compile Include="Relatorios\V2\RelatorioAfastamentoPeriodoBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioBancoHorasBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioBilhetesImpBLL.cs" />
+    <Compile Include="Relatorios\V2\RelatorioAFDPortaria373BLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioCartaoPontoCustomBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioCartaoPontoHTMLBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioClassificacaoHorasExtrasBLL.cs" />

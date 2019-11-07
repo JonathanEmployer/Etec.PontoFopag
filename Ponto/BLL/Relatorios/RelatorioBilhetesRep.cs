@@ -1,10 +1,7 @@
 ﻿using DAL.SQL;
-using Modelo.Proxy;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 
 namespace BLL.Relatorios
 {
@@ -28,6 +25,11 @@ namespace BLL.Relatorios
         public DataTable GetDadosRelatorioBilhetesRep(int idRep, DateTime dataIni, DateTime dataFin)
         {
             return dalRelatorioBilhetesRep.GetRelatorioBilhetesRep(idRep, dataIni, dataFin);
+        }
+
+        public DataTable GetRelatorioAFDPortaria373(Dictionary<int, string> lIdEmpAndNumRep, DateTime pDataInicial, DateTime pDataFinal)
+        {
+            return dalRelatorioBilhetesRep.GetRelatorioAFDPortaria373(lIdEmpAndNumRep, pDataInicial, pDataFinal);
         }
     }
 }

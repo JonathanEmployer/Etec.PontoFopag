@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Modelo.Relatorios
+﻿namespace Modelo.Relatorios
 {
     public class RelatorioHorarioModel : RelatorioBaseModel, IRelatorioModel
     {

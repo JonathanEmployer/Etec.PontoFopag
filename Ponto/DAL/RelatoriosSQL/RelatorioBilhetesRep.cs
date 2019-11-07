@@ -1,12 +1,9 @@
-﻿using AutoMapper;
-using DAL.SQL;
-using Modelo.Proxy;
+﻿using DAL.SQL;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 
 namespace DAL.RelatoriosSQL
 {
@@ -61,6 +58,44 @@ namespace DAL.RelatoriosSQL
                              where r.id = @IdRep
                                and b.data between @dataIni and @dataFin
                               order by b.data, convert(time, b.hora), nsr;";
+            DataTable dt = new DataTable();
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            dt.Load(dr);
+            if (!dr.IsClosed)
+                dr.Close();
+            dr.Dispose();
+
+            return dt;
+        }
+
+
+        public DataTable GetRelatorioAFDPortaria373(Dictionary<int, string> lIdEmpAndNumRep, DateTime pDataInicial, DateTime pDataFinal)
+        {
+            SqlParameter[] parms = new SqlParameter[2]
+            {
+                new SqlParameter("@dataInicial", SqlDbType.DateTime),
+                new SqlParameter("@dataFinal", SqlDbType.DateTime)
+            };
+            parms[0].Value = pDataInicial;
+            parms[1].Value = pDataFinal;
+
+            string filtroEmpresaRelogio = string.Join(" or ", lIdEmpAndNumRep.Select(s => string.Format(" (f.idempresa = {0} and b.relogio = '{1}') ", s.Key, s.Value)));
+
+            string aux = string.Format(@"
+                      SELECT ISNULL(CASE WHEN b.nsr = 0 THEN b.id ELSE b.nsr END, 0) nsr
+		                    ,'3' TipoReg
+		                    ,b.data Data
+		                    ,b.hora Hora
+		                    ,f.pis PIS
+		                    ,b.relogio
+		                    ,f.idempresa
+                       FROM dbo.bilhetesimp b with (nolock)
+                      INNER JOIN dbo.funcionario f ON b.dscodigo = f.dscodigo
+                      WHERE 1 = 1
+                        AND b.data BETWEEN @dataInicial AND @dataFinal
+                        AND {0}
+                      ORDER BY idempresa, b.relogio, b.nsr, b.id ", filtroEmpresaRelogio);
             DataTable dt = new DataTable();
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);

@@ -28,5 +28,6 @@ namespace DAL
         List<Modelo.REP> VerificarIpEntreRep(string ip, int id);
 
         List<Modelo.Proxy.RepSituacao> VerificarSituacaoReps(int TempoSemComunicacao);
+        List<Modelo.Proxy.PxyGridRepsPortaria373> GetGridRepsPortaria373();
     }
 }

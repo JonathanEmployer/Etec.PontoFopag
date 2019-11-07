@@ -770,6 +770,66 @@ namespace DAL.SQL
             {
                 if (!dr.IsClosed)
                 {
+                    dr.Close(); 
+                }
+                dr.Dispose();
+            }
+
+            return lista;
+        }
+
+        public List<Modelo.Proxy.PxyGridRepsPortaria373> GetGridRepsPortaria373()
+        {
+            SqlParameter[] parms = new SqlParameter[] {};
+
+            string query = @"SELECT e.id IdEmpresa,
+	                                   b.relogio NumRelogio, 
+	                                   CASE WHEN b.relogio = 'RE' THEN
+			                                  'Registrador Pontofopag'
+		                                    WHEN b.relogio = 'RW' THEN
+			                                  'Web App'
+			                                WHEN b.relogio = 'AP' THEN
+			                                  'Aplicativo Pontofopag'
+			                                ELSE 'Indefinido' END App,
+		                                e.codigo EmpresaCodigo,
+		                                e.Cnpj EmpresaCnpj, 
+		                                e.Nome EmpresaNome
+                                  FROM bilhetesimp b
+                                 INNER JOIN funcionario f on b.IdFuncionario = f.id
+                                 INNER JOIN empresa e on f.idempresa = e.id
+                                 WHERE b.relogio in ('RE', 'RW', 'AP') 
+                                 GROUP BY b.relogio, e.id, e.codigo, e.cnpj, e.nome
+
+                                 UNION ALL
+
+                                SELECT e.id IdEmpresa,
+	                                   r.numrelogio, 
+	                                   'Aplicativo Meu Holerite' app,
+	                                   e.codigo EmpresaCodigo,
+	                                   e.cnpj EmpresaCnpj, 
+	                                   e.nome EmpresaNome
+                                  FROM rep r
+                                 INNER JOIN empresa e ON r.numserie like '%'+replace(replace(replace(e.cnpj,'.',''),'/',''),'-','')+'%'
+
+                                 ORDER BY NumRelogio ";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, query, parms);
+
+            List<Modelo.Proxy.PxyGridRepsPortaria373> lista = new List<Modelo.Proxy.PxyGridRepsPortaria373>();
+
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Proxy.PxyGridRepsPortaria373>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Proxy.PxyGridRepsPortaria373>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
                     dr.Close();
                 }
                 dr.Dispose();

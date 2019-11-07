@@ -279,7 +279,6 @@
     <Compile Include="FB\Parametros.cs" />
     <Compile Include="FB\Provisorio.cs" />
     <Compile Include="FB\RelatorioEspelho.cs" />
-    <Compile Include="FB\REP.cs" />
     <Compile Include="FB\TipoBilhetes.cs" />
     <Compile Include="FB\Tratamentomarcacao.cs" />
     <Compile Include="FB\UsuarioPontoWeb.cs" />
@@ -542,8 +541,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
-  <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
   <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
