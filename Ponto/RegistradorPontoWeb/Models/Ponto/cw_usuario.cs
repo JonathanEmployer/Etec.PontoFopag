@@ -54,6 +54,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<bool> utilizaregistradordesktop { get; set; }
         public string CpfUsuario { get; set; }
         public Nullable<bool> PermissaoConcluirFluxoPnl { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<contratousuario> contratousuario { get; set; }

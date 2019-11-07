@@ -55,7 +55,8 @@ namespace PontoWeb.Controllers
         {
             try
             {
-                BLL.Funcionario bllFuncionario = new BLL.Funcionario(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+                var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+                BLL.Funcionario bllFuncionario = new BLL.Funcionario(usr.ConnectionString, usr);
                 List<Modelo.Proxy.pxyFuncionarioGrid> funcs = bllFuncionario.GetAllGrid(flag);
                 JsonResult jsonResult = Json(new { data = funcs }, JsonRequestBehavior.AllowGet);
                 jsonResult.MaxJsonLength = int.MaxValue;
@@ -138,7 +139,7 @@ namespace PontoWeb.Controllers
                 }
                 try
                 {
-                    if (funcionario.utilizaregistrador)
+                    if (funcionario.utilizaregistrador || funcionario.UtilizaAppPontofopag)
                     {
                         RemoveFuncionariosCentralCliente(funcionario);
                     }
@@ -205,7 +206,7 @@ namespace PontoWeb.Controllers
                 Funcionario funcionario = bllFuncionario.LoadObject(idfuncionario);
                 bllFuncionario.SetSenha(funcionario, Senha);
                 bllFuncionario.Salvar(Acao.Alterar, funcionario);
-                
+
                 Dictionary<string, string> erros = new Dictionary<string, string>();
                 if (((TipoCracha == 0) && (Cracha.Length <= 8)) || ((TipoCracha == 1) && (Cracha.Length >= 10)))
                 {
@@ -226,10 +227,10 @@ namespace PontoWeb.Controllers
                 }
                 else
                 {
-                    return Json(new { Success = false, Erro = "Numero de caracteres era muito grande ou muito pequeno. Favor verificar." }, JsonRequestBehavior.AllowGet);         
+                    return Json(new { Success = false, Erro = "Numero de caracteres era muito grande ou muito pequeno. Favor verificar." }, JsonRequestBehavior.AllowGet);
                 }
                 return PartialFuncionarioRFID(bllFuncionario, idfuncionario, usr);
-               
+
             }
             catch (Exception ex)
             {
@@ -256,7 +257,8 @@ namespace PontoWeb.Controllers
             string connString = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
             UsuarioPontoWeb usuarioLogado = Usuario.GetUsuarioPontoWebLogadoCache();
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(connString, usuarioLogado);
-            BLL.Empresa bllEmpresa = new BLL.Empresa(connString, usuarioLogado);
+
+
             Modelo.Funcionario funcionarioAntigo = bllFuncionario.LoadObject(funcionario.Id);
             
             ValidarForm(funcionario);
@@ -290,10 +292,10 @@ namespace PontoWeb.Controllers
                     {
                         try
                         {
-                            bllFuncionario.SetContratoFuncionario(funcionario.Id, funcionario.Contrato);
-                            BLL_N.JobManager.CalculoMarcacoes.RecalculaEdicaoFuncionario(funcionario, usuarioLogado, true);                            
-                            //Se o Funcionário utiliza registrador insere funcionario no Central do cliente
-                            if (funcionario.utilizaregistrador)
+                            BLL_N.JobManager.CalculoMarcacoes.RecalculaEdicaoFuncionario(funcionario, usuarioLogado, true);
+
+                            //Se o Funcionário utiliza registrador/app insere funcionario no Central do cliente
+                            if (funcionario.utilizaregistrador || funcionario.UtilizaAppPontofopag || funcionario.UtilizaWebAppPontofopag)
                             {
                                 if (!AdicionaAlteraFuncionariosCentralCliente(funcionario, funcionarioAntigo))
                                 {
@@ -303,8 +305,9 @@ namespace PontoWeb.Controllers
                                     return View("Cadastrar", funcionario);
                                 }
                             }
-                            //Se utilizava o registrador e "Deixou" de utilizar, remove Funcionário da Central do cliente
-                            else if (funcionarioAntigo.utilizaregistrador || !funcionario.utilizaregistrador)
+                            //Se utilizava o registrador/app e "Deixou" de utilizar, remove Funcionário da Central do cliente
+                            else if ((funcionarioAntigo.utilizaregistrador || funcionarioAntigo.UtilizaAppPontofopag || funcionarioAntigo.UtilizaWebAppPontofopag) &&
+                                     (!funcionario.utilizaregistrador || !funcionario.UtilizaAppPontofopag || !funcionario.UtilizaWebAppPontofopag))
                             {
                                 RemoveFuncionariosCentralCliente(funcionarioAntigo);
                             }
@@ -535,7 +538,6 @@ namespace PontoWeb.Controllers
             }
 
             funcionario.Historico = bllFuncHist.LoadPorFuncionario(funcionario.Id);
-
 
             AdicionaFotoPadrao(funcionario);
             funcionario.Tipohorario = funcionario.IdHorarioDinamico.GetValueOrDefault() > 0 ? Convert.ToInt16(3) : funcionario.Tipohorario;

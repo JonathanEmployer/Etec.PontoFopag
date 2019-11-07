@@ -44,6 +44,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public string altusuario { get; set; }
         public bool Ativo { get; set; }
         public string Descricao { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual Alertas Alertas1 { get; set; }
         public virtual Alertas Alertas2 { get; set; }

@@ -839,3 +839,7 @@ function getCodigoCampo(idCampo) {
     codigo = $.trim(codigo[0]);
     return codigo;
 }
+
+function getBool(val) {
+    return !!JSON.parse(String(val).toLowerCase());
+}

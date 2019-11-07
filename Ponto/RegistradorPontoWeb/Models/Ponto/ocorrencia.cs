@@ -42,6 +42,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public string HorasAbonoPadraoNoturno { get; set; }
         public bool Ativo { get; set; }
         public short DefaultTipoAfastamento { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<afastamento> afastamento { get; set; }

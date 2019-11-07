@@ -50,6 +50,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public string PIS { get; set; }
         public Nullable<System.DateTime> Mar_DataHora { get; set; }
         public Nullable<int> IdRegistroPonto { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual LancamentoLoteFuncionario LancamentoLoteFuncionario { get; set; }
         public virtual RegistroPonto RegistroPonto { get; set; }

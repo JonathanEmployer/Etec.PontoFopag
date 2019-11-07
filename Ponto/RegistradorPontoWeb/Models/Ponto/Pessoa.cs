@@ -36,6 +36,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public string Insc_RG { get; set; }
         public string Email { get; set; }
         public Nullable<int> IdIntegracao { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Alertas> Alertas { get; set; }

@@ -32,6 +32,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<int> parcial { get; set; }
         public Nullable<int> semCalculo { get; set; }
         public Nullable<bool> bSuspensao { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual LancamentoLote LancamentoLote { get; set; }
         public virtual ocorrencia ocorrencia { get; set; }

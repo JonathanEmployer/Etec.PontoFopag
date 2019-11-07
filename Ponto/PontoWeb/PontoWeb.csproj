@@ -406,6 +406,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AfastamentoController.cs" />
+    <Compile Include="Controllers\EmpresaTermoUsoController.cs" />
     <Compile Include="Controllers\ListaEventosController.cs" />
     <Compile Include="Controllers\AlertasController.cs" />
     <Compile Include="Controllers\AlertasLogController.cs" />
@@ -756,6 +757,7 @@
     <Compile Include="Utils\MultiButtonAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\TermoResponsabilidadeAppPontofopag.htm" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\ajax.gif" />
     <Content Include="Content\body.css" />
@@ -1799,6 +1801,7 @@
     <Folder Include="Content\Landing\img\images\" />
     <Folder Include="Controllers\ProgressBar\" />
     <Folder Include="images\" />
+    <Folder Include="Views\EmpresaTermoUso\" />
     <Folder Include="Views\GetFuncsRel\" />
     <Folder Include="Views\RelatorioFiltroFuncionarioGeral\" />
   </ItemGroup>
@@ -1948,20 +1951,23 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Suporte|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Suporte|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Optimize>true</Optimize>
+    <WarningLevel>3</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugSuporte|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -1975,7 +1981,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugSuporte|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;LOCAL</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>

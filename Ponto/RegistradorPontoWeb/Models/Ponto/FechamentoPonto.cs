@@ -31,6 +31,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<System.DateTime> dataFechamento { get; set; }
         public string descricao { get; set; }
         public string observacao { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FechamentoPontoFuncionario> FechamentoPontoFuncionario { get; set; }

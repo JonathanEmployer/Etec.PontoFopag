@@ -832,6 +832,12 @@ namespace BLL
                 ret.Add("CicloSequenciaIndice", "Para horário dinâmico é necessário selecionar uma sequência.");
             }
 
+            if ((objeto.UtilizaAppPontofopag || objeto.UtilizaWebAppPontofopag || objeto.utilizaregistrador) && String.IsNullOrEmpty(objeto.Mob_Senha))
+            {
+                ret.Add("Mob_Senha", "Campo obrigatório.");
+            }
+
+
             return ret;
         }
 

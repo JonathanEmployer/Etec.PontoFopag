@@ -76,16 +76,29 @@ namespace Modelo.Proxy
         [TableHTMLAttribute("Utiliza Registrador", 22, true, ItensSearch.select, OrderType.none)]
         public string Utilizaregistrador { get; set; }
 
-        [TableHTMLAttribute("Tipo Mão Obra", 23, true, ItensSearch.select, OrderType.none)]
+        [TableHTMLAttribute("APP", 23, true, ItensSearch.select, OrderType.none)]
+        public string UtilizaAppPontofopag { get; set; }
+
+        [TableHTMLAttribute("Reconhecimento Facil APP", 24, true, ItensSearch.select, OrderType.none)]
+        public string UtilizaReconhecimentoFacialApp { get; set; }
+
+        [TableHTMLAttribute("Web APP", 25, true, ItensSearch.select, OrderType.none)]
+        public string UtilizaWebAppPontofopag { get; set; }
+
+        [TableHTMLAttribute("Reconhecimento Facil Web APP", 26, true, ItensSearch.select, OrderType.none)]
+        public string UtilizaReconhecimentoFacialWebApp { get; set; }
+
+
+        [TableHTMLAttribute("Tipo Mão Obra", 27, true, ItensSearch.select, OrderType.none)]
         public string TipoMaoObra { get; set; }
 
-        [TableHTMLAttribute("Alocação", 24, true, ItensSearch.select, OrderType.none)]
+        [TableHTMLAttribute("Alocação", 28, true, ItensSearch.select, OrderType.none)]
         public string Alocacao { get; set; }
 
-        [TableHTMLAttribute("Tipo Vínculo", 25, true, ItensSearch.select, OrderType.none)]
+        [TableHTMLAttribute("Tipo Vínculo", 29, true, ItensSearch.select, OrderType.none)]
         public string TipoVinculo { get; set; }
 
-        [TableHTMLAttribute("RFID", 26, true, ItensSearch.text, OrderType.none)]
+        [TableHTMLAttribute("RFID", 30, true, ItensSearch.text, OrderType.none)]
         public Int64? RFID { get; set; }
 
     }

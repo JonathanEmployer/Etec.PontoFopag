@@ -32,6 +32,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public string altusuario { get; set; }
         public string descricao { get; set; }
         public bool ExibePaineldoRH { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClassificacaoHorasExtras> ClassificacaoHorasExtras { get; set; }

@@ -40,6 +40,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<bool> PagamentoHoraDebAuto { get; set; }
         public string LimiteHorasPagamentoCredito { get; set; }
         public string LimiteHorasPagamentoDebito { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<fechamentobhd> fechamentobhd { get; set; }

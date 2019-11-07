@@ -12,12 +12,12 @@ namespace PontoWeb.Controllers
 {
     public class EmpresaController : IControllerPontoWeb<Empresa>
     {
+        private UsuarioPontoWeb _user = Usuario.GetUsuarioPontoWebLogadoCache();
         [PermissoesFiltro(Roles = "Empresa")]
         public override ActionResult Grid()
         {
-            var cwu = Usuario.GetUsuarioLogadoCache();
-            BLL.Empresa bllEmpresa = new BLL.Empresa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
-            var UsuarioEmpresa = bllEmpresa.ConsultaBloqueiousuariosEmpresa();            
+            BLL.Empresa bllEmpresa = new BLL.Empresa(_user.ConnectionString, _user);
+            var UsuarioEmpresa = bllEmpresa.ConsultaBloqueiousuariosEmpresa();
             if (UsuarioEmpresa)
             {
                 ViewBag.ControleUsuario = true;
@@ -34,8 +34,7 @@ namespace PontoWeb.Controllers
         {
             try
             {
-                var usr = Usuario.GetUsuarioPontoWebLogadoCache();
-                BLL.Empresa bllEmpresa = new BLL.Empresa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
+                BLL.Empresa bllEmpresa = new BLL.Empresa(_user.ConnectionString, _user);
                 List<Modelo.Empresa> dados = bllEmpresa.GetAllList();
                 JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
                 jsonResult.MaxJsonLength = int.MaxValue;
@@ -85,14 +84,13 @@ namespace PontoWeb.Controllers
         [HttpPost]
         public override ActionResult Excluir(int id)
         {
-            BLL.Empresa bllEmpresa = new BLL.Empresa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
-            BLL.EmpresaCw_Usuario bllacessoPEmpresa = new BLL.EmpresaCw_Usuario(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+            BLL.Empresa bllEmpresa = new BLL.Empresa(_user.ConnectionString, _user);
+            BLL.EmpresaCw_Usuario bllacessoPEmpresa = new BLL.EmpresaCw_Usuario(_user.ConnectionString, _user);
             Empresa empresa = bllEmpresa.LoadObject(id);
             try
             {
                 Dictionary<string, string> erros = new Dictionary<string, string>();
-                UsuarioPontoWeb usuarioPontoWebLogadoCache = Usuario.GetUsuarioPontoWebLogadoCache();
-                ApagarEmpresaCWUsuario(empresa.Id, bllacessoPEmpresa, usuarioPontoWebLogadoCache);
+                ApagarEmpresaCWUsuario(empresa.Id, bllacessoPEmpresa, _user);
 
                 erros = bllEmpresa.Salvar(Acao.Excluir, empresa);
                 if (erros.Count > 0)
@@ -144,8 +142,8 @@ namespace PontoWeb.Controllers
 
         protected override ActionResult Salvar(Empresa obj)
         {
-            BLL.Empresa bllEmp = new BLL.Empresa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
-            BLL.EmpresaCw_Usuario bllacessoPEmpresa = new BLL.EmpresaCw_Usuario(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+            BLL.Empresa bllEmp = new BLL.Empresa(_user.ConnectionString, _user);
+            BLL.EmpresaCw_Usuario bllacessoPEmpresa = new BLL.EmpresaCw_Usuario(_user.ConnectionString, _user);
             BLL_N.BLLEmpresa.ValidarCNPJEmpresa validaCnpj = new BLL_N.BLLEmpresa.ValidarCNPJEmpresa();
             ValidarForm(obj);
             if (ModelState.IsValid)
@@ -172,7 +170,7 @@ namespace PontoWeb.Controllers
                     }
                     if (acao == Acao.Alterar)
                     {
-                        if (!validaCnpj.ValidarAlterarCNPJ(obj.Cnpj, obj.Codigo, Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache()))
+                        if (!validaCnpj.ValidarAlterarCNPJ(obj.Cnpj, obj.Codigo, _user.ConnectionString, _user))
                         {
                             throw new Exception("Existe uma ou mais empresas cadastradas com o mesmo CNPJ.");
                         }
@@ -186,9 +184,7 @@ namespace PontoWeb.Controllers
                     }
                     else
                     {
-                        UsuarioPontoWeb usuarioPontoWebLogadoCache = Usuario.GetUsuarioPontoWebLogadoCache();
-
-                        SalvarEmpresaCWUsuario(obj, bllacessoPEmpresa, acao, usuarioPontoWebLogadoCache);
+                        SalvarEmpresaCWUsuario(obj, bllacessoPEmpresa, acao, _user);
 
                         return RedirectToAction("Grid", "Empresa");
                     }
@@ -201,7 +197,7 @@ namespace PontoWeb.Controllers
 
             }
             Modelo.Parametros parm = new Parametros();
-            BLL.Parametros bllparm = new BLL.Parametros(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+            BLL.Parametros bllparm = new BLL.Parametros(_user.ConnectionString, _user);
             parm = bllparm.LoadPrimeiro();
             ViewBag.BloqueiaDadosIntegrados = parm.BloqueiaDadosIntegrados;
             ViewBag.Disabled = true;
@@ -228,7 +224,7 @@ namespace PontoWeb.Controllers
         private int BuscaIDRevenda()
         {
             int idRevenda = 0;
-            BLL.Empresa bllEmp = new BLL.Empresa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+            BLL.Empresa bllEmp = new BLL.Empresa(_user.ConnectionString, _user);
             Modelo.Empresa empresaPrincipal = new Modelo.Empresa();
             empresaPrincipal = bllEmp.GetEmpresaPrincipal();
             if ((empresaPrincipal != null) && (empresaPrincipal != new Empresa()))
@@ -250,9 +246,9 @@ namespace PontoWeb.Controllers
 
         protected override ActionResult GetPagina(int id)
         {
-            BLL.Empresa bllEmp = new BLL.Empresa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+            BLL.Empresa bllEmp = new BLL.Empresa(_user.ConnectionString, _user);
             Empresa e = bllEmp.LoadObject(id);
-            BLL.Parametros bllparm = new BLL.Parametros(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+            BLL.Parametros bllparm = new BLL.Parametros(_user.ConnectionString, _user);
             Modelo.Parametros parm = new Parametros();
             parm = bllparm.LoadPrimeiro();
             ViewBag.BloqueiaDadosIntegrados = parm.BloqueiaDadosIntegrados;
@@ -262,8 +258,8 @@ namespace PontoWeb.Controllers
                 ViewBag.Disabled = false;
             }
             else
-            {
-
+            {   
+                bllEmp.SetTermosUsoApp(e);
                 ViewBag.Disabled = true;
             }
             if(e.bloqueioEdicaoEmp == 1)
@@ -271,7 +267,7 @@ namespace PontoWeb.Controllers
                 ViewBag.Consultar = 1;
             }
 
-            BLL.EmpresaLogo bllEmpresaLogo = new BLL.EmpresaLogo(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+            BLL.EmpresaLogo bllEmpresaLogo = new BLL.EmpresaLogo(_user.ConnectionString, _user);
             EmpresaLogo L = bllEmpresaLogo.GetAllListPorEmpresa(e.Id).FirstOrDefault();
 
             if (L == null)
@@ -329,7 +325,7 @@ namespace PontoWeb.Controllers
 
         protected override void ValidarForm(Empresa obj)
         {
-            BLL.Empresa bllEmp = new BLL.Empresa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+            BLL.Empresa bllEmp = new BLL.Empresa(_user.ConnectionString, _user);
 
             if ((String.IsNullOrEmpty(obj.Cnpj)) && (String.IsNullOrEmpty(obj.Cpf)))
             {
@@ -380,9 +376,7 @@ namespace PontoWeb.Controllers
 
         private void ValidaHorario(Empresa obj)
         {
-            string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
-            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
-            BLL.Horario bllHorario = new BLL.Horario(conn, usr);
+            BLL.Horario bllHorario = new BLL.Horario(_user.ConnectionString, _user);
 
             int idHorario = HorarioController.BuscaIdHorario(obj.NomeHorario);
             List<Horario> lHorarioNormalMovel = new List<Horario>();
@@ -416,7 +410,7 @@ namespace PontoWeb.Controllers
 
         public ActionResult Atestado(int id)
         {
-            BLL.Empresa bllEmp = new BLL.Empresa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+            BLL.Empresa bllEmp = new BLL.Empresa(_user.ConnectionString, _user);
             Empresa e = bllEmp.LoadObject(id);
             string parametro = e.Cnpj + "|" + e.Nome;
             parametro = BLL.CriptoString.Encrypt(parametro);
@@ -432,7 +426,7 @@ namespace PontoWeb.Controllers
             pxyRetornoPeriodoFechamento ret = new pxyRetornoPeriodoFechamento();
             try
             {
-                BLL.Empresa bllEmp = new BLL.Empresa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+                BLL.Empresa bllEmp = new BLL.Empresa(_user.ConnectionString, _user);
                 PeriodoFechamento pf = bllEmp.PeriodoFechamentoPorCodigo(codigo);
 
                 bool atribuiu = BLL.cwkFuncoes.AtribuiPeriodoFechamentoPonto(pf);
@@ -456,6 +450,27 @@ namespace PontoWeb.Controllers
             return Json(ret, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult PermissaoAPPs(string empSelecionada)
+        {
+            try
+            {
+                BLL.Empresa bllEmpresa = new BLL.Empresa(_user.ConnectionString, _user);
+                Modelo.Empresa empresa = bllEmpresa.GetEmpresaConsultada(empSelecionada);
+                bool registradorEmpresa = bllEmpresa.VerificaPermisaoRegistrador(empresa);
+                bool appEmpresa = false;
+                bool webAppEmpresa = false;
+                bool utilizaReconhecimentoFacilApp = false;
+                bool utilizaReconhecimentoFacilWebApp = false;
+                bllEmpresa.VerificaPermissoesApps(empresa.Id, out appEmpresa, out utilizaReconhecimentoFacilApp, out webAppEmpresa, out utilizaReconhecimentoFacilWebApp);
+
+                return Json(new { RegistradorEmpresa = registradorEmpresa, APPEmpresa = appEmpresa, UtilizaReconhecimentoFacilApp = utilizaReconhecimentoFacilApp, WebAPPEmpresa = webAppEmpresa, UtilizaReconhecimentoFacilWebApp = utilizaReconhecimentoFacilWebApp }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new { RegistradorEmpresa = false, APPEmpresa = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         #region Metodos
         [Authorize]
         public ActionResult EventoConsulta(String consulta)
@@ -475,9 +490,8 @@ namespace PontoWeb.Controllers
 
         private IList<Empresa> PesquisaEmpresa(String consulta, bool opcaotodas)
         {
-            var cwu = Usuario.GetUsuarioLogadoCache();
-            BLL.UsuarioPontoWeb bllUpw = new BLL.UsuarioPontoWeb(cwu.ConnectionStringDecrypt);
-            BLL.Empresa bllEmp = new BLL.Empresa(cwu.ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+            BLL.UsuarioPontoWeb bllUpw = new BLL.UsuarioPontoWeb(_user.ConnectionString);
+            BLL.Empresa bllEmp = new BLL.Empresa(_user.ConnectionString, _user);
             IList<Empresa> lEmp = new List<Empresa>();
             int codigo = -1;
             try { codigo = Int32.Parse(consulta); }
@@ -534,17 +548,6 @@ namespace PontoWeb.Controllers
                 idEmpresa = 0;
             }
             return idEmpresa;
-        }
-
-        public JsonResult ParametrosEmpresa(string consulta)
-        {
-            var user = Usuario.GetUsuarioPontoWebLogadoCache();
-            BLL.Empresa bllEmp = new BLL.Empresa(user.ConnectionString, user);
-            string codigo = consulta.Split('|')[0].Trim();
-            int cod = Convert.ToInt32(codigo);
-            Modelo.Empresa empresa = bllEmp.LoadObjectByCodigo(cod);
-
-            return Json(new { Sucesso = true, UtilizaRegistrador = empresa.utilizaregistradorfunc }, JsonRequestBehavior.AllowGet);
         }
         #endregion
     }

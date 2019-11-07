@@ -270,6 +270,7 @@
     <Compile Include="OcorrenciaRestricao.cs" />
     <Compile Include="HorarioDinamicoRestricao.cs" />
     <Compile Include="HorarioRestricao.cs" />
+    <Compile Include="EmpresaTermoUso.cs" />
     <Compile Include="ListaEventos.cs" />
     <Compile Include="AlertasDisponiveis.cs" />
     <Compile Include="Alertas.cs" />

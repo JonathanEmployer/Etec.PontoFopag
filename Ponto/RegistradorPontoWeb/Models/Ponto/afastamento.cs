@@ -41,6 +41,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<int> idLancamentoLoteFuncionario { get; set; }
         public string Observacao { get; set; }
         public bool SemAbono { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual contrato contrato { get; set; }
         public virtual departamento departamento { get; set; }

@@ -32,6 +32,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public string altusuario { get; set; }
         public Nullable<int> idLancamentoLoteFuncionario { get; set; }
         public Nullable<int> IdJustificativa { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual justificativa justificativa { get; set; }
     }

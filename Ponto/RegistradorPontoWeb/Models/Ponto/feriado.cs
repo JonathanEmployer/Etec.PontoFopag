@@ -37,6 +37,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public bool Parcial { get; set; }
         public string HoraInicio { get; set; }
         public string HoraFim { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual departamento departamento { get; set; }
         public virtual empresa empresa { get; set; }

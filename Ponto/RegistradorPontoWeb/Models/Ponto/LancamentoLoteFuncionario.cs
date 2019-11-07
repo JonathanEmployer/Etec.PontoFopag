@@ -35,6 +35,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<bool> Efetivado { get; set; }
         public Nullable<int> UltimaAcao { get; set; }
         public string DescricaoErro { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<afastamento> afastamento { get; set; }

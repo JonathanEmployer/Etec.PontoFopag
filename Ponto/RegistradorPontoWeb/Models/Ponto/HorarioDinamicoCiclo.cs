@@ -35,6 +35,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<int> preassinaladas3 { get; set; }
         public int idjornada { get; set; }
         public int idHorarioDinamico { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual HorarioDinamico HorarioDinamico { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

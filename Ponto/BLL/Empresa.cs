@@ -8,6 +8,7 @@ using System.IO;
 using System.Windows.Forms;
 using DAL.SQL;
 using CentralCliente;
+using System.Linq;
 
 namespace BLL
 {
@@ -55,6 +56,21 @@ namespace BLL
                 dalEmpresa.UsuarioLogado = usuarioLogado;
             }
             
+        }
+
+        public void SetTermosUsoApp(Modelo.Empresa e)
+        {
+            BLL.EmpresaTermoUso bllEmpresaTermoUso = new BLL.EmpresaTermoUso(ConnectionString, dalEmpresa.UsuarioLogado);
+            List<Modelo.EmpresaTermoUso> termosUso = bllEmpresaTermoUso.LoadObjectsByIdsEmpresa(new List<int>() { e.Id });
+            e.TermosUso = termosUso;
+            //Termo uso APP
+            Modelo.EmpresaTermoUso termoUsoApp = termosUso.Where(w => w.Tipo == 1).FirstOrDefault();
+            e.UtilizaAppPontofopag = (termoUsoApp != null && termoUsoApp.Id > 0);
+            e.UtilizaReconhecimentoFacilAppPontofopag = (termoUsoApp != null && termoUsoApp.UtilizaReconhecimentoFacial);
+            //Termo uso Web APP
+            termoUsoApp = termosUso.Where(w => w.Tipo == 2).FirstOrDefault();
+            e.UtilizaWebAppPontofopag = (termoUsoApp != null && termoUsoApp.Id > 0);
+            e.UtilizaReconhecimentoFacilWebAppPontofopag = (termoUsoApp != null && termoUsoApp.UtilizaReconhecimentoFacial);
         }
 
         public int MaxCodigo()
@@ -221,23 +237,27 @@ namespace BLL
             {
                 string connCript = CriptoString.Encrypt(ConnectionString);
                 ManipularEntidadeCliente mec = new ManipularEntidadeCliente();
+                BLL.EmpresaTermoUso bllEmpTermoUso = new EmpresaTermoUso(ConnectionString, dalEmpresa.UsuarioLogado);
                 switch (pAcao)
                 {
                     case Modelo.Acao.Incluir:
                         dalEmpresa.Incluir(objeto);
                         SalvarLogoEmpresa(objeto, Modelo.Acao.Incluir);
                         mec.IncluirOuAlterarEntidade((String.IsNullOrEmpty(objeto.Cnpj) ? 'F' : 'J'), objeto.Nome, objeto.Nome, (String.IsNullOrEmpty(objeto.Cnpj) ? objeto.Cpf : objeto.Cnpj), null, null, connCript);
+                        bllEmpTermoUso.IncluiAlteraTermoUso(objeto);
                         break;
                     case Modelo.Acao.Alterar:
                         Modelo.Empresa empAnt = LoadObject(objeto.Id);
                         dalEmpresa.Alterar(objeto);
                         SalvarLogoEmpresa(objeto, Modelo.Acao.Alterar);
                         mec.IncluirOuAlterarEntidade((String.IsNullOrEmpty(objeto.Cnpj) ? 'F' : 'J'), objeto.Nome, objeto.Nome, (String.IsNullOrEmpty(objeto.Cnpj) ? objeto.Cpf : objeto.Cnpj), null, (String.IsNullOrEmpty(empAnt.Cnpj) ? empAnt.Cpf : empAnt.Cnpj), connCript);
+                        bllEmpTermoUso.IncluiAlteraTermoUso(objeto);
                         break;
                     case Modelo.Acao.Excluir:
                         SalvarLogoEmpresa(objeto, Modelo.Acao.Excluir);
                         dalEmpresa.Excluir(objeto);
                         mec.ExcluirEntidade((String.IsNullOrEmpty(objeto.Cnpj) ? objeto.Cpf : objeto.Cnpj));
+                        bllEmpTermoUso.ExcluirTermoUso(objeto);
                         break;
                 }
                 
@@ -533,6 +553,54 @@ namespace BLL
         public bool ConsultaUtilizaRegistradorAllEmp()
         {
             return dalEmpresa.ConsultaUtilizaRegistradorAllEmp();
+        }
+
+        public bool VerificaPermisaoRegistrador(Modelo.Empresa empresaFuncionario)
+        {
+            bool registradorEmpresa = false;
+            if (empresaFuncionario != null)
+                registradorEmpresa = empresaFuncionario.utilizaregistradorfunc;
+            return registradorEmpresa;
+        }
+
+        public void VerificaPermissoesApps(int idEmpresa, out bool utilizaApp, out bool utilizaReconhecimentoFacilApp, out bool utilizaWebApp, out bool utilizaReconhecimentoFacilWebApp)
+        {
+            BLL.EmpresaTermoUso bllEmpresaTermoUso = new BLL.EmpresaTermoUso(ConnectionString, dalEmpresa.UsuarioLogado);
+            List<Modelo.EmpresaTermoUso> termos = bllEmpresaTermoUso.LoadObjectsByIdsEmpresa(new List<int>() { idEmpresa });
+            utilizaApp = false;
+            utilizaWebApp = false;
+            utilizaReconhecimentoFacilApp = false;
+            utilizaReconhecimentoFacilWebApp = false;
+            if (termos != null && termos.Where(w => w.Tipo == 1).Count() > 0)
+            {
+                utilizaApp = true;
+                utilizaReconhecimentoFacilApp = termos.Where(w => w.Tipo == 1).FirstOrDefault().UtilizaReconhecimentoFacial;
+            }
+            if (termos != null && termos.Where(w => w.Tipo == 2).Count() > 0)
+            {
+                utilizaWebApp = true;
+                utilizaReconhecimentoFacilWebApp = termos.Where(w => w.Tipo == 2).FirstOrDefault().UtilizaReconhecimentoFacial;
+            }
+        }
+
+        public Modelo.Empresa GetEmpresaConsultada(string empresaConsulta)
+        {
+            Modelo.Empresa empresaRetorno = new Modelo.Empresa();
+
+            int idEmpresa = 0;
+            int codEmpresa;
+            string[] empresaArray = empresaConsulta.Split('|');
+            if (empresaArray != null)
+            {
+                string codEmpresaString = empresaArray.FirstOrDefault().Trim();
+                Int32.TryParse(codEmpresaString, out codEmpresa);
+
+                idEmpresa = getId(codEmpresa, null, null);
+
+                empresaRetorno = LoadObject(idEmpresa);
+            }
+
+            return empresaRetorno;
         }
     }
 }

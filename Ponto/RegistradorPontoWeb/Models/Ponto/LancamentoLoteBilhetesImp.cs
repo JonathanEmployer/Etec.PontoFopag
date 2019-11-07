@@ -28,6 +28,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public string motivo { get; set; }
         public int idjustificativa { get; set; }
         public string relogio { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual justificativa justificativa { get; set; }
         public virtual LancamentoLote LancamentoLote { get; set; }

@@ -36,6 +36,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public string descricao { get; set; }
         public string observacao { get; set; }
         public Nullable<int> tipoLancamento { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LancamentoLoteBilhetesImp> LancamentoLoteBilhetesImp { get; set; }

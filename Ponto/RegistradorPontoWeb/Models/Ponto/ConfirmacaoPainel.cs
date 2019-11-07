@@ -25,6 +25,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public int Mes { get; set; }
         public int Ano { get; set; }
         public int idFuncionario { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual funcionario funcionario { get; set; }
     }

@@ -287,6 +287,7 @@
     <Compile Include="IJustificativaRestricao.cs" />
     <Compile Include="IOcorrenciaRestricao.cs" />
     <Compile Include="IHorarioRestricao.cs" />
+    <Compile Include="IEmpresaTermoUso.cs" />
     <Compile Include="IListaEventosEvento.cs" />
     <Compile Include="IListaEventos.cs" />
     <Compile Include="IEquipamentoTipoBiometria.cs" />
@@ -300,6 +301,7 @@
     <Compile Include="SQL\OcorrenciaRestricao.cs" />
     <Compile Include="SQL\HorarioDinamicoRestricao.cs" />
     <Compile Include="SQL\HorarioRestricao.cs" />
+    <Compile Include="SQL\EmpresaTermoUso.cs" />
     <Compile Include="SQL\ListaEventos.cs" />
     <Compile Include="SQL\ListaEventosEvento.cs" />
     <Compile Include="SQL\EquipamentoTipoBiometria.cs" />

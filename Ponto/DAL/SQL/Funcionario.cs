@@ -236,6 +236,10 @@ namespace DAL.SQL
        func.Mob_Senha,
        func.idcw_usuario,
        func.utilizaregistrador,
+       func.UtilizaAppPontofopag,
+       func.UtilizaReconhecimentoFacialApp,
+       func.UtilizaWebAppPontofopag,
+       func.UtilizaReconhecimentoFacialWebApp,
        func.idIntegracao,
        func.IdPessoaSupervisor,
        func.TipoMaoObra,
@@ -313,6 +317,10 @@ namespace DAL.SQL
                                        func.Mob_Senha,
                                        func.idcw_usuario,
                                        func.utilizaregistrador,
+                                       func.UtilizaAppPontofopag,
+                                       func.UtilizaReconhecimentoFacialApp,
+                                       func.UtilizaWebAppPontofopag,
+                                       func.UtilizaReconhecimentoFacialWebApp,
                                        func.idIntegracao,
                                        func.IdPessoaSupervisor,
                                        func.TipoMaoObra,
@@ -384,6 +392,10 @@ namespace DAL.SQL
                                        func.Mob_Senha,
                                        func.idcw_usuario,
                                        func.utilizaregistrador,
+                                       func.UtilizaAppPontofopag,
+                                       func.UtilizaReconhecimentoFacialApp,
+                                       func.UtilizaWebAppPontofopag,
+                                       func.UtilizaReconhecimentoFacialWebApp,
                                        func.idIntegracao,
                                        func.IdPessoaSupervisor,
                                        func.TipoMaoObra,
@@ -457,6 +469,10 @@ namespace DAL.SQL
                                        f.Mob_Senha,
                                        f.idcw_usuario,
                                        f.utilizaregistrador,
+                                       f.UtilizaAppPontofopag,
+                                       f.UtilizaReconhecimentoFacialApp,
+                                       f.UtilizaWebAppPontofopag,
+                                       f.UtilizaReconhecimentoFacialWebApp,
                                        f.idIntegracao,
                                        f.IdPessoaSupervisor,
                                        f.TipoMaoObra,
@@ -513,6 +529,10 @@ namespace DAL.SQL
                                        f.Mob_Senha,
                                        f.idcw_usuario,
                                        f.utilizaregistrador,
+                                       f.UtilizaAppPontofopag,
+                                       f.UtilizaReconhecimentoFacialApp,
+                                       f.UtilizaWebAppPontofopag,
+                                       f.UtilizaReconhecimentoFacialWebApp,
                                        f.idIntegracao,
                                        f.IdPessoaSupervisor,
                                        f.TipoMaoObra,
@@ -532,9 +552,9 @@ namespace DAL.SQL
                             WHERE ct.id = @idcontrato";
 
             INSERT = @"  INSERT INTO funcionario
-							( codigo,  dscodigo,  matricula,  nome,  codigofolha,  idempresa,  iddepartamento,  idfuncao,  idhorario,  tipohorario,  carteira,  dataadmissao,  datademissao,  salario,  naoentrarbanco,  naoentrarcompensacao,  excluido,  campoobservacao,  foto,  incdata,  inchora,  incusuario,  pis,  senha,  toleranciaentrada,  toleranciasaida,  quantidadetickets,  tipotickets,  CPF,  Mob_Senha,  idcw_usuario,  utilizaregistrador,  idIntegracao,  IdPessoaSupervisor,  TipoMaoObra,  IdAlocacao,  IdTipoVinculo,  IdIntegracaoPainel,  Email,  RFID,  IdHorarioDinamico,  CicloSequenciaIndice,  DataInativacao)
+							( codigo,  dscodigo,  matricula,  nome,  codigofolha,  idempresa,  iddepartamento,  idfuncao,  idhorario,  tipohorario,  carteira,  dataadmissao,  datademissao,  salario,  naoentrarbanco,  naoentrarcompensacao,  excluido,  campoobservacao,  foto,  incdata,  inchora,  incusuario,  pis,  senha,  toleranciaentrada,  toleranciasaida,  quantidadetickets,  tipotickets,  CPF,  Mob_Senha,  idcw_usuario,  utilizaregistrador,  idIntegracao,  IdPessoaSupervisor,  TipoMaoObra,  IdAlocacao,  IdTipoVinculo,  IdIntegracaoPainel,  Email,  RFID,  IdHorarioDinamico,  CicloSequenciaIndice,  DataInativacao,  UtilizaAppPontofopag,  UtilizaReconhecimentoFacialApp,  UtilizaWebAppPontofopag,  UtilizaReconhecimentoFacialWebApp)
 							VALUES
-							(@codigo, @dscodigo, @matricula, @nome, @codigofolha, @idempresa, @iddepartamento, @idfuncao, @idhorario, @tipohorario, @carteira, @dataadmissao, @datademissao, @salario, @naoentrarbanco, @naoentrarcompensacao, @excluido, @campoobservacao, @foto, @incdata, @inchora, @incusuario, @pis, @senha, @toleranciaentrada, @toleranciasaida, @quantidadetickets, @tipotickets, @CPF, @Mob_Senha, @idcw_usuario, @utilizaregistrador, @idIntegracao, @IdPessoaSupervisor, @TipoMaoObra, @IdAlocacao, @IdTipoVinculo, @IdIntegracaoPainel, @Email, @RFID, @IdHorarioDinamico, @CicloSequenciaIndice, @DataInativacao)
+							(@codigo, @dscodigo, @matricula, @nome, @codigofolha, @idempresa, @iddepartamento, @idfuncao, @idhorario, @tipohorario, @carteira, @dataadmissao, @datademissao, @salario, @naoentrarbanco, @naoentrarcompensacao, @excluido, @campoobservacao, @foto, @incdata, @inchora, @incusuario, @pis, @senha, @toleranciaentrada, @toleranciasaida, @quantidadetickets, @tipotickets, @CPF, @Mob_Senha, @idcw_usuario, @utilizaregistrador, @idIntegracao, @IdPessoaSupervisor, @TipoMaoObra, @IdAlocacao, @IdTipoVinculo, @IdIntegracaoPainel, @Email, @RFID, @IdHorarioDinamico, @CicloSequenciaIndice, @DataInativacao, @UtilizaAppPontofopag, @UtilizaReconhecimentoFacialApp, @UtilizaWebAppPontofopag, @UtilizaReconhecimentoFacialWebApp)
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE funcionario SET codigo = @codigo
@@ -580,6 +600,10 @@ namespace DAL.SQL
                             , IdHorarioDinamico = @IdHorarioDinamico
                             , CicloSequenciaIndice = @CicloSequenciaIndice
                             , DataInativacao = @DataInativacao
+                            , UtilizaAppPontofopag = @UtilizaAppPontofopag
+                            , UtilizaReconhecimentoFacialApp = @UtilizaReconhecimentoFacialApp
+                            , UtilizaWebAppPontofopag = @UtilizaWebAppPontofopag
+                            , UtilizaReconhecimentoFacialWebApp = @UtilizaReconhecimentoFacialWebApp
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM funcionario WHERE id = @id";
@@ -660,6 +684,10 @@ namespace DAL.SQL
                                        f.Mob_Senha,
                                        f.idcw_usuario,
                                        f.utilizaregistrador,
+                                       f.UtilizaAppPontofopag,
+                                       f.UtilizaReconhecimentoFacialApp,
+                                       f.UtilizaWebAppPontofopag,
+                                       f.UtilizaReconhecimentoFacialWebApp,
                                        f.idIntegracao,
                                        f.IdPessoaSupervisor,
                                        f.TipoMaoObra,
@@ -768,6 +796,11 @@ namespace DAL.SQL
             }
             ((Modelo.Funcionario)obj).Supervisor = dr["Supervisor"] is DBNull ? String.Empty : Convert.ToString(dr["Supervisor"]);
             ((Modelo.Funcionario)obj).utilizaregistrador = dr["utilizaregistrador"] is DBNull ? false : Convert.ToBoolean(dr["utilizaregistrador"]);
+            ((Modelo.Funcionario)obj).UtilizaAppPontofopag = dr["UtilizaAppPontofopag"] is DBNull ? false : Convert.ToBoolean(dr["UtilizaAppPontofopag"]);
+            ((Modelo.Funcionario)obj).UtilizaReconhecimentoFacialApp = dr["UtilizaReconhecimentoFacialApp"] is DBNull ? false : Convert.ToBoolean(dr["UtilizaReconhecimentoFacialApp"]);
+            ((Modelo.Funcionario)obj).UtilizaWebAppPontofopag = dr["UtilizaWebAppPontofopag"] is DBNull ? false : Convert.ToBoolean(dr["UtilizaWebAppPontofopag"]);
+            ((Modelo.Funcionario)obj).UtilizaReconhecimentoFacialWebApp = dr["UtilizaReconhecimentoFacialWebApp"] is DBNull ? false : Convert.ToBoolean(dr["UtilizaReconhecimentoFacialWebApp"]);
+
             object val = dr["idIntegracao"];
             Int32? idint = (val == null || val is DBNull) ? (Int32?)null : (Int32?)val;
             ((Modelo.Funcionario)obj).idIntegracao = idint;
@@ -840,7 +873,11 @@ namespace DAL.SQL
                 new SqlParameter ("@RFID", SqlDbType.BigInt),
                 new SqlParameter ("@IdHorarioDinamico", SqlDbType.Int),
                 new SqlParameter ("@CicloSequenciaIndice", SqlDbType.Int),
-                new SqlParameter ("@DataInativacao", SqlDbType.DateTime)
+                new SqlParameter ("@DataInativacao", SqlDbType.DateTime),
+                new SqlParameter ("@UtilizaAppPontofopag", SqlDbType.Bit),
+                new SqlParameter ("@UtilizaReconhecimentoFacialApp", SqlDbType.Bit),
+                new SqlParameter ("@UtilizaWebAppPontofopag", SqlDbType.Bit),
+                new SqlParameter ("@UtilizaReconhecimentoFacialWebApp", SqlDbType.Bit)
             };
             return parms;
         }
@@ -907,6 +944,10 @@ namespace DAL.SQL
                 parms[46].Value = (((Modelo.Funcionario)obj).DataInativacao).Value.Date;
             else
                 parms[46].Value = DBNull.Value;
+            parms[47].Value = ((Modelo.Funcionario)obj).UtilizaAppPontofopag;
+            parms[48].Value = ((Modelo.Funcionario)obj).UtilizaReconhecimentoFacialApp;
+            parms[49].Value = ((Modelo.Funcionario)obj).UtilizaWebAppPontofopag;
+            parms[50].Value = ((Modelo.Funcionario)obj).UtilizaReconhecimentoFacialWebApp;
         }
 
         public bool VerificaCodigoDuplicado(string pCodigo)
@@ -1079,6 +1120,10 @@ namespace DAL.SQL
                                            func.Mob_Senha,
                                            func.idcw_usuario,
                                            func.utilizaregistrador,
+                                           func.UtilizaAppPontofopag,
+                                           func.UtilizaReconhecimentoFacialApp,
+                                           func.UtilizaWebAppPontofopag,
+                                           func.UtilizaReconhecimentoFacialWebApp,
                                            func.idIntegracao,
                                            func.IdPessoaSupervisor,
                                            func.TipoMaoObra,
@@ -1751,6 +1796,10 @@ namespace DAL.SQL
                                            funcionario.Mob_Senha,
                                            funcionario.idcw_usuario,
                                            funcionario.utilizaregistrador,
+                                           funcionario.UtilizaAppPontofopag,
+                                           funcionario.UtilizaReconhecimentoFacialApp,
+                                           funcionario.UtilizaWebAppPontofopag,
+                                           funcionario.UtilizaReconhecimentoFacialWebApp,
                                            funcionario.idIntegracao,
                                            funcionario.IdPessoaSupervisor,
                                            funcionario.TipoMaoObra,
@@ -2027,6 +2076,10 @@ namespace DAL.SQL
                 ,func.toleranciaentrada
                 ,func.toleranciasaida
                 ,func.utilizaregistrador
+                ,func.UtilizaAppPontofopag
+                ,func.UtilizaReconhecimentoFacialApp
+                ,func.UtilizaWebAppPontofopag
+                ,func.UtilizaReconhecimentoFacialWebApp
                 ,func.RFID
                 ,func.IdHorarioDinamico
                 ,func.CicloSequenciaIndice
@@ -2524,6 +2577,10 @@ namespace DAL.SQL
                                    func.Mob_Senha,
                                    func.idcw_usuario,
                                    func.utilizaregistrador,
+                                   func.UtilizaAppPontofopag,
+                                   func.UtilizaReconhecimentoFacialApp,
+                                   func.UtilizaWebAppPontofopag,
+                                   func.UtilizaReconhecimentoFacialWebApp,
                                    func.idIntegracao,
                                    func.IdPessoaSupervisor,
                                    func.TipoMaoObra,
@@ -2610,6 +2667,10 @@ namespace DAL.SQL
 		                            CASE WHEN func.naoentrarbanco = 0 THEN 'Sim' ELSE 'Não' END EntraBancoHoras,
 		                            CASE WHEN func.naoentrarcompensacao = 0 THEN 'Sim' ELSE 'Não' END EntraCompensacao,
 		                            CASE WHEN func.utilizaregistrador = 0 THEN 'Não' ELSE 'Sim' END Utilizaregistrador,
+                                    CASE WHEN func.UtilizaAppPontofopag = 0 THEN 'Não' ELSE 'Sim' END UtilizaAppPontofopag,
+                                    CASE WHEN func.UtilizaReconhecimentoFacialApp = 0 THEN 'Não' ELSE 'Sim' END UtilizaReconhecimentoFacialApp,
+                                    CASE WHEN func.UtilizaWebAppPontofopag = 0 THEN 'Não' ELSE 'Sim' END UtilizaWebAppPontofopag,
+                                    CASE WHEN func.UtilizaReconhecimentoFacialWebApp = 0 THEN 'Não' ELSE 'Sim' END UtilizaReconhecimentoFacialWebApp,
 		                            CASE WHEN func.TipoMaoObra = 0 THEN 'Direta'
 			                             WHEN func.TipoMaoObra = 1 THEN 'Indireta'
 			                             WHEN func.TipoMaoObra = 2 THEN 'Mensalista' END TipoMaoObra,
@@ -2721,7 +2782,11 @@ namespace DAL.SQL
                                    func.tipotickets,
                                    func.toleranciaentrada,
                                    func.toleranciasaida,
-                                   func.utilizaregistrador
+                                   func.utilizaregistrador,
+                                   func.UtilizaAppPontofopag,
+                                   func.UtilizaReconhecimentoFacialApp,
+                                   func.UtilizaWebAppPontofopag,
+                                   func.UtilizaReconhecimentoFacialWebApp,
                                     , horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+ empresa.nome as empresa  
                                     , convert(varchar,departamento.codigo)+' | '+ departamento.descricao AS departamento
@@ -2836,6 +2901,10 @@ namespace DAL.SQL
                                    func.Mob_Senha,
                                    func.idcw_usuario,
                                    func.utilizaregistrador,
+                                   func.UtilizaAppPontofopag,
+                                   func.UtilizaReconhecimentoFacialApp,
+                                   func.UtilizaWebAppPontofopag,
+                                   func.UtilizaReconhecimentoFacialWebApp,
                                    func.idIntegracao,
                                    func.IdPessoaSupervisor,
                                    func.TipoMaoObra,
@@ -2951,6 +3020,10 @@ namespace DAL.SQL
                                    func.Mob_Senha,
                                    func.idcw_usuario,
                                    func.utilizaregistrador,
+                                   func.UtilizaAppPontofopag,
+                                   func.UtilizaReconhecimentoFacialApp,
+                                   func.UtilizaWebAppPontofopag,
+                                   func.UtilizaReconhecimentoFacialWebApp,
                                    func.idIntegracao,
                                    func.IdPessoaSupervisor,
                                    func.TipoMaoObra,
@@ -3059,6 +3132,10 @@ namespace DAL.SQL
                                    func.Mob_Senha,
                                    func.idcw_usuario,
                                    func.utilizaregistrador,
+                                   func.UtilizaAppPontofopag,
+                                   func.UtilizaReconhecimentoFacialApp,
+                                   func.UtilizaWebAppPontofopag,
+                                   func.UtilizaReconhecimentoFacialWebApp,
                                    func.idIntegracao,
                                    func.IdPessoaSupervisor,
                                    func.TipoMaoObra,
@@ -3157,6 +3234,10 @@ namespace DAL.SQL
                                     func.Mob_Senha,
                                     func.idcw_usuario,
                                     func.utilizaregistrador,
+                                    func.UtilizaAppPontofopag,
+                                    func.UtilizaReconhecimentoFacialApp,
+                                    func.UtilizaWebAppPontofopag,
+                                    func.UtilizaReconhecimentoFacialWebApp,
                                     func.idIntegracao,
                                     func.IdPessoaSupervisor,
                                     func.TipoMaoObra,
@@ -3261,6 +3342,10 @@ namespace DAL.SQL
                                     func.Mob_Senha,
                                     func.idcw_usuario,
                                     func.utilizaregistrador,
+                                    func.UtilizaAppPontofopag,
+                                    func.UtilizaReconhecimentoFacialApp,
+                                    func.UtilizaWebAppPontofopag,
+                                    func.UtilizaReconhecimentoFacialWebApp,
                                     func.idIntegracao,
                                     func.IdPessoaSupervisor,
                                     func.TipoMaoObra,
@@ -3356,6 +3441,10 @@ namespace DAL.SQL
                                     func.Mob_Senha,
                                     func.idcw_usuario,
                                     func.utilizaregistrador,
+                                    func.UtilizaAppPontofopag,
+                                    func.UtilizaReconhecimentoFacialApp,
+                                    func.UtilizaWebAppPontofopag,
+                                    func.UtilizaReconhecimentoFacialWebApp,
                                     func.idIntegracao,
                                     func.IdPessoaSupervisor,
                                     func.TipoMaoObra,
@@ -3451,6 +3540,10 @@ namespace DAL.SQL
                                    func.Mob_Senha,
                                    func.idcw_usuario,
                                    func.utilizaregistrador,
+                                   func.UtilizaAppPontofopag,
+                                   func.UtilizaReconhecimentoFacialApp,
+                                   func.UtilizaWebAppPontofopag,
+                                   func.UtilizaReconhecimentoFacialWebApp,
                                    func.idIntegracao,
                                    func.IdPessoaSupervisor,
                                    func.TipoMaoObra,
@@ -3551,6 +3644,10 @@ namespace DAL.SQL
                                    func.Mob_Senha,
                                    func.idcw_usuario,
                                    func.utilizaregistrador,
+                                   func.UtilizaAppPontofopag,
+                                   func.UtilizaReconhecimentoFacialApp,
+                                   func.UtilizaWebAppPontofopag,
+                                   func.UtilizaReconhecimentoFacialWebApp,
                                    func.idIntegracao,
                                    func.IdPessoaSupervisor,
                                    func.TipoMaoObra,
@@ -3770,6 +3867,10 @@ namespace DAL.SQL
                                    funcionario.Mob_Senha,
                                    funcionario.idcw_usuario,
                                    funcionario.utilizaregistrador,
+                                   funcionario.UtilizaAppPontofopag,
+                                   funcionario.UtilizaReconhecimentoFacialApp,
+                                   funcionario.UtilizaWebAppPontofopag,
+                                   funcionario.UtilizaReconhecimentoFacialWebApp,
                                    funcionario.idIntegracao,
                                    funcionario.IdPessoaSupervisor,
                                    funcionario.TipoMaoObra,
@@ -3875,6 +3976,10 @@ namespace DAL.SQL
                                    funcionario.Mob_Senha,
                                    funcionario.idcw_usuario,
                                    funcionario.utilizaregistrador,
+                                   funcionario.UtilizaAppPontofopag,
+                                   funcionario.UtilizaReconhecimentoFacialApp,
+                                   funcionario.UtilizaWebAppPontofopag,
+                                   funcionario.UtilizaReconhecimentoFacialWebApp,
                                    funcionario.idIntegracao,
                                    funcionario.IdPessoaSupervisor,
                                    funcionario.TipoMaoObra,
@@ -3979,6 +4084,10 @@ namespace DAL.SQL
                                    funcionario.Mob_Senha,
                                    funcionario.idcw_usuario,
                                    funcionario.utilizaregistrador,
+                                   funcionario.UtilizaAppPontofopag,
+                                   funcionario.UtilizaReconhecimentoFacialApp,
+                                   funcionario.UtilizaWebAppPontofopag,
+                                   funcionario.UtilizaReconhecimentoFacialWebApp,
                                    funcionario.idIntegracao,
                                    funcionario.IdPessoaSupervisor,
                                    funcionario.TipoMaoObra,
@@ -4090,6 +4199,10 @@ namespace DAL.SQL
                                    func.Mob_Senha,
                                    func.idcw_usuario,
                                    func.utilizaregistrador,
+                                   func.UtilizaAppPontofopag,
+                                   func.UtilizaReconhecimentoFacialApp,
+                                   func.UtilizaWebAppPontofopag,
+                                   func.UtilizaReconhecimentoFacialWebApp,
                                    func.idIntegracao,
                                    func.IdPessoaSupervisor,
                                    func.TipoMaoObra,
@@ -4210,6 +4323,10 @@ namespace DAL.SQL
                                        func.Mob_Senha,
                                        func.idcw_usuario,
                                        func.utilizaregistrador,
+                                       func.UtilizaAppPontofopag,
+                                       func.UtilizaReconhecimentoFacialApp,
+                                       func.UtilizaWebAppPontofopag,
+                                       func.UtilizaReconhecimentoFacialWebApp,
                                        func.idIntegracao,
                                        func.IdPessoaSupervisor,
                                        func.TipoMaoObra,
@@ -4307,6 +4424,10 @@ namespace DAL.SQL
                                        func.Mob_Senha,
                                        func.idcw_usuario,
                                        func.utilizaregistrador,
+                                       func.UtilizaAppPontofopag,
+                                       func.UtilizaReconhecimentoFacialApp,
+                                       func.UtilizaWebAppPontofopag,
+                                       func.UtilizaReconhecimentoFacialWebApp,
                                        func.idIntegracao,
                                        func.IdPessoaSupervisor,
                                        func.TipoMaoObra,
@@ -4526,6 +4647,10 @@ namespace DAL.SQL
                                    func.Mob_Senha,
                                    func.idcw_usuario,
                                    func.utilizaregistrador,
+                                   func.UtilizaAppPontofopag,
+                                   func.UtilizaReconhecimentoFacialApp,
+                                   func.UtilizaWebAppPontofopag,
+                                   func.UtilizaReconhecimentoFacialWebApp,
                                    func.idIntegracao,
                                    func.IdPessoaSupervisor,
                                    func.TipoMaoObra,
@@ -5295,6 +5420,10 @@ namespace DAL.SQL
                                    f.Mob_Senha,
                                    f.idcw_usuario,
                                    f.utilizaregistrador,
+                                   f.UtilizaAppPontofopag,
+                                   f.UtilizaReconhecimentoFacialApp,
+                                   f.UtilizaWebAppPontofopag,
+                                   f.UtilizaReconhecimentoFacialWebApp,
                                    f.idIntegracao,
                                    f.IdPessoaSupervisor,
                                    f.TipoMaoObra,
@@ -5441,6 +5570,10 @@ namespace DAL.SQL
                                        func.Mob_Senha,
                                        func.idcw_usuario,
                                        func.utilizaregistrador,
+                                       func.UtilizaAppPontofopag,
+                                       func.UtilizaReconhecimentoFacialApp,
+                                       func.UtilizaWebAppPontofopag,
+                                       func.UtilizaReconhecimentoFacialWebApp,
                                        func.idIntegracao,
                                        func.IdPessoaSupervisor,
                                        func.TipoMaoObra,

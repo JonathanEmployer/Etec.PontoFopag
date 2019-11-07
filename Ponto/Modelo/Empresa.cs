@@ -216,6 +216,7 @@ namespace Modelo
 
         public bool relatorioInconsistencia { get; set; }
         public bool utilizaregistradorfunc { get; set; }
+
         public bool relatorioComparacaoBilhetes { get; set; }
         public int? IdIntegracao { get; set; }
 
@@ -310,6 +311,20 @@ namespace Modelo
                 return PermiteAbonoParcialPainelDescricao;
             }
         }
+
+        [Display(Name = "Utiliza App Pontofopag")]
+        public bool UtilizaAppPontofopag { get; set; }
+
+        [Display(Name = "Reconhecimento Facial")]
+        public bool UtilizaReconhecimentoFacilAppPontofopag { get; set; }
+        [Display(Name = "Utiliza Web App Pontofopag")]
+        public bool UtilizaWebAppPontofopag { get; set; }
+
+        [Display(Name = "Reconhecimento Facial")]
+        public bool UtilizaReconhecimentoFacilWebAppPontofopag { get; set; }
+        public bool TermoAppAlterado { get; set; }
+        public List<EmpresaTermoUso> TermosUso { get; set; }
+
         public int bloqueioEdicaoEmp { get; set; }
     }
 }

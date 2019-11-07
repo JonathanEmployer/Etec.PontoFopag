@@ -322,6 +322,7 @@
     <Compile Include="JustificativaRestricao.cs" />
     <Compile Include="OcorrenciaRestricao.cs" />
     <Compile Include="HorarioRestricao.cs" />
+    <Compile Include="EmpresaTermoUso.cs" />
     <Compile Include="ListaEventos.cs" />
     <Compile Include="AlertasDisponiveis.cs" />
     <Compile Include="ListaEventosEvento.cs" />

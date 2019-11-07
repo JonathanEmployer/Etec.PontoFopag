@@ -132,7 +132,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.Email, new { @class = "control-label label-sm" })
-                                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control  input-sm" })
+                                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control  input-sm", @autocomplete="off" })
                                                 @Html.ValidationMessageFor(model => model.Email)
                                             </div>
                                         </div>
@@ -284,10 +284,10 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" id="divMobSenha" style="display: none;">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.Mob_Senha, new { @class = "control-label label-sm" })
-                                                @Html.PasswordFor(model => model.Mob_Senha, new { @class = "form-control  input-sm", value = Model.Mob_Senha })
+                                                @Html.PasswordFor(model => model.Mob_Senha, new { @class = "form-control  input-sm", value = Model.Mob_Senha, @autocomplete="new-password" })
                                                 @Html.ValidationMessageFor(model => model.Mob_Senha)
                                             </div>
                                         </div>
@@ -422,9 +422,35 @@
                                                         }
                                                         @Html.LabelFor(model => model.bNaoentrarcompensacao, new { @class = "control-label label-sm" })
                                                     </div>
-                                                    <div class="checkbox" id="divUtilizaRegistrador" style="display: none;">
+                                                    <div id="divUtilizaregistrador" class="checkbox" style="display: none;">
                                                         @Html.CheckBoxFor(model => model.utilizaregistrador)
                                                         @Html.LabelFor(model => model.utilizaregistrador, new { @class = "control-label label-sm" })
+                                                    </div>
+                                                    <div id="divUtilizaAppPontofopag" class="row" style="display: none;">
+                                                        <div class="col-md-12">
+                                                            <div class="checkbox" style="margin-top: 0px">
+                                                                @Html.CheckBoxFor(model => model.UtilizaAppPontofopag)
+                                                                @Html.LabelFor(model => model.UtilizaAppPontofopag, new { @class = "control-label label-sm" })
+                                                            </div>
+                                                            <div class="checkbox" style="padding-left:16px; margin-top: 0px; display:none" id="divReconhecimentoFacilAppPontofopag">
+                                                                @Html.CheckBoxFor(model => model.UtilizaReconhecimentoFacialApp)
+                                                                @Html.LabelFor(model => model.UtilizaReconhecimentoFacialApp, new { @class = "control-label label-sm" })
+                                                            </div>
+                                                            @Html.ValidationMessageFor(model => model.UtilizaReconhecimentoFacialApp)
+                                                        </div>
+                                                    </div>
+                                                    <div id="divUtilizaWebAppPontofopag" class="row" style="display: none;">
+                                                        <div class="col-md-12">
+                                                            <div class="checkbox" style="margin-top: 0px">
+                                                                @Html.CheckBoxFor(model => model.UtilizaWebAppPontofopag)
+                                                                @Html.LabelFor(model => model.UtilizaWebAppPontofopag, new { @class = "control-label label-sm" })
+                                                            </div>
+                                                            <div class="checkbox" style="padding-left:16px; margin-top: 0px; display:none" id="divReconhecimentoFacilWebAppPontofopag">
+                                                                @Html.CheckBoxFor(model => model.UtilizaReconhecimentoFacialWebApp)
+                                                                @Html.LabelFor(model => model.UtilizaReconhecimentoFacialWebApp, new { @class = "control-label label-sm" })
+                                                            </div>
+                                                            @Html.ValidationMessageFor(model => model.UtilizaReconhecimentoFacialWebApp)
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -633,8 +659,7 @@
         cwk_DataCalendario('#btnDataInativacao', '#dtDataInativacao');
 
         Ajax_CarregaGridParametro('Grid', 'FuncionarioHistorico', $('#idFuncionario').val(), '#gridHistorico');
-
-        validaEdicaoSenhaMobile($("#utilizaregistrador").is(':checked'));
+        
         $(function () {
             $('.nav-tabs a').on('click', function (e) {
                 e.preventDefault();
@@ -654,31 +679,68 @@
         optionsDP['orientation'] = "auto";
 
         $('.datepickerfunc:enabled:not([readonly])').datepicker(optionsDP);
+
+        validaEdicaoSenhaMobile();
         validaParametrosEmpresa();
     });
 
-    function validaParametrosEmpresa() {
-        if (!isEmpty($("#lkpEmpresa").val())) {
-            ajax_GetObjetoExecCallBack('Empresa', 'ParametrosEmpresa', {'consulta' : $("#lkpEmpresa").val() }, retornoParametrosEmpresa, true, 'Aguarde');
-        }
-    }
-
-    function retornoParametrosEmpresa(obj) {
-        if (obj.UtilizaRegistrador) {
-            $('#divUtilizaRegistrador').show();
+    function exibicaoAPPs(registradorEmpresa, appEmpresa, utilizaReconhecimentoFacilApp, webAppEmpresa, utilizaReconhecimentoFacilWebApp) {
+        if (getBool(registradorEmpresa) === true || getBool(appEmpresa) === true || getBool(webAppEmpresa) === true) {
+            $("#divMobSenha").css("display", "");
         }
         else {
-            $("#utilizaregistrador").prop("checked", false);
-            $('#divUtilizaRegistrador').hide();
+            $("#divMobSenha").css("display", "none");
+            $("#Mob_Senha").val('');
+        }
+
+        if (getBool(registradorEmpresa) === true) {
+            $("#divUtilizaregistrador").css("display", "");
+        }
+        else {
+            $("#utilizaregistrador").prop('checked', false);
+            $("#divUtilizaregistrador").css("display", "none");
+        }
+
+        if (getBool(appEmpresa) === true) {
+            $("#divUtilizaAppPontofopag").css("display", "");
+        }
+        else {
+            $("#UtilizaAppPontofopag").prop('checked', false);
+            $("#divUtilizaAppPontofopag").css("display", "none");
+        }
+
+        if (getBool(webAppEmpresa) === true) {
+            $("#divUtilizaWebAppPontofopag").css("display", "");
+        }
+        else {
+            $("#UtilizaWebAppPontofopag").prop('checked', false);
+            $("#divUtilizaWebAppPontofopag").css("display", "none");
+        }
+
+        if (getBool(utilizaReconhecimentoFacilApp) === true) {
+            $("#divReconhecimentoFacilAppPontofopag").css("display", "");
+        }
+        else {
+            $("#UtilizaReconhecimentoFacialApp").prop('checked', false);
+            $("#divReconhecimentoFacilAppPontofopag").css("display", "none");
+        }
+        
+        if (getBool(utilizaReconhecimentoFacilWebApp) === true) {
+            $("#divReconhecimentoFacilWebAppPontofopag").css("display", "");
+        }
+        else {
+            $("#UtilizaReconhecimentoFacialWebApp").prop('checked', false);
+            $("#divReconhecimentoFacilWebAppPontofopag").css("display", "none");
         }
     }
 
-    $("#utilizaregistrador").change(function () {
-        validaEdicaoSenhaMobile($("#utilizaregistrador").is(':checked'));
+    $("#utilizaregistrador, #UtilizaAppPontofopag, #UtilizaWebAppPontofopag").change(function () {
+        validaEdicaoSenhaMobile();
     });
 
-    function validaEdicaoSenhaMobile(bUtilizaRegistrador) {
-        if (bUtilizaRegistrador) {
+    function validaEdicaoSenhaMobile() {
+        bUtilizaAPP = $("#utilizaregistrador").is(':checked') || $("#UtilizaAppPontofopag").is(':checked') || $("#UtilizaWebAppPontofopag").is(':checked');
+        if (bUtilizaAPP) {
             $("#Mob_Senha").removeAttr("disabled");
         }
         else {
@@ -691,6 +753,20 @@
         $('#lkpDepart').val('');
          $('#lkpContrato').val('');
     });
+
+    
+    function validaParametrosEmpresa() {
+        var obj = {
+            empSelecionada: $("#lkpEmpresa").val()
+        };
+        var url = '@Url.Action("PermissaoAPPs", "Empresa")' + "?" + $.param(obj, true);
+        $.get(url, function (data) {
+            exibicaoAPPs(data.RegistradorEmpresa, data.APPEmpresa, data.UtilizaReconhecimentoFacilApp, data.WebAPPEmpresa, data.UtilizaReconhecimentoFacilWebApp);
+        }).fail(function () {
+            exibicaoAPPs(false, false, false, false, false);
+            cwkErro('Erro ao consultar permissões de aplicativos');
+        })
+    }
     
 
     $("#imgUp").change(function () {
@@ -812,6 +888,30 @@
             $("input[name=CicloSequenciaIndice][value=" + @Model.CicloSequenciaIndice + "]").attr('checked', 'checked');
         }
     }
+
+    $('#UtilizaReconhecimentoFacialApp').change(function () {
+        if(this.checked) {
+            $("#UtilizaAppPontofopag").prop("checked", true);
+        }
+    });
+
+    $('#UtilizaReconhecimentoFacialWebApp').change(function() {
+        if(this.checked) {
+            $("#UtilizaWebAppPontofopag").prop("checked", true);
+        }
+    });
+
+    $('#UtilizaAppPontofopag').change(function () {
+        if(!this.checked) {
+            $("#UtilizaReconhecimentoFacialApp").prop("checked", false);
+        }
+    });
+
+    $('#UtilizaWebAppPontofopag').change(function () {
+        if(!this.checked) {
+            $("#UtilizaReconhecimentoFacialWebApp").prop("checked", false);
+        }
+    });
 </script>
 
 

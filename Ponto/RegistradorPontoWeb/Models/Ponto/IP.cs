@@ -27,6 +27,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public int idEmpresa { get; set; }
         public Nullable<bool> bloqueiaRegistrador { get; set; }
         public Nullable<bool> bloqueiaPontoFopag { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual empresa empresa { get; set; }
     }

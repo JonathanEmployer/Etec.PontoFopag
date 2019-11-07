@@ -126,6 +126,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<int> idHorarioDinamico { get; set; }
         public Nullable<int> CicloSequenciaIndice { get; set; }
         public Nullable<System.DateTime> DataBaseCicloSequencia { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual Classificacao Classificacao { get; set; }
         public virtual parametros parametros { get; set; }

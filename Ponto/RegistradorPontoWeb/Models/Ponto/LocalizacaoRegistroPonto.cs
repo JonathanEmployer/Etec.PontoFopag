@@ -31,6 +31,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public string Browser { get; set; }
         public string BrowserVersao { get; set; }
         public string BrowserPlatform { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual bilhetesimp bilhetesimp { get; set; }
     }

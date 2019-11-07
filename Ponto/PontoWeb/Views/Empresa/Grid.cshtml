@@ -22,26 +22,19 @@
         <div class="panel-footer">
             <div class="row">
                 <div class="col-md-12 center-block">
-                    <div class="row">
-                        <div class="col-md-6 col-xs-4">
-                            <div style="text-align: left">
-                                @if (ViewBag.ControleUsuario)
-                                {
-                                    <a href="#" id="btAlterarUsuarios" class="btn btn btn-primary"><span class="fa fa-user"></span>&nbsp;Usuários</a>
-                                }
-                                <a href="#" id="btAtestado" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span>&nbsp;Atestado</a>
-                                <a href="#" id="btIP" class="btn btn-primary"><span class="glyphicon glyphicon-globe"></span>&nbsp;Cadastrar IP</a>
-                                <a href="#" id="btOcorrencia" class="btn btn-primary"><span class="fa fa-circle-o"></span>&nbsp;Ocorrências</a>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-xs-8">
-                            <div style="text-align: right">
-                                <a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;Consultar</a>
-                                <a href="#" id="btIncluir" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
-                                <a href="#" id="btAlterar" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
-                                <a href="#" id="btExcluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
-                            </div>
-                        </div>
+                    <div style="text-align: right">
+                        @if (ViewBag.ControleUsuario)
+                        {
+                            <a href="#" id="btAlterarUsuarios" class="btn btn btn-primary"><span class="fa fa-user"></span>&nbsp;Usuários</a>
+                        }
+                        <a href="#" id="btAtestado" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span>&nbsp;Atestado</a>
+                        <a href="#" id="btIP" class="btn btn-primary"><span class="glyphicon glyphicon-globe"></span>&nbsp;Cadastrar IP</a>
+                        <a href="#" id="btOcorrencia" class="btn btn-primary"><span class="fa fa-circle-o"></span>&nbsp;Ocorrências</a>
+                        <a href="#" id="btTermoResponsabilidadeAPP" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span>&nbsp;Termo Responsabilidade APP</a>
+                        <a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;Consultar</a>
+                        <a href="#" id="btIncluir" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
+                        <a href="#" id="btAlterar" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
+                        <a href="#" id="btExcluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
                     </div>
                 </div>
             </div>
@@ -60,6 +53,29 @@
         cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir', 'Empresa', nomeTabela, 'Empresa excluída com sucesso. ');
         cwk_EventoClickCadastroAlterar('#btAlterarUsuarios', 'Alterar', 'EmpresaUsuario', nomeTabela);
         cwk_EventoClickCadastroAlterar('#btOcorrencia', 'Cadastrar', 'OcorrenciaEmpresa', nomeTabela);
+
+        
+        $("#btTermoResponsabilidadeAPP").on("click", function () {
+            var id = GetIdSelecionadoTable(nomeTabela);
+            url = "/EmpresaTermoUso/GerarTermoUso/" + id;
+             $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: url,
+                success: function (d) {
+                    if (d.success) {
+                        window.location = "/EmpresaTermoUso/DownloadTermoUso" + "?fName=" + d.fName;
+                    }
+                    else {
+                        cwkErro(d.erro);
+                    }
+                },
+                 error: function () {
+                     cwkErro("Erro ao requisitar o Termo, tente novamente!");
+                }
+            });
+        });
 
         cwk_EventoAlterarAjaxParam('#btIP', 'Grid', 'IP', nomeTabela, "");
     });

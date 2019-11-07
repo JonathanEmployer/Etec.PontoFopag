@@ -473,7 +473,7 @@
         })
         var divToPrint = $(hashid).html();
         var head = "<html><head>" + $("head").html() + "</head>";
-        var allcontent = head + "<body  onload='window.print(); window.close()' style='background: #fff;' >" + "<" + tagname + attributes + ">" + divToPrint + "</" + tagname + ">" + "</body></html>";
+        var allcontent = head + "<body  onload='document.title = \"\"; window.print(); window.close()' style='background: #fff;' >" + "<" + tagname + attributes + ">" + divToPrint + "</" + tagname + ">" + "</body></html>";
         var newWin = window.open('', 'Imprimir', 'height=' + screen.height + ',width=' + screen.width + ',resizable=yes,scrollbars=yes,toolbar=yes,menubar=yes,location=yes');
         newWin.document.open();
         newWin.document.write(allcontent);

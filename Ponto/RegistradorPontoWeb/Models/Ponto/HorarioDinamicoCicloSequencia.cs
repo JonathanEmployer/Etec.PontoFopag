@@ -27,6 +27,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public bool folga { get; set; }
         public bool dsr { get; set; }
         public Nullable<int> idhorariodinamicoCiclo { get; set; }
+        public System.DateTime ctl_inicio { get; set; }
+        public System.DateTime ctl_fim { get; set; }
     
         public virtual HorarioDinamicoCiclo HorarioDinamicoCiclo { get; set; }
     }

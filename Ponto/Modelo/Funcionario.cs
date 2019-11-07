@@ -235,12 +235,10 @@ namespace Modelo
         public int? QuantidadeTickets { get; set; }
         public int? TipoTickets { get; set; }
 
-        [RequiredIf("utilizaregistrador", true, "Utiliza Registrador", "Selecionado")]
-        [Display(Name = "Senha Mobile")]
+        [Display(Name = "Senha APP")]
         public String Mob_Senha { get; set; }
 
         [Required(ErrorMessage = "Campo Obrigatório")]
-        [RequiredIf("utilizaregistrador", true, "Utiliza Registrador", "Selecionado")]
         [Display(Name = "CPF")]
         [TableHTMLAttribute("CPF", 8, true, ItensSearch.text, OrderType.none)]
         public String CPF { get; set; }
@@ -311,6 +309,19 @@ namespace Modelo
 
         [Display(Name = "Utiliza Registrador")]
         public bool utilizaregistrador { get; set; }
+
+        [Display(Name = "Utiliza App Pontofopag")]
+        public bool UtilizaAppPontofopag { get; set; }
+
+        [Display(Name = "Utiliza Reconhecimento Facial")]
+        public bool UtilizaReconhecimentoFacialApp { get; set; }
+
+        [Display(Name = "Utiliza Web App Pontofopag")]
+        public bool UtilizaWebAppPontofopag { get; set; }
+
+        [Display(Name = "Utiliza Reconhecimento Facial")]
+        public bool UtilizaReconhecimentoFacialWebApp { get; set; }
+
         /// <summary>
         /// Conexao do banco onde o funcionario esta cadastrado
         /// </summary>

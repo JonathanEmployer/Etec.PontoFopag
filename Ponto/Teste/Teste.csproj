@@ -189,10 +189,6 @@
     <Content Include="AuthoringTests.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BLL\BLL.csproj">
-      <Project>{4AA014FD-60E6-471D-90B7-3F72C6756E83}</Project>
-      <Name>BLL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\cwkPontoMT.Integracao\cwkPontoMT.Integracao.csproj">
       <Project>{498061B5-3229-411B-A807-A2FC98410927}</Project>
       <Name>cwkPontoMT.Integracao</Name>
