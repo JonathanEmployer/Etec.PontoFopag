@@ -2787,7 +2787,7 @@ namespace DAL.SQL
                                    func.UtilizaAppPontofopag,
                                    func.UtilizaReconhecimentoFacialApp,
                                    func.UtilizaWebAppPontofopag,
-                                   func.UtilizaReconhecimentoFacialWebApp,
+                                   func.UtilizaReconhecimentoFacialWebApp
                                     , horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+ empresa.nome as empresa  
                                     , convert(varchar,departamento.codigo)+' | '+ departamento.descricao AS departamento
