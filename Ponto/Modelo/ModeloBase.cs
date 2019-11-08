@@ -31,7 +31,7 @@ namespace Modelo
         [DataTableAttribute()]
         public string Altusuario { get; set; }
 
-        public override bool Equals(object obj)
+        public bool EqualsValues(object obj)
         {
             if (obj == null || GetType() != obj.GetType())
             {

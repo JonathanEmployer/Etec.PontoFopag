@@ -25,6 +25,7 @@ namespace BLL_N.JobManager.Hangfire.Job
         protected Modelo.UsuarioPontoWeb userPF;
         protected int progress = 0;
         private DateTime ultimoReport = DateTime.Now;
+        private DateTime ultimaVerificacaoCancelamento = DateTime.Now;
         protected bool AdicinaValorCorrenteDeTotalNaMensagem { get; set; }
 
 
@@ -161,17 +162,36 @@ namespace BLL_N.JobManager.Hangfire.Job
             if (context != null)
             {
                 jobRetorno.IdTask = context.BackgroundJob.Id;
-                if ((DateTime.Now - ultimoReport).TotalSeconds > 1 || jobRetornoAnt == null || jobRetornoAnt.StatusNovo != jobRetorno.StatusNovo || jobRetornoAnt.Progress != jobRetorno.Progress)
+                if (PassouTempoReport())
                 {
-                    ultimoReport = DateTime.Now;
-                    jobRetornoAnt = jobRetorno;
-                    Task.Run(() => {
+                    Task.Run(() =>
+                    {
                         context.WriteLine("Progresso = " + JsonConvert.SerializeObject(jobRetorno));
                         NotificationHub.ReportarJobProgresso(jobRetorno);
                     });
-                    
                 }
             }
+        }
+
+        public bool PassouTempoReport()
+        {
+            if ((DateTime.Now - ultimoReport).TotalSeconds > 2 || jobRetornoAnt == null || jobRetornoAnt.StatusNovo != jobRetorno.StatusNovo || jobRetornoAnt.Progress != jobRetorno.Progress)
+            {
+                ultimoReport = DateTime.Now;
+                jobRetornoAnt = jobRetorno;
+                return true;
+            }
+            return false;
+        }
+
+        public bool PassouTempoVerificacaoCancelamento()
+        {
+            if ((DateTime.Now - ultimaVerificacaoCancelamento).TotalSeconds > 2)
+            {
+                ultimaVerificacaoCancelamento = DateTime.Now;
+                return true;
+            }
+            return false;
         }
         #endregion
 
@@ -179,12 +199,12 @@ namespace BLL_N.JobManager.Hangfire.Job
         {
             try
             {
-                if (context != null)
+                if (context != null && PassouTempoVerificacaoCancelamento())
                 {
                     context.CancellationToken.ThrowIfCancellationRequested(); 
                 }
             }
-            catch (Exception)
+            catch (Exception )
             {
                 JobControl jc = JobControlManager.GetJobControl(context.BackgroundJob.Id);
                 NotificationHub.ReportarJobProgresso(new PxyJobReturn(jc));

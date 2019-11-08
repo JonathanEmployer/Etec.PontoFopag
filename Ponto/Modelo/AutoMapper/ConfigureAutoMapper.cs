@@ -1,9 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Modelo.AutoMapper
 {
@@ -14,6 +9,7 @@ namespace Modelo.AutoMapper
             Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<Modelo.Marcacao, Modelo.Marcacao>();
+                cfg.CreateMap<Modelo.BilhetesImp, Modelo.BilhetesImp>();
             });
         }
     }

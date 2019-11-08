@@ -1,7 +1,5 @@
 using System;
-using System.Data;
 using System.Collections.Generic;
-using Modelo.Proxy;
 
 namespace DAL
 {
@@ -28,6 +26,7 @@ namespace DAL
         List<Modelo.REP> VerificarIpEntreRep(string ip, int id);
 
         List<Modelo.Proxy.RepSituacao> VerificarSituacaoReps(int TempoSemComunicacao);
+        List<Modelo.REP> VerificarSituacaoReps(List<string> numsReps);
         List<Modelo.Proxy.PxyGridRepsPortaria373> GetGridRepsPortaria373();
     }
 }

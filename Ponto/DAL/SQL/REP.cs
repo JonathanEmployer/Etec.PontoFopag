@@ -837,6 +837,37 @@ namespace DAL.SQL
 
             return lista;
         }
+
+        public List<Modelo.REP> VerificarSituacaoReps(List<string> numsReps)
+        {
+            SqlParameter[] parms = new SqlParameter[] {};
+
+            string query = @"SELECT * FROM rep where numrelogio in ('"+ String.Join("','", numsReps) + "')";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, query, parms);
+
+            List<Modelo.REP> lista = new List<Modelo.REP>();
+
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.REP>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.REP>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+
+            return lista;
+        }
     }
 }
 

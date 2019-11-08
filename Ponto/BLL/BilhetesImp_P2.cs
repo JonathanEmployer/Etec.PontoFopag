@@ -6,6 +6,7 @@ using System.Linq;
 using System.Collections;
 using cwkPontoMT.Integracao;
 using cwkPontoMT.Integracao.Entidades;
+using System.Text.RegularExpressions;
 
 namespace BLL
 {
@@ -13,7 +14,6 @@ namespace BLL
     {
         private Modelo.ProgressBar objProgressBar;
         private static readonly DateTime DATA_VAZIA = new DateTime();
-
         public Modelo.ProgressBar ObjProgressBar
         {
             get { return objProgressBar; }
@@ -126,6 +126,7 @@ namespace BLL
             string numeroRelogio = "";
             string controleRelogio = null;
             string controleCNPJCPF = null;
+            List<string> valorErrado = new List<string>();
             int qtdLidos = 0, qtdProcessados = 0, qtdErrados = 0, qtdRepetidos = 0, qtdSemPermissao = 0, qtdPontoFechado = 0;
             DateTime dataInicial = new DateTime(), dataFinal = new DateTime();
             #endregion
@@ -228,6 +229,13 @@ namespace BLL
                                     DateTime dataBil = Convert.ToDateTime(reg.Campo04.Substring(0, 2) + "/" + reg.Campo04.Substring(2, 2) + "/" + reg.Campo04.Substring(4, 4));
                                     contadorProcessados++;
                                     //Cria o bilhete
+                                    string validaHora = reg.Campo05.Substring(0, 4);
+                                    if (Convert.ToInt32(validaHora) > 2359)
+                                    {
+                                        valorErrado.Add("Linha " + qtdLidos + ": Valor incorreto." + reg.Campo05.Substring(0, 4));
+                                        qtdErrados++;
+                                        continue;
+                                    }
                                     objBilhete = new Modelo.BilhetesImp();
                                     objBilhete.Ordem = "000";
                                     objBilhete.Data = dataBil;
@@ -325,6 +333,17 @@ namespace BLL
                     log.Add("");
                     log.Add("Não Foram importados " + String.Format("{0, 10}", naoPossuiFunc) + " registros porque não possui o funcionário cadastrado no banco");
                     log.Add("");
+                    if (valorErrado.Count > 0)
+                    {
+                        log.Add("---------------------------------------------------------------------------------------");
+                        int i = valorErrado.Count();
+                        log.Add("Numero de registros com valores errados: " + i + ". Não Foram importado: ");
+                        foreach (var item in valorErrado.GroupBy(g => g))
+                        {
+                            log.Add(item.Key.PadRight(15, ' '));
+                        }
+                        log.Add("---------------------------------------------------------------------------------------");
+                    }
                     log.Add(controleRelogio);
                     log.Add("");
                     log.Add("---------------------------------------------------------------------------------------");
@@ -367,7 +386,7 @@ namespace BLL
             int contadorProcessados = 0;
             int naoPossuiFunc = 0;
             string controleRelogio = null;
-            string controleCNPJCPF = null;
+            string controleCNPJCPF = null;            
             int qtdLidos = 0, qtdProcessados = 0, qtdErrados = 0, qtdRepetidos = 0, qtdPontoFechado = 0;
             DateTime dataInicial = new DateTime(), dataFinal = new DateTime();
             #endregion
@@ -457,6 +476,7 @@ namespace BLL
             int incrementoAnt = 0;
             int tamanhoProgressAtual = objProgressBar.valorCorrenteProgress();
             decimal total = linhas.Count();
+            List<string> valorErrado = new List<string>();
 
             if ((tp.FormatoBilhete == 3) || (tp.FormatoBilhete == 5))
             {
@@ -519,11 +539,10 @@ namespace BLL
                             break;
                         }
                     }
-                    else if (linha.Substring(9, 1) == "3")
+                    else if (linha.Substring(9, 1) == "3" )
                     {
-                        // Condição adicionada para descartar o registro que possuir na posição 9 o numero 3 (que seria registro de ponto) mas que possua 100 caracteres e as primeiros não forem numéricos, pois pode ser que seja a linha da assinatura digital e coincidentemente ela tenha na posição 9 o numero 3
-                        int conv = 0;
-                        if (linha.Length == 100 && !int.TryParse(linha.Substring(0, 9), out conv))
+                        //Condição adicionada para descartar a linha de assinatura digital do AFD, que coincidentemente pode possuir um caracter 3 na posição 9 e o sistema estava entendendo como registro de ponto                        
+                        if (!int.TryParse(linha.Substring(0, 9), out int conv))
                         {
                             continue;
                         }
@@ -538,6 +557,13 @@ namespace BLL
                         }
                         contadorProcessados++;
                         //Cria o bilhete
+                        string validaHora = linha.Substring(18, 2) + linha.Substring(20, 2);
+                        if (Convert.ToInt32(validaHora) > 2359)
+                        {
+                            valorErrado.Add("Linha "+ qtdLidos+": Valor incorreto." + linha.Substring(18, 2) + linha.Substring(20, 2));
+                            qtdErrados++;
+                            continue;
+                        }
                         objBilhete = new Modelo.BilhetesImp();
                         objBilhete.Nsr = Convert.ToInt32(linha.Substring(0, 9));
                         objBilhete.Ordem = "000";
@@ -607,7 +633,7 @@ namespace BLL
                         contador3++;
                     }
                 }
-                qtdProcessados = SalvarBilhetesEFinalizarLog(ref log, contadorProcessados, naoPossuiFunc, numeroRelogio, controleRelogio, controleCNPJCPF, qtdErrados, ref qtdRepetidos, qtdSemPermissao, qtdPontoFechado, bllRep, lPisNaoEncontrado, listaBilhetes, linhas);
+                qtdProcessados = SalvarBilhetesEFinalizarLog(ref log, contadorProcessados, naoPossuiFunc, numeroRelogio, controleRelogio, controleCNPJCPF, qtdErrados, ref qtdRepetidos, qtdSemPermissao, qtdPontoFechado, bllRep, lPisNaoEncontrado, listaBilhetes, linhas, valorErrado);
                 #endregion
             }
             else
@@ -633,8 +659,7 @@ namespace BLL
                     {
                         continue;
                     }
-                    qtdLidos++;
-
+                    qtdLidos++;                  
                     objBilhete = new Modelo.BilhetesImp();
                     switch (tp.FormatoBilhete)
                     {
@@ -647,6 +672,14 @@ namespace BLL
                             }
                             if (linha.Substring(6, 1) != "/" || linha.Substring(9, 1) != "/")
                             {
+                                qtdErrados++;
+                                continue;
+                            }
+                            //Cria o bilhete
+                            string validaHora = linha.Substring(13, 5);
+                            if (Convert.ToInt32(validaHora) > 02359)
+                            {
+                                valorErrado.Add("Linha " + qtdLidos + ": Valor incorreto." + linha.Substring(13, 5));
                                 qtdErrados++;
                                 continue;
                             }
@@ -670,6 +703,14 @@ namespace BLL
                                 qtdErrados++;
                                 continue;
                             }
+                            //Cria o bilhete
+                            string validaHora1 = linha.Substring(13, 5);
+                            if (Convert.ToInt32(validaHora1) > 02359)
+                            {
+                                valorErrado.Add("Linha " + qtdLidos + ": Valor incorreto." + linha.Substring(13, 5));
+                                qtdErrados++;
+                                continue;
+                            }
                             objBilhete = new Modelo.BilhetesImp();
                             objBilhete.Ordem = linha.Substring(0, 3);
                             objBilhete.Data = Convert.ToDateTime(linha.Substring(4, 8));
@@ -682,6 +723,14 @@ namespace BLL
                             #region Layout Livre
                             if (linha.Length == 0)
                             {
+                                qtdErrados++;
+                                continue;
+                            }
+                            //Cria o bilhete
+                            string validaHora2 = linha.Substring(tp.Hora_c, tp.Hora_t) + linha.Substring(tp.Minuto_c, tp.Minuto_t);
+                            if (Convert.ToInt32(validaHora2) > 2359)
+                            {
+                                valorErrado.Add("Linha " + qtdLidos + ": Valor incorreto." + linha.Substring(tp.Hora_c, tp.Hora_t) + linha.Substring(tp.Minuto_c, tp.Minuto_t));
                                 qtdErrados++;
                                 continue;
                             }
@@ -740,13 +789,13 @@ namespace BLL
                     max++;
                 }
 
-                qtdProcessados = SalvarBilhetesEFinalizarLog(ref log, contadorProcessados, naoPossuiFunc, numeroRelogio, controleRelogio, controleCNPJCPF, qtdErrados, ref qtdRepetidos, qtdSemPermissao, qtdPontoFechado, bllRep, lPisNaoEncontrado, listaBilhetes, linhas);
+                qtdProcessados = SalvarBilhetesEFinalizarLog(ref log, contadorProcessados, naoPossuiFunc, numeroRelogio, controleRelogio, controleCNPJCPF, qtdErrados, ref qtdRepetidos, qtdSemPermissao, qtdPontoFechado, bllRep, lPisNaoEncontrado, listaBilhetes, linhas, valorErrado);
                 #endregion
             }
             //LimpaArquivo(pArquivo);
         }
 
-        private int SalvarBilhetesEFinalizarLog(ref List<string> log, int contadorProcessados, int naoPossuiFunc, string numeroRelogio, string controleRelogio, string controleCNPJCPF, int qtdErrados, ref int qtdRepetidos, int qtdSemPermissao, int qtdPontoFechado, REP bllRep, List<string> lPisNaoEncontrado, List<Modelo.BilhetesImp> listaBilhetes, List<string> linhas)
+        private int SalvarBilhetesEFinalizarLog(ref List<string> log, int contadorProcessados, int naoPossuiFunc, string numeroRelogio, string controleRelogio, string controleCNPJCPF, int qtdErrados, ref int qtdRepetidos, int qtdSemPermissao, int qtdPontoFechado, REP bllRep, List<string> lPisNaoEncontrado, List<Modelo.BilhetesImp> listaBilhetes, List<string> linhas, List<string> valorErrado)
         {
             int qtdProcessados;
             objProgressBar.setaValorPB(40);
@@ -787,6 +836,17 @@ namespace BLL
                     log.Add(item.Key.PadRight(15, ' ') + " | " + item.ToList().Count().ToString().PadLeft(10, ' '));
                 }
                 log.Add("");
+            }
+            if (valorErrado.Count > 0)
+            {
+                log.Add("---------------------------------------------------------------------------------------");
+                int i = valorErrado.Count();
+                log.Add("Numero de registros com valores errados: " + i + ". Não Foram importados: ");
+                foreach (var item in valorErrado.GroupBy(g => g))
+                {
+                    log.Add(item.Key.PadRight(15, ' '));
+                }
+                log.Add("---------------------------------------------------------------------------------------");
             }
 
             if (!string.IsNullOrEmpty(controleRelogio))
@@ -922,6 +982,13 @@ namespace BLL
                             }
                             contadorProcessados++;
                             //Cria o bilhete
+                            string validaHora = linha.Substring(18, 4);
+                            if (Convert.ToInt32(validaHora) > 2359)
+                            {
+                                log.Add(String.Format("Linha {0}: Valor incorreto", qtdLidos));
+                                qtdErrados++;
+                                continue;
+                            }
                             objBilhete = new Modelo.BilhetesImp();
                             objBilhete.Nsr = Convert.ToInt32(linha.Substring(0, 9));
                             objBilhete.Ordem = "000";
@@ -1062,6 +1129,14 @@ namespace BLL
                                     qtdErrados++;
                                     continue;
                                 }
+                                //Cria o bilhete
+                                string validaHora = linha.Substring(13,5);
+                                if (Convert.ToInt32(validaHora) > 02359)
+                                {
+                                    log.Add(String.Format("Linha {0}: Valor incorreto", qtdLidos));
+                                    qtdErrados++;
+                                    continue;
+                                }
                                 objBilhete = new Modelo.BilhetesImp();
                                 objBilhete.Ordem = linha.Substring(0, 3);
                                 objBilhete.Data = Convert.ToDateTime(linha.Substring(4, 8));
@@ -1082,6 +1157,14 @@ namespace BLL
                                     qtdErrados++;
                                     continue;
                                 }
+                                //Cria o bilhete
+                                string validaHora1 = linha.Substring(13,5);
+                                if (Convert.ToInt32(validaHora1) > 02359)
+                                {
+                                    log.Add(String.Format("Linha {0}: Valor incorreto", qtdLidos));
+                                    qtdErrados++;
+                                    continue;
+                                }
                                 objBilhete = new Modelo.BilhetesImp();
                                 objBilhete.Ordem = linha.Substring(0, 3);
                                 objBilhete.Data = Convert.ToDateTime(linha.Substring(4, 8));
@@ -1094,6 +1177,14 @@ namespace BLL
                                 #region Layout Livre
                                 if (linha.Length == 0)
                                 {
+                                    qtdErrados++;
+                                    continue;
+                                }
+                                //Cria o bilhete
+                                string validaHora2 = linha.Substring(tp.Hora_c, tp.Hora_t) + linha.Substring(tp.Minuto_c, tp.Minuto_t);
+                                if (Convert.ToInt32(validaHora2) > 2359)
+                                {
+                                    log.Add(String.Format("Linha {0}: Valor incorreto", qtdLidos));
                                     qtdErrados++;
                                     continue;
                                 }
@@ -1310,34 +1401,81 @@ namespace BLL
                                 break;
                             }
                             qtdLidos++;
-
-                            switch (linha.Substring(9, 1))
+                            if (!int.TryParse(linha.Substring(0, 9), out int conv))
                             {
-                                case "1":
-                                    if (qtdCabecalho > 0)
-                                    {
-                                        log.Add(String.Format("Linha {0}: Layout diferente de REP (AFD), contém mais de um cabeçalho", qtdLidos));
-                                        arquivoOk = false;
-                                        qtdErrados++;
-                                    }
-                                    else
-                                    {
-
-                                    }
-                                    qtdCabecalho++;
-                                    break;
-                                case "3":
-                                    //faz validacao do tipo 3
-                                    if (qtdCabecalho == 0)
-                                    {
-                                        log.Add(String.Format("Linha {0}: Layout diferente de REP (AFD), não contém linha header", qtdLidos));
-                                        arquivoOk = false;
-                                        qtdErrados++;
-                                    }
-                                    else
-                                    {
-                                        if (linha.Length != 34)
+                                switch (linha.Substring(9, 1))
+                                {
+                                    case "1":
+                                        if (qtdCabecalho > 0)
                                         {
+                                            log.Add(String.Format("Linha {0}: Layout diferente de REP (AFD), contém mais de um cabeçalho", qtdLidos));
+                                            arquivoOk = false;
+                                            qtdErrados++;
+                                        }
+                                        else
+                                        {
+
+                                        }
+                                        qtdCabecalho++;
+                                        break;
+                                    case "3":
+                                        //faz validacao do tipo 3
+                                        if (qtdCabecalho == 0)
+                                        {
+                                            log.Add(String.Format("Linha {0}: Layout diferente de REP (AFD), não contém linha header", qtdLidos));
+                                            arquivoOk = false;
+                                            qtdErrados++;
+                                        }
+                                        else
+                                        {
+                                            if (linha.Length != 34)
+                                            {
+                                                log.Add(String.Format("Linha {0}: Layout diferente de REP (AFD)", qtdLidos));
+                                                arquivoOk = false;
+                                                qtdErrados++;
+                                            }
+                                            else
+                                            {
+                                                foreach (char c in linha.Substring(10, 24))
+                                                {
+                                                    if (!Char.IsNumber(c))
+                                                    {
+                                                        log.Add(String.Format("Linha {0}: Layout diferente de REP (AFD)", qtdLidos));
+                                                        arquivoOk = false;
+                                                        qtdErrados++;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        listaPis.Add(linha.Substring(22, 12));
+                                        break;
+                                }
+                            }
+                        }
+                        break;
+                    case 5:
+                        log.Add("Arquivo para Validação: " + Path.GetFileName(pArquivo));
+                        qtdLidos = 0; qtdErrados = 0;
+                        while (linha != null)
+                        {
+                            linha = objReader.ReadLine();
+                            if (linha == null || linha == "")
+                            {
+                                break;
+                            }
+                            qtdLidos++; 
+                            switch (linha.Substring(9, 1))
+                                {
+                                    case "3":
+                                        //faz validacao do tipo 3
+                                        if (linha.Length != 38)
+                                        {
+                                        //Condição adicionada para descartar a linha de assinatura digital do AFD, que coincidentemente pode possuir um caracter 3 na posição 9 e o sistema estava entendendo como registro de ponto                                            int conv = 0;
+                                        if (!int.TryParse(linha.Substring(0, 9), out int conv))
+                                        {
+                                                continue;
+                                        }
                                             log.Add(String.Format("Linha {0}: Layout diferente de REP (AFD)", qtdLidos));
                                             arquivoOk = false;
                                             qtdErrados++;
@@ -1355,56 +1493,9 @@ namespace BLL
                                                 }
                                             }
                                         }
-                                    }
-                                    listaPis.Add(linha.Substring(22, 12));
-                                    break;
-                            }
-                        }
-                        break;
-                    case 5:
-                        log.Add("Arquivo para Validação: " + Path.GetFileName(pArquivo));
-                        qtdLidos = 0; qtdErrados = 0;
-                        while (linha != null)
-                        {
-                            linha = objReader.ReadLine();
-                            if (linha == null || linha == "")
-                            {
-                                break;
-                            }
-                            qtdLidos++;
-
-                            switch (linha.Substring(9, 1))
-                            {
-                                case "3":
-                                    //faz validacao do tipo 3
-                                    if (linha.Length != 38)
-                                    {
-                                        // Condição adicionada para descartar o registro que possuir na posição 9 o numero 3 (que seria registro de ponto) mas que possua 100 caracteres e as primeiros não forem numéricos, pois pode ser que seja a linha da assinatura digital e coincidentemente ela tenha na posição 9 o numero 3
-                                        int conv = 0;
-                                        if (linha.Length == 100 && !int.TryParse(linha.Substring(0, 9), out conv))
-                                        {
-                                            continue;
-                                        }
-                                        log.Add(String.Format("Linha {0}: Layout diferente de REP (AFD)", qtdLidos));
-                                        arquivoOk = false;
-                                        qtdErrados++;
-                                    }
-                                    else
-                                    {
-                                        foreach (char c in linha.Substring(10, 24))
-                                        {
-                                            if (!Char.IsNumber(c))
-                                            {
-                                                log.Add(String.Format("Linha {0}: Layout diferente de REP (AFD)", qtdLidos));
-                                                arquivoOk = false;
-                                                qtdErrados++;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    listaPis.Add(linha.Substring(22, 12));
-                                    break;
-                            }
+                                        listaPis.Add(linha.Substring(22, 12));
+                                        break;
+                                }                            
                         }
                         break;
                     default:

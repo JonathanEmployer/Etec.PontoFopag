@@ -1913,5 +1913,10 @@ public List<int> GetIdsFuncsAtivos(string condicao)
         {
             throw new NotImplementedException();
         }
+
+        public List<int> IdsFuncPeriodoContratado(Enumeradores.TipoFiltroFuncionario tipo, List<int> idsReg, DateTime dtIni, DateTime dtFin)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

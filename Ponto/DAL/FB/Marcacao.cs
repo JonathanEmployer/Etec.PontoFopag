@@ -2529,5 +2529,10 @@ namespace DAL.FB
         {
             throw new NotImplementedException();
         }
+
+        public List<Modelo.Marcacao> GetPorFuncionariosContratosAtivos(List<int> ids, DateTime pdataInicial, DateTime pDataFinal, bool PegaInativos)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

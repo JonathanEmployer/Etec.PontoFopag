@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections;
 using Modelo;
 using Modelo.Proxy;
+using static Modelo.Enumeradores;
 
 namespace DAL
 {
@@ -129,6 +130,7 @@ namespace DAL
 
         List<int> GetIdsFuncsPorIdsEmpOuDepOuFuncaoOuContra(int idFuncao, int idDep, int idCont, int idEmp, bool verificaPermissao, bool removeInativo, bool removeExcluido);
         List<PxyUltimoFechamentoPonto> GetUltimoFechamentoPontoFuncionarios(List<int> idsFuncs);
+        List<int> IdsFuncPeriodoContratado(TipoFiltroFuncionario tipo, List<int> idsReg, DateTime dtIni, DateTime dtFin);
     }
 }
 

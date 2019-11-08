@@ -851,11 +851,6 @@ namespace BLL
             PreencheMarcacao(pMarcacao);
             var changes = objMarcacao.GetChanges(objMarcacaoAnt);
 
-            if (changes.Where(w => w.PropertyName != "BilhetesMarcacao" && w.PropertyName != "AdicionalNoturno").Count() > 0)
-            {
-                var ert = 1;
-            }
-
             return (changes != null && changes.Where(w => w.PropertyName != "BilhetesMarcacao").Count() > 0);
         }
 

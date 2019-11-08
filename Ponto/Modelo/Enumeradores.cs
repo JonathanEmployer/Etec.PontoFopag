@@ -35,5 +35,14 @@ namespace Modelo
             Excel,
             Word
         }
+
+        public enum TipoFiltroFuncionario
+        {
+            Empresa = 0,
+            Departamento = 1,
+            Funcionario = 2,
+            Funcao = 3,
+            Horario = 4
+        }
     }
 }

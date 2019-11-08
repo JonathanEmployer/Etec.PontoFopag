@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Data;
 using System.Linq;
 using DAL.SQL;
+using System.Threading.Tasks;
+using BLL.Util;
 
 namespace BLL
 {
@@ -12,14 +13,12 @@ namespace BLL
     {
         System.Windows.Forms.ProgressBar exportaPB;
 
-        private StringBuilder textoBuilder;
-
         //Dados da empresa
-        
+
         private Modelo.Empresa empresa;
 
         //Dados do funcionario
-        
+
         private DataTable funcionariosDT;
 
         //Dados das marcaçoes
@@ -142,8 +141,6 @@ namespace BLL
 
             afdt_ms = new MemoryStream();
 
-            textoBuilder = new StringBuilder();
-
             this.data_hora_geracao = DateTime.Now;
             this.id_empresa = pIdEmpresa;
             this.data_inicial = pDataInicial;
@@ -151,45 +148,135 @@ namespace BLL
 
             this.funcionariosDT = dalFuncionario.GetPorEmpresa(id_empresa, true);
 
-            exportaPB.setaMinMaxPB(0, funcionariosDT.Rows.Count + 1);
-            exportaPB.setaValorPB(0);
             exportaPB.setaMensagem("Exportando arquivo...");
+            List<string> linhasArquivo = new List<string>();
 
-            carrega_empresa();
-            monta_cabecalho();
-
-            textoBuilder.AppendLine(cabecalho);
-            grava_registrosWeb(exportaPB);
-            monta_trailer();
-            textoBuilder.Append(trailer);
-            var bytes = Encoding.UTF8.GetBytes(textoBuilder.ToString());
-            afdt_ms.Write(bytes, 0, bytes.Length);
-            arquivoMemoria = afdt_ms.ToArray();
+            try
+            {
+                carrega_empresa();
+                monta_cabecalho();
+                linhasArquivo.Add(cabecalho);
+                linhasArquivo.AddRange(grava_registrosWeb(exportaPB));
+                monta_trailer();
+                linhasArquivo.Add(trailer);
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    using (StreamWriter writer = new StreamWriter(stream))
+                    {
+                        foreach (var item in linhasArquivo)
+                        {
+                            writer.Write(item);
+                        }
+                    }
+                    arquivoMemoria = stream.ToArray();
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
-        private void grava_registrosWeb(Modelo.ProgressBar exportaPB)
+        private List<string> grava_registrosWeb(Modelo.ProgressBar exportaPB)
         {
-            int id_func;
-
-            List<Modelo.Marcacao> marcacoes = dalMarcacao.GetPorEmpresa(id_empresa, data_inicial, data_final, true);
-            reps = dalRep.GetAllList();
-            foreach (DataRow func in funcionariosDT.Rows)
+            List<string> retorno = new List<string>();
+            if (funcionariosDT != null && funcionariosDT.Rows.Count > 0)
             {
-                id_func = (int)func["id"];
-                if (func["pis"] != DBNull.Value)
-                    pis_empregado = (string)func["pis"];
+                Dictionary<int, List<string>> rowsPerFunc = new Dictionary<int, List<string>>();
+                List<int> idsFunc = dalFuncionario.IdsFuncPeriodoContratado(Modelo.Enumeradores.TipoFiltroFuncionario.Empresa, new List<int>() { id_empresa }, data_inicial, data_final);
 
-                marcacao_list = marcacoes.Where(m => m.Idfuncionario == id_func).ToList();
-                //marcacao_list = marcacao.GetPorFuncionario(id_func, data_inicial, data_final, true);
+                BLL.Marcacao bllMarcacao = new Marcacao(ConnectionString, UsuarioLogado);
+                reps = dalRep.GetAllList();
+                Tuple<DateTime, DateTime>[] intervals = {
+                    Tuple.Create(data_inicial, data_final)
+                };
 
-                foreach (Modelo.Marcacao marc in marcacao_list)
+                string messagePartsProgress = "";
+                if (data_final.Subtract(data_inicial).Days + 1 > 31)
                 {
-                    trata_marcacao(marc.BilhetesMarcacao);
-                    grava_marcacoesWeb(marc, exportaPB);
+                    intervals = data_inicial.GetIntervalsPerMonths(data_final).ToArray();
+                }
+                
+                int count = 0;
+                int totalParts = intervals.Count();
+                int maxProgress = totalParts > 100 ? totalParts : 100;
+                exportaPB.setaMinMaxPB(0, maxProgress);
+                exportaPB.setaValorPB(0);
+                int percPartIntervalo = maxProgress / totalParts;
+                List<Modelo.Marcacao> marcacoes = new List<Modelo.Marcacao>();
+                Task<List<Modelo.Marcacao>> tMarcacao = Task.Run(() => bllMarcacao.GetPorFuncionariosContratosAtivosComBilhetes(idsFunc, intervals[0].Item1, intervals[0].Item2));
+                for (int i = 0; i < totalParts; i++)
+                {
+                    var periodo = intervals[i];
+                    count++;
+                    if (totalParts > 1)
+                    {
+                        messagePartsProgress = string.Format("Parte {0} de {1}. ", count, intervals.Count());
+                    }
+                    if (!string.IsNullOrEmpty(messagePartsProgress))
+                    {
+                        messagePartsProgress += string.Format(" Período {0} a {1}. ", periodo.Item1.ToString("dd/MM/yyyy"), periodo.Item2.ToString("dd/MM/yyyy"));
+                    }
+
+                    exportaPB.setaMensagem(string.Format(messagePartsProgress + "Carregando marcações de {2} funcionários", periodo.Item1.ToString("dd/MM/yyyy"), periodo.Item2.ToString("dd/MM/yyyy"), idsFunc.Count()));
+                    marcacoes = tMarcacao.Result;
+
+                    if (i +1 < totalParts)
+                    {
+                        var proximoPeriodo = intervals[i+1];
+                        tMarcacao = Task.Run(() => bllMarcacao.GetPorFuncionariosContratosAtivosComBilhetes(idsFunc, periodo.Item1, periodo.Item2));
+                    }
+
+                    try
+                    {
+                        var marcsGroup = marcacoes.GroupBy(g => g.Idfuncionario);
+                        int totalFuncs = marcsGroup.Count();
+                        int countFuncionario = 0;
+                        int controleIncremento = -1;
+                        int numeroIncremento = totalFuncs / percPartIntervalo;
+                        foreach (var marcsFuncs in marcsGroup)
+                        {
+                            countFuncionario++;
+                            if (!rowsPerFunc.ContainsKey(marcsFuncs.Key))
+                            {
+                                rowsPerFunc.Add(marcsFuncs.Key, new List<string>());
+                            }
+                            List<string> linhasFunc = rowsPerFunc[marcsFuncs.Key];
+                            var func = funcionariosDT.AsEnumerable()
+                                        .Where(row => row.Field<int>("id") == marcsFuncs.Key).CopyToDataTable().Rows[0];
+
+                            exportaPB.setaMensagem(string.Format(messagePartsProgress + "Exportando funcionário {0}/{1}: {2} | {3}", countFuncionario, totalFuncs, func["dscodigo"], func["nome"]));
+                            pis_empregado = func["pis"].ToString();
+                            marcacao_list = marcsFuncs.ToList();
+                            foreach (Modelo.Marcacao marc in marcacao_list)
+                            {
+                                trata_marcacao(marc.BilhetesMarcacao);
+                                linhasFunc.AddRange(grava_marcacoesWeb(marc, exportaPB));
+                            }
+
+                            if (controleIncremento == -1 || controleIncremento == numeroIncremento)
+                            {
+                                exportaPB.incrementaPB(1);
+                                controleIncremento = 0;
+                            }
+
+                            controleIncremento++;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
                 }
 
-                exportaPB.incrementaPB(1);
+                exportaPB.setaMensagem("Gerando txt");
+                exportaPB.setaValorPB(maxProgress-1);
+
+                retorno.AddRange(rowsPerFunc.SelectMany(s => s.Value).ToList());
             }
+            return retorno;
         }
 
         /// <summary>
@@ -287,8 +374,9 @@ namespace BLL
             cabecalho = cabecalho.Insert(203, data_hora_geracao.ToString("ddMMyyyyHHmm"));
         }
 
-        private void grava_marcacoesWeb(Modelo.Marcacao pMaracao, Modelo.ProgressBar exportaPB)
+        private List<string> grava_marcacoesWeb(Modelo.Marcacao pMaracao, Modelo.ProgressBar exportaPB)
         {
+            List<string> linhas = new List<string>();
             string num_fabricacao_rep = "";
 
             string linhaEntrada, linhaSaida;
@@ -297,12 +385,18 @@ namespace BLL
             string aux = "";
             DateTime data;
             string[] tiposRegistros = new string[] { "I", "P" };
+            int[] entradasMin = pMaracao.GetEntradas();
+            int[] saidasMin = pMaracao.GetSaidas();
+            string[] saidas = pMaracao.GetSaidasToString();
+            string[] entradas = pMaracao.GetEntradasToString();
+            string[] num_rel_entradas = pMaracao.GetNumRelogioEntradas();
+            string[] num_rel_saidas = pMaracao.GetNumRelogioSaidas();
             for (int i = 1; i < 8; i++)
             {
                 string tipoMarcEnt = "E", tipoRegEnt = "O", tipoMarcSai = "S", tipoRegSai = "O", motivo = "";
 
                 //Para cada entrada escreve todo o registro
-                if (pMaracao.GetEntradas()[i - 1] != -1)
+                if (entradasMin[i - 1] != -1)
                 {
                     var tratamentoE = pMaracao.BilhetesMarcacao.Where(t => t.Ent_sai == "E" && t.Posicao == i);
                     if (tratamentoE.Count() > 0)
@@ -331,7 +425,7 @@ namespace BLL
                     sequencial_cnt++;//Incrementa o contador
 
                     //Testa se existe um numero de serie para o relogio, se nao tiver, preenche com espaço em branco
-                    var auxRep = reps.Where(r => r.NumRelogio == pMaracao.GetNumRelogioEntradas()[i - 1]);
+                    var auxRep = reps.Where(r => r.NumRelogio == num_rel_entradas[i - 1]);
                     if (auxRep.Count() > 0)
                         num_fabricacao_rep = auxRep.First().NumSerie;
                     else
@@ -340,8 +434,8 @@ namespace BLL
                     linhaEntrada = linhaEntrada.Insert(0, String.Format("{0:000000000}", sequencial_cnt)); //Sequencial do registro no arquivo
                     linhaEntrada = linhaEntrada.Insert(9, "2"); // Tipo do registro = 2 (TR)
                     linhaEntrada = linhaEntrada.Insert(10, data.ToString("ddMMyyyy"));
-                    linhaEntrada = linhaEntrada.Insert(18, pMaracao.GetEntradasToString()[i - 1].Substring(0, 2));//Grava as horas no arquivo
-                    linhaEntrada = linhaEntrada.Insert(20, pMaracao.GetEntradasToString()[i - 1].Substring(3, 2));//Grava os minutos no arquivo
+                    linhaEntrada = linhaEntrada.Insert(18, entradas[i - 1].Substring(0, 2));//Grava as horas no arquivo
+                    linhaEntrada = linhaEntrada.Insert(20, entradas[i - 1].Substring(3, 2));//Grava os minutos no arquivo
                     linhaEntrada = linhaEntrada.Insert(22, String.Format("{0,-12}", pis_empregado));//Pis do empregado
                     linhaEntrada = linhaEntrada.Insert(34, String.Format("{0,-17}", num_fabricacao_rep));//Numero de frabricação REP do relogio
                     linhaEntrada = linhaEntrada.Insert(51, tipoMarcEnt);//E= Entrada, S = Saída, D = Desconsiderado
@@ -350,11 +444,11 @@ namespace BLL
                     if (tipoRegEnt != "E" || tipoMarcEnt != "O")
                         linhaEntrada = linhaEntrada.Insert(55, String.Format("{0,-100}", motivo));
 
-                    textoBuilder.AppendLine(linhaEntrada);
+                    linhas.Add(linhaEntrada);
                 }
 
                 //Para cada saída escreve todo o registro
-                if (pMaracao.GetSaidas()[i - 1] != -1)
+                if (saidasMin[i - 1] != -1)
                 {
                     var tratamentoS = pMaracao.BilhetesMarcacao.Where(t => t.Ent_sai == "S" && t.Posicao == i);
                     if (tratamentoS.Count() > 0)
@@ -381,15 +475,15 @@ namespace BLL
                     linhaSaida = "";
 
                     sequencial_cnt++;//Incrementa o contador
-                    var auxRep = reps.Where(r => r.NumRelogio == pMaracao.GetNumRelogioEntradas()[i - 1]);
+                    var auxRep = reps.Where(r => r.NumRelogio == num_rel_saidas[i - 1]);
                     if (auxRep.Count() > 0)
                         num_fabricacao_rep = auxRep.First().NumSerie;
 
                     linhaSaida = linhaSaida.Insert(0, String.Format("{0:000000000}", sequencial_cnt)); //Sequencial do registro no arquivo
                     linhaSaida = linhaSaida.Insert(9, "2"); // Tipo do registro = 2 (TR)
                     linhaSaida = linhaSaida.Insert(10, data.ToString("ddMMyyyy"));
-                    linhaSaida = linhaSaida.Insert(18, pMaracao.GetSaidasToString()[i - 1].Substring(0, 2));//Grava as horas no arquivo
-                    linhaSaida = linhaSaida.Insert(20, pMaracao.GetSaidasToString()[i - 1].Substring(3, 2));//Grava os minutos no arquivo
+                    linhaSaida = linhaSaida.Insert(18, saidas[i - 1].Substring(0, 2));//Grava as horas no arquivo
+                    linhaSaida = linhaSaida.Insert(20, saidas[i - 1].Substring(3, 2));//Grava os minutos no arquivo
                     linhaSaida = linhaSaida.Insert(22, String.Format("{0,-12}", pis_empregado));//Pis do empregado
                     linhaSaida = linhaSaida.Insert(34, String.Format("{0,-17}", num_fabricacao_rep));//Numero de frabricação REP do relogio
                     linhaSaida = linhaSaida.Insert(51, tipoMarcSai);//E= Entrada, S = Saída, D = Desconsiderado
@@ -398,9 +492,10 @@ namespace BLL
                     if (tipoMarcSai != "S" || tipoRegSai != "O")
                         linhaSaida = linhaSaida.Insert(55, String.Format("{0,-100}", motivo));
 
-                    textoBuilder.AppendLine(linhaSaida);
+                    linhas.Add(linhaSaida);
                 }
             }
+            return linhas;
         }
 
         /// <summary>
@@ -412,7 +507,7 @@ namespace BLL
         private void grava_marcacoes(Modelo.Marcacao pMaracao)
         {
             string num_fabricacao_rep = "";
-            
+
             string linhaEntrada, linhaSaida;
 
             Modelo.BilhetesImp objBilhete = null;
@@ -504,7 +599,7 @@ namespace BLL
                     linhaSaida = "";
 
                     sequencial_cnt++;//Incrementa o contador
-                    var auxRep = reps.Where(r=> r.NumRelogio == pMaracao.GetNumRelogioEntradas()[i - 1]);
+                    var auxRep = reps.Where(r => r.NumRelogio == pMaracao.GetNumRelogioEntradas()[i - 1]);
                     if (auxRep.Count() > 0)
                         num_fabricacao_rep = auxRep.First().NumSerie;
 

@@ -83,6 +83,13 @@ namespace Modelo
             return clonados;
         }
 
+        public Marcacao Clone(Marcacao objClone, List<BilhetesImp> bils)
+        {
+            Marcacao m = Mapper.Map<Marcacao, Marcacao>(objClone);
+            m.BilhetesMarcacao = bils;
+            return m;
+        }
+
         #region Declarações
 
         private string _entrada_1;

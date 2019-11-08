@@ -1774,14 +1774,15 @@
     <Content Include="Views\Shared\EditorTemplates\JustificativaRestricao.cshtml" />
     <Content Include="Views\Contrato\EventoConsultaSemTodos.cshtml" />
     <Content Include="Views\RelAFDPortaria373\Index.cshtml" />
+    <Content Include="Views\Contrato\EventoConsultaSemTodos.cshtml" />
     <None Include="Web.DebugHom.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.DebugPRD.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <Content Include="Views\Shared\EditorTemplates\HorarioRestricao.cshtml" />
     <Content Include="Views\Horario\AddNovaRestricao.cshtml" />
+    <None Include="Web.DebugPRD.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Web.DebugSuporte.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

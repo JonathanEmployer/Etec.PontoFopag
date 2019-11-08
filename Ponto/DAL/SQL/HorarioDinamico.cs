@@ -1020,16 +1020,33 @@ namespace DAL.SQL
 
         public void ExcluirListAndAllChildren(List<int> ids)
         {
-            SqlParameter[] parms = { new SqlParameter("@idhorarioDinamico", SqlDbType.VarChar) };
-            parms[0].Value = String.Join(",", ids);
-            string deleteAll = @"delete from horariodinamicociclosequencia where idhorariodinamicociclo in (select id from HorarioDinamicoCiclo where idhorariodinamico in (select * from F_ClausulaIn(@idhorarioDinamico)))
+            using (SqlConnection conn = db.GetConnection)
+            {
+                using (SqlTransaction trans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        SqlParameter[] parms = { new SqlParameter("@idhorarioDinamico", SqlDbType.VarChar) };
+                        parms[0].Value = String.Join(",", ids);
+                        string deleteAll = @"delete from horario where idhorariodinamico = @idhorarioDinamico
+                                delete from horariodinamicociclosequencia where idhorariodinamicociclo in (select id from HorarioDinamicoCiclo where idhorariodinamico in (select * from F_ClausulaIn(@idhorarioDinamico)))
                                 delete from HorarioDinamicoCiclo where idhorariodinamico in (select * from F_ClausulaIn(@idhorarioDinamico))
                                 delete from HorarioDinamicophextra where idhorariodinamico in (select * from F_ClausulaIn(@idhorarioDinamico))
                                 delete from HorarioDinamicoLimiteDdsr where idhorariodinamico in (select * from F_ClausulaIn(@idhorarioDinamico))
                                 delete from HorarioDinamicoRestricao where idhorariodinamico in (select * from F_ClausulaIn(@idhorarioDinamico))
-                                delete from horariodinamico where id in (select * from F_ClausulaIn(@idhorarioDinamico))";
-
-            SqlCommand cmd = db.ExecNonQueryCmd(CommandType.Text, deleteAll, true, parms);
+                                delete from horariodinamico where id in (select * from F_ClausulaIn(@idhorarioDinamico))
+                                ";
+                        TransactDbOps.ExecuteScalar(trans, CommandType.Text, deleteAll, parms);
+                        trans.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        trans.Rollback();
+                        throw (ex);
+                    }
+                }
+            }
+            
         }
 
         public DataTable FuncionariosParaRecalculo(int idHorarioDinamico)

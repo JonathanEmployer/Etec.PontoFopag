@@ -360,7 +360,7 @@ namespace DAL.SQL
                                 break;
                             case 1: aux += "AND func.iddepartamento IN (SELECT * FROM dbo.F_ClausulaIn(@identificacao))";
                                 break;
-                            case 2: aux += "AND fbh.identificacao IN (SELECT * FROM dbo.F_ClausulaIn(@identificacao))";
+                            case 2: aux += "AND fbhd.identificacao IN (SELECT * FROM dbo.F_ClausulaIn(@identificacao))";
                                 break;
                             case 3: aux += "AND func.idfuncao IN (SELECT * FROM dbo.F_ClausulaIn(@identificacao))";
                                 break;

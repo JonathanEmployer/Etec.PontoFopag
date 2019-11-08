@@ -2,13 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.IO;
 using System.Collections;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
+using DAL.SQL;
 
 namespace BLL
 {
@@ -1590,7 +1587,53 @@ namespace BLL
         }
         #endregion
 
+        public List<Modelo.Marcacao> GetPorFuncionariosContratosAtivos(List<int> ids, DateTime pdataInicial, DateTime pDataFinal, bool PegaInativos)
+        {
+            return dalMarcacao.GetPorFuncionariosContratosAtivos(ids, pdataInicial, pDataFinal, PegaInativos);
+        }
 
+        public static List<Modelo.Marcacao> VincularBilhetesMarcacao(List<Modelo.Marcacao> marcacoes, List<Modelo.BilhetesImp> bilhetes)
+        {
+            #region Lógica para melhor desempenho
+            // Separa marcacoes com seus bilhetes
+            var qMarcBilhetes = from marc in marcacoes
+                                join bil in bilhetes
+                                on new { idFunc = marc.Idfuncionario, data = marc.Data }
+                                        equals new { idFunc = bil.IdFuncionario, data = bil.Mar_data.GetValueOrDefault() }
+                                select new { Marcacao = marc, Bilhete = bil };
+
+            // Gera novos objetos de marcacao com os bilhetes relacionados
+            var marcBilhetes = from m in qMarcBilhetes
+                               group m by new { m.Marcacao.Idfuncionario, m.Marcacao.Data } into g
+                               select new Modelo.Marcacao().Clone(g.FirstOrDefault().Marcacao, g.Select(s => s.Bilhete).ToList());
+
+            List<Modelo.Marcacao> MarcsComBilhetes = marcBilhetes.ToList();
+
+            List<int> idsMarcsNaoAdd = MarcsComBilhetes.Select(s => s.Id).ToList();
+            //Retorna as marcações que não possuem bilhetes
+            List<Modelo.Marcacao> MarcsN = marcacoes.Where(w => !idsMarcsNaoAdd.Contains(w.Id)).ToList();
+            MarcsComBilhetes.AddRange(MarcsN);
+            marcacoes = MarcsComBilhetes;
+            #endregion
+            return marcacoes;
+        }
+
+        public List<Modelo.Marcacao> GetPorFuncionariosContratosAtivosComBilhetes(List<int> idsFunc, DateTime pdataInicial, DateTime pDataFinal)
+        {
+            DAL.SQL.BilhetesImp dalBilhetesImp = new DAL.SQL.BilhetesImp(new DataBase(ConnectionString));
+            dalBilhetesImp.UsuarioLogado = UsuarioLogado;
+
+            List<Task> taskList = new List<Task>();
+            Task<List<Modelo.Marcacao>> tMarcacao = Task.Run(() =>
+                dalMarcacao.GetPorFuncionariosContratosAtivos(idsFunc, pdataInicial, pDataFinal, true));
+            taskList.Add(tMarcacao);
+            Task<List<Modelo.BilhetesImp>> tBilhetes = Task.Run(() =>
+                    dalBilhetesImp.GetImportadosPeriodo(idsFunc, pdataInicial, pDataFinal, true));
+            taskList.Add(tBilhetes);
+
+            Task.WaitAll(taskList.ToArray());
+            return VincularBilhetesMarcacao(tMarcacao.Result, tBilhetes.Result);
+        }
     }
 
     public struct MarcPA
@@ -1605,4 +1648,6 @@ namespace BLL
             }
         }
     }
+
+    
 }

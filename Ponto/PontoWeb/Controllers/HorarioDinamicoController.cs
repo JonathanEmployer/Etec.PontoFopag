@@ -93,8 +93,21 @@ namespace PontoWeb.Controllers
                 BLL.cwkFuncoes.LogarErro(ex);
                 string erro = "";
                 if (ex.Message.Contains("FK_mudancahorario_horario"))
+                {
                     erro = "Antes de excluir o horário exclua a mudança de horário vinculada ao mesmo!";
-                else erro = ex.Message;
+                    return Json(new { Success = false, Erro = erro }, JsonRequestBehavior.AllowGet);
+                }
+                else if (ex.Message.Contains("FK_funcionario_horario") || ex.Message.Contains("FK__funcionar"))
+                {
+                    erro = "Não é possivel excluir esse registro pois ele está relacionado à um funcionário";
+                    return Json(new { Success = false, Erro = erro }, JsonRequestBehavior.AllowGet);
+                }
+                else if (ex.Message.Contains("FK_marcacao_horario"))
+                {
+                    erro = "Não é possível excluir esse registro pois ele está relacionado a marcação de funcionário";
+                    return Json(new { Success = false, Erro = erro }, JsonRequestBehavior.AllowGet);
+                }
+                else  erro = ex.Message;
                 return Json(new { Success = false, Erro = erro }, JsonRequestBehavior.AllowGet);
             }
         }

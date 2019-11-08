@@ -6,13 +6,13 @@
 
 @using (Html.BeginForm("Exportar", "ExportacaoMinisterioTrabalho", FormMethod.Post, new { id = "FormExportar" }))
 {
-    <div class="divCenterPequeno">
+    <div class="divCenterMedio">
         <div class="panel panel-default" style="padding:0">
             <div class="panel-heading salvando">
                 @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
                 <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
             </div>
-            <div class="panel-body panelConteudo">
+            <div class="panel-body panelConteudo" id="panelBodyFixodivCenter">
                 @Html.ValidationMessage("CustomError")
                 <div class="row">
                     <div class="col-md-4">

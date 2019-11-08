@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using System.Linq;
 using Modelo.Proxy;
+using static Modelo.Enumeradores;
 
 namespace DAL.SQL
 {
@@ -549,7 +550,7 @@ namespace DAL.SQL
 	                            join contrato ct on cf.idcontrato = ct.id
                                 join empresa emp on ct.idempresa = emp.id
 	                            join funcionario f on cf.idfuncionario = f.id
-                            WHERE ct.id = @idcontrato";
+                            WHERE ct.id = @idcontrato and cf.excluido = 0";
 
             INSERT = @"  INSERT INTO funcionario
 							( codigo,  dscodigo,  matricula,  nome,  codigofolha,  idempresa,  iddepartamento,  idfuncao,  idhorario,  tipohorario,  carteira,  dataadmissao,  datademissao,  salario,  naoentrarbanco,  naoentrarcompensacao,  excluido,  campoobservacao,  foto,  incdata,  inchora,  incusuario,  pis,  senha,  toleranciaentrada,  toleranciasaida,  quantidadetickets,  tipotickets,  CPF,  Mob_Senha,  idcw_usuario,  utilizaregistrador,  idIntegracao,  IdPessoaSupervisor,  TipoMaoObra,  IdAlocacao,  IdTipoVinculo,  IdIntegracaoPainel,  Email,  RFID,  IdHorarioDinamico,  CicloSequenciaIndice,  DataInativacao,  UtilizaAppPontofopag,  UtilizaReconhecimentoFacialApp,  UtilizaWebAppPontofopag,  UtilizaReconhecimentoFacialWebApp)
@@ -2118,7 +2119,7 @@ namespace DAL.SQL
                     comando += " WHERE func.id > 0";
                     break;
                 case 5:
-                    comando += " WHERE func.id in (select cf.idfuncionario from contratofuncionario cf where cf.idcontrato = @identificacao)";
+                    comando += " WHERE func.id in (select cf.idfuncionario from contratofuncionario cf where cf.idcontrato = @identificacao and cf.excluido = 0)";
                     break;
             }
 
@@ -3766,7 +3767,7 @@ namespace DAL.SQL
                     comando += " AND func.id > 0";
                     break;
                 case 5:
-                    comando += " AND func.id in (select cf.idfuncionario from contratofuncionario cf where cf.idcontrato = @identificacao)";
+                    comando += " AND func.id in (select cf.idfuncionario from contratofuncionario cf where cf.idcontrato = @identificacao and cf.excluido = 0)";
                     break;
             }
 
@@ -4927,9 +4928,6 @@ namespace DAL.SQL
         /// <returns></returns>
         public IList<Modelo.Funcionario> GetFuncionariosPorIds(string pIDs)
         {
-
-
-
             IList<Modelo.Funcionario> res = new List<Modelo.Funcionario>();
             SqlParameter[] parms = new SqlParameter[]
             {
@@ -5681,7 +5679,7 @@ namespace DAL.SQL
 	                              LEFT JOIN dbo.afastamento afast ON dt.data BETWEEN afast.datai AND isnull(afast.dataf, '9999-12-31') AND afast.abonado = 1 AND afast.parcial = 0 AND (afast.idfuncionario = func.id OR 
 																							                            afast.idempresa = func.idempresa OR
                                                                                                                         afast.iddepartamento = func.iddepartamento OR
-																							                            afast.idcontrato IN (SELECT cf.idcontrato FROM dbo.contratofuncionario cf WHERE cf.idfuncionario = func.id ))
+																							                            afast.idcontrato IN (SELECT cf.idcontrato FROM dbo.contratofuncionario cf WHERE cf.idfuncionario = func.id and cf.excluido = 0))
 								  LEFT JOIN dbo.ocorrencia o ON afast.idocorrencia = o.id
 		                            ) t";
 
@@ -5917,6 +5915,65 @@ where 1=1
                 dr.Dispose();
             }
             return lista;
+        }
+
+        /// <summary>
+        /// Retorna a lista de Ids funcionários que estão/estavam Contratados no paríodo informado
+        /// </summary>
+        /// <param name="tipo">Tipo do filtro</param>
+        /// <param name="idsReg">Ids do Filtro</param>
+        /// <param name="DtIni">Data Inicio</param>
+        /// <param name="DtFin">Data Fim</param>
+        /// <returns>Ids funcionários</returns>
+        public List<int> IdsFuncPeriodoContratado(TipoFiltroFuncionario tipo, List<int> idsReg, DateTime dtIni, DateTime dtFin)
+        {
+            SqlParameter[] parms = new SqlParameter[2]
+            {
+                    new SqlParameter("@datainicial", SqlDbType.DateTime),
+                    new SqlParameter("@datafinal", SqlDbType.DateTime)
+            };
+
+            parms[0].Value = dtIni;
+            parms[1].Value = dtFin;
+            DataTable dt = new DataTable();
+            string aux = @" SELECT id 
+                                    FROM funcionario WITH (NOLOCK)
+                                    WHERE 1 = 1  
+                                    AND ISNULL(funcionario.excluido,0) = 0 
+                                    AND (funcionario.dataadmissao BETWEEN @datainicial and @datafinal OR
+		                                isnull(funcionario.datademissao,'2999-12-01') BETWEEN @datainicial and @datafinal OR
+		                                @datainicial BETWEEN funcionario.dataadmissao and isnull(funcionario.datademissao,'2999-12-01') OR
+		                                @datafinal BETWEEN funcionario.dataadmissao and isnull(funcionario.datademissao,'2999-12-01')) ";
+
+
+            switch (tipo)
+            {
+                case TipoFiltroFuncionario.Empresa:
+                    aux += string.Format(" and funcionario.idempresa = {0}", string.Join(",", idsReg));
+                    break;
+                case TipoFiltroFuncionario.Departamento:
+                    aux += string.Format(" and funcionario.iddepartamento = {0}", string.Join(",", idsReg));
+                    break;
+                case TipoFiltroFuncionario.Funcionario:
+                    aux += string.Format(" and funcionario.id = {0}", string.Join(",", idsReg));
+                    break;
+                case TipoFiltroFuncionario.Funcao:
+                    aux += string.Format(" and funcionario.idfuncao = {0}", string.Join(",", idsReg));
+                    break;
+                case TipoFiltroFuncionario.Horario:
+                    aux += string.Format(" and funcionario.idhorario = {0}", string.Join(",", idsReg));
+                    break;
+                default:
+                    break;
+            }
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            dt.Load(dr);
+            if (!dr.IsClosed)
+                dr.Close();
+            dr.Dispose();
+            List<int> ids = dt.AsEnumerable().Select(x => Convert.ToInt32(x[0])).ToList();
+            return ids;
         }
 
     }

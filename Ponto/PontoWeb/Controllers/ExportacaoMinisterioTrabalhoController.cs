@@ -3,7 +3,6 @@ using BLL_N.JobManager.Hangfire;
 using Modelo;
 using PontoWeb.Controllers.BLLWeb;
 using PontoWeb.Security;
-using ProgressReporting.Controllers;
 using System;
 using System.Linq;
 using System.Web.Mvc;

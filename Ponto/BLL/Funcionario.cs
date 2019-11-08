@@ -8,6 +8,7 @@ using DAL.SQL;
 using BLLIntegracaoPNL = BLL.IntegracaoPainel;
 using Modelo.Proxy;
 using Modelo;
+using static Modelo.Enumeradores;
 
 namespace BLL
 {
@@ -1306,6 +1307,11 @@ namespace BLL
                 case 6: return GetAllListPorContrato(pIdTipo);
                 default: return null;
             }
+        }
+
+        public List<int> IdsFuncPeriodoContratado(TipoFiltroFuncionario tipo, List<int> idsReg, DateTime dtIni, DateTime dtFin)
+        {
+            return dalFuncionario.IdsFuncPeriodoContratado(tipo, idsReg, dtIni, dtFin);
         }
 
         public string GetDsCodigo(string pPis)

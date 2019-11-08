@@ -183,7 +183,7 @@ namespace PontoWeb.Controllers
 
                             //Realiza o fechamento do banco de horas por funcionario
                             bllFechamentoBH.ChamaCalculaFechamento(objBancoHoras, objFechamentoBH, ref listaobjFechamentoBHDPercentual, obj.PagamentoHoraCreAuto, obj.LimiteHorasPagamentoCredito, obj.PagamentoHoraDebAuto, obj.LimiteHorasPagamentoDebito, ref objProgress);
-
+                            obj.Identificacao = idTipo;
                             Recalcular(obj);
                             return RedirectToAction("Grid", "FechamentoBH");
                         }
@@ -298,7 +298,7 @@ namespace PontoWeb.Controllers
             int idFunc = FuncionarioController.BuscaIdFuncionario(fechamentoBH.Funcionario);
             if (idFunc > 0)
             {
-                fechamentoBH.NomeTipoPessoa = fechamentoBH.Funcionario;
+                fechamentoBH.NomeTipoPessoa = fechamentoBH.Funcionario;               
             }
             else
             {

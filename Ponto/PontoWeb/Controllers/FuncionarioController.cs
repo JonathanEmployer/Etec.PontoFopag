@@ -292,10 +292,10 @@ namespace PontoWeb.Controllers
                     {
                         try
                         {
-                            BLL_N.JobManager.CalculoMarcacoes.RecalculaEdicaoFuncionario(funcionario, usuarioLogado, true);
-
-                            //Se o Funcionário utiliza registrador/app insere funcionario no Central do cliente
-                            if (funcionario.utilizaregistrador || funcionario.UtilizaAppPontofopag || funcionario.UtilizaWebAppPontofopag)
+                            bllFuncionario.SetContratoFuncionario(funcionario.Id, funcionario.Contrato);
+                            BLL_N.JobManager.CalculoMarcacoes.RecalculaEdicaoFuncionario(funcionario, usuarioLogado, true);                            
+                            //Se o Funcionário utiliza registrador insere funcionario no Central do cliente
+                            if (funcionario.utilizaregistrador)
                             {
                                 if (!AdicionaAlteraFuncionariosCentralCliente(funcionario, funcionarioAntigo))
                                 {
@@ -622,7 +622,7 @@ namespace PontoWeb.Controllers
         public ActionResult GetTabelaMarcacao(String consulta, String filtro, String tipo)
         {
             UsuarioPontoWeb usr = Usuario.GetUsuarioPontoWebLogadoCache();
-            BLL.Funcionario bllFuncionario = new BLL.Funcionario(usr.ConnectionString, usr);
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(usr.ConnectionString, usr);            
             int idIdentificacao = 0;
             if (tipo == "5" && !string.IsNullOrEmpty(filtro))
             {
@@ -645,11 +645,12 @@ namespace PontoWeb.Controllers
             if (codigo != -1)
             {
                 int id = bllFuncionario.GetIdDsCodigo(codigo.ToString());
-                Funcionario func = bllFuncionario.LoadObject(id);
-                if (func.Funcionarioativo == 1 && func.Excluido == 0 && func != null && func.Id > 0 && ((tipo == "2" && func.Iddepartamento == idIdentificacao) || (tipo == "1" && func.Idempresa == idIdentificacao) || tipo == "3" || tipo == "5"))
+                Funcionario func = bllFuncionario.LoadObject(id);             
+                int ContratoFuncionario = tipo == "5" && !string.IsNullOrEmpty(filtro) ? Convert.ToInt32(func.Contrato.Split(new string[] { " | " }, StringSplitOptions.RemoveEmptyEntries)[0]) : 0;
+                                        
+                if (func.Funcionarioativo == 1 && func.Excluido == 0 && func != null && func.Id > 0 && ((tipo == "2" && func.Iddepartamento == idIdentificacao) || (tipo == "1" && func.Idempresa == idIdentificacao) || tipo == "3" || (tipo == "5" && ContratoFuncionario == idIdentificacao)))
                 {
-
-                    lFunc.Add(func);
+                     lFunc.Add(func);
                 }
             }
 

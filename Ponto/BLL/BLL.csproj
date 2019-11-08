@@ -520,6 +520,7 @@
     <Compile Include="Tratamentomarcacao.cs" />
     <Compile Include="UsuarioPontoWeb.cs" />
     <Compile Include="Util\Conversores.cs" />
+    <Compile Include="Util\DataSplitMonthsExtensions.cs" />
     <Compile Include="Util\GetPropertiesCartaoPontoCustom.cs" />
     <Compile Include="Util\HtmlReport.cs" />
     <Compile Include="Util\ListaObjetosToExcel.cs" />

@@ -279,6 +279,11 @@ namespace BLL
             return dalREP.VerificarSituacaoReps(TempoSemComunicacao);
         }
 
+        public List<Modelo.REP> VerificarSituacaoReps(List<string> numsReps)
+        {
+            return dalREP.VerificarSituacaoReps(numsReps);
+        }
+
         public List<Modelo.Proxy.PxyGridRepsPortaria373> GetGridRepsPortaria373()
         {
             return dalREP.GetGridRepsPortaria373();

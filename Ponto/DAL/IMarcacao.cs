@@ -97,5 +97,7 @@ namespace DAL
         void ManipulaDocumentoWorkFlowPnlRH(int idMarcacao, int idDocumentoWorkflow, bool documentoWorkflowAberto);
 
         DataTable GetDataUltimaMarcacaoFuncionario(List<int> idsFuncionarios);
+
+        List<Modelo.Marcacao> GetPorFuncionariosContratosAtivos(List<int> ids, DateTime pdataInicial, DateTime pDataFinal, bool PegaInativos);
     }
 }

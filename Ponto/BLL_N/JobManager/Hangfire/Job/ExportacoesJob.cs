@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Modelo;
 using Modelo.Proxy;
 using Modelo.EntityFramework.MonitorPontofopag;
 using Hangfire.Server;
@@ -104,7 +103,7 @@ namespace BLL_N.JobManager.Hangfire.Job
                 {
                     throw new Exception("Nenhum funcionário selecionado");
                 }
-            }
+            }   
             catch (Exception ex)
             {
                 BLL.cwkFuncoes.LogarErro(ex);
@@ -127,18 +126,18 @@ namespace BLL_N.JobManager.Hangfire.Job
                 string nomeArquivoZIP;
                 using (MemoryStream stream = new MemoryStream(arquivoMemoria))
                 {
-                    MemoryStream arquivoZipado = new MemoryStream();
-
-                    using (ZipFile zip = new ZipFile())
+                    using (MemoryStream arquivoZipado = new MemoryStream())
                     {
-                        zip.AddEntry(nomeArquivo, stream);
-                        nomeArquivoZIP = nomeArquivo.Replace("txt", "");
-                        zip.Save(arquivoZipado);
+                        using (ZipFile zip = new ZipFile())
+                        {
+                            zip.AddEntry(nomeArquivo, stream);
+                            nomeArquivoZIP = nomeArquivo.Replace("txt", "");
+                            zip.Save(arquivoZipado);
+                        }
+                        ArquivoBLL arquivobll = new ArquivoBLL(userPF, pb);
+                        string caminhoArquivo = arquivobll.SaveFile(nomeArquivoZIP, "zip", arquivoZipado.ToArray());
+                        JobControlManager.UpdateFileDownload(context, caminhoArquivo);
                     }
-                    ArquivoBLL arquivobll = new ArquivoBLL(userPF, pb);
-                    string caminhoArquivo = arquivobll.SaveFile(nomeArquivoZIP, "zip", arquivoZipado.ToArray());
-
-                    JobControlManager.UpdateFileDownload(context, caminhoArquivo);
                 }
             }
             catch (Exception ex)
