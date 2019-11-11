@@ -1401,7 +1401,7 @@ namespace BLL
                                 break;
                             }
                             qtdLidos++;
-                            if (!int.TryParse(linha.Substring(0, 9), out int conv))
+                            if (int.TryParse(linha.Substring(0, 9), out int conv))
                             {
                                 switch (linha.Substring(9, 1))
                                 {

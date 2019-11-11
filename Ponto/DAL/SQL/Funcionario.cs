@@ -2738,7 +2738,13 @@ namespace DAL.SQL
         {
             List<Modelo.Funcionario> lista = new List<Modelo.Funcionario>();
 
-            SqlParameter[] parms = new SqlParameter[] { };
+            SqlParameter[] parms = new SqlParameter[1]
+            {
+                    new SqlParameter("@idsFuncs", SqlDbType.Structured)
+            };
+            parms[0].Value = CreateDataTableIdentificadores(idsFuncs.Select(s => (long)s));
+            parms[0].TypeName = "Identificadores";
+
 
             string aux = @"SELECT  func.altdata,
                                    func.althora,
@@ -2795,7 +2801,8 @@ namespace DAL.SQL
                                     , coalesce(convert(varchar,cwu.codigo) + ' | ' + cwu.nome, '') AS supervisor
                                     , coalesce(convert(varchar, pe.codigo) + ' | ' + pe.razaosocial, '') as PessoaSupervisor
 									, fp.DataUltimoFechamento
-                             FROM funcionario func 
+                             FROM @idsFuncs FI
+                             INNER JOIN funcionario func ON FI.Identificador = func.id
                              LEFT JOIN empresa ON empresa.id = func.idempresa
                              LEFT JOIN departamento ON departamento.id = func.iddepartamento
                              LEFT JOIN horario ON horario.id = func.idhorario
@@ -2812,11 +2819,6 @@ namespace DAL.SQL
             if (!pegaTodos)
             {
                 aux += " AND ISNULL(func.excluido,0)=0 AND ISNULL(func.funcionarioativo,0)=1";
-            }
-
-            if (idsFuncs.Count() > 0)
-            {
-                aux += "AND func.id in (" + String.Join(",", idsFuncs) + ")";
             }
 
             aux += PermissaoUsuarioFuncionario(UsuarioLogado, aux, "func.idempresa", "func.id", null);
