@@ -19,9 +19,9 @@ namespace DAL.SQL
                              FROM Classificacao";
 
             INSERT = @"  INSERT INTO Classificacao
-							(codigo, incdata, inchora, incusuario, Descricao, ExibePaineldoRH)
+							( codigo,  incdata,  inchora,  incusuario,  Descricao,  ExibePaineldoRH,  ConsiderarParaExportacao)
 							VALUES
-							(@codigo, @incdata, @inchora, @incusuario, @Descricao, @ExibePaineldoRH)
+							(@codigo, @incdata, @inchora, @incusuario, @Descricao, @ExibePaineldoRH, @ConsiderarParaExportacao)
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @" UPDATE Classificacao SET  
@@ -29,9 +29,9 @@ namespace DAL.SQL
 							, altdata = @altdata
 							, althora = @althora
 							, altusuario = @altusuario
-                           ,Descricao = @Descricao
-                           ,ExibePaineldoRH = @ExibePaineldoRH
-
+                            , Descricao = @Descricao
+                            , ExibePaineldoRH = @ExibePaineldoRH
+                            , ConsiderarParaExportacao = @ConsiderarParaExportacao
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM Classificacao WHERE id = @id";
@@ -72,8 +72,9 @@ namespace DAL.SQL
         {
             SetInstanceBase(dr, obj);
             ((Modelo.Classificacao)obj).Codigo = Convert.ToInt32(dr["codigo"]);
-             ((Modelo.Classificacao)obj).Descricao = Convert.ToString(dr["Descricao"]);
-             ((Modelo.Classificacao)obj).ExibePaineldoRH = Convert.ToBoolean(dr["ExibePaineldoRH"]);
+            ((Modelo.Classificacao)obj).Descricao = Convert.ToString(dr["Descricao"]);
+            ((Modelo.Classificacao)obj).ExibePaineldoRH = Convert.ToBoolean(dr["ExibePaineldoRH"]);
+            ((Modelo.Classificacao)obj).ConsiderarParaExportacao = Convert.ToBoolean(dr["ConsiderarParaExportacao"]);
 
         }
 
@@ -91,8 +92,8 @@ namespace DAL.SQL
 				,new SqlParameter ("@altusuario", SqlDbType.VarChar)
                 ,new SqlParameter ("@Descricao", SqlDbType.VarChar)
                 ,new SqlParameter ("@ExibePaineldoRH", SqlDbType.Bit)
-
-			};
+                ,new SqlParameter ("@ConsiderarParaExportacao", SqlDbType.Bit)
+            };
             return parms;
         }
 
@@ -112,9 +113,7 @@ namespace DAL.SQL
             parms[7].Value = ((Modelo.Classificacao)obj).Altusuario;
             parms[8].Value = ((Modelo.Classificacao)obj).Descricao;
             parms[9].Value = ((Modelo.Classificacao)obj).ExibePaineldoRH;
-
-
-
+            parms[10].Value = ((Modelo.Classificacao)obj).ConsiderarParaExportacao;
         }
 
         public Modelo.Classificacao LoadObject(int id)

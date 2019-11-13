@@ -129,7 +129,7 @@ namespace BLL
 
                 if (horariosPHExtra.PercentualExtraNoturna > 0)
                 {
-                    AcumuloPercentual acumulo = PegarAcumuloPercentual(Convert.ToInt16(horariosPHExtra.PercentualExtraNoturna.GetValueOrDefault()), acumulosPercentuais);
+                    AcumuloPercentual acumulo = PegarAcumuloPercentual(horariosPHExtra.PercentualExtraNoturna.GetValueOrDefault(), acumulosPercentuais);
                     int? limite = Modelo.cwkFuncoes.ConvertHorasMinuto(horariosPHExtra.QuantidadeExtraNoturna);
                     SetarAcumulos(tipoAcumulo, ref acumulos, ref acumulo);
                     ContabilizarAcumulosTipos(acumulosParciais, acumulos, limite, tipoDia, 2);

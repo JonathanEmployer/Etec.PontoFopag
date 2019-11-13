@@ -27,6 +27,13 @@
                             @Html.ValidationMessageFor(model => model.ExibePaineldoRH)
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ConsiderarParaExportacao, new { @class = "control-label label-sm" })
+                            @Html.CheckBoxFor(model => model.ConsiderarParaExportacao, new { @class = "checkbox" })
+                            @Html.ValidationMessageFor(model => model.ConsiderarParaExportacao)
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">

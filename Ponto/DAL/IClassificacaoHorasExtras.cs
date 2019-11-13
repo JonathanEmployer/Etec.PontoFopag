@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace DAL
 {
@@ -15,6 +16,7 @@ namespace DAL
         void ExcluirClassificacoesHEPreClassificadas(List<int> idsFuncionarios, DateTime datainicial, DateTime datafinal);
         void PreClassificarHorasExtras(List<int> idsFuncionarios, DateTime datainicial, DateTime datafinal);
         List<Modelo.Proxy.pxyClassHorasExtrasMarcacao> GetClassificacoesMarcacao(List<int> idsMarcacao);
+        DataTable GetHorasExtrasClassificadasCalculo(List<int> idsMarcacoes);
     }
 }
 

@@ -355,6 +355,39 @@ namespace BLL
 
         }
 
+        public void TotalizaHorasExtrasClassificadas(Modelo.TotalHoras objTotalHoras)
+        {
+            try
+            {
+                BLL.ClassificacaoHorasExtras bllClassificacaoHorasExtras = new ClassificacaoHorasExtras(ConnectionString, UsuarioLogado);
+                DataTable dtClass = bllClassificacaoHorasExtras.GetHorasExtrasClassificadasCalculo(Marcacoes.AsEnumerable().Select(s => s.Field<int>("id")).ToList());
+
+                if (dtClass != null && dtClass.Rows.Count > 0)
+                {
+                    DataTable marcParaCalc = Marcacoes.Copy();
+                    //marcParaCalc.AsEnumerable().ToList().ForEach(f => { f.SetField("horasextrasdiurna", "00:00"); f.SetField("horasextranoturna", "00:00"); });
+                    for (int i = 0; i < marcParaCalc.Rows.Count; i++)
+                    {
+                        DataRow rowMarc = marcParaCalc.Rows[i];
+                        DataRow rowClass = dtClass.AsEnumerable().Where(w => w.Field<int>("IdMarcacao") == (int)rowMarc["id"]).FirstOrDefault();
+                        if (rowClass != null)
+                        {
+                            rowMarc["horasextrasdiurna"] = Modelo.cwkFuncoes.ConvertMinutosHora(((int)rowClass["ClassificadasDiurnaMin"]));
+                            rowMarc["horasextranoturna"] = Modelo.cwkFuncoes.ConvertMinutosHora(((int)rowClass["ClassificadasNoturnaMin"]));
+                        }
+                    }
+
+                    BLL.HoraExtra HE = new BLL.HoraExtra(marcParaCalc);
+                    objTotalHoras.HorasExtrasDoPeriodo = HE.CalcularHoraExtraDiaria(); 
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+
         private static DateTime PegaData(DataRow marc)
         {
             DateTime data;

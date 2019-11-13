@@ -18,8 +18,6 @@
             </div>
             <div class="panel-body panelConteudo" id="panelBodyFixo">
                 @Html.ValidationMessage("CustomError")
-                @Html.HiddenFor(m => m.IdsClassificadas)
-                @Html.ValidationMessageFor(m => m.IdsClassificadas)
                 @Html.HiddenFor(m => m.IdsOcorrencias)
                 @Html.ValidationMessageFor(m => m.IdsOcorrencias)
                 <div class="col-md-12">
@@ -28,7 +26,6 @@
                         <ul class="nav nav-tabs" role="tablist">
                             <li role="presentation" class="active"><a href="#dados" role="tab" data-toggle="tab">Dados</a></li>
                             <li role="presentation"><a id="tabOcorrencia" href="#ocorrencias" role="tab" data-toggle="tab">Ocorrências</a></li>
-                            <li role="presentation"><a id="tabClassificacaoHE" href="#ClassificacaoHE" role="tab" data-toggle="tab">Classificação</a></li>
                         </ul>
 
                         <!-- Tab panes -->
@@ -560,14 +557,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div role="tabpanel" class="tab-pane fade" id="ClassificacaoHE">
-                                <div class="panel-body panelConteudo" id="panelBodyFixo">
-                                    @Html.ValidationSummary(true)
-                                    <div class="row">
-                                        @Html.GridFor(nomeTabela, new Modelo.Classificacao().GetType(), true, "Classificacao", "DadosGrid", "", "", Model.IdsClassificadas, "")
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -637,23 +626,6 @@
         }
     }
 
-    function manageTabClassHorasExtras() {
-        if ($('#chkClassificarHorasExtras').is(':checked')) {
-            $('#tabClassificacaoHE').removeClass('hidden');
-        }
-        else {
-            if (!$('#tabClassificacaoHE').hasClass('hidden')) {
-                $('#tabClassificacaoHE').addClass('hidden');
-            }
-        }
-    }
-
-   
-
-    $('#chkClassificarHorasExtras').change(function () {
-        manageTabClassHorasExtras();
-    });
-
     $('#chkOcorrencias').change(function () {
         manageTabOcorrencia();
     });
@@ -663,48 +635,23 @@
 
 
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            if ($(this).attr('id') == 'tabClassificacaoHE') {
-
-                $("#tbClassHE").DataTable().columns.adjust().draw();
-            }
             if ($(this).attr('id') == 'tabOcorrencia') {
                 $("#tbOcorrencia").DataTable().columns.adjust().draw();                
             }
         });
 
         manageTabOcorrencia();
-        manageTabClassHorasExtras();
     });
 
     $('#btnSalvar').click(function (event) {
         var errorArray = {};
         var $form = $("#FormManutEvento");
         validator = $form.validate();
-        if (!validarHorasExtras() || !ValidarClassificacaoHorasExtras() || !ValidarOcorrencia()) {
+        if (!validarHorasExtras() || !ValidarOcorrencia()) {
             event.preventDefault();
             return false;
         }
     });
-
-    function ValidarClassificacaoHorasExtras() {
-        var errorArray = {};
-        var retorno = true;
-        if ($('#chkClassificarHorasExtras').is(':checked')) {
-            $("#IdsClassificadas").val(GetSelecionados('tbClassHE'));
-            if ($("#IdsClassificadas").val().length <= 0 || $("#IdsClassificadas").val() == '' || $("#IdsClassificadas").val() == null) {
-                var msgErro = 'Quando selecionada a opção exportar horas extras por classificação, deve ser selecionada ao menos uma classificação na aba classificação!';
-                errorArray["IdsClassificadas"] = msgErro;
-                $('form').validate().showErrors(errorArray);
-                cwkErro(msgErro);
-                retorno = false;
-            }
-            else {
-                errorArray["IdsClassificadas"] = null;
-                $("form").validate().showErrors(errorArray);
-            }
-        }
-        return retorno;
-    }
 
     function ValidarOcorrencia() {
         var errorArray = {};

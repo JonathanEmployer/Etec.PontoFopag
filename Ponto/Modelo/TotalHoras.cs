@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Modelo.Proxy;
+using System;
 using System.Collections.Generic;
 
 namespace Modelo
@@ -12,6 +13,7 @@ namespace Modelo
             EventosAfastamentos = new List<EventoAfastamentos>();
             DataInicial = dataInicial;
             DataFinal = dataFinal;
+            HorasExtrasDoPeriodo = new List<HorasExtrasPorDia>();
         }
 
         public TotalHoras(List<Eventos> eventos, DateTime dataInicial, DateTime dataFinal)
@@ -105,6 +107,7 @@ namespace Modelo
         public Dictionary<int, Turno> RateioHorasExtras { get; set; }
         public List<RateioHorasExtras> lRateioHorasExtras { get; set; }
         public List<EventoAfastamentos> EventosAfastamentos { get; set; }
+        public IList<HorasExtrasPorDia> HorasExtrasDoPeriodo { get; set; }
 
         public int atrasoDMin { get; set; }
         public int atrasoNMin { get; set; }
@@ -208,8 +211,6 @@ namespace Modelo
         }
 
         public Empresa Empresa { get; set; }
-
-        public Modelo.Proxy.PxyFuncionarioHorasExtrasClassificadas FuncionarioHorasExtrasClassificadas { get; set; }
     }
 
     public class EventoAfastamentos

@@ -290,6 +290,10 @@ namespace BLL
                     objTotalHoras.Empresa = listaEmpresas.Where(s => s.Id == func.Idempresa).FirstOrDefault();
 
                     totalizador.TotalizeHoras(objTotalHoras);
+                    if (listaEventos.Where(w => w.ClassificarHorasExtras).Count() > 0)
+                    {
+                        totalizador.TotalizaHorasExtrasClassificadas(objTotalHoras);
+                    }
 
                     DataTable listMarcacoes = totalizador.Marcacoes;
                     if (listaEventos.Where(w => w.bBh_cred || w.bBh_deb).Count() > 0)
@@ -332,32 +336,18 @@ namespace BLL
                 {
                     try
                     {
-                        Modelo.Proxy.PxyFuncionarioHorasExtrasClassificadas FuncionarioHorasExtrasClassificadas = new Modelo.Proxy.PxyFuncionarioHorasExtrasClassificadas();
-
                         totstr = new StringBuilder();
                         objEmpresa = listaEmpresas.Where(e => e.Id == func.Idempresa).First();
                         if (eve.HoristaMensalista == 0)
                         {
-                            if (totalhorasAmbos.Count() > 0)
-                            {
-                                totalhorasAmbos.FirstOrDefault().FuncionarioHorasExtrasClassificadas = CalculaClassificacaoHorasExtrasFuncionario(dataI, dataF, func, eve);
-                            }
                             linha = ExportaDadosEventos(arquivo, listaCampos, formato, progressBar, ref Condicao, totalhorasAmbos, objEmpresa, ref total, ref h, ref m, totstr, func, eve, parms);
                         }
                         else if (eve.HoristaMensalista == 1)
                         {
-                            if (totalhorasMensalista.Count() > 0)
-                            {
-                                totalhorasMensalista.FirstOrDefault().FuncionarioHorasExtrasClassificadas = CalculaClassificacaoHorasExtrasFuncionario(dataI, dataF, func, eve); ;
-                            }
                             linha = ExportaDadosEventos(arquivo, listaCampos, formato, progressBar, ref Condicao, totalhorasMensalista, objEmpresa, ref total, ref h, ref m, totstr, func, eve, parms);
                         }
                         else
                         {
-                            if (totalhorasHorista.Count() > 0)
-                            {
-                                totalhorasHorista.FirstOrDefault().FuncionarioHorasExtrasClassificadas = CalculaClassificacaoHorasExtrasFuncionario(dataI, dataF, func, eve); ;
-                            }
                             linha = ExportaDadosEventos(arquivo, listaCampos, formato, progressBar, ref Condicao, totalhorasHorista, objEmpresa, ref total, ref h, ref m, totstr, func, eve, parms);
                         }
                     }
@@ -368,26 +358,6 @@ namespace BLL
                 }
             }
         }
-
-        private Modelo.Proxy.PxyFuncionarioHorasExtrasClassificadas CalculaClassificacaoHorasExtrasFuncionario(DateTime? dataI, DateTime? dataF, Modelo.Funcionario func, Modelo.Eventos eve)
-        {
-            Modelo.Proxy.PxyFuncionarioHorasExtrasClassificadas FuncionarioHorasExtrasClassificadas = null;
-            if (eve.ClassificarHorasExtras)
-            {
-                BLL.EventosClassHorasExtras bllEventosClassHorasExtras = new BLL.EventosClassHorasExtras(ConnectionString, UsuarioLogado);
-                string idsEventosClassHorasExtras = bllEventosClassHorasExtras.GetIdsClassificacaoPorEvento(eve.Id);
-
-                if (!String.IsNullOrEmpty(idsEventosClassHorasExtras))
-                {
-                    BLL.ClassificacaoHorasExtras bllClassificacaoHorasExtras = new BLL.ClassificacaoHorasExtras(ConnectionString, UsuarioLogado);
-                    FuncionarioHorasExtrasClassificadas = bllClassificacaoHorasExtras.TotalHorasExtrasClassificadasPorFuncionario(new List<int> { func.Id }, dataI.GetValueOrDefault(), dataF.GetValueOrDefault(), idsEventosClassHorasExtras.Split(',').Select(int.Parse).ToList()).FirstOrDefault();
-                }
-            }
-            return FuncionarioHorasExtrasClassificadas;
-        }
-
-
-
 
         private string ExportaDadosEventos(StreamWriter arquivo, List<Modelo.ExportacaoCampos> listaCampos, StringBuilder formato, Modelo.ProgressBar? progressBar, ref bool Condicao, List<Modelo.TotalHoras> objTotalHoras, Modelo.Empresa objEmpresa, ref int total, ref decimal h, ref decimal m, StringBuilder totstr, Modelo.Funcionario func, Modelo.Eventos eve, Modelo.Proxy.pxyParametrosExportacaoFolha parms)
         {
@@ -975,51 +945,42 @@ namespace BLL
                 if (eve.Fd == 1) { total += objTotalHoras.FaltasCompletasDiurnasMin; }
                 if (eve.Fn == 1) { total += objTotalHoras.FaltasCompletasNoturnasMin; }
             }
-            int heClassificada = 0;
-            bool heClassificadaB = false;
-            if (eve.ClassificarHorasExtras && objTotalHoras.FuncionarioHorasExtrasClassificadas != null)
-            {
-                heClassificada = objTotalHoras.FuncionarioHorasExtrasClassificadas.ClassificadasMin;
-                heClassificadaB = true;
-            }
 
             Dictionary<int, UsaDiurnaNoturna> percentuais = GetPercentuaisExtraEvento(eve);
             foreach (var p in percentuais)
             {
-                if (objTotalHoras.RateioHorasExtras.ContainsKey(p.Key) || objTotalHoras.RateioFechamentobhdHE.ContainsKey(p.Key))
+                if (objTotalHoras.RateioHorasExtras.ContainsKey(p.Key) || objTotalHoras.RateioFechamentobhdHE.ContainsKey(p.Key) || (eve.ClassificarHorasExtras && objTotalHoras.HorasExtrasDoPeriodo != null))
                 {
                     if (p.Value.Diurna)
                     {
-                        if (heClassificadaB && heClassificada <= objTotalHoras.RateioHorasExtras[p.Key].Diurno)
+                        if (eve.ClassificarHorasExtras && objTotalHoras.HorasExtrasDoPeriodo != null)
                         {
-                            heClassificada = heClassificada - objTotalHoras.RateioHorasExtras[p.Key].Diurno;
-                            break;
+                            total += objTotalHoras.HorasExtrasDoPeriodo.SelectMany(x => x.HorasExtras).Where(w => w.Percentual == p.Key).Sum(s => s.HoraDiurna);
                         }
-                        if (objTotalHoras.RateioHorasExtras.ContainsKey(p.Key))
-                            total += objTotalHoras.RateioHorasExtras[p.Key].Diurno;
+                        else
+                        {
+                            if (objTotalHoras.RateioHorasExtras.ContainsKey(p.Key))
+                                total += objTotalHoras.RateioHorasExtras[p.Key].Diurno;
 
-                        if (objTotalHoras.RateioFechamentobhdHE.ContainsKey(p.Key))
-                            total += Modelo.cwkFuncoes.ConvertHorasMinuto(objTotalHoras.RateioFechamentobhdHE[p.Key]);
+                            if (objTotalHoras.RateioFechamentobhdHE.ContainsKey(p.Key))
+                                total += Modelo.cwkFuncoes.ConvertHorasMinuto(objTotalHoras.RateioFechamentobhdHE[p.Key]);
+                        }
                     }
 
                     if (p.Value.Noturna)
                     {
-                        if (heClassificadaB && heClassificada <= objTotalHoras.RateioHorasExtras[p.Key].Noturno)
+                        if (eve.ClassificarHorasExtras && objTotalHoras.HorasExtrasDoPeriodo != null)
                         {
-                            heClassificada = heClassificada - objTotalHoras.RateioHorasExtras[p.Key].Noturno;
-                            break;
+                            total += objTotalHoras.HorasExtrasDoPeriodo.SelectMany(x => x.HorasExtras).Where(w => w.Percentual == p.Key).Sum(s => s.HoraNoturna);
                         }
-
-                        if (objTotalHoras.RateioHorasExtras.ContainsKey(p.Key))
-                            total += objTotalHoras.RateioHorasExtras[p.Key].Noturno;
+                        else
+                        {
+                            if (objTotalHoras.RateioHorasExtras.ContainsKey(p.Key))
+                                total += objTotalHoras.RateioHorasExtras[p.Key].Noturno;
+                        }
                     }
                 }
             }
-            if (heClassificadaB && heClassificada <= 0)
-            {
-                total = objTotalHoras.FuncionarioHorasExtrasClassificadas.ClassificadasMin;
-            }
-
 
             if (eve.At_d == 1) { total += objTotalHoras.atrasoDMin; }
             if (eve.At_n == 1) { total += objTotalHoras.atrasoNMin; }

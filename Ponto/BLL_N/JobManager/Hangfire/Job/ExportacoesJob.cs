@@ -83,7 +83,7 @@ namespace BLL_N.JobManager.Hangfire.Job
                         {
                             nomeArquivo += obj.DataI.Value.ToString("dd-MM-yyyy") + "-" + obj.DataF.Value.ToString("dd-MM-yyyy");
                         }
-                        nomeArquivo += ".xls";
+                        nomeArquivo += ".xlsx";
                         string nomeArquivoZIP;
 
                         MemoryStream arquivoZipado = new MemoryStream();

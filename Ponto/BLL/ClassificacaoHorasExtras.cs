@@ -231,5 +231,10 @@ namespace BLL
         {
             dalClassificacaoHorasExtras.PreClassificarHorasExtras(idsFuncionarios, datainicial, datafinal);
         }
+
+        public DataTable GetHorasExtrasClassificadasCalculo(List<int> idsMarcacoes)
+        {
+            return dalClassificacaoHorasExtras.GetHorasExtrasClassificadasCalculo(idsMarcacoes);
+        }
     }
 }

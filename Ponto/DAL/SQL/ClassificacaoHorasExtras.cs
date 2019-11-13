@@ -682,5 +682,82 @@ namespace DAL.SQL
 
             int ret = db.ExecuteNonQuery(CommandType.Text, aux, parms);
         }
+
+        public DataTable GetHorasExtrasClassificadasCalculo(List<int> idsMarcacoes)
+        {
+            SqlParameter[] parms = new SqlParameter[0];
+            DataTable dt = new DataTable();
+            string aux = string.Format(@"
+                      Select x.*,
+					   CASE WHEN x.ClassificadasMin >= horasextrasdiurnaMin THEN
+				                    horasextrasdiurnaMin
+			                     ELSE
+			                       x.ClassificadasMin
+		                     end ClassificadasDiurnaMin,
+		                CASE WHEN (x.ClassificadasMin - horasextrasdiurnaMin) >= x.horasextrasnoturnaMin THEN
+				                horasextrasnoturnaMin
+						     WHEN ClassificadasMin < horasextrasdiurnaMin THEN
+									0
+			                    ELSE (x.ClassificadasMin - horasextrasdiurnaMin) end ClassificadasNoturnaMin
+				  from (
+                      SELECT t.IdMarcacao,
+							 t.data,
+							 t.dia,
+							 t.idfuncionario,
+							 t.horasextrasdiurna,
+							 t.horasextranoturna,
+							 t.horasextrasdiurnaMin,
+							 t.horasextrasnoturnaMin,
+							 sum(t.classificadasMin) classificadasMin,
+  		                    horasextrasdiurnaMin + horasextrasnoturnaMin HorasExtrasRealizadaMin
+                       FROM (
+		                     SELECT m.id IdMarcacao,
+				                    m.data,
+				                    m.dia,
+				                    m.idfuncionario,
+				                    che.id IdClassificacaoHorasExtras,
+				                    che.codigo CodigoClassificacaoHorasExtra,
+				                    che.Tipo,
+				                    CASE WHEN che.Tipo = 0 THEN 'Quantidade' ELSE 'Total' END TipoDesc,
+				                    che.IdClassificacao,
+				                    c.Codigo ClassificacaoCodigo,
+				                    c.descricao ClassificacaoDescricao,
+				                    m.horasextrasdiurna,
+				                    m.horasextranoturna,
+				                    dbo.FN_CONVHORA(m.horasextrasdiurna) horasextrasdiurnaMin,
+				                    dbo.FN_CONVHORA(m.horasextranoturna) horasextrasnoturnaMin,
+				                    CASE WHEN (che.Tipo = 1 and (dbo.FN_CONVHORA(m.horasextrasdiurna) + dbo.FN_CONVHORA(m.horasextranoturna) > ISNULL(ct.total,0))) THEN 
+							                    (dbo.FN_CONVHORA(m.horasextrasdiurna) + dbo.FN_CONVHORA(m.horasextranoturna) -
+							                    ISNULL(ct.total,0))
+						                    ELSE dbo.FN_CONVHORA(che.qtdHoraClassificada) end ClassificadasMin,
+									c.ConsiderarParaExportacao
+			                    FROM marcacao m
+			                    INNER JOIN ClassificacaoHorasExtras che ON che.idMarcacao = m.id
+			                    INNER JOIN Classificacao c on c.id = che.IdClassificacao
+			                    LEFT JOIN (SELECT sum(dbo.FN_CONVHORA(	cheClass.qtdHoraClassificada)) total, cheClass.IdMarcacao 
+						                     FROM ClassificacaoHorasExtras cheClass 
+						                    INNER JOIN Classificacao cl on cheClass.IdClassificacao = cl.id
+						                    WHERE cheClass.Tipo != 1 
+						                    GROUP BY cheClass.IdMarcacao ) ct ON ct.idMarcacao = m.id
+		                        WHERE m.id in ({0})   
+	                    ) t
+				where t.ConsiderarParaExportacao = 1
+			   group by t.IdMarcacao,
+							 t.data,
+							 t.dia,
+							 t.idfuncionario,
+							 t.horasextrasdiurna,
+							 t.horasextranoturna,
+							 t.horasextrasdiurnaMin,
+							 t.horasextrasnoturnaMin
+					) x", string.Join(",", idsMarcacoes));
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            dt.Load(dr);
+            if (!dr.IsClosed)
+                dr.Close();
+            dr.Dispose();
+
+            return dt;
+        }
     }
 }
