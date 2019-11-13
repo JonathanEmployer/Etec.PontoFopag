@@ -551,27 +551,33 @@ namespace BLL
             //Guarda dados anterior
             List<Modelo.BilhetesImp> tratamentosMarcacaoAnt = new Modelo.BilhetesImp().Clone(tratamentosMarcacao);
             PreencheMarcacao(pMarcacao);
-            Modelo.Marcacao objMarcacaoAnt = new Modelo.Marcacao().Clone(objMarcacao);
-
+            Modelo.Marcacao objMarcacaoAnt = new Modelo.Marcacao().Clone(objMarcacao);            
             //Verifica Parametro Estender Periodo Noturno
             bllParametros = new BLL.Parametros(ConnectionString, UsuarioLogado);
             if (bllParametros.Flg_Estender_Periodo_Noturno(idFuncionario))
             {
-                if((saida_1Min > saida_2Min) && (saida_2Min < 0))
+                int[] entrada = new int[4] { entrada_1Min, entrada_2Min, entrada_3Min, entrada_4Min };
+                int[] saida = new int[4] { saida_1Min, saida_2Min, saida_3Min, saida_4Min };
+                int trabDiurna = 0, trabNoturna = 0;
+                BLL.CalculoHoras.QtdHorasDiurnaNoturna(entrada, saida, inicioAdNoturno, fimAdNoturno, ref trabDiurna, ref trabNoturna);           
+                if (trabNoturna > 0)
                 {
-                    fimAdNoturno = saida_1Min;
-                }
-                else if ((saida_2Min > saida_3Min) && (saida_3Min < 0))
-                {
-                    fimAdNoturno = saida_2Min;
-                }
-                else if ((saida_3Min > saida_4Min) && (saida_4Min < 0))
-                {
-                    fimAdNoturno = saida_3Min;
-                }
-                else if (saida_4Min > saida_3Min)
-                {
-                    fimAdNoturno = saida_4Min;
+                    if ((saida_1Min > saida_2Min) && (saida_2Min < 0) && (saida_1Min < inicioAdNoturno && fimAdNoturno < saida_1Min))
+                    {
+                        fimAdNoturno = saida_1Min;
+                    }
+                    else if ((saida_2Min > saida_3Min) && (saida_3Min < 0) && (saida_2Min < inicioAdNoturno && fimAdNoturno < saida_2Min))
+                    {
+                        fimAdNoturno = saida_2Min;
+                    }
+                    else if ((saida_3Min > saida_4Min) && (saida_4Min < 0) && (saida_3Min < inicioAdNoturno && fimAdNoturno < saida_3Min))
+                    {
+                        fimAdNoturno = saida_3Min;
+                    }
+                    else if (saida_4Min > saida_3Min && (saida_4Min < inicioAdNoturno && fimAdNoturno < saida_4Min))
+                    {
+                        fimAdNoturno = saida_4Min;
+                    }
                 }
             }
 
