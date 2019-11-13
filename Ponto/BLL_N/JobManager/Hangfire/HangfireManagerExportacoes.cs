@@ -70,7 +70,7 @@ namespace BLL_N.JobManager.Hangfire
                     break;
             }
 
-            string parametrosExibicao = String.Format("Período {0} a {1}, Empresa: {2}", dataFinal.ToShortDateString(), dataFinal.ToShortDateString(), empresa.Codigo + " | " + empresa.Nome);
+            string parametrosExibicao = String.Format("Período {0} a {1}, Empresa: {2}", dataInicial.ToShortDateString(), dataFinal.ToShortDateString(), empresa.Codigo + " | " + empresa.Nome);
 
             JobControl jobControl = GerarJobControl("Exportação de "+ nomeArquivo, parametrosExibicao);
             string idJob = new BackgroundJobClient().Create<ExportacoesJob>(x => x.ExportaArquivosAFDTACJEF(null, jobControl, dataBase, usuarioLogado, tipoArquivo, empresa, dataInicial, dataFinal), _enqueuedStateNormal);

@@ -17,7 +17,7 @@ namespace BLL
         public int QuantidadeExtraMin { get; set; }
         public short TipoAcumulo { get; set; }
         public int PercentualExtraSegundo { get; set; }
-        public decimal? PercentualExtraNoturna { get; set; }
+        public int? PercentualExtraNoturna { get; set; }
         public string QuantidadeExtraNoturna { get; set; }
         public int QuantidadeExtraNoturnaMin { get; set; }
         public int? PercentualExtraSegundoNoturna { get; set; }

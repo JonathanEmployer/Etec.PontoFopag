@@ -258,7 +258,7 @@ namespace BLL
         /// <param name="tipoDiaAcumulo">Tipo do dia da hora extra (Geral(Seg|Ter|Qua|Quin|Sex), Sábado, Domingo, Feriado, Folga)</param>
         private void AcumulaHoraExtraNoturna(IList<HorasExtrasPorDia> horasExtrasDoPeriodo, HorasExtrasPorDia horasExtrasDoDia, ref PercentualHoraExtra horarioPHExtra, ref int horaExtraNoturna, TipoDiaAcumulo tipoDiaAcumulo)
         {
-            int perc = horarioPHExtra.PercentualExtra;
+            int perc = horarioPHExtra.PercentualExtraNoturna ?? horarioPHExtra.PercentualExtra;
             int limite = horarioPHExtra.QuantidadeExtraMin;
             if (horasExtrasDoDia.TipoAcumulo == 3) // Se acumulo for por mês, retiro do limite a quantidade já utilizada no mes.
             {
@@ -272,7 +272,7 @@ namespace BLL
                 he = new Modelo.Proxy.HoraExtra();
                 horasExtrasDoDia.HorasExtras.Add(he);
             }
-            he.Percentual = horarioPHExtra.PercentualExtra;
+            he.Percentual = perc;
             if (limite > horaExtraNoturna)
             {
                 he.HoraNoturna += horaExtraNoturna;

@@ -167,7 +167,7 @@ namespace BLL
                     {
                         foreach (var item in linhasArquivo)
                         {
-                            writer.Write(item);
+                            writer.WriteLine(item);
                         }
                     }
                     arquivoMemoria = stream.ToArray();
