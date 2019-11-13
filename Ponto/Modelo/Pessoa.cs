@@ -35,7 +35,7 @@ namespace Modelo
         [DataType(DataType.EmailAddress)]
         [TableHTMLAttribute("E-mail", 7, true, ItensSearch.text, OrderType.none)]
         public string Email { get; set; }
-        public int? IdIntegracao { get; set; }
+        public string IdIntegracao { get; set; }
 
         [TableHTMLAttribute("Tipo", 2, true, ItensSearch.select, OrderType.none)]
         public string TipoPessoaDescricao

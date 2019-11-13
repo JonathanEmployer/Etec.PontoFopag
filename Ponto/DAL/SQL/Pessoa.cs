@@ -86,9 +86,7 @@ namespace DAL.SQL
             ((Modelo.Pessoa)obj).CNPJ_CPF = Convert.ToString(dr["CNPJ_CPF"]);
             ((Modelo.Pessoa)obj).Insc_RG = Convert.ToString(dr["Insc_RG"]);
             ((Modelo.Pessoa)obj).Email = Convert.ToString(dr["Email"]);
-            object val = dr["IdIntegracao"];
-            Int32? idint = (val == null || val is DBNull) ? (Int32?)null : (Int32?)val;
-            ((Modelo.Pessoa)obj).IdIntegracao = idint;
+            ((Modelo.Pessoa)obj).IdIntegracao = Convert.ToString(dr["idintegracao"]);
         }
 
         protected override SqlParameter[] GetParameters()
@@ -109,7 +107,7 @@ namespace DAL.SQL
                 new SqlParameter ("@CNPJ_CPF", SqlDbType.VarChar),
                 new SqlParameter ("@Insc_RG", SqlDbType.VarChar),
                 new SqlParameter ("@Email", SqlDbType.VarChar),
-                new SqlParameter ("@IdIntegracao", SqlDbType.Int)
+                new SqlParameter ("@IdIntegracao", SqlDbType.VarChar)
 			};
             return parms;
         }
@@ -309,15 +307,18 @@ namespace DAL.SQL
             return lista;
         }
 
-        public int? GetIdPorIdIntegracao(int idIntegracao)
+        public int GetIdPorIdIntegracaoPessoa(string idIntegracao)
         {
             SqlParameter[] parms = new SqlParameter[0];
             DataTable dt = new DataTable();
-            string sql = "select top 1 id from pessoa where idIntegracao = " + idIntegracao;
+            string sql = "select top 1 id from pessoa where idIntegracao = " + "'" + idIntegracao + "'";
             sql += PermissaoUsuarioEmpresa(UsuarioLogado, sql, "departamento.idempresa", null);
-            int? Id = Convert.ToInt32(db.ExecuteScalar(CommandType.Text, sql, parms));
-
-            return Id;
+            int idreturn = Convert.ToInt32(db.ExecuteScalar(CommandType.Text, sql, parms));
+            if (idreturn == 0)
+            {
+                return 0;
+            }
+            return idreturn;
         }
 
         /// <summary>

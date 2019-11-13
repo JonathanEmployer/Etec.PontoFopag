@@ -979,7 +979,14 @@
             <param name="pessoa">Json com os dados de pessoa</param>
             <returns> Retorna json de pessoa quando cadastrado com sucesso, quando apresentar erro retorno um json de erro.</returns>
         </member>
-        <member name="M:cwkWebAPIPontoWeb.Controllers.PessoaController.Excluir(System.Nullable{System.Int32})">
+        <member name="M:cwkWebAPIPontoWeb.Controllers.PessoaController.SalvarPessoaWeb(cwkWebAPIPontoWeb.Models.Pessoa,System.String,System.Collections.Generic.Dictionary{System.String,System.String}@)">
+            <summary>
+            
+            </summary>
+            <param name="pessoa"></param>
+            <param name="erros"></param>
+        </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.PessoaController.Excluir(System.String)">
             <summary>
             Excluir pessoa.
             </summary>

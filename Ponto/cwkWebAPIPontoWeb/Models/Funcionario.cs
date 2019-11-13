@@ -70,7 +70,7 @@ namespace cwkWebAPIPontoWeb.Models
         /// </summary>
         [DataType(DataType.Date, ErrorMessage = "Data inválida")]
         public DateTime? DataInativacao { get; set; }
-        
+
         /// <summary>
         /// CNPJ da Empresa onde o Funcionário esta Registrado
         /// </summary>
@@ -78,7 +78,7 @@ namespace cwkWebAPIPontoWeb.Models
         /// <summary>
         /// ID de integração do Departamento do Funcionário
         /// </summary>
-        public int? IdIntegracaoDepartamento{ get; set; }
+        public int? IdIntegracaoDepartamento { get; set; }
         /// <summary>
         /// ID de integração da Função do Funcionário
         /// </summary>
@@ -102,12 +102,14 @@ namespace cwkWebAPIPontoWeb.Models
         /// </summary>
         public string Foto { get; set; }
         public int IdIntegracao { get; set; }
-        public int? IdIntegracaoPessoaSupervisor { get; set; }
+        public string IdIntegracaoPessoaSupervisor { get; set; }
 
         public int? CodTipoVinculo { get; set; }
         public int? IdintegracaoContrato { get; set; }
 
         public bool FuncionarioExcluido { get; set; }
-        public int? TipoMaoObra { get; set; }       
+        public int? TipoMaoObra { get; set; }
+        public Models.Pessoa PessoaSupervisor { get; set; }
     }
+
 }

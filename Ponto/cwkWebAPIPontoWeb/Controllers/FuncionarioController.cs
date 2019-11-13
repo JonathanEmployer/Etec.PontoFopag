@@ -87,13 +87,13 @@ namespace cwkWebAPIPontoWeb.Controllers
                         DadosAntFunc.Senha = BLL.ClSeguranca.Criptografar(funcionario.SenhaRelogio == null ? "" : funcionario.SenhaRelogio);
                         DadosAntFunc.Dataadmissao = funcionario.Dataadmissao;
                         DadosAntFunc.Datademissao = funcionario.Datademissao;
-                        
+
                         //Remover o IF inteiro quando campo FuncionarioAtivo for removido, quanter apenas o que esta no ELSE
                         if (jsonRequisicao.IndexOf("FuncionarioAtivo", StringComparison.CurrentCultureIgnoreCase) >= 0 && jsonRequisicao.IndexOf("DataInativacao", StringComparison.CurrentCultureIgnoreCase) == -1)
                         {
                             if (funcionario.FuncionarioAtivo)
                                 DadosAntFunc.DataInativacao = null;
-                            else DadosAntFunc.DataInativacao = DadosAntFunc.DataInativacao == null ? (DadosAntFunc.Datademissao??DateTime.Now.Date) : DadosAntFunc.DataInativacao;
+                            else DadosAntFunc.DataInativacao = DadosAntFunc.DataInativacao == null ? (DadosAntFunc.Datademissao ?? DateTime.Now.Date) : DadosAntFunc.DataInativacao;
                         }
                         else
                         {
@@ -114,11 +114,32 @@ namespace cwkWebAPIPontoWeb.Controllers
                             var idTipoVInculo = bllTipoVinculo.GetIdPorCod(funcionario.CodTipoVinculo.GetValueOrDefault());
                             DadosAntFunc.IdTipoVinculo = idTipoVInculo;
                         }
-
-                        if (funcionario.IdIntegracaoPessoaSupervisor != null)
+                        if ((funcionario.PessoaSupervisor != null && !String.IsNullOrEmpty(funcionario.PessoaSupervisor.IdIntegracao)))
                         {
-                            int? idPessoaSupervisor = bllPessoa.GetIdPoridIntegracao(funcionario.IdIntegracaoPessoaSupervisor.GetValueOrDefault());
-                            DadosAntFunc.IdPessoaSupervisor = idPessoaSupervisor;
+                            int? idPessoaSupervisor = bllPessoa.GetIdPorIdIntegracaoPessoa(funcionario.PessoaSupervisor.IdIntegracao);
+                            if (idPessoaSupervisor.GetValueOrDefault() == 0)
+                            {
+                                Dictionary<string, string> errosPessoa;
+                                PessoaController.SalvarPessoaWeb(funcionario.PessoaSupervisor, connectionStr, out errosPessoa);
+                                if (errosPessoa.Count() == 0)
+                                {
+                                    idPessoaSupervisor = bllPessoa.GetIdPorIdIntegracaoPessoa(funcionario.PessoaSupervisor.IdIntegracao);
+                                    DadosAntFunc.IdPessoaSupervisor = idPessoaSupervisor;
+                                }
+                                else
+                                {
+                                    throw new Exception("Erro ao cadastrar o supervisor do funcionário, Erro: " + string.Join(";", errosPessoa.Select(x => x.Key + "=" + x.Value).ToArray()));
+                                }
+                            }
+                            else
+                            {
+                                DadosAntFunc.IdPessoaSupervisor = idPessoaSupervisor;
+                            }
+                        }
+                        else if (funcionario.IdIntegracaoPessoaSupervisor != null)
+                        {
+                            int? idPessoaSupervisor = bllPessoa.GetIdPorIdIntegracaoPessoa(funcionario.IdIntegracaoPessoaSupervisor);
+                            DadosAntFunc.IdPessoaSupervisor = idPessoaSupervisor == 0 ? null : idPessoaSupervisor;
                         }
 
                         Acao acao = new Acao();

@@ -11,7 +11,7 @@ namespace DAL
         List<Modelo.Pessoa> GetAllList();
         List<Modelo.Pessoa> GetListPessoaPorNome(string nome);
         List<Modelo.Pessoa> GetPessoaPorCodigo(int codigo);
-        int? GetIdPorIdIntegracao(int idIntegracao);
+        int GetIdPorIdIntegracaoPessoa(string idIntegracao);
 
         /// <summary>
         /// Retorna uma lista com as pessoas que tenham o CNPJ_CPF igual ao informado

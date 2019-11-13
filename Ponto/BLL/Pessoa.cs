@@ -68,15 +68,17 @@ namespace BLL
             {
                 ret.Add("Codigo", "Campo obrigatório.");
             }
-
-            objeto.FormatarCNPJ_CPF();
-            if (objeto.TipoPessoa == 0 && !BLL.cwkFuncoes.ValidarCPF(objeto.CNPJ_CPF))
+            if (!string.IsNullOrEmpty(objeto.CNPJ_CPF))
             {
-                ret.Add("CNPJ_CPF", "CPF inválido.");
-            }
-            else if (objeto.TipoPessoa == 1 && !BLL.cwkFuncoes.ValidarCNPJ(objeto.CNPJ_CPF))
-            {
-                ret.Add("CNPJ_CPF", "CNPJ inválido.");
+                objeto.FormatarCNPJ_CPF();
+                if (objeto.TipoPessoa == 0 && !BLL.cwkFuncoes.ValidarCPF(objeto.CNPJ_CPF))
+                {
+                    ret.Add("CNPJ_CPF", "CPF inválido.");
+                }
+                else if (objeto.TipoPessoa == 1 && !BLL.cwkFuncoes.ValidarCNPJ(objeto.CNPJ_CPF))
+                {
+                    ret.Add("CNPJ_CPF", "CNPJ inválido.");
+                }
             }
             return ret;
         }
@@ -133,9 +135,9 @@ namespace BLL
         /// </summary>
         /// <param name="idIntegracao">IdIntegracao a ser pesquisado</param>
         /// <returns>IdPessoa</returns>
-        public int? GetIdPoridIntegracao(int idIntegracao)
+        public int GetIdPorIdIntegracaoPessoa(string idIntegracao)
         {
-            return dalPessoa.GetIdPorIdIntegracao(idIntegracao);
+            return dalPessoa.GetIdPorIdIntegracaoPessoa(idIntegracao);
         }
 
         /// <summary>

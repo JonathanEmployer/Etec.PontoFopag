@@ -25,8 +25,7 @@ namespace cwkWebAPIPontoWeb.Models
         [Display(Name = "Fantasia")]
         [StringLength(100, ErrorMessage = "Número máximo de caracteres: {1}")]
         public string Fantasia { get; set; }
-        [Display(Name = "CPF")]
-        [Required(ErrorMessage = "Campo Obrigatório")]
+        [Display(Name = "CPF")]        
         [StringLength(100, ErrorMessage = "Número máximo de caracteres: {1}")]
         public string CNPJ_CPF { get; set; }
         [Display(Name = "Insc_RG")]
@@ -36,7 +35,7 @@ namespace cwkWebAPIPontoWeb.Models
         [StringLength(200, ErrorMessage = "Os E-mails juntos devem ter no máximo 200 caracteres.")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-        public int? IdIntegracao { get; set; }
+        public string IdIntegracao { get; set; }
         public string TipoPessoaDescricao
         {
             get
