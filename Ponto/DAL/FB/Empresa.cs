@@ -454,5 +454,10 @@ namespace DAL.FB
         {
             throw new NotImplementedException();
         }
+
+        public List<Modelo.Empresa> GetAllListEmpresa()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

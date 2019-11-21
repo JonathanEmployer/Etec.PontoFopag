@@ -54,9 +54,9 @@ namespace DAL.SQL
             SELECTPID = @"   SELECT empresa.*,  CONVERT(varchar, h.codigo) + ' | ' + h.descricao as NomeHorario FROM empresa  left JOIN horario h ON empresa.idhorariopadraofunc = h.id WHERE empresa.id = @id";
 
             INSERT = @"  INSERT INTO empresa
-							(codigo, bprincipal, tipolicenca, quantidade, nome, endereco, cidade, estado, cep, cnpj, cpf, chave, incdata, inchora, incusuario, cei, numeroserie, bdalterado, bloqueiousuarios, relatorioabsenteismo, exportacaohorasabonadas, modulorefeitorio, IDRevenda, validade, ultimoacesso, utilizacontrolecontratos, relatorioInconsistencia, relatorioComparacaoBilhetes, utilizaregistradorfunc, IdIntegracao, DiaFechamentoInicial, DiaFechamentoFinal, PermiteClassHorasExtrasPainel, BloqueiaJustificativaForaPeriodo, DtInicioJustificativa, DtFimJustificativa, IdHorarioPadraoFunc, TipoHorarioPadraoFunc, PermiteAbonoParcialPainel, LimitarQtdAbono, bloqueioEdicaoEmp)
+							(codigo, bprincipal, tipolicenca, quantidade, nome, endereco, cidade, estado, cep, cnpj, cpf, chave, incdata, inchora, incusuario, cei, numeroserie, bdalterado, bloqueiousuarios, relatorioabsenteismo, exportacaohorasabonadas, modulorefeitorio, IDRevenda, validade, ultimoacesso, utilizacontrolecontratos, relatorioInconsistencia, relatorioComparacaoBilhetes, utilizaregistradorfunc, IdIntegracao, DiaFechamentoInicial, DiaFechamentoFinal, PermiteClassHorasExtrasPainel, BloqueiaJustificativaForaPeriodo, DtInicioJustificativa, DtFimJustificativa, IdHorarioPadraoFunc, TipoHorarioPadraoFunc, PermiteAbonoParcialPainel, LimitarQtdAbono, bloqueioEdicaoEmp, Ativo)
 							VALUES
-							(@codigo, @bprincipal, @tipolicenca, @quantidade, @nome, @endereco, @cidade, @estado, @cep, @cnpj, @cpf, @chave, @incdata, @inchora, @incusuario, @cei, @numeroserie, @bdalterado, @bloqueiousuarios, @relatorioabsenteismo, @exportacaohorasabonadas, @modulorefeitorio, @IDRevenda, @validade, @ultimoacesso, @utilizacontrolecontratos, @relatorioInconsistencia, @relatorioComparacaoBilhetes, @utilizaregistradorfunc, @IdIntegracao, @DiaFechamentoInicial, @DiaFechamentoFinal, @PermiteClassHorasExtrasPainel, @BloqueiaJustificativaForaPeriodo, @DtInicioJustificativa, @DtFimJustificativa, @IdHorarioPadraoFunc, @TipoHorarioPadraoFunc, @PermiteAbonoParcialPainel, @LimitarQtdAbono, @bloqueioEdicaoEmp) 
+							(@codigo, @bprincipal, @tipolicenca, @quantidade, @nome, @endereco, @cidade, @estado, @cep, @cnpj, @cpf, @chave, @incdata, @inchora, @incusuario, @cei, @numeroserie, @bdalterado, @bloqueiousuarios, @relatorioabsenteismo, @exportacaohorasabonadas, @modulorefeitorio, @IDRevenda, @validade, @ultimoacesso, @utilizacontrolecontratos, @relatorioInconsistencia, @relatorioComparacaoBilhetes, @utilizaregistradorfunc, @IdIntegracao, @DiaFechamentoInicial, @DiaFechamentoFinal, @PermiteClassHorasExtrasPainel, @BloqueiaJustificativaForaPeriodo, @DtInicioJustificativa, @DtFimJustificativa, @IdHorarioPadraoFunc, @TipoHorarioPadraoFunc, @PermiteAbonoParcialPainel, @LimitarQtdAbono, @bloqueioEdicaoEmp, @Ativo) 
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE empresa SET
@@ -101,6 +101,7 @@ namespace DAL.SQL
                             , PermiteAbonoParcialPainel = @PermiteAbonoParcialPainel
                             , LimitarQtdAbono = @LimitarQtdAbono
                             , bloqueioEdicaoEmp = @bloqueioEdicaoEmp
+                            , Ativo = @Ativo
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM empresa WHERE id = @id";
@@ -194,6 +195,7 @@ namespace DAL.SQL
             ((Modelo.Empresa)obj).PermiteAbonoParcialPainel = dr["PermiteAbonoParcialPainel"] is DBNull ? false : Convert.ToBoolean(dr["PermiteAbonoParcialPainel"]);
             ((Modelo.Empresa)obj).LimitarQtdAbono = dr["LimitarQtdAbono"] is DBNull ? false : Convert.ToBoolean(dr["LimitarQtdAbono"]);
             ((Modelo.Empresa)obj).bloqueioEdicaoEmp = dr["bloqueioEdicaoEmp"] is DBNull ? 0 : Convert.ToInt32(dr["bloqueioEdicaoEmp"]);
+            ((Modelo.Empresa)obj).Ativo = dr["Ativo"] is DBNull ? false : Convert.ToBoolean(dr["Ativo"]);
         }
 
         protected override SqlParameter[] GetParameters()
@@ -244,7 +246,8 @@ namespace DAL.SQL
                 new SqlParameter ("@TipoHorarioPadraoFunc", SqlDbType.Int),
                 new SqlParameter ("@PermiteAbonoParcialPainel", SqlDbType.Bit),
                 new SqlParameter ("@LimitarQtdAbono", SqlDbType.Bit),
-                new SqlParameter ("@bloqueioEdicaoEmp", SqlDbType.Bit)
+                new SqlParameter ("@bloqueioEdicaoEmp", SqlDbType.Bit),
+                new SqlParameter ("@Ativo", SqlDbType.Bit)
             };
             return parms;
         }
@@ -300,6 +303,7 @@ namespace DAL.SQL
             parms[42].Value = ((Modelo.Empresa)obj).PermiteAbonoParcialPainel;
             parms[43].Value = ((Modelo.Empresa)obj).LimitarQtdAbono;
             parms[44].Value = ((Modelo.Empresa)obj).bloqueioEdicaoEmp;
+            parms[45].Value = ((Modelo.Empresa)obj).Ativo;
         }
 
         //public override void Incluir(Modelo.ModeloBase obj)
@@ -364,7 +368,7 @@ namespace DAL.SQL
             };
             parms[0].Value = codigo;
 
-            string aux = "SELECT empresa.*,  CONVERT(varchar, h.codigo) + ' | ' + h.descricao as NomeHorario FROM empresa  left JOIN horario h ON empresa.idhorariopadraofunc = h.id WHERE empresa.codigo = @codigo";
+            string aux = "SELECT empresa.*,  CONVERT(varchar, h.codigo) + ' | ' + h.descricao as NomeHorario FROM empresa  left JOIN horario h ON empresa.idhorariopadraofunc = h.id WHERE empresa.codigo = @codigo and empresa.Ativo = 1";
             aux += PermissaoUsuarioEmpresa(UsuarioLogado, aux, "empresa.id", null);
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
@@ -446,15 +450,16 @@ namespace DAL.SQL
                     sb.AppendLine(" AND (SELECT COUNT(id) FROM empresacwusuario WHERE empresacwusuario.idcw_usuario = "
                         + UsuarioLogado.Id.ToString() + " AND empresacwusuario.idempresa = empresa.id) > 0 ");
                 }
-            }
+            }                   
             return sb.ToString();
         }
 
         public List<Modelo.Empresa> GetAllList()
         {
             SqlParameter[] parms = new SqlParameter[0];
+            string Ativo = " and empresa.Ativo = 1";
 
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SELECTLIST + GetWhereSelectAll(), parms);
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SELECTLIST + GetWhereSelectAll()+ Ativo, parms);
 
             List<Modelo.Empresa> lista = new List<Modelo.Empresa>();
             try
@@ -484,10 +489,11 @@ namespace DAL.SQL
         public List<Modelo.Proxy.pxyEmpresa> GetAllListPxyEmpresa(string filtro)
         {
             SqlParameter[] parms = new SqlParameter[0];
+            string Ativo = " and empresa.Ativo = 1";
             string aux = @"select Id, Codigo, Nome, bprincipal, 'N' SelecionadoStr from empresa where 1 = 1 " + filtro;
             aux += PermissaoUsuarioEmpresa(UsuarioLogado, aux, "empresa.id", null);
 
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux + Ativo, parms);
 
             List<Modelo.Proxy.pxyEmpresa> lista = new List<Modelo.Proxy.pxyEmpresa>();
             try
@@ -906,6 +912,36 @@ namespace DAL.SQL
                 return false;
             }
             return true;
+        }
+        public List<Modelo.Empresa> GetAllListEmpresa()
+        {
+            SqlParameter[] parms = new SqlParameter[0];
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SELECTLIST + GetWhereSelectAll(), parms);
+
+            List<Modelo.Empresa> lista = new List<Modelo.Empresa>();
+            try
+            {
+                while (dr.Read())
+                {
+                    Modelo.Empresa objEmpresa = new Modelo.Empresa();
+                    AuxSetInstance(dr, objEmpresa);
+                    lista.Add(objEmpresa);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
         }
         #endregion
     }

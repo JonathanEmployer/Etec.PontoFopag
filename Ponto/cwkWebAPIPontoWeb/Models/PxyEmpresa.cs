@@ -67,7 +67,9 @@ namespace cwkWebAPIPontoWeb.Models
         /// </summary>
         public int? IdIntegracao { get; set; }
 
-
-
+        /// <summary>
+        /// EmpresaAtivo.
+        /// </summary>
+        public bool Ativo { get; set; }
     }
 }

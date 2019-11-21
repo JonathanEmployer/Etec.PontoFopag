@@ -238,6 +238,7 @@ namespace BLL
                 string connCript = CriptoString.Encrypt(ConnectionString);
                 ManipularEntidadeCliente mec = new ManipularEntidadeCliente();
                 BLL.EmpresaTermoUso bllEmpTermoUso = new EmpresaTermoUso(ConnectionString, dalEmpresa.UsuarioLogado);
+                BLL.Funcionario bllFuncionario = new Funcionario(ConnectionString, dalEmpresa.UsuarioLogado);
                 switch (pAcao)
                 {
                     case Modelo.Acao.Incluir:
@@ -251,7 +252,8 @@ namespace BLL
                         dalEmpresa.Alterar(objeto);
                         SalvarLogoEmpresa(objeto, Modelo.Acao.Alterar);
                         mec.IncluirOuAlterarEntidade((String.IsNullOrEmpty(objeto.Cnpj) ? 'F' : 'J'), objeto.Nome, objeto.Nome, (String.IsNullOrEmpty(objeto.Cnpj) ? objeto.Cpf : objeto.Cnpj), null, (String.IsNullOrEmpty(empAnt.Cnpj) ? empAnt.Cpf : empAnt.Cnpj), connCript);
-                        bllEmpTermoUso.IncluiAlteraTermoUso(objeto);
+                        bllEmpTermoUso.IncluiAlteraTermoUso(objeto);                     
+                        bllFuncionario.setFuncionariosEmpresa(objeto.Id, objeto.Ativo);
                         break;
                     case Modelo.Acao.Excluir:
                         SalvarLogoEmpresa(objeto, Modelo.Acao.Excluir);
@@ -601,6 +603,10 @@ namespace BLL
             }
 
             return empresaRetorno;
+        }
+        public List<Modelo.Empresa> GetAllListEmpresa()
+        {
+            return dalEmpresa.GetAllListEmpresa();
         }
     }
 }
