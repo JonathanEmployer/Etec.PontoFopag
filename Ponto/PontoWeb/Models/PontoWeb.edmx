@@ -112,6 +112,7 @@
           <Property Name="identificacao" Type="int" />
           <Property Name="datainicial" Type="datetime" />
           <Property Name="datafinal" Type="datetime" />
+          <Property Name="faltadebito" Type="int" />
           <Property Name="dias_1" Type="int" />
           <Property Name="dias_2" Type="int" />
           <Property Name="dias_3" Type="int" />
@@ -2429,6 +2430,7 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.marcacao_view' does not ha
                 <Property Name="identificacao" Type="int" />
                 <Property Name="datainicial" Type="datetime" />
                 <Property Name="datafinal" Type="datetime" />
+                <Property Name="faltadebito" Type="int" />
                 <Property Name="dias_1" Type="int" />
                 <Property Name="dias_2" Type="int" />
                 <Property Name="dias_3" Type="int" />
@@ -3096,6 +3098,7 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.marcacao_view' does not ha
           <Property Name="identificacao" Type="Int32" />
           <Property Name="datainicial" Type="DateTime" />
           <Property Name="datafinal" Type="DateTime" />
+          <Property Name="faltadebito" Type="Int32" />
           <Property Name="dias_1" Type="Int32" />
           <Property Name="dias_2" Type="Int32" />
           <Property Name="dias_3" Type="Int32" />
@@ -3368,6 +3371,7 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.marcacao_view' does not ha
           <Property Name="identificacao" Type="Int32" />
           <Property Name="datainicial" Type="DateTime" Precision="3" />
           <Property Name="datafinal" Type="DateTime" Precision="3" />
+          <Property Name="faltadebito" Type="Int32" />
           <Property Name="dias_1" Type="Int32" />
           <Property Name="dias_2" Type="Int32" />
           <Property Name="dias_3" Type="Int32" />
@@ -6217,6 +6221,7 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.marcacao_view' does not ha
                 <ScalarProperty Name="identificacao" ColumnName="identificacao" />
                 <ScalarProperty Name="datainicial" ColumnName="datainicial" />
                 <ScalarProperty Name="datafinal" ColumnName="datafinal" />
+                <ScalarProperty Name="faltadebito" ColumnName="faltadebito" />
                 <ScalarProperty Name="dias_1" ColumnName="dias_1" />
                 <ScalarProperty Name="dias_2" ColumnName="dias_2" />
                 <ScalarProperty Name="dias_3" ColumnName="dias_3" />
@@ -7810,6 +7815,7 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.marcacao_view' does not ha
                 <ScalarProperty Name="identificacao" ColumnName="identificacao" />
                 <ScalarProperty Name="datainicial" ColumnName="datainicial" />
                 <ScalarProperty Name="datafinal" ColumnName="datafinal" />
+                <ScalarProperty Name="faltadebito" ColumnName="faltadebito" />
                 <ScalarProperty Name="dias_1" ColumnName="dias_1" />
                 <ScalarProperty Name="dias_2" ColumnName="dias_2" />
                 <ScalarProperty Name="dias_3" ColumnName="dias_3" />

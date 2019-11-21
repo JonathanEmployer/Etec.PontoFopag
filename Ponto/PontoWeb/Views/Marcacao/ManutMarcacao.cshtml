@@ -94,18 +94,12 @@
 {
     <div class="divCenterManutMarca" style="margin-bottom:0; ">
         <div class="modal-content">
-            <div class="row">
-                <div class="col-md-4">
-                    <div style="text-align:left">
-                        <div class="titulo-pagina" style="margin-left:15px;">@ViewBag.Title</div>                        
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div style="text-align:center">                        
-                        <button type="button" id="btnVoltaData" class="btn btn-success salvando fa fa-angle-left" onclick="javascript: eventoVolta()"></button>
-                        <span><b>Salvar e Alterar Data</b></span>
-                        <button type="button" id="btnAvcData" class="btn btn-success salvando fa fa-angle-right" onclick="javascript: eventoAvanc('1')"></button>
-                    </div>
+            <div class="modal-header salvando dis-flex-space-between">
+                <h3 class="panel-title titulo-pagina pos-abs-l15">@ViewBag.Title</h3>
+                <div class="dis-flex-center" style="margin-top:5px;">
+                    <button type="button" id="btnVoltaData" class="btn btn-success salvando fa fa-angle-left" onclick="javascript: eventoVolta()"></button>
+                    <span>Salvar e <br/>Alterar Data</span>
+                    <button type="button" id="btnAvcData" class="btn btn-success salvando fa fa-angle-right" onclick="javascript: eventoAvanc('1')"></button>
                 </div>
                 <button type="button" class="close pos-abs-r15" data-dismiss="modal" aria-hidden="true" id="xfecharCadastroModal">X</button>
             </div>
@@ -138,8 +132,8 @@
                         else
                         {
                             <div class="alert alert-danger" role="alert" style="margin-bottom:0">@ViewBag.MensagemBloqueio</div>
+                            }
                         }
-                    }
 
                     @Html.ValidationMessage("CustomError")
                     @Html.HiddenFor(model => model.Id, new { id = "idMarcacao" })
@@ -278,25 +272,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
-                            <label>
-                                @Html.CheckBoxFor(model => model.TipoHoraExtraFaltaBool, new { @class = "checkboxHN" })
-                                @Html.DisplayNameFor(model => model.TipoHoraExtraFaltaBool)
-                                @Html.ValidationMessageFor(model => model.TipoHoraExtraFaltaBool)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
-                            <label>
-                                @Html.CheckBoxFor(model => model.NaoentrarnacompensacaoBool, new { @class = "checkboxHN" })
-                                @Html.DisplayNameFor(model => model.NaoentrarnacompensacaoBool)
-                                @Html.ValidationMessageFor(model => model.NaoentrarnacompensacaoBool)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
                             <label>
                                 @Html.CheckBoxFor(model => model.NaoentrarbancoBool, new { @class = "checkboxHN" })
@@ -305,84 +281,25 @@
                             </label>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
                             <label>
-                                @Html.CheckBoxFor(model => model.AbonardsrBool, new { @class = "checkboxHN" })
-                                @Html.DisplayNameFor(model => model.AbonardsrBool)
-                                @Html.ValidationMessageFor(model => model.AbonardsrBool)
+                                @Html.CheckBoxFor(model => model.NaoentrarnacompensacaoBool, new { @class = "checkboxHN" })
+                                @Html.DisplayNameFor(model => model.NaoentrarnacompensacaoBool)
+                                @Html.ValidationMessageFor(model => model.NaoentrarnacompensacaoBool)
                             </label>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
                             <label>
-                                @Html.CheckBoxFor(model => model.NaoconsiderarcafeBool, new { @class = "checkboxHN" })
-                                @Html.DisplayNameFor(model => model.NaoconsiderarcafeBool)
-                                @Html.ValidationMessageFor(model => model.NaoconsiderarcafeBool)
+                                @Html.CheckBoxFor(model => model.TipoHoraExtraFaltaBool, new { @class = "checkboxHN" })
+                                @Html.DisplayNameFor(model => model.TipoHoraExtraFaltaBool)
+                                @Html.ValidationMessageFor(model => model.TipoHoraExtraFaltaBool)
                             </label>
                         </div>
                     </div>
-                    <div>
-                        <div class="col-md-3">
-                            <div class="form-group" style="margin-right:10px;">
-                                @Html.DisplayNameFor(model => model.ContabilizarFaltas)
-                                @Html.ValidationMessageFor(model => model.ContabilizarFaltas)
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div class="form-group" style="margin-right:10px;">
-                                @Html.DropDownListFor(model => model.ContabilizarFaltas, cwkPontoWeb.Models.Helpers.EnumHelper.GetSelectedItemList<Modelo.Listas.TipoParametroBancoManut>(0), (object)new { @class = "form-control input-sm", style = "height: 25px;weight:60px;" })
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
-                            <label>
-                                @Html.CheckBoxFor(model => model.FolgaBool, new { @class = "checkboxHN" })
-                                @Html.DisplayNameFor(model => model.FolgaBool)
-                                @Html.ValidationMessageFor(model => model.FolgaBool)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
-                            <label>
-                                @Html.CheckBoxFor(model => model.BloquearEdicaoPnlRh, new { @class = "checkboxHN" })
-                                @Html.DisplayName("Bloquear Edição Painel")
-                                @Html.ValidationMessageFor(model => model.BloquearEdicaoPnlRh)
-                            </label>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="col-md-3">
-                            <div class="form-group" style="margin-right:10px;">
-                                @Html.DisplayNameFor(model => model.ContAtrasosSaidasAntec)
-                                @Html.ValidationMessageFor(model => model.ContAtrasosSaidasAntec)
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div class="form-group" style="margin-right:10px;">
-                                @Html.DropDownListFor(model => model.ContAtrasosSaidasAntec, cwkPontoWeb.Models.Helpers.EnumHelper.GetSelectedItemList<Modelo.Listas.TipoParametroBancoManut>(0), (object)new { @class = "form-control input-sm", style = "height: 25px;weight:60px;" })
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
-                            <label>
-                                @Html.CheckBoxFor(model => model.ConsiderarFeriadoBool, new { @class = "checkboxHN" })
-                                @Html.DisplayNameFor(model => model.ConsiderarFeriadoBool)
-                                @Html.ValidationMessageFor(model => model.ConsiderarFeriadoBool)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
                             <label>
                                 @Html.CheckBoxFor(model => model.NaoConsiderarInItinere, new { @class = "checkboxHN" })
@@ -391,17 +308,51 @@
                             </label>
                         </div>
                     </div>
-                    <div>
-                        <div class="col-md-3">
-                            <div class="form-group" style="margin-right:10px;">
-                                @Html.DisplayNameFor(model => model.ContabilizarCreditos)
-                                @Html.ValidationMessageFor(model => model.ContabilizarCreditos)
-                            </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                            <label>
+                                @Html.CheckBoxFor(model => model.AbonardsrBool, new { @class = "checkboxHN" })
+                                @Html.DisplayNameFor(model => model.AbonardsrBool)
+                                @Html.ValidationMessageFor(model => model.AbonardsrBool)
+                            </label>
                         </div>
-                        <div class="col-md-1">
-                            <div class="form-group" style="margin-right:10px;">
-                                @Html.DropDownListFor(model => model.ContabilizarCreditos, cwkPontoWeb.Models.Helpers.EnumHelper.GetSelectedItemList<Modelo.Listas.TipoParametroBancoManut>(0), (object)new { @class = "form-control input-sm", style = "height: 25px;weight:60px;" })
-                            </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                            <label>
+                                @Html.CheckBoxFor(model => model.NaoconsiderarcafeBool, new { @class = "checkboxHN" })
+                                @Html.DisplayNameFor(model => model.NaoconsiderarcafeBool)
+                                @Html.ValidationMessageFor(model => model.NaoconsiderarcafeBool)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                            <label>
+                                @Html.CheckBoxFor(model => model.FolgaBool, new { @class = "checkboxHN" })
+                                @Html.DisplayNameFor(model => model.FolgaBool)
+                                @Html.ValidationMessageFor(model => model.FolgaBool)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                            <label>
+                                @Html.CheckBoxFor(model => model.BloquearEdicaoPnlRh, new { @class = "checkboxHN" })
+                                @Html.DisplayName("Bloquear Edição Painel")
+                                @Html.ValidationMessageFor(model => model.BloquearEdicaoPnlRh)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                            <label>
+                                @Html.CheckBoxFor(model => model.ConsiderarFeriadoBool, new { @class = "checkboxHN" })
+                                @Html.DisplayNameFor(model => model.ConsiderarFeriadoBool)
+                                @Html.ValidationMessageFor(model => model.ConsiderarFeriadoBool)
+                            </label>
                         </div>
                     </div>
                 </div>

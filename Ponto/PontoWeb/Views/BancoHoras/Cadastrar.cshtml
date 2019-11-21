@@ -154,27 +154,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div>
-                                    <label>
-                                        @Html.CheckBoxFor(model => model.ContabilizarFaltas, new { @class = "checkboxbh", id = "lkpContabilizarFaltas" })
-                                        @Html.LabelFor(model => model.ContabilizarFaltas, new { @class = "control-label label-sm" })
-                                        @Html.ValidationMessageFor(model => model.ContabilizarFaltas)
-                                    </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <label>
-                                        @Html.CheckBoxFor(model => model.ContAtrasosSaidasAntec, new { @class = "checkboxbh", id = "lkpContAtrasosSaidasAntec" })
-                                        @Html.LabelFor(model => model.ContAtrasosSaidasAntec, new { @class = "control-label label-sm" })
-                                        @Html.ValidationMessageFor(model => model.ContAtrasosSaidasAntec)
-                                    </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <label>
-                                        @Html.CheckBoxFor(model => model.ContabilizarCreditos, new { @class = "checkboxbh", id = "lkpContabilizarCreditos" })
-                                        @Html.LabelFor(model => model.ContabilizarCreditos, new { @class = "control-label label-sm" })
-                                        @Html.ValidationMessageFor(model => model.ContabilizarCreditos)
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     @*CheckBox*@
                     <div class="col-md-4">
@@ -191,7 +170,14 @@
                                 @Html.LabelFor(model => model.PercentualComoHoraExtra, new { @class = "control-label label-sm" })
                                 @Html.ValidationMessageFor(model => model.PercentualComoHoraExtra)
                             </label>
-                        </div>                        
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(model => model.FaltaDebitoBool, new { @class = "checkboxbh", id = "FaltaDebitoBool" })
+                                @Html.LabelFor(model => model.FaltaDebitoBool, new { @class = "control-label label-sm" })
+                                @Html.ValidationMessageFor(model => model.FaltaDebitoBool)
+                            </label>
+                        </div>
                         <div class="checkbox">
                             <label>
                                 @Html.CheckBoxFor(model => model.BancoHorasPorPercentual, new { @class = "checkboxbh", id = "BancoHorasPorPercentual" })
@@ -928,15 +914,9 @@
 
         if ($('#idRadioFuncionario').is(':checked')) {
             divVisivel("#divFuncionario");
-        }; 
-        //Quando for um cadastro novo marca esse parametros como default.
-        var dataI = $('#DataInicial').val(); var dataF = $('#DataFinal').val();
-        if (dataI == "" && dataF == "") {
-            $('#lkpContabilizarFaltas').prop('checked', true);
-            $('#lkpContAtrasosSaidasAntec').prop('checked', true);
-            $('#lkpContabilizarCreditos').prop('checked',true);
-        }
-       
+        };
+
+
         FechamentoPercentualHE();
 
         VerificaLimiteConjunto();

@@ -232,14 +232,5 @@ namespace Modelo
             Domingo = 7,
             Indefinido = -1
         }
-        public enum TipoParametroBancoManut
-        {
-            [Description("B.H")]
-            BH = 2,
-            [Description("Sim")]
-            SIM = 1,
-            [Description("Não")]
-            NAO = 0           
-        }
     }
 }

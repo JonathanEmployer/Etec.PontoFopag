@@ -22,16 +22,17 @@ namespace DAL.SQL
                 FROM bancohoras WHERE id = @id";
 
             INSERT = @"  INSERT INTO bancohoras
-                            ( codigo,  tipo,  identificacao,  datainicial,  datafinal, dias_1,  dias_2,  dias_3,  dias_4,  dias_5,  dias_6,  dias_7,  dias_8,  dias_9,  dias_10,  bancoprimeiro,  limitehoras_1,  limitehoras_2,  limitehoras_3,  limitehoras_4,  limitehoras_5,  limitehoras_6,  limitehoras_7,  limitehoras_8,  limitehoras_9,  limitehoras_10,  extraprimeiro,  limitehorasextras_1,  limitehorasextras_2,  limitehorasextras_3,  limitehorasextras_4,  limitehorasextras_5,  limitehorasextras_6,  limitehorasextras_7,  limitehorasextras_8,  limitehorasextras_9,  limitehorasextras_10,  percentuais_1,  percentuais_2,  percentuais_3,  percentuais_4,  percentuais_5,  percentuais_6,  percentuais_7,  percentuais_8,  percentuais_9,  percentuais_10,  incdata,  inchora,  incusuario,  perccomohoraextra,  bancohorasacumulativo,  limite_1,  limite_2,  limite_3,  limite_4,  limite_5,  limite_6,  limitepcthoras_1,  limitepcthoras_2,  limitepcthoras_3,  limitepcthoras_4,  limitepcthoras_5,  limitepcthoras_6,  limiteqtdhoras_1,  limiteqtdhoras_2,  limiteqtdhoras_3,  limiteqtdhoras_4,  limiteqtdhoras_5,  limiteqtdhoras_6,  tipoacumulo,  bancoHorasPorPercentual,  limitehorasDiarios_1,  limitehorasDiarios_2,  limitehorasDiarios_3,  limitehorasDiarios_4,  limitehorasDiarios_5,  limitehorasDiarios_6,  limitehorasDiarios_7,  limitehorasDiarios_8,  limitehorasDiarios_9,  LimiteAlertaCredito,  LimiteAlertaDebito,  FechamentoPercentualHE,  FechamentoPercentualHELimite1,  FechamentoPercentualHELimite2,  FechamentoPercentualHEPercentual1,  FechamentoPercentualHEPercentual2,  bancoHorasDiarioMensal,  limiteHorasBancoHorasDiarioMensal,  limitehorasDiarioMensal_1,  limitehorasDiarioMensal_2,  limitehorasDiarioMensal_3,  limitehorasDiarioMensal_4,  limitehorasDiarioMensal_5,  limitehorasDiarioMensal_6,  limitehorasDiarioMensal_7,  limitehorasDiarioMensal_8,  limitehorasDiarioMensal_9,  LimiteBancoHorasSemanal,  SaldoBh_1,  SaldoBh_2,  SaldoBh_3,  SaldoBh_4,  SaldoBh_5,  SaldoBh_6,  SaldoBh_7,  SaldoBh_8,  SaldoBh_9, ContabilizarFaltas, ContAtrasosSaidasAntec, ContabilizarCreditos)
+                            ( codigo,  tipo,  identificacao,  datainicial,  datafinal,  faltadebito,  dias_1,  dias_2,  dias_3,  dias_4,  dias_5,  dias_6,  dias_7,  dias_8,  dias_9,  dias_10,  bancoprimeiro,  limitehoras_1,  limitehoras_2,  limitehoras_3,  limitehoras_4,  limitehoras_5,  limitehoras_6,  limitehoras_7,  limitehoras_8,  limitehoras_9,  limitehoras_10,  extraprimeiro,  limitehorasextras_1,  limitehorasextras_2,  limitehorasextras_3,  limitehorasextras_4,  limitehorasextras_5,  limitehorasextras_6,  limitehorasextras_7,  limitehorasextras_8,  limitehorasextras_9,  limitehorasextras_10,  percentuais_1,  percentuais_2,  percentuais_3,  percentuais_4,  percentuais_5,  percentuais_6,  percentuais_7,  percentuais_8,  percentuais_9,  percentuais_10,  incdata,  inchora,  incusuario,  perccomohoraextra,  bancohorasacumulativo,  limite_1,  limite_2,  limite_3,  limite_4,  limite_5,  limite_6,  limitepcthoras_1,  limitepcthoras_2,  limitepcthoras_3,  limitepcthoras_4,  limitepcthoras_5,  limitepcthoras_6,  limiteqtdhoras_1,  limiteqtdhoras_2,  limiteqtdhoras_3,  limiteqtdhoras_4,  limiteqtdhoras_5,  limiteqtdhoras_6,  tipoacumulo,  bancoHorasPorPercentual,  limitehorasDiarios_1,  limitehorasDiarios_2,  limitehorasDiarios_3,  limitehorasDiarios_4,  limitehorasDiarios_5,  limitehorasDiarios_6,  limitehorasDiarios_7,  limitehorasDiarios_8,  limitehorasDiarios_9,  LimiteAlertaCredito,  LimiteAlertaDebito,  FechamentoPercentualHE,  FechamentoPercentualHELimite1,  FechamentoPercentualHELimite2,  FechamentoPercentualHEPercentual1,  FechamentoPercentualHEPercentual2,  bancoHorasDiarioMensal,  limiteHorasBancoHorasDiarioMensal,  limitehorasDiarioMensal_1,  limitehorasDiarioMensal_2,  limitehorasDiarioMensal_3,  limitehorasDiarioMensal_4,  limitehorasDiarioMensal_5,  limitehorasDiarioMensal_6,  limitehorasDiarioMensal_7,  limitehorasDiarioMensal_8,  limitehorasDiarioMensal_9,  LimiteBancoHorasSemanal,  SaldoBh_1,  SaldoBh_2,  SaldoBh_3,  SaldoBh_4,  SaldoBh_5,  SaldoBh_6,  SaldoBh_7,  SaldoBh_8,  SaldoBh_9)
 							VALUES
-                            (@codigo, @tipo, @identificacao, @datainicial, @datafinal, @dias_1, @dias_2, @dias_3, @dias_4, @dias_5, @dias_6, @dias_7, @dias_8, @dias_9, @dias_10, @bancoprimeiro, @limitehoras_1, @limitehoras_2, @limitehoras_3, @limitehoras_4, @limitehoras_5, @limitehoras_6, @limitehoras_7, @limitehoras_8, @limitehoras_9, @limitehoras_10, @extraprimeiro, @limitehorasextras_1, @limitehorasextras_2, @limitehorasextras_3, @limitehorasextras_4, @limitehorasextras_5, @limitehorasextras_6, @limitehorasextras_7, @limitehorasextras_8, @limitehorasextras_9, @limitehorasextras_10, @percentuais_1, @percentuais_2, @percentuais_3, @percentuais_4, @percentuais_5, @percentuais_6, @percentuais_7, @percentuais_8, @percentuais_9, @percentuais_10, @incdata, @inchora, @incusuario, @perccomohoraextra, @bancohorasacumulativo, @limite_1, @limite_2, @limite_3, @limite_4, @limite_5, @limite_6, @limitepcthoras_1, @limitepcthoras_2, @limitepcthoras_3, @limitepcthoras_4, @limitepcthoras_5, @limitepcthoras_6, @limiteqtdhoras_1, @limiteqtdhoras_2, @limiteqtdhoras_3, @limiteqtdhoras_4, @limiteqtdhoras_5, @limiteqtdhoras_6, @tipoacumulo, @bancoHorasPorPercentual, @limitehorasDiarios_1, @limitehorasDiarios_2, @limitehorasDiarios_3, @limitehorasDiarios_4, @limitehorasDiarios_5, @limitehorasDiarios_6, @limitehorasDiarios_7, @limitehorasDiarios_8, @limitehorasDiarios_9, @LimiteAlertaCredito, @LimiteAlertaDebito, @FechamentoPercentualHE, @FechamentoPercentualHELimite1, @FechamentoPercentualHELimite2, @FechamentoPercentualHEPercentual1, @FechamentoPercentualHEPercentual2, @bancoHorasDiarioMensal, @limiteHorasBancoHorasDiarioMensal, @limitehorasDiarioMensal_1, @limitehorasDiarioMensal_2, @limitehorasDiarioMensal_3, @limitehorasDiarioMensal_4, @limitehorasDiarioMensal_5, @limitehorasDiarioMensal_6, @limitehorasDiarioMensal_7, @limitehorasDiarioMensal_8, @limitehorasDiarioMensal_9, @LimiteBancoHorasSemanal, @SaldoBh_1, @SaldoBh_2, @SaldoBh_3, @SaldoBh_4, @SaldoBh_5, @SaldoBh_6, @SaldoBh_7, @SaldoBh_8, @SaldoBh_9, @ContabilizarFaltas, @ContAtrasosSaidasAntec, @ContabilizarCreditos ) 
+                            (@codigo, @tipo, @identificacao, @datainicial, @datafinal, @faltadebito, @dias_1, @dias_2, @dias_3, @dias_4, @dias_5, @dias_6, @dias_7, @dias_8, @dias_9, @dias_10, @bancoprimeiro, @limitehoras_1, @limitehoras_2, @limitehoras_3, @limitehoras_4, @limitehoras_5, @limitehoras_6, @limitehoras_7, @limitehoras_8, @limitehoras_9, @limitehoras_10, @extraprimeiro, @limitehorasextras_1, @limitehorasextras_2, @limitehorasextras_3, @limitehorasextras_4, @limitehorasextras_5, @limitehorasextras_6, @limitehorasextras_7, @limitehorasextras_8, @limitehorasextras_9, @limitehorasextras_10, @percentuais_1, @percentuais_2, @percentuais_3, @percentuais_4, @percentuais_5, @percentuais_6, @percentuais_7, @percentuais_8, @percentuais_9, @percentuais_10, @incdata, @inchora, @incusuario, @perccomohoraextra, @bancohorasacumulativo, @limite_1, @limite_2, @limite_3, @limite_4, @limite_5, @limite_6, @limitepcthoras_1, @limitepcthoras_2, @limitepcthoras_3, @limitepcthoras_4, @limitepcthoras_5, @limitepcthoras_6, @limiteqtdhoras_1, @limiteqtdhoras_2, @limiteqtdhoras_3, @limiteqtdhoras_4, @limiteqtdhoras_5, @limiteqtdhoras_6, @tipoacumulo, @bancoHorasPorPercentual, @limitehorasDiarios_1, @limitehorasDiarios_2, @limitehorasDiarios_3, @limitehorasDiarios_4, @limitehorasDiarios_5, @limitehorasDiarios_6, @limitehorasDiarios_7, @limitehorasDiarios_8, @limitehorasDiarios_9, @LimiteAlertaCredito, @LimiteAlertaDebito, @FechamentoPercentualHE, @FechamentoPercentualHELimite1, @FechamentoPercentualHELimite2, @FechamentoPercentualHEPercentual1, @FechamentoPercentualHEPercentual2, @bancoHorasDiarioMensal, @limiteHorasBancoHorasDiarioMensal, @limitehorasDiarioMensal_1, @limitehorasDiarioMensal_2, @limitehorasDiarioMensal_3, @limitehorasDiarioMensal_4, @limitehorasDiarioMensal_5, @limitehorasDiarioMensal_6, @limitehorasDiarioMensal_7, @limitehorasDiarioMensal_8, @limitehorasDiarioMensal_9, @LimiteBancoHorasSemanal, @SaldoBh_1, @SaldoBh_2, @SaldoBh_3, @SaldoBh_4, @SaldoBh_5, @SaldoBh_6, @SaldoBh_7, @SaldoBh_8, @SaldoBh_9) 
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE bancohoras SET codigo = @codigo
 							, tipo = @tipo
 							, identificacao = @identificacao
 							, datainicial = @datainicial
-							, datafinal = @datafinal						
+							, datafinal = @datafinal
+							, faltadebito = @faltadebito
 							, dias_1 = @dias_1
 							, dias_2 = @dias_2
 							, dias_3 = @dias_3
@@ -136,9 +137,6 @@ namespace DAL.SQL
                             , SaldoBh_7 = @SaldoBh_7
                             , SaldoBh_8 = @SaldoBh_8
                             , SaldoBh_9 = @SaldoBh_9
-                            , ContabilizarFaltas = @ContabilizarFaltas
-                            , ContAtrasosSaidasAntec = @ContAtrasosSaidasAntec
-                            , ContabilizarCreditos = @ContabilizarCreditos            
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM bancohoras WHERE id = @id";
@@ -326,7 +324,8 @@ namespace DAL.SQL
             ((Modelo.BancoHoras)obj).Tipo = Convert.ToInt32(dr["tipo"]);
             ((Modelo.BancoHoras)obj).Identificacao = Convert.ToInt32(dr["identificacao"]);
             ((Modelo.BancoHoras)obj).DataInicial = Convert.ToDateTime(dr["datainicial"]);
-            ((Modelo.BancoHoras)obj).DataFinal = Convert.ToDateTime(dr["datafinal"]);          
+            ((Modelo.BancoHoras)obj).DataFinal = Convert.ToDateTime(dr["datafinal"]);
+            ((Modelo.BancoHoras)obj).FaltaDebito = Convert.ToInt16(dr["faltadebito"]);
             ((Modelo.BancoHoras)obj).Dias_1 = Convert.ToInt16(dr["dias_1"]);
             ((Modelo.BancoHoras)obj).Dias_2 = Convert.ToInt16(dr["dias_2"]);
             ((Modelo.BancoHoras)obj).Dias_3 = Convert.ToInt16(dr["dias_3"]);
@@ -440,9 +439,7 @@ namespace DAL.SQL
             ((Modelo.BancoHoras)obj).SaldoBh_7 = Convert.ToString(dr["SaldoBh_7"]);
             ((Modelo.BancoHoras)obj).SaldoBh_8 = Convert.ToString(dr["SaldoBh_8"]);
             ((Modelo.BancoHoras)obj).SaldoBh_9 = Convert.ToString(dr["SaldoBh_9"]);
-            ((Modelo.BancoHoras)obj).ContabilizarFaltas = Convert.ToBoolean(dr["ContabilizarFaltas"]);
-            ((Modelo.BancoHoras)obj).ContAtrasosSaidasAntec = Convert.ToBoolean(dr["ContAtrasosSaidasAntec"]);
-            ((Modelo.BancoHoras)obj).ContabilizarCreditos = Convert.ToBoolean(dr["ContabilizarCreditos"]);
+
 
         }
 
@@ -455,7 +452,8 @@ namespace DAL.SQL
                 new SqlParameter ("@tipo", SqlDbType.TinyInt),
                 new SqlParameter ("@identificacao", SqlDbType.Int),
                 new SqlParameter ("@datainicial", SqlDbType.DateTime),
-                new SqlParameter ("@datafinal", SqlDbType.DateTime),         
+                new SqlParameter ("@datafinal", SqlDbType.DateTime),
+                new SqlParameter ("@faltadebito", SqlDbType.TinyInt),
                 new SqlParameter ("@dias_1", SqlDbType.TinyInt),
                 new SqlParameter ("@dias_2", SqlDbType.TinyInt),
                 new SqlParameter ("@dias_3", SqlDbType.TinyInt),
@@ -562,11 +560,10 @@ namespace DAL.SQL
                 new SqlParameter ("@SaldoBh_6", SqlDbType.VarChar),
                 new SqlParameter ("@SaldoBh_7", SqlDbType.VarChar),
                 new SqlParameter ("@SaldoBh_8", SqlDbType.VarChar),
-                new SqlParameter ("@SaldoBh_9", SqlDbType.VarChar),
-                new SqlParameter ("@ContabilizarFaltas", SqlDbType.Bit),
-                new SqlParameter ("@ContAtrasosSaidasAntec", SqlDbType.Bit),
-                new SqlParameter ("@ContabilizarCreditos", SqlDbType.Bit)
-        };
+                new SqlParameter ("@SaldoBh_9", SqlDbType.VarChar)
+
+
+            };
             return parms;
         }
 
@@ -581,118 +578,116 @@ namespace DAL.SQL
             parms[2].Value = ((Modelo.BancoHoras)obj).Tipo;
             parms[3].Value = ((Modelo.BancoHoras)obj).Identificacao;
             parms[4].Value = ((Modelo.BancoHoras)obj).DataInicial;
-            parms[5].Value = ((Modelo.BancoHoras)obj).DataFinal;            
-            parms[6].Value = ((Modelo.BancoHoras)obj).Dias_1;
-            parms[7].Value = ((Modelo.BancoHoras)obj).Dias_2;
-            parms[8].Value = ((Modelo.BancoHoras)obj).Dias_3;
-            parms[9].Value = ((Modelo.BancoHoras)obj).Dias_4;
-            parms[10].Value = ((Modelo.BancoHoras)obj).Dias_5;
-            parms[11].Value = ((Modelo.BancoHoras)obj).Dias_6;
-            parms[12].Value = ((Modelo.BancoHoras)obj).Dias_7;
-            parms[13].Value = ((Modelo.BancoHoras)obj).Dias_8;
-            parms[14].Value = ((Modelo.BancoHoras)obj).Dias_9;
-            parms[15].Value = ((Modelo.BancoHoras)obj).Dias_10;
-            parms[16].Value = ((Modelo.BancoHoras)obj).Bancoprimeiro;
-            parms[17].Value = ((Modelo.BancoHoras)obj).LimiteHoras_1;
-            parms[18].Value = ((Modelo.BancoHoras)obj).LimiteHoras_2;
-            parms[19].Value = ((Modelo.BancoHoras)obj).LimiteHoras_3;
-            parms[20].Value = ((Modelo.BancoHoras)obj).LimiteHoras_4;
-            parms[21].Value = ((Modelo.BancoHoras)obj).LimiteHoras_5;
-            parms[22].Value = ((Modelo.BancoHoras)obj).LimiteHoras_6;
-            parms[23].Value = ((Modelo.BancoHoras)obj).LimiteHoras_7;
-            parms[24].Value = ((Modelo.BancoHoras)obj).LimiteHoras_8;
-            parms[25].Value = ((Modelo.BancoHoras)obj).LimiteHoras_9;
-            parms[26].Value = ((Modelo.BancoHoras)obj).LimiteHoras_10;
-            parms[27].Value = ((Modelo.BancoHoras)obj).ExtraPrimeiro;
-            parms[28].Value = ((Modelo.BancoHoras)obj).LimiteHorasextras_1;
-            parms[29].Value = ((Modelo.BancoHoras)obj).LimiteHorasextras_2;
-            parms[30].Value = ((Modelo.BancoHoras)obj).LimiteHorasextras_3;
-            parms[31].Value = ((Modelo.BancoHoras)obj).LimiteHorasextras_4;
-            parms[32].Value = ((Modelo.BancoHoras)obj).LimiteHorasextras_5;
-            parms[33].Value = ((Modelo.BancoHoras)obj).LimiteHorasextras_6;
-            parms[34].Value = ((Modelo.BancoHoras)obj).LimiteHorasextras_7;
-            parms[35].Value = ((Modelo.BancoHoras)obj).LimiteHorasextras_8;
-            parms[36].Value = ((Modelo.BancoHoras)obj).LimiteHorasextras_9;
-            parms[37].Value = ((Modelo.BancoHoras)obj).LimiteHorasextras_10;
-            parms[38].Value = ((Modelo.BancoHoras)obj).Percentuais_1;
-            parms[39].Value = ((Modelo.BancoHoras)obj).Percentuais_2;
-            parms[40].Value = ((Modelo.BancoHoras)obj).Percentuais_3;
-            parms[41].Value = ((Modelo.BancoHoras)obj).Percentuais_4;
-            parms[42].Value = ((Modelo.BancoHoras)obj).Percentuais_5;
-            parms[43].Value = ((Modelo.BancoHoras)obj).Percentuais_6;
-            parms[44].Value = ((Modelo.BancoHoras)obj).Percentuais_7;
-            parms[45].Value = ((Modelo.BancoHoras)obj).Percentuais_8;
-            parms[46].Value = ((Modelo.BancoHoras)obj).Percentuais_9;
-            parms[47].Value = ((Modelo.BancoHoras)obj).Percentuais_10;
-            parms[48].Value = ((Modelo.BancoHoras)obj).Incdata;
-            parms[49].Value = ((Modelo.BancoHoras)obj).Inchora;
-            parms[50].Value = ((Modelo.BancoHoras)obj).Incusuario;
-            parms[51].Value = ((Modelo.BancoHoras)obj).Altdata;
-            parms[52].Value = ((Modelo.BancoHoras)obj).Althora;
-            parms[53].Value = ((Modelo.BancoHoras)obj).Altusuario;
-            parms[54].Value = ((Modelo.BancoHoras)obj).PercentualComoHoraExtra;
-            parms[55].Value = ((Modelo.BancoHoras)obj).BancoHorasAcumulativo;
-            parms[56].Value = ((Modelo.BancoHoras)obj).Limite_1;
-            parms[57].Value = ((Modelo.BancoHoras)obj).Limite_2;
-            parms[58].Value = ((Modelo.BancoHoras)obj).Limite_3;
-            parms[59].Value = ((Modelo.BancoHoras)obj).Limite_4;
-            parms[60].Value = ((Modelo.BancoHoras)obj).Limite_5;
-            parms[61].Value = ((Modelo.BancoHoras)obj).Limite_6;
-            parms[62].Value = ((Modelo.BancoHoras)obj).LimitePctHoras_1;
-            parms[63].Value = ((Modelo.BancoHoras)obj).LimitePctHoras_2;
-            parms[64].Value = ((Modelo.BancoHoras)obj).LimitePctHoras_3;
-            parms[65].Value = ((Modelo.BancoHoras)obj).LimitePctHoras_4;
-            parms[66].Value = ((Modelo.BancoHoras)obj).LimitePctHoras_5;
-            parms[67].Value = ((Modelo.BancoHoras)obj).LimitePctHoras_6;
-            parms[68].Value = ((Modelo.BancoHoras)obj).LimiteQtdHoras_1;
-            parms[69].Value = ((Modelo.BancoHoras)obj).LimiteQtdHoras_2;
-            parms[70].Value = ((Modelo.BancoHoras)obj).LimiteQtdHoras_3;
-            parms[71].Value = ((Modelo.BancoHoras)obj).LimiteQtdHoras_4;
-            parms[72].Value = ((Modelo.BancoHoras)obj).LimiteQtdHoras_5;
-            parms[73].Value = ((Modelo.BancoHoras)obj).LimiteQtdHoras_6;
-            parms[74].Value = ((Modelo.BancoHoras)obj).TipoAcumulo;
-            parms[75].Value = ((Modelo.BancoHoras)obj).BancoHorasPorPercentual;
-            parms[76].Value = ((Modelo.BancoHoras)obj).LimiteHorasDiarios_1;
-            parms[77].Value = ((Modelo.BancoHoras)obj).LimiteHorasDiarios_2;
-            parms[78].Value = ((Modelo.BancoHoras)obj).LimiteHorasDiarios_3;
-            parms[79].Value = ((Modelo.BancoHoras)obj).LimiteHorasDiarios_4;
-            parms[80].Value = ((Modelo.BancoHoras)obj).LimiteHorasDiarios_5;
-            parms[81].Value = ((Modelo.BancoHoras)obj).LimiteHorasDiarios_6;
-            parms[82].Value = ((Modelo.BancoHoras)obj).LimiteHorasDiarios_7;
-            parms[83].Value = ((Modelo.BancoHoras)obj).LimiteHorasDiarios_8;
-            parms[84].Value = ((Modelo.BancoHoras)obj).LimiteHorasDiarios_9;
-            parms[85].Value = String.IsNullOrEmpty(((Modelo.BancoHoras)obj).LimiteAlertaCredito) ? "---:--" : ((Modelo.BancoHoras)obj).LimiteAlertaCredito;
-            parms[86].Value = String.IsNullOrEmpty(((Modelo.BancoHoras)obj).LimiteAlertaDebito) ? "---:--" : ((Modelo.BancoHoras)obj).LimiteAlertaDebito;
-            parms[87].Value = ((Modelo.BancoHoras)obj).FechamentoPercentualHE;
-            parms[88].Value = String.IsNullOrEmpty(((Modelo.BancoHoras)obj).FechamentoPercentualHELimite1) ? "--:--" : ((Modelo.BancoHoras)obj).FechamentoPercentualHELimite1;
-            parms[89].Value = String.IsNullOrEmpty(((Modelo.BancoHoras)obj).FechamentoPercentualHELimite2) ? "--:--" : ((Modelo.BancoHoras)obj).FechamentoPercentualHELimite2;
-            parms[90].Value = ((Modelo.BancoHoras)obj).FechamentoPercentualHEPercentual1;
-            parms[91].Value = ((Modelo.BancoHoras)obj).FechamentoPercentualHEPercentual2;
+            parms[5].Value = ((Modelo.BancoHoras)obj).DataFinal;
+            parms[6].Value = ((Modelo.BancoHoras)obj).FaltaDebito;
+            parms[7].Value = ((Modelo.BancoHoras)obj).Dias_1;
+            parms[8].Value = ((Modelo.BancoHoras)obj).Dias_2;
+            parms[9].Value = ((Modelo.BancoHoras)obj).Dias_3;
+            parms[10].Value = ((Modelo.BancoHoras)obj).Dias_4;
+            parms[11].Value = ((Modelo.BancoHoras)obj).Dias_5;
+            parms[12].Value = ((Modelo.BancoHoras)obj).Dias_6;
+            parms[13].Value = ((Modelo.BancoHoras)obj).Dias_7;
+            parms[14].Value = ((Modelo.BancoHoras)obj).Dias_8;
+            parms[15].Value = ((Modelo.BancoHoras)obj).Dias_9;
+            parms[16].Value = ((Modelo.BancoHoras)obj).Dias_10;
+            parms[17].Value = ((Modelo.BancoHoras)obj).Bancoprimeiro;
+            parms[18].Value = ((Modelo.BancoHoras)obj).LimiteHoras_1;
+            parms[19].Value = ((Modelo.BancoHoras)obj).LimiteHoras_2;
+            parms[20].Value = ((Modelo.BancoHoras)obj).LimiteHoras_3;
+            parms[21].Value = ((Modelo.BancoHoras)obj).LimiteHoras_4;
+            parms[22].Value = ((Modelo.BancoHoras)obj).LimiteHoras_5;
+            parms[23].Value = ((Modelo.BancoHoras)obj).LimiteHoras_6;
+            parms[24].Value = ((Modelo.BancoHoras)obj).LimiteHoras_7;
+            parms[25].Value = ((Modelo.BancoHoras)obj).LimiteHoras_8;
+            parms[26].Value = ((Modelo.BancoHoras)obj).LimiteHoras_9;
+            parms[27].Value = ((Modelo.BancoHoras)obj).LimiteHoras_10;
+            parms[28].Value = ((Modelo.BancoHoras)obj).ExtraPrimeiro;
+            parms[29].Value = ((Modelo.BancoHoras)obj).LimiteHorasextras_1;
+            parms[30].Value = ((Modelo.BancoHoras)obj).LimiteHorasextras_2;
+            parms[31].Value = ((Modelo.BancoHoras)obj).LimiteHorasextras_3;
+            parms[32].Value = ((Modelo.BancoHoras)obj).LimiteHorasextras_4;
+            parms[33].Value = ((Modelo.BancoHoras)obj).LimiteHorasextras_5;
+            parms[34].Value = ((Modelo.BancoHoras)obj).LimiteHorasextras_6;
+            parms[35].Value = ((Modelo.BancoHoras)obj).LimiteHorasextras_7;
+            parms[36].Value = ((Modelo.BancoHoras)obj).LimiteHorasextras_8;
+            parms[37].Value = ((Modelo.BancoHoras)obj).LimiteHorasextras_9;
+            parms[38].Value = ((Modelo.BancoHoras)obj).LimiteHorasextras_10;
+            parms[39].Value = ((Modelo.BancoHoras)obj).Percentuais_1;
+            parms[40].Value = ((Modelo.BancoHoras)obj).Percentuais_2;
+            parms[41].Value = ((Modelo.BancoHoras)obj).Percentuais_3;
+            parms[42].Value = ((Modelo.BancoHoras)obj).Percentuais_4;
+            parms[43].Value = ((Modelo.BancoHoras)obj).Percentuais_5;
+            parms[44].Value = ((Modelo.BancoHoras)obj).Percentuais_6;
+            parms[45].Value = ((Modelo.BancoHoras)obj).Percentuais_7;
+            parms[46].Value = ((Modelo.BancoHoras)obj).Percentuais_8;
+            parms[47].Value = ((Modelo.BancoHoras)obj).Percentuais_9;
+            parms[48].Value = ((Modelo.BancoHoras)obj).Percentuais_10;
+            parms[49].Value = ((Modelo.BancoHoras)obj).Incdata;
+            parms[50].Value = ((Modelo.BancoHoras)obj).Inchora;
+            parms[51].Value = ((Modelo.BancoHoras)obj).Incusuario;
+            parms[52].Value = ((Modelo.BancoHoras)obj).Altdata;
+            parms[53].Value = ((Modelo.BancoHoras)obj).Althora;
+            parms[54].Value = ((Modelo.BancoHoras)obj).Altusuario;
+            parms[55].Value = ((Modelo.BancoHoras)obj).PercentualComoHoraExtra;
+            parms[56].Value = ((Modelo.BancoHoras)obj).BancoHorasAcumulativo;
+            parms[57].Value = ((Modelo.BancoHoras)obj).Limite_1;
+            parms[58].Value = ((Modelo.BancoHoras)obj).Limite_2;
+            parms[59].Value = ((Modelo.BancoHoras)obj).Limite_3;
+            parms[60].Value = ((Modelo.BancoHoras)obj).Limite_4;
+            parms[61].Value = ((Modelo.BancoHoras)obj).Limite_5;
+            parms[62].Value = ((Modelo.BancoHoras)obj).Limite_6;
+            parms[63].Value = ((Modelo.BancoHoras)obj).LimitePctHoras_1;
+            parms[64].Value = ((Modelo.BancoHoras)obj).LimitePctHoras_2;
+            parms[65].Value = ((Modelo.BancoHoras)obj).LimitePctHoras_3;
+            parms[66].Value = ((Modelo.BancoHoras)obj).LimitePctHoras_4;
+            parms[67].Value = ((Modelo.BancoHoras)obj).LimitePctHoras_5;
+            parms[68].Value = ((Modelo.BancoHoras)obj).LimitePctHoras_6;
+            parms[69].Value = ((Modelo.BancoHoras)obj).LimiteQtdHoras_1;
+            parms[70].Value = ((Modelo.BancoHoras)obj).LimiteQtdHoras_2;
+            parms[71].Value = ((Modelo.BancoHoras)obj).LimiteQtdHoras_3;
+            parms[72].Value = ((Modelo.BancoHoras)obj).LimiteQtdHoras_4;
+            parms[73].Value = ((Modelo.BancoHoras)obj).LimiteQtdHoras_5;
+            parms[74].Value = ((Modelo.BancoHoras)obj).LimiteQtdHoras_6;
+            parms[75].Value = ((Modelo.BancoHoras)obj).TipoAcumulo;
+            parms[76].Value = ((Modelo.BancoHoras)obj).BancoHorasPorPercentual;
+            parms[77].Value = ((Modelo.BancoHoras)obj).LimiteHorasDiarios_1;
+            parms[78].Value = ((Modelo.BancoHoras)obj).LimiteHorasDiarios_2;
+            parms[79].Value = ((Modelo.BancoHoras)obj).LimiteHorasDiarios_3;
+            parms[80].Value = ((Modelo.BancoHoras)obj).LimiteHorasDiarios_4;
+            parms[81].Value = ((Modelo.BancoHoras)obj).LimiteHorasDiarios_5;
+            parms[82].Value = ((Modelo.BancoHoras)obj).LimiteHorasDiarios_6;
+            parms[83].Value = ((Modelo.BancoHoras)obj).LimiteHorasDiarios_7;
+            parms[84].Value = ((Modelo.BancoHoras)obj).LimiteHorasDiarios_8;
+            parms[85].Value = ((Modelo.BancoHoras)obj).LimiteHorasDiarios_9;
+            parms[86].Value = String.IsNullOrEmpty(((Modelo.BancoHoras)obj).LimiteAlertaCredito) ? "---:--" : ((Modelo.BancoHoras)obj).LimiteAlertaCredito;
+            parms[87].Value = String.IsNullOrEmpty(((Modelo.BancoHoras)obj).LimiteAlertaDebito) ? "---:--" : ((Modelo.BancoHoras)obj).LimiteAlertaDebito;
+            parms[88].Value = ((Modelo.BancoHoras)obj).FechamentoPercentualHE;
+            parms[89].Value = String.IsNullOrEmpty(((Modelo.BancoHoras)obj).FechamentoPercentualHELimite1) ? "--:--" : ((Modelo.BancoHoras)obj).FechamentoPercentualHELimite1;
+            parms[90].Value = String.IsNullOrEmpty(((Modelo.BancoHoras)obj).FechamentoPercentualHELimite2) ? "--:--" : ((Modelo.BancoHoras)obj).FechamentoPercentualHELimite2;
+            parms[91].Value = ((Modelo.BancoHoras)obj).FechamentoPercentualHEPercentual1;
+            parms[92].Value = ((Modelo.BancoHoras)obj).FechamentoPercentualHEPercentual2;
 
-            parms[92].Value = ((Modelo.BancoHoras)obj).BancoHorasDiarioMensal;
-            parms[93].Value = ((Modelo.BancoHoras)obj).LimiteHorasBancoHorasDiarioMensal;
-            parms[94].Value = ((Modelo.BancoHoras)obj).limitehorasDiarioMensal_1;
-            parms[95].Value = ((Modelo.BancoHoras)obj).limitehorasDiarioMensal_2;
-            parms[96].Value = ((Modelo.BancoHoras)obj).limitehorasDiarioMensal_3;
-            parms[97].Value = ((Modelo.BancoHoras)obj).limitehorasDiarioMensal_4;
-            parms[98].Value = ((Modelo.BancoHoras)obj).limitehorasDiarioMensal_5;
-            parms[99].Value = ((Modelo.BancoHoras)obj).limitehorasDiarioMensal_6;
-            parms[100].Value = ((Modelo.BancoHoras)obj).limitehorasDiarioMensal_7;
-            parms[101].Value = ((Modelo.BancoHoras)obj).limitehorasDiarioMensal_8;
-            parms[102].Value = ((Modelo.BancoHoras)obj).limitehorasDiarioMensal_9;
-            parms[103].Value = ((Modelo.BancoHoras)obj).LimiteBancoHorasSemanal;
-            parms[104].Value = ((Modelo.BancoHoras)obj).SaldoBh_1;
-            parms[105].Value = ((Modelo.BancoHoras)obj).SaldoBh_2;
-            parms[106].Value = ((Modelo.BancoHoras)obj).SaldoBh_3;
-            parms[107].Value = ((Modelo.BancoHoras)obj).SaldoBh_4;
-            parms[108].Value = ((Modelo.BancoHoras)obj).SaldoBh_5;
-            parms[109].Value = ((Modelo.BancoHoras)obj).SaldoBh_6;
-            parms[110].Value = ((Modelo.BancoHoras)obj).SaldoBh_7;
-            parms[111].Value = ((Modelo.BancoHoras)obj).SaldoBh_8;
-            parms[112].Value = ((Modelo.BancoHoras)obj).SaldoBh_9;
-            parms[113].Value = ((Modelo.BancoHoras)obj).ContabilizarFaltas;
-            parms[114].Value = ((Modelo.BancoHoras)obj).ContAtrasosSaidasAntec;
-            parms[115].Value = ((Modelo.BancoHoras)obj).ContabilizarCreditos;
+            parms[93].Value = ((Modelo.BancoHoras)obj).BancoHorasDiarioMensal;
+            parms[94].Value = ((Modelo.BancoHoras)obj).LimiteHorasBancoHorasDiarioMensal;
+            parms[95].Value = ((Modelo.BancoHoras)obj).limitehorasDiarioMensal_1;
+            parms[96].Value = ((Modelo.BancoHoras)obj).limitehorasDiarioMensal_2;
+            parms[97].Value = ((Modelo.BancoHoras)obj).limitehorasDiarioMensal_3;
+            parms[98].Value = ((Modelo.BancoHoras)obj).limitehorasDiarioMensal_4;
+            parms[99].Value = ((Modelo.BancoHoras)obj).limitehorasDiarioMensal_5;
+            parms[100].Value = ((Modelo.BancoHoras)obj).limitehorasDiarioMensal_6;
+            parms[101].Value = ((Modelo.BancoHoras)obj).limitehorasDiarioMensal_7;
+            parms[102].Value = ((Modelo.BancoHoras)obj).limitehorasDiarioMensal_8;
+            parms[103].Value = ((Modelo.BancoHoras)obj).limitehorasDiarioMensal_9;
+            parms[104].Value = ((Modelo.BancoHoras)obj).LimiteBancoHorasSemanal;
+            parms[105].Value = ((Modelo.BancoHoras)obj).SaldoBh_1;
+            parms[106].Value = ((Modelo.BancoHoras)obj).SaldoBh_2;
+            parms[107].Value = ((Modelo.BancoHoras)obj).SaldoBh_3;
+            parms[108].Value = ((Modelo.BancoHoras)obj).SaldoBh_4;
+            parms[109].Value = ((Modelo.BancoHoras)obj).SaldoBh_5;
+            parms[110].Value = ((Modelo.BancoHoras)obj).SaldoBh_6;
+            parms[111].Value = ((Modelo.BancoHoras)obj).SaldoBh_7;
+            parms[112].Value = ((Modelo.BancoHoras)obj).SaldoBh_8;
+            parms[113].Value = ((Modelo.BancoHoras)obj).SaldoBh_9;
         }
 
         public Modelo.BancoHoras LoadObject(int id)
