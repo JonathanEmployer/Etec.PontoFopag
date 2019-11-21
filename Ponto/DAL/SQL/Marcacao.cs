@@ -169,6 +169,9 @@ namespace DAL.SQL
                             , horasPrevistasDentroFeriadoDiurna
                             , horasPrevistasDentroFeriadoNoturna
                             , naoconsiderarferiado
+                            , ContabilizarFaltas
+                            , ContAtrasosSaidasAntec
+                            , ContabilizarCreditos
                             )
 							VALUES
 							(@idfuncionario, @codigo, @dscodigo, @legenda, @data, @dia
@@ -261,6 +264,9 @@ namespace DAL.SQL
                             , @horasPrevistasDentroFeriadoDiurna
                             , @horasPrevistasDentroFeriadoNoturna
                             , @naoconsiderarferiado
+                            , @ContabilizarFaltas
+                            , @ContAtrasosSaidasAntec
+                            , @ContabilizarCreditos
                         ) end
 						SET @id = SCOPE_IDENTITY()";
 
@@ -359,6 +365,9 @@ namespace DAL.SQL
                             , horasPrevistasDentroFeriadoDiurna = @horasPrevistasDentroFeriadoDiurna
                             , horasPrevistasDentroFeriadoNoturna = @horasPrevistasDentroFeriadoNoturna
                             , naoconsiderarferiado = @naoconsiderarferiado
+                            , ContabilizarFaltas = @ContabilizarFaltas
+                            , ContAtrasosSaidasAntec = @ContAtrasosSaidasAntec
+                            , ContabilizarCreditos = @ContabilizarCreditos
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM marcacao WHERE id = @id";
@@ -498,6 +507,9 @@ namespace DAL.SQL
             ((Modelo.Marcacao)obj).HorasPrevistasDentroFeriadoDiurna = Convert.ToString(dr["horasPrevistasDentroFeriadoDiurna"]);
             ((Modelo.Marcacao)obj).HorasPrevistasDentroFeriadoNoturna = Convert.ToString(dr["horasPrevistasDentroFeriadoNoturna"]);
             ((Modelo.Marcacao)obj).NaoConsiderarFeriado = (dr["naoconsiderarferiado"] is DBNull ? (short)0 : Convert.ToInt16(dr["naoconsiderarferiado"]));
+            ((Modelo.Marcacao)obj).ContabilizarFaltas = (dr["ContabilizarFaltas"] is DBNull ? (short)0 : Convert.ToInt16(dr["ContabilizarFaltas"]));
+            ((Modelo.Marcacao)obj).ContAtrasosSaidasAntec = (dr["ContAtrasosSaidasAntec"] is DBNull ? (short)0 : Convert.ToInt16(dr["ContAtrasosSaidasAntec"]));
+            ((Modelo.Marcacao)obj).ContabilizarCreditos = (dr["ContabilizarCreditos"] is DBNull ? (short)0 : Convert.ToInt16(dr["ContabilizarCreditos"]));
             if (ColunaExiste("Tratamento_Ent_1", dr))
             {
                 ((Modelo.Marcacao)obj).Tratamento_Ent_1 = (dr["Tratamento_Ent_1"]) is DBNull ? "--" : Convert.ToString(dr["Tratamento_Ent_1"]);
@@ -621,7 +633,10 @@ namespace DAL.SQL
                 new SqlParameter ("@horasTrabalhadasDentroFeriadoNoturna", SqlDbType.VarChar),
                 new SqlParameter ("@horasPrevistasDentroFeriadoDiurna", SqlDbType.VarChar),
                 new SqlParameter ("@horasPrevistasDentroFeriadoNoturna", SqlDbType.VarChar),
-                new SqlParameter ("@naoconsiderarferiado", SqlDbType.Int)
+                new SqlParameter ("@naoconsiderarferiado", SqlDbType.Int),
+                new SqlParameter ("@ContabilizarFaltas", SqlDbType.Int),
+                new SqlParameter ("@ContAtrasosSaidasAntec", SqlDbType.Int),
+                new SqlParameter ("@ContabilizarCreditos", SqlDbType.Int)
             };
             return parms;
         }
@@ -744,6 +759,9 @@ namespace DAL.SQL
             parms[96].Value = ((Modelo.Marcacao)obj).HorasPrevistasDentroFeriadoDiurna;
             parms[97].Value = ((Modelo.Marcacao)obj).HorasPrevistasDentroFeriadoNoturna;
             parms[98].Value = ((Modelo.Marcacao)obj).NaoConsiderarFeriado;
+            parms[99].Value = ((Modelo.Marcacao)obj).ContabilizarFaltas;
+            parms[100].Value = ((Modelo.Marcacao)obj).ContAtrasosSaidasAntec;
+            parms[101].Value = ((Modelo.Marcacao)obj).ContabilizarCreditos;
         }
 
         public Modelo.Marcacao LoadObject(int id)
@@ -1056,7 +1074,10 @@ namespace DAL.SQL
                     new DataColumn ("horasTrabalhadasDentroFeriadoNoturna", typeof(string)),
                     new DataColumn ("horasPrevistasDentroFeriadoDiurna", typeof(string)),
                     new DataColumn ("horasPrevistasDentroFeriadoNoturna", typeof(string)),
-                    new DataColumn ("naoconsiderarferiado", typeof(Int16))
+                    new DataColumn ("naoconsiderarferiado", typeof(Int16)),
+                    new DataColumn ("ContabilizarFaltas", typeof(Int16)),
+                    new DataColumn ("ContAtrasosSaidasAntec", typeof(Int16)),
+                    new DataColumn ("ContabilizarCreditos", typeof(Int16))
                 };
                 DataTable dt = new DataTable();
                 dt.Columns.AddRange(colunas);
@@ -1300,6 +1321,9 @@ namespace DAL.SQL
                         bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("horasPrevistasDentroFeriadoDiurna", "horasPrevistasDentroFeriadoDiurna"));
                         bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("horasPrevistasDentroFeriadoNoturna", "horasPrevistasDentroFeriadoNoturna"));
                         bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("naoconsiderarferiado", "naoconsiderarferiado"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("ContabilizarFaltas", "ContabilizarFaltas"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("ContAtrasosSaidasAntec", "ContAtrasosSaidasAntec"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("ContabilizarCreditos", "ContabilizarCreditos"));
                         bulkCopy.BatchSize = 5000;
                         bulkCopy.DestinationTableName = "#marcacaoI";
 
@@ -1404,7 +1428,10 @@ namespace DAL.SQL
                   horasTrabalhadasDentroFeriadoNoturna,
                   horasPrevistasDentroFeriadoDiurna,
                   horasPrevistasDentroFeriadoNoturna,
-                  naoconsiderarferiado
+                  naoconsiderarferiado,
+                  ContabilizarFaltas,
+                  ContAtrasosSaidasAntec,
+                  ContabilizarCreditos
                 )
                 SELECT  idfuncionario ,
                         codigo ,
@@ -1546,7 +1573,10 @@ namespace DAL.SQL
                         horasTrabalhadasDentroFeriadoNoturna,
                         horasPrevistasDentroFeriadoDiurna,
                         horasPrevistasDentroFeriadoNoturna,
-                        naoconsiderarferiado
+                        naoconsiderarferiado,
+                        ContabilizarFaltas,
+                        ContAtrasosSaidasAntec,
+                        ContabilizarCreditos
 						from #marcacaoI ";
 
                     cmd = new SqlCommand(sqlTransfer, conn, trans);
@@ -1692,7 +1722,10 @@ namespace DAL.SQL
                 new DataColumn () { ColumnName = "horasTrabalhadasDentroFeriadoNoturna", DataType = typeof(string), MaxLength = 5},
                 new DataColumn () { ColumnName = "horasPrevistasDentroFeriadoDiurna", DataType = typeof(string), MaxLength = 5},
                 new DataColumn () { ColumnName = "horasPrevistasDentroFeriadoNoturna", DataType = typeof(string), MaxLength = 5},
-                new DataColumn ("naoconsiderarferiado", objMarcacao.NaoConsiderarFeriado.GetType())
+                new DataColumn ("naoconsiderarferiado", objMarcacao.NaoConsiderarFeriado.GetType()),
+                new DataColumn ("ContabilizarFaltas", objMarcacao.ContabilizarFaltas.GetType()),
+                new DataColumn ("ContAtrasosSaidasAntec", objMarcacao.ContAtrasosSaidasAntec.GetType()),
+                new DataColumn ("ContabilizarCreditos", objMarcacao.ContabilizarCreditos.GetType())
             };
                 dt.Columns.AddRange(colunas);
                 #endregion
@@ -1810,6 +1843,9 @@ namespace DAL.SQL
                         row["horasPrevistasDentroFeriadoDiurna"] = marc.HorasPrevistasDentroFeriadoDiurna;
                         row["horasPrevistasDentroFeriadoNoturna"] = marc.HorasPrevistasDentroFeriadoNoturna;
                         row["naoconsiderarferiado"] = marc.NaoConsiderarFeriado;
+                        row["ContabilizarFaltas"] = marc.ContabilizarFaltas;
+                        row["ContAtrasosSaidasAntec"] = marc.ContAtrasosSaidasAntec;
+                        row["ContabilizarCreditos"] = marc.ContabilizarCreditos;
                         dt.Rows.Add(row);
                     }
                     catch (Exception e)
@@ -1945,9 +1981,12 @@ namespace DAL.SQL
                 new DataColumn ("horasTrabalhadasDentroFeriadoNoturna", typeof(string)),
                 new DataColumn ("horasPrevistasDentroFeriadoDiurna", typeof(string)),
                 new DataColumn ("horasPrevistasDentroFeriadoNoturna", typeof(string)),
-                new DataColumn ("naoconsiderarferiado", objMarcacao.NaoConsiderarFeriado.GetType())
-                    };
-                        dt.Columns.AddRange(colunas);
+                new DataColumn ("naoconsiderarferiado", objMarcacao.NaoConsiderarFeriado.GetType()),
+                new DataColumn ("ContabilizarFaltas", objMarcacao.ContabilizarFaltas.GetType()),
+                new DataColumn ("ContAtrasosSaidasAntec", objMarcacao.ContAtrasosSaidasAntec.GetType()),
+                new DataColumn ("ContabilizarCreditos", objMarcacao.ContabilizarCreditos.GetType())
+            };
+                dt.Columns.AddRange(colunas);
                 #endregion
 
                 #region Preenche o DT com as marcações
@@ -1961,109 +2000,112 @@ namespace DAL.SQL
                     marc.IdFechamentoPonto = fechamentos.Where(x => x.DataFechamento >= marc.Data && x.IdFuncionario == marc.Idfuncionario).OrderBy(x => x.DataFechamento).Select(x => x.IdFechamentoPonto).FirstOrDefault();
                             SetDadosAlt(marc);
 
-                            row = dt.NewRow();
-                            row["id"] = marc.Id;
-                            row["idfuncionario"] = marc.Idfuncionario;
-                            row["codigo"] = marc.Codigo;
-                            row["dscodigo"] = marc.Dscodigo;
-                            row["legenda"] = marc.Legenda;
-                            row["data"] = marc.Data.Date;
-                            row["dia"] = marc.Dia;
-                            row["entrada_1"] = marc.Entrada_1; // entrada_1
-                            row["entrada_2"] = marc.Entrada_2; // entrada_2
-                            row["entrada_3"] = marc.Entrada_3; // entrada_3
-                            row["entrada_4"] = marc.Entrada_4; // entrada_4
-                            row["entrada_5"] = marc.Entrada_5; // entrada_5
-                            row["entrada_6"] = marc.Entrada_6; // entrada_6
-                            row["entrada_7"] = marc.Entrada_7; // entrada_7
-                            row["entrada_8"] = marc.Entrada_8; // entrada_8
-                            row["saida_1"] = marc.Saida_1; // saida_1
-                            row["saida_2"] = marc.Saida_2; // saida_2
-                            row["saida_3"] = marc.Saida_3; // saida_3
-                            row["saida_4"] = marc.Saida_4; // saida_4
-                            row["saida_5"] = marc.Saida_5; // saida_5
-                            row["saida_6"] = marc.Saida_6; // saida_6
-                            row["saida_7"] = marc.Saida_7; // saida_7
-                            row["saida_8"] = marc.Saida_8; // saida_8
-                            row["horastrabalhadas"] = marc.Horastrabalhadas; // horastrabalhadas
-                            row["horasextrasdiurna"] = marc.Horasextrasdiurna; // horasextrasdiurna
-                            row["horasfaltas"] = marc.Horasfaltas; // horasfaltas
-                            row["entradaextra"] = marc.Entradaextra;
-                            row["saidaextra"] = marc.Saidaextra;
-                            row["horastrabalhadasnoturnas"] = marc.Horastrabalhadasnoturnas; //horastrabalhadasnoturnas
-                            row["horasextranoturna"] = marc.Horasextranoturna; //horasextranoturna
-                            row["horasfaltanoturna"] = marc.Horasfaltanoturna; //horasfaltanoturna
-                            row["ocorrencia"] = marc.Ocorrencia.Length < 60 ? marc.Ocorrencia : marc.Ocorrencia.Substring(0,60);
-                            row["idhorario"] = marc.Idhorario;
-                            row["bancohorascre"] = marc.Bancohorascre; //bancohorascre
-                            row["bancohorasdeb"] = marc.Bancohorasdeb; //bancohorasdeb
-                            row["idfechamentobh"] = marc.Idfechamentobh == 0 ? DBNull.Value : (object)marc.Idfechamentobh;
-                            row["semcalculo"] = marc.Semcalculo;
-                            row["ent_num_relogio_1"] = marc.Ent_num_relogio_1;
-                            row["ent_num_relogio_2"] = marc.Ent_num_relogio_2;
-                            row["ent_num_relogio_3"] = marc.Ent_num_relogio_3;
-                            row["ent_num_relogio_4"] = marc.Ent_num_relogio_4;
-                            row["ent_num_relogio_5"] = marc.Ent_num_relogio_5;
-                            row["ent_num_relogio_6"] = marc.Ent_num_relogio_6;
-                            row["ent_num_relogio_7"] = marc.Ent_num_relogio_7;
-                            row["ent_num_relogio_8"] = marc.Ent_num_relogio_8;
-                            row["sai_num_relogio_1"] = marc.Sai_num_relogio_1;
-                            row["sai_num_relogio_2"] = marc.Sai_num_relogio_2;
-                            row["sai_num_relogio_3"] = marc.Sai_num_relogio_3;
-                            row["sai_num_relogio_4"] = marc.Sai_num_relogio_4;
-                            row["sai_num_relogio_5"] = marc.Sai_num_relogio_5;
-                            row["sai_num_relogio_6"] = marc.Sai_num_relogio_6;
-                            row["sai_num_relogio_7"] = marc.Sai_num_relogio_7;
-                            row["sai_num_relogio_8"] = marc.Sai_num_relogio_8;
-                            row["naoentrarbanco"] = marc.Naoentrarbanco;
-                            row["naoentrarnacompensacao"] = marc.Naoentrarnacompensacao;
-                            row["horascompensadas"] = marc.Horascompensadas;
-                            row["idcompensado"] = marc.Idcompensado == 0 ? DBNull.Value : (object)marc.Idcompensado;
-                            row["naoconsiderarcafe"] = marc.Naoconsiderarcafe;
-                            row["dsr"] = marc.Dsr;
-                            row["valordsr"] = marc.Valordsr; //valordsr
-                            row["Abonardsr"] = marc.Abonardsr;
-                            row["Totalizadoresalterados"] = marc.Totalizadoresalterados;
-                            row["Calchorasextrasdiurna"] = marc.Calchorasextrasdiurna;
-                            row["Calchorasextranoturna"] = marc.Calchorasextranoturna;
-                            row["Calchorasfaltas"] = marc.Calchorasfaltas;
-                            row["Calchorasfaltanoturna"] = marc.Calchorasfaltanoturna;
-                            row["incdata"] = marc.Incdata;
-                            row["inchora"] = marc.Inchora;
-                            row["incusuario"] = marc.Incusuario;
-                            row["folga"] = marc.Folga;
-                            row["neutro"] = marc.Neutro;
-                            row["totalHorasTrabalhadas"] = marc.TotalHorasTrabalhadas;
-                            row["exphorasextranoturna"] = marc.ExpHorasextranoturna; //exphorasextranoturna
-                            row["tipohoraextrafalta"] = marc.TipoHoraExtraFalta;
-                            row["chave"] = marc.Chave;
-                            row["altdata"] = marc.Altdata;
-                            row["althora"] = marc.Althora;
-                            row["altusuario"] = marc.Altusuario;
-                            row["idFechamentoPonto"] = marc.IdFechamentoPonto == 0 ? DBNull.Value : (object)marc.IdFechamentoPonto;
-                            row["Interjornada"] = marc.Interjornada;
-                            row["IdDocumentoWorkflow"] = marc.IdDocumentoWorkflow;
-                            row["DocumentoWorkflowAberto"] = marc.DocumentoWorkflowAberto;
-                            row["InItinereHrsDentroJornada"] = marc.InItinereHrsDentroJornada;
-                            row["InItinerePercDentroJornada"] = marc.InItinerePercDentroJornada;
-                            row["InItinereHrsForaJornada"] = marc.InItinereHrsForaJornada;
-                            row["InItinerePercForaJornada"] = marc.InItinerePercForaJornada;
-                            row["NaoConsiderarInItinere"] = marc.NaoConsiderarInItinere;
-                            row["LegendasConcatenadas"] = marc.LegendasConcatenadas;
-                            row["AdicionalNoturno"] = marc.AdicionalNoturno;
-                            row["DataBloqueioEdicaoPnlRh"] = marc.DataBloqueioEdicaoPnlRh == null ? DBNull.Value : (object)marc.DataBloqueioEdicaoPnlRh;
-                            row["LoginBloqueioEdicaoPnlRh"] = marc.LoginBloqueioEdicaoPnlRh == null ? DBNull.Value : (object)marc.LoginBloqueioEdicaoPnlRh;
-                            row["DataConclusaoFluxoPnlRh"] = marc.DataConclusaoFluxoPnlRh == null ? DBNull.Value : (object)marc.DataConclusaoFluxoPnlRh;
-                            row["LoginConclusaoFluxoPnlRh"] = marc.LoginConclusaoFluxoPnlRh == null ? DBNull.Value : (object)marc.LoginConclusaoFluxoPnlRh;
-                            row["horaExtraInterjornada"] = marc.horaExtraInterjornada;
-                            row["horasTrabalhadasDentroFeriadoDiurna"] = marc.HorasTrabalhadasDentroFeriadoDiurna;
-                            row["horasTrabalhadasDentroFeriadoNoturna"] = marc.HorasTrabalhadasDentroFeriadoNoturna;
-                            row["horasPrevistasDentroFeriadoDiurna"] = marc.HorasPrevistasDentroFeriadoDiurna;
-                            row["horasPrevistasDentroFeriadoNoturna"] = marc.HorasPrevistasDentroFeriadoNoturna;
-                            row["NaoConsiderarFeriado"] = marc.NaoConsiderarFeriado;
-                            dt.Rows.Add(row);
-                        }
-                        #endregion
+                    row = dt.NewRow();
+                    row["id"] = marc.Id;
+                    row["idfuncionario"] = marc.Idfuncionario;
+                    row["codigo"] = marc.Codigo;
+                    row["dscodigo"] = marc.Dscodigo;
+                    row["legenda"] = marc.Legenda;
+                    row["data"] = marc.Data.Date;
+                    row["dia"] = marc.Dia;
+                    row["entrada_1"] = marc.Entrada_1; // entrada_1
+                    row["entrada_2"] = marc.Entrada_2; // entrada_2
+                    row["entrada_3"] = marc.Entrada_3; // entrada_3
+                    row["entrada_4"] = marc.Entrada_4; // entrada_4
+                    row["entrada_5"] = marc.Entrada_5; // entrada_5
+                    row["entrada_6"] = marc.Entrada_6; // entrada_6
+                    row["entrada_7"] = marc.Entrada_7; // entrada_7
+                    row["entrada_8"] = marc.Entrada_8; // entrada_8
+                    row["saida_1"] = marc.Saida_1; // saida_1
+                    row["saida_2"] = marc.Saida_2; // saida_2
+                    row["saida_3"] = marc.Saida_3; // saida_3
+                    row["saida_4"] = marc.Saida_4; // saida_4
+                    row["saida_5"] = marc.Saida_5; // saida_5
+                    row["saida_6"] = marc.Saida_6; // saida_6
+                    row["saida_7"] = marc.Saida_7; // saida_7
+                    row["saida_8"] = marc.Saida_8; // saida_8
+                    row["horastrabalhadas"] = marc.Horastrabalhadas; // horastrabalhadas
+                    row["horasextrasdiurna"] = marc.Horasextrasdiurna; // horasextrasdiurna
+                    row["horasfaltas"] = marc.Horasfaltas; // horasfaltas
+                    row["entradaextra"] = marc.Entradaextra;
+                    row["saidaextra"] = marc.Saidaextra;
+                    row["horastrabalhadasnoturnas"] = marc.Horastrabalhadasnoturnas; //horastrabalhadasnoturnas
+                    row["horasextranoturna"] = marc.Horasextranoturna; //horasextranoturna
+                    row["horasfaltanoturna"] = marc.Horasfaltanoturna; //horasfaltanoturna
+                    row["ocorrencia"] = marc.Ocorrencia;
+                    row["idhorario"] = marc.Idhorario;
+                    row["bancohorascre"] = marc.Bancohorascre; //bancohorascre
+                    row["bancohorasdeb"] = marc.Bancohorasdeb; //bancohorasdeb
+                    row["idfechamentobh"] = marc.Idfechamentobh == 0 ? DBNull.Value : (object)marc.Idfechamentobh;
+                    row["semcalculo"] = marc.Semcalculo;
+                    row["ent_num_relogio_1"] = marc.Ent_num_relogio_1;
+                    row["ent_num_relogio_2"] = marc.Ent_num_relogio_2;
+                    row["ent_num_relogio_3"] = marc.Ent_num_relogio_3;
+                    row["ent_num_relogio_4"] = marc.Ent_num_relogio_4;
+                    row["ent_num_relogio_5"] = marc.Ent_num_relogio_5;
+                    row["ent_num_relogio_6"] = marc.Ent_num_relogio_6;
+                    row["ent_num_relogio_7"] = marc.Ent_num_relogio_7;
+                    row["ent_num_relogio_8"] = marc.Ent_num_relogio_8;
+                    row["sai_num_relogio_1"] = marc.Sai_num_relogio_1;
+                    row["sai_num_relogio_2"] = marc.Sai_num_relogio_2;
+                    row["sai_num_relogio_3"] = marc.Sai_num_relogio_3;
+                    row["sai_num_relogio_4"] = marc.Sai_num_relogio_4;
+                    row["sai_num_relogio_5"] = marc.Sai_num_relogio_5;
+                    row["sai_num_relogio_6"] = marc.Sai_num_relogio_6;
+                    row["sai_num_relogio_7"] = marc.Sai_num_relogio_7;
+                    row["sai_num_relogio_8"] = marc.Sai_num_relogio_8;
+                    row["naoentrarbanco"] = marc.Naoentrarbanco;
+                    row["naoentrarnacompensacao"] = marc.Naoentrarnacompensacao;
+                    row["horascompensadas"] = marc.Horascompensadas;
+                    row["idcompensado"] = marc.Idcompensado == 0 ? DBNull.Value : (object)marc.Idcompensado;
+                    row["naoconsiderarcafe"] = marc.Naoconsiderarcafe;
+                    row["dsr"] = marc.Dsr;
+                    row["valordsr"] = marc.Valordsr; //valordsr
+                    row["Abonardsr"] = marc.Abonardsr;
+                    row["Totalizadoresalterados"] = marc.Totalizadoresalterados;
+                    row["Calchorasextrasdiurna"] = marc.Calchorasextrasdiurna;
+                    row["Calchorasextranoturna"] = marc.Calchorasextranoturna;
+                    row["Calchorasfaltas"] = marc.Calchorasfaltas;
+                    row["Calchorasfaltanoturna"] = marc.Calchorasfaltanoturna;
+                    row["incdata"] = marc.Incdata;
+                    row["inchora"] = marc.Inchora;
+                    row["incusuario"] = marc.Incusuario;
+                    row["folga"] = marc.Folga;
+                    row["neutro"] = marc.Neutro;
+                    row["totalHorasTrabalhadas"] = marc.TotalHorasTrabalhadas;
+                    row["exphorasextranoturna"] = marc.ExpHorasextranoturna; //exphorasextranoturna
+                    row["tipohoraextrafalta"] = marc.TipoHoraExtraFalta;
+                    row["chave"] = marc.Chave;
+                    row["altdata"] = marc.Altdata;
+                    row["althora"] = marc.Althora;
+                    row["altusuario"] = marc.Altusuario;
+                    row["idFechamentoPonto"] = marc.IdFechamentoPonto == 0 ? DBNull.Value : (object)marc.IdFechamentoPonto;
+                    row["Interjornada"] = marc.Interjornada;
+                    row["IdDocumentoWorkflow"] = marc.IdDocumentoWorkflow;
+                    row["DocumentoWorkflowAberto"] = marc.DocumentoWorkflowAberto;
+                    row["InItinereHrsDentroJornada"] = marc.InItinereHrsDentroJornada;
+                    row["InItinerePercDentroJornada"] = marc.InItinerePercDentroJornada;
+                    row["InItinereHrsForaJornada"] = marc.InItinereHrsForaJornada;
+                    row["InItinerePercForaJornada"] = marc.InItinerePercForaJornada;
+                    row["NaoConsiderarInItinere"] = marc.NaoConsiderarInItinere;
+                    row["LegendasConcatenadas"] = marc.LegendasConcatenadas;
+                    row["AdicionalNoturno"] = marc.AdicionalNoturno;
+                    row["DataBloqueioEdicaoPnlRh"] = marc.DataBloqueioEdicaoPnlRh == null ? DBNull.Value : (object)marc.DataBloqueioEdicaoPnlRh;
+                    row["LoginBloqueioEdicaoPnlRh"] = marc.LoginBloqueioEdicaoPnlRh == null ? DBNull.Value : (object)marc.LoginBloqueioEdicaoPnlRh;
+                    row["DataConclusaoFluxoPnlRh"] = marc.DataConclusaoFluxoPnlRh == null ? DBNull.Value : (object)marc.DataConclusaoFluxoPnlRh;
+                    row["LoginConclusaoFluxoPnlRh"] = marc.LoginConclusaoFluxoPnlRh == null ? DBNull.Value : (object)marc.LoginConclusaoFluxoPnlRh;
+                    row["horaExtraInterjornada"] = marc.horaExtraInterjornada;
+                    row["horasTrabalhadasDentroFeriadoDiurna"] = marc.HorasTrabalhadasDentroFeriadoDiurna;
+                    row["horasTrabalhadasDentroFeriadoNoturna"] = marc.HorasTrabalhadasDentroFeriadoNoturna;
+                    row["horasPrevistasDentroFeriadoDiurna"] = marc.HorasPrevistasDentroFeriadoDiurna;
+                    row["horasPrevistasDentroFeriadoNoturna"] = marc.HorasPrevistasDentroFeriadoNoturna;
+                    row["NaoConsiderarFeriado"] = marc.NaoConsiderarFeriado;
+                    row["ContabilizarFaltas"] = marc.ContabilizarFaltas;
+                    row["ContAtrasosSaidasAntec"] = marc.ContAtrasosSaidasAntec;
+                    row["ContabilizarCreditos"] = marc.ContabilizarCreditos;
+                    dt.Rows.Add(row);
+                }
+                #endregion
 
                         SqlParameter parm = new SqlParameter("@dados", SqlDbType.Structured);
                         parm.Value = dt;

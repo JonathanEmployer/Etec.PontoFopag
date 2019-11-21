@@ -76,11 +76,16 @@ namespace BLL
 
             int CreditoBH = 0;
             int DebitoBH = 0;
-            if (objBancoHoras.FaltaDebito == 1 && objMarcacao.Legenda != "F")
+            if (objMarcacao.Legenda != "F")
             {
-                DebitoBH = Modelo.cwkFuncoes.ConvertHorasMinuto(objMarcacao.Horasfaltas) + Modelo.cwkFuncoes.ConvertHorasMinuto(objMarcacao.Horasfaltanoturna);
-                objMarcacao.Horasfaltas = "--:--";
-                objMarcacao.Horasfaltanoturna = "--:--";
+                if ((objBancoHoras.ContabilizarFaltas == true && objBancoHoras.ContAtrasosSaidasAntec == true) ||
+                    (objBancoHoras.ContabilizarFaltas == true && objBancoHoras.ContAtrasosSaidasAntec == false && ((Modelo.cwkFuncoes.ConvertHorasMinuto(objMarcacao.Horastrabalhadas)) <= 0)) ||
+                    (objBancoHoras.ContabilizarFaltas == false && objBancoHoras.ContAtrasosSaidasAntec == true && ((Modelo.cwkFuncoes.ConvertHorasMinuto(objMarcacao.Horastrabalhadas)) > 0)))
+                {
+                    DebitoBH = Modelo.cwkFuncoes.ConvertHorasMinuto(objMarcacao.Horasfaltas) + Modelo.cwkFuncoes.ConvertHorasMinuto(objMarcacao.Horasfaltanoturna);
+                    objMarcacao.Horasfaltas = "--:--";
+                    objMarcacao.Horasfaltanoturna = "--:--";
+                }                    
             }
             else
             {
@@ -115,9 +120,14 @@ namespace BLL
                 bool folga = false;
 
                 CreditoBH = Modelo.cwkFuncoes.ConvertHorasMinuto(BLL.CalculoHoras.OperacaoHoras('+', objMarcacao.Horasextrasdiurna, objMarcacao.Horasextranoturna));
-                if (objBancoHoras.FaltaDebito == 1 && objMarcacao.Legenda != "F")
+                if (objMarcacao.Legenda != "F")
                 {
-                    DebitoBH = Modelo.cwkFuncoes.ConvertHorasMinuto(BLL.CalculoHoras.OperacaoHoras('+', objMarcacao.Horasfaltas, objMarcacao.Horasfaltanoturna));
+                    if ((objBancoHoras.ContabilizarFaltas == true && objBancoHoras.ContAtrasosSaidasAntec == true) ||
+                        (objBancoHoras.ContabilizarFaltas == true && objBancoHoras.ContAtrasosSaidasAntec == false && ((Modelo.cwkFuncoes.ConvertHorasMinuto(objMarcacao.Horastrabalhadas)) <= 0)) ||
+                        (objBancoHoras.ContabilizarFaltas == false && objBancoHoras.ContAtrasosSaidasAntec == true && ((Modelo.cwkFuncoes.ConvertHorasMinuto(objMarcacao.Horastrabalhadas)) > 0)))
+                    {
+                        DebitoBH = Modelo.cwkFuncoes.ConvertHorasMinuto(BLL.CalculoHoras.OperacaoHoras('+', objMarcacao.Horasfaltas, objMarcacao.Horasfaltanoturna));
+                    }                        
                 }
                 else
                 {
@@ -279,8 +289,11 @@ namespace BLL
                         objMarcacao.Horasextranoturna = "--:--";
                     }
                 }
+                Modelo.cwkFuncoes.ConvertHorasMinuto(objMarcacao.Horastrabalhadas);
 
-                if (objBancoHoras.FaltaDebito == 1)
+                if ((objBancoHoras.ContabilizarFaltas == true && objBancoHoras.ContAtrasosSaidasAntec == true) ||
+                    (objBancoHoras.ContabilizarFaltas == true && objBancoHoras.ContAtrasosSaidasAntec == false && ((Modelo.cwkFuncoes.ConvertHorasMinuto(objMarcacao.Horastrabalhadas)) <= 0)) ||
+                    (objBancoHoras.ContabilizarFaltas == false && objBancoHoras.ContAtrasosSaidasAntec == true && ((Modelo.cwkFuncoes.ConvertHorasMinuto(objMarcacao.Horastrabalhadas)) > 0)))
                 {
                     objMarcacao.Horasfaltas = "--:--";
                     objMarcacao.Horasfaltanoturna = "--:--";

@@ -288,6 +288,9 @@ namespace DAL.SQL
                         , marcacao.Dsr
                         , funcionario.datainativacao
                         , marcacao.naoconsiderarferiado
+                        , marcacao.ContabilizarFaltas
+                        , marcacao.ContAtrasosSaidasAntec
+                        , marcacao.ContabilizarCreditos
                FROM marcacao_view as marcacao with (nolock)
                INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario 
                INNER JOIN horario ON horario.id = marcacao.idhorario 

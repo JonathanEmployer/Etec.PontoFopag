@@ -555,6 +555,24 @@ namespace Modelo
             set { NaoConsiderarFeriado = value ? (short)1 : (short)0; }
         }
         /// <summary>
+        /// Variável do Flag que marca se vai contabilizar faltas
+        /// </summary>
+        [Display(Name = "Contabilizar Faltas")]
+        public Int16 ContabilizarFaltas { get; set; }
+        
+        /// <summary>
+        /// Variável do Flag que marca se vai como falta Atrasos/ Saida Antecipadas
+        /// </summary>
+        [Display(Name = "Cont. Atrasos/Saidas Antecipadas")]
+        public Int16 ContAtrasosSaidasAntec { get; set; }
+        
+        /// <summary>
+        /// Variável do Flag que marca se vai contabilizar creditos como horas extras
+        /// </summary>
+        [Display(Name = "Contabilizar Créditos")]
+        public Int16 ContabilizarCreditos { get; set; }
+        
+        /// <summary>
         /// Calcula Horas Extras Diurna
         /// </summary>
         public int Calchorasextrasdiurna { get; set; }
@@ -1046,7 +1064,10 @@ namespace Modelo
         public decimal InItinerePercDentroJornada { get; set; }
         public string InItinereHrsForaJornada { get; set; }
         public decimal InItinerePercForaJornada { get; set; }
-
+        public int ContabilizarFaltas { get; set; }
+        public int ContAtrasosSaidasAntec { get; set; }
+        public int ContabilizarCreditos { get; set; }
+        
         public string[] ValoresInItinere { get; set; }
 
         //Declaração das variáveis de tratamento 

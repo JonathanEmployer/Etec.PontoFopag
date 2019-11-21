@@ -159,7 +159,6 @@ namespace UI
             txtPercentuais_7.DataBindings.Add("EditValue", objBancoHoras, "Percentuais_7", true, DataSourceUpdateMode.OnPropertyChanged);
             txtPercentuais_8.DataBindings.Add("EditValue", objBancoHoras, "Percentuais_8", true, DataSourceUpdateMode.OnPropertyChanged);
             txtPercentuais_9.DataBindings.Add("EditValue", objBancoHoras, "Percentuais_9", true, DataSourceUpdateMode.OnPropertyChanged);
-            chbFaltaDebito.DataBindings.Add("Checked", objBancoHoras, "FaltaDebito", true, DataSourceUpdateMode.OnPropertyChanged);
             txtDataInicial.DataBindings.Add("DateTime", objBancoHoras, "DataInicial", true, DataSourceUpdateMode.OnPropertyChanged);
             txtDataFinal.DataBindings.Add("DateTime", objBancoHoras, "DataFinal", true, DataSourceUpdateMode.OnPropertyChanged);
             chbBancohorasacumulativo.DataBindings.Add("Checked", objBancoHoras, "BancoHorasAcumulativo", true, DataSourceUpdateMode.OnPropertyChanged);

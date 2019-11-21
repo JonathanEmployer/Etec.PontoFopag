@@ -27,7 +27,7 @@ namespace DAL
             PrepareParameters(cmdParms, removeQuote);
             PrepareCommand(cmd, trans.Connection, trans, cmdType, cmdText, cmdParms);
 
-            int val = cmd.ExecuteNonQuery();
+            cmd.ExecuteNonQuery();
             return cmd;
         }
 

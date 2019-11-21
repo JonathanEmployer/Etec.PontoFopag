@@ -205,7 +205,6 @@ namespace TopPonto
                             objBH.Bancoprimeiro = 1;
                             objBH.DataInicial = Convert.ToDateTime(reader["DtInicio"]);
                             objBH.DataFinal = Convert.ToDateTime(reader["DtFim"]);
-                            objBH.FaltaDebito = 0;
                             objBH.LimiteHoras_1 = Convert.ToString(reader["LimiteNormal"]).Substring(11, 5);
                             objBH.LimiteHoras_2 = Convert.ToString(reader["LimiteNormal"]).Substring(11, 5);
                             objBH.LimiteHoras_3 = Convert.ToString(reader["LimiteNormal"]).Substring(11, 5);
