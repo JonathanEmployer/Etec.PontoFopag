@@ -295,7 +295,7 @@ namespace PontoWeb.Controllers
                             bllFuncionario.SetContratoFuncionario(funcionario.Id, funcionario.Contrato);
                             BLL_N.JobManager.CalculoMarcacoes.RecalculaEdicaoFuncionario(funcionario, usuarioLogado, true);                            
                             //Se o Funcionário utiliza registrador insere funcionario no Central do cliente
-                            if (funcionario.utilizaregistrador)
+                            if (funcionario.utilizaregistrador || funcionario.UtilizaAppPontofopag || funcionario.UtilizaWebAppPontofopag)
                             {
                                 if (!AdicionaAlteraFuncionariosCentralCliente(funcionario, funcionarioAntigo))
                                 {
@@ -307,7 +307,7 @@ namespace PontoWeb.Controllers
                             }
                             //Se utilizava o registrador/app e "Deixou" de utilizar, remove Funcionário da Central do cliente
                             else if ((funcionarioAntigo.utilizaregistrador || funcionarioAntigo.UtilizaAppPontofopag || funcionarioAntigo.UtilizaWebAppPontofopag) &&
-                                     (!funcionario.utilizaregistrador || !funcionario.UtilizaAppPontofopag || !funcionario.UtilizaWebAppPontofopag))
+                                     (!funcionario.utilizaregistrador && !funcionario.UtilizaAppPontofopag && !funcionario.UtilizaWebAppPontofopag))
                             {
                                 RemoveFuncionariosCentralCliente(funcionarioAntigo);
                             }
