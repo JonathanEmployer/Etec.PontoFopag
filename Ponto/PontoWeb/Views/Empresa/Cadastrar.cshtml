@@ -234,10 +234,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div>
-                                    @Html.LabelFor(model => model.Ativo, new { @class = "control-label label-sm" })
-                                    @Html.CheckBoxFor(model => model.Ativo, new { @class = "checkbox", id = "lkpAtivo" })
-                                </div>
                                 <div id="divParametrosApp" hidden>
                                     <div class="row" style="padding-left:6px">
                                         <div class="col-md-12">
@@ -416,10 +412,6 @@
         }
         else {
             $("#divReconhecimentoFacilWebAppPontofopag").hide();
-        }
-        if ($('#Cnpj').val() == "" && $('#Nome').val() == "")
-        {
-            $('#lkpAtivo').prop('checked', true);
         }
     });
 
@@ -632,9 +624,6 @@
             $("#divParametrosApp").removeAttr("hidden");
         }
     })
-
-    
-
 </script>
 
 @if (ViewBag.Consultar == 1)

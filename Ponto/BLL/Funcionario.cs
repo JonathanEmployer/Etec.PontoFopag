@@ -2118,9 +2118,5 @@ namespace BLL
         {
             throw new NotImplementedException();
         }
-        public void setFuncionariosEmpresa(int idEmpresa, bool FuncionarioAtivo)
-        {
-            dalFuncionario.setFuncionariosEmpresa(idEmpresa, FuncionarioAtivo);
-        }
     }
 }

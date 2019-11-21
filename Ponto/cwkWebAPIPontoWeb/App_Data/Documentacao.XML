@@ -1238,11 +1238,6 @@
             IdIntegracao.
             </summary>
         </member>
-        <member name="P:cwkWebAPIPontoWeb.Models.PxyEmpresa.Ativo">
-            <summary>
-            EmpresaAtivo.
-            </summary>
-        </member>
         <member name="T:cwkWebAPIPontoWeb.Models.Funcionario">
             <summary>
             Objeto com os dados do Funcionário

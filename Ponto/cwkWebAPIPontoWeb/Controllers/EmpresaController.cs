@@ -82,7 +82,6 @@ namespace cwkWebAPIPontoWeb.Controllers
                         DadosAntEmp.Validade = DateTime.MaxValue;
                         DadosAntEmp.Chave = DadosAntEmp.HashMD5ComRelatoriosValidacaoNova();
                         DadosAntEmp.IdIntegracao = obj.IdIntegracao;
-                        DadosAntEmp.Ativo = obj.Ativo;
 
                         Dictionary<string, string> erros = new Dictionary<string, string>();
                         erros = bllEmpresa.Salvar(acao, DadosAntEmp);

@@ -326,16 +326,5 @@ namespace Modelo
         public List<EmpresaTermoUso> TermosUso { get; set; }
 
         public int bloqueioEdicaoEmp { get; set; }
-
-        [Display(Name = "Ativo")]
-        public bool Ativo { get; set; }
-        [TableHTMLAttribute("Ativo", 17, true, ItensSearch.text, OrderType.none)]
-        public string AtivoStr
-        {
-            get
-            {
-                return Ativo == true ? "Sim" : "Não";
-            }
-        }
     }
 }

@@ -5,11 +5,6 @@
     ViewBag.Title = "Empresas";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string nomeTabela = "tbEmpresa";
-    string rowCallBack = @" function( row, data, index ) {
-                if (data.AtivoStr == 'Não') {
-                    $('td', row).css('color', 'Red');
-                }
-            }";
 }
 <div class="">
     <div class="panel panel-default" style="padding:0; margin-bottom:0">
@@ -20,15 +15,7 @@
         <div class="panel-body panelConteudo" id="panelBodyFixodivCenter">
             @Html.ValidationSummary(true)
             <div class="row">
-                @Html.GridFor(nomeTabela, Model.GetType(), false, "Empresa", "DadosGrid", rowCallBack, "CallBackLoadGrid")
-            </div>
-        </div>
-        <div class="row" style="padding-top:10px;">
-            <div class="col-md-12">
-                <div class="form-group" style="padding-bottom: 0px; margin-bottom: 0px;">
-                    @Html.CheckBox("Esconder Inativos", new { id = "BEsconderInativos", @checked = "checked" })
-                    @Html.Label("Esconder Inativos", new { style = "padding-bottom: 0px; margin-bottom: 0px;", @for = "BEsconderInativos" })
-                </div>
+                @Html.GridFor(nomeTabela, Model.GetType(), false, "Empresa", "DadosGrid")
             </div>
         </div>
 
@@ -57,14 +44,13 @@
 <script>
     var nomeTabela = "#" + '@nomeTabela';
     $(document).ready(function () {
-        var controller = "Empresa";
         cwk_EventoDbClickEditar('Alterar', 'Empresa', nomeTabela);
 
-        cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', controller);
-        cwk_EventoClickCadastroAlterar('#btAtestado', 'Atestado', controller, nomeTabela);
-        cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', controller, nomeTabela);
-        cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', controller, nomeTabela);
-        cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir', controller, nomeTabela, 'Empresa excluída com sucesso. ');
+        cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', 'Empresa');
+        cwk_EventoClickCadastroAlterar('#btAtestado', 'Atestado', 'Empresa', nomeTabela);
+        cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', 'Empresa', nomeTabela);
+        cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', 'Empresa', nomeTabela);
+        cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir', 'Empresa', nomeTabela, 'Empresa excluída com sucesso. ');
         cwk_EventoClickCadastroAlterar('#btAlterarUsuarios', 'Alterar', 'EmpresaUsuario', nomeTabela);
         cwk_EventoClickCadastroAlterar('#btOcorrencia', 'Cadastrar', 'OcorrenciaEmpresa', nomeTabela);
 
@@ -93,27 +79,4 @@
 
         cwk_EventoAlterarAjaxParam('#btIP', 'Grid', 'IP', nomeTabela, "");
     });
-
-    function CallBackLoadGrid() {
-		var val = $("#tbEmpresaAtivo").val();		
-		ApenasAtivos();	
-	}
-	$("#BEsconderInativos").click(function (event) {
-		EscondeInativos(event);
-	});
-	function EscondeInativos(e) {
-		var table = $(nomeTabela).DataTable();
-		if ($("#BEsconderInativos").is(':checked')) {
-			ApenasAtivos();
-		}
-		else {
-			$("#tbEmpresaAtivo").val("");
-			table.columns(17).search("").draw();
-		}
-	};
-	function ApenasAtivos() {
-		var table = $(nomeTabela).DataTable();
-		$("#tbEmpresaAtivo").val("Sim");
-		table.columns(17).search("Sim", true, false, true).draw();
-	}
 </script>

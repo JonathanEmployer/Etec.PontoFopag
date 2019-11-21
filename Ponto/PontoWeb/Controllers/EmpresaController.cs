@@ -35,7 +35,7 @@ namespace PontoWeb.Controllers
             try
             {
                 BLL.Empresa bllEmpresa = new BLL.Empresa(_user.ConnectionString, _user);
-                List<Modelo.Empresa> dados = bllEmpresa.GetAllListEmpresa();
+                List<Modelo.Empresa> dados = bllEmpresa.GetAllList();
                 JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
                 jsonResult.MaxJsonLength = int.MaxValue;
                 return jsonResult;
@@ -170,7 +170,7 @@ namespace PontoWeb.Controllers
                     }
                     if (acao == Acao.Alterar)
                     {
-                        if (!validaCnpj.ValidarAlterarCNPJ(obj.Cnpj, obj.Id, _user.ConnectionString, _user))
+                        if (!validaCnpj.ValidarAlterarCNPJ(obj.Cnpj, obj.Codigo, _user.ConnectionString, _user))
                         {
                             throw new Exception("Existe uma ou mais empresas cadastradas com o mesmo CNPJ.");
                         }

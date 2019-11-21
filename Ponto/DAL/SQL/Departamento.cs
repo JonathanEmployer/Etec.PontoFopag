@@ -92,7 +92,7 @@ namespace DAL.SQL
                              FROM departamento
                              LEFT JOIN empresa ON empresa.id = departamento.idempresa 
                              left JOIN horario h ON departamento.idhorariopadraofunc = h.id
-                            WHERE departamento.codigo = @codigo and empresa.Ativo = 1";
+                            WHERE departamento.codigo = @codigo";
         }
 
         protected override bool SetInstance(SqlDataReader dr, Modelo.ModeloBase obj)
