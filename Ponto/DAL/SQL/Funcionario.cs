@@ -615,7 +615,7 @@ namespace DAL.SQL
                         FROM    ( SELECT    ISNULL(MAX(codigo),0) codigo ,
                                             ISNULL(MAX(CONVERT(BIGINT,ISNULL(dscodigo,0))),0) dscodigo
                                   FROM      dbo.funcionario
-                                ) t ";
+                                ) t ";       
 
         }
 
@@ -5976,6 +5976,124 @@ where 1=1
             dr.Dispose();
             List<int> ids = dt.AsEnumerable().Select(x => Convert.ToInt32(x[0])).ToList();
             return ids;
+        }        
+
+        public  void setFuncionariosEmpresa(int idEmpresa, bool EmpresaAtiva)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+{
+                    new SqlParameter("@idEmpresa", SqlDbType.Int),
+                    new SqlParameter("@datainativacao", SqlDbType.DateTime),
+                    new SqlParameter("@funcionarioativo", SqlDbType.Int),
+                    new SqlParameter("@Id", SqlDbType.VarChar)
+};
+            parms[0].Value = idEmpresa;
+            if (EmpresaAtiva == true)
+            {
+                parms[1].Value = null;
+                parms[2].Value = 0;
+            }
+            else
+            {
+                parms[1].Value = DateTime.Now;
+                parms[2].Value = 1;
+            }
+            List<int> idFuncionarios = getAtivosEmpresaFunc(idEmpresa, EmpresaAtiva);
+            if(idFuncionarios.Count > 0 && EmpresaAtiva == false)
+                setEmpresaFunc(idEmpresa, idFuncionarios);            
+            if (EmpresaAtiva == true && idFuncionarios.Count > 0)
+                deletarEmpresaFunc(idEmpresa);
+            parms[3].Value = String.Join(",", idFuncionarios);
+            string aux = @" update funcionario
+                                set datainativacao = @datainativacao
+                             WHERE idEmpresa = @idEmpresa and funcionarioativo = @funcionarioativo and id IN (SELECT * FROM dbo.F_ClausulaIn(@Id))";
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+
+            if (!dr.IsClosed)
+            {
+                dr.Close();
+            }
+            dr.Dispose();
+
+            return;
+        }
+        public List<int> getAtivosEmpresaFunc(int idempresa, bool EmpresaAtiva)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+             {
+                new SqlParameter ("@idempresa", SqlDbType.Int)
+             };
+            parms[0].Value = idempresa;
+            DataTable dt = new DataTable();
+            string aux;
+            if (!EmpresaAtiva)
+                aux = @"select id from funcionario where idempresa = @idempresa and funcionarioativo = 1";
+            else
+                aux = @"select idfuncionario from empresafuncionarios where idempresa = @idempresa";
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            dt.Load(dr);
+            if (!dr.IsClosed)
+                dr.Close();
+            dr.Dispose();
+            List<int> idfuncionarios = dt.AsEnumerable().Select(x => Convert.ToInt32(x[0])).ToList();
+            return idfuncionarios;
+        }
+        public void setEmpresaFunc(int idempresa, List<int> idFuncionarios)
+        {
+            string aux = @"INSERT INTO empresafuncionarios
+							( codigo,  idempresa,  idfuncionario,  incdata,  inchora,  incusuario)
+							VALUES
+							(@codigo, @idempresa, @idfuncionario, @incdata, @inchora, @incusuario)";
+            SqlParameter[] parms = new SqlParameter[]
+             {
+                new SqlParameter ("@codigo", SqlDbType.Int),
+                new SqlParameter ("@idempresa", SqlDbType.Int),
+                new SqlParameter ("@idfuncionario", SqlDbType.VarChar),
+                new SqlParameter ("@incdata", SqlDbType.DateTime),
+                new SqlParameter ("@inchora", SqlDbType.DateTime),
+                new SqlParameter ("@incusuario", SqlDbType.VarChar)
+             };
+            
+            
+            foreach (int func in idFuncionarios)
+            {
+                parms[0].Value = MaxCODEmpresaFunc();
+                parms[1].Value = idempresa;
+                parms[2].Value = func;
+                parms[3].Value = DateTime.Now.Date;
+                parms[4].Value = DateTime.Now;
+                parms[5].Value = UsuarioLogado.Login;
+                SqlCommand cmd = db.ExecNonQueryCmd(CommandType.Text, aux, false, parms);
+                cmd.Parameters.Clear();
+            }              
+                  
+            return;
+        }
+
+        public void deletarEmpresaFunc(int idempresa)
+        {
+            string aux = @"DELETE empresafuncionarios WHERE idempresa = @idempresa";
+            SqlParameter[] parms = new SqlParameter[]
+             {
+                new SqlParameter ("@idempresa", SqlDbType.Int)                
+             };
+            parms[0].Value = idempresa;           
+            SqlCommand cmd = db.ExecNonQueryCmd(CommandType.Text, aux, false, parms);
+            cmd.Parameters.Clear();            
+            return;
+        }
+        public virtual int MaxCODEmpresaFunc()
+        {
+            string MAXCODEMPRESAFUNCIONARIOS = @"  SELECT MAX(codigo) AS codigo FROM empresafuncionarios";
+            try
+            {
+                SqlParameter[] parms = new SqlParameter[0];
+                return Convert.ToInt32(db.ExecuteScalar(CommandType.Text, MAXCODEMPRESAFUNCIONARIOS, parms)) + 1;
+            }
+            catch (Exception)
+            {
+                return 1;
+            }
         }
 
     }

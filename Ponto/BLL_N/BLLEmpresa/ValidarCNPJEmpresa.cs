@@ -24,11 +24,11 @@ namespace BLL_N.BLLEmpresa
             }
         }
 
-        public bool ValidarAlterarCNPJ(string cnpj_ant, int cod, string ConnectionString, Modelo.Cw_Usuario usuarioLogado)
+        public bool ValidarAlterarCNPJ(string cnpj_ant, int id, string ConnectionString, Modelo.Cw_Usuario usuarioLogado)
         {
             
             BLL.Empresa bllEmpresa = new BLL.Empresa(ConnectionString, usuarioLogado);
-            var retornaConsultaBllEmp = bllEmpresa.LoadObjectByCodigo(cod);
+            var retornaConsultaBllEmp = bllEmpresa.LoadObject(id);
             var db = new CentralCliente.CENTRALCLIENTEEntities();
             string CNPJVazio = "";
             Entidade ent = db.Entidade.Where(e => e.CNPJ_CPF == (!String.IsNullOrEmpty(cnpj_ant) ? cnpj_ant : CNPJVazio)).FirstOrDefault();

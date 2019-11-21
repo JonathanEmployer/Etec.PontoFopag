@@ -1918,5 +1918,10 @@ public List<int> GetIdsFuncsAtivos(string condicao)
         {
             throw new NotImplementedException();
         }
+
+        public void setFuncionariosEmpresa(int idEmpresa, bool FuncionarioAtivo)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
