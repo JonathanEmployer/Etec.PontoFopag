@@ -380,8 +380,8 @@
                                             <div>
                                                 <div class="row" style="padding-bottom:5px;">
                                                     <div class="col-md-12">
-                                                        <div class="col-md-12" style="text-align:center">
-                                                            <canvas id="meuCanvas" width="640" height="480" class="hidden"></canvas>
+                                                        <div class="col-md-12" style="text-align:center"> 
+                                                            <canvas id="meuCanvas" class="hidden"></canvas>
                                                             <img id="imgFunc" alt="Foto" class="img-responsive img-thumbnail" src="data:image/jpg;base64,@Model.Foto" />
                                                             @Html.ValidationMessageFor(model => model.Foto)
                                                             @Html.HiddenFor(model => model.Foto, new { id = "base" })
@@ -778,12 +778,10 @@
     });
     function verificaTamanhoImagem(img) {
         $(img).one("load", function () {
-            if ((img.height > 480) || (img.width > 640)) {
-                mboxResizeImage(img);
-            } else {
-                mudaPropriedade('#imgFunc', 'src', img.src);
-                $('#base').val(img.src);
-            }
+            
+            mudaPropriedade('#imgFunc', 'src', img.src);
+            $('#base').val(img.src);
+            
         }).each(function () {
             if (this.complete) $(this).load();
         });
@@ -806,16 +804,16 @@
         }
     }
 
-    function mboxResizeImage(img) {
-        var msg = "Tamanho máximo permitido para imagem foi excedido, Máximo permitido: Largura = 480, Altura: 640 ou Largura = 640, Altura: 480, Deseja redimensionar?";
-        return messageBoxYesNoOption(msg, "Confirmação", "Sim", "Não",
-        function () {
-            resizeImage(img);
-        },
-        function () {
-            mudaPropriedade('#imgUp', 'value', "");
-        });
-    }
+    //function mboxResizeImage(img) {
+    //    var msg = "Tamanho máximo permitido para imagem foi excedido, Máximo permitido: Largura = 480, Altura: 640 ou Largura = 640, Altura: 480, Deseja redimensionar?";
+    //    return messageBoxYesNoOption(msg, "Confirmação", "Sim", "Não",
+    //    function () {
+    //        resizeImage(img);
+    //    },
+    //    function () {
+    //        mudaPropriedade('#imgUp', 'value', "");
+    //    });
+    //}
 
     function resizeImage(img) {
         var newDataUri = newImageToDataUrl(img, "640", "480");
