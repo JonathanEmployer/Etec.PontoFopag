@@ -38,7 +38,6 @@
             this.rgTipo = new DevExpress.XtraEditors.RadioGroup();
             this.chbBancohorasacumulativo = new DevExpress.XtraEditors.CheckEdit();
             this.chbPerccomohoraextra = new DevExpress.XtraEditors.CheckEdit();
-            this.chbFaltaDebito = new DevExpress.XtraEditors.CheckEdit();
             this.groupControl8 = new DevExpress.XtraEditors.GroupControl();
             this.lblDataInicial = new DevExpress.XtraEditors.LabelControl();
             this.txtDataInicial = new DevExpress.XtraEditors.DateEdit();
@@ -140,8 +139,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.cbIdentificacao.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rgTipo.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chbBancohorasacumulativo.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chbPerccomohoraextra.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chbFaltaDebito.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chbPerccomohoraextra.Properties)).BeginInit();          
             ((System.ComponentModel.ISupportInitialize)(this.groupControl8)).BeginInit();
             this.groupControl8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtDataInicial.Properties.VistaTimeProperties)).BeginInit();
@@ -247,7 +245,6 @@
             this.xtraTabPage1.Controls.Add(this.tcConfBH);
             this.xtraTabPage1.Controls.Add(this.chbBancohorasacumulativo);
             this.xtraTabPage1.Controls.Add(this.chbPerccomohoraextra);
-            this.xtraTabPage1.Controls.Add(this.chbFaltaDebito);
             this.xtraTabPage1.Controls.Add(this.groupControl8);
             this.xtraTabPage1.Controls.Add(this.groupControl1);
             this.xtraTabPage1.Controls.Add(this.txtCodigo);
@@ -366,14 +363,6 @@
             this.chbPerccomohoraextra.Size = new System.Drawing.Size(213, 19);
             this.chbPerccomohoraextra.TabIndex = 10;
             this.chbPerccomohoraextra.CheckedChanged += new System.EventHandler(this.chbPerccomohoraextra_CheckedChanged);
-            // 
-            // chbFaltaDebito
-            // 
-            this.chbFaltaDebito.Location = new System.Drawing.Point(370, 527);
-            this.chbFaltaDebito.Name = "chbFaltaDebito";
-            this.chbFaltaDebito.Properties.Caption = "Debitar Falta Banco de Horas";
-            this.chbFaltaDebito.Size = new System.Drawing.Size(170, 19);
-            this.chbFaltaDebito.TabIndex = 11;
             // 
             // groupControl8
             // 
@@ -1542,7 +1531,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.rgTipo.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chbBancohorasacumulativo.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chbPerccomohoraextra.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chbFaltaDebito.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl8)).EndInit();
             this.groupControl8.ResumeLayout(false);
             this.groupControl8.PerformLayout();
@@ -1657,7 +1645,6 @@
         private Componentes.devexpress.cwk_DevLookup cbIdentificacao;
         private DevExpress.XtraEditors.CheckEdit chbBancohorasacumulativo;
         private DevExpress.XtraEditors.CheckEdit chbPerccomohoraextra;
-        private DevExpress.XtraEditors.CheckEdit chbFaltaDebito;
         private DevExpress.XtraEditors.GroupControl groupControl8;
         private DevExpress.XtraEditors.LabelControl lblDataInicial;
         private DevExpress.XtraEditors.DateEdit txtDataInicial;

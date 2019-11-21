@@ -52,25 +52,7 @@ namespace Modelo
             {
                 return DataFinal == null ? "" : DataFinal.GetValueOrDefault().ToString("dd/MM/yyyy");
             }
-        }
-        /// <summary>
-        /// Faltas do funcionário Debitadas no Banco de Horas
-        /// </summary>
-        public Int32 FaltaDebito { get; set; }
-        [Display(Name = "Debitar Falta Banco de Horas")]
-        public bool FaltaDebitoBool
-        {
-            get { return FaltaDebito == 1 ? true : false; }
-            set { FaltaDebito = value ? (Int16)1 : (Int16)0; }
-        }
-        [TableHTMLAttribute("Debita Falta B.H", 8, true, ItensSearch.text, OrderType.none)]
-        public string FaltaDebitoBoolExtraDesc
-        {
-            get
-            {
-                return FaltaDebitoBool == true ? "Sim" : "Não";
-            }
-        }
+        }        
         /// <summary>
         /// Segunda Feira
         /// </summary>
@@ -368,7 +350,7 @@ namespace Modelo
         [Display(Name = "Banco de Horas por Percentual")]
         public bool BancoHorasPorPercentual { get; set; }
         
-        [TableHTMLAttribute("B.H Por Percentual", 9, true, ItensSearch.text, OrderType.none)]
+        [TableHTMLAttribute("B.H Por Percentual", 8, true, ItensSearch.text, OrderType.none)]
         public string BancoHorasPorPercentualDesc
         {
             get
@@ -476,12 +458,12 @@ namespace Modelo
 
         [Display(Name = "Crédito")]
         [StringLength(6, ErrorMessage = "Número máximo de caracteres: {1}")]
-        [TableHTMLAttribute("Limite Alerta Créd.", 10, true, ItensSearch.text, OrderType.none)]
+        [TableHTMLAttribute("Limite Alerta Créd.", 9, true, ItensSearch.text, OrderType.none)]
         public String LimiteAlertaCredito { get; set; }
 
         [Display(Name = "Débito")]
         [StringLength(6, ErrorMessage = "Número máximo de caracteres: {1}")]
-        [TableHTMLAttribute("Limite Alerta Déb.", 11, true, ItensSearch.text, OrderType.none)]
+        [TableHTMLAttribute("Limite Alerta Déb.", 10, true, ItensSearch.text, OrderType.none)]
         public String LimiteAlertaDebito { get; set; }
 
         public bool[] getDias()
@@ -722,6 +704,36 @@ namespace Modelo
                 return _Funcionario;
             }
             set { _Funcionario = value; }
+        }
+        
+        [Display(Name = "Contabilizar Faltas")]
+        public bool ContabilizarFaltas { get; set; }        
+        public string ContabilizarFaltasDesc
+        {
+            get
+            {
+                return ContabilizarFaltas == true ? "Sim" : "Não";
+            }
+        }
+
+        [Display(Name = "Contabilizar Atrasos/Saidas Antecipadas")]
+        public bool ContAtrasosSaidasAntec { get; set; }        
+        public string ContAtrasosSaidasAntecDesc
+        {
+            get
+            {
+                return ContAtrasosSaidasAntec == true ? "Sim" : "Não";
+            }
+        }
+
+        [Display(Name = "Contabilizar Créditos")]
+        public bool ContabilizarCreditos { get; set; }        
+        public string ContabilizarCreditosDesc
+        {
+            get
+            {
+                return ContabilizarCreditos == true ? "Sim" : "Não";
+            }
         }
     }
 }

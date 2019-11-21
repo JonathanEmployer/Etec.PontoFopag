@@ -19,7 +19,6 @@ namespace PontoWeb.Models
         public Nullable<int> identificacao { get; set; }
         public Nullable<System.DateTime> datainicial { get; set; }
         public Nullable<System.DateTime> datafinal { get; set; }
-        public Nullable<int> faltadebito { get; set; }
         public Nullable<int> dias_1 { get; set; }
         public Nullable<int> dias_2 { get; set; }
         public Nullable<int> dias_3 { get; set; }

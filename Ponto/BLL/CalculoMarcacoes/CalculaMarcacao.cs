@@ -83,7 +83,7 @@ namespace BLL
 
         private decimal InItinerePercDentroJornada, InItinerePercForaJornada;
 
-        private short dsr, folgaMarcacao, naoConsiderarCafe, naoEntrarBanco, semCalculo, naoConsiderarFeriado;
+        private short dsr, folgaMarcacao, naoConsiderarCafe, naoEntrarBanco, semCalculo, naoConsiderarFeriado, ContabilizarFaltasMarc, ContAtrasosSaidasAntecMarc, ContabilizarCreditosMarc;
         private bool neutroMarcacao, documentoWorkflowAberto, NaoConsiderarInItinere, bCafe;
 
         DateTime data;
@@ -1764,7 +1764,7 @@ namespace BLL
                 {
                     if (bancoHorasList != null && bancoHorasList.ContainsKey(idBancoHoras))
                     {
-                        objBancoHoras = (Modelo.BancoHoras)bancoHorasList[idBancoHoras];
+                        objBancoHoras = bllBancoHoras.LoadObject(idBancoHoras.GetValueOrDefault());                        
                     }
                     else
                     {
@@ -1807,11 +1807,27 @@ namespace BLL
                 string[] limitesHorasDiarios = objBancoHoras.getLimiteHorasLimiteDiarios();
                 string[] limiteHoraExtra = objBancoHoras.getLimiteHoraExtra();
                 string[] limiteHoraSaldoBH = objBancoHoras.getLimiteSaldoBH();
+
+                //Valida primero os parametros inseridos por grid de marcação
+                if (ContabilizarFaltasMarc != 2) 
+                    objBancoHoras.ContabilizarFaltas = ContabilizarFaltasMarc == 1 && ContabilizarFaltasMarc != 2? objBancoHoras.ContabilizarFaltas = false: objBancoHoras.ContabilizarFaltas = true;
+                if (ContAtrasosSaidasAntecMarc != 2)
+                    objBancoHoras.ContAtrasosSaidasAntec = ContAtrasosSaidasAntecMarc == 1 && ContAtrasosSaidasAntecMarc != 2 ? objBancoHoras.ContAtrasosSaidasAntec = false : objBancoHoras.ContAtrasosSaidasAntec = true;
+                if (ContabilizarCreditosMarc != 2)
+                    objBancoHoras.ContabilizarCreditos = ContabilizarCreditosMarc == 1 && ContabilizarCreditosMarc != 2 ? objBancoHoras.ContabilizarCreditos = false : objBancoHoras.ContabilizarCreditos = true;
                 // soma das horas-extras e faltas
-                CreditoBH = horasExtrasDiurnaMin + horasExtraNoturnaMin;
-                if (objBancoHoras.FaltaDebito == 1 && (legenda != "F" || feriadoParcial))
+                if (objBancoHoras.ContabilizarCreditos == true)
                 {
-                    DebitoBH = horasFaltasMin + horasFaltaNoturnaMin;
+                    CreditoBH = horasExtrasDiurnaMin + horasExtraNoturnaMin;
+                }
+
+                if (legenda != "F" || feriadoParcial)
+                {   if ((objBancoHoras.ContabilizarFaltas == true && objBancoHoras.ContAtrasosSaidasAntec == true) || 
+                        (objBancoHoras.ContabilizarFaltas == true && objBancoHoras.ContAtrasosSaidasAntec == false && horasTrabalhadasMin <=0) ||
+                        (objBancoHoras.ContabilizarFaltas == false && objBancoHoras.ContAtrasosSaidasAntec == true && horasTrabalhadasMin > 0)) 
+                    {
+                        DebitoBH = horasFaltasMin + horasFaltaNoturnaMin;
+                    }                     
                 }
                 else
                 {
@@ -1997,7 +2013,7 @@ namespace BLL
                     limiteMensal = true;
                 }
 
-                if (limite > 0 || limitePorSaldo || limiteSemanal || limiteMensal)
+                if ((limite > 0 || limitePorSaldo || limiteSemanal || limiteMensal) && objBancoHoras.ContabilizarCreditos == true)
                 {
                     if (CreditoBH > limite)
                     {
@@ -2097,7 +2113,7 @@ namespace BLL
                 }
                 else
                 {
-                    if (objBancoHoras.ExtraPrimeiro == 0)
+                    if (objBancoHoras.ExtraPrimeiro == 0 && objBancoHoras.ContabilizarCreditos == true)
                     {
                         AplicaPercentualBancoHora(ref CreditoBH, ref DebitoBH, objBancoHoras, percentuais[diaInt]);
                         horasExtrasDiurnaMin = 0;
@@ -2106,8 +2122,9 @@ namespace BLL
                     }
                 }
 
-
-                if (objBancoHoras.FaltaDebito == 1)
+                if((objBancoHoras.ContAtrasosSaidasAntec == true && objBancoHoras.ContabilizarFaltas == true) || 
+                    (objBancoHoras.ContAtrasosSaidasAntec == true && horasTrabalhadasMin > 0 && objBancoHoras.ContabilizarFaltas == false && horasTrabalhadasMin > 0) ||
+                    (objBancoHoras.ContAtrasosSaidasAntec == false && horasTrabalhadasMin <= 0 && objBancoHoras.ContabilizarFaltas == true))
                 {
                     horasFaltasMin = 0;
                     horasFaltaNoturnaMin = 0;
@@ -4186,6 +4203,9 @@ namespace BLL
             obj.HorasPrevistasDentroFeriadoDiurna = Convert.ToString(pMarcacao["horasPrevistasDentroFeriadoDiurna"]);
             obj.HorasPrevistasDentroFeriadoNoturna = Convert.ToString(pMarcacao["horasPrevistasDentroFeriadoNoturna"]);
             obj.NaoConsiderarFeriado = Convert.ToInt16(pMarcacao["naoconsiderarferiado"]);
+            obj.ContabilizarFaltas = Convert.ToInt16(pMarcacao["ContabilizarFaltas"]);
+            obj.ContAtrasosSaidasAntec = Convert.ToInt16(pMarcacao["ContAtrasosSaidasAntec"]);
+            obj.ContabilizarCreditos = Convert.ToInt16(pMarcacao["ContabilizarCreditos"]);
             return obj;
         }
 
@@ -4290,6 +4310,9 @@ namespace BLL
             objMarcacao.HorasPrevistasDentroFeriadoDiurna = Modelo.cwkFuncoes.ConvertMinutosHora(horasPrevistasDentroFeriadoParcialDiurna);
             objMarcacao.HorasPrevistasDentroFeriadoNoturna = Modelo.cwkFuncoes.ConvertMinutosHora(horasPrevistasDentroFeriadoParcialNoturna);
             objMarcacao.NaoConsiderarFeriado = Convert.ToInt16(pMarcacao["naoconsiderarferiado"]);
+            objMarcacao.ContabilizarFaltas = Convert.ToInt16(pMarcacao["ContabilizarFaltas"]);
+            objMarcacao.ContAtrasosSaidasAntec = Convert.ToInt16(pMarcacao["ContAtrasosSaidasAntec"]);
+            objMarcacao.ContabilizarCreditos = Convert.ToInt16(pMarcacao["ContabilizarCreditos"]);
         }
 
         private void SetaVariaveisMarcacao(DataRow pMarcacao)
@@ -4410,6 +4433,9 @@ namespace BLL
             LegendasConcatenadas = Convert.ToString(pMarcacao["LegendasConcatenadas"]);
             dsr = Convert.ToInt16(pMarcacao["Dsr"]);
             AdicionalNoturno = pMarcacao["AdicionalNoturno"] is DBNull ? 0 : Modelo.cwkFuncoes.ConvertHorasMinuto(Convert.ToString(pMarcacao["AdicionalNoturno"]));
+            ContabilizarFaltasMarc = pMarcacao["ContabilizarFaltas"] is DBNull ? Convert.ToInt16(0) : Convert.ToInt16(pMarcacao["ContabilizarFaltas"]);
+            ContAtrasosSaidasAntecMarc = pMarcacao["ContAtrasosSaidasAntec"] is DBNull ? Convert.ToInt16(0) : Convert.ToInt16(pMarcacao["ContAtrasosSaidasAntec"]);
+            ContabilizarCreditosMarc = pMarcacao["ContabilizarCreditos"] is DBNull ? Convert.ToInt16(0) : Convert.ToInt16(pMarcacao["ContabilizarCreditos"]);
         }
 
         private void SetaVariaveisAfastamento(DataRow pMarcacao)
