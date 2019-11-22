@@ -1195,6 +1195,9 @@ namespace DAL.SQL
                         row["horasPrevistasDentroFeriadoDiurna"] = marc.HorasPrevistasDentroFeriadoDiurna;
                         row["horasPrevistasDentroFeriadoNoturna"] = marc.HorasPrevistasDentroFeriadoNoturna;
                         row["naoconsiderarferiado"] = marc.NaoConsiderarFeriado;
+                        row["ContabilizarFaltas"] = marc.ContabilizarFaltas;
+                        row["ContAtrasosSaidasAntec"] = marc.ContAtrasosSaidasAntec;
+                        row["ContabilizarCreditos"] = marc.ContabilizarCreditos;
                         dt.Rows.Add(row);
                     }
                     catch (Exception e)
