@@ -1181,16 +1181,19 @@ namespace BLL
             );
 
             //Percentuais extra
-            StringBuilder str = new StringBuilder();
-            percExtras.Clear();
-            foreach (var item in objTotalHoras.RateioHorasExtras.OrderBy(r => r.Key))
+            if (ret.Rows.Count > 0)
             {
-                str.Append(String.Format("{0:000}", item.Key) + "%          ");
-                str.Append(Modelo.cwkFuncoes.ConvertMinutosHora(3, item.Value.Diurno));
-                str.Append("   " + Modelo.cwkFuncoes.ConvertMinutosHora(3, item.Value.Noturno));
-                percExtras.Add(str.ToString());
-                str.Remove(0, str.Length);
-            }
+                StringBuilder str = new StringBuilder();
+                percExtras.Clear();           
+                foreach (var item in objTotalHoras.RateioHorasExtras.OrderBy(r => r.Key))
+                {
+                    str.Append(String.Format("{0:000}", item.Key) + "%          ");
+                    str.Append(Modelo.cwkFuncoes.ConvertMinutosHora(3, item.Value.Diurno));
+                    str.Append("   " + Modelo.cwkFuncoes.ConvertMinutosHora(3, item.Value.Noturno));
+                    percExtras.Add(str.ToString());
+                    str.Remove(0, str.Length);
+                }
+            }            
 
             #region Saldo do Banco de Horas Fechamento
 
@@ -1840,7 +1843,7 @@ namespace BLL
             {
                 var idsFuncs = _qtdMarcacoesFuncionarios.Where(x => x.Value != ts.TotalDays).Select(x => x.Key).ToList<int>();
                 var _listFuncionario = pBllFuncionario.GetAllListByIds(string.Join(",", idsFuncs.ToArray()));
-                _listFuncionario = _listFuncionario.Where(x => x.bFuncionarioativo == true).ToList();
+                //_listFuncionario = _listFuncionario.Where(x => x.bFuncionarioativo == true).ToList();
                 idsFuncs = _listFuncionario.Select(s => s.Id).ToList();
 
                 if (_listFuncionario.Count() > 0)
