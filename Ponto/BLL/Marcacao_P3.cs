@@ -281,8 +281,8 @@ namespace BLL
             Parallel.ForEach(datas, options, (data) =>
              {
                  Parallel.ForEach(ListFuncionario, options, (funcionario) =>
-                      {
-                          if (!MarcacoesPeriodo.Exists(m => m.Data == data && m.Idfuncionario == funcionario.Id) && data < (funcionario.DataInativacao ?? DateTime.MaxValue))
+                 { //Apagado validação de initivos para permitir tratar as marcações de funcionarios Inativos no cartão ponto posteriores de 60 dias (antes o depois) Backlog 80832
+                     if (!MarcacoesPeriodo.Exists(m => m.Data == data && m.Idfuncionario == funcionario.Id))
                           {
                               objMarcacao = AuxAtualizaData(
                                                      funcionario,
