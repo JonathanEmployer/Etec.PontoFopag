@@ -45,7 +45,7 @@
                             <div class="col-md-4">
                                 <div class="form-group input-group-sm">
                                     @Html.LabelFor(model => model.DataInicial, new { @class = "control-label label-sm" })
-                                    <div class="input-group input-group-sm">
+                                    <div class="input-group input-group-sm" onkeypress="dataKeypress('#DataInicial')">
                                         @Html.TextBoxFor(model => model.DataInicial, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataInicial" })
                                         <span class="input-group-btn">
                                             <button class="btn btn-primary" id="btnDataInicial" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -57,7 +57,7 @@
                             <div class="col-md-4">
                                 <div class="form-group input-group-sm">
                                     @Html.LabelFor(model => model.DataFinal, new { @class = "control-label label-sm" })
-                                    <div class="input-group input-group-sm">
+                                    <div class="input-group input-group-sm" onkeypress="dataKeypress('#DataFinal')">
                                         @Html.TextBoxFor(model => model.DataFinal, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataFinal" })
                                         <span class="input-group-btn">
                                             <button class="btn btn-primary" id="btnDataFinal" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -1267,7 +1267,7 @@
     $("#FechamentoPercentualHE").click(function (event) {
         FechamentoPercentualHE();
     });
-
+    
 </script>
 @if (ViewBag.Consultar == 1)
 {

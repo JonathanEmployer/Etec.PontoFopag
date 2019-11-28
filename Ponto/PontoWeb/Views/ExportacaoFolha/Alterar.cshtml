@@ -94,7 +94,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group input-group-sm">
                                             @Html.LabelFor(model => model.DataI, new { @class = "control-label label-sm" })
-                                            <div class="input-group input-group-sm">
+                                            <div class="input-group input-group-sm" onkeypress="dataKeypress('#DataI')">
                                                 @Html.TextBoxFor(model => model.DataI, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataI" })
                                                 <span class="input-group-btn">
                                                     <button class="btn btn-primary desabilitar" id="btnDataInicial" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -106,7 +106,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group input-group-sm">
                                             @Html.LabelFor(model => model.DataF, new { @class = "control-label label-sm" })
-                                            <div class="input-group input-group-sm">
+                                            <div class="input-group input-group-sm" onkeypress="dataKeypress('#DataF')">
                                                 @Html.TextBoxFor(model => model.DataF, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataF" })
                                                 <span class="input-group-btn">
                                                     <button class="btn btn-primary desabilitar" id="btnDataFinal" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -193,4 +193,5 @@
                 break;
         }
     }
+    
 </script>

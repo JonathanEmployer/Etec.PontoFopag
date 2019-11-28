@@ -149,7 +149,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group input-group-sm">
                                                 @Html.LabelFor(model => model.Dataadmissao, new { @class = "control-label label-sm" })
-                                                <div class="input-group input-group-sm">
+                                                <div class="input-group input-group-sm" onkeypress="dataKeypress('#dtAdmissao')">
                                                     @Html.TextBoxFor(model => model.Dataadmissao, new { @class = "form-control input-sm MascDate datepickerfunc", id = "dtAdmissao" }).IsReadonly((Model.Dataadmissao == null ? DateTime.MaxValue : Model.Dataadmissao) <= Model.DataUltimoFechamento).IsReadonly(integrado)
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-primary" id="btnAdmissao" type="button" @(((Model.Dataadmissao == null ? DateTime.MaxValue : Model.Dataadmissao) <= Model.DataUltimoFechamento) == true ? "disabled" : "")><span class="glyphicon glyphicon-calendar"></span></button>
@@ -159,9 +159,9 @@
                                             </div>
                                         </div>
                                         <div class="col-md-2">
-                                            <div class="form-group input-group-sm">
+                                            <div class="form-group input-group-sm" >
                                                 @Html.LabelFor(model => model.Datademissao, new { @class = "control-label label-sm" })
-                                                <div class="input-group input-group-sm">
+                                                <div class="input-group input-group-sm" onkeypress="dataKeypress('#dtDemissao')">
                                                     @Html.TextBoxFor(model => model.Datademissao, new { @class = "form-control input-sm MascDate datepickerfunc", id = "dtDemissao" }).IsDisabled((Model.Datademissao == null ? DateTime.MaxValue : Model.Datademissao) <= Model.DataUltimoFechamento).IsReadonly(integrado)
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-primary" id="btnDemissao" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -173,7 +173,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group input-group-sm">
                                                 @Html.LabelFor(model => model.DataInativacao, new { @class = "control-label label-sm" })
-                                                <div class="input-group input-group-sm">
+                                                <div class="input-group input-group-sm" onkeypress="dataKeypress('#dtDataInativacao')">
                                                     @Html.TextBoxFor(model => model.DataInativacao, new { @class = "form-control input-sm MascDate datepickerfunc", id = "dtDataInativacao" }).IsDisabled((Model.DataInativacao == null ? DateTime.MaxValue : Model.DataInativacao) <= Model.DataUltimoFechamento).IsReadonly(integrado)
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-primary" id="btnDataInativacao" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -910,6 +910,7 @@
             $("#UtilizaReconhecimentoFacialWebApp").prop("checked", false);
         }
     });
+    
 </script>
 
 

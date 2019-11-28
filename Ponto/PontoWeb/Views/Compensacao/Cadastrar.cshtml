@@ -340,7 +340,7 @@
                                                         @Html.LabelFor(model => model.Periodoinicial, new { @class = "control-label label-sm" })
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <div class="input-group input-group-sm">
+                                                        <div class="input-group input-group-sm" onkeypress="dataKeypress('#dtPerCompInicial')">
                                                             @Html.TextBoxFor(model => model.Periodoinicial, new { @class = "form-control input-sm MascDate datepickerpt", id = "dtPerCompInicial" })
                                                             <span class="input-group-btn">
                                                                 <button class="btn btn-primary" id="btnDiaPerCompInicial" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -354,7 +354,7 @@
                                                         @Html.LabelFor(model => model.Periodofinal, new { @class = "control-label label-sm" })
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <div class="input-group input-group-sm">
+                                                        <div class="input-group input-group-sm" onkeypress="dataKeypress('#dtPerCompFinal')">
                                                             @Html.TextBoxFor(model => model.Periodofinal, new { @class = "form-control input-sm MascDate datepickerpt", id = "dtPerCompFinal" })
                                                             <span class="input-group-btn">
                                                                 <button class="btn btn-primary sm" id="btnDiaPerCompFinal" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -387,7 +387,7 @@
                                                         @Html.LabelFor(model => model.Diacompensarinicial, new { @class = "control-label label-sm" })
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <div class="input-group input-group-sm">
+                                                        <div class="input-group input-group-sm" onkeypress="dataKeypress('#dtCompInicial')">
                                                             @Html.TextBoxFor(model => model.Diacompensarinicial, new { @class = "form-control input-sm MascDate datepickerpt", id = "dtCompInicial" })
                                                             <span class="input-group-btn">
                                                                 <button class="btn btn-primary" id="btnDiaCompInicial" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -401,7 +401,7 @@
                                                         @Html.LabelFor(model => model.Diacompensarfinal, new { @class = "control-label label-sm" })
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <div class="input-group input-group-sm">
+                                                        <div class="input-group input-group-sm" onkeypress="dataKeypress('#dtCompFinal')">
                                                             @Html.TextBoxFor(model => model.Diacompensarfinal, new { @class = "form-control input-sm MascDate datepickerpt", id = "dtCompFinal" })
                                                             <span class="input-group-btn">
                                                                 <button class="btn btn-primary" id="btnDiaCompFinal" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -564,6 +564,8 @@
         };
 
     });
+     
+        
 </script>
 @if (ViewBag.Consultar == 1)
 {

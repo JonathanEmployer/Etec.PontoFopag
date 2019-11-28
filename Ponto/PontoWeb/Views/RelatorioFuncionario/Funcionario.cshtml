@@ -164,11 +164,11 @@
                                 <div class="panel-body" style="padding-bottom:7px; padding-top:0px; margin-bottom:0px; margin-top:10px;">
                                     <div class="row">
                                         <div class="col-md-6" style="padding:0px;">
-                                            <div class="col-md-3">
+                                            <div class="col-md-3" >
                                                 @Html.LabelFor(model => Model.InicioPeriodo, new { @class = "label-sm" })
                                             </div>
                                             <div class="col-md-9" style="padding-right:5px;">
-                                                <div class="input-group input-group-sm">
+                                                <div class="input-group input-group-sm" onkeypress="dataKeypress('#InicioPeriodo')">
                                                     @Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "InicioPeriodo" })
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-primary" id="btnDtInicio" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -182,7 +182,7 @@
                                                 @Html.LabelFor(model => Model.FimPeriodo, new { @class = "label-sm" })
                                             </div>
                                             <div class="col-md-9" style="padding-left:5px;">
-                                                <div class="input-group input-group-sm">
+                                                <div class="input-group input-group-sm" onkeypress="dataKeypress('#FimPeriodo')">
                                                     @Html.TextBoxFor(model => Model.FimPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "FimPeriodo" })
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-primary" id="btnDtFim" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -483,4 +483,5 @@
         }
         return false;
     });
+    
 </script>

@@ -54,7 +54,7 @@
                     <div class="col-md-2">
                         <div class="form-group input-group-sm">
                             @Html.LabelFor(model => model.Data, new { @class = "control-label label-sm" })
-                            <div class="input-group input-group-sm">
+                            <div class="input-group input-group-sm" onkeypress="dataKeypress('#Data')">
                                 @Html.TextBoxFor(model => model.Data, new { @class = "form-control input-sm MascDate datepickerpt", id = "Data" }).IsReadonly(integrado)
                                 <span class="input-group-btn">
                                     <button class="btn btn-primary" id="btnFeriado" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -340,7 +340,7 @@
             $("#HoraInicio, #HoraFim").prop("disabled", true);
         }
     }
-
+     
 </script>
 @if (ViewBag.Consultar == 1)
 {

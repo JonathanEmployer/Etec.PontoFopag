@@ -32,7 +32,7 @@
                                                         <div class="form-group">
                                                             <div class="form-group input-group-sm">
                                                                 <div class="col-md-12">
-                                                                    <div class="input-group input-group-sm">
+                                                                    <div class="input-group input-group-sm" onkeypress="dataKeypress('#DataInicial')">
                                                                         @Html.TextBoxFor(model => model.DataInicial, new { @class = "form-control input-sm MascDate", id = "DataInicial" })
 
                                                                         <span class="input-group-btn">
@@ -48,7 +48,7 @@
                                                         <div class="form-group">
                                                             <div class="form-group input-group-sm">
                                                                 <div class="col-md-12">
-                                                                    <div class="input-group input-group-sm">
+                                                                    <div class="input-group input-group-sm" onkeypress="dataKeypress('#DataFinal')">
                                                                         @Html.TextBoxFor(model => model.DataFinal, new { @class = "form-control input-sm MascDate", id = "DataFinal" })
                                                                         <span class="input-group-btn">
                                                                             <button class="btn btn-primary btndatepicker" id="btnDataFinal" type="button" title="Data Final"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -249,370 +249,372 @@
 
     <div id="divManutMarcacao" class="modal" style="background-color: rgba(0,0,0,0.4);" accesskey="" data-keyboard="false" data-backdrop="static"></div>
 }
-                    <script>
-                        var errorArray = {};
-                        var temAnterior = false;
-                        var temProximo = false;
+<script>
+    var errorArray = {};
+    var temAnterior = false;
+    var temProximo = false;
 
 
-                        $(document).ready(function () {
-                            $("#myModal").modal('show');
-                            var idMarcacao = 0;
+    $(document).ready(function () {
+        $("#myModal").modal('show');
+        var idMarcacao = 0;
 
-                            callBackEmpresa("#lkpEmpresa");
+        callBackEmpresa("#lkpEmpresa");
 
-                            if ('@ViewBag.UtilizaControleContrato'.toLowerCase() == 'true') {
-                                $('#divContrato').removeClass('hidden');
-                                $('#divDepartamento').addClass('hidden');
-                            }
-                            else {
-                                $('#divContrato').addClass('hidden');
-                                $('#divDepartamento').removeClass('hidden');
-                            }
+        if ('@ViewBag.UtilizaControleContrato'.toLowerCase() == 'true') {
+            $('#divContrato').removeClass('hidden');
+            $('#divDepartamento').addClass('hidden');
+        }
+        else {
+            $('#divContrato').addClass('hidden');
+            $('#divDepartamento').removeClass('hidden');
+        }
 
-                            $(".lkpEmpresa").bind("keydown click", function (e) {
-                                cwk_EventoConsultaUnico(e, this, "EventoConsultaOpcaoTodas", "Empresa", "", callBackEmpresa, "", "");
-                            });
+        $(".lkpEmpresa").bind("keydown click", function (e) {
+            cwk_EventoConsultaUnico(e, this, "EventoConsultaOpcaoTodas", "Empresa", "", callBackEmpresa, "", "");
+        });
 
-                            $(".lkpDepartamento").bind("keydown click", function (e) {
-                                cwk_EventoConsultaUnico(e, this, "EventoConsultaOpcaoTodas", "Departamento", "#lkpEmpresa", callBackDepartamento, "");
-                            });
+        $(".lkpDepartamento").bind("keydown click", function (e) {
+            cwk_EventoConsultaUnico(e, this, "EventoConsultaOpcaoTodas", "Departamento", "#lkpEmpresa", callBackDepartamento, "");
+        });
 
-                            $(".lkpContrato").bind("keydown click", function (e) {
-                                cwk_EventoConsultaUnico(e, this, "EventoConsulta", "Contrato", "#lkpEmpresa", callBackDepartamento, "");
-                            });
+        $(".lkpContrato").bind("keydown click", function (e) {
+            cwk_EventoConsultaUnico(e, this, "EventoConsulta", "Contrato", "#lkpEmpresa", callBackDepartamento, "");
+        });
 
-                            //Tratamento Período
-                            setaDatePiker('#DataInicial');
-                            setaDatePiker('#DataFinal');
-                            cwk_DataCalendario('#btnDataInicial', '#DataInicial');
-                            cwk_DataCalendario('#btnDataFinal', '#DataFinal');
-                            var dtIniAnt;
-                            var dtFinAnt;
-                            $('#DataInicial').datepicker().on('show', function (ev) {
-                                dtIniAnt = $("#DataInicial").val();
-                                dtFinAnt = $("#DataFinal").val();
-                            });
-                            $('#DataFinal').datepicker().on('show', function (ev) {
-                                dtIniAnt = $("#DataInicial").val();
-                                dtFinAnt = $("#DataFinal").val();
-                            });
+        //Tratamento Período
+        setaDatePiker('#DataInicial');
+        setaDatePiker('#DataFinal');
+        cwk_DataCalendario('#btnDataInicial', '#DataInicial');
+        cwk_DataCalendario('#btnDataFinal', '#DataFinal');
+        var dtIniAnt;
+        var dtFinAnt;
+        $('#DataInicial').datepicker().on('show', function (ev) {
+            dtIniAnt = $("#DataInicial").val();
+            dtFinAnt = $("#DataFinal").val();
+        });
+        $('#DataFinal').datepicker().on('show', function (ev) {
+            dtIniAnt = $("#DataInicial").val();
+            dtFinAnt = $("#DataFinal").val();
+        });
 
-                            $('#DataInicial').datepicker().on('hide', function (ev) {
-                                if (($("#DataInicial").val() != null && $("#DataInicial").val() != "") && ($("#DataFinal").val() == null || $("#DataFinal").val() == "")) {
-                                    var inid = new Date(ev.date);
-                                    endDate = new Date(ev.date);
-                                    endDate.setDate(endDate.getDate() + 30);
-                                    endDateString = ('0' + endDate.getDate()).slice(-2) + '/'
-                                                    + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
-                                                    + endDate.getFullYear();
-                                    $('#DataFinal').val(endDateString);
-                                    $('#DataFinal').datepicker('update');
-                                }
-                                if ($("#DataInicial").val() != dtIniAnt || $("#DataFinal").val() != dtFinAnt) {
-                                    carregaGridMarcacao("", null);
-                                }
-                            });
+        $('#DataInicial').datepicker().on('hide', function (ev) {
+            if (($("#DataInicial").val() != null && $("#DataInicial").val() != "") && ($("#DataFinal").val() == null || $("#DataFinal").val() == "")) {
+                var inid = new Date(ev.date);
+                endDate = new Date(ev.date);
+                endDate.setDate(endDate.getDate() + 30);
+                endDateString = ('0' + endDate.getDate()).slice(-2) + '/'
+                                + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
+                                + endDate.getFullYear();
+                $('#DataFinal').val(endDateString);
+                $('#DataFinal').datepicker('update');
+            }
+            if ($("#DataInicial").val() != dtIniAnt || $("#DataFinal").val() != dtFinAnt) {
+                carregaGridMarcacao("", null);
+            }
+        });
 
-                            $('#DataFinal').datepicker().on('hide', function (ev) {
-                                if ($("#DataInicial").val() != dtIniAnt || $("#DataFinal").val() != dtFinAnt) {
-                                    carregaGridMarcacao("", null);
-                                }
-                            });
-                            //Fim Tratamento Período
-                            $("#corpoModel").css("height", (cwk_AlturaTela() - 100) + "px");
-                            $("#myModal").css("padding-left", "5px");
+        $('#DataFinal').datepicker().on('hide', function (ev) {
+            if ($("#DataInicial").val() != dtIniAnt || $("#DataFinal").val() != dtFinAnt) {
+                carregaGridMarcacao("", null);
+            }
+        });
+        //Fim Tratamento Período
+        $("#corpoModel").css("height", (cwk_AlturaTela() - 100) + "px");
+        $("#myModal").css("padding-left", "5px");
 
-                        });
+    });
 
-                        $('#btTurnoFunc').click(function () {
-                            if (parametrosValidos(true)) {
-                                var tbMarc = $('#tb').dataTable();
-                                idMarcacao = cwk_GetIdSelecionado(tbMarc);
-                                if (idMarcacao != undefined) {
-                                    cwk_CadastroAjax("ConsultaHorario", "ManutencaoDiaria", parametros = { 'id': idMarcacao }, "");
-                                }
-                                else {
-                                    cwkErro("Selecione um Registro");
-                                }
-                            }
-                        });
+    $('#btTurnoFunc').click(function () {
+        if (parametrosValidos(true)) {
+            var tbMarc = $('#tb').dataTable();
+            idMarcacao = cwk_GetIdSelecionado(tbMarc);
+            if (idMarcacao != undefined) {
+                cwk_CadastroAjax("ConsultaHorario", "ManutencaoDiaria", parametros = { 'id': idMarcacao }, "");
+            }
+            else {
+                cwkErro("Selecione um Registro");
+            }
+        }
+    });
 
-                        function callBackEmpresa(campo) {
-                            var empresa = $(campo).val();
-                            var codigoEmp = empresa.split('|');
-                            codigoEmp = $.trim(codigoEmp[0]);
-                            $("#lkpDepartamento").val("0 | TODOS OS DEPARTAMENTOS");
-                            if (codigoEmp == "0") {
-                                $('#lkpDepartamento').prop('readonly', true);
-                                $("#btnDepartamento").prop('disabled', true);
-                                $('#lkpContrato').prop('readonly', true);
-                                $("#btnContrato").prop('disabled', true);
-                            }
-                            else {
-                                $('#lkpDepartamento').prop('readonly', false);
-                                $("#btnDepartamento").prop('disabled', false);
-                                $('#lkpContrato').prop('readonly', false);
-                                $("#btnContrato").prop('disabled', false);
-                            }
-                            controlaFocus();
-                            carregaGridMarcacao("", null);
-                        }
+    function callBackEmpresa(campo) {
+        var empresa = $(campo).val();
+        var codigoEmp = empresa.split('|');
+        codigoEmp = $.trim(codigoEmp[0]);
+        $("#lkpDepartamento").val("0 | TODOS OS DEPARTAMENTOS");
+        if (codigoEmp == "0") {
+            $('#lkpDepartamento').prop('readonly', true);
+            $("#btnDepartamento").prop('disabled', true);
+            $('#lkpContrato').prop('readonly', true);
+            $("#btnContrato").prop('disabled', true);
+        }
+        else {
+            $('#lkpDepartamento').prop('readonly', false);
+            $("#btnDepartamento").prop('disabled', false);
+            $('#lkpContrato').prop('readonly', false);
+            $("#btnContrato").prop('disabled', false);
+        }
+        controlaFocus();
+        carregaGridMarcacao("", null);
+    }
 
-                        function controlaFocus() {
-                            if ($("#Data").val() == null || $("#Data").val() == "") {
-                                campoFoco = "#Data";
-                            }
-                            else {
-                                if (!$('#lkpDepartamento').is('[readonly]')) {
-                                    campoFoco = "#lkpDepartamento";
-                                }
-                            }
-                            $(campoFoco).focus();
-                        }
+    function controlaFocus() {
+        if ($("#Data").val() == null || $("#Data").val() == "") {
+            campoFoco = "#Data";
+        }
+        else {
+            if (!$('#lkpDepartamento').is('[readonly]')) {
+                campoFoco = "#lkpDepartamento";
+            }
+        }
+        $(campoFoco).focus();
+    }
 
-                        function callBackDepartamento(campo) {
-                            controlaFocus();
-                            carregaGridMarcacao("", null);
-                        }
+    function callBackDepartamento(campo) {
+        controlaFocus();
+        carregaGridMarcacao("", null);
+    }
 
-                        function callBackErro(campo) {
-                            $("#divDadosFuncionario").html("");
-                            $("#divGridMarcacao").html("");
-                        }
+    function callBackErro(campo) {
+        $("#divDadosFuncionario").html("");
+        $("#divGridMarcacao").html("");
+    }
 
-                        function carregaGridMarcacao(response, campoChamou) {
-                            if (parametrosValidos(true)) {
-                                callBackDesabilitarData();
-								CarregaDadosAjax('GridMarcacoes', 'ManutencaoDiaria', ParamPeriodoEmpDepCont(), '#divGridMarcacao', campoChamou, callBackGrid);
-                            }
-                            else {
+    function carregaGridMarcacao(response, campoChamou) {
+        if (parametrosValidos(true)) {
+            callBackDesabilitarData();
+			CarregaDadosAjax('GridMarcacoes', 'ManutencaoDiaria', ParamPeriodoEmpDepCont(), '#divGridMarcacao', campoChamou, callBackGrid);
+        }
+        else {
 
-                                $("#divGridMarcacao").html("");
-                            }
-						}
+            $("#divGridMarcacao").html("");
+        }
+	}
 
-						function callBackGrid() {
-							FiltrarGrid();
-							callBackHabilitarData();
-						}
+	function callBackGrid() {
+		FiltrarGrid();
+		callBackHabilitarData();
+	}
 
-						function callBackHabilitarData() {
-                            habilitaDesabilitarCampos(false);
-                        }
+	function callBackHabilitarData() {
+        habilitaDesabilitarCampos(false);
+    }
 
-                        function callBackDesabilitarData() {
-                            habilitaDesabilitarCampos(true);
-                        }
+    function callBackDesabilitarData() {
+        habilitaDesabilitarCampos(true);
+    }
 
-                        function habilitaDesabilitarCampos(valor) {
-                            $("#btnDataInicial").prop('disabled', valor);
-                            $("#btnDataFinal").prop('disabled', valor);
-                            $("#DataInicial").prop('disabled', valor);
-                            $("#DataFinal").prop('disabled', valor);
-                            $("#lkpEmpresa").prop('disabled', valor);
-                            $("#btnEmpresa").prop('disabled', valor);
-                        }
+    function habilitaDesabilitarCampos(valor) {
+        $("#btnDataInicial").prop('disabled', valor);
+        $("#btnDataFinal").prop('disabled', valor);
+        $("#DataInicial").prop('disabled', valor);
+        $("#DataFinal").prop('disabled', valor);
+        $("#lkpEmpresa").prop('disabled', valor);
+        $("#btnEmpresa").prop('disabled', valor);
+    }
 
 
-                        $('#btTotHorasFunc').click(function (event) {
-                            var tbMarc = $('#tb').dataTable();
-                            idMarcacao = cwk_GetIdSelecionado(tbMarc);
-                            if (idMarcacao > 0) {
-                                if (parametrosValidos(true)) {
-                                    cwk_CadastroAjax("VisualizacaoResumoHoras", "ManutencaoDiaria", ParamPeriodoEmpDepFuncCont(), "");
-                                }
-                            }
-                            else {
-                                cwkErroTit('Selecione um Registro!', 'É necessário selecionar um registo para realizar essa operação!');
-                                return null;
-                            }
+    $('#btTotHorasFunc').click(function (event) {
+        var tbMarc = $('#tb').dataTable();
+        idMarcacao = cwk_GetIdSelecionado(tbMarc);
+        if (idMarcacao > 0) {
+            if (parametrosValidos(true)) {
+                cwk_CadastroAjax("VisualizacaoResumoHoras", "ManutencaoDiaria", ParamPeriodoEmpDepFuncCont(), "");
+            }
+        }
+        else {
+            cwkErroTit('Selecione um Registro!', 'É necessário selecionar um registo para realizar essa operação!');
+            return null;
+        }
 
-                        });
+    });
 
-                        function callBackRecalcMarcacao() {
-                            carregaGridMarcacao("", '#btRecMarcacao');
-                        };
+    function callBackRecalcMarcacao() {
+        carregaGridMarcacao("", '#btRecMarcacao');
+    };
 
-                        $('#btRecMarcacao').click(function () {
-                            if (parametrosValidos(true)) {
-                                $('#myModal').scrollTop(($('#ManutencaoDiariaTabelaMarcacao').position().top + 150));
-                                PostReturnJob("/ManutencaoDiaria/RecalculaMarcacao", "Post", ParamPeriodoEmpDepCont(), "ManutencaoDiariaTabelaMarcacao", false);
-                            }
-                        });
+    $('#btRecMarcacao').click(function () {
+        if (parametrosValidos(true)) {
+            $('#myModal').scrollTop(($('#ManutencaoDiariaTabelaMarcacao').position().top + 150));
+            PostReturnJob("/ManutencaoDiaria/RecalculaMarcacao", "Post", ParamPeriodoEmpDepCont(), "ManutencaoDiariaTabelaMarcacao", false);
+        }
+    });
 
-                        function OnJobComplete(job) {
-                            ScrollPageJobIncio();
-                            callBackRecalcMarcacao();
-                        };
+    function OnJobComplete(job) {
+        ScrollPageJobIncio();
+        callBackRecalcMarcacao();
+    };
 
-                        function ParamPeriodoEmpDepCont() {
-                            var emp = $("#lkpEmpresa").val();
-                            var depart = $("#lkpDepartamento").val();
-                            var cont = $("#lkpContrato").val();
-                            var dataIni = $("#DataInicial").val();
-                            var dataFin = $("#DataFinal").val();
-                            return parametros = {
-                                empresa: emp,
-                                departamento: depart,
-                                contrato: cont,
-                                dataInicial: dataIni,
-                                dataFinal: dataFin
-                            };
-                        }
+    function ParamPeriodoEmpDepCont() {
+        var emp = $("#lkpEmpresa").val();
+        var depart = $("#lkpDepartamento").val();
+        var cont = $("#lkpContrato").val();
+        var dataIni = $("#DataInicial").val();
+        var dataFin = $("#DataFinal").val();
+        return parametros = {
+            empresa: emp,
+            departamento: depart,
+            contrato: cont,
+            dataInicial: dataIni,
+            dataFinal: dataFin
+        };
+    }
 
-                        function ParamPeriodoEmpDepFuncCont() {
-                            var emp = $("#lkpEmpresa").val();
-                            var depart = $("#lkpDepartamento").val();
-                            var cont = $("#lkpContrato").val();
-                            var dataIni = $("#DataInicial").val();
-                            var dataFin = $("#DataFinal").val();
-                            var tbMarc = $('#tb').dataTable();
-                            idMarcacao = cwk_GetIdSelecionado(tbMarc);
-                            if (idMarcacao > 0) {
+    function ParamPeriodoEmpDepFuncCont() {
+        var emp = $("#lkpEmpresa").val();
+        var depart = $("#lkpDepartamento").val();
+        var cont = $("#lkpContrato").val();
+        var dataIni = $("#DataInicial").val();
+        var dataFin = $("#DataFinal").val();
+        var tbMarc = $('#tb').dataTable();
+        idMarcacao = cwk_GetIdSelecionado(tbMarc);
+        if (idMarcacao > 0) {
 
-                                var linha = tbMarc.$('tr.selected')[0];
-                                var idFunc = 0;
-                                if (linha != undefined) {
-                                    idFunc = Number($(linha.cells[2]).attr("id"));
-                                    return parametros = {
-                                        empresa: emp,
-                                        departamento: depart,
-                                        contrato: cont,
-                                        dataInicial: dataIni,
-                                        dataFinal: dataFin,
-                                        funcionario: idFunc
-                                    };
-                                }
-                                return null;
-                            }
-                            else {
-                                cwkErroTit('Selecione um Registro!', 'É necessário selecionar um registo para realizar essa operação!');
-                                return null;
-                            }
-                        }
+            var linha = tbMarc.$('tr.selected')[0];
+            var idFunc = 0;
+            if (linha != undefined) {
+                idFunc = Number($(linha.cells[2]).attr("id"));
+                return parametros = {
+                    empresa: emp,
+                    departamento: depart,
+                    contrato: cont,
+                    dataInicial: dataIni,
+                    dataFinal: dataFin,
+                    funcionario: idFunc
+                };
+            }
+            return null;
+        }
+        else {
+            cwkErroTit('Selecione um Registro!', 'É necessário selecionar um registo para realizar essa operação!');
+            return null;
+        }
+    }
 
-                        function parametrosValidos(bValidaPeriodo) {
-                            var emp = $("#lkpEmpresa").val();
-                            var depart = $("#lkpDepartamento").val();
-                            if ((!bValidaPeriodo || (bValidaPeriodo && validaPeriodoTabelaMarcacao())) && depart != null && depart != "" && emp != null && emp != "") {
-                                return true;
-                            }
-                            else {
-                                return false;
-                            }
-                        }
+    function parametrosValidos(bValidaPeriodo) {
+        var emp = $("#lkpEmpresa").val();
+        var depart = $("#lkpDepartamento").val();
+        if ((!bValidaPeriodo || (bValidaPeriodo && validaPeriodoTabelaMarcacao())) && depart != null && depart != "" && emp != null && emp != "") {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
-                        function validaPeriodoTabelaMarcacao() {
-                            return validaPeriodo("#DataInicial", "#DataFinal", "#pnlData", "intervalo", "#FormTabelaMarcacao");
-                        }
+    function validaPeriodoTabelaMarcacao() {
+        return validaPeriodo("#DataInicial", "#DataFinal", "#pnlData", "intervalo", "#FormTabelaMarcacao");
+    }
 
-                        $('#btManutBilhetes').on("click", function () {
-                            var tbMarc = $('#tb').dataTable();
-                            idMarcacao = cwk_GetIdSelecionado(tbMarc);
-                            if (idMarcacao > 0) {
-                                cwk_CadastroAjaxParam('Grid', 'ManutencaoBilhetes', idMarcacao, "", "");
-                            }
-                            else { cwkErroTit('Selecione um Registro!', 'É necessário selecionar um registo para realizar essa operação!'); }
-                        });
+    $('#btManutBilhetes').on("click", function () {
+        var tbMarc = $('#tb').dataTable();
+        idMarcacao = cwk_GetIdSelecionado(tbMarc);
+        if (idMarcacao > 0) {
+            cwk_CadastroAjaxParam('Grid', 'ManutencaoBilhetes', idMarcacao, "", "");
+        }
+        else { cwkErroTit('Selecione um Registro!', 'É necessário selecionar um registo para realizar essa operação!'); }
+    });
 
-                        $('#btRelManutDiaria').click(function (event) {
-                            var parms = ParamPeriodoEmpDepCont();
-                            if (parms != null) {
-                                //var param = {
-                                //    method: "post",
-                                //    action: "/RelatorioManutencaoDiaria/ManutencaoDiaria",
-                                //    emp: parms.empresa,
-                                //    depart: parms.departamento,
-                                //    dataInicial: parms.dataInicial,
-                                //    dataFinal: parms.dataFinal
-                                //};
-                                //cwk_PostAjax('ManutencaoDiariaParms', 'RelatorioManutencaoDiaria', param);
-                                PostReturnJob("/RelatorioManutencaoDiaria/ManutencaoDiariaParms", "Post", parms, "ManutencaoDiariaTabelaMarcacao", false);
-                            }
-                            else {
-                                cwkErro("Selecione um registro!");
-                            }
-                        });
+    $('#btRelManutDiaria').click(function (event) {
+        var parms = ParamPeriodoEmpDepCont();
+        if (parms != null) {
+            //var param = {
+            //    method: "post",
+            //    action: "/RelatorioManutencaoDiaria/ManutencaoDiaria",
+            //    emp: parms.empresa,
+            //    depart: parms.departamento,
+            //    dataInicial: parms.dataInicial,
+            //    dataFinal: parms.dataFinal
+            //};
+            //cwk_PostAjax('ManutencaoDiariaParms', 'RelatorioManutencaoDiaria', param);
+            PostReturnJob("/RelatorioManutencaoDiaria/ManutencaoDiariaParms", "Post", parms, "ManutencaoDiariaTabelaMarcacao", false);
+        }
+        else {
+            cwkErro("Selecione um registro!");
+        }
+    });
 
-                        function callBackCtoPonto() {
-                            $(".datepickerpt").datepicker('hide');
-                            $("#btnRelPdf").focus();
-                        }
+    function callBackCtoPonto() {
+        $(".datepickerpt").datepicker('hide');
+        $("#btnRelPdf").focus();
+    }
 
-                        $('#btnOrdenaHorarioData').click(function (event) {
-                            if (cwk_GetIdSelecionado($('#tb').DataTable()) !== undefined) {
-                                $('#myModal').scrollTop(($('#ManutencaoDiariaTabelaMarcacao').position().top + 150));
-                                PostReturnJob("/ManutencaoDiaria/OrdenaMarcacaoIndividual", "Post", parametros = { 'id': cwk_GetIdSelecionado($('#tb').DataTable()) }, "ManutencaoDiariaTabelaMarcacao", false);
-                            }
-                            else {
-                                cwkErro("Selecione um registro!");
-                            }
-                        });
+    $('#btnOrdenaHorarioData').click(function (event) {
+        if (cwk_GetIdSelecionado($('#tb').DataTable()) !== undefined) {
+            $('#myModal').scrollTop(($('#ManutencaoDiariaTabelaMarcacao').position().top + 150));
+            PostReturnJob("/ManutencaoDiaria/OrdenaMarcacaoIndividual", "Post", parametros = { 'id': cwk_GetIdSelecionado($('#tb').DataTable()) }, "ManutencaoDiariaTabelaMarcacao", false);
+        }
+        else {
+            cwkErro("Selecione um registro!");
+        }
+    });
 
-                        $('#btJornada').on("click", function () {
-                            var tbMarc = $('#tb').dataTable();
-                            idMarcacao = cwk_GetIdSelecionado(tbMarc);
-                            if (idMarcacao > 0) {
-                                cwk_CadastroAjaxParam('CadastrarJornadaManutMarcacao', 'JornadaAlternativa', idMarcacao, "", "");
-                            }
-                            else { cwkErroTit('Selecione um Registro!', 'É necessário selecionar um registo para realizar essa operação!'); }
-                        });
+    $('#btJornada').on("click", function () {
+        var tbMarc = $('#tb').dataTable();
+        idMarcacao = cwk_GetIdSelecionado(tbMarc);
+        if (idMarcacao > 0) {
+            cwk_CadastroAjaxParam('CadastrarJornadaManutMarcacao', 'JornadaAlternativa', idMarcacao, "", "");
+        }
+        else { cwkErroTit('Selecione um Registro!', 'É necessário selecionar um registo para realizar essa operação!'); }
+    });
 
-                        $('#btManutMarcacao').on("click", function () {
-                            chamaManutMarcacao();
-                        });
+    $('#btManutMarcacao').on("click", function () {
+        chamaManutMarcacao();
+    });
 
-                        $('#btClassHE').on("click", function () {
-                            HorasClassificar();
-                        });
+    $('#btClassHE').on("click", function () {
+        HorasClassificar();
+    });
 
-                        function HorasClassificar() {
-                            cwk_CadastroAjaxParam('HorasExtrasAClassificar', 'ClassificacaoHorasExtras', 0, ParamPeriodoEmpDepCont(), "", "");
-                        }
+    function HorasClassificar() {
+        cwk_CadastroAjaxParam('HorasExtrasAClassificar', 'ClassificacaoHorasExtras', 0, ParamPeriodoEmpDepCont(), "", "");
+    }
 
-                        function chamaManutMarcacao() {
-                            var oTb = $('#tb').dataTable();
-                            idMarcacao = cwk_GetIdSelecionado(oTb);
-                            if (idMarcacao > 0) {
-                                cwk_CadastroAjaxParam('ManutMarcacao', 'Marcacao', idMarcacao, "", "#divManutMarcacao", callBackManutMarcacao);
-                            }
-                            else { cwkErroTit('Selecione um Registro!', 'É necessário selecionar um registo para realizar essa operação!'); }
-                        }
+    function chamaManutMarcacao() {
+        var oTb = $('#tb').dataTable();
+        idMarcacao = cwk_GetIdSelecionado(oTb);
+        if (idMarcacao > 0) {
+            cwk_CadastroAjaxParam('ManutMarcacao', 'Marcacao', idMarcacao, "", "#divManutMarcacao", callBackManutMarcacao);
+        }
+        else { cwkErroTit('Selecione um Registro!', 'É necessário selecionar um registo para realizar essa operação!'); }
+    }
 
-                        function callBackManutMarcacao() {
-                            setaFoco();
-                        };
+    function callBackManutMarcacao() {
+        setaFoco();
+    };
 
-                        function setaFoco() {
-                            var camposDiv = $('#divManutMarcacao').find("#txtMarcacaoE1").focus();
-						};
+    function setaFoco() {
+        var camposDiv = $('#divManutMarcacao').find("#txtMarcacaoE1").focus();
+	};
 
-						function FiltrarGrid() {
-							var Filtros = [];
-							if ($("#chkFalta").is(':checked')) {
-								Filtros.push("FT");
-							}
-							if ($("#chkDebitoBH").is(':checked')) {
-								Filtros.push("DBH");
-							}
-							if ($("#chkMarcIncorreta").is(':checked')) {
-								Filtros.push("MI");
-							}
-							if ($("#chkSemOcorrencia").is(':checked')) {
-								Filtros.push("SN");
-							}
+	function FiltrarGrid() {
+		var Filtros = [];
+		if ($("#chkFalta").is(':checked')) {
+			Filtros.push("FT");
+		}
+		if ($("#chkDebitoBH").is(':checked')) {
+			Filtros.push("DBH");
+		}
+		if ($("#chkMarcIncorreta").is(':checked')) {
+			Filtros.push("MI");
+		}
+		if ($("#chkSemOcorrencia").is(':checked')) {
+			Filtros.push("SN");
+		}
 
-							var filtro = Filtros.join("|");
-							oTb.columns(22).search(filtro, false, true).draw();
-						}
+		var filtro = Filtros.join("|");
+		oTb.columns(22).search(filtro, false, true).draw();
+	}
 
-                        var $window = $(window).on('resize', function () {
-                            var alturaTela = cwk_AlturaTela();
-                            var alturaDiv = alturaTela * 36 / 100;
-                            if (cwk_AlturaResolucao() <= 768) {
-                                alturaDiv = alturaTela * 45 / 100;
-                            }
-                            $("#divGrid").height(alturaDiv);
-                        }).trigger('resize');
-                    </script>
+    var $window = $(window).on('resize', function () {
+        var alturaTela = cwk_AlturaTela();
+        var alturaDiv = alturaTela * 36 / 100;
+        if (cwk_AlturaResolucao() <= 768) {
+            alturaDiv = alturaTela * 45 / 100;
+        }
+        $("#divGrid").height(alturaDiv);
+    }).trigger('resize');
+
+   
+</script>

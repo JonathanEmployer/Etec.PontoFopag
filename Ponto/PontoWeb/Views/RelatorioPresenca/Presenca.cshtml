@@ -28,7 +28,7 @@
 											@Html.LabelFor(model => Model.InicioPeriodo, new { @class = "label-sm" })
 										</div>
 										<div class="col-md-3">
-											<div class="input-group input-group-sm">
+											<div class="input-group input-group-sm" onkeypress="dataKeypress('#Inicio')">
 												@Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "Inicio" })
 												<span class="input-group-btn">
 													<button class="btn btn-primary" id="btnDt" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -73,24 +73,20 @@
 <script>
     var errorArray = new Array();
     cwk_DataCalendario('#btnDt', '#Inicio');
-
-
+   
     function retornaAltura() {
         var altura = cwk_AlturaTela() * 28 / 100;
         if (cwk_AlturaTela() <= 768) {
             altura = cwk_AlturaTela() * 18 / 100;
         }
         return altura;
-    }
-
-
-    
+    }    
 
     $(document).ready(function () {
         $('#tbFun tbody').on('click', 'tr', function () {
 			errorArray["IdSelecionados"] = null;
             $("form").validate().showErrors(errorArray);
-        });
+        });        
     });
 
    

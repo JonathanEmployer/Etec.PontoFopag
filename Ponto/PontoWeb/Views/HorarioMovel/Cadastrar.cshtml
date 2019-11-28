@@ -333,7 +333,7 @@
                                                         <div class="col-md-8">
                                                             <div class="form-group input-group-sm">
                                                                 @Html.LabelFor(model => model.DataInicial, new { @class = "control-label label-sm" })
-                                                                <div class="input-group input-group-sm">
+                                                                <div class="input-group input-group-sm" onkeypress="dataKeypress('#DataInicial')">
                                                                     @Html.TextBoxFor(model => model.DataInicial, new { @class = "form-control input-sm MascDate horario", id = "DataInicial" })
                                                                     <span class="input-group-btn">
                                                                         <button class="btn btn-primary desabilitar" id="btnDataInicial" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -349,7 +349,7 @@
                                                         <div class="col-md-8">
                                                             <div class="form-group input-group-sm">
                                                                 @Html.LabelFor(model => model.DataFinal, new { @class = "control-label label-sm" })
-                                                                <div class="input-group input-group-sm">
+                                                                <div class="input-group input-group-sm" onkeypress="dataKeypress('#DataFinal')">
                                                                     @Html.TextBoxFor(model => model.DataFinal, new { @class = "form-control input-sm MascDate horario", id = "DataFinal" })
                                                                     <span class="input-group-btn">
                                                                         <button class="btn btn-primary desabilitar" id="btnDataFinal" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -2445,7 +2445,8 @@
         if ('@Model.CicloSequenciaIndice'.length > 0) {
             $("input[name=CicloSequenciaIndice][value=" + @Model.CicloSequenciaIndice + "]").attr('checked', 'checked');
         }
-    }
+    }    	
+     
 </script>
 
 @if (ViewBag.Consultar == 1 || Model.PossuiFechamento)

@@ -94,7 +94,7 @@
                                             <div class="form-group input-group-sm">
                                                 <div class="col-md-12">
                                                     @Html.LabelFor(model => model.dtInicioHorarioVerao, new { @class = "control-label label-sm" })
-                                                    <div class="input-group input-group-sm">
+                                                    <div class="input-group input-group-sm" onkeypress="dataKeypress('#DataInicialHorarioVerao')">
                                                         @Html.TextBoxFor(model => model.dtInicioHorarioVerao, new { @class = "form-control input-sm MascDate datepickerpt DataHorarioVerao", id = "DataInicialHorarioVerao" })
                                                         <span class="input-group-btn">
                                                             <button class="btn btn-primary btndatepicker DataHorarioVerao" id="btnDataInicialHorarioVerao" type="button" title="Data Inicial"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -110,7 +110,7 @@
                                             <div class="form-group input-group-sm">
                                                 <div class="col-md-12">
                                                     @Html.LabelFor(model => model.dtFimHorarioVerao, new { @class = "control-label label-sm" })
-                                                    <div class="input-group input-group-sm">
+                                                    <div class="input-group input-group-sm" onkeypress="dataKeypress('#DataFinalHorarioVerao')">
                                                         @Html.TextBoxFor(model => model.dtFimHorarioVerao, new { @class = "form-control input-sm MascDate datepickerpt DataHorarioVerao", id = "DataFinalHorarioVerao" })
                                                         <span class="input-group-btn">
                                                             <button class="btn btn-primary btndatepicker DataHorarioVerao" id="btnDataFinalHorarioVerao" type="button" title="Data Final"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -203,5 +203,5 @@
             $(".DataHorarioVerao").val('');
         }
     };
-
+    
 </script>

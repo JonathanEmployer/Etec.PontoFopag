@@ -202,6 +202,11 @@ function cwk_DataCalendario(botao, campo) {
     });
 }
 
+//Function para atualizar data com tecla space bar
+function dataKeypress(idData) {
+    if (event.keyCode === 32) { $(idData).val((new Date()).toLocaleDateString("pt-BR")).keyup(); }
+}
+
 function cwk_EventoKeyPressEsc(document, acao, controller) {
     $(document).on('keydown', function (e) {
         var keyCode = e.keyCode || e.which;
