@@ -28,9 +28,6 @@ namespace PontoWeb.Controllers
             BLL.ConfiguracoesGerais bllConfiguracoes = new BLL.ConfiguracoesGerais(_usr.ConnectionString, _usr);
             Marcacao marc = new Marcacao();
 
-            marc.DataInicial = DateTime.Now.Date;
-            marc.DataFinal = DateTime.Now.Date;
-
             marc.Empresa = "0 | TODAS AS EMPRESAS";
             marc.Departamento = "0 | TODOS OS DEPARTAMENTOS";
             marc.Contrato = "0 | TODOS OS CONTRATOS";

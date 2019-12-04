@@ -298,21 +298,21 @@
             dtFinAnt = $("#DataFinal").val();
         });
 
-        $('#DataInicial').datepicker().on('hide', function (ev) {
-            if (($("#DataInicial").val() != null && $("#DataInicial").val() != "") && ($("#DataFinal").val() == null || $("#DataFinal").val() == "")) {
-                var inid = new Date(ev.date);
-                endDate = new Date(ev.date);
-                endDate.setDate(endDate.getDate() + 30);
-                endDateString = ('0' + endDate.getDate()).slice(-2) + '/'
-                                + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
-                                + endDate.getFullYear();
-                $('#DataFinal').val(endDateString);
-                $('#DataFinal').datepicker('update');
-            }
-            if ($("#DataInicial").val() != dtIniAnt || $("#DataFinal").val() != dtFinAnt) {
-                carregaGridMarcacao("", null);
-            }
-        });
+        //$('#DataInicial').datepicker().on('hide', function (ev) {
+        //    if (($("#DataInicial").val() != null && $("#DataInicial").val() != "") && ($("#DataFinal").val() == null || $("#DataFinal").val() == "")) {
+        //        var inid = new Date(ev.date);
+        //        endDate = new Date(ev.date);
+        //        endDate.setDate(endDate.getDate() + 30);
+        //        endDateString = ('0' + endDate.getDate()).slice(-2) + '/'
+        //                        + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
+        //                        + endDate.getFullYear();
+        //        $('#DataFinal').val(endDateString);
+        //        $('#DataFinal').datepicker('update');
+        //    }
+        //    if ($("#DataInicial").val() != dtIniAnt || $("#DataFinal").val() != dtFinAnt) {
+        //        carregaGridMarcacao("", null);
+        //    }
+        //});
 
         $('#DataFinal').datepicker().on('hide', function (ev) {
             if ($("#DataInicial").val() != dtIniAnt || $("#DataFinal").val() != dtFinAnt) {
