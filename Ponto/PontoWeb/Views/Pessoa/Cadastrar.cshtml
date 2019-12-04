@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Cadastrar Pessoa";
     bool integrado = false;
-    if (Model.IdIntegracao.GetValueOrDefault() > 0 && ViewBag.BloqueiaDadosIntegrados)
+    if (Model.IdIntegracao != null && !string.IsNullOrEmpty(Model.IdIntegracao) && ViewBag.BloqueiaDadosIntegrados)
     {
         integrado = true;
     }    
