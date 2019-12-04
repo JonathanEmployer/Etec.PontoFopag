@@ -176,7 +176,7 @@ namespace PontoWeb.Controllers
                     
                     bllMudancaHorario.MudarHorarioWeb(obj.Tipo, obj.IdFuncao, obj.IdEmpresa, obj.IdDepartamento, obj.Idfuncionario, obj.Tipohorario, obj.Idhorario, obj.Data, obj.CicloSequenciaIndice);
                     Recalcular(obj);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Cadastrar", "MudancaHorario");
                 }
                 catch (Exception ex)
                 {
