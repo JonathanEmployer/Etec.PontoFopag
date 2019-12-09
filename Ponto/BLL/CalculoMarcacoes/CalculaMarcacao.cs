@@ -1694,63 +1694,56 @@ namespace BLL
 
         private int CalculaAcrescimoBcoHorasAcumulativo(Modelo.BancoHoras bdh, int SaldoAtual, int AcumuloAtual)
         {
-            try
+            int minutosCalculados = 0;
+            if (bdh == null)
             {
-                int minutosCalculados = 0;
-                if (bdh == null)
-                {
-                    return AcumuloAtual;
-                }
-                bool[] limitesPercentualHoras = bdh.getLimitesBcoAcumulativo();
-                string[] limiteQtdHoras = bdh.getQtdHorasBcoAcumulativo();
-                decimal[] pctsHorasBanco = bdh.getPctHorasBcoAcumulativo();
-                IList<ParmsBancoHorasAcumulativo> parametros = new List<ParmsBancoHorasAcumulativo>();
-                for (int i = 0; i < limitesPercentualHoras.Length; i++)
-                {
-                    if (limitesPercentualHoras[i])
-                    {
-                        parametros.Add(new ParmsBancoHorasAcumulativo()
-                        {
-                            Ativo = true,
-                            Percentual = pctsHorasBanco[i],
-                            LimiteMinutos = Modelo.cwkFuncoes.ConvertHorasMinuto(limiteQtdHoras[i])
-                        });
-                    }
-                }
-                if (parametros.Count == 0)
-                {
-                    return AcumuloAtual;
-                }
-                if (AcumuloAtual > 0)
-                {
-                    int totalMinutos = SaldoAtual + AcumuloAtual;
-                    ParmsBancoHorasAcumulativo parametroMenor = parametros.Where(w => w.LimiteMinutos >= SaldoAtual).FirstOrDefault();
-
-                    parametroMenor = parametroMenor == null ? new ParmsBancoHorasAcumulativo() : parametroMenor;
-
-                    ParmsBancoHorasAcumulativo parametroMaior = parametros.Where(w => w.LimiteMinutos > parametroMenor.LimiteMinutos).FirstOrDefault();
-
-                    parametroMaior = parametroMaior == null ? parametroMenor : parametroMaior;
-
-                    if (totalMinutos <= parametroMenor.LimiteMinutos)
-                    {
-                        minutosCalculados = Convert.ToInt32(AcumuloAtual * (1 + (parametroMenor.Percentual / 100)));
-                    }
-                    else
-                    {
-                        int minutosRestantesParaoLimite = Math.Abs(SaldoAtual - parametroMenor.LimiteMinutos);
-
-                        minutosCalculados += Convert.ToInt32(minutosRestantesParaoLimite * (1 + (parametroMenor.Percentual / 100)));
-
-                        minutosCalculados += Convert.ToInt32((AcumuloAtual - minutosRestantesParaoLimite) * (1 + (parametroMaior.Percentual / 100)));
-                    }
-                }
-                return minutosCalculados;
+                return AcumuloAtual;
             }
-            catch (Exception e)
+            bool[] limitesPercentualHoras = bdh.getLimitesBcoAcumulativo();
+            string[] limiteQtdHoras = bdh.getQtdHorasBcoAcumulativo();
+            decimal[] pctsHorasBanco = bdh.getPctHorasBcoAcumulativo();
+            IList<ParmsBancoHorasAcumulativo> parametros = new List<ParmsBancoHorasAcumulativo>();
+            for (int i = 0; i < limitesPercentualHoras.Length; i++)
             {
-                throw e;
+                if (limitesPercentualHoras[i])
+                {
+                    parametros.Add(new ParmsBancoHorasAcumulativo()
+                    {
+                        Ativo = true,
+                        Percentual = pctsHorasBanco[i],
+                        LimiteMinutos = Modelo.cwkFuncoes.ConvertHorasMinuto(limiteQtdHoras[i])
+                    });
+                }
             }
+            if (parametros.Count == 0)
+            {
+                return AcumuloAtual;
+            }
+            if (AcumuloAtual > 0)
+            {
+                int totalMinutos = SaldoAtual + AcumuloAtual;
+                ParmsBancoHorasAcumulativo parametroMenor = parametros.Where(w => w.LimiteMinutos >= SaldoAtual).FirstOrDefault();
+
+                parametroMenor = parametroMenor == null ? new ParmsBancoHorasAcumulativo() : parametroMenor;
+
+                ParmsBancoHorasAcumulativo parametroMaior = parametros.Where(w => w.LimiteMinutos > parametroMenor.LimiteMinutos).FirstOrDefault();
+
+                parametroMaior = parametroMaior == null ? parametroMenor : parametroMaior;
+
+                if (totalMinutos <= parametroMenor.LimiteMinutos)
+                {
+                    minutosCalculados = Convert.ToInt32(AcumuloAtual * (1 + (parametroMenor.Percentual / 100)));
+                }
+                else
+                {
+                    int minutosRestantesParaoLimite = Math.Abs(SaldoAtual - parametroMenor.LimiteMinutos);
+
+                    minutosCalculados += Convert.ToInt32(minutosRestantesParaoLimite * (1 + (parametroMenor.Percentual / 100)));
+
+                    minutosCalculados += Convert.ToInt32((AcumuloAtual - minutosRestantesParaoLimite) * (1 + (parametroMaior.Percentual / 100)));
+                }
+            }
+            return minutosCalculados;
         }
         #endregion
          
@@ -1785,16 +1778,14 @@ namespace BLL
 
             bancoHorasCre = "---:--";
             bancoHorasDeb = "---:--";
+            int CreditoBH = 0;
+            int DebitoBH = 0;
 
             if ((objBancoHoras == null) || (naoEntrarBanco == 1) || (naoEntrarBancoFunc == 1))
             {
-                //Zera o campo de exportação de horas extras noturnas do banco
-                expHorasExtraNot = "--:--";
-                return true;
+                return CalculoNaoEntraEmBanco(pIdFuncionario, objBancoHoras, out CreditoBH, out DebitoBH);
             }
 
-            int CreditoBH = 0;
-            int DebitoBH = 0;
             //Se houver entrada/saida OK ou se houver faltas
             if ((entrada_1Min != -1 && saida_1Min != -1) || (horasFaltasMin != 0) || (horasFaltaNoturnaMin != 0))
             {
@@ -1881,18 +1872,11 @@ namespace BLL
                 {
                     diaInt = fdia;
                 }
-
                 //Se o dia não entrar no banco de horas retorna
                 if (!dias[diaInt])
                 {
-                    //Zera o campo de exportação de horas extras noturnas do banco
-                    expHorasExtraNot = "--:--";
-                    CreditoBH = 0;
-                    DebitoBH = 0;
-                    InclusaoBancoHoras(ref CreditoBH, ref DebitoBH, pIdFuncionario, objBancoHoras);
-                    return true;
+                    return CalculoNaoEntraEmBanco(pIdFuncionario, objBancoHoras, out CreditoBH, out DebitoBH);
                 }
-
                 int hora = 0;
                 int limite = -1;
                 //string limite_str = "--:--";
@@ -2138,6 +2122,16 @@ namespace BLL
                 bancoHorasDeb = "---:--";
                 InclusaoBancoHoras(ref CreditoBH, ref DebitoBH, pIdFuncionario, objBancoHoras);
             }
+            return true;
+        }
+
+        private bool CalculoNaoEntraEmBanco(int pIdFuncionario, Modelo.BancoHoras objBancoHoras, out int CreditoBH, out int DebitoBH)
+        {
+            //Zera o campo de exportação de horas extras noturnas do banco
+            expHorasExtraNot = "--:--";
+            CreditoBH = 0;
+            DebitoBH = 0;
+            InclusaoBancoHoras(ref CreditoBH, ref DebitoBH, pIdFuncionario, objBancoHoras);
             return true;
         }
 
