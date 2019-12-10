@@ -1777,7 +1777,7 @@ namespace BLL
             }
 
             bancoHorasCre = "---:--";
-            bancoHorasDeb = "---:--"; 
+            bancoHorasDeb = "---:--";
             int CreditoBH = 0;
             int DebitoBH = 0;
 
