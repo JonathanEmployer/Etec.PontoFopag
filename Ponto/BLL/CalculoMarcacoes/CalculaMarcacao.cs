@@ -1778,7 +1778,7 @@ namespace BLL
 
             bancoHorasCre = "---:--";
             bancoHorasDeb = "---:--"; 
-            int CreditoBH = 0; 
+            int CreditoBH = 0;
             int DebitoBH = 0;
 
             if ((objBancoHoras == null) || (naoEntrarBanco == 1) || (naoEntrarBancoFunc == 1))
