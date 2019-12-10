@@ -191,14 +191,14 @@ namespace BLL
                                 ref creditodebitobhatual, ref saldobancohorasfechamento, ref existeBH, ref objTotalHoras,
                                 HorariosPHExtra, bInseriuDois, percExtras, ref percSabado, ref percDomingo, ref percFolga, ref percFeriado);
 
+                            if (idfuncionarioAnt != idfuncionario || quebraAuto == false)
+                            { dtBancoHoras.Rows.Clear(); }
+                            dtBancoHoras.Rows.Add(row.ItemArray);
+
                             idfuncionarioAnt = idfuncionario;
                             idempresaAnt = idempresa;
                             iddepartamentoAnt = iddepartamento;
                             idfuncaoAnt = idfuncao;
-
-                            if ((dataFinal - dataInicial).TotalDays < 31 || quebraAuto == false)
-                            { dtBancoHoras.Rows.Clear(); }
-                            dtBancoHoras.Rows.Add(row.ItemArray);
                         }
                         else
                         {
