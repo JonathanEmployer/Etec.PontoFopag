@@ -951,7 +951,8 @@ namespace DAL.SQL
             parms[2].Value = String.Join(",", idsFuncionarios);
 
             string aux = _sqlCalculoMarcacao;
-            aux += " WHERE ISNULL(marcacao.idfechamentoponto,0) = 0 AND ";
+            aux += " WHERE 1 = 1 AND ";
+            aux += " ISNULL(marcacao.idfechamentoponto,0) = 0 AND ";
             if (pegaInativos)
             {
                 if (!pegaExcluidos)
