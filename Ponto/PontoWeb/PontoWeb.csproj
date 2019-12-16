@@ -80,8 +80,9 @@
     <Reference Include="DotNetZip, Version=1.12.0.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetZip.1.12.0\lib\net20\DotNetZip.dll</HintPath>
     </Reference>
-    <Reference Include="Employer.Componentes.UI.WebMVC">
+    <Reference Include="Employer.Componentes.UI.WebMVC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Employer.Componentes.UI.WebMVC.1.0.0-Betha1\lib\net45\Employer.Componentes.UI.WebMVC.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Employer.Infra">
       <HintPath>..\packages\Employer.Infra.1.0.0\lib\net35\Employer.Infra.dll</HintPath>
