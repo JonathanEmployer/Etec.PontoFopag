@@ -363,6 +363,8 @@
     <Compile Include="Proxy\PxyFuncionariosRecalcular.cs" />
     <Compile Include="Proxy\PxyGridRepsPortaria373.cs" />
     <Compile Include="Proxy\pxyManutencaoBiometricaFuncionarioGrid.cs" />
+    <Compile Include="Proxy\PxyPeriodo.cs" />
+    <Compile Include="Proxy\PxyTransferenciaBilhetes.cs" />
     <Compile Include="Proxy\PxyUltimoFechamentoPonto.cs" />
     <Compile Include="Proxy\Webfopag\PxyRetornoColetor.cs" />
     <Compile Include="Relatorios\RelatorioAfdPortaria373Model.cs" />

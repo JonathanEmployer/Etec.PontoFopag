@@ -1,0 +1,9 @@
+﻿@model  Modelo.Proxy.PxyTransferenciaBilhetes
+@{
+    Layout = null;
+}
+
+
+<div>
+    @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioGrid()).GetType(), true, "TransferenciaBilhetes", "GetOutrosRegistrosFuncionario/" + Model.IdFuncionarioOrigem)
+</div>

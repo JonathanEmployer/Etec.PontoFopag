@@ -531,6 +531,7 @@
     <Compile Include="Controllers\RepLogAFDController.cs" />
     <Compile Include="Controllers\RepLogController.cs" />
     <Compile Include="Controllers\TipoVinculoController.cs" />
+    <Compile Include="Controllers\TransferenciaBilhetesController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
@@ -1775,6 +1776,9 @@
     <Content Include="Views\Contrato\EventoConsultaSemTodos.cshtml" />
     <Content Include="Views\RelAFDPortaria373\Index.cshtml" />
     <Content Include="Views\Contrato\EventoConsultaSemTodos.cshtml" />
+    <Content Include="Views\TransferenciaBilhetes\Index.cshtml" />
+    <Content Include="Views\Shared\_Periodo.cshtml" />
+    <Content Include="Views\TransferenciaBilhetes\GridOutrosRegistrosFuncionario.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

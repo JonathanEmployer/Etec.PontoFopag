@@ -394,9 +394,9 @@ namespace BLL
             return dalFuncionario.GetAll(pegaTodos);
         }
 
-        public List<Modelo.Funcionario> GetAllListLike(bool pegaTodos, string nome)
+        public List<Modelo.Funcionario> GetAllListLike(bool pegaInativos, bool pegaExcluidos, string nome)
         {
-            return dalFuncionario.GetAllListLike(pegaTodos, nome);
+            return dalFuncionario.GetAllListLike(pegaInativos, pegaExcluidos, nome);
         }
 
         public List<Modelo.Funcionario> GetAllListByIds(string funcionarios)
@@ -1237,9 +1237,9 @@ namespace BLL
             return dalFuncionario.GetTabelaMarcacao(tipo, identificacao, consultaNomeFuncionario);
         }
 
-        public List<Modelo.Funcionario> GetAllList(bool pegaTodos)
+        public List<Modelo.Funcionario> GetAllList(bool pegaInativos, bool pegaExcluidos)
         {
-            return dalFuncionario.GetAllList(pegaTodos);
+            return dalFuncionario.GetAllList(pegaInativos, pegaExcluidos);
         }
 
         public List<Modelo.Funcionario> getLista(int pempresa)
@@ -1303,7 +1303,7 @@ namespace BLL
                     return lstFuncionario;
                 case 3: return GetPorFuncaoList(pIdTipo);//Funcao
                 case 4: return GetPorHorario(pIdTipo);//Horario
-                case 5: return GetAllList(false);//Pega todos os funcionarios, menos os excluidos e inativos
+                case 5: return GetAllList(false, false);//Pega todos os funcionarios, menos os excluidos e inativos
                 case 6: return GetAllListPorContrato(pIdTipo);
                 default: return null;
             }
@@ -1385,7 +1385,7 @@ namespace BLL
         {
             bool ret = false;
 
-            List<Modelo.Funcionario> listaFuncionario = dalFuncionario.GetAllList(false);
+            List<Modelo.Funcionario> listaFuncionario = dalFuncionario.GetAllList(false, false);
             Modelo.Horario objHorario = new Modelo.Horario();
 
             ArrayList arr = new ArrayList();
@@ -2121,6 +2121,11 @@ namespace BLL
         public void setFuncionariosEmpresa(int idEmpresa, bool FuncionarioAtivo)
         {
             dalFuncionario.setFuncionariosEmpresa(idEmpresa, FuncionarioAtivo);
+        }
+
+        public List<pxyFuncionarioGrid> GetRegistrosEmpregoFuncionario(int idFuncionario)
+        {
+            return dalFuncionario.GetRegistrosEmpregoFuncionario(idFuncionario);
         }
     }
 }

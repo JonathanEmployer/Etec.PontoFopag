@@ -141,7 +141,7 @@ namespace PontoWeb.Controllers.Relatorios
             empresas = new List<Modelo.Empresa>();
             horarios = new List<Modelo.Horario>();
 
-            List<Modelo.Funcionario> listaFuncionarios = new BLL.Funcionario(conn, usr).GetAllList(true);
+            List<Modelo.Funcionario> listaFuncionarios = new BLL.Funcionario(conn, usr).GetAllList(true, true);
             List<Modelo.Departamento> listaDepartamentos = new BLL.Departamento(conn, usr).GetAllList();
             List<Modelo.Empresa> listaEmpresas = bllEmpresa.GetAllList();
             List<Modelo.Horario> listaHorarios = new BLL.Horario(conn, usr).GetAllList(false, false);

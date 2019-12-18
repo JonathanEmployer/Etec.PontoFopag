@@ -108,7 +108,7 @@ namespace PontoWeb.Controllers.Relatorios
             empresas = new List<Modelo.Empresa>();
 
             List<Modelo.Empresa> listaEmpresas = bllEmpresa.GetAllList();
-            List<Modelo.Funcionario> listaFuncionarios = bllFuncionario.GetAllList(false);
+            List<Modelo.Funcionario> listaFuncionarios = bllFuncionario.GetAllList(false, false);
 
             IList<string> idFuncionariosSelecionados = imp.IdSelecionados.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries).ToList();
             IList<Modelo.Funcionario> funcionariosSelecionados = listaFuncionarios.Where(f => idFuncionariosSelecionados.Contains(f.Id.ToString())).ToList();

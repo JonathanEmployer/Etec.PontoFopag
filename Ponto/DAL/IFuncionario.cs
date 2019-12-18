@@ -51,8 +51,8 @@ namespace DAL
         Modelo.Funcionario RetornaFuncDsCodigo(string pCodigo);
         Modelo.Funcionario RetornaFuncPis(int idFuncionario, string pis);
 
-        List<Modelo.Funcionario> GetAllList(bool pegaTodos);
-        List<Modelo.Funcionario> GetAllListLike(bool pegaTodos, string nome);
+        List<Modelo.Funcionario> GetAllList(bool pegaInativos, bool pegaExcluidos);
+        List<Modelo.Funcionario> GetAllListLike(bool pegaInativos, bool pegaExcluidos, string nome);
         List<Modelo.Funcionario> GetAllListByIds(string funcionarios);
         List<Modelo.Funcionario> getLista(int pempresa);
         List<Modelo.Funcionario> getLista(int pempresa, int pdepartamento);
@@ -132,6 +132,8 @@ namespace DAL
         List<PxyUltimoFechamentoPonto> GetUltimoFechamentoPontoFuncionarios(List<int> idsFuncs);
         List<int> IdsFuncPeriodoContratado(TipoFiltroFuncionario tipo, List<int> idsReg, DateTime dtIni, DateTime dtFin);
         void setFuncionariosEmpresa(int idEmpresa, bool FuncionarioAtivo);
+
+        List<Modelo.Proxy.pxyFuncionarioGrid> GetRegistrosEmpregoFuncionario(int idFuncionario);
     }
 }
 
