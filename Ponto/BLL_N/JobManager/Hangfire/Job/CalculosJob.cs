@@ -500,7 +500,7 @@ namespace BLL_N.JobManager.Hangfire.Job
                 caminho = Path.Combine(caminho, "Compensacao");
                 if (!Directory.Exists(caminho))
                     Directory.CreateDirectory(caminho);
-                caminho += String.Format(@"\Compensacao{0}_{1}", pIdCompensacao, DateTime.Now.ToString("ddMMyyyyHHmmss"));
+                caminho += String.Format(@"\Compensacao{0}_{1}.txt", pIdCompensacao, DateTime.Now.ToString("ddMMyyyyHHmmss"));
                 System.IO.File.WriteAllText(caminho, str.ToString());
                 JobControlManager.UpdateFileDownload(context, caminho);
             }
