@@ -511,11 +511,11 @@ namespace Modelo
         [Range(1, Int32.MaxValue, ErrorMessage = "O ciclo deve ser maior que 0 e menor que 2.147.483.647")]
         public Int32 QtdCiclo { get; set; }
         public int consideraperchextrasemana { get; set; }
-        public IList<Modelo.HorarioDinamicoCiclo> LHorarioCiclo { get; set; }
+        public List<Modelo.HorarioDinamicoCiclo> LHorarioCiclo { get; set; }
         public Parametros Parametro { get; set; }
         public bool PossuiFechamento { get; set; }
 
-        public IList<HorarioDinamicoRestricao> HorarioDinamicoRestricao { get; set; }
+        public IList<HorarioDinamicoRestricao> HorarioDinamicoRestricao { get; set; }   
     }
 }
 

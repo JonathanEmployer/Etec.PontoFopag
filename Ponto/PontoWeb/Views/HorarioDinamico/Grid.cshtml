@@ -40,7 +40,10 @@
         <div class="panel-footer">
             <div class="row">
                 <div class="col-xs-12 center-block">
-                    <div style="text-align: right">
+                    <div class="col-md-6" style="text-align:left">
+                        <a href="#" id="btCopiar" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Copiar Horário</a>
+                    </div>
+                    <div style="text-align: right">                       
                         <a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
                         <a href="#" id="btIncluir" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
                         <a href="#" id="btAlterar" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
@@ -64,6 +67,7 @@
             cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', controller, nomeTabela);
             cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', controller, nomeTabela);
             cwk_EventoDbClickEditar('Alterar', controller, nomeTabela);
+            eventoClickCopiarHorario('#btCopiar', 'CopiarHorario', controller, nomeTabela);
         }
         else {
             $('#btIncluir, #btAlterar, #btConsultar').attr("disabled", "disabled");
