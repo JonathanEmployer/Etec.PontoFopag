@@ -281,7 +281,7 @@
         $(".lkpContrato").bind("keydown click", function (e) {
             cwk_EventoConsultaUnico(e, this, "EventoConsulta", "Contrato", "#lkpEmpresa", callBackDepartamento, "");
         });
-
+        
         //Tratamento Período
         setaDatePiker('#DataInicial');
         setaDatePiker('#DataFinal');
@@ -297,6 +297,8 @@
             dtIniAnt = $("#DataInicial").val();
             dtFinAnt = $("#DataFinal").val();
         });
+        //Desabilita botoes
+        habilitaDesabilitarBotoes(true)
 
         //$('#DataInicial').datepicker().on('hide', function (ev) {
         //    if (($("#DataInicial").val() != null && $("#DataInicial").val() != "") && ($("#DataFinal").val() == null || $("#DataFinal").val() == "")) {
@@ -317,11 +319,30 @@
         $('#DataFinal').datepicker().on('hide', function (ev) {
             if ($("#DataInicial").val() != dtIniAnt || $("#DataFinal").val() != dtFinAnt) {
                 carregaGridMarcacao("", null);
+                if (($("#DataInicial").val() !="" && $("#DataFinal").val() != "") && ($("#DataFinal").val() >= $("#DataInicial").val())){
+                    habilitaDesabilitarBotoes (false);
+                }
+                
+
             }
         });
         //Fim Tratamento Período
         $("#corpoModel").css("height", (cwk_AlturaTela() - 100) + "px");
         $("#myModal").css("padding-left", "5px");
+
+        //Function para habilitar Botoes
+        function habilitaDesabilitarBotoes (valor)
+        {
+            $('#btManutMarcacao').prop('disabled', valor);
+            $('#btManutBilhetes').prop('disabled', valor);
+            $('#btJornada').prop('disabled', valor);
+            $('#btRecMarcacao').prop('disabled', valor);
+            $('#btnOrdenaHorarioData').prop('disabled', valor);
+            $('#btTurnoFunc').prop('disabled', valor);
+            $('#btTotHorasFunc').prop('disabled', valor);
+            $('#btRelManutDiaria').prop('disabled', valor);
+            $('#btClassHE').prop('disabled', valor);
+        }
 
     });
 
