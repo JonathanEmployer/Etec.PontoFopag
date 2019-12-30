@@ -64,6 +64,9 @@ namespace Modelo
             HorasPrevistasDentroFeriadoDiurna = "--:--";
             HorasPrevistasDentroFeriadoNoturna = "--:--";
             LegendasConcatenadas = "";
+            ContabilizarFaltas = 2;
+            ContAtrasosSaidasAntec = 2;
+            ContabilizarCreditos = 2;
 
             Afastamento = new Modelo.Afastamento();
             Afastamento.Acao = Acao.Consultar;
