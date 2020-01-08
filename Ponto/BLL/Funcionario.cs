@@ -2123,9 +2123,14 @@ namespace BLL
             dalFuncionario.setFuncionariosEmpresa(idEmpresa, FuncionarioAtivo);
         }
 
-        public List<pxyFuncionarioGrid> GetRegistrosEmpregoFuncionario(int idFuncionario)
+        public List<pxyFuncionarioRelatorio> GetRegistrosEmpregoFuncionario(int idFuncionario)
         {
-            return dalFuncionario.GetRegistrosEmpregoFuncionario(idFuncionario);
+            return dalFuncionario.GetRelFuncionariosRelatorios(string.Format(" AND f.pis = (select pis from funcionario where id = {0}) ", idFuncionario)).ToList();
+        }
+
+        public List<string> GetDsCodigosByIDs(List<int> lIds)
+        {
+            return dalFuncionario.GetDsCodigosByIDs(lIds);
         }
     }
 }

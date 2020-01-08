@@ -132,8 +132,7 @@ namespace DAL
         List<PxyUltimoFechamentoPonto> GetUltimoFechamentoPontoFuncionarios(List<int> idsFuncs);
         List<int> IdsFuncPeriodoContratado(TipoFiltroFuncionario tipo, List<int> idsReg, DateTime dtIni, DateTime dtFin);
         void setFuncionariosEmpresa(int idEmpresa, bool FuncionarioAtivo);
-
-        List<Modelo.Proxy.pxyFuncionarioGrid> GetRegistrosEmpregoFuncionario(int idFuncionario);
+        List<string> GetDsCodigosByIDs(List<int> lIds);
     }
 }
 

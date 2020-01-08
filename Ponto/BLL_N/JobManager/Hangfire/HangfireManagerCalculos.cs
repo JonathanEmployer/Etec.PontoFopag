@@ -210,6 +210,25 @@ namespace BLL_N.JobManager.Hangfire
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
+
+        public PxyJobReturn TransferirBilhetes(int idTransferenciaBilhetes)
+        {
+            Modelo.UsuarioPontoWeb user = new Modelo.UsuarioPontoWeb() { Login = usuarioLogado, ConnectionString = BLL.cwkFuncoes.ConstroiConexao(dataBase).ConnectionString };
+            BLL.TransferenciaBilhetes bllTransferenciaBilhetes = new BLL.TransferenciaBilhetes(user.ConnectionString, user);
+            Modelo.TransferenciaBilhetes transferenciaBilhetes = bllTransferenciaBilhetes.LoadObject(idTransferenciaBilhetes);
+            string parametrosExibicao = string.Format("Transferindo {0} registro(s) de Ponto do dia {1} a {2} do registro de emprego {3} para {4}",
+                                                        bllTransferenciaBilhetes.CountDetalhes(transferenciaBilhetes.Id),
+                                                        transferenciaBilhetes.DataInicio.GetValueOrDefault().ToString("dd/MM/yyyy"),
+                                                        transferenciaBilhetes.DataFim.GetValueOrDefault().ToString("dd/MM/yyyy"),
+                                                        transferenciaBilhetes.FuncionarioOrigem,
+                                                        transferenciaBilhetes.FuncionarioDestino
+                                                        );
+
+            JobControl jobControl = GerarJobControl("Transferência de Registro Ponto", parametrosExibicao);
+            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.TransferirBilhetes(null, jobControl, dataBase, usuarioLogado, transferenciaBilhetes), _enqueuedStateNormal);
+            PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
+            return jobReturn;
+        }
         #endregion
     }
 }

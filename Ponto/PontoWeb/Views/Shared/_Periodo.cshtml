@@ -2,58 +2,39 @@
 @{
     Layout = null;
 }
-
-    <div class="panel panel-default" style="margin:0" id="pnlData">
-        <div class="panel-heading" style="padding-top:5px; padding-bottom:5px">
-            <div class="row">
-                <div class="col-md-2"><label class="control-label label-sm">Período</label></div>
-                <div class="col-md-10">
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="input-group input-group-sm" onkeypress="dataKeypress('#InicioPeriodo')">
-                                @Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control input-sm MascDate datepickerpt" })
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary" id="btnInicioPeriodo" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            @Html.Label("a", new { @class = "label-sm" })
-                        </div>
-                        <div class="col-md-5">
-                            <div class="input-group input-group-sm" onkeypress="dataKeypress('#FimPeriodo')">
-                                @Html.TextBoxFor(model => Model.FimPeriodo, new { @class = "form-control input-sm MascDate datepickerpt" })
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary" id="btnFimPeriodo" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            @Html.HiddenFor(model => Model.Intervalo)
-                            @Html.ValidationMessageFor(model => Model.Intervalo)
-                            @Html.ValidationMessageFor(model => Model.InicioPeriodo)
-                            @Html.ValidationMessageFor(model => Model.FimPeriodo)
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<style>
+    .input-daterange .input-group-addon {
+        padding-top:0;
+        padding-bottom:0;
+    }
+</style>
+<div class="row">
+    @Html.Label("Periodo", "Período", new { @class = "control-label label-sm" })
+    <div class="input-group input-daterange">
+        @Html.TextBoxFor(model => Model.DataInicio, new { @class = "form-control input-sm MascDate datepickerpt" })
+        <div class="input-group-addon input-sm">a</div>
+        @Html.TextBoxFor(model => Model.DataFim, new { @class = "form-control input-sm MascDate datepickerpt" })
     </div>
+</div>
+<div class="row">
+        @Html.ValidationMessageFor(model => model.DataFim)
+        @Html.HiddenFor(model => Model.Intervalo)
+        @Html.ValidationMessageFor(model => Model.Intervalo)
+</div>
 
 <script>
-    cwk_DataCalendario('#btnInicioPeriodo', '#InicioPeriodo');
-    cwk_DataCalendario('#btnFimPeriodo', '#FimPeriodo');
+    cwk_DataCalendario('#btnDataInicio', '#DataInicio');
+    cwk_DataCalendario('#btnDataFim', '#DataFim');
 
     $(document).ready(function () {
         $('.datepickerpt').datepicker().on('hide', function () {
+            if (typeof $(':focus').attr('id') === "undefined") {
+                    $(this).focus();
+            }
             var RestringeQtdMes = '@Model.RestringeQtdMes';
             var maxAno = '@Model.RestringeQtdAno';
-            $("#pnlData").removeClass("panel-danger").removeClass("panel-success");
-            $("#pnlData").addClass("panel-default");
-            var idDtIni = "#InicioPeriodo";
-            var idDtFin = "#FimPeriodo";
+            var idDtIni = "#DataInicio";
+            var idDtFin = "#DataFim";
             var vDtIni = $(idDtIni).val();
             var vDtFin = $(idDtFin).val();
 
@@ -61,27 +42,19 @@
                 var dias = diasPeriodo(vDtIni, vDtFin);
                 if (RestringeQtdMes > 0 && dias > RestringeQtdMes * 31) {
                     addErroInput("Intervalo", "Período Máximo "+RestringeQtdMes * 31+" Dias");
-                    $("#pnlData").removeClass("panel-default").removeClass("panel-success");
-                    $("#pnlData").addClass("panel-danger");
                     return false;
                 }
                 else {
                     if (dias <= 0) {
                         addErroInput("Intervalo", "Data Inícial deve ser menor que a Final");
-                        $("#pnlData").removeClass("panel-default").removeClass("panel-success");
-                        $("#pnlData").addClass("panel-danger");
                         return false;
                     }
                     else if (maxAno != '' && maxAno != undefined && maxAno != null && maxAno > 0 && PeriodoMaiorQueAno(vDtIni, vDtFin, maxAno))
                     {
                         addErroInput("Intervalo", "O período entre a data inicial e a final não pode ultrapassar " + maxAno + " ano(s)");
-                        $("#pnlData").removeClass("panel-default").removeClass("panel-success");
-                        $("#pnlData").addClass("panel-danger");
-                    } 
+                    }
                     else
                     {
-                        $("#pnlData").removeClass("panel-default").removeClass("panel-danger");
-                        $("#pnlData").addClass("panel-success");
                         limpaErro("Intervalo")
                         return true;
                     }
@@ -90,22 +63,15 @@
             else {
                 if (($(idDtIni).val() == null || $(idDtIni).val() == "") && ($(idDtFin).val() == null || $(idDtFin).val() == "")) {
                     addErroInput("Intervalo", 'A Data Inicial e Final devem ser preenchidas!');
-                    $(idDtIni).focus();
                 }
                 else {
-
                     if ($(idDtIni).val() == null || $(idDtIni).val() == "") {
                         addErroInput("Intervalo", 'A Data Inicial deve ser preenchida!');
-                        $(idDtIni).focus();
                     }
                     if ($(idDtFin).val() == null || $(idDtFin).val() == "") {
                         addErroInput("Intervalo", 'A Data Final deve ser preenchida!');
-                        $(idDtFin).focus();
                     }
                 }
-
-                $("#pnlData").removeClass("panel-default").removeClass("panel-success");
-                $("#pnlData").addClass("panel-danger");
                 return false;
             }
         });

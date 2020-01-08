@@ -32,7 +32,7 @@
                                                         <div class="form-group">
                                                             <div class="form-group input-group-sm">
                                                                 <div class="col-md-12">
-                                                                    <div class="input-group input-group-sm" onkeypress="dataKeypress('#DataInicial')">
+                                                                    <div class="input-group input-group-sm" >
                                                                         @Html.TextBoxFor(model => model.DataInicial, new { @class = "form-control input-sm MascDate", id = "DataInicial" })
 
                                                                         <span class="input-group-btn">
@@ -48,7 +48,7 @@
                                                         <div class="form-group">
                                                             <div class="form-group input-group-sm">
                                                                 <div class="col-md-12">
-                                                                    <div class="input-group input-group-sm" onkeypress="dataKeypress('#DataFinal')">
+                                                                    <div class="input-group input-group-sm" >
                                                                         @Html.TextBoxFor(model => model.DataFinal, new { @class = "form-control input-sm MascDate", id = "DataFinal" })
                                                                         <span class="input-group-btn">
                                                                             <button class="btn btn-primary btndatepicker" id="btnDataFinal" type="button" title="Data Final"><span class="glyphicon glyphicon-calendar"></span></button>

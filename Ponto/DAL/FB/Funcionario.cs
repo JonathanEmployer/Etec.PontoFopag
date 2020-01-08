@@ -1924,7 +1924,7 @@ public List<int> GetIdsFuncsAtivos(string condicao)
             throw new NotImplementedException();
         }
 
-        public List<pxyFuncionarioGrid> GetRegistrosEmpregoFuncionario(int idFuncionario)
+        public List<string> GetDsCodigosByIDs(List<int> lIds)
         {
             throw new NotImplementedException();
         }

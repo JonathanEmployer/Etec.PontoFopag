@@ -1,10 +1,6 @@
 ﻿using Modelo.Utils;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Modelo.Proxy
 {
@@ -16,7 +12,7 @@ namespace Modelo.Proxy
         [Display(Name = "Início")]
         [Required(ErrorMessage = "Campo Obrigatório")]
         [MinDate("01/01/1760")]
-        public DateTime? InicioPeriodo { get; set; }
+        public DateTime? DataInicio { get; set; }
         /// <summary>
         /// Data Final
         /// </summary>
@@ -24,7 +20,7 @@ namespace Modelo.Proxy
         [DataType(DataType.DateTime)]
         [Required(ErrorMessage = "Campo Obrigatório")]
         [MinDate("01/01/1760")]
-        public DateTime? FimPeriodo { get; set; }
+        public DateTime? DataFim { get; set; }
 
         public int Intervalo { get; set; }
 

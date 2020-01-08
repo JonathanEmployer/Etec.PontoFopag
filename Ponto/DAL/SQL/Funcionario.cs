@@ -2734,88 +2734,6 @@ namespace DAL.SQL
             return lista;
         }
 
-        public List<Modelo.Proxy.pxyFuncionarioGrid> GetRegistrosEmpregoFuncionario(int idFuncionario)
-        {
-            List<Modelo.Proxy.pxyFuncionarioGrid> lista = new List<Modelo.Proxy.pxyFuncionarioGrid>();
-
-            SqlParameter[] parms = new SqlParameter[] { 
-                new SqlParameter("@idFuncionario", SqlDbType.Int)
-            };
-            parms[0].Value = idFuncionario;
-
-            string aux = @" SELECT func.id Id,
-		                            func.dscodigo Codigo,
-		                            func.nome Nome,
-		                            func.matricula Matricula,
-		                            func.carteira Carteira,	
-                                    uContr.contrato contrato,			
-		                            func.CPF CPF,
-		                            func.codigofolha CodigoFolha,
-		                            func.pis Pis,
-		                            CONVERT(VARCHAR(12),func.dataadmissao,103) DataAdmissao,
-		                            CONVERT(VARCHAR(12),func.datademissao,103) DataDemissao,
-		                            CASE WHEN func.funcionarioativo = 1 THEN 'Sim' ELSE 'Não' END Ativo,
-                                    CONVERT(VARCHAR(12),func.DataInativacao,103) DataInativacao,
-		                            CASE WHEN horario.tipohorario = 2 THEN 'Flexível' ELSE 'Normal' END TipoHorario,
-		                            CASE WHEN func.naoentrarbanco = 0 THEN 'Sim' ELSE 'Não' END EntraBancoHoras,
-		                            CASE WHEN func.naoentrarcompensacao = 0 THEN 'Sim' ELSE 'Não' END EntraCompensacao,
-		                            CASE WHEN func.utilizaregistrador = 0 THEN 'Não' ELSE 'Sim' END Utilizaregistrador,
-                                    CASE WHEN func.UtilizaAppPontofopag = 0 THEN 'Não' ELSE 'Sim' END UtilizaAppPontofopag,
-                                    CASE WHEN func.UtilizaReconhecimentoFacialApp = 0 THEN 'Não' ELSE 'Sim' END UtilizaReconhecimentoFacialApp,
-                                    CASE WHEN func.UtilizaWebAppPontofopag = 0 THEN 'Não' ELSE 'Sim' END UtilizaWebAppPontofopag,
-                                    CASE WHEN func.UtilizaReconhecimentoFacialWebApp = 0 THEN 'Não' ELSE 'Sim' END UtilizaReconhecimentoFacialWebApp,
-		                            CASE WHEN func.TipoMaoObra = 0 THEN 'Direta'
-			                             WHEN func.TipoMaoObra = 1 THEN 'Indireta'
-			                             WHEN func.TipoMaoObra = 2 THEN 'Mensalista' END TipoMaoObra,
-		                            CONVERT(VARCHAR, horario.codigo) + ' | ' +horario.descricao AS Horario,
-                                    CONVERT(VARCHAR, empresa.codigo) + ' | ' + empresa.nome AS Empresa ,
-                                    CONVERT(VARCHAR, departamento.codigo) + ' | ' + departamento.descricao AS Departamento ,
-                                    CONVERT(VARCHAR, funcao.codigo) + ' | ' + funcao.descricao AS Funcao ,
-                                    COALESCE(CONVERT(VARCHAR, cwu.codigo) + ' | ' + cwu.nome, '') AS Supervisor ,
-                                    COALESCE(CONVERT(VARCHAR, pe.codigo) + ' | ' + pe.RazaoSocial, '') AS PessoaSupervisor ,
-                                    CONVERT(VARCHAR, Alocacao.codigo) + ' | ' + Alocacao.descricao AS Alocacao ,
-                                    CONVERT(VARCHAR, TipoVinculo.codigo) + ' | ' + TipoVinculo.descricao AS TipoVinculo,
-                                    func.RFID
-                             FROM   funcionario func
-                                    LEFT JOIN empresa ON empresa.id = func.idempresa
-                                    LEFT JOIN departamento ON departamento.id = func.iddepartamento
-                                    LEFT JOIN horario ON horario.id = func.idhorario
-                                    LEFT JOIN funcao ON funcao.id = func.idfuncao
-                                    LEFT JOIN cw_usuario cwu ON cwu.id = func.idcw_usuario
-                                    LEFT JOIN Alocacao ON Alocacao.id = func.IdAlocacao
-                                    LEFT JOIN Pessoa pe ON pe.id = func.IdPessoaSupervisor
-                                    LEFT JOIN TipoVinculo ON TipoVinculo.id = func.IdTipoVinculo
-									OUTER APPLY(SELECT TOP 1 cfun.inchora,CASE WHEN cont.codigo is null THEN '-' ELSE CONCAT(cont.codigo,' | ',cont.codigocontrato,' - ',cont.descricaocontrato) END contrato 
-                                                FROM dbo.contratofuncionario cfun LEFT JOIN dbo.contrato cont ON cont.id = cfun.idcontrato 
-												    WHERE func.id = cfun.idfuncionario and cfun.excluido =0 ) AS uContr                             
-                                    WHERE  func.id in (select id from funcionario where funcionario.excluido = 0)
-									  AND func.pis = (select pis from funcionario where id = @idFuncionario) 
-                                    ";
-
-            aux += PermissaoUsuarioFuncionario(UsuarioLogado, aux, "func.idempresa", "func.id", null);
-            aux += " ORDER BY func.nome";
-
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
-            try
-            {
-                Mapper.CreateMap<IDataReader, pxyFuncionarioGrid>();
-                lista = Mapper.Map<List<pxyFuncionarioGrid>>(dr);
-            }
-            catch (Exception ex)
-            {
-                throw (ex);
-            }
-            finally
-            {
-                if (!dr.IsClosed)
-                {
-                    dr.Close();
-                }
-                dr.Dispose();
-            }
-            return lista;
-        }
-
         public List<Modelo.Funcionario> GetAllListComDataUltimoFechamento(bool pegaTodos)
         {
             return GetAllListComDataUltimoFechamento(pegaTodos, new List<int>());
@@ -5900,6 +5818,20 @@ where 1=1
             dr.Dispose();
             List<int> ids = dt.AsEnumerable().Select(x => Convert.ToInt32(x[0])).ToList();
             return ids;
+        }
+
+        public List<string> GetDsCodigosByIDs(List<int> lIds)
+        {
+            DataTable dt = new DataTable();
+            string aux = @" SELECT dscodigo FROM dbo.funcionario WHERE id IN ( '" + String.Join("','", lIds) + "') ";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, null);
+            dt.Load(dr);
+            if (!dr.IsClosed)
+                dr.Close();
+            dr.Dispose();
+            List<string> dscodigos = dt.AsEnumerable().Select(x => x[0].ToString()).ToList();
+            return dscodigos;
         }
 
 

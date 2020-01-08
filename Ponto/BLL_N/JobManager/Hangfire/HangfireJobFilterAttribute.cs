@@ -69,10 +69,13 @@ namespace BLL_N.JobManager.Hangfire
             int idJob = 0;
             Int32.TryParse(context.BackgroundJob.Id, out idJob);
             JobControl jobControl = JobControlManager.StatusUpdate(idJob, context.NewState.Name, context.OldStateName);
-            if (jobControl == null)
+            if (jobControl == null && idJob > 0)
             {
                 jobControl = GetJobControlApplyStateContext(context);
-                jobControl = JobControlManager.SalvarJobControl(jobControl);
+                if (jobControl.JobId > 0)
+                {
+                    jobControl = JobControlManager.SalvarJobControl(jobControl);
+                }
             }
 
             //Job esta sendo criado

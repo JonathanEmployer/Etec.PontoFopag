@@ -50,7 +50,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Datainicial, new { @class = "control-label label-sm" })
-                            <div class="input-group input-group-sm" onkeypress="dataKeypress('#Datainicial')">
+                            <div class="input-group input-group-sm" >
                                 @Html.TextBoxFor(model => model.Datainicial, new { @class = "form-control input-sm MascDate datepickerpt", id = "Datainicial" })
                                 <span class="input-group-btn">
                                     <button class="btn btn-primary" id="btnDatainicial" type="button"><span class="glyphicon glyphicon-calendar"></span></button>

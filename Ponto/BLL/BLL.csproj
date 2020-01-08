@@ -516,6 +516,8 @@
     <Compile Include="TipoBilhetes.cs" />
     <Compile Include="CalculoMarcacoes\TotalizadorHoras.cs" />
     <Compile Include="TipoVinculo.cs" />
+    <Compile Include="TransferenciaBilhetes.cs" />
+    <Compile Include="TransferenciaBilhetesDetalhes.cs" />
     <Compile Include="TratamentoDePonto.cs" />
     <Compile Include="Tratamentomarcacao.cs" />
     <Compile Include="UsuarioPontoWeb.cs" />

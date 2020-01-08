@@ -847,5 +847,23 @@ namespace BLL_N.JobManager.Hangfire.Job
                 throw ex;
             }
         }
+
+        public void TransferirBilhetes(PerformContext context, JobControl jobReport, string db, string usuario, Modelo.TransferenciaBilhetes transferenciaBilhetes)
+        {
+            SetParametersBase(context, jobReport, db, usuario);
+            BLL.TransferenciaBilhetes bllTransferenciaBilhetes = new BLL.TransferenciaBilhetes(userPF.ConnectionString, userPF);
+            bllTransferenciaBilhetes.TransferirBilhetes(transferenciaBilhetes.Id);
+            BLL.ImportaBilhetes bllImportaBilhetes = new BLL.ImportaBilhetes(userPF.ConnectionString, userPF);
+            List<string> log = new List<string>();
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(userPF.ConnectionString, userPF);
+            string dscodigoOrigem = bllFuncionario.GetDsCodigosByIDs(new List<int>() { transferenciaBilhetes.IdFuncionarioOrigem }).FirstOrDefault();
+            bllImportaBilhetes.ImportarBilhetes(dscodigoOrigem, true, transferenciaBilhetes.DataInicio, transferenciaBilhetes.DataFim, out DateTime? pdatai, out DateTime? pdataf, pb, log);
+            string dscodigoDestino = bllFuncionario.GetDsCodigosByIDs(new List<int>() { transferenciaBilhetes.IdFuncionarioDestino }).FirstOrDefault();
+            bllImportaBilhetes.ImportarBilhetes(dscodigoDestino, true, transferenciaBilhetes.DataInicio, transferenciaBilhetes.DataFim, out pdatai, out pdataf, pb, log);
+            if (pdatai != null)
+            {
+                RecalculaMarcacao(context, jobReport, db, usuario, new List<int>() { transferenciaBilhetes.IdFuncionarioOrigem, transferenciaBilhetes.IdFuncionarioDestino }, pdatai.GetValueOrDefault(), pdataf.GetValueOrDefault(), true); 
+            }
+        }
     }
 }
