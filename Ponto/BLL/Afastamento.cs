@@ -13,6 +13,7 @@ namespace BLL
         DAL.IAfastamento dalAfastamento;
         private string ConnectionString;
         private Modelo.Cw_Usuario UsuarioLogado;
+        private int tentativasNovoCodigo = 0;
 
         private Modelo.ProgressBar objProgressBar;
 
@@ -179,7 +180,18 @@ namespace BLL
                     switch (pAcao)
                     {
                         case Modelo.Acao.Incluir:
-                            dalAfastamento.Incluir(pObjAfastamento);
+                            try
+                            {
+                                dalAfastamento.Incluir(pObjAfastamento);                                
+                            }
+                            catch(Exception ex)
+                            {
+                                TrataCodigoUso(pObjAfastamento, erros, ex);
+                                if (erros.Count > 0)
+                                {
+                                    return erros;
+                                }
+                            }
                             break;
                         case Modelo.Acao.Alterar:
                             dalAfastamento.Alterar(pObjAfastamento);
@@ -202,7 +214,7 @@ namespace BLL
                 if (e.Message.Contains("AK_Afastamento"))
                 {
                     erros.Add("Datai", "Já existe um registro para o funcionário no mesmo período");
-                }
+                }               
                 else
                 {
                     throw e;
@@ -310,6 +322,42 @@ namespace BLL
         public List<PxyRelAfastamento> GetRelatorioAfastamentoFolha(List<int> idsFuncs, DateTime pDataI, DateTime pDataF, Int16 absenteismo, bool considerarAbonado, bool considerarParcial, bool considerarSemCalculo, bool considerarSuspensao, bool considerarSemAbono)
         {
             return dalAfastamento.GetRelatorioAfastamentoFolha(idsFuncs, pDataI, pDataF, absenteismo, considerarAbonado, considerarParcial, considerarSemCalculo, considerarSuspensao, considerarSemAbono);
+        }
+        private void TrataCodigoUso(Modelo.Afastamento objeto, Dictionary<string, string> erros, Exception e)
+        {
+            if (e.Message.Contains("UX_Codigo"))
+            {
+                while (true)
+                {
+                    int ultimoCodigo = MaxCodigo();
+                    objeto.Codigo = ultimoCodigo;                    
+                    try
+                    {
+                        dalAfastamento.Incluir(objeto);
+                        erros = new Dictionary<string, string>();
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        tentativasNovoCodigo++;
+                        if ((tentativasNovoCodigo > 3) || !(e.Message.Contains("UX_Codigo")))
+                        {
+                            if (erros.Count() > 0)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                throw ex;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                throw e;
+            }
         }
     }
 }

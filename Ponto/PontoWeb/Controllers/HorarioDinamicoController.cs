@@ -339,6 +339,53 @@ namespace PontoWeb.Controllers
 
             return errors;
         }
+
+        [PermissoesFiltro(Roles = "HorarioDinamicoCadastrar")]
+        public ActionResult CopiarHorario(int idHorario)
+        {
+            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+            string conn = usr.ConnectionString;
+            BLL.HorarioDinamico bllhorarioDinamico = new BLL.HorarioDinamico(conn, usr);
+            BLL.Parametros bllParms = new BLL.Parametros(conn, usr);
+            BLL.Jornada bllJornada = new BLL.Jornada(conn, usr);
+            HorarioDinamico novoHorarioDinamico = new HorarioDinamico();
+            HorarioDinamico horarioantigo = bllhorarioDinamico.LoadObjectAllChildren(idHorario);
+
+            novoHorarioDinamico = CopiaHorario(usr, bllhorarioDinamico, bllParms, bllJornada, novoHorarioDinamico, horarioantigo);
+
+            return View("Cadastrar", novoHorarioDinamico);
+        }
+        public static HorarioDinamico CopiaHorario(UsuarioPontoWeb usr, BLL.HorarioDinamico bllhorarioDinamico, BLL.Parametros bllParms, BLL.Jornada bllJornada, HorarioDinamico novoHorarioDinamico, HorarioDinamico horariDinamicoAntigo)
+        {
+            AutoMapper.Mapper.CreateMap<HorarioDinamico, HorarioDinamico>().ForMember(x => x.Id, opt => opt.Ignore()).ForMember(x => x.Altdata, opt => opt.Ignore()).ForMember(x => x.Althora, opt => opt.Ignore()).ForMember(x => x.Altusuario, opt => opt.Ignore()).ForMember(x => x.Codigo, opt => opt.Ignore());
+            AutoMapper.Mapper.CreateMap<HorarioDinamicoCiclo, HorarioDinamicoCiclo>().ForMember(x => x.Id, opt => opt.Ignore()).ForMember(x => x.IdhorarioDinamico, opt => opt.Ignore()).ForMember(x => x.Altdata, opt => opt.Ignore()).ForMember(x => x.Althora, opt => opt.Ignore()).ForMember(x => x.Altusuario, opt => opt.Ignore()).ForMember(x => x.Incdata, opt => opt.Ignore()).ForMember(x => x.Inchora, opt => opt.Ignore()).ForMember(x => x.Incusuario, opt => opt.Ignore()).ForMember(x => x.Codigo, opt => opt.Ignore());
+            AutoMapper.Mapper.CreateMap<HorarioDinamicoCicloSequencia, HorarioDinamicoCicloSequencia>().ForMember(x => x.Id, opt => opt.Ignore()).ForMember(x => x.IdHorarioDinamicoCiclo, opt => opt.Ignore()).ForMember(x => x.Altdata, opt => opt.Ignore()).ForMember(x => x.Althora, opt => opt.Ignore()).ForMember(x => x.Altusuario, opt => opt.Ignore()).ForMember(x => x.Incdata, opt => opt.Ignore()).ForMember(x => x.Inchora, opt => opt.Ignore()).ForMember(x => x.Incusuario, opt => opt.Ignore()).ForMember(x => x.Codigo, opt => opt.Ignore());
+            AutoMapper.Mapper.CreateMap<HorarioDinamicoPHExtra, HorarioDinamicoPHExtra>().ForMember(x => x.Id, opt => opt.Ignore()).ForMember(x => x.IdHorarioDinamico, opt => opt.Ignore()).ForMember(x => x.Altdata, opt => opt.Ignore()).ForMember(x => x.Althora, opt => opt.Ignore()).ForMember(x => x.Altusuario, opt => opt.Ignore()).ForMember(x => x.Incdata, opt => opt.Ignore()).ForMember(x => x.Inchora, opt => opt.Ignore()).ForMember(x => x.Incusuario, opt => opt.Ignore());
+            AutoMapper.Mapper.CreateMap<HorarioDinamicoRestricao, HorarioDinamicoRestricao>().ForMember(x => x.Id, opt => opt.Ignore()).ForMember(x => x.IdHorarioDinamico, opt => opt.Ignore()).ForMember(x => x.Altdata, opt => opt.Ignore()).ForMember(x => x.Althora, opt => opt.Ignore()).ForMember(x => x.Altusuario, opt => opt.Ignore()).ForMember(x => x.Incdata, opt => opt.Ignore()).ForMember(x => x.Inchora, opt => opt.Ignore()).ForMember(x => x.Incusuario, opt => opt.Ignore()).ForMember(x => x.Codigo, opt => opt.Ignore());
+
+            var _horarioDinamico = AutoMapper.Mapper.Map<Modelo.HorarioDinamico, Modelo.HorarioDinamico>(horariDinamicoAntigo, novoHorarioDinamico);
+            _horarioDinamico.Codigo = bllhorarioDinamico.MaxCodigo();
+            _horarioDinamico.Ativo = true;
+            _horarioDinamico.Descricao = "";
+            Modelo.Parametros param1 = bllParms.LoadObject(horariDinamicoAntigo.Idparametro);
+            _horarioDinamico.DescParametro = param1.Codigo + " | " + param1.Descricao;
+            List<Modelo.Jornada> jornadas = new List<Jornada>();
+            jornadas = bllJornada.GetAllList(_horarioDinamico.LHorarioCiclo.Select(s => s.Idjornada).Distinct().ToList());
+            _horarioDinamico.LHorarioCiclo.ForEach((hdin) =>
+            {
+                hdin.Acao = Acao.Incluir;
+                if (hdin.Idjornada > 0)
+                {
+                    Jornada jornada = jornadas.Where(w => w.Id == hdin.Idjornada.GetHashCode()).FirstOrDefault();
+                    hdin.DescJornada = (jornada.Codigo != 0) ? jornada.Codigo + " | " + jornada.horarios : string.Empty;
+                }
+                else
+                {
+                    hdin.DescJornada = string.Empty;
+                }
+            });            
+            return _horarioDinamico;// novoHorarioDinamico;
+        }        
         #endregion
 
         #region Tramentos e Validações
