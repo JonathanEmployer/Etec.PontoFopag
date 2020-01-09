@@ -784,7 +784,7 @@ namespace BLL
                     LegendasConcatenadas = cwkFuncoes.ConcatenarStrings(LegendasConcatenadas, "J");
                     //Colocado para atualziar a ocorrencia somente quando não for banco de horas
                     //CRNC - 18/01/2010
-                    if ((bancoHorasCre == "---:--") && (bancoHorasDeb == "---:--") && (dataDemissao != data))
+                    if ((bancoHorasCre == "---:--") && (bancoHorasDeb == "---:--") && (dataDemissao != data) && (idFechamentoBH == 0 && !ocorrencia.Contains("H. Pagas")) )
                     {
                         ocorrencia = "Jornada Alternativa";
                     }
