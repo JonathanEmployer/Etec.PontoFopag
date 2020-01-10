@@ -17,7 +17,7 @@
     }
 
     .divTitMarcacao {
-        width: 70px;
+        width: 74px;
         margin-right: 4px;
         float: left;
     }
@@ -94,930 +94,935 @@
 {
     <div class="divCenterManutMarca" style="margin-bottom:0; ">
         <div class="modal-content">
-            <div class="row">
-                <div class="col-md-4">
-                    <div style="text-align:left">
-                        <div class="titulo-pagina" style="margin-left:15px;">@ViewBag.Title</div>                        
+            <div class="modal-header" style="padding: 10px">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div style="text-align:left">
+                            <div class="titulo-pagina" style="margin-left:15px;">@ViewBag.Title</div>
+                        </div>
                     </div>
+                    <button type="button" class="close pos-abs-r15" data-dismiss="modal" aria-hidden="true" id="xfecharCadastroModal">X</button>
                 </div>
-                <div class="col-md-4">
-                    <div style="text-align:center">                        
-                        <button type="button" id="btnVoltaData" class="btn btn-success salvando fa fa-angle-left" onclick="javascript: eventoVolta()"></button>
-                        <span><b>Salvar e Alterar Data</b></span>
-                        <button type="button" id="btnAvcData" class="btn btn-success salvando fa fa-angle-right" onclick="javascript: eventoAvanc('1')"></button>
-                    </div>
-                </div>
-                <button type="button" class="close pos-abs-r15" data-dismiss="modal" aria-hidden="true" id="xfecharCadastroModal">X</button>
             </div>
-            <div class="modal-body panelConteudo" id="panelBodyFixo" style="padding-top:2px;">
-                <div>
-                    @if (!String.IsNullOrEmpty(@ViewBag.MensagemBloqueio))
-                    {
-                        string mensagemBloqueio = ViewBag.MensagemBloqueio;
-                        if (mensagemBloqueio.Contains("pendente de aprovação") && mensagemBloqueio.Contains("Painel do RH"))
+                <div class="modal-body panelConteudo" id="panelBodyFixo" style="padding-top:2px;">
+                    <div>
+                        @if (!String.IsNullOrEmpty(@ViewBag.MensagemBloqueio))
                         {
-                            <div class="col-md-12" style="padding:0">
-                                <div class="panel panel-default panel-danger" style="margin-bottom:1px">
-                                    <div class="panel-heading">
-                                        <h5 style="text-align:left; margin:0; font-weight:bold">Marcação Bloqueada</h5>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="col-md-8">
-                                            <h5>@ViewBag.MensagemBloqueio</h5>
+                            string mensagemBloqueio = ViewBag.MensagemBloqueio;
+                            if (mensagemBloqueio.Contains("pendente de aprovação") && mensagemBloqueio.Contains("Painel do RH"))
+                            {
+                                <div class="col-md-12" style="padding:0">
+                                    <div class="panel panel-default panel-danger" style="margin-bottom:1px">
+                                        <div class="panel-heading">
+                                            <h5 style="text-align:left; margin:0; font-weight:bold">Marcação Bloqueada</h5>
                                         </div>
-                                        <div class="col-md-4">
-                                            <div style="text-align:right">
-                                                <button type="button" aria-hidden="true" id="btnConclusaoFluxoPnlRH" class="btn btn-success"><span class="fa fa-check-square-o"></span> Conclusão do Fluxo Painel do RH </button>
-                                                <button type="button" id="btnInfConclusaoFluxoPnlRh" class="btn btn-info"><span class="fa fa-exclamation"></span></button>
+                                        <div class="panel-body">
+                                            <div class="col-md-8">
+                                                <h5>@ViewBag.MensagemBloqueio</h5>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div style="text-align:right">
+                                                    <button type="button" aria-hidden="true" id="btnConclusaoFluxoPnlRH" class="btn btn-success"><span class="fa fa-check-square-o"></span> Conclusão do Fluxo Painel do RH </button>
+                                                    <button type="button" id="btnInfConclusaoFluxoPnlRh" class="btn btn-info"><span class="fa fa-exclamation"></span></button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+                                <div class="alert alert-danger" role="alert" style="margin-bottom:0">@ViewBag.MensagemBloqueio</div>
+                            }
                         }
-                        else
-                        {
-                            <div class="alert alert-danger" role="alert" style="margin-bottom:0">@ViewBag.MensagemBloqueio</div>
-                        }
-                    }
 
-                    @Html.ValidationMessage("CustomError")
-                    @Html.HiddenFor(model => model.Id, new { id = "idMarcacao" })
-                    @Html.HiddenFor(model => model.Incdata)
-                    @Html.HiddenFor(model => model.Inchora)
-                    @Html.HiddenFor(model => model.Incusuario)
-                    @Html.HiddenFor(model => model.Altdata)
-                    @Html.HiddenFor(model => model.Althora)
-                    @Html.HiddenFor(model => model.Altusuario)
-                    @Html.HiddenFor(model => model.Acao)
-                    @Html.HiddenFor(model => model.Bancohorascre)
-                    @Html.HiddenFor(model => model.Bancohorasdeb)
-                    @Html.HiddenFor(model => model.Bilhete)
-                    @Html.HiddenFor(model => model.Chave)
-                    @Html.HiddenFor(model => model.Codigo)
-                    @Html.HiddenFor(model => model.DataFinal)
-                    @Html.HiddenFor(model => model.DataInicial)
-                    @Html.HiddenFor(model => model.Departamento)
-                    @Html.HiddenFor(model => model.Dsr)
-                    @Html.HiddenFor(model => model.Ent_Legenda_1)
-                    @Html.HiddenFor(model => model.Ent_Legenda_2)
-                    @Html.HiddenFor(model => model.Ent_Legenda_3)
-                    @Html.HiddenFor(model => model.Ent_Legenda_4)
-                    @Html.HiddenFor(model => model.Ent_Legenda_5)
-                    @Html.HiddenFor(model => model.Ent_Legenda_6)
-                    @Html.HiddenFor(model => model.Ent_Legenda_7)
-                    @Html.HiddenFor(model => model.Ent_Legenda_8)
-                    @Html.HiddenFor(model => model.Ent_num_relogio_1, new { id = "txtNumRelogioE1" })
-                    @Html.HiddenFor(model => model.Ent_num_relogio_2, new { id = "txtNumRelogioE2" })
-                    @Html.HiddenFor(model => model.Ent_num_relogio_3, new { id = "txtNumRelogioE3" })
-                    @Html.HiddenFor(model => model.Ent_num_relogio_4, new { id = "txtNumRelogioE4" })
-                    @Html.HiddenFor(model => model.Ent_num_relogio_5, new { id = "txtNumRelogioE5" })
-                    @Html.HiddenFor(model => model.Ent_num_relogio_6, new { id = "txtNumRelogioE6" })
-                    @Html.HiddenFor(model => model.Ent_num_relogio_7, new { id = "txtNumRelogioE7" })
-                    @Html.HiddenFor(model => model.Ent_num_relogio_8, new { id = "txtNumRelogioE8" })
-                    @Html.HiddenFor(model => model.EntradaMin_1)
-                    @Html.HiddenFor(model => model.EntradaMin_2)
-                    @Html.HiddenFor(model => model.EntradaMin_3)
-                    @Html.HiddenFor(model => model.EntradaMin_4)
-                    @Html.HiddenFor(model => model.EntradaMin_5)
-                    @Html.HiddenFor(model => model.EntradaMin_6)
-                    @Html.HiddenFor(model => model.EntradaMin_7)
-                    @Html.HiddenFor(model => model.EntradaMin_8)
-                    @Html.HiddenFor(model => model.ExpHorasextranoturna)
-                    @Html.HiddenFor(model => model.Funcionario)
-                    @Html.HiddenFor(model => model.Horascompensadas)
-                    @Html.HiddenFor(model => model.Horasextranoturna)
-                    @Html.HiddenFor(model => model.Horasextrasdiurna)
-                    @Html.HiddenFor(model => model.Horasfaltanoturna)
-                    @Html.HiddenFor(model => model.Horasfaltas)
-                    @Html.HiddenFor(model => model.Horastrabalhadas)
-                    @Html.HiddenFor(model => model.Horastrabalhadasnoturnas)
-                    @Html.HiddenFor(model => model.Idcompensado)
-                    @Html.HiddenFor(model => model.JornadaAlternativa)
-                    @Html.HiddenFor(model => model.Sai_Legenda_1)
-                    @Html.HiddenFor(model => model.Sai_Legenda_2)
-                    @Html.HiddenFor(model => model.Sai_Legenda_3)
-                    @Html.HiddenFor(model => model.Sai_Legenda_4)
-                    @Html.HiddenFor(model => model.Sai_Legenda_5)
-                    @Html.HiddenFor(model => model.Sai_Legenda_6)
-                    @Html.HiddenFor(model => model.Sai_Legenda_7)
-                    @Html.HiddenFor(model => model.Sai_Legenda_8)
-                    @Html.HiddenFor(model => model.Sai_num_relogio_1, new { id = "txtNumRelogioS1" })
-                    @Html.HiddenFor(model => model.Sai_num_relogio_2, new { id = "txtNumRelogioS2" })
-                    @Html.HiddenFor(model => model.Sai_num_relogio_3, new { id = "txtNumRelogioS3" })
-                    @Html.HiddenFor(model => model.Sai_num_relogio_4, new { id = "txtNumRelogioS4" })
-                    @Html.HiddenFor(model => model.Sai_num_relogio_5, new { id = "txtNumRelogioS5" })
-                    @Html.HiddenFor(model => model.Sai_num_relogio_6, new { id = "txtNumRelogioS6" })
-                    @Html.HiddenFor(model => model.Sai_num_relogio_7, new { id = "txtNumRelogioS7" })
-                    @Html.HiddenFor(model => model.Sai_num_relogio_8, new { id = "txtNumRelogioS8" })
-                    @Html.HiddenFor(model => model.SaidaMin_1)
-                    @Html.HiddenFor(model => model.SaidaMin_2)
-                    @Html.HiddenFor(model => model.SaidaMin_3)
-                    @Html.HiddenFor(model => model.SaidaMin_4)
-                    @Html.HiddenFor(model => model.SaidaMin_5)
-                    @Html.HiddenFor(model => model.SaidaMin_6)
-                    @Html.HiddenFor(model => model.SaidaMin_7)
-                    @Html.HiddenFor(model => model.SaidaMin_8)
-                    @Html.HiddenFor(model => model.Semcalculo)
-                    @Html.HiddenFor(model => model.Valordsr)
-                    @Html.HiddenFor(model => model.Idfuncionario, new { id = "Idfuncionario" })
-                    @Html.HiddenFor(model => model.Dscodigo)
-                    @Html.HiddenFor(model => model.Legenda)
-                    @Html.HiddenFor(model => model.Data)
-                    @Html.HiddenFor(model => model.Dia)
-                    @Html.HiddenFor(model => model.Entradaextra)
-                    @Html.HiddenFor(model => model.Saidaextra)
-                    @Html.HiddenFor(model => model.Ocorrencia)
-                    @Html.HiddenFor(model => model.Idhorario)
-                    @Html.HiddenFor(model => model.Idfechamentobh)
-                    @Html.HiddenFor(model => model.Totalizadoresalterados)
-                    @Html.HiddenFor(model => model.Calchorasextrasdiurna)
-                    @Html.HiddenFor(model => model.Calchorasextranoturna)
-                    @Html.HiddenFor(model => model.Calchorasfaltas)
-                    @Html.HiddenFor(model => model.Calchorasfaltanoturna)
-                    @Html.HiddenFor(model => model.Neutro)
-                    @Html.HiddenFor(model => model.IdFechamentoPonto)
-                    @Html.HiddenFor(model => model.FolgaAnt)
-                    @Html.HiddenFor(model => model.DocumentoWorkflowAberto)
-                    @Html.HiddenFor(model => model.IdDocumentoWorkflow)
-                    @Html.HiddenFor(model => model.InItinerePercDentroJornada)
-                    @Html.HiddenFor(model => model.InItinereHrsDentroJornada)
-                    @Html.HiddenFor(model => model.InItinerePercForaJornada)
-                    @Html.HiddenFor(model => model.InItinereHrsForaJornada)
-                    @Html.HiddenFor(model => model.LegendasConcatenadas)
-                </div>
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="form-group">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-addon">@Html.LabelFor(model => model.Funcionario, new { @class = "input-group-label" })</div>
-                                @Html.TextBoxFor(model => model.Funcionario, new { @class = "form-control input-sm editor-field", @readonly = "readonly" })
-                            </div>
-                            @Html.ValidationMessageFor(model => model.Funcionario)
-                        </div>
+                        @Html.ValidationMessage("CustomError")
+                        @Html.HiddenFor(model => model.Id, new { id = "idMarcacao" })
+                        @Html.HiddenFor(model => model.Incdata)
+                        @Html.HiddenFor(model => model.Inchora)
+                        @Html.HiddenFor(model => model.Incusuario)
+                        @Html.HiddenFor(model => model.Altdata)
+                        @Html.HiddenFor(model => model.Althora)
+                        @Html.HiddenFor(model => model.Altusuario)
+                        @Html.HiddenFor(model => model.Acao)
+                        @Html.HiddenFor(model => model.Bancohorascre)
+                        @Html.HiddenFor(model => model.Bancohorasdeb)
+                        @Html.HiddenFor(model => model.Bilhete)
+                        @Html.HiddenFor(model => model.Chave)
+                        @Html.HiddenFor(model => model.Codigo)
+                        @Html.HiddenFor(model => model.DataFinal)
+                        @Html.HiddenFor(model => model.DataInicial)
+                        @Html.HiddenFor(model => model.Departamento)
+                        @Html.HiddenFor(model => model.Dsr)
+                        @Html.HiddenFor(model => model.Ent_Legenda_1)
+                        @Html.HiddenFor(model => model.Ent_Legenda_2)
+                        @Html.HiddenFor(model => model.Ent_Legenda_3)
+                        @Html.HiddenFor(model => model.Ent_Legenda_4)
+                        @Html.HiddenFor(model => model.Ent_Legenda_5)
+                        @Html.HiddenFor(model => model.Ent_Legenda_6)
+                        @Html.HiddenFor(model => model.Ent_Legenda_7)
+                        @Html.HiddenFor(model => model.Ent_Legenda_8)
+                        @Html.HiddenFor(model => model.Ent_num_relogio_1, new { id = "txtNumRelogioE1" })
+                        @Html.HiddenFor(model => model.Ent_num_relogio_2, new { id = "txtNumRelogioE2" })
+                        @Html.HiddenFor(model => model.Ent_num_relogio_3, new { id = "txtNumRelogioE3" })
+                        @Html.HiddenFor(model => model.Ent_num_relogio_4, new { id = "txtNumRelogioE4" })
+                        @Html.HiddenFor(model => model.Ent_num_relogio_5, new { id = "txtNumRelogioE5" })
+                        @Html.HiddenFor(model => model.Ent_num_relogio_6, new { id = "txtNumRelogioE6" })
+                        @Html.HiddenFor(model => model.Ent_num_relogio_7, new { id = "txtNumRelogioE7" })
+                        @Html.HiddenFor(model => model.Ent_num_relogio_8, new { id = "txtNumRelogioE8" })
+                        @Html.HiddenFor(model => model.EntradaMin_1)
+                        @Html.HiddenFor(model => model.EntradaMin_2)
+                        @Html.HiddenFor(model => model.EntradaMin_3)
+                        @Html.HiddenFor(model => model.EntradaMin_4)
+                        @Html.HiddenFor(model => model.EntradaMin_5)
+                        @Html.HiddenFor(model => model.EntradaMin_6)
+                        @Html.HiddenFor(model => model.EntradaMin_7)
+                        @Html.HiddenFor(model => model.EntradaMin_8)
+                        @Html.HiddenFor(model => model.ExpHorasextranoturna)
+                        @Html.HiddenFor(model => model.Funcionario)
+                        @Html.HiddenFor(model => model.Horascompensadas)
+                        @Html.HiddenFor(model => model.Horasextranoturna)
+                        @Html.HiddenFor(model => model.Horasextrasdiurna)
+                        @Html.HiddenFor(model => model.Horasfaltanoturna)
+                        @Html.HiddenFor(model => model.Horasfaltas)
+                        @Html.HiddenFor(model => model.Horastrabalhadas)
+                        @Html.HiddenFor(model => model.Horastrabalhadasnoturnas)
+                        @Html.HiddenFor(model => model.Idcompensado)
+                        @Html.HiddenFor(model => model.JornadaAlternativa)
+                        @Html.HiddenFor(model => model.Sai_Legenda_1)
+                        @Html.HiddenFor(model => model.Sai_Legenda_2)
+                        @Html.HiddenFor(model => model.Sai_Legenda_3)
+                        @Html.HiddenFor(model => model.Sai_Legenda_4)
+                        @Html.HiddenFor(model => model.Sai_Legenda_5)
+                        @Html.HiddenFor(model => model.Sai_Legenda_6)
+                        @Html.HiddenFor(model => model.Sai_Legenda_7)
+                        @Html.HiddenFor(model => model.Sai_Legenda_8)
+                        @Html.HiddenFor(model => model.Sai_num_relogio_1, new { id = "txtNumRelogioS1" })
+                        @Html.HiddenFor(model => model.Sai_num_relogio_2, new { id = "txtNumRelogioS2" })
+                        @Html.HiddenFor(model => model.Sai_num_relogio_3, new { id = "txtNumRelogioS3" })
+                        @Html.HiddenFor(model => model.Sai_num_relogio_4, new { id = "txtNumRelogioS4" })
+                        @Html.HiddenFor(model => model.Sai_num_relogio_5, new { id = "txtNumRelogioS5" })
+                        @Html.HiddenFor(model => model.Sai_num_relogio_6, new { id = "txtNumRelogioS6" })
+                        @Html.HiddenFor(model => model.Sai_num_relogio_7, new { id = "txtNumRelogioS7" })
+                        @Html.HiddenFor(model => model.Sai_num_relogio_8, new { id = "txtNumRelogioS8" })
+                        @Html.HiddenFor(model => model.SaidaMin_1)
+                        @Html.HiddenFor(model => model.SaidaMin_2)
+                        @Html.HiddenFor(model => model.SaidaMin_3)
+                        @Html.HiddenFor(model => model.SaidaMin_4)
+                        @Html.HiddenFor(model => model.SaidaMin_5)
+                        @Html.HiddenFor(model => model.SaidaMin_6)
+                        @Html.HiddenFor(model => model.SaidaMin_7)
+                        @Html.HiddenFor(model => model.SaidaMin_8)
+                        @Html.HiddenFor(model => model.Semcalculo)
+                        @Html.HiddenFor(model => model.Valordsr)
+                        @Html.HiddenFor(model => model.Idfuncionario, new { id = "Idfuncionario" })
+                        @Html.HiddenFor(model => model.Dscodigo)
+                        @Html.HiddenFor(model => model.Legenda)
+                        @Html.HiddenFor(model => model.Data)
+                        @Html.HiddenFor(model => model.Dia)
+                        @Html.HiddenFor(model => model.Entradaextra)
+                        @Html.HiddenFor(model => model.Saidaextra)
+                        @Html.HiddenFor(model => model.Ocorrencia)
+                        @Html.HiddenFor(model => model.Idhorario)
+                        @Html.HiddenFor(model => model.Idfechamentobh)
+                        @Html.HiddenFor(model => model.Totalizadoresalterados)
+                        @Html.HiddenFor(model => model.Calchorasextrasdiurna)
+                        @Html.HiddenFor(model => model.Calchorasextranoturna)
+                        @Html.HiddenFor(model => model.Calchorasfaltas)
+                        @Html.HiddenFor(model => model.Calchorasfaltanoturna)
+                        @Html.HiddenFor(model => model.Neutro)
+                        @Html.HiddenFor(model => model.IdFechamentoPonto)
+                        @Html.HiddenFor(model => model.FolgaAnt)
+                        @Html.HiddenFor(model => model.DocumentoWorkflowAberto)
+                        @Html.HiddenFor(model => model.IdDocumentoWorkflow)
+                        @Html.HiddenFor(model => model.InItinerePercDentroJornada)
+                        @Html.HiddenFor(model => model.InItinereHrsDentroJornada)
+                        @Html.HiddenFor(model => model.InItinerePercForaJornada)
+                        @Html.HiddenFor(model => model.InItinereHrsForaJornada)
+                        @Html.HiddenFor(model => model.LegendasConcatenadas)
                     </div>
-                    <div class="col-md-4" style="padding:0">
-                        <div class="col-md-7">
-                            <div class="form-group">
-                                <div class="input-group input-group-sm">
-                                    <div class="input-group-addon">@Html.LabelFor(model => model.Data, new { @class = "input-group-label" })</div>
-                                    @Html.TextBoxFor(model => model.Data, "{0:dd/MM/yyyy}", new { @class = "form-control input-sm editor-field", @readonly = "readonly" })
-                                </div>
-                                @Html.ValidationMessageFor(model => model.Data)
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <div class="input-group input-group-sm">
-                                    <div class="input-group-addon">@Html.LabelFor(model => model.Dia, new { @class = "input-group-label" })</div>
-                                    @Html.TextBoxFor(model => model.Dia, new { @class = "form-control input-sm editor-field", @readonly = "readonly" })
-                                </div>
-                                @Html.ValidationMessageFor(model => model.Dia)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
-                            <label>
-                                @Html.CheckBoxFor(model => model.TipoHoraExtraFaltaBool, new { @class = "checkboxHN" })
-                                @Html.DisplayNameFor(model => model.TipoHoraExtraFaltaBool)
-                                @Html.ValidationMessageFor(model => model.TipoHoraExtraFaltaBool)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
-                            <label>
-                                @Html.CheckBoxFor(model => model.NaoentrarnacompensacaoBool, new { @class = "checkboxHN" })
-                                @Html.DisplayNameFor(model => model.NaoentrarnacompensacaoBool)
-                                @Html.ValidationMessageFor(model => model.NaoentrarnacompensacaoBool)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
-                            <label>
-                                @Html.CheckBoxFor(model => model.NaoentrarbancoBool, new { @class = "checkboxHN" })
-                                @Html.DisplayNameFor(model => model.NaoentrarbancoBool)
-                                @Html.ValidationMessageFor(model => model.NaoentrarbancoBool)
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
-                            <label>
-                                @Html.CheckBoxFor(model => model.AbonardsrBool, new { @class = "checkboxHN" })
-                                @Html.DisplayNameFor(model => model.AbonardsrBool)
-                                @Html.ValidationMessageFor(model => model.AbonardsrBool)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
-                            <label>
-                                @Html.CheckBoxFor(model => model.NaoconsiderarcafeBool, new { @class = "checkboxHN" })
-                                @Html.DisplayNameFor(model => model.NaoconsiderarcafeBool)
-                                @Html.ValidationMessageFor(model => model.NaoconsiderarcafeBool)
-                            </label>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="col-md-3">
-                            <div class="form-group" style="margin-right:10px;">
-                                @Html.DisplayNameFor(model => model.ContabilizarFaltas)
-                                @Html.ValidationMessageFor(model => model.ContabilizarFaltas)
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div class="form-group" style="margin-right:10px;">
-                                @Html.DropDownListFor(model => model.ContabilizarFaltas, cwkPontoWeb.Models.Helpers.EnumHelper.GetSelectedItemList<Modelo.Listas.TipoParametroBancoManut>(0), (object)new { @class = "form-control input-sm", style = "height: 25px;weight:60px;" })
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
-                            <label>
-                                @Html.CheckBoxFor(model => model.FolgaBool, new { @class = "checkboxHN" })
-                                @Html.DisplayNameFor(model => model.FolgaBool)
-                                @Html.ValidationMessageFor(model => model.FolgaBool)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
-                            <label>
-                                @Html.CheckBoxFor(model => model.BloquearEdicaoPnlRh, new { @class = "checkboxHN" })
-                                @Html.DisplayName("Bloquear Edição Painel")
-                                @Html.ValidationMessageFor(model => model.BloquearEdicaoPnlRh)
-                            </label>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="col-md-3">
-                            <div class="form-group" style="margin-right:10px;">
-                                @Html.DisplayNameFor(model => model.ContAtrasosSaidasAntec)
-                                @Html.ValidationMessageFor(model => model.ContAtrasosSaidasAntec)
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div class="form-group" style="margin-right:10px;">
-                                @Html.DropDownListFor(model => model.ContAtrasosSaidasAntec, cwkPontoWeb.Models.Helpers.EnumHelper.GetSelectedItemList<Modelo.Listas.TipoParametroBancoManut>(0), (object)new { @class = "form-control input-sm", style = "height: 25px;weight:60px;" })
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
-                            <label>
-                                @Html.CheckBoxFor(model => model.ConsiderarFeriadoBool, new { @class = "checkboxHN" })
-                                @Html.DisplayNameFor(model => model.ConsiderarFeriadoBool)
-                                @Html.ValidationMessageFor(model => model.ConsiderarFeriadoBool)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
-                            <label>
-                                @Html.CheckBoxFor(model => model.NaoConsiderarInItinere, new { @class = "checkboxHN" })
-                                @Html.DisplayNameFor(model => model.NaoConsiderarInItinere)
-                                @Html.ValidationMessageFor(model => model.NaoConsiderarInItinere)
-                            </label>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="col-md-3">
-                            <div class="form-group" style="margin-right:10px;">
-                                @Html.DisplayNameFor(model => model.ContabilizarCreditos)
-                                @Html.ValidationMessageFor(model => model.ContabilizarCreditos)
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div class="form-group" style="margin-right:10px;">
-                                @Html.DropDownListFor(model => model.ContabilizarCreditos, cwkPontoWeb.Models.Helpers.EnumHelper.GetSelectedItemList<Modelo.Listas.TipoParametroBancoManut>(0), (object)new { @class = "form-control input-sm", style = "height: 25px;weight:60px;" })
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="jumbotron col-md-12" style="padding:5px; margin-bottom:0">
-                    <div class="col-md-9" style="padding:0">
-                        <div class="well well-sm" style="margin-bottom:0px">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="divTitMarcacao">
-                                        &nbsp;
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="btn-group">
-                                            <button id="btnE1" data="E1" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
-                                                Ent. 1 <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-E1" role="menu">
-                                                <li><a id="btnDescE1" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
-                                                <li><a id="btnAtuE1" class="ManutMarc" href="#">Atualiza Motivo</a></li>
-                                                <li><a id="btnRemE1" class="ManutMarc" href="#">Remove Tratamento</a></li>
-                                            </ul>
-                                        </div>
-                                        <!-- Single button -->
-                                        @Html.EditorFor(m => m.BilhetesMarcacao[0], "_ManutMarcBilhete")
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="btn-group">
-                                            <button id="btnS1" data="S1" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
-                                                Sai. 1 <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-S1" role="menu">
-                                                <li><a id="btnDescS1" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
-                                                <li><a id="btnAtuS1" class="ManutMarc" href="#">Atualiza Motivo</a></li>
-                                                <li><a id="btnRemS1" class="ManutMarc" href="#">Remove Tratamento</a></li>
-                                            </ul>
-                                        </div>
-                                        @Html.EditorFor(m => m.BilhetesMarcacao[1], "_ManutMarcBilhete")
-                                    </div>
-
-                                    <div class="divMarcacao">
-                                        <div class="btn-group">
-                                            <button id="btnE2" data="E2" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
-                                                Ent. 2 <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-E2" role="menu">
-                                                <li><a id="btnDescE2" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
-                                                <li><a id="btnAtuE2" class="ManutMarc" href="#">Atualiza Motivo</a></li>
-                                                <li><a id="btnRemE2" class="ManutMarc" href="#">Remove Tratamento</a></li>
-                                            </ul>
-                                        </div>
-                                        @Html.EditorFor(m => m.BilhetesMarcacao[2], "_ManutMarcBilhete")
-                                    </div>
-
-                                    <div class="divMarcacao">
-                                        <div class="btn-group">
-                                            <button id="btnS2" data="S2" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
-                                                Sai. 2 <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-S2" role="menu">
-                                                <li><a id="btnDescS2" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
-                                                <li><a id="btnAtuS2" class="ManutMarc" href="#">Atualiza Motivo</a></li>
-                                                <li><a id="btnRemS2" class="ManutMarc" href="#">Remove Tratamento</a></li>
-                                            </ul>
-                                        </div>
-                                        @Html.EditorFor(m => m.BilhetesMarcacao[3], "_ManutMarcBilhete")
-                                    </div>
-
-
-                                    <div class="divMarcacao">
-                                        <div class="btn-group">
-                                            <button id="btnE3" data="E3" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
-                                                Ent. 3 <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-E3" role="menu">
-                                                <li><a id="btnDescE3" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
-                                                <li><a id="btnAtuE3" class="ManutMarc" href="#">Atualiza Motivo</a></li>
-                                                <li><a id="btnRemE3" class="ManutMarc" href="#">Remove Tratamento</a></li>
-                                            </ul>
-                                        </div>
-                                        @Html.EditorFor(m => m.BilhetesMarcacao[4], "_ManutMarcBilhete")
-                                    </div>
-
-                                    <div class="divMarcacao">
-                                        <div class="btn-group">
-                                            <button id="btnS3" data="S3" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
-                                                Sai. 3 <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-S3" role="menu">
-                                                <li><a id="btnDescS3" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
-                                                <li><a id="btnAtuS3" class="ManutMarc" href="#">Atualiza Motivo</a></li>
-                                                <li><a id="btnRemS3" class="ManutMarc" href="#">Remove Tratamento</a></li>
-                                            </ul>
-                                        </div>
-                                        @Html.EditorFor(m => m.BilhetesMarcacao[5], "_ManutMarcBilhete")
-                                    </div>
-
-                                    <div class="divMarcacao">
-                                        <div class="btn-group">
-                                            <button id="btnE4" data="E4" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
-                                                Ent. 4 <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-E4" role="menu">
-                                                <li><a id="btnDescE4" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
-                                                <li><a id="btnAtuE4" class="ManutMarc" href="#">Atualiza Motivo</a></li>
-                                                <li><a id="btnRemE4" class="ManutMarc" href="#">Remove Tratamento</a></li>
-                                            </ul>
-                                        </div>
-                                        @Html.EditorFor(m => m.BilhetesMarcacao[6], "_ManutMarcBilhete")
-                                    </div>
-
-                                    <div class="divMarcacao">
-                                        <div class="btn-group">
-                                            <button id="btnS4" data="S4" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
-                                                Sai. 4 <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-S4" role="menu">
-                                                <li><a id="btnDescS4" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
-                                                <li><a id="btnAtuS4" class="ManutMarc" href="#">Atualiza Motivo</a></li>
-                                                <li><a id="btnRemS4" class="ManutMarc" href="#">Remove Tratamento</a></li>
-                                            </ul>
-                                        </div>
-                                        @Html.EditorFor(m => m.BilhetesMarcacao[7], "_ManutMarcBilhete")
-                                    </div>
-
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="divTitMarcacao">
-                                        @Html.Label("", "Marcação: ", new { @class = "labelTitLinha", style = "padding-top: 6px;" })
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="input-group input-group-sm">
-                                            @Html.TextBoxFor(m => m.Entrada_1, new { @class = "form-control input-sm time", id = "txtMarcacaoE1", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
-                                            <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_1, new { @class = "input-group-legenda", id = "txtLegendaE1" })</div>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="input-group input-group-sm">
-                                            @Html.TextBoxFor(m => m.Saida_1, new { @class = "form-control input-sm time", id = "txtMarcacaoS1", style = "font-weight: bold;", @placeholder = "--:--" })
-                                            <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_1, new { @class = "input-group-legenda", id = "txtLegendaS1" })</div>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="input-group input-group-sm">
-                                            @Html.TextBoxFor(m => m.Entrada_2, new { @class = "form-control input-sm time", id = "txtMarcacaoE2", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
-                                            <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_2, new { @class = "input-group-legenda", id = "txtLegendaE2" })</div>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="input-group input-group-sm">
-                                            @Html.TextBoxFor(m => m.Saida_2, new { @class = "form-control input-sm time", id = "txtMarcacaoS2", style = "font-weight: bold;", @placeholder = "--:--" })
-                                            <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_2, new { @class = "input-group-legenda", id = "txtLegendaS2" })</div>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="input-group input-group-sm">
-                                            @Html.TextBoxFor(m => m.Entrada_3, new { @class = "form-control input-sm time", id = "txtMarcacaoE3", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
-                                            <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_3, new { @class = "input-group-legenda", id = "txtLegendaE3" })</div>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="input-group input-group-sm">
-                                            @Html.TextBoxFor(m => m.Saida_3, new { @class = "form-control input-sm time", id = "txtMarcacaoS3", style = "font-weight: bold;", @placeholder = "--:--" })
-                                            <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_3, new { @class = "input-group-legenda", id = "txtLegendaS3" })</div>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="input-group input-group-sm">
-                                            @Html.TextBoxFor(m => m.Entrada_4, new { @class = "form-control input-sm time", id = "txtMarcacaoE4", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
-                                            <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_4, new { @class = "input-group-legenda", id = "txtLegendaE4" })</div>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="input-group input-group-sm">
-                                            @Html.TextBoxFor(m => m.Saida_4, new { @class = "form-control input-sm time", id = "txtMarcacaoS4", style = "font-weight: bold;", @placeholder = "--:--" })
-                                            <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_4, new { @class = "input-group-legenda", id = "txtLegendaS4" })</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="divTitMarcacao">
-                                        @Html.Label("", "Alocar: ", new { @class = "labelTitLinha" })
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                            <button type="button" class="btn btn-default btn-alocar" disabled>&nbsp;</button>
-                                            <button id="btnEnt1Sai1" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 1 e Saida 1"><span class="glyphicon glyphicon-chevron-right"></span></button>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                            <button id="btnSai1Ent1" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 1 e Entrada 1"><span class="glyphicon glyphicon-chevron-left"></span></button>
-                                            <button id="btnSai1Ent2" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 1 e Entrada 2"><span class="glyphicon glyphicon-chevron-right"></span></button>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                            <button id="btnEnt2Sai1" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 2 e Saida 1"><span class="glyphicon glyphicon-chevron-left"></span></button>
-                                            <button id="btnEnt2Sai2" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 2 e Saida 2"><span class="glyphicon glyphicon-chevron-right"></span></button>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                            <button id="btnSai2Ent2" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 2 e Entrada 2"><span class="glyphicon glyphicon-chevron-left"></span></button>
-                                            <button id="btnSai2Ent3" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 2 e Entrada 3"><span class="glyphicon glyphicon-chevron-right"></span></button>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                            <button id="btnEnt3Sai2" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 3 e Saida 2"><span class="glyphicon glyphicon-chevron-left"></span></button>
-                                            <button id="btnEnt3Sai3" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 3 e Saida 3"><span class="glyphicon glyphicon-chevron-right"></span></button>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                            <button id="btnSai3Ent3" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 3 e Entrada 3"><span class="glyphicon glyphicon-chevron-left"></span></button>
-                                            <button id="btnSai3Ent4" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 3 e Entrada 4"><span class="glyphicon glyphicon-chevron-right"></span></button>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                            <button id="btnEnt4Sai3" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 4 e Saida 3"><span class="glyphicon glyphicon-chevron-left"></span></button>
-                                            <button id="btnEnt4Sai4" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 4 e Saida 4"><span class="glyphicon glyphicon-chevron-right"></span></button>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                            <button id="btnSai4Ent4" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 4 e Entrada 4"><span class="glyphicon glyphicon-chevron-left"></span></button>
-                                            <button id="btnSai4Ent5" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 4 e Entrada 5"><span class="glyphicon glyphicon-chevron-right"></span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="divTitMarcacao">
-                                        @Html.Label("", "Nº Relógio: ", new { @class = "labelTitLinha" })
-                                    </div>
-                                    <div class="divMarcacao">
-                                        @Html.Label("", Model.Ent_num_relogio_1, new { @class = "labelRelogio", id = "txtRelogioE1" })
-                                    </div>
-                                    <div class="divMarcacao">
-                                        @Html.Label("", Model.Sai_num_relogio_1, new { @class = "labelRelogio", id = "txtRelogioS1" })
-                                    </div>
-                                    <div class="divMarcacao">
-                                        @Html.Label("", Model.Ent_num_relogio_2, new { @class = "labelRelogio", id = "txtRelogioE2" })
-                                    </div>
-                                    <div class="divMarcacao">
-                                        @Html.Label("", Model.Sai_num_relogio_2, new { @class = "labelRelogio", id = "txtRelogioS2" })
-                                    </div>
-                                    <div class="divMarcacao">
-                                        @Html.Label("", Model.Ent_num_relogio_3, new { @class = "labelRelogio", id = "txtRelogioE3" })
-                                    </div>
-                                    <div class="divMarcacao">
-                                        @Html.Label("", Model.Sai_num_relogio_3, new { @class = "labelRelogio", id = "txtRelogioS3" })
-                                    </div>
-                                    <div class="divMarcacao">
-                                        @Html.Label("", Model.Ent_num_relogio_4, new { @class = "labelRelogio", id = "txtRelogioE4" })
-                                    </div>
-                                    <div class="divMarcacao">
-                                        @Html.Label("", Model.Sai_num_relogio_4, new { @class = "labelRelogio", id = "txtRelogioS4" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="well well-sm" style="margin-bottom:0px">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="divTitMarcacao"> &nbsp;</div>
-                                    <div class="divMarcacao">
-                                        <div class="btn-group">
-                                            <button id="btnE5" data="E5" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
-                                                Ent. 5 <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-E5" role="menu">
-                                                <li><a id="btnDescE5" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
-                                                <li><a id="btnAtuE5" class="ManutMarc" href="#">Atualiza Motivo</a></li>
-                                                <li><a id="btnRemE5" class="ManutMarc" href="#">Remove Tratamento</a></li>
-                                            </ul>
-
-                                        </div>
-                                        @Html.EditorFor(m => m.BilhetesMarcacao[8], "_ManutMarcBilhete")
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="btn-group">
-                                            <button id="btnS5" data="S5" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
-                                                Sai. 5 <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-S5" role="menu">
-                                                <li><a id="btnDescS5" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
-                                                <li><a id="btnAtuS5" class="ManutMarc" href="#">Atualiza Motivo</a></li>
-                                                <li><a id="btnRemS5" class="ManutMarc" href="#">Remove Tratamento</a></li>
-                                            </ul>
-                                        </div>
-                                        @Html.EditorFor(m => m.BilhetesMarcacao[9], "_ManutMarcBilhete")
-                                    </div>
-
-                                    <div class="divMarcacao">
-                                        <div class="btn-group">
-                                            <button id="btnE6" data="E6" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
-                                                Ent. 6 <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-E6" role="menu">
-                                                <li><a id="btnDescE6" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
-                                                <li><a id="btnAtuE6" class="ManutMarc" href="#">Atualiza Motivo</a></li>
-                                                <li><a id="btnRemE6" class="ManutMarc" href="#">Remove Tratamento</a></li>
-                                            </ul>
-                                        </div>
-                                        @Html.EditorFor(m => m.BilhetesMarcacao[10], "_ManutMarcBilhete")
-                                    </div>
-
-                                    <div class="divMarcacao">
-                                        <div class="btn-group">
-                                            <button id="btnS6" data="S6" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
-                                                Sai. 6 <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-S6" role="menu">
-                                                <li><a id="btnDescS6" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
-                                                <li><a id="btnAtuS6" class="ManutMarc" href="#">Atualiza Motivo</a></li>
-                                                <li><a id="btnRemS6" class="ManutMarc" href="#">Remove Tratamento</a></li>
-                                            </ul>
-                                        </div>
-                                        @Html.EditorFor(m => m.BilhetesMarcacao[11], "_ManutMarcBilhete")
-                                    </div>
-
-
-                                    <div class="divMarcacao">
-                                        <div class="btn-group">
-                                            <button id="btnE7" data="E7" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
-                                                Ent. 7 <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-E7" role="menu">
-                                                <li><a id="btnDescE7" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
-                                                <li><a id="btnAtuE7" class="ManutMarc" href="#">Atualiza Motivo</a></li>
-                                                <li><a id="btnRemE7" class="ManutMarc" href="#">Remove Tratamento</a></li>
-                                            </ul>
-                                        </div>
-                                        @Html.EditorFor(m => m.BilhetesMarcacao[12], "_ManutMarcBilhete")
-                                    </div>
-
-                                    <div class="divMarcacao">
-                                        <div class="btn-group">
-                                            <button id="btnS7" data="S7" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
-                                                Sai. 7 <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-S7" role="menu">
-                                                <li><a id="btnDescS7" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
-                                                <li><a id="btnAtuS7" class="ManutMarc" href="#">Atualiza Motivo</a></li>
-                                                <li><a id="btnRemS7" class="ManutMarc" href="#">Remove Tratamento</a></li>
-                                            </ul>
-                                        </div>
-                                        @Html.EditorFor(m => m.BilhetesMarcacao[13], "_ManutMarcBilhete")
-                                    </div>
-
-                                    <div class="divMarcacao">
-                                        <div class="btn-group">
-                                            <button id="btnE8" data="E8" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
-                                                Ent. 8 <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-E8" role="menu">
-                                                <li><a id="btnDescE8" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
-                                                <li><a id="btnAtuE8" class="ManutMarc" href="#">Atualiza Motivo</a></li>
-                                                <li><a id="btnRemE8" class="ManutMarc" href="#">Remove Tratamento</a></li>
-                                            </ul>
-                                        </div>
-                                        @Html.EditorFor(m => m.BilhetesMarcacao[14], "_ManutMarcBilhete")
-                                    </div>
-
-                                    <div class="divMarcacao">
-                                        <div class="btn-group">
-                                            <button id="btnS9" data="S9" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
-                                                Sai. 8 <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-S9" role="menu">
-                                                <li><a id="btnDescS9" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
-                                                <li><a id="btnAtuS9" class="ManutMarc" href="#">Atualiza Motivo</a></li>
-                                                <li><a id="btnRemS9" class="ManutMarc" href="#">Remove Tratamento</a></li>
-                                            </ul>
-                                        </div>
-                                        @Html.EditorFor(m => m.BilhetesMarcacao[15], "_ManutMarcBilhete")
-                                    </div>
-
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="divTitMarcacao">
-                                        @Html.Label("", "Marcação: ", new { @class = "labelTitLinha", style = "padding-top: 6px;" })
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="input-group input-group-sm">
-                                            @Html.TextBoxFor(m => m.Entrada_5, new { @class = "form-control input-sm time", id = "txtMarcacaoE5", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
-                                            <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_5, new { @class = "input-group-legenda", id = "txtLegendaE5" })</div>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="input-group input-group-sm">
-                                            @Html.TextBoxFor(m => m.Saida_5, new { @class = "form-control input-sm time", id = "txtMarcacaoS5", style = "font-weight: bold;", @placeholder = "--:--" })
-                                            <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_5, new { @class = "input-group-legenda", id = "txtLegendaS5" })</div>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="input-group input-group-sm">
-                                            @Html.TextBoxFor(m => m.Entrada_6, new { @class = "form-control input-sm time", id = "txtMarcacaoE6", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
-                                            <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_6, new { @class = "input-group-legenda", id = "txtLegendaE6" })</div>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="input-group input-group-sm">
-                                            @Html.TextBoxFor(m => m.Saida_6, new { @class = "form-control input-sm time", id = "txtMarcacaoS6", style = "font-weight: bold;", @placeholder = "--:--" })
-                                            <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_6, new { @class = "input-group-legenda", id = "txtLegendaS6" })</div>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="input-group input-group-sm">
-                                            @Html.TextBoxFor(m => m.Entrada_7, new { @class = "form-control input-sm time", id = "txtMarcacaoE7", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
-                                            <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_7, new { @class = "input-group-legenda", id = "txtLegendaE7" })</div>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="input-group input-group-sm">
-                                            @Html.TextBoxFor(m => m.Saida_7, new { @class = "form-control input-sm time", id = "txtMarcacaoS7", style = "font-weight: bold;", @placeholder = "--:--" })
-                                            <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_7, new { @class = "input-group-legenda", id = "txtLegendaS7" })</div>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="input-group input-group-sm">
-                                            @Html.TextBoxFor(m => m.Entrada_8, new { @class = "form-control input-sm time", id = "txtMarcacaoE8", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
-                                            <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_8, new { @class = "input-group-legenda", id = "txtLegendaE8" })</div>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="input-group input-group-sm">
-                                            @Html.TextBoxFor(m => m.Saida_8, new { @class = "form-control input-sm time", id = "txtMarcacaoS8", style = "font-weight: bold;", @placeholder = "--:--" })
-                                            <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_8, new { @class = "input-group-legenda", id = "txtLegendaS8" })</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="divTitMarcacao">
-                                        @Html.Label("", "Alocar: ", new { @class = "labelTitLinha" })
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                            <button id="btnEnt5Sai4" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 5 e Saida 4"><span class="glyphicon glyphicon-chevron-left"></span></button>
-                                            <button id="btnEnt5Sai5" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 5 e Saida 5"><span class="glyphicon glyphicon-chevron-right"></span></button>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                            <button id="btnSai5Ent5" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 5 e Entrada 5"><span class="glyphicon glyphicon-chevron-left"></span></button>
-                                            <button id="btnSai5Ent6" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 5 e Entrada 6"><span class="glyphicon glyphicon-chevron-right"></span></button>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                            <button id="btnEnt6Sai5" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 6 e Saida 5"><span class="glyphicon glyphicon-chevron-left"></span></button>
-                                            <button id="btnEnt6Sai6" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 6 e Saida 6"><span class="glyphicon glyphicon-chevron-right"></span></button>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                            <button id="btnSai6Ent6" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 6 e Entrada 6"><span class="glyphicon glyphicon-chevron-left"></span></button>
-                                            <button id="btnSai6Ent7" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 6 e Entrada 7"><span class="glyphicon glyphicon-chevron-right"></span></button>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                            <button id="btnEnt7Sai6" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 7 e Saida 6"><span class="glyphicon glyphicon-chevron-left"></span></button>
-                                            <button id="btnEnt7Sai7" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 7 e Saida 7"><span class="glyphicon glyphicon-chevron-right"></span></button>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                            <button id="btnSai7Ent7" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 7 e Entrada 7"><span class="glyphicon glyphicon-chevron-left"></span></button>
-                                            <button id="btnSai7Ent8" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 7 e Entrada 8"><span class="glyphicon glyphicon-chevron-right"></span></button>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                            <button id="btnEnt8Sai7" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 8 e Saida 7"><span class="glyphicon glyphicon-chevron-left"></span></button>
-                                            <button id="btnEnt8Sai8" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 8 e Saida 8"><span class="glyphicon glyphicon-chevron-right"></span></button>
-                                        </div>
-                                    </div>
-                                    <div class="divMarcacao">
-                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                            <button id="btnSai8Ent8" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 8 e Entrada 8"><span class="glyphicon glyphicon-chevron-left"></span></button>
-                                            <button type="button" class="btn btn-default btn-alocar" disabled>&nbsp;</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="divTitMarcacao">
-                                        @Html.Label("", "Nº Relógio: ", new { @class = "labelTitLinha" })
-                                    </div>
-                                    <div class="divMarcacao">
-                                        @Html.Label("", Model.Ent_num_relogio_5, new { @class = "labelRelogio", id = "txtRelogioE5" })
-                                    </div>
-                                    <div class="divMarcacao">
-                                        @Html.Label("", Model.Sai_num_relogio_5, new { @class = "labelRelogio", id = "txtRelogioS5" })
-                                    </div>
-                                    <div class="divMarcacao">
-                                        @Html.Label("", Model.Ent_num_relogio_6, new { @class = "labelRelogio", id = "txtRelogioE6" })
-                                    </div>
-                                    <div class="divMarcacao">
-                                        @Html.Label("", Model.Sai_num_relogio_6, new { @class = "labelRelogio", id = "txtRelogioS6" })
-                                    </div>
-                                    <div class="divMarcacao">
-                                        @Html.Label("", Model.Ent_num_relogio_7, new { @class = "labelRelogio", id = "txtRelogioE7" })
-                                    </div>
-                                    <div class="divMarcacao">
-                                        @Html.Label("", Model.Sai_num_relogio_7, new { @class = "labelRelogio", id = "txtRelogioS7" })
-                                    </div>
-                                    <div class="divMarcacao">
-                                        @Html.Label("", Model.Ent_num_relogio_8, new { @class = "labelRelogio", id = "txtRelogioE8" })
-                                    </div>
-                                    <div class="divMarcacao">
-                                        @Html.Label("", Model.Sai_num_relogio_8, new { @class = "labelRelogio", id = "txtRelogioS8" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3" style="padding:0">
-                        <div class="panel panel-default" style="min-height:175px">
-                            <div class="panel-heading">
-                                <h5 style="text-align:center; margin:0; font-weight:bold">Legendas</h5>
-                            </div>
-                            <div class="panel-body" style="padding-bottom:4px">
-                                <div> @Html.Label("I - Inclusão Manual", new { @class = "text-danger", @Style = "font-size:12px;display: normal" })</div>
-                                <div> @Html.Label("D - Desconsiderar Marcação", new { @class = "text-danger", @Style = "font-size:12px;display: normal" })</div>
-                                <div> @Html.Label("P - Marcação Pré-assinalada", new { @class = "text-danger", @Style = "font-size:12px;display: normal" })</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12" style="padding-top:3px">
                     <div class="row">
-                        <div class="col-md-6">
-                            @Html.EditorFor(model => model.Afastamento)
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-addon">@Html.LabelFor(model => model.Funcionario, new { @class = "input-group-label" })</div>
+                                    @Html.TextBoxFor(model => model.Funcionario, new { @class = "form-control input-sm editor-field", @readonly = "readonly" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Funcionario)
+                            </div>
                         </div>
-                        <div class="col-md-6" style="padding-right:0">
+                        <div class="col-md-4" style="padding:0">
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-addon">@Html.LabelFor(model => model.Data, new { @class = "input-group-label" })</div>
+                                        @Html.TextBoxFor(model => model.Data, "{0:dd/MM/yyyy}", new { @class = "form-control input-sm editor-field", @readonly = "readonly" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Data)
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-addon">@Html.LabelFor(model => model.Dia, new { @class = "input-group-label" })</div>
+                                        @Html.TextBoxFor(model => model.Dia, new { @class = "form-control input-sm editor-field", @readonly = "readonly" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Dia)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                                <label>
+                                    @Html.CheckBoxFor(model => model.TipoHoraExtraFaltaBool, new { @class = "checkboxHN" })
+                                    @Html.DisplayNameFor(model => model.TipoHoraExtraFaltaBool)
+                                    @Html.ValidationMessageFor(model => model.TipoHoraExtraFaltaBool)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                                <label>
+                                    @Html.CheckBoxFor(model => model.NaoentrarnacompensacaoBool, new { @class = "checkboxHN" })
+                                    @Html.DisplayNameFor(model => model.NaoentrarnacompensacaoBool)
+                                    @Html.ValidationMessageFor(model => model.NaoentrarnacompensacaoBool)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                                <label>
+                                    @Html.CheckBoxFor(model => model.NaoentrarbancoBool, new { @class = "checkboxHN" })
+                                    @Html.DisplayNameFor(model => model.NaoentrarbancoBool)
+                                    @Html.ValidationMessageFor(model => model.NaoentrarbancoBool)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                                <label>
+                                    @Html.CheckBoxFor(model => model.AbonardsrBool, new { @class = "checkboxHN" })
+                                    @Html.DisplayNameFor(model => model.AbonardsrBool)
+                                    @Html.ValidationMessageFor(model => model.AbonardsrBool)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                                <label>
+                                    @Html.CheckBoxFor(model => model.NaoconsiderarcafeBool, new { @class = "checkboxHN" })
+                                    @Html.DisplayNameFor(model => model.NaoconsiderarcafeBool)
+                                    @Html.ValidationMessageFor(model => model.NaoconsiderarcafeBool)
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="col-md-3">
+                                <div class="form-group" style="margin-right:10px;">
+                                    @Html.DisplayNameFor(model => model.ContabilizarFaltas)
+                                    @Html.ValidationMessageFor(model => model.ContabilizarFaltas)
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group" style="margin-right:10px;">
+                                    @Html.DropDownListFor(model => model.ContabilizarFaltas, cwkPontoWeb.Models.Helpers.EnumHelper.GetSelectedItemList<Modelo.Listas.TipoParametroBancoManut>(0), (object)new { @class = "form-control input-sm", style = "height: 25px;weight:60px;" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                                <label>
+                                    @Html.CheckBoxFor(model => model.FolgaBool, new { @class = "checkboxHN" })
+                                    @Html.DisplayNameFor(model => model.FolgaBool)
+                                    @Html.ValidationMessageFor(model => model.FolgaBool)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                                <label>
+                                    @Html.CheckBoxFor(model => model.BloquearEdicaoPnlRh, new { @class = "checkboxHN" })
+                                    @Html.DisplayName("Bloquear Edição Painel")
+                                    @Html.ValidationMessageFor(model => model.BloquearEdicaoPnlRh)
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="col-md-3">
+                                <div class="form-group" style="margin-right:10px;">
+                                    @Html.DisplayNameFor(model => model.ContAtrasosSaidasAntec)
+                                    @Html.ValidationMessageFor(model => model.ContAtrasosSaidasAntec)
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group" style="margin-right:10px;">
+                                    @Html.DropDownListFor(model => model.ContAtrasosSaidasAntec, cwkPontoWeb.Models.Helpers.EnumHelper.GetSelectedItemList<Modelo.Listas.TipoParametroBancoManut>(0), (object)new { @class = "form-control input-sm", style = "height: 25px;weight:60px;" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                                <label>
+                                    @Html.CheckBoxFor(model => model.ConsiderarFeriadoBool, new { @class = "checkboxHN" })
+                                    @Html.DisplayNameFor(model => model.ConsiderarFeriadoBool)
+                                    @Html.ValidationMessageFor(model => model.ConsiderarFeriadoBool)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
+                                <label>
+                                    @Html.CheckBoxFor(model => model.NaoConsiderarInItinere, new { @class = "checkboxHN" })
+                                    @Html.DisplayNameFor(model => model.NaoConsiderarInItinere)
+                                    @Html.ValidationMessageFor(model => model.NaoConsiderarInItinere)
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="col-md-3">
+                                <div class="form-group" style="margin-right:10px;">
+                                    @Html.DisplayNameFor(model => model.ContabilizarCreditos)
+                                    @Html.ValidationMessageFor(model => model.ContabilizarCreditos)
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group" style="margin-right:10px;">
+                                    @Html.DropDownListFor(model => model.ContabilizarCreditos, cwkPontoWeb.Models.Helpers.EnumHelper.GetSelectedItemList<Modelo.Listas.TipoParametroBancoManut>(0), (object)new { @class = "form-control input-sm", style = "height: 25px;weight:60px;" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="jumbotron col-md-12" style="padding:5px; margin-bottom:0">
+                        <div class="col-md-9" style="padding:0">
+                            <div class="well well-sm" style="margin-bottom:0px">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="divTitMarcacao">
+                                            &nbsp;
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="btn-group">
+                                                <button id="btnE1" data="E1" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                    Ent. 1 <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-E1" role="menu">
+                                                    <li><a id="btnDescE1" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                    <li><a id="btnAtuE1" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                    <li><a id="btnRemE1" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                                </ul>
+                                            </div>
+                                            <!-- Single button -->
+                                            @Html.EditorFor(m => m.BilhetesMarcacao[0], "_ManutMarcBilhete")
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="btn-group">
+                                                <button id="btnS1" data="S1" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                    Sai. 1 <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-S1" role="menu">
+                                                    <li><a id="btnDescS1" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                    <li><a id="btnAtuS1" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                    <li><a id="btnRemS1" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                                </ul>
+                                            </div>
+                                            @Html.EditorFor(m => m.BilhetesMarcacao[1], "_ManutMarcBilhete")
+                                        </div>
 
-                            <table id="tbTotalizadores" class="table table-striped table-bordered table-hover table-condensed nowrap" cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th style="text-align:center">Totalizadores</th>
-                                        <th style="text-align:center">Hora</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr id="1">
-                                        <td>Hora Trabalhada Diurna</td>
-                                        <td>@Model.Horastrabalhadas</td>
-                                    </tr>
-                                    <tr id="2">
-                                        <td>
-                                            Hora Trabalhada Noturna
-                                        </td>
-                                        <td>@Model.Horastrabalhadasnoturnas</td>
-                                    </tr>
-                                    <tr id="3">
-                                        <td>
-                                            Hora Extra Diurna
-                                        </td>
-                                        <td>@Model.Horasextrasdiurna</td>
-                                    </tr>
-                                    <tr id="4">
-                                        <td>
-                                            Hora Extra Noturna
-                                        </td>
-                                        <td>@Model.Horasextranoturna</td>
-                                    </tr>
-                                    <tr id="5">
-                                        <td>
-                                            Hora Falta Diurna
-                                        </td>
-                                        <td>@Model.Horasfaltas</td>
-                                    </tr>
-                                    <tr id="6">
-                                        <td>
-                                            Hora Falta Noturna
-                                        </td>
-                                        <td>@Model.Horasfaltanoturna</td>
-                                    </tr>
-                                    <tr id="7">
-                                        <td>
-                                            Crédito Banco de Horas
-                                        </td>
-                                        <td>@Model.Bancohorascre</td>
-                                    </tr>
-                                    <tr id="8">
-                                        <td>
-                                            Débito Banco de Horas
-                                        </td>
-                                        <td>@Model.Bancohorasdeb</td>
-                                    </tr>
-                                    <tr id="9">
-                                        <td>Hora Compensada</td>
-                                        <td>@Model.Horascompensadas</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                        <div class="divMarcacao">
+                                            <div class="btn-group">
+                                                <button id="btnE2" data="E2" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                    Ent. 2 <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-E2" role="menu">
+                                                    <li><a id="btnDescE2" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                    <li><a id="btnAtuE2" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                    <li><a id="btnRemE2" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                                </ul>
+                                            </div>
+                                            @Html.EditorFor(m => m.BilhetesMarcacao[2], "_ManutMarcBilhete")
+                                        </div>
+
+                                        <div class="divMarcacao">
+                                            <div class="btn-group">
+                                                <button id="btnS2" data="S2" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                    Sai. 2 <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-S2" role="menu">
+                                                    <li><a id="btnDescS2" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                    <li><a id="btnAtuS2" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                    <li><a id="btnRemS2" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                                </ul>
+                                            </div>
+                                            @Html.EditorFor(m => m.BilhetesMarcacao[3], "_ManutMarcBilhete")
+                                        </div>
+
+
+                                        <div class="divMarcacao">
+                                            <div class="btn-group">
+                                                <button id="btnE3" data="E3" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                    Ent. 3 <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-E3" role="menu">
+                                                    <li><a id="btnDescE3" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                    <li><a id="btnAtuE3" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                    <li><a id="btnRemE3" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                                </ul>
+                                            </div>
+                                            @Html.EditorFor(m => m.BilhetesMarcacao[4], "_ManutMarcBilhete")
+                                        </div>
+
+                                        <div class="divMarcacao">
+                                            <div class="btn-group">
+                                                <button id="btnS3" data="S3" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                    Sai. 3 <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-S3" role="menu">
+                                                    <li><a id="btnDescS3" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                    <li><a id="btnAtuS3" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                    <li><a id="btnRemS3" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                                </ul>
+                                            </div>
+                                            @Html.EditorFor(m => m.BilhetesMarcacao[5], "_ManutMarcBilhete")
+                                        </div>
+
+                                        <div class="divMarcacao">
+                                            <div class="btn-group">
+                                                <button id="btnE4" data="E4" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                    Ent. 4 <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-E4" role="menu">
+                                                    <li><a id="btnDescE4" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                    <li><a id="btnAtuE4" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                    <li><a id="btnRemE4" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                                </ul>
+                                            </div>
+                                            @Html.EditorFor(m => m.BilhetesMarcacao[6], "_ManutMarcBilhete")
+                                        </div>
+
+                                        <div class="divMarcacao">
+                                            <div class="btn-group">
+                                                <button id="btnS4" data="S4" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                    Sai. 4 <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-S4" role="menu">
+                                                    <li><a id="btnDescS4" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                    <li><a id="btnAtuS4" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                    <li><a id="btnRemS4" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                                </ul>
+                                            </div>
+                                            @Html.EditorFor(m => m.BilhetesMarcacao[7], "_ManutMarcBilhete")
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="divTitMarcacao">
+                                            @Html.Label("", "Marcação: ", new { @class = "labelTitLinha", style = "padding-top: 6px;" })
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(m => m.Entrada_1, new { @class = "form-control input-sm time", id = "txtMarcacaoE1", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
+                                                <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_1, new { @class = "input-group-legenda", id = "txtLegendaE1" })</div>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(m => m.Saida_1, new { @class = "form-control input-sm time", id = "txtMarcacaoS1", style = "font-weight: bold;", @placeholder = "--:--" })
+                                                <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_1, new { @class = "input-group-legenda", id = "txtLegendaS1" })</div>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(m => m.Entrada_2, new { @class = "form-control input-sm time", id = "txtMarcacaoE2", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
+                                                <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_2, new { @class = "input-group-legenda", id = "txtLegendaE2" })</div>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(m => m.Saida_2, new { @class = "form-control input-sm time", id = "txtMarcacaoS2", style = "font-weight: bold;", @placeholder = "--:--" })
+                                                <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_2, new { @class = "input-group-legenda", id = "txtLegendaS2" })</div>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(m => m.Entrada_3, new { @class = "form-control input-sm time", id = "txtMarcacaoE3", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
+                                                <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_3, new { @class = "input-group-legenda", id = "txtLegendaE3" })</div>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(m => m.Saida_3, new { @class = "form-control input-sm time", id = "txtMarcacaoS3", style = "font-weight: bold;", @placeholder = "--:--" })
+                                                <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_3, new { @class = "input-group-legenda", id = "txtLegendaS3" })</div>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(m => m.Entrada_4, new { @class = "form-control input-sm time", id = "txtMarcacaoE4", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
+                                                <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_4, new { @class = "input-group-legenda", id = "txtLegendaE4" })</div>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(m => m.Saida_4, new { @class = "form-control input-sm time", id = "txtMarcacaoS4", style = "font-weight: bold;", @placeholder = "--:--" })
+                                                <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_4, new { @class = "input-group-legenda", id = "txtLegendaS4" })</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="divTitMarcacao">
+                                            @Html.Label("", "Alocar: ", new { @class = "labelTitLinha" })
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                                <button type="button" class="btn btn-default btn-alocar" disabled>&nbsp;</button>
+                                                <button id="btnEnt1Sai1" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 1 e Saida 1"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                                <button id="btnSai1Ent1" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 1 e Entrada 1"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                                <button id="btnSai1Ent2" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 1 e Entrada 2"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                                <button id="btnEnt2Sai1" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 2 e Saida 1"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                                <button id="btnEnt2Sai2" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 2 e Saida 2"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                                <button id="btnSai2Ent2" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 2 e Entrada 2"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                                <button id="btnSai2Ent3" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 2 e Entrada 3"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                                <button id="btnEnt3Sai2" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 3 e Saida 2"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                                <button id="btnEnt3Sai3" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 3 e Saida 3"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                                <button id="btnSai3Ent3" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 3 e Entrada 3"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                                <button id="btnSai3Ent4" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 3 e Entrada 4"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                                <button id="btnEnt4Sai3" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 4 e Saida 3"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                                <button id="btnEnt4Sai4" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 4 e Saida 4"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                                <button id="btnSai4Ent4" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 4 e Entrada 4"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                                <button id="btnSai4Ent5" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 4 e Entrada 5"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="divTitMarcacao">
+                                            @Html.Label("", "Nº Relógio: ", new { @class = "labelTitLinha" })
+                                        </div>
+                                        <div class="divMarcacao">
+                                            @Html.Label("", Model.Ent_num_relogio_1, new { @class = "labelRelogio", id = "txtRelogioE1" })
+                                        </div>
+                                        <div class="divMarcacao">
+                                            @Html.Label("", Model.Sai_num_relogio_1, new { @class = "labelRelogio", id = "txtRelogioS1" })
+                                        </div>
+                                        <div class="divMarcacao">
+                                            @Html.Label("", Model.Ent_num_relogio_2, new { @class = "labelRelogio", id = "txtRelogioE2" })
+                                        </div>
+                                        <div class="divMarcacao">
+                                            @Html.Label("", Model.Sai_num_relogio_2, new { @class = "labelRelogio", id = "txtRelogioS2" })
+                                        </div>
+                                        <div class="divMarcacao">
+                                            @Html.Label("", Model.Ent_num_relogio_3, new { @class = "labelRelogio", id = "txtRelogioE3" })
+                                        </div>
+                                        <div class="divMarcacao">
+                                            @Html.Label("", Model.Sai_num_relogio_3, new { @class = "labelRelogio", id = "txtRelogioS3" })
+                                        </div>
+                                        <div class="divMarcacao">
+                                            @Html.Label("", Model.Ent_num_relogio_4, new { @class = "labelRelogio", id = "txtRelogioE4" })
+                                        </div>
+                                        <div class="divMarcacao">
+                                            @Html.Label("", Model.Sai_num_relogio_4, new { @class = "labelRelogio", id = "txtRelogioS4" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="well well-sm" style="margin-bottom:0px">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="divTitMarcacao"> &nbsp;</div>
+                                        <div class="divMarcacao">
+                                            <div class="btn-group">
+                                                <button id="btnE5" data="E5" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                    Ent. 5 <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-E5" role="menu">
+                                                    <li><a id="btnDescE5" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                    <li><a id="btnAtuE5" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                    <li><a id="btnRemE5" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                                </ul>
+
+                                            </div>
+                                            @Html.EditorFor(m => m.BilhetesMarcacao[8], "_ManutMarcBilhete")
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="btn-group">
+                                                <button id="btnS5" data="S5" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                    Sai. 5 <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-S5" role="menu">
+                                                    <li><a id="btnDescS5" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                    <li><a id="btnAtuS5" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                    <li><a id="btnRemS5" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                                </ul>
+                                            </div>
+                                            @Html.EditorFor(m => m.BilhetesMarcacao[9], "_ManutMarcBilhete")
+                                        </div>
+
+                                        <div class="divMarcacao">
+                                            <div class="btn-group">
+                                                <button id="btnE6" data="E6" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                    Ent. 6 <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-E6" role="menu">
+                                                    <li><a id="btnDescE6" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                    <li><a id="btnAtuE6" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                    <li><a id="btnRemE6" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                                </ul>
+                                            </div>
+                                            @Html.EditorFor(m => m.BilhetesMarcacao[10], "_ManutMarcBilhete")
+                                        </div>
+
+                                        <div class="divMarcacao">
+                                            <div class="btn-group">
+                                                <button id="btnS6" data="S6" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                    Sai. 6 <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-S6" role="menu">
+                                                    <li><a id="btnDescS6" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                    <li><a id="btnAtuS6" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                    <li><a id="btnRemS6" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                                </ul>
+                                            </div>
+                                            @Html.EditorFor(m => m.BilhetesMarcacao[11], "_ManutMarcBilhete")
+                                        </div>
+
+
+                                        <div class="divMarcacao">
+                                            <div class="btn-group">
+                                                <button id="btnE7" data="E7" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                    Ent. 7 <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-E7" role="menu">
+                                                    <li><a id="btnDescE7" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                    <li><a id="btnAtuE7" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                    <li><a id="btnRemE7" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                                </ul>
+                                            </div>
+                                            @Html.EditorFor(m => m.BilhetesMarcacao[12], "_ManutMarcBilhete")
+                                        </div>
+
+                                        <div class="divMarcacao">
+                                            <div class="btn-group">
+                                                <button id="btnS7" data="S7" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                    Sai. 7 <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-S7" role="menu">
+                                                    <li><a id="btnDescS7" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                    <li><a id="btnAtuS7" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                    <li><a id="btnRemS7" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                                </ul>
+                                            </div>
+                                            @Html.EditorFor(m => m.BilhetesMarcacao[13], "_ManutMarcBilhete")
+                                        </div>
+
+                                        <div class="divMarcacao">
+                                            <div class="btn-group">
+                                                <button id="btnE8" data="E8" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                    Ent. 8 <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-E8" role="menu">
+                                                    <li><a id="btnDescE8" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                    <li><a id="btnAtuE8" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                    <li><a id="btnRemE8" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                                </ul>
+                                            </div>
+                                            @Html.EditorFor(m => m.BilhetesMarcacao[14], "_ManutMarcBilhete")
+                                        </div>
+
+                                        <div class="divMarcacao">
+                                            <div class="btn-group">
+                                                <button id="btnS9" data="S9" class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="" style="width:64px">
+                                                    Sai. 8 <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-S9" role="menu">
+                                                    <li><a id="btnDescS9" class="ManutMarc" href="#">Desconsidera Marcação</a></li>
+                                                    <li><a id="btnAtuS9" class="ManutMarc" href="#">Atualiza Motivo</a></li>
+                                                    <li><a id="btnRemS9" class="ManutMarc" href="#">Remove Tratamento</a></li>
+                                                </ul>
+                                            </div>
+                                            @Html.EditorFor(m => m.BilhetesMarcacao[15], "_ManutMarcBilhete")
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="divTitMarcacao">
+                                            @Html.Label("", "Marcação: ", new { @class = "labelTitLinha", style = "padding-top: 6px;" })
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(m => m.Entrada_5, new { @class = "form-control input-sm time", id = "txtMarcacaoE5", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
+                                                <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_5, new { @class = "input-group-legenda", id = "txtLegendaE5" })</div>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(m => m.Saida_5, new { @class = "form-control input-sm time", id = "txtMarcacaoS5", style = "font-weight: bold;", @placeholder = "--:--" })
+                                                <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_5, new { @class = "input-group-legenda", id = "txtLegendaS5" })</div>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(m => m.Entrada_6, new { @class = "form-control input-sm time", id = "txtMarcacaoE6", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
+                                                <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_6, new { @class = "input-group-legenda", id = "txtLegendaE6" })</div>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(m => m.Saida_6, new { @class = "form-control input-sm time", id = "txtMarcacaoS6", style = "font-weight: bold;", @placeholder = "--:--" })
+                                                <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_6, new { @class = "input-group-legenda", id = "txtLegendaS6" })</div>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(m => m.Entrada_7, new { @class = "form-control input-sm time", id = "txtMarcacaoE7", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
+                                                <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_7, new { @class = "input-group-legenda", id = "txtLegendaE7" })</div>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(m => m.Saida_7, new { @class = "form-control input-sm time", id = "txtMarcacaoS7", style = "font-weight: bold;", @placeholder = "--:--" })
+                                                <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_7, new { @class = "input-group-legenda", id = "txtLegendaS7" })</div>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(m => m.Entrada_8, new { @class = "form-control input-sm time", id = "txtMarcacaoE8", style = "background: #CBE5E7; font-weight: bold;", @placeholder = "--:--" })
+                                                <div class="input-group-addon">@Html.Label("", @Model.Ent_Legenda_8, new { @class = "input-group-legenda", id = "txtLegendaE8" })</div>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(m => m.Saida_8, new { @class = "form-control input-sm time", id = "txtMarcacaoS8", style = "font-weight: bold;", @placeholder = "--:--" })
+                                                <div class="input-group-addon">@Html.Label("", @Model.Sai_Legenda_8, new { @class = "input-group-legenda", id = "txtLegendaS8" })</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="divTitMarcacao">
+                                            @Html.Label("", "Alocar: ", new { @class = "labelTitLinha" })
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                                <button id="btnEnt5Sai4" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 5 e Saida 4"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                                <button id="btnEnt5Sai5" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 5 e Saida 5"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                                <button id="btnSai5Ent5" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 5 e Entrada 5"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                                <button id="btnSai5Ent6" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 5 e Entrada 6"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                                <button id="btnEnt6Sai5" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 6 e Saida 5"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                                <button id="btnEnt6Sai6" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 6 e Saida 6"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                                <button id="btnSai6Ent6" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 6 e Entrada 6"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                                <button id="btnSai6Ent7" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 6 e Entrada 7"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                                <button id="btnEnt7Sai6" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 7 e Saida 6"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                                <button id="btnEnt7Sai7" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 7 e Saida 7"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                                <button id="btnSai7Ent7" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 7 e Entrada 7"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                                <button id="btnSai7Ent8" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 7 e Entrada 8"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                                <button id="btnEnt8Sai7" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 8 e Saida 7"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                                <button id="btnEnt8Sai8" type="button" class="btn btn-default btn-alocar" title="Inverte Entrada 8 e Saida 8"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="divMarcacao">
+                                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                                <button id="btnSai8Ent8" type="button" class="btn btn-default btn-alocar" title="Inverte Saida 8 e Entrada 8"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                                                <button type="button" class="btn btn-default btn-alocar" disabled>&nbsp;</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="divTitMarcacao">
+                                            @Html.Label("", "Nº Relógio: ", new { @class = "labelTitLinha" })
+                                        </div>
+                                        <div class="divMarcacao">
+                                            @Html.Label("", Model.Ent_num_relogio_5, new { @class = "labelRelogio", id = "txtRelogioE5" })
+                                        </div>
+                                        <div class="divMarcacao">
+                                            @Html.Label("", Model.Sai_num_relogio_5, new { @class = "labelRelogio", id = "txtRelogioS5" })
+                                        </div>
+                                        <div class="divMarcacao">
+                                            @Html.Label("", Model.Ent_num_relogio_6, new { @class = "labelRelogio", id = "txtRelogioE6" })
+                                        </div>
+                                        <div class="divMarcacao">
+                                            @Html.Label("", Model.Sai_num_relogio_6, new { @class = "labelRelogio", id = "txtRelogioS6" })
+                                        </div>
+                                        <div class="divMarcacao">
+                                            @Html.Label("", Model.Ent_num_relogio_7, new { @class = "labelRelogio", id = "txtRelogioE7" })
+                                        </div>
+                                        <div class="divMarcacao">
+                                            @Html.Label("", Model.Sai_num_relogio_7, new { @class = "labelRelogio", id = "txtRelogioS7" })
+                                        </div>
+                                        <div class="divMarcacao">
+                                            @Html.Label("", Model.Ent_num_relogio_8, new { @class = "labelRelogio", id = "txtRelogioE8" })
+                                        </div>
+                                        <div class="divMarcacao">
+                                            @Html.Label("", Model.Sai_num_relogio_8, new { @class = "labelRelogio", id = "txtRelogioS8" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="padding:0">
+                            <div class="panel panel-default" style="min-height:175px">
+                                <div class="panel-heading">
+                                    <h5 style="text-align:center; margin:0; font-weight:bold">Legendas</h5>
+                                </div>
+                                <div class="panel-body" style="padding-bottom:4px">
+                                    <div> @Html.Label("I - Inclusão Manual", new { @class = "text-danger", @Style = "font-size:12px;display: normal" })</div>
+                                    <div> @Html.Label("D - Desconsiderar Marcação", new { @class = "text-danger", @Style = "font-size:12px;display: normal" })</div>
+                                    <div> @Html.Label("P - Marcação Pré-assinalada", new { @class = "text-danger", @Style = "font-size:12px;display: normal" })</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="padding-top:3px">
+                        <div class="row">
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.Afastamento)
+                            </div>
+                            <div class="col-md-6" style="padding-right:0">
+
+                                <table id="tbTotalizadores" class="table table-striped table-bordered table-hover table-condensed nowrap" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align:center">Totalizadores</th>
+                                            <th style="text-align:center">Hora</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr id="1">
+                                            <td>Hora Trabalhada Diurna</td>
+                                            <td>@Model.Horastrabalhadas</td>
+                                        </tr>
+                                        <tr id="2">
+                                            <td>
+                                                Hora Trabalhada Noturna
+                                            </td>
+                                            <td>@Model.Horastrabalhadasnoturnas</td>
+                                        </tr>
+                                        <tr id="3">
+                                            <td>
+                                                Hora Extra Diurna
+                                            </td>
+                                            <td>@Model.Horasextrasdiurna</td>
+                                        </tr>
+                                        <tr id="4">
+                                            <td>
+                                                Hora Extra Noturna
+                                            </td>
+                                            <td>@Model.Horasextranoturna</td>
+                                        </tr>
+                                        <tr id="5">
+                                            <td>
+                                                Hora Falta Diurna
+                                            </td>
+                                            <td>@Model.Horasfaltas</td>
+                                        </tr>
+                                        <tr id="6">
+                                            <td>
+                                                Hora Falta Noturna
+                                            </td>
+                                            <td>@Model.Horasfaltanoturna</td>
+                                        </tr>
+                                        <tr id="7">
+                                            <td>
+                                                Crédito Banco de Horas
+                                            </td>
+                                            <td>@Model.Bancohorascre</td>
+                                        </tr>
+                                        <tr id="8">
+                                            <td>
+                                                Débito Banco de Horas
+                                            </td>
+                                            <td>@Model.Bancohorasdeb</td>
+                                        </tr>
+                                        <tr id="9">
+                                            <td>Hora Compensada</td>
+                                            <td>@Model.Horascompensadas</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <div class="row">
-                    <div class="col-xs-12 center-block">
-                        <div style="text-align: right">
-                            <button id="btnSalvarManutMarc" type="submit" class="btn btn-success salvando">
-                                <span class="glyphicon glyphicon-ok-circle salvando"></span> &nbsp;Salvar&nbsp;&nbsp;
-                            </button>
-                            <button type="button" data-dismiss="modal" aria-hidden="true" id="fecharCadastroModal" class="btn btn-danger salvando"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-xs-12 center-block">
+                            <div style="text-align: right">
+                                
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <button type="button" id="btnVoltaData" class="btn btn-success salvando" onclick="javascript: eventoVolta()">
+                                        <span class="fa fa-angle-left"></span>
+                                    </button>
+                                    <button id="btnSalvarManutMarc" type="submit" class="btn btn-success salvando">
+                                        <span class="glyphicon glyphicon-ok-circle salvando"></span> &nbsp;Salvar&nbsp;&nbsp;
+                                    </button>
+                                    <button type="button" id="btnAvcData" class="btn btn-success salvando" onclick="javascript: eventoAvanc('1')">
+                                        <span class="fa fa-angle-right"></span>
+                                    </button>
+                                </div>
+                                <button type="button" data-dismiss="modal" aria-hidden="true" id="fecharCadastroModal" class="btn btn-danger salvando">
+                                <span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 }
     <script>
     var txtOcorrenciaAnt;
