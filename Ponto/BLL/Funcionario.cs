@@ -1056,7 +1056,7 @@ namespace BLL
 
         private void TrataCodigoEmUso(Modelo.Funcionario objeto, Dictionary<string, string> erros, Exception e)
         {
-            if (e.Message.Contains("O código informado já está sendo utilizado em outro registro") || e.Message.Contains("UX_Funcionario") && objeto.ForcarNovoCodigo)
+            if ((e.Message.Contains("O código informado já está sendo utilizado em outro registro") || e.Message.Contains("UX_Funcionario") && objeto.ForcarNovoCodigo) || e.Message.Contains("UX_Codigo"))
             {
                 string mensagem = "";
                 if (DsCodigoUtilizado(objeto.Dscodigo, out mensagem) && !erros.ContainsKey("txtCodigoDS"))
@@ -1071,13 +1071,13 @@ namespace BLL
                     try
                     {
                         dalFuncionario.Incluir(objeto);
-                        erros = new Dictionary<string, string>();
+                        erros = new Dictionary<string, string>();                        
                         break;
                     }
                     catch (Exception ex)
                     {
                         tentativasNovoCodigo++;
-                        if ((tentativasNovoCodigo > 3) || !(e.Message.Contains("O código informado já está sendo utilizado em outro registro") || e.Message.Contains("UX_Funcionario")))
+                        if ((tentativasNovoCodigo > 3) || !(e.Message.Contains("O código informado já está sendo utilizado em outro registro") || e.Message.Contains("UX_Funcionario") || e.Message.Contains("UX_Codigo")))
                         {
                             if (erros.Count() > 0)
                             {
@@ -1090,7 +1090,7 @@ namespace BLL
                         }
                     }
                 }
-            }
+            }            
             else
             {
                 throw e;

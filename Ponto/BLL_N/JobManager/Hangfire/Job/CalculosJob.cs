@@ -498,7 +498,9 @@ namespace BLL_N.JobManager.Hangfire.Job
                 auxLog.ForEach(f => str.Append(f));
                 string caminho = CaminhoArquivo();
                 caminho = Path.Combine(caminho, "Compensacao");
-                caminho += String.Format(@"\Compensacao{0}_{1}", pIdCompensacao, DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+                if (!Directory.Exists(caminho))
+                    Directory.CreateDirectory(caminho);
+                caminho += String.Format(@"\Compensacao{0}_{1}.txt", pIdCompensacao, DateTime.Now.ToString("ddMMyyyyHHmmss"));
                 System.IO.File.WriteAllText(caminho, str.ToString());
                 JobControlManager.UpdateFileDownload(context, caminho);
             }

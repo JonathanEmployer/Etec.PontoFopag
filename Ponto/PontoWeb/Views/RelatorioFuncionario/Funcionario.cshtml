@@ -375,7 +375,7 @@
 
     /* Custom filtering function which will search data in column four between two values */
     $.fn.dataTable.ext.search.push(
-        function (settings, data, dataIndex) {
+        function (settings, data, dataIndex) {            
             var min = parseInt($('#CodigoInicial').val(), 10);
             var max = parseInt($('#CodigoFinal').val(), 10);
             var codigo = parseFloat(data[1]) || 0;
@@ -384,7 +384,7 @@
             var lFinais = $('#LetrasFinais').val().toLowerCase();
             var nome = data[2].toLowerCase();
 
-            var inativo = data[9].toLowerCase();
+            var inativo = data[10].toLowerCase();
             var parametroInativo = "não";
             if ($('input[name=AtivoInativo]:checked').val() == 0) {
                 var parametroInativo = "sim";
