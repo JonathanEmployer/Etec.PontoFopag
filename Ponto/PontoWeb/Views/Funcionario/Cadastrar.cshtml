@@ -161,7 +161,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group input-group-sm" >
                                                 @Html.LabelFor(model => model.Datademissao, new { @class = "control-label label-sm" })
-                                                <div class="input-group input-group-sm"">
+                                                <div class="input-group input-group-sm">
                                                     @Html.TextBoxFor(model => model.Datademissao, new { @class = "form-control input-sm MascDate datepickerfunc", id = "dtDemissao" }).IsDisabled((Model.Datademissao == null ? DateTime.MaxValue : Model.Datademissao) <= Model.DataUltimoFechamento).IsReadonly(integrado)
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-primary" id="btnDemissao" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
