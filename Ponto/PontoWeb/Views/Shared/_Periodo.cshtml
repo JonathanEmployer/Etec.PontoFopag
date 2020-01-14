@@ -1,0 +1,79 @@
+﻿@model  Modelo.Proxy.PxyPeriodo
+@{
+    Layout = null;
+}
+<style>
+    .input-daterange .input-group-addon {
+        padding-top:0;
+        padding-bottom:0;
+    }
+</style>
+<div class="row">
+    @Html.Label("Periodo", "Período", new { @class = "control-label label-sm" })
+    <div class="input-group input-daterange">
+        @Html.TextBoxFor(model => Model.DataInicio, new { @class = "form-control input-sm MascDate datepickerpt" })
+        <div class="input-group-addon input-sm">a</div>
+        @Html.TextBoxFor(model => Model.DataFim, new { @class = "form-control input-sm MascDate datepickerpt" })
+    </div>
+</div>
+<div class="row">
+        @Html.ValidationMessageFor(model => model.DataFim)
+        @Html.HiddenFor(model => Model.Intervalo)
+        @Html.ValidationMessageFor(model => Model.Intervalo)
+</div>
+
+<script>
+    cwk_DataCalendario('#btnDataInicio', '#DataInicio');
+    cwk_DataCalendario('#btnDataFim', '#DataFim');
+
+    $(document).ready(function () {
+        $('.datepickerpt').datepicker().on('hide', function () {
+            if (typeof $(':focus').attr('id') === "undefined") {
+                    $(this).focus();
+            }
+            var RestringeQtdMes = '@Model.RestringeQtdMes';
+            var maxAno = '@Model.RestringeQtdAno';
+            var idDtIni = "#DataInicio";
+            var idDtFin = "#DataFim";
+            var vDtIni = $(idDtIni).val();
+            var vDtFin = $(idDtFin).val();
+
+            if ((vDtIni != null && vDtIni != "") && (vDtFin != null && vDtFin != "")) {
+                var dias = diasPeriodo(vDtIni, vDtFin);
+                if (RestringeQtdMes > 0 && dias > RestringeQtdMes * 31) {
+                    addErroInput("Intervalo", "Período Máximo "+RestringeQtdMes * 31+" Dias");
+                    return false;
+                }
+                else {
+                    if (dias <= 0) {
+                        addErroInput("Intervalo", "Data Inícial deve ser menor que a Final");
+                        return false;
+                    }
+                    else if (maxAno != '' && maxAno != undefined && maxAno != null && maxAno > 0 && PeriodoMaiorQueAno(vDtIni, vDtFin, maxAno))
+                    {
+                        addErroInput("Intervalo", "O período entre a data inicial e a final não pode ultrapassar " + maxAno + " ano(s)");
+                    }
+                    else
+                    {
+                        limpaErro("Intervalo")
+                        return true;
+                    }
+                }
+            }
+            else {
+                if (($(idDtIni).val() == null || $(idDtIni).val() == "") && ($(idDtFin).val() == null || $(idDtFin).val() == "")) {
+                    addErroInput("Intervalo", 'A Data Inicial e Final devem ser preenchidas!');
+                }
+                else {
+                    if ($(idDtIni).val() == null || $(idDtIni).val() == "") {
+                        addErroInput("Intervalo", 'A Data Inicial deve ser preenchida!');
+                    }
+                    if ($(idDtFin).val() == null || $(idDtFin).val() == "") {
+                        addErroInput("Intervalo", 'A Data Final deve ser preenchida!');
+                    }
+                }
+                return false;
+            }
+        });
+    });
+</script>

@@ -1106,7 +1106,7 @@ namespace DAL.FB
         }
 
 
-        public List<Modelo.Funcionario> GetAllList(bool pegaTodos)
+        public List<Modelo.Funcionario> GetAllList(bool pegaInativos, bool pegaExcluidos)
         {
             List<Modelo.Funcionario> lista = new List<Modelo.Funcionario>();
 
@@ -1118,7 +1118,7 @@ namespace DAL.FB
                          " FROM \"funcionario\" " +
                          " LEFT JOIN \"empresa\"  ON \"empresa\".\"id\" = \"funcionario\".\"idempresa\"" +
                          " LEFT JOIN \"horario\"  ON \"horario\".\"id\" = \"funcionario\".\"idhorario\"";
-            if (!pegaTodos)
+            if (!pegaInativos || pegaExcluidos)
             {
                 aux += " WHERE COALESCE(\"funcionario\".\"excluido\",0)=0 AND COALESCE(\"funcionario\".\"funcionarioativo\",0)=1";
             }
@@ -1609,7 +1609,7 @@ namespace DAL.FB
             throw new NotImplementedException();
         }
 
-        public List<Modelo.Funcionario> GetAllListLike(bool pegaTodos, string nome)
+        public List<Modelo.Funcionario> GetAllListLike(bool pegaInativos, bool pegaExcluidos, string nome)
         {
             throw new NotImplementedException();
         }
@@ -1920,6 +1920,11 @@ public List<int> GetIdsFuncsAtivos(string condicao)
         }
 
         public void setFuncionariosEmpresa(int idEmpresa, bool FuncionarioAtivo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> GetDsCodigosByIDs(List<int> lIds)
         {
             throw new NotImplementedException();
         }

@@ -693,7 +693,7 @@ namespace BLL
                 #region Processa os registros para importação
                 Modelo.BilhetesImp objBilhete;
                 List<Modelo.BilhetesImp> bilhetesPersistir = new List<Modelo.BilhetesImp>();
-                List<int> idsFuncionarios = dtBilhete.AsEnumerable().Select(r => r.Field<int>("funcionarioid")).ToList();
+                List<int> idsFuncionarios = dtBilhete.AsEnumerable().Select(r => r.Field<int>("funcionarioid")).Distinct().ToList();
                 for (int i = 0; i < dtBilhete.Rows.Count; i++)
                 {
                     idBilhete = Convert.ToInt32(dtBilhete.Rows[i]["bimp_id"]);
@@ -1570,6 +1570,10 @@ namespace BLL
 
         private void IncluiMarcacao(DataRow dr, DataTable dtMarcacao, Hashtable htmarcacao, DateTime pData)
         {
+            if (maxcodMarcacao == 0)
+            {
+                maxcodMarcacao = dalMar.MaxCodigo();
+            }
             BLL.Marcacao bllMarcacao = new Marcacao(ConnectionString, UsuarioLogado);
             bool ordenaBilheteSaida = Convert.ToBoolean(dr["horario_ordenabilhetesaida"]);
             object[] jornada = new object[8];
@@ -1696,6 +1700,10 @@ namespace BLL
 
         private void IncluiMarcacaoLimpa(DataTable dtMarcacao, Hashtable htmarcacao, DateTime pData, DataRow funcionario)
         {
+            if (maxcodMarcacao == 0)
+            {
+                maxcodMarcacao = dalMar.MaxCodigo();
+            }
             BLL.Marcacao bllMarcacao = new Marcacao(ConnectionString, UsuarioLogado);
             legenda = "";
             idhorario = 0;
@@ -2059,6 +2067,10 @@ namespace BLL
 
         public Modelo.Marcacao PreencheMarcacaoComDataRow(DataRow dr)
         {
+            if (maxcodMarcacao == 0)
+            {
+                maxcodMarcacao = dalMar.MaxCodigo();
+            }
             Modelo.Marcacao objMarcacao = new Modelo.Marcacao();
 
             objMarcacao.Id = Convert.ToInt32(dr["marcacaoid"]);
@@ -2131,6 +2143,10 @@ namespace BLL
 
         public Modelo.Marcacao PreencheMarcacaoComDataRowWebApi(DataRow dr, string login)
         {
+            if (maxcodMarcacao == 0)
+            {
+                maxcodMarcacao = dalMar.MaxCodigo();
+            }
             Modelo.Marcacao objMarcacao = new Modelo.Marcacao();
 
             objMarcacao.Id = Convert.ToInt32(dr["marcacaoid"]);

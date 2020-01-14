@@ -331,7 +331,7 @@ namespace BLL
             //Apenas os updates do funcionario
             List<Modelo.Marcacao> marcacoesBanco = bllMarcacao.GetListaCompesacao(datasList, objCompensacao.Tipo, objCompensacao.Identificacao);
             List<Modelo.Marcacao> marcacoesSalvar;
-            List<Modelo.Funcionario> funcs = dalFuncionario.GetAllList(false);
+            List<Modelo.Funcionario> funcs = dalFuncionario.GetAllList(false, false);
             Modelo.Funcionario objFuncionario;
             foreach (DataRow compens in pListaCompensacao.Rows)
             {

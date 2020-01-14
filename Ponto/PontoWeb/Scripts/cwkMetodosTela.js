@@ -325,7 +325,7 @@ $(function () {
     };
 
     $.connection.hub.start().done(function () {
-        console.log("hub conectado");
+        //console.log("hub conectado");
     });
 
     $.connection.hub.disconnected(function () {

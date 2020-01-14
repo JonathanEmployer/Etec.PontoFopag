@@ -90,6 +90,7 @@ namespace Modelo
         automatico,
         nenhum,
         data,
+        datatime,
         texto
     }
 }
