@@ -9,9 +9,9 @@ namespace Modelo.Proxy
         [TableHTMLAttribute("Código", 1, true, ItensSearch.text, OrderType.none)]
         public int Codigo { get; set; }
         [TableHTMLAttribute("Início", 2, true, ItensSearch.text, OrderType.asc, ColumnType.data)]
-        public DateTime DataInicio { get; set; }
+        public string DataInicio { get; set; }
         [TableHTMLAttribute("Fim", 3, true, ItensSearch.text, OrderType.none, ColumnType.data)]
-        public DateTime DataFim { get; set; }
+        public string DataFim { get; set; }
         [TableHTMLAttribute("Func. Origem", 4, true, ItensSearch.select, OrderType.none)]
         public string Origem { get; set; }
         [TableHTMLAttribute("Func. Destino", 5, true, ItensSearch.select, OrderType.none)]

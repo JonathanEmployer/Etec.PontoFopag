@@ -197,8 +197,8 @@ namespace DAL.SQL
             string sql = @"
                             select tb.id,
 	                               tb.codigo,
-	                               tb.DataInicio,
-	                               tb.DataFim,
+	                               CONVERT(VARCHAR(12),tb.DataInicio,103) DataInicio,
+	                               CONVERT(VARCHAR(12),tb.DataFim,103) DataFim,
 	                               CONCAT(fOrigem.codigo, ' | ', fOrigem.nome) Origem,
 	                               CONCAT(Fdestino.codigo, ' | ', Fdestino.nome) Destino,
 	                               tb.Incusuario,

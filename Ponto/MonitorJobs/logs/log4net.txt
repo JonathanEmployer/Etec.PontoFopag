@@ -1723,3 +1723,797 @@ DEBUG 2020-01-14 11:35:01,470 1553657ms JobCancellationWatcher CallSite.Target  
 DEBUG 2020-01-14 11:35:01,470 1553657ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
 DEBUG 2020-01-14 11:35:06,481 1558667ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
 DEBUG 2020-01-14 11:35:06,481 1558667ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+INFO  2020-01-14 20:37:56,443  1795ms ackgroundServerProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e successfully announced in 570,9443 ms
+INFO  2020-01-14 20:37:56,483  1835ms ackgroundServerProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, Worker, DelayedJobScheduler, RecurringJobScheduler...
+DEBUG 2020-01-14 20:37:56,485  1838ms BackgroundExecution    CallSite.Target    - Execution loop ServerHeartbeatProcess:a091b597 has started in 8,6722 ms
+DEBUG 2020-01-14 20:37:56,493  1845ms BackgroundExecution    CallSite.Target    - Execution loop ServerWatchdog:8e239708 has started in 7,9123 ms
+DEBUG 2020-01-14 20:37:56,496  1848ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-14 20:37:56,501  1853ms BackgroundExecution    CallSite.Target    - Execution loop ServerJobCancellationWatcher:3f086782 has started in 9,1022 ms
+DEBUG 2020-01-14 20:37:56,503  1855ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:37:56,513  1865ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:37:56,520  1872ms BackgroundExecution    CallSite.Target    - Execution loop ExpirationManager:8074233e has started in 16,6075 ms
+DEBUG 2020-01-14 20:37:56,523  1875ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'AggregatedCounter' table...
+DEBUG 2020-01-14 20:37:56,527  1879ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a has started in 10,2032 ms
+DEBUG 2020-01-14 20:37:56,528  1880ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-14 20:37:56,534  1886ms BackgroundExecution    CallSite.Target    - Execution loop Worker:935caca8 has started in 10,9535 ms
+DEBUG 2020-01-14 20:37:56,541  1893ms BackgroundExecution    CallSite.Target    - Execution loop Worker:d41f4ca2 has started in 17,6602 ms
+DEBUG 2020-01-14 20:37:56,546  1898ms BackgroundExecution    CallSite.Target    - Execution loop Worker:544550e1 has started in 22,4774 ms
+DEBUG 2020-01-14 20:37:56,552  1904ms BackgroundExecution    CallSite.Target    - Execution loop Worker:b71a8ae5 has started in 28,5336 ms
+INFO  2020-01-14 20:37:56,559  1911ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+INFO  2020-01-14 20:37:56,559  1911ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+INFO  2020-01-14 20:37:56,560  1912ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+INFO  2020-01-14 20:37:56,560  1912ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-14 20:37:56,563  1915ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-14 20:37:56,562  1914ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-14 20:37:56,589  1941ms BackgroundExecution    CallSite.Target    - Execution loop Worker:e0929944 has started in 65,127 ms
+INFO  2020-01-14 20:37:56,589  1941ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-14 20:37:56,589  1941ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-14 20:37:56,588  1940ms BackgroundExecution    CallSite.Target    - Execution loop Worker:63121a03 has started in 64,5289 ms
+INFO  2020-01-14 20:37:56,590  1942ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-14 20:37:56,590  1942ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-14 20:37:56,562  1914ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-14 20:37:56,562  1914ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-14 20:37:56,605  1957ms BackgroundExecution    CallSite.Target    - Execution loop Worker:254a814a has started in 81,5884 ms
+INFO  2020-01-14 20:37:56,606  1958ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-14 20:37:56,607  1959ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-14 20:37:56,620  1972ms BackgroundExecution    CallSite.Target    - Execution loop Worker:9704ff2d has started in 95,7715 ms
+INFO  2020-01-14 20:37:56,621  1973ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-14 20:37:56,621  1973ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-14 20:37:56,626  1978ms BackgroundExecution    CallSite.Target    - Execution loop Worker:811d40fe has started in 102,0173 ms
+INFO  2020-01-14 20:37:56,626  1978ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-14 20:37:56,626  1978ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-14 20:37:56,629  1981ms BackgroundExecution    CallSite.Target    - Execution loop Worker:beff9033 has started in 105,7667 ms
+INFO  2020-01-14 20:37:56,630  1982ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-14 20:37:56,630  1982ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-14 20:37:56,642  1994ms BackgroundExecution    CallSite.Target    - Execution loop Worker:5138f92a has started in 117,8817 ms
+INFO  2020-01-14 20:37:56,642  1994ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-14 20:37:56,642  1994ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-14 20:37:56,647  1999ms BackgroundExecution    CallSite.Target    - Execution loop Worker:b60c2433 has started in 123,7 ms
+INFO  2020-01-14 20:37:56,648  2000ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-14 20:37:56,648  2000ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-14 20:37:56,659  2011ms BackgroundExecution    CallSite.Target    - Execution loop Worker:aab4c853 has started in 134,8213 ms
+INFO  2020-01-14 20:37:56,659  2011ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-14 20:37:56,660  2012ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-14 20:37:56,664  2016ms BackgroundExecution    CallSite.Target    - Execution loop Worker:0ac25514 has started in 140,4335 ms
+INFO  2020-01-14 20:37:56,665  2017ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-14 20:37:56,665  2017ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-14 20:37:56,669  2022ms BackgroundExecution    CallSite.Target    - Execution loop Worker:0dfb23ce has started in 145,7567 ms
+INFO  2020-01-14 20:37:56,669  2022ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-14 20:37:56,669  2022ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-14 20:37:56,680  2032ms BackgroundExecution    CallSite.Target    - Execution loop Worker:a7f32ec1 has started in 156,7685 ms
+INFO  2020-01-14 20:37:56,681  2033ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-14 20:37:56,682  2034ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-14 20:37:56,693  2045ms BackgroundExecution    CallSite.Target    - Execution loop Worker:d00cdf43 has started in 169,3241 ms
+INFO  2020-01-14 20:37:56,693  2045ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-14 20:37:56,694  2046ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+INFO  2020-01-14 20:37:56,709  2061ms ServerWatchdog         CallSite.Target    - 1 servers were removed due to timeout
+DEBUG 2020-01-14 20:37:56,745  2097ms BackgroundExecution    CallSite.Target    - Execution loop Worker:21a7f0d6 has started in 221,8328 ms
+INFO  2020-01-14 20:37:56,746  2098ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-14 20:37:56,746  2098ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-14 20:37:56,747  2099ms BackgroundExecution    CallSite.Target    - Execution loop Worker:9b1d2ba5 has started in 223,9241 ms
+INFO  2020-01-14 20:37:56,748  2100ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-14 20:37:56,748  2100ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-14 20:37:56,765  2117ms BackgroundExecution    CallSite.Target    - Execution loop Worker:e7f6112e has started in 241,6475 ms
+INFO  2020-01-14 20:37:56,766  2118ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-14 20:37:56,766  2118ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-14 20:37:56,773  2125ms BackgroundExecution    CallSite.Target    - Execution loop DelayedJobScheduler:81fe0fd3 has started in 28,3809 ms
+INFO  2020-01-14 20:37:56,774  2126ms ackgroundServerProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e all the dispatchers started
+DEBUG 2020-01-14 20:37:56,781  2133ms BackgroundExecution    CallSite.Target    - Execution loop RecurringJobScheduler:6a3f505c has started in 11,8104 ms
+DEBUG 2020-01-14 20:37:56,871  2223ms BackgroundExecution    CallSite.Target    - Execution CountersAggregator is in the Faulted state now due to an exception, execution will be retried no more than in 00:00:01
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass31_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:44b91cb7-0238-42f6-a797-2c9a65dc2944
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-14 20:37:56,892  2244ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a caught an exception and will be retried in 00:00:01
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass31_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:44b91cb7-0238-42f6-a797-2c9a65dc2944
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-14 20:37:56,893  2245ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a will be retried in 00:00:01...
+DEBUG 2020-01-14 20:37:56,971  2324ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'AggregatedCounter' table.
+DEBUG 2020-01-14 20:37:56,971  2324ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'Job' table...
+DEBUG 2020-01-14 20:37:57,149  2501ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'Job' table.
+DEBUG 2020-01-14 20:37:57,149  2501ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'List' table...
+DEBUG 2020-01-14 20:37:57,324  2677ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'List' table.
+DEBUG 2020-01-14 20:37:57,325  2678ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'Set' table...
+DEBUG 2020-01-14 20:37:57,992  3345ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-14 20:37:58,006  3359ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'Set' table.
+DEBUG 2020-01-14 20:37:58,007  3360ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'Hash' table...
+DEBUG 2020-01-14 20:37:58,396  3748ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a caught an exception and will be retried in 00:00:04
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass31_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:36e4ec62-8d69-46be-bfc3-7f96b40fc4e2
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-14 20:37:58,397  3749ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a will be retried in 00:00:04...
+DEBUG 2020-01-14 20:37:58,500  3853ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'Hash' table.
+DEBUG 2020-01-14 20:38:01,548  6901ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:38:01,549  6902ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:38:02,417  7769ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-14 20:38:02,515  7867ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a caught an exception and will be retried in 00:00:09
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass31_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:3919106d-e034-410c-8c3c-ea514f021799
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-14 20:38:02,516  7868ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a will be retried in 00:00:09...
+DEBUG 2020-01-14 20:38:06,556 11908ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:38:06,556 11908ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:38:11,524 16877ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-14 20:38:11,560 16913ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:38:11,560 16913ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:38:11,601 16953ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a caught an exception and will be retried in 00:00:16
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass31_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:36e4ec62-8d69-46be-bfc3-7f96b40fc4e2
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-14 20:38:11,602 16954ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a will be retried in 00:00:16...
+DEBUG 2020-01-14 20:38:16,566 21918ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:38:16,566 21918ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:38:21,574 26926ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:38:21,575 26927ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:38:26,581 31933ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:38:26,581 31934ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:38:26,755 32108ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e heartbeat successfully sent
+DEBUG 2020-01-14 20:38:26,755 32108ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-14 20:38:27,617 32969ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+ERROR 2020-01-14 20:38:27,700 33052ms BackgroundExecution    CallSite.Target    - Execution CountersAggregator is in the Failed state now due to an exception, execution will be retried no more than in 00:00:25
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass31_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:36e4ec62-8d69-46be-bfc3-7f96b40fc4e2
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-14 20:38:27,702 33054ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a caught an exception and will be retried in 00:00:25
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass31_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:36e4ec62-8d69-46be-bfc3-7f96b40fc4e2
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-14 20:38:27,703 33055ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a will be retried in 00:00:25...
+DEBUG 2020-01-14 20:38:31,587 36940ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:38:31,587 36940ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:38:36,611 41963ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:38:36,613 41965ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:38:41,624 46976ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:38:41,624 46976ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:38:46,642 51994ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:38:46,642 51994ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:38:51,649 57001ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:38:51,649 57001ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:38:52,725 58077ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-14 20:38:52,836 58189ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a caught an exception and will be retried in 00:00:36
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass31_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:3919106d-e034-410c-8c3c-ea514f021799
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-14 20:38:52,838 58191ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a will be retried in 00:00:36...
+DEBUG 2020-01-14 20:38:56,659 62011ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:38:56,659 62011ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:38:57,110 62462ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e heartbeat successfully sent
+DEBUG 2020-01-14 20:38:57,111 62463ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-14 20:39:01,665 67018ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:39:01,665 67018ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:39:06,690 72042ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:39:06,690 72042ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:39:11,777 77129ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:39:11,777 77129ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:39:16,846 82198ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:39:16,847 82199ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:39:21,946 87298ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:39:21,946 87298ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:39:27,037 92389ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:39:27,037 92389ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:39:28,387 93739ms BackgroundExecution    CallSite.Target    - Execution DelayedJobScheduler is in the Faulted state now due to an exception, execution will be retried no more than in 00:00:01
+System.Data.SqlClient.SqlException (0x80131904): Tempo Limite de Execução Expirado.  O período de tempo limite terminou antes da conclusão da operação ou o servidor não está respondendo. ---> System.ComponentModel.Win32Exception (0x80004005): O tempo limite de espera foi atingido
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParserStateObject.ReadSniError(TdsParserStateObject stateObj, UInt32 error)
+   em System.Data.SqlClient.TdsParserStateObject.ReadSniSyncOverAsync()
+   em System.Data.SqlClient.TdsParserStateObject.TryReadNetworkPacket()
+   em System.Data.SqlClient.TdsParserStateObject.TryPrepareBuffer()
+   em System.Data.SqlClient.TdsParserStateObject.TryReadByte(Byte& value)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.SqlServerDistributedLock.Acquire(IDbConnection connection, String resource, TimeSpan timeout)
+   em Hangfire.SqlServer.SqlServerConnection.AcquireLock(String resource, TimeSpan timeout)
+   em Hangfire.SqlServer.SqlServerConnection.AcquireDistributedLock(String resource, TimeSpan timeout)
+   em Hangfire.Server.DelayedJobScheduler.UseConnectionDistributedLock[T](JobStorage storage, Func`2 action)
+   em Hangfire.Server.DelayedJobScheduler.EnqueueNextScheduledJobs(BackgroundProcessContext context)
+   em Hangfire.Server.DelayedJobScheduler.Execute(BackgroundProcessContext context)
+   em Hangfire.Server.BackgroundProcessDispatcherBuilder.ExecuteProcess(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:36e4ec62-8d69-46be-bfc3-7f96b40fc4e2
+Error Number:-2,State:0,Class:11
+DEBUG 2020-01-14 20:39:28,389 93741ms BackgroundExecution    CallSite.Target    - Execution loop DelayedJobScheduler:81fe0fd3 caught an exception and will be retried in 00:00:01
+System.Data.SqlClient.SqlException (0x80131904): Tempo Limite de Execução Expirado.  O período de tempo limite terminou antes da conclusão da operação ou o servidor não está respondendo. ---> System.ComponentModel.Win32Exception (0x80004005): O tempo limite de espera foi atingido
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParserStateObject.ReadSniError(TdsParserStateObject stateObj, UInt32 error)
+   em System.Data.SqlClient.TdsParserStateObject.ReadSniSyncOverAsync()
+   em System.Data.SqlClient.TdsParserStateObject.TryReadNetworkPacket()
+   em System.Data.SqlClient.TdsParserStateObject.TryPrepareBuffer()
+   em System.Data.SqlClient.TdsParserStateObject.TryReadByte(Byte& value)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.SqlServerDistributedLock.Acquire(IDbConnection connection, String resource, TimeSpan timeout)
+   em Hangfire.SqlServer.SqlServerConnection.AcquireLock(String resource, TimeSpan timeout)
+   em Hangfire.SqlServer.SqlServerConnection.AcquireDistributedLock(String resource, TimeSpan timeout)
+   em Hangfire.Server.DelayedJobScheduler.UseConnectionDistributedLock[T](JobStorage storage, Func`2 action)
+   em Hangfire.Server.DelayedJobScheduler.EnqueueNextScheduledJobs(BackgroundProcessContext context)
+   em Hangfire.Server.DelayedJobScheduler.Execute(BackgroundProcessContext context)
+   em Hangfire.Server.BackgroundProcessDispatcherBuilder.ExecuteProcess(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:36e4ec62-8d69-46be-bfc3-7f96b40fc4e2
+Error Number:-2,State:0,Class:11
+DEBUG 2020-01-14 20:39:28,390 93742ms BackgroundExecution    CallSite.Target    - Execution loop DelayedJobScheduler:81fe0fd3 will be retried in 00:00:01...
+DEBUG 2020-01-14 20:39:28,896 94248ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-14 20:39:28,971 94324ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a caught an exception and will be retried in 00:00:49
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass31_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:cbcdeef0-a813-4da5-a6a9-28c40f384935
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-14 20:39:28,972 94325ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a will be retried in 00:00:49...
+DEBUG 2020-01-14 20:39:32,094 97446ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:39:32,094 97446ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:39:37,219 102571ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:39:37,219 102571ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:39:42,253 107606ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:39:42,253 107606ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+ERROR 2020-01-14 20:39:44,712 110064ms BackgroundExecution    CallSite.Target    - Execution DelayedJobScheduler is in the Failed state now due to an exception, execution will be retried no more than in 00:00:04
+System.Data.SqlClient.SqlException (0x80131904): Tempo Limite de Execução Expirado.  O período de tempo limite terminou antes da conclusão da operação ou o servidor não está respondendo. ---> System.ComponentModel.Win32Exception (0x80004005): O tempo limite de espera foi atingido
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParserStateObject.ReadSniError(TdsParserStateObject stateObj, UInt32 error)
+   em System.Data.SqlClient.TdsParserStateObject.ReadSniSyncOverAsync()
+   em System.Data.SqlClient.TdsParserStateObject.TryReadNetworkPacket()
+   em System.Data.SqlClient.TdsParserStateObject.TryPrepareBuffer()
+   em System.Data.SqlClient.TdsParserStateObject.TryReadByte(Byte& value)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.SqlServerDistributedLock.Acquire(IDbConnection connection, String resource, TimeSpan timeout)
+   em Hangfire.SqlServer.SqlServerConnection.AcquireLock(String resource, TimeSpan timeout)
+   em Hangfire.SqlServer.SqlServerConnection.AcquireDistributedLock(String resource, TimeSpan timeout)
+   em Hangfire.Server.DelayedJobScheduler.UseConnectionDistributedLock[T](JobStorage storage, Func`2 action)
+   em Hangfire.Server.DelayedJobScheduler.EnqueueNextScheduledJobs(BackgroundProcessContext context)
+   em Hangfire.Server.DelayedJobScheduler.Execute(BackgroundProcessContext context)
+   em Hangfire.Server.BackgroundProcessDispatcherBuilder.ExecuteProcess(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:cbcdeef0-a813-4da5-a6a9-28c40f384935
+Error Number:-2,State:0,Class:11
+DEBUG 2020-01-14 20:39:44,713 110065ms BackgroundExecution    CallSite.Target    - Execution loop DelayedJobScheduler:81fe0fd3 caught an exception and will be retried in 00:00:04
+System.Data.SqlClient.SqlException (0x80131904): Tempo Limite de Execução Expirado.  O período de tempo limite terminou antes da conclusão da operação ou o servidor não está respondendo. ---> System.ComponentModel.Win32Exception (0x80004005): O tempo limite de espera foi atingido
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParserStateObject.ReadSniError(TdsParserStateObject stateObj, UInt32 error)
+   em System.Data.SqlClient.TdsParserStateObject.ReadSniSyncOverAsync()
+   em System.Data.SqlClient.TdsParserStateObject.TryReadNetworkPacket()
+   em System.Data.SqlClient.TdsParserStateObject.TryPrepareBuffer()
+   em System.Data.SqlClient.TdsParserStateObject.TryReadByte(Byte& value)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.SqlServerDistributedLock.Acquire(IDbConnection connection, String resource, TimeSpan timeout)
+   em Hangfire.SqlServer.SqlServerConnection.AcquireLock(String resource, TimeSpan timeout)
+   em Hangfire.SqlServer.SqlServerConnection.AcquireDistributedLock(String resource, TimeSpan timeout)
+   em Hangfire.Server.DelayedJobScheduler.UseConnectionDistributedLock[T](JobStorage storage, Func`2 action)
+   em Hangfire.Server.DelayedJobScheduler.EnqueueNextScheduledJobs(BackgroundProcessContext context)
+   em Hangfire.Server.DelayedJobScheduler.Execute(BackgroundProcessContext context)
+   em Hangfire.Server.BackgroundProcessDispatcherBuilder.ExecuteProcess(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:cbcdeef0-a813-4da5-a6a9-28c40f384935
+Error Number:-2,State:0,Class:11
+DEBUG 2020-01-14 20:39:44,713 110065ms BackgroundExecution    CallSite.Target    - Execution loop DelayedJobScheduler:81fe0fd3 will be retried in 00:00:04...
+WARN  2020-01-14 20:39:45,205 110557ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcTIBRASIL_2019_07_31' can not be scheduled due to an exception.
+System.Data.SqlClient.SqlException (0x80131904): Tempo Limite de Execução Expirado.  O período de tempo limite terminou antes da conclusão da operação ou o servidor não está respondendo. ---> System.ComponentModel.Win32Exception (0x80004005): O tempo limite de espera foi atingido
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParserStateObject.ReadSniError(TdsParserStateObject stateObj, UInt32 error)
+   em System.Data.SqlClient.TdsParserStateObject.ReadSniSyncOverAsync()
+   em System.Data.SqlClient.TdsParserStateObject.TryReadNetworkPacket()
+   em System.Data.SqlClient.TdsParserStateObject.TryPrepareBuffer()
+   em System.Data.SqlClient.TdsParserStateObject.TryReadByte(Byte& value)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   em System.Data.SqlClient.SqlDataReader.get_MetaData()
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   em System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   em System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   em System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   em Dapper.SqlMapper.ExecuteReaderWithFlagsFallback(IDbCommand cmd, Boolean wasClosed, CommandBehavior behavior)
+   em Dapper.SqlMapper.QueryMultipleImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.SqlServerMonitoringApi.<>c__DisplayClass21_0.<JobDetails>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerMonitoringApi.JobDetails(String jobId)
+   em Hangfire.Console.States.ConsoleApplyStateFilter.OnStateApplied(ApplyStateContext context, IWriteOnlyTransaction transaction)
+   em Hangfire.States.StateMachine.<>c__DisplayClass4_0.<ApplyState>b__2(IApplyStateFilter x)
+   em Hangfire.Profiling.ProfilerExtensions.InvokeAction[TInstance](InstanceAction`1 tuple)
+   em Hangfire.Profiling.SlowLogProfiler.InvokeMeasured[TInstance,TResult](TInstance instance, Func`2 action, String message)
+   em Hangfire.Profiling.ProfilerExtensions.InvokeMeasured[TInstance](IProfiler profiler, TInstance instance, Action`1 action, String message)
+   em Hangfire.States.StateMachine.ApplyState(ApplyStateContext initialContext)
+   em Hangfire.RecurringJobExtensions.EnqueueBackgroundJob(IStateMachine stateMachine, JobStorage storage, IStorageConnection connection, IWriteOnlyTransaction transaction, RecurringJobEntity recurringJob, BackgroundJob backgroundJob, String reason, IProfiler profiler)
+   em Hangfire.Server.RecurringJobScheduler.EnqueueBackgroundJob(BackgroundProcessContext context, IStorageConnection connection, String recurringJobId, DateTime now)
+   em Hangfire.Server.RecurringJobScheduler.TryEnqueueBackgroundJob(BackgroundProcessContext context, IStorageConnection connection, String recurringJobId, DateTime now)
+ClientConnectionId:3919106d-e034-410c-8c3c-ea514f021799
+Error Number:-2,State:0,Class:11
+DEBUG 2020-01-14 20:39:45,397 110749ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e heartbeat successfully sent
+DEBUG 2020-01-14 20:39:45,397 110750ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-14 20:39:47,269 112621ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:39:47,269 112621ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:39:52,289 117642ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:39:52,289 117642ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:39:57,295 122647ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:39:57,295 122647ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:40:02,302 127654ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:40:02,302 127654ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+INFO  2020-01-14 20:40:03,899 129251ms BackgroundExecution    CallSite.Target    - Execution DelayedJobScheduler recovered from the Failed state after 00:00:19.1705854 and is in the Running state now
+DEBUG 2020-01-14 20:40:07,309 132661ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:40:07,309 132661ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:40:12,315 137668ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:40:12,315 137668ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:40:15,708 141060ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e heartbeat successfully sent
+DEBUG 2020-01-14 20:40:15,708 141060ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-14 20:40:17,322 142674ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:40:17,322 142674ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:40:18,019 143371ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-14 20:40:18,106 143458ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a caught an exception and will be retried in 00:01:04
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass31_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:90f687b7-c6e6-4f10-8baf-8cbb4e8e9fc4
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-14 20:40:18,107 143459ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a will be retried in 00:01:04...
+DEBUG 2020-01-14 20:40:22,326 147679ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:40:22,326 147679ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:40:25,931 151283ms RecurringJobScheduler  CallSite.Target    - 2 recurring job(s) enqueued.
+DEBUG 2020-01-14 20:40:27,348 152700ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:40:27,348 152700ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:40:32,454 157806ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:40:32,454 157806ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:40:37,514 162866ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:40:37,514 162866ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:40:42,550 167902ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:40:42,550 167902ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:40:46,259 171612ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e heartbeat successfully sent
+DEBUG 2020-01-14 20:40:46,260 171613ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-14 20:40:47,603 172956ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:40:47,603 172956ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:40:52,687 178040ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:40:52,688 178040ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:40:57,719 183072ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:40:57,719 183072ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:41:02,762 188114ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:41:02,762 188114ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:41:07,809 193162ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:41:07,809 193162ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:41:12,815 198167ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:41:12,816 198168ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:41:14,238 199591ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-14 20:41:16,596 201948ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e heartbeat successfully sent
+DEBUG 2020-01-14 20:41:16,597 201949ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-14 20:41:17,844 203196ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:41:17,844 203196ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:41:22,201 207554ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-14 20:41:22,283 207636ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a caught an exception and will be retried in 00:01:21
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass31_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:42f142fc-2939-47df-909d-1fcd9629c052
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-14 20:41:22,284 207637ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a will be retried in 00:01:21...
+DEBUG 2020-01-14 20:41:22,891 208243ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:41:22,891 208243ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:41:28,002 213354ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:41:28,002 213354ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:41:33,036 218389ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:41:33,036 218389ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:41:38,068 223420ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:41:38,068 223420ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:41:43,106 228459ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:41:43,106 228459ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:41:46,936 232288ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e heartbeat successfully sent
+DEBUG 2020-01-14 20:41:46,937 232289ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-14 20:41:48,127 233479ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:41:48,127 233479ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:41:53,170 238523ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:41:53,170 238523ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:41:58,242 243594ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:41:58,242 243594ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:42:02,721 248073ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-14 20:42:03,252 248604ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:42:03,252 248604ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:42:08,278 253630ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:42:08,278 253630ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:42:13,317 258670ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:42:13,317 258670ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:42:17,226 262578ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e heartbeat successfully sent
+DEBUG 2020-01-14 20:42:17,227 262579ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-14 20:42:18,332 263684ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:42:18,332 263684ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:42:23,359 268712ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:42:23,360 268713ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:42:28,379 273731ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:42:28,379 273731ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:42:33,379 278732ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:42:33,379 278732ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:42:38,393 283745ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:42:38,393 283745ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:42:43,343 288695ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-14 20:42:43,395 288747ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:42:43,395 288747ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:42:43,428 288780ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a caught an exception and will be retried in 00:01:40
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass31_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:42f142fc-2939-47df-909d-1fcd9629c052
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-14 20:42:43,429 288781ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a will be retried in 00:01:40...
+DEBUG 2020-01-14 20:42:47,712 293064ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e heartbeat successfully sent
+DEBUG 2020-01-14 20:42:47,712 293064ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-14 20:42:48,396 293748ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:42:48,396 293748ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:42:53,440 298792ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:42:53,440 298793ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:42:58,479 303831ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:42:58,480 303832ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:43:03,480 308832ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:43:03,482 308834ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:43:05,981 311333ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-14 20:43:08,505 313858ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:43:08,506 313859ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:43:13,637 318989ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:43:13,637 318989ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:43:18,355 323708ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e heartbeat successfully sent
+DEBUG 2020-01-14 20:43:18,356 323709ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-14 20:43:18,645 323997ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:43:18,646 323998ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:43:23,663 329016ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:43:23,663 329016ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:43:28,721 334073ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:43:28,721 334073ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:43:33,809 339161ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:43:33,810 339163ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:43:38,824 344176ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:43:38,824 344176ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:43:43,940 349292ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:43:43,941 349293ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:43:48,864 354217ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e heartbeat successfully sent
+DEBUG 2020-01-14 20:43:48,864 354217ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-14 20:43:48,959 354311ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:43:48,959 354311ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:43:54,000 359352ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:43:54,001 359353ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:43:59,141 364493ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:43:59,141 364493ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:44:04,220 369572ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:44:04,220 369572ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:44:08,836 374188ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-14 20:44:09,232 374585ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:44:09,232 374585ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:44:14,326 379678ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:44:14,326 379678ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:44:19,253 384606ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e heartbeat successfully sent
+DEBUG 2020-01-14 20:44:19,253 384606ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-14 20:44:19,332 384684ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:44:19,332 384684ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:44:23,435 388788ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-14 20:44:23,516 388868ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a caught an exception and will be retried in 00:02:01
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass31_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:44b91cb7-0238-42f6-a797-2c9a65dc2944
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-14 20:44:23,516 388868ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a will be retried in 00:02:01...
+DEBUG 2020-01-14 20:44:24,335 389687ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:44:24,335 389687ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:44:29,412 394764ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:44:29,412 394764ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:44:34,485 399838ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:44:34,486 399839ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:44:39,487 404839ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:44:39,487 404839ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:44:44,531 409884ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:44:44,531 409884ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:44:49,532 414884ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:44:49,532 414884ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:44:49,593 414945ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e heartbeat successfully sent
+DEBUG 2020-01-14 20:44:49,593 414945ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-14 20:44:54,532 419884ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:44:54,532 419884ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:44:59,603 424955ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:44:59,604 424956ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:45:04,660 430012ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:45:04,660 430012ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:45:09,660 435012ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:45:09,660 435012ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:45:11,322 436674ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-14 20:45:14,693 440045ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:45:14,693 440045ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:45:19,698 445051ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:45:19,699 445052ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:45:19,777 445130ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e heartbeat successfully sent
+DEBUG 2020-01-14 20:45:19,777 445130ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-14 20:45:24,712 450064ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:45:24,712 450064ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:45:29,752 455104ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:45:29,752 455104ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:45:34,778 460130ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:45:34,778 460130ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:45:39,793 465145ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:45:39,793 465145ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:45:44,824 470177ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:45:44,826 470179ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:45:49,895 475247ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:45:49,896 475248ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:45:49,967 475320ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e heartbeat successfully sent
+DEBUG 2020-01-14 20:45:49,967 475320ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-14 20:45:54,897 480249ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:45:54,897 480249ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:45:59,945 485297ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:45:59,945 485297ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:46:45,356 530708ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-14 20:46:45,434 530787ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-14 20:46:45,435 530787ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-14 20:46:46,061 531414ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a caught an exception and will be retried in 00:02:24
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass31_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:42f142fc-2939-47df-909d-1fcd9629c052
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-14 20:46:46,062 531415ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a will be retried in 00:02:24...
+DEBUG 2020-01-14 20:46:46,074 531427ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e heartbeat successfully sent
+DEBUG 2020-01-14 20:46:46,074 531427ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e waiting for 00:00:30 delay before sending a heartbeat

@@ -575,12 +575,7 @@ namespace PontoWeb.Helpers
             columnDefs: [ ";
             for (int i = 0; i < table.Columns.Count(); i++)
             {
-                string dataFormat = "";
-                if (table.Columns[i].ColumnType == ColumnType.data.ToString() || table.Columns[i].ColumnType == ColumnType.datatime.ToString())
-                {
-                    dataFormat = " , render:function(data){ return moment(data).format('DD/MM/YYYY" + (table.Columns[i].ColumnType == ColumnType.datatime.ToString() ? " HH:mm" : "") + "');}";
-                }
-                string columnDefs = @"{ 'targets': [" + i + "], 'visible': " + (table.Columns[i].Visible == true ? "true" : "false") + (String.IsNullOrEmpty(table.Columns[i].ColumnType) ? " " : ", 'type': '" + table.Columns[i].ColumnType + "'") + dataFormat + " },";
+                string columnDefs = @"{ 'targets': [" + i + "], 'visible': " + (table.Columns[i].Visible == true ? "true" : "false") + (String.IsNullOrEmpty(table.Columns[i].ColumnType) ? " " : ", 'type': '" + table.Columns[i].ColumnType + "'") + " },";
                 js += columnDefs;
             }
             js += @"],
