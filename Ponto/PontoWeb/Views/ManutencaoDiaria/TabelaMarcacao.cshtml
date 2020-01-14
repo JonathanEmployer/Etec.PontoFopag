@@ -244,8 +244,8 @@
                 </div>
             </div>
         </div>
-                                                        @*fim modal fade*@
-                                                        </div>
+        @*fim modal fade*@
+    </div>
 
     <div id="divManutMarcacao" class="modal" style="background-color: rgba(0,0,0,0.4);" accesskey="" data-keyboard="false" data-backdrop="static"></div>
 }
@@ -281,7 +281,7 @@
         $(".lkpContrato").bind("keydown click", function (e) {
             cwk_EventoConsultaUnico(e, this, "EventoConsulta", "Contrato", "#lkpEmpresa", callBackDepartamento, "");
         });
-        
+
         //Tratamento Período
         setaDatePiker('#DataInicial');
         setaDatePiker('#DataFinal');
@@ -322,7 +322,7 @@
                 if (($("#DataInicial").val() !="" && $("#DataFinal").val() != "") && ($("#DataFinal").val() >= $("#DataInicial").val())){
                     habilitaDesabilitarBotoes (false);
                 }
-                
+
 
             }
         });
@@ -517,9 +517,18 @@
         var emp = $("#lkpEmpresa").val();
         var depart = $("#lkpDepartamento").val();
         if ((!bValidaPeriodo || (bValidaPeriodo && validaPeriodoTabelaMarcacao())) && depart != null && depart != "" && emp != null && emp != "") {
+            errorArray["Empresa"] = '';
+            $("form").validate().showErrors(errorArray);
+            limpaErro("Empresa");
             return true;
         }
         else {
+            if (emp == null || emp == "") {
+                errorArray["Empresa"] = 'Empresa deve ser informada!';
+                $("form").validate().showErrors(errorArray);
+                $('#divDadosFuncionario').html('');
+                $('#divGridMarcacao').html('');
+            }
             return false;
         }
     }
@@ -637,5 +646,5 @@
         $("#divGrid").height(alturaDiv);
     }).trigger('resize');
 
-   
+
 </script>
