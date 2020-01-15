@@ -48,7 +48,7 @@
 </div>
 
 <div id='modalEmail' class='modal fade' role='dialog'>
-    <div class='modal-dialog' style='width: 80%;'>
+    <div class='modal-dialog modal-lg' @*style='width: 70%;'*@>
         <!-- Modal content-->
         <div class='modal-content'>
             <div class='modal-header'>
@@ -77,4 +77,11 @@
         $("#divConteudoEmail").html($.parseHTML($(btn).attr("conteudo-alerta")));
     }
 </script>
+
+<style>
+    .modal-body{
+        overflow-x:auto;
+        max-height:500px;
+    }
+</style>
    

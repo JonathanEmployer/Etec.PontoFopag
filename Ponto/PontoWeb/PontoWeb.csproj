@@ -1776,6 +1776,7 @@
     <Content Include="Views\Contrato\EventoConsultaSemTodos.cshtml" />
     <Content Include="Views\RelAFDPortaria373\Index.cshtml" />
     <Content Include="Views\Contrato\EventoConsultaSemTodos.cshtml" />
+    <Content Include="Views\Alertas\DadosAdicionais.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

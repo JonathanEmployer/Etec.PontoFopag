@@ -189,9 +189,14 @@ namespace PontoWeb.Controllers
         {
             TimeSpan iniVeri = obj.InicioVerificacao.Add(new TimeSpan(0, 5, 0));
             if (iniVeri > obj.FimVerificacao)
-            {
                 ModelState.AddModelError("FimVerificacao", "Fim deve ser maior que início + 5 min");
-            }
+
+            var dataLimite = DateTime.Now.AddDays(-8);
+            if (obj.UltimaExecucao.HasValue && obj.UltimaExecucao < dataLimite)
+                ModelState.AddModelError("UltimaExecucao", $"A data limite para ultima execução é {dataLimite.ToString("dd/MM/yyyy")}");
+
+            if(obj.Descricao == null || obj.Descricao == string.Empty)
+                ModelState.AddModelError("Descricao", "O campo descrição é obrigatório");
         }
 
         #region Métodos auxiliares

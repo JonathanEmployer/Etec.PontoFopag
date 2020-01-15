@@ -167,7 +167,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="row">
-                                                <div class="form-group">
+                                                <div class="form-group" id="divTolerancia">
                                                     @Html.LabelFor(model => model.Tolerancia, new { @class = "control-label label-sm editor-label" })
                                                     @Html.TextBoxFor(model => model.Tolerancia, new { @class = "form-control  input-sm editor-field timeL" })
                                                     @Html.ValidationMessageFor(model => model.Tolerancia)
@@ -226,6 +226,11 @@
             <div class="panel-footer">
                 <div class="row">
                     <div class="col-xs-12 center-block">
+                        <div class="pull-left">
+                            <button id="btnDadosAdicionais" class="btn btn-primary">
+                               Dados Adicionais
+                            </button>
+                        </div>
                         <div style="text-align: right">
                             <button type="submit" class="btn btn-success salvando">
                                 <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
@@ -257,6 +262,7 @@
         //    language: 'en',
         //    pick12HourFormat: true
         //});
+        ocultarExibirTolerancia();
     })
 
     $(".timeL").blur(function () {
@@ -286,6 +292,19 @@
             return true;
         }
     }
+
+    $("#ProcedureAlerta").change(function() {
+        ocultarExibirTolerancia();
+    });
+
+    function ocultarExibirTolerancia(){
+        var alerta = $("#ProcedureAlerta").val();
+        if (alerta == 'p_enviaAlertaEntradaAtrasadaV2' || alerta == 'p_enviaAlertaSaidaAntecipadaV2')
+            $("#divTolerancia").removeAttr("style");
+        else
+            $("#divTolerancia").attr("style", "visibility: hidden;");
+    }
+        
 </script>
 @if (ViewBag.Consultar == 1)
 {
