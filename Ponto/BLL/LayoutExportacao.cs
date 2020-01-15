@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data;
-using System.IO;
 using DAL.SQL;
 
 namespace BLL
@@ -34,16 +31,7 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    dalLayoutExportacao = new DAL.SQL.LayoutExportacao(new DataBase(ConnectionString), usuarioLogado);
-                    break;
-                case 2:
-                    dalLayoutExportacao = DAL.FB.LayoutExportacao.GetInstancia;
-                    break;
-            }
+            dalLayoutExportacao = new DAL.SQL.LayoutExportacao(new DataBase(ConnectionString), usuarioLogado);
             UsuarioLogado = usuarioLogado;
             dalLayoutExportacao.UsuarioLogado = UsuarioLogado;
         }

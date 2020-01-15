@@ -32,15 +32,9 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    dalEventos = new DAL.SQL.Eventos(new DataBase(ConnectionString));
-                    break;
-                case 2:
-                    dalEventos = DAL.FB.Eventos.GetInstancia;
-                    break;
-            }
+
+            dalEventos = new DAL.SQL.Eventos(new DataBase(ConnectionString));
+
             UsuarioLogado = usuarioLogado;
             dalEventos.UsuarioLogado = usuarioLogado;
         }

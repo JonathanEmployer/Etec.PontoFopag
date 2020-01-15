@@ -33,15 +33,7 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    dalHorarioDetalhe = new DAL.SQL.HorarioDetalhe(new DataBase(ConnectionString));
-                    break;
-                case 2:
-                    dalHorarioDetalhe = DAL.FB.HorarioDetalhe.GetInstancia;
-                    break;
-            }
+            dalHorarioDetalhe = new DAL.SQL.HorarioDetalhe(new DataBase(ConnectionString));
             UsuarioLogado = usuarioLogado;
             dalHorarioDetalhe.UsuarioLogado = usuarioLogado;
         }

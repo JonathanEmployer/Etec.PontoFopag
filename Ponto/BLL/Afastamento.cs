@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Collections;
 using DAL.SQL;
 using Modelo.Proxy.Relatorios;
 
@@ -44,15 +43,7 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    dalAfastamento = new DAL.SQL.Afastamento(new DataBase(ConnectionString));
-                    break;
-                case 2:
-                    dalAfastamento = DAL.FB.Afastamento.GetInstancia;
-                    break;
-            }
+            dalAfastamento = new DAL.SQL.Afastamento(new DataBase(ConnectionString));
             dalAfastamento.UsuarioLogado = usuarioLogado;
             UsuarioLogado = usuarioLogado;
         }

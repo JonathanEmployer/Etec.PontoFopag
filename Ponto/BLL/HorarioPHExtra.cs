@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Reflection;
 using System.Text;
 using Modelo;
 using DAL.SQL;
@@ -35,15 +34,7 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    dalHorarioPHExtra = new DAL.SQL.HorarioPHExtra(new DataBase(ConnectionString));
-                    break;
-                case 2:
-                    dalHorarioPHExtra = DAL.FB.HorarioPHExtra.GetInstancia;
-                    break;
-            }
+            dalHorarioPHExtra = new DAL.SQL.HorarioPHExtra(new DataBase(ConnectionString));
             UsuarioLogado = usuarioLogado;
         }
 

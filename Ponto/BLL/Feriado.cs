@@ -40,15 +40,8 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    dalFeriado = new DAL.SQL.Feriado(new DataBase(ConnectionString));
-                    break;
-                case 2:
-                    dalFeriado = DAL.FB.Feriado.GetInstancia;
-                    break;
-            }
+
+            dalFeriado = new DAL.SQL.Feriado(new DataBase(ConnectionString));
             dalFeriado.UsuarioLogado = usuarioLogado;
             UsuarioLogado = usuarioLogado;
         }

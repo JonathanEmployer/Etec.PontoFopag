@@ -37,16 +37,6 @@ namespace BLL
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
 
             dalFechamentoBHD = new DAL.SQL.FechamentoBHD(new DataBase(ConnectionString));
-
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    dalFechamentoBHD = new DAL.SQL.FechamentoBHD(new DataBase(ConnectionString));
-                    break;
-                case 2:
-                    dalFechamentoBHD = DAL.FB.FechamentoBHD.GetInstancia;
-                    break;
-            }
             dalFechamentoBHD.UsuarioLogado = usuarioLogado;
             UsuarioLogado = usuarioLogado;
         }

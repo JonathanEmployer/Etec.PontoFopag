@@ -41,22 +41,6 @@ namespace BLL
             dalEmp = new DAL.SQL.Empresa(db);
             dalFuncionario = new DAL.SQL.Funcionario(db);
 
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    db = new DataBase(ConnectionString);
-                    dalBilheteSimp = new DAL.SQL.BilhetesImp(db);
-                    dalProvisorio = new DAL.SQL.Provisorio(db);
-                    dalEmp = new DAL.SQL.Empresa(db);
-                    dalFuncionario = new DAL.SQL.Funcionario(db);
-                    break;
-                case 2:
-                    dalBilheteSimp = DAL.FB.BilhetesImp.GetInstancia;
-                    dalProvisorio = DAL.FB.Provisorio.GetInstancia;
-                    dalEmp = DAL.FB.Empresa.GetInstancia;
-                    dalFuncionario = DAL.FB.Funcionario.GetInstancia;
-                    break;
-            }
             dalEmp.UsuarioLogado = usuarioLogado;
             dalFuncionario.UsuarioLogado = usuarioLogado;
             dalBilheteSimp.UsuarioLogado = usuarioLogado;
