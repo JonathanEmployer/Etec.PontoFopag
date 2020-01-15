@@ -133,7 +133,7 @@ namespace PontoWeb.Controllers
             departamentos = new List<Modelo.Departamento>();
             empresas = new List<Modelo.Empresa>();
 
-            List<Modelo.Funcionario> listaFuncionarios = new BLL.Funcionario(conn, usr).GetAllList(true);
+            List<Modelo.Funcionario> listaFuncionarios = new BLL.Funcionario(conn, usr).GetAllList(true, true);
             List<Modelo.Departamento> listaDepartamentos = new BLL.Departamento(conn, usr).GetAllList();
             List<Modelo.Empresa> listaEmpresas = bllEmpresa.GetAllList();
 

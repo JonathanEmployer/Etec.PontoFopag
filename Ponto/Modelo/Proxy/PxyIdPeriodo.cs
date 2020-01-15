@@ -13,11 +13,6 @@ namespace Modelo.Proxy
     public class PxyIdPeriodo : Modelo.ModeloBase
 	{
         /// <summary>
-        /// Id do Registro
-        /// </summary>
-        public int Id { get; set; }
-
-        /// <summary>
         /// Data Inicial
         /// </summary>
         [Display(Name = "Início")]

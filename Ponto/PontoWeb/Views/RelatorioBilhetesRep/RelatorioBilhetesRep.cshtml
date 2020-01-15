@@ -40,9 +40,9 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div class="input-group input-daterange">
-                            <div class="input-group-sm input-group-addon" style="border-left-width:1px" onkeypress="dataKeypress('#FimInicio')"> Período de </div>
+                            <div class="input-group-sm input-group-addon" style="border-left-width:1px"> Período de </div>
                             @Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control MascDate datepickerpt", id = "InicioPeriodo" })
-                            <div class="input-group-sm input-group-addon" onkeypress="dataKeypress('#FimPeriodo')">a</div>
+                            <div class="input-group-sm input-group-addon" >a</div>
                             @Html.TextBoxFor(model => Model.FimPeriodo, new { @class = "form-control MascDate datepickerpt", id = "FimPeriodo" })
                         </div>
                     </div>

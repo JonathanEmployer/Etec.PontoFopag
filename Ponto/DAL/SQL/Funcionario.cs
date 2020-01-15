@@ -2535,7 +2535,7 @@ namespace DAL.SQL
             return lista;
         }
 
-        public List<Modelo.Funcionario> GetAllList(bool pegaTodos)
+        public List<Modelo.Funcionario> GetAllList(bool pegaInativos, bool pegaExcluidos)
         {
             List<Modelo.Funcionario> lista = new List<Modelo.Funcionario>();
 
@@ -2614,10 +2614,15 @@ namespace DAL.SQL
                              LEFT JOIN TipoVinculo ON TipoVinculo.id = func.IdTipoVinculo
                              LEFT JOIN HorarioDinamico HDN ON HDN.id = func.idhorariodinamico ";
 
-
-            if (!pegaTodos)
+            aux += " WHERE 1 = 1";
+            if (!pegaInativos)
             {
-                aux += " WHERE ISNULL(func.excluido,0)=0 AND ISNULL(func.funcionarioativo,0)=1";
+                aux += " AND ISNULL(func.funcionarioativo,0)=1 ";
+            }
+
+            if (!pegaExcluidos)
+            {
+                aux += " AND ISNULL(func.excluido,0)=0 ";
             }
             aux += PermissaoUsuarioFuncionario(UsuarioLogado, aux, "func.idempresa", "func.id", null);
             aux += " ORDER BY func.nome";
@@ -2976,7 +2981,7 @@ namespace DAL.SQL
             return lista;
         }
 
-        public List<Modelo.Funcionario> GetAllListLike(bool pegaTodos, string nome)
+        public List<Modelo.Funcionario> GetAllListLike(bool pegaInativos, bool pegaExcluidos, string nome)
         {
             List<Modelo.Funcionario> lista = new List<Modelo.Funcionario>();
 
@@ -3061,10 +3066,16 @@ namespace DAL.SQL
                             WHERE func.nome like '%'+@nome+'%'";
 
 
-            if (!pegaTodos)
+            if (!pegaInativos)
             {
-                aux += " and ISNULL(func.excluido,0)=0 AND ISNULL(func.funcionarioativo,0)=1";
+                aux += " AND ISNULL(func.funcionarioativo,0)=1";
             }
+
+            if (!pegaExcluidos)
+            {
+                aux += " AND ISNULL(func.excluido,0)=0 ";
+            }
+
             aux += PermissaoUsuarioFuncionario(UsuarioLogado, aux, "func.idempresa", "func.id", null);
             aux += " ORDER BY func.nome";
 
@@ -5807,6 +5818,20 @@ where 1=1
             dr.Dispose();
             List<int> ids = dt.AsEnumerable().Select(x => Convert.ToInt32(x[0])).ToList();
             return ids;
+        }
+
+        public List<string> GetDsCodigosByIDs(List<int> lIds)
+        {
+            DataTable dt = new DataTable();
+            string aux = @" SELECT dscodigo FROM dbo.funcionario WHERE id IN ( '" + String.Join("','", lIds) + "') ";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, null);
+            dt.Load(dr);
+            if (!dr.IsClosed)
+                dr.Close();
+            dr.Dispose();
+            List<string> dscodigos = dt.AsEnumerable().Select(x => x[0].ToString()).ToList();
+            return dscodigos;
         }
 
 

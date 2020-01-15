@@ -54,7 +54,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group input-group-sm">
                                             @Html.LabelFor(model => model.LancamentoLoteAfastamento.DataI, new { @class = "control-label label-sm" })
-                                            <div class="input-group input-group-sm" onkeypress="dataKeypress('#Datai')">
+                                            <div class="input-group input-group-sm" >
                                                 @Html.TextBoxFor(model => model.LancamentoLoteAfastamento.DataI, new { @class = "form-control input-sm MascDate datepickerpt", id = "Datai", @autofocus = "autofocus" })
                                                 <span class="input-group-btn">
                                                     <button class="btn btn-primary desabilitar" id="btnDatai" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -66,7 +66,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group input-group-sm" >
                                             @Html.LabelFor(model => model.LancamentoLoteAfastamento.DataF, new { @class = "control-label label-sm" })
-                                            <div class="input-group input-group-sm" onkeypress="dataKeypress('#Dataf')">
+                                            <div class="input-group input-group-sm" >
                                                 @Html.TextBoxFor(model => model.LancamentoLoteAfastamento.DataF, new { @class = "form-control input-sm MascDate datepickerpt", id = "Dataf" })
                                                 <span class="input-group-btn">
                                                     <button class="btn btn-primary desabilitar" id="btnDataf" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -83,7 +83,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group input-group-sm">
                                             @Html.LabelFor(model => model.DataLancamento, new { @class = "control-label label-sm" })
-                                            <div class="input-group input-group-sm" onkeypress="dataKeypress('#DataLancamento')">
+                                            <div class="input-group input-group-sm">
                                                 @Html.TextBoxFor(model => Model.DataLancamento, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataLancamento", @autofocus = "autofocus" }).IsReadonly(Model.Id > 0)
                                                 <span class="input-group-btn">
                                                     <button class="btn btn-primary" id="btnDataLancamento" type="button"><span class="glyphicon glyphicon-calendar"></span></button>

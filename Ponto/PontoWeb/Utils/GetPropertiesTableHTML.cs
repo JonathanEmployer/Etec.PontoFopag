@@ -32,7 +32,11 @@ namespace PontoWeb.Utils
 
                     if ((attribute.ColumnType == ColumnType.nenhum && attribute.Description.Contains("Data")) || (attribute.ColumnType == ColumnType.data))
                     {
-                        tipoColuna = "";
+                        tipoColuna = ColumnType.data.ToString();
+                    }
+                    else if (attribute.ColumnType == ColumnType.datatime)
+                    {
+                        tipoColuna = ColumnType.datatime.ToString();
                     }
                     else if(attribute.ColumnType == ColumnType.texto || (property.PropertyType == typeof(string) && attribute.ColumnType == ColumnType.nenhum))
                     {

@@ -52,7 +52,7 @@
                                             <div class="col-md-8">
                                                 <div class="row">
                                                     <div class="col-md-5">
-                                                        <div class="input-group input-group-sm" onkeypress="dataKeypress('#DataI')">
+                                                        <div class="input-group input-group-sm" >
                                                             @Html.TextBoxFor(model => Model.DataI, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataI" })
                                                             <span class="input-group-btn">
                                                                 <button class="btn btn-primary" id="btnDtInicio" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -63,7 +63,7 @@
                                                         @Html.Label("a", new { @class = "label-sm" })
                                                     </div>
                                                     <div class="col-md-5">
-                                                        <div class="input-group input-group-sm" onkeypress="dataKeypress('#DataF')">
+                                                        <div class="input-group input-group-sm" >
                                                             @Html.TextBoxFor(model => Model.DataF, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataF" })
                                                             <span class="input-group-btn">
                                                                 <button class="btn btn-primary" id="btnDtFim" type="button"><span class="glyphicon glyphicon-calendar"></span></button>

@@ -601,11 +601,11 @@ namespace PontoWeb.Controllers
             {
                 if (!String.IsNullOrEmpty(consulta))
                 {
-                    lFunc = bllFuncionario.GetAllListLike(false, consulta);
+                    lFunc = bllFuncionario.GetAllListLike(false, false, consulta);
                 }
                 else
                 {
-                    lFunc = bllFuncionario.GetAllList(false);
+                    lFunc = bllFuncionario.GetAllList(false, false);
                 }
 
                 // Se p Filtro diferente de todos, retorna apenas os departamentos da empresa selecionada.
@@ -616,6 +616,53 @@ namespace PontoWeb.Controllers
             }
             ViewBag.Title = "Pesquisar Funcionários";
             return View(lFunc);
+        }
+
+        [Authorize]
+        public ActionResult EventoConsultaComInativos(String consulta, String filtro)
+        {
+            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+            List<Funcionario> lFunc = new List<Funcionario>();
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
+            int idDepartamento = 0;
+            // T é parametro para todos, por tanto não deve filtrar nada
+            if (filtro != "T")
+            {
+                idDepartamento = DepartamentoController.BuscaIdDepartamento(filtro);
+            }
+            Int64 codigo = -1;
+            try { codigo = Int64.Parse(consulta); }
+            catch (Exception) { codigo = -1; }
+            if (codigo != -1)
+            {
+                Funcionario func = bllFuncionario.RetornaFuncDsCodigo(consulta);
+                // Se existir o departamento pesquisado e pertencer a empresa selecionada ou se for para trazer todos independente de empresa add na lista
+                if (func != null && func.Id > 0 && (func.Iddepartamento == idDepartamento || filtro == "T"))
+                {
+                    lFunc.Add(func);
+                }
+            }
+
+            // Se pesquisou tudo ou não encontrou o codigo pesquisado, retorna todos os departamentos
+            if (lFunc.Count == 0)
+            {
+                if (!String.IsNullOrEmpty(consulta))
+                {
+                    lFunc = bllFuncionario.GetAllListLike(true, false, consulta);
+                }
+                else
+                {
+                    lFunc = bllFuncionario.GetAllList(true, false);
+                }
+
+                // Se p Filtro diferente de todos, retorna apenas os departamentos da empresa selecionada.
+                if (filtro != "T")
+                {
+                    lFunc = lFunc.Where(d => d.Iddepartamento == idDepartamento).ToList();
+                }
+            }
+            ViewBag.Title = "Pesquisar Funcionários";
+            return View("EventoConsulta",lFunc);
         }
 
         [Authorize]
