@@ -25,7 +25,7 @@
                                         <div class="col-md-8">
                                             <div class="row">
                                                 <div class="col-md-5">
-                                                    <div class="input-group input-group-sm" onkeypress="dataKeypress('#InicioPeriodo')">
+                                                    <div class="input-group input-group-sm" >
                                                         @Html.TextBox("InicioPeriodo", DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"), new { @class = "form-control input-sm MascDate datepickerpt", id = "InicioPeriodo" })
                                                         <span class="input-group-btn">
                                                             <button class="btn btn-primary" id="btnDtInicio" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -36,7 +36,7 @@
                                                     @Html.Label("a", new { @class = "label-sm" })
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <div class="input-group input-group-sm" onkeypress="dataKeypress('#FimPeriodo')">
+                                                    <div class="input-group input-group-sm" >
                                                         @Html.TextBox("FimPeriodo", DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control input-sm MascDate datepickerpt", id = "FimPeriodo" })
                                                         <span class="input-group-btn">
                                                             <button class="btn btn-primary" id="btnDtFim" type="button"><span class="glyphicon glyphicon-calendar"></span></button>

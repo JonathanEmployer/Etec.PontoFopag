@@ -296,6 +296,8 @@
     <Compile Include="IHorarioDinamicoLimiteDdsr.cs" />
     <Compile Include="IHorarioDinamicoPHExtra.cs" />
     <Compile Include="IParametroWebfopag.cs" />
+    <Compile Include="ITransferenciaBilhetes.cs" />
+    <Compile Include="ITransferenciaBilhetesDetalhes.cs" />
     <Compile Include="SQL\JustificaticaRestricao.cs" />
     <Compile Include="SQL\OcorrenciaRestricao.cs" />
     <Compile Include="SQL\HorarioDinamicoRestricao.cs" />
@@ -508,6 +510,8 @@
     <Compile Include="SQL\RepLog.cs" />
     <Compile Include="SQL\TipoBilhetes.cs" />
     <Compile Include="SQL\TipoVinculo.cs" />
+    <Compile Include="SQL\TransferenciaBilhetes.cs" />
+    <Compile Include="SQL\TransferenciaBilhetesDetalhes.cs" />
     <Compile Include="SQL\TratamentoDePonto.cs" />
     <Compile Include="SQL\Tratamentomarcacao.cs" />
     <Compile Include="SQL\UsuarioPontoWeb.cs" />
