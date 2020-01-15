@@ -2,6 +2,7 @@ using DAL.SQL;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 
 namespace BLL
@@ -88,13 +89,20 @@ namespace BLL
             {
                 // O Fechamento é validado o dia solicitado menos 1, pois o registro movimentado pode estar locado ou ser alocado no dia anterior.
                 BLL.FechamentoPontoFuncionario bllFechamentoPontoFuncionario = new FechamentoPontoFuncionario(ConnectionString, dalTransferenciaBilhetes.UsuarioLogado);
-                string msgFechamentoOrigem = bllFechamentoPontoFuncionario.RetornaMensagemFechamentosPorFuncionarios(2, new List<int>() { objeto.IdFuncionarioOrigem }, objeto.DataInicio.GetValueOrDefault().AddDays(-1));
-                if (!String.IsNullOrEmpty(msgFechamentoOrigem))
-                    listErro.Add(new Tuple<string, string>(nameof(objeto.IdFuncionarioOrigem), msgFechamentoOrigem));
+                List<Modelo.Proxy.pxyFechamentoPontoFuncionario> lPxyFechamentoFunc = bllFechamentoPontoFuncionario.ListaFechamentoPontoFuncionario(2, new List<int>() { objeto.IdFuncionarioOrigem }, objeto.DataInicio.GetValueOrDefault().AddDays(-1));
+                string erroFechamento = "Fechamentos encontrados: ";
+                if (lPxyFechamentoFunc.Any())
+                {
+                    listErro.Add(new Tuple<string, string>(nameof(objeto.IdFuncionarioOrigem),
+                                 erroFechamento + String.Join("; ", lPxyFechamentoFunc.Take(3).Select(fpf => string.Format(CultureInfo.InvariantCulture,"Código {0} Data {1}", fpf.CodigoFechamento, fpf.DataFechamento.ToShortDateString())).ToList()) + "."));
+                }
 
-                string msgFechamentoDestino = bllFechamentoPontoFuncionario.RetornaMensagemFechamentosPorFuncionarios(2, new List<int>() { objeto.IdFuncionarioOrigem }, objeto.DataInicio.GetValueOrDefault().AddDays(-1));
-                if (!String.IsNullOrEmpty(msgFechamentoDestino))
-                    listErro.Add(new Tuple<string, string>(nameof(objeto.IdFuncionarioDestino), msgFechamentoDestino));
+                lPxyFechamentoFunc = bllFechamentoPontoFuncionario.ListaFechamentoPontoFuncionario(2, new List<int>() { objeto.IdFuncionarioDestino }, objeto.DataInicio.GetValueOrDefault().AddDays(-1));
+                if (lPxyFechamentoFunc.Any())
+                {
+                    listErro.Add(new Tuple<string, string>(nameof(objeto.IdFuncionarioDestino),
+                                 erroFechamento + String.Join("; ", lPxyFechamentoFunc.Take(3).Select(fpf => string.Format(CultureInfo.InvariantCulture, "Código {0} Data {1}", fpf.CodigoFechamento, fpf.DataFechamento.ToShortDateString())).ToList()) + "."));
+                }
             }
 
             if (listErro.Count == 0)
