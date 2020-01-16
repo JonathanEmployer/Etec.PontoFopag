@@ -9,3 +9,4 @@
 /.vs
 /Ponto/.vs
 /Ponto/packages
+/Ponto/*/Debug
