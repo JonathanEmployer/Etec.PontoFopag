@@ -2517,3 +2517,1065 @@ Error Number:8622,State:1,Class:16
 DEBUG 2020-01-14 20:46:46,062 531415ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:8152082a will be retried in 00:02:24...
 DEBUG 2020-01-14 20:46:46,074 531427ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e heartbeat successfully sent
 DEBUG 2020-01-14 20:46:46,074 531427ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:9732:8f12288e waiting for 00:00:30 delay before sending a heartbeat
+INFO  2020-01-16 11:09:50,178   714ms ackgroundServerProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 successfully announced in 288,3381 ms
+INFO  2020-01-16 11:09:50,228   763ms ackgroundServerProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, Worker, DelayedJobScheduler, RecurringJobScheduler...
+DEBUG 2020-01-16 11:09:50,231   766ms BackgroundExecution    CallSite.Target    - Execution loop ServerHeartbeatProcess:e55b0932 has started in 6,65 ms
+DEBUG 2020-01-16 11:09:50,236   771ms BackgroundExecution    CallSite.Target    - Execution loop ServerWatchdog:e8c488b8 has started in 5,9714 ms
+DEBUG 2020-01-16 11:09:50,239   774ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:09:50,241   776ms BackgroundExecution    CallSite.Target    - Execution loop ServerJobCancellationWatcher:3333e84c has started in 7,9189 ms
+DEBUG 2020-01-16 11:09:50,243   778ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:09:50,251   786ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:09:50,256   791ms BackgroundExecution    CallSite.Target    - Execution loop ExpirationManager:2d7f3b78 has started in 13,8534 ms
+DEBUG 2020-01-16 11:09:50,257   792ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'AggregatedCounter' table...
+DEBUG 2020-01-16 11:09:50,262   797ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db has started in 8,3523 ms
+DEBUG 2020-01-16 11:09:50,263   798ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-16 11:09:50,268   803ms BackgroundExecution    CallSite.Target    - Execution loop Worker:c355d8e9 has started in 9,2327 ms
+INFO  2020-01-16 11:09:50,272   807ms ServerWatchdog         CallSite.Target    - 1 servers were removed due to timeout
+DEBUG 2020-01-16 11:09:50,272   807ms BackgroundExecution    CallSite.Target    - Execution loop Worker:c87d2f09 has started in 13,7632 ms
+INFO  2020-01-16 11:09:50,289   824ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+INFO  2020-01-16 11:09:50,289   824ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-16 11:09:50,316   851ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-16 11:09:50,315   850ms BackgroundExecution    CallSite.Target    - Execution loop Worker:da722124 has started in 56,8338 ms
+DEBUG 2020-01-16 11:09:50,316   851ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+INFO  2020-01-16 11:09:50,317   852ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-16 11:09:50,318   853ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-16 11:09:50,315   850ms BackgroundExecution    CallSite.Target    - Execution loop Worker:233fd767 has started in 56,5712 ms
+INFO  2020-01-16 11:09:50,320   855ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-16 11:09:50,315   850ms BackgroundExecution    CallSite.Target    - Execution loop Worker:499644e8 has started in 56,5694 ms
+DEBUG 2020-01-16 11:09:50,322   857ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-16 11:09:50,322   857ms BackgroundExecution    CallSite.Target    - Execution loop Worker:7271f87c has started in 63,8438 ms
+INFO  2020-01-16 11:09:50,323   858ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-16 11:09:50,323   858ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+INFO  2020-01-16 11:09:50,326   861ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-16 11:09:50,326   861ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-16 11:09:50,334   869ms BackgroundExecution    CallSite.Target    - Execution loop Worker:daee2ae1 has started in 75,9576 ms
+INFO  2020-01-16 11:09:50,335   870ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-16 11:09:50,336   871ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-16 11:09:50,339   874ms BackgroundExecution    CallSite.Target    - Execution loop Worker:a88ba0c8 has started in 80,5879 ms
+INFO  2020-01-16 11:09:50,339   874ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-16 11:09:50,340   875ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-16 11:09:50,349   884ms BackgroundExecution    CallSite.Target    - Execution loop Worker:72c8aa60 has started in 90,916 ms
+INFO  2020-01-16 11:09:50,350   885ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-16 11:09:50,350   885ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-16 11:09:50,350   885ms BackgroundExecution    CallSite.Target    - Execution CountersAggregator is in the Faulted state now due to an exception, execution will be retried no more than in 00:00:01
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass32_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:e710e9ea-e5d7-41a2-9c4c-4b848952a6bf
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-16 11:09:50,366   901ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db caught an exception and will be retried in 00:00:01
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass32_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:e710e9ea-e5d7-41a2-9c4c-4b848952a6bf
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-16 11:09:50,366   901ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db will be retried in 00:00:01...
+DEBUG 2020-01-16 11:09:50,359   894ms BackgroundExecution    CallSite.Target    - Execution loop Worker:0d74bae8 has started in 100,2573 ms
+INFO  2020-01-16 11:09:50,367   902ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-16 11:09:50,368   903ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-16 11:09:50,366   901ms BackgroundExecution    CallSite.Target    - Execution loop Worker:f614c10e has started in 107,2553 ms
+INFO  2020-01-16 11:09:50,368   903ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-16 11:09:50,369   904ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-16 11:09:50,371   906ms BackgroundExecution    CallSite.Target    - Execution loop Worker:bb1b7486 has started in 112,4821 ms
+INFO  2020-01-16 11:09:50,372   907ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-16 11:09:50,372   907ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-16 11:09:50,375   910ms BackgroundExecution    CallSite.Target    - Execution loop Worker:b3190886 has started in 116,5885 ms
+INFO  2020-01-16 11:09:50,376   911ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-16 11:09:50,376   911ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-16 11:09:50,387   922ms BackgroundExecution    CallSite.Target    - Execution loop Worker:ce2ad07d has started in 128,099 ms
+INFO  2020-01-16 11:09:50,387   922ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-16 11:09:50,388   923ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-16 11:09:50,415   950ms BackgroundExecution    CallSite.Target    - Execution loop Worker:34cf1e21 has started in 156,0154 ms
+INFO  2020-01-16 11:09:50,415   950ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-16 11:09:50,418   953ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-16 11:09:50,418   953ms BackgroundExecution    CallSite.Target    - Execution loop Worker:c42547fe has started in 159,548 ms
+INFO  2020-01-16 11:09:50,419   954ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-16 11:09:50,419   954ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-16 11:09:50,422   957ms BackgroundExecution    CallSite.Target    - Execution loop Worker:a708e0df has started in 162,9409 ms
+INFO  2020-01-16 11:09:50,422   957ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-16 11:09:50,422   957ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-16 11:09:50,443   978ms BackgroundExecution    CallSite.Target    - Execution loop Worker:b26acd82 has started in 184,4056 ms
+INFO  2020-01-16 11:09:50,444   979ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-16 11:09:50,445   980ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-16 11:09:50,448   983ms BackgroundExecution    CallSite.Target    - Execution loop Worker:0d7631d7 has started in 189,5991 ms
+INFO  2020-01-16 11:09:50,449   984ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-16 11:09:50,449   984ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-16 11:09:50,452   987ms BackgroundExecution    CallSite.Target    - Execution loop Worker:305df33c has started in 193,3644 ms
+INFO  2020-01-16 11:09:50,453   988ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue cqibne2485
+DEBUG 2020-01-16 11:09:50,453   988ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue cqibne2485
+DEBUG 2020-01-16 11:09:50,459   994ms BackgroundExecution    CallSite.Target    - Execution loop DelayedJobScheduler:7fafe016 has started in 9,3638 ms
+INFO  2020-01-16 11:09:50,460   995ms ackgroundServerProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 all the dispatchers started
+DEBUG 2020-01-16 11:09:50,466  1001ms BackgroundExecution    CallSite.Target    - Execution loop RecurringJobScheduler:c17e930c has started in 11,2234 ms
+DEBUG 2020-01-16 11:09:50,504  1039ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'AggregatedCounter' table.
+DEBUG 2020-01-16 11:09:50,505  1040ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'Job' table...
+DEBUG 2020-01-16 11:09:51,368  1903ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-16 11:09:51,530  2065ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'Job' table.
+DEBUG 2020-01-16 11:09:51,530  2065ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'List' table...
+DEBUG 2020-01-16 11:09:51,653  2189ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db caught an exception and will be retried in 00:00:04
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass32_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:e710e9ea-e5d7-41a2-9c4c-4b848952a6bf
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-16 11:09:51,654  2190ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db will be retried in 00:00:04...
+DEBUG 2020-01-16 11:09:51,715  2250ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'List' table.
+DEBUG 2020-01-16 11:09:51,715  2250ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'Set' table...
+DEBUG 2020-01-16 11:09:51,811  2346ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'Set' table.
+DEBUG 2020-01-16 11:09:51,811  2346ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'Hash' table...
+DEBUG 2020-01-16 11:09:51,912  2447ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'Hash' table.
+DEBUG 2020-01-16 11:09:54,152  4687ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (CreatedAt:2019-10-22T19:41:34.1280398Z;Cron:*/1 * * * *;Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};LastExecution:2020-01-14T23:45:09.5848031Z;LastJobId:325221;NextExecution:2020-01-14T23:46:00.0000000Z;Queue:pequeno;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-16T14:10:00.0000000Z;LastJobId:325223), NextExecution: (16/01/2020 14:10:00)
+DEBUG 2020-01-16 11:09:55,000  5535ms RecurringJobScheduler  CallSite.Target    - Recurring job 'ImportarRegistrosColetorMONSANTO' is being updated. RecurringJob: (CreatedAt:2019-11-13T19:50:18.6796352Z;Cron:0 1 * * *;Job:{"Type":"MonitorJobs.Negocio.ImportarRegistrosColetor, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"Processar","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_MONSANTO\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325176;NextExecution:2020-01-15T01:00:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T01:00:00.0000000Z;LastJobId:325224), NextExecution: (17/01/2020 01:00:00)
+DEBUG 2020-01-16 11:09:55,253  5788ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:09:55,253  5788ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:09:55,665  6200ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-16 11:09:55,813  6348ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db caught an exception and will be retried in 00:00:09
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass32_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:6804599d-08a9-47c1-960c-3f4526f074de
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-16 11:09:55,815  6350ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db will be retried in 00:00:09...
+DEBUG 2020-01-16 11:09:55,996  6531ms RecurringJobScheduler  CallSite.Target    - Recurring job 'ImportarRegistrosColetorMONSANTO_HOM' is being updated. RecurringJob: (CreatedAt:2019-09-12T16:56:31.3293584Z;Cron:0 1 * * *;Error:;Job:{"Type":"MonitorJobs.Negocio.ImportarRegistrosColetor, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"Processar","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_MONSANTO_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325177;NextExecution:2020-01-15T01:00:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T01:00:00.0000000Z;LastJobId:325225), NextExecution: (17/01/2020 01:00:00)
+DEBUG 2020-01-16 11:09:56,922  7458ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcDB1_HOM' is being updated. RecurringJob: (CreatedAt:2019-08-22T21:46:45.7981333Z;Cron:0 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_DB1_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325178;NextExecution:2020-01-15T07:00:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:00:00.0000000Z;LastJobId:325226), NextExecution: (17/01/2020 07:00:00)
+DEBUG 2020-01-16 11:09:57,803  8338ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcKAPAZI_HOM' is being updated. RecurringJob: (CreatedAt:2019-08-27T17:44:56.8187986Z;Cron:0 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_KAPAZI_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325179;NextExecution:2020-01-15T07:00:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:00:00.0000000Z;LastJobId:325227), NextExecution: (17/01/2020 07:00:00)
+DEBUG 2020-01-16 11:09:58,607  9142ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcPontofopagComercial' is being updated. RecurringJob: (CreatedAt:2019-08-22T21:46:46.4845421Z;Cron:0 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PontofopagComercial\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325180;NextExecution:2020-01-15T07:00:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:00:00.0000000Z;LastJobId:325228), NextExecution: (17/01/2020 07:00:00)
+DEBUG 2020-01-16 11:09:59,430  9965ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcTIBRASIL' is being updated. RecurringJob: (CreatedAt:2019-11-13T19:50:01.4104868Z;Cron:0 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_TIBRASIL\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325181;NextExecution:2020-01-15T07:00:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:00:00.0000000Z;LastJobId:325229), NextExecution: (17/01/2020 07:00:00)
+DEBUG 2020-01-16 11:10:00,245 10781ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcEMPLOYER' is being updated. RecurringJob: (CreatedAt:2019-10-22T19:41:33.5196359Z;Cron:1 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325182;NextExecution:2020-01-15T07:01:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:01:00.0000000Z;LastJobId:325230), NextExecution: (17/01/2020 07:01:00)
+DEBUG 2020-01-16 11:10:00,253 10789ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:10:00,253 10789ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:10:01,329 11864ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcFRONERI_HOM' is being updated. RecurringJob: (CreatedAt:2019-08-22T21:46:46.5001423Z;Cron:1 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_FRONERI_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325183;NextExecution:2020-01-15T07:01:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:01:00.0000000Z;LastJobId:325231), NextExecution: (17/01/2020 07:01:00)
+DEBUG 2020-01-16 11:10:02,161 12697ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcJMALUCELLI_HOM' is being updated. RecurringJob: (CreatedAt:2019-08-22T21:46:46.3129399Z;Cron:2 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_JMALUCELLI_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325184;NextExecution:2020-01-15T07:02:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:02:00.0000000Z;LastJobId:325232), NextExecution: (17/01/2020 07:02:00)
+DEBUG 2020-01-16 11:10:02,934 13469ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcFRONERI' is being updated. RecurringJob: (CreatedAt:2019-11-13T19:50:14.2106670Z;Cron:2 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_FRONERI\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325185;NextExecution:2020-01-15T07:02:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:02:00.0000000Z;LastJobId:325233), NextExecution: (17/01/2020 07:02:00)
+DEBUG 2020-01-16 11:10:04,013 14549ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcSALESFORCE_HOM' is being updated. RecurringJob: (CreatedAt:2019-08-22T21:46:46.3753407Z;Cron:2 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_SALESFORCE_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325186;NextExecution:2020-01-15T07:02:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:02:00.0000000Z;LastJobId:325234), NextExecution: (17/01/2020 07:02:00)
+DEBUG 2020-01-16 11:10:04,817 15352ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-16 11:10:04,875 15410ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db caught an exception and will be retried in 00:00:16
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass32_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:6804599d-08a9-47c1-960c-3f4526f074de
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-16 11:10:04,876 15411ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db will be retried in 00:00:16...
+DEBUG 2020-01-16 11:10:04,901 15436ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcKAPAZI' is being updated. RecurringJob: (CreatedAt:2019-11-13T19:50:14.7503885Z;Cron:3 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_KAPAZI\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325187;NextExecution:2020-01-15T07:03:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:03:00.0000000Z;LastJobId:325235), NextExecution: (17/01/2020 07:03:00)
+DEBUG 2020-01-16 11:10:05,254 15789ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:10:05,254 15789ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:10:05,785 16320ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcMONSANTO_HOM' is being updated. RecurringJob: (CreatedAt:2019-08-22T21:46:46.5313427Z;Cron:3 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_MONSANTO_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325188;NextExecution:2020-01-15T07:03:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:03:00.0000000Z;LastJobId:325236), NextExecution: (17/01/2020 07:03:00)
+DEBUG 2020-01-16 11:10:06,941 17476ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcPAGUS_HOM' is being updated. RecurringJob: (CreatedAt:2019-08-22T21:46:46.4065411Z;Cron:3 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_PAGUS_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325189;NextExecution:2020-01-15T07:03:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:03:00.0000000Z;LastJobId:325237), NextExecution: (17/01/2020 07:03:00)
+DEBUG 2020-01-16 11:10:07,976 18511ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcLAGE' is being updated. RecurringJob: (CreatedAt:2019-11-06T17:38:09.9163711Z;Cron:4 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_LAGE\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325190;NextExecution:2020-01-15T07:04:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:04:00.0000000Z;LastJobId:325238), NextExecution: (17/01/2020 07:04:00)
+DEBUG 2020-01-16 11:10:08,842 19378ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcEMPLOYER_HOM' is being updated. RecurringJob: (CreatedAt:2019-08-22T21:46:46.5001423Z;Cron:4 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325191;NextExecution:2020-01-15T07:04:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:04:00.0000000Z;LastJobId:325239), NextExecution: (17/01/2020 07:04:00)
+DEBUG 2020-01-16 11:10:09,693 20228ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcHUGOCINI_HOM' is being updated. RecurringJob: (CreatedAt:2019-08-22T21:46:46.4377415Z;Cron:5 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_HUGOCINI_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325192;NextExecution:2020-01-15T07:05:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:05:00.0000000Z;LastJobId:325240), NextExecution: (17/01/2020 07:05:00)
+DEBUG 2020-01-16 11:10:10,255 20790ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:10:10,255 20790ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:10:10,548 21084ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcLAGE_HOM' is being updated. RecurringJob: (CreatedAt:2019-11-06T17:59:23.7882123Z;Cron:5 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_LAGE_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325193;NextExecution:2020-01-15T07:05:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:05:00.0000000Z;LastJobId:325241), NextExecution: (17/01/2020 07:05:00)
+DEBUG 2020-01-16 11:10:11,344 21879ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcMONSANTO' is being updated. RecurringJob: (CreatedAt:2019-11-13T19:50:18.0656658Z;Cron:5 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_MONSANTO\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325194;NextExecution:2020-01-15T07:05:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:05:00.0000000Z;LastJobId:325242), NextExecution: (17/01/2020 07:05:00)
+DEBUG 2020-01-16 11:10:12,086 22622ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcCINQ_HOM' is being updated. RecurringJob: (CreatedAt:2019-08-22T21:46:46.4377415Z;Cron:6 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_CINQ_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325195;NextExecution:2020-01-15T07:06:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:06:00.0000000Z;LastJobId:325243), NextExecution: (17/01/2020 07:06:00)
+DEBUG 2020-01-16 11:10:12,872 23407ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcSYNGENTA' is being updated. RecurringJob: (CreatedAt:2019-11-13T19:50:19.1603694Z;Cron:6 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_SYNGENTA\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325196;NextExecution:2020-01-15T07:06:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:06:00.0000000Z;LastJobId:325244), NextExecution: (17/01/2020 07:06:00)
+DEBUG 2020-01-16 11:10:14,035 24570ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcSYNGENTA_HOM' is being updated. RecurringJob: (CreatedAt:2019-08-22T21:46:46.4221413Z;Cron:6 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_SYNGENTA_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325197;NextExecution:2020-01-15T07:06:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:06:00.0000000Z;LastJobId:325245), NextExecution: (17/01/2020 07:06:00)
+DEBUG 2020-01-16 11:10:15,044 25580ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcTIBRASIL_HOM' is being updated. RecurringJob: (CreatedAt:2019-08-22T21:46:46.2817395Z;Cron:7 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_TIBRASIL_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325198;NextExecution:2020-01-15T07:07:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:07:00.0000000Z;LastJobId:325246), NextExecution: (17/01/2020 07:07:00)
+DEBUG 2020-01-16 11:10:15,256 25791ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:10:15,256 25791ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:10:15,803 26339ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcTIBRASIL_2019_07_31' is being updated. RecurringJob: (CreatedAt:2019-11-13T19:50:19.9781412Z;Cron:7 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_TIBRASIL_2019_07_31\\\"\"]"};LastExecution:2020-01-14T23:40:21.5517536Z;LastJobId:325215;NextExecution:2020-01-15T07:07:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:07:00.0000000Z;LastJobId:325247), NextExecution: (17/01/2020 07:07:00)
+DEBUG 2020-01-16 11:10:16,546 27082ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcJPMC_HOM' is being updated. RecurringJob: (CreatedAt:2019-08-22T21:46:46.4689419Z;Cron:8 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_JPMC_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325200;NextExecution:2020-01-15T07:08:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:08:00.0000000Z;LastJobId:325248), NextExecution: (17/01/2020 07:08:00)
+DEBUG 2020-01-16 11:10:17,265 27800ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcJMALUCELLI' is being updated. RecurringJob: (CreatedAt:2019-09-23T13:37:13.9233580Z;Cron:8 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_JMALUCELLI\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325201;NextExecution:2020-01-15T07:08:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:08:00.0000000Z;LastJobId:325249), NextExecution: (17/01/2020 07:08:00)
+DEBUG 2020-01-16 11:10:17,989 28524ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcADVANTECH' is being updated. RecurringJob: (CreatedAt:2019-10-21T19:21:19.1098610Z;Cron:9 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_ADVANTECH\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325202;NextExecution:2020-01-15T07:09:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:09:00.0000000Z;LastJobId:325250), NextExecution: (17/01/2020 07:09:00)
+DEBUG 2020-01-16 11:10:18,704 29239ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcRODORUMO_HOM' is being updated. RecurringJob: (CreatedAt:2019-08-22T21:46:46.5157425Z;Cron:9 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_RODORUMO_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325203;NextExecution:2020-01-15T07:09:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:09:00.0000000Z;LastJobId:325251), NextExecution: (17/01/2020 07:09:00)
+DEBUG 2020-01-16 11:10:19,457 29992ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcTIBRASIL_2019_09_01' is being updated. RecurringJob: (CreatedAt:2019-11-13T19:50:21.5855545Z;Cron:10 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_TIBRASIL_2019_09_01\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325204;NextExecution:2020-01-15T07:10:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:10:00.0000000Z;LastJobId:325252), NextExecution: (17/01/2020 07:10:00)
+DEBUG 2020-01-16 11:10:20,220 30755ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcCOOPAGRICOLA_26_10_2019_15_00' is being updated. RecurringJob: (CreatedAt:2019-11-13T19:50:22.3033271Z;Cron:11 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_COOPAGRICOLA_26_10_2019_15_00\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325205;NextExecution:2020-01-15T07:11:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:11:00.0000000Z;LastJobId:325253), NextExecution: (17/01/2020 07:11:00)
+DEBUG 2020-01-16 11:10:20,261 30796ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:10:20,262 30797ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:10:20,286 30821ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:10:20,286 30821ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:10:20,876 31411ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+ERROR 2020-01-16 11:10:20,935 31470ms BackgroundExecution    CallSite.Target    - Execution CountersAggregator is in the Failed state now due to an exception, execution will be retried no more than in 00:00:25
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass32_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:e710e9ea-e5d7-41a2-9c4c-4b848952a6bf
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-16 11:10:20,936 31471ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db caught an exception and will be retried in 00:00:25
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass32_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:e710e9ea-e5d7-41a2-9c4c-4b848952a6bf
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-16 11:10:20,936 31471ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db will be retried in 00:00:25...
+DEBUG 2020-01-16 11:10:21,024 31559ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcINFLUX_HOM' is being updated. RecurringJob: (CreatedAt:2019-08-22T21:46:46.5469429Z;Cron:11 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_INFLUX_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325206;NextExecution:2020-01-15T07:11:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:11:00.0000000Z;LastJobId:325254), NextExecution: (17/01/2020 07:11:00)
+DEBUG 2020-01-16 11:10:21,814 32349ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcHERBARIUM_HOM' is being updated. RecurringJob: (CreatedAt:2019-08-22T21:46:46.5469429Z;Cron:12 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_HERBARIUM_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325207;NextExecution:2020-01-15T07:12:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:12:00.0000000Z;LastJobId:325255), NextExecution: (17/01/2020 07:12:00)
+DEBUG 2020-01-16 11:10:22,588 33123ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcADVANTECH_HOM' is being updated. RecurringJob: (CreatedAt:2019-08-22T21:46:46.5781433Z;Cron:14 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_ADVANTECH_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325208;NextExecution:2020-01-15T07:14:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:14:00.0000000Z;LastJobId:325256), NextExecution: (17/01/2020 07:14:00)
+DEBUG 2020-01-16 11:10:23,390 33926ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcCETCO_DEV' is being updated. RecurringJob: (CreatedAt:2019-09-06T18:40:33.2613525Z;Cron:15 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_CETCO_DEV\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325209;NextExecution:2020-01-15T07:15:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:15:00.0000000Z;LastJobId:325257), NextExecution: (17/01/2020 07:15:00)
+DEBUG 2020-01-16 11:10:24,197 34733ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcCETCO_HOM' is being updated. RecurringJob: (CreatedAt:2019-09-06T19:39:28.7175134Z;Cron:15 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_CETCO_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325210;NextExecution:2020-01-15T07:15:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:15:00.0000000Z;LastJobId:325258), NextExecution: (17/01/2020 07:15:00)
+DEBUG 2020-01-16 11:10:24,977 35512ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcDESCOMPLICA_HOM' is being updated. RecurringJob: (CreatedAt:2019-08-22T21:46:46.6093437Z;Cron:15 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_DESCOMPLICA_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325211;NextExecution:2020-01-15T07:15:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:15:00.0000000Z;LastJobId:325259), NextExecution: (17/01/2020 07:15:00)
+DEBUG 2020-01-16 11:10:25,266 35801ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:10:25,266 35801ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:10:25,753 36288ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcJMALUCELLI_DEV' is being updated. RecurringJob: (CreatedAt:2019-08-23T19:47:43.4965407Z;Cron:15 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_JMALUCELLI_DEV\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325212;NextExecution:2020-01-15T07:15:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:15:00.0000000Z;LastJobId:325260), NextExecution: (17/01/2020 07:15:00)
+DEBUG 2020-01-16 11:10:26,486 37022ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcTIBRASIL_2019_09_01_HOM' is being updated. RecurringJob: (CreatedAt:2019-09-09T19:16:35.7964375Z;Cron:15 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_TIBRASIL_2019_09_01_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325213;NextExecution:2020-01-15T07:15:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:15:00.0000000Z;LastJobId:325261), NextExecution: (17/01/2020 07:15:00)
+DEBUG 2020-01-16 11:10:27,203 37739ms RecurringJobScheduler  CallSite.Target    - Recurring job 'GerarMarcTIBRASIL_2019_09_13_HOM' is being updated. RecurringJob: (CreatedAt:2019-10-04T20:14:22.8502538Z;Cron:16 7 * * *;Job:{"Type":"MonitorJobs.Negocio.GerarMarcacoes, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"GerarMarcacoesCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_TIBRASIL_2019_09_13_HOM\\\"\"]"};LastExecution:2020-01-14T23:37:56.9061058Z;LastJobId:325214;NextExecution:2020-01-15T07:16:00.0000000Z;Queue:normal;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:09:50.6047404Z;NextExecution:2020-01-17T07:16:00.0000000Z;LastJobId:325262), NextExecution: (17/01/2020 07:16:00)
+DEBUG 2020-01-16 11:10:28,010 38545ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (CreatedAt:2019-10-22T19:41:34.1280398Z;Cron:*/1 * * * *;Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};LastExecution:2020-01-16T14:09:50.6047404Z;LastJobId:325223;NextExecution:2020-01-16T14:10:00.0000000Z;Queue:pequeno;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:10:27.6167969Z;NextExecution:2020-01-16T14:11:00.0000000Z;LastJobId:325263), NextExecution: (16/01/2020 14:11:00)
+DEBUG 2020-01-16 11:10:28,516 39051ms RecurringJobScheduler  CallSite.Target    - 2 recurring job(s) enqueued.
+DEBUG 2020-01-16 11:10:30,285 40820ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:10:30,285 40820ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:10:35,324 45859ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:10:35,324 45859ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:10:40,366 50902ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:10:40,366 50902ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:10:45,378 55913ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:10:45,378 55913ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:10:45,953 56488ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-16 11:10:46,001 56536ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db caught an exception and will be retried in 00:00:36
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass32_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:1a758f7d-52b3-46c1-a90b-4d5f37cccc76
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-16 11:10:46,001 56536ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db will be retried in 00:00:36...
+DEBUG 2020-01-16 11:10:50,347 60882ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:10:50,348 60883ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:10:50,379 60914ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:10:50,379 60914ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:10:55,405 65940ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:10:55,405 65940ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:11:00,416 70951ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:11:00,416 70951ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:11:05,432 75967ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:11:05,432 75967ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:11:10,438 80973ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:11:10,439 80974ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:11:14,289 84824ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (CreatedAt:2019-10-22T19:41:34.1280398Z;Cron:*/1 * * * *;Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};LastExecution:2020-01-16T14:10:27.6167969Z;LastJobId:325263;NextExecution:2020-01-16T14:11:00.0000000Z;Queue:pequeno;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:11:13.8850740Z;NextExecution:2020-01-16T14:12:00.0000000Z;LastJobId:325264), NextExecution: (16/01/2020 14:12:00)
+DEBUG 2020-01-16 11:11:14,763 85298ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-16 11:11:15,445 85980ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:11:15,445 85980ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:11:20,464 90999ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:11:20,465 91000ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:11:20,493 91028ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:11:20,493 91028ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:11:22,012 92547ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-16 11:11:22,064 92599ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db caught an exception and will be retried in 00:00:49
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass32_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:1a758f7d-52b3-46c1-a90b-4d5f37cccc76
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-16 11:11:22,065 92600ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db will be retried in 00:00:49...
+DEBUG 2020-01-16 11:11:25,497 96033ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:11:25,497 96033ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:11:30,507 101042ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:11:30,507 101042ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:11:35,557 106092ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:11:35,557 106092ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:11:40,607 111143ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:11:40,607 111143ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:11:45,618 116153ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:11:45,618 116153ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:11:50,595 121130ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:11:50,595 121130ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:11:50,619 121154ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:11:50,619 121154ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:11:55,658 126193ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:11:55,658 126193ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:12:00,598 131133ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (CreatedAt:2019-10-22T19:41:34.1280398Z;Cron:*/1 * * * *;Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};LastExecution:2020-01-16T14:11:13.8850740Z;LastJobId:325264;NextExecution:2020-01-16T14:12:00.0000000Z;Queue:pequeno;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:12:00.1676410Z;NextExecution:2020-01-16T14:13:00.0000000Z;LastJobId:325265), NextExecution: (16/01/2020 14:13:00)
+DEBUG 2020-01-16 11:12:00,659 131194ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:12:00,659 131194ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:12:01,072 131607ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-16 11:12:05,669 136205ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:12:05,669 136205ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:12:10,717 141252ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:12:10,717 141252ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:12:11,115 141650ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-16 11:12:11,179 141714ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db caught an exception and will be retried in 00:01:04
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass32_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:1a758f7d-52b3-46c1-a90b-4d5f37cccc76
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-16 11:12:11,180 141715ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db will be retried in 00:01:04...
+DEBUG 2020-01-16 11:12:15,767 146303ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:12:15,767 146303ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:12:20,651 151186ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:12:20,652 151187ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:12:20,768 151303ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:12:20,768 151303ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:12:25,819 156354ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:12:25,819 156354ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:12:30,874 161410ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:12:30,874 161410ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:12:35,932 166467ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:12:35,932 166467ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:12:40,937 171472ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:12:40,937 171472ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:12:45,981 176516ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:12:45,981 176516ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:12:50,709 181244ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:12:50,710 181245ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:12:50,981 181516ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:12:50,981 181516ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:12:56,017 186552ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:12:56,017 186552ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:13:01,062 191597ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:13:01,062 191597ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:13:02,141 192677ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (CreatedAt:2019-10-22T19:41:34.1280398Z;Cron:*/1 * * * *;Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};LastExecution:2020-01-16T14:12:00.1676410Z;LastJobId:325265;NextExecution:2020-01-16T14:13:00.0000000Z;Queue:pequeno;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:13:01.7260369Z;NextExecution:2020-01-16T14:14:00.0000000Z;LastJobId:325266), NextExecution: (16/01/2020 14:14:00)
+DEBUG 2020-01-16 11:13:02,592 193127ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-16 11:13:06,091 196626ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:13:06,091 196626ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:13:11,123 201659ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:13:11,123 201659ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:13:15,244 205779ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-16 11:13:15,289 205825ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db caught an exception and will be retried in 00:01:21
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass32_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:6804599d-08a9-47c1-960c-3f4526f074de
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-16 11:13:15,290 205826ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db will be retried in 00:01:21...
+DEBUG 2020-01-16 11:13:16,126 206661ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:13:16,126 206661ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:13:20,771 211306ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:13:20,771 211306ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:13:21,127 211662ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:13:21,127 211662ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:13:26,140 216676ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:13:26,140 216676ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:13:31,182 221717ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:13:31,182 221717ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:13:36,211 226746ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:13:36,211 226746ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:13:41,249 231784ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:13:41,249 231784ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:13:46,261 236796ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:13:46,261 236796ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:13:50,820 241355ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:13:50,820 241355ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:13:51,267 241802ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:13:51,267 241802ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:13:56,302 246837ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:13:56,302 246837ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:14:01,312 251847ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:14:01,312 251847ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:14:03,402 253937ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (CreatedAt:2019-10-22T19:41:34.1280398Z;Cron:*/1 * * * *;Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};LastExecution:2020-01-16T14:13:01.7260369Z;LastJobId:325266;NextExecution:2020-01-16T14:14:00.0000000Z;Queue:pequeno;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:14:03.0021375Z;NextExecution:2020-01-16T14:15:00.0000000Z;LastJobId:325267), NextExecution: (16/01/2020 14:15:00)
+DEBUG 2020-01-16 11:14:03,895 254430ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-16 11:14:06,323 256858ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:14:06,323 256858ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:14:11,348 261883ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:14:11,348 261883ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:14:16,393 266928ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:14:16,393 266928ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:14:20,864 271399ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:14:20,865 271400ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:14:21,399 271935ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:14:21,399 271935ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:14:26,415 276950ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:14:26,415 276950ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:14:31,442 281977ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:14:31,443 281978ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:14:36,316 286851ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-16 11:14:36,364 286899ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db caught an exception and will be retried in 00:01:40
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass32_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:6804599d-08a9-47c1-960c-3f4526f074de
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-16 11:14:36,365 286900ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db will be retried in 00:01:40...
+DEBUG 2020-01-16 11:14:36,444 286979ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:14:36,444 286979ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:14:41,475 292010ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:14:41,475 292010ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:14:46,514 297049ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:14:46,514 297049ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:14:50,942 301477ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:14:50,943 301478ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:14:51,517 302052ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:14:51,517 302052ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:14:56,547 307082ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:14:56,547 307082ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:15:01,584 312120ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:15:01,584 312120ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:15:04,910 315446ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (CreatedAt:2019-10-22T19:41:34.1280398Z;Cron:*/1 * * * *;Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};LastExecution:2020-01-16T14:14:03.0021375Z;LastJobId:325267;NextExecution:2020-01-16T14:15:00.0000000Z;Queue:pequeno;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:15:04.5000539Z;NextExecution:2020-01-16T14:16:00.0000000Z;LastJobId:325268), NextExecution: (16/01/2020 14:16:00)
+DEBUG 2020-01-16 11:15:05,415 315950ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-16 11:15:06,592 317127ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:15:06,592 317127ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:15:11,620 322155ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:15:11,620 322155ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:15:16,656 327191ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:15:16,656 327191ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:15:20,979 331514ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:15:20,980 331515ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:15:21,662 332197ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:15:21,662 332197ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:15:26,689 337224ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:15:26,689 337224ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:15:31,727 342263ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:15:31,727 342263ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:15:36,731 347266ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:15:36,731 347266ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:15:41,741 352276ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:15:41,741 352276ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:15:46,776 357311ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:15:46,776 357311ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:15:51,011 361546ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:15:51,011 361546ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:15:51,778 362313ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:15:51,778 362313ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:15:56,803 367338ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:15:56,803 367338ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:16:01,813 372348ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:16:01,813 372348ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:16:06,377 376912ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (CreatedAt:2019-10-22T19:41:34.1280398Z;Cron:*/1 * * * *;Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};LastExecution:2020-01-16T14:15:04.5000539Z;LastJobId:325268;NextExecution:2020-01-16T14:16:00.0000000Z;Queue:pequeno;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:16:05.9925613Z;NextExecution:2020-01-16T14:17:00.0000000Z;LastJobId:325269), NextExecution: (16/01/2020 14:17:00)
+DEBUG 2020-01-16 11:16:06,814 377349ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:16:06,814 377349ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:16:06,819 377354ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-16 11:16:11,846 382381ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:16:11,846 382381ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:16:16,433 386968ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-16 11:16:16,481 387017ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db caught an exception and will be retried in 00:02:01
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass32_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:e710e9ea-e5d7-41a2-9c4c-4b848952a6bf
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-16 11:16:16,481 387017ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db will be retried in 00:02:01...
+DEBUG 2020-01-16 11:16:16,848 387384ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:16:16,848 387384ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:16:21,079 391614ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:16:21,079 391614ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:16:21,850 392385ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:16:21,850 392385ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:16:26,881 397416ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:16:26,881 397416ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:16:31,928 402463ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:16:31,928 402463ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:16:36,965 407501ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:16:36,965 407501ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:16:41,993 412528ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:16:41,993 412528ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:16:47,014 417549ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:16:47,014 417549ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:16:51,168 421703ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:16:51,169 421704ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:16:52,021 422556ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:16:52,021 422556ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:16:57,047 427583ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:16:57,047 427583ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:17:02,091 432626ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:17:02,091 432626ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:17:07,113 437648ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:17:07,113 437648ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:17:07,703 438239ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (CreatedAt:2019-10-22T19:41:34.1280398Z;Cron:*/1 * * * *;Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};LastExecution:2020-01-16T14:16:05.9925613Z;LastJobId:325269;NextExecution:2020-01-16T14:17:00.0000000Z;Queue:pequeno;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:17:07.2590541Z;NextExecution:2020-01-16T14:18:00.0000000Z;LastJobId:325270), NextExecution: (16/01/2020 14:18:00)
+DEBUG 2020-01-16 11:17:08,221 438756ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-16 11:17:12,149 442684ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:17:12,149 442684ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:17:17,185 447721ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:17:17,185 447721ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:17:21,312 451847ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:17:21,313 451848ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:17:22,192 452727ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:17:22,192 452727ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:17:27,212 457747ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:17:27,212 457747ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:17:32,223 462758ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:17:32,223 462758ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:17:37,264 467800ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:17:37,264 467800ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:17:42,295 472830ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:17:42,295 472830ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:17:47,331 477866ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:17:47,331 477866ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:17:51,442 481977ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:17:51,443 481978ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:17:52,338 482873ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:17:52,338 482873ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:17:57,374 487909ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:17:57,374 487909ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:18:02,389 492924ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:18:02,389 492924ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:18:07,390 497925ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:18:07,390 497925ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:18:09,161 499696ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (CreatedAt:2019-10-22T19:41:34.1280398Z;Cron:*/1 * * * *;Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};LastExecution:2020-01-16T14:17:07.2590541Z;LastJobId:325270;NextExecution:2020-01-16T14:18:00.0000000Z;Queue:pequeno;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:18:08.6353434Z;NextExecution:2020-01-16T14:19:00.0000000Z;LastJobId:325271), NextExecution: (16/01/2020 14:19:00)
+DEBUG 2020-01-16 11:18:09,724 500259ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-16 11:18:12,407 502942ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:18:12,407 502942ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:18:17,413 507948ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:18:17,413 507948ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:18:17,492 508027ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-16 11:18:17,565 508100ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db caught an exception and will be retried in 00:02:24
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass32_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:e710e9ea-e5d7-41a2-9c4c-4b848952a6bf
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-16 11:18:17,566 508101ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db will be retried in 00:02:24...
+DEBUG 2020-01-16 11:18:21,476 512012ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:18:21,476 512012ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:18:22,420 512955ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:18:22,420 512955ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:18:27,435 517970ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:18:27,435 517970ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:18:32,439 522974ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:18:32,439 522974ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:18:37,447 527982ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:18:37,447 527982ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:18:42,462 532997ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:18:42,462 532997ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:19:09,591 560126ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:19:09,696 560231ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:19:09,696 560231ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:19:09,756 560292ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:19:14,773 565308ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:19:14,774 565309ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:19:15,458 565994ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (CreatedAt:2019-10-22T19:41:34.1280398Z;Cron:*/1 * * * *;Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};LastExecution:2020-01-16T14:18:08.6353434Z;LastJobId:325271;NextExecution:2020-01-16T14:19:00.0000000Z;Queue:pequeno;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:19:09.7359183Z;NextExecution:2020-01-16T14:20:00.0000000Z;LastJobId:325273), NextExecution: (16/01/2020 14:20:00)
+DEBUG 2020-01-16 11:19:18,770 569306ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-16 11:19:19,778 570313ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:19:19,779 570314ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:19:24,783 575318ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:19:24,784 575319ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:19:29,785 580320ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:19:29,786 580321ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:19:34,786 585322ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:19:34,786 585322ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:19:39,748 590283ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:19:39,749 590284ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:19:39,792 590328ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:19:39,793 590329ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:19:44,799 595334ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:19:44,800 595335ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:19:49,801 600336ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:19:49,801 600336ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:19:54,812 605347ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:19:54,812 605347ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:19:59,813 610348ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:19:59,813 610348ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:20:04,503 615038ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (CreatedAt:2019-10-22T19:41:34.1280398Z;Cron:*/1 * * * *;Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};LastExecution:2020-01-16T14:19:09.7359183Z;LastJobId:325273;NextExecution:2020-01-16T14:20:00.0000000Z;Queue:pequeno;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:20:04.0740151Z;NextExecution:2020-01-16T14:21:00.0000000Z;LastJobId:325274), NextExecution: (16/01/2020 14:21:00)
+DEBUG 2020-01-16 11:20:04,813 615348ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:20:04,813 615348ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:20:05,008 615544ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-16 11:20:09,794 620329ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:20:09,794 620330ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:20:09,814 620349ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:20:09,814 620349ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:20:14,836 625371ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:20:14,836 625371ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:20:19,858 630393ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:20:19,858 630393ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:20:24,858 635393ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:20:24,858 635393ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:20:29,862 640398ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:20:29,862 640398ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:20:34,888 645423ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:20:34,888 645423ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:20:39,830 650365ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:20:39,831 650366ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:20:39,889 650424ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:20:39,889 650424ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:20:41,575 652110ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-16 11:20:41,639 652175ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db caught an exception and will be retried in 00:02:49
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass32_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:dec3347d-d8a9-48c3-a576-57193bedb09f
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-16 11:20:41,639 652175ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db will be retried in 00:02:49...
+DEBUG 2020-01-16 11:20:44,890 655425ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:20:44,890 655425ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:20:49,903 660439ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:20:49,903 660439ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:20:54,906 665441ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:20:54,906 665441ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:20:59,917 670452ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:20:59,917 670452ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:21:04,930 675465ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:21:04,930 675465ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:21:05,782 676317ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (CreatedAt:2019-10-22T19:41:34.1280398Z;Cron:*/1 * * * *;Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};LastExecution:2020-01-16T14:20:04.0740151Z;LastJobId:325274;NextExecution:2020-01-16T14:21:00.0000000Z;Queue:pequeno;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:21:05.3569406Z;NextExecution:2020-01-16T14:22:00.0000000Z;LastJobId:325275), NextExecution: (16/01/2020 14:22:00)
+DEBUG 2020-01-16 11:21:06,276 676812ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-16 11:21:09,862 680397ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:21:09,862 680397ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:21:09,931 680466ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:21:09,931 680466ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:21:14,942 685477ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:21:14,942 685477ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:21:19,962 690497ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:21:19,962 690497ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:21:24,964 695499ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:21:24,964 695499ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:21:29,964 700499ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:21:29,964 700499ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:21:34,975 705510ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:21:34,975 705510ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:21:39,894 710429ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:21:39,895 710430ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:21:39,977 710512ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:21:39,977 710512ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:21:44,984 715519ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:21:44,984 715519ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:21:49,991 720526ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:21:49,991 720526ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:21:55,008 725543ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:21:55,008 725543ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:22:00,008 730543ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:22:00,008 730543ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:22:05,013 735548ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:22:05,013 735548ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:22:06,956 737491ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (CreatedAt:2019-10-22T19:41:34.1280398Z;Cron:*/1 * * * *;Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};LastExecution:2020-01-16T14:21:05.3569406Z;LastJobId:325275;NextExecution:2020-01-16T14:22:00.0000000Z;Queue:pequeno;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:22:06.5704046Z;NextExecution:2020-01-16T14:23:00.0000000Z;LastJobId:325276), NextExecution: (16/01/2020 14:23:00)
+DEBUG 2020-01-16 11:22:07,440 737975ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-16 11:22:09,925 740460ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:22:09,925 740460ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:22:10,013 740548ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:22:10,013 740548ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:22:15,013 745548ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:22:15,013 745548ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:22:20,018 750553ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:22:20,018 750553ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:22:25,028 755563ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:22:25,028 755563ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:22:30,028 760564ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:22:30,028 760564ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:22:35,034 765569ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:22:35,034 765569ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:22:39,957 770492ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:22:39,957 770492ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:22:40,035 770570ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:22:40,035 770570ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:22:45,058 775593ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:22:45,058 775593ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:22:50,060 780596ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:22:50,060 780596ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:22:55,069 785605ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:22:55,069 785605ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:23:00,081 790616ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:23:00,081 790616ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:23:05,082 795618ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:23:05,082 795618ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:23:08,278 798813ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (CreatedAt:2019-10-22T19:41:34.1280398Z;Cron:*/1 * * * *;Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};LastExecution:2020-01-16T14:22:06.5704046Z;LastJobId:325276;NextExecution:2020-01-16T14:23:00.0000000Z;Queue:pequeno;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:23:07.7881896Z;NextExecution:2020-01-16T14:24:00.0000000Z;LastJobId:325277), NextExecution: (16/01/2020 14:24:00)
+DEBUG 2020-01-16 11:23:08,729 799264ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-16 11:23:10,046 800581ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:23:10,046 800581ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:23:10,082 800618ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:23:10,082 800618ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:23:15,084 805619ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:23:15,084 805619ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:23:20,085 810621ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:23:20,085 810621ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:23:25,092 815627ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:23:25,092 815627ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:23:30,107 820642ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:23:30,107 820642ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:23:30,643 821178ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-16 11:23:30,689 821225ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db caught an exception and will be retried in 00:03:16
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass32_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:dec3347d-d8a9-48c3-a576-57193bedb09f
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-16 11:23:30,689 821225ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db will be retried in 00:03:16...
+DEBUG 2020-01-16 11:23:35,110 825645ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:23:35,110 825645ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:23:40,088 830623ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:23:40,088 830623ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:23:40,112 830647ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:23:40,112 830647ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:23:45,129 835664ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:23:45,129 835664ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:23:50,134 840670ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:23:50,135 840671ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:23:55,136 845672ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:23:55,136 845672ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:24:00,147 850682ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:24:00,147 850682ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:24:05,158 855693ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:24:05,158 855693ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:24:09,522 860058ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (CreatedAt:2019-10-22T19:41:34.1280398Z;Cron:*/1 * * * *;Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};LastExecution:2020-01-16T14:23:07.7881896Z;LastJobId:325277;NextExecution:2020-01-16T14:24:00.0000000Z;Queue:pequeno;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:24:09.0732530Z;NextExecution:2020-01-16T14:25:00.0000000Z;LastJobId:325278), NextExecution: (16/01/2020 14:25:00)
+DEBUG 2020-01-16 11:24:10,081 860616ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-16 11:24:10,132 860667ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:24:10,132 860667ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:24:10,159 860695ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:24:10,159 860695ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:24:15,167 865702ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:24:15,167 865702ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:24:20,180 870716ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:24:20,180 870716ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:24:25,181 875716ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:24:25,181 875716ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:24:30,187 880722ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:24:30,187 880722ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:24:35,201 885736ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:24:35,201 885736ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:24:40,178 890714ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:24:40,179 890715ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:24:40,201 890737ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:24:40,202 890737ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:24:45,215 895750ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:24:45,215 895750ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:24:50,226 900761ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:24:50,226 900761ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:24:55,226 905761ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:24:55,226 905761ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:25:00,228 910763ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:25:00,228 910763ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:25:05,242 915777ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:25:05,242 915777ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:25:10,225 920760ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:25:10,226 920761ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:25:10,244 920779ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:25:10,244 920779ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:25:10,819 921354ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (CreatedAt:2019-10-22T19:41:34.1280398Z;Cron:*/1 * * * *;Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};LastExecution:2020-01-16T14:24:09.0732530Z;LastJobId:325278;NextExecution:2020-01-16T14:25:00.0000000Z;Queue:pequeno;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:25:10.4002669Z;NextExecution:2020-01-16T14:26:00.0000000Z;LastJobId:325279), NextExecution: (16/01/2020 14:26:00)
+DEBUG 2020-01-16 11:25:11,331 921866ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-16 11:25:15,245 925780ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:25:15,245 925780ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:25:20,252 930787ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:25:20,252 930787ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:25:25,261 935796ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:25:25,261 935796ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:25:30,267 940802ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:25:30,267 940802ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:25:35,276 945811ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:25:35,276 945811ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:25:40,262 950797ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:25:40,263 950798ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:25:40,277 950812ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:25:40,277 950812ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:25:45,283 955818ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:25:45,283 955818ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:25:50,295 960830ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:25:50,295 960830ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:25:55,305 965840ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:25:55,305 965840ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:26:00,308 970843ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:26:00,308 970843ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:26:05,315 975851ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:26:05,315 975851ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:26:10,296 980831ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:26:10,297 980832ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:26:10,316 980851ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:26:10,316 980851ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:26:12,017 982552ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (CreatedAt:2019-10-22T19:41:34.1280398Z;Cron:*/1 * * * *;Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};LastExecution:2020-01-16T14:25:10.4002669Z;LastJobId:325279;NextExecution:2020-01-16T14:26:00.0000000Z;Queue:pequeno;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:26:11.6277354Z;NextExecution:2020-01-16T14:27:00.0000000Z;LastJobId:325280), NextExecution: (16/01/2020 14:27:00)
+DEBUG 2020-01-16 11:26:12,716 983251ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-16 11:26:15,318 985853ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:26:15,318 985853ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:26:20,329 990864ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:26:20,329 990864ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:26:25,341 995876ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:26:25,341 995876ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:26:30,341 1000876ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:26:30,341 1000876ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:26:35,344 1005879ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:26:35,344 1005879ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:26:40,342 1010877ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:26:40,342 1010877ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:26:40,344 1010879ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:26:40,344 1010879ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:26:45,353 1015888ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:26:45,353 1015888ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:26:46,706 1017242ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2020-01-16 11:26:46,755 1017290ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db caught an exception and will be retried in 00:03:45
+System.Data.SqlClient.SqlException (0x80131904): Query processor could not produce a query plan because of the hints defined in this query. Resubmit the query without specifying any hints and without using SET FORCEPLAN.
+   em System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   em System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   em System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   em System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   em System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   em System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   em Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   em Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   em Hangfire.SqlServer.CountersAggregator.<>c__DisplayClass6_0.<Execute>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.<>c__DisplayClass32_0.<UseConnection>b__0(DbConnection connection)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection[T](DbConnection dedicatedConnection, Func`2 func)
+   em Hangfire.SqlServer.SqlServerStorage.UseConnection(DbConnection dedicatedConnection, Action`1 action)
+   em Hangfire.SqlServer.CountersAggregator.Execute(CancellationToken cancellationToken)
+   em Hangfire.Server.ServerProcessDispatcherBuilder.ExecuteComponent(Guid executionId, Object state)
+   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
+ClientConnectionId:dec3347d-d8a9-48c3-a576-57193bedb09f
+Error Number:8622,State:1,Class:16
+DEBUG 2020-01-16 11:26:46,756 1017291ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:737904db will be retried in 00:03:45...
+DEBUG 2020-01-16 11:26:50,355 1020890ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:26:50,355 1020890ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:26:55,364 1025899ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:26:55,364 1025899ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:27:00,377 1030913ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:27:00,377 1030913ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:27:05,379 1035914ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:27:05,379 1035914ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:27:10,379 1040915ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:27:10,379 1040915ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:27:10,381 1040916ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:27:10,381 1040916ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:27:13,587 1044123ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (CreatedAt:2019-10-22T19:41:34.1280398Z;Cron:*/1 * * * *;Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};LastExecution:2020-01-16T14:26:11.6277354Z;LastJobId:325280;NextExecution:2020-01-16T14:27:00.0000000Z;Queue:pequeno;TimeZoneId:UTC;V:2), Changes: (LastExecution:2020-01-16T14:27:13.0497446Z;NextExecution:2020-01-16T14:28:00.0000000Z;LastJobId:325281), NextExecution: (16/01/2020 14:28:00)
+DEBUG 2020-01-16 11:27:14,074 1044610ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) enqueued.
+DEBUG 2020-01-16 11:27:15,391 1045926ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:27:15,391 1045926ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:27:20,394 1050929ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:27:20,394 1050929ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:27:25,405 1055941ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:27:25,405 1055941ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:27:30,416 1060951ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:27:30,416 1060951ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:27:35,417 1065952ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:27:35,417 1065952ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:27:40,418 1070953ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:27:40,418 1070953ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:27:40,421 1070956ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 heartbeat successfully sent
+DEBUG 2020-01-16 11:27:40,422 1070957ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2485:11208:91a3c6d9 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2020-01-16 11:27:45,428 1075963ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:27:45,428 1075963ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:27:50,430 1080965ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:27:50,430 1080965ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:27:55,438 1085973ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:27:55,438 1085973ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:28:00,440 1090976ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:28:00,440 1090976ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2020-01-16 11:28:05,453 1095988ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2020-01-16 11:28:05,453 1095988ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
