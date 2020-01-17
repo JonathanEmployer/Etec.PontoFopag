@@ -68,11 +68,11 @@ namespace PontoWeb
                     Server.ClearError();
                     if (User.Identity.IsAuthenticated)
                     {
-                        Response.Redirect(String.Format("~/Home/{0}/?mensagem={1}", action, Server.UrlEncode(exception.Message)));
+                        Response.Redirect(String.Format("~/Home/{0}/?mensagem={1}", action, exception.Message));
                     }
                     else
                     {
-                        Response.Redirect(String.Format("~/Page/{0}/?mensagem={1}", action, Server.UrlEncode(exception.Message)));
+                        Response.Redirect(String.Format("~/Page/{0}/?mensagem={1}", action, exception.Message));
                     }
                 }
                 else
