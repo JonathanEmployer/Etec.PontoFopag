@@ -212,9 +212,6 @@
                                     <span class="fa fa-wrench"></span> Bilhetes
                                 </button>
                                 <button type="button" id="btJornada" title="Jornada Alternativa" class="btn btn-primary btn-sm"><span class="fa fa-repeat"></span> Jornada Alternativa</button>
-                                <button type="button" id="btRecMarcacao" title="Recalcula Marcações" class="btn btn-primary btn-sm">
-                                    <span class="fa fa-calculator"></span> Recalcular
-                                </button>
 
                                 <div class="btn-group dropup">
                                     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="btOrdenaHorarios" data-toggle="dropdown">
@@ -640,14 +637,8 @@
     });
 
     function callBackRecalcMarcacao() {
-        carregaGridMarcacao("", '#btRecMarcacao');
+        carregaGridMarcacao("", "");
     };
-
-    $('#btRecMarcacao').click(function () {
-        if (parametrosValidos(true)) {
-            PostReturnJob("/Marcacao/RecalculaMarcacao", "Post", ParamPeriodoEmpDepFunc(), "MarcacaoTabelaMarcacao", false);
-        }
-    });
 
     function OnJobComplete(job)
     {
@@ -836,7 +827,7 @@
 {
     <script>
         $(document).ready(function () {
-            $('#btManutBilhetes, #btJornada, #btRecMarcacao, #btOrdenaHorarios, #btCtoPontoPeriodo, #btClassHE').attr('disabled', 'value');
+            $('#btManutBilhetes, #btJornada, #btOrdenaHorarios, #btCtoPontoPeriodo, #btClassHE').attr('disabled', 'value');
         })
     </script>
 }

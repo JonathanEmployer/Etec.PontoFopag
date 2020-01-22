@@ -216,9 +216,6 @@
                                         <span class="fa fa-wrench"></span> Bilhetes
                                     </button>
                                     <button type="button" id="btJornada" title="Jornada Alternativa" class="btn btn-primary btn-sm"><span class="fa fa-repeat"></span> Jornada Alternativa</button>
-                                    <button type="button" id="btRecMarcacao" title="Recalcula Marcações" class="btn btn-primary btn-sm">
-                                        <span class="fa fa-calculator"></span> Recalcular
-                                    </button>
                                     <button class="btn btn-primary btn-sm" type="button" id="btnOrdenaHorarioData">
                                         <span class="fa fa-calendar-o"></span>&nbsp;Ordenar Horário
                                     </button>
@@ -336,7 +333,6 @@
             $('#btManutMarcacao').prop('disabled', valor);
             $('#btManutBilhetes').prop('disabled', valor);
             $('#btJornada').prop('disabled', valor);
-            $('#btRecMarcacao').prop('disabled', valor);
             $('#btnOrdenaHorarioData').prop('disabled', valor);
             $('#btTurnoFunc').prop('disabled', valor);
             $('#btTotHorasFunc').prop('disabled', valor);
@@ -452,15 +448,8 @@
     });
 
     function callBackRecalcMarcacao() {
-        carregaGridMarcacao("", '#btRecMarcacao');
+        carregaGridMarcacao("", "");
     };
-
-    $('#btRecMarcacao').click(function () {
-        if (parametrosValidos(true)) {
-            $('#myModal').scrollTop(($('#ManutencaoDiariaTabelaMarcacao').position().top + 150));
-            PostReturnJob("/ManutencaoDiaria/RecalculaMarcacao", "Post", ParamPeriodoEmpDepCont(), "ManutencaoDiariaTabelaMarcacao", false);
-        }
-    });
 
     function OnJobComplete(job) {
         ScrollPageJobIncio();
