@@ -1,8 +1,5 @@
-﻿using System.Text;
-using System.Data;
+﻿using System.Data;
 using System.Windows.Forms;
-using Modelo.Proxy;
-using BLL.CalculoMarcacoes;
 using DAL.SQL;
 using System;
 using System.Collections.Generic;
@@ -30,18 +27,9 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    DataBase db = new DataBase(ConnectionString);
-                    dalCartaoPonto = new DAL.SQL.CartaoPonto(db);
 
-                    break;
-                case 2:
-                    dalCartaoPonto = new DAL.FB.CartaoPonto();
-
-                    break;
-            }
+            DataBase db = new DataBase(ConnectionString);
+            dalCartaoPonto = new DAL.SQL.CartaoPonto(db);
 
             if (usuarioLogado == null)
                 usuarioLogado = Modelo.cwkGlobal.objUsuarioLogado;

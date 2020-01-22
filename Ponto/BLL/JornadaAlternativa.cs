@@ -39,16 +39,6 @@ namespace BLL
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             
             dalJornadaAlternativa = new DAL.SQL.JornadaAlternativa(new DataBase(ConnectionString));
-
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    dalJornadaAlternativa = new DAL.SQL.JornadaAlternativa(new DataBase(ConnectionString));
-                    break;
-                case 2:
-                    dalJornadaAlternativa = DAL.FB.JornadaAlternativa.GetInstancia;
-                    break;
-            }
             dalJornadaAlternativa.UsuarioLogado = usuarioLogado;
             UsuarioLogado = usuarioLogado;
         }

@@ -33,15 +33,9 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    dalEmpresaUsuario = new DAL.SQL.EmpresaCW_Usuario(new DataBase(ConnectionString));
-                    break;
-                case 2:
-                    dalEmpresaUsuario = DAL.FB.EmpresaCw_Usuario.GetInstancia;
-                    break;
-            }
+
+            dalEmpresaUsuario = new DAL.SQL.EmpresaCW_Usuario(new DataBase(ConnectionString));
+
             UsuarioLogado = usuarioLogado;
             dalEmpresaUsuario.UsuarioLogado = usuarioLogado;
         }

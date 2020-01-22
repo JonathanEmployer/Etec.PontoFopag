@@ -59,25 +59,6 @@ namespace BLL
             dalHorario = new DAL.SQL.Horario(db);
             dalMudancaHorario = new DAL.SQL.MudancaHorario(db);
 
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    db = new DataBase(ConnectionString);
-                    dalFuncionario = new DAL.SQL.Funcionario(db);
-                    dalEmpresa = new DAL.SQL.Empresa(db);
-                    dalDepartamento = new DAL.SQL.Departamento(db);
-                    dalMudancaHorario = new DAL.SQL.MudancaHorario(db);
-                    dalContrato = new DAL.SQL.Contrato(db);
-                    dalHorario = new DAL.SQL.Horario(db);
-                    break;
-                case 2:
-                    dalFuncionario = DAL.FB.Funcionario.GetInstancia;
-                    dalEmpresa = DAL.FB.Empresa.GetInstancia;
-                    dalDepartamento = DAL.FB.Departamento.GetInstancia;
-                    dalMudancaHorario = DAL.FB.MudancaHorario.GetInstancia;
-                    dalHorario = DAL.FB.Horario.GetInstancia;
-                    break;
-            }
             if (usuarioLogado != null)
             {
                 dalFuncionario.UsuarioLogado = usuarioLogado;

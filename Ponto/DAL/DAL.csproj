@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DAL</RootNamespace>
     <AssemblyName>DAL</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -238,50 +238,6 @@
   <ItemGroup>
     <Compile Include="Email.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="FB\Afastamento.cs" />
-    <Compile Include="FB\Backup.cs" />
-    <Compile Include="FB\BancoHoras.cs" />
-    <Compile Include="FB\BilhetesImp.cs" />
-    <Compile Include="FB\Biometria.cs" />
-    <Compile Include="FB\CalculaMarcacao.cs" />
-    <Compile Include="FB\CartaoPonto.cs" />
-    <Compile Include="FB\Compensacao.cs" />
-    <Compile Include="FB\DALBase.cs" />
-    <Compile Include="FB\DataBase.cs" />
-    <Compile Include="FB\Departamento.cs" />
-    <Compile Include="FB\DiasCompensacao.cs" />
-    <Compile Include="FB\DiasJornadaAlternativa.cs" />
-    <Compile Include="FB\Empresa.cs" />
-    <Compile Include="FB\EmpresaCw_Usuario.cs" />
-    <Compile Include="FB\Eventos.cs" />
-    <Compile Include="FB\ExportacaoCampos.cs" />
-    <Compile Include="FB\FechamentoBH.cs" />
-    <Compile Include="FB\FechamentoBHD.cs" />
-    <Compile Include="FB\FechamentobhdHE.cs" />
-    <Compile Include="FB\Feriado.cs" />
-    <Compile Include="FB\Funcao.cs" />
-    <Compile Include="FB\Funcionario.cs" />
-    <Compile Include="FB\FuncionarioHistorico.cs" />
-    <Compile Include="FB\Horario.cs" />
-    <Compile Include="FB\HorarioDetalhe.cs" />
-    <Compile Include="FB\HorarioPHExtra.cs" />
-    <Compile Include="FB\ImportaBilhetes.cs" />
-    <Compile Include="FB\ImportacaoTopPonto.cs" />
-    <Compile Include="FB\InclusaoBanco.cs" />
-    <Compile Include="FB\Inconsistencia.cs" />
-    <Compile Include="FB\Jornada.cs" />
-    <Compile Include="FB\JornadaAlternativa.cs" />
-    <Compile Include="FB\LayoutExportacao.cs" />
-    <Compile Include="FB\Marcacao.cs" />
-    <Compile Include="FB\MudancaHorario.cs" />
-    <Compile Include="FB\MudCodigoFunc.cs" />
-    <Compile Include="FB\OcorrenciaEmpresa.cs" />
-    <Compile Include="FB\Parametros.cs" />
-    <Compile Include="FB\Provisorio.cs" />
-    <Compile Include="FB\RelatorioEspelho.cs" />
-    <Compile Include="FB\TipoBilhetes.cs" />
-    <Compile Include="FB\Tratamentomarcacao.cs" />
-    <Compile Include="FB\UsuarioPontoWeb.cs" />
     <Compile Include="IHorarioDinamicoRestricao.cs" />
     <Compile Include="IJustificativaRestricao.cs" />
     <Compile Include="IOcorrenciaRestricao.cs" />

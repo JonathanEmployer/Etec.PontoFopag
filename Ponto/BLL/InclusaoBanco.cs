@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Threading;
 
 namespace BLL
 {
@@ -40,15 +39,7 @@ namespace BLL
             
             dalInclusaoBanco = new DAL.SQL.InclusaoBanco(new DataBase(ConnectionString));
 
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    dalInclusaoBanco = new DAL.SQL.InclusaoBanco(new DataBase(ConnectionString));
-                    break;
-                case 2:
-                    dalInclusaoBanco = DAL.FB.InclusaoBanco.GetInstancia;
-                    break;
-            }
+
             dalInclusaoBanco.UsuarioLogado = usuarioLogado;
             UsuarioLogado = usuarioLogado;
         }

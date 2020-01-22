@@ -50,38 +50,22 @@ namespace BLL
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
 
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    DataBase db = new DataBase(ConnectionString);
-                    dalExportacaoCampos = new DAL.SQL.ExportacaoCampos(db);
-                    dalAfastamento = new DAL.SQL.Afastamento(db);
-                    dalFuncionario = new DAL.SQL.Funcionario(db);
-                    dalBancoHoras = new DAL.SQL.BancoHoras(db);
-                    dalFechamentoBH = new DAL.SQL.FechamentoBH(db);
-                    dalFechamentoBHD = new DAL.SQL.FechamentoBHD(db);
-                    dalFechamentobhdHE = new DAL.SQL.FechamentobhdHE(db);
-                    dalEventos = new DAL.SQL.Eventos(db);
-                    dalEmpresa = new DAL.SQL.Empresa(db);
-                    dalJornadaAlternativa = new DAL.SQL.JornadaAlternativa(db);
-                    dalParametros = new DAL.SQL.Parametros(db);
-                    dalHorario = new DAL.SQL.Horario(db);
-                    dalMudancaHorario = new DAL.SQL.MudancaHorario(db);
-                    dalMarcacao = new DAL.SQL.Marcacao(db);
-                    break;
-                case 2:
-                    dalExportacaoCampos = DAL.FB.ExportacaoCampos.GetInstancia;
-                    dalAfastamento = DAL.FB.Afastamento.GetInstancia;
-                    dalFuncionario = DAL.FB.Funcionario.GetInstancia;
-                    dalBancoHoras = DAL.FB.BancoHoras.GetInstancia;
-                    dalFechamentoBH = DAL.FB.FechamentoBH.GetInstancia;
-                    dalFechamentoBHD = DAL.FB.FechamentoBHD.GetInstancia;
-                    dalEventos = DAL.FB.Eventos.GetInstancia;
-                    dalEmpresa = DAL.FB.Empresa.GetInstancia;
-                    dalJornadaAlternativa = DAL.FB.JornadaAlternativa.GetInstancia;
-                    dalParametros = DAL.FB.Parametros.GetInstancia;
-                    break;
-            }
+            DataBase db = new DataBase(ConnectionString);
+            dalExportacaoCampos = new DAL.SQL.ExportacaoCampos(db);
+            dalAfastamento = new DAL.SQL.Afastamento(db);
+            dalFuncionario = new DAL.SQL.Funcionario(db);
+            dalBancoHoras = new DAL.SQL.BancoHoras(db);
+            dalFechamentoBH = new DAL.SQL.FechamentoBH(db);
+            dalFechamentoBHD = new DAL.SQL.FechamentoBHD(db);
+            dalFechamentobhdHE = new DAL.SQL.FechamentobhdHE(db);
+            dalEventos = new DAL.SQL.Eventos(db);
+            dalEmpresa = new DAL.SQL.Empresa(db);
+            dalJornadaAlternativa = new DAL.SQL.JornadaAlternativa(db);
+            dalParametros = new DAL.SQL.Parametros(db);
+            dalHorario = new DAL.SQL.Horario(db);
+            dalMudancaHorario = new DAL.SQL.MudancaHorario(db);
+            dalMarcacao = new DAL.SQL.Marcacao(db);
+                
             UsuarioLogado = usuarioLogado;
             dalExportacaoCampos.UsuarioLogado = usuarioLogado;
             dalAfastamento.UsuarioLogado = usuarioLogado;
@@ -97,7 +81,6 @@ namespace BLL
             dalHorario.UsuarioLogado = usuarioLogado;
             dalMudancaHorario.UsuarioLogado = usuarioLogado;
             dalMarcacao.UsuarioLogado = usuarioLogado;
-            
         }
 
         public int MaxCodigo()

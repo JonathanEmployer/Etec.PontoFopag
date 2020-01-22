@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Diagnostics;
 using DAL.SQL;
 
 namespace BLL
@@ -58,28 +57,6 @@ namespace BLL
             dalJornadaAlternativa = new DAL.SQL.JornadaAlternativa(db);
             dalFuncionario = new DAL.SQL.Funcionario(db);
 
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    db = new DataBase(ConnectionString);
-                    dalBancoHoras = new DAL.SQL.BancoHoras(db);
-                    dalEmpresa = new DAL.SQL.Empresa(db);
-                    dalDepartamento = new DAL.SQL.Departamento(db);
-                    dalFechamentoBH = new DAL.SQL.FechamentoBH(db);
-                    dalFechamentoBHD = new DAL.SQL.FechamentoBHD(db);
-                    dalJornadaAlternativa = new DAL.SQL.JornadaAlternativa(db);
-                    dalFuncionario = new DAL.SQL.Funcionario(db);
-                    break;
-                case 2:
-                    dalBancoHoras = DAL.FB.BancoHoras.GetInstancia;
-                    dalEmpresa = DAL.FB.Empresa.GetInstancia;
-                    dalDepartamento = DAL.FB.Departamento.GetInstancia;
-                    dalFechamentoBH = DAL.FB.FechamentoBH.GetInstancia;
-                    dalFechamentoBHD = DAL.FB.FechamentoBHD.GetInstancia;
-                    dalJornadaAlternativa = DAL.FB.JornadaAlternativa.GetInstancia;
-                    dalFuncionario = DAL.FB.Funcionario.GetInstancia;
-                    break;
-            }
 
             dalBancoHoras.UsuarioLogado = usuarioLogado;
             dalEmpresa.UsuarioLogado = usuarioLogado;

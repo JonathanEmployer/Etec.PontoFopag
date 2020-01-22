@@ -69,32 +69,17 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    DataBase db = new DataBase(ConnectionString);
-                    dalImportacao = new DAL.SQL.ImportaBilhetes(db);
-                    dalFuncionario = new DAL.SQL.Funcionario(db);
-                    dal = new DAL.SQL.BilhetesImp(db);
-                    dalMar = new DAL.SQL.Marcacao(db);
-                    dalHorarioDetalhe = new DAL.SQL.HorarioDetalhe(db);
-                    dalJornadaAlternativa = new DAL.SQL.JornadaAlternativa(db);
-                    dalMudancaCodigo = new DAL.SQL.MudCodigoFunc(db);
-                    dalMudancaHorario = new DAL.SQL.MudancaHorario(db);
-                    dalBilhetes = new DAL.SQL.BilhetesImp(db);
-                    break;
-                case 2:
-                    dalImportacao = DAL.FB.ImportaBilhetes.GetInstancia;
-                    dalFuncionario = DAL.FB.Funcionario.GetInstancia;
-                    dal = DAL.FB.BilhetesImp.GetInstancia;
-                    dalMar = DAL.FB.Marcacao.GetInstancia;
-                    dalHorarioDetalhe = DAL.FB.HorarioDetalhe.GetInstancia;
-                    dalJornadaAlternativa = DAL.FB.JornadaAlternativa.GetInstancia;
-                    dalMudancaCodigo = DAL.FB.MudCodigoFunc.GetInstancia;
-                    dalMudancaHorario = DAL.FB.MudancaHorario.GetInstancia;
-                    dalBilhetes = DAL.FB.BilhetesImp.GetInstancia;
-                    break;
-            }
+
+            DataBase db = new DataBase(ConnectionString);
+            dalImportacao = new DAL.SQL.ImportaBilhetes(db);
+            dalFuncionario = new DAL.SQL.Funcionario(db);
+            dal = new DAL.SQL.BilhetesImp(db);
+            dalMar = new DAL.SQL.Marcacao(db);
+            dalHorarioDetalhe = new DAL.SQL.HorarioDetalhe(db);
+            dalJornadaAlternativa = new DAL.SQL.JornadaAlternativa(db);
+            dalMudancaCodigo = new DAL.SQL.MudCodigoFunc(db);
+            dalMudancaHorario = new DAL.SQL.MudancaHorario(db);
+            dalBilhetes = new DAL.SQL.BilhetesImp(db);
             UsuarioLogado = usuarioLogado;
             dalImportacao.UsuarioLogado = UsuarioLogado;
             dal.UsuarioLogado = UsuarioLogado;

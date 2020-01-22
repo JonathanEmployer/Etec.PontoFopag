@@ -35,15 +35,7 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    dalRelatorioEspelho = new DAL.SQL.RelatorioEspelho();
-                    break;
-                case 2:
-                    dalRelatorioEspelho = new DAL.FB.RelatorioEspelho();
-                    break;
-            }
+            dalRelatorioEspelho = new DAL.SQL.RelatorioEspelho();
             UsuarioLogado = usuarioLogado;
         }
 

@@ -30,15 +30,9 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    dalDepartamento = new DAL.SQL.Departamento(new DataBase(ConnectionString));
-                    break;
-                case 2:
-                    dalDepartamento = DAL.FB.Departamento.GetInstancia;
-                    break;
-            }
+
+            dalDepartamento = new DAL.SQL.Departamento(new DataBase(ConnectionString));
+
             if (usuarioLogado != null)
             {
                 dalDepartamento.UsuarioLogado = usuarioLogado;   

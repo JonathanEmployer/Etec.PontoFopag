@@ -36,18 +36,10 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    DataBase db = new DataBase(ConnectionString);
-                    dalHorario = new DAL.SQL.Horario(db);
-                    dalHDetalhe = new DAL.SQL.HorarioDetalhe(db);
-                    break;
-                case 2:
-                    dalHorario = DAL.FB.Horario.GetInstancia;
-                    dalHDetalhe = DAL.FB.HorarioDetalhe.GetInstancia;
-                    break;
-            }
+
+            DataBase db = new DataBase(ConnectionString);
+            dalHorario = new DAL.SQL.Horario(db);
+            dalHDetalhe = new DAL.SQL.HorarioDetalhe(db);
             dalHorario.UsuarioLogado = usuarioLogado;
             UsuarioLogado = usuarioLogado;
         }
