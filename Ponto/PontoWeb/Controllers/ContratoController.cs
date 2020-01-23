@@ -282,7 +282,7 @@ namespace PontoWeb.Controllers
                 }
                 if (parametro)
                 {
-                    Modelo.Contrato cont = new Modelo.Contrato { Codigo = 0, NomeEmpresa = "TODOS OS CONTRATOS" };
+                    Modelo.Contrato cont = new Modelo.Contrato { Codigo = 0, CodigoContrato = "0", DescricaoContrato = "TODOS OS CONTRATOS" };
                     conts.Add(cont);
                 }
                 return conts;

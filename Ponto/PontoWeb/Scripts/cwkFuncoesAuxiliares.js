@@ -605,15 +605,17 @@ function CalculaCargaHoraria(entradas, saidas, inicioNoturno, fimNoturno, tipoHo
 //Passar a propriedade name do inputbox que deve limpar o erro
 function limpaErro(nome) {
     var msg = $('form [name=' + nome + ']').attr("class");
-    if (msg != '' && msg != undefined && msg != null) {
-        if (msg.indexOf('input-validation-error') >= 0) {
+    if (!isEmpty(msg)) {
+        if (msg.indexOf('input-validation-error') !== 0) {
             var input = $('form [name=' + nome + ']');
-            input.addClass('input-validation-valid').removeClass('input-validation-error');
+            input.addClass('input-validation-valid');
+            input.removeClass('input-validation-error');
             var field = $('form [data-valmsg-for=' + nome + ']');
             field.addClass('field-validation-valid').removeClass('field-validation-error');
+            field.html("");
         }
     }
-};
+}
 
 function limpaInput(idCampo, idForm) {
     var errorArray = {};
@@ -820,16 +822,24 @@ function ConvertDate(date) {
     return new Date(parts[2], parts[1] - 1, parts[0]);
 }
 
+// Converter um date em string dd/MM/yyyy
+function ConvertDateToString(date) {
+    var month = date.getMonth() + 1;
+    var day = date.getDate();
+    var year = date.getFullYear();
+    return day + "/" + month + "/" + year;
+}
+
 //Altera string apartir de determinado indice
 String.prototype.replaceAt = function (index, character) {
     return this.substr(0, index) + character + this.substr(index + character.length);
-}
+};
 
 Date.prototype.addDays = function (days) {
     var dat = new Date(this.valueOf());
     dat.setDate(dat.getDate() + days);
     return dat;
-}
+};
 
 
 // Retorna o Código dos componentes de pesquisa que tem o padrão: 4 | Descrição
@@ -842,4 +852,13 @@ function getCodigoCampo(idCampo) {
 
 function getBool(val) {
     return !!JSON.parse(String(val).toLowerCase());
+}
+
+
+function addDayDatePiker(objData, qtd) {
+    var novaData = new Date();
+    if (!isEmpty($(objData).val())) {
+        novaData = ConvertDate($(objData).val()).addDays(qtd);
+    }
+    $(objData).datepicker('update', ConvertDateToString(novaData));
 }

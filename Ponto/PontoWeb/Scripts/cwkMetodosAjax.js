@@ -525,6 +525,21 @@ function cwk_EventoConsultaUnico(event, objeto, acao, controller, filtro, evento
     }
 }
 
+function ProntoParaPesquisa(event, objeto) {
+    var idObjeto = objeto.id;
+    var keyCode = event.keyCode || event.which;
+    if (keyCode === 9 && !event.shiftKey && idObjeto.toLowerCase().indexOf("btn") === -1) {
+        return true;
+    }
+    // Se o campo  que chamou for um "btn" funciona apenas no método click do botão
+    else {
+        if (event.type === "click" && idObjeto.toLowerCase().indexOf("btn") >= 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
 //Apenas colocar a classe lkpGenerico no lkp e no btn de qualquer lkp e já vai funcionar
 //Tem que ser lkp simples, que não necessita de parametro e tem o evento consulta padrão e o nome do componente tem que ser lkp+NomeController e btn+Nomecontroller.
 function lkpGenerico() {
@@ -816,7 +831,7 @@ function Ajax_SalvarModal(Objeto, acao, controller, id, divReturn, divModal) {
 //parametros = parametros a ser parassado para o método do controller (acao)
 //div = Div onde os dados serão carregados.
 //campo = campo que chamou a acao
-function CarregaDadosAjax(acao, controller, parametros, div, campo, callback) {
+function CarregaDadosAjax(acao, controller, parametros, div, campo, callback, callbackErro) {
     var url = '/' + controller + '/' + acao;
     $.ajax({
         url: url,
@@ -848,13 +863,22 @@ function CarregaDadosAjax(acao, controller, parametros, div, campo, callback) {
                 window.location.href = '/Usuario/LogIn?ReturnUrl=' + window.location.href;
             }
             else {
-                if (result.erro) {
-                    cwkErro(result.mensagemErro);
+                var retObj;
+                if (result.indexOf('"erro":true') !== -1) {
+                    retObj = JSON.parse(result);
+                }
+                else {
+                    retObj = result;
+                }
+
+                if (retObj.erro) {
+                    callbackErro();
+                    cwkErro(retObj.mensagemErro);
                     $(div).html("");
                 }
                 else {
                     $(div).html(result);
-                    if (callback != null && callback != "" && callback != undefined) {
+                    if (!isEmpty(callback)) {
                         callback();
                     }
                 }
@@ -866,9 +890,9 @@ function CarregaDadosAjax(acao, controller, parametros, div, campo, callback) {
                 $(campo).focus();
             }
             $(".desabilitar-ao-carregar").removeAttr("disabled");
-        },
-    })
-};
+        }
+    });
+}
 
 //Essa função chama um método do controller que necessita que a progress bar pradrão seja exibida e após ela terminar executa uma ação.
 //acao = Método do controller que será executado
