@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Modelo;
 
 namespace BLL
 {
@@ -43,16 +42,6 @@ namespace BLL
 
             dalFechamentoBHDHE = new DAL.SQL.FechamentobhdHE(new DataBase(ConnectionString));
             dalFechamentoBH = new DAL.SQL.FechamentoBH(new DataBase(ConnectionString));
-
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    dalFechamentoBHDHE = new DAL.SQL.FechamentobhdHE(new DataBase(ConnectionString));
-                    break;
-                case 2:
-                    dalFechamentoBHDHE = DAL.FB.FechamentobhdHE.GetInstancia;
-                    break;
-            }
             dalFechamentoBHDHE.UsuarioLogado = usuarioLogado;
             UsuarioLogado = usuarioLogado;
         }

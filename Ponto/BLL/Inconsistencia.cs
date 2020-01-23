@@ -1,11 +1,7 @@
 using DAL.SQL;
-using Modelo.Proxy;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using Modelo;
-using Modelo.Proxy.Relatorios;
 using System.Collections;
 
 namespace BLL
@@ -46,16 +42,6 @@ namespace BLL
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
 
             dalInconsistencia = new DAL.SQL.Inconsistencia(new DataBase(ConnectionString));
-
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    dalInconsistencia = new DAL.SQL.Inconsistencia(new DataBase(ConnectionString));
-                    break;
-                case 2:
-                    dalInconsistencia = DAL.FB.Inconsistencia.GetInstancia;
-                    break;
-            }
             dalInconsistencia.UsuarioLogado = usuarioLogado;
         }
 

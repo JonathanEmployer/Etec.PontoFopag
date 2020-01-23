@@ -32,15 +32,7 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    dalDiasCompensacao = new DAL.SQL.DiasCompensacao(new DataBase(ConnectionString));
-                    break;
-                case 2:
-                    dalDiasCompensacao = DAL.FB.DiasCompensacao.GetInstancia;
-                    break;
-            }
+            dalDiasCompensacao = new DAL.SQL.DiasCompensacao(new DataBase(ConnectionString));
             UsuarioLogado = usuarioLogado;
             dalDiasCompensacao.UsuarioLogado = usuarioLogado;
         }

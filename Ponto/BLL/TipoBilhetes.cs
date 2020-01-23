@@ -31,16 +31,7 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    dalTipoBilhetes = new DAL.SQL.TipoBilhetes(new DataBase(ConnectionString));
-                    ((DAL.SQL.TipoBilhetes)dalTipoBilhetes).UsuarioLogado = usuarioLogado;
-                    break;
-                case 2:
-                    dalTipoBilhetes = DAL.FB.TipoBilhetes.GetInstancia;
-                    break;
-            }
+            dalTipoBilhetes = new DAL.SQL.TipoBilhetes(new DataBase(ConnectionString));
             dalTipoBilhetes.UsuarioLogado = usuarioLogado;
         }
 

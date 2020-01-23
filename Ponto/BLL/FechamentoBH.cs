@@ -1,5 +1,4 @@
 using DAL.SQL;
-using Modelo.Proxy;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -50,24 +49,12 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    DataBase db = new DataBase(ConnectionString);
-                    dalFechamentoBH = new DAL.SQL.FechamentoBH(db);
-                    dalFechamentoBHD = new DAL.SQL.FechamentoBHD(db);
-                    dalFechamentoBHDHE = new DAL.SQL.FechamentobhdHE(db);
-                    dalBancoHoras = new DAL.SQL.BancoHoras(db);
-                    break;
-                case 2:
-                    dalFechamentoBH = DAL.FB.FechamentoBH.GetInstancia;
-                    dalFechamentoBHD = DAL.FB.FechamentoBHD.GetInstancia;
-                    dalFechamentoBHDHE = DAL.FB.FechamentobhdHE.GetInstancia;
-                    dalBancoHoras = DAL.FB.BancoHoras.GetInstancia;
-                    break;
-                default:
-                    break;
-            }
+
+            DataBase db = new DataBase(ConnectionString);
+            dalFechamentoBH = new DAL.SQL.FechamentoBH(db);
+            dalFechamentoBHD = new DAL.SQL.FechamentoBHD(db);
+            dalFechamentoBHDHE = new DAL.SQL.FechamentobhdHE(db);
+            dalBancoHoras = new DAL.SQL.BancoHoras(db);
 
             bllFechamentobhdHE = new BLL.FechamentobhdHE(ConnectionString, usuarioLogado);
 

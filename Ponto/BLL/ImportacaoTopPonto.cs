@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections;
 using DAL.SQL;
 
@@ -26,15 +23,8 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    dalImportacaoTopPonto = new DAL.SQL.ImportacaoTopPonto(new DataBase(ConnectionString));
-                    break;
-                case 2:
-                    dalImportacaoTopPonto = DAL.FB.ImportacaoTopPonto.GetInstancia;
-                    break;
-            }
+
+            dalImportacaoTopPonto = new DAL.SQL.ImportacaoTopPonto(new DataBase(ConnectionString));
         }
 
         public Hashtable GetHashEmpresa()

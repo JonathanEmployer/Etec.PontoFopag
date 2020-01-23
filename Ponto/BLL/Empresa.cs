@@ -1,11 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Security.Cryptography;
-using System.Text;
-using cwkPontoMT.Integracao;
-using System.IO;
-using System.Windows.Forms;
 using DAL.SQL;
 using CentralCliente;
 using System.Linq;
@@ -39,18 +34,11 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    DataBase db = new DataBase(ConnectionString);
-                    dalEmpresa = new DAL.SQL.Empresa(db);
-                    dalFuncionario = new DAL.SQL.Funcionario(db);
-                    break;
-                case 2:
-                    dalEmpresa = DAL.FB.Empresa.GetInstancia;
-                    dalFuncionario = DAL.FB.Funcionario.GetInstancia;
-                    break;
-            }
+
+            DataBase db = new DataBase(ConnectionString);
+            dalEmpresa = new DAL.SQL.Empresa(db);
+            dalFuncionario = new DAL.SQL.Funcionario(db);
+
             if (usuarioLogado != null)
             {
                 dalEmpresa.UsuarioLogado = usuarioLogado;

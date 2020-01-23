@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Data;
-using System.Data.Sql;
 using System.Data.SqlClient;
-using System.Data.SqlTypes;
 using System.Linq;
-using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using DAL.SQL;
@@ -52,21 +49,6 @@ namespace BLL
             dalMarcacao = new DAL.SQL.Marcacao(db);
             dalImportaBilhetes = new DAL.SQL.ImportaBilhetes(db);
             dalHorario = new DAL.SQL.Horario(db);
-
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    db = new DataBase(ConnectionString);
-                    dalMarcacao = new DAL.SQL.Marcacao(db);
-                    dalImportaBilhetes = new DAL.SQL.ImportaBilhetes(db);
-                    dalHorario = new DAL.SQL.Horario(db);
-                    break;
-                case 2:
-                    dalMarcacao = DAL.FB.Marcacao.GetInstancia;
-                    dalImportaBilhetes = DAL.FB.ImportaBilhetes.GetInstancia;
-                    dalHorario = DAL.FB.Horario.GetInstancia;
-                    break;
-            }
 
             dalMarcacao.UsuarioLogado = usuarioLogado;
             dalHorario.UsuarioLogado = usuarioLogado;

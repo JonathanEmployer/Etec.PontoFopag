@@ -90,28 +90,16 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    DataBase db = new DataBase(ConnectionString);
-                    dalEmpresa = new DAL.SQL.Empresa(db);
-                    dalMarcacao = new DAL.SQL.Marcacao(db);
-                    dalBancoHoras = new DAL.SQL.BancoHoras(db);
-                    dalFechamentoBHD = new DAL.SQL.FechamentoBHD(db);
-                    dalFechamentoBH = new DAL.SQL.FechamentoBH(db);
-                    dalJornadaAlternativa = new DAL.SQL.JornadaAlternativa(db);
-                    dalJornada = new DAL.SQL.Jornada(db);
-                    break;
-                case 2:
-                    dalEmpresa = DAL.FB.Empresa.GetInstancia;
-                    dalMarcacao = DAL.FB.Marcacao.GetInstancia;
-                    dalBancoHoras = DAL.FB.BancoHoras.GetInstancia;
-                    dalFechamentoBH = DAL.FB.FechamentoBH.GetInstancia;
-                    dalFechamentoBHD = DAL.FB.FechamentoBHD.GetInstancia;
-                    dalJornada = DAL.FB.Jornada.GetInstancia;
-                    dalJornadaAlternativa = DAL.FB.JornadaAlternativa.GetInstancia;
-                    break;
-            }
+
+            DataBase db = new DataBase(ConnectionString);
+            dalEmpresa = new DAL.SQL.Empresa(db);
+            dalMarcacao = new DAL.SQL.Marcacao(db);
+            dalBancoHoras = new DAL.SQL.BancoHoras(db);
+            dalFechamentoBHD = new DAL.SQL.FechamentoBHD(db);
+            dalFechamentoBH = new DAL.SQL.FechamentoBH(db);
+            dalJornadaAlternativa = new DAL.SQL.JornadaAlternativa(db);
+            dalJornada = new DAL.SQL.Jornada(db);
+
             UsuarioLogado = usuarioLogado;
             dalEmpresa.UsuarioLogado = usuarioLogado;
             dalMarcacao.UsuarioLogado = usuarioLogado;
@@ -154,28 +142,16 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    DataBase db = new DataBase(ConnectionString);
-                    dalEmpresa = new DAL.SQL.Empresa(db);
-                    dalMarcacao = new DAL.SQL.Marcacao(db);
-                    dalBancoHoras = new DAL.SQL.BancoHoras(db);
-                    dalFechamentoBHD = new DAL.SQL.FechamentoBHD(db);
-                    dalFechamentoBH = new DAL.SQL.FechamentoBH(db);
-                    dalJornadaAlternativa = new DAL.SQL.JornadaAlternativa(db);
-                    dalJornada = new DAL.SQL.Jornada(db);
-                    break;
-                case 2:
-                    dalEmpresa = DAL.FB.Empresa.GetInstancia;
-                    dalMarcacao = DAL.FB.Marcacao.GetInstancia;
-                    dalBancoHoras = DAL.FB.BancoHoras.GetInstancia;
-                    dalFechamentoBH = DAL.FB.FechamentoBH.GetInstancia;
-                    dalFechamentoBHD = DAL.FB.FechamentoBHD.GetInstancia;
-                    dalJornada = DAL.FB.Jornada.GetInstancia;
-                    dalJornadaAlternativa = DAL.FB.JornadaAlternativa.GetInstancia;
-                    break;
-            }
+
+            DataBase db = new DataBase(ConnectionString);
+            dalEmpresa = new DAL.SQL.Empresa(db);
+            dalMarcacao = new DAL.SQL.Marcacao(db);
+            dalBancoHoras = new DAL.SQL.BancoHoras(db);
+            dalFechamentoBHD = new DAL.SQL.FechamentoBHD(db);
+            dalFechamentoBH = new DAL.SQL.FechamentoBH(db);
+            dalJornadaAlternativa = new DAL.SQL.JornadaAlternativa(db);
+            dalJornada = new DAL.SQL.Jornada(db);
+
             UsuarioLogado = usuarioLogado;
             dalEmpresa.UsuarioLogado = usuarioLogado;
             dalMarcacao.UsuarioLogado = usuarioLogado;

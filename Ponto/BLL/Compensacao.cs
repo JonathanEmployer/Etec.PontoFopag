@@ -1,7 +1,6 @@
 using System;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Collections.Generic;
 using DAL.SQL;
 
@@ -50,13 +49,6 @@ namespace BLL
             dalCompensacao = new DAL.SQL.Compensacao(db);
             dalFuncionario = new DAL.SQL.Funcionario(db);
 
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 2:
-                    dalCompensacao = DAL.FB.Compensacao.GetInstancia;
-                    dalFuncionario = DAL.FB.Funcionario.GetInstancia;
-                    break;
-            }
             dalCompensacao.UsuarioLogado = usuarioLogado;
             dalFuncionario.UsuarioLogado = usuarioLogado;
             UsuarioLogado = usuarioLogado;

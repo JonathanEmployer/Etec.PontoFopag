@@ -34,15 +34,8 @@ namespace BLL
             {
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
-            switch (Modelo.cwkGlobal.BD)
-            {
-                case 1:
-                    dalBiometria = new DAL.SQL.Biometria(new DataBase(ConnectionString));
-                    break;
-                case 2:
-                    dalBiometria = DAL.FB.Biometria.GetInstancia;
-                    break;
-            }
+            dalBiometria = new DAL.SQL.Biometria(new DataBase(ConnectionString));
+
             UsuarioLogado = usuarioLogado;
             dalBiometria.UsuarioLogado = usuarioLogado;
         }
