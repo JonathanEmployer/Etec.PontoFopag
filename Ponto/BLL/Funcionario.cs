@@ -9,6 +9,7 @@ using BLLIntegracaoPNL = BLL.IntegracaoPainel;
 using Modelo.Proxy;
 using Modelo;
 using static Modelo.Enumeradores;
+using System.Globalization;
 
 namespace BLL
 {
@@ -2125,7 +2126,7 @@ namespace BLL
 
         public List<pxyFuncionarioRelatorio> GetRegistrosEmpregoFuncionario(int idFuncionario)
         {
-            return dalFuncionario.GetRelFuncionariosRelatorios(string.Format(" AND f.pis = (select pis from funcionario where id = {0}) ", idFuncionario)).ToList();
+            return dalFuncionario.GetRelFuncionariosRelatorios(string.Format(CultureInfo.CurrentCulture, " AND f.cpf = (select cpf from funcionario where id = {0}) ", idFuncionario)).ToList();
         }
 
         public List<string> GetDsCodigosByIDs(List<int> lIds)
