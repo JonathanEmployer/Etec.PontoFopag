@@ -28,7 +28,6 @@
     @Html.HiddenFor(model => model.Validade);
     @Html.HiddenFor(model => model.Numeroserie);
     @Html.HiddenFor(model => model.IDRevenda);
-    @Html.HiddenFor(model => model.Codigo);
     @Html.HiddenFor(model => model.Incdata);
     @Html.HiddenFor(model => model.Inchora);
     @Html.HiddenFor(model => model.Incusuario);
@@ -73,7 +72,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
-                                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm", @disabled = true })
+                                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm" })
                                             @Html.ValidationMessageFor(model => model.Codigo)
                                         </div>
                                     </div>
