@@ -606,7 +606,7 @@ function CalculaCargaHoraria(entradas, saidas, inicioNoturno, fimNoturno, tipoHo
 function limpaErro(nome) {
     var msg = $('form [name=' + nome + ']').attr("class");
     if (!isEmpty(msg)) {
-        if (msg.indexOf('input-validation-error') !== 0) {
+        if (msg.indexOf('input-validation-error') >= 0) {
             var input = $('form [name=' + nome + ']');
             input.addClass('input-validation-valid');
             input.removeClass('input-validation-error');
