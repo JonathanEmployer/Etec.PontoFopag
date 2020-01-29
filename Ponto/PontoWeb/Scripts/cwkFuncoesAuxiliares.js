@@ -606,14 +606,12 @@ function CalculaCargaHoraria(entradas, saidas, inicioNoturno, fimNoturno, tipoHo
 function limpaErro(nome) {
     var msg = $('form [name=' + nome + ']').attr("class");
     if (!isEmpty(msg)) {
-        if (msg.indexOf('input-validation-error') >= 0) {
-            var input = $('form [name=' + nome + ']');
-            input.addClass('input-validation-valid');
-            input.removeClass('input-validation-error');
-            var field = $('form [data-valmsg-for=' + nome + ']');
-            field.addClass('field-validation-valid').removeClass('field-validation-error');
-            field.html("");
-        }
+        var input = $('form [name=' + nome + ']');
+        input.addClass('input-validation-valid');
+        input.removeClass('input-validation-error');
+        var field = $('form [data-valmsg-for=' + nome + ']');
+        field.addClass('field-validation-valid').removeClass('field-validation-error');
+        field.html("");
     }
 }
 
