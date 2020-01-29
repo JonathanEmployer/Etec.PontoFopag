@@ -7,8 +7,20 @@
     {
         integrado = true;
     }
-
 }
+
+<style>
+    .checkbox {
+        margin-top:0px;
+        margin-bottom:0px;
+    }
+
+    .checkboxFilho {
+        padding-left:16px;
+        margin-top:3px !important;
+        margin-bottom:3px !important;
+    }
+</style>
 
 @using (Html.BeginForm())
 {
@@ -61,7 +73,7 @@
                 <!-- Tab panel -->
                 <div class="tabbable" style="margin-top:0;">
                     <ul class="nav nav-tabs" id="hnTab">
-                        <li class="active"><a href="#pnlEmpresa" data-toggle="tab" id="liPnlEmpresa" style="padding:5px;">Empresa</a></li>
+                        <li class="active"><a href="#pnlEmpresa" data-toggle="tab" id="liPnlEmpresa" style=" padding: 5px;">Empresa</a></li>
                         <li><a href="#pnlPainelRH" data-toggle="tab" id="liPnlPainelRH" style="padding:5px;">Configurações Painel do RH</a></li>
                     </ul>
                     <div class="tab-content" style="padding-top:5px;">
@@ -235,18 +247,26 @@
                                     </div>
                                 </div>
                                 <div>
-                                    @Html.LabelFor(model => model.Ativo, new { @class = "control-label label-sm" })
-                                    @Html.CheckBoxFor(model => model.Ativo, new { @class = "checkbox", id = "lkpAtivo" })
-                                </div>
-                                <div id="divParametrosApp" hidden>
                                     <div class="row" style="padding-left:6px">
+                                        <div class="col-md-12">
+                                            <div class="col-md-12">
+                                                <div class="checkbox">
+                                                    @Html.CheckBoxFor(model => model.Ativo)
+                                                    @Html.LabelFor(model => model.Ativo, new { @class = "control-label label-sm" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="row" style="padding-left:6px" id="divParametrosApp" hidden>
                                         <div class="col-md-12">
                                             <div class="col-md-12">
                                                 <div class="checkbox">
                                                     @Html.CheckBoxFor(model => model.UtilizaAppPontofopag)
                                                     @Html.LabelFor(model => model.UtilizaAppPontofopag, new { @class = "control-label label-sm" })
                                                 </div>
-                                                <div class="checkbox" style="padding-left:16px; display:none" id="divReconhecimentoFacilAppPontofopag">
+                                                <div class="checkbox checkboxFilho" style="display:none" id="divReconhecimentoFacilAppPontofopag">
                                                     @Html.CheckBoxFor(model => model.UtilizaReconhecimentoFacilAppPontofopag)
                                                     @Html.LabelFor(model => model.UtilizaReconhecimentoFacilAppPontofopag, new { @class = "control-label label-sm" })
                                                 </div>
@@ -263,7 +283,7 @@
                                                     @Html.CheckBoxFor(model => model.UtilizaWebAppPontofopag)
                                                     @Html.LabelFor(model => model.UtilizaWebAppPontofopag, new { @class = "control-label label-sm" })
                                                 </div>
-                                                <div class="checkbox" style="padding-left:16px; display:none" id="divReconhecimentoFacilWebAppPontofopag">
+                                                <div class="checkbox checkboxFilho" style="display:none" id="divReconhecimentoFacilWebAppPontofopag">
                                                     @Html.CheckBoxFor(model => model.UtilizaReconhecimentoFacilWebAppPontofopag)
                                                     @Html.LabelFor(model => model.UtilizaReconhecimentoFacilWebAppPontofopag, new { @class = "control-label label-sm" })
                                                 </div>
@@ -428,7 +448,7 @@
              ($("#UtilizaAppPontofopag").is(':checked') || $("#UtilizaWebAppPontofopag").is(':checked'))
             ) ||
             (empresaAlterada() && ($("#UtilizaAppPontofopag").is(':checked') || $("#UtilizaWebAppPontofopag").is(':checked')))
-        )  
+        )
         {
             if (($("#UtilizaWebAppPontofopagAnt").is(':checked') || $("#UtilizaAppPontofopagAnt").is(':checked')) && empresaAlterada())
             {
@@ -452,7 +472,7 @@
         else {
             $('form').submit();
         }
-        
+
     }
 
     function empresaAlterada() {
@@ -633,7 +653,7 @@
         }
     })
 
-    
+
 
 </script>
 
