@@ -207,39 +207,6 @@ namespace PontoWeb.Controllers
         }
 
         [Authorize]
-        [HttpPost]
-        public ActionResult RecalculaMarcacao(string empresa, string departamento, string funcionario, string dataInicial, string dataFinal)
-        {
-            BLL.Funcionario bllFuncionario = new BLL.Funcionario(_usr.ConnectionString, _usr);
-            string erro = "";
-            Modelo.Funcionario func = bllFuncionario.ValidaEmpDepFunc(empresa, departamento, funcionario, ref erro);
-            if (erro == "" && func != null && func.Id > 0)
-            {
-                try
-                {
-                    HangfireManagerCalculos hfm = new HangfireManagerCalculos(_usr.DataBase);
-                    string parametrosExibicao =String.Format("Recalculo de marcacao do funcionário: {0} | {1}, período: {2} a {3}", func.Dscodigo, func.Nome, dataInicial, dataFinal);
-                    Modelo.Proxy.PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de marcações", parametrosExibicao, new List<int> { func.Id }, Convert.ToDateTime(dataInicial), Convert.ToDateTime(dataFinal));
-                    return new JsonResult
-                    {
-                        Data = new
-                        {
-                            success = true,
-                            job = ret
-                        }
-                    };
-                }
-                catch (Exception ex)
-                {
-                    BLL.cwkFuncoes.LogarErro(ex);
-                    erro = ex.Message;
-                }
-            }
-
-            return new JsonResult { Data = new { success = false, Erro = erro } };
-        }
-
-        [Authorize]
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None", VaryByCustom = "User")]
         public void CarregaIdporData(int idFuncionario, DateTime data, bool avanca)
         {
