@@ -121,22 +121,24 @@ namespace BLL_N.JobManager.Hangfire.Job
 
         public void RecalculaMarcacao(PerformContext context, JobControl jobReport, string db, string usuario, List<int> idsFuncionario, DateTime dataInicial, DateTime dataFinal, DateTime? dataInicial_Ant, DateTime? dataFinal_Ant, bool considerarInativos = false)
         {
-            SetParametersBase(context, jobReport, db, usuario);
+            //SetParametersBase(context, jobReport, db, usuario);
 
-            try
-            {
-                List<Tuple<DateTime, DateTime>> periodos = BLL.cwkFuncoes.ComparePeriod(new Tuple<DateTime, DateTime>(dataInicial, dataFinal), new Tuple<DateTime?, DateTime?>(dataInicial_Ant, dataFinal_Ant));
+            //try
+            //{
+            //    List<Tuple<DateTime, DateTime>> periodos = BLL.cwkFuncoes.ComparePeriod(new Tuple<DateTime, DateTime>(dataInicial, dataFinal), new Tuple<DateTime?, DateTime?>(dataInicial_Ant, dataFinal_Ant));
 
-                foreach (var p in periodos)
-                {
-                    CalculaMarcacao(idsFuncionario, p.Item1, p.Item2, considerarInativos);
-                }
-            }
-            catch (Exception ex)
-            {
-                BLL.cwkFuncoes.LogarErro(ex);
-                throw ex;
-            }
+            //    foreach (var p in periodos)
+            //    {
+            //        CalculaMarcacao(idsFuncionario, p.Item1, p.Item2, considerarInativos);
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    BLL.cwkFuncoes.LogarErro(ex);
+            //    throw ex;
+            //}
+
+            
         }
 
         private void CalculaMarcacao(List<int> idsFuncionario, DateTime dataInicial, DateTime dataFinal, bool considerarInativos = false)
