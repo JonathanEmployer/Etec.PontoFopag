@@ -23,18 +23,15 @@
                 @Html.GridFor(nomeTabela, Model.GetType(), false, "Empresa", "DadosGrid", rowCallBack, "CallBackLoadGrid")
             </div>
         </div>
-        <div class="row" style="padding-top:10px;">
-            <div class="col-md-12">
-                <div class="form-group" style="padding-bottom: 0px; margin-bottom: 0px;">
-                    @Html.CheckBox("Esconder Inativos", new { id = "BEsconderInativos", @checked = "checked" })
-                    @Html.Label("Esconder Inativos", new { style = "padding-bottom: 0px; margin-bottom: 0px;", @for = "BEsconderInativos" })
-                </div>
-            </div>
-        </div>
-
         <div class="panel-footer">
             <div class="row">
-                <div class="col-md-12 center-block">
+                <div class="col-md-2">
+                    <div class="form-group" style="padding-bottom: 0px; margin-bottom: 0px;">
+                        @Html.CheckBox("Esconder Inativos", new { id = "BEsconderInativos", @checked = "checked" })
+                        @Html.Label("Esconder Inativos", new { style = "padding-bottom: 0px; margin-bottom: 0px;", @for = "BEsconderInativos" })
+                    </div>
+                </div>
+                <div class="col-md-10 center-block">
                     <div style="text-align: right">
                         @if (ViewBag.ControleUsuario)
                         {
