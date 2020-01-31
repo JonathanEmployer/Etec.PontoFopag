@@ -2,7 +2,6 @@
 using System.Text;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using RabbitMq.Configuration;
 using RabbitMq.Interface;
 
 namespace RabbitMq
@@ -11,21 +10,21 @@ namespace RabbitMq
     {
         private readonly IConnection connection;
         private readonly IModel channel;
-        private readonly string queueName;
-        private readonly string errorQueueName;
-        public RabbitMqController()
+        private readonly string _queueName;
+        private readonly string _errorQueueName;
+        public RabbitMqController(string hostName, string userName, string password, int port, string queueName, string errorQueueName)
         {
             var factory = new ConnectionFactory()
             {
-                HostName = RabbitConfig.HostName,
-                UserName = RabbitConfig.UserName,
-                Password = RabbitConfig.Password,
-                Port = RabbitConfig.Port
+                HostName = hostName,
+                UserName = userName,
+                Password = password,
+                Port = port
             };
             connection = factory.CreateConnection();
             channel = connection.CreateModel();
-            queueName = RabbitConfig.QueueName;
-            errorQueueName = RabbitConfig.QueueName;
+            _queueName = queueName;
+            _errorQueueName = errorQueueName;
         }
 
         public void SendMessage(string queue, string msg)
@@ -54,7 +53,7 @@ namespace RabbitMq
 
         public void ReceiveMessage(Func<string, bool> Result)
         {
-            QueueDeclare(queueName);
+            QueueDeclare(_queueName);
             channel.BasicQos(prefetchSize: 0,
                              prefetchCount: 1,
                              global: false);
@@ -68,7 +67,7 @@ namespace RabbitMq
                 Result(message);
                 channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
             };
-            channel.BasicConsume(queueName, autoAck: false, consumer: consumer);
+            channel.BasicConsume(_queueName, autoAck: false, consumer: consumer);
         }
     }
 }

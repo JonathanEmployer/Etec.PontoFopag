@@ -319,6 +319,9 @@
     <Reference Include="Microsoft.CodeAnalysis.CSharp">
       <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.1.1.0-rc1-20151109-01\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Diagnostics.Tracing.EventSource, Version=1.1.28.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.1.28\lib\net46\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Dnx.Compilation.Abstractions">
       <HintPath>..\packages\Microsoft.Dnx.Compilation.Abstractions.1.0.0-rc1-final\lib\net451\Microsoft.Dnx.Compilation.Abstractions.dll</HintPath>
     </Reference>
@@ -420,6 +423,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="RabbitMQ.Client, Version=5.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
+      <HintPath>..\packages\RabbitMQ.Client.5.1.2\lib\net451\RabbitMQ.Client.dll</HintPath>
+    </Reference>
     <Reference Include="RazorEngine, Version=3.10.0.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
       <HintPath>..\packages\RazorEngine.3.10.0\lib\net45\RazorEngine.dll</HintPath>
     </Reference>
@@ -525,6 +531,10 @@
     <ProjectReference Include="..\Modelo\Modelo.csproj">
       <Project>{dfe5a7e8-8798-43d3-a61f-f1dd3ab38593}</Project>
       <Name>Modelo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RabbitMq\RabbitMq.csproj">
+      <Project>{45932776-B6E6-40EF-B15B-D0B7F0100F4E}</Project>
+      <Name>RabbitMq</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

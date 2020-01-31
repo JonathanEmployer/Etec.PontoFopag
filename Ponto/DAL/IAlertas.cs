@@ -9,4 +9,3 @@ namespace DAL
         List<Modelo.Alertas> GetAllList();
     }
 }
-

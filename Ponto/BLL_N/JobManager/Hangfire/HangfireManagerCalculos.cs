@@ -5,13 +5,18 @@ using Modelo.EntityFramework.MonitorPontofopag;
 using Modelo.Proxy;
 using System;
 using System.Collections.Generic;
+using RabbitMq;
 
 namespace BLL_N.JobManager.Hangfire
 {
     public class HangfireManagerCalculos : HangfireManagerBase
     {
+        private readonly RabbitMqController _rabbit;
+
         public HangfireManagerCalculos(string dataBase) : base(dataBase)
         {
+            _rabbit = new RabbitMqController("10.2.0.60", "guest", "guest", 5672, "Pontofopag_Calculo_Dados", "Pontofopag_Calculo_Dados_Error");
+
         }
 
         public HangfireManagerCalculos(string dataBase, string usuario, string hostAddress, string urlReferencia) : base(dataBase, usuario, hostAddress, urlReferencia)
@@ -45,10 +50,19 @@ namespace BLL_N.JobManager.Hangfire
 
         public PxyJobReturn RecalculaMarcacao(string nomeProcesso, string parametrosExibicao, int? pTipo, int pIdTipo, DateTime dataInicial, DateTime dataFinal)
         {
-            JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
-            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.RecalculaMarcacao(null, jobControl, dataBase, usuarioLogado, pTipo, pIdTipo, dataInicial, dataFinal), _enqueuedStateNormal);
-            PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
-            return jobReturn;
+            string conexao = BLL.cwkFuncoes.ConstroiConexao(dataBase).ConnectionString;
+            Modelo.Cw_Usuario userPF = new Modelo.Cw_Usuario();
+            userPF.Login = usuarioLogado;
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(conexao, userPF);
+            List<int> idsFuncionarios = bllFuncionario.GetIDsByTipo(pTipo, new List<int>{ pIdTipo}, false, false);
+
+            //JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
+            //string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.RecalculaMarcacao(null, jobControl, dataBase, usuarioLogado, pTipo, pIdTipo, dataInicial, dataFinal), _enqueuedStateNormal);
+            //PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
+            //return jobReturn;
+
+            _rabbit.SendMessage("Pontofopag_Calculo_Dados", "Teste");
+            return null;
         }
 
         public PxyJobReturn RecalculaMarcacao(string nomeProcesso, string parametrosExibicao, List<int> idsFuncionario, DateTime dataInicial, DateTime dataFinal, bool considerarInativos = false)

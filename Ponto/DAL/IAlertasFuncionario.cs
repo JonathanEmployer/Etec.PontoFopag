@@ -13,4 +13,3 @@ namespace DAL
         List<Modelo.AlertasFuncionario> GetAllPorAlerta(Int32 idAlerta);
     }
 }
-
