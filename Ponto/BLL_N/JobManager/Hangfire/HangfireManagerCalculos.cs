@@ -62,9 +62,9 @@ namespace BLL_N.JobManager.Hangfire
             List<int> idsFuncionarios = bllFuncionario.GetIDsByTipo(pTipo, new List<int>{ pIdTipo}, false, false);
 
             BLL.LoteCalculo loteBLL = new BLL.LoteCalculo();
-            BLL.Lote
+            BLL.LoteCalculoFuncionario loteFuncionarioBLL = new BLL.LoteCalculoFuncionario();
             var loteId = loteBLL.Salvar(dataInicial, dataFinal);
-
+            loteFuncionarioBLL.
 
             //JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
             //string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.RecalculaMarcacao(null, jobControl, dataBase, usuarioLogado, pTipo, pIdTipo, dataInicial, dataFinal), _enqueuedStateNormal);

@@ -141,7 +141,6 @@ namespace cwkWebAPIPontoWeb.Controllers
                             int? idPessoaSupervisor = bllPessoa.GetIdPorIdIntegracaoPessoa(funcionario.IdIntegracaoPessoaSupervisor);
                             DadosAntFunc.IdPessoaSupervisor = idPessoaSupervisor == 0 ? null : idPessoaSupervisor;
                         }
-
                         Acao acao = new Acao();
                         if (DadosAntFunc.Id == 0)
                         {
@@ -195,6 +194,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                         Dictionary<string, string> erros = new Dictionary<string, string>();  
                         DadosAntFunc.NaoRecalcular = true;
                         DadosAntFunc.ForcarNovoCodigo = true;
+                        
                         erros = bllFuncionario.Salvar(acao, DadosAntFunc);
                         if (erros.Count > 0)
                         {

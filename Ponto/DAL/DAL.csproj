@@ -257,6 +257,7 @@
     <Compile Include="ITransferenciaBilhetesDetalhes.cs" />
     <Compile Include="SQL\JustificaticaRestricao.cs" />
     <Compile Include="SQL\LoteCalculo.cs" />
+    <Compile Include="SQL\LoteCalculoFuncionario.cs" />
     <Compile Include="SQL\OcorrenciaRestricao.cs" />
     <Compile Include="SQL\HorarioDinamicoRestricao.cs" />
     <Compile Include="SQL\HorarioRestricao.cs" />
