@@ -1,9 +1,11 @@
-﻿using Modelo;
+﻿using System;
+using System.Collections.Generic;
+using Modelo;
 
 namespace DAL
 {
     public interface ILoteCalculo
     {
-        LoteCalculo Adicionar(Modelo.LoteCalculo obj);
+        Guid Adicionar(DateTime dataInicio, DateTime DataFim);
     }
 }

@@ -8,32 +8,17 @@ using Modelo;
 
 namespace BLL
 {
-    public class LoteCalculo : IBLL<Modelo.LoteCalculo>
+    public class LoteCalculo
     {
-        
-        public DataTable GetAll()
-        {
-            throw new NotImplementedException();
-        }
+        private readonly DAL.SQL.LoteCalculo loteCalculoDAL;
 
-        public Modelo.LoteCalculo LoadObject(int id)
+        public LoteCalculo()
         {
-            throw new NotImplementedException();
+            loteCalculoDAL = new DAL.SQL.LoteCalculo();
         }
-
-        public Dictionary<string, string> ValidaObjeto(Modelo.LoteCalculo objeto)
+        public Guid Salvar(DateTime dataInicio, DateTime dataFim)
         {
-            throw new NotImplementedException();
-        }
-
-        public Dictionary<string, string> Salvar(Acao pAcao, Modelo.LoteCalculo objeto)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int getId(int pValor, string pCampo, int? pValor2)
-        {
-            throw new NotImplementedException();
+            return loteCalculoDAL.Adicionar(dataInicio, dataFim);
         }
     }
 }

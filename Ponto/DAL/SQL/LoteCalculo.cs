@@ -2,31 +2,26 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Modelo;
 
 namespace DAL.SQL
 {
     public class LoteCalculo : ILoteCalculo
     {
-        private static string INSERT = @"INSERT INTO LoteCalculo(DataInicio, DataFim) VALUES (@DataInicio, @DataFim)";
+        private static string INSERT = @"INSERT INTO LoteCalculo(DataInicio, DataFim) OUTPUT Inserted.Id VALUES (@DataInicio, @DataFim)";
         public Modelo.Cw_Usuario UsuarioLogado { get; set; }
 
-        public Modelo.LoteCalculo Adicionar(Modelo.LoteCalculo obj)
+        public Guid Adicionar(DateTime dataInicio, DateTime dataFim)
         {
             SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@DataInicio", SqlDbType.Date),
                 new SqlParameter("@DataFim", SqlDbType.Date)
             };
-            parms[0].Value = ((Modelo.LoteCalculo)obj).DataInicio;
-            parms[1].Value = ((Modelo.LoteCalculo)obj).DataFim;
+            parms[0].Value = dataInicio;
+            parms[1].Value = dataFim;
 
             SqlCommand cmd = TransactDbOps.ExecNonQueryCmd(null, CommandType.Text, INSERT, true, parms);
-            obj.Id = Guid.Parse(cmd.Parameters["@id"].Value.ToString());
-            return obj;
+            return Guid.Parse(cmd.Parameters["@id"].Value.ToString());
         }
     }
 }

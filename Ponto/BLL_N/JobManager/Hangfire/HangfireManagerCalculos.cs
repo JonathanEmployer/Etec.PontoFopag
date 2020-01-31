@@ -5,7 +5,12 @@ using Modelo.EntityFramework.MonitorPontofopag;
 using Modelo.Proxy;
 using System;
 using System.Collections.Generic;
+using BLL;
 using RabbitMq;
+using Compensacao = Modelo.Compensacao;
+using Feriado = Modelo.Feriado;
+using JornadaAlternativa = Modelo.JornadaAlternativa;
+using MudancaHorario = Modelo.MudancaHorario;
 
 namespace BLL_N.JobManager.Hangfire
 {
@@ -55,6 +60,11 @@ namespace BLL_N.JobManager.Hangfire
             userPF.Login = usuarioLogado;
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(conexao, userPF);
             List<int> idsFuncionarios = bllFuncionario.GetIDsByTipo(pTipo, new List<int>{ pIdTipo}, false, false);
+
+            BLL.LoteCalculo loteBLL = new BLL.LoteCalculo();
+            BLL.Lote
+            var loteId = loteBLL.Salvar(dataInicial, dataFinal);
+
 
             //JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
             //string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.RecalculaMarcacao(null, jobControl, dataBase, usuarioLogado, pTipo, pIdTipo, dataInicial, dataFinal), _enqueuedStateNormal);

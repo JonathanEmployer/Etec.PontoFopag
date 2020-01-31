@@ -314,6 +314,7 @@
     <Compile Include="HorarioDinamicoRestricao.cs" />
     <Compile Include="JustificativaRestricao.cs" />
     <Compile Include="LoteCalculo.cs" />
+    <Compile Include="LoteCalculoFuncionario.cs" />
     <Compile Include="OcorrenciaRestricao.cs" />
     <Compile Include="HorarioRestricao.cs" />
     <Compile Include="EmpresaTermoUso.cs" />

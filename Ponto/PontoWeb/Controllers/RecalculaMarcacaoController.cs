@@ -28,6 +28,7 @@ namespace PontoWeb.Controllers
                 {
                     UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
                     HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW.DataBase);
+
                     string parametrosExibicao = obj.ParametroTipo + ", Período " + obj.DataInicial.GetValueOrDefault().ToShortDateString() + " a " + obj.DataFinal.GetValueOrDefault().ToShortDateString();
                     Modelo.Proxy.PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de Marcações", parametrosExibicao, obj.Tipo, obj.Identificacao, obj.DataInicial.GetValueOrDefault(), obj.DataFinal.GetValueOrDefault());
                     return new JsonResult
