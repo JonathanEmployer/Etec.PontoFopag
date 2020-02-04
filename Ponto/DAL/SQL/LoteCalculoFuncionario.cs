@@ -33,8 +33,8 @@ namespace DAL.SQL
             {
                 connection.Open();
                 connection.Query($@"INSERT INTO LoteCalculoFuncionario(IdLote, IdFuncionario) 
-                                            SELECT f.Identificador, @IdLote
-                                            FROM @Identificadores f", new { Identificadores = table.AsTableValuedParameter() });
+                                            SELECT @IdLote, f.Identificador
+                                            FROM @Identificadores f", new { Identificadores = table.AsTableValuedParameter(), IdLote = idLote });
                 connection.Close();
             }
         }

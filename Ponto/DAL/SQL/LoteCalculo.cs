@@ -19,6 +19,8 @@ namespace DAL.SQL
 
         public Guid Adicionar(DateTime dataInicio, DateTime dataFim)
         {
+            Guid id = Guid.Empty;
+
             using (SqlConnection conn = db.GetConnection)
             {
                 using (SqlTransaction trans = conn.BeginTransaction())
@@ -31,10 +33,16 @@ namespace DAL.SQL
                     parms[0].Value = dataInicio;
                     parms[1].Value = dataFim;
 
-                    SqlCommand cmd = TransactDbOps.ExecNonQueryCmd(trans, CommandType.Text, INSERT, true, parms);
-                    return Guid.Parse(cmd.Parameters["@Id"].Value.ToString());
+                    SqlDataReader dr = TransactDbOps.ExecuteReader(trans, CommandType.Text, INSERT, parms);
+                    if (dr.Read())
+                        id = (Guid)dr["Id"];
+
+                    dr.Close();
+                    trans.Commit();
                 }
+                conn.Close();
             }
+            return id;
         }
     }
 }

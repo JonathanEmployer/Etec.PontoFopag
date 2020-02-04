@@ -6,7 +6,9 @@ using Modelo.Proxy;
 using System;
 using System.Collections.Generic;
 using BLL;
+using BLL.Util;
 using DAL.SQL;
+using Newtonsoft.Json;
 using RabbitMq;
 using Compensacao = Modelo.Compensacao;
 using Feriado = Modelo.Feriado;
@@ -66,13 +68,11 @@ namespace BLL_N.JobManager.Hangfire
             BLL.LoteCalculoFuncionario loteFuncionarioBLL = new BLL.LoteCalculoFuncionario(db);
             var idLote = loteBLL.Salvar(dataInicial, dataFinal);
             loteFuncionarioBLL.Salvar(idsFuncionarios, idLote);
-
-            //JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
-            //string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.RecalculaMarcacao(null, jobControl, dataBase, usuarioLogado, pTipo, pIdTipo, dataInicial, dataFinal), _enqueuedStateNormal);
-            //PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
-            //return jobReturn;
-
-            _rabbit.SendMessage("Pontofopag_Calculo_Dados", "Teste");
+            //todo Verificar como obter o CS
+            MensagemCalculo msg = new MensagemCalculo {CS = "employer", IdLote = idLote};
+            
+            var json = JsonConvert.SerializeObject(msg);
+            _rabbit.SendMessage("Pontofopag_Calculo_Dados", json);
             return null;
         }
 
