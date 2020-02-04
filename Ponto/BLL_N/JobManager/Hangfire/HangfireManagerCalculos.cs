@@ -6,6 +6,7 @@ using Modelo.Proxy;
 using System;
 using System.Collections.Generic;
 using BLL;
+using DAL.SQL;
 using RabbitMq;
 using Compensacao = Modelo.Compensacao;
 using Feriado = Modelo.Feriado;
@@ -60,11 +61,11 @@ namespace BLL_N.JobManager.Hangfire
             userPF.Login = usuarioLogado;
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(conexao, userPF);
             List<int> idsFuncionarios = bllFuncionario.GetIDsByTipo(pTipo, new List<int>{ pIdTipo}, false, false);
-
-            BLL.LoteCalculo loteBLL = new BLL.LoteCalculo();
-            BLL.LoteCalculoFuncionario loteFuncionarioBLL = new BLL.LoteCalculoFuncionario();
-            var loteId = loteBLL.Salvar(dataInicial, dataFinal);
-            loteFuncionarioBLL.
+            DataBase db = new DataBase(conexao);
+            BLL.LoteCalculo loteBLL = new BLL.LoteCalculo(db);
+            BLL.LoteCalculoFuncionario loteFuncionarioBLL = new BLL.LoteCalculoFuncionario(db);
+            var idLote = loteBLL.Salvar(dataInicial, dataFinal);
+            loteFuncionarioBLL.Salvar(idsFuncionarios, idLote);
 
             //JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
             //string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.RecalculaMarcacao(null, jobControl, dataBase, usuarioLogado, pTipo, pIdTipo, dataInicial, dataFinal), _enqueuedStateNormal);

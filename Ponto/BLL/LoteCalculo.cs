@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Modelo;
+using DAL.SQL;
 
 namespace BLL
 {
@@ -12,9 +7,9 @@ namespace BLL
     {
         private readonly DAL.SQL.LoteCalculo loteCalculoDAL;
 
-        public LoteCalculo()
+        public LoteCalculo(DataBase db)
         {
-            loteCalculoDAL = new DAL.SQL.LoteCalculo();
+            loteCalculoDAL = new DAL.SQL.LoteCalculo(db);
         }
         public Guid Salvar(DateTime dataInicio, DateTime dataFim)
         {

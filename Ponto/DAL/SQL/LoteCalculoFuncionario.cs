@@ -2,26 +2,41 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
+using Dapper;
 
 namespace DAL.SQL
 {
     public class LoteCalculoFuncionario
     {
-        private static string INSERT = @"INSERT INTO LoteCalculo(DataInicio, DataFim) VALUES (@DataInicio, @DataFim)";
+        private static string INSERT = @"INSERT INTO LoteCalculoFuncionario(DataInicio, DataFim) VALUES (@DataInicio, @DataFim)";
         public Modelo.Cw_Usuario UsuarioLogado { get; set; }
+        protected DataBase db { get; set; }
 
-        public Guid Adicionar(DateTime dataInicio, DateTime dataFim, List<int> idsFuncionarios)
+        public LoteCalculoFuncionario(DataBase dataBase)
         {
-            SqlParameter[] parms = new SqlParameter[]
-            {
-                new SqlParameter("@DataInicio", SqlDbType.Date),
-                new SqlParameter("@DataFim", SqlDbType.Date)
-            };
-            parms[0].Value = dataInicio;
-            parms[1].Value = dataFim;
+            db = dataBase;
+        }
 
-            SqlCommand cmd = TransactDbOps.ExecNonQueryCmd(null, CommandType.Text, INSERT, true, parms);
-            return Guid.Parse(cmd.Parameters["@id"].Value.ToString());
+
+        public void Adicionar(List<int> idsFuncionarios, Guid idLote)
+        {
+            var nome = "Identificadores";
+            DataTable table = new DataTable(nome);
+            table.Columns.Add(nome, typeof(long));
+            foreach (long id in idsFuncionarios.Select(s => (long)s))
+            {
+                table.Rows.Add(id);
+            }
+            table.SetTypeName("Identificadores");
+            using (var connection = new SqlConnection(db.ConnectionString))
+            {
+                connection.Open();
+                connection.Query($@"INSERT INTO LoteCalculoFuncionario(IdLote, IdFuncionario) 
+                                            SELECT f.Identificador, @IdLote
+                                            FROM @Identificadores f", new { Identificadores = table.AsTableValuedParameter() });
+                connection.Close();
+            }
         }
     }
 }
