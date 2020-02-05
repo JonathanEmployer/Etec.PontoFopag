@@ -187,6 +187,11 @@
     function filtraGrid(texto) {
         filtraTabelaPorTexto([texto], '#tbPerms');
     }
+
+    $("form").submit(function () {
+        $("#txtFiltro").val("");
+        filtraGrid("");
+    });
 </script>
 @if (ViewBag.Consultar == 1)
 {
