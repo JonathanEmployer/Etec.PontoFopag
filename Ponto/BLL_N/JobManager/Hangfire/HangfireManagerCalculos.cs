@@ -69,7 +69,7 @@ namespace BLL_N.JobManager.Hangfire
             var idLote = loteBLL.Salvar(dataInicial, dataFinal);
             loteFuncionarioBLL.Salvar(idsFuncionarios, idLote);
             //todo Verificar como obter o CS
-            MensagemCalculo msg = new MensagemCalculo {CS = "employer", IdLote = idLote};
+            MensagemCalculo msg = new MensagemCalculo {CS = dataBase, IdLote = idLote};
             
             var json = JsonConvert.SerializeObject(msg);
             _rabbit.SendMessage("Pontofopag_Calculo_Dados", json);
