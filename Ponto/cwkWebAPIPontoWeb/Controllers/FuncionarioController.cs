@@ -192,7 +192,9 @@ namespace cwkWebAPIPontoWeb.Controllers
                         {
                             acao = Acao.Alterar;
                         }
-                        Dictionary<string, string> erros = new Dictionary<string, string>();
+                        if (funcionario.CodTipoVinculo == 3)
+                            DadosAntFunc.Naoentrarbanco = 1;
+                        Dictionary<string, string> erros = new Dictionary<string, string>();  
                         DadosAntFunc.NaoRecalcular = true;
                         DadosAntFunc.ForcarNovoCodigo = true;
                         erros = bllFuncionario.Salvar(acao, DadosAntFunc);
