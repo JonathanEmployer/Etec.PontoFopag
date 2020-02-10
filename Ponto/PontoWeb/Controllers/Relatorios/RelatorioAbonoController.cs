@@ -63,29 +63,6 @@ namespace PontoWeb.Controllers.Relatorios
             return ModelState.JsonErrorResult();
         }
 
-        private ActionResult GeraRelAbono(pxyRelOcorrencias imp)
-        {
-            try
-            {
-                RelatoriosController rc = new RelatoriosController();
-                JobController jc = new JobController();
-
-                DataTable dt = new DataTable();
-                Job job = jc.GetRelatorioAbono(imp, dt, Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
-                return Json(new
-                {
-                    JobId = job.Id,
-                    Progress = job.Progress,
-                    Erro = "",
-                    AbrirNovaAba = true
-                });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { Success = false, Erro = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
         private void ValidarRelatorio(Modelo.Relatorios.RelatorioAbonoModel parms)
         {
             if (String.IsNullOrEmpty(parms.IdSelecionados))
