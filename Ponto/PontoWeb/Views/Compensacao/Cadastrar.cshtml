@@ -26,6 +26,8 @@
     @Html.HiddenFor(model => model.Altusuario);
     @Html.HiddenFor(model => model.Periodoinicial_Ant);
     @Html.HiddenFor(model => model.Periodofinal_Ant);
+    @Html.HiddenFor(model => model.Tipo_Ant);
+    @Html.HiddenFor(model => model.Identificacao_Ant);
 
     <div class="divCenterMedio">
         <div class="panel panel-default">
@@ -564,8 +566,8 @@
         };
 
     });
-     
-        
+
+
 </script>
 @if (ViewBag.Consultar == 1)
 {
