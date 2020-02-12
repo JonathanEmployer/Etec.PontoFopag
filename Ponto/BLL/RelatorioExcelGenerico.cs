@@ -567,7 +567,7 @@ namespace BLL
         }
         public static byte[] Relatorio_de_Abono_por_Funcionario_Data(DataTable dados)
         {
-            IWorkbook workbook = Factory.GetWorkbook();
+            IWorkbook workbook = Factory.GetWorkbook(new CultureInfo("pt-BR"));
             GeraRelatorio(workbook, dados);
 
             IWorksheet worksheet = workbook.Worksheets[0];

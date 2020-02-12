@@ -859,9 +859,11 @@ namespace BLL_N.JobManager.Hangfire.Job
             List<string> log = new List<string>();
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(userPF.ConnectionString, userPF);
             string dscodigoOrigem = bllFuncionario.GetDsCodigosByIDs(new List<int>() { transferenciaBilhetes.IdFuncionarioOrigem }).FirstOrDefault();
-            bllImportaBilhetes.ImportarBilhetes(dscodigoOrigem, false, transferenciaBilhetes.DataInicio, transferenciaBilhetes.DataFim, out DateTime? pdataiO, out DateTime? pdatafO, pb, log);
+            DateTime dtInicioTB = transferenciaBilhetes.DataInicio.GetValueOrDefault().AddDays(-1);
+            DateTime dtFimTB = transferenciaBilhetes.DataFim.GetValueOrDefault().AddDays(1);
+            bllImportaBilhetes.ImportarBilhetes(dscodigoOrigem, false, dtInicioTB, dtFimTB, out DateTime? pdataiO, out DateTime? pdatafO, pb, log);
             string dscodigoDestino = bllFuncionario.GetDsCodigosByIDs(new List<int>() { transferenciaBilhetes.IdFuncionarioDestino }).FirstOrDefault();
-            bllImportaBilhetes.ImportarBilhetes(dscodigoDestino, false, transferenciaBilhetes.DataInicio, transferenciaBilhetes.DataFim, out DateTime? pdataiD, out DateTime? pdatafD, pb, log);
+            bllImportaBilhetes.ImportarBilhetes(dscodigoDestino, false, dtInicioTB, dtFimTB, out DateTime? pdataiD, out DateTime? pdatafD, pb, log);
             List<DateTime?> dts = new List<DateTime?>() { pdataiO, pdatafO, pdataiD, pdatafD };
             if (dts.Where(d => d != null).Any())
             {
