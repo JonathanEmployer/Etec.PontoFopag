@@ -11,9 +11,9 @@ namespace BLL
         {
             loteCalculoDAL = new DAL.SQL.LoteCalculo(db);
         }
-        public Guid Salvar(DateTime dataInicio, DateTime dataFim)
+        public Guid Salvar(DateTime dataInicio, DateTime dataFim, string usuarioLogado)
         {
-            return loteCalculoDAL.Adicionar(dataInicio, dataFim);
+            return loteCalculoDAL.Adicionar(dataInicio, dataFim, usuarioLogado);
         }
     }
 }

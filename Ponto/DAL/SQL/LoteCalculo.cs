@@ -9,7 +9,7 @@ namespace DAL.SQL
     {
         protected DataBase db { get; set; }
 
-        private static string INSERT = @"INSERT INTO LoteCalculo(DataInicio, DataFim) OUTPUT Inserted.Id VALUES (@DataInicio, @DataFim)";
+        private static string INSERT = @"INSERT INTO LoteCalculo(DataInicio, DataFim, AltUsuario) OUTPUT Inserted.Id VALUES (@DataInicio, @DataFim, @UsuarioLogado)";
         public Modelo.Cw_Usuario UsuarioLogado { get; set; }
 
         public LoteCalculo(DataBase dataBase)
@@ -17,7 +17,7 @@ namespace DAL.SQL
             db = dataBase;
         }
 
-        public Guid Adicionar(DateTime dataInicio, DateTime dataFim)
+        public Guid Adicionar(DateTime dataInicio, DateTime dataFim, string usuarioLogado)
         {
             Guid id = Guid.Empty;
 
@@ -28,10 +28,12 @@ namespace DAL.SQL
                     SqlParameter[] parms = new SqlParameter[]
                     {
                         new SqlParameter("@DataInicio", SqlDbType.Date),
-                        new SqlParameter("@DataFim", SqlDbType.Date)
+                        new SqlParameter("@DataFim", SqlDbType.Date),
+                        new SqlParameter("@UsuarioLogado", SqlDbType.VarChar)
                     };
                     parms[0].Value = dataInicio;
                     parms[1].Value = dataFim;
+                    parms[2].Value = usuarioLogado;
 
                     SqlDataReader dr = TransactDbOps.ExecuteReader(trans, CommandType.Text, INSERT, parms);
                     if (dr.Read())

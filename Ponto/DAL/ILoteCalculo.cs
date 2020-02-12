@@ -6,6 +6,6 @@ namespace DAL
 {
     public interface ILoteCalculo
     {
-        Guid Adicionar(DateTime dataInicio, DateTime DataFim);
+        Guid Adicionar(DateTime dataInicio, DateTime DataFim, string usuarioLogado);
     }
 }
