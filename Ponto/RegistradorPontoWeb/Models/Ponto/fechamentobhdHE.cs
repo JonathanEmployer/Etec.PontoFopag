@@ -28,8 +28,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public string altusuario { get; set; }
         public Nullable<int> PercQuantHorasPerc1 { get; set; }
         public Nullable<int> PercQuantHorasPerc2 { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
     
         public virtual fechamentobh fechamentobh { get; set; }
         public virtual marcacao marcacao { get; set; }

@@ -127,7 +127,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public string SaldoBh_8 { get; set; }
         public string SaldoBh_9 { get; set; }
         public string LimiteBancoHorasSemanal { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
+        public short ContabilizarFaltas { get; set; }
+        public short ContAtrasosSaidasAntec { get; set; }
+        public short ContabilizarCreditos { get; set; }
     }
 }

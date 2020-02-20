@@ -24,8 +24,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<System.DateTime> altdata { get; set; }
         public Nullable<System.DateTime> althora { get; set; }
         public string altusuario { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
     
         public virtual contrato contrato { get; set; }
         public virtual cw_usuario cw_usuario { get; set; }
