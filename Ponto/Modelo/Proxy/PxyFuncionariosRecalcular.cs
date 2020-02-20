@@ -9,7 +9,7 @@ namespace Modelo.Proxy
     public class PxyFuncionariosRecalcular
     {
         public int IdFuncionario { get; set; }
-        public DateTime DataInicio { get; set; }
+        public DateTime? DataInicio { get; set; }
         public DateTime? DataFim { get; set; }
     }
 }
