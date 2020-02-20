@@ -46,19 +46,26 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual DbSet<contrato> contrato { get; set; }
         public virtual DbSet<contratofuncionario> contratofuncionario { get; set; }
         public virtual DbSet<contratousuario> contratousuario { get; set; }
+        public virtual DbSet<cw_acesso> cw_acesso { get; set; }
+        public virtual DbSet<cw_acessocampo> cw_acessocampo { get; set; }
         public virtual DbSet<cw_grupo> cw_grupo { get; set; }
+        public virtual DbSet<cw_grupoacesso> cw_grupoacesso { get; set; }
+        public virtual DbSet<cw_usuario> cw_usuario { get; set; }
         public virtual DbSet<cwkvsnsys> cwkvsnsys { get; set; }
         public virtual DbSet<departamento> departamento { get; set; }
         public virtual DbSet<diascompensacao> diascompensacao { get; set; }
         public virtual DbSet<diasjornadaalternativa> diasjornadaalternativa { get; set; }
         public virtual DbSet<empresa> empresa { get; set; }
         public virtual DbSet<empresacwusuario> empresacwusuario { get; set; }
+        public virtual DbSet<empresafuncionarios> empresafuncionarios { get; set; }
         public virtual DbSet<EmpresaLogo> EmpresaLogo { get; set; }
+        public virtual DbSet<EmpresaTermoUso> EmpresaTermoUso { get; set; }
         public virtual DbSet<envioconfiguracoesdatahora> envioconfiguracoesdatahora { get; set; }
         public virtual DbSet<EnvioDadosRep> EnvioDadosRep { get; set; }
         public virtual DbSet<EnvioDadosRepDet> EnvioDadosRepDet { get; set; }
         public virtual DbSet<equipamento> equipamento { get; set; }
         public virtual DbSet<equipamentohomologado> equipamentohomologado { get; set; }
+        public virtual DbSet<EquipamentoTipoBiometria> EquipamentoTipoBiometria { get; set; }
         public virtual DbSet<eventos> eventos { get; set; }
         public virtual DbSet<EventosClassHorasExtras> EventosClassHorasExtras { get; set; }
         public virtual DbSet<exportacaocampos> exportacaocampos { get; set; }
@@ -71,9 +78,23 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual DbSet<feriado> feriado { get; set; }
         public virtual DbSet<FeriadoFuncionario> FeriadoFuncionario { get; set; }
         public virtual DbSet<funcao> funcao { get; set; }
+        public virtual DbSet<funcionario> funcionario { get; set; }
+        public virtual DbSet<FuncionarioAzureCognitiveService> FuncionarioAzureCognitiveService { get; set; }
+        public virtual DbSet<funcionariohistorico> funcionariohistorico { get; set; }
+        public virtual DbSet<FuncionarioRFID> FuncionarioRFID { get; set; }
         public virtual DbSet<horario> horario { get; set; }
+        public virtual DbSet<horariodetalhe> horariodetalhe { get; set; }
+        public virtual DbSet<HorarioDinamico> HorarioDinamico { get; set; }
+        public virtual DbSet<HorarioDinamicoCiclo> HorarioDinamicoCiclo { get; set; }
+        public virtual DbSet<HorarioDinamicoCicloSequencia> HorarioDinamicoCicloSequencia { get; set; }
+        public virtual DbSet<HorarioDinamicoLimiteDdsr> HorarioDinamicoLimiteDdsr { get; set; }
+        public virtual DbSet<HorarioDinamicoPHExtra> HorarioDinamicoPHExtra { get; set; }
+        public virtual DbSet<HorarioDinamicoRestricao> HorarioDinamicoRestricao { get; set; }
         public virtual DbSet<HorarioInItinere> HorarioInItinere { get; set; }
         public virtual DbSet<horariophextra> horariophextra { get; set; }
+        public virtual DbSet<HorarioRestricao> HorarioRestricao { get; set; }
+        public virtual DbSet<IdentificacaoReconhecimentoFacil> IdentificacaoReconhecimentoFacil { get; set; }
+        public virtual DbSet<Importacaoautomatica> Importacaoautomatica { get; set; }
         public virtual DbSet<importalayouttexto> importalayouttexto { get; set; }
         public virtual DbSet<inclusaobanco> inclusaobanco { get; set; }
         public virtual DbSet<inconsistencia> inconsistencia { get; set; }
@@ -81,6 +102,7 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual DbSet<jornada> jornada { get; set; }
         public virtual DbSet<jornadaalternativa> jornadaalternativa { get; set; }
         public virtual DbSet<justificativa> justificativa { get; set; }
+        public virtual DbSet<JustificativaRestricao> JustificativaRestricao { get; set; }
         public virtual DbSet<LancamentoLote> LancamentoLote { get; set; }
         public virtual DbSet<LancamentoLoteAfastamento> LancamentoLoteAfastamento { get; set; }
         public virtual DbSet<LancamentoLoteBilhetesImp> LancamentoLoteBilhetesImp { get; set; }
@@ -93,44 +115,35 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual DbSet<LocalizacaoRegistroPonto> LocalizacaoRegistroPonto { get; set; }
         public virtual DbSet<LogErroPainelAPI> LogErroPainelAPI { get; set; }
         public virtual DbSet<LogImportacaoWebApi> LogImportacaoWebApi { get; set; }
+        public virtual DbSet<marcacao> marcacao { get; set; }
         public virtual DbSet<marcacaoacesso> marcacaoacesso { get; set; }
         public virtual DbSet<mudancahorario> mudancahorario { get; set; }
         public virtual DbSet<mudcodigofunc> mudcodigofunc { get; set; }
         public virtual DbSet<ocorrencia> ocorrencia { get; set; }
         public virtual DbSet<ocorrenciaempresa> ocorrenciaempresa { get; set; }
+        public virtual DbSet<OcorrenciaRestricao> OcorrenciaRestricao { get; set; }
         public virtual DbSet<ParametroPainelRH> ParametroPainelRH { get; set; }
         public virtual DbSet<parametros> parametros { get; set; }
         public virtual DbSet<Pessoa> Pessoa { get; set; }
         public virtual DbSet<provisorio> provisorio { get; set; }
         public virtual DbSet<RegistroPonto> RegistroPonto { get; set; }
-        public virtual DbSet<RepLog> RepLog { get; set; }
-        public virtual DbSet<Revendas> Revendas { get; set; }
-        public virtual DbSet<TAB_Configuracao_CDC_Tabela> TAB_Configuracao_CDC_Tabela { get; set; }
-        public virtual DbSet<TAB_Tipo_Configuracao_CDC_Tabela> TAB_Tipo_Configuracao_CDC_Tabela { get; set; }
-        public virtual DbSet<TipoVinculo> TipoVinculo { get; set; }
-        public virtual DbSet<AlertasDisponiveis> AlertasDisponiveis { get; set; }
-        public virtual DbSet<TabelasPontoCDC> TabelasPontoCDC { get; set; }
-        public virtual DbSet<FuncionarioRFID> FuncionarioRFID { get; set; }
-        public virtual DbSet<HorarioDinamico> HorarioDinamico { get; set; }
-        public virtual DbSet<HorarioDinamicoCiclo> HorarioDinamicoCiclo { get; set; }
-        public virtual DbSet<HorarioDinamicoCicloSequencia> HorarioDinamicoCicloSequencia { get; set; }
-        public virtual DbSet<HorarioDinamicoLimiteDdsr> HorarioDinamicoLimiteDdsr { get; set; }
-        public virtual DbSet<HorarioDinamicoPHExtra> HorarioDinamicoPHExtra { get; set; }
-        public virtual DbSet<TipoBiometria> TipoBiometria { get; set; }
-        public virtual DbSet<AFD> AFD { get; set; }
-        public virtual DbSet<EquipamentoTipoBiometria> EquipamentoTipoBiometria { get; set; }
-        public virtual DbSet<Importacaoautomatica> Importacaoautomatica { get; set; }
+        public virtual DbSet<RegistroPontoTentativa> RegistroPontoTentativa { get; set; }
         public virtual DbSet<rep> rep { get; set; }
         public virtual DbSet<RepHistoricoLocal> RepHistoricoLocal { get; set; }
+        public virtual DbSet<RepLog> RepLog { get; set; }
+        public virtual DbSet<Revendas> Revendas { get; set; }
         public virtual DbSet<tipobilhetes> tipobilhetes { get; set; }
-        public virtual DbSet<marcacao> marcacao { get; set; }
-        public virtual DbSet<cw_acesso> cw_acesso { get; set; }
-        public virtual DbSet<cw_acessocampo> cw_acessocampo { get; set; }
-        public virtual DbSet<cw_grupoacesso> cw_grupoacesso { get; set; }
-        public virtual DbSet<cw_usuario> cw_usuario { get; set; }
-        public virtual DbSet<horariodetalhe> horariodetalhe { get; set; }
-        public virtual DbSet<funcionario> funcionario { get; set; }
-        public virtual DbSet<funcionariohistorico> funcionariohistorico { get; set; }
+        public virtual DbSet<TipoBiometria> TipoBiometria { get; set; }
+        public virtual DbSet<TipoVinculo> TipoVinculo { get; set; }
+        public virtual DbSet<TransferenciaBilhetes> TransferenciaBilhetes { get; set; }
+        public virtual DbSet<TransferenciaBilhetesDetalhes> TransferenciaBilhetesDetalhes { get; set; }
+        public virtual DbSet<AFD> AFD { get; set; }
+        public virtual DbSet<AlertasDisponiveis> AlertasDisponiveis { get; set; }
+        public virtual DbSet<contratoHistory> contratoHistory { get; set; }
+        public virtual DbSet<eventosHistory> eventosHistory { get; set; }
+        public virtual DbSet<HorarioDinamicoHistory> HorarioDinamicoHistory { get; set; }
+        public virtual DbSet<horarioHistory> horarioHistory { get; set; }
+        public virtual DbSet<IPHistory> IPHistory { get; set; }
     
         [DbFunction("PontofopagEntities", "F_BancoHoras")]
         public virtual IQueryable<F_BancoHoras_Result> F_BancoHoras(Nullable<System.DateTime> data, Nullable<int> idFuncionario)

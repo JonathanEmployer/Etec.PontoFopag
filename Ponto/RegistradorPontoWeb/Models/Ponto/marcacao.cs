@@ -71,32 +71,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<short> folga { get; set; }
         public string chave { get; set; }
         public Nullable<short> tipohoraextrafalta { get; set; }
-        public byte[] campo01 { get; set; }
-        public byte[] campo02 { get; set; }
-        public byte[] campo03 { get; set; }
-        public byte[] campo04 { get; set; }
-        public byte[] campo05 { get; set; }
-        public byte[] campo06 { get; set; }
-        public byte[] campo07 { get; set; }
-        public byte[] campo08 { get; set; }
-        public byte[] campo09 { get; set; }
-        public byte[] campo10 { get; set; }
-        public byte[] campo11 { get; set; }
-        public byte[] campo12 { get; set; }
-        public byte[] campo13 { get; set; }
-        public byte[] campo14 { get; set; }
-        public byte[] campo15 { get; set; }
-        public byte[] campo16 { get; set; }
-        public byte[] campo17 { get; set; }
-        public byte[] campo18 { get; set; }
-        public byte[] campo19 { get; set; }
-        public byte[] campo20 { get; set; }
-        public byte[] campo21 { get; set; }
-        public byte[] campo22 { get; set; }
-        public byte[] campo23 { get; set; }
-        public byte[] campo24 { get; set; }
-        public byte[] campo25 { get; set; }
-        public byte[] campo26 { get; set; }
         public Nullable<short> neutro { get; set; }
         public string totalHorasTrabalhadas { get; set; }
         public Nullable<int> idFechamentoPonto { get; set; }
@@ -120,8 +94,35 @@ namespace RegistradorPontoWeb.Models.Ponto
         public string horasPrevistasDentroFeriadoDiurna { get; set; }
         public string horasPrevistasDentroFeriadoNoturna { get; set; }
         public short naoconsiderarferiado { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
+        public string entrada_1 { get; set; }
+        public string entrada_2 { get; set; }
+        public string entrada_3 { get; set; }
+        public string entrada_4 { get; set; }
+        public string entrada_5 { get; set; }
+        public string entrada_6 { get; set; }
+        public string entrada_7 { get; set; }
+        public string entrada_8 { get; set; }
+        public string saida_1 { get; set; }
+        public string saida_2 { get; set; }
+        public string saida_3 { get; set; }
+        public string saida_4 { get; set; }
+        public string saida_5 { get; set; }
+        public string saida_6 { get; set; }
+        public string saida_7 { get; set; }
+        public string saida_8 { get; set; }
+        public string horastrabalhadas { get; set; }
+        public string horasextrasdiurna { get; set; }
+        public string horasfaltas { get; set; }
+        public string horastrabalhadasnoturnas { get; set; }
+        public string horasextranoturna { get; set; }
+        public string horasfaltanoturna { get; set; }
+        public string bancohorascre { get; set; }
+        public string bancohorasdeb { get; set; }
+        public string valordsr { get; set; }
+        public string exphorasextranoturna { get; set; }
+        public short ContabilizarFaltas { get; set; }
+        public short ContAtrasosSaidasAntec { get; set; }
+        public short ContabilizarCreditos { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClassificacaoHorasExtras> ClassificacaoHorasExtras { get; set; }
@@ -129,7 +130,7 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual fechamentobh fechamentobh { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<fechamentobhdHE> fechamentobhdHE { get; set; }
-        public virtual horario horario { get; set; }
         public virtual funcionario funcionario { get; set; }
+        public virtual horario horario { get; set; }
     }
 }

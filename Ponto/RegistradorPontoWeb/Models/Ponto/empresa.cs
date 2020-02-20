@@ -20,15 +20,20 @@ namespace RegistradorPontoWeb.Models.Ponto
             this.afastamento = new HashSet<afastamento>();
             this.contrato = new HashSet<contrato>();
             this.departamento = new HashSet<departamento>();
+            this.EmpresaTermoUso = new HashSet<EmpresaTermoUso>();
+            this.HorarioDinamicoRestricao = new HashSet<HorarioDinamicoRestricao>();
+            this.HorarioRestricao = new HashSet<HorarioRestricao>();
+            this.JustificativaRestricao = new HashSet<JustificativaRestricao>();
+            this.OcorrenciaRestricao = new HashSet<OcorrenciaRestricao>();
             this.empresacwusuario = new HashSet<empresacwusuario>();
             this.EnvioDadosRepDet = new HashSet<EnvioDadosRepDet>();
             this.feriado = new HashSet<feriado>();
+            this.funcionario = new HashSet<funcionario>();
             this.IP = new HashSet<IP>();
             this.EmpresaLogo = new HashSet<EmpresaLogo>();
             this.mudcodigofunc = new HashSet<mudcodigofunc>();
             this.ocorrenciaempresa = new HashSet<ocorrenciaempresa>();
             this.rep = new HashSet<rep>();
-            this.funcionario = new HashSet<funcionario>();
         }
     
         public int id { get; set; }
@@ -76,8 +81,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<int> TipoHorarioPadraoFunc { get; set; }
         public bool PermiteAbonoParcialPainel { get; set; }
         public Nullable<bool> LimitarQtdAbono { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
+        public bool bloqueioEdicaoEmp { get; set; }
+        public bool Ativo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<afastamento> afastamento { get; set; }
@@ -85,6 +90,16 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual ICollection<contrato> contrato { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<departamento> departamento { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmpresaTermoUso> EmpresaTermoUso { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HorarioDinamicoRestricao> HorarioDinamicoRestricao { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HorarioRestricao> HorarioRestricao { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<JustificativaRestricao> JustificativaRestricao { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OcorrenciaRestricao> OcorrenciaRestricao { get; set; }
         public virtual Revendas Revendas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<empresacwusuario> empresacwusuario { get; set; }
@@ -92,6 +107,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual ICollection<EnvioDadosRepDet> EnvioDadosRepDet { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<feriado> feriado { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<funcionario> funcionario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IP> IP { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -102,7 +119,5 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual ICollection<ocorrenciaempresa> ocorrenciaempresa { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<rep> rep { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<funcionario> funcionario { get; set; }
     }
 }

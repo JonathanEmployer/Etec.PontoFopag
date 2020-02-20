@@ -17,6 +17,7 @@ namespace RegistradorPontoWeb.Models.Ponto
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public bilhetesimp()
         {
+            this.TransferenciaBilhetesDetalhes = new HashSet<TransferenciaBilhetesDetalhes>();
             this.LocalizacaoRegistroPonto = new HashSet<LocalizacaoRegistroPonto>();
         }
     
@@ -50,11 +51,11 @@ namespace RegistradorPontoWeb.Models.Ponto
         public string PIS { get; set; }
         public Nullable<System.DateTime> Mar_DataHora { get; set; }
         public Nullable<int> IdRegistroPonto { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
     
         public virtual LancamentoLoteFuncionario LancamentoLoteFuncionario { get; set; }
         public virtual RegistroPonto RegistroPonto { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TransferenciaBilhetesDetalhes> TransferenciaBilhetesDetalhes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LocalizacaoRegistroPonto> LocalizacaoRegistroPonto { get; set; }
     }

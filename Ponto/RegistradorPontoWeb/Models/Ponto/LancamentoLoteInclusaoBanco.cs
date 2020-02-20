@@ -26,8 +26,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<int> tipoCreditoDebito { get; set; }
         public string credito { get; set; }
         public string debito { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
     
         public virtual LancamentoLote LancamentoLote { get; set; }
     }
