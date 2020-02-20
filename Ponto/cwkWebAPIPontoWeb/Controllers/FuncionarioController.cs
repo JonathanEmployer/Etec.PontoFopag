@@ -31,7 +31,6 @@ namespace cwkWebAPIPontoWeb.Controllers
             RetornoErro retErro = new RetornoErro();
             Usuario usu = new Usuario();
             funcionario.CPF = Utils.MetodosAuxiliares.FormatarCPF(funcionario.CPF);
-
             if (ModelState.IsValid)
             {
                 try
@@ -40,13 +39,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                     string connectionStr = MetodosAuxiliares.Conexao();
                     Modelo.Empresa emp;
                     int? IdDep, IdFuncao, idHorario;
-
-                    BLL.Contrato bllContrato = new BLL.Contrato(connectionStr);
-                    int contid = bllContrato.GetIdPorIdIntegracao(funcionario.IdintegracaoContrato.GetValueOrDefault()).GetValueOrDefault();
-                    Modelo.Contrato cont = bllContrato.LoadObject(contid);
-
-                    
-                    erro = ValidaDados(funcionario, retErro, connectionStr, out emp, out IdDep, out IdFuncao, funcionario.DescricaoFuncao, cont);
+                    erro = ValidaDados(funcionario, retErro, connectionStr, out emp, out IdDep, out IdFuncao, funcionario.DescricaoFuncao);
 
                     if (!erro)
                     {
@@ -55,7 +48,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                         BLL.TipoVinculo bllTipoVinculo = new BLL.TipoVinculo(connectionStr);
                         BLL.Parametros bllParametros = new BLL.Parametros(connectionStr);
                         BLL.Departamento bllDepartamento = new BLL.Departamento(connectionStr);
-                        
+                        BLL.Contrato bllContrato = new BLL.Contrato(connectionStr);
                         BLL.Empresa bllEmpresa = new BLL.Empresa(connectionStr);
                         Modelo.Parametros parametro = bllParametros.LoadPrimeiro();
 
@@ -160,6 +153,8 @@ namespace cwkWebAPIPontoWeb.Controllers
                             BLL.Horario bllHorario = new BLL.Horario(connectionStr);
                             idHorario = bllHorario.MinIdHorarioNormal();
                             Modelo.Departamento dep = bllDepartamento.LoadObject(DadosAntFunc.Iddepartamento);
+                            int contid = bllContrato.GetIdPorIdIntegracao(funcionario.IdintegracaoContrato.GetValueOrDefault()).GetValueOrDefault();
+                            Modelo.Contrato cont = bllContrato.LoadObject(contid);
                             Modelo.Empresa empr = bllEmpresa.LoadObject(DadosAntFunc.Idempresa);
 
                             //Lógica para vincular o Horário padrão ao funcionário
@@ -298,15 +293,9 @@ namespace cwkWebAPIPontoWeb.Controllers
             return TrataErroModelState(retErro);
         }
 
-        private bool ValidaDados(LModel.Funcionario funcionario, RetornoErro retErro, string connectionStr, out Modelo.Empresa emp, out int? IdDep, out int? idFunc, string descricaoFuncao, Contrato cont)
+        private bool ValidaDados(LModel.Funcionario funcionario, RetornoErro retErro, string connectionStr, out Modelo.Empresa emp, out int? IdDep, out int? idFunc, string descricaoFuncao)
         {
             bool erro = false;
-            if (funcionario.IdintegracaoContrato.GetValueOrDefault() > 0 && cont.Id == 0)
-            {
-                ModelState.AddModelError("IdintegracaoContrato", "Contrato não encontrado no Pontofopag");
-                erro = true;
-            }
-
             BLL.Empresa empBLL = new BLL.Empresa(connectionStr);
             emp = new Modelo.Empresa();
             emp = empBLL.LoadObjectByDocumento(funcionario.DocumentoEmpresa);
