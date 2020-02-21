@@ -186,12 +186,14 @@ namespace cwkWebAPIPontoWeb.Controllers
                             {
                                 Modelo.Horario ObjHorario = bllHorario.LoadObject(DadosAntFunc.Idhorario);
                                 DadosAntFunc.Tipohorario = Convert.ToInt16(ObjHorario.TipoHorario);
-                            }                            
+                            }
                         }
                         else
                         {
                             acao = Acao.Alterar;
                         }
+                        if (funcionario.CodTipoVinculo == 3)
+                            DadosAntFunc.Naoentrarbanco = 1;
                         Dictionary<string, string> erros = new Dictionary<string, string>();  
                         DadosAntFunc.NaoRecalcular = true;
                         DadosAntFunc.ForcarNovoCodigo = true;
@@ -260,10 +262,11 @@ namespace cwkWebAPIPontoWeb.Controllers
                 {
                     int? idfuncionario = bllFuncionario.GetIdporIdIntegracao(IdIntegracao);
                     int idContratoAnt = bllContratoFun.getContratoId((idfuncionario).GetValueOrDefault());
-                    Modelo.Contrato objContr= bllContrato.LoadObject(idContratoAnt);
+                    Modelo.Contrato objContr = bllContrato.LoadObject(idContratoAnt);
                     int idIntegracaoContrato = objContr.idIntegracao.GetValueOrDefault();
                     Modelo.Funcionario funcionario = bllFuncionario.LoadObject(idfuncionario.GetValueOrDefault());
-
+                    if (!funcionario.DataInativacao.HasValue)
+                        funcionario.DataInativacao = DateTime.Now;
                     if (funcionario.Id > 0 && funcionario.Id != null)
                     {
                         Dictionary<string, string> erros = new Dictionary<string, string>();
@@ -571,5 +574,5 @@ namespace cwkWebAPIPontoWeb.Controllers
 
         public string NomeEmpresa { get; set; }
 
-    }   
+    }
 }
