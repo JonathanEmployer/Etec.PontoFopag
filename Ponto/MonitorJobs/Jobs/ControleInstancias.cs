@@ -2,6 +2,8 @@
 using Quartz;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 
 namespace MonitorJobs.Jobs
@@ -12,7 +14,8 @@ namespace MonitorJobs.Jobs
 
         public void Execute(IJobExecutionContext context)
         {
-            #if !DEBUG
+            AgendarDeleteArquivosAntigos();
+#if !DEBUG
                 IList<Models.Bases> lbases = Negocio.Bases.GetBasesPontofopagAtivas();
 
                 log.Debug("Bases para manitorar = " + String.Join("; ", lbases.Select(s => s.Nome)));
@@ -24,18 +27,18 @@ namespace MonitorJobs.Jobs
                     log.Debug(item.Nome + ": Agendando");
                     AgendarProcessamentoLote(scheduler, item.Nome);
 
-                #region Agenda processos recorrentes para o Hangfire
+            #region Agenda processos recorrentes para o Hangfire
                     AgendarGeracaoMarcacao(interacao, item);
                     interacao++;
-                #endregion
+            #endregion
 
                     AgendarImportacaoRegistrosColetor(item);
 
-                #region Processo em teste
+            #region Processo em teste
                     AgendarEnvioRegistros(item);
-                #endregion
+            #endregion
                 }
-            #endif
+#endif
         }
 
         private static void AgendarGeracaoMarcacao(int interacao, Models.Bases item)
@@ -114,6 +117,36 @@ namespace MonitorJobs.Jobs
             {
                 log.Debug(cs + ": Não é necessário agendar o job com a jobkey = " + jobKey.Group + "-" + jobKey.Name + "; Key já exite");
             }
+        }
+
+        public static void AgendarDeleteArquivosAntigos()
+        {
+            DateTime database = Convert.ToDateTime("2019-09-18 01:00:00").ToUniversalTime();
+            int hora = database.Hour;
+            int minuto = database.Minute;
+            RecurringJob.AddOrUpdate("ExcluirArquivosAntigosServer", () => DeleteArquivosAntigos(), string.Format("{0} {1} * * *", minuto, hora), queue: "normal");
+        }
+
+        public static List<FileInfo> DeleteArquivosAntigos()
+        {
+            string caminhoArquivos = ConfigurationManager.AppSettings["ArquivosPontofopag"];
+            List<FileInfo> arqs = (from f in new DirectoryInfo(caminhoArquivos).GetFiles("*", SearchOption.AllDirectories)
+                                   where f.CreationTime < DateTime.Now.AddMonths(-1) ||
+                                           f.LastWriteTime < DateTime.Now.AddMonths(-1)
+                                   select f).ToList();
+            List<FileInfo> arqsNaoDeletados = new List<FileInfo>();
+            foreach (var item in arqs)
+            {
+                try
+                {
+                    item.Delete();
+                }
+                catch (Exception)
+                {
+                    arqsNaoDeletados.Add(item);
+                }
+            }
+            return arqsNaoDeletados;
         }
     }
 }
