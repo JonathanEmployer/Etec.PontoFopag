@@ -889,23 +889,25 @@ namespace BLL
         /// realiza uma validação antes se a mensagem pode ser apenas de uso tratamento da aplicação, e caso seja, não loga a mensagem como erro.
         /// </summary>
         /// <param name="ex"></param>
-        public static void LogarErro(Exception ex)
+        public static Guid LogarErro(Exception ex)
         {
             try
             {
                 bool logarMensagens =
                 !string.IsNullOrWhiteSpace(ex.Message) && MensagemLogalizada(ex.Message) ? false : true;
 
-                if (!(ex.Source.ToString() == "Hangfire.Core" && ex.Message.Contains("A operação foi cancelada")))
+                if (logarMensagens && (ex.Source.ToString() == "Hangfire.Core" && ex.Message.Contains("A operação foi cancelada")))
                 {
                     logarMensagens = false;
                 }
                 if (logarMensagens)
-                    Employer.PlataformaLog.LogError.WriteLog(ex);
+                    return Employer.PlataformaLog.LogError.WriteLog(ex);
+                else
+                    return new Guid();
             }
             catch
             {
-                Employer.PlataformaLog.LogError.WriteLog(ex);
+                return Employer.PlataformaLog.LogError.WriteLog(ex);
             }
         }
 
