@@ -97,12 +97,15 @@ namespace DAL.SQL
                     }
 
                     IncluirLancamentoLoteAfastamento(trans, obj);
-
-                    //Exclui os lançamentos que não foram efetivados anteriormente.
-                    IList<Modelo.LancamentoLoteFuncionario> excluiNaoIncluidos = ((Modelo.LancamentoLote)obj).LancamentoLoteFuncionarios.Where(x => x.Acao == Modelo.Acao.Excluir && (x.UltimaAcao == (int)Modelo.Acao.Incluir && x.Efetivado == false)).ToList();
-                    dalLancamentoLoteFuncionario.ExcluirLoteIds(trans, excluiNaoIncluidos.Select(x => x.Id).ToList());
-                    //Retiro os que já foram excluídos e não tinham sido efetivados
-                    ((Modelo.LancamentoLote)obj).LancamentoLoteFuncionarios = ((Modelo.LancamentoLote)obj).LancamentoLoteFuncionarios.Where(x => !excluiNaoIncluidos.Contains(x)).ToList();
+                    // Para os lançamentos em lote de mudanca de horário e exclusões não é necessária essa exclusão, a exclusão que vai acontecer adiante é suficiente.
+                    if (((Modelo.LancamentoLote)obj).TipoLancamento != (int)Modelo.TipoLancamento.MudancaHorario)
+                    {
+                        //Exclui os lançamentos que não foram efetivados anteriormente.
+                        IList<Modelo.LancamentoLoteFuncionario> excluiNaoIncluidos = ((Modelo.LancamentoLote)obj).LancamentoLoteFuncionarios.Where(x => x.Acao == Modelo.Acao.Excluir && (x.UltimaAcao == (int)Modelo.Acao.Incluir && x.Efetivado == false)).ToList();
+                        dalLancamentoLoteFuncionario.ExcluirLoteIds(trans, excluiNaoIncluidos.Select(x => x.Id).ToList());
+                        //Retiro os que já foram excluídos e não tinham sido efetivados
+                        ((Modelo.LancamentoLote)obj).LancamentoLoteFuncionarios = ((Modelo.LancamentoLote)obj).LancamentoLoteFuncionarios.Where(x => !excluiNaoIncluidos.Contains(x)).ToList(); 
+                    }
 
                     //Valido os lançamentos que sobraram
                     ValidaLancamentos(trans, obj, dalLancamentoLoteFuncionario);
