@@ -6,6 +6,8 @@ using System;
 using System.Web.Mvc;
 using PontoWeb.Models.Helpers;
 using BLL_N.JobManager.Hangfire;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PontoWeb.Controllers
 {
@@ -29,7 +31,7 @@ namespace PontoWeb.Controllers
                     UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
                     HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW.DataBase);
                     string parametrosExibicao = obj.ParametroTipo + ", Período " + obj.DataInicial.GetValueOrDefault().ToShortDateString() + " a " + obj.DataFinal.GetValueOrDefault().ToShortDateString();
-                    Modelo.Proxy.PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de Marcações", parametrosExibicao, obj.Tipo, obj.Identificacao, obj.DataInicial.GetValueOrDefault(), obj.DataFinal.GetValueOrDefault());
+                    Modelo.Proxy.PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de Marcações", parametrosExibicao, obj.Tipo, obj.Identificadores, obj.DataInicial.GetValueOrDefault(), obj.DataFinal.GetValueOrDefault());
                     return new JsonResult
                     {
                         Data = new
@@ -38,7 +40,6 @@ namespace PontoWeb.Controllers
                             job = ret
                         }
                     };
-                    //return Json(ret, JsonRequestBehavior.DenyGet);
                 }
                 else
                 {
@@ -76,7 +77,7 @@ namespace PontoWeb.Controllers
                         }
                         if (e != null && e.Id > 0)
                         {
-                            objeto.Identificacao = e.Id;
+                            objeto.Identificadores = new List<int>() { e.Id };
                         }
                         else
                         {
@@ -101,7 +102,7 @@ namespace PontoWeb.Controllers
                         }
                         if (d != null && d.Id > 0)
                         {
-                            objeto.Identificacao = d.Id;
+                            objeto.Identificadores = new List<int>() { d.Id };
                         }
                         else
                         {
@@ -126,7 +127,7 @@ namespace PontoWeb.Controllers
                         }
                         if (d != null && d.Id > 0)
                         {
-                            objeto.Identificacao = d.Id;
+                            objeto.Identificadores = new List<int>() { d.Id };
                         }
                         else
                         {
@@ -135,24 +136,13 @@ namespace PontoWeb.Controllers
                     }
                     break;
                 case 2:
-                    if (String.IsNullOrEmpty(objeto.Funcionario))
+                    if (String.IsNullOrEmpty(objeto.IdsFuncionariosSelecionados))
                     {
-                        ModelState["Funcionario"].Errors.Add("Selecione um funcionário.");
+                        ModelState["IdsFuncionariosSelecionados"].Errors.Add("Selecione um funcionário.");
                     }
                     else
                     {
-                        BLL.Funcionario bllFuncionario = new BLL.Funcionario(conn, usr);
-                        int idFuncionario = 0;
-                        string func = objeto.Funcionario.Split('|')[0].Trim();
-                        idFuncionario = bllFuncionario.GetIdDsCodigo(func);
-                        if (idFuncionario > 0)
-                        {
-                            objeto.Identificacao = idFuncionario;
-                        }
-                        else
-                        {
-                            ModelState["Funcionario"].Errors.Add("Funcionário " + func + " não cadastrado!");
-                        }
+                        objeto.Identificadores = objeto.IdsFuncionariosSelecionados.Split(',').Select(s => Convert.ToInt32(s)).ToList();
                     }
                     break;
                 default:

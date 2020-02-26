@@ -18,12 +18,10 @@ namespace PontoWeb.Models
         public string Departamento { get; set; }
         [Display(Name = "Função")]
         public string Funcao { get; set; }
-        [Display(Name = "Funcionário")]
-        public string Funcionario { get; set; }
-        [Required(ErrorMessage = "Campo Obrigatório")]
-        [Display(Name = "Identificação")]
-        public int Identificacao { get; set; }
+        public string IdsFuncionariosSelecionados { get; set; }
+        public string IdsFuncionariosSelecionados_Ant { get; set; }
         public int Tipo { get; set; }
+        public List<int> Identificadores { get; set; }
         public string ParametroTipo { get {
                 switch (Tipo)
                 {
@@ -34,7 +32,7 @@ namespace PontoWeb.Models
                     case 3:
                         return "Função - "+Funcao;
                     case 2:
-                        return "Funcionário - "+Funcionario;
+                        return Identificadores.Count() + " Funcionário(s)";
                     default:
                         return "";
                 }
