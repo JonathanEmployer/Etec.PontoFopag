@@ -17,14 +17,15 @@ namespace RegistradorPontoWeb.Models.Ponto
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public horario()
         {
+            this.funcionario = new HashSet<funcionario>();
+            this.HorarioRestricao = new HashSet<HorarioRestricao>();
+            this.horariodetalhe = new HashSet<horariodetalhe>();
             this.HorarioInItinere = new HashSet<HorarioInItinere>();
             this.horariophextra = new HashSet<horariophextra>();
             this.limiteddsr = new HashSet<limiteddsr>();
+            this.marcacao = new HashSet<marcacao>();
             this.mudancahorario = new HashSet<mudancahorario>();
             this.mudcodigofunc = new HashSet<mudcodigofunc>();
-            this.marcacao = new HashSet<marcacao>();
-            this.horariodetalhe = new HashSet<horariodetalhe>();
-            this.funcionario = new HashSet<funcionario>();
         }
     
         public int id { get; set; }
@@ -126,11 +127,16 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<int> idHorarioDinamico { get; set; }
         public Nullable<int> CicloSequenciaIndice { get; set; }
         public Nullable<System.DateTime> DataBaseCicloSequencia { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
     
         public virtual Classificacao Classificacao { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<funcionario> funcionario { get; set; }
+        public virtual HorarioDinamico HorarioDinamico { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HorarioRestricao> HorarioRestricao { get; set; }
         public virtual parametros parametros { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<horariodetalhe> horariodetalhe { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HorarioInItinere> HorarioInItinere { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -138,15 +144,10 @@ namespace RegistradorPontoWeb.Models.Ponto
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<limiteddsr> limiteddsr { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<marcacao> marcacao { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<mudancahorario> mudancahorario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<mudcodigofunc> mudcodigofunc { get; set; }
-        public virtual HorarioDinamico HorarioDinamico { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<marcacao> marcacao { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<horariodetalhe> horariodetalhe { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<funcionario> funcionario { get; set; }
     }
 }

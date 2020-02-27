@@ -38,8 +38,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<int> tiposaldo { get; set; }
         public Nullable<System.DateTime> datafechamento { get; set; }
         public string MotivoFechamento { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
     
         public virtual fechamentobh fechamentobh { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -190,13 +190,21 @@ namespace RegistradorPontoWeb.Controllers.BLL
                             (!string.IsNullOrEmpty(registro.IpInterno) && IPAddress.TryParse(registro.IpInterno, out ipInternoValido)))
                         {
                             List<IPAddress> IPsValidosEmpresa = new List<IPAddress>();
+                            List<string> hostsInvalidos = new List<string>();
                             foreach (ModeloPonto.IP ip in IPs)
                             {
                                 if (ip.tipo == 1)
                                 {
-                                    foreach (IPAddress ipDNS in Dns.GetHostAddresses(ip.IPDNS))
+                                    try
                                     {
-                                        IPsValidosEmpresa.Add(ipDNS);
+                                        foreach (IPAddress ipDNS in Dns.GetHostAddresses(ip.IPDNS))
+                                        {
+                                            IPsValidosEmpresa.Add(ipDNS);
+                                        }
+                                    }
+                                    catch (Exception)
+                                    {
+                                        hostsInvalidos.Add(ip.IPDNS);
                                     }
                                 }
                                 else
@@ -209,12 +217,17 @@ namespace RegistradorPontoWeb.Controllers.BLL
                             }
                             if (IPsValidosEmpresa.Where(s => s.ToString() == registro.IpPublico).Count() <= 0 && IPsValidosEmpresa.Where(s => s.ToString() == registro.IpInterno).Count() <= 0)
                             {
-                                erros.ErrosDetalhados.Add(new ErroDetalhe() { campo = "Username", erro = "Seu endereço de ip não tem permissão para efetuar o registro de ponto! (IP Publico: " + registro.IpPublico + ", Interno: " + registro.IpInterno + ")" });
+                                string erro = "Seu endereço de ip não tem permissão para efetuar o registro de ponto! (IP Publico: " + registro.IpPublico + ")";
+                                if (hostsInvalidos.Any())
+                                {
+                                    erro += ". DNS não verificado: "+ String.Join(";", hostsInvalidos);
+                                }
+                                erros.ErrosDetalhados.Add(new ErroDetalhe() { campo = "Username", erro = erro });
                             }
                         }
                         else
                         {
-                            erros.ErrosDetalhados.Add(new ErroDetalhe() { campo = "Username", erro = "O seu endereço de ip é inválido!(IP Publico: " + registro.IpPublico + ", Interno: " + registro.IpInterno + ")" });
+                            erros.ErrosDetalhados.Add(new ErroDetalhe() { campo = "Username", erro = "O seu endereço de ip é inválido!(IP Publico: " + registro.IpPublico + ")" });
                         }
                     }
                     else

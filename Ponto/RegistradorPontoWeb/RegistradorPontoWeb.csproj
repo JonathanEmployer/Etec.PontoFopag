@@ -238,6 +238,9 @@
     <Compile Include="Models\Ponto\contratofuncionario.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Ponto\contratoHistory.cs">
+      <DependentUpon>Pontofopag.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Ponto\contratousuario.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
@@ -274,7 +277,13 @@
     <Compile Include="Models\Ponto\empresacwusuario.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Ponto\empresafuncionarios.cs">
+      <DependentUpon>Pontofopag.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Ponto\EmpresaLogo.cs">
+      <DependentUpon>Pontofopag.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ponto\EmpresaTermoUso.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Ponto\envioconfiguracoesdatahora.cs">
@@ -299,6 +308,9 @@
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Ponto\EventosClassHorasExtras.cs">
+      <DependentUpon>Pontofopag.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ponto\eventosHistory.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Ponto\exportacaocampos.cs">
@@ -355,6 +367,9 @@
     <Compile Include="Models\Ponto\funcionario.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Ponto\FuncionarioAzureCognitiveService.cs">
+      <DependentUpon>Pontofopag.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Ponto\funcionariohistorico.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
@@ -397,16 +412,31 @@
     <Compile Include="Models\Ponto\HorarioDinamicoCicloSequencia.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Ponto\HorarioDinamicoHistory.cs">
+      <DependentUpon>Pontofopag.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Ponto\HorarioDinamicoLimiteDdsr.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Ponto\HorarioDinamicoPHExtra.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Ponto\HorarioDinamicoRestricao.cs">
+      <DependentUpon>Pontofopag.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ponto\horarioHistory.cs">
+      <DependentUpon>Pontofopag.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Ponto\HorarioInItinere.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Ponto\horariophextra.cs">
+      <DependentUpon>Pontofopag.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ponto\HorarioRestricao.cs">
+      <DependentUpon>Pontofopag.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ponto\IdentificacaoReconhecimentoFacil.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Ponto\IdFuncionarioPorDSCodigoData_Result.cs">
@@ -427,6 +457,9 @@
     <Compile Include="Models\Ponto\IP.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Ponto\IPHistory.cs">
+      <DependentUpon>Pontofopag.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Ponto\jornada.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
@@ -434,6 +467,9 @@
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Ponto\justificativa.cs">
+      <DependentUpon>Pontofopag.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ponto\JustificativaRestricao.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Ponto\LancamentoLote.cs">
@@ -490,6 +526,9 @@
     <Compile Include="Models\Ponto\ocorrenciaempresa.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Ponto\OcorrenciaRestricao.cs">
+      <DependentUpon>Pontofopag.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Ponto\ParametroPainelRH.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
@@ -522,6 +561,9 @@
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Ponto\RegistroPontoMetaData.cs" />
+    <Compile Include="Models\Ponto\RegistroPontoTentativa.cs">
+      <DependentUpon>Pontofopag.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Ponto\rep.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
@@ -534,15 +576,6 @@
     <Compile Include="Models\Ponto\Revendas.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Ponto\TabelasPontoCDC.cs">
-      <DependentUpon>Pontofopag.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Ponto\TAB_Configuracao_CDC_Tabela.cs">
-      <DependentUpon>Pontofopag.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Ponto\TAB_Tipo_Configuracao_CDC_Tabela.cs">
-      <DependentUpon>Pontofopag.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Ponto\tipobilhetes.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
@@ -550,6 +583,12 @@
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Ponto\TipoVinculo.cs">
+      <DependentUpon>Pontofopag.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ponto\TransferenciaBilhetes.cs">
+      <DependentUpon>Pontofopag.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ponto\TransferenciaBilhetesDetalhes.cs">
       <DependentUpon>Pontofopag.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Retorno.cs" />

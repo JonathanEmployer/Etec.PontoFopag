@@ -19,6 +19,7 @@ namespace RegistradorPontoWeb.Models.Ponto
         {
             this.afastamento = new HashSet<afastamento>();
             this.LancamentoLoteAfastamento = new HashSet<LancamentoLoteAfastamento>();
+            this.OcorrenciaRestricao = new HashSet<OcorrenciaRestricao>();
             this.ocorrenciaempresa = new HashSet<ocorrenciaempresa>();
         }
     
@@ -42,13 +43,13 @@ namespace RegistradorPontoWeb.Models.Ponto
         public string HorasAbonoPadraoNoturno { get; set; }
         public bool Ativo { get; set; }
         public short DefaultTipoAfastamento { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<afastamento> afastamento { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LancamentoLoteAfastamento> LancamentoLoteAfastamento { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OcorrenciaRestricao> OcorrenciaRestricao { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ocorrenciaempresa> ocorrenciaempresa { get; set; }
     }

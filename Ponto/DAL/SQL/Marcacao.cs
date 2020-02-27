@@ -4737,6 +4737,32 @@ WHERE
             return dt;
         }
 
+        public DataTable GetDataPrimeiraMarcacaoFuncionarioConsiderandoFechamentos(List<int> idsFuncionarios)
+        {
+            SqlParameter[] parms = new SqlParameter[1]
+            {
+                    new SqlParameter("@Identificadores", SqlDbType.Structured)
+            };
+            parms[0].Value = CreateDataTableIdentificadores(idsFuncionarios.Select(s => (long)s).ToList());
+            parms[0].TypeName = "Identificadores";
+
+            string sql = @" SELECT MIN(data) data, idfuncionario
+                            FROM marcacao 
+                            INNER JOIN @Identificadores F ON idfuncionario = f.Identificador
+                            WHERE idfechamentobh is null 
+                            AND idFechamentoPonto is null
+                            and entrada_1 != '--:--'
+                            GROUP BY idfuncionario ";
+            DataTable dt = new DataTable();
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+            dt.Load(dr);
+            if (!dr.IsClosed)
+                dr.Close();
+            dr.Dispose();
+
+            return dt;
+        }
+
         public bool SetarDocumentoWorkFlow(int idMarcacao)
         {
             SqlParameter[] parms = new SqlParameter[]
