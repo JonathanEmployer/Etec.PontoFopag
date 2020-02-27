@@ -47,6 +47,15 @@ namespace BLL_N.JobManager.Hangfire.Job
         {
             try
             {
+                List<PxyFuncionariosRecalcular> FuncsSemDataIni = funcsRecalculo.Where(w => w.DataInicio == null).ToList();
+                if (FuncsSemDataIni.Count > 0)
+                {
+                    string conexao = BLL.cwkFuncoes.ConstroiConexao(db).ConnectionString;
+                    DAL.SQL.Marcacao dalMarcacao = new DAL.SQL.Marcacao(new DataBase(conexao));
+                    DataTable dt = dalMarcacao.GetDataPrimeiraMarcacaoFuncionarioConsiderandoFechamentos(funcsRecalculo.Select(s => s.IdFuncionario).ToList());
+                    dt.AsEnumerable().ToList().ForEach(f => FuncsSemDataIni.Where(w => w.IdFuncionario == f.Field<int>("idfuncionario")).ToList().ForEach(fi => fi.DataInicio = f.Field<DateTime>("data")));
+                }
+
                 List<PxyFuncionariosRecalcular> FuncsSemDataFim = funcsRecalculo.Where(w => w.DataFim == null).ToList();
                 if (FuncsSemDataFim.Count > 0)
                 {
@@ -61,7 +70,7 @@ namespace BLL_N.JobManager.Hangfire.Job
                     g.DataFim
                 }))
                 {
-                    RecalculaMarcacao(context, jobReport, db, usuario, grupo.Select(s => s.IdFuncionario).ToList(), grupo.Key.DataInicio, grupo.Key.DataFim.GetValueOrDefault(), considerarInativos);
+                    RecalculaMarcacao(context, jobReport, db, usuario, grupo.Select(s => s.IdFuncionario).ToList(), grupo.Key.DataInicio.GetValueOrDefault(), grupo.Key.DataFim.GetValueOrDefault(), considerarInativos);
                 }
 
             }
@@ -90,7 +99,7 @@ namespace BLL_N.JobManager.Hangfire.Job
                     g.DataFim
                 }))
                 {
-                    RecalculaMarcacao(context, jobReport, db, usuario, grupo.Select(s => s.IdFuncionario).ToList(), grupo.Key.DataInicio, grupo.Key.DataFim.GetValueOrDefault());
+                    RecalculaMarcacao(context, jobReport, db, usuario, grupo.Select(s => s.IdFuncionario).ToList(), grupo.Key.DataInicio.GetValueOrDefault(), grupo.Key.DataFim.GetValueOrDefault());
                 }
 
             }
@@ -860,12 +869,15 @@ namespace BLL_N.JobManager.Hangfire.Job
             List<string> log = new List<string>();
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(userPF.ConnectionString, userPF);
             string dscodigoOrigem = bllFuncionario.GetDsCodigosByIDs(new List<int>() { transferenciaBilhetes.IdFuncionarioOrigem }).FirstOrDefault();
-            bllImportaBilhetes.ImportarBilhetes(dscodigoOrigem, true, transferenciaBilhetes.DataInicio, transferenciaBilhetes.DataFim, out DateTime? pdatai, out DateTime? pdataf, pb, log);
+            DateTime dtInicioTB = transferenciaBilhetes.DataInicio.GetValueOrDefault().AddDays(-1);
+            DateTime dtFimTB = transferenciaBilhetes.DataFim.GetValueOrDefault().AddDays(1);
+            bllImportaBilhetes.ImportarBilhetes(dscodigoOrigem, false, dtInicioTB, dtFimTB, out DateTime? pdataiO, out DateTime? pdatafO, pb, log);
             string dscodigoDestino = bllFuncionario.GetDsCodigosByIDs(new List<int>() { transferenciaBilhetes.IdFuncionarioDestino }).FirstOrDefault();
-            bllImportaBilhetes.ImportarBilhetes(dscodigoDestino, true, transferenciaBilhetes.DataInicio, transferenciaBilhetes.DataFim, out pdatai, out pdataf, pb, log);
-            if (pdatai != null)
+            bllImportaBilhetes.ImportarBilhetes(dscodigoDestino, false, dtInicioTB, dtFimTB, out DateTime? pdataiD, out DateTime? pdatafD, pb, log);
+            List<DateTime?> dts = new List<DateTime?>() { pdataiO, pdatafO, pdataiD, pdatafD };
+            if (dts.Where(d => d != null).Any())
             {
-                RecalculaMarcacao(context, jobReport, db, usuario, new List<int>() { transferenciaBilhetes.IdFuncionarioOrigem, transferenciaBilhetes.IdFuncionarioDestino }, pdatai.GetValueOrDefault(), pdataf.GetValueOrDefault(), true); 
+                RecalculaMarcacao(context, jobReport, db, usuario, new List<int>() { transferenciaBilhetes.IdFuncionarioOrigem, transferenciaBilhetes.IdFuncionarioDestino }, dts.Min().GetValueOrDefault(), dts.Max().GetValueOrDefault(), true); 
             }
         }
     }

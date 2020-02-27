@@ -18,8 +18,10 @@ namespace Modelo.Proxy
         public string Destino { get; set; }
         [TableHTMLAttribute("Usuário Inclusão", 6, true, ItensSearch.select, OrderType.none)]
         public string IncUsuario { get; set; }
-        [TableHTMLAttribute("Data Inclusão", 7, true, ItensSearch.text, OrderType.none,ColumnType.datatime)]
+
         public DateTime IncHora { get; set; }
+        [TableHTMLAttribute("Data Inclusão", 7, true, ItensSearch.text, OrderType.none, ColumnType.datatime)]
+        public string IncHoraString => IncHora.ToShortDateString();
         [TableHTMLAttribute("Qtd. Bilhetes Afetados", 8, true, ItensSearch.text, OrderType.none)]
         public int QtdBilhetesAfetados { get; set; }
     }

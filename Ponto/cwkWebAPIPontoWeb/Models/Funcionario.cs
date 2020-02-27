@@ -22,7 +22,7 @@ namespace cwkWebAPIPontoWeb.Models
         /// Nome do Funcionário
         /// </summary>
         [Required(ErrorMessage = "Campo Obrigatório")]
-        [StringLength(50, ErrorMessage = "Número máximo de caracteres: {1}")]
+        [StringLength(100, ErrorMessage = "Número máximo de caracteres: {1}")]
         public string Nome { get; set; }
         /// <summary>
         /// Código da Folha de Pagamento do Funcionário

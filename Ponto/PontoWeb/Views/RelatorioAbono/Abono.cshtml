@@ -63,24 +63,16 @@
                                 </div>
                             </div>
                             <div class="row" style="margin-top:5px">
-                                <div class="col-md-12">
-                                    @Html.HiddenFor(x => x.idSelecionadosOcorrencias)
-                                    @Html.ValidationMessageFor(x => x.idSelecionadosOcorrencias)
-                                    @Html.GridFor("tbOcorrencias", (new Modelo.Proxy.pxyOcorrencias()).GetType(), true, "GetFuncsRel", "GetOcorrencias", null, "ValidaOcorrencia")
-                                </div>
+                                @Html.HiddenFor(x => x.idSelecionadosOcorrencias)
+                                @Html.ValidationMessageFor(x => x.idSelecionadosOcorrencias)
+                                @Html.GridFor("tbOcorrencias", (new Modelo.Proxy.pxyOcorrencias()).GetType(), true, "GetFuncsRel", "GetOcorrencias", null, "ValidaOcorrencia")
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    @Html.HiddenFor(x => x.IdSelecionados)
-                                    @Html.ValidationMessageFor(x => x.IdSelecionados)
-                                    @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorio()).GetType(), true, "GetFuncsRel", "GetFuns")
-                                </div>
-                            </div>
-                        </div>
+                        @Html.HiddenFor(x => x.IdSelecionados)
+                        @Html.ValidationMessageFor(x => x.IdSelecionados)
+                        @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorio()).GetType(), true, "GetFuncsRel", "GetFuns")
                     </div>
                     <div class="row">
                         <div class="col-md-12">

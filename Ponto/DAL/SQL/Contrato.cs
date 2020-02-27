@@ -370,7 +370,7 @@ namespace DAL.SQL
         public List<Modelo.Contrato> GetAllList()
         {
             SqlParameter[] parms = new SqlParameter[0];
-            string sql = SELECTALLLIST + PermissaoUsuarioEmpresa(UsuarioLogado, SELECTALLLIST, "ct.idempresa", null);
+            string sql = SELECTALLLIST + PermissaoUsuarioEmpresaContrato(UsuarioLogado, SELECTALLLIST, "ct.idempresa", null);
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 
             List<Modelo.Contrato> lista = new List<Modelo.Contrato>();

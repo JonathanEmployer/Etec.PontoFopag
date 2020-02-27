@@ -28,15 +28,11 @@ namespace BLL
             bool acumularMes = trocaMes
                 , acumularSemana = diaFinalSemana == dia;
 
-            if (acumulosTotais.Count == 0 || tipoAcumuloSemana == 1 || (tipoAcumuloSemana == 2 && acumularSemana) || (tipoAcumuloSemana == 3 && acumularMes))
-            {
-                acumulosTotais.Add(new Dictionary<int, AcumuloPercentual>());
-            }
-
-            Dictionary<int, AcumuloPercentual> acumuloCorrente = acumulosTotais.LastOrDefault();
+            Dictionary<int, AcumuloPercentual> acumuloCorrente = new Dictionary<int, AcumuloPercentual>();
 
             if (tipoDia == TipoDiaAcumulo.Geral && (tipoAcumuloSemana == 1 || (tipoAcumuloSemana == 2) || (tipoAcumuloSemana == 3)))
             {
+                LimpaAcumuloTotal(acumulosTotais, ref acumuloCorrente, tipoAcumuloSemana, acumularMes, acumularSemana);
                 for (int i = 0; i < 6; i++) //Pega os percentuais gerais
                 {
                     Acumular(horariosPHExtra[i], acumuloCorrente, acumulosParciais, tipoAcumuloSemana, TipoDiaAcumulo.Geral);
@@ -48,6 +44,7 @@ namespace BLL
             if ((diaFinalSemana == 5 || (diaFinalSemana == 7 && consideraSabadoSemana == 0)) && ((sabado.TipoAcumulo == 1 && tipoDia == TipoDiaAcumulo.Sabado)
                 || (sabado.TipoAcumulo == 2 && acumularSemana) || (sabado.TipoAcumulo == 3)))
             {
+                LimpaAcumuloTotal(acumulosTotais, ref acumuloCorrente, sabado.TipoAcumulo, acumularMes, acumularSemana);
                 Acumular(sabado, acumuloCorrente, acumulosParciais, sabado.TipoAcumulo, TipoDiaAcumulo.Sabado);
                 LimparTipoAcumuloParcial(acumulosParciais, TipoDiaAcumulo.Sabado);
             }
@@ -56,6 +53,7 @@ namespace BLL
             if (diaFinalSemana < 7 && ((domingo.TipoAcumulo == 1 && tipoDia == TipoDiaAcumulo.Domingo)
                 || (domingo.TipoAcumulo == 2 && acumularSemana) || (domingo.TipoAcumulo == 3)))
             {
+                LimpaAcumuloTotal(acumulosTotais, ref acumuloCorrente, domingo.TipoAcumulo, acumularMes, acumularSemana);
                 Acumular(domingo, acumuloCorrente, acumulosParciais, domingo.TipoAcumulo, TipoDiaAcumulo.Domingo);
                 LimparTipoAcumuloParcial(acumulosParciais, TipoDiaAcumulo.Domingo);
             }
@@ -64,6 +62,7 @@ namespace BLL
             if ((tipoDia == TipoDiaAcumulo.Feriado || (acumulosParciais != null && acumulosParciais.ContainsKey(TipoDiaAcumulo.Feriado))) && (feriado.TipoAcumulo == 1
                 || (feriado.TipoAcumulo == 2 && acumularSemana) || (feriado.TipoAcumulo == 3)))
             {
+                LimpaAcumuloTotal(acumulosTotais, ref acumuloCorrente, feriado.TipoAcumulo, acumularMes, acumularSemana);
                 Acumular(feriado, acumuloCorrente, acumulosParciais, feriado.TipoAcumulo, TipoDiaAcumulo.Feriado);
                 LimparTipoAcumuloParcial(acumulosParciais, TipoDiaAcumulo.Feriado);
             }
@@ -72,9 +71,19 @@ namespace BLL
             if (tipoDia == TipoDiaAcumulo.Folga && (folga.TipoAcumulo == 1
                 || (folga.TipoAcumulo == 2 && acumularSemana) || (folga.TipoAcumulo == 3)))
             {
+                LimpaAcumuloTotal(acumulosTotais, ref acumuloCorrente, folga.TipoAcumulo, acumularMes, acumularSemana);
                 Acumular(folga, acumuloCorrente, acumulosParciais, folga.TipoAcumulo, TipoDiaAcumulo.Folga);
                 LimparTipoAcumuloParcial(acumulosParciais, TipoDiaAcumulo.Folga);
             }
+        }
+
+        private static void LimpaAcumuloTotal(List<Dictionary<int, AcumuloPercentual>> acumulosTotais, ref Dictionary<int, AcumuloPercentual> acumuloCorrente, short tipoAcumuloSemana, bool acumularMes, bool acumularSemana)
+        {
+            if (acumulosTotais.Count == 0 || tipoAcumuloSemana == 1 || (tipoAcumuloSemana == 2 && acumularSemana) || (tipoAcumuloSemana == 3 && acumularMes))
+            {
+                acumulosTotais.Add(new Dictionary<int, AcumuloPercentual>());
+            }
+            acumuloCorrente = acumulosTotais.LastOrDefault();
         }
 
         private static void CalculaAcumuloFeriadoParcial(DataRow marc, int flagFolga, ref int horaExtraNoturna, ref int horaExtraDiurna, Dictionary<TipoDiaAcumulo, Turno> acumulosParciais, short consideraSabadoSemana, short consideraDomingoSemana, ref TipoDiaAcumulo tipoDia)

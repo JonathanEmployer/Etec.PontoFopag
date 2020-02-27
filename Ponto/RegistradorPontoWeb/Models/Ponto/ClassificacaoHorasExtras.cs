@@ -28,8 +28,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public int IdClassificacao { get; set; }
         public string Observacao { get; set; }
         public bool Integrado { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
     
         public virtual Classificacao Classificacao { get; set; }
         public virtual marcacao marcacao { get; set; }

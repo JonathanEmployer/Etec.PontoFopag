@@ -28,8 +28,8 @@ namespace PontoWeb.Controllers
             BLL.ConfiguracoesGerais bllConfiguracoes = new BLL.ConfiguracoesGerais(_usr.ConnectionString, _usr);
             Marcacao marc = new Marcacao();
 
-            marc.Departamento = "0 | TODOS OS DEPARTAMENTOS";
-            marc.Contrato = "0 | TODOS OS CONTRATOS";
+            marc.Departamento = "";
+            marc.Contrato = "";
 
             return View(marc);
         }

@@ -223,6 +223,8 @@ namespace PontoWeb.Controllers
             {
                 compensacao.Periodofinal_Ant = compensacao.Periodofinal;
                 compensacao.Periodoinicial_Ant = compensacao.Periodoinicial;
+                compensacao.Tipo_Ant = compensacao.Tipo;
+                compensacao.Identificacao_Ant = compensacao.Identificacao;
                 if (bllMarcacao.QuantidadeCompensada(compensacao.Id) > 0)
                 {
                     string erro = "A Compensação deve ser desfeita antes de ser alterada";

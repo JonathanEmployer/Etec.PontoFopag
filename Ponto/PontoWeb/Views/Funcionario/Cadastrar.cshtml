@@ -598,7 +598,7 @@
                     $("#loading").modal();
                 },
                 data: {
-                    idfuncionario,
+                    idfuncionario: idfuncionario,
                     Senha: document.getElementById('txtSenha').value,
                     Cracha: document.getElementById('lkpHistorioRFID').value,
                     TipoCracha: $("input[name=rdioTipo]:checked").val()
@@ -620,7 +620,7 @@
             $.ajax({
                 url: "/Funcionario/InativarFuncionarioRFID",
                 type: "GET",
-                data: { idfuncionario, idrfid },
+                data: { idfuncionario: idfuncionario, idrfid: idrfid },
                 dataType: 'html',
                 beforeSend: function () {
                     $("#loading").modal();
@@ -890,12 +890,14 @@
     $('#UtilizaReconhecimentoFacialApp').change(function () {
         if(this.checked) {
             $("#UtilizaAppPontofopag").prop("checked", true);
+            validaEdicaoSenhaMobile();
         }
     });
 
     $('#UtilizaReconhecimentoFacialWebApp').change(function() {
         if(this.checked) {
             $("#UtilizaWebAppPontofopag").prop("checked", true);
+            validaEdicaoSenhaMobile();
         }
     });
 

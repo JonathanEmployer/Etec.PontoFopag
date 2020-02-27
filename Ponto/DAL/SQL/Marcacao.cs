@@ -2204,53 +2204,31 @@ namespace DAL.SQL
         private static bool AcertaEntradasSaidasViradaDia(List<Modelo.BilhetesImp> BilValidos, out List<Modelo.BilhetesImp> bilEntradas, out List<Modelo.BilhetesImp> bilSaidas)
         {
             bool bRetorno = false;
-
             bilEntradas = new List<Modelo.BilhetesImp>();
             bilSaidas = new List<Modelo.BilhetesImp>();
-
-            var bilEntradasEnum = BilValidos.Where(s => s.Ent_sai.ToLower().Trim().Equals("e")).OrderBy(x => x.Posicao);
-            var bilSaidasEnum = BilValidos.Where(s => s.Ent_sai.ToLower().Trim().Equals("s")).OrderBy(x => x.Posicao);
-
-            bilEntradas = bilEntradasEnum == null ? new List<Modelo.BilhetesImp>() : bilEntradasEnum.ToList();
-            bilSaidas = bilSaidasEnum == null ? new List<Modelo.BilhetesImp>() : bilSaidasEnum.ToList();
-
-            DateTime dtMarc = new DateTime();
-
-            if (bilEntradasEnum.FirstOrDefault() != null)
-                dtMarc = bilEntradasEnum.FirstOrDefault().Data;
-
-            int numIteracoes = bilEntradas.Count <= bilSaidas.Count ? bilEntradas.Count : bilSaidas.Count;
-            if (numIteracoes > 0)
+            if (BilValidos != null && BilValidos.Count() > 1 && BilValidos.Where(w => w.Id == 0 && w.Relogio == "MA").Any())
             {
-                Modelo.BilhetesImp primeiraEntrada = bilEntradas[0];
-                for (int i = 0; i < numIteracoes; i++)
+                Modelo.BilhetesImp primeiraEntrada = BilValidos.Where(s => s.Ent_sai.ToLower().Trim().Equals("e")).OrderBy(x => x.Posicao).FirstOrDefault();
+                if (primeiraEntrada != null)
                 {
-                    if ((primeiraEntrada != null && bilSaidas[i] != null))
+                    DateTime dataMarc = new DateTime();
+                    dataMarc = primeiraEntrada.Data;
+                    Modelo.BilhetesImp[] bilhetesOrdenadados = BilValidos.OrderBy(x => x.Posicao).ThenBy(x => x.Ent_sai).ToArray();
+                    int totalBilhetes = bilhetesOrdenadados.Count();
+                    for (int i = 1; i < totalBilhetes; i++)
                     {
-                        Int32 entradaI = Modelo.cwkFuncoes.ConvertBatidaMinuto(primeiraEntrada.Hora);
-                        Int32 saidaI = Modelo.cwkFuncoes.ConvertBatidaMinuto(bilSaidas[i].Hora);
-
-                        if (entradaI > saidaI && bilEntradas[0].Ocorrencia != 'D')
+                        if (bilhetesOrdenadados[i].Relogio == "MA" && bilhetesOrdenadados[i].Id == 0)
                         {
-                            if ((bilSaidas[i].Relogio != null) && (bilSaidas[i].Relogio.Trim().ToUpper().Equals("MA")))
+                            if (Modelo.cwkFuncoes.ConvertBatidaMinuto(bilhetesOrdenadados[(i - 1)].Hora) > Modelo.cwkFuncoes.ConvertBatidaMinuto(bilhetesOrdenadados[i].Hora))
                             {
+                                dataMarc = dataMarc.AddDays(1);
                                 bRetorno = true;
-                                dtMarc = dtMarc.AddDays(1);
-                                bilSaidas[i].Data = dtMarc;
                             }
-                        }
-                        else
-                        {
-                            if ((bilSaidas[i].Relogio != null) && (bilSaidas[i].Relogio.Trim().ToUpper().Equals("MA")))
-                            {
-                                bilSaidas[i].Data = dtMarc;
-                            }
-                            if ((bilEntradas[i].Relogio != null) && (bilEntradas[i].Relogio.Trim().ToUpper().Equals("MA")))
-                            {
-                                bilEntradas[i].Data = dtMarc;
-                            }
+                            bilhetesOrdenadados[i].Data = dataMarc;
                         }
                     }
+                    bilEntradas = bilhetesOrdenadados.Where(s => s.Ent_sai.ToLower().Trim().Equals("e")).OrderBy(x => x.Posicao).ToList();
+                    bilSaidas = bilhetesOrdenadados.Where(s => s.Ent_sai.ToLower().Trim().Equals("s")).OrderBy(x => x.Posicao).ToList();
                 }
             }
             return bRetorno;
@@ -4749,6 +4727,32 @@ WHERE
                               FROM dbo.marcacao m
                              INNER JOIN @Identificadores F ON m.idfuncionario = f.Identificador
                              GROUP BY idfuncionario  ";
+            DataTable dt = new DataTable();
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+            dt.Load(dr);
+            if (!dr.IsClosed)
+                dr.Close();
+            dr.Dispose();
+
+            return dt;
+        }
+
+        public DataTable GetDataPrimeiraMarcacaoFuncionarioConsiderandoFechamentos(List<int> idsFuncionarios)
+        {
+            SqlParameter[] parms = new SqlParameter[1]
+            {
+                    new SqlParameter("@Identificadores", SqlDbType.Structured)
+            };
+            parms[0].Value = CreateDataTableIdentificadores(idsFuncionarios.Select(s => (long)s).ToList());
+            parms[0].TypeName = "Identificadores";
+
+            string sql = @" SELECT MIN(data) data, idfuncionario
+                            FROM marcacao 
+                            INNER JOIN @Identificadores F ON idfuncionario = f.Identificador
+                            WHERE idfechamentobh is null 
+                            AND idFechamentoPonto is null
+                            and entrada_1 != '--:--'
+                            GROUP BY idfuncionario ";
             DataTable dt = new DataTable();
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
             dt.Load(dr);
