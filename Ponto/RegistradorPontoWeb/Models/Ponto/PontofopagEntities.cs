@@ -57,7 +57,7 @@ namespace RegistradorPontoWeb.Models.Ponto
                 Password = pass,
             };
 
-            //<add name="PontofopagEntities" connectionString="metadata=res://*/Models.Ponto.Pontofopag.csdl|res://*/Models.Ponto.Pontofopag.ssdl|res://*/Models.Ponto.Pontofopag.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=empvw02210\dev308;initial catalog=PONTOFOPAG_EMPLOYER_DEV;integrated security=True;multipleactiveresultsets=True;application name=EntityFramework&quot;" providerName="System.Data.EntityClient" />
+            //<add name="PontofopagEntities" connectionString="metadata=res://*/Models.Ponto.Pontofopag.csdl|res://*/Models.Ponto.Pontofopag.ssdl|res://*/Models.Ponto.Pontofopag.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=EMPVW02215\DEV308;initial catalog=PONTOFOPAG_EMPLOYER_DEV;integrated security=True;multipleactiveresultsets=True;application name=EntityFramework&quot;" providerName="System.Data.EntityClient" />
             var entityConnectionStringBuilder = new EntityConnectionStringBuilder
             {
                 Provider = "System.Data.SqlClient",
