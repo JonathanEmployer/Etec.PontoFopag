@@ -46,6 +46,15 @@ namespace BLL_N.JobManager.Hangfire.Job
         {
             try
             {
+                List<PxyFuncionariosRecalcular> FuncsSemDataIni = funcsRecalculo.Where(w => w.DataInicio == null).ToList();
+                if (FuncsSemDataIni.Count > 0)
+                {
+                    string conexao = BLL.cwkFuncoes.ConstroiConexao(db).ConnectionString;
+                    DAL.SQL.Marcacao dalMarcacao = new DAL.SQL.Marcacao(new DataBase(conexao));
+                    DataTable dt = dalMarcacao.GetDataPrimeiraMarcacaoFuncionarioConsiderandoFechamentos(funcsRecalculo.Select(s => s.IdFuncionario).ToList());
+                    dt.AsEnumerable().ToList().ForEach(f => FuncsSemDataIni.Where(w => w.IdFuncionario == f.Field<int>("idfuncionario")).ToList().ForEach(fi => fi.DataInicio = f.Field<DateTime>("data")));
+                }
+
                 List<PxyFuncionariosRecalcular> FuncsSemDataFim = funcsRecalculo.Where(w => w.DataFim == null).ToList();
                 if (FuncsSemDataFim.Count > 0)
                 {
@@ -60,7 +69,7 @@ namespace BLL_N.JobManager.Hangfire.Job
                     g.DataFim
                 }))
                 {
-                    RecalculaMarcacao(context, jobReport, db, usuario, grupo.Select(s => s.IdFuncionario).ToList(), grupo.Key.DataInicio, grupo.Key.DataFim.GetValueOrDefault(), considerarInativos);
+                    RecalculaMarcacao(context, jobReport, db, usuario, grupo.Select(s => s.IdFuncionario).ToList(), grupo.Key.DataInicio.GetValueOrDefault(), grupo.Key.DataFim.GetValueOrDefault(), considerarInativos);
                 }
 
             }
@@ -89,7 +98,7 @@ namespace BLL_N.JobManager.Hangfire.Job
                     g.DataFim
                 }))
                 {
-                    RecalculaMarcacao(context, jobReport, db, usuario, grupo.Select(s => s.IdFuncionario).ToList(), grupo.Key.DataInicio, grupo.Key.DataFim.GetValueOrDefault());
+                    RecalculaMarcacao(context, jobReport, db, usuario, grupo.Select(s => s.IdFuncionario).ToList(), grupo.Key.DataInicio.GetValueOrDefault(), grupo.Key.DataFim.GetValueOrDefault());
                 }
 
             }

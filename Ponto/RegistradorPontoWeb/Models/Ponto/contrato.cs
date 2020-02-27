@@ -18,6 +18,10 @@ namespace RegistradorPontoWeb.Models.Ponto
         public contrato()
         {
             this.afastamento = new HashSet<afastamento>();
+            this.HorarioDinamicoRestricao = new HashSet<HorarioDinamicoRestricao>();
+            this.HorarioRestricao = new HashSet<HorarioRestricao>();
+            this.JustificativaRestricao = new HashSet<JustificativaRestricao>();
+            this.OcorrenciaRestricao = new HashSet<OcorrenciaRestricao>();
             this.contratofuncionario = new HashSet<contratofuncionario>();
             this.contratousuario = new HashSet<contratousuario>();
         }
@@ -38,12 +42,18 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<short> DiaFechamentoFinal { get; set; }
         public Nullable<int> IdHorarioPadraoFunc { get; set; }
         public Nullable<int> TipoHorarioPadraoFunc { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<afastamento> afastamento { get; set; }
         public virtual empresa empresa { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HorarioDinamicoRestricao> HorarioDinamicoRestricao { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HorarioRestricao> HorarioRestricao { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<JustificativaRestricao> JustificativaRestricao { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OcorrenciaRestricao> OcorrenciaRestricao { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<contratofuncionario> contratofuncionario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

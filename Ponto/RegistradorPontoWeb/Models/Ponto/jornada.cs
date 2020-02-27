@@ -17,9 +17,9 @@ namespace RegistradorPontoWeb.Models.Ponto
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public jornada()
         {
-            this.jornadaalternativa = new HashSet<jornadaalternativa>();
-            this.HorarioDinamicoCiclo = new HashSet<HorarioDinamicoCiclo>();
             this.horariodetalhe = new HashSet<horariodetalhe>();
+            this.HorarioDinamicoCiclo = new HashSet<HorarioDinamicoCiclo>();
+            this.jornadaalternativa = new HashSet<jornadaalternativa>();
         }
     
         public int id { get; set; }
@@ -39,14 +39,12 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<System.DateTime> altdata { get; set; }
         public Nullable<System.DateTime> althora { get; set; }
         public string altusuario { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<jornadaalternativa> jornadaalternativa { get; set; }
+        public virtual ICollection<horariodetalhe> horariodetalhe { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HorarioDinamicoCiclo> HorarioDinamicoCiclo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<horariodetalhe> horariodetalhe { get; set; }
+        public virtual ICollection<jornadaalternativa> jornadaalternativa { get; set; }
     }
 }

@@ -25,8 +25,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<System.DateTime> AltData { get; set; }
         public Nullable<System.DateTime> AltHora { get; set; }
         public string AltUsuario { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
     
         public virtual HorarioDinamico HorarioDinamico { get; set; }
     }

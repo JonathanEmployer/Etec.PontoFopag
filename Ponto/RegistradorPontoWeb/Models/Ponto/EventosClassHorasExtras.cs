@@ -24,8 +24,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public string altusuario { get; set; }
         public Nullable<int> IdEventos { get; set; }
         public Nullable<int> IdClassificacao { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
     
         public virtual Classificacao Classificacao { get; set; }
         public virtual eventos eventos { get; set; }

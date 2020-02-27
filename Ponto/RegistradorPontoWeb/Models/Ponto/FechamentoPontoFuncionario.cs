@@ -24,8 +24,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public string altusuario { get; set; }
         public Nullable<int> idFechamentoPonto { get; set; }
         public Nullable<int> idFuncionario { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
     
         public virtual FechamentoPonto FechamentoPonto { get; set; }
         public virtual funcionario funcionario { get; set; }

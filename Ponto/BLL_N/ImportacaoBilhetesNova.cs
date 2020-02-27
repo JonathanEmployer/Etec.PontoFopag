@@ -156,7 +156,7 @@ namespace BLL_N
                 log.Add("Hora = " + DateTime.Now.ToShortTimeString());
 
                 bllBilhetesImp.ObjProgressBar = pb;
-                bool temBilhetes = bllBilhetesImp.ImportacaoBilhetes(listaTipoBilhetes, diretorio, bilhete, bIndividual, dsCodFuncionario, ref datai, ref dataf, log, String.Empty, usuarioLogado);
+                bool temBilhetes = bllBilhetesImp.ImportacaoBilhetes(listaTipoBilhetes, diretorio, bilhete, bIndividual, dsCodFuncionario, ref datai, ref dataf, log, usuarioLogado);
 
                 BLL.ImportaBilhetes bllImportaBilhetes = new BLL.ImportaBilhetes(conexao.ConnectionString, usuarioLogado);
                 DateTime? dataInicial;
