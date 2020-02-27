@@ -315,55 +315,6 @@ namespace DAL.SQL
             return lista;
         }
 
-        public List<Modelo.Proxy.PxyGridFechamentoPontoFunc> GetFuncGrid(Modelo.UsuarioPontoWeb usr)
-        {
-            List<Modelo.Proxy.PxyGridFechamentoPontoFunc> lista = new List<Modelo.Proxy.PxyGridFechamentoPontoFunc>();
-
-            SqlParameter[] parms = new SqlParameter[] { };
-
-            string sql = @"SELECT   func.id AS Id,
-                            func.dscodigo AS DsCodigo,
-                            func.dscodigo AuxDsCodigo,
-		                    func.nome AS Nome,
-		                    convert(varchar,empresa.codigo)+' | '+ empresa.nome as Empresa,
-		                    convert(varchar,departamento.codigo)+' | '+ departamento.descricao AS Departamento,
-		                    convert(varchar,funcao.codigo) + ' | ' + funcao.descricao AS Funcao,
-							CONVERT(VARCHAR,alocacao.codigo) +  ' | ' + alocacao.descricao AS Alocacao
-
-
-                             FROM funcionario func 
-                             LEFT JOIN empresa ON empresa.id = func.idempresa
-                             LEFT JOIN departamento ON departamento.id = func.iddepartamento
-                             LEFT JOIN funcao ON funcao.id = func.idFuncao
-                             LEFT JOIN cw_usuario cwu ON cwu.id = func.idcw_usuario
-							 LEFT JOIN Alocacao  ON Alocacao.id = func.IdAlocacao
-							 WHERE ISNULL(func.excluido,0)=0 AND ISNULL(func.funcionarioativo,0)=1";
-
-            sql = sql + DALBase.PermissaoUsuarioFuncionario(usr, sql, "func.idempresa", "func.id", null);
-            sql = sql + "ORDER BY func.nome";
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
-
-            try
-            {
-                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Proxy.PxyGridFechamentoPontoFunc>();
-                lista = AutoMapper.Mapper.Map<List<Modelo.Proxy.PxyGridFechamentoPontoFunc>>(dr);
-            }
-            catch (Exception ex)
-            {
-                throw (ex);
-            }
-            finally
-            {
-                if (!dr.IsClosed)
-                {
-                    dr.Close();
-                }
-                dr.Dispose();
-            }
-            return lista;
-        }
-
-
         /// <summary>
         /// Retorna os fechamentos vinculados a funcionários por determinado tipo de filtro (Empresa, departamento, contrato, funcionário)
         /// </summary>

@@ -60,11 +60,6 @@ namespace BLL
             return dalFechamentoPonto.GetAllList();
         }
 
-        public List<Modelo.Proxy.PxyGridFechamentoPontoFunc> GetFuncGrid(Modelo.UsuarioPontoWeb usr)
-        {
-            return dalFechamentoPonto.GetFuncGrid(usr);
-        }
-
         public Modelo.FechamentoPonto LoadObject(int id)
         {
             return dalFechamentoPonto.LoadObject(id);
