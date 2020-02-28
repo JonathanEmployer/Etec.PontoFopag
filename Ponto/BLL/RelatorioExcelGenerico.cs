@@ -596,30 +596,28 @@ namespace BLL
             return workbook.SaveToMemory(FileFormat.OpenXMLWorkbook);
         }
 
-		public static byte[] RelatorioCartaoPontoIndividual(DataTable dados)
+		public static byte[] Relatorio_de_Cartao_Ponto_Individual(DataTable dados)
 		{
-            if (dados == null)
-            {
-                throw new ArgumentNullException(String.Format(new CultureInfo("pt-BR"), "Não foram informados dados geração do relátorio"));
-            }
+			dados.Columns.Add("DataFormatada", typeof(String));
 
-			string[] selectedColumns = new[] { "empresa", "cnpj_cpf", "endereco", "cidade", "estado", "DataMarcacao", "funcionario", "dscodigo", "hentrada_1", "hsaida_1", "hentrada_2", "hsaida_2", "legenda", "entrada_1", "saida_1", "entrada_2", "saida_2", "entrada_3", "saida_3", "entrada_4", "saida_4", "horasTrabalhadas", "horasTrabalhadasnoturnas", "horasextrasdiurna", "horasextranoturna", "horasfaltas", "horasfaltanoturna", "ocorrencia" };
-            IWorkbook workbook = null;
-            using (var dtView = new DataView(dados))
-            {
-                workbook = Factory.GetWorkbook(new CultureInfo("pt-BR"));
-                GeraRelatorio(workbook, dtView.ToTable(false, selectedColumns));
-            }
-			
+			foreach (DataRow row in dados.Rows)
+			{
+				row["DataFormatada"] = Convert.ToDateTime((row["DataMarcacao"]).ToString()).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+			}
+
+			string[] selectedColumns = new[] { "empresa", "cnpj_cpf", "endereco", "cidade", "estado", "DataFormatada", "funcionario", "dscodigo", "hentrada_1", "hentrada_2", "hsaida_1", "hsaida_2", "legenda", "entrada_1", "saida_1", "entrada_2", "saida_2", "entrada_3", "saida_3", "entrada_4", "saida_4", "horasTrabalhadas", "horasTrabalhadasnoturnas", "horasextrasdiurna", "horasextranoturna", "horasfaltas", "horasfaltanoturna", "ocorrencia" };
+			DataTable dt = new DataView(dados).ToTable(false, selectedColumns);
+			IWorkbook workbook = Factory.GetWorkbook();
+			GeraRelatorio(workbook, dt);
+
 			IWorksheet worksheet = workbook.Worksheets[0];
 			IRange cells = worksheet.Cells;
 
 			// Formatando celulas de quantidade de horas
 			cells["I:AE"].NumberFormat = "[h]:mm";
-            cells["F:F"].NumberFormat = "dd/mm/yyyy";
 
-            // Corrigindo o nome dos cabeçalhos
-            cells["A1"].Formula = "Empresa";
+			// Corrigindo o nome dos cabeçalhos
+			cells["A1"].Formula = "Empresa";
 			cells["B1"].Formula = "CNPJ";
 			cells["C1"].Formula = "Endereço";
 			cells["D1"].Formula = "Cidade";

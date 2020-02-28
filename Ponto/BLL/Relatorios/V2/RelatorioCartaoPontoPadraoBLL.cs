@@ -21,7 +21,7 @@ namespace BLL.Relatorios.V2
             _progressBar.setaMensagem("Carregando dados...");
             RelatorioCartaoPontoModel parms = (RelatorioCartaoPontoModel)_relatorioFiltro;
             DataTable Dt = GetDados(parms);
-            byte[] arquivoBites = BLL.RelatorioExcelGenerico.RelatorioCartaoPontoIndividual(Dt);
+            byte[] arquivoBites = BLL.RelatorioExcelGenerico.Relatorio_de_Cartao_Ponto_Individual(Dt);
             ParametrosReportExcel parametrosReport = new ParametrosReportExcel()
             {
                 TipoArquivo = Modelo.Enumeradores.TipoArquivo.Excel,
