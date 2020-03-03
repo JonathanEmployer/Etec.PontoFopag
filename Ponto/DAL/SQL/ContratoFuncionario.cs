@@ -396,7 +396,7 @@ namespace DAL.SQL
         }
 
 
-        public int getContratoId(int idfuncionario)
+        public int? getContratoId(int idfuncionario)
         {
             try
             {
@@ -410,7 +410,7 @@ namespace DAL.SQL
 
                 string aux = "SELECT TOP(1)idcontrato FROM contratofuncionario WHERE idfuncionario = @idfuncionario and excluido=0 ORDER BY incdata desc";
                 
-                return (int)db.ExecuteScalar(CommandType.Text, aux, parms);
+                return (int?)db.ExecuteScalar(CommandType.Text, aux, parms);
             }
             catch (Exception)
             {
