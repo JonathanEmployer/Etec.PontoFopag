@@ -3302,12 +3302,12 @@ namespace BLL
                 horasExtrasDiurnaMin = 0;
                 ocorrencia = "";
             }
-            else if (neutroMarcacao && (legenda == "F" || legenda == "") && horasFaltasMin != 0)
+            else if (neutroMarcacao && (legenda == "F" || string.IsNullOrEmpty(legenda)) && horasFaltasMin != 0)
             {
                 horasFaltasMin = 0;
                 ocorrencia = "";
             }
-            else if (legenda == "" && ((horasFaltasMin != 0 && horasFaltasMin == horarioD) || (marcaCargaHorariaMistaHorario == 1 && (horarioM > 0 && (horasFaltasMin + horasFaltaNoturnaMin) == horarioM))))
+            else if (string.IsNullOrEmpty(legenda) && ((marcaCargaHorariaMistaHorario != 1 && horasFaltasMin != 0 && horasFaltasMin == horarioD) || (marcaCargaHorariaMistaHorario == 1 && (horarioM > 0 && (horasFaltasMin + horasFaltaNoturnaMin) == horarioM))))
             {
                 ocorrencia = "Falta";
             }
