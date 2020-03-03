@@ -229,6 +229,22 @@ namespace BLL_N.JobManager.Hangfire
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
+
+        public PxyJobReturn FechamentoPonto(string nomeProcesso, string parametrosExibicao, FechamentoBH objFechamentoBH, BancoHoras objBancoHoras)
+        {
+            JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
+            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.FechamentoBH(null, jobControl, dataBase, usuarioLogado, objFechamentoBH, objBancoHoras), _enqueuedStateNormal);
+            PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
+            return jobReturn;
+        }
+
+        public PxyJobReturn ExcluirFechamentoPonto(string nomeProcesso, string parametrosExibicao, FechamentoBH objFechamentoBH)
+        {
+            JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
+            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.ExcluirFechamentoBH(null, jobControl, dataBase, usuarioLogado, objFechamentoBH), _enqueuedStateNormal);
+            PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
+            return jobReturn;
+        }
         #endregion
     }
 }

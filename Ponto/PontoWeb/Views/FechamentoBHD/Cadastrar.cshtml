@@ -63,17 +63,17 @@
                         <div class="row">
                             <div class="col-md-3">
                                 @Html.LabelFor(model => model.Credito, new { @class = "control-label label-sm label-verde" })
-                                @Html.TextBoxFor(model => model.Credito, new { @class = "form-control  input-sm label-verde timeL", @placeholder = "--:--", id = "txbCredito", @disabled = true })
+                                @Html.TextBoxFor(model => model.Credito, new { @class = "form-control  input-sm label-verde time3L", @placeholder = "--:--", id = "txbCredito", @disabled = true })
                                 @Html.ValidationMessageFor(model => model.Credito)
                             </div>
                             <div class="col-md-3">
                                 @Html.LabelFor(model => model.Debito, new { @class = "control-label label-sm label-vermelho" })
-                                @Html.TextBoxFor(model => model.Debito, new { @class = "form-control  input-sm label-vermelho timeL", @placeholder = "--:--", id = "txbDebito", @disabled = true })
+                                @Html.TextBoxFor(model => model.Debito, new { @class = "form-control  input-sm label-vermelho time3L", @placeholder = "--:--", id = "txbDebito", @disabled = true })
                                 @Html.ValidationMessageFor(model => model.Debito)
                             </div>
                             <div class="col-md-2">
                                 @Html.LabelFor(model => model.SaldoInicial, new { @class = "control-label label-sm", id = "lbSaldoInicial" })
-                                @Html.TextBoxFor(model => model.SaldoInicial, new { @class = "form-control  input-sm timeL", @placeholder = "--:--", id = "txbSaldoInicial", @disabled = true })
+                                @Html.TextBoxFor(model => model.SaldoInicial, new { @class = "form-control  input-sm time3L", @placeholder = "--:--", id = "txbSaldoInicial", @disabled = true })
                                 @Html.ValidationMessageFor(model => model.SaldoInicial)
                             </div>
                             <div class="col-md-2">
@@ -90,7 +90,7 @@
                         <div class="row">
                             <div class="col-md-3">
                                 @Html.LabelFor(model => model.Saldo, new { @class = "control-label label-sm" })
-                                @Html.TextBoxFor(model => model.Saldo, new { @class = "form-control  input-sm timeL", @placeholder = "--:--", id = "txbSaldo" })
+                                @Html.TextBoxFor(model => model.Saldo, new { @class = "form-control  input-sm time3L", @placeholder = "--:--", id = "txbSaldo" })
                                 @Html.ValidationMessageFor(model => model.Saldo, null, new { id = "lbSaldo" })
                             </div>
                             <div class="col-md-3">
@@ -177,14 +177,14 @@
             var errorArray = {};
             errorArray["Saldo"] = "Valor não pode ser maior que o saldo " + $("txbSaldoInicial").val();
             $('form').validate().showErrors(errorArray);
-            $("#txbSaldobh").val("-----:--");
+            $("#txbSaldobh").val("00000:00");
         }
         else {
             if (saldobh > 0) {
                 var saldobhS = ConvertMinutoHora(saldoIniciail - saldoPagar, 5);
                 $("#txbSaldobh").val(saldobhS);
             } else {
-                $("#txbSaldobh").val("-----:--");
+                $("#txbSaldobh").val("00000:00");
             }
         }
     });

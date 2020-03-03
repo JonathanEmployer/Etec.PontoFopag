@@ -1,8 +1,10 @@
 ﻿$(function () {
     $('.MascDate').mask('00/00/0000');
     $('.time, .timeL').mask('00:00');
-    $('.time3, time3L').mask('000:00', { reverse: true });
-    $('.time5, time5L').mask('00000:00');
+    $('.time3, .time3L').mask('000:00', { reverse: true });
+    $('.time#3, .time#3L').mask('#00:00', { reverse: true });
+    $('.time5, .time5L').mask('00000:00');
+    $('.time#5, .time#5L').mask('###00:00');
     $('.timeHMS').mask('00:00:00');
     $('.date_time').mask('00/00/0000 00:00:00');
     $('.MascDataTime').mask('00/00/0000 00:00');

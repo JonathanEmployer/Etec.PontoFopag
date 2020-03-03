@@ -456,37 +456,6 @@ namespace DAL.SQL
 
             return Id;
         }
-
-        public bool Flg_Separar_Trabalhadas_Noturna_Extras_Noturna(int idfuncionario)
-        {
-            SqlParameter[] parms = new SqlParameter[]
-            {
-                new SqlParameter("@idfuncionario", SqlDbType.Int)
-            };
-            parms[0].Value = idfuncionario;
-            bool Separar = Convert.ToBoolean(db.ExecuteScalar(CommandType.Text, @"select ISNULL(p.Flg_Separar_Trabalhadas_Noturna_Extras_Noturna, 0) from funcionario f
-                                                                                    left join horario h on f.idhorario = h.id
-                                                                                    left join parametros p on h.idparametro = p.id
-                                                                                    where f.id = @idfuncionario", parms));
-
-            return Separar;
-        }
-
-        public bool Flg_Estender_Periodo_Noturno(int idfuncionario)
-        {
-            SqlParameter[] parms = new SqlParameter[]
-            {
-                new SqlParameter("@idfuncionario", SqlDbType.Int)
-            };
-            parms[0].Value = idfuncionario;
-            bool EstenderNoturno = Convert.ToBoolean(db.ExecuteScalar(CommandType.Text, @"select ISNULL(p.Flg_Estender_Periodo_Noturno, 0) from funcionario f
-                                                                                    left join horario h on f.idhorario = h.id
-                                                                                    left join parametros p on h.idparametro = p.id
-                                                                                    where f.id = @idfuncionario", parms));
-
-            return EstenderNoturno;
-        }
-
         #endregion
     }
 }

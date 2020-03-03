@@ -96,14 +96,13 @@ namespace BLL_N.Hubs
             }
         }
 
-        public static void sendMensageHub(string host, string hubNome, string metodo, params object[] args)
+        public static async void sendMensageHub(string host, string hubNome, string metodo, params object[] args)
         {
             using (HubConnection hubConnection = new HubConnection(host))
             {
                 IHubProxy hub = hubConnection.CreateHubProxy(hubNome);
-                hubConnection.Start().Wait();
-                hub.Invoke(metodo, args).Wait();
-                hubConnection.Stop();
+                await hubConnection.Start();
+                await hub.Invoke(metodo, args);
             }
         }
     }

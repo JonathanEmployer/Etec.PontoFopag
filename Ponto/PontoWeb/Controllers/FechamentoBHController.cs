@@ -83,9 +83,8 @@ namespace PontoWeb.Controllers
                 bllFechamentoBH.ValidaFechamento(fechamento, ref erros);
                 if (erros.Count == 0)
                 {
-                    bllFechamentoBH.ExcluirFechamento(fechamento.Id);
                     fechamento.Acao = Acao.Excluir;
-                    Modelo.Proxy.PxyJobReturn ret = Recalcular(fechamento);
+                    Modelo.Proxy.PxyJobReturn ret = FecharPonto(fechamento, new BancoHoras());
                     return new JsonResult
                     {
                         Data = new
@@ -123,12 +122,20 @@ namespace PontoWeb.Controllers
             }
         }
 
-        private Modelo.Proxy.PxyJobReturn Recalcular(FechamentoBH fechamento)
+        private Modelo.Proxy.PxyJobReturn FecharPonto(FechamentoBH fechamento, BancoHoras objBancoHoras)
         {
             HangfireManagerCalculos hfm = new HangfireManagerCalculos(_usr.DataBase, "", "", "/FechamentoBH/Grid");
             string parametrosExibicao = String.Format("Código: {0}, Data: {1}, tipo: {2} - {3}", fechamento.Codigo, fechamento.Data.GetValueOrDefault().ToString("dd/MM/yyyy HH:mm"), fechamento.TipoStr, fechamento.NomeTipoPessoa);
             string acao = fechamento.AcaoDescricao;
-            Modelo.Proxy.PxyJobReturn ret = hfm.RecalculaMarcacao(String.Format("Recalculo de marcações por {0} de fechamento de Banco de Horas", acao), parametrosExibicao, fechamento.Tipo, fechamento.Identificacao, fechamento.Data.Value, fechamento.Data.Value);
+            Modelo.Proxy.PxyJobReturn ret = new Modelo.Proxy.PxyJobReturn();
+            if (fechamento.Acao == Acao.Excluir)
+            {
+                ret = hfm.ExcluirFechamentoPonto(String.Format("Cálculo de {0} de fechamento de Banco de Horas", acao), parametrosExibicao, fechamento);
+            }
+            else
+            {
+                ret = hfm.FechamentoPonto(String.Format("Cálculo de {0} de fechamento de Banco de Horas", acao), parametrosExibicao, fechamento, objBancoHoras);
+            }
             return ret;
         }
 
@@ -178,13 +185,10 @@ namespace PontoWeb.Controllers
                         }
                         else
                         {
-                            //Atualiza as marcações
-                            bllMarcacao.InsereMarcacoesNaoExistentes(objFechamentoBH.Tipo, idTipo, objBancoHoras.DataInicial.Value, objFechamentoBH.Data.Value, objProgress, false);
-
-                            //Realiza o fechamento do banco de horas por funcionario
-                            bllFechamentoBH.ChamaCalculaFechamento(objBancoHoras, objFechamentoBH, ref listaobjFechamentoBHDPercentual, obj.PagamentoHoraCreAuto, obj.LimiteHorasPagamentoCredito, obj.PagamentoHoraDebAuto, obj.LimiteHorasPagamentoDebito, ref objProgress);
-                            obj.Identificacao = idTipo;
-                            Recalcular(obj);
+                            objFechamentoBH.Acao = Acao.Incluir;
+                            objFechamentoBH.Tipo = obj.Tipo;
+                            objFechamentoBH.NomeTipoPessoa = obj.NomeTipoPessoa;
+                            FecharPonto(objFechamentoBH, objBancoHoras);
                             return RedirectToAction("Grid", "FechamentoBH");
                         }
                     }

@@ -31,12 +31,20 @@ namespace BLL_N.JobManager.Hangfire
                     if (!namespaceManager.QueueExists(queue))
                         namespaceManager.CreateQueue(queue);
                 }
-                
-                var sqlStorage = new SqlServerStorage("MonitorPontofopag");
+                var options = new SqlServerStorageOptions
+                {
+                    CommandBatchMaxTimeout = TimeSpan.FromHours(2),
+                    SlidingInvisibilityTimeout = TimeSpan.FromHours(2),
+                    QueuePollInterval = TimeSpan.Zero,
+                    UseRecommendedIsolationLevel = true,
+                    UsePageLocksOnDequeue = true,
+                    DisableGlobalLocks = true,
+                    InvisibilityTimeout = TimeSpan.FromHours(1)
+                };
+                var sqlStorage = new SqlServerStorage("MonitorPontofopag", options);
                 Action<QueueDescription> configureAction = qd =>
                 {
                     qd.MaxSizeInMegabytes = 5120;
-                    qd.DefaultMessageTimeToLive = new TimeSpan(0, 1, 0);
                 };
                 sqlStorage.UseServiceBusQueues(new ServiceBusQueueOptions
                 {
@@ -44,14 +52,16 @@ namespace BLL_N.JobManager.Hangfire
                     Configure = configureAction,
                     Queues = queues,
                     CheckAndCreateQueues = false,
-                    LoopReceiveTimeout = TimeSpan.FromMilliseconds(1000)
+                    LoopReceiveTimeout = TimeSpan.FromHours(1),
+                    LockRenewalDelay = TimeSpan.FromSeconds(15)
+
                 });
                 GlobalConfiguration.Configuration.UseStorage(sqlStorage);
             }
-           
+
             GlobalConfiguration.Configuration
                 .UseConsole()
-                .UseFilter(new AutomaticRetryAttribute{ Attempts = 3 })
+                .UseFilter(new AutomaticRetryAttribute { Attempts = 3 })
                 .UseFilter(new HangfireJobFilterAttribute());
         }
 
@@ -80,7 +90,5 @@ namespace BLL_N.JobManager.Hangfire
             };
             return new BackgroundJobServer(options);
         }
-
-
     }
 }

@@ -250,7 +250,9 @@ namespace DAL.SQL
                         , [dbo].ConvertHoraMinutoV2Nulavel(parametros.TIntervaloFalta) AS TIntervaloFalta 
 
 						, marcacao.exphorasextranoturna 
-                        , parametros.bConsiderarHEFeriadoPHoraNoturna 
+                        , parametros.bConsiderarHEFeriadoPHoraNoturna
+                        , parametros.Flg_Estender_Periodo_Noturno
+                        , parametros.Flg_Separar_Trabalhadas_Noturna_Extras_Noturna
                         , parametros.reducaohoranoturna 
                         , parametros.HabilitarControleInItinere 
                         , funcionario.nome nomeFuncionario 
