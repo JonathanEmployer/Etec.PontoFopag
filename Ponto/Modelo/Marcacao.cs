@@ -434,10 +434,18 @@ namespace Modelo
         /// Total Horas Faltas Noturna
         /// </summary>
         public string Horasfaltanoturna { get; set; }
+        
+        private string ocorrencia;
+
         /// <summary>
         /// Identificação da Ocorrencia
         /// </summary>
-        public string Ocorrencia { get; set; }
+        public string Ocorrencia
+        {
+            get { return ocorrencia; }
+            set { ocorrencia = value.Length > 60 ? value.Substring(0, 60) : value; }
+        }
+
         /// <summary>
         /// Identificação do Horario
         /// </summary>
