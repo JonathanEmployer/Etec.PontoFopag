@@ -58,15 +58,15 @@ namespace cwkWebAPIPontoWeb.Controllers
                             ContratoFunc.IdFuncionario = funcid.GetValueOrDefault();
 
                             int? idcontratofuncionario = bllContratoFuncionario.GetIdPorIdContratoeIdFuncionario(contid.GetValueOrDefault(), funcid.GetValueOrDefault());
-                            int idContratoAnt = bllContratoFun.getContratoId(ContratoFunc.IdFuncionario);
-                            int CodigoContrato = bllContratoFun.getContratoCodigo(idContratoAnt, ContratoFunc.IdFuncionario);
-                            int IdAnt = CodigoContrato != 0 ? bllContratoFun.getId(CodigoContrato, null, null) : 0;
+                            int? idContratoAnt = bllContratoFun.getContratoId(ContratoFunc.IdFuncionario);
                             
                             Modelo.ContratoFuncionario ContFunc = new Modelo.ContratoFuncionario();                            
-                            if (idcontratofuncionario == 0 && acao == Acao.Incluir)
+                            if (idcontratofuncionario.GetValueOrDefault() == 0 && acao == Acao.Incluir)
                             {
-                                if (idContratoAnt !=ContratoFunc.IdContrato && idContratoAnt != 0)
+                                if (idContratoAnt != ContratoFunc.IdContrato && idContratoAnt != 0)
                                 {
+                                    int CodigoContrato = bllContratoFun.getContratoCodigo(idContratoAnt.GetValueOrDefault(), ContratoFunc.IdFuncionario);
+                                    int IdAnt = CodigoContrato != 0 ? bllContratoFun.getId(CodigoContrato, null, null) : 0;
                                     Modelo.ContratoFuncionario ContFuncAnt = new Modelo.ContratoFuncionario();
                                     ContFuncAnt = bllContratoFuncionario.LoadObject(IdAnt);
                                     acao = Acao.Alterar;                                                                      
