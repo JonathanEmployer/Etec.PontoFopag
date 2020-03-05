@@ -24,8 +24,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public string altusuario { get; set; }
         public Nullable<int> idEmpresa { get; set; }
         public string logo { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
     
         public virtual empresa empresa { get; set; }
     }

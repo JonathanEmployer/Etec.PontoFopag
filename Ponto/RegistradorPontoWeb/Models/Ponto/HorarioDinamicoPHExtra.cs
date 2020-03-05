@@ -33,8 +33,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<short> PercentualExtraNoturna { get; set; }
         public string QuantidadeExtraNoturna { get; set; }
         public Nullable<short> PercentualExtraSegundoNoturna { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
     
         public virtual HorarioDinamico HorarioDinamico { get; set; }
     }

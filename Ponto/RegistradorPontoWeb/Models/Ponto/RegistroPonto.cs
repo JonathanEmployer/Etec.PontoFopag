@@ -18,6 +18,7 @@ namespace RegistradorPontoWeb.Models.Ponto
         public RegistroPonto()
         {
             this.bilhetesimp = new HashSet<bilhetesimp>();
+            this.IdentificacaoReconhecimentoFacil = new HashSet<IdentificacaoReconhecimentoFacil>();
         }
     
         public int Id { get; set; }
@@ -51,5 +52,7 @@ namespace RegistradorPontoWeb.Models.Ponto
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<bilhetesimp> bilhetesimp { get; set; }
         public virtual funcionario funcionario { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<IdentificacaoReconhecimentoFacil> IdentificacaoReconhecimentoFacil { get; set; }
     }
 }

@@ -33,8 +33,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<short> percentualExtraNoturna { get; set; }
         public string quantidadeExtraNoturna { get; set; }
         public Nullable<short> percentualextrasegundoNoturna { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
     
         public virtual horario horario { get; set; }
     }

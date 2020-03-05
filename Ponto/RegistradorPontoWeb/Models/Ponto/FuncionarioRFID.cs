@@ -26,8 +26,6 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<int> IdFuncionario { get; set; }
         public string MIFARE { get; set; }
         public bool Ativo { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
     
         public virtual funcionario funcionario { get; set; }
     }

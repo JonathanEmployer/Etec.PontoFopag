@@ -25,10 +25,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<System.DateTime> althora { get; set; }
         public string altusuario { get; set; }
         public Nullable<int> IdRep { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
     
-        public virtual rep rep { get; set; }
         public virtual funcionario funcionario { get; set; }
+        public virtual rep rep { get; set; }
     }
 }

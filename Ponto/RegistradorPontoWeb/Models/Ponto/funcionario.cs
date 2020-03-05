@@ -25,7 +25,10 @@ namespace RegistradorPontoWeb.Models.Ponto
             this.EnvioDadosRepDet = new HashSet<EnvioDadosRepDet>();
             this.FechamentoPontoFuncionario = new HashSet<FechamentoPontoFuncionario>();
             this.FeriadoFuncionario = new HashSet<FeriadoFuncionario>();
+            this.FuncionarioAzureCognitiveService = new HashSet<FuncionarioAzureCognitiveService>();
             this.LogErroPainelAPI = new HashSet<LogErroPainelAPI>();
+            this.TransferenciaBilhetes = new HashSet<TransferenciaBilhetes>();
+            this.TransferenciaBilhetes1 = new HashSet<TransferenciaBilhetes>();
             this.funcionariohistorico = new HashSet<funcionariohistorico>();
             this.FuncionarioRFID = new HashSet<FuncionarioRFID>();
             this.LancamentoLoteFuncionario = new HashSet<LancamentoLoteFuncionario>();
@@ -83,7 +86,11 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<int> idHorarioDinamico { get; set; }
         public Nullable<int> CicloSequenciaIndice { get; set; }
         public Nullable<System.DateTime> DataInativacao { get; set; }
-        public Nullable<bool> funcionarioativo { get; set; }
+        public Nullable<int> funcionarioativo { get; set; }
+        public bool UtilizaAppPontofopag { get; set; }
+        public bool UtilizaWebAppPontofopag { get; set; }
+        public bool UtilizaReconhecimentoFacialApp { get; set; }
+        public bool UtilizaReconhecimentoFacialWebApp { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<afastamento> afastamento { get; set; }
@@ -107,11 +114,17 @@ namespace RegistradorPontoWeb.Models.Ponto
         public virtual ICollection<FeriadoFuncionario> FeriadoFuncionario { get; set; }
         public virtual funcao funcao { get; set; }
         public virtual HorarioDinamico HorarioDinamico { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FuncionarioAzureCognitiveService> FuncionarioAzureCognitiveService { get; set; }
         public virtual horario horario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LogErroPainelAPI> LogErroPainelAPI { get; set; }
         public virtual Pessoa Pessoa { get; set; }
         public virtual TipoVinculo TipoVinculo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TransferenciaBilhetes> TransferenciaBilhetes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TransferenciaBilhetes> TransferenciaBilhetes1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<funcionariohistorico> funcionariohistorico { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

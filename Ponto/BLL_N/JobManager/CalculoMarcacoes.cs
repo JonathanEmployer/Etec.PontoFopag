@@ -176,13 +176,13 @@ namespace BLL_N.JobManager
 
             foreach (var grupo in funcsRecalculo.Where( w=> w.DataFim != null && w.DataInicio <= w.DataFim).GroupBy(g => new { g.DataInicio, g.DataFim }))
             {
-                CalculaMarcacoes(grupo.Select(s => s.IdFuncionario).ToList(), grupo.Key.DataInicio, grupo.Key.DataFim.GetValueOrDefault(), conexao, user, pb);
+                CalculaMarcacoes(grupo.Select(s => s.IdFuncionario).ToList(), grupo.Key.DataInicio.GetValueOrDefault(), grupo.Key.DataFim.GetValueOrDefault(), conexao, user, pb);
             }
         }
 
         public static void RecalculaEdicaoFuncionario(Modelo.Funcionario funcionario, Modelo.UsuarioPontoWeb usuarioLogado, bool considerarInativos = false)
         {
-            DateTime datai = DateTime.Now.AddMonths(-1);
+            DateTime? datai = null;
             if ((funcionario.Funcionarioativo != funcionario.Funcionarioativo_Ant)
                                 || (funcionario.Dataadmissao_Ant != funcionario.Dataadmissao) || (funcionario.Datademissao_Ant != funcionario.Datademissao)
                                 || (funcionario.Naoentrarbanco_Ant != funcionario.Naoentrarbanco) || (funcionario.Naoentrarcompensacao_Ant != funcionario.Naoentrarcompensacao) || funcionario.DataInativacao != funcionario.DataInativacao_Ant)

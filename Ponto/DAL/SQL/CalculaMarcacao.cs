@@ -191,7 +191,7 @@ namespace DAL.SQL
                         , horariodetalhe.totaltrabalhadadiurna 
                         , horariodetalhe.totaltrabalhadanoturna 
                         , horariodetalhe.cargahorariamista 
-                        , horariodetalhe.marcacargahorariamista AS marcacargahorariamistahd 
+                        , horario.marcacargahorariamista AS marcacargahorariamistahd 
                         , horariodetalhe.bcarregar 
                         , horariodetalhe.flagfolga 
                         , horariodetalhe.neutro flagneutro 

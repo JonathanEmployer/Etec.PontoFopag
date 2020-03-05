@@ -6,14 +6,16 @@ using System.Linq;
 using System.Collections;
 using cwkPontoMT.Integracao;
 using cwkPontoMT.Integracao.Entidades;
-using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace BLL
 {
     public partial class BilhetesImp : IBLL<Modelo.BilhetesImp>
     {
         private Modelo.ProgressBar objProgressBar;
+        private IFormatProvider _cultureInfoBr = new CultureInfo("pt-BR");
         private static readonly DateTime DATA_VAZIA = new DateTime();
+        
         public Modelo.ProgressBar ObjProgressBar
         {
             get { return objProgressBar; }
@@ -90,7 +92,7 @@ namespace BLL
 
 
         public bool ImportacaoBilhetes(List<Modelo.TipoBilhetes> plistaTipoBilhetes, string pArquivo, int pBilhete, bool pIndividual, string pFuncionario,
-                                       ref DateTime? pDataI, ref DateTime? pDataF, List<string> log, string numRelogio, Modelo.Cw_Usuario usuarioLogado)
+                                       ref DateTime? pDataI, ref DateTime? pDataF, List<string> log, Modelo.Cw_Usuario usuarioLogado)
         {
             BLL.REP bllRep;
             BLL.Funcionario bllFunc;
@@ -107,7 +109,7 @@ namespace BLL
                 bllFunc = new BLL.Funcionario(ConnectionString, usuarioLogado);
             }
             List<string> listaPis = new List<string>();
-            if (!ValidaImportacaoBilhetes(plistaTipoBilhetes, pArquivo, pBilhete, pFuncionario, pDataI, pDataF, log, out listaPis))
+            if (!ValidaImportacaoBilhetes(plistaTipoBilhetes, pArquivo, pBilhete, pDataI, pDataF, log, out listaPis))
             {
                 return false;
             }
@@ -132,7 +134,7 @@ namespace BLL
             #endregion
 
             DataTable pisFuncionarios = null;
-            if (plistaTipoBilhetes.Where(t => (t.FormatoBilhete == 3 || t.FormatoBilhete == 4 || t.FormatoBilhete == 5) && t.BImporta).Count() > 0)
+            if (plistaTipoBilhetes.Where(t => (t.FormatoBilhete == 3 || t.FormatoBilhete == 4 || t.FormatoBilhete == 5) && t.BImporta).Any())
             {
                 pisFuncionarios = dalFuncionario.GetPisCodigo(listaPis.Distinct().Select(s => s.TrimStart(new Char[] { '0' })).ToList());
             }
@@ -212,7 +214,7 @@ namespace BLL
                                 case "1":
                                     //Busca o número do rep
                                     numeroRelogio = bllRep.GetNumInner(reg.Campo07);
-                                    if (numeroRelogio == null || numeroRelogio == "")
+                                    if (string.IsNullOrEmpty(numeroRelogio))
                                     {
                                         controleRelogio = ("O REP " + reg.Campo07 + " não está cadastrado no sistema!");
                                         break;
@@ -226,11 +228,12 @@ namespace BLL
                                 case "2":
                                     break;
                                 case "3":
-                                    DateTime dataBil = Convert.ToDateTime(reg.Campo04.Substring(0, 2) + "/" + reg.Campo04.Substring(2, 2) + "/" + reg.Campo04.Substring(4, 4));
+                                    DateTime dataBil = Convert.ToDateTime(reg.Campo04.Substring(0, 2) + "/" + reg.Campo04.Substring(2, 2) + "/" + reg.Campo04.Substring(4, 4), _cultureInfoBr);
                                     contadorProcessados++;
                                     //Cria o bilhete
                                     string validaHora = reg.Campo05.Substring(0, 4);
-                                    if (Convert.ToInt32(validaHora) > 2359)
+                                    int intHora = 0;
+                                    if (!int.TryParse(validaHora, out intHora) || intHora > 2359)
                                     {
                                         valorErrado.Add("Linha " + qtdLidos + ": Valor incorreto." + reg.Campo05.Substring(0, 4));
                                         qtdErrados++;
@@ -241,34 +244,6 @@ namespace BLL
                                     objBilhete.Data = dataBil;
                                     objBilhete.Hora = reg.Campo05.Substring(0, 2) + ":" + reg.Campo05.Substring(2, 2);
                                     objBilhete.Nsr = reg.Nsr;
-                                    //Busca o DSCodigo do funcionário pelo PIS
-                                    //if (pisFuncionarios.ContainsKey(reg.campo06))
-                                    //{
-                                    //    objBilhete.Func = pisFuncionarios[reg.campo06].ToString();
-                                    //    Modelo.Funcionario func = listaFuncionario.Where(s => s.Dscodigo.Contains(objBilhete.Func)).FirstOrDefault();
-                                    //    if (pIndividual == false && usuarioLogado != null &&
-                                    //        (func == null || func.Id == 0))
-                                    //    {
-                                    //        qtdSemPermissao++;
-                                    //        continue;
-                                    //    }
-                                    //    else
-                                    //    {
-                                    //        if (func.DataUltimoFechamento != null && func.DataUltimoFechamento >= objBilhete.Mar_data)
-                                    //        {
-                                    //            qtdPontoFechado++;
-                                    //            continue;
-                                    //        }
-                                    //    }
-                                    //    objBilhete.IdFuncionario = func.Id;
-                                    //    objBilhete.PIS = func.Pis;
-                                    //}
-                                    //else
-                                    //{
-                                    //    naoPossuiFunc++;
-                                    //    qtdErrados++;
-                                    //    continue;
-                                    //}
 
                                     if (pIndividual == true && objBilhete.Func != pFuncionario)
                                     {
@@ -313,30 +288,30 @@ namespace BLL
                     {
                         Modelo.BilhetesImp bilhete = UltimoBilhetePorRep(numeroRelogio);
                         long ultimoNsr = bilhete.Nsr;
-                        DateTime dataUltimoBilhete = Convert.ToDateTime(bilhete.Data.ToShortDateString() + " " + bilhete.Hora);
+                        DateTime dataUltimoBilhete = Convert.ToDateTime(bilhete.Data.ToShortDateString() + " " + bilhete.Hora, _cultureInfoBr);
                         bllRep.SetUltimaImportacao(numeroRelogio, ultimoNsr, dataUltimoBilhete);
                     }
 
                     qtdRepetidos -= qtdProcessados;
                     log.Add("Leitura do TXT");
-                    log.Add("Lidos         = " + String.Format("{0, 10}", contadorProcessados));
-                    log.Add("Processados   = " + String.Format("{0, 10}", qtdProcessados));
-                    log.Add("Errados       = " + String.Format("{0, 10}", qtdErrados));
-                    log.Add("Repetidos     = " + String.Format("{0, 10}", qtdRepetidos));
-                    log.Add("Sem Permissão = " + String.Format("{0, 10}", qtdSemPermissao));
-                    log.Add("Ponto Fechado = " + String.Format("{0, 10}", qtdPontoFechado));
+                    log.Add("Lidos         = " + String.Format(_cultureInfoBr, "{0, 10}", contadorProcessados));
+                    log.Add("Processados   = " + String.Format(_cultureInfoBr, "{0, 10}", qtdProcessados));
+                    log.Add("Errados       = " + String.Format(_cultureInfoBr, "{0, 10}", qtdErrados));
+                    log.Add("Repetidos     = " + String.Format(_cultureInfoBr, "{0, 10}", qtdRepetidos));
+                    log.Add("Sem Permissão = " + String.Format(_cultureInfoBr, "{0, 10}", qtdSemPermissao));
+                    log.Add("Ponto Fechado = " + String.Format(_cultureInfoBr, "{0, 10}", qtdPontoFechado));
                     log.Add("");
-                    if (controleCNPJCPF != null && controleCNPJCPF != "")
+                    if (!String.IsNullOrEmpty(controleCNPJCPF))
                     {
-                        log.Add("CNPJ/CPF incorreto = " + String.Format("{0, 10}", controleCNPJCPF));
+                        log.Add("CNPJ/CPF incorreto = " + String.Format(_cultureInfoBr, "{0, 10}", controleCNPJCPF));
                     }
                     log.Add("");
-                    log.Add("Não Foram importados " + String.Format("{0, 10}", naoPossuiFunc) + " registros porque não possui o funcionário cadastrado no banco");
+                    log.Add("Não Foram importados " + String.Format(_cultureInfoBr, "{0, 10}", naoPossuiFunc) + " registros porque não possui o funcionário cadastrado no banco");
                     log.Add("");
                     if (valorErrado.Count > 0)
                     {
                         log.Add("---------------------------------------------------------------------------------------");
-                        int i = valorErrado.Count();
+                        int i = valorErrado.Count;
                         log.Add("Numero de registros com valores errados: " + i + ". Não Foram importado: ");
                         foreach (var item in valorErrado.GroupBy(g => g))
                         {
@@ -392,7 +367,7 @@ namespace BLL
             #endregion
 
             DataTable pisFuncionarios = null;
-            if (plistaTipoBilhetes.Where(t => (t.FormatoBilhete == 3 || t.FormatoBilhete == 4 || t.FormatoBilhete == 5) && t.BImporta).Count() > 0)
+            if (plistaTipoBilhetes.Where(t => (t.FormatoBilhete == 3 || t.FormatoBilhete == 4 || t.FormatoBilhete == 5) && t.BImporta).Any())
             {
                 pisFuncionarios = dalFuncionario.GetPisCodigo(webApi);
             }
@@ -422,7 +397,6 @@ namespace BLL
             }
             return qtdProcessados > 0;
         }
-
 
         private void ImportacaoArquivo(string pArquivo, int pBilhete, bool pIndividual, string pFuncionario, DateTime? pDataI, DateTime? pDataF, List<string> log,
                                        int max, int contador3, int contadorProcessados, int naoPossuiFunc, string numeroRelogio, string controleRelogio,
@@ -475,7 +449,7 @@ namespace BLL
             decimal count = 0;
             int incrementoAnt = 0;
             int tamanhoProgressAtual = objProgressBar.valorCorrenteProgress();
-            decimal total = linhas.Count();
+            decimal total = linhas.Count;
             List<string> valorErrado = new List<string>();
 
             if ((tp.FormatoBilhete == 3) || (tp.FormatoBilhete == 5))
@@ -486,14 +460,14 @@ namespace BLL
                 int primeiraLinhaImportar = 0;
                 if (pDataI != null)
                 {
-                    string procurarData = pDataI.GetValueOrDefault().ToString("ddMMyyyy");
+                    string procurarData = pDataI.GetValueOrDefault().ToString("ddMMyyyy", _cultureInfoBr);
                     primeiraLinhaImportar = linhas.FindIndex(f => f.Contains(procurarData));
                 }
                 List<string> registrosProcessar = new List<string>();
                 if (primeiraLinhaImportar > 0)
                     registrosProcessar.Add(linhas.FirstOrDefault());
                 registrosProcessar.AddRange(linhas.Skip(primeiraLinhaImportar));
-                total = registrosProcessar.Count();
+                total = registrosProcessar.Count;
                 foreach (string linha in registrosProcessar)
                 {
                     count++;
@@ -501,7 +475,7 @@ namespace BLL
                     if (incrementoAnt != incremento || count == 1 || count == total)
                     {
                         objProgressBar.setaValorPB(tamanhoProgressAtual + incremento);
-                        objProgressBar.incrementaPBCMensagem(0, String.Format("Realizando leitura da linha {0} de {1}", count, total));
+                        objProgressBar.incrementaPBCMensagem(0, String.Format(_cultureInfoBr, "Realizando leitura da linha {0} de {1}", count, total));
                         incrementoAnt = incremento;
                     }
 
@@ -509,7 +483,7 @@ namespace BLL
                     {
                         break;
                     }
-                    if (linha == String.Empty)
+                    if (string.IsNullOrEmpty(linha))
                     {
                         continue;
                     }
@@ -519,10 +493,10 @@ namespace BLL
                     if (linha.Substring(9, 1) == "1")
                     {
                         //Busca o número do rep
-                        if (linha.Substring(187, 17) != null && linha.Substring(187, 17) != "")
+                        if (!String.IsNullOrEmpty(linha.Substring(187, 17)))
                         {
                             numeroRelogio = bllRep.GetNumInner(linha.Substring(187, 17));
-                            if (numeroRelogio == null || numeroRelogio == "")
+                            if (string.IsNullOrEmpty(numeroRelogio))
                             {
                                 controleRelogio = ("O REP " + linha.Substring(187, 17) + " não está cadastrado no sistema!");
                                 break;
@@ -546,7 +520,7 @@ namespace BLL
                         {
                             continue;
                         }
-                        DateTime dataBil = Convert.ToDateTime(linha.Substring(10, 2) + "/" + linha.Substring(12, 2) + "/" + linha.Substring(14, 4));
+                        DateTime dataBil = Convert.ToDateTime(linha.Substring(10, 2) + "/" + linha.Substring(12, 2) + "/" + linha.Substring(14, 4), _cultureInfoBr);
                         if (pDataI.HasValue && dataBil < pDataI.Value)
                         {
                             continue;
@@ -558,14 +532,24 @@ namespace BLL
                         contadorProcessados++;
                         //Cria o bilhete
                         string validaHora = linha.Substring(18, 2) + linha.Substring(20, 2);
-                        if (Convert.ToInt32(validaHora) > 2359)
+                        int intValidaHora = 0;
+                        if (!int.TryParse(validaHora, out intValidaHora) || Convert.ToInt32(intValidaHora) > 2359)
                         {
                             valorErrado.Add("Linha "+ qtdLidos+": Valor incorreto." + linha.Substring(18, 2) + linha.Substring(20, 2));
                             qtdErrados++;
                             continue;
                         }
+                        string nsrString = linha.Substring(0, 9);
+                        int nsr = 0;
+                        if (!int.TryParse(nsrString, out nsr))
+                        {
+                            valorErrado.Add("Linha " + qtdLidos + ": Valor de nsr incorreto. (" + linha.Substring(0, 9) + ")");
+                            qtdErrados++;
+                            continue;
+
+                        }
                         objBilhete = new Modelo.BilhetesImp();
-                        objBilhete.Nsr = Convert.ToInt32(linha.Substring(0, 9));
+                        objBilhete.Nsr = nsr;
                         objBilhete.Ordem = "000";
                         objBilhete.Data = dataBil;
                         objBilhete.Hora = linha.Substring(18, 2) + ":" + linha.Substring(20, 2);
@@ -573,23 +557,23 @@ namespace BLL
 
                         var dsCodigosLista = pisFuncionarios.AsEnumerable().Where(row => row.Field<String>("pis") == linha.Substring(22, 12) && row.Field<int>("excluido") == 0);
 
-                        DataTable dt = dsCodigosLista.Count() > 0
-                            ? dsCodigosLista.CopyToDataTable().DefaultView.ToTable(false, "dscodigo", "funcionarioativo") :
-                            new DataTable();
-
-                        try
+                        if (dsCodigosLista.Any())
                         {
-                            dsCodigos = dt.AsEnumerable().ToDictionary(row => row.Field<String>("dscodigo"), row => row.Field<int>("funcionarioativo"));
-                        }
-                        catch (Exception)
-                        {
-                            throw new Exception("Existem funcionários cadastrados com o mesmo DsCodigo.");
+                            DataTable dt = dsCodigosLista.CopyToDataTable().DefaultView.ToTable(false, "dscodigo", "funcionarioativo");
+                            try
+                            {
+                                dsCodigos = dt.AsEnumerable().ToDictionary(row => row.Field<String>("dscodigo"), row => row.Field<int>("funcionarioativo"));
+                            }
+                            catch (Exception)
+                            {
+                                throw new Exception(String.Format(_cultureInfoBr, "Existem funcionários cadastrados com o mesmo DsCodigo."));
+                            } 
                         }
 
                         Modelo.Funcionario func = new Modelo.Funcionario();
-                        if (dsCodigos.Count() > 0)
+                        if (dsCodigos.Any())
                         {
-                            objBilhete.Func = dsCodigos.OrderByDescending(o => o.Value).FirstOrDefault().Key.ToString();
+                            objBilhete.Func = dsCodigos.OrderByDescending(o => o.Value).FirstOrDefault().Key.ToString(_cultureInfoBr);
                             bool erro = false;
                             func = ValidaFuncionarioPermissaoFechamento(pIndividual, ref qtdSemPermissao, usuarioLogado, ref qtdPontoFechado, listaFuncionario, objBilhete, ref erro, pFuncionario);
                             if (erro)
@@ -647,7 +631,7 @@ namespace BLL
                     if (incrementoAnt != incremento)
                     {
                         objProgressBar.setaValorPB(tamanhoProgressAtual + incremento);
-                        objProgressBar.incrementaPBCMensagem(0, String.Format("Realizando leitura da linha {0} de {1}", count, total));
+                        objProgressBar.incrementaPBCMensagem(0, String.Format(_cultureInfoBr, "Realizando leitura da linha {0} de {1}", count, total));
                         incrementoAnt = incremento;
                     }
 
@@ -655,7 +639,7 @@ namespace BLL
                     {
                         break;
                     }
-                    if (linha == String.Empty)
+                    if (String.IsNullOrEmpty(linha))
                     {
                         continue;
                     }
@@ -677,7 +661,8 @@ namespace BLL
                             }
                             //Cria o bilhete
                             string validaHora = linha.Substring(13, 5);
-                            if (Convert.ToInt32(validaHora) > 02359)
+                            int hora = 0;
+                            if (!int.TryParse(validaHora, out hora) ||hora > 02359)
                             {
                                 valorErrado.Add("Linha " + qtdLidos + ": Valor incorreto." + linha.Substring(13, 5));
                                 qtdErrados++;
@@ -685,7 +670,7 @@ namespace BLL
                             }
                             objBilhete = new Modelo.BilhetesImp();
                             objBilhete.Ordem = linha.Substring(0, 3);
-                            objBilhete.Data = Convert.ToDateTime(linha.Substring(4, 8));
+                            objBilhete.Data = Convert.ToDateTime(linha.Substring(4, 8), _cultureInfoBr);
                             objBilhete.Hora = linha.Substring(13, 5);
                             objBilhete.Func = linha.Substring(19, 5);
                             objBilhete.Relogio = linha.Substring(25, 2);
@@ -704,8 +689,9 @@ namespace BLL
                                 continue;
                             }
                             //Cria o bilhete
-                            string validaHora1 = linha.Substring(13, 5);
-                            if (Convert.ToInt32(validaHora1) > 02359)
+                            validaHora = linha.Substring(13, 5);
+                            hora = 0;
+                            if (!int.TryParse(validaHora, out hora) || hora > 02359)
                             {
                                 valorErrado.Add("Linha " + qtdLidos + ": Valor incorreto." + linha.Substring(13, 5));
                                 qtdErrados++;
@@ -713,7 +699,7 @@ namespace BLL
                             }
                             objBilhete = new Modelo.BilhetesImp();
                             objBilhete.Ordem = linha.Substring(0, 3);
-                            objBilhete.Data = Convert.ToDateTime(linha.Substring(4, 8));
+                            objBilhete.Data = Convert.ToDateTime(linha.Substring(4, 8), _cultureInfoBr);
                             objBilhete.Hora = linha.Substring(13, 5);
                             objBilhete.Func = linha.Substring(19, 16);
                             objBilhete.Relogio = linha.Substring(36, 2);
@@ -727,8 +713,9 @@ namespace BLL
                                 continue;
                             }
                             //Cria o bilhete
-                            string validaHora2 = linha.Substring(tp.Hora_c, tp.Hora_t) + linha.Substring(tp.Minuto_c, tp.Minuto_t);
-                            if (Convert.ToInt32(validaHora2) > 2359)
+                            validaHora = linha.Substring(tp.Hora_c, tp.Hora_t) + linha.Substring(tp.Minuto_c, tp.Minuto_t);
+                            hora = 0;
+                            if (!int.TryParse(validaHora, out hora) || hora > 02359)
                             {
                                 valorErrado.Add("Linha " + qtdLidos + ": Valor incorreto." + linha.Substring(tp.Hora_c, tp.Hora_t) + linha.Substring(tp.Minuto_c, tp.Minuto_t));
                                 qtdErrados++;
@@ -738,7 +725,7 @@ namespace BLL
                             objBilhete.Ordem = linha.Substring(tp.Ordem_c, tp.Ordem_t);
                             if (String.IsNullOrEmpty(objBilhete.Ordem.Trim()))
                                 objBilhete.Ordem = "000";
-                            objBilhete.Data = Convert.ToDateTime(linha.Substring(tp.Dia_c, tp.Dia_t) + "/" + linha.Substring(tp.Mes_c, tp.Mes_t) + "/" + linha.Substring(tp.Ano_c, tp.Ano_t));
+                            objBilhete.Data = Convert.ToDateTime(linha.Substring(tp.Dia_c, tp.Dia_t) + "/" + linha.Substring(tp.Mes_c, tp.Mes_t) + "/" + linha.Substring(tp.Ano_c, tp.Ano_t), _cultureInfoBr);
                             objBilhete.Hora = linha.Substring(tp.Hora_c, tp.Hora_t) + ":" + linha.Substring(tp.Minuto_c, tp.Minuto_t);
                             objBilhete.Func = linha.Substring(tp.Funcionario_c, tp.Funcionario_t);
                             objBilhete.Relogio = linha.Substring(tp.Relogio_c, tp.Relogio_t);
@@ -756,7 +743,6 @@ namespace BLL
                     {
                         continue;
                     }
-                    objBilhete.Func = Convert.ToInt64(objBilhete.Func).ToString();
                     //Caso seja importação individual, verifica se o bilhete é do funcionário selecionado
                     if (pIndividual == true && objBilhete.Func != pFuncionario)
                     {
@@ -805,42 +791,42 @@ namespace BLL
             {
                 Modelo.BilhetesImp bilhete = UltimoBilhetePorRep(numeroRelogio);
                 long ultimoNsr = bilhete.Nsr;
-                DateTime dataUltimoBilhete = Convert.ToDateTime(bilhete.Data.ToShortDateString() + " " + bilhete.Hora);
+                DateTime dataUltimoBilhete = Convert.ToDateTime(bilhete.Data.ToShortDateString() + " " + bilhete.Hora, _cultureInfoBr);
                 bllRep.SetUltimaImportacao(numeroRelogio, ultimoNsr, dataUltimoBilhete);
             }
             objProgressBar.incrementaPBCMensagem(20, "Bilhetes Salvos (" + qtdProcessados + "), gerando arquivo de retorno");
             qtdRepetidos -= qtdProcessados;
             log.Add("Leitura do TXT");
-            log.Add("Total de Linhas = " + String.Format("{0, 10}", linhas.Count));
-            log.Add("Descartados     = " + String.Format("{0, 10}", linhas.Count - contadorProcessados));
-            log.Add("Lidos           = " + String.Format("{0, 10}", contadorProcessados));
-            log.Add("Processados     = " + String.Format("{0, 10}", qtdProcessados));
-            log.Add("Não Encontrado  = " + String.Format("{0, 10}", naoPossuiFunc));
-            log.Add("Errados         = " + String.Format("{0, 10}", qtdErrados));
-            log.Add("Repetidos       = " + String.Format("{0, 10}", qtdRepetidos));
-            log.Add("Sem Permissão   = " + String.Format("{0, 10}", qtdSemPermissao));
-            log.Add("Ponto Fechado   = " + String.Format("{0, 10}", qtdPontoFechado));
+            log.Add("Total de Linhas = " + String.Format(_cultureInfoBr, "{0, 10}", linhas.Count));
+            log.Add("Descartados     = " + String.Format(_cultureInfoBr, "{0, 10}", linhas.Count - contadorProcessados));
+            log.Add("Lidos           = " + String.Format(_cultureInfoBr, "{0, 10}", contadorProcessados));
+            log.Add("Processados     = " + String.Format(_cultureInfoBr, "{0, 10}", qtdProcessados));
+            log.Add("Não Encontrado  = " + String.Format(_cultureInfoBr, "{0, 10}", naoPossuiFunc));
+            log.Add("Errados         = " + String.Format(_cultureInfoBr, "{0, 10}", qtdErrados));
+            log.Add("Repetidos       = " + String.Format(_cultureInfoBr, "{0, 10}", qtdRepetidos));
+            log.Add("Sem Permissão   = " + String.Format(_cultureInfoBr, "{0, 10}", qtdSemPermissao));
+            log.Add("Ponto Fechado   = " + String.Format(_cultureInfoBr, "{0, 10}", qtdPontoFechado));
             log.Add("");
-            if (controleCNPJCPF != null && controleCNPJCPF != "")
+            if (!String.IsNullOrEmpty(controleCNPJCPF))
             {
-                log.Add("CNPJ/CPF incorreto = " + String.Format("{0, 10}", controleCNPJCPF));
+                log.Add("CNPJ/CPF incorreto = " + String.Format(_cultureInfoBr, "{0, 10}", controleCNPJCPF));
                 log.Add("");
             }
 
             if (lPisNaoEncontrado.Count > 0)
             {
-                log.Add("Não Foram importados " + String.Format("{0, 10}", naoPossuiFunc) + " registros, pois os funcionários não foram cadastrados ou estão inativos ou excluídos. PIS não encontrado:");
-                log.Add("PIS".PadRight(15, ' ') + " | " + "Quantidade".ToString().PadLeft(10, ' '));
+                log.Add("Não Foram importados " + String.Format(_cultureInfoBr, "{0, 10}", naoPossuiFunc) + " registros, pois os funcionários não foram cadastrados ou estão inativos ou excluídos. PIS não encontrado:");
+                log.Add("PIS".PadRight(15, ' ') + " | " + "Quantidade".ToString(_cultureInfoBr).PadLeft(10, ' '));
                 foreach (var item in lPisNaoEncontrado.GroupBy(g => g))
                 {
-                    log.Add(item.Key.PadRight(15, ' ') + " | " + item.ToList().Count().ToString().PadLeft(10, ' '));
+                    log.Add(item.Key.PadRight(15, ' ') + " | " + item.ToList().Count.ToString(_cultureInfoBr).PadLeft(10, ' '));
                 }
                 log.Add("");
             }
             if (valorErrado.Count > 0)
             {
                 log.Add("---------------------------------------------------------------------------------------");
-                int i = valorErrado.Count();
+                int i = valorErrado.Count;
                 log.Add("Numero de registros com valores errados: " + i + ". Não Foram importados: ");
                 foreach (var item in valorErrado.GroupBy(g => g))
                 {
@@ -933,7 +919,7 @@ namespace BLL
                         {
                             break;
                         }
-                        if (linha == String.Empty)
+                        if (String.IsNullOrEmpty(linha))
                         {
                             continue;
                         }
@@ -946,10 +932,10 @@ namespace BLL
                             if (!naoValidaRep)
                             {
                                 //Busca o número do rep
-                                if (linha.Substring(187, 17) != null && linha.Substring(187, 17) != "")
+                                if (!String.IsNullOrEmpty(linha.Substring(187, 17)))
                                 {
                                     numeroRelogio = bllRep.GetNumInner(linha.Substring(187, 17));
-                                    if (numeroRelogio == null || numeroRelogio == "")
+                                    if (String.IsNullOrEmpty(numeroRelogio))
                                     {
                                         controleRelogio = ("O REP " + linha.Substring(187, 17) + " não está cadastrado no sistema!");
                                         break;
@@ -971,7 +957,7 @@ namespace BLL
                         }
                         else if (linha.Substring(9, 1) == "3")
                         {
-                            DateTime dataBil = Convert.ToDateTime(linha.Substring(10, 2) + "/" + linha.Substring(12, 2) + "/" + linha.Substring(14, 4));
+                            DateTime dataBil = Convert.ToDateTime(linha.Substring(10, 2) + "/" + linha.Substring(12, 2) + "/" + linha.Substring(14, 4), _cultureInfoBr);
                             if (pDataI.HasValue && dataBil < pDataI.Value)
                             {
                                 continue;
@@ -983,14 +969,23 @@ namespace BLL
                             contadorProcessados++;
                             //Cria o bilhete
                             string validaHora = linha.Substring(18, 4);
-                            if (Convert.ToInt32(validaHora) > 2359)
+                            int hora = 0;
+                            if (!int.TryParse(validaHora, out hora) || hora > 2359)
                             {
-                                log.Add(String.Format("Linha {0}: Valor incorreto", qtdLidos));
+                                log.Add(String.Format(_cultureInfoBr, "Linha {0}: Valor incorreto", qtdLidos));
+                                qtdErrados++;
+                                continue;
+                            }
+                            string nsrString = linha.Substring(0, 9);
+                            int nsr = 0;
+                            if (!int.TryParse(nsrString, out nsr))
+                            {
+                                log.Add(String.Format(_cultureInfoBr, "Linha {0}: Valor incorreto do nsr", qtdLidos));
                                 qtdErrados++;
                                 continue;
                             }
                             objBilhete = new Modelo.BilhetesImp();
-                            objBilhete.Nsr = Convert.ToInt32(linha.Substring(0, 9));
+                            objBilhete.Nsr = nsr;
                             objBilhete.Ordem = "000";
                             objBilhete.Data = dataBil;
                             objBilhete.Hora = linha.Substring(18, 2) + ":" + linha.Substring(20, 2);
@@ -1000,11 +995,11 @@ namespace BLL
                                                             .AsEnumerable()
                                                             .Where(row => row.Field<String>("pis") == linha.Substring(22, 12) && row.Field<int>("excluido") == 0)
                                                             .ToDictionary(row => row.Field<String>("dscodigo"), row => row.Field<int>("funcionarioativo"));
-                            encontrouFunc = dsCodigos.Count() > 0;
+                            encontrouFunc = dsCodigos.Count > 0;
                             Modelo.Funcionario func = new Modelo.Funcionario();
                             if (encontrouFunc)
                             {
-                                objBilhete.Func = dsCodigos.OrderByDescending(o => o.Value).FirstOrDefault().Key.ToString();
+                                objBilhete.Func = dsCodigos.OrderByDescending(o => o.Value).FirstOrDefault().Key.ToString(_cultureInfoBr);
                                 func = listaFuncionario.Where(s => s.Dscodigo == objBilhete.Func).FirstOrDefault();
                                 if (func != null)
                                 {
@@ -1068,29 +1063,29 @@ namespace BLL
                     {
                         Modelo.BilhetesImp bilhete = UltimoBilhetePorRep(numeroRelogio);
                         long ultimoNsr = bilhete.Nsr;
-                        DateTime dataUltimoBilhete = Convert.ToDateTime(bilhete.Data.ToShortDateString() + " " + bilhete.Hora);
+                        DateTime dataUltimoBilhete = Convert.ToDateTime(bilhete.Data.ToShortDateString() + " " + bilhete.Hora, _cultureInfoBr);
                         bllRep.SetUltimaImportacao(numeroRelogio, ultimoNsr, dataUltimoBilhete);
                     }
 
                     dsCodigoFunc = String.Join(",", listaBilhetes.Select(x => "'" + x.DsCodigo + "'").Distinct());
                     qtdRepetidos -= qtdProcessados;
                     log.Add("Leitura do TXT");
-                    log.Add("Lidos       = " + String.Format("{0, 10}", contadorProcessados));
-                    log.Add("Processados = " + String.Format("{0, 10}", qtdProcessados));
-                    log.Add("Errados     = " + String.Format("{0, 10}", qtdErrados));
-                    log.Add("Repetidos   = " + String.Format("{0, 10}", qtdRepetidos));
-                    log.Add("Ponto Fechado = " + String.Format("{0, 10}", qtdPontoFechado));
+                    log.Add("Lidos       = " + String.Format(_cultureInfoBr, "{0, 10}", contadorProcessados));
+                    log.Add("Processados = " + String.Format(_cultureInfoBr, "{0, 10}", qtdProcessados));
+                    log.Add("Errados     = " + String.Format(_cultureInfoBr, "{0, 10}", qtdErrados));
+                    log.Add("Repetidos   = " + String.Format(_cultureInfoBr, "{0, 10}", qtdRepetidos));
+                    log.Add("Ponto Fechado = " + String.Format(_cultureInfoBr, "{0, 10}", qtdPontoFechado));
                     log.Add("");
 
-                    bErro = VerificaErroImportacao(qtdErrados, qtdRepetidos, bErro);
-                    if (controleCNPJCPF != null && controleCNPJCPF != "")
+                    bErro = VerificaErroImportacao(qtdErrados, bErro);
+                    if (!string.IsNullOrEmpty(controleCNPJCPF))
                     {
-                        log.Add("CNPJ/CPF incorreto = " + String.Format("{0, 10}", controleCNPJCPF));
+                        log.Add("CNPJ/CPF incorreto = " + String.Format(_cultureInfoBr, "{0, 10}", controleCNPJCPF));
                         bErro = true;
                     }
 
                     log.Add("");
-                    log.Add("Não Foram importados " + String.Format("{0, 10}", naoPossuiFunc) + " registros porque não possui o funcionário cadastrado no banco");
+                    log.Add("Não Foram importados " + String.Format(_cultureInfoBr, "{0, 10}", naoPossuiFunc) + " registros porque não possui o funcionário cadastrado no banco");
                     log.Add("");
                     log.Add(controleRelogio);
                     log.Add("");
@@ -1108,7 +1103,7 @@ namespace BLL
                         {
                             break;
                         }
-                        if (linha == String.Empty)
+                        if (string.IsNullOrEmpty(linha))
                         {
                             continue;
                         }
@@ -1131,15 +1126,16 @@ namespace BLL
                                 }
                                 //Cria o bilhete
                                 string validaHora = linha.Substring(13,5);
-                                if (Convert.ToInt32(validaHora) > 02359)
+                                int hora = 0;
+                                if (!int.TryParse(validaHora, out hora) || hora > 2359)
                                 {
-                                    log.Add(String.Format("Linha {0}: Valor incorreto", qtdLidos));
+                                    log.Add(String.Format(_cultureInfoBr, "Linha {0}: Valor incorreto", qtdLidos));
                                     qtdErrados++;
                                     continue;
                                 }
                                 objBilhete = new Modelo.BilhetesImp();
                                 objBilhete.Ordem = linha.Substring(0, 3);
-                                objBilhete.Data = Convert.ToDateTime(linha.Substring(4, 8));
+                                objBilhete.Data = Convert.ToDateTime(linha.Substring(4, 8), _cultureInfoBr);
                                 objBilhete.Hora = linha.Substring(13, 5);
                                 objBilhete.Func = linha.Substring(19, 5);
                                 objBilhete.Relogio = linha.Substring(25, 2);
@@ -1158,16 +1154,17 @@ namespace BLL
                                     continue;
                                 }
                                 //Cria o bilhete
-                                string validaHora1 = linha.Substring(13,5);
-                                if (Convert.ToInt32(validaHora1) > 02359)
+                                validaHora = linha.Substring(13,5);
+                                hora = 0;
+                                if (!int.TryParse(validaHora, out hora) || hora > 2359)
                                 {
-                                    log.Add(String.Format("Linha {0}: Valor incorreto", qtdLidos));
+                                    log.Add(String.Format(_cultureInfoBr, "Linha {0}: Valor incorreto", qtdLidos));
                                     qtdErrados++;
                                     continue;
                                 }
                                 objBilhete = new Modelo.BilhetesImp();
                                 objBilhete.Ordem = linha.Substring(0, 3);
-                                objBilhete.Data = Convert.ToDateTime(linha.Substring(4, 8));
+                                objBilhete.Data = Convert.ToDateTime(linha.Substring(4, 8), _cultureInfoBr);
                                 objBilhete.Hora = linha.Substring(13, 5);
                                 objBilhete.Func = linha.Substring(19, 16);
                                 objBilhete.Relogio = linha.Substring(36, 2);
@@ -1181,10 +1178,11 @@ namespace BLL
                                     continue;
                                 }
                                 //Cria o bilhete
-                                string validaHora2 = linha.Substring(tp.Hora_c, tp.Hora_t) + linha.Substring(tp.Minuto_c, tp.Minuto_t);
-                                if (Convert.ToInt32(validaHora2) > 2359)
+                                validaHora = linha.Substring(13, 5);
+                                hora = 0;
+                                if (!int.TryParse(validaHora, out hora) || hora > 2359)
                                 {
-                                    log.Add(String.Format("Linha {0}: Valor incorreto", qtdLidos));
+                                    log.Add(String.Format(_cultureInfoBr, "Linha {0}: Valor incorreto", qtdLidos));
                                     qtdErrados++;
                                     continue;
                                 }
@@ -1192,7 +1190,7 @@ namespace BLL
                                 objBilhete.Ordem = linha.Substring(tp.Ordem_c, tp.Ordem_t);
                                 if (String.IsNullOrEmpty(objBilhete.Ordem.Trim()))
                                     objBilhete.Ordem = "000";
-                                objBilhete.Data = Convert.ToDateTime(linha.Substring(tp.Dia_c, tp.Dia_t) + "/" + linha.Substring(tp.Mes_c, tp.Mes_t) + "/" + linha.Substring(tp.Ano_c, tp.Ano_t));
+                                objBilhete.Data = Convert.ToDateTime(linha.Substring(tp.Dia_c, tp.Dia_t) + "/" + linha.Substring(tp.Mes_c, tp.Mes_t) + "/" + linha.Substring(tp.Ano_c, tp.Ano_t), _cultureInfoBr);
                                 objBilhete.Hora = linha.Substring(tp.Hora_c, tp.Hora_t) + ":" + linha.Substring(tp.Minuto_c, tp.Minuto_t);
                                 objBilhete.Func = linha.Substring(tp.Funcionario_c, tp.Funcionario_t);
                                 objBilhete.Relogio = linha.Substring(tp.Relogio_c, tp.Relogio_t);
@@ -1210,7 +1208,6 @@ namespace BLL
                         {
                             continue;
                         }
-                        objBilhete.Func = Convert.ToInt64(objBilhete.Func).ToString();
                         //Caso seja importação individual, verifica se o bilhete é do funcionário selecionado
                         if (pIndividual == true && objBilhete.Func != pFuncionario)
                         {
@@ -1254,20 +1251,20 @@ namespace BLL
                     {
                         Modelo.BilhetesImp bilhete = UltimoBilhetePorRep(numeroRelogio);
                         long ultimoNsr = bilhete.Nsr;
-                        DateTime dataUltimoBilhete = Convert.ToDateTime(bilhete.Data.ToShortDateString() + " " + bilhete.Hora);
+                        DateTime dataUltimoBilhete = Convert.ToDateTime(bilhete.Data.ToShortDateString() + " " + bilhete.Hora, _cultureInfoBr);
                         bllRep.SetUltimaImportacao(numeroRelogio, ultimoNsr, dataUltimoBilhete);
                     }
                     qtdRepetidos -= qtdProcessados;
 
                     log.Add("Leitura do TXT");
-                    log.Add("Lidos       = " + String.Format("{0, 10}", qtdLidos));
-                    log.Add("Processados = " + String.Format("{0, 10}", qtdProcessados));
-                    log.Add("Errados     = " + String.Format("{0, 10}", qtdErrados));
-                    log.Add("Repetidos   = " + String.Format("{0, 10}", qtdRepetidos));
-                    log.Add("Ponto Fechado = " + String.Format("{0, 10}", qtdPontoFechado));
+                    log.Add("Lidos       = " + String.Format(_cultureInfoBr, "{0, 10}", qtdLidos));
+                    log.Add("Processados = " + String.Format(_cultureInfoBr, "{0, 10}", qtdProcessados));
+                    log.Add("Errados     = " + String.Format(_cultureInfoBr, "{0, 10}", qtdErrados));
+                    log.Add("Repetidos   = " + String.Format(_cultureInfoBr, "{0, 10}", qtdRepetidos));
+                    log.Add("Ponto Fechado = " + String.Format(_cultureInfoBr, "{0, 10}", qtdPontoFechado));
                     log.Add("---------------------------------------------------------------------------------------");
 
-                    bErro = VerificaErroImportacao(qtdErrados, qtdRepetidos, bErro);
+                    bErro = VerificaErroImportacao(qtdErrados, bErro);
 
                     #endregion
                 }
@@ -1275,7 +1272,7 @@ namespace BLL
             }
         }
 
-        private static bool VerificaErroImportacao(int qtdErrados, int qtdRepetidos, bool bErro)
+        private static bool VerificaErroImportacao(int qtdErrados, bool bErro)
         {
 
             if (qtdErrados > 0)
@@ -1286,31 +1283,7 @@ namespace BLL
             return bErro;
         }
 
-        private static void LimpaArquivo(string pArquivo)
-        {
-            StreamWriter limpar = new StreamWriter(pArquivo, false);
-            limpar.Flush();
-            limpar.Close();
-        }
-
-        private static void CopiaArquivoBilhete(string pArquivo)
-        {
-            string[] nome = pArquivo.Split(new char[] { '.' });
-            string novo = "";
-            for (int i = 0; i < nome.Count() - 1; i++)
-            {
-                if (i > 0)
-                {
-                    novo += ".";
-                }
-                novo += nome[i];
-            }
-            novo += "_" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year + ".";
-            novo += nome[nome.Count() - 1];
-            File.Copy(pArquivo, novo, true);
-        }
-
-        public bool ValidaImportacaoBilhetes(List<Modelo.TipoBilhetes> plistaTipoBilhetes, string pArquivo, int pBilhete, string pFuncionario, DateTime? pDataI, DateTime? pDataF, List<string> log, out List<string> listaPis)
+        public bool ValidaImportacaoBilhetes(List<Modelo.TipoBilhetes> plistaTipoBilhetes, string pArquivo, int pBilhete, DateTime? pDataI, DateTime? pDataF, List<string> log, out List<string> listaPis)
         {
             objProgressBar.setaValorPB(5);
             ObjProgressBar.setaMensagem("Validando arquivo de bilhetes...");
@@ -1365,7 +1338,7 @@ namespace BLL
                     continue;
                 }
 
-                bool bAfdInmetro = VerificaTipoAfdInmetro(pArquivo, linha);
+                bool bAfdInmetro = VerificaTipoAfdInmetro(pArquivo);
 
                 switch (tp.FormatoBilhete)
                 {
@@ -1379,104 +1352,104 @@ namespace BLL
                         break;
                 }
 
-                StreamReader objReader = new StreamReader(pArquivo);
-
-                if (File.ReadAllBytes(pArquivo).Length == 0)
+                using (StreamReader objReader = new StreamReader(pArquivo))
                 {
-                    log.Add("Arquivo para Validação em Branco: " + Path.GetFileName(pArquivo));
-                    continue;
-                }
+                    if (File.ReadAllBytes(pArquivo).Length == 0)
+                    {
+                        log.Add("Arquivo para Validação em Branco: " + Path.GetFileName(pArquivo));
+                        continue;
+                    }
 
-                switch (tp.FormatoBilhete)
-                {
-                    case 3:
-                        log.Add("Arquivo para Validação: " + Path.GetFileName(pArquivo));
-                        qtdLidos = 0; qtdErrados = 0;
-                        int qtdCabecalho = 0;
-                        while (linha != null)
-                        {
-                            linha = objReader.ReadLine();
-                            if (linha == null || linha == "")
+                    switch (tp.FormatoBilhete)
+                    {
+                        case 3:
+                            log.Add("Arquivo para Validação: " + Path.GetFileName(pArquivo));
+                            qtdLidos = 0; qtdErrados = 0;
+                            int qtdCabecalho = 0;
+                            while (linha != null)
                             {
-                                break;
-                            }
-                            qtdLidos++;
-                            if (int.TryParse(linha.Substring(0, 9), out int conv))
-                            {
-                                switch (linha.Substring(9, 1))
+                                linha = objReader.ReadLine();
+                                if (String.IsNullOrEmpty(linha))
                                 {
-                                    case "1":
-                                        if (qtdCabecalho > 0)
-                                        {
-                                            log.Add(String.Format("Linha {0}: Layout diferente de REP (AFD), contém mais de um cabeçalho", qtdLidos));
-                                            arquivoOk = false;
-                                            qtdErrados++;
-                                        }
-                                        else
-                                        {
-
-                                        }
-                                        qtdCabecalho++;
-                                        break;
-                                    case "3":
-                                        //faz validacao do tipo 3
-                                        if (qtdCabecalho == 0)
-                                        {
-                                            log.Add(String.Format("Linha {0}: Layout diferente de REP (AFD), não contém linha header", qtdLidos));
-                                            arquivoOk = false;
-                                            qtdErrados++;
-                                        }
-                                        else
-                                        {
-                                            if (linha.Length != 34)
+                                    break;
+                                }
+                                qtdLidos++;
+                                if (int.TryParse(linha.Substring(0, 9), out int conv))
+                                {
+                                    switch (linha.Substring(9, 1))
+                                    {
+                                        case "1":
+                                            if (qtdCabecalho > 0)
                                             {
-                                                log.Add(String.Format("Linha {0}: Layout diferente de REP (AFD)", qtdLidos));
+                                                log.Add(String.Format(_cultureInfoBr, "Linha {0}: Layout diferente de REP (AFD), contém mais de um cabeçalho", qtdLidos));
                                                 arquivoOk = false;
                                                 qtdErrados++;
                                             }
                                             else
                                             {
-                                                foreach (char c in linha.Substring(10, 24))
+
+                                            }
+                                            qtdCabecalho++;
+                                            break;
+                                        case "3":
+                                            //faz validacao do tipo 3
+                                            if (qtdCabecalho == 0)
+                                            {
+                                                log.Add(String.Format(_cultureInfoBr, "Linha {0}: Layout diferente de REP (AFD), não contém linha header", qtdLidos));
+                                                arquivoOk = false;
+                                                qtdErrados++;
+                                            }
+                                            else
+                                            {
+                                                if (linha.Length != 34)
                                                 {
-                                                    if (!Char.IsNumber(c))
+                                                    log.Add(String.Format(_cultureInfoBr, "Linha {0}: Layout diferente de REP (AFD)", qtdLidos));
+                                                    arquivoOk = false;
+                                                    qtdErrados++;
+                                                }
+                                                else
+                                                {
+                                                    foreach (char c in linha.Substring(10, 24))
                                                     {
-                                                        log.Add(String.Format("Linha {0}: Layout diferente de REP (AFD)", qtdLidos));
-                                                        arquivoOk = false;
-                                                        qtdErrados++;
-                                                        break;
+                                                        if (!Char.IsNumber(c))
+                                                        {
+                                                            log.Add(String.Format(_cultureInfoBr, "Linha {0}: Layout diferente de REP (AFD)", qtdLidos));
+                                                            arquivoOk = false;
+                                                            qtdErrados++;
+                                                            break;
+                                                        }
                                                     }
                                                 }
                                             }
-                                        }
-                                        listaPis.Add(linha.Substring(22, 12));
-                                        break;
+                                            listaPis.Add(linha.Substring(22, 12));
+                                            break;
+                                    }
                                 }
                             }
-                        }
-                        break;
-                    case 5:
-                        log.Add("Arquivo para Validação: " + Path.GetFileName(pArquivo));
-                        qtdLidos = 0; qtdErrados = 0;
-                        while (linha != null)
-                        {
-                            linha = objReader.ReadLine();
-                            if (linha == null || linha == "")
+                            break;
+                        case 5:
+                            log.Add("Arquivo para Validação: " + Path.GetFileName(pArquivo));
+                            qtdLidos = 0; qtdErrados = 0;
+                            while (linha != null)
                             {
-                                break;
-                            }
-                            qtdLidos++; 
-                            switch (linha.Substring(9, 1))
+                                linha = objReader.ReadLine();
+                                if (String.IsNullOrEmpty(linha))
+                                {
+                                    break;
+                                }
+                                qtdLidos++;
+                                switch (linha.Substring(9, 1))
                                 {
                                     case "3":
                                         //faz validacao do tipo 3
                                         if (linha.Length != 38)
                                         {
-                                        //Condição adicionada para descartar a linha de assinatura digital do AFD, que coincidentemente pode possuir um caracter 3 na posição 9 e o sistema estava entendendo como registro de ponto                                            int conv = 0;
-                                        if (!int.TryParse(linha.Substring(0, 9), out int conv))
-                                        {
+                                            //Condição adicionada para descartar a linha de assinatura digital do AFD, que coincidentemente pode possuir um caracter 3 na posição 9 e o sistema estava entendendo como registro de ponto                                            int conv = 0;
+                                            if (!int.TryParse(linha.Substring(0, 9), out int conv))
+                                            {
                                                 continue;
-                                        }
-                                            log.Add(String.Format("Linha {0}: Layout diferente de REP (AFD)", qtdLidos));
+                                            }
+                                            log.Add(String.Format(_cultureInfoBr, "Linha {0}: Layout diferente de REP (AFD)", qtdLidos));
                                             arquivoOk = false;
                                             qtdErrados++;
                                         }
@@ -1486,7 +1459,7 @@ namespace BLL
                                             {
                                                 if (!Char.IsNumber(c))
                                                 {
-                                                    log.Add(String.Format("Linha {0}: Layout diferente de REP (AFD)", qtdLidos));
+                                                    log.Add(String.Format(_cultureInfoBr, "Linha {0}: Layout diferente de REP (AFD)", qtdLidos));
                                                     arquivoOk = false;
                                                     qtdErrados++;
                                                     break;
@@ -1495,127 +1468,118 @@ namespace BLL
                                         }
                                         listaPis.Add(linha.Substring(22, 12));
                                         break;
-                                }                            
-                        }
-                        break;
-                    default:
-                        log.Add("Arquivo para Validação: " + Path.GetFileName(pArquivo));
-                        qtdLidos = 0; qtdErrados = 0;
-                        while (linha != null)
-                        {
-                            linha = objReader.ReadLine();
-                            if (linha == null)
-                            {
-                                break;
+                                }
                             }
-                            qtdLidos++;
-
-                            if (linha.TrimEnd().Length == 0)
-                                continue;
-
-                            switch (tp.FormatoBilhete)
+                            break;
+                        default:
+                            log.Add("Arquivo para Validação: " + Path.GetFileName(pArquivo));
+                            qtdLidos = 0; qtdErrados = 0;
+                            while (linha != null)
                             {
-                                case 0: // TopData 5 Digitos
-                                    if (linha.TrimEnd().Length != 27)
-                                    {
-                                        log.Add(String.Format("Linha {0}: Layout diferente de TopData 5 Digitos", qtdLidos));
-                                        arquivoOk = false;
-                                        qtdErrados++;
-                                    }
-                                    if (linha.Substring(6, 1) != "/" || linha.Substring(9, 1) != "/")
-                                    {
-                                        log.Add(String.Format("Linha {0}: Layout diferente de TopData 5 Digitos", qtdLidos));
-                                        arquivoOk = false;
-                                        qtdErrados++;
-                                    }
+                                linha = objReader.ReadLine();
+                                if (linha == null)
+                                {
                                     break;
-                                case 1: // TopData 16 Digitos
-                                    if (linha.TrimEnd().Length != 38)
-                                    {
-                                        log.Add(String.Format("Linha {0}: Layout diferente de TopData 16 Digitos", qtdLidos));
-                                        arquivoOk = false;
-                                        qtdErrados++;
-                                    }
-                                    if (linha.Substring(6, 1) != "/" || linha.Substring(9, 1) != "/")
-                                    {
-                                        log.Add(String.Format("Linha {0}: Layout diferente de TopData 16 Digitos", qtdLidos));
-                                        arquivoOk = false;
-                                        qtdErrados++;
-                                    }
-                                    break;
-                                default:
-                                    if (linha.Length != tp.StrLayout.Length)
-                                    {
-                                        log.Add(String.Format("Linha {0}: Layout diferente do Layout Livre definido", qtdLidos));
-                                        arquivoOk = false;
-                                        qtdErrados++;
-                                    }
-                                    else
-                                    {
-                                        if (String.IsNullOrEmpty(linha.Substring(tp.Funcionario_c, tp.Funcionario_t)) || linha.Substring(tp.Funcionario_c, tp.Funcionario_t).Trim().Length != tp.Funcionario_t)
+                                }
+                                qtdLidos++;
+
+                                if (linha.TrimEnd().Length == 0)
+                                    continue;
+
+                                switch (tp.FormatoBilhete)
+                                {
+                                    case 0: // TopData 5 Digitos
+                                        if (linha.TrimEnd().Length != 27)
                                         {
-                                            log.Add(String.Format("Linha {0}: O código do funcionário está com o valor incorreto", qtdLidos));
+                                            log.Add(String.Format(_cultureInfoBr, "Linha {0}: Layout diferente de TopData 5 Digitos", qtdLidos));
                                             arquivoOk = false;
                                             qtdErrados++;
                                         }
-                                        try
+                                        if (linha.Substring(6, 1) != "/" || linha.Substring(9, 1) != "/")
                                         {
-                                            data = Convert.ToDateTime(linha.Substring(tp.Dia_c, tp.Dia_t) + "/" + linha.Substring(tp.Mes_c, tp.Mes_t) + "/" + linha.Substring(tp.Ano_c, tp.Ano_t));
-
-                                            if (data == null || data == new DateTime())
+                                            log.Add(String.Format(_cultureInfoBr, "Linha {0}: Layout diferente de TopData 5 Digitos", qtdLidos));
+                                            arquivoOk = false;
+                                            qtdErrados++;
+                                        }
+                                        break;
+                                    case 1: // TopData 16 Digitos
+                                        if (linha.TrimEnd().Length != 38)
+                                        {
+                                            log.Add(String.Format(_cultureInfoBr, "Linha {0}: Layout diferente de TopData 16 Digitos", qtdLidos));
+                                            arquivoOk = false;
+                                            qtdErrados++;
+                                        }
+                                        if (linha.Substring(6, 1) != "/" || linha.Substring(9, 1) != "/")
+                                        {
+                                            log.Add(String.Format(_cultureInfoBr, "Linha {0}: Layout diferente de TopData 16 Digitos", qtdLidos));
+                                            arquivoOk = false;
+                                            qtdErrados++;
+                                        }
+                                        break;
+                                    default:
+                                        if (linha.Length != tp.StrLayout.Length)
+                                        {
+                                            log.Add(String.Format(_cultureInfoBr, "Linha {0}: Layout diferente do Layout Livre definido", qtdLidos));
+                                            arquivoOk = false;
+                                            qtdErrados++;
+                                        }
+                                        else
+                                        {
+                                            if (String.IsNullOrEmpty(linha.Substring(tp.Funcionario_c, tp.Funcionario_t)) || linha.Substring(tp.Funcionario_c, tp.Funcionario_t).Trim().Length != tp.Funcionario_t)
                                             {
-                                                log.Add(String.Format("Linha {0}: A data do bilhete está com o valor incorreto", qtdLidos));
+                                                log.Add(String.Format(_cultureInfoBr, "Linha {0}: O código do funcionário está com o valor incorreto", qtdLidos));
+                                                arquivoOk = false;
+                                                qtdErrados++;
+                                            }
+
+                                            if (!DateTime.TryParse(linha.Substring(tp.Dia_c, tp.Dia_t) + "/" + linha.Substring(tp.Mes_c, tp.Mes_t) + "/" + linha.Substring(tp.Ano_c, tp.Ano_t), out data) || data == null || data == new DateTime())
+                                            {
+                                                log.Add(String.Format(_cultureInfoBr, "Linha {0}: A data do bilhete está com o valor incorreto", qtdLidos));
+                                                arquivoOk = false;
+                                                qtdErrados++;
+                                            }
+
+                                            if (String.IsNullOrEmpty(linha.Substring(tp.Hora_c, tp.Hora_t)) || String.IsNullOrEmpty(linha.Substring(tp.Minuto_c, tp.Minuto_t))
+                                                || (linha.Substring(tp.Hora_c, tp.Hora_t).TrimEnd() + ":" + linha.Substring(tp.Minuto_c, tp.Minuto_t).TrimEnd()).Length != 5)
+                                            {
+                                                log.Add(String.Format(_cultureInfoBr, "Linha {0}: A hora do bilhete está com o valor incorreto", qtdLidos));
                                                 arquivoOk = false;
                                                 qtdErrados++;
                                             }
                                         }
-                                        catch (Exception)
-                                        {
-                                            log.Add(String.Format("Linha {0}: A data do bilhete está com o valor incorreto", qtdLidos));
-                                            arquivoOk = false;
-                                            qtdErrados++;
-                                        }
+                                        break;
+                                }
 
-                                        if (String.IsNullOrEmpty(linha.Substring(tp.Hora_c, tp.Hora_t)) || String.IsNullOrEmpty(linha.Substring(tp.Minuto_c, tp.Minuto_t))
-                                            || (linha.Substring(tp.Hora_c, tp.Hora_t).TrimEnd() + ":" + linha.Substring(tp.Minuto_c, tp.Minuto_t).TrimEnd()).Length != 5)
-                                        {
-                                            log.Add(String.Format("Linha {0}: A hora do bilhete está com o valor incorreto", qtdLidos));
-                                            arquivoOk = false;
-                                            qtdErrados++;
-                                        }
-                                    }
-                                    break;
-                            }
-
-                            for (int j = 0; j < linha.Length; j++)
-                            {
-                                if (validar.ContainsKey(linha[j]))
+                                for (int j = 0; j < linha.Length; j++)
                                 {
-                                    log.Add(String.Format("Linha {0}: [{1}] Caracter não permitido ", qtdLidos, linha[j]));
-                                    break;
+                                    if (validar.ContainsKey(linha[j]))
+                                    {
+                                        log.Add(String.Format(_cultureInfoBr, "Linha {0}: [{1}] Caracter não permitido ", qtdLidos, linha[j]));
+                                        break;
+                                    }
                                 }
                             }
-                        }
-                        break;
-                }
+                            break;
+                    }
 
-                objReader.Close();
+                    objReader.Close();
 
-                if (qtdErrados > 0)
-                {
-                    log.Add("---------------------------------------------------------------------------------------");
-                }
-                else
-                {
-                    log.Add("Arquivo validado com sucesso.");
-                    log.Add("---------------------------------------------------------------------------------------");
+                    if (qtdErrados > 0)
+                    {
+                        log.Add("---------------------------------------------------------------------------------------");
+                    }
+                    else
+                    {
+                        log.Add("Arquivo validado com sucesso.");
+                        log.Add("---------------------------------------------------------------------------------------");
+                    } 
                 }
             }
 
             return arquivoOk;
         }
 
-        private static bool VerificaTipoAfdInmetro(string pArquivo, string linha)
+        private static bool VerificaTipoAfdInmetro(string pArquivo)
         {
             bool bArqTipo = false;
             String primLinha = String.Empty;
@@ -1707,6 +1671,7 @@ namespace BLL
 
         public void RecalculaAlteracaoBilhete(Modelo.Marcacao pMarcacao, BLL.Marcacao bllMarcacao, BLL.ImportaBilhetes bllImportaBilhetes, int diasAtras, int diasFrente)
         {
+            pMarcacao = (pMarcacao == null ? new Modelo.Marcacao() : pMarcacao);
             Modelo.Funcionario objFuncionario = dalFuncionario.LoadObject(pMarcacao.Idfuncionario);
             DateTime dataI = pMarcacao.Data;
             DateTime dataF = pMarcacao.Data;
@@ -1716,7 +1681,7 @@ namespace BLL
             if (diasFrente != 0)
                 dataF = pMarcacao.Data.AddDays(diasFrente);
 
-            List<Modelo.Marcacao> listaMarcacoes = bllMarcacao.GetPorFuncionario(pMarcacao.Idfuncionario, dataI, dataF, true);
+            List<Modelo.Marcacao> listaMarcacoes = (bllMarcacao == null ? new List<Modelo.Marcacao>() : bllMarcacao.GetPorFuncionario(pMarcacao.Idfuncionario, dataI, dataF, true));
 
             ObjProgressBar.incrementaPB(25);
             ObjProgressBar.setaMensagem("Alterando bilhetes...");
@@ -1779,7 +1744,7 @@ namespace BLL
             DateTime? dataFinal = null;
             bllImportaBilhetes.ImportarBilhetes(objFuncionario.Dscodigo, true, dataInicialImp, dataFinalImp, out dataInicial, out dataFinal, ObjProgressBar, log);
 
-            BLL.CalculaMarcacao bllCalculaMarcacao = new CalculaMarcacao(2, objFuncionario.Id, dataInicialImp.Value, dataFinalImp.Value, ObjProgressBar, false, ConnectionString, UsuarioLogado, false);
+            BLL.CalculaMarcacao bllCalculaMarcacao = new CalculaMarcacao(2, objFuncionario.Id, dataInicialImp.Value.AddDays(-1), dataFinalImp.Value.AddDays(1), ObjProgressBar, false, ConnectionString, UsuarioLogado, false);
             bllCalculaMarcacao.CalculaMarcacoes();
         }
 
@@ -1858,7 +1823,7 @@ namespace BLL
                     objBilhete.Ordem = "000";
                     objBilhete.Data = Convert.ToDateTime(registro.Batida).Date;
                     objBilhete.Hora = registro.Batida.ToShortTimeString();
-                    objBilhete.Func = registro.Funcionario.Dscodigo.ToString();
+                    objBilhete.Func = registro.Funcionario.Dscodigo.ToString(_cultureInfoBr);
                     objBilhete.Relogio = registro.OrigemRegistro;
                     objBilhete.Importado = 2;
                     objBilhete.Codigo = maxCodigo++;
