@@ -39,7 +39,7 @@ namespace BLL_N.JobManager.Hangfire
                     UseRecommendedIsolationLevel = true,
                     UsePageLocksOnDequeue = true,
                     DisableGlobalLocks = true,
-                    InvisibilityTimeout = TimeSpan.FromHours(1)
+                    InvisibilityTimeout = TimeSpan.FromHours(2)
                 };
                 var sqlStorage = new SqlServerStorage("MonitorPontofopag", options);
                 Action<QueueDescription> configureAction = qd =>
@@ -52,7 +52,7 @@ namespace BLL_N.JobManager.Hangfire
                     Configure = configureAction,
                     Queues = queues,
                     CheckAndCreateQueues = false,
-                    LoopReceiveTimeout = TimeSpan.FromHours(1),
+                    LoopReceiveTimeout = TimeSpan.FromMilliseconds(1000),
                     LockRenewalDelay = TimeSpan.FromSeconds(15)
 
                 });
