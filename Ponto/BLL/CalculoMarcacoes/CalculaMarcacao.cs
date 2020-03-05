@@ -61,7 +61,7 @@ namespace BLL
         int habilitarControleInItinere;
         int? tHoraExtraMin, tHoraExtraEntradaMin, tHoraExtraSaidaMin, tHoraFaltaMin, tHoraFaltaEntradaMin, tHoraFaltaSaidaMin, tHoraExtraIntervaloMin, tHoraFaltaIntervaloMin;
         private string tHoraExtra, tHoraFalta, reducaohoranoturna;
-        private bool bConsiderarHEFeriadoPHoraNoturna;
+        private bool bConsiderarHEFeriadoPHoraNoturna, bFlgEstenderPeriodoNoturno, bSepararTrabalhadasNoturnaExtrasNoturna;
         #endregion
 
         #region Atributos da Marcação
@@ -554,7 +554,7 @@ namespace BLL
             Modelo.Marcacao objMarcacaoAnt = new Modelo.Marcacao().Clone(objMarcacao);            
             //Verifica Parametro Estender Periodo Noturno
             bllParametros = new BLL.Parametros(ConnectionString, UsuarioLogado);
-            if (bllParametros.Flg_Estender_Periodo_Noturno(idFuncionario))
+            if (bFlgEstenderPeriodoNoturno)
             {
                 int[] entrada = new int[4] { entrada_1Min, entrada_2Min, entrada_3Min, entrada_4Min };
                 int[] saida = new int[4] { saida_1Min, saida_2Min, saida_3Min, saida_4Min };
@@ -806,7 +806,7 @@ namespace BLL
             horasExtraNoturnaMin += horasExtraNoturnaFeriadoMin;
             AdicionalNoturno += horasExtraNoturnaFeriadoMin;
 
-            if (bllParametros.Flg_Separar_Trabalhadas_Noturna_Extras_Noturna(idFuncionario))
+            if (bSepararTrabalhadasNoturnaExtrasNoturna)
             {
                 AdicionalNoturno -= horasExtraNoturnaMin;
             }
@@ -3302,12 +3302,12 @@ namespace BLL
                 horasExtrasDiurnaMin = 0;
                 ocorrencia = "";
             }
-            else if (neutroMarcacao && (legenda == "F" || legenda == "") && horasFaltasMin != 0)
+            else if (neutroMarcacao && (legenda == "F" || string.IsNullOrEmpty(legenda)) && horasFaltasMin != 0)
             {
                 horasFaltasMin = 0;
                 ocorrencia = "";
             }
-            else if (legenda == "" && ((horasFaltasMin != 0 && horasFaltasMin == horarioD) || (marcaCargaHorariaMistaHorario == 1 && (horarioM > 0 && (horasFaltasMin + horasFaltaNoturnaMin) == horarioM))))
+            else if (string.IsNullOrEmpty(legenda) && ((marcaCargaHorariaMistaHorario != 1 && horasFaltasMin != 0 && horasFaltasMin == horarioD) || (marcaCargaHorariaMistaHorario == 1 && (horarioM > 0 && (horasFaltasMin + horasFaltaNoturnaMin) == horarioM))))
             {
                 ocorrencia = "Falta";
             }
@@ -4651,6 +4651,8 @@ namespace BLL
             limite_max = Convert.ToInt32(pMarcacao["limitemax"]);
             limite_min = Convert.ToInt32(pMarcacao["limitemin"]);
             bConsiderarHEFeriadoPHoraNoturna = pMarcacao["bConsiderarHEFeriadoPHoraNoturna"] is DBNull ? false : Convert.ToBoolean(pMarcacao["bConsiderarHEFeriadoPHoraNoturna"]);
+            bFlgEstenderPeriodoNoturno = pMarcacao["Flg_Estender_Periodo_Noturno"] is DBNull ? false : Convert.ToBoolean(pMarcacao["Flg_Estender_Periodo_Noturno"]);
+            bSepararTrabalhadasNoturnaExtrasNoturna = pMarcacao["Flg_Separar_Trabalhadas_Noturna_Extras_Noturna"] is DBNull ? false : Convert.ToBoolean(pMarcacao["Flg_Separar_Trabalhadas_Noturna_Extras_Noturna"]);
             reducaohoranoturna = Convert.ToString(pMarcacao["reducaohoranoturna"]);
             habilitarControleInItinere = Convert.ToInt16(pMarcacao["HabilitarControleInItinere"]);
             DescontarAtrasoInItinere = pMarcacao["DescontarAtrasoInItinere"] is DBNull ? false : Convert.ToBoolean(pMarcacao["DescontarAtrasoInItinere"]);

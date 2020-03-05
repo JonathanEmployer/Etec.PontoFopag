@@ -13,7 +13,5 @@ namespace DAL
         int GetExportaValorZerado();
         int? GetIdPorCod(int Cod);
         List<Modelo.Parametros> GetAllList(List<int> ids);
-        bool Flg_Separar_Trabalhadas_Noturna_Extras_Noturna(int idfuncionario);
-        bool Flg_Estender_Periodo_Noturno(int idfuncionario);
     }
 }

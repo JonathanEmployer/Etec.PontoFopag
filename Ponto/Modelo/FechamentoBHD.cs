@@ -53,7 +53,7 @@ namespace Modelo
 
                 //Tem que fazer a conta do saldo toda vez porque o saldo do objeto esta sincronizado com o campo da tela
                 int _saldo = _credito - _debito;
-                string _saldoS = Modelo.cwkFuncoes.ConvertMinutosHora(5, _saldo);
+                string _saldoS = Modelo.cwkFuncoes.ConvertMinutosHora(5, Math.Abs(_saldo));
                 return _saldoS;
             }
         }

@@ -134,7 +134,7 @@ namespace BLL
         {
             return dal.GetIdPorIdContratoeIdFuncionario(idcontrato, idfuncionario);
         }
-        public int getContratoId(int idfuncionario)
+        public int? getContratoId(int idfuncionario)
         {
             return dal.getContratoId(idfuncionario);
         }

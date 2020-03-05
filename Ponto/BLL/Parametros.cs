@@ -380,16 +380,5 @@ namespace BLL
         {
             return dalParametros.GetIdPorCod(Cod);
         }
-
-        public bool Flg_Separar_Trabalhadas_Noturna_Extras_Noturna(int idfuncionario)
-        {
-            return dalParametros.Flg_Separar_Trabalhadas_Noturna_Extras_Noturna(idfuncionario);
-        }
-
-        public bool Flg_Estender_Periodo_Noturno(int idfuncionario)
-        {
-            return dalParametros.Flg_Estender_Periodo_Noturno(idfuncionario);
-        }
-
     }
 }

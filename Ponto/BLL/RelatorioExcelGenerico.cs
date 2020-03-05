@@ -596,72 +596,74 @@ namespace BLL
             return workbook.SaveToMemory(FileFormat.OpenXMLWorkbook);
         }
 
-		public static byte[] Relatorio_de_Cartao_Ponto_Individual(DataTable dados)
-		{
-			dados.Columns.Add("DataFormatada", typeof(String));
+        public static byte[] RelatorioCartaoPontoIndividual(DataTable dados)
+        {
+            if (dados == null)
+            {
+                throw new ArgumentNullException(String.Format(new CultureInfo("pt-BR"), "Não foram informados dados geração do relátorio"));
+            }
 
-			foreach (DataRow row in dados.Rows)
-			{
-				row["DataFormatada"] = Convert.ToDateTime((row["DataMarcacao"]).ToString()).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
-			}
+            string[] selectedColumns = new[] { "empresa", "cnpj_cpf", "endereco", "cidade", "estado", "DataMarcacao", "funcionario", "dscodigo", "hentrada_1", "hsaida_1", "hentrada_2", "hsaida_2", "legenda", "entrada_1", "saida_1", "entrada_2", "saida_2", "entrada_3", "saida_3", "entrada_4", "saida_4", "horasTrabalhadas", "horasTrabalhadasnoturnas", "horasextrasdiurna", "horasextranoturna", "horasfaltas", "horasfaltanoturna", "ocorrencia" };
+            IWorkbook workbook = null;
+            using (var dtView = new DataView(dados))
+            {
+                workbook = Factory.GetWorkbook(new CultureInfo("pt-BR"));
+                GeraRelatorio(workbook, dtView.ToTable(false, selectedColumns));
+            }
 
-			string[] selectedColumns = new[] { "empresa", "cnpj_cpf", "endereco", "cidade", "estado", "DataFormatada", "funcionario", "dscodigo", "hentrada_1", "hentrada_2", "hsaida_1", "hsaida_2", "legenda", "entrada_1", "saida_1", "entrada_2", "saida_2", "entrada_3", "saida_3", "entrada_4", "saida_4", "horasTrabalhadas", "horasTrabalhadasnoturnas", "horasextrasdiurna", "horasextranoturna", "horasfaltas", "horasfaltanoturna", "ocorrencia" };
-			DataTable dt = new DataView(dados).ToTable(false, selectedColumns);
-			IWorkbook workbook = Factory.GetWorkbook();
-			GeraRelatorio(workbook, dt);
+            IWorksheet worksheet = workbook.Worksheets[0];
+            IRange cells = worksheet.Cells;
 
-			IWorksheet worksheet = workbook.Worksheets[0];
-			IRange cells = worksheet.Cells;
+            // Formatando celulas de quantidade de horas
+            cells["I:AE"].NumberFormat = "[h]:mm";
+            cells["F:F"].NumberFormat = "dd/mm/yyyy";
 
-			// Formatando celulas de quantidade de horas
-			cells["I:AE"].NumberFormat = "[h]:mm";
+            // Corrigindo o nome dos cabeçalhos
+            cells["A1"].Formula = "Empresa";
+            cells["B1"].Formula = "CNPJ";
+            cells["C1"].Formula = "Endereço";
+            cells["D1"].Formula = "Cidade";
+            cells["E1"].Formula = "UF";
+            cells["F1"].Formula = "Data";
+            cells["G1"].Formula = "Funcionário";
+            cells["H1"].Formula = "Código";
+            cells["I1"].Formula = "J.Ent1";
+            cells["J1"].Formula = "J.Sai1";
+            cells["K1"].Formula = "J.Ent2";
+            cells["L1"].Formula = "J.Sai2";
+            cells["M1"].Formula = "Legenda";
+            cells["N1"].Formula = "Ent";
+            cells["O1"].Formula = "Sai";
+            cells["P1"].Formula = "Ent";
+            cells["Q1"].Formula = "Sai";
+            cells["R1"].Formula = "Ent";
+            cells["S1"].Formula = "Sai";
+            cells["T1"].Formula = "Ent";
+            cells["U1"].Formula = "Sai";
+            cells["V1"].Formula = "Trab Diu";
+            cells["W1"].Formula = "Trab Not";
+            cells["X1"].Formula = "HE Diu";
+            cells["Y1"].Formula = "HE Not";
+            cells["Z1"].Formula = "Faltas Diu";
+            cells["AA1"].Formula = "Faltas Not";
+            cells["AB1"].Formula = "Ocorrências adicionais";
 
-			// Corrigindo o nome dos cabeçalhos
-			cells["A1"].Formula = "Empresa";
-			cells["B1"].Formula = "CNPJ";
-			cells["C1"].Formula = "Endereço";
-			cells["D1"].Formula = "Cidade";
-			cells["E1"].Formula = "UF";
-			cells["F1"].Formula = "Data";
-			cells["G1"].Formula = "Funcionário";
-			cells["H1"].Formula = "Código";
-			cells["I1"].Formula = "J.Ent1";
-			cells["J1"].Formula = "J.Sai1";
-			cells["K1"].Formula = "J.Ent2";
-			cells["L1"].Formula = "J.Sai2";
-			cells["M1"].Formula = "Legenda";
-			cells["N1"].Formula = "Ent";
-			cells["O1"].Formula = "Sai";
-			cells["P1"].Formula = "Ent";
-			cells["Q1"].Formula = "Sai";
-			cells["R1"].Formula = "Ent";
-			cells["S1"].Formula = "Sai";
-			cells["T1"].Formula = "Ent";
-			cells["U1"].Formula = "Sai";
-			cells["V1"].Formula = "Trab Diu";
-			cells["W1"].Formula = "Trab Not";
-			cells["X1"].Formula = "HE Diu";
-			cells["Y1"].Formula = "HE Not";
-			cells["Z1"].Formula = "Faltas Diu";
-			cells["AA1"].Formula = "Faltas Not";
-			cells["AB1"].Formula = "Ocorrências adicionais";
+            // Removendo colunas do dataset que não podem ser exportadas
+            cells["AG:EZ"].Delete(DeleteShiftDirection.Left);
 
-			// Removendo colunas do dataset que não podem ser exportadas
-			cells["AG:EZ"].Delete(DeleteShiftDirection.Left);
+            // Reconfigura coluna
+            IRange cells2 = worksheet.Cells["A1:AF1"];
+            cells2.Font.Bold = true;
+            cells2.HorizontalAlignment = HAlign.Center;
+            cells2.EntireColumn.AutoFit();
 
-			// Reconfigura coluna
-			IRange cells2 = worksheet.Cells["A1:AF1"];
-			cells2.Font.Bold = true;
-			cells2.HorizontalAlignment = HAlign.Center;
-			cells2.EntireColumn.AutoFit();
+            return workbook.SaveToMemory(FileFormat.OpenXMLWorkbook);
 
-			return workbook.SaveToMemory(FileFormat.OpenXMLWorkbook);
+        }
 
-		}
-
-		public static byte[] Relatorio_de_Inconsistencias(DataTable dados)
-		{
-            dados.Columns.Add("DataFormatada", typeof(String)); 
+        public static byte[] Relatorio_de_Inconsistencias(DataTable dados)
+        {
+            dados.Columns.Add("DataFormatada", typeof(String));
             dados.Columns.Add("F", typeof(String));
             dados.Columns.Add("horariojornada", typeof(String));
             int i = 2;
@@ -670,80 +672,80 @@ namespace BLL
                 string hentrada1 = row["hentrada_1"].ToString();
                 string hentrada2 = row["hentrada_2"].ToString();
 
-                row["DataFormatada"] = Convert.ToDateTime((row["DataMarcacao"]).ToString()).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture); 
+                row["DataFormatada"] = Convert.ToDateTime((row["DataMarcacao"]).ToString()).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
                 if (hentrada1 == "" || hentrada2 == "")
                 {
-                    row["F"] = "=(J"+i+"-I"+i+"+(J"+i+"<I"+i+"))+(L"+i+"-K"+i+"+(L"+i+ "<K" + i + "))";
-                    row["horariojornada"] = "=AF"+i;
+                    row["F"] = "=(J" + i + "-I" + i + "+(J" + i + "<I" + i + "))+(L" + i + "-K" + i + "+(L" + i + "<K" + i + "))";
+                    row["horariojornada"] = "=AF" + i;
                     if (i != 0) { i = i + 1; }
                 }
                 else
                 {
-                    row["F"] = "=(((J"+i+"-I"+i+"+(J"+i+"<I"+i+"))*24)/24)+(((L"+i+"-K"+i+"+(L"+i+"<K"+i+"))*24)/24)";
-                    row["horariojornada"] = "=AF"+i;
+                    row["F"] = "=(((J" + i + "-I" + i + "+(J" + i + "<I" + i + "))*24)/24)+(((L" + i + "-K" + i + "+(L" + i + "<K" + i + "))*24)/24)";
+                    row["horariojornada"] = "=AF" + i;
                     if (i != 0) { i = i + 1; }
                 }
 
             }
 
-            string[] selectedColumns = new[] { "empresa", "cnpj_cpf", "endereco", "cidade", "estado", "DataFormatada", "funcionario", "dscodigo", "hentrada_1", "hsaida_1", "hentrada_2", "hsaida_2", "entrada_1", "saida_1", "entrada_2", "saida_2", "entrada_3", "saida_3", "entrada_4", "saida_4","TotalHorasAlmoco", "TotalIntervaloPrev","horastrabalhadas", "totaltrabalhadanoturna", "horariojornada", "horasextrasdiurna", "horasextranoturna", "bancohorascre", "TotalHorasTrabalhadas", "Interjornada", "legenda", "F" };
-            DataTable dt = dados.Rows.Count > 0 ? new DataView(dados).ToTable(false, selectedColumns):null;
+            string[] selectedColumns = new[] { "empresa", "cnpj_cpf", "endereco", "cidade", "estado", "DataFormatada", "funcionario", "dscodigo", "hentrada_1", "hsaida_1", "hentrada_2", "hsaida_2", "entrada_1", "saida_1", "entrada_2", "saida_2", "entrada_3", "saida_3", "entrada_4", "saida_4", "TotalHorasAlmoco", "TotalIntervaloPrev", "horastrabalhadas", "totaltrabalhadanoturna", "horariojornada", "horasextrasdiurna", "horasextranoturna", "bancohorascre", "TotalHorasTrabalhadas", "Interjornada", "legenda", "F" };
+            DataTable dt = dados.Rows.Count > 0 ? new DataView(dados).ToTable(false, selectedColumns) : null;
             IWorkbook workbook = Factory.GetWorkbook();
-			GeraRelatorio(workbook, dt);
+            GeraRelatorio(workbook, dt);
             IWorksheet worksheet = workbook.Worksheets[0];
-			IRange cells = worksheet.Cells;
+            IRange cells = worksheet.Cells;
 
-			// Formatando celulas de quantidade de horas
-			cells["I:AG"].NumberFormat = "[h]:mm";
-		
-			// Corrigindo o nome dos cabeçalhos
-			cells["A1"].Formula = "Empresa";
-			cells["B1"].Formula = "CNPJ";
-			cells["C1"].Formula = "Endereço";
-			cells["D1"].Formula = "Cidade";
-			cells["E1"].Formula = "UF";
-			cells["F1"].Formula = "Data";
+            // Formatando celulas de quantidade de horas
+            cells["I:AG"].NumberFormat = "[h]:mm";
 
-			cells["G1"].Formula = "Funcionário";
-			cells["H1"].Formula = "Código";
-			cells["I1"].Formula = "J.Ent1";
-			cells["J1"].Formula = "J.Sai1";
-			cells["K1"].Formula = "J.Ent2";
-			cells["L1"].Formula = "J.Sai2";
-			cells["M1"].Formula = "Ent 1";
-			cells["N1"].Formula = "Sai 1";
-			cells["O1"].Formula = "Ent 2";
-			cells["P1"].Formula = "Sai 2";
-			cells["Q1"].Formula = "Ent 3";
-			cells["R1"].Formula = "Sai 3";
-			cells["S1"].Formula = "Ent 4";
-			cells["T1"].Formula = "Sai 4";
-			cells["U1"].Formula = "IntraJ Real";
-			cells["V1"].Formula = "IntraJ Esp";
-			cells["W1"].Formula = "Trab Diu";
-			cells["X1"].Formula = "Trab Not";
-			cells["Y1"].Formula = "Trab Jornada";
-			cells["Z1"].Formula = "HE Diu";
-			cells["AA1"].Formula = "HE Not";
-			cells["AB1"].Formula = "BH Cred";
-			cells["AC1"].Formula = "Total Trab";
-			cells["AD1"].Formula = "Interjornada";
-			cells["AE1"].Formula = "Legenda";
+            // Corrigindo o nome dos cabeçalhos
+            cells["A1"].Formula = "Empresa";
+            cells["B1"].Formula = "CNPJ";
+            cells["C1"].Formula = "Endereço";
+            cells["D1"].Formula = "Cidade";
+            cells["E1"].Formula = "UF";
+            cells["F1"].Formula = "Data";
+
+            cells["G1"].Formula = "Funcionário";
+            cells["H1"].Formula = "Código";
+            cells["I1"].Formula = "J.Ent1";
+            cells["J1"].Formula = "J.Sai1";
+            cells["K1"].Formula = "J.Ent2";
+            cells["L1"].Formula = "J.Sai2";
+            cells["M1"].Formula = "Ent 1";
+            cells["N1"].Formula = "Sai 1";
+            cells["O1"].Formula = "Ent 2";
+            cells["P1"].Formula = "Sai 2";
+            cells["Q1"].Formula = "Ent 3";
+            cells["R1"].Formula = "Sai 3";
+            cells["S1"].Formula = "Ent 4";
+            cells["T1"].Formula = "Sai 4";
+            cells["U1"].Formula = "IntraJ Real";
+            cells["V1"].Formula = "IntraJ Esp";
+            cells["W1"].Formula = "Trab Diu";
+            cells["X1"].Formula = "Trab Not";
+            cells["Y1"].Formula = "Trab Jornada";
+            cells["Z1"].Formula = "HE Diu";
+            cells["AA1"].Formula = "HE Not";
+            cells["AB1"].Formula = "BH Cred";
+            cells["AC1"].Formula = "Total Trab";
+            cells["AD1"].Formula = "Interjornada";
+            cells["AE1"].Formula = "Legenda";
             cells["AF1"].Formula = "F";
             // Removendo colunas do dataset que não podem ser exportadas
             cells["AG:EZ"].Delete(DeleteShiftDirection.Left);
-            
+
             // Reconfigura coluna
             IRange cells2 = worksheet.Cells["A1:AE1"];
-			cells2.Font.Bold = true;
-            worksheet.Cells["AF1:AG1"].Columns.Hidden=true;
+            cells2.Font.Bold = true;
+            worksheet.Cells["AF1:AG1"].Columns.Hidden = true;
             cells2.HorizontalAlignment = HAlign.Center;
-			cells2.EntireColumn.AutoFit();
+            cells2.EntireColumn.AutoFit();
 
-			return workbook.SaveToMemory(FileFormat.OpenXMLWorkbook);
+            return workbook.SaveToMemory(FileFormat.OpenXMLWorkbook);
 
-		}
-		
+        }
+
         public static byte[] Relatorio_Absenteismo_Analitico(DataTable dados)
         {
             IWorkbook workbook = Factory.GetWorkbook();
@@ -751,37 +753,37 @@ namespace BLL
 
             IWorksheet worksheet = workbook.Worksheets[0];
             IRange cells = worksheet.Cells;
-/*            
-            //Insere colunas que farão parte da planilha
-            cells["A:A"].Insert();
-            cells["B:B"].Insert();
-            cells["C:C"].Insert();
-            cells["D:D"].Insert();
-            cells["E:E"].Insert();
-            cells["F:F"].Insert();
-            cells["G:G"].Insert();
-            cells["H:H"].Insert();
-            cells["I:I"].Insert();
-            cells["J:J"].Insert();
+            /*            
+                        //Insere colunas que farão parte da planilha
+                        cells["A:A"].Insert();
+                        cells["B:B"].Insert();
+                        cells["C:C"].Insert();
+                        cells["D:D"].Insert();
+                        cells["E:E"].Insert();
+                        cells["F:F"].Insert();
+                        cells["G:G"].Insert();
+                        cells["H:H"].Insert();
+                        cells["I:I"].Insert();
+                        cells["J:J"].Insert();
 
 
-            //Insere os valores nas colunas criadas
-            cells["A:A"].Copy(cells["A:A"]);
-            cells["B:B"].Copy(cells["B:B"]);
-            cells["C:C"].Copy(cells["C:C"]);
-            cells["D:D"].Copy(cells["D:D"]);
-            cells["E:E"].Copy(cells["E:E"]);
-            cells["F:F"].Copy(cells["F:F"]);
-            cells["G:G"].Copy(cells["G:G"]);
-            cells["H:H"].Copy(cells["H:H"]);
-            cells["I:I"].Copy(cells["I:I"]);
-            cells["J:J"].Copy(cells["J:J"]);
-*/
+                        //Insere os valores nas colunas criadas
+                        cells["A:A"].Copy(cells["A:A"]);
+                        cells["B:B"].Copy(cells["B:B"]);
+                        cells["C:C"].Copy(cells["C:C"]);
+                        cells["D:D"].Copy(cells["D:D"]);
+                        cells["E:E"].Copy(cells["E:E"]);
+                        cells["F:F"].Copy(cells["F:F"]);
+                        cells["G:G"].Copy(cells["G:G"]);
+                        cells["H:H"].Copy(cells["H:H"]);
+                        cells["I:I"].Copy(cells["I:I"]);
+                        cells["J:J"].Copy(cells["J:J"]);
+            */
             // Corrigindo o nome dos cabeçalhos
             cells["A1"].Formula = "Empresa";
             cells["B1"].Formula = "Departamento";
             cells["C1"].Formula = "Código";
-            cells["D1"].Formula = "Funcionário"; 
+            cells["D1"].Formula = "Funcionário";
             cells["E1"].Formula = "Cod.Ocorrência";
             cells["F1"].Formula = "Ocorrência";
             cells["G1"].Formula = "Absenteismo";
@@ -804,35 +806,35 @@ namespace BLL
 
             IWorksheet worksheet = workbook.Worksheets[0];
             IRange cells = worksheet.Cells;
-/*            
-            //Insere colunas que farão parte da planilha
-            cells["A:A"].Insert();
-            cells["B:B"].Insert();
-            cells["C:C"].Insert();
-            cells["D:D"].Insert();
-            cells["E:E"].Insert();
-            cells["F:F"].Insert();
-            cells["G:G"].Insert();
-            cells["H:H"].Insert();
-            cells["I:I"].Insert();
+            /*            
+                        //Insere colunas que farão parte da planilha
+                        cells["A:A"].Insert();
+                        cells["B:B"].Insert();
+                        cells["C:C"].Insert();
+                        cells["D:D"].Insert();
+                        cells["E:E"].Insert();
+                        cells["F:F"].Insert();
+                        cells["G:G"].Insert();
+                        cells["H:H"].Insert();
+                        cells["I:I"].Insert();
 
 
-            //Insere os valores nas colunas criadas
-            cells["A:A"].Copy(cells["A:A"]);
-            cells["B:B"].Copy(cells["B:B"]);
-            cells["C:C"].Copy(cells["C:C"]);
-            cells["D:D"].Copy(cells["D:D"]);
-            cells["E:E"].Copy(cells["E:E"]);
-            cells["F:F"].Copy(cells["F:F"]);
-            cells["G:G"].Copy(cells["G:G"]);
-            cells["H:H"].Copy(cells["H:H"]);
-            cells["I:I"].Copy(cells["I:I"]);
-*/
+                        //Insere os valores nas colunas criadas
+                        cells["A:A"].Copy(cells["A:A"]);
+                        cells["B:B"].Copy(cells["B:B"]);
+                        cells["C:C"].Copy(cells["C:C"]);
+                        cells["D:D"].Copy(cells["D:D"]);
+                        cells["E:E"].Copy(cells["E:E"]);
+                        cells["F:F"].Copy(cells["F:F"]);
+                        cells["G:G"].Copy(cells["G:G"]);
+                        cells["H:H"].Copy(cells["H:H"]);
+                        cells["I:I"].Copy(cells["I:I"]);
+            */
             // Corrigindo o nome dos cabeçalhos
             cells["A1"].Formula = "Empresa";
             cells["B1"].Formula = "Departamento";
             cells["C1"].Formula = "Código";
-            cells["D1"].Formula = "Funcionário"; 
+            cells["D1"].Formula = "Funcionário";
             cells["E1"].Formula = "Cod.Ocorrência";
             cells["F1"].Formula = "Ocorrência";
             cells["G1"].Formula = "Absenteismo";
@@ -924,7 +926,7 @@ namespace BLL
         }
         public static byte[] Relatorio_de_Ocorrencias_por_Funcionario_Data(DataTable dados)
         {
-            string[] selectedColumns = new[] { "empresa", "cnpj_cpf", "departamento", "dscodigo", "funcionario", "data", "ocorrencia", "marcacoes", "bancohorasdeb", "horasextradiurna", "horasextranoturna"};
+            string[] selectedColumns = new[] { "empresa", "cnpj_cpf", "departamento", "dscodigo", "funcionario", "data", "ocorrencia", "marcacoes", "bancohorasdeb", "horasextradiurna", "horasextranoturna" };
             DataTable dt = new DataView(dados).ToTable(false, selectedColumns);
             IWorkbook workbook = Factory.GetWorkbook();
             GeraRelatorio(workbook, dt);
@@ -960,8 +962,8 @@ namespace BLL
 
             return workbook.SaveToMemory(FileFormat.OpenXMLWorkbook);
         }
-		
-		public static byte[] Relatorio_Espelho(DataTable dados)
+
+        public static byte[] Relatorio_Espelho(DataTable dados)
         {
             IWorkbook workbook = Factory.GetWorkbook();
             GeraRelatorio(workbook, dados);
@@ -1211,8 +1213,8 @@ namespace BLL
 
             IWorksheet worksheet = workbook.Worksheets[0];
             IRange cells = worksheet.Cells;
-            
-           //Insere colunas que farão parte da planilha
+
+            //Insere colunas que farão parte da planilha
             cells["A:A"].Insert();
             cells["B:B"].Insert();
             cells["C:C"].Insert();
@@ -1362,7 +1364,7 @@ namespace BLL
 
             IWorksheet worksheet = workbook.Worksheets[0];
             IRange cells = worksheet.Cells;
- 
+
             //Insere colunas que farão parte da planilha
             cells["A:A"].Insert();
             cells["B:B"].Insert();
@@ -1382,12 +1384,12 @@ namespace BLL
 
             // Removendo colunas do dataset que não podem ser exportadas
             cells["D:Z"].Delete(DeleteShiftDirection.Left);
-   
+
             return workbook.SaveToMemory(FileFormat.OpenXMLWorkbook);
         }
         public static byte[] Relatorio_Afastamento_por_Ocorrencia(DataTable dados, string emp)
         {
-            string[] selectedColumns = new[] { "empresa", "nome2", "descricao", "datai", "dataf", "ocorrencia"};
+            string[] selectedColumns = new[] { "empresa", "nome2", "descricao", "datai", "dataf", "ocorrencia" };
             DataTable dt = new DataView(dados).ToTable(false, selectedColumns);
             IWorkbook workbook = Factory.GetWorkbook();
             GeraRelatorio(workbook, dt);
@@ -1412,7 +1414,7 @@ namespace BLL
             cells2.Font.Bold = true;
             cells2.HorizontalAlignment = HAlign.Center;
             cells2.EntireColumn.AutoFit();
-                      
+
             // Reconfigura a largura das colunas
             worksheet.UsedRange.Columns.AutoFit();
 

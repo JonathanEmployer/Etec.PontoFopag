@@ -155,8 +155,8 @@ namespace PontoWeb.Controllers
             }
             catch (Exception ex)
             {
-                BLL.cwkFuncoes.LogarErro(ex);
-                return new JsonResult { Data = new { success = false, Erro = erro } };
+                Guid guid = BLL.cwkFuncoes.LogarErro(ex);
+                return new JsonResult { Data = new { success = false, Erro = "Não foi possível executar a operação, código do erro: "+ guid.ToString() } };
             }
         }
 

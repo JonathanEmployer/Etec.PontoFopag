@@ -46,6 +46,7 @@ namespace Modelo
         [TableHTMLAttribute("Descrição", 2, true, ItensSearch.text, OrderType.asc)]
         [Display(Name = "Descrição")]
         [Required(ErrorMessage = "O Campo Descrição é Obrigatório")]
+        [StringLength(70, ErrorMessage = "Número máximo de caracteres: {1}")]
         public string Descricao { get; set; }
         /// <summary>
         /// 

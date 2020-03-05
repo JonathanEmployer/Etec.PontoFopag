@@ -1,5 +1,7 @@
 ﻿using DAL.SQL;
+using Hangfire;
 using Hangfire.Server;
+using Hangfire.States;
 using Modelo;
 using Modelo.EntityFramework.MonitorPontofopag;
 using Modelo.Proxy;
@@ -123,6 +125,7 @@ namespace BLL_N.JobManager.Hangfire.Job
             List<int> idsFuncionarios = bllFuncionario.GetIDsByTipo(pTipo, pIdsTipo, false, false);
             RecalculaMarcacao(context, jobReport, db, usuario, idsFuncionarios, dataInicial, dataFinal, null, null);
         }
+
         public void RecalculaMarcacao(PerformContext context, JobControl jobReport, string db, string usuario, List<int> idsFuncionario, DateTime dataInicial, DateTime dataFinal, bool considerarInativos = false)
         {
             RecalculaMarcacao(context, jobReport, db, usuario, idsFuncionario, dataInicial, dataFinal, null, null, considerarInativos);
@@ -162,25 +165,31 @@ namespace BLL_N.JobManager.Hangfire.Job
             pbInt.setaMinMaxPB = new Modelo.SetaMinMaxProgressBar(SetaMinMaxProgressBarVazio);
             pbInt.setaValorPB = new Modelo.SetaValorProgressBar(SetaValorProgressBarVazio);
             pb.incrementaPBCMensagem(1, "Carregando dados para calculo");
+            pb.setaMensagem("Carregando jornadas alternativas");
             BLL.JornadaAlternativa bllJornadaAlternativa = new BLL.JornadaAlternativa(userPF.ConnectionString, userPF);
             Hashtable jornadaAlternativaList = bllJornadaAlternativa.GetHashIdObjeto(dataInicial, dataFinal, 2, idsFuncionario);
 
+            pb.setaMensagem("Carregando fechamentos de Banco");
             BLL.FechamentoBHD bllFechamentoBHD = new BLL.FechamentoBHD(userPF.ConnectionString, userPF);
             List<Modelo.FechamentoBHD> fechamentoBHDList = bllFechamentoBHD.getPorPeriodo(dataInicial, dataFinal, 2, idsFuncionario);
             BLL.Ocorrencia bllOcorrencia = new BLL.Ocorrencia(userPF.ConnectionString, userPF);
             Hashtable ocorrenciaList = bllOcorrencia.GetHashIdDescricao();
+            pb.setaMensagem("Carregando compensações");
             BLL.Compensacao bllCompensacao = new BLL.Compensacao(userPF.ConnectionString, userPF);
             List<Modelo.Compensacao> compensacaoList = bllCompensacao.GetPeriodo(dataInicial, dataFinal, 2, idsFuncionario);
             DAL.SQL.CalculaMarcacao dalCalculaMarcacao = new DAL.SQL.CalculaMarcacao(new DataBase(userPF.ConnectionString));
             dalCalculaMarcacao.UsuarioLogado = userPF;
+            pb.setaMensagem("Carregando marcações");
             DataTable dtMarcacoes = (DataTable)ExecuteMethodThredCancellation(() => dalCalculaMarcacao.GetMarcacoesCalculo(idsFuncionario, dataInicial, dataFinal, considerarInativos, false));
             BLL.HorarioDinamico bllHorarioDinamico = new BLL.HorarioDinamico(userPF.ConnectionString, userPF);
             if (bllHorarioDinamico.GerarHorariosDetalhesAPartirMarcacoes(dtMarcacoes))
             {
                 dtMarcacoes = dalCalculaMarcacao.GetMarcacoesCalculo(idsFuncionario, dataInicial, dataFinal, false, false);
             }
+            pb.setaMensagem("Carregando bilhetes");
             BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(userPF.ConnectionString, userPF);
             List<Modelo.BilhetesImp> tratamentomarcacaoList = (List<Modelo.BilhetesImp>)ExecuteMethodThredCancellation(() => bllBilhetesImp.GetImportadosPeriodo(idsFuncionario, dataInicial, dataFinal, false));
+            pb.setaMensagem("Carregando banco de horas");
             List<int> idsBH = dtMarcacoes.AsEnumerable().Where(r => !r.IsNull("idbancohoras")).Select(s => s.Field<int>("idbancohoras")).Distinct().ToList();
             BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(userPF.ConnectionString, userPF);
             Hashtable bancoHorasList = (Hashtable)ExecuteMethodThredCancellation(() => bllBancoHoras.GetHashIdObjeto(dataInicial, dataFinal, idsBH));
@@ -877,6 +886,65 @@ namespace BLL_N.JobManager.Hangfire.Job
             if (dts.Where(d => d != null).Any())
             {
                 RecalculaMarcacao(context, jobReport, db, usuario, new List<int>() { transferenciaBilhetes.IdFuncionarioOrigem, transferenciaBilhetes.IdFuncionarioDestino }, dts.Min().GetValueOrDefault(), dts.Max().GetValueOrDefault(), true); 
+            }
+        }
+
+        public void FechamentoBH(PerformContext context, JobControl jobReport, string db, string usuario, Modelo.FechamentoBH objFechamentoBH, Modelo.BancoHoras objBancoHoras)
+        {
+            SetParametersBase(context, jobReport, db, usuario);
+            string conexao = BLL.cwkFuncoes.ConstroiConexao(db).ConnectionString;
+            Modelo.Cw_Usuario userPF = new Modelo.Cw_Usuario();
+            userPF.Login = usuario;
+            BLL.Marcacao bllMarcacao = new BLL.Marcacao(conexao, userPF);
+            //Atualiza as marcações
+            pb.setaValorPBCMensagem(-1, "Verificando registros");
+            bllMarcacao.InsereMarcacoesNaoExistentes(objFechamentoBH.Tipo, objFechamentoBH.Identificacao, objFechamentoBH.Data.Value, objFechamentoBH.Data.Value, pb, false);
+            IList<Modelo.FechamentoBHDPercentual> listaobjFechamentoBHDPercentual = new List<Modelo.FechamentoBHDPercentual>();
+            BLL.FechamentoBH bllFechamentoBH = new BLL.FechamentoBH(conexao, userPF);
+            //Realiza o fechamento do banco de horas por funcionario
+            pb.setaValorPBCMensagem(-1, "Realizando fechamento de Banco de Horas, aguarde... (Pode levar alguns minutos)");
+            bllFechamentoBH.ChamaCalculaFechamento(objBancoHoras, objFechamentoBH, ref listaobjFechamentoBHDPercentual, objFechamentoBH.PagamentoHoraCreAuto, objFechamentoBH.LimiteHorasPagamentoCredito, objFechamentoBH.PagamentoHoraDebAuto, objFechamentoBH.LimiteHorasPagamentoDebito, ref pb);
+            pb.setaValorPBCMensagem(-1, "Iniciando Calculo");
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(conexao, userPF);
+            List<int> idsFuncionarios = bllFuncionario.GetIDsByTipo(objFechamentoBH.Tipo, new List<int>() { objFechamentoBH.Identificacao }, false, false);
+            List<PxyFuncionariosRecalcular> pxyFuncionariosRecalcular = idsFuncionarios.Select(s => new PxyFuncionariosRecalcular() { IdFuncionario = s, DataInicio = objFechamentoBH.Data, DataFim = objFechamentoBH.Data }).ToList();
+
+            try
+            {
+                RecalculaMarcacao(context, jobReport, db, userPF.Login, pxyFuncionariosRecalcular);
+            }
+            catch (Exception)
+            {
+                string originalQueue = HangfireManagerBase.GetOriginalQueue(context);
+                JobControl jobControlNovo = HangfireManagerBase.GerarJobControl("Calculo de marcações da inclusão de fechamento de Banco de Horas", jobReport);
+                new BackgroundJobClient().ContinueJobWith<CalculosJob>(context.BackgroundJob.Id, x => x.RecalculaMarcacao(context, jobReport, db, userPF.Login, pxyFuncionariosRecalcular), new EnqueuedState(string.IsNullOrEmpty(originalQueue) ? "normal" : originalQueue));
+            }
+        }
+
+        public void ExcluirFechamentoBH(PerformContext context, JobControl jobReport, string db, string usuario, Modelo.FechamentoBH objFechamentoBH)
+        {
+            SetParametersBase(context, jobReport, db, usuario);
+            pb.setaValorPBCMensagem(-1, "Desfazendo fechamento de Banco de Horas, aguarde... (Pode levar alguns minutos)");
+            string conexao = BLL.cwkFuncoes.ConstroiConexao(db).ConnectionString;
+            Modelo.Cw_Usuario userPF = new Modelo.Cw_Usuario();
+            userPF.Login = usuario;
+            BLL.FechamentoBH bllFechamentoBH = new BLL.FechamentoBH(conexao, userPF);
+            bllFechamentoBH.ExcluirFechamento(objFechamentoBH.Id);
+            pb.setaValorPBCMensagem(-1, "Recalculando dados");
+
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(conexao, userPF);
+            List<int> idsFuncionarios = bllFuncionario.GetIDsByTipo(objFechamentoBH.Tipo, new List<int>() { objFechamentoBH.Identificacao }, false, false);
+            List<PxyFuncionariosRecalcular> pxyFuncionariosRecalcular = idsFuncionarios.Select(s => new PxyFuncionariosRecalcular() { IdFuncionario = s, DataInicio = objFechamentoBH.Data, DataFim = objFechamentoBH.Data }).ToList();
+
+            try
+            {
+                RecalculaMarcacao(context, jobReport, db, userPF.Login, pxyFuncionariosRecalcular);
+            }
+            catch (Exception)
+            {
+                string originalQueue = HangfireManagerBase.GetOriginalQueue(context);
+                JobControl jobControlNovo = HangfireManagerBase.GerarJobControl("Calculo de marcações da exclusão de fechamento de Banco de Horas", jobReport);
+                new BackgroundJobClient().ContinueJobWith<CalculosJob>(context.BackgroundJob.Id, x => x.RecalculaMarcacao(null, jobReport, db, userPF.Login, pxyFuncionariosRecalcular), new EnqueuedState(string.IsNullOrEmpty(originalQueue) ? "normal" : originalQueue));
             }
         }
     }

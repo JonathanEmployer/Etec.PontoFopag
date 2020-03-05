@@ -261,9 +261,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                 try
                 {
                     int? idfuncionario = bllFuncionario.GetIdporIdIntegracao(IdIntegracao);
-                    int idContratoAnt = bllContratoFun.getContratoId((idfuncionario).GetValueOrDefault());
-                    Modelo.Contrato objContr = bllContrato.LoadObject(idContratoAnt);
-                    int idIntegracaoContrato = objContr.idIntegracao.GetValueOrDefault();
+                    int? idContratoAnt = bllContratoFun.getContratoId((idfuncionario).GetValueOrDefault());
                     Modelo.Funcionario funcionario = bllFuncionario.LoadObject(idfuncionario.GetValueOrDefault());
                     if (!funcionario.DataInativacao.HasValue)
                         funcionario.DataInativacao = DateTime.Now;
@@ -277,6 +275,8 @@ namespace cwkWebAPIPontoWeb.Controllers
                         }
                         else
                         {
+                            Modelo.Contrato objContr = bllContrato.LoadObject(idContratoAnt.GetValueOrDefault());
+                            int idIntegracaoContrato = objContr.idIntegracao.GetValueOrDefault();
                             bllFuncionario.SetContratoFuncionarioIntegracao(IdIntegracao, idIntegracaoContrato, Acao.Alterar);
                             return Request.CreateResponse(HttpStatusCode.OK, funcionario);
                         }
