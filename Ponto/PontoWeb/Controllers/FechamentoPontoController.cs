@@ -40,24 +40,6 @@ namespace PontoWeb.Controllers
             }
         }
 
-        [Authorize]
-        public JsonResult DadosFuncGrid()
-        {
-            try
-            {
-                BLL.FechamentoPonto bllFechamentoPonto = new BLL.FechamentoPonto(_usr.ConnectionString, _usr);
-                List<Modelo.Proxy.PxyGridFechamentoPontoFunc> dados = bllFechamentoPonto.GetFuncGrid(_usr);
-                JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
-                jsonResult.MaxJsonLength = int.MaxValue;
-                return jsonResult;
-            }
-            catch (Exception ex)
-            {
-                BLL.cwkFuncoes.LogarErro(ex);
-                throw;
-            }
-        }
-
         [PermissoesFiltro(Roles = "FechamentoPontoConsultar")]
         public override ActionResult Consultar(int id)
         {
