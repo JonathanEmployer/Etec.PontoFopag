@@ -5,9 +5,8 @@
 }
 @using (Html.BeginForm())
 {
-    @Html.HiddenFor(model => model.Identificacao);
-
-    <div class="divCenterMedio">
+    @Html.HiddenFor(model => model.IdsFuncionariosSelecionados);
+    <div class="divCenterGrande">
         <div class="panel panel-default">
             <div class="panel-heading salvando">
                 @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
@@ -135,15 +134,11 @@
                                             </div>
                                             <div id="divFuncionario" class="row divsTipo">
                                                 <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <div class="input-group input-group-sm">
-                                                            @Html.TextBoxFor(model => model.Funcionario, new { @class = "form-control  input-sm", id = "lkpFuncionario" })
-                                                            <span class="input-group-btn">
-                                                                <button class="btn btn-primary desabilitar" id="btnFuncionario" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                                                            </span>
-                                                        </div>
-                                                        @Html.ValidationMessageFor(model => model.Funcionario)
-                                                    </div>
+                                                    @Html.HiddenFor(m => m.IdsFuncionariosSelecionados)
+                                                    @Html.HiddenFor(m => m.IdsFuncionariosSelecionados_Ant)
+                                                    @Html.ValidationMessageFor(m => m.IdsFuncionariosSelecionados)
+                                                </div>
+                                                <div class="col-md-12" id="divPartial">
                                                 </div>
                                             </div>
                                         </div>
@@ -176,7 +171,7 @@
     </div>
 }
 <script>
-
+    var errorArray = new Array();
     $(document).ready(function () {
         $("#lkpEmpresa").focus();
         cwk_DataCalendario('#btnDataInicial', '#DataInicial');
@@ -184,7 +179,6 @@
         cwk_EventoConsulta("#btnEmpresa", "#lkpEmpresa", "EventoConsulta", "Empresa", "");
         cwk_EventoConsulta("#btnDepartamento", "#lkpDepartamento", "EventoConsulta", "Departamento", "");
         cwk_EventoConsulta("#btnFuncao", "#lkpFuncao", "EventoConsulta", "Funcao", "");
-        cwk_EventoConsulta("#btnFuncionario", "#lkpFuncionario", "EventoConsulta", "Funcionario", "");
 
         if ($('#idRadioEmpresa').is(':checked')) {
             divVisivel("#divEmpresa");
@@ -197,6 +191,7 @@
         };
         if ($('#idRadioFuncionario').is(':checked')) {
             divVisivel("#divFuncionario");
+            CarregaGridFuncionario();
         };
         $("#idRadioEmpresa").change(function () {
             divVisivel("#divEmpresa");
@@ -209,6 +204,7 @@
         });
         $("#idRadioFuncionario").change(function () {
             divVisivel("#divFuncionario");
+            CarregaGridFuncionario();
         });
         function divVisivel(idDiv) {
             $(".divsTipo").hide();
@@ -216,9 +212,33 @@
         };
     });
 
+    function CarregaGridFuncionario() {
+        E_GridFunc('#divPartial', '#IdsFuncionariosSelecionados', "");
+    }
+
+    function validaForm() {
+        if ($('#idRadioFuncionario').is(':checked')) {
+            $("#IdsFuncionariosSelecionados").val(E_GridFuncGetSelecionados());
+            var funcsSelecionados = $("#IdsFuncionariosSelecionados").val();
+            if (funcsSelecionados.length <= 0 || funcsSelecionados == '' || funcsSelecionados == null) {
+                var msgErro = 'É Necessário Selecionar Pelo Menos um Funcionário.';
+                errorArray["IdsFuncionariosSelecionados"] = msgErro;
+                cwkErro(msgErro);
+                $("form").validate().showErrors(errorArray);
+                return false;
+            }
+            else {
+                errorArray["IdsFuncionariosSelecionados"] = null;
+                $("form").validate().showErrors(errorArray);
+                return true;
+            }
+        }
+        return true;
+    }
+
     $('form').submit(function (e) {
         e.preventDefault();
-        if ($(this).valid()) {
+        if ($(this).valid() && validaForm()) {
             PostFormJob(this);
         }
         return false;
