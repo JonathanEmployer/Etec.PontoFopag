@@ -31,20 +31,12 @@ namespace BLL_N.JobManager.Hangfire
                     if (!namespaceManager.QueueExists(queue))
                         namespaceManager.CreateQueue(queue);
                 }
-                var options = new SqlServerStorageOptions
-                {
-                    CommandBatchMaxTimeout = TimeSpan.FromHours(2),
-                    SlidingInvisibilityTimeout = TimeSpan.FromHours(2),
-                    QueuePollInterval = TimeSpan.Zero,
-                    UseRecommendedIsolationLevel = true,
-                    UsePageLocksOnDequeue = true,
-                    DisableGlobalLocks = true,
-                    InvisibilityTimeout = TimeSpan.FromHours(2)
-                };
-                var sqlStorage = new SqlServerStorage("MonitorPontofopag", options);
+
+                var sqlStorage = new SqlServerStorage("MonitorPontofopag");
                 Action<QueueDescription> configureAction = qd =>
                 {
                     qd.MaxSizeInMegabytes = 5120;
+                    qd.DefaultMessageTimeToLive = new TimeSpan(0, 1, 0);
                 };
                 sqlStorage.UseServiceBusQueues(new ServiceBusQueueOptions
                 {
@@ -52,9 +44,7 @@ namespace BLL_N.JobManager.Hangfire
                     Configure = configureAction,
                     Queues = queues,
                     CheckAndCreateQueues = false,
-                    LoopReceiveTimeout = TimeSpan.FromMilliseconds(1000),
-                    LockRenewalDelay = TimeSpan.FromSeconds(15)
-
+                    LoopReceiveTimeout = TimeSpan.FromMilliseconds(1000)
                 });
                 GlobalConfiguration.Configuration.UseStorage(sqlStorage);
             }
@@ -90,5 +80,7 @@ namespace BLL_N.JobManager.Hangfire
             };
             return new BackgroundJobServer(options);
         }
+
+
     }
 }
