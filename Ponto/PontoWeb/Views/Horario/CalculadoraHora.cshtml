@@ -307,6 +307,20 @@
             document.getElementById(el).style.display = 'none';
     }
 
+    $('.calcAd, .calcSub, .calcMul, .calcDiv, .horaJornada').keyup(function (e) {
+        apenasNumeroInput(e.currentTarget);
+    });
+
+    $('.horaJornada').change(function () {
+        var valor = $(this).val();
+
+        valor = formataHora24(valor, 2, 2);
+
+        $(this).val(valor);
+
+    })
+
+
     $('.calcAd').change(function () {
         var valor = $(this).val();
         if (valor != "") {
