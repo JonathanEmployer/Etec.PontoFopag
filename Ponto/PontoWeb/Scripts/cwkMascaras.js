@@ -92,7 +92,3 @@ function apenasNumero(e) {
     }
     return true
 }
-
-function apenasNumeroInput(e) {
-    e.value = e.value.replace(/\D/g, '');
-}
