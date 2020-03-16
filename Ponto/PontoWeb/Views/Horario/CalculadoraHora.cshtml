@@ -34,7 +34,7 @@
                             <div class="col-md-11">
                                 <div class="input-group">
                                     <span class="input-group-addon">&nbsp;&nbsp; Horas <span class="glyphicon glyphicon-time"></span></span>
-                                    @Html.TextBox("txtEntrada", "", new { @class = "form-control time3L calcAd", id = "txtHoraAd1", @placeholder = "000:00" })
+                                    @Html.TextBox("txtEntrada", "", new { @class = "form-control time3L calcAd", id = "txtHoraAd1", @placeholder = "000:00"})
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-plus"></span></span>
                                     @Html.TextBox("txtSaida", "", new { @class = "form-control time3L calcAd", id = "txtHoraAd2", @placeholder = "000:00" })
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-pause" style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);"></span></span>
@@ -301,14 +301,17 @@
     $("#CalcJornada").hide('true');
     function OcultarDiv(el) {
         var display = document.getElementById(el).style.display;
-        if(display == "none")
+        if (display == "none")
             document.getElementById(el).style.display = 'block';
         else
             document.getElementById(el).style.display = 'none';
     }
 
     $('.calcAd, .calcSub, .calcMul, .calcDiv, .horaJornada').keyup(function (e) {
-        apenasNumeroInput(e.currentTarget);
+        console.log(this.id.indexOf("Min"));
+        if (this.id.indexOf("Min") != -1 ) {
+            apenasNumeroInput(e.currentTarget);
+        }
     });
 
     $('.horaJornada').change(function () {
@@ -319,7 +322,6 @@
         $(this).val(valor);
 
     })
-
 
     $('.calcAd').change(function () {
         var valor = $(this).val();
@@ -378,7 +380,7 @@
                 var h2 = $("#txtHoraMul2").val();
                 valor = formataHora($(this).val(), 3, 2)
                 $(this).val(valor);
-                var h1 = ConvertHoraMinuto($("#txtHoraMul1").val());                
+                var h1 = ConvertHoraMinuto($("#txtHoraMul1").val());
                 var res = ConvertHoraMinuto($("#txtResultadoMul").val());
             }
             else {
@@ -386,7 +388,7 @@
                 var h2 = $("#txtHoraMul2Min").val();
                 var res = $("#txtResultadoMulMin").val();
             }
-            
+
             var retorno = multiplicacaoHoras(h1, h2, res);
             $("#txtHoraMul1").val(ConvertMinutoHora(retorno.hora1, 3));
             $("#txtHoraMul2").val(retorno.hora2);
@@ -405,7 +407,7 @@
                 valor = formataHora($(this).val(), 3, 2)
                 $(this).val(valor);
                 var h1 = ConvertHoraMinuto($("#txtHoraDiv1").val());
-                
+
                 var res = ConvertHoraMinuto($("#txtResultadoDiv").val());
             }
             else {
@@ -459,9 +461,9 @@
         var PrimeiroPeridoCafe = $("#Habilitaperiodo01Bool").is(':checked');
         var SegundoPeriodoCafe = $("#Habilitaperiodo02Bool").is(':checked');
         var retorno = CalculaCargaHoraria(entradas, saidas, inicioNoturno, fimNoturno, tipo, CalculaHorarioCafe, PrimeiroPeridoCafe, SegundoPeriodoCafe);
-        $("#resDiurno").val(ConvertMinutoHora(retorno.horasTrabalhadasDiurnas,3));
-        $("#resNoturno").val(ConvertMinutoHora(retorno.horasTrabalhadasNoturnas,3));
-        $("#resMisto").val(ConvertMinutoHora(retorno.horasTrabalhadasMista,3));
+        $("#resDiurno").val(ConvertMinutoHora(retorno.horasTrabalhadasDiurnas, 3));
+        $("#resNoturno").val(ConvertMinutoHora(retorno.horasTrabalhadasNoturnas, 3));
+        $("#resMisto").val(ConvertMinutoHora(retorno.horasTrabalhadasMista, 3));
     };
 
 </script>
