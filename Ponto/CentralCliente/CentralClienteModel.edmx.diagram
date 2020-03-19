@@ -112,6 +112,15 @@
         <AssociationConnector Association="CENTRALCLIENTEModel.fk_Rep_RepLog" />
         <EntityTypeShape EntityType="CENTRALCLIENTEModel.MensagensTratadasNaoLogar" Width="1.5" PointX="5.375" PointY="4.75" />
         <EntityTypeShape EntityType="CENTRALCLIENTEModel.Integracao" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.CentroServico" Width="1.5" PointX="7.375" PointY="1" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.ComunicadorServico" Width="1.5" PointX="9.625" PointY="1" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.ComunicadorServidor" Width="1.5" PointX="7.375" PointY="7.125" />
+        <EntityTypeShape EntityType="CENTRALCLIENTEModel.ComunicadorServidorHeartBeat" Width="1.5" PointX="9.625" PointY="7.625" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK__Rep__IdCentroSer__4FF1D159" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.fk_CentroServico_ComunicadorServico" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.FK__Rep__IdComunicad__51DA19CB" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.fk_ComunicadorServidor_ComunicadorServico" />
+        <AssociationConnector Association="CENTRALCLIENTEModel.fk_ComunicadorServidor_ComunicadorServidorHeartBeat" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

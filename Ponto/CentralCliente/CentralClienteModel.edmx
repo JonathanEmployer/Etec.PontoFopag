@@ -76,6 +76,20 @@
           <Property Name="IDCliente" Type="int" Nullable="false" />
           <Property Name="Quantidade" Type="numeric" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
+        <EntityType Name="CentroServico">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Codigo" Type="int" />
+          <Property Name="Inchora" Type="datetime" />
+          <Property Name="Incusuario" Type="varchar" MaxLength="20" />
+          <Property Name="Althora" Type="datetime" />
+          <Property Name="Altusuario" Type="varchar" MaxLength="20" />
+          <Property Name="Descricao" Type="varchar" MaxLength="200" />
+          <Property Name="DataBaseName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Instancia" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
         <EntityType Name="cepbr_bairro">
           <Key>
             <PropertyRef Name="ID" />
@@ -136,6 +150,42 @@
           <Property Name="IDTabelaPreco" Type="int" />
           <Property Name="NomeServidor" Type="varchar" MaxLength="1000" />
           <Property Name="IdParametroServComNet" Type="int" />
+        </EntityType>
+        <EntityType Name="ComunicadorServico">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Codigo" Type="int" />
+          <Property Name="Inchora" Type="datetime" />
+          <Property Name="Incusuario" Type="varchar" MaxLength="20" />
+          <Property Name="Althora" Type="datetime" />
+          <Property Name="Altusuario" Type="varchar" MaxLength="20" />
+          <Property Name="IdComunicadorServidor" Type="int" />
+          <Property Name="IdCentroServico" Type="int" />
+          <Property Name="Descricao" Type="varchar" MaxLength="100" />
+          <Property Name="Observacao" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="ComunicadorServidor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Codigo" Type="int" />
+          <Property Name="Inchora" Type="datetime" />
+          <Property Name="Incusuario" Type="varchar" MaxLength="20" />
+          <Property Name="Althora" Type="datetime" />
+          <Property Name="Altusuario" Type="varchar" MaxLength="20" />
+          <Property Name="MAC" Type="varchar" MaxLength="20" />
+          <Property Name="Nome" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="ComunicadorServidorHeartBeat">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Beat" Type="datetime" />
+          <Property Name="IdComunicadorServidor" Type="int" />
         </EntityType>
         <EntityType Name="ControleGestao">
           <Key>
@@ -348,6 +398,8 @@
           <Property Name="DataInicioImportacao" Type="datetime" />
           <Property Name="ServicoComunicador" Type="bit" Nullable="false" />
           <Property Name="Processando" Type="bit" Nullable="false" />
+          <Property Name="IdCentroServico" Type="int" />
+          <Property Name="IdComunicadorServico" Type="int" />
         </EntityType>
         <EntityType Name="RepLog">
           <Key>
@@ -529,6 +581,30 @@
           <Property Name="UtilizaPontoWeb" Type="smallint" />
           <Property Name="PasswordWebAPI" Type="varchar" MaxLength="200" />
         </EntityType>
+        <Association Name="FK__Rep__IdCentroSer__4FF1D159">
+          <End Role="CentroServico" Type="Self.CentroServico" Multiplicity="0..1" />
+          <End Role="Rep" Type="Self.Rep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CentroServico">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rep">
+              <PropertyRef Name="IdCentroServico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rep__IdComunicad__51DA19CB">
+          <End Role="ComunicadorServico" Type="Self.ComunicadorServico" Multiplicity="0..1" />
+          <End Role="Rep" Type="Self.Rep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComunicadorServico">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rep">
+              <PropertyRef Name="IdComunicadorServico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_AspNetUsers_Usuario">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
@@ -562,6 +638,18 @@
             </Principal>
             <Dependent Role="CentralLicencaOnline">
               <PropertyRef Name="IDServico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CentroServico_ComunicadorServico">
+          <End Role="CentroServico" Type="Self.CentroServico" Multiplicity="0..1" />
+          <End Role="ComunicadorServico" Type="Self.ComunicadorServico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CentroServico">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ComunicadorServico">
+              <PropertyRef Name="IdCentroServico" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -694,6 +782,30 @@
             </Principal>
             <Dependent Role="Cliente">
               <PropertyRef Name="IDTabelaPreco" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ComunicadorServidor_ComunicadorServico">
+          <End Role="ComunicadorServidor" Type="Self.ComunicadorServidor" Multiplicity="0..1" />
+          <End Role="ComunicadorServico" Type="Self.ComunicadorServico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComunicadorServidor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ComunicadorServico">
+              <PropertyRef Name="IdComunicadorServidor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ComunicadorServidor_ComunicadorServidorHeartBeat">
+          <End Role="ComunicadorServidor" Type="Self.ComunicadorServidor" Multiplicity="0..1" />
+          <End Role="ComunicadorServidorHeartBeat" Type="Self.ComunicadorServidorHeartBeat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComunicadorServidor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ComunicadorServidorHeartBeat">
+              <PropertyRef Name="IdComunicadorServidor" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1319,11 +1431,15 @@
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CentralLicencaOnline" EntityType="Self.CentralLicencaOnline" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CentroServico" EntityType="Self.CentroServico" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="cepbr_bairro" EntityType="Self.cepbr_bairro" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="cepbr_cidade" EntityType="Self.cepbr_cidade" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="cepbr_endereco" EntityType="Self.cepbr_endereco" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="cepbr_estado" EntityType="Self.cepbr_estado" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ComunicadorServico" EntityType="Self.ComunicadorServico" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ComunicadorServidor" EntityType="Self.ComunicadorServidor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ComunicadorServidorHeartBeat" EntityType="Self.ComunicadorServidorHeartBeat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ControleGestao" EntityType="Self.ControleGestao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Email" EntityType="Self.Email" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmailTipo" EntityType="Self.EmailTipo" Schema="dbo" store:Type="Tables" />
@@ -1359,6 +1475,14 @@
           <EntitySet Name="TelefoneTipo" EntityType="Self.TelefoneTipo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Unidade" EntityType="Self.Unidade" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Rep__IdCentroSer__4FF1D159" Association="Self.FK__Rep__IdCentroSer__4FF1D159">
+            <End Role="CentroServico" EntitySet="CentroServico" />
+            <End Role="Rep" EntitySet="Rep" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rep__IdComunicad__51DA19CB" Association="Self.FK__Rep__IdComunicad__51DA19CB">
+            <End Role="ComunicadorServico" EntitySet="ComunicadorServico" />
+            <End Role="Rep" EntitySet="Rep" />
+          </AssociationSet>
           <AssociationSet Name="FK_AspNetUsers_Usuario" Association="Self.FK_AspNetUsers_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -1370,6 +1494,10 @@
           <AssociationSet Name="FK_CentralLicensaOnline_Servicos" Association="Self.FK_CentralLicensaOnline_Servicos">
             <End Role="Servicos" EntitySet="Servicos" />
             <End Role="CentralLicencaOnline" EntitySet="CentralLicencaOnline" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CentroServico_ComunicadorServico" Association="Self.fk_CentroServico_ComunicadorServico">
+            <End Role="CentroServico" EntitySet="CentroServico" />
+            <End Role="ComunicadorServico" EntitySet="ComunicadorServico" />
           </AssociationSet>
           <AssociationSet Name="FK_cepbr_bairro_cepbr_cidade" Association="Self.FK_cepbr_bairro_cepbr_cidade">
             <End Role="cepbr_cidade" EntitySet="cepbr_cidade" />
@@ -1414,6 +1542,14 @@
           <AssociationSet Name="FK_Cliente_TabelaPreco" Association="Self.FK_Cliente_TabelaPreco">
             <End Role="TabelaPreco" EntitySet="TabelaPreco" />
             <End Role="Cliente" EntitySet="Cliente" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ComunicadorServidor_ComunicadorServico" Association="Self.fk_ComunicadorServidor_ComunicadorServico">
+            <End Role="ComunicadorServidor" EntitySet="ComunicadorServidor" />
+            <End Role="ComunicadorServico" EntitySet="ComunicadorServico" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ComunicadorServidor_ComunicadorServidorHeartBeat" Association="Self.fk_ComunicadorServidor_ComunicadorServidorHeartBeat">
+            <End Role="ComunicadorServidor" EntitySet="ComunicadorServidor" />
+            <End Role="ComunicadorServidorHeartBeat" EntitySet="ComunicadorServidorHeartBeat" />
           </AssociationSet>
           <AssociationSet Name="FK_ControleGestao_ControleGestao" Association="Self.FK_ControleGestao_ControleGestao">
             <End Role="Entidade" EntitySet="Entidade" />
@@ -1996,6 +2132,10 @@
           <Property Name="ServicoComunicador" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="RepLog" Relationship="CENTRALCLIENTEModel.fk_Rep_RepLog" FromRole="Rep" ToRole="RepLog" />
           <Property Name="Processando" Type="Boolean" Nullable="false" />
+          <Property Name="IdCentroServico" Type="Int32" />
+          <Property Name="IdComunicadorServico" Type="Int32" />
+          <NavigationProperty Name="CentroServico" Relationship="CENTRALCLIENTEModel.FK__Rep__IdCentroSer__4FF1D159" FromRole="Rep" ToRole="CentroServico" />
+          <NavigationProperty Name="ComunicadorServico" Relationship="CENTRALCLIENTEModel.FK__Rep__IdComunicad__51DA19CB" FromRole="Rep" ToRole="ComunicadorServico" />
         </EntityType>
         <EntityType Name="Revenda">
           <Key>
@@ -3240,6 +3380,30 @@
           </FunctionImport>
           <EntitySet Name="MensagensTratadasNaoLogar" EntityType="CENTRALCLIENTEModel.MensagensTratadasNaoLogar" />
           <EntitySet Name="Integracao" EntityType="CENTRALCLIENTEModel.Integracao" />
+          <EntitySet Name="CentroServico" EntityType="CENTRALCLIENTEModel.CentroServico" />
+          <EntitySet Name="ComunicadorServico" EntityType="CENTRALCLIENTEModel.ComunicadorServico" />
+          <EntitySet Name="ComunicadorServidor" EntityType="CENTRALCLIENTEModel.ComunicadorServidor" />
+          <EntitySet Name="ComunicadorServidorHeartBeat" EntityType="CENTRALCLIENTEModel.ComunicadorServidorHeartBeat" />
+          <AssociationSet Name="FK__Rep__IdCentroSer__4FF1D159" Association="CENTRALCLIENTEModel.FK__Rep__IdCentroSer__4FF1D159">
+            <End Role="CentroServico" EntitySet="CentroServico" />
+            <End Role="Rep" EntitySet="Rep" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CentroServico_ComunicadorServico" Association="CENTRALCLIENTEModel.fk_CentroServico_ComunicadorServico">
+            <End Role="CentroServico" EntitySet="CentroServico" />
+            <End Role="ComunicadorServico" EntitySet="ComunicadorServico" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rep__IdComunicad__51DA19CB" Association="CENTRALCLIENTEModel.FK__Rep__IdComunicad__51DA19CB">
+            <End Role="ComunicadorServico" EntitySet="ComunicadorServico" />
+            <End Role="Rep" EntitySet="Rep" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ComunicadorServidor_ComunicadorServico" Association="CENTRALCLIENTEModel.fk_ComunicadorServidor_ComunicadorServico">
+            <End Role="ComunicadorServidor" EntitySet="ComunicadorServidor" />
+            <End Role="ComunicadorServico" EntitySet="ComunicadorServico" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ComunicadorServidor_ComunicadorServidorHeartBeat" Association="CENTRALCLIENTEModel.fk_ComunicadorServidor_ComunicadorServidorHeartBeat">
+            <End Role="ComunicadorServidor" EntitySet="ComunicadorServidor" />
+            <End Role="ComunicadorServidorHeartBeat" EntitySet="ComunicadorServidorHeartBeat" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ParametroServComNet">
           <Key>
@@ -3318,6 +3482,124 @@
           <Property Name="Chave" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="idIntegracao" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="CentroServico">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="Int32" />
+          <Property Name="Inchora" Type="DateTime" Precision="3" />
+          <Property Name="Incusuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Althora" Type="DateTime" Precision="3" />
+          <Property Name="Altusuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Descricao" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DataBaseName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Instancia" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Rep" Relationship="CENTRALCLIENTEModel.FK__Rep__IdCentroSer__4FF1D159" FromRole="CentroServico" ToRole="Rep" />
+          <NavigationProperty Name="ComunicadorServico" Relationship="CENTRALCLIENTEModel.fk_CentroServico_ComunicadorServico" FromRole="CentroServico" ToRole="ComunicadorServico" />
+        </EntityType>
+        <EntityType Name="ComunicadorServico">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="Int32" />
+          <Property Name="Inchora" Type="DateTime" Precision="3" />
+          <Property Name="Incusuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Althora" Type="DateTime" Precision="3" />
+          <Property Name="Altusuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IdComunicadorServidor" Type="Int32" />
+          <Property Name="IdCentroServico" Type="Int32" />
+          <NavigationProperty Name="CentroServico" Relationship="CENTRALCLIENTEModel.fk_CentroServico_ComunicadorServico" FromRole="ComunicadorServico" ToRole="CentroServico" />
+          <NavigationProperty Name="Rep" Relationship="CENTRALCLIENTEModel.FK__Rep__IdComunicad__51DA19CB" FromRole="ComunicadorServico" ToRole="Rep" />
+          <NavigationProperty Name="ComunicadorServidor" Relationship="CENTRALCLIENTEModel.fk_ComunicadorServidor_ComunicadorServico" FromRole="ComunicadorServico" ToRole="ComunicadorServidor" />
+          <Property Name="Descricao" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Observacao" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ComunicadorServidor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="Int32" />
+          <Property Name="Inchora" Type="DateTime" Precision="3" />
+          <Property Name="Incusuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Althora" Type="DateTime" Precision="3" />
+          <Property Name="Altusuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="MAC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Nome" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ComunicadorServico" Relationship="CENTRALCLIENTEModel.fk_ComunicadorServidor_ComunicadorServico" FromRole="ComunicadorServidor" ToRole="ComunicadorServico" />
+          <NavigationProperty Name="ComunicadorServidorHeartBeat" Relationship="CENTRALCLIENTEModel.fk_ComunicadorServidor_ComunicadorServidorHeartBeat" FromRole="ComunicadorServidor" ToRole="ComunicadorServidorHeartBeat" />
+        </EntityType>
+        <EntityType Name="ComunicadorServidorHeartBeat">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Beat" Type="DateTime" Precision="3" />
+          <Property Name="IdComunicadorServidor" Type="Int32" />
+          <NavigationProperty Name="ComunicadorServidor" Relationship="CENTRALCLIENTEModel.fk_ComunicadorServidor_ComunicadorServidorHeartBeat" FromRole="ComunicadorServidorHeartBeat" ToRole="ComunicadorServidor" />
+        </EntityType>
+        <Association Name="FK__Rep__IdCentroSer__4FF1D159">
+          <End Type="CENTRALCLIENTEModel.CentroServico" Role="CentroServico" Multiplicity="0..1" />
+          <End Type="CENTRALCLIENTEModel.Rep" Role="Rep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CentroServico">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rep">
+              <PropertyRef Name="IdCentroServico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CentroServico_ComunicadorServico">
+          <End Type="CENTRALCLIENTEModel.CentroServico" Role="CentroServico" Multiplicity="0..1" />
+          <End Type="CENTRALCLIENTEModel.ComunicadorServico" Role="ComunicadorServico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CentroServico">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ComunicadorServico">
+              <PropertyRef Name="IdCentroServico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rep__IdComunicad__51DA19CB">
+          <End Type="CENTRALCLIENTEModel.ComunicadorServico" Role="ComunicadorServico" Multiplicity="0..1" />
+          <End Type="CENTRALCLIENTEModel.Rep" Role="Rep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComunicadorServico">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rep">
+              <PropertyRef Name="IdComunicadorServico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ComunicadorServidor_ComunicadorServico">
+          <End Type="CENTRALCLIENTEModel.ComunicadorServidor" Role="ComunicadorServidor" Multiplicity="0..1" />
+          <End Type="CENTRALCLIENTEModel.ComunicadorServico" Role="ComunicadorServico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComunicadorServidor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ComunicadorServico">
+              <PropertyRef Name="IdComunicadorServidor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ComunicadorServidor_ComunicadorServidorHeartBeat">
+          <End Type="CENTRALCLIENTEModel.ComunicadorServidor" Role="ComunicadorServidor" Multiplicity="0..1" />
+          <End Type="CENTRALCLIENTEModel.ComunicadorServidorHeartBeat" Role="ComunicadorServidorHeartBeat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComunicadorServidor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ComunicadorServidorHeartBeat">
+              <PropertyRef Name="IdComunicadorServidor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3631,6 +3913,8 @@
           <EntitySetMapping Name="Rep">
             <EntityTypeMapping TypeName="CENTRALCLIENTEModel.Rep">
               <MappingFragment StoreEntitySet="Rep">
+                <ScalarProperty Name="IdComunicadorServico" ColumnName="IdComunicadorServico" />
+                <ScalarProperty Name="IdCentroServico" ColumnName="IdCentroServico" />
                 <ScalarProperty Name="Processando" ColumnName="Processando" />
                 <ScalarProperty Name="ServicoComunicador" ColumnName="ServicoComunicador" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -3911,6 +4195,60 @@
                 <ScalarProperty Name="idIntegracao" ColumnName="idIntegracao" />
                 <ScalarProperty Name="Chave" ColumnName="Chave" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CentroServico">
+            <EntityTypeMapping TypeName="CENTRALCLIENTEModel.CentroServico">
+              <MappingFragment StoreEntitySet="CentroServico">
+                <ScalarProperty Name="Instancia" ColumnName="Instancia" />
+                <ScalarProperty Name="DataBaseName" ColumnName="DataBaseName" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="Altusuario" ColumnName="Altusuario" />
+                <ScalarProperty Name="Althora" ColumnName="Althora" />
+                <ScalarProperty Name="Incusuario" ColumnName="Incusuario" />
+                <ScalarProperty Name="Inchora" ColumnName="Inchora" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ComunicadorServico">
+            <EntityTypeMapping TypeName="CENTRALCLIENTEModel.ComunicadorServico">
+              <MappingFragment StoreEntitySet="ComunicadorServico">
+                <ScalarProperty Name="Observacao" ColumnName="Observacao" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="IdCentroServico" ColumnName="IdCentroServico" />
+                <ScalarProperty Name="IdComunicadorServidor" ColumnName="IdComunicadorServidor" />
+                <ScalarProperty Name="Altusuario" ColumnName="Altusuario" />
+                <ScalarProperty Name="Althora" ColumnName="Althora" />
+                <ScalarProperty Name="Incusuario" ColumnName="Incusuario" />
+                <ScalarProperty Name="Inchora" ColumnName="Inchora" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ComunicadorServidor">
+            <EntityTypeMapping TypeName="CENTRALCLIENTEModel.ComunicadorServidor">
+              <MappingFragment StoreEntitySet="ComunicadorServidor">
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="MAC" ColumnName="MAC" />
+                <ScalarProperty Name="Altusuario" ColumnName="Altusuario" />
+                <ScalarProperty Name="Althora" ColumnName="Althora" />
+                <ScalarProperty Name="Incusuario" ColumnName="Incusuario" />
+                <ScalarProperty Name="Inchora" ColumnName="Inchora" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ComunicadorServidorHeartBeat">
+            <EntityTypeMapping TypeName="CENTRALCLIENTEModel.ComunicadorServidorHeartBeat">
+              <MappingFragment StoreEntitySet="ComunicadorServidorHeartBeat">
+                <ScalarProperty Name="IdComunicadorServidor" ColumnName="IdComunicadorServidor" />
+                <ScalarProperty Name="Beat" ColumnName="Beat" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

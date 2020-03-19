@@ -219,6 +219,9 @@
     <Compile Include="CentralLicencaOnline.cs">
       <DependentUpon>CentralClienteModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="CentroServico.cs">
+      <DependentUpon>CentralClienteModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="cepbr_bairro.cs">
       <DependentUpon>CentralClienteModel.tt</DependentUpon>
     </Compile>
@@ -233,6 +236,15 @@
     </Compile>
     <Compile Include="Class1.cs" />
     <Compile Include="Cliente.cs">
+      <DependentUpon>CentralClienteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ComunicadorServico.cs">
+      <DependentUpon>CentralClienteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ComunicadorServidor.cs">
+      <DependentUpon>CentralClienteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ComunicadorServidorHeartBeat.cs">
       <DependentUpon>CentralClienteModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ControleGestao.cs">

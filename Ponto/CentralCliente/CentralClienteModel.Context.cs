@@ -73,6 +73,10 @@ namespace CentralCliente
         public virtual DbSet<RepLog> RepLog { get; set; }
         public virtual DbSet<MensagensTratadasNaoLogar> MensagensTratadasNaoLogar { get; set; }
         public virtual DbSet<Integracao> Integracao { get; set; }
+        public virtual DbSet<CentroServico> CentroServico { get; set; }
+        public virtual DbSet<ComunicadorServico> ComunicadorServico { get; set; }
+        public virtual DbSet<ComunicadorServidor> ComunicadorServidor { get; set; }
+        public virtual DbSet<ComunicadorServidorHeartBeat> ComunicadorServidorHeartBeat { get; set; }
     
         public virtual int p_ExecutaQuery(string parm, ObjectParameter retorno)
         {
