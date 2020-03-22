@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Modelo.Proxy
+namespace Modelo.Proxy.CentralCliente
 {
-    public class PxyGridServicoPontoCom
+    public class PxyGridComunicadorServico
     {
-        public PxyGridServicoPontoCom()
+        public PxyGridComunicadorServico()
         {
         }
 
-        public PxyGridServicoPontoCom(int id, int? codigo, string descricao, string observacao, DateTime? inchora, string incusuario, DateTime? althora, string altusuario, string serverName, string mAC)
+        public PxyGridComunicadorServico(int id, int? codigo, string descricao, string observacao, string inchora, string incusuario, string althora, string altusuario, string serverName, string mAC)
         {
             Id = id;
             Codigo = codigo;
@@ -39,11 +39,11 @@ namespace Modelo.Proxy
         [TableHTMLAttribute("MAC", 4, true, ItensSearch.text, OrderType.none)]
         public string MAC { get; set; }
         [TableHTMLAttribute("Inc. Data/Hora", 5, true, ItensSearch.text, OrderType.none)]
-        public Nullable<System.DateTime> Inchora { get; set; }
+        public string Inchora { get; set; }
         [TableHTMLAttribute("Inc. Usuário", 6, true, ItensSearch.select, OrderType.none)]
         public string Incusuario { get; set; }
         [TableHTMLAttribute("Alt. Data/Hora", 7, true, ItensSearch.text, OrderType.none)]
-        public Nullable<System.DateTime> Althora { get; set; }
+        public string Althora { get; set; }
         [TableHTMLAttribute("Alt. Usuário", 8, true, ItensSearch.select, OrderType.none)]
         public string Altusuario { get; set; }
 

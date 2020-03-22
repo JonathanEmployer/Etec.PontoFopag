@@ -1783,6 +1783,7 @@
     <Content Include="Views\TransferenciaBilhetes\GridOutrosRegistrosFuncionario.cshtml" />
     <Content Include="Views\TransferenciaBilhetes\Grid.cshtml" />
     <Content Include="Views\ServicoPontoCom\Grid.cshtml" />
+    <Content Include="Views\ServicoPontoCom\Cadastrar.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

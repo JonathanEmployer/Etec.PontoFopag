@@ -1,0 +1,121 @@
+﻿@model Modelo.Proxy.CentralCliente.PxyComunicadorServico
+@{
+    ViewBag.Title = "Cadastrar Serviço PontoCom";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.Id)
+    <div class="divCenterPequeno">
+        <div class="panel panel-default" style="padding:0">
+            <div class="panel-heading salvando">
+                @Html.ActionLink("X", "Grid", "ServicoPontoCom", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo">
+                @Html.ValidationMessage("CustomError")
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Codigo)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Descricao, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Descricao, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Descricao)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MAC, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.MAC, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.MAC)
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ServerName, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.ServerName, new { @class = "form-control  input-sm" }).IsReadonly(true)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Observacao, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Observacao, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Observacao)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger salvando"
+                               href="@Url.Action("Grid", "ServicoPontoCom")">
+                                <span class="glyphicon glyphicon-remove"></span> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $(":input[type='text']:enabled:visible:first").focus();
+
+    $('#MAC').blur(function () {
+        if (!isEmpty($(this).val())) {
+            BuscaMAC($(this).val());
+        }
+    });
+
+    function BuscaMAC(mac) {
+        limpaErro("MAC");
+        $.ajax({
+            url: '/ServicoPontoCom/BuscaEquipamentoHomologado',
+            type: 'GET',
+            dataType: 'json',
+            data: { 'mac': mac },
+            beforeSend: function () {
+                $("#loading").modal();
+            },
+            success: function (ret) {
+                if (ret.Successo === true) {
+                    $("#ServerName").val(ret.ServerName);
+                } else {
+                    $("#ServerName").val("");
+                    cwkErroTit('Erro!', ret.Erro);
+                    addErroInput("MAC", ret.Erro);
+                }
+            },
+            complete: function () {
+                $("#loading").modal('hide');
+            }
+        });
+    }
+</script>
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}
