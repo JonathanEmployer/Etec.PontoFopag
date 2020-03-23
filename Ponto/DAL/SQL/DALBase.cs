@@ -545,7 +545,7 @@ namespace DAL.SQL
                       from cw_usuario cwu
                      inner join contratousuario cou on cwu.id = cou.idcwusuario
                      inner join contrato co on co.id = cou.idcontrato
-					 inner join contratofuncionario cf on cf.idcontrato = co.id
+					 inner join contratofuncionario cf on cf.idcontrato = co.id and cf.excluido = 0
                      where cwu.id = " + UsuarioLogado.Id;
         }
 
