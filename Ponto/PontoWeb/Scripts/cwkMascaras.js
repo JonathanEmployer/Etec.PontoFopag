@@ -108,15 +108,6 @@ function trimChar(string, charToRemove) {
     return string;
 }
 
-//function padTime(numb, numOcorrencia) {
-
-//    var val = "" + numb;
-//    console.log("chegou o valor "+val);
-
-//    while (val.length < numOcorrencia) {
-//        string = "0" + string;
-//    }
-//}
 Number.prototype.padDigit = function () {
     return (this < 10) ? '0' + this : this;
 }
