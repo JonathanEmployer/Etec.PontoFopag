@@ -39,7 +39,7 @@ namespace BLL.Relatorios.V2
             _progressBar.setaValorPB(-1);
             BLL.CartaoPontoV2 bllCartaoPonto = new BLL.CartaoPontoV2(_usuario.ConnectionString, _usuario);
             RelatorioCartaoPontoHTMLModel parms = (RelatorioCartaoPontoHTMLModel)_relatorioFiltro;
-            IList<int> funcs = parms.IdSelecionados.Split(',').Select(int.Parse).ToList();
+            IList<int> funcs = parms.IdSelecionados.Split(',').Where(s => !String.IsNullOrEmpty(s)).Select(int.Parse).ToList();
 
             _progressBar.setaMensagem("Agrupando dados...");
             IList<pxyCartaoPontoEmployer> cps = bllCartaoPonto.BuscaDadosRelatorio(funcs, parms.InicioPeriodo, parms.FimPeriodo, _progressBar, parms.OrdemRelatorio, parms.quebraAuto);

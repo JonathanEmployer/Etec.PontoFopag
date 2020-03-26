@@ -34,6 +34,7 @@ namespace DAL.SQL
                 return @"   SELECT ja.* 
                             , ja.identificacao AS nome
                             , (SELECT convert(varchar,j.codigo)+' | '+j.descricao) AS descjornada  
+                            , funcionario.id idfuncionario
                             FROM jornadaalternativa ja
                             LEFT JOIN funcionario ON funcionario.id = (case when tipo = 2 then ja.identificacao else 0 end)
                             LEFT JOIN departamento ON departamento.id = (case when ja.tipo = 2 then funcionario.iddepartamento when tipo = 1 then ja.identificacao else 0 end)
@@ -42,8 +43,7 @@ namespace DAL.SQL
                             WHERE @data >= datainicial 
                             AND @data <= datafinal
                             AND tipo = @tipo
-                            AND identificacao = @identificacao "
-                            + GetWhereSelectAll();
+                            AND identificacao = @identificacao ";
             }
         }
 
@@ -68,8 +68,7 @@ namespace DAL.SQL
                              LEFT JOIN funcionario ON funcionario.id = (case when ja.tipo = 2 then ja.identificacao else 0 end)
                              LEFT JOIN departamento ON departamento.id = (case when ja.tipo = 2 then funcionario.iddepartamento when ja.tipo = 1 then ja.identificacao else 0 end)
                              LEFT JOIN empresa ON empresa.id = (case when ja.tipo = 2 then funcionario.idempresa when ja.tipo = 1 then departamento.idempresa when ja.tipo = 0 then ja.identificacao else 0 end)
-                             WHERE 1 = 1 "
-                             + GetWhereSelectAll();
+                             WHERE 1 = 1 ";
             }
             set
             {
@@ -171,7 +170,7 @@ namespace DAL.SQL
             { 
             };
 
-            string aux = SELECTALLLIST + GetWhereSelectAll();
+            string aux = SELECTALLLIST;
             aux = PermissaoUsuarioFuncionarioJornada(UsuarioLogado, aux, true);
             List<Modelo.JornadaAlternativa> ret = new List<Modelo.JornadaAlternativa>();
 
@@ -780,7 +779,10 @@ namespace DAL.SQL
             parms[1].Value = tipo;
             parms[2].Value = identificacao;
 
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SELECTPE, parms);
+            string select = SELECTPE;
+            select = PermissaoUsuarioFuncionarioJornada(UsuarioLogado, select, true);
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, select, parms);
 
             Modelo.JornadaAlternativa objJornadaAlternativa = new Modelo.JornadaAlternativa();
             try
