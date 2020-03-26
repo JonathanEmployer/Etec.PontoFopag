@@ -117,19 +117,21 @@ namespace cwkWebAPIPontoWeb.Controllers
                         if ((funcionario.PessoaSupervisor != null && !String.IsNullOrEmpty(funcionario.PessoaSupervisor.RazaoSocial)))
                         {
                             Pessoa supervisor = bllPessoa.GetPessoaPorCNPJ_CPF(funcionario.PessoaSupervisor.CNPJ_CPF).FirstOrDefault();
-                            if (supervisor.Id == 0)
+                            if (supervisor == null || supervisor.Id == 0)
                             {
                                 supervisor = bllPessoa.GetListPessoaPorNome(funcionario.PessoaSupervisor.RazaoSocial).FirstOrDefault();
                             }
 
-                            if (supervisor.Id == 0)
+                            if (supervisor == null || supervisor.Id == 0)
                             {
                                 supervisor = PessoaController.SalvarPessoaWeb(funcionario.PessoaSupervisor, connectionStr, out Dictionary<string, string> errosPessoa);
                                 if (errosPessoa.Count() != 0)
                                     throw new Exception("Erro ao cadastrar o supervisor do funcionário, Erro: " + string.Join(";", errosPessoa.Select(x => x.Key + "=" + x.Value).ToArray()));
                             }
-
-                            DadosAntFunc.IdPessoaSupervisor = supervisor.Id;
+                            if (supervisor != null)
+                            {
+                                DadosAntFunc.IdPessoaSupervisor = supervisor.Id;
+                            }
                         }
                         else if (funcionario.IdIntegracaoPessoaSupervisor != null)
                         {
