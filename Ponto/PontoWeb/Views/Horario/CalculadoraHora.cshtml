@@ -308,7 +308,7 @@
     }
 
     $('.calcAd, .calcSub, .calcMul, .calcDiv, .horaJornada').keyup(function (e) {
-        if (this.id.indexOf("Min") != -1) {
+        if (this.id.indexOf("Min") != -1 || this.id.indexOf("txtHora")!=-1) {
             apenasNumeroInput(e.currentTarget);
         }
     });

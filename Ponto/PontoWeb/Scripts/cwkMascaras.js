@@ -96,7 +96,7 @@ function apenasNumero(e) {
 function apenasNumeroInput(e) {
     {
         e.value = e.value.replace(/\D/g, '');
-        e.value = trimChar(e.value, '0');
+        //e.value = trimChar(e.value, '0');
     }
 }
 
