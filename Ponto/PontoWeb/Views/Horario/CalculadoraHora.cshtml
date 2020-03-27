@@ -34,7 +34,7 @@
                             <div class="col-md-11">
                                 <div class="input-group">
                                     <span class="input-group-addon">&nbsp;&nbsp; Horas <span class="glyphicon glyphicon-time"></span></span>
-                                    @Html.TextBox("txtEntrada", "", new { @class = "form-control time3L calcAd", id = "txtHoraAd1", @placeholder = "000:00"})
+                                    @Html.TextBox("txtEntrada", "", new { @class = "form-control time3L calcAd", id = "txtHoraAd1", @placeholder = "000:00" })
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-plus"></span></span>
                                     @Html.TextBox("txtSaida", "", new { @class = "form-control time3L calcAd", id = "txtHoraAd2", @placeholder = "000:00" })
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-pause" style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);"></span></span>
@@ -308,10 +308,10 @@
     }
 
     $('.calcAd, .calcSub, .calcMul, .calcDiv, .horaJornada').keyup(function (e) {
-        console.log(this.id.indexOf("Min"));
-        if (this.id.indexOf("Min") != -1 ) {
-            apenasNumeroInput(e.currentTarget);
-        }
+        //if (this.id.indexOf("Min") != -1) {
+        //    apenasNumeroInput(e.currentTarget);
+        //}
+        apenasNumeroInput(e.currentTarget);
     });
 
     $('.horaJornada').change(function () {
