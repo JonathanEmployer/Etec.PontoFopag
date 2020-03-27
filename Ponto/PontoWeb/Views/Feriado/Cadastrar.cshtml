@@ -36,6 +36,10 @@
                 {
                     <div class="comment alert alert-info" role="alert" style="margin-bottom:0">@Html.Raw(ViewBag.MensagemFechamento)</div>
                 }
+                @if (!String.IsNullOrEmpty(ViewBag.MensagemRestricao))
+                {
+                    <div class="comment alert alert-warning" role="alert" style="margin-bottom:0">@Html.Raw(ViewBag.MensagemRestricao)</div>
+                }
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
@@ -92,24 +96,28 @@
                             <div class="col-md-11">
                                 <div class="row">
                                     <div class="form-group input-group-sm">
-                                        <div class="col-md-3">
-                                            <div class="radio-inline" data-toggle="radio">
-                                                @Html.RadioButtonFor(model => model.TipoFeriado, 0, new { id = "idRadioGeral", name = "rdio" })
-                                                @Html.Label("lbGeral", "Geral", new { @class = "control-label label-sm", @for = "idRadioGeral" })
+                                        @if (!ViewBag.RetricaoDeAcesso)
+                                        {
+                                            <div class="col-md-3">
+                                                <div class="radio-inline" data-toggle="radio">
+                                                    @Html.RadioButtonFor(model => model.TipoFeriado, 0, new { id = "idRadioGeral", name = "rdio" })
+                                                    @Html.Label("lbGeral", "Geral", new { @class = "control-label label-sm", @for = "idRadioGeral" })
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="radio-inline" data-toggle="radio">
-                                                @Html.RadioButtonFor(model => model.TipoFeriado, 1, new { id = "idRadioEmpresa", name = "rdio" })
-                                                @Html.Label("lbEmpresa", "Empresa", new { @class = "control-label label-sm", @for = "idRadioEmpresa" })
+                                            <div class="col-md-3">
+                                                <div class="radio-inline" data-toggle="radio">
+                                                    @Html.RadioButtonFor(model => model.TipoFeriado, 1, new { id = "idRadioEmpresa", name = "rdio" })
+                                                    @Html.Label("lbEmpresa", "Empresa", new { @class = "control-label label-sm", @for = "idRadioEmpresa" })
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="radio-inline" data-toggle="radio">
-                                                @Html.RadioButtonFor(model => model.TipoFeriado, 2, new { id = "idRadioDepto", name = "rdio" })
-                                                @Html.Label("lbDepartamento", "Departamento", new { @class = "control-label label-sm", @for = "idRadioDepto" })
+                                            <div class="col-md-3">
+                                                <div class="radio-inline" data-toggle="radio">
+                                                    @Html.RadioButtonFor(model => model.TipoFeriado, 2, new { id = "idRadioDepto", name = "rdio" })
+                                                    @Html.Label("lbDepartamento", "Departamento", new { @class = "control-label label-sm", @for = "idRadioDepto" })
+                                                </div>
                                             </div>
-                                        </div>
+                                        }
+
                                         <div class="col-md-3">
                                             <div class="radio-inline" data-toggle="radio">
                                                 @Html.RadioButtonFor(model => model.TipoFeriado, 3, new { id = "idRadioFuncionario", name = "rdio" })
@@ -124,33 +132,37 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div id="divEmpDep">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.Empresa, new { @class = "control-label label-sm" })
-                                        <div class="input-group input-group-sm">
-                                            @Html.TextBoxFor(model => model.Empresa, new { @class = "form-control  input-sm", id = "lkpEmpresa" })
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-primary" id="btnEmpresa" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                                            </span>
+                            @if (!ViewBag.RetricaoDeAcesso)
+                            {
+                                <div id="divEmpDep">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Empresa, new { @class = "control-label label-sm" })
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(model => model.Empresa, new { @class = "form-control  input-sm", id = "lkpEmpresa" })
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-primary" id="btnEmpresa" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                </span>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Empresa)
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.Empresa)
+                                    </div>
+                                    <div class="row"> </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Departamento, new { @class = "control-label label-sm" })
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(model => model.Departamento, new { @class = "form-control  input-sm", id = "lkpDepart" })
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-primary" id="btnDepart" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                </span>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Departamento)
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row"> </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.Departamento, new { @class = "control-label label-sm" })
-                                        <div class="input-group input-group-sm">
-                                            @Html.TextBoxFor(model => model.Departamento, new { @class = "form-control  input-sm", id = "lkpDepart" })
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-primary" id="btnDepart" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                                            </span>
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.Departamento)
-                                    </div>
-                                </div>
-                            </div>
+                            }
+
                         </div>
                         <div class="row">
                             <div class="col-md-12">
@@ -192,6 +204,13 @@
         cwk_EventoConsulta("#btnEmpresa", "#lkpEmpresa", "EventoConsulta", "Empresa", "");
 
         cwk_DataCalendario('#btnFeriado', '#Data');
+
+        @if (ViewBag.RetricaoDeAcesso)
+        {
+            <Text>
+                $("#idRadioFuncionario").prop("checked", true);
+            </Text>
+        }
 
         if ($('#idRadioGeral').is(':checked')) {
             $("#divEmpDep").show();
@@ -237,12 +256,12 @@
 
         $(function () {
             $('.nav-tabs a').on('removeAttr', function (e) {
-                e.preventDefault();
+                    e.preventDefault();
                 $(this).tab('show');
+                });
             });
+            verificaParcial();
         });
-        verificaParcial();
-    });
 
 
     $("#idRadioGeral").change(function () {
@@ -340,7 +359,7 @@
             $("#HoraInicio, #HoraFim").prop("disabled", true);
         }
     }
-     
+
 </script>
 @if (ViewBag.Consultar == 1)
 {

@@ -443,7 +443,7 @@ namespace Modelo
         public string Ocorrencia
         {
             get { return ocorrencia; }
-            set { ocorrencia = value.Length > 60 ? value.Substring(0, 60) : value; }
+            set { ocorrencia = value != null && value.Length > 60 ? value.Substring(0, 60) : value; }
         }
 
         /// <summary>
