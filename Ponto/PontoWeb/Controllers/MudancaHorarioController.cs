@@ -185,7 +185,7 @@ namespace PontoWeb.Controllers
                 }
             }
             ViewBag.UtilizaControleContratos = _usr.UtilizaControleContratos;
-            return View();
+            return View(obj);
         }
 
         private Modelo.Proxy.PxyJobReturn Recalcular(MudancaHorario obj)
@@ -207,7 +207,7 @@ namespace PontoWeb.Controllers
                     nomeAfastamento = "tipo: desconheciado";
                     break;
             }
-            string parametrosExibicao = String.Format("Mudança de Horário código: {0}, {1}, data: {2} ", obj.Codigo, nomeAfastamento, obj.DataStr);
+            string parametrosExibicao = String.Format("Mudança de Horário {0}, data: {1} ", nomeAfastamento, obj.DataStr);
             string acao = obj.AcaoDescricao;
             Modelo.Proxy.PxyJobReturn ret = hfm.CalculaMudancaHorario(String.Format("Recalculo de marcações por {0} de mudança de horário", acao), parametrosExibicao, obj);
             return ret;

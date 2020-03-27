@@ -418,6 +418,15 @@ namespace DAL.SQL
                 //Caso a mudança seja para o mesmo horário, as alterações não são feitas
                 if (Convert.ToInt32(dr["idhorario"]) == pIDHorario)
                 {
+                    if (pTipoMudanca == 0)
+                    {
+                        string erro = "O funcionário já se encontra no horário informado.";
+                        if (horarioRegistro1.IdHorarioDinamico > 0)
+                        {
+                            erro = "O funcionário já se encontra no horário informado, verifique o horário ou o ciclo selecionado.";
+                        }
+                        throw new Exception(erro);
+                    }
                     continue;
                 }
 
@@ -513,7 +522,14 @@ namespace DAL.SQL
                         catch (Exception ex)
                         {
                             scope.Dispose();
-                            throw (ex);
+                            if (ex.Message.Contains("AK_MudancaHorario_Funcionario_Data"))
+                            {
+                                throw new Exception("Já existe uma mudança de horário nesse dia");
+                            }
+                            else
+                            {
+                                throw (ex);
+                            }
                         }
                     }
                 }
