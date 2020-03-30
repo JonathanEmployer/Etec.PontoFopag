@@ -85,7 +85,7 @@ namespace BLL
             if (objeto.BilhetesMarcacao != null && objeto.BilhetesMarcacao.Count > 0)
             {
                 //Valida se alguma das batidas estão fora do padrão hh:mm e se estão passando das 23:59
-                string bilhetesErro = String.Join(" - ", objeto.BilhetesMarcacao.Where(s => s.Mar_hora.Length > 5 || Modelo.cwkFuncoes.ConvertBatidaMinuto(s.Mar_hora) > 1439 || !Modelo.cwkFuncoes.HoraValida(s.Mar_hora)).Select(s => s.Mar_hora));
+                string bilhetesErro = String.Join(" - ", objeto.BilhetesMarcacao.Where(s => (s.Mar_hora.Length > 5 || Modelo.cwkFuncoes.ConvertBatidaMinuto(s.Mar_hora) > 1439 || !Modelo.cwkFuncoes.HoraValida(s.Mar_hora)) && s.Acao != Modelo.Acao.Excluir).Select(s => s.Mar_hora));
                 if (!String.IsNullOrEmpty(bilhetesErro))
                 {
                     throw new Exception(String.Format("Os registros ({0}) estão fora do padrão aceitável (HH:mm e menor ou igual a 23:59), Verifique! ", bilhetesErro));
