@@ -186,7 +186,7 @@ namespace PontoWeb.Controllers
                             // ou se for Dimep Printpoint III também insere para funcionar a integração com o ServCom
                             if (rep.Relogio == 17 || rep.EquipamentoHomologado.ServicoComunicador)
                             {
-                                AdicionaAlteraRepCentralCliente(rep, repAntigo);
+                                AdicionaAlteraRepCentralCliente(rep, repAntigo, usr);
                             }
                             //Se era de um fabricante ahgora e "Deixou" de ser, remove rep da Central do cliente para parar o Serviço de Integração Rep HTTP
                             //ou se for Dimep Printpoint III também executa para funcionar a integração com o ServCom
@@ -217,7 +217,7 @@ namespace PontoWeb.Controllers
             return View("Cadastrar", rep);
         }
 
-        private static void AdicionaAlteraRepCentralCliente(REP rep, REP repAnterior)
+        private static void AdicionaAlteraRepCentralCliente(REP rep, REP repAnterior, UsuarioPontoWeb usr)
         {
             using (var db = new CentralCliente.CENTRALCLIENTEEntities())
             {
@@ -233,6 +233,40 @@ namespace PontoWeb.Controllers
                     repCC = new CentralCliente.Rep();
                     repCC.idCliente = db.Cliente.Where(x => x.Entidade.CNPJ_CPF.Replace("-", "").Replace(".", "").Replace("/", "") == rep.ObjEmpresa.Cnpj.Replace("-", "").Replace(".", "").Replace("/", "")).FirstOrDefault().ID;
                 }
+
+                if (!string.IsNullOrEmpty(rep.ServicoPontoCom))
+                {
+                    try
+                    {
+                        string[] cods = rep.ServicoPontoCom.Split('|');
+                        _ = int.TryParse(cods.First().Trim(), out int codigoServico);
+                        CentralCliente.ComunicadorServico comServ = db.ComunicadorServico.Where(w => w.Codigo == codigoServico).FirstOrDefault();
+                        if (comServ != null && comServ.Id > 0)
+                        {
+                            repCC.IdComunicadorServico = comServ.Id;
+                        }
+                        else
+                        {
+                            repCC.IdComunicadorServico = null;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+
+                    try
+                    {
+                        CentralCliente.CentroServico centroServico = db.CentroServico.Where(w => w.DataBaseName == usr.DataBase).FirstOrDefault();
+                        if (centroServico != null && centroServico.Id > 0)
+                        {
+                            repCC.IdCentroServico = centroServico.Id;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+
                 repCC.Ativo = rep.ImportacaoAtivada;
                 repCC.codigo = rep.Codigo;
                 repCC.IdRep = rep.Id;

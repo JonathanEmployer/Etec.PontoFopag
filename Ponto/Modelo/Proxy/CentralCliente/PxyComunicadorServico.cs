@@ -20,7 +20,7 @@ namespace Modelo.Proxy.CentralCliente
             Descricao = descricao;
             Observacao = observacao;
             MAC = mAC;
-            ServerName = ServerName;
+            ServerName = serverName;
         }
 
         public int Id { get; set; }

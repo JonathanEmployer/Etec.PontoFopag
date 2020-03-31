@@ -194,5 +194,7 @@ namespace Modelo
 
         public List<ItensCombo> ItensEquipamentoTipoBiometria { get; set; }
         public virtual EquipamentoTipoBiometria EquipamentoTipoBiometria { get; set; }
+
+        public string ServicoPontoCom { get; set; }
     }
 }

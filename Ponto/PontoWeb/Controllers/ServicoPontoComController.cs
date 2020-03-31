@@ -3,13 +3,12 @@ using bllWeb = PontoWeb.Controllers.BLLWeb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Modelo.Proxy;
 using PontoWeb.Security;
 using Modelo;
 using Modelo.Proxy.CentralCliente;
 using System.Data.Entity.Migrations;
+using System.Configuration;
 
 namespace PontoWeb.Controllers
 {
@@ -154,7 +153,7 @@ namespace PontoWeb.Controllers
                             db.CentroServico.Add(new CentroServico() { Inchora = DateTime.Now, Codigo = 0, Althora = null, Altusuario = null,  });
                         }
 
-                        ComunicadorServidor servidorSelecionado = ValidaServidor(obj.MAC, db, out string erro);
+                        ComunicadorServidor servidorSelecionado = ValidaServidor(obj.MAC, obj.Id, db, out string erro);
                         if (!string.IsNullOrEmpty(erro))
                         {
                             ModelState.AddModelError("MAC", erro);
@@ -176,6 +175,10 @@ namespace PontoWeb.Controllers
                             db.ComunicadorServico.AddOrUpdate(comServico);
 
                             db.SaveChanges();
+
+                            string queueName = "Pontofopag_PontoCom_" + comServico.ComunicadorServidor.MAC;
+                            new BLL.RabbitMQ.RabbitMQ().SendMessage(queueName, Enumeradores.PontoComFuncoes.Atualizar.ToString());
+
                             return RedirectToAction("Grid", "ServicoPontoCom");
                         }
                     }
@@ -189,7 +192,7 @@ namespace PontoWeb.Controllers
             return View("Cadastrar", obj);
         }
 
-        private ComunicadorServidor ValidaServidor(string mac, CENTRALCLIENTEEntities db, out string erro)
+        private ComunicadorServidor ValidaServidor(string mac, int idServico, CENTRALCLIENTEEntities db, out string erro)
         {
             erro = "";
             ComunicadorServidor servidorSelecionado = db.ComunicadorServidor.Where(w => w.MAC == mac).FirstOrDefault();
@@ -205,7 +208,7 @@ namespace PontoWeb.Controllers
                     {
                         erro = $"Servidor com o MAC {mac} já foi reivindicado, verifique o número digitado.";
                     }
-                    else
+                    else if (servidorSelecionado.ComunicadorServico.FirstOrDefault().Id != idServico)
                     {
                         erro = $"Servidor com o MAC {mac} esta sendo utilizado por outro serviço";
                     }
@@ -224,7 +227,7 @@ namespace PontoWeb.Controllers
                 if (id > 0)
                 {
                     cs = db.ComunicadorServico.Find(id);
-                    pxyComunicadorServico = new PxyComunicadorServico(cs.Id, cs.Codigo, cs.Descricao, cs.Observacao, "", "");
+                    pxyComunicadorServico = new PxyComunicadorServico(cs.Id, cs.Codigo, cs.Descricao, cs.Observacao, cs.ComunicadorServidor.MAC, cs.ComunicadorServidor.Nome);
                 }
                 else
                 {
@@ -237,13 +240,13 @@ namespace PontoWeb.Controllers
         }
 
         [Authorize]
-        public ActionResult BuscaEquipamentoHomologado(string mac)
+        public ActionResult BuscaServer(string mac, int idServico)
         {
             try
             {
                 using (var db = new CENTRALCLIENTEEntities())
                 {
-                    ComunicadorServidor servidorSelecionado = ValidaServidor(mac, db, out string erro);
+                    ComunicadorServidor servidorSelecionado = ValidaServidor(mac, idServico, db, out string erro);
                     if (!string.IsNullOrEmpty(erro))
                     {
                         return Json(new { Successo = false, Erro = erro, ServerName = "" }, JsonRequestBehavior.AllowGet);
@@ -258,5 +261,42 @@ namespace PontoWeb.Controllers
             }
 
         }
+
+        #region Eventos Consulta
+        [Authorize]
+        public ActionResult EventoConsulta(String consulta)
+        {
+            IList<ComunicadorServico> lComunicadorServico = new List<ComunicadorServico>();
+            UsuarioPontoWeb usr = bllWeb.Usuario.GetUsuarioPontoWebLogadoCache();
+            int codigo = -1;
+            try { codigo = Int32.Parse(consulta); }
+            catch (Exception) { codigo = -1; }
+            using (var db = new CENTRALCLIENTEEntities())
+            {
+                if (codigo != -1)
+                {
+                    ComunicadorServico comunicadorServico = db.ComunicadorServico.Where(w => w.CentroServico.DataBaseName == usr.DataBase && w.Codigo == codigo).FirstOrDefault();
+                    if (comunicadorServico != null && comunicadorServico.Id > 0)
+                    {
+                        lComunicadorServico.Add(comunicadorServico);
+                    }
+                }
+
+                if (lComunicadorServico.Count == 0)
+                {
+                    if (!String.IsNullOrEmpty(consulta))
+                    {
+                        lComunicadorServico = db.ComunicadorServico.Where(w => w.CentroServico.DataBaseName == usr.DataBase && w.Descricao.ToUpper().Contains(consulta.ToUpper())).ToList();
+                    }
+                    else
+                    {
+                        lComunicadorServico = db.ComunicadorServico.Where(w => w.CentroServico.DataBaseName == usr.DataBase).ToList();
+                    }
+                }
+            }
+            ViewBag.Title = "Pesquisar Serviço PontoCom";
+            return View(lComunicadorServico);
+        }
+        #endregion
     }
 }

@@ -44,5 +44,14 @@ namespace Modelo
             Funcao = 3,
             Horario = 4
         }
+
+        public enum PontoComFuncoes
+        {
+            Atualizar = 1,
+            EnviarDataHora = 2,
+            EnviarHorarioVerao = 3,
+            EnviarEmpregadoEmpregador = 4,
+            EnviarDigitais = 5
+        }
     }
 }

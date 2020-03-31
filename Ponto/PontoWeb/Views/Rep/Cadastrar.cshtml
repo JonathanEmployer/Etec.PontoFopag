@@ -43,6 +43,19 @@
                             @Html.ValidationMessageFor(model => model.NumRelogio)
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ServicoPontoCom, new { @class = "control-label label-sm" })
+                            <div class="input-group input-group-sm">
+
+                                @Html.TextBoxFor(model => model.ServicoPontoCom, new { @class = "form-control  input-sm", id = "lkpServicoPontoCom" })
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary desabilitar" id="btnServicoPontoCom" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.ServicoPontoCom)
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">
@@ -282,6 +295,8 @@
 <script>
     $(document).ready(function () {
         cwk_EventoConsulta("#btnEmpresa", "#lkpEmpresa", "EventoConsulta", "Empresa", "");
+        cwk_EventoConsulta("#btnServicoPontoCom", "#lkpServicoPontoCom", "EventoConsulta", "ServicoPontoCom", "");
+        
         $("#lkpEquipamentoHomologadoStr").attr('disabled', true);
         if ('@Model.IntegraComunicador' === 'True') {
             $("#lkpEquipamentoHomologadoStr").css('color', 'green');

@@ -82,17 +82,17 @@
 
     $('#MAC').blur(function () {
         if (!isEmpty($(this).val())) {
-            BuscaMAC($(this).val());
+            BuscaMAC($(this).val(), $('#Id').val());
         }
     });
 
-    function BuscaMAC(mac) {
+    function BuscaMAC(mac, idServico) {
         limpaErro("MAC");
         $.ajax({
-            url: '/ServicoPontoCom/BuscaEquipamentoHomologado',
+            url: '/ServicoPontoCom/BuscaServer',
             type: 'GET',
             dataType: 'json',
-            data: { 'mac': mac },
+            data: { 'mac': mac, 'idServico': idServico},
             beforeSend: function () {
                 $("#loading").modal();
             },
