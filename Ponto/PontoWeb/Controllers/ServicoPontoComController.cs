@@ -175,9 +175,7 @@ namespace PontoWeb.Controllers
                             db.ComunicadorServico.AddOrUpdate(comServico);
 
                             db.SaveChanges();
-
-                            string queueName = "Pontofopag_PontoCom_" + comServico.ComunicadorServidor.MAC;
-                            new BLL.RabbitMQ.RabbitMQ().SendMessage(queueName, Enumeradores.PontoComFuncoes.Atualizar.ToString());
+                            new BLL.RabbitMQ.RabbitMQ().EnviarMensagemServicoPontoCom(comServico.ComunicadorServidor.MAC, Enumeradores.PontoComFuncoes.Atualizar);
 
                             return RedirectToAction("Grid", "ServicoPontoCom");
                         }

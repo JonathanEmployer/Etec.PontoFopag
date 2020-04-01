@@ -1,4 +1,5 @@
-﻿using RabbitMQ.Client;
+﻿using Modelo;
+using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -53,6 +54,12 @@ namespace BLL.RabbitMQ
             properties.Persistent = true;
             //Envia a mensagem para fila
             channel.BasicPublish(exchange: String.Empty, routingKey: queueName, basicProperties: properties, body: body);
+        }
+
+        public void EnviarMensagemServicoPontoCom(string mac, Enumeradores.PontoComFuncoes tipoMensagem)
+        {
+            string queueName = "Pontofopag_PontoCom_" + mac;
+            SendMessage(queueName, tipoMensagem.ToString());
         }
     }
 }
