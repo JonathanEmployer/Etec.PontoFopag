@@ -19,6 +19,16 @@ namespace PontoWeb.Controllers
             string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
             BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(conn, usr);
+
+            if(obj.Empresa == null)
+            {
+
+                var data = obj.DataFinal;
+                obj = bllBancoHoras.LoadObject(obj.Id);
+                obj.DataFinal = data;
+                ModelState.Clear();
+            }
+
             ValidarForm(obj);
             if (ModelState.IsValid)
             {
@@ -31,12 +41,14 @@ namespace PontoWeb.Controllers
                         acao = Acao.Alterar;
 
                     Dictionary<string, string> erros = new Dictionary<string, string>();
+
                     erros = bllBancoHoras.Salvar(acao, obj);
                     if (erros.Count > 0)
                     {
                         string erro = string.Join("<br/>", erros.Select(x => x.Key + "<br/>" + x.Value).ToArray());
                         erro = erro.Replace("cbIdentificacao=", "");
                         ModelState.AddModelError("CustomError", "<div class=\"comment alert alert-danger\">" + erro + "</div>");
+                        ViewBag.Cadastrar = 2;
                     }
                     else
                     {
@@ -48,6 +60,10 @@ namespace PontoWeb.Controllers
                 {
                     MostrarErro(ex, TratarErro(ex.Message));
                 }
+            }
+            else
+            {
+                var errs = bllBancoHoras.ValidaObjeto(obj);
             }
             return View("Cadastrar", obj);
         }
@@ -113,11 +129,23 @@ namespace PontoWeb.Controllers
                 if (ViewBag.Consultar != 1)
                 {
                     BLL.FechamentoPontoFuncionario bllFechamentoPontoFuncionario = new BLL.FechamentoPontoFuncionario(conn, userPW);
-                    string mensagemFechamento = bllFechamentoPontoFuncionario.RetornaMensagemFechamentosPorFuncionarios(bancoHoras.Tipo, new List<int>() { bancoHoras.Identificacao }, bancoHoras.DataInicial.GetValueOrDefault());
-                    if (!String.IsNullOrEmpty(mensagemFechamento))
+                    var mensagensFechamento = bllFechamentoPontoFuncionario.RetornaMensagemFechamentosPorFuncionariosCollection(bancoHoras.Tipo, new List<int>() { bancoHoras.Identificacao }, bancoHoras.DataInicial.GetValueOrDefault());
+                    if (mensagensFechamento.Count != 0)
                     {
-                        ViewBag.Consultar = 1;
-                        @ViewBag.MensagemFechamento = "Registro não pode mais ser alterado. Existe fechamento de ponto vinculado. Detalhes: <br/>" + mensagemFechamento;
+                        ViewBag.Consultar = 2;
+                        
+
+                        @ViewBag.MensagemFechamento = "Registro não pode mais ser alterado. Existe fechamento de ponto vinculado. Detalhes: <br/>";
+                            //$"{string.Join(",", mensagensFechamentoKeys.Select(key => mensagensFechamento[key]))}";
+
+
+                        foreach (var item in mensagensFechamento.AllKeys.Where(x => !string.IsNullOrEmpty(x)))
+                        {
+                            @ViewBag.MensagemFechamento += mensagensFechamento[item];
+
+                            if (bancoHoras.DataFechamentoAcerto.HasValue && bancoHoras.DataFechamentoAcerto.Value < Convert.ToDateTime(item) || !bancoHoras.DataFechamentoAcerto.HasValue)
+                                bancoHoras.DataFechamentoAcerto = Convert.ToDateTime(item);
+                        }
                     }
                 }
                 #endregion
@@ -260,6 +288,11 @@ namespace PontoWeb.Controllers
 
         private string TratarErro(string erro)
         {
+            if(erro.Contains("Data inválida"))
+            {
+                return "A data do fim do contrato não pode ser inferior a data de fechamento";
+            }
+
             if (erro.Contains("Estouro de SqlDateTime"))
             {
                 return "O período deve estar entre 01/01/1753 e 31/12/9999";
