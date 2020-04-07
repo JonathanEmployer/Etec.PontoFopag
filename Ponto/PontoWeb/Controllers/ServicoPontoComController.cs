@@ -115,6 +115,7 @@ namespace PontoWeb.Controllers
                     if (cs != null && !cs.Rep.Any())
                     {
                         db.ComunicadorServico.Remove(cs);
+                        new BLL.RabbitMQ.RabbitMQ().EnviarMensagemServicoPontoCom(cs.ComunicadorServidor.MAC, Enumeradores.PontoComFuncoes.Atualizar);
                         return Json(new { Success = true, Erro = " " }, JsonRequestBehavior.AllowGet);
                     }
                     else if (cs != null && cs.Rep.Any())

@@ -1,4 +1,5 @@
 ﻿using DAL.SQL;
+using Modelo;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -92,6 +93,7 @@ namespace BLL
                 {
                     case Modelo.Acao.Incluir:
                         dalEnvioEmpresaFuncionariosRep.Incluir(objeto);
+                        ServicoPontoCom.EnviaMensagemServicoPontoCom(objeto.relogioSelecionado.NumSerie, Enumeradores.PontoComFuncoes.EnviarEmpregadoEmpregador);
                         break;
                     case Modelo.Acao.Excluir:
                         dalEnvioEmpresaFuncionariosRep.Excluir(objeto);

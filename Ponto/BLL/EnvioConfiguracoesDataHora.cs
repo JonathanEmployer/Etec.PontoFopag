@@ -1,11 +1,7 @@
-﻿using cwkPontoMT.Integracao;
-using DAL.SQL;
+﻿using DAL.SQL;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace BLL
 {
@@ -63,29 +59,6 @@ namespace BLL
         public Dictionary<string, string> ValidaObjeto(Modelo.EnvioConfiguracoesDataHora objeto)
         {
             Dictionary<string, string> ret = new Dictionary<string, string>();
-
-            //objeto.Empresas = objeto.Empresas == null ? new List<Modelo.Empresa>() : objeto.Empresas;
-            //objeto.Funcionarios = objeto.Funcionarios == null ? new List<Modelo.Funcionario>() : objeto.Funcionarios;
-            //List<Modelo.Funcionario> funcionariosSelecionados = objeto.Funcionarios.Where(f => f.Selecionado == true).ToList();
-            //List<Modelo.Empresa> empresasSelecionadas = objeto.Empresas.Where(e => e.Selecionado == true).ToList();
-
-            //if (objeto.Codigo == 0)
-            //{
-            //    ret.Add("txtCodigo", "Valor do Código tem que ser diferente de zero (0).");
-            //}
-
-            //if (objeto.bEnviarEmpresa &&
-            //(objeto.Empresas.Count >= 0) && (empresasSelecionadas.Count() == 0))
-            //{
-            //    ret.Add("Grid Empresas", "Nenhum Empresa selecionada.");
-            //}
-
-            //if (objeto.bEnviarFunc &&
-            //    (objeto.Funcionarios.Count >= 0) && (funcionariosSelecionados.Count() == 0))
-            //{
-            //    ret.Add("Grid Funcionários", "Nenhum Funcionário selecionado.");
-            //}
-
             return ret;
         }
 
@@ -99,6 +72,9 @@ namespace BLL
                 {
                     case Modelo.Acao.Incluir:
                         dalEnvioConfiguracoesDataHora.Incluir(objeto);
+                        REP bllRep = new REP(ConnectionString);
+                        Modelo.REP rep = bllRep.LoadObject(objeto.idRelogio);
+                        ServicoPontoCom.EnviaMensagemServicoPontoCom(rep.NumSerie, Modelo.Enumeradores.PontoComFuncoes.EnviarConfiguracoesDataHora);
                         break;
                     case Modelo.Acao.Excluir:
                         dalEnvioConfiguracoesDataHora.Excluir(objeto);

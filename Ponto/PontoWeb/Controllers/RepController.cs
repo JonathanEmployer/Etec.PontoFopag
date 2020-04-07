@@ -1,13 +1,9 @@
 ﻿using Modelo;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using PontoWeb.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using PontoWeb.Controllers.BLLWeb;
-using BLL_N.JobManager.Hangfire;
 using System.Data.Entity;
 using Modelo.Utils;
 using CentralCliente;
@@ -228,7 +224,7 @@ namespace PontoWeb.Controllers
                 {
                     try
                     {
-                        comServ = GetComunicadorServico(rep, db);
+                        comServ = BLL.ServicoPontoCom.GetComunicadorServico(rep.ServicoPontoCom, db);
                         if (comServ != null && comServ.Id > 0)
                         {
                             repCC.IdComunicadorServico = comServ.Id;
@@ -256,8 +252,8 @@ namespace PontoWeb.Controllers
                 }
                 else
                 {
-                    GetDescricaoServicoComunicador(repAnterior, db);
-                    comServ = GetComunicadorServico(repAnterior, db);
+                    rep.ServicoPontoCom = BLL.ServicoPontoCom.GetDescricaoServicoComunicador(repAnterior.NumSerie, db);
+                    comServ = BLL.ServicoPontoCom.GetComunicadorServico(rep.ServicoPontoCom, db);
                     repCC.IdComunicadorServico = null;
                 }
 
@@ -300,32 +296,11 @@ namespace PontoWeb.Controllers
             }
         }
 
-        private static ComunicadorServico GetComunicadorServico(REP rep, CENTRALCLIENTEEntities db)
-        {
-            ComunicadorServico comServ;
-            string[] cods = rep.ServicoPontoCom.Split('|');
-            _ = int.TryParse(cods.First().Trim(), out int codigoServico);
-            comServ = db.ComunicadorServico.Where(w => w.Codigo == codigoServico).FirstOrDefault();
-            comServ.ComunicadorServidor = comServ.ComunicadorServidor;
-            return comServ;
-        }
-
         private static CentralCliente.Rep BuscaRepCentralCliente(REP rep, CentralCliente.CENTRALCLIENTEEntities db)
         {
             CentralCliente.Rep repCC = db.Rep.Where(x => x.numSerie == rep.NumSerie).FirstOrDefault();
             return repCC;
         }
-
-        private static void GetDescricaoServicoComunicador(REP rep, CENTRALCLIENTEEntities db)
-        {
-            CentralCliente.Rep repCC = db.Rep.Where(x => x.numSerie == rep.NumSerie).FirstOrDefault();
-            if (repCC != null)
-            {
-                CentralCliente.ComunicadorServico servico = repCC.ComunicadorServico;
-                if (servico != null)
-                    rep.ServicoPontoCom = servico.Codigo + " | " + servico.Descricao;
-            }
-        } 
         #endregion
 
         private ActionResult GetPagina(int id)
@@ -376,10 +351,7 @@ namespace PontoWeb.Controllers
                     rep.IdTimeZoneInfo = "E. South America Standard Time";
                 }
                 rep.Acao = Acao.Alterar;
-                using (var db = new CentralCliente.CENTRALCLIENTEEntities())
-                {
-                    GetDescricaoServicoComunicador(rep, db);
-                }
+                rep.ServicoPontoCom = BLL.ServicoPontoCom.GetDescricaoServicoComunicador(rep.NumSerie);
             }
             
             return View("Cadastrar", rep);
