@@ -198,7 +198,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                             acao = Acao.Alterar;
                         }
 
-                        if (funcionario.CodTipoVinculo == 3) // Se tipo do vinculo for teceiro remove o funcionário do banco
+                        if (funcionario.CodTipoVinculo.GetValueOrDefault() == 3) // Se tipo do vinculo for teceiro remove o funcionário do banco
                             DadosAntFunc.Naoentrarbanco = 1;
                         Dictionary<string, string> erros = new Dictionary<string, string>();
                         DadosAntFunc.NaoRecalcular = true;
