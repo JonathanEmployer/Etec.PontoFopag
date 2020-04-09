@@ -979,7 +979,8 @@ namespace PontoWeb.Controllers
 
         private void ValidaSupervisor(Funcionario funcionario)
         {
-            BLL.UsuarioPontoWeb bllUser = new BLL.UsuarioPontoWeb(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt);
+            UsuarioPontoWeb _user = Usuario.GetUsuarioPontoWebLogadoCache();
+            BLL.UsuarioPontoWeb bllUser = new BLL.UsuarioPontoWeb(_user.ConnectionString, _user);
             if (!String.IsNullOrEmpty(funcionario.Supervisor))
             {
                 try
