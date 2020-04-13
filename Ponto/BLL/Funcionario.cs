@@ -820,6 +820,17 @@ namespace BLL
                 ret.Add("Mob_Senha", "Campo obrigatório.");
             }
 
+            if (ret.Count == 0)
+            {
+                if (Int32.TryParse(objeto.Dscodigo, out int dsCodigoSemZeroEsquerada))
+                {
+                    objeto.Dscodigo = dsCodigoSemZeroEsquerada.ToString();
+                }
+                else
+                {
+                    ret.Add("Dscodigo", "Código Inválido.");
+                }
+            }
 
             return ret;
         }
