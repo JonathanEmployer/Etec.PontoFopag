@@ -18,5 +18,6 @@ namespace DAL
         Modelo.Justificativa LoadObjectByDescricao(string descricao);
         Modelo.Justificativa LoadObjectParaColetor();
         List<Modelo.Justificativa> GetAllListPorIds(List<int> ids);
+        List<Modelo.Justificativa> GetAllPorExibePainelRHPorFuncionario(int idFuncionario);
     }
 }

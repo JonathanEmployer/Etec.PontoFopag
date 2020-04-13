@@ -132,6 +132,11 @@ namespace BLL
             return dalJustificativa.GetAllPorExibePaineldoRH();
         }
 
+        public List<Modelo.Justificativa> GetAllPorExibePainelRHPorFuncionario(int idFuncionario)
+        {
+            return dalJustificativa.GetAllPorExibePainelRHPorFuncionario(idFuncionario);
+        }
+
         public int? GetIdPorCod(int Cod, bool validaPermissaoUser)
         {
             return dalJustificativa.GetIdPorCod(Cod, validaPermissaoUser);
