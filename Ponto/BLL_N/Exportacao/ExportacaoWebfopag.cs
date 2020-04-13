@@ -202,9 +202,16 @@ namespace BLL_N.Exportacao
                         Byte[] arq = objToExcel.ObjectToExcel("Exportação Webfopag", listwfp);
                         return arq;
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
-                        throw;
+                        if (e.Message.Contains("Não há dados para a solicitação"))
+                        {
+                            List<Modelo.Proxy.pxyExportacaoWebfopag> listwfp = new List<pxyExportacaoWebfopag>() { new pxyExportacaoWebfopag() { Nome = "Não há dados para a solicitação" } };
+                            ListaObjetosToExcel objToExcel = new ListaObjetosToExcel();
+                            Byte[] arq = objToExcel.ObjectToExcel("Exportação Webfopag", listwfp);
+                            return arq; 
+                        }
+                        throw e;
                     }
                 }
             }
