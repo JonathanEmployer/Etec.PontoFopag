@@ -509,5 +509,10 @@ namespace BLL
             return dalFechamentoBH.GetAllListFuncs(idsFuncs, true);
         }
 
+        public List<Modelo.FechamentoBH> GetByIdBancoHoras(int idBancoHoras)
+        {
+            return dalFechamentoBH.GetByIdBancoHoras(idBancoHoras);
+        }
+
     }
 }
