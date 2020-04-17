@@ -691,7 +691,7 @@ namespace PontoWeb.Controllers
             catch (Exception) { codigo = -1; }
             if (codigo != -1)
             {
-                int id = bllFuncionario.GetIdDsCodigo(codigo.ToString());
+                int id = bllFuncionario.GetIdDsCodigo(consulta);
                 Funcionario func = bllFuncionario.LoadObject(id);             
                 int ContratoFuncionario = tipo == "5" && !string.IsNullOrEmpty(filtro) ? Convert.ToInt32(func.Contrato.Split(new string[] { " | " }, StringSplitOptions.RemoveEmptyEntries)[0]) : 0;
                                         
@@ -749,7 +749,7 @@ namespace PontoWeb.Controllers
                     catch (Exception) { codigo = -1; }
                     if (codigo != -1)
                     {
-                        func = bllFuncionario.RetornaFuncDsCodigo(codigo.ToString());
+                        func = bllFuncionario.RetornaFuncDsCodigo(consulta);
                     }
 
                     List<Funcionario> lFunc = new List<Funcionario>();
@@ -979,7 +979,8 @@ namespace PontoWeb.Controllers
 
         private void ValidaSupervisor(Funcionario funcionario)
         {
-            BLL.UsuarioPontoWeb bllUser = new BLL.UsuarioPontoWeb(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt);
+            UsuarioPontoWeb _user = Usuario.GetUsuarioPontoWebLogadoCache();
+            BLL.UsuarioPontoWeb bllUser = new BLL.UsuarioPontoWeb(_user.ConnectionString, _user);
             if (!String.IsNullOrEmpty(funcionario.Supervisor))
             {
                 try

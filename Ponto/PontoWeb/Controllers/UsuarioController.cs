@@ -21,7 +21,6 @@ namespace PontoWeb.Controllers
         [HttpGet]
         public ActionResult Grid()
         {
-            BLL.UsuarioPontoWeb bllUsuarioPontoWeb = new BLL.UsuarioPontoWeb(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt);
             return View(new Modelo.Proxy.PxyGridUsuario());
         }
 
@@ -83,10 +82,9 @@ namespace PontoWeb.Controllers
         public ActionResult Excluir(int id)
         {
             Dictionary<string, string> erros = new Dictionary<string, string>();
-            string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
-            UsuarioPontoWeb objUsuarioLogado = Usuario.GetUsuarioPontoWebLogadoCache();
-            BLL.UsuarioPontoWeb bllUsuarioPontoWeb = new BLL.UsuarioPontoWeb(conn);
-            BLL.Cw_Usuario bllcw_usuario = new BLL.Cw_Usuario(conn, objUsuarioLogado);
+            UsuarioPontoWeb _user = Usuario.GetUsuarioPontoWebLogadoCache();
+            BLL.UsuarioPontoWeb bllUsuarioPontoWeb = new BLL.UsuarioPontoWeb(_user.ConnectionString, _user);
+            BLL.Cw_Usuario bllcw_usuario = new BLL.Cw_Usuario(_user.ConnectionString, _user);
             string login = bllcw_usuario.LoadObject(id).Login;
             Modelo.UsuarioPontoWeb objUsuarioSelecionadoPontoWeb = bllUsuarioPontoWeb.LoadObjectLogin(login);
             CentralCliente.Usuario objUsuarioCentralCliente = Usuario.BuscaUsuarioCentralCliente(objUsuarioSelecionadoPontoWeb.Login);
@@ -124,9 +122,10 @@ namespace PontoWeb.Controllers
         private ActionResult Salvar(UsuarioPontoWeb obj)
         {
             cwkAcao acao;
+            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
             cw_usuario usuarioLogado = Usuario.GetUsuarioLogadoCache();
-            BLL.UsuarioPontoWeb bllUsuarioPontoWeb = new BLL.UsuarioPontoWeb(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt);
-            BLL.Cw_Usuario bllCwUsuario = new BLL.Cw_Usuario(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt);
+            BLL.UsuarioPontoWeb bllUsuarioPontoWeb = new BLL.UsuarioPontoWeb(usr.ConnectionString, usr);
+            BLL.Cw_Usuario bllCwUsuario = new BLL.Cw_Usuario(usr.ConnectionString, usr);
 
             Dictionary<string, string> erros = new Dictionary<string, string>();
             ValidarForm(obj);
@@ -297,7 +296,7 @@ namespace PontoWeb.Controllers
         {
             string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
-            BLL.UsuarioPontoWeb bllUsuarioPontoWeb = new BLL.UsuarioPontoWeb(conn);
+            BLL.UsuarioPontoWeb bllUsuarioPontoWeb = new BLL.UsuarioPontoWeb(usr.ConnectionString, usr);
             BLL.Cw_Usuario bllcw_usuario = new BLL.Cw_Usuario(conn, usr);
             Modelo.Cw_Usuario user = bllcw_usuario.LoadObject(id);
             string login = user.Login;
@@ -699,7 +698,9 @@ namespace PontoWeb.Controllers
         [Authorize]
         public ActionResult EventoConsulta(String consulta, String filtro)
         {
-            BLL.UsuarioPontoWeb bllUsuarioPontoWeb = new BLL.UsuarioPontoWeb(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt);
+            UsuarioPontoWeb _user = Usuario.GetUsuarioPontoWebLogadoCache();
+            
+            BLL.UsuarioPontoWeb bllUsuarioPontoWeb = new BLL.UsuarioPontoWeb(_user.ConnectionString, _user);
 
             IList<UsuarioPontoWeb> lUser = new List<UsuarioPontoWeb>();
             int codigo = -1;

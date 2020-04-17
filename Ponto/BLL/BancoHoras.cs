@@ -954,5 +954,10 @@ namespace BLL
         {
             return dalBancoHoras.GetCredDebBancoHorasComSaldoPeriodo(idsFuncionarios, pdataInicial, pDataFinal);
         }
+
+        public Modelo.BancoHoras LoadObjectSemRestricao(int id)
+        {
+            return dalBancoHoras.LoadObjectSemRestricao(id);
+        }
      }
 }
