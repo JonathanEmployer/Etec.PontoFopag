@@ -656,6 +656,39 @@ namespace DAL.SQL
             return sql;
         }
 
+        public List<Modelo.FechamentoBH> GetByIdBancoHoras(int idBancoHoras)
+        {
+            SqlParameter[] parms = new SqlParameter[] { new SqlParameter("@idBancoHoras", SqlDbType.Int, 4) };
+            parms[0].Value = idBancoHoras;
+
+            string sql = SELECTALLLIST + " AND IdBancoHoras = @idBancoHoras ";
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+
+            List<Modelo.FechamentoBH> lista = new List<Modelo.FechamentoBH>();
+            try
+            {
+                while (dr.Read())
+                {
+                    Modelo.FechamentoBH objFechamentoBH = new Modelo.FechamentoBH();
+                    AuxSetInstance(dr, objFechamentoBH);
+                    lista.Add(objFechamentoBH);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
+
         #endregion
     }
 }
