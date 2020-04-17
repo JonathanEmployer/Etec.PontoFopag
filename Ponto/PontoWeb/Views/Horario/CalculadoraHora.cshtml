@@ -137,7 +137,7 @@
                                     <span class="input-group-addon"><h2 class="panel-title"><b>&nbsp;/&nbsp;</b></h2></span>
                                     @Html.TextBox("txtSaida", "", new { @class = "form-control calcDiv", id = "txtHoraDiv2", @placeholder = "0" })
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-pause" style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);"></span></span>
-                                    @Html.TextBox("txtResultado", "", new { @class = "form-control time3L calcDiv", id = "txtResultadoDiv", @placeholder = "000:00" })
+                                    @Html.TextBox("txtResultado", "", new { @class = "form-control time3L calcSub", id = "txtResultadoDiv", @placeholder = "000:00" })
                                 </div>
                             </div>
                         </div>
@@ -301,26 +301,11 @@
     $("#CalcJornada").hide('true');
     function OcultarDiv(el) {
         var display = document.getElementById(el).style.display;
-        if (display == "none")
+        if(display == "none")
             document.getElementById(el).style.display = 'block';
         else
             document.getElementById(el).style.display = 'none';
     }
-
-    $('.calcAd, .calcSub, .calcMul, .calcDiv, .horaJornada').keyup(function (e) {
-        if (this.id.indexOf("Min") != -1 || this.id.indexOf("txtHora")!=-1) {
-            apenasNumeroInput(e.currentTarget);
-        }
-    });
-
-    $('.horaJornada').change(function () {
-        var valor = $(this).val();
-
-        valor = formataHora24(valor, 2, 2);
-
-        $(this).val(valor);
-
-    })
 
     $('.calcAd').change(function () {
         var valor = $(this).val();
@@ -375,13 +360,11 @@
     $('.calcMul').change(function () {
         var valor = $(this).val();
         if (valor != "") {
-
-
             if (this.id.indexOf("Min") == -1) {
-                var h2 = $("#txtHoraMul2").val().replace(',','.');
+                var h2 = $("#txtHoraMul2").val();
                 valor = formataHora($(this).val(), 3, 2)
                 $(this).val(valor);
-                var h1 = ConvertHoraMinuto($("#txtHoraMul1").val());
+                var h1 = ConvertHoraMinuto($("#txtHoraMul1").val());                
                 var res = ConvertHoraMinuto($("#txtResultadoMul").val());
             }
             else {
@@ -389,7 +372,7 @@
                 var h2 = $("#txtHoraMul2Min").val();
                 var res = $("#txtResultadoMulMin").val();
             }
-
+            
             var retorno = multiplicacaoHoras(h1, h2, res);
             $("#txtHoraMul1").val(ConvertMinutoHora(retorno.hora1, 3));
             $("#txtHoraMul2").val(retorno.hora2);
@@ -404,11 +387,11 @@
         var valor = $(this).val();
         if (valor != "") {
             if (this.id.indexOf("Min") == -1) {
-                var h2 = $("#txtHoraDiv2").val().replace(',','.');
+                var h2 = $("#txtHoraDiv2").val();
                 valor = formataHora($(this).val(), 3, 2)
                 $(this).val(valor);
                 var h1 = ConvertHoraMinuto($("#txtHoraDiv1").val());
-
+                
                 var res = ConvertHoraMinuto($("#txtResultadoDiv").val());
             }
             else {
@@ -462,9 +445,9 @@
         var PrimeiroPeridoCafe = $("#Habilitaperiodo01Bool").is(':checked');
         var SegundoPeriodoCafe = $("#Habilitaperiodo02Bool").is(':checked');
         var retorno = CalculaCargaHoraria(entradas, saidas, inicioNoturno, fimNoturno, tipo, CalculaHorarioCafe, PrimeiroPeridoCafe, SegundoPeriodoCafe);
-        $("#resDiurno").val(ConvertMinutoHora(retorno.horasTrabalhadasDiurnas, 3));
-        $("#resNoturno").val(ConvertMinutoHora(retorno.horasTrabalhadasNoturnas, 3));
-        $("#resMisto").val(ConvertMinutoHora(retorno.horasTrabalhadasMista, 3));
+        $("#resDiurno").val(ConvertMinutoHora(retorno.horasTrabalhadasDiurnas,3));
+        $("#resNoturno").val(ConvertMinutoHora(retorno.horasTrabalhadasNoturnas,3));
+        $("#resMisto").val(ConvertMinutoHora(retorno.horasTrabalhadasMista,3));
     };
 
 </script>

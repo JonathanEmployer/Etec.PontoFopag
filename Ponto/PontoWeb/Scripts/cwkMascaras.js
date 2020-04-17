@@ -92,22 +92,3 @@ function apenasNumero(e) {
     }
     return true
 }
-
-function apenasNumeroInput(e) {
-    {
-        e.value = e.value.replace(/\D/g, '');
-        //e.value = trimChar(e.value, '0');
-    }
-}
-
-function trimChar(string, charToRemove) {
-    while (string.charAt(0) == charToRemove) {
-        string = string.substring(1);
-        console.log(string);
-    }
-    return string;
-}
-
-Number.prototype.padDigit = function () {
-    return (this < 10) ? '0' + this : this;
-}
