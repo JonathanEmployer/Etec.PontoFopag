@@ -1,5 +1,4 @@
 ﻿using DAL.SQL;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -124,11 +123,6 @@ namespace BLL
             return dalFechamentoPontoFuncionario.ListaFechamentoPontoFuncionario(tipo, idsRegistros, data);
         }
 
-        public string RetornaMensagemFechamentosPorFuncionarios(int tipo, List<int> idsRegistros, DateTime data)
-        {
-            return RetornaMensagemFechamentosPorFuncionarios(tipo, idsRegistros, data, out DateTime? _);
-        }
-
         /// <summary>
         ///  Retorna uma string com todos os fechamentos dos funcionários dentro de um período de acordo com um determinado tipo(empresa, departamento, funcionário, função)
         /// </summary>
@@ -136,18 +130,16 @@ namespace BLL
         /// <param name="idsRegistros">Ids do registro a ser pesquisado (id de acordo com o tipo)</param>
         /// <param name="data"> Data </param>
         /// <returns></returns>
-        public string RetornaMensagemFechamentosPorFuncionarios(int tipo, List<int> idsRegistros, DateTime data, out DateTime? dataUltimoFechamento)
+        public string RetornaMensagemFechamentosPorFuncionarios(int tipo, List<int> idsRegistros, DateTime data)
         {
-            dataUltimoFechamento = null;
-            string mensagemFechamento = string.Empty;
+            string mensagemFechamento = String.Empty;
             List<Modelo.Proxy.pxyFechamentoPontoFuncionario> lPxyFechamentoFunc = ListaFechamentoPontoFuncionario(tipo, idsRegistros, data);
-            if (lPxyFechamentoFunc.Any())
+            if (lPxyFechamentoFunc.Count() > 0)
             {
-                dataUltimoFechamento = lPxyFechamentoFunc.Max(m => m.DataFechamento);
                 mensagemFechamento = String.Join("<br/>", lPxyFechamentoFunc.Take(100).Select(fpf => " - Data: " + fpf.DataFechamento.ToShortDateString() + " código: " + fpf.CodigoFechamento + " Funcionário: " + fpf.DSCodigo + " - " + fpf.NomeFuncionario).ToList());
-                if (lPxyFechamentoFunc.Count > 100)
+                if (lPxyFechamentoFunc.Count() > 100)
                 {
-                    mensagemFechamento += "<br/> - * Exibindo 100 registros de fechamento de " + lPxyFechamentoFunc.Count;
+                    mensagemFechamento += "<br/> - * Exibindo 100 registros de fechamento de " + lPxyFechamentoFunc.Count();
                 }
 
             }

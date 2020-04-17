@@ -19,6 +19,5 @@ namespace DAL
         bool VerificaSeExisteFechamento(int pCodigo);
         List<Modelo.FechamentoBH> GetAllListFuncs(List<int> idsFuncs, bool ValidaPermissao);
         List<Modelo.FechamentoBH> GetAllListFuncs(List<int> idsFuncs);
-        List<Modelo.FechamentoBH> GetByIdBancoHoras(int idBancoHoras);
     }
 }

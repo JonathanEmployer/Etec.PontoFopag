@@ -130,46 +130,8 @@ namespace BLL_N.JobManager.Hangfire
             return jobReturn;
         }  
         
-        public PxyJobReturn CalculaBancoHoras(Modelo.Acao acao, Modelo.BancoHoras bancoHoras)
+        public PxyJobReturn CalculaBancoHoras(string nomeProcesso, string parametrosExibicao, Modelo.Acao acao, Modelo.BancoHoras bancoHoras)
         {
-            string nomeBanco = bancoHoras.Nome;
-            switch (bancoHoras.Tipo)
-            {
-                case 0: //Empresa;
-                    nomeBanco = "empresa: " + bancoHoras.Empresa;
-                    break;
-                case 1: // Departamento
-                    nomeBanco = "departamento: " + bancoHoras.Departamento;
-                    break;
-                case 2: //Funcionário
-                    nomeBanco = "funcionário: " + bancoHoras.Funcionario;
-                    break;
-                case 3: //Função
-                    nomeBanco = "função: " + bancoHoras.Funcao;
-                    break;
-                default:
-                    nomeBanco = "tipo: desconheciado";
-                    break;
-            }
-
-            string parametrosExibicao = String.Format("Banco de horas código: {0}, {1}, Período: {2} a {3}", bancoHoras.Codigo, nomeBanco, bancoHoras.DataInicialStr, bancoHoras.DataFinalStr);
-            string acaoDesc = "";
-            switch (acao)
-            {
-                case Acao.Incluir:
-                    acaoDesc = "inclusão";
-                    break;
-                case Acao.Alterar:
-                    acaoDesc = "alteração";
-                    break;
-                case Acao.Excluir:
-                    acaoDesc = "exclusão";
-                    break;
-                default:
-                    acaoDesc = "acão desconhecia";
-                    break;
-            }
-            string nomeProcesso = String.Format("Recalculo de marcações por {0} de banco de horas", acaoDesc);
             JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
             string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.CalculaBancoHoras(null, jobControl, dataBase, usuarioLogado, acao, bancoHoras), _enqueuedStateNormal);
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);

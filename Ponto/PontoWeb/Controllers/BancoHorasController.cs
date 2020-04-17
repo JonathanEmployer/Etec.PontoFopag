@@ -1,5 +1,4 @@
 ﻿using BLL_N.JobManager.Hangfire;
-using Hangfire.Annotations;
 using Modelo;
 using PontoWeb.Controllers.BLLWeb;
 using PontoWeb.Models;
@@ -15,25 +14,11 @@ namespace PontoWeb.Controllers
 {
     public class BancoHorasController : IControllerPontoWeb<BancoHoras>
     {
-        UsuarioPontoWeb userPW = Usuario.GetUsuarioPontoWebLogadoCache();
         protected override ActionResult Salvar(BancoHoras obj)
         {
-            bool naoValidarFechamento = false;
-            BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(userPW.ConnectionString, userPW);
-            if (obj.DataUltimoFechamentoPontoEBanco != null || (obj.Codigo == 0 && obj.Id > 0))
-            {
-                BancoHoras bhOriginal = bllBancoHoras.LoadObject(obj.Id);
-                GetFechamento(bhOriginal);
-                if (bhOriginal.DataUltimoFechamentoPontoEBanco != null)
-                {
-                    bhOriginal.DataFinal = obj.DataFinal;
-                    obj = bhOriginal;
-                    ModelState.Clear();
-                    TryValidateModel(obj);
-                    naoValidarFechamento = true;
-                }
-            }
-
+            string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
+            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+            BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(conn, usr);
             ValidarForm(obj);
             if (ModelState.IsValid)
             {
@@ -46,7 +31,7 @@ namespace PontoWeb.Controllers
                         acao = Acao.Alterar;
 
                     Dictionary<string, string> erros = new Dictionary<string, string>();
-                    erros = bllBancoHoras.Salvar(acao, obj, naoValidarFechamento);
+                    erros = bllBancoHoras.Salvar(acao, obj);
                     if (erros.Count > 0)
                     {
                         string erro = string.Join("<br/>", erros.Select(x => x.Key + "<br/>" + x.Value).ToArray());
@@ -55,7 +40,7 @@ namespace PontoWeb.Controllers
                     }
                     else
                     {
-                        Recalcular(userPW, acao, obj);
+                        Recalcular(usr, acao, obj);
                         return RedirectToAction("Grid", "BancoHoras");
                     }
                 }
@@ -70,13 +55,51 @@ namespace PontoWeb.Controllers
         private Modelo.Proxy.PxyJobReturn Recalcular(UsuarioPontoWeb usuario, Modelo.Acao acao, BancoHoras bancoHoras)
         {
             HangfireManagerCalculos hfm = new HangfireManagerCalculos(usuario.DataBase, "", "", "/BancoHoras/Grid");
-            Modelo.Proxy.PxyJobReturn ret = hfm.CalculaBancoHoras(acao, bancoHoras);
+            string nomeBanco = bancoHoras.Nome;
+            switch (bancoHoras.Tipo)
+            {
+                case 0: //Empresa;
+                    nomeBanco = "empresa: " + bancoHoras.Empresa;
+                    break;
+                case 1: // Departamento
+                    nomeBanco = "departamento: " + bancoHoras.Departamento;
+                    break;
+                case 2: //Funcionário
+                    nomeBanco = "funcionário: " + bancoHoras.Funcionario;
+                    break;
+                case 3: //Função
+                    nomeBanco = "função: " + bancoHoras.Funcao;
+                    break;
+                default:
+                    nomeBanco = "tipo: desconheciado";
+                    break;
+            }
+            string parametrosExibicao = String.Format("Banco de horas código: {0}, {1}, Período: {2} a {3}", bancoHoras.Codigo, nomeBanco, bancoHoras.DataInicialStr, bancoHoras.DataFinalStr);
+            string acaoDesc = "";
+            switch (acao)
+            {
+                case Acao.Incluir:
+                    acaoDesc = "inclusão";
+                    break;
+                case Acao.Alterar:
+                    acaoDesc = "alteração";
+                    break;
+                case Acao.Excluir:
+                    acaoDesc = "exclusão";
+                    break;
+                default:
+                    acaoDesc = "acão desconhecia";
+                    break;
+            }
+            Modelo.Proxy.PxyJobReturn ret = hfm.CalculaBancoHoras(String.Format("Recalculo de marcações por {0} de banco de horas", acaoDesc), parametrosExibicao, acao, bancoHoras);
             return ret;
         }
 
         protected override ActionResult GetPagina(int id)
         {
-            BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(userPW.ConnectionString, userPW);
+            string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
+            UsuarioPontoWeb userPW = Usuario.GetUsuarioPontoWebLogadoCache();
+            BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(conn, userPW);
             BancoHoras bancoHoras = new BancoHoras();
             bancoHoras = bllBancoHoras.LoadObject(id);
             if (id == 0)
@@ -89,46 +112,17 @@ namespace PontoWeb.Controllers
                 #region Valida Fechamento
                 if (ViewBag.Consultar != 1)
                 {
-                    GetFechamento(bancoHoras);
+                    BLL.FechamentoPontoFuncionario bllFechamentoPontoFuncionario = new BLL.FechamentoPontoFuncionario(conn, userPW);
+                    string mensagemFechamento = bllFechamentoPontoFuncionario.RetornaMensagemFechamentosPorFuncionarios(bancoHoras.Tipo, new List<int>() { bancoHoras.Identificacao }, bancoHoras.DataInicial.GetValueOrDefault());
+                    if (!String.IsNullOrEmpty(mensagemFechamento))
+                    {
+                        ViewBag.Consultar = 1;
+                        @ViewBag.MensagemFechamento = "Registro não pode mais ser alterado. Existe fechamento de ponto vinculado. Detalhes: <br/>" + mensagemFechamento;
+                    }
                 }
                 #endregion
             }
             return View("Cadastrar", bancoHoras);
-        }
-
-        private void GetFechamento(BancoHoras bancoHoras)
-        {
-            string mensagemFechamentoBH = "";
-            BLL.FechamentoBH bllFechamentoBH = new BLL.FechamentoBH(userPW.ConnectionString, userPW);
-            List<FechamentoBH> fechamentosbh = bllFechamentoBH.GetByIdBancoHoras(bancoHoras.Id);
-            DateTime? dataUltimoFechamentoBH = null;
-            if (fechamentosbh.Any())
-            {
-                mensagemFechamentoBH += "Fechamento de Banco <br/>";
-                dataUltimoFechamentoBH = fechamentosbh.Max(m => m.Data);
-                mensagemFechamentoBH += String.Join("<br/>", fechamentosbh.Take(100).Select(fbh => " - Data: " + fbh.Data.GetValueOrDefault().ToShortDateString() + " código: " + fbh.Codigo + " descrição: " + fbh.NomeTipoPessoa ).ToList());
-                if (fechamentosbh.Count > 100)
-                {
-                    mensagemFechamentoBH += "<br/> - * Exibindo 100 registros de fechamento de Banco de " + fechamentosbh.Count;
-                }
-
-            }
-
-            BLL.FechamentoPontoFuncionario bllFechamentoPontoFuncionario = new BLL.FechamentoPontoFuncionario(userPW.ConnectionString, userPW);
-            string mensagemFechamentoPonto = bllFechamentoPontoFuncionario.RetornaMensagemFechamentosPorFuncionarios(bancoHoras.Tipo, new List<int>() { bancoHoras.Identificacao }, bancoHoras.DataInicial.GetValueOrDefault(), out DateTime? dataUltimoFechamentoPonto);
-
-            if (!string.IsNullOrEmpty(mensagemFechamentoPonto))
-                mensagemFechamentoPonto = "Fechamento de Ponto <br/>" + mensagemFechamentoPonto;
-            
-
-            if (!String.IsNullOrEmpty(mensagemFechamentoPonto) || !String.IsNullOrEmpty(mensagemFechamentoBH))
-            {
-                string mensagemFechamento = "Registro não pode mais ser alterado. Existe fechamento. Detalhes: <br/>";
-                mensagemFechamento += mensagemFechamentoPonto;
-                mensagemFechamento += mensagemFechamentoBH;
-                @ViewBag.MensagemFechamento = mensagemFechamento;
-                bancoHoras.DataUltimoFechamentoPontoEBanco = dataUltimoFechamentoPonto.GetValueOrDefault() > dataUltimoFechamentoBH.GetValueOrDefault() ? dataUltimoFechamentoPonto : dataUltimoFechamentoBH;
-            }
         }
 
         protected override void ValidarForm(BancoHoras obj)
@@ -181,7 +175,8 @@ namespace PontoWeb.Controllers
         [HttpPost]
         public override ActionResult Excluir(int id)
         {
-            BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(userPW.ConnectionString, userPW);
+            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+            BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(usr.ConnectionString, usr);
             BancoHoras bancoHoras = bllBancoHoras.LoadObject(id);
             try
             {
@@ -199,7 +194,7 @@ namespace PontoWeb.Controllers
                         }
                     };
                 }
-                Modelo.Proxy.PxyJobReturn ret = Recalcular(userPW, Acao.Excluir, bancoHoras);
+                Modelo.Proxy.PxyJobReturn ret = Recalcular(usr, Acao.Excluir, bancoHoras);
                 return new JsonResult
                 {
                     Data = new
@@ -240,6 +235,7 @@ namespace PontoWeb.Controllers
         [PermissoesFiltro(Roles = "BancoHoras")]
         public override ActionResult Grid()
         {
+            BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
             return View(new Modelo.BancoHoras());
         }
 
@@ -248,7 +244,8 @@ namespace PontoWeb.Controllers
         {
             try
             {
-                BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(userPW.ConnectionString, userPW);
+                var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+                BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
                 List<Modelo.BancoHoras> dados = bllBancoHoras.GetAllList(true);
                 JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
                 jsonResult.MaxJsonLength = int.MaxValue;
@@ -328,7 +325,7 @@ namespace PontoWeb.Controllers
         [Authorize]
         public ActionResult EventoConsulta(String consulta, String filtro)
         {
-            BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(userPW.ConnectionString, userPW);
+            BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
             IList<BancoHoras> lBancoHoras = new List<BancoHoras>();
             BancoHoras bancoHoras = new BancoHoras();
             int codigo = -1;
