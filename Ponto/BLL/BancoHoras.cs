@@ -139,12 +139,6 @@ namespace BLL
             }
             else if (objeto.DataInicial != null && objeto.DataFinal != null)
             {
-
-                if(objeto.DataFechamentoAcerto.HasValue && objeto.DataFechamentoAcerto < objeto.DataFinal)
-                {
-                    ret.Add("Data inválida", "Já existe um registro gravado dentro deste perído");
-                }
-                else
                 if (VerificaExiste(objeto.Id, objeto.DataInicial.Value, objeto.DataFinal.Value, objeto.Tipo, objeto.Identificacao))
                 {
                     ret.Add("cbIdentificacao", "Já existe um registro gravado dentro deste perído.");
@@ -157,9 +151,6 @@ namespace BLL
             {
                 ret.Add("Fechamento Ponto", mensagemFechamento);
             }
-
-            if (objeto.DataFinal.HasValue && objeto.DataFechamentoAcerto.HasValue && objeto.DataFinal < objeto.DataFechamentoAcerto)
-                ret.Add("Data Final", "A data final não pode ser menor que a data do último fechamento");
 
             return ret;
         }

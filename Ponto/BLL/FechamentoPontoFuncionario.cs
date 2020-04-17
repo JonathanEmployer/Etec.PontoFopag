@@ -1,7 +1,6 @@
 ﻿using DAL.SQL;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
 
@@ -145,33 +144,6 @@ namespace BLL
 
             }
             return mensagemFechamento;
-        }
-
-
-        /// <summary>
-        ///  Retorna uma collection com todos os fechamentos dos funcionários dentro de um período de acordo com um determinado tipo(empresa, departamento, funcionário, função)
-        /// </summary>
-        /// <param name="tipo">0 = Empresa, 1 = Departamento, 2 = Funcionário, 3 = Função</param>
-        /// <param name="idsRegistros">Ids do registro a ser pesquisado (id de acordo com o tipo)</param>
-        /// <param name="data"> Data </param>
-        /// <returns>NameValueCollection(data, mensagem)</returns>
-        public NameValueCollection RetornaMensagemFechamentosPorFuncionariosCollection(int tipo, List<int> idsRegistros, DateTime data)
-        {
-            NameValueCollection collection = new NameValueCollection();
-            List<Modelo.Proxy.pxyFechamentoPontoFuncionario> lPxyFechamentoFunc = ListaFechamentoPontoFuncionario(tipo, idsRegistros, data);
-            if (lPxyFechamentoFunc.Count > 0)
-            {
-
-                lPxyFechamentoFunc.Take(100).ToList().ForEach(fpf => collection.Add(fpf.DataFechamento.ToShortDateString(), $"<br/> - Data: {fpf.DataFechamento.ToShortDateString()}  código: {fpf.CodigoFechamento } Funcionário: { fpf.DSCodigo } - { fpf.NomeFuncionario}"));
-
-
-                if (lPxyFechamentoFunc.Count > 100)
-                {
-                    collection.Add("", "<br/> - * Exibindo 100 registros de fechamento de " + lPxyFechamentoFunc.Count);
-                }
-
-            }
-            return collection;
         }
     }
 }

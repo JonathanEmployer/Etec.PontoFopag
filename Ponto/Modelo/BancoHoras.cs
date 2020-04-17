@@ -735,7 +735,5 @@ namespace Modelo
                 return ContabilizarCreditos == true ? "Sim" : "Não";
             }
         }
-
-        public DateTime? DataFechamentoAcerto { get; set; }
     }
 }
