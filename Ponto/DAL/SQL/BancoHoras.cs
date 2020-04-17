@@ -714,6 +714,25 @@ namespace DAL.SQL
             return objBancoHoras;
         }
 
+        public Modelo.BancoHoras LoadObjectSemRestricao(int id)
+        {
+            SqlParameter[] parms = new SqlParameter[] { new SqlParameter("@id", SqlDbType.Int, 4) };
+            parms[0].Value = id;
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SELECTPID, parms);
+
+            Modelo.BancoHoras objBancoHoras = new Modelo.BancoHoras();
+            try
+            {
+                SetInstance(dr, objBancoHoras);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            return objBancoHoras;
+        }
+
         public List<Modelo.BancoHoras> GetAllList(bool verificaPermissao)
         {
             SqlParameter[] parms = new SqlParameter[0];

@@ -490,7 +490,7 @@ namespace PontoWeb.Controllers
 
         private IList<Empresa> PesquisaEmpresa(String consulta, bool opcaotodas)
         {
-            BLL.UsuarioPontoWeb bllUpw = new BLL.UsuarioPontoWeb(_user.ConnectionString);
+            BLL.UsuarioPontoWeb bllUpw = new BLL.UsuarioPontoWeb(_user.ConnectionString, _user);
             BLL.Empresa bllEmp = new BLL.Empresa(_user.ConnectionString, _user);
             IList<Empresa> lEmp = new List<Empresa>();
             int codigo = -1;
@@ -532,9 +532,9 @@ namespace PontoWeb.Controllers
             int idEmpresa = 0;
             try
             {
-                var cwu = Usuario.GetUsuarioLogadoCache();
-                BLL.UsuarioPontoWeb bllUpw = new BLL.UsuarioPontoWeb(cwu.ConnectionStringDecrypt);
-                BLL.Empresa bllEmp = new BLL.Empresa(cwu.ConnectionStringDecrypt, bllUpw.LoadObject(cwu.id));
+                UsuarioPontoWeb _user = Usuario.GetUsuarioPontoWebLogadoCache();
+                BLL.UsuarioPontoWeb bllUpw = new BLL.UsuarioPontoWeb(_user.ConnectionString, _user);
+                BLL.Empresa bllEmp = new BLL.Empresa(_user.ConnectionString, _user);
                 Empresa e = new Empresa();
                 string codigo = filtro.Split('|')[0].Trim();
                 int cod = Convert.ToInt32(codigo);

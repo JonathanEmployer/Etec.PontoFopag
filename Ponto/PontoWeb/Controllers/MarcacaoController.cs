@@ -346,7 +346,7 @@ namespace PontoWeb.Controllers
                 else if (objMarcacao.DocumentoWorkflowAberto)
                 {
                     #region Verifica se existe permissão para liberar o fluxo no painel do rh
-                    BLL.UsuarioPontoWeb bllUsuario = new BLL.UsuarioPontoWeb(_usr.ConnectionString);
+                    BLL.UsuarioPontoWeb bllUsuario = new BLL.UsuarioPontoWeb(_usr.ConnectionString, _usr);
                     Modelo.UsuarioPontoWeb usuario = bllUsuario.LoadObjectByCodigo(_usr.Codigo);
                     ViewBag.PermissaoConcluirFluxoPnlRh = usuario.PermissaoConcluirFluxoPnl == true ? true : false;
                     #endregion

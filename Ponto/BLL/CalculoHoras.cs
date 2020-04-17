@@ -1275,19 +1275,7 @@ namespace BLL
                             }
                             else if (j > 0)
                             {
-                                if (!BatidaEntradaMin[j].Entrou)
-                                {
-                                    auxCalculoDiferenca1 = AuxCalculoDiferencaEntrada(pHorEntrada, pBatidaEntrada, pDia, HoraEntradaMin, BatidaEntradaMin, i, j);
-
-                                    if (Math.Abs(auxCalculoDiferenca1.Value) < Math.Abs(auxCalculoDiferenca2.Value))
-                                    {
-                                        auxEntrada.Horario = BatidaEntradaMin[j].Horario.Value;
-                                        auxEntrada.Tipo = BatidaEntradaMin[j].Tipo;
-                                        auxEntrada.IndiceOriginalBatida = j;
-                                        auxCalculoDiferenca2 = auxCalculoDiferenca1;
-                                    }
-                                }
-
+                                bool usouProximaSaida = false;
                                 if (!BatidaSaidaMin[j].Entrou)
                                 {
                                     auxCalculoDiferenca3 = AuxCalculoDiferencaSaida(pHorSaida, pBatidaSaida, pDia, HoraSaidaMin, BatidaSaidaMin, i, j);
@@ -1298,6 +1286,20 @@ namespace BLL
                                         auxSaida.Tipo = BatidaSaidaMin[j].Tipo;
                                         auxSaida.IndiceOriginalBatida = j;
                                         auxCalculoDiferenca4 = auxCalculoDiferenca3;
+                                        usouProximaSaida = true;
+                                    }
+                                }
+
+                                if (usouProximaSaida && !BatidaEntradaMin[j].Entrou)
+                                {
+                                    auxCalculoDiferenca1 = AuxCalculoDiferencaEntrada(pHorEntrada, pBatidaEntrada, pDia, HoraEntradaMin, BatidaEntradaMin, i, j);
+
+                                    if (Math.Abs(auxCalculoDiferenca1.Value) < Math.Abs(auxCalculoDiferenca2.Value))
+                                    {
+                                        auxEntrada.Horario = BatidaEntradaMin[j].Horario.Value;
+                                        auxEntrada.Tipo = BatidaEntradaMin[j].Tipo;
+                                        auxEntrada.IndiceOriginalBatida = j;
+                                        auxCalculoDiferenca2 = auxCalculoDiferenca1;
                                     }
                                 }
                             }
