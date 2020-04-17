@@ -620,7 +620,9 @@ namespace BLL
             CalculaCompensacao(horasCompensarMin, ref extraD, ref extraN, ref horasCompensadasMin, ref horasCompensadas, ref legenda, ref LegendasConcatenadas, ref pOcorrencia);
             int dif = ((pHoraD + pHoraN) - horasCompensadasMin) - (pCargaHorariaD + pCargaHorariaN);
             if (((dif > 0 && pTExtraLimite > 0 && dif <= pTExtraLimite) ||
-                 (dif < 0 && pTFaltaLimite > 0 && Math.Abs(dif) <= pTFaltaLimite)) &&
+                 (dif < 0 && pTFaltaLimite > 0 && Math.Abs(dif) <= pTFaltaLimite)
+                 || ((faltaD + faltaN) == (extraD + extraN) && (faltaD + faltaN) < pTFaltaLimite)
+                 ) &&
                  !toleranciaPorBatida)
             {
                 faltaD -= extraD;
