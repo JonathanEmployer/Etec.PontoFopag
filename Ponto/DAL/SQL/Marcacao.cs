@@ -4318,10 +4318,6 @@ WHERE
             if (dr.Read())
             {
                 ret = Convert.ToDateTime(dr["data"] is DBNull ? null : dr["data"]);
-                if (ret == DateTime.MinValue)
-                {
-                    ret = null;
-                }
             }
             if (!dr.IsClosed)
                 dr.Close();

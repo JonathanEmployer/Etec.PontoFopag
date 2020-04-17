@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TesteProgramacao</RootNamespace>
     <AssemblyName>TesteProgramacao</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -232,6 +232,10 @@
       <Project>{737d66c4-b80e-4d10-93cf-e43c74a71e07}</Project>
       <Name>CentralCliente</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ComunicadorServico\ComunicadorServico.csproj">
+      <Project>{f998a351-f518-42fe-b785-4cf6b4d4eec7}</Project>
+      <Name>ComunicadorServico</Name>
+    </ProjectReference>
     <ProjectReference Include="..\cwkPontoMT.Integracao\cwkPontoMT.Integracao.csproj">
       <Project>{498061b5-3229-411b-a807-a2fc98410927}</Project>
       <Name>cwkPontoMT.Integracao</Name>
@@ -240,9 +244,17 @@
       <Project>{9e79e822-8fbd-49ae-8ed1-49db4408ec47}</Project>
       <Name>DAL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ModeloAux\ModeloAux.csproj">
+      <Project>{106AC139-4C19-4A8C-857B-91CDDDC2CD31}</Project>
+      <Name>ModeloAux</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Modelo\Modelo.csproj">
       <Project>{dfe5a7e8-8798-43d3-a61f-f1dd3ab38593}</Project>
       <Name>Modelo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Negocio\Negocio.csproj">
+      <Project>{2349e863-a386-4c8d-9504-835e5a3d1156}</Project>
+      <Name>Negocio</Name>
     </ProjectReference>
     <ProjectReference Include="..\REL\REL.csproj">
       <Project>{c0239a00-eef2-497a-a643-9260e0196e8d}</Project>

@@ -83,14 +83,14 @@ namespace TesteProgramacao
             //string cs = "PONTOFOPAG_TIBRASIL";
             //CorrigiHorariosDivergentes(cs);
 
-            //Console.ReadLine();
+            Console.ReadLine();
 
             ////Método para teste de erros na fila de calculo do pontofopag.
             ////Para testar basta passar o número do id do job e debugar
-            TesteHangfire th = new TesteHangfire();
-            th.Simular(2287926);
+            //TesteHangfire th = new TesteHangfire();
+            //th.Simular(598367);
 
-            Console.Read();
+            //Console.Read();
         }
 
         private static void CorrigiHorariosDivergentes(string cs)

@@ -154,7 +154,6 @@ namespace cwkWebAPIPontoWeb.Controllers
             ComponenteToModel.Add("txtCodigo", "Codigo");
             ComponenteToModel.Add("txtDescricao", "Descricao");
             ComponenteToModel.Add("cbIdEmpresa", "CodigoEmpresa");
-            ComponenteToModel.Add("IdEmpresa", "DocumentoEmpresa");
             foreach (var item in ComponenteToModel)
             {
                 ErroToModelState(erros, item);

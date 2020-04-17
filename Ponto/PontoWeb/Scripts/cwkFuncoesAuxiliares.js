@@ -235,7 +235,7 @@ function formataHora(valor, digHora, digMin) {
                 horas = parseInt(horas) + 1;
             }
             else {
-                minutos = 0;
+                minutos = 59;
             }
         }
         horas = lpad(horas, digHora, 0);
@@ -254,7 +254,6 @@ function formataHora24(valor, digHora, digMin) {
         var minutos = valor.substring(pos + 1, tamanho);
         if (parseInt(minutos) > 59) {
             minutos = parseInt(minutos) - 60;
-            //minutos = 0;
             var horamaxima = lpad(9, digHora, 9);
             if (parseInt(horas) < horamaxima) {
                 horas = parseInt(horas) + 1;
@@ -263,7 +262,7 @@ function formataHora24(valor, digHora, digMin) {
                 }
             }
             else {
-                minutos = 0;
+                minutos = 59;
             }
         }
         if (horas >= 24) {

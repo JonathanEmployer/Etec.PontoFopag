@@ -319,12 +319,12 @@ namespace BLL
                     colunaGrupoData.AllowDBNull = true;
                     colunaGrupoData.Unique = false;
 
-                    DataColumn colunaGrupo = dt.Columns.Add("ColunaGrupoData", typeof(Int32));
+                    DataColumn colunaGrupo = dtBancoHoras.Columns.Add("ColunaGrupoData", typeof(Int32));
                     colunaGrupoData.AllowDBNull = true;
                     colunaGrupoData.Unique = false;
                     DataTable dtAll = ret.Clone();
                     DataTable dtRet = ret.Clone();
-                    DataTable dtBanco = dt.Clone();
+                    DataTable dtBanco = dtBancoHoras.Clone();
                     foreach (int idFunc in idsFuncs)
                     {
                         int idEmp = dt.AsEnumerable().Where(r => r.Field<int>("idfuncionario") == idFunc).FirstOrDefault().Field<int>("idempresa");
@@ -335,16 +335,16 @@ namespace BLL
                             ret.AsEnumerable().Where(row => Convert.ToInt32(row.Field<string>("idfuncionario")) == idFunc && Convert.ToDateTime(row.Field<string>("DataMarcacao")) >= periodo.Key && Convert.ToDateTime(row.Field<string>("DataMarcacao")) <= periodo.Value).ToList<DataRow>()
                                .ForEach(r => { r["ColunaGrupoData"] = grupo; });
 
-                            dt.AsEnumerable().Where(row => row.Field<int>("idfuncionario") == idFunc && row.Field<DateTime>("data") >= periodo.Key && row.Field<DateTime>("data") <= periodo.Value).ToList<DataRow>()
-                            .ForEach(r => { r["ColunaGrupoData"] = grupo; });
+                            dtBancoHoras.AsEnumerable().Where(row => Convert.ToInt32(row.Field<string>("idfuncionario")) == idFunc && Convert.ToDateTime(row.Field<string>("data")) >= periodo.Key && Convert.ToDateTime(row.Field<string>("data")) <= periodo.Value).ToList<DataRow>()
+                               .ForEach(r => { r["ColunaGrupoData"] = grupo; });
 
                             ret.DefaultView.RowFilter = "idfuncionario =" + idFunc;
                             dtRet = (ret.DefaultView).ToTable();
                             dtRet.DefaultView.RowFilter = "ColunaGrupoData =" + grupo;
                             dtRet = (dtRet.DefaultView).ToTable();
 
-                            dt.DefaultView.RowFilter = "idfuncionario =" + idFunc;
-                            dtBanco = (dt.DefaultView).ToTable();
+                            dtBancoHoras.DefaultView.RowFilter = "idfuncionario =" + idFunc;
+                            dtBanco = (dtBancoHoras.DefaultView).ToTable();
                             dtBanco.DefaultView.RowFilter = "ColunaGrupoData =" + grupo;
                             dtBanco = (dtBanco.DefaultView).ToTable();
 
