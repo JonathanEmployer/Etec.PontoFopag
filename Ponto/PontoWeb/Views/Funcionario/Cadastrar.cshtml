@@ -162,9 +162,9 @@
                                             <div class="form-group input-group-sm" >
                                                 @Html.LabelFor(model => model.Datademissao, new { @class = "control-label label-sm" })
                                                 <div class="input-group input-group-sm">
-                                                    @Html.TextBoxFor(model => model.Datademissao, new { @class = "form-control input-sm MascDate datepickerfunc", id = "dtDemissao" }).IsDisabled((Model.Datademissao == null ? DateTime.MaxValue : Model.Datademissao) <= Model.DataUltimoFechamento).IsReadonly(integrado)
+                                                    @Html.TextBoxFor(model => model.Datademissao, new { @class = "form-control input-sm MascDate datepickerfunc", id = "dtDemissao" }).IsReadonly((Model.Datademissao == null ? DateTime.MaxValue : Model.Datademissao) <= Model.DataUltimoFechamento).IsReadonly(integrado)
                                                     <span class="input-group-btn">
-                                                        <button class="btn btn-primary" id="btnDemissao" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                        <button class="btn btn-primary" id="btnDemissao" type="button" @(((Model.Datademissao == null ? DateTime.MaxValue : Model.Datademissao) <= Model.DataUltimoFechamento) == true ? "disabled" : "")><span class="glyphicon glyphicon-calendar"></span></button>
                                                     </span>
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.Datademissao)
@@ -174,7 +174,7 @@
                                             <div class="form-group input-group-sm">
                                                 @Html.LabelFor(model => model.DataInativacao, new { @class = "control-label label-sm" })
                                                 <div class="input-group input-group-sm">
-                                                    @Html.TextBoxFor(model => model.DataInativacao, new { @class = "form-control input-sm MascDate datepickerfunc", id = "dtDataInativacao" }).IsDisabled((Model.DataInativacao == null ? DateTime.MaxValue : Model.DataInativacao) <= Model.DataUltimoFechamento).IsReadonly(integrado)
+                                                    @Html.TextBoxFor(model => model.DataInativacao, new { @class = "form-control input-sm MascDate datepickerpt", id = "dtDataInativacao" }).IsReadonly(integrado)
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-primary" id="btnDataInativacao" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
                                                     </span>

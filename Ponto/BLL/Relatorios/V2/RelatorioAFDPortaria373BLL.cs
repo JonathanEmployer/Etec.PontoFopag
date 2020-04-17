@@ -49,7 +49,11 @@ namespace BLL.Relatorios.V2
 		protected override string GetRelatorioPDF()
 		{
             RelatorioAfdPortaria373Model parms = ((RelatorioAfdPortaria373Model)_relatorioFiltro);
-            string caminho = Path.Combine(PathRelatorios, parms.NomeArquivo + "." + "txt");
+			if (!Directory.Exists(PathRelatorios))
+			{
+				Directory.CreateDirectory(PathRelatorios);
+			}
+			string caminho = Path.Combine(PathRelatorios, parms.NomeArquivo + "." + "txt");
             DataTable dados = GetDados();
             using (TextWriter tw = new StreamWriter(caminho))
             {
