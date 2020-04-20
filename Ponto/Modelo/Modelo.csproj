@@ -269,6 +269,8 @@
   <ItemGroup>
     <Compile Include="AFD.cs" />
     <Compile Include="AutoMapper\ConfigureAutoMapper.cs" />
+    <Compile Include="JornadaSubstituir.cs" />
+    <Compile Include="JornadaSubstituirFuncionario.cs" />
     <Compile Include="JustificativaRestricao.cs" />
     <Compile Include="OcorrenciaRestricao.cs" />
     <Compile Include="HorarioDinamicoRestricao.cs" />
