@@ -8,7 +8,6 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Description;
 
 namespace cwkWebAPIPontoWeb.Controllers
 {
@@ -16,7 +15,6 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// API para carga de bloqueios de estações por regras temporais.
     /// </summary>
     [Authorize]
-    [ApiExplorerSettings(IgnoreApi = true)]
     public class BloqueioEstacoesController : ApiController
     {
         /// <summary>

@@ -13,7 +13,6 @@ using System.Web.Http.Controllers;
 
 namespace cwkWebAPIPontoWeb.Controllers
 {
-    [ApiExplorerSettings(IgnoreApi = true)]
     public class ExtendedApiController : ApiController
     {
         public RetornoErro Erros { get; set; }

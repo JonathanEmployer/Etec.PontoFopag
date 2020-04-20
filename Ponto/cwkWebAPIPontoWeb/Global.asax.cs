@@ -1,5 +1,4 @@
-﻿using Swashbuckle.Application;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -21,7 +20,6 @@ namespace cwkWebAPIPontoWeb
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             this.Error += WebApiApplication_Error;
             //GlobalConfiguration.Configuration.Filters.Add(new LogAPI());
-
         }
 
         void WebApiApplication_Error(object sender, EventArgs e)
