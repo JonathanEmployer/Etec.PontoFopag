@@ -6,9 +6,11 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace cwkWebAPIPontoWeb.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class RegistraPontoBaseController : ExtendedApiController
     {
         protected HttpResponseMessage EfetuaRegistroPonto(Bilhete bil, Boolean bSalvaLocalizacao)

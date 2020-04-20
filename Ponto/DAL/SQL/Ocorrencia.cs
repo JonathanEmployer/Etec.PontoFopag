@@ -416,6 +416,58 @@ namespace DAL.SQL
 			return lista;
 		}
 
+		public List<Modelo.Ocorrencia> GetAllPorExibePainelRHPorFuncionario(int idFuncionario)
+		{
+			SqlParameter[] parms = new SqlParameter[]
+			{
+				new SqlParameter("@idFuncionario", SqlDbType.Int)
+			};
+			parms[0].Value = idFuncionario;
+
+			SqlDataReader dr = db.ExecuteReader(CommandType.Text,
+										@"  SELECT o.*
+											  FROM ocorrencia o
+											 WHERE o.ExibePaineldoRH = 1
+											   AND NOT EXISTS (SELECT top 1 1 FROM OcorrenciaRestricao ocr WHERE ocr.IdOcorrencia = o.id)
+											   AND o.Ativo = 1
+											 UNION ALL 
+											SELECT o.*
+											  FROM ocorrencia o
+											  JOIN OcorrenciaRestricao ocr on o.id = ocr.IdOcorrencia
+											  JOIN empresa e on ocr.IdEmpresa = e.id
+											  JOIN funcionario f on e.id = f.idempresa and f.id = @idFuncionario
+											 WHERE o.ExibePaineldoRH = 1
+											   AND o.Ativo = 1
+											 UNION ALL 
+											SELECT o.*
+											  FROM ocorrencia o
+											  JOIN OcorrenciaRestricao ocr on o.id = ocr.IdOcorrencia
+											  JOIN contratofuncionario cf on ocr.IdContrato = cf.idcontrato
+											  JOIN funcionario f on cf.idfuncionario = f.id and f.id = @idFuncionario
+											 WHERE o.ExibePaineldoRH = 1
+											   AND o.Ativo = 1 ", parms);
+
+			List<Modelo.Ocorrencia> lista = new List<Modelo.Ocorrencia>();
+			try
+			{
+				AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Ocorrencia>();
+				lista = AutoMapper.Mapper.Map<List<Modelo.Ocorrencia>>(dr);
+			}
+			catch (Exception ex)
+			{
+				throw (ex);
+			}
+			finally
+			{
+				if (!dr.IsClosed)
+				{
+					dr.Close();
+				}
+				dr.Dispose();
+			}
+			return lista;
+		}
+
 		public List<Modelo.Ocorrencia> GetAllPorExibePaineldoRH()
 		{
 			SqlParameter[] parms = new SqlParameter[0];
