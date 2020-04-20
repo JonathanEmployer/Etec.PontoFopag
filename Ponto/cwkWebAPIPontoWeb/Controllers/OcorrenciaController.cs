@@ -38,10 +38,10 @@ namespace cwkWebAPIPontoWeb.Controllers
                     List<Modelo.Ocorrencia> ocorrencias = new List<Modelo.Ocorrencia>();
 
                     Modelo.Funcionario objFuncionario = bllFuncionario.LoadObject(idFuncionario);
-                    if (objFuncionario == null)
+                    if (objFuncionario == null || objFuncionario.Id == 0)
                         ocorrencias = bllOco.GetAllPorExibePaineldoRH();
                     else
-                        ocorrencias = bllOco.GetAllPorExibePainelRHPorEmpresa(objFuncionario.Idempresa);
+                        ocorrencias = bllOco.GetAllPorExibePainelRHPorFuncionario(objFuncionario.Id);
 
                     foreach (var item in ocorrencias)
                     {
