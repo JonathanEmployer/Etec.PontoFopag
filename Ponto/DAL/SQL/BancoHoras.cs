@@ -4,6 +4,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Linq;
+using Modelo.Proxy;
+using AutoMapper;
 
 namespace DAL.SQL
 {
@@ -326,7 +328,7 @@ namespace DAL.SQL
             ((Modelo.BancoHoras)obj).Tipo = Convert.ToInt32(dr["tipo"]);
             ((Modelo.BancoHoras)obj).Identificacao = Convert.ToInt32(dr["identificacao"]);
             ((Modelo.BancoHoras)obj).DataInicial = Convert.ToDateTime(dr["datainicial"]);
-            ((Modelo.BancoHoras)obj).DataFinal = Convert.ToDateTime(dr["datafinal"]);          
+            ((Modelo.BancoHoras)obj).DataFinal = Convert.ToDateTime(dr["datafinal"]);
             ((Modelo.BancoHoras)obj).Dias_1 = Convert.ToInt16(dr["dias_1"]);
             ((Modelo.BancoHoras)obj).Dias_2 = Convert.ToInt16(dr["dias_2"]);
             ((Modelo.BancoHoras)obj).Dias_3 = Convert.ToInt16(dr["dias_3"]);
@@ -455,7 +457,7 @@ namespace DAL.SQL
                 new SqlParameter ("@tipo", SqlDbType.TinyInt),
                 new SqlParameter ("@identificacao", SqlDbType.Int),
                 new SqlParameter ("@datainicial", SqlDbType.DateTime),
-                new SqlParameter ("@datafinal", SqlDbType.DateTime),         
+                new SqlParameter ("@datafinal", SqlDbType.DateTime),
                 new SqlParameter ("@dias_1", SqlDbType.TinyInt),
                 new SqlParameter ("@dias_2", SqlDbType.TinyInt),
                 new SqlParameter ("@dias_3", SqlDbType.TinyInt),
@@ -581,7 +583,7 @@ namespace DAL.SQL
             parms[2].Value = ((Modelo.BancoHoras)obj).Tipo;
             parms[3].Value = ((Modelo.BancoHoras)obj).Identificacao;
             parms[4].Value = ((Modelo.BancoHoras)obj).DataInicial;
-            parms[5].Value = ((Modelo.BancoHoras)obj).DataFinal;            
+            parms[5].Value = ((Modelo.BancoHoras)obj).DataFinal;
             parms[6].Value = ((Modelo.BancoHoras)obj).Dias_1;
             parms[7].Value = ((Modelo.BancoHoras)obj).Dias_2;
             parms[8].Value = ((Modelo.BancoHoras)obj).Dias_3;
@@ -831,8 +833,8 @@ namespace DAL.SQL
 
         public Hashtable GetHashIdObjeto(DateTime? pDataI, DateTime? pDataF, List<int> ids)
         {
-            SqlParameter[] parms = new SqlParameter[] 
-            { 
+            SqlParameter[] parms = new SqlParameter[]
+            {
                 new SqlParameter("@datainicial", SqlDbType.DateTime),
                 new SqlParameter("@datafinal", SqlDbType.DateTime)
             };
@@ -852,7 +854,7 @@ namespace DAL.SQL
 
             if (ids.Count > 0)
             {
-                SQL += "and id in ("+String.Join(",", ids)+")";
+                SQL += "and id in (" + String.Join(",", ids) + ")";
             }
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, SQL, parms);
 
@@ -882,7 +884,7 @@ namespace DAL.SQL
 
         public DataTable GetRelatorioResumo(DateTime pDataI, DateTime pDataF, int pTipo, string pEmpresas, string pDepartamentos, string pFuncionarios)
         {
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@datainicial", SqlDbType.DateTime),
                 new SqlParameter("@datafinal", SqlDbType.DateTime)
@@ -926,7 +928,7 @@ namespace DAL.SQL
 
         public DataTable LoadRelatorio(DateTime pDataInicial, DateTime pDataFinal, int pTipo, string pEmpresas, string pDepartamentos, string pFuncionarios)
         {
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@datainicial", SqlDbType.DateTime),
                 new SqlParameter("@datafinal", SqlDbType.DateTime)
@@ -965,7 +967,7 @@ namespace DAL.SQL
 
         public DataTable GetRelatorioHorario(DateTime pDataInicial, DateTime pDataFinal, int pTipo, string pIds)
         {
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@datainicial", SqlDbType.DateTime),
                 new SqlParameter("@datafinal", SqlDbType.DateTime)
@@ -1075,7 +1077,7 @@ namespace DAL.SQL
         public Modelo.BancoHoras LoadPorCodigo(int codigo)
         {
             SqlParameter[] parms = new SqlParameter[1]
-            { 
+            {
                   new SqlParameter("@codigo", SqlDbType.Int)
             };
             parms[0].Value = codigo;
@@ -1148,7 +1150,7 @@ namespace DAL.SQL
             pDtInicio = null;
             pDtFim = null;
 
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@id", SqlDbType.Int),
             };
@@ -1222,13 +1224,13 @@ namespace DAL.SQL
 
         public List<Modelo.Proxy.PxySaldoBancoHoras> SaldoBancoHoras(DateTime dataSaldo, List<int> idsFuncs)
         {
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@dataSaldo", SqlDbType.DateTime),
                 new SqlParameter("@idsFuncs", SqlDbType.VarChar)
             };
             parms[0].Value = dataSaldo;
-            parms[1].Value = String.Join(",",idsFuncs);
+            parms[1].Value = String.Join(",", idsFuncs);
 
             string sql = @" SELECT * FROM  dbo.fn_SaldoBancoHoras (@dataSaldo, @IdsFuncs) ";
 
@@ -1258,7 +1260,7 @@ namespace DAL.SQL
 
         public List<Modelo.Proxy.Relatorios.PxyRelBancoHoras> RelatorioSaldoBancoHoras(string MesInicio, string AnoInicio, string MesFim, string AnoFim, List<int> idsFuncs)
         {
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@MESINICIO", SqlDbType.VarChar),
                 new SqlParameter("@ANOINICIO", SqlDbType.VarChar),
@@ -1453,7 +1455,7 @@ FROM    ( SELECT    t.IdFuncionario ,
 
         public Modelo.BancoHoras BancoHorasPorFuncionario(DateTime data, int idFuncionario)
         {
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@data", SqlDbType.DateTime),
                 new SqlParameter("@idfuncionario", SqlDbType.Int)
@@ -1678,22 +1680,22 @@ FROM    ( SELECT    t.IdFuncionario ,
         //    DataTable dt = new DataTable();
         //    string aux = @"SET DATEFIRST 1 -- Após alterar o primeiro dia da semana do banco para sendo o próximo dia após o DSR para encontrar o período semanal do banco baseado na data base, deixo o primeiro dia da semana como segunda para bater com o ponto, que considera a segunda como sendo o primeiro dia da semana (1) e domingo o último (7)
         //                    SELECT t.data, 
-	       //                        t.dia,
-	       //                        t.bancohorascre,
+        //                        t.dia,
+        //                        t.bancohorascre,
         //                           t.BancoHorasCreMin,
         //                           t.bancohorasdeb,
         //                           t.BancoHorasDebMin,
-	       //                        semana,
-	       //                        MIN(t.data) OVER(PARTITION BY semana) DiaInicioSemana,
-	       //                        MAX(t.data) OVER(PARTITION BY semana) DiaFimSemana
+        //                        semana,
+        //                        MIN(t.data) OVER(PARTITION BY semana) DiaInicioSemana,
+        //                        MAX(t.data) OVER(PARTITION BY semana) DiaFimSemana
         //                      FROM (
         //                    SELECT m.data, 
-	       //                        DATEPART(dw,m.data) Dia,
+        //                        DATEPART(dw,m.data) Dia,
         //                           m.bancohorascre, 
-	       //                        m.bancohorasdeb,
-	       //                        dbo.FN_CONVHORA(m.bancohorascre) BancoHorasCreMin, 
-	       //                        dbo.FN_CONVHORA(m.bancohorasdeb) BancoHorasDebMin,
-	       //                        datepart(week,m.data) semana
+        //                        m.bancohorasdeb,
+        //                        dbo.FN_CONVHORA(m.bancohorascre) BancoHorasCreMin, 
+        //                        dbo.FN_CONVHORA(m.bancohorasdeb) BancoHorasDebMin,
+        //                        datepart(week,m.data) semana
         //                      FROM dbo.marcacao_view m
         //                     WHERE m.idfuncionario in (" + String.Join(", ",idsFuncs)+@")
         //                       AND m.data BETWEEN @dataInicial AND  @dataFinal
@@ -1706,5 +1708,105 @@ FROM    ( SELECT    t.IdFuncionario ,
 
         //    return dt;
         //}
+
+        public List<pxyFuncionarioRelatorio> GetFuncionarioParaCopia(int idBancoHoras)
+        {
+            List<pxyFuncionarioRelatorio> fucRrel = new List<pxyFuncionarioRelatorio>();
+            SqlParameter[] parms = new SqlParameter[1]
+            {
+                      new SqlParameter("@idBancoHoras", SqlDbType.Int)
+            };
+            parms[0].Value = idBancoHoras;
+
+            string sql = @"DECLARE @dataInicio datetime;
+                            DECLARE @dataFinal datetime;
+                            SELECT @dataInicio = bh.datainicial,
+	                               @dataFinal = bh.datafinal
+				                              FROM bancohoras bh
+				                             WHERE bh.id = @idBancoHoras
+
+                            --Separa os funcionários de acordo com a regra
+                            SELECT f.id
+	                               ,bh.Idbh 
+	                               ,fechamentoPonto.idFechamentoPonto
+	                               ,fechamentoBH.idFechamentoBH
+	                               into #IdsFuncionarios
+                              FROM funcionario f
+                             OUTER APPLY (SELECT top 1 fp.id idFechamentoPonto 
+				                            FROM FechamentoPonto fp 
+			                               INNER JOIN FechamentoPontoFuncionario fpf ON fp.id = fpf.idFechamentoPonto and fpf.idFuncionario = f.id and fp.dataFechamento >= @dataInicio
+			                              ) fechamentoPonto
+                             OUTER APPLY (SELECT top 1 fbh.id idFechamentoBH 
+				                            FROM fechamentobh fbh 
+			                               INNER JOIN fechamentobhd fbhd ON fbh.id = fbhd.idfechamentobh and fbhd.identificacao = f.id AND fbh.data >= @dataInicio
+			                             ) fechamentoBH
+                             OUTER APPLY (SELECT top 1 id Idbh
+				                            FROM bancohoras bh 
+			                               WHERE bh.tipo = 2 
+				                             AND bh.identificacao = f.id 
+				                             AND (bh.datainicial BETWEEN @dataInicio AND @dataFinal OR
+					                              bh.datafinal BETWEEN @dataInicio AND @dataFinal OR 
+					                              @dataInicio BETWEEN bh.datainicial AND bh.datafinal OR
+					                              @dataFinal BETWEEN bh.datainicial AND bh.datafinal)
+			                               ORDER BY bh.datainicial DESC) bh
+                             WHERE f.excluido = 0 
+                               AND (f.DataInativacao <= @dataInicio or f.DataInativacao is NULL)
+                               AND bh.Idbh IS NULL
+                               AND fechamentoPonto.idFechamentoPonto IS NULL
+                               AND fechamentoBH.idFechamentoBH IS NULL
+
+                            --Busca os dados do funcionário
+                            SELECT f.id, 
+                                                            f.codigo, 
+                                                            f.dscodigo,
+                                                            h.descricao DescHorario,
+                                                            f.nome,
+                                                            e.id idEmpresa,
+                                                            convert(varchar,e.codigo) +' | '+ e.nome Empresa,
+                                                            d.id idDepartamento,
+								                            ISNULL(p.RazaoSocial,'') AS PessoaSupervisor,
+                                                            convert(varchar,d.codigo) +' | '+ d.descricao Departamento,
+                                                            fu.id idFuncao,
+                                                            CONVERT(varchar, fu.codigo) + ' | '+ fu.descricao Funcao,
+                                                            CONVERT(varchar, fa.codigo) + ' | '+ fa.descricao Alocacao,
+								                               (select top(1) CONVERT(varchar, c.codigocontrato) + ' | '+ c.descricaocontrato 
+								                                  from contratofuncionario cf
+									                              left join contrato c on cf.idcontrato = c.id 
+									                             where cf.idfuncionario = f.id and cf.excluido =0
+									                            ) Contrato,
+                                                            f.Funcionarioativo
+                                                        FROM funcionario f
+						                               INNER JOIN #IdsFuncionarios ids ON ids.id = f.id
+							                            LEFT JOIN dbo.Pessoa p ON p.id = f.IdPessoaSupervisor
+                                                       INNER JOIN empresa e on e.id = f.idempresa								
+                                                       INNER JOIN departamento d on d.id = f.iddepartamento
+                                                       INNER JOIN funcao fu on fu.id = f.idfuncao
+                                                       INNER JOIN horario h on f.idhorario = h.id
+                                                        LEFT JOIN alocacao fa on fa.id = f.idalocacao
+
+                            DROP TABLE #IdsFuncionarios";
+
+            sql = sql + DALBase.PermissaoUsuarioFuncionario(UsuarioLogado, sql, "f.idempresa", "f.id", null);
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+
+            try
+            {
+                var map = Mapper.CreateMap<IDataReader, pxyFuncionarioRelatorio>();
+                fucRrel = Mapper.Map<List<pxyFuncionarioRelatorio>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return fucRrel;
+        }
     }
 }

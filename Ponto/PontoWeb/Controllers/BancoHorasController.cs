@@ -50,7 +50,7 @@ namespace PontoWeb.Controllers
                     if (erros.Count > 0)
                     {
                         string erro = string.Join("<br/>", erros.Select(x => x.Key + "<br/>" + x.Value).ToArray());
-                        erro = erro.Replace("cbIdentificacao=", "");
+                        erro = erro.Replace("cbIdentificacao", "");
                         ModelState.AddModelError("CustomError", "<div class=\"comment alert alert-danger\">" + erro + "</div>");
                     }
                     else
