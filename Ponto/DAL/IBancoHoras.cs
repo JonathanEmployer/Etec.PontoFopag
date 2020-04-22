@@ -29,5 +29,6 @@ namespace DAL
         Modelo.BancoHoras LoadObjectSemRestricao(int id);
 
         List<pxyFuncionarioRelatorio> GetFuncionarioParaCopia(int idBancoHoras);
+        void ReplicarBancoHoras(int idBancoHoras, List<int> idsFuncionarios);
     }
 }

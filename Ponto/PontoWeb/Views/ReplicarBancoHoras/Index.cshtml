@@ -13,6 +13,8 @@
             </div>
             <div class="panel-body panelConteudo" id="panelBodyFixodivCenter">
                 @Html.HiddenFor(m => m.IdBancoHoras)
+                @Html.HiddenFor(m => m.DataInicial)
+                @Html.HiddenFor(m => m.DataFinal)
                 @Html.ValidationSummary(true)
                 @Html.ValidationMessage("CustomError", new { id = "CustomError" })
                 <div class="row">
@@ -54,7 +56,7 @@
                         @Html.HiddenFor(x => x.IdSelecionados)
                         @Html.ValidationMessageFor(x => x.IdSelecionados)
                         <div class="row">
-                            @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorio()).GetType(), true, "ReplicarBancoHoras", "GetFuns?idBancoHoras="+Model.IdBancoHoras, "", "", Model.IdSelecionados, "")
+                            @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorio()).GetType(), true, "ReplicarBancoHoras", "GetFuns?idBancoHoras=" + Model.IdBancoHoras, "", "", Model.IdSelecionados, "")
                         </div>
                     </div>
                 </div>

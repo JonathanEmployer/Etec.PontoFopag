@@ -974,5 +974,10 @@ namespace BLL
         {
             return dalBancoHoras.GetFuncionarioParaCopia(idBancoHoras);
         }
-     }
+
+        public void ReplicarBancoHoras(int idBancoHoras, List<int> idsFuncionarios)
+        {
+            dalBancoHoras.ReplicarBancoHoras(idBancoHoras, idsFuncionarios);
+        }
+    }
 }

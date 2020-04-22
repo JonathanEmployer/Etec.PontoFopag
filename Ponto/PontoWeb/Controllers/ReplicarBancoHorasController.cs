@@ -1,4 +1,5 @@
-﻿using Modelo;
+﻿using BLL_N.JobManager.Hangfire;
+using Modelo;
 using Modelo.Proxy;
 using PontoWeb.Controllers.BLLWeb;
 using System;
@@ -33,14 +34,30 @@ namespace PontoWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction("Grid", "BancoHoras");
+                try
+                {
+                    BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(user.ConnectionString, user);
+                    var idsfuncs = registro.IdSelecionados.Split(',').Where(s => !string.IsNullOrEmpty(s)).Select(s => Convert.ToInt32(s)).ToList();
+                    bllBancoHoras.ReplicarBancoHoras(registro.IdBancoHoras, idsfuncs);
+                    
+                    HangfireManagerCalculos hfm = new HangfireManagerCalculos(user.DataBase, user.Login, "", "/BancoHoras/Grid");
+                    string parametrosExibicao = String.Format("{0} Funcionários no período de {1} a {2}", idsfuncs.Count(), registro.DataInicialStr, registro.DataFinalStr);
+
+                    List<PxyFuncionariosRecalcular> funcsPeriodo = new List<PxyFuncionariosRecalcular>();
+                    idsfuncs.ForEach(f => funcsPeriodo.Add(new PxyFuncionariosRecalcular() { IdFuncionario = f, DataInicio = registro.DataInicial, DataFim = registro.DataFinal }));
+                    
+                    PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de marcações por cópia de banco de horas", parametrosExibicao, funcsPeriodo, false);
+
+                    return RedirectToAction("Grid", "BancoHoras");
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("IdSelecionados", e.Message);
+                }
             }
-            else
-            {
-                PxyCopiaBancoHoras reg = GetProxyCopiaBanco(registro.IdBancoHoras);
-                reg.IdSelecionados = registro.IdSelecionados;
-                return View(reg);
-            }
+            PxyCopiaBancoHoras reg = GetProxyCopiaBanco(registro.IdBancoHoras);
+            reg.IdSelecionados = registro.IdSelecionados;
+            return View(reg);
         }
 
         [Authorize]

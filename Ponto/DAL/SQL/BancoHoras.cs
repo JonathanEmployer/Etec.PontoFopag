@@ -1665,50 +1665,7 @@ FROM    ( SELECT    t.IdFuncionario ,
 
             return lista;
         }
-
-        //public DataTable GetCreditoDebitoCalculoBanco(DateTime pInicial, DateTime pFinal, List<int> idsFuncs)
-        //{
-        //    SqlParameter[] parms = new SqlParameter[2]
-        //    {
-        //          new SqlParameter("@dataInicial", SqlDbType.DateTime)
-        //        , new SqlParameter("@dataFinal", SqlDbType.DateTime)
-        //    };
-
-        //    parms[0].Value = pInicial;
-        //    parms[1].Value = pFinal;
-
-        //    DataTable dt = new DataTable();
-        //    string aux = @"SET DATEFIRST 1 -- Após alterar o primeiro dia da semana do banco para sendo o próximo dia após o DSR para encontrar o período semanal do banco baseado na data base, deixo o primeiro dia da semana como segunda para bater com o ponto, que considera a segunda como sendo o primeiro dia da semana (1) e domingo o último (7)
-        //                    SELECT t.data, 
-        //                        t.dia,
-        //                        t.bancohorascre,
-        //                           t.BancoHorasCreMin,
-        //                           t.bancohorasdeb,
-        //                           t.BancoHorasDebMin,
-        //                        semana,
-        //                        MIN(t.data) OVER(PARTITION BY semana) DiaInicioSemana,
-        //                        MAX(t.data) OVER(PARTITION BY semana) DiaFimSemana
-        //                      FROM (
-        //                    SELECT m.data, 
-        //                        DATEPART(dw,m.data) Dia,
-        //                           m.bancohorascre, 
-        //                        m.bancohorasdeb,
-        //                        dbo.FN_CONVHORA(m.bancohorascre) BancoHorasCreMin, 
-        //                        dbo.FN_CONVHORA(m.bancohorasdeb) BancoHorasDebMin,
-        //                        datepart(week,m.data) semana
-        //                      FROM dbo.marcacao_view m
-        //                     WHERE m.idfuncionario in (" + String.Join(", ",idsFuncs)+@")
-        //                       AND m.data BETWEEN @dataInicial AND  @dataFinal
-        //                       ) t";
-
-        //    using (SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms))
-        //    {
-        //        dt.Load(dr);
-        //    }
-
-        //    return dt;
-        //}
-
+        
         public List<pxyFuncionarioRelatorio> GetFuncionarioParaCopia(int idBancoHoras)
         {
             List<pxyFuncionarioRelatorio> fucRrel = new List<pxyFuncionarioRelatorio>();
@@ -1807,6 +1764,27 @@ FROM    ( SELECT    t.IdFuncionario ,
                 dr.Dispose();
             }
             return fucRrel;
+        }
+
+        public void ReplicarBancoHoras(int idBancoHoras, List<int> idsFuncionarios)
+        {
+            IEnumerable<long> ids = idsFuncionarios.Select(s => (long)s);
+            SqlParameter parmIds = new SqlParameter("@idsFuncs", SqlDbType.Structured);
+            parmIds.Value = CreateDataTableIdentificadores(ids);
+            SqlParameter parmIdBancoHoras = new SqlParameter("@idBancoHoras", SqlDbType.Int);
+            parmIdBancoHoras.Value = idBancoHoras;
+            SqlParameter parmUsuarioInc = new SqlParameter("@usuarioInc", SqlDbType.VarChar);
+            parmUsuarioInc.Value = UsuarioLogado.Login;
+            using (SqlConnection conn = db.GetConnection)
+            {
+                SqlCommand cmd = new SqlCommand("SP_ReplicarBancoHoras", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 600;
+                cmd.Parameters.Add(parmIds);
+                cmd.Parameters.Add(parmIdBancoHoras);
+                cmd.Parameters.Add(parmUsuarioInc);
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 }

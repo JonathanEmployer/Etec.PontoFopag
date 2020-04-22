@@ -28,7 +28,7 @@
             <div class="row">
                 <div class="col-xs-6 center-block">
                     <div style="text-align: left">
-                        <a href="#" id="btCopiar" class="btn btn-default"><span class="glyphicon glyphicon-copy"></span>&nbsp;Copiar</a>
+                        <a href="#" id="btCopiar" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Copiar B.H.</a>
                     </div>
                 </div>
                 <div class="col-xs-6 center-block">
@@ -43,18 +43,18 @@
         </div>
     </div>
 </div>
-        <script>
+<script>
 
             //Fim Metodo auxiliar para ajudar a ordenar a data no padrão pt
             $(document).ready(function () {
                 var controller = "BancoHoras";
                 var nomeTabela = "#" + '@nomeTabela';
                 cwk_EventoDbClickEditar('Alterar', controller, nomeTabela);
-                
+
                 cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', controller);
                 cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', controller, nomeTabela);
                 cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', controller, nomeTabela);
                 EventoClickDeletePostReturnJob('#btExcluir', 'Excluir', controller, nomeTabela, 'Banco de Horas excluído com sucesso.');
                 cwk_EventoClickCadastroAlterar('#btCopiar', 'Index', 'ReplicarBancoHoras', nomeTabela);
             });
-        </script>
+</script>
