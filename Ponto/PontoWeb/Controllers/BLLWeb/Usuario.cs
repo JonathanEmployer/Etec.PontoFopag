@@ -381,7 +381,7 @@ namespace PontoWeb.Controllers.BLLWeb
 				var cwu = Usuario.GetUsuarioLogadoCache();
                  if (!String.IsNullOrEmpty(cwu.ConnectionStringDecrypt))
                 {
-				BLL.UsuarioPontoWeb bllUpw = new BLL.UsuarioPontoWeb(cwu.ConnectionStringDecrypt);
+				BLL.UsuarioPontoWeb bllUpw = new BLL.UsuarioPontoWeb(cwu.ConnectionStringDecrypt, usuarioPontoWeb);
 				usuarioPontoWeb = bllUpw.LoadObject(cwu.id);
 				BLL.Empresa bllEmp = new BLL.Empresa(cwu.ConnectionStringDecrypt, usuarioPontoWeb);
 				usuarioPontoWeb.EmpresaPrincipal = bllEmp.GetEmpresaPrincipal();                    

@@ -337,8 +337,16 @@
         var horario = $("#lkpHorarioDinamico").val();
         if (horario.length > 0) {
             var parametros = { horario: horario };
-            CarregaDadosAjax('Selecionar', 'HorarioDinamico', parametros, '#divHorarioDinamicoDetalhes', null);
+            CarregaDadosAjax('Selecionar', 'HorarioDinamico', parametros, '#divHorarioDinamicoDetalhes', null, SetaCiclo);
         }
+    }
+
+    function SetaCiclo() {
+        if (!isEmpty('@Model.CicloSequenciaIndice')) {
+            $('input:radio[name="CicloSequenciaIndice"]').filter('[value="@Model.CicloSequenciaIndice"]').attr('checked', true);
+            alert('Seta Ciclo = '+'@Model.CicloSequenciaIndice');
+        }
+
     }
 
     function validaTipo(valor) {
@@ -404,7 +412,7 @@
             default:
                 break;
         }
-    }     
+    }
 </script>
 @if (ViewBag.Consultar == 1)
 {

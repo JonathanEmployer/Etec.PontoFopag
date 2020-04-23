@@ -11,7 +11,7 @@ namespace BLL
         DAL.IUsuarioPontoWeb dalUsuario;
         private string ConnectionString;
 
-        public UsuarioPontoWeb(string connString)
+        public UsuarioPontoWeb(string connString, Modelo.Cw_Usuario usuarioLogado)
         {
             if (!String.IsNullOrEmpty(connString))
             {
@@ -22,7 +22,10 @@ namespace BLL
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
             }
             dalUsuario = new DAL.SQL.UsuarioPontoWeb(new DataBase(ConnectionString));
-
+            if (usuarioLogado != null)
+            {
+                dalUsuario.UsuarioLogado = usuarioLogado;
+            }
         }
 
         public int MaxCodigo()

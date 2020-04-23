@@ -2,6 +2,7 @@
 using Modelo.Relatorios;
 using PontoWeb.Controllers.BLLWeb;
 using PontoWeb.Models.Helpers;
+using PontoWeb.Security;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -10,6 +11,7 @@ namespace PontoWeb.Controllers.Relatorios
 {
     public class RelAFDPortaria373Controller : Controller
     {
+        [PermissoesFiltro(Roles = "RelAFDPortaria373Consultar")]
         // GET: RelAFDPortaria373
         public ActionResult Index()
         {
@@ -19,6 +21,7 @@ namespace PontoWeb.Controllers.Relatorios
             return View(rel);
         }
 
+        [PermissoesFiltro(Roles = "RelAFDPortaria373Consultar")]
         [HttpPost]
         public ActionResult Index(RelatorioAfdPortaria373Model rel)
         {

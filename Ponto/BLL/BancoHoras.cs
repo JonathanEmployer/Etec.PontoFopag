@@ -157,7 +157,16 @@ namespace BLL
 
         public Dictionary<string, string> Salvar(Modelo.Acao pAcao, Modelo.BancoHoras objeto)
         {
+            return Salvar(pAcao, objeto, false);
+        }
+
+        public Dictionary<string, string> Salvar(Modelo.Acao pAcao, Modelo.BancoHoras objeto, bool naoValidaFechamento)
+        {
             Dictionary<string, string> erros = ValidaObjeto(objeto);
+            if (naoValidaFechamento)
+            {
+                erros.Remove("Fechamento Ponto");
+            }
             if (erros.Count == 0)
             {
                 switch (pAcao)
@@ -953,6 +962,11 @@ namespace BLL
         public DataTable GetCredDebBancoHorasComSaldoPeriodo(List<int> idsFuncionarios, DateTime pdataInicial, DateTime pDataFinal)
         {
             return dalBancoHoras.GetCredDebBancoHorasComSaldoPeriodo(idsFuncionarios, pdataInicial, pDataFinal);
+        }
+
+        public Modelo.BancoHoras LoadObjectSemRestricao(int id)
+        {
+            return dalBancoHoras.LoadObjectSemRestricao(id);
         }
      }
 }
