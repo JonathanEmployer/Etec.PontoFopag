@@ -34,12 +34,13 @@
 </div>
 <script>
     var nomeTabela = "#" + '@Model.GetType().Name';
+    var controller = 'JornadaSubstituir';
     $(document).ready(function () {
         cwk_EventoDbClickEditar('Alterar', 'Funcao', nomeTabela);
 
-        cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', 'Funcao');
-        cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', 'Funcao', nomeTabela);
-        cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', 'Funcao', nomeTabela);
-        cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir', 'Funcao', nomeTabela, 'Função excluída com sucesso.');
+        cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', controller);
+        cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', controller, nomeTabela);
+        cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', controller, nomeTabela);
+        cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir', controller, nomeTabela, 'Função excluída com sucesso.');
     });
 </script>

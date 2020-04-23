@@ -105,13 +105,7 @@ namespace PontoWeb.Controllers
             {
                 try
                 {
-                    Acao acao = new Acao();
-                    if (obj.Id == 0)
-                    {
-                        acao = Acao.Incluir;
-                    }
-                    else
-                        acao = Acao.Alterar;
+                    Acao acao = obj.Id == 0 ? acao = Acao.Incluir : acao = Acao.Alterar;
 
                     Dictionary<string, string> erros = new Dictionary<string, string>();
                     erros = bllJornadaSubstituir.Salvar(acao, obj);

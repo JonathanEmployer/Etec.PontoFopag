@@ -13,26 +13,30 @@ namespace Modelo
 
         [Display(Name = "DataInicio")]
         [Required(ErrorMessage = "Campo Obrigatório")]
-        public DateTime DataInicio { get; set; }
+        public DateTime? DataInicio { get; set; }
 
         [Display(Name = "DataFim")]
         [Required(ErrorMessage = "Campo Obrigatório")]
-        public DateTime DataFim { get; set; }
+        public DateTime? DataFim { get; set; }
 
         [Display(Name = "Jornada De")]
+        [Required(ErrorMessage = "Campo Obrigatório")]
         [TableHTMLAttribute("Jornada De", 5, false, ItensSearch.text, OrderType.none)]
         public string DescricaoDe { get; set; }
 
-        [Display(Name = "Descrição")]
+        [Display(Name = "Jornada Para")]
+        [Required(ErrorMessage = "Campo Obrigatório")]
         [TableHTMLAttribute("Jornada Para", 6, false, ItensSearch.text, OrderType.none)]
         public string DescricaoPara { get; set; }
 
+        [Required(ErrorMessage = "Campo Obrigatório")]
+        public string IdFuncsSelecionados { get; set; }
         #region Campos para Grid
         [TableHTMLAttribute("Data Início", 3, false, ItensSearch.text, OrderType.none)]
-        public string DataInicioStr => DataInicio.ToShortDateString();
+        public string DataInicioStr => DataInicio == null ? "" : DataInicio.GetValueOrDefault().ToShortDateString();
 
         [TableHTMLAttribute("Data Fim", 4, false, ItensSearch.text, OrderType.none)]
-        public string DataFimStr => DataFim.ToShortDateString();
+        public string DataFimStr => DataFim == null ? "" : DataFim.GetValueOrDefault().ToShortDateString();
 
         [TableHTMLAttribute("Usuario Inc.", 7, false, ItensSearch.select, OrderType.none)]
         public string IncUsuarioGrid => Incusuario;
@@ -44,7 +48,7 @@ namespace Modelo
         public string AltUsuarioGrid => Altusuario;
 
         [TableHTMLAttribute("Data/Hora Alt.", 10, false, ItensSearch.text, OrderType.none)]
-        public string AltHoraGrid => Althora == null ? "" : Althora.GetValueOrDefault().ToShortDateString() + " " + Althora.GetValueOrDefault().ToShortTimeString(); 
+        public string AltHoraGrid => Althora == null ? "" : Althora.GetValueOrDefault().ToShortDateString() + " " + Althora.GetValueOrDefault().ToShortTimeString();
         #endregion
     }
 }
