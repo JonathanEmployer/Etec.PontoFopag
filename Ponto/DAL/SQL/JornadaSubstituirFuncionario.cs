@@ -16,12 +16,13 @@ namespace DAL.SQL
             SELECTPID = @"   SELECT * FROM JornadaSubstituirFuncionario WHERE id = @id";
 
             SELECTALL = @"   SELECT   JornadaSubstituirFuncionario.*
-                             FROM JornadaSubstituirFuncionario";
+                               FROM JornadaSubstituirFuncionario
+                              WHERE 1 = 1 ";
 
             INSERT = @"  INSERT INTO JornadaSubstituirFuncionario
-							(codigo, incdata, inchora, incusuario, IdJornadaSubstituirFuncionario,IdFuncionario)
+							(codigo, incdata, inchora, incusuario, IdJornadaSubstituir,IdFuncionario)
 							VALUES
-							(@codigo, @incdata, @inchora, @incusuario, @IdJornadaSubstituirFuncionario,@IdFuncionario)
+							(@codigo, @incdata, @inchora, @incusuario, @IdJornadaSubstituir,@IdFuncionario)
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @" UPDATE JornadaSubstituirFuncionario SET  
@@ -29,7 +30,7 @@ namespace DAL.SQL
 							, altdata = @altdata
 							, althora = @althora
 							, altusuario = @altusuario
-                           ,IdJornadaSubstituirFuncionario = @IdJornadaSubstituirFuncionario
+                           ,IdJornadaSubstituir = @IdJornadaSubstituir
                            ,IdFuncionario = @IdFuncionario
 
 						WHERE id = @id";
@@ -72,7 +73,7 @@ namespace DAL.SQL
         {
             SetInstanceBase(dr, obj);
             ((Modelo.JornadaSubstituirFuncionario)obj).Codigo = Convert.ToInt32(dr["codigo"]);
-             ((Modelo.JornadaSubstituirFuncionario)obj).IdJornadaSubstituirFuncionario = Convert.ToInt32(dr["IdJornadaSubstituirFuncionario"]);
+             ((Modelo.JornadaSubstituirFuncionario)obj).IdJornadaSubstituir = Convert.ToInt32(dr["IdJornadaSubstituir"]);
              ((Modelo.JornadaSubstituirFuncionario)obj).IdFuncionario = Convert.ToInt32(dr["IdFuncionario"]);
 
         }
@@ -89,7 +90,7 @@ namespace DAL.SQL
 				,new SqlParameter ("@altdata", SqlDbType.DateTime)
 				,new SqlParameter ("@althora", SqlDbType.DateTime)
 				,new SqlParameter ("@altusuario", SqlDbType.VarChar)
-                ,new SqlParameter ("@IdJornadaSubstituirFuncionario", SqlDbType.Int)
+                ,new SqlParameter ("@IdJornadaSubstituir", SqlDbType.Int)
                 ,new SqlParameter ("@IdFuncionario", SqlDbType.Int)
 
 			};
@@ -110,7 +111,7 @@ namespace DAL.SQL
             parms[5].Value = ((Modelo.JornadaSubstituirFuncionario)obj).Altdata;
             parms[6].Value = ((Modelo.JornadaSubstituirFuncionario)obj).Althora;
             parms[7].Value = ((Modelo.JornadaSubstituirFuncionario)obj).Altusuario;
-           parms[8].Value = ((Modelo.JornadaSubstituirFuncionario)obj).IdJornadaSubstituirFuncionario;
+           parms[8].Value = ((Modelo.JornadaSubstituirFuncionario)obj).IdJornadaSubstituir;
            parms[9].Value = ((Modelo.JornadaSubstituirFuncionario)obj).IdFuncionario;
 
         }
@@ -137,6 +138,36 @@ namespace DAL.SQL
             SqlParameter[] parms = new SqlParameter[0];
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, SELECTALL, parms);
+
+            List<Modelo.JornadaSubstituirFuncionario> lista = new List<Modelo.JornadaSubstituirFuncionario>();
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.JornadaSubstituirFuncionario>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.JornadaSubstituirFuncionario>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
+
+        public List<Modelo.JornadaSubstituirFuncionario> GetByIdJornadaSubstituir(int idJornadaSubstituir)
+        {
+            SqlParameter[] parms = new SqlParameter[1]
+            {
+                new SqlParameter("@IdJornadaSubstituir", idJornadaSubstituir)
+            };
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SELECTALL + " AND idJornadaSubstituir = @idJornadaSubstituir ", parms);
 
             List<Modelo.JornadaSubstituirFuncionario> lista = new List<Modelo.JornadaSubstituirFuncionario>();
             try

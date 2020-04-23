@@ -133,6 +133,7 @@ namespace DAL
         List<int> IdsFuncPeriodoContratado(TipoFiltroFuncionario tipo, List<int> idsReg, DateTime dtIni, DateTime dtFin);
         void setFuncionariosEmpresa(int idEmpresa, bool FuncionarioAtivo);
         List<string> GetDsCodigosByIDs(List<int> lIds);
+        List<PxyFuncionarioFechamentosPontoEBH> GetFuncionariosComUltimoFechamentosPontoEBH(bool pegaTodos, IList<int> idsFuncs, DateTime dataInicio, DateTime dataFim);
     }
 }
 

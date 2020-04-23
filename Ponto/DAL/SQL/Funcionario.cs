@@ -6107,6 +6107,7 @@ where 1=1
             cmd.Parameters.Clear();            
             return;
         }
+
         public virtual int MaxCODEmpresaFunc()
         {
             string MAXCODEMPRESAFUNCIONARIOS = @"  SELECT MAX(codigo) AS codigo FROM empresafuncionarios";
@@ -6121,5 +6122,93 @@ where 1=1
             }
         }
 
+        public List<PxyFuncionarioFechamentosPontoEBH> GetFuncionariosComUltimoFechamentosPontoEBH(bool pegaTodos, IList<int> idsFuncs, DateTime dataInicio, DateTime dataFim)
+        {
+            List<PxyFuncionarioFechamentosPontoEBH> lista = new List<PxyFuncionarioFechamentosPontoEBH>();
+
+            SqlParameter[] parms = new SqlParameter[3]
+            {
+                new SqlParameter("@ids", SqlDbType.Structured),
+                new SqlParameter("@dataInicio", SqlDbType.DateTime),
+                new SqlParameter("@dataFinal", SqlDbType.DateTime)
+            };
+            parms[0].Value = CreateDataTableIdentificadores(idsFuncs.Select(s => (long)s));
+            parms[0].TypeName = "Identificadores";
+            parms[1].Value = dataInicio;
+            parms[2].Value = dataFim;
+
+            string aux = @" SELECT f.id FuncionarioId,
+	                               f.dscodigo FuncionarioCodigo,
+	                               f.nome FuncionarioNome,
+	                               f.CPF FuncionarioCPF,
+	                               f.matricula FuncionarioMatricula,
+	                               ff.TipoFechamento FechamentoTipo,
+	                               ff.DescTipoFechamento FechamentoTipoDesc,
+	                               ff.IdFechamento FechamentoId,
+	                               ff.Codigo FechamentoCodigo,
+	                               ff.descricao FechamentoDescricao,
+	                               ff.data FechamentoData
+                              FROM ( 
+	                            SELECT id.Identificador,
+		                               fechamentoPonto.*
+	                              FROM @ids id
+	                              CROSS APPLY (SELECT top 1 
+						                              1 TipoFechamento,
+						                              'Fechamento Ponto' DescTipoFechamento,
+						                              fp.id IdFechamento, 
+						                              fp.codigo Codigo, 
+						                              fp.descricao Descricao, 
+						                              fp.dataFechamento data
+					                            FROM FechamentoPonto fp 
+				                               INNER JOIN FechamentoPontoFuncionario fpf ON fp.id = fpf.idFechamentoPonto and fpf.idFuncionario = id.Identificador and fp.dataFechamento >= @dataInicio
+				                              ) fechamentoPonto
+	                            UNION ALL
+	                            SELECT id.Identificador,
+		                               fechamentoBH.*
+	                              FROM @ids id
+	                             CROSS APPLY (SELECT top 1 
+						                             2 TipoFechamento,
+						                             'Fechamento Banco Horas' DescTipoFechamento,
+						                             fbh.id IdFechamento,
+						                             fbh.codigo Codigo,
+						                             fbh.MotivoFechamento Descricao,
+						                             fbh.data dataFechamento
+					                            FROM fechamentobh fbh 
+				                               INNER JOIN fechamentobhd fbhd ON fbh.id = fbhd.idfechamentobh and fbhd.identificacao = id.Identificador AND fbh.data >= @dataInicio
+				                             ) fechamentoBH 
+	                               ) FF
+	                            INNER JOIN funcionario f on ff.Identificador = f.id
+	                            WHERE 1 = 1
+                            ";
+
+
+            if (!pegaTodos)
+            {
+                aux += " AND ISNULL(f.excluido,0)=0 AND ISNULL(f.funcionarioativo,0)=1 ";
+            }
+
+            aux += PermissaoUsuarioFuncionario(UsuarioLogado, aux, "f.idempresa", "f.id", null);
+            aux += " ORDER BY f.nome";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            try
+            {
+                _ = Mapper.CreateMap<IDataReader, PxyFuncionarioFechamentosPontoEBH>();
+                lista = Mapper.Map<List<PxyFuncionarioFechamentosPontoEBH>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
     }
 }

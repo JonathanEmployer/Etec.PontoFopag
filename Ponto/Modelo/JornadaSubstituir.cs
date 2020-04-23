@@ -1,4 +1,6 @@
+using Modelo.EntityFramework.MonitorPontofopag;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Modelo
@@ -31,6 +33,9 @@ namespace Modelo
 
         [Required(ErrorMessage = "Campo Obrigatório")]
         public string IdFuncsSelecionados { get; set; }
+
+        public List<JornadaSubstituirFuncionario> JornadaSubstituirFuncionario { get; set; }
+
         #region Campos para Grid
         [TableHTMLAttribute("Data Início", 3, false, ItensSearch.text, OrderType.none)]
         public string DataInicioStr => DataInicio == null ? "" : DataInicio.GetValueOrDefault().ToShortDateString();

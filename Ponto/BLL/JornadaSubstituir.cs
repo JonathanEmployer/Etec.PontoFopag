@@ -1,7 +1,10 @@
 using DAL.SQL;
+using iTextSharp.text.pdf.qrcode;
+using Modelo.Proxy;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace BLL
 {
@@ -67,7 +70,38 @@ namespace BLL
             {
                 ret.Add("Codigo", "Campo obrigatório.");
             }
+
+            List<int> idsFuncs = objeto.JornadaSubstituirFuncionario.Where(w => w.Acao == Modelo.Acao.Incluir || w.Acao == Modelo.Acao.Excluir).Select(s => s.IdFuncionario).ToList();
+            List<PxyJornadaSubstituirFuncionarioPeriodo> jornadasConflitantes = GetJornadasConflitantes(objeto.Id, objeto.DataInicio.GetValueOrDefault(), objeto.DataFim.GetValueOrDefault(), idsFuncs);
+            if (jornadasConflitantes.Any())
+            {
+                string erroJornadasConflitantes = String.Join("; ", jornadasConflitantes.Select(s => $"Código: {s.JornadaSubstituirCodigo}; Data Início: { s.JornadaSubstituirDataInicio.ToShortDateString() }; Data Fim: { s.JornadaSubstituirDataFim.ToShortDateString() };  Funcionário:{s.FuncionarioCodigo} - {s.FuncionarioNome}"));
+                ret.Add("JornadasConflitantes", erroJornadasConflitantes);
+            }
+
+            List<PxyFuncionarioFechamentosPontoEBH> fechamentos = GetFechamentosPontoEBH(objeto.DataInicio.GetValueOrDefault(), objeto.DataFim.GetValueOrDefault(), idsFuncs);
+            if (fechamentos.Any())
+            {
+                string erroJornadasConflitantes = String.Join("; ", fechamentos.Select(s => $"Tipo Fechamento: {s.FechamentoTipoDesc}; Código: {s.FechamentoCodigo}; Data: { s.FechamentoData }; Funcionário:{s.FuncionarioCodigo} - {s.FuncionarioNome}"));
+                ret.Add("Fechamentos", erroJornadasConflitantes);
+            }
+
             return ret;
+        }
+
+        private List<PxyFuncionarioFechamentosPontoEBH> GetFechamentosPontoEBH(DateTime dataIni, DateTime dataFim, List<int> idsFuncs)
+        {
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(ConnectionString, dalJornadaSubstituir.UsuarioLogado);
+            List<Modelo.Proxy.PxyFuncionarioFechamentosPontoEBH> fechamentos = bllFuncionario.GetFuncionariosComUltimoFechamentosPontoEBH(true, idsFuncs, dataIni, dataFim);
+            return fechamentos;
+        }
+
+        private List<PxyJornadaSubstituirFuncionarioPeriodo> GetJornadasConflitantes(int idJornada, DateTime dataIni, DateTime dataFim, List<int> idsFuncs)
+        {
+            List<Modelo.Proxy.PxyJornadaSubstituirFuncionarioPeriodo> jornadasConflitantes = GetPxyJornadaSubstituirFuncionarioPeriodo(dataIni, dataFim, idsFuncs);
+            jornadasConflitantes = jornadasConflitantes == null ? new List<Modelo.Proxy.PxyJornadaSubstituirFuncionarioPeriodo>() : jornadasConflitantes;
+            jornadasConflitantes = jornadasConflitantes.Where(w => w.JornadaSubstituirId != idJornada).ToList();
+            return jornadasConflitantes;
         }
 
         public Dictionary<string, string> Salvar(Modelo.Acao pAcao, Modelo.JornadaSubstituir objeto)
@@ -103,6 +137,11 @@ namespace BLL
         public int getId(int pValor, string pCampo, int? pValor2)
         {
             return dalJornadaSubstituir.getId(pValor, pCampo, pValor2);
+        }
+
+        public List<Modelo.Proxy.PxyJornadaSubstituirFuncionarioPeriodo> GetPxyJornadaSubstituirFuncionarioPeriodo(DateTime dataIni, DateTime dataFim, List<int> idsFuncs)
+        {
+            return dalJornadaSubstituir.GetPxyJornadaSubstituirFuncionarioPeriodo(dataIni, dataFim, idsFuncs);
         }
     }
 }

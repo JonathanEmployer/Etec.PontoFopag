@@ -104,5 +104,10 @@ namespace BLL
         {
             return dalJornadaSubstituirFuncionario.getId(pValor, pCampo, pValor2);
         }
+
+        public List<Modelo.JornadaSubstituirFuncionario> GetByIdJornadaSubstituir(int idJornadaSubstituir)
+        {
+            return dalJornadaSubstituirFuncionario.GetByIdJornadaSubstituir(idJornadaSubstituir);
+        }
     }
 }

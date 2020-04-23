@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace DAL.SQL
 {
@@ -165,6 +166,87 @@ namespace DAL.SQL
                 dr.Dispose();
             }
             return lista;
+        }
+
+        public List<Modelo.Proxy.PxyJornadaSubstituirFuncionarioPeriodo> GetPxyJornadaSubstituirFuncionarioPeriodo(DateTime dataIni, DateTime dataFim, List<int> idsFuncs)
+        {
+            SqlParameter[] parms = new SqlParameter[3]
+            {
+                new SqlParameter("@dataInicio", SqlDbType.DateTime),
+                new SqlParameter("@dataFinal", SqlDbType.DateTime),
+                new SqlParameter("@IdsFuncs", SqlDbType.Structured)
+            };
+
+            parms[0].Value = dataIni;
+            parms[1].Value = dataFim;
+            parms[2].Value = CreateDataTableIdentificadores(idsFuncs.Select(s => (long)s));
+            parms[2].TypeName = "Identificadores";
+
+            string sql = @"
+                            SELECT f.id FuncionarioId,
+	                               f.dscodigo FuncionarioCodigo,
+	                               f.nome FuncionarioNome,
+	                               f.CPF FuncionarioCPF,
+	                               f.matricula FuncionarioMatricula,
+                                   jsf.id IdJornadaSubstituirFuncionario,
+	                               js.id JornadaSubstituirId,
+	                               js.codigo JornadaSubstituirCodigo,
+	                               js.DataInicio JornadaSubstituirDataInicio,
+	                               js.DataFim JornadaSubstituirDataFim
+                              FROM @IdsFuncs ids 
+                             INNER JOIN funcionario f ON ids.Identificador = f.id
+                             INNER JOIN JornadaSubstituirFuncionario jsf ON f.id = jsf.idFuncionario
+                             INNER JOIN JornadaSubstituir js ON js.Id = jsf.idJornadaSubstituir
+                             WHERE js.Id <> @IdJornadaSubstituir
+                               AND (js.DataInicio BETWEEN @dataInicio and @dataFinal OR
+		                            js.DataFim BETWEEN @dataInicio and @dataFinal OR
+		                            @dataInicio BETWEEN js.DataInicio and js.DataFim OR
+		                            @dataFinal BETWEEN js.DataInicio and js.DataFim)
+            ";
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+
+            List<Modelo.Proxy.PxyJornadaSubstituirFuncionarioPeriodo> lista = new List<Modelo.Proxy.PxyJornadaSubstituirFuncionarioPeriodo>();
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Proxy.PxyJornadaSubstituirFuncionarioPeriodo>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Proxy.PxyJornadaSubstituirFuncionarioPeriodo>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
+
+        protected override void IncluirAux(SqlTransaction trans, Modelo.ModeloBase obj)
+        {
+            AuxManutencao(trans, obj);
+            base.ExcluirAux(trans, obj);
+        }
+
+        protected override void AlterarAux(SqlTransaction trans, Modelo.ModeloBase obj)
+        {
+            AuxManutencao(trans, obj);
+            base.AlterarAux(trans, obj);
+        }
+
+        protected override void ExcluirAux(SqlTransaction trans, Modelo.ModeloBase obj)
+        {
+            AuxManutencao(trans, obj);
+            base.ExcluirAux(trans, obj);
+        }
+
+        private void AuxManutencao(SqlTransaction trans, Modelo.ModeloBase obj)
+        {
+
         }
     }
 }

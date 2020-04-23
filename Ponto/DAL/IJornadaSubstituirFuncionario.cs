@@ -6,6 +6,7 @@ namespace DAL
     {
         Modelo.JornadaSubstituirFuncionario LoadObject(int id);
         List<Modelo.JornadaSubstituirFuncionario> GetAllList();
+        List<Modelo.JornadaSubstituirFuncionario> GetByIdJornadaSubstituir(int idJornadaSubstituir);
     }
 }
 

@@ -7,7 +7,7 @@ namespace Modelo
     {
          [Display(Name = "IdJornadaSubstituirFuncionario")]
          [Required(ErrorMessage="Campo Obrigatório")]
-         public Int32 IdJornadaSubstituirFuncionario { get; set; }
+         public Int32 IdJornadaSubstituir { get; set; }
 
          [Display(Name = "IdFuncionario")]
          [Required(ErrorMessage="Campo Obrigatório")]
