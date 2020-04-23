@@ -2,6 +2,7 @@
 using Modelo;
 using Modelo.Proxy;
 using PontoWeb.Controllers.BLLWeb;
+using PontoWeb.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace PontoWeb.Controllers
     {
         UsuarioPontoWeb user = Usuario.GetUsuarioPontoWebLogadoCache();
         // GET: ReplicarBancoHoras
+        [PermissoesFiltro(Roles = "ReplicarBancoHorasCadastrar")]
         public ActionResult Index(int id)
         {
             PxyCopiaBancoHoras reg = GetProxyCopiaBanco(id);
@@ -30,6 +32,7 @@ namespace PontoWeb.Controllers
 
         // GET: ReplicarBancoHoras
         [HttpPost]
+        [PermissoesFiltro(Roles = "ReplicarBancoHorasCadastrar")]
         public ActionResult Index(PxyCopiaBancoHoras registro)
         {
             if (ModelState.IsValid)
