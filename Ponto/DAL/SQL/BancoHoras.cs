@@ -1686,7 +1686,7 @@ FROM    ( SELECT    t.IdFuncionario ,
             };
             parms[0].Value = idBancoHoras;
 
-            string sql = @"DECLARE @dataInicio datetime;
+            string sqlIni = @"DECLARE @dataInicio datetime;
                             DECLARE @dataFinal datetime;
                             SELECT @dataInicio = bh.datainicial,
 	                               @dataFinal = bh.datafinal
@@ -1721,9 +1721,9 @@ FROM    ( SELECT    t.IdFuncionario ,
                                AND (f.DataInativacao <= @dataInicio or f.DataInativacao is NULL)
                                AND bh.Idbh IS NULL
                                AND fechamentoPonto.idFechamentoPonto IS NULL
-                               AND fechamentoBH.idFechamentoBH IS NULL
+                               AND fechamentoBH.idFechamentoBH IS NULL ";
 
-                            --Busca os dados do funcionário
+            string sqlDadosFunc = @"  --Busca os dados do funcionário
                             SELECT f.id, 
                                                             f.codigo, 
                                                             f.dscodigo,
@@ -1751,10 +1751,14 @@ FROM    ( SELECT    t.IdFuncionario ,
                                                        INNER JOIN funcao fu on fu.id = f.idfuncao
                                                        INNER JOIN horario h on f.idhorario = h.id
                                                         LEFT JOIN alocacao fa on fa.id = f.idalocacao
+                                                       WHERE f.DataInativacao < @dataInicio
+                                                         AND f.excluido = 0
+            ";
 
-                            DROP TABLE #IdsFuncionarios";
+            sqlDadosFunc = sqlDadosFunc + DALBase.PermissaoUsuarioFuncionario(UsuarioLogado, sqlDadosFunc, "f.idempresa", "f.id", null);
 
-            sql = sql + DALBase.PermissaoUsuarioFuncionario(UsuarioLogado, sql, "f.idempresa", "f.id", null);
+            string sql = sqlIni + sqlDadosFunc + " DROP TABLE #IdsFuncionarios ";
+
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 
             try
