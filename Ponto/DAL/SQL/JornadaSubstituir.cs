@@ -1,3 +1,4 @@
+using Modelo;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -124,6 +125,33 @@ namespace DAL.SQL
 
         }
 
+        protected override void IncluirAux(SqlTransaction trans, Modelo.ModeloBase obj)
+        {
+            AuxManutencao(trans, obj);
+            base.ExcluirAux(trans, obj);
+        }
+
+        protected override void AlterarAux(SqlTransaction trans, Modelo.ModeloBase obj)
+        {
+            AuxManutencao(trans, obj);
+            base.AlterarAux(trans, obj);
+        }
+
+        protected override void ExcluirAux(SqlTransaction trans, Modelo.ModeloBase obj)
+        {
+            ((Modelo.JornadaSubstituir)obj).JornadaSubstituirFuncionario.ForEach(f => f.Acao = Acao.Excluir);
+            AuxManutencao(trans, obj);
+            base.ExcluirAux(trans, obj);
+        }
+
+        private void AuxManutencao(SqlTransaction trans, Modelo.ModeloBase obj)
+        {
+            ((Modelo.JornadaSubstituir)obj).JornadaSubstituirFuncionario.Where(f => f.Acao == Acao.Incluir).ToList().ForEach(f => { f.Incusuario = UsuarioLogado.Login; f.Incdata = DateTime.Now.Date; f.Inchora = DateTime.Now; });
+            JornadaSubstituirFuncionario dalJornadaSubstituirFuncionario = new JornadaSubstituirFuncionario(db);
+            dalJornadaSubstituirFuncionario.InserirRegistros(((Modelo.JornadaSubstituir)obj).JornadaSubstituirFuncionario.Where(w => w.Acao == Modelo.Acao.Incluir).ToList(), trans);
+            dalJornadaSubstituirFuncionario.ExcluirRegistros(((Modelo.JornadaSubstituir)obj).JornadaSubstituirFuncionario.Where(w => w.Acao == Modelo.Acao.Excluir).Select(s => (ModeloBase)s).ToList(), trans);
+        }
+
         public Modelo.JornadaSubstituir LoadObject(int id)
         {
             SqlDataReader dr = LoadDataReader(id);
@@ -192,7 +220,9 @@ namespace DAL.SQL
 	                               js.id JornadaSubstituirId,
 	                               js.codigo JornadaSubstituirCodigo,
 	                               js.DataInicio JornadaSubstituirDataInicio,
-	                               js.DataFim JornadaSubstituirDataFim
+	                               js.DataFim JornadaSubstituirDataFim,
+                                   js.IdJornadaDe JornadaSubstituirIdJornadaDe,
+	                               js.IdJornadaPara JornadaSubstituirIdJornadaPara
                               FROM @IdsFuncs ids 
                              INNER JOIN funcionario f ON ids.Identificador = f.id
                              INNER JOIN JornadaSubstituirFuncionario jsf ON f.id = jsf.idFuncionario
@@ -224,29 +254,6 @@ namespace DAL.SQL
                 dr.Dispose();
             }
             return lista;
-        }
-
-        protected override void IncluirAux(SqlTransaction trans, Modelo.ModeloBase obj)
-        {
-            AuxManutencao(trans, obj);
-            base.ExcluirAux(trans, obj);
-        }
-
-        protected override void AlterarAux(SqlTransaction trans, Modelo.ModeloBase obj)
-        {
-            AuxManutencao(trans, obj);
-            base.AlterarAux(trans, obj);
-        }
-
-        protected override void ExcluirAux(SqlTransaction trans, Modelo.ModeloBase obj)
-        {
-            AuxManutencao(trans, obj);
-            base.ExcluirAux(trans, obj);
-        }
-
-        private void AuxManutencao(SqlTransaction trans, Modelo.ModeloBase obj)
-        {
-
         }
     }
 }

@@ -165,27 +165,64 @@ namespace BLL_N.JobManager.Hangfire.Job
             pbInt.setaMinMaxPB = new Modelo.SetaMinMaxProgressBar(SetaMinMaxProgressBarVazio);
             pbInt.setaValorPB = new Modelo.SetaValorProgressBar(SetaValorProgressBarVazio);
             pb.incrementaPBCMensagem(1, "Carregando dados para calculo");
-            pb.setaMensagem("Carregando jornadas alternativas");
-            BLL.JornadaAlternativa bllJornadaAlternativa = new BLL.JornadaAlternativa(userPF.ConnectionString, userPF);
-            Hashtable jornadaAlternativaList = bllJornadaAlternativa.GetHashIdObjeto(dataInicial, dataFinal, 2, idsFuncionario);
 
-            pb.setaMensagem("Carregando fechamentos de Banco");
+            BLL.JornadaAlternativa bllJornadaAlternativa = new BLL.JornadaAlternativa(userPF.ConnectionString, userPF);
             BLL.FechamentoBHD bllFechamentoBHD = new BLL.FechamentoBHD(userPF.ConnectionString, userPF);
-            List<Modelo.FechamentoBHD> fechamentoBHDList = bllFechamentoBHD.getPorPeriodo(dataInicial, dataFinal, 2, idsFuncionario);
             BLL.Ocorrencia bllOcorrencia = new BLL.Ocorrencia(userPF.ConnectionString, userPF);
-            Hashtable ocorrenciaList = bllOcorrencia.GetHashIdDescricao();
-            pb.setaMensagem("Carregando compensações");
             BLL.Compensacao bllCompensacao = new BLL.Compensacao(userPF.ConnectionString, userPF);
-            List<Modelo.Compensacao> compensacaoList = bllCompensacao.GetPeriodo(dataInicial, dataFinal, 2, idsFuncionario);
             DAL.SQL.CalculaMarcacao dalCalculaMarcacao = new DAL.SQL.CalculaMarcacao(new DataBase(userPF.ConnectionString));
             dalCalculaMarcacao.UsuarioLogado = userPF;
-            pb.setaMensagem("Carregando marcações");
-            DataTable dtMarcacoes = (DataTable)ExecuteMethodThredCancellation(() => dalCalculaMarcacao.GetMarcacoesCalculo(idsFuncionario, dataInicial, dataFinal, considerarInativos, false));
-            BLL.HorarioDinamico bllHorarioDinamico = new BLL.HorarioDinamico(userPF.ConnectionString, userPF);
-            if (bllHorarioDinamico.GerarHorariosDetalhesAPartirMarcacoes(dtMarcacoes))
+
+            CancellationTokenSource source = new CancellationTokenSource();
+            CancellationToken token = source.Token;
+            List<Task> threads = new List<Task>();
+            Hashtable jornadaAlternativaList = new Hashtable();
+            List<Modelo.FechamentoBHD> fechamentoBHDList = new List<Modelo.FechamentoBHD>();
+            Hashtable ocorrenciaList = new Hashtable();
+            List<Modelo.Compensacao> compensacaoList = new List<Modelo.Compensacao>();
+            DataTable dtMarcacoes = new DataTable();
+
+            threads.Add(new Task(() => { 
+                jornadaAlternativaList = bllJornadaAlternativa.GetHashIdObjeto(dataInicial, dataFinal, 2, idsFuncionario); 
+            }, token));
+
+            threads.Add(new Task(() => {
+                fechamentoBHDList = bllFechamentoBHD.getPorPeriodo(dataInicial, dataFinal, 2, idsFuncionario);
+            }, token));
+
+            threads.Add(new Task(() => {
+                ocorrenciaList = bllOcorrencia.GetHashIdDescricao();
+            }, token));
+
+            threads.Add(new Task(() => {
+                compensacaoList = bllCompensacao.GetPeriodo(dataInicial, dataFinal, 2, idsFuncionario);
+            }, token));
+
+            threads.Add(new Task(() => {
+                dtMarcacoes = (DataTable)ExecuteMethodThredCancellation(() => dalCalculaMarcacao.GetMarcacoesCalculo(idsFuncionario, dataInicial, dataFinal, considerarInativos, false));
+                BLL.HorarioDinamico bllHorarioDinamico = new BLL.HorarioDinamico(userPF.ConnectionString, userPF);
+                if (bllHorarioDinamico.GerarHorariosDetalhesAPartirMarcacoes(dtMarcacoes))
+                {
+                    dtMarcacoes = (DataTable)ExecuteMethodThredCancellation(() => dalCalculaMarcacao.GetMarcacoesCalculo(idsFuncionario, dataInicial, dataFinal, considerarInativos, false));
+                }
+            }, token));
+
+            threads.ForEach(f => f.Start());
+
+            while (threads.Count != threads.Where(w => w.IsCompleted || w.IsCanceled || w.IsFaulted).Count())
             {
-                dtMarcacoes = dalCalculaMarcacao.GetMarcacoesCalculo(idsFuncionario, dataInicial, dataFinal, false, false);
+                try
+                {
+                    VerificaCancelamentoJob(context);
+                }
+                catch (OperationCanceledException)
+                {
+                    source.Cancel();
+                    throw;
+                }
+                Thread.Sleep(15000);
             }
+            
             pb.setaMensagem("Carregando bilhetes");
             BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(userPF.ConnectionString, userPF);
             List<Modelo.BilhetesImp> tratamentomarcacaoList = (List<Modelo.BilhetesImp>)ExecuteMethodThredCancellation(() => bllBilhetesImp.GetImportadosPeriodo(idsFuncionario, dataInicial, dataFinal, false));

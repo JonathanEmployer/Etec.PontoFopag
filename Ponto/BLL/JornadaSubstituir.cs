@@ -72,21 +72,59 @@ namespace BLL
             }
 
             List<int> idsFuncs = objeto.JornadaSubstituirFuncionario.Where(w => w.Acao == Modelo.Acao.Incluir || w.Acao == Modelo.Acao.Excluir).Select(s => s.IdFuncionario).ToList();
-            List<PxyJornadaSubstituirFuncionarioPeriodo> jornadasConflitantes = GetJornadasConflitantes(objeto.Id, objeto.DataInicio.GetValueOrDefault(), objeto.DataFim.GetValueOrDefault(), idsFuncs);
-            if (jornadasConflitantes.Any())
+            
+            List<PxyFuncionarioFechamentosPontoEBH> fechamentos = GetFechamentosPontoEBH(objeto.DataInicio.GetValueOrDefault(), objeto.DataFim.GetValueOrDefault(), idsFuncs);
+            var anterior = LoadObject(objeto.Id);
+            if (anterior == null || anterior.Id == 0 || anterior.IdJornadaDe != objeto.IdJornadaDe || anterior.IdJornadaPara != objeto.IdJornadaPara)
             {
-                string erroJornadasConflitantes = String.Join("; ", jornadasConflitantes.Select(s => $"Código: {s.JornadaSubstituirCodigo}; Data Início: { s.JornadaSubstituirDataInicio.ToShortDateString() }; Data Fim: { s.JornadaSubstituirDataFim.ToShortDateString() };  Funcionário:{s.FuncionarioCodigo} - {s.FuncionarioNome}"));
-                ret.Add("JornadasConflitantes", erroJornadasConflitantes);
+                List<PxyJornadaSubstituirFuncionarioPeriodo> jornadasConflitantes = GetJornadasConflitantes(objeto.Id, objeto.IdJornadaDe, objeto.DataInicio.GetValueOrDefault(), objeto.DataFim.GetValueOrDefault(), idsFuncs);
+                if (jornadasConflitantes.Any())
+                {
+                    string erroJornadasConflitantes = String.Join("; ", jornadasConflitantes.Select(s => $"Código: {s.JornadaSubstituirCodigo}; Data Início: { s.JornadaSubstituirDataInicio.ToShortDateString() }; Data Fim: { s.JornadaSubstituirDataFim.ToShortDateString() };  Funcionário:{s.FuncionarioCodigo} - {s.FuncionarioNome}"));
+                    ret.Add("JornadasConflitantes", erroJornadasConflitantes);
+                }
+
+                if (fechamentos.Any())
+                {
+                    string erroJornadasConflitantes = String.Join("; ", fechamentos.Select(s => $"Tipo Fechamento: {s.FechamentoTipoDesc}; Código: {s.FechamentoCodigo}; Data: { s.FechamentoData }; Funcionário:{s.FuncionarioCodigo} - {s.FuncionarioNome}"));
+                    ret.Add("Fechamentos", erroJornadasConflitantes);
+                }
+            }
+            else
+            {
+                DateTime? dt = null;
+                if (anterior.DataInicio != objeto.DataInicio)
+                {
+                    List<PxyJornadaSubstituirFuncionarioPeriodo> jornadasConflitantes = GetJornadasConflitantes(objeto.Id, objeto.IdJornadaDe, objeto.DataInicio.GetValueOrDefault(), objeto.DataFim.GetValueOrDefault(), idsFuncs);
+                    GerarRetErroJornadaConflitante(ret, jornadasConflitantes.Where(w => w.JornadaSubstituirDataInicio >= dt.GetValueOrDefault() || w.JornadaSubstituirDataFim >= dt.GetValueOrDefault()).ToList());
+                    dt = anterior.DataInicio < objeto.DataInicio ? anterior.DataInicio : objeto.DataInicio;
+                }
+                else if (anterior.DataFim != objeto.DataFim)
+                {
+                    dt = anterior.DataFim < objeto.DataFim ? anterior.DataFim : objeto.DataFim;
+                }
+                GerarRetErroFechamento(ret, fechamentos.Where(w => w.FechamentoData >= dt).ToList());
             }
 
-            List<PxyFuncionarioFechamentosPontoEBH> fechamentos = GetFechamentosPontoEBH(objeto.DataInicio.GetValueOrDefault(), objeto.DataFim.GetValueOrDefault(), idsFuncs);
+            return ret;
+        }
+
+        private static void GerarRetErroFechamento(Dictionary<string, string> ret, List<PxyFuncionarioFechamentosPontoEBH> fechamentos)
+        {
             if (fechamentos.Any())
             {
                 string erroJornadasConflitantes = String.Join("; ", fechamentos.Select(s => $"Tipo Fechamento: {s.FechamentoTipoDesc}; Código: {s.FechamentoCodigo}; Data: { s.FechamentoData }; Funcionário:{s.FuncionarioCodigo} - {s.FuncionarioNome}"));
                 ret.Add("Fechamentos", erroJornadasConflitantes);
             }
+        }
 
-            return ret;
+        private static void GerarRetErroJornadaConflitante(Dictionary<string, string> ret, List<PxyJornadaSubstituirFuncionarioPeriodo> jornadasConflitantes)
+        {
+            if (jornadasConflitantes.Any())
+            {
+                string erroJornadasConflitantes = String.Join("; ", jornadasConflitantes.Select(s => $"Código: {s.JornadaSubstituirCodigo}; Data Início: { s.JornadaSubstituirDataInicio.ToShortDateString() }; Data Fim: { s.JornadaSubstituirDataFim.ToShortDateString() };  Funcionário:{s.FuncionarioCodigo} - {s.FuncionarioNome}"));
+                ret.Add("JornadasConflitantes", erroJornadasConflitantes);
+            }
         }
 
         private List<PxyFuncionarioFechamentosPontoEBH> GetFechamentosPontoEBH(DateTime dataIni, DateTime dataFim, List<int> idsFuncs)
@@ -96,11 +134,11 @@ namespace BLL
             return fechamentos;
         }
 
-        private List<PxyJornadaSubstituirFuncionarioPeriodo> GetJornadasConflitantes(int idJornada, DateTime dataIni, DateTime dataFim, List<int> idsFuncs)
+        private List<PxyJornadaSubstituirFuncionarioPeriodo> GetJornadasConflitantes(int idJornada, int idJornadaDe, DateTime dataIni, DateTime dataFim, List<int> idsFuncs)
         {
             List<Modelo.Proxy.PxyJornadaSubstituirFuncionarioPeriodo> jornadasConflitantes = GetPxyJornadaSubstituirFuncionarioPeriodo(dataIni, dataFim, idsFuncs);
             jornadasConflitantes = jornadasConflitantes == null ? new List<Modelo.Proxy.PxyJornadaSubstituirFuncionarioPeriodo>() : jornadasConflitantes;
-            jornadasConflitantes = jornadasConflitantes.Where(w => w.JornadaSubstituirId != idJornada).ToList();
+            jornadasConflitantes = jornadasConflitantes.Where(w => w.JornadaSubstituirId != idJornada && w.JornadaSubstituirIdJornadaDe == idJornadaDe).ToList();
             return jornadasConflitantes;
         }
 

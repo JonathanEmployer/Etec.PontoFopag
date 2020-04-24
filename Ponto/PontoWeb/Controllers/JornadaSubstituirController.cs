@@ -1,5 +1,8 @@
-﻿using Modelo;
+﻿using BLL_N.JobManager.Hangfire;
+using Modelo;
+using Modelo.Proxy;
 using PontoWeb.Controllers.BLLWeb;
+using PontoWeb.Models;
 using PontoWeb.Security;
 using System;
 using System.Collections.Generic;
@@ -111,12 +114,19 @@ namespace PontoWeb.Controllers
                     erros = bllJornadaSubstituir.Salvar(acao, obj);
                     if (erros.Count > 0)
                     {
-                        string erro = string.Join(";", erros.Select(x => x.Key + "=" + x.Value).ToArray());
-                        ModelState.AddModelError("CustomError", erro);
+                        TrataErros(erros);
                     }
                     else
                     {
-                        return RedirectToAction("Grid", "Funcao");
+                        JornadaSubstituir jornadaAnterior = bllJornadaSubstituir.LoadObject(obj.Id);
+                        DateTime? dtIni = jornadaAnterior != null && jornadaAnterior.Id > 0 && jornadaAnterior.DataInicio < obj.DataInicio ? jornadaAnterior.DataInicio : obj.DataInicio;
+                        DateTime? dtFim = jornadaAnterior != null && jornadaAnterior.Id > 0 && jornadaAnterior.DataFim < obj.DataFim ? jornadaAnterior.DataFim : obj.DataFim;
+                        HangfireManagerCalculos hfm = new HangfireManagerCalculos(usr.DataBase,"","","/JornadaSubstituir/Grid");
+                        int qtdInclusao = obj.JornadaSubstituirFuncionario.Where(w => w.Acao == Acao.Incluir).Count();
+                        int qtdExclusao = obj.JornadaSubstituirFuncionario.Where(w => w.Acao == Acao.Excluir).Count();
+                        string parametrosExibicao = $"Jornada {obj.DescricaoDe} para {obj.DescricaoPara} de {qtdInclusao} funcionários incluídos e {qtdExclusao} removidos no período {obj.DataInicioStr} a {obj.DataFimStr}";
+                        PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de marcações por mudança de jornada", parametrosExibicao, 2, obj.JornadaSubstituirFuncionario.Where(w => w.Acao == Acao.Incluir || w.Acao == Acao.Excluir).Select(s => s.IdFuncionario).ToList(), dtIni.GetValueOrDefault(), dtFim.GetValueOrDefault());
+                        return RedirectToAction("Grid", "JornadaSubstituir");
                     }
                 }
                 catch (Exception ex)
@@ -126,6 +136,42 @@ namespace PontoWeb.Controllers
                 }
             }
             return View("Cadastrar", obj);
+        }
+
+        private void TrataErros(Dictionary<string, string> erros)
+        {
+            List<string> propriedades = typeof(Modelo.Funcionario).GetProperties().Select(s => s.Name).ToList();
+
+            List<string> errosCustom = new List<string>();
+            if (erros.Count() > 0)
+            {
+                foreach (var err in erros)
+                {
+                    string prop = propriedades.Where(w => w == err.Key).FirstOrDefault();
+                    if (!String.IsNullOrEmpty(prop))
+                    {
+                        ModelState.AddModelError(prop, err.Value);
+                    }
+                    else if (err.Key == "JornadasConflitantes")
+                    {
+                        ModelState.AddModelError(prop, err.Value);
+                    }
+                    else if (err.Key == "Fechamentos")
+                    {
+                        ModelState.AddModelError(prop, err.Value);
+                    }
+                    else
+                    {
+                        errosCustom.Add(err.Key + " = " + err.Value);
+                    }
+                }
+            }
+
+            if (errosCustom.Count > 0)
+            {
+                string erro = string.Join(";", errosCustom);
+                ModelState.AddModelError("CustomError", erro);
+            }
         }
 
         protected override ActionResult GetPagina(int id)

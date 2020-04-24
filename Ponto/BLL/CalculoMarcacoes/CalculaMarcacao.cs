@@ -107,9 +107,11 @@ namespace BLL
 
         private int tipoHorario, diaSemanaDsr
         , entrada_1MinHD, entrada_2MinHD, entrada_3MinHD, entrada_4MinHD
-        , saida_1MinHD, saida_2MinHD, saida_3MinHD, saida_4MinHD, limite_max, limite_min, ordenabilhetesaida, horasTrabalhadasDentroFeriadoParcialDiurna, horasTrabalhadasDentroFeriadoParcialNoturna, horasPrevistasDentroFeriadoParcialDiurna, horasPrevistasDentroFeriadoParcialNoturna;
+        , saida_1MinHD, saida_2MinHD, saida_3MinHD, saida_4MinHD, limite_max, limite_min, ordenabilhetesaida
+        , horasTrabalhadasDentroFeriadoParcialDiurna, horasTrabalhadasDentroFeriadoParcialNoturna
+        , horasPrevistasDentroFeriadoParcialDiurna, horasPrevistasDentroFeriadoParcialNoturna;
 
-        private int? totalTrabalhadaDiurnaMin, totalTrabalhadaNoturnaMin, cargaHorariaMistaMin;
+        private int? totalTrabalhadaDiurnaMin, totalTrabalhadaNoturnaMin, cargaHorariaMistaMin, idJornadaHorario;
 
         private string totalTrabalhadaDiurna, totalTrabalhadaNoturna, cargaHorariaMista;
 
@@ -4626,6 +4628,7 @@ namespace BLL
             dias_cafe_5 = Convert.ToInt16(pMarcacao["dias_cafe_5"]);
             dias_cafe_6 = Convert.ToInt16(pMarcacao["dias_cafe_6"]);
             dias_cafe_7 = Convert.ToInt16(pMarcacao["dias_cafe_7"]);
+            idJornadaHorario = pMarcacao["IdJornadaHorario"] is DBNull ? null : (Int32?)pMarcacao["IdJornadaHorario"];
             entrada_1MinHD = Convert.ToInt32(pMarcacao["entrada_1minhd"]);
             entrada_2MinHD = Convert.ToInt32(pMarcacao["entrada_2minhd"]);
             entrada_3MinHD = Convert.ToInt32(pMarcacao["entrada_3minhd"]);

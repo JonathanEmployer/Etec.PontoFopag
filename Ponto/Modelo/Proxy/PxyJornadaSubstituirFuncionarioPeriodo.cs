@@ -25,6 +25,11 @@ namespace Modelo.Proxy
         public DateTime JornadaSubstituirDataInicio { get; set; }
 
         public DateTime JornadaSubstituirDataFim { get; set; }
+
         public int IdJornadaSubstituirFuncionario { get; set; }
+
+        public int JornadaSubstituirIdJornadaDe { get; set; }
+
+        public int JornadaSubstituirIdJornadaPara { get; set; }
     }
 }

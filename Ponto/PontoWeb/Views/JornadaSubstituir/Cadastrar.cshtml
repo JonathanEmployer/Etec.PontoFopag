@@ -23,11 +23,13 @@
                 @Html.HiddenFor(x => x.IdJornadaPara)
                 @Html.HiddenFor(x => x.IdFuncsSelecionados)
                 @Html.ValidationMessage("CustomError")
+                @Html.ValidationMessage("JornadasConflitantes")
+                @Html.ValidationMessage("Fechamentos")
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
-                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm" })
+                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control input-sm" })
                             @Html.ValidationMessageFor(model => model.Codigo)
                         </div>
                     </div>
