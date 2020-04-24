@@ -1718,7 +1718,7 @@ FROM    ( SELECT    t.IdFuncionario ,
 					                              @dataFinal BETWEEN bh.datainicial AND bh.datafinal)
 			                               ORDER BY bh.datainicial DESC) bh
                              WHERE f.excluido = 0 
-                               AND (f.DataInativacao <= @dataInicio or f.DataInativacao is NULL)
+                               AND f.funcionarioativo = 1
                                AND bh.Idbh IS NULL
                                AND fechamentoPonto.idFechamentoPonto IS NULL
                                AND fechamentoBH.idFechamentoBH IS NULL ";
@@ -1751,8 +1751,7 @@ FROM    ( SELECT    t.IdFuncionario ,
                                                        INNER JOIN funcao fu on fu.id = f.idfuncao
                                                        INNER JOIN horario h on f.idhorario = h.id
                                                         LEFT JOIN alocacao fa on fa.id = f.idalocacao
-                                                       WHERE f.DataInativacao < @dataInicio
-                                                         AND f.excluido = 0
+                                                       WHERE 1 = 1
             ";
 
             sqlDadosFunc = sqlDadosFunc + DALBase.PermissaoUsuarioFuncionario(UsuarioLogado, sqlDadosFunc, "f.idempresa", "f.id", null);
