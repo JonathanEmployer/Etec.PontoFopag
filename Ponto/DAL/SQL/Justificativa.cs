@@ -418,6 +418,58 @@ namespace DAL.SQL
             return lista;
         }
 
+        public List<Modelo.Justificativa> GetAllPorExibePainelRHPorFuncionario(int idFuncionario)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@idFuncionario", SqlDbType.Int)
+            };
+            parms[0].Value = idFuncionario;
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text,
+                                        @"  SELECT j.*
+                                              FROM justificativa j
+                                             WHERE j.ExibePaineldoRH = 1
+                                               AND NOT EXISTS (SELECT top 1 1 FROM JustificativaRestricao jr WHERE jr.IdJustificativa = j.id)
+                                               AND j.Ativo = 1
+                                             UNION ALL 
+                                            SELECT j.*
+                                              FROM justificativa j
+                                              JOIN JustificativaRestricao jr on j.id = jr.IdJustificativa
+                                              JOIN empresa e on jr.IdEmpresa = e.id
+                                              JOIN funcionario f on e.id = f.idempresa and f.id = @idFuncionario
+                                             WHERE j.ExibePaineldoRH = 1
+                                               AND j.Ativo = 1
+                                             UNION ALL 
+                                            SELECT j.*
+                                              FROM justificativa j
+                                              JOIN JustificativaRestricao jr on j.id = jr.IdJustificativa
+                                              JOIN contratofuncionario cf on jr.IdContrato = cf.idcontrato
+                                              JOIN funcionario f on cf.idfuncionario = f.id and f.id = @idFuncionario
+                                             WHERE j.ExibePaineldoRH = 1
+                                               AND j.Ativo = 1 ", parms);
+
+            List<Modelo.Justificativa> lista = new List<Modelo.Justificativa>();
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Justificativa>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Justificativa>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
+
         public List<Modelo.Justificativa> GetAllListPorIds(List<int> ids)
         {
             List<Modelo.Justificativa> result = new List<Modelo.Justificativa>();
