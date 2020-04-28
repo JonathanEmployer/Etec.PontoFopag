@@ -7,6 +7,7 @@ using PontoWeb.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -78,15 +79,21 @@ namespace PontoWeb.Controllers
         {
             BLL.JornadaSubstituir bllJornadaSubstituir = new BLL.JornadaSubstituir(usr.ConnectionString, usr);
             JornadaSubstituir jornadaSubstituir = bllJornadaSubstituir.LoadObject(id);
+            BLL.JornadaSubstituirFuncionario bllJornadaSubstituirFuncionario = new BLL.JornadaSubstituirFuncionario(usr.ConnectionString, usr);
+            jornadaSubstituir.JornadaSubstituirFuncionario = bllJornadaSubstituirFuncionario.GetByIdJornadaSubstituir(jornadaSubstituir.Id);
+            jornadaSubstituir.JornadaSubstituirFuncionario.ForEach(f => f.Acao = Acao.Excluir);
             try
             {
                 Dictionary<string, string> erros = new Dictionary<string, string>();
                 erros = bllJornadaSubstituir.Salvar(Acao.Excluir, jornadaSubstituir);
                 if (erros.Count > 0)
                 {
-                    string erro = string.Join(";", erros.Select(x => x.Key + "=" + x.Value).ToArray());
+                    string erro = string.Join(";", erros.Select(x => x.Key + " = " + x.Value).ToArray());
                     return Json(new { Success = false, Erro = erro }, JsonRequestBehavior.AllowGet);
                 }
+                string parametrosExibicao = $"Jornada {jornadaSubstituir.DescricaoDe} para {jornadaSubstituir.DescricaoPara} no período {jornadaSubstituir.DataInicioStr} a {jornadaSubstituir.DataFimStr} (Funcionários: {jornadaSubstituir.JornadaSubstituirFuncionario.Count} excluído(s); )";
+                HangfireManagerCalculos hfm = new HangfireManagerCalculos(usr.DataBase, "", "", "/JornadaSubstituir/Grid");
+                PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de marcações por mudança de jornada", parametrosExibicao, 2, jornadaSubstituir.JornadaSubstituirFuncionario.Select(s => Convert.ToInt32(s.IdFuncionario)).ToList(), jornadaSubstituir.DataInicio.GetValueOrDefault(), jornadaSubstituir.DataInicio.GetValueOrDefault());
                 return Json(new { Success = true, Erro = " " }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -132,7 +139,7 @@ namespace PontoWeb.Controllers
                         else
                         {
                             DateTime? dtIni = jornadaAnterior != null && jornadaAnterior.Id > 0 && jornadaAnterior.DataInicio < obj.DataInicio ? jornadaAnterior.DataInicio : obj.DataInicio;
-                            DateTime? dtFim = jornadaAnterior != null && jornadaAnterior.Id > 0 && jornadaAnterior.DataFim < obj.DataFim ? jornadaAnterior.DataFim : obj.DataFim;
+                            DateTime? dtFim = jornadaAnterior != null && jornadaAnterior.Id > 0 && jornadaAnterior.DataFim > obj.DataFim ? jornadaAnterior.DataFim : obj.DataFim;
                             int qtdInclusao = obj.JornadaSubstituirFuncionario.Where(w => w.Acao == Acao.Incluir).Count();
                             int qtdExclusao = obj.JornadaSubstituirFuncionario.Where(w => w.Acao == Acao.Excluir).Count();
                             if (qtdInclusao > 0 || qtdExclusao > 0 || jornadaAnterior.DataInicio != obj.DataInicio || jornadaAnterior.DataFim != obj.DataFim ||
@@ -151,7 +158,7 @@ namespace PontoWeb.Controllers
                                     IdsFuncsRecalcular.AddRange(idsFuncsAlterados);
                                     alterados = idsFuncsAlterados.Count + " alterado(s); ";
                                 }
-                                string parametrosExibicao = $"Jornada {obj.DescricaoDe} para {obj.DescricaoPara} no período {obj.DataInicioStr} a {obj.DataFimStr} (Funcionários: {incluidos}{excluidos}{alterados})";
+                                string parametrosExibicao = $"Jornada {obj.DescricaoDe} para {obj.DescricaoPara} no período {dtIni.GetValueOrDefault().ToShortDateString()} a {dtFim.GetValueOrDefault().ToShortDateString()} (Funcionários: {incluidos}{excluidos}{alterados})";
                                 HangfireManagerCalculos hfm = new HangfireManagerCalculos(usr.DataBase, "", "", "/JornadaSubstituir/Grid");
                                 PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de marcações por mudança de jornada", parametrosExibicao, 2, IdsFuncsRecalcular, dtIni.GetValueOrDefault(), dtFim.GetValueOrDefault()); 
                             }
@@ -229,11 +236,13 @@ namespace PontoWeb.Controllers
                     }
                     else if (err.Key == "JornadasConflitantes")
                     {
-                        ModelState.AddModelError(prop, err.Value);
+                        string[] errosJC = Regex.Split(err.Value, Environment.NewLine);
+                        ViewBag.JornadasConflitantes = errosJC;
                     }
                     else if (err.Key == "Fechamentos")
                     {
-                        ModelState.AddModelError(prop, err.Value);
+                        string[] errosJC = Regex.Split(err.Value, Environment.NewLine);
+                        ViewBag.Fechamentos = errosJC;
                     }
                     else
                     {

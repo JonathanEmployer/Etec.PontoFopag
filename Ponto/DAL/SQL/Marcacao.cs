@@ -172,6 +172,7 @@ namespace DAL.SQL
                             , ContabilizarFaltas
                             , ContAtrasosSaidasAntec
                             , ContabilizarCreditos
+                            , IdJornadaSubstituir
                             )
 							VALUES
 							(@idfuncionario, @codigo, @dscodigo, @legenda, @data, @dia
@@ -267,6 +268,7 @@ namespace DAL.SQL
                             , @ContabilizarFaltas
                             , @ContAtrasosSaidasAntec
                             , @ContabilizarCreditos
+                            , @IdJornadaSubstituir
                         ) end
 						SET @id = SCOPE_IDENTITY()";
 
@@ -368,6 +370,7 @@ namespace DAL.SQL
                             , ContabilizarFaltas = @ContabilizarFaltas
                             , ContAtrasosSaidasAntec = @ContAtrasosSaidasAntec
                             , ContabilizarCreditos = @ContabilizarCreditos
+                            , IdJornadaSubstituir = @IdJornadaSubstituir
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM marcacao WHERE id = @id";
@@ -510,6 +513,8 @@ namespace DAL.SQL
             ((Modelo.Marcacao)obj).ContabilizarFaltas = (dr["ContabilizarFaltas"] is DBNull ? (short)0 : Convert.ToInt16(dr["ContabilizarFaltas"]));
             ((Modelo.Marcacao)obj).ContAtrasosSaidasAntec = (dr["ContAtrasosSaidasAntec"] is DBNull ? (short)0 : Convert.ToInt16(dr["ContAtrasosSaidasAntec"]));
             ((Modelo.Marcacao)obj).ContabilizarCreditos = (dr["ContabilizarCreditos"] is DBNull ? (short)0 : Convert.ToInt16(dr["ContabilizarCreditos"]));
+            ((Modelo.Marcacao)obj).IdJornadaSubstituir = (dr["IdJornadaSubstituir"] is DBNull ? (int?)null : Convert.ToInt32(dr["IdJornadaSubstituir"]));
+            
             if (ColunaExiste("Tratamento_Ent_1", dr))
             {
                 ((Modelo.Marcacao)obj).Tratamento_Ent_1 = (dr["Tratamento_Ent_1"]) is DBNull ? "--" : Convert.ToString(dr["Tratamento_Ent_1"]);
@@ -636,7 +641,8 @@ namespace DAL.SQL
                 new SqlParameter ("@naoconsiderarferiado", SqlDbType.Int),
                 new SqlParameter ("@ContabilizarFaltas", SqlDbType.Int),
                 new SqlParameter ("@ContAtrasosSaidasAntec", SqlDbType.Int),
-                new SqlParameter ("@ContabilizarCreditos", SqlDbType.Int)
+                new SqlParameter ("@ContabilizarCreditos", SqlDbType.Int),
+                new SqlParameter ("@IdJornadaSubstituir", SqlDbType.Int)
             };
             return parms;
         }
@@ -762,6 +768,7 @@ namespace DAL.SQL
             parms[99].Value = ((Modelo.Marcacao)obj).ContabilizarFaltas;
             parms[100].Value = ((Modelo.Marcacao)obj).ContAtrasosSaidasAntec;
             parms[101].Value = ((Modelo.Marcacao)obj).ContabilizarCreditos;
+            parms[102].Value = ((Modelo.Marcacao)obj).IdJornadaSubstituir;
         }
 
         public Modelo.Marcacao LoadObject(int id)
@@ -1077,7 +1084,8 @@ namespace DAL.SQL
                     new DataColumn ("naoconsiderarferiado", typeof(Int16)),
                     new DataColumn ("ContabilizarFaltas", typeof(Int16)),
                     new DataColumn ("ContAtrasosSaidasAntec", typeof(Int16)),
-                    new DataColumn ("ContabilizarCreditos", typeof(Int16))
+                    new DataColumn ("ContabilizarCreditos", typeof(Int16)),
+                    new DataColumn ("IdJornadaSubstituir", typeof(int))
                 };
                 DataTable dt = new DataTable();
                 dt.Columns.AddRange(colunas);
@@ -1198,6 +1206,7 @@ namespace DAL.SQL
                         row["ContabilizarFaltas"] = marc.ContabilizarFaltas;
                         row["ContAtrasosSaidasAntec"] = marc.ContAtrasosSaidasAntec;
                         row["ContabilizarCreditos"] = marc.ContabilizarCreditos;
+                        row["IdJornadaSubstituir"] = marc.IdJornadaSubstituir;
                         dt.Rows.Add(row);
                     }
                     catch (Exception e)
@@ -1327,6 +1336,7 @@ namespace DAL.SQL
                         bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("ContabilizarFaltas", "ContabilizarFaltas"));
                         bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("ContAtrasosSaidasAntec", "ContAtrasosSaidasAntec"));
                         bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("ContabilizarCreditos", "ContabilizarCreditos"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("IdJornadaSubstituir", "IdJornadaSubstituir"));
                         bulkCopy.BatchSize = 5000;
                         bulkCopy.DestinationTableName = "#marcacaoI";
 
@@ -1434,7 +1444,8 @@ namespace DAL.SQL
                   naoconsiderarferiado,
                   ContabilizarFaltas,
                   ContAtrasosSaidasAntec,
-                  ContabilizarCreditos
+                  ContabilizarCreditos,
+                  IdJornadaSubstituir
                 )
                 SELECT  idfuncionario ,
                         codigo ,
@@ -1579,7 +1590,8 @@ namespace DAL.SQL
                         naoconsiderarferiado,
                         ContabilizarFaltas,
                         ContAtrasosSaidasAntec,
-                        ContabilizarCreditos
+                        ContabilizarCreditos,
+                        IdJornadaSubstituir
 						from #marcacaoI ";
 
                     cmd = new SqlCommand(sqlTransfer, conn, trans);
@@ -1728,7 +1740,8 @@ namespace DAL.SQL
                 new DataColumn ("naoconsiderarferiado", objMarcacao.NaoConsiderarFeriado.GetType()),
                 new DataColumn ("ContabilizarFaltas", objMarcacao.ContabilizarFaltas.GetType()),
                 new DataColumn ("ContAtrasosSaidasAntec", objMarcacao.ContAtrasosSaidasAntec.GetType()),
-                new DataColumn ("ContabilizarCreditos", objMarcacao.ContabilizarCreditos.GetType())
+                new DataColumn ("ContabilizarCreditos", objMarcacao.ContabilizarCreditos.GetType()),
+                new DataColumn ("IdJornadaSubstituir", typeof(int))
             };
                 dt.Columns.AddRange(colunas);
                 #endregion
@@ -1849,6 +1862,7 @@ namespace DAL.SQL
                         row["ContabilizarFaltas"] = marc.ContabilizarFaltas;
                         row["ContAtrasosSaidasAntec"] = marc.ContAtrasosSaidasAntec;
                         row["ContabilizarCreditos"] = marc.ContabilizarCreditos;
+                        row["IdJornadaSubstituir"] = marc.IdJornadaSubstituir;
                         dt.Rows.Add(row);
                     }
                     catch (Exception e)
@@ -1987,7 +2001,8 @@ namespace DAL.SQL
                 new DataColumn ("naoconsiderarferiado", objMarcacao.NaoConsiderarFeriado.GetType()),
                 new DataColumn ("ContabilizarFaltas", objMarcacao.ContabilizarFaltas.GetType()),
                 new DataColumn ("ContAtrasosSaidasAntec", objMarcacao.ContAtrasosSaidasAntec.GetType()),
-                new DataColumn ("ContabilizarCreditos", objMarcacao.ContabilizarCreditos.GetType())
+                new DataColumn ("ContabilizarCreditos", objMarcacao.ContabilizarCreditos.GetType()),
+                new DataColumn ("IdJornadaSubstituir", typeof(int))
             };
                 dt.Columns.AddRange(colunas);
                 #endregion
@@ -2106,6 +2121,7 @@ namespace DAL.SQL
                     row["ContabilizarFaltas"] = marc.ContabilizarFaltas;
                     row["ContAtrasosSaidasAntec"] = marc.ContAtrasosSaidasAntec;
                     row["ContabilizarCreditos"] = marc.ContabilizarCreditos;
+                    row["IdJornadaSubstituir"] = marc.IdJornadaSubstituir;
                     dt.Rows.Add(row);
                 }
                 #endregion

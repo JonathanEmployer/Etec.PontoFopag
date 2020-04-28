@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Web.UI;
 
 namespace BLL
 {
@@ -71,39 +72,46 @@ namespace BLL
                 ret.Add("Codigo", "Campo obrigatório.");
             }
 
-            List<int> idsFuncs = objeto.JornadaSubstituirFuncionario.Where(w => w.Acao == Modelo.Acao.Incluir || w.Acao == Modelo.Acao.Excluir).Select(s => s.IdFuncionario).ToList();
-            
-            List<PxyFuncionarioFechamentosPontoEBH> fechamentos = GetFechamentosPontoEBH(objeto.DataInicio.GetValueOrDefault(), objeto.DataFim.GetValueOrDefault(), idsFuncs);
-            var anterior = LoadObject(objeto.Id);
-            if (anterior == null || anterior.Id == 0 || anterior.IdJornadaDe != objeto.IdJornadaDe || anterior.IdJornadaPara != objeto.IdJornadaPara)
+            if (objeto.JornadaSubstituirFuncionario.Any())
             {
-                List<PxyJornadaSubstituirFuncionarioPeriodo> jornadasConflitantes = GetJornadasConflitantes(objeto.Id, objeto.IdJornadaDe, objeto.DataInicio.GetValueOrDefault(), objeto.DataFim.GetValueOrDefault(), idsFuncs);
-                if (jornadasConflitantes.Any())
-                {
-                    string erroJornadasConflitantes = String.Join("; ", jornadasConflitantes.Select(s => $"Código: {s.JornadaSubstituirCodigo}; Data Início: { s.JornadaSubstituirDataInicio.ToShortDateString() }; Data Fim: { s.JornadaSubstituirDataFim.ToShortDateString() };  Funcionário:{s.FuncionarioCodigo} - {s.FuncionarioNome}"));
-                    ret.Add("JornadasConflitantes", erroJornadasConflitantes);
-                }
+                var anterior = LoadObject(objeto.Id);
+                bool novoRegistro = anterior == null || anterior.Id == 0;
+                bool alterouJornada = anterior == null || anterior.Id == 0 ||
+                                      anterior.IdJornadaDe != objeto.IdJornadaDe || anterior.IdJornadaPara != objeto.IdJornadaPara ||
+                                      anterior.DataInicio != objeto.DataInicio || anterior.DataFim != objeto.DataFim;
+                bool exluirRegistro = (objeto.JornadaSubstituirFuncionario.Count == objeto.JornadaSubstituirFuncionario.Where(w => w.Acao == Modelo.Acao.Excluir).ToList().Count);
 
-                if (fechamentos.Any())
+                //Valida os funcionários que estão sendo adicionados, excluídos, ou se algum dado da jornada foi alterado valida todos
+                List<int> idsFuncs = objeto.JornadaSubstituirFuncionario.Where(w => w.Acao == Modelo.Acao.Incluir || w.Acao == Modelo.Acao.Excluir || alterouJornada == true).Select(s => s.IdFuncionario).ToList();
+                #region Valida Fechamento Banco e de Ponto
+                DateTime? dataValidarFechamento = null;
+                if (novoRegistro || exluirRegistro || (!alterouJornada && idsFuncs.Any()))
                 {
-                    string erroJornadasConflitantes = String.Join("; ", fechamentos.Select(s => $"Tipo Fechamento: {s.FechamentoTipoDesc}; Código: {s.FechamentoCodigo}; Data: { s.FechamentoData }; Funcionário:{s.FuncionarioCodigo} - {s.FuncionarioNome}"));
-                    ret.Add("Fechamentos", erroJornadasConflitantes);
+                    dataValidarFechamento = objeto.DataInicio;
                 }
-            }
-            else
-            {
-                DateTime? dt = null;
-                if (anterior.DataInicio != objeto.DataInicio)
+                else if (alterouJornada)
+                {
+                    if (objeto.DataInicio != anterior.DataInicio || objeto.IdJornadaDe != anterior.IdJornadaDe || objeto.IdJornadaPara != anterior.IdJornadaPara)
+                    {
+                        dataValidarFechamento = objeto.DataInicio <= anterior.DataInicio ? objeto.DataInicio : anterior.DataInicio;
+                    }
+                    else
+                    {
+                        dataValidarFechamento = objeto.DataFim <= anterior.DataFim ? objeto.DataFim : anterior.DataFim;
+                    }
+                }
+                if (dataValidarFechamento != null)
+                {
+                    List<PxyFuncionarioFechamentosPontoEBH> fechamentos = GetFechamentosPontoEBH(dataValidarFechamento.GetValueOrDefault(), idsFuncs);
+                    GerarRetErroFechamento(ret, fechamentos.ToList());
+                }
+                #endregion
+
+                if (!exluirRegistro)
                 {
                     List<PxyJornadaSubstituirFuncionarioPeriodo> jornadasConflitantes = GetJornadasConflitantes(objeto.Id, objeto.IdJornadaDe, objeto.DataInicio.GetValueOrDefault(), objeto.DataFim.GetValueOrDefault(), idsFuncs);
-                    GerarRetErroJornadaConflitante(ret, jornadasConflitantes.Where(w => w.JornadaSubstituirDataInicio >= dt.GetValueOrDefault() || w.JornadaSubstituirDataFim >= dt.GetValueOrDefault()).ToList());
-                    dt = anterior.DataInicio < objeto.DataInicio ? anterior.DataInicio : objeto.DataInicio;
+                    GerarRetErroJornadaConflitante(ret, jornadasConflitantes);  
                 }
-                else if (anterior.DataFim != objeto.DataFim)
-                {
-                    dt = anterior.DataFim < objeto.DataFim ? anterior.DataFim : objeto.DataFim;
-                }
-                GerarRetErroFechamento(ret, fechamentos.Where(w => w.FechamentoData >= dt).ToList());
             }
 
             return ret;
@@ -113,7 +121,7 @@ namespace BLL
         {
             if (fechamentos.Any())
             {
-                string erroJornadasConflitantes = String.Join("; ", fechamentos.Select(s => $"Tipo Fechamento: {s.FechamentoTipoDesc}; Código: {s.FechamentoCodigo}; Data: { s.FechamentoData }; Funcionário:{s.FuncionarioCodigo} - {s.FuncionarioNome}"));
+                string erroJornadasConflitantes = String.Join(Environment.NewLine, fechamentos.Select(s => $"Tipo Fechamento: {s.FechamentoTipoDesc}; Código: {s.FechamentoCodigo}; Data: { s.FechamentoData }; Funcionário: {s.FuncionarioCodigo} - {s.FuncionarioNome}"));
                 ret.Add("Fechamentos", erroJornadasConflitantes);
             }
         }
@@ -122,15 +130,15 @@ namespace BLL
         {
             if (jornadasConflitantes.Any())
             {
-                string erroJornadasConflitantes = String.Join("; ", jornadasConflitantes.Select(s => $"Código: {s.JornadaSubstituirCodigo}; Data Início: { s.JornadaSubstituirDataInicio.ToShortDateString() }; Data Fim: { s.JornadaSubstituirDataFim.ToShortDateString() };  Funcionário:{s.FuncionarioCodigo} - {s.FuncionarioNome}"));
+                string erroJornadasConflitantes = String.Join(Environment.NewLine, jornadasConflitantes.Select(s => $"Código: {s.JornadaSubstituirCodigo}; Data Início: { s.JornadaSubstituirDataInicio.ToShortDateString() }; Data Fim: { s.JornadaSubstituirDataFim.ToShortDateString() };  Funcionário:{s.FuncionarioCodigo} - {s.FuncionarioNome}"));
                 ret.Add("JornadasConflitantes", erroJornadasConflitantes);
             }
         }
 
-        private List<PxyFuncionarioFechamentosPontoEBH> GetFechamentosPontoEBH(DateTime dataIni, DateTime dataFim, List<int> idsFuncs)
+        private List<PxyFuncionarioFechamentosPontoEBH> GetFechamentosPontoEBH(DateTime dataIni, List<int> idsFuncs)
         {
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(ConnectionString, dalJornadaSubstituir.UsuarioLogado);
-            List<Modelo.Proxy.PxyFuncionarioFechamentosPontoEBH> fechamentos = bllFuncionario.GetFuncionariosComUltimoFechamentosPontoEBH(true, idsFuncs, dataIni, dataFim);
+            List<Modelo.Proxy.PxyFuncionarioFechamentosPontoEBH> fechamentos = bllFuncionario.GetFuncionariosComUltimoFechamentosPontoEBH(true, idsFuncs, dataIni);
             return fechamentos;
         }
 

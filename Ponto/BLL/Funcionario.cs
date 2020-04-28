@@ -2126,9 +2126,9 @@ namespace BLL
             return dalFuncionario.GetDsCodigosByIDs(lIds);
         }
 
-        public List<PxyFuncionarioFechamentosPontoEBH> GetFuncionariosComUltimoFechamentosPontoEBH(bool pegaTodos, IList<int> idsFuncs, DateTime dataInicio, DateTime dataFim)
+        public List<PxyFuncionarioFechamentosPontoEBH> GetFuncionariosComUltimoFechamentosPontoEBH(bool pegaTodos, IList<int> idsFuncs, DateTime dataInicio)
         {
-            return dalFuncionario.GetFuncionariosComUltimoFechamentosPontoEBH(pegaTodos, idsFuncs, dataInicio, dataFim);
+            return dalFuncionario.GetFuncionariosComUltimoFechamentosPontoEBH(pegaTodos, idsFuncs, dataInicio);
         }
     }
 }

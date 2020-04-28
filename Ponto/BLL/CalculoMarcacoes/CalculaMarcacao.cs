@@ -4212,6 +4212,7 @@ namespace BLL
             obj.ContabilizarFaltas = Convert.ToInt16(pMarcacao["ContabilizarFaltas"]);
             obj.ContAtrasosSaidasAntec = Convert.ToInt16(pMarcacao["ContAtrasosSaidasAntec"]);
             obj.ContabilizarCreditos = Convert.ToInt16(pMarcacao["ContabilizarCreditos"]);
+            obj.IdJornadaSubstituir = pMarcacao["IdJornadaSubstituir"] is DBNull ? (int?)null : Convert.ToInt32(pMarcacao["IdJornadaSubstituir"]);
             return obj;
         }
 
@@ -4319,6 +4320,7 @@ namespace BLL
             objMarcacao.ContabilizarFaltas = Convert.ToInt16(pMarcacao["ContabilizarFaltas"]);
             objMarcacao.ContAtrasosSaidasAntec = Convert.ToInt16(pMarcacao["ContAtrasosSaidasAntec"]);
             objMarcacao.ContabilizarCreditos = Convert.ToInt16(pMarcacao["ContabilizarCreditos"]);
+            objMarcacao.IdJornadaSubstituir = idJornadaAlternativa;
         }
 
         private void SetaVariaveisMarcacao(DataRow pMarcacao)
@@ -4640,18 +4642,19 @@ namespace BLL
             dias_cafe_7 = Convert.ToInt16(pMarcacao["dias_cafe_7"]);
             idJornadaHorario = pMarcacao["IdJornadaHorario"] is DBNull ? null : (Int32?)pMarcacao["IdJornadaHorario"];
             idFuncionario = Convert.ToInt32(pMarcacao["idfuncionario"]);
-            PxyJornadaSubstituirCalculo jornadaSubstituir = pxyJornadaSubstituirCalculos.Where(w => w.IdFuncionario == idFuncionario && w.DataInicio >= data && w.DataFim <= data && w.IdJornadaDe == idJornadaHorario).OrderByDescending(o => o.IncHora).FirstOrDefault();
+            data = Convert.ToDateTime(pMarcacao["data"]);
+            PxyJornadaSubstituirCalculo jornadaSubstituir = pxyJornadaSubstituirCalculos.Where(w => w.IdFuncionario == idFuncionario && data >= w.DataInicio && data <= w.DataFim && w.IdJornadaDe == idJornadaHorario).OrderByDescending(o => o.IncHora).FirstOrDefault();
             idJornadaSubstituir = (jornadaSubstituir != null && jornadaSubstituir.Id > 0) ? (int?)jornadaSubstituir.Id : null;
             if (idJornadaSubstituir != null)
             {
-                entrada_1MinHD = Convert.ToInt32(pMarcacao["entrada_1minhd"]);
-                entrada_2MinHD = Convert.ToInt32(pMarcacao["entrada_2minhd"]);
-                entrada_3MinHD = Convert.ToInt32(pMarcacao["entrada_3minhd"]);
-                entrada_4MinHD = Convert.ToInt32(pMarcacao["entrada_4minhd"]);
-                saida_1MinHD = Convert.ToInt32(pMarcacao["saida_1minhd"]);
-                saida_2MinHD = Convert.ToInt32(pMarcacao["saida_2minhd"]);
-                saida_3MinHD = Convert.ToInt32(pMarcacao["saida_3minhd"]);
-                saida_4MinHD = Convert.ToInt32(pMarcacao["saida_4minhd"]);
+                entrada_1MinHD = jornadaSubstituir.Entrada1.ConvertHorasMinuto();
+                entrada_2MinHD = jornadaSubstituir.Entrada2.ConvertHorasMinuto();
+                entrada_3MinHD = jornadaSubstituir.Entrada3.ConvertHorasMinuto();
+                entrada_4MinHD = jornadaSubstituir.Entrada4.ConvertHorasMinuto();
+                saida_1MinHD = jornadaSubstituir.Saida1.ConvertHorasMinuto();
+                saida_2MinHD = jornadaSubstituir.Saida2.ConvertHorasMinuto();
+                saida_3MinHD = jornadaSubstituir.Saida3.ConvertHorasMinuto();
+                saida_4MinHD = jornadaSubstituir.Saida4.ConvertHorasMinuto();
             }
             else
             {

@@ -23,8 +23,53 @@
                 @Html.HiddenFor(x => x.IdJornadaPara)
                 @Html.HiddenFor(x => x.IdFuncsSelecionados)
                 @Html.ValidationMessage("CustomError")
-                @Html.ValidationMessage("JornadasConflitantes")
-                @Html.ValidationMessage("Fechamentos")
+
+                @if (ViewBag.JornadasConflitantes != null)
+                {
+                    <div class="panel panel-danger fade in collapse" id="pnlJC">
+                        <div class="panel-heading">
+                            @if (Model.Id == 0)
+                            {
+                                <text>Inclusão esta conflitando com outros lançamentos</text>
+                            }
+                            else
+                            {
+                                <text>Alteração esta conflitando com outros lançamentos</text>
+                            }
+                            <a data-toggle="collapse" href="#pnlJC" class="close">&times </a>
+                        </div>
+                        <div class="panel-body" >
+                            <div style="max-height:100px; overflow-y: scroll;">
+                                @foreach (string erro in ViewBag.JornadasConflitantes)
+                                {
+                                    <p> @erro </p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+                @if (ViewBag.Fechamentos != null)
+                {
+                    <div class="panel panel-danger fade in collapse" id="pnlFechamento">
+                        <div class="panel-heading">
+                            @if (Model.Id == 0)
+                            {
+                                <text>Registro não pode ser incluído pois existem fechamentos</text>
+                            }
+                            else
+                            {
+                                <text>Registro não pode ser alterado pois existem fechamentos</text>
+                            }
+                            <a data-toggle="collapse" href="#pnlFechamento" class="close">&times </a>
+                        </div>
+                        <div class="panel-body" style="max-height:300px;">
+                            @foreach (string erro in ViewBag.Fechamentos)
+                            {
+                                <p> @erro </p>
+                            }
+                        </div>
+                    </div>
+                }
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">

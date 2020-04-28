@@ -233,7 +233,7 @@ namespace BLL_N.JobManager.Hangfire.Job
                     source.Cancel();
                     throw;
                 }
-                Thread.Sleep(15000);
+                Thread.Sleep(250);
             }
             
 

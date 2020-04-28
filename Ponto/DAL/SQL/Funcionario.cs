@@ -6122,20 +6122,18 @@ where 1=1
             }
         }
 
-        public List<PxyFuncionarioFechamentosPontoEBH> GetFuncionariosComUltimoFechamentosPontoEBH(bool pegaTodos, IList<int> idsFuncs, DateTime dataInicio, DateTime dataFim)
+        public List<PxyFuncionarioFechamentosPontoEBH> GetFuncionariosComUltimoFechamentosPontoEBH(bool pegaTodos, IList<int> idsFuncs, DateTime dataInicio)
         {
             List<PxyFuncionarioFechamentosPontoEBH> lista = new List<PxyFuncionarioFechamentosPontoEBH>();
 
-            SqlParameter[] parms = new SqlParameter[3]
+            SqlParameter[] parms = new SqlParameter[2]
             {
                 new SqlParameter("@ids", SqlDbType.Structured),
-                new SqlParameter("@dataInicio", SqlDbType.DateTime),
-                new SqlParameter("@dataFinal", SqlDbType.DateTime)
+                new SqlParameter("@dataInicio", SqlDbType.DateTime)
             };
             parms[0].Value = CreateDataTableIdentificadores(idsFuncs.Select(s => (long)s));
             parms[0].TypeName = "Identificadores";
             parms[1].Value = dataInicio;
-            parms[2].Value = dataFim;
 
             string aux = @" SELECT f.id FuncionarioId,
 	                               f.dscodigo FuncionarioCodigo,
