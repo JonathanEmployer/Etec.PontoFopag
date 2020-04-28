@@ -554,11 +554,6 @@ namespace PontoWeb.Controllers
                 }
                 if (j != null && j.Id > 0)
                 {
-                    if (String.IsNullOrEmpty(j.Descricao))
-                    {
-                        j.Descricao = strs[1];
-                        bllJornadaNormal.Salvar(Acao.Alterar, j);
-                    }
                     objeto.Idjornada = j.Id;
                 }
                 else

@@ -957,55 +957,59 @@ namespace DAL.SQL
         {
             InserirRegistros(list, null);
         }
+
         public virtual void InserirRegistros<T>(List<T> list, SqlTransaction trans)
         {
-            DataTable dt = new DataTable();
-            dt = list.ToDataTable();
-
-            DateTime incHora = DateTime.Now;
-            dt.AsEnumerable().ToList().ForEach(r =>
+            if (list.Any())
             {
-                r["IncData"] = incHora.Date;
-                r["IncHora"] = incHora;
-                r["Incusuario"] = UsuarioLogado.Login;
-            });
-            String nomeTempTable = "I" + TABELA;
-            List<string> Colunas = dt.Columns.Cast<DataColumn>().Select(x => x.ColumnName).Where(s => s != "Id").ToList(); //GetParameters().ToList().Select(s => s.ParameterName.Replace("@","")).Where(w => w.ToUpper() != "ID").ToList();
-            string comando = @"Insert into " + TABELA + " (" + String.Join(",", Colunas) + ") select " + String.Join(",", Colunas) + " from #" + nomeTempTable;
+                DataTable dt = new DataTable();
+                dt = list.ToDataTable();
 
-
-            if (trans != null)
-            {
-                using (SqlCommand command = new SqlCommand("", trans.Connection, trans))
+                DateTime incHora = DateTime.Now;
+                dt.AsEnumerable().ToList().ForEach(r =>
                 {
-                    EnviarBulkCopy(dt, trans.Connection, trans, command, comando, nomeTempTable);
-                }
-            }
-            else
-            {
-                using (SqlConnection conexao = new SqlConnection(db.ConnectionString))
-                {
-                    if (conexao.State != ConnectionState.Open)
-                        conexao.Open();
+                    r["IncData"] = incHora.Date;
+                    r["IncHora"] = incHora;
+                    r["Incusuario"] = UsuarioLogado.Login;
+                });
+                String nomeTempTable = "I" + TABELA;
+                List<string> Colunas = dt.Columns.Cast<DataColumn>().Select(x => x.ColumnName).Where(s => s != "Id").ToList(); //GetParameters().ToList().Select(s => s.ParameterName.Replace("@","")).Where(w => w.ToUpper() != "ID").ToList();
+                string comando = @"Insert into " + TABELA + " (" + String.Join(",", Colunas) + ") select " + String.Join(",", Colunas) + " from #" + nomeTempTable;
 
-                    using (SqlTransaction transaction = conexao.BeginTransaction())
+
+                if (trans != null)
+                {
+                    using (SqlCommand command = new SqlCommand("", trans.Connection, trans))
                     {
-                        using (SqlCommand command = new SqlCommand("", conexao, transaction))
-                        {
+                        EnviarBulkCopy(dt, trans.Connection, trans, command, comando, nomeTempTable);
+                    }
+                }
+                else
+                {
+                    using (SqlConnection conexao = new SqlConnection(db.ConnectionString))
+                    {
+                        if (conexao.State != ConnectionState.Open)
+                            conexao.Open();
 
-                            try
+                        using (SqlTransaction transaction = conexao.BeginTransaction())
+                        {
+                            using (SqlCommand command = new SqlCommand("", conexao, transaction))
                             {
-                                EnviarBulkCopy(dt, conexao, transaction, command, comando, nomeTempTable);
-                                transaction.Commit();
-                            }
-                            catch (Exception)
-                            {
-                                transaction.Rollback();
-                                throw;
+
+                                try
+                                {
+                                    EnviarBulkCopy(dt, conexao, transaction, command, comando, nomeTempTable);
+                                    transaction.Commit();
+                                }
+                                catch (Exception)
+                                {
+                                    transaction.Rollback();
+                                    throw;
+                                }
                             }
                         }
                     }
-                }
+                } 
             }
         }
 

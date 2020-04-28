@@ -15,10 +15,15 @@ namespace DAL.SQL
             db = database;
             TABELA = "JornadaSubstituir";
 
-            SELECTPID = @"   SELECT * FROM JornadaSubstituir WHERE id = @id";
+            SELECTALL = @"   SELECT js.*,
+	                               (SELECT convert(varchar,jDe.codigo)+' | '+jDe.descricao) AS DescricaoDe,
+	                               (SELECT convert(varchar,jPara.codigo)+' | '+jPara.descricao) AS DescricaoPara
+                              FROM JornadaSubstituir js
+                             INNER JOIN jornada jDe on js.IdJornadaDe = jDe.id
+                             INNER JOIN jornada jPara on js.IdJornadaPara = jPara.id 
+                             WHERE 1 = 1";
 
-            SELECTALL = @"   SELECT   JornadaSubstituir.*
-                             FROM JornadaSubstituir";
+            SELECTPID = @SELECTALL + " AND js.id = @id ";
 
             INSERT = @"  INSERT INTO JornadaSubstituir
 							(codigo, incdata, inchora, incusuario, IdJornadaDe,IdJornadaPara,DataInicio,DataFim)
@@ -76,31 +81,32 @@ namespace DAL.SQL
         {
             SetInstanceBase(dr, obj);
             ((Modelo.JornadaSubstituir)obj).Codigo = Convert.ToInt32(dr["codigo"]);
-             ((Modelo.JornadaSubstituir)obj).IdJornadaDe = Convert.ToInt32(dr["IdJornadaDe"]);
-             ((Modelo.JornadaSubstituir)obj).IdJornadaPara = Convert.ToInt32(dr["IdJornadaPara"]);
-             ((Modelo.JornadaSubstituir)obj).DataInicio = Convert.ToDateTime(dr["DataInicio"]);
-             ((Modelo.JornadaSubstituir)obj).DataFim = Convert.ToDateTime(dr["DataFim"]);
-
+            ((Modelo.JornadaSubstituir)obj).IdJornadaDe = Convert.ToInt32(dr["IdJornadaDe"]);
+            ((Modelo.JornadaSubstituir)obj).IdJornadaPara = Convert.ToInt32(dr["IdJornadaPara"]);
+            ((Modelo.JornadaSubstituir)obj).DataInicio = Convert.ToDateTime(dr["DataInicio"]);
+            ((Modelo.JornadaSubstituir)obj).DataFim = Convert.ToDateTime(dr["DataFim"]);
+            ((Modelo.JornadaSubstituir)obj).DescricaoDe = Convert.ToString(dr["DescricaoDe"]);
+            ((Modelo.JornadaSubstituir)obj).DescricaoPara = Convert.ToString(dr["DescricaoPara"]);
         }
 
         protected override SqlParameter[] GetParameters()
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				 new SqlParameter ("@id", SqlDbType.Int)
-				,new SqlParameter ("@codigo", SqlDbType.Int)
-				,new SqlParameter ("@incdata", SqlDbType.DateTime)
-				,new SqlParameter ("@inchora", SqlDbType.DateTime)
-				,new SqlParameter ("@incusuario", SqlDbType.VarChar)
-				,new SqlParameter ("@altdata", SqlDbType.DateTime)
-				,new SqlParameter ("@althora", SqlDbType.DateTime)
-				,new SqlParameter ("@altusuario", SqlDbType.VarChar)
+            {
+                 new SqlParameter ("@id", SqlDbType.Int)
+                ,new SqlParameter ("@codigo", SqlDbType.Int)
+                ,new SqlParameter ("@incdata", SqlDbType.DateTime)
+                ,new SqlParameter ("@inchora", SqlDbType.DateTime)
+                ,new SqlParameter ("@incusuario", SqlDbType.VarChar)
+                ,new SqlParameter ("@altdata", SqlDbType.DateTime)
+                ,new SqlParameter ("@althora", SqlDbType.DateTime)
+                ,new SqlParameter ("@altusuario", SqlDbType.VarChar)
                 ,new SqlParameter ("@IdJornadaDe", SqlDbType.Int)
                 ,new SqlParameter ("@IdJornadaPara", SqlDbType.Int)
                 ,new SqlParameter ("@DataInicio", SqlDbType.DateTime)
                 ,new SqlParameter ("@DataFim", SqlDbType.DateTime)
 
-			};
+            };
             return parms;
         }
 
@@ -118,10 +124,10 @@ namespace DAL.SQL
             parms[5].Value = ((Modelo.JornadaSubstituir)obj).Altdata;
             parms[6].Value = ((Modelo.JornadaSubstituir)obj).Althora;
             parms[7].Value = ((Modelo.JornadaSubstituir)obj).Altusuario;
-           parms[8].Value = ((Modelo.JornadaSubstituir)obj).IdJornadaDe;
-           parms[9].Value = ((Modelo.JornadaSubstituir)obj).IdJornadaPara;
-           parms[10].Value = ((Modelo.JornadaSubstituir)obj).DataInicio;
-           parms[11].Value = ((Modelo.JornadaSubstituir)obj).DataFim;
+            parms[8].Value = ((Modelo.JornadaSubstituir)obj).IdJornadaDe;
+            parms[9].Value = ((Modelo.JornadaSubstituir)obj).IdJornadaPara;
+            parms[10].Value = ((Modelo.JornadaSubstituir)obj).DataInicio;
+            parms[11].Value = ((Modelo.JornadaSubstituir)obj).DataFim;
 
         }
 
@@ -146,7 +152,7 @@ namespace DAL.SQL
 
         private void AuxManutencao(SqlTransaction trans, Modelo.ModeloBase obj)
         {
-            ((Modelo.JornadaSubstituir)obj).JornadaSubstituirFuncionario.Where(f => f.Acao == Acao.Incluir).ToList().ForEach(f => { f.Incusuario = UsuarioLogado.Login; f.Incdata = DateTime.Now.Date; f.Inchora = DateTime.Now; });
+            ((Modelo.JornadaSubstituir)obj).JornadaSubstituirFuncionario.Where(f => f.Acao == Acao.Incluir).ToList().ForEach(f => { f.Incusuario = UsuarioLogado.Login; f.Incdata = DateTime.Now.Date; f.Inchora = DateTime.Now; f.IdJornadaSubstituir = obj.Id; });
             JornadaSubstituirFuncionario dalJornadaSubstituirFuncionario = new JornadaSubstituirFuncionario(db);
             dalJornadaSubstituirFuncionario.UsuarioLogado = UsuarioLogado;
             dalJornadaSubstituirFuncionario.InserirRegistros(((Modelo.JornadaSubstituir)obj).JornadaSubstituirFuncionario.Where(w => w.Acao == Modelo.Acao.Incluir).ToList(), trans);

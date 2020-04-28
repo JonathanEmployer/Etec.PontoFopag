@@ -16,6 +16,11 @@
             <div class="row">
                 @Html.GridFor(@Model.GetType().Name, Model.GetType(), false, "JornadaSubstituir", "DadosGrid");
             </div>
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.Partial("../JobManager/JobView")
+                </div>
+            </div>
         </div>
 
         <div class="panel-footer">
@@ -36,8 +41,7 @@
     var nomeTabela = "#" + '@Model.GetType().Name';
     var controller = 'JornadaSubstituir';
     $(document).ready(function () {
-        cwk_EventoDbClickEditar('Alterar', 'Funcao', nomeTabela);
-
+        cwk_EventoDbClickEditar('Alterar', controller, nomeTabela);
         cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', controller);
         cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', controller, nomeTabela);
         cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', controller, nomeTabela);
