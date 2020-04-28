@@ -127,14 +127,14 @@ namespace DAL.SQL
 
         protected override void IncluirAux(SqlTransaction trans, Modelo.ModeloBase obj)
         {
+            base.IncluirAux(trans, obj);
             AuxManutencao(trans, obj);
-            base.ExcluirAux(trans, obj);
         }
 
         protected override void AlterarAux(SqlTransaction trans, Modelo.ModeloBase obj)
         {
-            AuxManutencao(trans, obj);
             base.AlterarAux(trans, obj);
+            AuxManutencao(trans, obj);
         }
 
         protected override void ExcluirAux(SqlTransaction trans, Modelo.ModeloBase obj)
@@ -148,6 +148,7 @@ namespace DAL.SQL
         {
             ((Modelo.JornadaSubstituir)obj).JornadaSubstituirFuncionario.Where(f => f.Acao == Acao.Incluir).ToList().ForEach(f => { f.Incusuario = UsuarioLogado.Login; f.Incdata = DateTime.Now.Date; f.Inchora = DateTime.Now; });
             JornadaSubstituirFuncionario dalJornadaSubstituirFuncionario = new JornadaSubstituirFuncionario(db);
+            dalJornadaSubstituirFuncionario.UsuarioLogado = UsuarioLogado;
             dalJornadaSubstituirFuncionario.InserirRegistros(((Modelo.JornadaSubstituir)obj).JornadaSubstituirFuncionario.Where(w => w.Acao == Modelo.Acao.Incluir).ToList(), trans);
             dalJornadaSubstituirFuncionario.ExcluirRegistros(((Modelo.JornadaSubstituir)obj).JornadaSubstituirFuncionario.Where(w => w.Acao == Modelo.Acao.Excluir).Select(s => (ModeloBase)s).ToList(), trans);
         }
@@ -227,8 +228,7 @@ namespace DAL.SQL
                              INNER JOIN funcionario f ON ids.Identificador = f.id
                              INNER JOIN JornadaSubstituirFuncionario jsf ON f.id = jsf.idFuncionario
                              INNER JOIN JornadaSubstituir js ON js.Id = jsf.idJornadaSubstituir
-                             WHERE js.Id <> @IdJornadaSubstituir
-                               AND (js.DataInicio BETWEEN @dataInicio and @dataFinal OR
+                             WHERE (js.DataInicio BETWEEN @dataInicio and @dataFinal OR
 		                            js.DataFim BETWEEN @dataInicio and @dataFinal OR
 		                            @dataInicio BETWEEN js.DataInicio and js.DataFim OR
 		                            @dataFinal BETWEEN js.DataInicio and js.DataFim)
@@ -240,6 +240,70 @@ namespace DAL.SQL
             {
                 AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Proxy.PxyJornadaSubstituirFuncionarioPeriodo>();
                 lista = AutoMapper.Mapper.Map<List<Modelo.Proxy.PxyJornadaSubstituirFuncionarioPeriodo>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
+
+        public List<Modelo.Proxy.PxyJornadaSubstituirCalculo> GetPxyJornadaSubstituirCalculo(DateTime dataIni, DateTime dataFim, List<int> idsFuncs)
+        {
+            SqlParameter[] parms = new SqlParameter[3]
+            {
+                new SqlParameter("@dataInicio", SqlDbType.DateTime),
+                new SqlParameter("@dataFinal", SqlDbType.DateTime),
+                new SqlParameter("@IdsFuncs", SqlDbType.Structured)
+            };
+
+            parms[0].Value = dataIni;
+            parms[1].Value = dataFim;
+            parms[2].Value = CreateDataTableIdentificadores(idsFuncs.Select(s => (long)s));
+            parms[2].TypeName = "Identificadores";
+
+            string sql = @"
+                            SELECT js.Id,
+                                   js.Codigo,
+	                               js.IdJornadaDe,
+	                               js.IdJornadaPara,
+	                               js.DataInicio,
+	                               js.DataFim,
+                                   js.IncHora,
+	                               jsf.idfuncionario IdFuncionario,
+	                               j.entrada_1 Entrada1,
+	                               j.entrada_2 Entrada2,
+	                               j.entrada_3 Entrada3,
+	                               j.entrada_4 Entrada4,
+	                               j.saida_1 Saida1,
+	                               j.saida_2 Saida2,
+	                               j.saida_3 Saida3,
+	                               j.saida_4 Saida4
+                              FROM @IdsFuncs ids 
+                             INNER JOIN funcionario f ON ids.Identificador = f.id
+                             INNER JOIN JornadaSubstituirFuncionario jsf ON f.id = jsf.idFuncionario
+                             INNER JOIN JornadaSubstituir js ON js.Id = jsf.idJornadaSubstituir
+                             INNER JOIN jornada j ON js.IdJornadaPara = j.id
+                             WHERE (js.DataInicio BETWEEN @dataInicio and @dataFinal OR
+		                            js.DataFim BETWEEN @dataInicio and @dataFinal OR
+		                            @dataInicio BETWEEN js.DataInicio and js.DataFim OR
+		                            @dataFinal BETWEEN js.DataInicio and js.DataFim)
+            ";
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+
+            List<Modelo.Proxy.PxyJornadaSubstituirCalculo> lista = new List<Modelo.Proxy.PxyJornadaSubstituirCalculo>();
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Proxy.PxyJornadaSubstituirCalculo>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Proxy.PxyJornadaSubstituirCalculo>>(dr);
             }
             catch (Exception ex)
             {

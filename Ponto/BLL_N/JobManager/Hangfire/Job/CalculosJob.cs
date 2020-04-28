@@ -170,7 +170,9 @@ namespace BLL_N.JobManager.Hangfire.Job
             BLL.FechamentoBHD bllFechamentoBHD = new BLL.FechamentoBHD(userPF.ConnectionString, userPF);
             BLL.Ocorrencia bllOcorrencia = new BLL.Ocorrencia(userPF.ConnectionString, userPF);
             BLL.Compensacao bllCompensacao = new BLL.Compensacao(userPF.ConnectionString, userPF);
-            DAL.SQL.CalculaMarcacao dalCalculaMarcacao = new DAL.SQL.CalculaMarcacao(new DataBase(userPF.ConnectionString));
+            CalculaMarcacao dalCalculaMarcacao = new CalculaMarcacao(new DataBase(userPF.ConnectionString));
+            BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(userPF.ConnectionString, userPF);
+            BLL.JornadaSubstituir bllJornadaSubstituir = new BLL.JornadaSubstituir(userPF.ConnectionString, userPF);
             dalCalculaMarcacao.UsuarioLogado = userPF;
 
             CancellationTokenSource source = new CancellationTokenSource();
@@ -181,6 +183,9 @@ namespace BLL_N.JobManager.Hangfire.Job
             Hashtable ocorrenciaList = new Hashtable();
             List<Modelo.Compensacao> compensacaoList = new List<Modelo.Compensacao>();
             DataTable dtMarcacoes = new DataTable();
+            List<Modelo.BilhetesImp> tratamentomarcacaoList = new List<Modelo.BilhetesImp>();
+            List<PxyJornadaSubstituirCalculo> pxyJornadaSubstituirCalculosList = new List<PxyJornadaSubstituirCalculo>();
+
 
             threads.Add(new Task(() => { 
                 jornadaAlternativaList = bllJornadaAlternativa.GetHashIdObjeto(dataInicial, dataFinal, 2, idsFuncionario); 
@@ -207,6 +212,14 @@ namespace BLL_N.JobManager.Hangfire.Job
                 }
             }, token));
 
+            threads.Add(new Task(() => {
+                tratamentomarcacaoList = (List<Modelo.BilhetesImp>)ExecuteMethodThredCancellation(() => bllBilhetesImp.GetImportadosPeriodo(idsFuncionario, dataInicial, dataFinal, false));
+            }, token));
+
+            threads.Add(new Task(() => {
+                pxyJornadaSubstituirCalculosList = (List<PxyJornadaSubstituirCalculo>)ExecuteMethodThredCancellation(() => bllJornadaSubstituir.GetPxyJornadaSubstituirCalculo(dataInicial, dataFinal, idsFuncionario));
+            }, token));
+
             threads.ForEach(f => f.Start());
 
             while (threads.Count != threads.Where(w => w.IsCompleted || w.IsCanceled || w.IsFaulted).Count())
@@ -223,9 +236,7 @@ namespace BLL_N.JobManager.Hangfire.Job
                 Thread.Sleep(15000);
             }
             
-            pb.setaMensagem("Carregando bilhetes");
-            BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(userPF.ConnectionString, userPF);
-            List<Modelo.BilhetesImp> tratamentomarcacaoList = (List<Modelo.BilhetesImp>)ExecuteMethodThredCancellation(() => bllBilhetesImp.GetImportadosPeriodo(idsFuncionario, dataInicial, dataFinal, false));
+
             pb.setaMensagem("Carregando banco de horas");
             List<int> idsBH = dtMarcacoes.AsEnumerable().Where(r => !r.IsNull("idbancohoras")).Select(s => s.Field<int>("idbancohoras")).Distinct().ToList();
             BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(userPF.ConnectionString, userPF);
@@ -257,7 +268,7 @@ namespace BLL_N.JobManager.Hangfire.Job
             {
                 Interlocked.Increment(ref stepCalc);
                 pb.incrementaPBCMensagem(0, String.Format("Calculando dados (Quantidade {0}/{1})", stepCalc, qtdLote));
-                BLL.CalculaMarcacao bllCalculaMarcacao = new BLL.CalculaMarcacao(currentFile.DtMarcacoes, tratamentomarcacaoList, bancoHorasList, jornadaAlternativaList, fechamentoBHDList, ocorrenciaList, compensacaoList, pbInt, userPF.ConnectionString, userPF);
+                BLL.CalculaMarcacao bllCalculaMarcacao = new BLL.CalculaMarcacao(currentFile.DtMarcacoes, tratamentomarcacaoList, bancoHorasList, jornadaAlternativaList, fechamentoBHDList, ocorrenciaList, compensacaoList, pxyJornadaSubstituirCalculosList, pbInt, userPF.ConnectionString, userPF);
                 LoteMarcacaoProcessar lt = bllCalculaMarcacao.CalcularMarcacoes();
                 currentFile.Marcacoes = lt.Marcacoes;
                 currentFile.Bilhetes = lt.Bilhetes;
@@ -266,7 +277,7 @@ namespace BLL_N.JobManager.Hangfire.Job
             string msgSalvando = "Salvando dados calculados";
             String.Format(msgSalvando, valorcorrenteprogress, maxprogress);
             pb.incrementaPBCMensagem(1, msgSalvando);
-            BLL.CalculaMarcacao bllCalculaMarcacaoAnt = new BLL.CalculaMarcacao(dtMarcacoes, tratamentomarcacaoList, bancoHorasList, jornadaAlternativaList, fechamentoBHDList, ocorrenciaList, compensacaoList, pb, userPF.ConnectionString, userPF);
+            BLL.CalculaMarcacao bllCalculaMarcacaoAnt = new BLL.CalculaMarcacao(dtMarcacoes, tratamentomarcacaoList, bancoHorasList, jornadaAlternativaList, fechamentoBHDList, ocorrenciaList, compensacaoList, pxyJornadaSubstituirCalculosList, pb, userPF.ConnectionString, userPF);
             bllCalculaMarcacaoAnt.SalvarMarcacoesCalculadas(lote.ToList(), pb, msgSalvando);
 
             pb.incrementaPBCMensagem(1, "Pré classificando horas");
@@ -281,7 +292,7 @@ namespace BLL_N.JobManager.Hangfire.Job
                 {
                     Interlocked.Increment(ref stepCalc);
                     pb.incrementaPBCMensagem(0, String.Format("Calculando DSR (Quantidade {0}/{1})", stepCalc, qtdLote));
-                    BLL.CalculaMarcacao bllCalculaMarcacao = new BLL.CalculaMarcacao(currentFile.DtMarcacoes, tratamentomarcacaoList, bancoHorasList, jornadaAlternativaList, fechamentoBHDList, ocorrenciaList, compensacaoList, pbInt, userPF.ConnectionString, userPF);
+                    BLL.CalculaMarcacao bllCalculaMarcacao = new BLL.CalculaMarcacao(currentFile.DtMarcacoes, tratamentomarcacaoList, bancoHorasList, jornadaAlternativaList, fechamentoBHDList, ocorrenciaList, compensacaoList, pxyJornadaSubstituirCalculosList, pbInt, userPF.ConnectionString, userPF);
                     List<Modelo.Marcacao> lt = bllCalculaMarcacao.CalculaDSR(false, false);
                     currentFile.Marcacoes = lt;
                     currentFile.Bilhetes = new List<Modelo.BilhetesImp>();

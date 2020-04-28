@@ -103,13 +103,52 @@ namespace PontoWeb.Controllers
 
         protected override ActionResult Salvar(JornadaSubstituir obj)
         {
-            BLL.JornadaSubstituir bllJornadaSubstituir = new BLL.JornadaSubstituir(usr.ConnectionString, usr);
+            Continuar a setar o id da jornada
+            if (String.IsNullOrEmpty(obj.DescricaoDe))
+            {
+                ModelState["DescJornada"].Errors.Add("Selecione uma Jornada.");
+            }
+            else
+            {
+                BLL.Jornada bllJornadaNormal = new BLL.Jornada(usr.ConnectionString, usr);
+                Jornada j = new Jornada();
+                int idJornada;
+                List<string> strs = obj.DescricaoDe.Split(new string[] { " | " }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                string jornada = strs[0];
+                if (int.TryParse(jornada, out idJornada))
+                {
+                    j = bllJornadaNormal.LoadObjectCodigo(idJornada);
+                }
+                if (j != null && j.Id > 0)
+                {
+                    if (String.IsNullOrEmpty(j.Descricao))
+                    {
+                        j.Descricao = strs[1];
+                        bllJornadaNormal.Salvar(Acao.Alterar, j);
+                    }
+                    obj.IdJornadaDe = j.Id;
+                }
+                else
+                {
+                    ModelState["DescJornada"].Errors.Add("Jornada " + obj.DescricaoDe + " não cadastrada!");
+                }
+            }
             if (ModelState.IsValid)
             {
                 try
                 {
                     Acao acao = obj.Id == 0 ? acao = Acao.Incluir : acao = Acao.Alterar;
-
+                    BLL.JornadaSubstituir bllJornadaSubstituir = new BLL.JornadaSubstituir(usr.ConnectionString, usr);
+                    BLL.JornadaSubstituirFuncionario bllJornadaSubstituirFuncionario = new BLL.JornadaSubstituirFuncionario(usr.ConnectionString, usr);
+                    obj.JornadaSubstituirFuncionario = bllJornadaSubstituirFuncionario.GetByIdJornadaSubstituir(obj.Id);
+                    List<int> idsFuncionarios = obj.IdFuncsSelecionados.Split(',').Where(w => !string.IsNullOrEmpty(w))
+                                                                       .Select(s => Convert.ToInt32(s)).ToList();
+                    //Os funcionários que não estão mais selecionados devem ser excluídos
+                    obj.JornadaSubstituirFuncionario.Where(w => !idsFuncionarios.Contains(w.IdFuncionario)).ToList()
+                                                    .ForEach(f => f.Acao = Acao.Excluir);
+                    //Os funcionários que foram selecionados e nao estavam devem ser adicionados
+                    obj.JornadaSubstituirFuncionario.AddRange(idsFuncionarios.Where(w => !obj.JornadaSubstituirFuncionario.Select(s => s.IdFuncionario).Contains(w)).ToList()
+                                                                             .Select(idFuncionarioNovo => new JornadaSubstituirFuncionario() { IdFuncionario = idFuncionarioNovo, IdJornadaSubstituir = obj.Id, Acao = Acao.Incluir }));
                     Dictionary<string, string> erros = new Dictionary<string, string>();
                     erros = bllJornadaSubstituir.Salvar(acao, obj);
                     if (erros.Count > 0)

@@ -62,6 +62,9 @@ namespace BLL_N.JobManager
             BLL.Compensacao bllCompensacao = new BLL.Compensacao(conexao, userPF);
             List<Modelo.Compensacao> compensacaoList = bllCompensacao.GetPeriodo(dataInicial, dataFinal, 2, idsFuncionario);
             DataTable dtMarcacoes = GetMarcacoesCalculo(idsFuncionario, dataInicial, dataFinal, conexao, userPF);
+            
+            BLL.JornadaSubstituir bllJornadaSubstituir = new BLL.JornadaSubstituir(conexao, userPF);
+            List<PxyJornadaSubstituirCalculo> pxyJornadaSubstituirCalculosList = bllJornadaSubstituir.GetPxyJornadaSubstituirCalculo(dataInicial, dataFinal, idsFuncionario);
 
             BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(conexao, userPF);
             List<Modelo.BilhetesImp> tratamentomarcacaoList = bllBilhetesImp.GetImportadosPeriodo(idsFuncionario, dataInicial, dataFinal, false);
@@ -81,7 +84,7 @@ namespace BLL_N.JobManager
                 {
                     stepCalc++;
                     pb.setaMensagem(String.Format("({0}/{1}) Calculando dados (Funcionário(s) {2}/{3})", passo, qtdSteps, stepCalc, qtdLote));
-                    BLL.CalculaMarcacao bllCalculaMarcacao = new BLL.CalculaMarcacao(currentFile.DtMarcacoes, tratamentomarcacaoList, bancoHorasList, jornadaAlternativaList, fechamentoBHDList, ocorrenciaList, compensacaoList, pbInt, conexao, userPF);
+                    BLL.CalculaMarcacao bllCalculaMarcacao = new BLL.CalculaMarcacao(currentFile.DtMarcacoes, tratamentomarcacaoList, bancoHorasList, jornadaAlternativaList, fechamentoBHDList, ocorrenciaList, compensacaoList, pxyJornadaSubstituirCalculosList, pbInt, conexao, userPF);
                     LoteMarcacaoProcessar lt = bllCalculaMarcacao.CalcularMarcacoes();
                     currentFile.Marcacoes = lt.Marcacoes;
                     currentFile.Bilhetes = lt.Bilhetes;
@@ -90,7 +93,7 @@ namespace BLL_N.JobManager
             pb.incrementaPB(passo++);
             string msgSalvando = String.Format("({0}/{1}) Salvando dados calculados", passo, qtdSteps);
             pb.setaMensagem(msgSalvando);
-            BLL.CalculaMarcacao bllCalculaMarcacaoAnt = new BLL.CalculaMarcacao(dtMarcacoes, tratamentomarcacaoList, bancoHorasList, jornadaAlternativaList, fechamentoBHDList, ocorrenciaList, compensacaoList, pb, conexao, userPF);
+            BLL.CalculaMarcacao bllCalculaMarcacaoAnt = new BLL.CalculaMarcacao(dtMarcacoes, tratamentomarcacaoList, bancoHorasList, jornadaAlternativaList, fechamentoBHDList, ocorrenciaList, compensacaoList, pxyJornadaSubstituirCalculosList, pb, conexao, userPF);
             bllCalculaMarcacaoAnt.SalvarMarcacoesCalculadas(lote.ToList(), pb, msgSalvando);
 
             pb.incrementaPB(passo++);
@@ -105,7 +108,7 @@ namespace BLL_N.JobManager
                 if (currentFile.DtMarcacoes.Rows.Count > 0)
                 {
                     pb.setaMensagem(String.Format("({0}/{1}) Calculando DSR (Quantidade {2}/{3})", passo, qtdSteps, stepCalc++, qtdLote));
-                    BLL.CalculaMarcacao bllCalculaMarcacao = new BLL.CalculaMarcacao(currentFile.DtMarcacoes, tratamentomarcacaoList, bancoHorasList, jornadaAlternativaList, fechamentoBHDList, ocorrenciaList, compensacaoList, pbInt, conexao, userPF);
+                    BLL.CalculaMarcacao bllCalculaMarcacao = new BLL.CalculaMarcacao(currentFile.DtMarcacoes, tratamentomarcacaoList, bancoHorasList, jornadaAlternativaList, fechamentoBHDList, ocorrenciaList, compensacaoList, pxyJornadaSubstituirCalculosList, pbInt, conexao, userPF);
                     List<Modelo.Marcacao> lt = bllCalculaMarcacao.CalculaDSR(false, false);
                     currentFile.Marcacoes = lt;
                     currentFile.Bilhetes = new List<Modelo.BilhetesImp>();
