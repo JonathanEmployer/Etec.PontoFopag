@@ -293,6 +293,8 @@ namespace BLL
             fechamentoBHDList = bllFechamentoBHD.getPorPeriodo(pDataI, pDataF, pTipo, pIdentificacoes);
             ocorrenciaList = bllOcorrencia.GetHashIdDescricao();
             compensacaoList = bllCompensacao.GetPeriodo(pDataI, pDataF, pTipo, pIdentificacoes);
+            JornadaSubstituir bllJornadaSubstituir = new BLL.JornadaSubstituir(ConnectionString, usuarioLogado);
+            pxyJornadaSubstituirCalculos = bllJornadaSubstituir.GetPxyJornadaSubstituirCalculo(pDataI, pDataF, pIdentificacoes);
             ObjProgressBar.setaMensagem("Carregando os dados...");
             return pProgressBar;
         }
@@ -4320,7 +4322,7 @@ namespace BLL
             objMarcacao.ContabilizarFaltas = Convert.ToInt16(pMarcacao["ContabilizarFaltas"]);
             objMarcacao.ContAtrasosSaidasAntec = Convert.ToInt16(pMarcacao["ContAtrasosSaidasAntec"]);
             objMarcacao.ContabilizarCreditos = Convert.ToInt16(pMarcacao["ContabilizarCreditos"]);
-            objMarcacao.IdJornadaSubstituir = idJornadaAlternativa;
+            objMarcacao.IdJornadaSubstituir = idJornadaSubstituir;
         }
 
         private void SetaVariaveisMarcacao(DataRow pMarcacao)
@@ -4403,7 +4405,6 @@ namespace BLL
             feriadoParcialInicioMin = Modelo.cwkFuncoes.ConvertHorasMinuto(feriadoParcialInicio);
             feriadoParcialFim = Convert.ToString(pMarcacao["FeriadoParcialFim"]);
             feriadoParcialFimMin = Modelo.cwkFuncoes.ConvertHorasMinuto(feriadoParcialFim);
-            idJornadaAlternativa = pMarcacao["idjornadaalternativa"] is DBNull ? null : (Int32?)(pMarcacao["idjornadaalternativa"]);
             idMudancaHorario = pMarcacao["idmudancahorario"] is DBNull ? null : (Int32?)(pMarcacao["idmudancahorario"]);
             idBancoHoras = pMarcacao["idbancohoras"] is DBNull ? null : (Int32?)(pMarcacao["idbancohoras"]);
             idFechamentoBH = pMarcacao["idfechamentobh"] is DBNull ? 0 : Convert.ToInt32(pMarcacao["idfechamentobh"]);
