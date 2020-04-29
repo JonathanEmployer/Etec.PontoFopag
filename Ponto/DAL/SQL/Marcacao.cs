@@ -1206,7 +1206,7 @@ namespace DAL.SQL
                         row["ContabilizarFaltas"] = marc.ContabilizarFaltas;
                         row["ContAtrasosSaidasAntec"] = marc.ContAtrasosSaidasAntec;
                         row["ContabilizarCreditos"] = marc.ContabilizarCreditos;
-                        row["IdJornadaSubstituir"] = marc.IdJornadaSubstituir;
+                        row["IdJornadaSubstituir"] = marc.IdJornadaSubstituir == null ? DBNull.Value : (object)marc.IdJornadaSubstituir;
                         dt.Rows.Add(row);
                     }
                     catch (Exception e)
@@ -1862,7 +1862,7 @@ namespace DAL.SQL
                         row["ContabilizarFaltas"] = marc.ContabilizarFaltas;
                         row["ContAtrasosSaidasAntec"] = marc.ContAtrasosSaidasAntec;
                         row["ContabilizarCreditos"] = marc.ContabilizarCreditos;
-                        row["IdJornadaSubstituir"] = marc.IdJornadaSubstituir;
+                        row["IdJornadaSubstituir"] = marc.IdJornadaSubstituir == null ? DBNull.Value : (object)marc.IdJornadaSubstituir;
                         dt.Rows.Add(row);
                     }
                     catch (Exception e)
@@ -2121,7 +2121,7 @@ namespace DAL.SQL
                     row["ContabilizarFaltas"] = marc.ContabilizarFaltas;
                     row["ContAtrasosSaidasAntec"] = marc.ContAtrasosSaidasAntec;
                     row["ContabilizarCreditos"] = marc.ContabilizarCreditos;
-                    row["IdJornadaSubstituir"] = marc.IdJornadaSubstituir;
+                    row["IdJornadaSubstituir"] = marc.IdJornadaSubstituir == null ? DBNull.Value : (object)marc.IdJornadaSubstituir;
                     dt.Rows.Add(row);
                 }
                 #endregion

@@ -830,7 +830,7 @@ namespace DAL.SQL
                 parms[2].Value = pTipo;
                 parms[3].Value = String.Join(",", pIdentificacoes);
                 SQL += @"and j.id in (
-				SELECT j.id FROM FUNCIONARIO F
+				SELECT jj.id FROM FUNCIONARIO F
 					left join jornadaalternativa jj on ((jj.tipo = 0 and jj.identificacao = f.idempresa) OR
 												(jj.tipo = 1 and jj.identificacao = f.iddepartamento) OR
 												(jj.tipo = 2 and jj.identificacao = f.id) OR 
