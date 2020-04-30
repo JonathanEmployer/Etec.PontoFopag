@@ -269,6 +269,8 @@
   <ItemGroup>
     <Compile Include="AFD.cs" />
     <Compile Include="AutoMapper\ConfigureAutoMapper.cs" />
+    <Compile Include="JornadaSubstituir.cs" />
+    <Compile Include="JornadaSubstituirFuncionario.cs" />
     <Compile Include="JustificativaRestricao.cs" />
     <Compile Include="OcorrenciaRestricao.cs" />
     <Compile Include="HorarioDinamicoRestricao.cs" />
@@ -364,9 +366,12 @@
     <Compile Include="ParametroWebfopag.cs" />
     <Compile Include="Proxy\PxyCopiaBancoHoras.cs" />
     <Compile Include="Proxy\PxyFuncionarioExcluidoGrid.cs" />
+    <Compile Include="Proxy\PxyFuncionarioFechamentosPontoEBH.cs" />
     <Compile Include="Proxy\PxyFuncionariosRecalcular.cs" />
     <Compile Include="Proxy\PxyGridRepsPortaria373.cs" />
     <Compile Include="Proxy\PxyGridTransferenciaBilhetes.cs" />
+    <Compile Include="Proxy\PxyJornadaSubstituirCalculo.cs" />
+    <Compile Include="Proxy\PxyJornadaSubstituirFuncionarioPeriodo.cs" />
     <Compile Include="Proxy\pxyManutencaoBiometricaFuncionarioGrid.cs" />
     <Compile Include="Proxy\PxyPeriodo.cs" />
     <Compile Include="Proxy\PxyUltimoFechamentoPonto.cs" />

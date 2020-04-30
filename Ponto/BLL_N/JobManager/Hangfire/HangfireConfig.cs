@@ -44,8 +44,9 @@ namespace BLL_N.JobManager.Hangfire
                     Configure = configureAction,
                     Queues = queues,
                     CheckAndCreateQueues = false,
-                    LoopReceiveTimeout = TimeSpan.FromMilliseconds(1000)
-                });
+                    LoopReceiveTimeout = TimeSpan.FromMilliseconds(500),
+                    LockRenewalDelay = new TimeSpan(0, 0, 15)
+            });
                 GlobalConfiguration.Configuration.UseStorage(sqlStorage);
             }
 

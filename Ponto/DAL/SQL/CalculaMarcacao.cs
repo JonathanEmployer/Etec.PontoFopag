@@ -293,6 +293,8 @@ namespace DAL.SQL
                         , marcacao.ContabilizarFaltas
                         , marcacao.ContAtrasosSaidasAntec
                         , marcacao.ContabilizarCreditos
+                        , marcacao.IdJornadaSubstituir
+                        , horariodetalhe.idjornada IdJornadaHorario
                FROM marcacao_view as marcacao with (nolock)
                INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario 
                INNER JOIN horario ON horario.id = marcacao.idhorario 
@@ -755,6 +757,7 @@ namespace DAL.SQL
             comando.AppendLine(", marcacao.naoconsiderarferiado");
             comando.AppendLine(", marcacao.contabilizarfaltas");
             comando.AppendLine(", marcacao.contabilizarcreditos");
+            comando.AppendLine(", marcacao.IdJornadaSubstituir");
             comando.AppendLine(", marcacao.contatrasossaidasantec");
             comando.AppendLine(" FROM marcacao_view AS marcacao");
             comando.AppendLine(" INNER JOIN horario ON horario.id = marcacao.idhorario");

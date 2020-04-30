@@ -3,6 +3,7 @@ using BLL.CalculoMarcacoes.EstrategiasCalculo.Factories;
 using BLL.CalculoMarcacoes.EstrategiasCalculo.Interfaces;
 using DAL.SQL;
 using Modelo;
+using Modelo.Proxy;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -53,6 +54,7 @@ namespace BLL
         private List<Modelo.FechamentoBHD> fechamentoBHDList;
         private List<Modelo.Compensacao> compensacaoList;
         private List<Modelo.Proxy.PxySaldoBancoHoras> saldoBHFuncs = new List<Modelo.Proxy.PxySaldoBancoHoras>();
+        private List<PxyJornadaSubstituirCalculo> pxyJornadaSubstituirCalculos = new List<PxyJornadaSubstituirCalculo>();
         private Hashtable saldoBancoHorasSemanalNaoCarregado;
         #endregion
 
@@ -107,9 +109,11 @@ namespace BLL
 
         private int tipoHorario, diaSemanaDsr
         , entrada_1MinHD, entrada_2MinHD, entrada_3MinHD, entrada_4MinHD
-        , saida_1MinHD, saida_2MinHD, saida_3MinHD, saida_4MinHD, limite_max, limite_min, ordenabilhetesaida, horasTrabalhadasDentroFeriadoParcialDiurna, horasTrabalhadasDentroFeriadoParcialNoturna, horasPrevistasDentroFeriadoParcialDiurna, horasPrevistasDentroFeriadoParcialNoturna;
+        , saida_1MinHD, saida_2MinHD, saida_3MinHD, saida_4MinHD, limite_max, limite_min, ordenabilhetesaida
+        , horasTrabalhadasDentroFeriadoParcialDiurna, horasTrabalhadasDentroFeriadoParcialNoturna
+        , horasPrevistasDentroFeriadoParcialDiurna, horasPrevistasDentroFeriadoParcialNoturna;
 
-        private int? totalTrabalhadaDiurnaMin, totalTrabalhadaNoturnaMin, cargaHorariaMistaMin;
+        private int? totalTrabalhadaDiurnaMin, totalTrabalhadaNoturnaMin, cargaHorariaMistaMin, idJornadaHorario, idJornadaSubstituir;
 
         private string totalTrabalhadaDiurna, totalTrabalhadaNoturna, cargaHorariaMista;
 
@@ -221,6 +225,7 @@ namespace BLL
         public CalculaMarcacao(DataTable marcacoes, List<Modelo.BilhetesImp> tratamentomarcacaoList, Hashtable bancoHorasList, Hashtable jornadaAlternativaList, List<Modelo.FechamentoBHD> fechamentoBHDList,
             Hashtable ocorrenciaList,
             List<Modelo.Compensacao> compensacaoList,
+            List<PxyJornadaSubstituirCalculo> pxyJornadaSubstituirCalculo,
             Modelo.ProgressBar pProgressBar, string connString, Modelo.Cw_Usuario usuarioLogado)
         {
             UsuarioLogado = usuarioLogado;
@@ -251,6 +256,7 @@ namespace BLL
                 this.Marcacoes = marcacoes;
                 this.tratamentomarcacaoList = tratamentomarcacaoList;
                 this.bancoHorasList = bancoHorasList;
+                this.pxyJornadaSubstituirCalculos = pxyJornadaSubstituirCalculo;
             }
         }
 
@@ -287,6 +293,8 @@ namespace BLL
             fechamentoBHDList = bllFechamentoBHD.getPorPeriodo(pDataI, pDataF, pTipo, pIdentificacoes);
             ocorrenciaList = bllOcorrencia.GetHashIdDescricao();
             compensacaoList = bllCompensacao.GetPeriodo(pDataI, pDataF, pTipo, pIdentificacoes);
+            JornadaSubstituir bllJornadaSubstituir = new BLL.JornadaSubstituir(ConnectionString, usuarioLogado);
+            pxyJornadaSubstituirCalculos = bllJornadaSubstituir.GetPxyJornadaSubstituirCalculo(pDataI, pDataF, pIdentificacoes);
             ObjProgressBar.setaMensagem("Carregando os dados...");
             return pProgressBar;
         }
@@ -774,6 +782,12 @@ namespace BLL
             //Caso existam vários banco para o mesmo dia, retorna verdadeiro no mais prioritário
             if (!this.CalculaBancoHoras(idFuncionario, pMarcacoes))
                 return;
+
+            if (idJornadaSubstituir != null)
+            {
+                legenda = "S";
+                LegendasConcatenadas = cwkFuncoes.ConcatenarStrings(LegendasConcatenadas, "S");
+            }
 
             if (objJornadaAlternativa != null)
             {
@@ -4200,6 +4214,7 @@ namespace BLL
             obj.ContabilizarFaltas = Convert.ToInt16(pMarcacao["ContabilizarFaltas"]);
             obj.ContAtrasosSaidasAntec = Convert.ToInt16(pMarcacao["ContAtrasosSaidasAntec"]);
             obj.ContabilizarCreditos = Convert.ToInt16(pMarcacao["ContabilizarCreditos"]);
+            obj.IdJornadaSubstituir = pMarcacao["IdJornadaSubstituir"] is DBNull ? (int?)null : Convert.ToInt32(pMarcacao["IdJornadaSubstituir"]);
             return obj;
         }
 
@@ -4307,6 +4322,7 @@ namespace BLL
             objMarcacao.ContabilizarFaltas = Convert.ToInt16(pMarcacao["ContabilizarFaltas"]);
             objMarcacao.ContAtrasosSaidasAntec = Convert.ToInt16(pMarcacao["ContAtrasosSaidasAntec"]);
             objMarcacao.ContabilizarCreditos = Convert.ToInt16(pMarcacao["ContabilizarCreditos"]);
+            objMarcacao.IdJornadaSubstituir = idJornadaSubstituir;
         }
 
         private void SetaVariaveisMarcacao(DataRow pMarcacao)
@@ -4389,7 +4405,6 @@ namespace BLL
             feriadoParcialInicioMin = Modelo.cwkFuncoes.ConvertHorasMinuto(feriadoParcialInicio);
             feriadoParcialFim = Convert.ToString(pMarcacao["FeriadoParcialFim"]);
             feriadoParcialFimMin = Modelo.cwkFuncoes.ConvertHorasMinuto(feriadoParcialFim);
-            idJornadaAlternativa = pMarcacao["idjornadaalternativa"] is DBNull ? null : (Int32?)(pMarcacao["idjornadaalternativa"]);
             idMudancaHorario = pMarcacao["idmudancahorario"] is DBNull ? null : (Int32?)(pMarcacao["idmudancahorario"]);
             idBancoHoras = pMarcacao["idbancohoras"] is DBNull ? null : (Int32?)(pMarcacao["idbancohoras"]);
             idFechamentoBH = pMarcacao["idfechamentobh"] is DBNull ? 0 : Convert.ToInt32(pMarcacao["idfechamentobh"]);
@@ -4626,14 +4641,33 @@ namespace BLL
             dias_cafe_5 = Convert.ToInt16(pMarcacao["dias_cafe_5"]);
             dias_cafe_6 = Convert.ToInt16(pMarcacao["dias_cafe_6"]);
             dias_cafe_7 = Convert.ToInt16(pMarcacao["dias_cafe_7"]);
-            entrada_1MinHD = Convert.ToInt32(pMarcacao["entrada_1minhd"]);
-            entrada_2MinHD = Convert.ToInt32(pMarcacao["entrada_2minhd"]);
-            entrada_3MinHD = Convert.ToInt32(pMarcacao["entrada_3minhd"]);
-            entrada_4MinHD = Convert.ToInt32(pMarcacao["entrada_4minhd"]);
-            saida_1MinHD = Convert.ToInt32(pMarcacao["saida_1minhd"]);
-            saida_2MinHD = Convert.ToInt32(pMarcacao["saida_2minhd"]);
-            saida_3MinHD = Convert.ToInt32(pMarcacao["saida_3minhd"]);
-            saida_4MinHD = Convert.ToInt32(pMarcacao["saida_4minhd"]);
+            idJornadaHorario = pMarcacao["IdJornadaHorario"] is DBNull ? null : (Int32?)pMarcacao["IdJornadaHorario"];
+            idFuncionario = Convert.ToInt32(pMarcacao["idfuncionario"]);
+            data = Convert.ToDateTime(pMarcacao["data"]);
+            PxyJornadaSubstituirCalculo jornadaSubstituir = pxyJornadaSubstituirCalculos.Where(w => w.IdFuncionario == idFuncionario && data >= w.DataInicio && data <= w.DataFim && w.IdJornadaDe == idJornadaHorario).OrderByDescending(o => o.IncHora).FirstOrDefault();
+            idJornadaSubstituir = (jornadaSubstituir != null && jornadaSubstituir.Id > 0) ? (int?)jornadaSubstituir.Id : null;
+            if (idJornadaSubstituir != null)
+            {
+                entrada_1MinHD = jornadaSubstituir.Entrada1.ConvertHorasMinuto();
+                entrada_2MinHD = jornadaSubstituir.Entrada2.ConvertHorasMinuto();
+                entrada_3MinHD = jornadaSubstituir.Entrada3.ConvertHorasMinuto();
+                entrada_4MinHD = jornadaSubstituir.Entrada4.ConvertHorasMinuto();
+                saida_1MinHD = jornadaSubstituir.Saida1.ConvertHorasMinuto();
+                saida_2MinHD = jornadaSubstituir.Saida2.ConvertHorasMinuto();
+                saida_3MinHD = jornadaSubstituir.Saida3.ConvertHorasMinuto();
+                saida_4MinHD = jornadaSubstituir.Saida4.ConvertHorasMinuto();
+            }
+            else
+            {
+                entrada_1MinHD = Convert.ToInt32(pMarcacao["entrada_1minhd"]);
+                entrada_2MinHD = Convert.ToInt32(pMarcacao["entrada_2minhd"]);
+                entrada_3MinHD = Convert.ToInt32(pMarcacao["entrada_3minhd"]);
+                entrada_4MinHD = Convert.ToInt32(pMarcacao["entrada_4minhd"]);
+                saida_1MinHD = Convert.ToInt32(pMarcacao["saida_1minhd"]);
+                saida_2MinHD = Convert.ToInt32(pMarcacao["saida_2minhd"]);
+                saida_3MinHD = Convert.ToInt32(pMarcacao["saida_3minhd"]);
+                saida_4MinHD = Convert.ToInt32(pMarcacao["saida_4minhd"]);
+            }
             separaExtraFalta = pMarcacao["tipohoraextrafalta"] is DBNull ? 0 : Convert.ToInt32(pMarcacao["tipohoraextrafalta"]);
             tHoraExtra = Convert.ToString(pMarcacao["thoraextra"]);
             tHoraFalta = Convert.ToString(pMarcacao["thorafalta"]);

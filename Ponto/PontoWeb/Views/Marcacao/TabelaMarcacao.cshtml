@@ -33,7 +33,7 @@
                                                             <div class="form-group">
                                                                 <div class="form-group input-group-sm">
                                                                     <div class="col-md-12">
-                                                                        <div class="input-group input-group-sm" >
+                                                                        <div class="input-group input-group-sm">
                                                                             @Html.TextBoxFor(model => model.DataInicial, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataInicial" })
 
                                                                             <span class="input-group-btn">
@@ -49,7 +49,7 @@
                                                             <div class="form-group">
                                                                 <div class="form-group input-group-sm">
                                                                     <div class="col-md-12">
-                                                                        <div class="input-group input-group-sm" >
+                                                                        <div class="input-group input-group-sm">
                                                                             @Html.TextBoxFor(model => model.DataFinal, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataFinal" })
                                                                             <span class="input-group-btn">
                                                                                 <button class="btn btn-primary btndatepicker" id="btnDataFinal" type="button" title="Data Final"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -163,23 +163,16 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <div class="col-md-2">
-                                                        <p style="padding-left:15px; margin-bottom:0"><b>A</b> - Afastamento</p>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <p style="padding-left:0px; margin-bottom:0"><b>F</b> - Feriado</p>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <p style="padding-left:0px; margin-bottom:0"><b>I</b> - Inclusão Banco Horas</p>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <p style="padding-left:0px; margin-bottom:0"><b>*</b> - Marcações Alteradas</p>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <p style="padding-left:0px; margin-bottom:0"><b>J</b> - Jornada Alternativa</p>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <p style="padding-left:0px; margin-bottom:0"><b>M</b> - Mudança de Horário</p>
+                                                    <div class="col-md-12">
+                                                        <ul class="list-inline">
+                                                            <li><b>A</b> - Afastamento &nbsp; &nbsp; &nbsp;</li>
+                                                            <li><b>F</b> - Feriado &nbsp; &nbsp; &nbsp;</li>
+                                                            <li><b>I</b> - Inclusão Banco Horas &nbsp; &nbsp; &nbsp;</li>
+                                                            <li><b>*</b> - Marcações Alteradas &nbsp; &nbsp; &nbsp;</li>
+                                                            <li><b>J</b> - Jornada Alternativa &nbsp; &nbsp; &nbsp;</li>
+                                                            <li><b>M</b> - Mudança de Horário &nbsp; &nbsp; &nbsp;</li>
+                                                            <li><b>S</b> - Substituição de Jornada &nbsp; &nbsp; &nbsp;</li>
+                                                        </ul>
                                                     </div>
                                                 </div>
                                             </div>
@@ -820,7 +813,7 @@
         }
         $("#divGrid").height(alturaDiv);
     }).trigger('resize');
-    
+
 </script>
 
 @if (ViewBag.Consultar == 1)
