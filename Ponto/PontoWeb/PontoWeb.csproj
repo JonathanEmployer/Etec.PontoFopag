@@ -529,6 +529,7 @@
     <Compile Include="Controllers\Relatorios\RelClassHorasExtrasController.cs" />
     <Compile Include="Controllers\RepController.cs" />
     <Compile Include="Controllers\RepHistoricoLocalController.cs" />
+    <Compile Include="Controllers\ReplicarBancoHorasController.cs" />
     <Compile Include="Controllers\RepLogAFDController.cs" />
     <Compile Include="Controllers\RepLogController.cs" />
     <Compile Include="Controllers\TipoVinculoController.cs" />
@@ -1781,6 +1782,7 @@
     <Content Include="Views\Shared\_Periodo.cshtml" />
     <Content Include="Views\TransferenciaBilhetes\GridOutrosRegistrosFuncionario.cshtml" />
     <Content Include="Views\TransferenciaBilhetes\Grid.cshtml" />
+    <Content Include="Views\ReplicarBancoHoras\Index.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

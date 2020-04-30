@@ -346,7 +346,7 @@ namespace PontoWeb.Controllers
                 else if (objMarcacao.DocumentoWorkflowAberto)
                 {
                     #region Verifica se existe permissão para liberar o fluxo no painel do rh
-                    BLL.UsuarioPontoWeb bllUsuario = new BLL.UsuarioPontoWeb(_usr.ConnectionString);
+                    BLL.UsuarioPontoWeb bllUsuario = new BLL.UsuarioPontoWeb(_usr.ConnectionString, _usr);
                     Modelo.UsuarioPontoWeb usuario = bllUsuario.LoadObjectByCodigo(_usr.Codigo);
                     ViewBag.PermissaoConcluirFluxoPnlRh = usuario.PermissaoConcluirFluxoPnl == true ? true : false;
                     #endregion
@@ -398,29 +398,26 @@ namespace PontoWeb.Controllers
                 if (ModelState.IsValid)
                 {
                     List<BilhetesImp> BilValidos = new List<BilhetesImp>();
-                    foreach (BilhetesImp bil in marcacao.BilhetesMarcacao)
+                    foreach (BilhetesImp bil in marcacao.BilhetesMarcacao.Where(w => ((!String.IsNullOrEmpty(w.Mar_hora) && w.Mar_hora != "--:--") || w.Acao == Acao.Excluir)))
                     {
-                        if ((!String.IsNullOrEmpty(bil.Mar_hora) && bil.Mar_hora != "--:--") || bil.Acao == Acao.Excluir)
+                        bil.Idjustificativa = JustificativaController.BuscaIdJustificativa(bil.DescJustificativa);
+                        if (!Char.IsLetterOrDigit(bil.Ocorrencia))
                         {
-                            bil.Idjustificativa = JustificativaController.BuscaIdJustificativa(bil.DescJustificativa);
-                            if (!Char.IsLetterOrDigit(bil.Ocorrencia))
-                            {
-                                bil.Ocorrencia = '\0';
-                            }
-                            if (bil.Incdata == DateTime.MinValue)
-                            {
-                                bil.Incdata = DateTime.Now.Date;
-                                bil.Inchora = DateTime.Now;
-                            }
-                            if (bil.Acao == 0)
-                            {
-                                if (bil.Id > 0)
-                                    bil.Acao = Acao.Alterar;
-                                else
-                                    bil.Acao = Acao.Incluir;
-                            }
-                            BilValidos.Add(bil);
+                            bil.Ocorrencia = '\0';
                         }
+                        if (bil.Incdata == DateTime.MinValue)
+                        {
+                            bil.Incdata = DateTime.Now.Date;
+                            bil.Inchora = DateTime.Now;
+                        }
+                        if (bil.Acao == 0)
+                        {
+                            if (bil.Id > 0)
+                                bil.Acao = Acao.Alterar;
+                            else
+                                bil.Acao = Acao.Incluir;
+                        }
+                        BilValidos.Add(bil);
                     }
 
                     marcacao.BilhetesMarcacao = BilValidos;

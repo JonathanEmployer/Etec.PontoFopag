@@ -197,17 +197,36 @@ namespace BLL_N.Exportacao
                                 throw new Exception(e.Message);
                             }
                         }
-                        
-                        ListaObjetosToExcel objToExcel = new ListaObjetosToExcel();
-                        Byte[] arq = objToExcel.ObjectToExcel("Exportação Webfopag", listwfp);
-                        return arq;
+
+                        if (listwfp.Any())
+                        {
+                            ListaObjetosToExcel objToExcel = new ListaObjetosToExcel();
+                            Byte[] arq = objToExcel.ObjectToExcel("Exportação Webfopag", listwfp);
+                            return arq;
+                        }
+                        else
+                        {
+                            return GerarArquivoVazio();
+                        }
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
-                        throw;
+                        if (e.Message.Contains("Não há dados para a solicitação"))
+                        {
+                            return GerarArquivoVazio();
+                        }
+                        throw e;
                     }
                 }
             }
+        }
+
+        private static byte[] GerarArquivoVazio()
+        {
+            List<Modelo.Proxy.pxyExportacaoWebfopag> listwfp = new List<pxyExportacaoWebfopag>() { new pxyExportacaoWebfopag() { Nome = "Não há dados para a solicitação" } };
+            ListaObjetosToExcel objToExcel = new ListaObjetosToExcel();
+            Byte[] arq = objToExcel.ObjectToExcel("Exportação Webfopag", listwfp);
+            return arq;
         }
 
         public List<Modelo.Funcionario> PreencheListaFuncExportacao(int tipo, int identificacao, string ConnectionString, Modelo.Cw_Usuario usuarioLogado)

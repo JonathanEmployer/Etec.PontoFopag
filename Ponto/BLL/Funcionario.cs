@@ -820,6 +820,17 @@ namespace BLL
                 ret.Add("Mob_Senha", "Campo obrigatório.");
             }
 
+            if (ret.Count == 0)
+            {
+                if (Int32.TryParse(objeto.Dscodigo, out int dsCodigoSemZeroEsquerada))
+                {
+                    objeto.Dscodigo = dsCodigoSemZeroEsquerada.ToString();
+                }
+                else
+                {
+                    ret.Add("Dscodigo", "Código Inválido.");
+                }
+            }
 
             return ret;
         }
@@ -1466,11 +1477,11 @@ namespace BLL
                     int? idContratoAnt = bllContratoFun.getContratoId(ContratoFunc.IdFuncionario); 
 
                     Modelo.ContratoFuncionario ContFunc = new Modelo.ContratoFuncionario();
-                    if (idContratoAnt != null && (acao == Acao.Incluir || acao == Acao.Alterar) && (idContratoAnt != contid))
+                    if ((acao == Acao.Incluir || acao == Acao.Alterar) && (idContratoAnt != contid))
                     {
                         int CodigoContratoAnt = bllContratoFun.getContratoCodigo(idContratoAnt.GetValueOrDefault(), ContratoFunc.IdFuncionario);
                         int IdContratoFuncAnt = CodigoContratoAnt != 0 ? bllContratoFun.getId(CodigoContratoAnt, null, null) : 0;
-                        if (idContratoAnt != ContratoFunc.IdContrato && idContratoAnt != 0)
+                        if (idContratoAnt != ContratoFunc.IdContrato && idContratoAnt.GetValueOrDefault() != 0)
                         {
                             Modelo.ContratoFuncionario ContFuncAnt = new Modelo.ContratoFuncionario();
                             ContFuncAnt = bllContratoFuncionario.LoadObject(IdContratoFuncAnt);

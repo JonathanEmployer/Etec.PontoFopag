@@ -253,6 +253,25 @@ namespace Modelo
             }
         }
 
+        public static bool HoraValida(string pBatida)
+        {
+            bool retorno = false;
+            try
+            {
+                if (string.IsNullOrEmpty(pBatida) || pBatida.Contains("--:--"))
+                {
+                    retorno = true;
+                }
+                string[] hora = pBatida.Split(':');
+                retorno = Convert.ToInt32(hora[0]) <= 23 && Convert.ToInt32(hora[1]) <= 59;
+            }
+            catch (Exception)
+            {
+                retorno = false;
+            }
+            return retorno;
+        }
+
         /// <summary>
         /// Método que recebe como parâmetro um string no formato HH:MM e converte esse horário em minutos 
         /// </summary>

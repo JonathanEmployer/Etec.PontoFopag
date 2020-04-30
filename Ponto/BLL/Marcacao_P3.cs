@@ -269,6 +269,8 @@ namespace BLL
             });
 
             this.Salvar(Modelo.Acao.Incluir, marcacoes.OrderBy(o => o.Idfuncionario).ThenBy(o => o.Data).ToList());
+            BLL.CalculaMarcacao bllCalculaMarcacao = new BLL.CalculaMarcacao(2, objMarcacao.Idfuncionario, pDataI, pDataF, ObjProgressBar, false, ConnectionString, UsuarioLogado, false);
+            bllCalculaMarcacao.CalculaMarcacoes();
         }
 
         public Dictionary<string, string> AtualizaData(List<Modelo.Parametros> Parametros, List<Modelo.Horario> pListaHorario, DateTime pDataI, DateTime pDataF, List<Modelo.Funcionario> ListFuncionario, List<Modelo.InclusaoBanco> InclusaoBancoLista, List<Modelo.JornadaAlternativa> JornadasAlternativas, List<Modelo.FechamentoBHD> FechamentoBHDLista, List<Modelo.Feriado> FeriadoLista, List<Modelo.BancoHoras> BancoHorasLista, List<Modelo.Afastamento> AfastamentosLista, List<Modelo.Contrato> ContratoLista, List<Modelo.MudancaHorario> MudancaHorarioList, List<Modelo.Marcacao> MarcacoesPeriodo, IList<Modelo.Proxy.pxyFechamentoPontoFuncionario> Fechamentos)
@@ -279,68 +281,70 @@ namespace BLL
             var options = new ParallelOptions();
             ConcurrentBag<Modelo.Marcacao> _marcacoes = new ConcurrentBag<Modelo.Marcacao>();
             Parallel.ForEach(datas, options, (data) =>
-             {
-                 Parallel.ForEach(ListFuncionario, options, (funcionario) =>
-                 { //Apagado validação de initivos para permitir tratar as marcações de funcionarios Inativos no cartão ponto posteriores de 60 dias (antes o depois) Backlog 80832
-                     if (!MarcacoesPeriodo.Exists(m => m.Data == data && m.Idfuncionario == funcionario.Id))
-                          {
-                              objMarcacao = AuxAtualizaData(
-                                                     funcionario,
-                                                     pListaHorario,
-                                                     data,
-                                                     JornadasAlternativas.Where(x => (
-                                                         (x.Tipo == 0 && x.Identificacao == funcionario.Idempresa) ||
-                                                         (x.Tipo == 1 && x.Identificacao == funcionario.Iddepartamento) ||
-                                                         (x.Tipo == 2 && x.Identificacao == funcionario.Id) ||
-                                                         (x.Tipo == 3 && x.Identificacao == funcionario.Idfuncao))
+            {
+                Parallel.ForEach(ListFuncionario.Where(w => w.Excluido == 0), options, (funcionario) =>
+                { //Apagado validação de initivos para permitir tratar as marcações de funcionarios Inativos no cartão ponto posteriores de 60 dias (antes o depois) Backlog 80832
+                    if (!MarcacoesPeriodo.Exists(m => m.Data == data && m.Idfuncionario == funcionario.Id))
+                    {
+                        objMarcacao = AuxAtualizaData(
+                                                funcionario,
+                                                pListaHorario,
+                                                data,
+                                                JornadasAlternativas.Where(x => (
+                                                    (x.Tipo == 0 && x.Identificacao == funcionario.Idempresa) ||
+                                                    (x.Tipo == 1 && x.Identificacao == funcionario.Iddepartamento) ||
+                                                    (x.Tipo == 2 && x.Identificacao == funcionario.Id) ||
+                                                    (x.Tipo == 3 && x.Identificacao == funcionario.Idfuncao))
 
-                                                     ).ToList(),
+                                                ).ToList(),
 
-                                                     FechamentoBHDLista.Where(x => x.Identificacao == funcionario.Id).ToList(),
+                                                FechamentoBHDLista.Where(x => x.Identificacao == funcionario.Id).ToList(),
 
-                                                     FeriadoLista,
+                                                FeriadoLista,
 
-                                                     BancoHorasLista.Where(x => (
-                                                         (x.Tipo == 0 && x.Identificacao == funcionario.Idempresa) ||
-                                                         (x.Tipo == 1 && x.Identificacao == funcionario.Iddepartamento) ||
-                                                         (x.Tipo == 2 && x.Identificacao == funcionario.Id) ||
-                                                         (x.Tipo == 3 && x.Identificacao == funcionario.Idfuncao))
-                                                     ).ToList(),
+                                                BancoHorasLista.Where(x => (
+                                                    (x.Tipo == 0 && x.Identificacao == funcionario.Idempresa) ||
+                                                    (x.Tipo == 1 && x.Identificacao == funcionario.Iddepartamento) ||
+                                                    (x.Tipo == 2 && x.Identificacao == funcionario.Id) ||
+                                                    (x.Tipo == 3 && x.Identificacao == funcionario.Idfuncao))
+                                                ).ToList(),
 
-                                                     InclusaoBancoLista.Where(x => (
-                                                         (x.Tipo == 0 && x.Identificacao == funcionario.Idempresa) ||
-                                                         (x.Tipo == 1 && x.Identificacao == funcionario.Iddepartamento) ||
-                                                         (x.Tipo == 2 && x.Identificacao == funcionario.Id) ||
-                                                         (x.Tipo == 3 && x.Identificacao == funcionario.Idfuncao))
-                                                     ).ToList(),
+                                                InclusaoBancoLista.Where(x => (
+                                                    (x.Tipo == 0 && x.Identificacao == funcionario.Idempresa) ||
+                                                    (x.Tipo == 1 && x.Identificacao == funcionario.Iddepartamento) ||
+                                                    (x.Tipo == 2 && x.Identificacao == funcionario.Id) ||
+                                                    (x.Tipo == 3 && x.Identificacao == funcionario.Idfuncao))
+                                                ).ToList(),
 
-                                                     AfastamentosLista.Where(x => (
-                                                         (x.Tipo == 0 && x.IdFuncionario == funcionario.Id) ||
-                                                         (x.Tipo == 1 && x.IdDepartamento == funcionario.Iddepartamento) ||
-                                                         (x.Tipo == 2 && x.IdEmpresa == funcionario.Idempresa) 
-                                                         //|| (x.Tipo == 3 && ContratoLista.Contains(ContratoLista.Where(y=>y.Id == x.IdContrato ).FirstOrDefault()))
-                                                     )).ToList(),
+                                                AfastamentosLista.Where(x => (
+                                                    (x.Tipo == 0 && x.IdFuncionario == funcionario.Id) ||
+                                                    (x.Tipo == 1 && x.IdDepartamento == funcionario.Iddepartamento) ||
+                                                    (x.Tipo == 2 && x.IdEmpresa == funcionario.Idempresa)
+                                                //|| (x.Tipo == 3 && ContratoLista.Contains(ContratoLista.Where(y=>y.Id == x.IdContrato ).FirstOrDefault()))
+                                                )).ToList(),
 
-                                                     MudancaHorarioList.Where(x => (
-                                                         (x.Tipo == 0 && x.Idfuncionario == funcionario.Id) ||
-                                                         (x.Tipo == 1 && x.IdDepartamento == funcionario.Iddepartamento) ||
-                                                         (x.Tipo == 2 && x.IdEmpresa == funcionario.Idempresa) ||
-                                                         (x.Tipo == 3 && x.IdFuncao == funcionario.Idfuncao))
-                                                     ).ToList(),
+                                                MudancaHorarioList.Where(x => (
+                                                    (x.Tipo == 0 && x.Idfuncionario == funcionario.Id) ||
+                                                    (x.Tipo == 1 && x.IdDepartamento == funcionario.Iddepartamento) ||
+                                                    (x.Tipo == 2 && x.IdEmpresa == funcionario.Idempresa) ||
+                                                    (x.Tipo == 3 && x.IdFuncao == funcionario.Idfuncao))
+                                                ).ToList(),
 
-                                                     Parametros,
+                                                Parametros,
 
-                                                     false,
+                                                false,
 
-                                                     Fechamentos.Where(x => x.IdFuncionario == funcionario.Id).ToList()
-                                        );
-                              _marcacoes.Add(objMarcacao);
-                          }
-                      });
+                                                Fechamentos.Where(x => x.IdFuncionario == funcionario.Id).ToList()
+                                    );
+                        _marcacoes.Add(objMarcacao);
+                    }
+                });
+            });
 
-             });
-
-            return this.Salvar(Modelo.Acao.Incluir, _marcacoes.ToList());
+            Dictionary<string, string> ret = this.Salvar(Modelo.Acao.Incluir, _marcacoes.ToList());
+            BLL.CalculaMarcacao bllCalculaMarcacao = new BLL.CalculaMarcacao(ListFuncionario.Select(s => s.Id).ToList(), pDataI, pDataF, ObjProgressBar, false, ConnectionString, UsuarioLogado);
+            bllCalculaMarcacao.CalculaMarcacoes();
+            return ret;
         }
 
         public void AtualizaManutDiaria(int pTipo, int pId, DateTime pDataIni, DateTime pDataFim, Modelo.ProgressBar barra)

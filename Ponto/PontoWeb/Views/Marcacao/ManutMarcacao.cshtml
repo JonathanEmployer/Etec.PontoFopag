@@ -633,28 +633,28 @@
                                             @Html.Label("", "Nº Relógio: ", new { @class = "labelTitLinha" })
                                         </div>
                                         <div class="divMarcacao">
-                                            @Html.Label("", Model.Ent_num_relogio_1, new { @class = "labelRelogio", id = "txtRelogioE1" })
+                                            <label class="labelRelogio" for="" id="txtRelogioE1">@Model.Ent_num_relogio_1</label>
                                         </div>
                                         <div class="divMarcacao">
-                                            @Html.Label("", Model.Sai_num_relogio_1, new { @class = "labelRelogio", id = "txtRelogioS1" })
+                                            <label class="labelRelogio" for="" id="txtRelogioS1">@Model.Sai_num_relogio_1</label>
                                         </div>
                                         <div class="divMarcacao">
-                                            @Html.Label("", Model.Ent_num_relogio_2, new { @class = "labelRelogio", id = "txtRelogioE2" })
+                                            <label class="labelRelogio" for="" id="txtRelogioE2">@Model.Ent_num_relogio_2</label>
                                         </div>
                                         <div class="divMarcacao">
-                                            @Html.Label("", Model.Sai_num_relogio_2, new { @class = "labelRelogio", id = "txtRelogioS2" })
+                                            <label class="labelRelogio" for="" id="txtRelogioS2">@Model.Sai_num_relogio_2</label>
                                         </div>
                                         <div class="divMarcacao">
-                                            @Html.Label("", Model.Ent_num_relogio_3, new { @class = "labelRelogio", id = "txtRelogioE3" })
+                                            <label class="labelRelogio" for="" id="txtRelogioE3">@Model.Ent_num_relogio_3</label>
                                         </div>
                                         <div class="divMarcacao">
-                                            @Html.Label("", Model.Sai_num_relogio_3, new { @class = "labelRelogio", id = "txtRelogioS3" })
+                                            <label class="labelRelogio" for="" id="txtRelogioS3">@Model.Sai_num_relogio_3</label>
                                         </div>
                                         <div class="divMarcacao">
-                                            @Html.Label("", Model.Ent_num_relogio_4, new { @class = "labelRelogio", id = "txtRelogioE4" })
+                                            <label class="labelRelogio" for="" id="txtRelogioE4">@Model.Ent_num_relogio_4</label>
                                         </div>
                                         <div class="divMarcacao">
-                                            @Html.Label("", Model.Sai_num_relogio_4, new { @class = "labelRelogio", id = "txtRelogioS4" })
+                                            <label class="labelRelogio" for="" id="txtRelogioS4">@Model.Sai_num_relogio_4</label>
                                         </div>
                                     </div>
                                 </div>
@@ -888,28 +888,27 @@
                                             @Html.Label("", "Nº Relógio: ", new { @class = "labelTitLinha" })
                                         </div>
                                         <div class="divMarcacao">
-                                            @Html.Label("", Model.Ent_num_relogio_5, new { @class = "labelRelogio", id = "txtRelogioE5" })
+                                            <label class="labelRelogio" for="" id="txtRelogioE5">@Model.Ent_num_relogio_5</label>
                                         </div>
                                         <div class="divMarcacao">
-                                            @Html.Label("", Model.Sai_num_relogio_5, new { @class = "labelRelogio", id = "txtRelogioS5" })
+                                            <label class="labelRelogio" for="" id="txtRelogioS5">@Model.Sai_num_relogio_5</label>
                                         </div>
                                         <div class="divMarcacao">
-                                            @Html.Label("", Model.Ent_num_relogio_6, new { @class = "labelRelogio", id = "txtRelogioE6" })
+                                            <label class="labelRelogio" for="" id="txtRelogioE6">@Model.Ent_num_relogio_6</label>
                                         </div>
                                         <div class="divMarcacao">
-                                            @Html.Label("", Model.Sai_num_relogio_6, new { @class = "labelRelogio", id = "txtRelogioS6" })
+                                            <label class="labelRelogio" for="" id="txtRelogioS6">@Model.Sai_num_relogio_6</label></div>
+                                        <div class="divMarcacao">
+                                            <label class="labelRelogio" for="" id="txtRelogioE7">@Model.Ent_num_relogio_7</label>
                                         </div>
                                         <div class="divMarcacao">
-                                            @Html.Label("", Model.Ent_num_relogio_7, new { @class = "labelRelogio", id = "txtRelogioE7" })
+                                            <label class="labelRelogio" for="" id="txtRelogioS7">@Model.Sai_num_relogio_7</label>
                                         </div>
                                         <div class="divMarcacao">
-                                            @Html.Label("", Model.Sai_num_relogio_7, new { @class = "labelRelogio", id = "txtRelogioS7" })
+                                            <label class="labelRelogio" for="" id="txtRelogioE8">@Model.Ent_num_relogio_8</label>
                                         </div>
                                         <div class="divMarcacao">
-                                            @Html.Label("", Model.Ent_num_relogio_8, new { @class = "labelRelogio", id = "txtRelogioE8" })
-                                        </div>
-                                        <div class="divMarcacao">
-                                            @Html.Label("", Model.Sai_num_relogio_8, new { @class = "labelRelogio", id = "txtRelogioS8" })
+                                            <label class="labelRelogio" for="" id="txtRelogioS8">@Model.Sai_num_relogio_8</label>
                                         </div>
                                     </div>
                                 </div>
@@ -1232,7 +1231,7 @@
     }
 
     // Javascript da Alocação de Marcação
-    $(".btn-alocar").click(function () {
+        $(".btn-alocar").click(function () {
         var btn = $(this).attr("Id").replace("btn", "");
         var de = btn.substr(0, 4);
         var para = btn.substr(4, 4);

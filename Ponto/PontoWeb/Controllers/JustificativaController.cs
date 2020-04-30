@@ -206,22 +206,25 @@ namespace PontoWeb.Controllers
 
         public static int BuscaIdJustificativa(string consulta)
         {
-            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
-            BLL.Justificativa bllJustificativa = new BLL.Justificativa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
             int id = 0;
             try
             {
-                int codigo = -1;
-                consulta = consulta.Split('|')[0];
-                try { codigo = Int32.Parse(consulta); }
-                catch (Exception) { codigo = -1; }
-                if (codigo != -1)
+                if (!String.IsNullOrEmpty(consulta))
                 {
-                    Justificativa just = bllJustificativa.LoadObjectByCodigo(codigo);
-                    if (just != null && just.Id > 0)
+                    var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+                    BLL.Justificativa bllJustificativa = new BLL.Justificativa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
+                    int codigo = -1;
+                    consulta = consulta.Split('|')[0];
+                    try { codigo = Int32.Parse(consulta); }
+                    catch (Exception) { codigo = -1; }
+                    if (codigo != -1)
                     {
-                        return just.Id;
-                    }
+                        Justificativa just = bllJustificativa.LoadObjectByCodigo(codigo);
+                        if (just != null && just.Id > 0)
+                        {
+                            return just.Id;
+                        }
+                    } 
                 }
                 return id;
             }

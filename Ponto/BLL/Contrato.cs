@@ -99,6 +99,11 @@ namespace BLL
                 ret.Add("DiaFechamentoFinal", "Não é possível gravar apenas uma das datas com o valor zero(0).");
             }
 
+            if (objeto.IdEmpresa == 0)
+            {
+                ret.Add("IdEmpresa", "Empresa não informada ou não encontrada.");
+            }
+
             return ret;
         }
 

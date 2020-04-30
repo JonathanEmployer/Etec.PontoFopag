@@ -1757,11 +1757,11 @@ namespace BLL
                 {
                     if (bancoHorasList != null && bancoHorasList.ContainsKey(idBancoHoras))
                     {
-                        objBancoHoras = bllBancoHoras.LoadObject(idBancoHoras.GetValueOrDefault());                        
+                        objBancoHoras = (Modelo.BancoHoras)bancoHorasList[idBancoHoras.GetValueOrDefault()];
                     }
                     else
                     {
-                        objBancoHoras = bllBancoHoras.LoadObject(idBancoHoras.GetValueOrDefault());
+                        objBancoHoras = bllBancoHoras.LoadObjectSemRestricao(idBancoHoras.GetValueOrDefault());
                         if (bancoHorasList == null)
                         {
                             bancoHorasList = new Hashtable();

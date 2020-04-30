@@ -469,8 +469,7 @@ namespace DAL.SQL
                              LEFT JOIN equipamentohomologado ON equipamentohomologado.id = rep.idequipamentohomologado
                              LEFT JOIN equipamentotipobiometria ON equipamentotipobiometria.id = rep.IdEquipamentoTipoBiometria
                              LEFT JOIN tipobiometria ON tipobiometria.id = equipamentotipobiometria.Idtipobiometria                
-                           WHERE 1 = 1 "
-                           + GetWhereSelectAll();
+                           WHERE 1 = 1 ";
             aux += PermissaoUsuarioEmpresa(UsuarioLogado, aux, "rep.idempresa", null);
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
             if (dr.HasRows)

@@ -735,5 +735,10 @@ namespace Modelo
                 return ContabilizarCreditos == true ? "Sim" : "Não";
             }
         }
+
+        public DateTime? DataUltimoFechamentoPontoEBanco { get; set; }
+
+        public Guid? Lote { get; set; }
+        public int? IdBancoHorasCopia { get; set; }
     }
 }
