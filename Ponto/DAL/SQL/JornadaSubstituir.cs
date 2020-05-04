@@ -143,9 +143,10 @@ namespace DAL.SQL
             AuxManutencao(trans, obj);
         }
 
-        protected override void ExcluirAux(SqlTransaction trans, Modelo.ModeloBase obj)
+        protected override void ExcluirAux(SqlTransaction trans, ModeloBase obj)
         {
             ((Modelo.JornadaSubstituir)obj).JornadaSubstituirFuncionario.ForEach(f => f.Acao = Acao.Excluir);
+            RemoveVinculoMarcacao(trans, obj);
             AuxManutencao(trans, obj);
             base.ExcluirAux(trans, obj);
         }
@@ -157,6 +158,18 @@ namespace DAL.SQL
             dalJornadaSubstituirFuncionario.UsuarioLogado = UsuarioLogado;
             dalJornadaSubstituirFuncionario.InserirRegistros(((Modelo.JornadaSubstituir)obj).JornadaSubstituirFuncionario.Where(w => w.Acao == Modelo.Acao.Incluir).ToList(), trans);
             dalJornadaSubstituirFuncionario.ExcluirRegistros(((Modelo.JornadaSubstituir)obj).JornadaSubstituirFuncionario.Where(w => w.Acao == Modelo.Acao.Excluir).Select(s => (ModeloBase)s).ToList(), trans);
+        }
+
+        private void RemoveVinculoMarcacao(SqlTransaction trans, Modelo.ModeloBase obj)
+        {
+            SqlParameter[] parms = new SqlParameter[1]
+            {
+                new SqlParameter("@idJornadaSubstituir", SqlDbType.Int)
+            };
+            parms[0].Value = obj.Id;
+
+            string up = "UPDATE marcacao SET IdJornadaSubstituir = null where IdJornadaSubstituir = IdJornadaSubstituir";
+            SqlCommand cmd = TransactDbOps.ExecNonQueryCmd(trans, CommandType.Text, up, true, parms);
         }
 
         public Modelo.JornadaSubstituir LoadObject(int id)
