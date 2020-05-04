@@ -16,8 +16,20 @@ namespace DAL.SQL
             TABELA = "JornadaSubstituir";
 
             SELECTALL = @"   SELECT js.*,
-	                               (SELECT convert(varchar,jDe.codigo)+' | '+jDe.descricao) AS DescricaoDe,
-	                               (SELECT convert(varchar,jPara.codigo)+' | '+jPara.descricao) AS DescricaoPara
+	                               convert(varchar,jDe.codigo)+' | '+ 
+                                        IIF(jDe.descricao IS NOT NULL, jDe.descricao,
+                                            REPLACE((jDe.entrada_1 + ' - '+ jDe.saida_1 + ' - '+
+                                                     jDe.entrada_2 + ' - '+ jDe.saida_2 + ' - '+
+                                                     jDe.entrada_3 + ' - '+ jDe.saida_3 + ' - '+
+                                                     jDe.entrada_4 + ' - '+ jDe.saida_4 )
+                                                   ,'- --:--','')) AS DescricaoDe,
+                                   convert(varchar,jPara.codigo)+' | '+ 
+                                        IIF(jPara.descricao IS NOT NULL, jPara.descricao,
+                                            REPLACE((jPara.entrada_1 + ' - '+ jPara.saida_1 + ' - '+
+                                                     jPara.entrada_2 + ' - '+ jPara.saida_2 + ' - '+
+                                                     jPara.entrada_3 + ' - '+ jPara.saida_3 + ' - '+
+                                                     jPara.entrada_4 + ' - '+ jPara.saida_4 )
+                                                   ,'- --:--','')) AS DescricaoPara
                               FROM JornadaSubstituir js
                              INNER JOIN jornada jDe on js.IdJornadaDe = jDe.id
                              INNER JOIN jornada jPara on js.IdJornadaPara = jPara.id 
