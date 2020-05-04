@@ -26,9 +26,14 @@
 
         <div class="panel-footer">
             <div class="row">
-                <div class="col-xs-12 center-block">
+                <div class="col-xs-6 center-block">
+                    <div style="text-align: left">
+                        <a href="#" id="btCopiar" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Copiar B.H.</a>
+                    </div>
+                </div>
+                <div class="col-xs-6 center-block">
                     <div style="text-align: right">
-                        <a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
+                        <a href="#" id="btCopiar" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
                         <a href="#" id="btIncluir" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
                         <a href="#" id="btAlterar" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
                         <a href="#" id="btExcluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
@@ -38,17 +43,18 @@
         </div>
     </div>
 </div>
-        <script>
+<script>
 
             //Fim Metodo auxiliar para ajudar a ordenar a data no padrão pt
             $(document).ready(function () {
                 var controller = "BancoHoras";
                 var nomeTabela = "#" + '@nomeTabela';
                 cwk_EventoDbClickEditar('Alterar', controller, nomeTabela);
-                
+
                 cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', controller);
                 cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', controller, nomeTabela);
                 cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', controller, nomeTabela);
                 EventoClickDeletePostReturnJob('#btExcluir', 'Excluir', controller, nomeTabela, 'Banco de Horas excluído com sucesso.');
+                cwk_EventoClickCadastroAlterar('#btCopiar', 'Index', 'ReplicarBancoHoras', nomeTabela);
             });
-        </script>
+</script>
