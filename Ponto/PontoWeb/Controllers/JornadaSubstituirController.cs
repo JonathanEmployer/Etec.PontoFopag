@@ -93,7 +93,7 @@ namespace PontoWeb.Controllers
                 }
                 string parametrosExibicao = $"Jornada {jornadaSubstituir.DescricaoDe} para {jornadaSubstituir.DescricaoPara} no período {jornadaSubstituir.DataInicioStr} a {jornadaSubstituir.DataFimStr} (Funcionários: {jornadaSubstituir.JornadaSubstituirFuncionario.Count} excluído(s); )";
                 HangfireManagerCalculos hfm = new HangfireManagerCalculos(usr.DataBase, "", "", "/JornadaSubstituir/Grid");
-                PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de marcações por mudança de jornada", parametrosExibicao, 2, jornadaSubstituir.JornadaSubstituirFuncionario.Select(s => Convert.ToInt32(s.IdFuncionario)).ToList(), jornadaSubstituir.DataInicio.GetValueOrDefault(), jornadaSubstituir.DataInicio.GetValueOrDefault());
+                PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de marcações por mudança de jornada", parametrosExibicao, 2, jornadaSubstituir.JornadaSubstituirFuncionario.Select(s => Convert.ToInt32(s.IdFuncionario)).ToList(), jornadaSubstituir.DataInicio.GetValueOrDefault(), jornadaSubstituir.DataFim.GetValueOrDefault());
                 return Json(new { Success = true, Erro = " " }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
