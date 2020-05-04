@@ -737,5 +737,8 @@ namespace Modelo
         }
 
         public DateTime? DataUltimoFechamentoPontoEBanco { get; set; }
+
+        public Guid? Lote { get; set; }
+        public int? IdBancoHorasCopia { get; set; }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Data;
 using System.Collections.Generic;
+using Modelo.Proxy;
 
 namespace DAL
 {
@@ -26,5 +27,8 @@ namespace DAL
         List<Modelo.BancoHoras> GetAllListFuncs(bool verificaPermissao, List<int> idsFuncs);
         DataTable GetCredDebBancoHorasComSaldoPeriodo(List<int> idsFuncionarios, DateTime pdataInicial, DateTime pDataFinal);
         Modelo.BancoHoras LoadObjectSemRestricao(int id);
+
+        List<pxyFuncionarioRelatorio> GetFuncionarioParaCopia(int idBancoHoras);
+        void ReplicarBancoHoras(int idBancoHoras, List<int> idsFuncionarios);
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using DAL.SQL;
+using Modelo.Proxy;
 
 namespace BLL
 {
@@ -968,5 +969,15 @@ namespace BLL
         {
             return dalBancoHoras.LoadObjectSemRestricao(id);
         }
-     }
+
+        public List<pxyFuncionarioRelatorio> GetFuncionarioParaCopia(int idBancoHoras)
+        {
+            return dalBancoHoras.GetFuncionarioParaCopia(idBancoHoras);
+        }
+
+        public void ReplicarBancoHoras(int idBancoHoras, List<int> idsFuncionarios)
+        {
+            dalBancoHoras.ReplicarBancoHoras(idBancoHoras, idsFuncionarios);
+        }
+    }
 }
