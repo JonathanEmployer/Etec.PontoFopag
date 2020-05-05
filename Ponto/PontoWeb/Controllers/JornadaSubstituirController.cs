@@ -29,6 +29,7 @@ namespace PontoWeb.Controllers
             {
                 BLL.JornadaSubstituir bllJornadaSubstituir = new BLL.JornadaSubstituir(usr.ConnectionString, usr);
                 List<JornadaSubstituir> dados = bllJornadaSubstituir.GetAllList(true);
+                dados = dados.Where(w => w.QuantidadeFuncionariosUserPermissao > 0 || w.QuantidadeFuncionarios == 0).ToList();
                 JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
                 jsonResult.MaxJsonLength = int.MaxValue;
                 return jsonResult;
@@ -84,6 +85,10 @@ namespace PontoWeb.Controllers
             jornadaSubstituir.JornadaSubstituirFuncionario.ForEach(f => f.Acao = Acao.Excluir);
             try
             {
+                if (jornadaSubstituir.QuantidadeFuncionarios != jornadaSubstituir.QuantidadeFuncionariosUserPermissao)
+                {
+                    throw new Exception("Usuário não possui permissão para todos os funcionários existentes no registro, não será permitido excluir o registro!");
+                }
                 Dictionary<string, string> erros = new Dictionary<string, string>();
                 erros = bllJornadaSubstituir.Salvar(Acao.Excluir, jornadaSubstituir);
                 if (erros.Count > 0)
@@ -268,6 +273,10 @@ namespace PontoWeb.Controllers
             if (id == 0)
             {
                 jornadaSubstituir.Codigo = bllJornadaSubstituir.MaxCodigo();
+            }
+            else if (jornadaSubstituir.QuantidadeFuncionarios != jornadaSubstituir.QuantidadeFuncionariosUserPermissao)
+            {
+                ViewBag.SemPermissao = 1;
             }
             return View("Cadastrar", jornadaSubstituir);
         }
