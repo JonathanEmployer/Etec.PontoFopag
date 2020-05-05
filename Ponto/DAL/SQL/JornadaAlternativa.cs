@@ -814,30 +814,33 @@ namespace DAL.SQL
             {
                 parms[0].Value = pDataI;
                 parms[1].Value = pDataF;
-
-                SQL += " AND (((@datainicial >= ja.datainicial AND @datainicial <= ja.datafinal)"
-                       + " OR (@datafinal >= ja.datainicial AND @datafinal <= ja.datafinal)"
-                       + " OR (@datainicial <= ja.datainicial AND @datafinal >= ja.datafinal))"
-                       + " OR ((SELECT COUNT(id) FROM diasjornadaalternativa"
-                       + " WHERE diasjornadaalternativa.datacompensada >= @datainicial"
-                       + " AND diasjornadaalternativa.datacompensada <= @datafinal"
-                       + " AND diasjornadaalternativa.idjornadaalternativa = ja.id"
-                       + " ) > 0))";
             }
 
             if (pTipo != null && new int[] { 0, 1, 2, 3 }.Contains(pTipo.GetValueOrDefault()))
             {
                 parms[2].Value = pTipo;
                 parms[3].Value = String.Join(",", pIdentificacoes);
-                SQL += @"and j.id in (
-				SELECT jj.id FROM FUNCIONARIO F
-					left join jornadaalternativa jj on ((jj.tipo = 0 and jj.identificacao = f.idempresa) OR
-												(jj.tipo = 1 and jj.identificacao = f.iddepartamento) OR
-												(jj.tipo = 2 and jj.identificacao = f.id) OR 
-												(jj.tipo = 3 and jj.identificacao = f.idfuncao))
-				where 
-					f.id in (SELECT * FROM dbo.F_ClausulaIn(@identificacao)))";
             }
+
+            SQL += @" AND ja.id in (SELECT jj.id 
+                              FROM FUNCIONARIO F
+					         INNER JOIN jornadaalternativa jj on ((jj.tipo = 0 and jj.identificacao = f.idempresa) OR
+												                  (jj.tipo = 1 and jj.identificacao = f.iddepartamento) OR
+												                  (jj.tipo = 2 and jj.identificacao = f.id) OR 
+												                  (jj.tipo = 3 and jj.identificacao = f.idfuncao))
+				             WHERE ((@tipo IS NULL) OR
+                                    (@tipo = 0 AND f.idempresa in (SELECT * FROM dbo.F_ClausulaIn(@identificacao))) OR
+                                    (@tipo = 1 AND f.iddepartamento in (SELECT * FROM dbo.F_ClausulaIn(@identificacao))) OR
+                                    (@tipo = 2 AND f.id in (SELECT * FROM dbo.F_ClausulaIn(@identificacao))) OR
+                                    (@tipo = 3 AND f.idfuncao in (SELECT * FROM dbo.F_ClausulaIn(@identificacao)))
+                                   )
+                               AND (@datainicial IS NULL OR
+                                    (jj.datainicial BETWEEN @datainicial AND @datafinal OR
+                                     jj.datafinal BETWEEN @datainicial AND @datafinal OR
+                                     @datainicial BETWEEN jj.datainicial AND jj.datafinal OR
+                                     @datafinal BETWEEN jj.datainicial AND jj.datafinal) OR 
+                                    EXISTS (SELECT top 1 1 FROM diasjornadaalternativa WHERE diasjornadaalternativa.datacompensada >= @datainicial AND diasjornadaalternativa.datacompensada <= @datafinal AND diasjornadaalternativa.idjornadaalternativa = jj.id )
+                                   ))";
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, SQL, parms);
 
