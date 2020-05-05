@@ -28,7 +28,7 @@ namespace PontoWeb.Controllers
             try
             {
                 BLL.JornadaSubstituir bllJornadaSubstituir = new BLL.JornadaSubstituir(usr.ConnectionString, usr);
-                List<JornadaSubstituir> dados = bllJornadaSubstituir.GetAllList();
+                List<JornadaSubstituir> dados = bllJornadaSubstituir.GetAllList(true);
                 JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
                 jsonResult.MaxJsonLength = int.MaxValue;
                 return jsonResult;
