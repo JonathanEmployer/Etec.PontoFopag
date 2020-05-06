@@ -258,16 +258,18 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <div class="row" style="padding-left:6px" id="divParametrosApp" hidden>
+                                    <div class="row" style="padding-left:6px" id="divParametrosApp">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
                                                 <div class="checkbox">
                                                     @Html.CheckBoxFor(model => model.UtilizaAppPontofopag)
                                                     @Html.LabelFor(model => model.UtilizaAppPontofopag, new { @class = "control-label label-sm" })
                                                 </div>
-                                                <div class="checkbox checkboxFilho" style="display:none" id="divReconhecimentoFacilAppPontofopag">
-                                                    @Html.CheckBoxFor(model => model.UtilizaReconhecimentoFacilAppPontofopag)
-                                                    @Html.LabelFor(model => model.UtilizaReconhecimentoFacilAppPontofopag, new { @class = "control-label label-sm" })
+                                                <div id="divReconhecimentoFacilAppPontofopagBeta" hidden>
+                                                    <div class="checkbox checkboxFilho" style="display:none" id="divReconhecimentoFacilAppPontofopag" hidden>
+                                                        @Html.CheckBoxFor(model => model.UtilizaReconhecimentoFacilAppPontofopag)
+                                                        @Html.LabelFor(model => model.UtilizaReconhecimentoFacilAppPontofopag, new { @class = "control-label label-sm" })
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
@@ -648,7 +650,7 @@
     $("#Cnpj").on("click", function () {
         countClick++;
         if (countClick > 10) {
-            $("#divParametrosApp").removeAttr("hidden");
+            $("#divReconhecimentoFacilAppPontofopagBeta").removeAttr("hidden");
         }
     })
 
