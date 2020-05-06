@@ -780,9 +780,8 @@ namespace DAL.SQL
         public List<Modelo.Proxy.PxyGridRepsPortaria373> GetGridRepsPortaria373()
         {
             SqlParameter[] parms = new SqlParameter[] {};
-
-            string query = @"SELECT e.id IdEmpresa,
-	                                   b.relogio NumRelogio, 
+            string sqlRegistradores = @" SELECT e.id IdEmpresa,
+                                                b.relogio NumRelogio, 
 	                                   CASE WHEN b.relogio = 'RE' THEN
 			                                  'Registrador Pontofopag'
 		                                    WHEN b.relogio = 'RW' THEN
@@ -792,34 +791,44 @@ namespace DAL.SQL
 			                                ELSE 'Indefinido' END App,
 		                                e.codigo EmpresaCodigo,
 		                                e.Cnpj EmpresaCnpj, 
-		                                e.Nome EmpresaNome
+		                                e.Nome EmpresaNome,
+										f.id idFuncionario
                                   FROM bilhetesimp b
                                  INNER JOIN funcionario f on b.IdFuncionario = f.id
                                  INNER JOIN empresa e on f.idempresa = e.id
-                                 WHERE b.relogio in ('RE', 'RW', 'AP') 
-                                 GROUP BY b.relogio, e.id, e.codigo, e.cnpj, e.nome
+                                 WHERE b.relogio in ('RE', 'RW', 'AP') ";
+            sqlRegistradores += PermissaoUsuarioFuncionario(UsuarioLogado, sqlRegistradores, "e.id", "f.id", null);
 
-                                 UNION ALL
-
-                                SELECT e.id IdEmpresa,
-	                                   r.numrelogio, 
+            string sqlAppMeHolerite = @" SELECT e.id IdEmpresa,
+                                       r.numrelogio, 
 	                                   'Aplicativo Meu Holerite' app,
 	                                   e.codigo EmpresaCodigo,
-	                                   e.cnpj EmpresaCnpj, 
-	                                   e.nome EmpresaNome
+                                       e.cnpj EmpresaCnpj,
+                                       e.nome EmpresaNome,
+                                       bi.IdFuncionario
                                   FROM rep r
-                                 INNER JOIN empresa e ON r.numserie like '%'+replace(replace(replace(e.cnpj,'.',''),'/',''),'-','')+'%'
+                                 INNER JOIN empresa e ON r.numserie like '%' + replace(replace(replace(e.cnpj, '.', ''), '/', ''), '-', '') + '%' 
+                                  LEFT JOIN bilhetesimp bi ON bi.relogio = r.relogio";
 
-                                 ORDER BY NumRelogio ";
+            sqlAppMeHolerite += PermissaoUsuarioFuncionario(UsuarioLogado, sqlAppMeHolerite, "e.id", "bi.IdFuncionario", null);
 
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, query, parms);
+            string consulta = @" SELECT t.IdEmpresa, t.NumRelogio, t.App, t.EmpresaCodigo, t.EmpresaCnpj, t.EmpresaNome
+                                   FROM (" +
+                                   sqlRegistradores +
+                                " UNION ALL " +
+                                   sqlAppMeHolerite +
+                              @" ) t
+                            GROUP BY t.IdEmpresa, t.NumRelogio, t.App, t.EmpresaCodigo, t.EmpresaCnpj, t.EmpresaNome
+                            ORDER BY t.NumRelogio ";
 
-            List<Modelo.Proxy.PxyGridRepsPortaria373> lista = new List<Modelo.Proxy.PxyGridRepsPortaria373>();
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, consulta, parms);
+
+            List<PxyGridRepsPortaria373> lista = new List<PxyGridRepsPortaria373>();
 
             try
             {
-                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Proxy.PxyGridRepsPortaria373>();
-                lista = AutoMapper.Mapper.Map<List<Modelo.Proxy.PxyGridRepsPortaria373>>(dr);
+                Mapper.CreateMap<IDataReader, PxyGridRepsPortaria373>();
+                lista = Mapper.Map<List<PxyGridRepsPortaria373>>(dr);
             }
             catch (Exception ex)
             {

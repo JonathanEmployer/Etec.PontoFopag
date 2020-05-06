@@ -121,26 +121,23 @@ namespace cwkWebAPIPontoWeb.Controllers
                             var idTipoVInculo = bllTipoVinculo.GetIdPorCod(funcionario.CodTipoVinculo.GetValueOrDefault());
                             DadosAntFunc.IdTipoVinculo = idTipoVInculo;
                         }
-                        if ((funcionario.PessoaSupervisor != null && !String.IsNullOrEmpty(funcionario.PessoaSupervisor.IdIntegracao)))
+                        if ((funcionario.PessoaSupervisor != null && !String.IsNullOrEmpty(funcionario.PessoaSupervisor.RazaoSocial)))
                         {
-                            int? idPessoaSupervisor = bllPessoa.GetIdPorIdIntegracaoPessoa(funcionario.PessoaSupervisor.IdIntegracao);
-                            if (idPessoaSupervisor.GetValueOrDefault() == 0)
+                            Pessoa supervisor = bllPessoa.GetPessoaPorCNPJ_CPF(funcionario.PessoaSupervisor.CNPJ_CPF).FirstOrDefault();
+                            if (supervisor == null || supervisor.Id == 0)
                             {
-                                Dictionary<string, string> errosPessoa;
-                                PessoaController.SalvarPessoaWeb(funcionario.PessoaSupervisor, connectionStr, out errosPessoa);
-                                if (errosPessoa.Count() == 0)
-                                {
-                                    idPessoaSupervisor = bllPessoa.GetIdPorIdIntegracaoPessoa(funcionario.PessoaSupervisor.IdIntegracao);
-                                    DadosAntFunc.IdPessoaSupervisor = idPessoaSupervisor;
-                                }
-                                else
-                                {
-                                    throw new Exception("Erro ao cadastrar o supervisor do funcionário, Erro: " + string.Join(";", errosPessoa.Select(x => x.Key + "=" + x.Value).ToArray()));
-                                }
+                                supervisor = bllPessoa.GetListPessoaPorNome(funcionario.PessoaSupervisor.RazaoSocial).FirstOrDefault();
                             }
-                            else
+
+                            if (supervisor == null || supervisor.Id == 0)
                             {
-                                DadosAntFunc.IdPessoaSupervisor = idPessoaSupervisor;
+                                supervisor = PessoaController.SalvarPessoaWeb(funcionario.PessoaSupervisor, connectionStr, out Dictionary<string, string> errosPessoa);
+                                if (errosPessoa.Count() != 0)
+                                    throw new Exception("Erro ao cadastrar o supervisor do funcionário, Erro: " + string.Join(";", errosPessoa.Select(x => x.Key + "=" + x.Value).ToArray()));
+                            }
+                            if (supervisor != null)
+                            {
+                                DadosAntFunc.IdPessoaSupervisor = supervisor.Id;
                             }
                         }
                         else if (funcionario.IdIntegracaoPessoaSupervisor != null)
