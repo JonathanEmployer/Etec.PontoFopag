@@ -4445,6 +4445,7 @@ namespace BLL
             ContabilizarFaltasMarc = pMarcacao["ContabilizarFaltas"] is DBNull ? Convert.ToInt16(0) : Convert.ToInt16(pMarcacao["ContabilizarFaltas"]);
             ContAtrasosSaidasAntecMarc = pMarcacao["ContAtrasosSaidasAntec"] is DBNull ? Convert.ToInt16(0) : Convert.ToInt16(pMarcacao["ContAtrasosSaidasAntec"]);
             ContabilizarCreditosMarc = pMarcacao["ContabilizarCreditos"] is DBNull ? Convert.ToInt16(0) : Convert.ToInt16(pMarcacao["ContabilizarCreditos"]);
+            idJornadaAlternativa = pMarcacao["idjornadaalternativa"] is DBNull ? null : (int?)(pMarcacao["idjornadaalternativa"]);
         }
 
         private void SetaVariaveisAfastamento(DataRow pMarcacao)
