@@ -350,5 +350,60 @@ namespace DAL.SQL
             }
             return lista;
         }
+
+        public List<Modelo.Proxy.PxyJornadaSubstituirCalculo> GetPxyJornadaSubstituirCalculo(List<int> idsJornadaSubstituir)
+        {
+            SqlParameter[] parms = new SqlParameter[1]
+            {
+                new SqlParameter("@ids", SqlDbType.Structured)
+            };
+
+            parms[0].Value = CreateDataTableIdentificadores(idsJornadaSubstituir.Select(s => (long)s));
+            parms[0].TypeName = "Identificadores";
+
+            string sql = @"
+                            SELECT js.Id,
+                                   js.Codigo,
+	                               js.IdJornadaDe,
+	                               js.IdJornadaPara,
+	                               js.DataInicio,
+	                               js.DataFim,
+                                   js.IncHora,
+	                               jsf.idfuncionario IdFuncionario,
+	                               j.entrada_1 Entrada1,
+	                               j.entrada_2 Entrada2,
+	                               j.entrada_3 Entrada3,
+	                               j.entrada_4 Entrada4,
+	                               j.saida_1 Saida1,
+	                               j.saida_2 Saida2,
+	                               j.saida_3 Saida3,
+	                               j.saida_4 Saida4
+                              FROM @ids ids 
+							 INNER JOIN JornadaSubstituir js ON ids.Identificador = js.Id
+                             INNER JOIN JornadaSubstituirFuncionario jsf ON js.Id = jsf.idJornadaSubstituir
+                             INNER JOIN jornada j ON js.IdJornadaPara = j.id
+            ";
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+
+            List<Modelo.Proxy.PxyJornadaSubstituirCalculo> lista = new List<Modelo.Proxy.PxyJornadaSubstituirCalculo>();
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Proxy.PxyJornadaSubstituirCalculo>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Proxy.PxyJornadaSubstituirCalculo>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
     }
 }

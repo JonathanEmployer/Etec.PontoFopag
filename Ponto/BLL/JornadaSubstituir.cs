@@ -194,5 +194,10 @@ namespace BLL
         {
             return dalJornadaSubstituir.GetPxyJornadaSubstituirCalculo(dataIni, dataFim, idsFuncs);
         }
+
+        public List<PxyJornadaSubstituirCalculo> GetPxyJornadaSubstituirCalculo(List<int> idsJornadaSubstituir)
+        {
+            return dalJornadaSubstituir.GetPxyJornadaSubstituirCalculo(idsJornadaSubstituir);
+        }
     }
 }
