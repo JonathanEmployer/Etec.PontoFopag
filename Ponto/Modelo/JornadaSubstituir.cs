@@ -57,6 +57,8 @@ namespace Modelo
 
         [TableHTMLAttribute("Data/Hora Alt.", 10, true, ItensSearch.text, OrderType.none)]
         public string AltHoraGrid => Althora == null ? "" : Althora.GetValueOrDefault().ToShortDateString() + " " + Althora.GetValueOrDefault().ToShortTimeString();
+        public int QuantidadeFuncionarios { get; set; }
+        public int QuantidadeFuncionariosUserPermissao { get; set; }
         #endregion
     }
 }

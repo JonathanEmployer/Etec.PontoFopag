@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace DAL.SQL
 {
@@ -15,7 +16,7 @@ namespace DAL.SQL
             db = database;
             TABELA = "JornadaSubstituir";
 
-            SELECTALL = @"   SELECT js.*,
+            SELECTALL = @" SELECT js.*,
 	                               convert(varchar,jDe.codigo)+' | '+ 
                                         IIF(jDe.descricao IS NOT NULL, jDe.descricao,
                                             REPLACE((jDe.entrada_1 + ' - '+ jDe.saida_1 + ' - '+
@@ -33,9 +34,9 @@ namespace DAL.SQL
                               FROM JornadaSubstituir js
                              INNER JOIN jornada jDe on js.IdJornadaDe = jDe.id
                              INNER JOIN jornada jPara on js.IdJornadaPara = jPara.id 
-                             WHERE 1 = 1";
+                             WHERE 1 = 1 ";
 
-            SELECTPID = @SELECTALL + " AND js.id = @id ";
+            SELECTPID = @SELECTALL + " AND t.id = @id ";
 
             INSERT = @"  INSERT INTO JornadaSubstituir
 							(codigo, incdata, inchora, incusuario, IdJornadaDe,IdJornadaPara,DataInicio,DataFim)
@@ -59,6 +60,57 @@ namespace DAL.SQL
 
             MAXCOD = @"  SELECT MAX(codigo) AS codigo FROM JornadaSubstituir";
 
+        }
+
+        private string GetSelectAll()
+        {
+            return $@"  SELECT * into #permissoes
+                              FROM (
+	                            -- Permissao Empresa
+	                            SELECT f.id idFuncionario, 'E' TipoPermissao
+	                              FROM funcionario f
+	                              JOIN cw_usuario ue on ue.UtilizaControleEmpresa = 1
+	                              JOIN empresacwusuario eu on eu.idcw_usuario = ue.id AND eu.idempresa = f.idempresa
+	                             WHERE f.excluido = 0
+	                               AND f.funcionarioativo = 1
+	                               AND ue.login = '{UsuarioLogado.Login}'
+	                             UNION ALL 
+	                            -- Permissa Contrato
+	                            SELECT f.id idFuncionario, 'C' TipoPermissao
+	                              FROM funcionario f
+	                              JOIN cw_usuario ue on ue.UtilizaControleContratos = 1
+	                              JOIN contratousuario cu on cu.idcwusuario = ue.id
+	                              JOIN contratofuncionario cf on cu.id = cf.idcontrato and cf.idfuncionario = f.id
+	                             WHERE f.excluido = 0
+	                               AND f.funcionarioativo = 1
+	                               AND ue.login = '{UsuarioLogado.Login}'
+	                             UNION ALL
+	                            -- Permissao Supervisor
+	                            SELECT f.id idFuncionario, 'S' TipoPermissao
+	                              FROM funcionario f
+	                              JOIN cw_usuario us on us.UtilizaControleSupervisor = 1 AND us.id = f.idcw_usuario
+	                             WHERE f.excluido = 0
+	                               AND f.funcionarioativo = 1
+	                               AND us.login = '{UsuarioLogado.Login}'
+	                             UNION ALL
+	                            SELECT f.id, 'T' TipoPermissao
+	                              FROM funcionario f
+	                             WHERE f.excluido = 0
+	                               AND f.funcionarioativo = 1
+	                               AND EXISTS (select top 1 1 from cw_usuario WHERE login = '{UsuarioLogado.Login}' AND UtilizaControleContratos = 0 AND UtilizaControleEmpresa = 0 AND f.UtilizaReconhecimentoFacialWebApp = 0)
+                                   ) funcPermitido
+                            SELECT p.*
+                              FROM (
+	                            SELECT t.*,
+			                            (SELECT COUNT(*) FROM JornadaSubstituirFuncionario jsf WHERE jsf.idJornadaSubstituir = t.id) QuantidadeFuncionarios,
+			                            (SELECT COUNT(*) 
+				                            FROM JornadaSubstituirFuncionario jsf
+				                            INNER JOIN #permissoes p ON jsf.idfuncionario = p.idFuncionario
+				                            WHERE jsf.idJornadaSubstituir = t.id) QuantidadeFuncionariosUserPermissao
+	                              FROM (
+                            {SELECTALL} 
+                                        ) t
+                                ) p WHERE 1 = 1 ";
         }
 
         protected override bool SetInstance(SqlDataReader dr, Modelo.ModeloBase obj)
@@ -99,6 +151,8 @@ namespace DAL.SQL
             ((Modelo.JornadaSubstituir)obj).DataFim = Convert.ToDateTime(dr["DataFim"]);
             ((Modelo.JornadaSubstituir)obj).DescricaoDe = Convert.ToString(dr["DescricaoDe"]);
             ((Modelo.JornadaSubstituir)obj).DescricaoPara = Convert.ToString(dr["DescricaoPara"]);
+            ((Modelo.JornadaSubstituir)obj).QuantidadeFuncionarios = Convert.ToInt32(dr["QuantidadeFuncionarios"]);
+            ((Modelo.JornadaSubstituir)obj).QuantidadeFuncionariosUserPermissao = Convert.ToInt32(dr["QuantidadeFuncionariosUserPermissao"]);
         }
 
         protected override SqlParameter[] GetParameters()
@@ -117,7 +171,8 @@ namespace DAL.SQL
                 ,new SqlParameter ("@IdJornadaPara", SqlDbType.Int)
                 ,new SqlParameter ("@DataInicio", SqlDbType.DateTime)
                 ,new SqlParameter ("@DataFim", SqlDbType.DateTime)
-
+                ,new SqlParameter ("@QuantidadeFuncionarios", SqlDbType.Int)
+                ,new SqlParameter ("@QuantidadeFuncionariosUserPermissao", SqlDbType.Int)
             };
             return parms;
         }
@@ -140,7 +195,8 @@ namespace DAL.SQL
             parms[9].Value = ((Modelo.JornadaSubstituir)obj).IdJornadaPara;
             parms[10].Value = ((Modelo.JornadaSubstituir)obj).DataInicio;
             parms[11].Value = ((Modelo.JornadaSubstituir)obj).DataFim;
-
+            parms[12].Value = ((Modelo.JornadaSubstituir)obj).QuantidadeFuncionarios;
+            parms[13].Value = ((Modelo.JornadaSubstituir)obj).QuantidadeFuncionariosUserPermissao;
         }
 
         protected override void IncluirAux(SqlTransaction trans, Modelo.ModeloBase obj)
@@ -186,7 +242,10 @@ namespace DAL.SQL
 
         public Modelo.JornadaSubstituir LoadObject(int id)
         {
-            SqlDataReader dr = LoadDataReader(id);
+            SqlParameter[] parms = new SqlParameter[] { new SqlParameter("@id", SqlDbType.Int, 4) };
+            parms[0].Value = id;
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, GetSelectAll() + " AND p.id = @id ", parms);
 
             Modelo.JornadaSubstituir obj = new Modelo.JornadaSubstituir();
             try
@@ -201,11 +260,12 @@ namespace DAL.SQL
             return obj;
         }
 
-        public List<Modelo.JornadaSubstituir> GetAllList()
+        public List<Modelo.JornadaSubstituir> GetAllList(bool validarPermissao)
         {
             SqlParameter[] parms = new SqlParameter[0];
+            string sql = GetSelectAll();
 
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SELECTALL, parms);
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 
             List<Modelo.JornadaSubstituir> lista = new List<Modelo.JornadaSubstituir>();
             try
