@@ -177,7 +177,7 @@ namespace BLL_N.Exportacao
                                    
                                     wfp.CodigoEvento = itens[1];
                                     wfp.ValorEvento = itens[2];
-                                    wfp.codigoFunc = itens[4];
+                                    wfp.CodigoFunc = itens[4];
                                     wfp.CodigoContrato = "";
                                     wfp.CodigoComplemento = itens[5].Trim();
                                     wfp.CodigoFilial = itens[6].Trim();
