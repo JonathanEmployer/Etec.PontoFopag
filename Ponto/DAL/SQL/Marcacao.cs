@@ -4880,24 +4880,25 @@ WHERE
 		                            SUBSTRING(DATENAME(dw,d.data),0,4)+'.' Dia,
 		                            m.LegendasConcatenadas Legenda,
 		                            iif(COALESCE(m.entrada_1, m.saida_1, m.entrada_2, m.saida_2, m.entrada_3, m.saida_3, m.entrada_4, m.saida_5) is null, 1, 0) Editavel,
-		                            m.entrada_1 entrada1,
-		                            m.entrada_2 entrada2,
-		                            m.entrada_3 entrada3,
-		                            m.entrada_4 entrada4,
-		                            m.entrada_5 entrada5,
-		                            m.entrada_6 entrada6,
-		                            m.entrada_7 entrada7,
-		                            m.entrada_8 entrada8,
-		                            m.saida_1 saida1,
-		                            m.saida_2 saida2,
-		                            m.saida_3 saida3,
-		                            m.saida_4 saida4,
-		                            m.saida_5 saida5,
-		                            m.saida_6 saida6,
-		                            m.saida_7 saida7,
-		                            m.saida_8 saida8
+		                            m.entrada_1 e1,
+		                            m.entrada_2 e2,
+		                            m.entrada_3 e3,
+		                            m.entrada_4 e4,
+		                            m.entrada_5 e5,
+		                            m.entrada_6 e6,
+		                            m.entrada_7 e7,
+		                            m.entrada_8 e8,
+		                            m.saida_1 s1,
+		                            m.saida_2 s2,
+		                            m.saida_3 s3,
+		                            m.saida_4 s4,
+		                            m.saida_5 s5,
+		                            m.saida_6 s6,
+		                            m.saida_7 s7,
+		                            m.saida_8 s8
                               FROM dbo.FN_DatasPeriodo(@dtIni, @dtFim) d
                               LEFT JOIN marcacao m ON d.data = m.data and m.idfuncionario = @idFuncionario
+                             ORDER BY d.data 
                            ";
 
 
