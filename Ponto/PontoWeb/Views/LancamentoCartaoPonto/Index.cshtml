@@ -196,9 +196,14 @@
                                 <div id="divErro" class="bg-danger" style="text-align:center; font-weight: bold; font-size:16px;">
                                     @Html.ValidationMessage("intervalo")
                                     @Html.ValidationMessage("CustomError")
+                                    @Html.ValidationMessageFor(model => model.Regs)
                                 </div>
                                 <div>
                                     <div id="divGridMarcacao" style="padding-top:0px;">
+                                        @if (Model.Regs.Count > 0)
+                                        {
+                                            @Html.Partial("GridMarcacoes", Model)
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -207,7 +212,7 @@
                     <div class="modal-footer" style="margin-bottom: 0px; padding:5px;">
                         <div class="col-xs-12 center-block">
                             <div style="text-align: right">
-                                <button type="submit" class="btn btn-success salvando">
+                                <button type="button" id="btnSalvar" class="btn btn-success salvando">
                                     <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
                                 </button>
                                 <a class="btn btn-danger salvando"
@@ -346,6 +351,17 @@
         });
         //Fim Tratamento Período
         $("#corpoModel").css("height", (cwk_AlturaTela() - 100) + "px");
+
+        $('#btnSalvar').click(function () {
+            $(this).prop("disabled", true);
+            $("#loading").modal();
+            if (!$('form').valid()) {
+                $(this).prop("disabled", false);
+                $("#loading").modal('hide');
+                return false;
+            }
+            $('form').submit();
+        });
     });
 
     function validaPeriodoTabelaMarcacao() {

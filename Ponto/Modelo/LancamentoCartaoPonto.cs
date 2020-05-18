@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Modelo
 {
@@ -26,5 +22,6 @@ namespace Modelo
         public string DescJustificativa { get; set; }
         [Required]
         public string Motivo { get; set; }
+        public int IdJustificativa { get; set; }
     }
 }

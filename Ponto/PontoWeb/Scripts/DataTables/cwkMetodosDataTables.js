@@ -324,6 +324,8 @@ function cwk_MontarDataTableThemeMarcacao(nomeTabela, altura, colunasDinamicas) 
           { "bSortable": false }
     ];
 
+    for (var i = 0; i < colunasDinamicas; i++)
+        aoColumns.push({ "bSortable": false });
 
     oTable = $(nomeTabela).dataTable({
         "orderCellsTop": true,
