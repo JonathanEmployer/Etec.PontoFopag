@@ -69,7 +69,7 @@ namespace BLL.Relatorios.V2
                         string documento = empresa.CnpjCpf.Replace(".", "").Replace("-", "").Replace("/", "");
                         string numSerie = documento.PadLeft(17, '0');
                         documento = documento.PadLeft(14, '0');
-                        string cei = empresa.CEI.PadLeft(12, '0');
+                        string cei = empresa.CEI.Replace(".", "").Replace("-", "").Replace("/", "").PadLeft(12, '0');
                         string razaoSocial = empresa.Nome.PadRight(150, ' ');
                         DateTime dtIni = Convert.ToDateTime(dados.AsEnumerable().Min(row => row["Data"]));
                         DateTime dtFim = Convert.ToDateTime(dados.AsEnumerable().Max(row => row["Data"]));
