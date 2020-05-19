@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("index", "LancamentoCartaoPonto", FormMethod.Post, new { id = "FormTabelaMarcacao" }))
+@using (Html.BeginForm("Cadastro", "LancamentoCartaoPonto", FormMethod.Post, new { id = "FormTabelaMarcacao" }))
 {
     <div class="" style="padding-top:2px;">
         <div class="modal fade" id="myModal" tabindex="" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" accesskey="" data-keyboard="false" data-backdrop="static" style="padding-right:5px; padding-left:5px; padding-top:1px; ">
@@ -16,8 +16,8 @@
                         </button>
                         <h4 class="modal-title" id="myModalLabel">@ViewBag.Title</h4>
                     </div>
-                    <div class="modal-body" id="corpoModel" style="padding-top:5px; ">
-                        <div style="padding-top:0;">
+                    <div class="modal-body" style="padding-top:5px; ">
+                        <div style="padding-top:0;overflow-y: scroll;" id="corpoModel">
                             @Html.ValidationSummary(true)
                             <div class="panel panel-default" style="margin-bottom:0px;">
                                 <div class="panel-body" style="margin-top:0; margin-bottom:0; padding-top:0px; padding-bottom:5px;">
@@ -207,6 +207,10 @@
                                     </div>
                                 </div>
                             </div>
+                            <br />
+                            <div>
+                                @Html.Partial("../JobManager/JobView")
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer" style="margin-bottom: 0px; padding:5px;">
@@ -357,7 +361,7 @@
             }
         });
         //Fim Tratamento Período
-        $("#corpoModel").css("height", (cwk_AlturaTela() - 100) + "px");
+        $("#corpoModel").css("height", (cwk_AlturaTela() - 120) + "px");
 
         $('#btnSalvar').click(function () {
             $(this).prop("disabled", true);
@@ -674,14 +678,14 @@
         }
     }
 
-    var $window = $(window).on('resize', function () {
-        var alturaTela = cwk_AlturaTela();
-        var alturaDiv = alturaTela * 36 / 100;
-        if (cwk_AlturaResolucao() <= 768) {
-            alturaDiv = alturaTela * 45 / 100;
-        }
-        $("#divGrid").height(alturaDiv);
-    }).trigger('resize');
+    //var $window = $(window).on('resize', function () {
+    //    var alturaTela = cwk_AlturaTela();
+    //    var alturaDiv = alturaTela * 36 / 100;
+    //    if (cwk_AlturaResolucao() <= 768) {
+    //        alturaDiv = alturaTela * 45 / 100;
+    //    }
+    //    $("#divGrid").height(alturaDiv);
+    //}).trigger('resize');
 
     $(".lkpJustificativa").bind("keydown click", function (e) {
         cwk_EventoConsultaUnico(e, this, "", "Justificativa", "", callBackMotivo, "", "");

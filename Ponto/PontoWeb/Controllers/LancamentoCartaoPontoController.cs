@@ -15,7 +15,7 @@ namespace PontoWeb.Controllers
         [PermissoesFiltro(Roles = "LancamentoCartaoPontoCadastrar")]
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*", VaryByCustom = "User")]
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Cadastro()
         {
             bool UtilizaControleContrato = _usr.UtilizaControleContratos;
             ViewBag.UtilizaControleContrato = UtilizaControleContrato;
@@ -97,7 +97,7 @@ namespace PontoWeb.Controllers
 
         [PermissoesFiltro(Roles = "LancamentoCartaoPontoCadastrar")]
         [HttpPost]
-        public ActionResult Index(LancamentoCartaoPonto obj)
+        public ActionResult Cadastro(LancamentoCartaoPonto obj)
         {
             try
             {
@@ -111,7 +111,7 @@ namespace PontoWeb.Controllers
 
                     if (erros.Count == 0)
                     {
-                        HangfireManagerCalculos hfm = new HangfireManagerCalculos(_usr.DataBase, _usr.Login, "", "/LancamentoCartaoPonto/Grid");
+                        HangfireManagerCalculos hfm = new HangfireManagerCalculos(_usr.DataBase, _usr.Login, "", "/LancamentoCartaoPonto/Cadastro");
                         Modelo.Proxy.PxyJobReturn job = hfm.RecalculaMarcacao("Processamento de Cartão Ponto Manual", $"Processando Funcionário { funcionario.Dscodigo } | { funcionario.Nome } para { bilhetes.Count() } registros lançados", new List<int>() { funcionario.Id }, bilhetes.Min(m => m.Data), bilhetes.Max(m => m.Data));
                         TempData["lcp"] = new LancamentoCartaoPonto()
                         {
@@ -125,7 +125,7 @@ namespace PontoWeb.Controllers
                             Motivo = obj.Motivo,
                             QuantidadeRegistros = obj.QuantidadeRegistros
                         };
-                        return RedirectToAction("Index");
+                        return RedirectToAction("Cadastro");
                     }
                     else
                     {
@@ -156,8 +156,16 @@ namespace PontoWeb.Controllers
                 {
                     bool UtilizaControleContrato = _usr.UtilizaControleContratos;
                     ViewBag.UtilizaControleContrato = UtilizaControleContrato;
-                    List<LancamentoCartaoPontoRegistros> regs = bllMarcacao.GetLancamentoCartaoPonto(func.Id, Convert.ToDateTime(lcp.DataInicial), Convert.ToDateTime(lcp.DataFinal));
-                    lcp.Regs = regs;
+                    List<Funcionario> fechamento = bllFuncionario.GetAllListComUltimosFechamentos(true, new List<int>() { func.Id });
+                    if (fechamento != null && fechamento.Count > 0 && fechamento.FirstOrDefault().DataUltimoFechamento.HasValue && fechamento.FirstOrDefault().DataUltimoFechamento.GetValueOrDefault() >= Convert.ToDateTime(lcp.DataInicial))
+                    {
+                        lcp.Regs = new List<LancamentoCartaoPontoRegistros>();
+                        ViewBag.Fechamento = $"Funcionário possui fechamento de ponto em { fechamento.FirstOrDefault().DataUltimoFechamento.GetValueOrDefault().ToShortDateString() }, não é possível alterar o período informado.";
+                    }
+                    else
+                    {
+                        lcp.Regs = bllMarcacao.GetLancamentoCartaoPonto(func.Id, Convert.ToDateTime(lcp.DataInicial), Convert.ToDateTime(lcp.DataFinal));
+                    }
                     return PartialView(lcp);
                 }
                 else
