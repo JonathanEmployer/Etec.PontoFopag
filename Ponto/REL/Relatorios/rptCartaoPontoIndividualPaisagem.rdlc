@@ -1458,7 +1458,7 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Legenda: A - Afastamento | I - Inclusão Banco Horas | F - Feriado | J - Jornada Alternativa | * - Marcações alteradas | M - Mudança de Horário</Value>
+                                  <Value>Legenda: A - Afastamento | I - Inclusão Banco Horas | F - Feriado | J - Jornada Alternativa | * - Marcações alteradas | M - Mudança de Horário | S - Substituição de Jornada</Value>
                                   <Style>
                                     <FontFamily>Courier New</FontFamily>
                                     <FontSize>6.5pt</FontSize>
@@ -9193,7 +9193,7 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
       </DefaultValue>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
-  </ReportParameters>  
+  </ReportParameters>
   <Language>pt-BR</Language>
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>

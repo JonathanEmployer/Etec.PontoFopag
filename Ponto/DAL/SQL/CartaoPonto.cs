@@ -270,8 +270,9 @@ namespace DAL.SQL
 				                                , feriado.HoraInicio AS FeriadoParcialInicio 
 				                                , feriado.HoraFim AS FeriadoParcialFim
                                                 , parametros.inicioadnoturno AS inicioAdNoturno
-				                                , parametros.fimadnoturno AS fimAdNoturno,
-                                                pe.RazaoSocial AS PessoaSupervisor			
+				                                , parametros.fimadnoturno AS fimAdNoturno
+                                                , pe.RazaoSocial AS PessoaSupervisor
+                                                , marcacao.idjornadasubstituir
 			                              FROM marcacao AS marcacao (NOLOCK)
                                          INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario
                                          INNER JOIN horario     ON horario.id = marcacao.idhorario

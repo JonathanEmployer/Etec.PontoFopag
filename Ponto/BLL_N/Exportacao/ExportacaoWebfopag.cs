@@ -92,7 +92,7 @@ namespace BLL_N.Exportacao
                         CampoComplemento.Delimitador = ";";
                         CampoComplemento.Posicao = 52;
                         CampoComplemento.Qualificador = "[nenhum]";
-                        CampoComplemento.Tamanho = 3;
+                        CampoComplemento.Tamanho = 10;
                         CampoComplemento.Zeroesquerda = 1;
                         CampoComplemento.Formatoevento = string.Empty;
 
@@ -100,7 +100,7 @@ namespace BLL_N.Exportacao
                         CampoCodigoEmpresa.Tipo = "Código Empresa";
                         CampoCodigoEmpresa.Codigo = 7;
                         CampoCodigoEmpresa.Delimitador = ";";
-                        CampoCodigoEmpresa.Posicao = 56;
+                        CampoCodigoEmpresa.Posicao = 65;
                         CampoCodigoEmpresa.Qualificador = "[nenhum]";
                         CampoCodigoEmpresa.Tamanho = 5;
                         CampoCodigoEmpresa.Formatoevento = string.Empty;
@@ -109,7 +109,7 @@ namespace BLL_N.Exportacao
                         CampoCodigoMatricula.Tipo = "Matrícula";
                         CampoCodigoMatricula.Codigo = 8;
                         CampoCodigoMatricula.Delimitador = ";";
-                        CampoCodigoMatricula.Posicao = 62;
+                        CampoCodigoMatricula.Posicao = 71;
                         CampoCodigoMatricula.Qualificador = "[nenhum]";
                         CampoCodigoMatricula.Tamanho = 10;
                         CampoCodigoMatricula.Formatoevento = string.Empty;
@@ -118,7 +118,7 @@ namespace BLL_N.Exportacao
                         CampoPis.Tipo = "Pis";
                         CampoPis.Codigo = 9;
                         CampoPis.Delimitador = ";";
-                        CampoPis.Posicao = 73;
+                        CampoPis.Posicao = 82;
                         CampoPis.Qualificador = "[nenhum]";
                         CampoPis.Tamanho = 12;
                         CampoPis.Formatoevento = string.Empty;
@@ -127,7 +127,7 @@ namespace BLL_N.Exportacao
                         CampoNome.Tipo = "Nome do Funcionário";
                         CampoNome.Codigo = 10;
                         CampoNome.Delimitador = ";";
-                        CampoNome.Posicao = 86;
+                        CampoNome.Posicao = 95;
                         CampoNome.Qualificador = "[nenhum]";
                         CampoNome.Tamanho = 99;
                         CampoNome.Formatoevento = string.Empty;
