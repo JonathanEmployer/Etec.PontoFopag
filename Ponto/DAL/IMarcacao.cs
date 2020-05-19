@@ -92,6 +92,7 @@ namespace DAL
         DateTime? GetLastDateMarcacao(int idFunc);
         int GetIdDocumentoWorkflow(int idMarcacao);
         void IncluiUsrDtaConclusaoFluxoPnlRh(int idMarcacao, DateTime dataConclusao, string usrLogin);
+        List<Modelo.LancamentoCartaoPontoRegistros> GetLancamentoCartaoPonto(int idFuncionario, DateTime dataInicial, DateTime DataFinal);
         DataTable ConclusoesBloqueioPnlRh(string idsFuncionarios, DateTime dataInicial, DateTime dataFinal, int tipoFiltro);
 
         void ManipulaDocumentoWorkFlowPnlRH(int idMarcacao, int idDocumentoWorkflow, bool documentoWorkflowAberto);

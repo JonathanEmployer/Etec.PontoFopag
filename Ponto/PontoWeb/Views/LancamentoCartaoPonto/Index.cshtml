@@ -1,0 +1,697 @@
+﻿@model Modelo.LancamentoCartaoPonto
+@{
+    ViewBag.Title = "Ponto Manual";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("index", "LancamentoCartaoPonto", FormMethod.Post, new { id = "FormTabelaMarcacao" }))
+{
+    <div class="" style="padding-top:2px;">
+        <div class="modal fade" id="myModal" tabindex="" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" accesskey="" data-keyboard="false" data-backdrop="static" style="padding-right:5px; padding-left:5px; padding-top:1px; ">
+            <div class="modal-dialog" role="document" style="width:100%;  padding-right:2px; padding-left:5px; padding-top:5px; margin-top:2px; margin-bottom:0px">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding:5px">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">@ViewBag.Title</h4>
+                    </div>
+                    <div class="modal-body" id="corpoModel" style="padding-top:5px; ">
+                        <div style="padding-top:0;">
+                            @Html.ValidationSummary(true)
+                            <div class="panel panel-default" style="margin-bottom:0px;">
+                                <div class="panel-body" style="margin-top:0; margin-bottom:0; padding-top:0px; padding-bottom:5px;">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-2">
+                                                <div class="panel panel-default" id="pnlData" style="margin-top:7px; padding-top:0px; margin-bottom:0px ">
+                                                    <div class=" panel-heading" style="margin-top:0; margin-bottom:0; padding-top:0; padding-bottom:0px;">Período</div>
+                                                    <div class="panel-body" style="margin-top:0; margin-bottom:0; padding-top:0; padding-bottom:5px;">
+                                                        <div class="row">
+                                                            <div class="form-group">
+                                                                <div class="form-group input-group-sm">
+                                                                    <div class="col-md-12">
+                                                                        <div class="input-group input-group-sm">
+                                                                            @Html.TextBoxFor(model => model.DataInicial, new { @class = "form-control input-sm MascDate datepickerpt" })
+                                                                            <span class="input-group-btn">
+                                                                                <button class="btn btn-primary btndatepicker" id="btnDataInicial" type="button" title="Data Inicial"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                                            </span>
+                                                                        </div>
+                                                                        @Html.ValidationMessageFor(model => model.DataInicial)
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group">
+                                                                <div class="form-group input-group-sm">
+                                                                    <div class="col-md-12">
+                                                                        <div class="input-group input-group-sm">
+                                                                            @Html.TextBoxFor(model => model.DataFinal, new { @class = "form-control input-sm MascDate datepickerpt" })
+                                                                            <span class="input-group-btn">
+                                                                                <button class="btn btn-primary btndatepicker" id="btnDataFinal" type="button" title="Data Final"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                                            </span>
+                                                                        </div>
+                                                                        @Html.ValidationMessageFor(model => model.DataFinal)
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                                    <div id="divEmpresa" class="divsTipo">
+                                                        <div class="form-group">
+                                                            <div class="col-md-3">
+                                                                @Html.LabelFor(model => model.Empresa, new { @class = "control-label label-sm" })
+                                                            </div>
+                                                            <div class="col-md-9">
+                                                                <div class="input-group input-group-sm">
+                                                                    @Html.TextBoxFor(model => model.Empresa, new { @class = "form-control  input-sm lkpEmpresa", id = "lkpEmpresa" })
+                                                                    <span class="input-group-btn">
+                                                                        <button class="btn btn-primary lkpEmpresa" id="btnEmpresa" type="button" title="Pesquisa Empresa"><span class="glyphicon glyphicon-search"></span></button>
+                                                                    </span>
+                                                                </div>
+                                                                @Html.ValidationMessageFor(model => model.Empresa)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div id="divDepartamento" class="divsTipo">
+                                                        <div class="form-group">
+                                                            <div class="col-md-3">
+                                                                @Html.LabelFor(model => model.Departamento, new { @class = "control-label label-sm" })
+                                                            </div>
+                                                            <div class="col-md-9">
+                                                                <div class="input-group input-group-sm">
+                                                                    @Html.TextBoxFor(model => model.Departamento, new { @class = "form-control  input-sm lkpDepartamento", id = "lkpDepartamento" })
+                                                                    <span class="input-group-btn">
+                                                                        <button class="btn btn-primary lkpDepartamento" id="btnDepartamento" type="button" title="Pesquisa Departamento"><span class="glyphicon glyphicon-search"></span></button>
+                                                                    </span>
+                                                                </div>
+                                                                @Html.ValidationMessageFor(model => model.Departamento)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="divContrato" class="divsTipo">
+                                                        <div class="form-group">
+                                                            <div class="col-md-3">
+                                                                @Html.LabelFor(model => model.Contrato, new { @class = "control-label label-sm" })
+                                                            </div>
+                                                            <div class="col-md-9">
+                                                                <div class="input-group input-group-sm">
+                                                                    @Html.TextBoxFor(model => model.Contrato, new { @class = "form-control  input-sm lkpContrato", id = "lkpContrato" })
+                                                                    <span class="input-group-btn">
+                                                                        <button class="btn btn-primary lkpContrato" id="btnContrato" type="button" title="Pesquisa Contrato"><span class="glyphicon glyphicon-search"></span></button>
+                                                                    </span>
+                                                                </div>
+                                                                @Html.ValidationMessageFor(model => model.Contrato)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div id="divFuncionario" class="divsTipo">
+                                                        <div class="form-group">
+                                                            <div class="col-md-3">
+                                                                @Html.LabelFor(model => model.Funcionario, new { @class = "control-label label-sm" })
+                                                            </div>
+                                                            <div class="col-md-9">
+                                                                <div class="input-group input-group-sm">
+                                                                    @Html.TextBoxFor(model => model.Funcionario, new { @class = "form-control  input-sm lkpFuncionario", id = "lkpFuncionario" })
+                                                                    <span class="input-group-btn">
+                                                                        <button class="btn btn-primary lkpFuncionario" id="btnFuncionario" type="button" title="Pesquisa Funcionário"><span class="glyphicon glyphicon-search"></span></button>
+                                                                        <button class="btn btn-primary" id="btnPrimeiro" type="button" title="Primeiro Funcionário"><span class="glyphicon glyphicon-fast-backward"></span></button>
+                                                                        <button class="btn btn-primary" id="btnAnterior" type="button" title="Funcionário Anterior"><span class="glyphicon glyphicon-backward"></span></button>
+                                                                        <button class="btn btn-primary" id="btnProximo" type="button" title="Próximo Funcionário"><span class="glyphicon glyphicon-forward"></span></button>
+                                                                        <button class="btn btn-primary" id="btnUltimo" type="button" title="Último Funcionário"><span class="glyphicon glyphicon-fast-forward"></span></button>
+                                                                        <button class="btn btn-primary" id="btnAtualizar" type="button" title="Atualizar Dados Funcionário"><span class="glyphicon glyphicon-refresh"></span></button>
+                                                                    </span>
+                                                                </div>
+                                                                @Html.ValidationMessageFor(model => model.Funcionario)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div id="divDadosFuncionario">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <ul class="list-inline">
+                                                        <li><b>A</b> - Afastamento &nbsp; &nbsp; &nbsp;</li>
+                                                        <li><b>F</b> - Feriado &nbsp; &nbsp; &nbsp;</li>
+                                                        <li><b>I</b> - Inclusão Banco Horas &nbsp; &nbsp; &nbsp;</li>
+                                                        <li><b>*</b> - Marcações Alteradas &nbsp; &nbsp; &nbsp;</li>
+                                                        <li><b>J</b> - Jornada Alternativa &nbsp; &nbsp; &nbsp;</li>
+                                                        <li><b>M</b> - Mudança de Horário &nbsp; &nbsp; &nbsp;</li>
+                                                        <li><b>S</b> - Substituição de Jornada &nbsp; &nbsp; &nbsp;</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <p style="margin:0px">@Html.Label("Pares registros", new { @class = "control-label label-sm" })</p>
+                                                    @Html.RadioButtonFor(m => m.QuantidadeRegistros, 2) 2 &nbsp;&nbsp;
+                                                    @Html.RadioButtonFor(m => m.QuantidadeRegistros, 4) 4 &nbsp;&nbsp;
+                                                    @Html.RadioButtonFor(m => m.QuantidadeRegistros, 6) 6 &nbsp;&nbsp;
+                                                    @Html.RadioButtonFor(m => m.QuantidadeRegistros, 8) 8 &nbsp;&nbsp;
+                                                    @Html.RadioButtonFor(m => m.QuantidadeRegistros, 10) 10 &nbsp;&nbsp;
+                                                    @Html.RadioButtonFor(m => m.QuantidadeRegistros, 12) 12 &nbsp;&nbsp;
+                                                    @Html.RadioButtonFor(m => m.QuantidadeRegistros, 14) 14 &nbsp;&nbsp;
+                                                    @Html.RadioButtonFor(m => m.QuantidadeRegistros, 16) 16 &nbsp;&nbsp;
+                                                    @Html.ValidationMessageFor(model => model.QuantidadeRegistros)
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.DescJustificativa, new { @class = "control-label label-sm" })
+                                                        <div class="input-group input-group-sm">
+                                                            @Html.TextBoxFor(model => model.DescJustificativa, new { @class = "form-control  input-sm lkpJustificativa", id = "lkpJustificativa" })
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-primary desabilitar lkpJustificativa" id="@("btnJustificativa" )" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                            </span>
+                                                        </div>
+                                                        @Html.ValidationMessageFor(modal => modal.DescJustificativa)
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.Motivo, new { @class = "control-label label-sm" })
+                                                        @Html.TextBoxFor(model => model.Motivo, new { @class = "form-control  input-sm editor-field", id = "txtMotivo" })
+                                                        @Html.ValidationMessageFor(model => model.Motivo)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="divGrid">
+                                @Html.Hidden("intervalo", 0, new { id = "intervalo" })
+                                <div id="divErro" class="bg-danger" style="text-align:center; font-weight: bold; font-size:16px;">
+                                    @Html.ValidationMessage("intervalo")
+                                    @Html.ValidationMessage("CustomError")
+                                    @Html.ValidationMessageFor(model => model.Regs)
+                                </div>
+                                <div>
+                                    <div id="divGridMarcacao" style="padding-top:0px;">
+                                        @if (Model.Regs.Count > 0)
+                                        {
+                                            @Html.Partial("GridMarcacoes", Model)
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="margin-bottom: 0px; padding:5px;">
+                        <div class="col-xs-12 center-block">
+                            <div style="text-align: right">
+                                <button type="button" id="btnSalvar" class="btn btn-success salvando">
+                                    <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                                </button>
+                                <a class="btn btn-danger salvando"
+                                   href="@Url.Action("Index", "Home")">
+                                    <span class="glyphicon glyphicon-remove"></span> Cancelar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*Fim Modal*@
+    </div>
+}
+    <div id="divManutMarcacao" class="modal" style="background-color: rgba(0,0,0,0.4);" accesskey="" data-keyboard="false" data-backdrop="static"></div>
+
+<script>
+    var errorArray = {};
+    var temAnterior = true;
+    var temProximo = true;
+    $.fn.clearErrors = function () {
+        $(this).each(function () {
+            $(this).trigger('reset.unobtrusiveValidation');
+        });
+    };
+    $(document).ready(function () {
+        $("#myModal").modal('show');
+        $("#btnPrimeiro").prop('disabled', true);
+        $("#btnAnterior").prop('disabled', true);
+        var campoFoco = "#lkpFuncionario";
+        ValidaDadosEmpresa("#lkpEmpresa");
+
+        if ('@ViewBag.UtilizaControleContrato'.toLowerCase() == 'true') {
+            $('#divContrato').removeClass('hidden');
+            $('#divDepartamento').addClass('hidden');
+        }
+        else {
+            $('#divContrato').addClass('hidden');
+            $('#divDepartamento').removeClass('hidden');
+        }
+
+        $(".lkpEmpresa").bind("keydown click", function (e) {
+            cwk_EventoConsultaUnico(e, this, "EventoConsultaOpcaoTodas", "Empresa", "", callBackEmpresa, "", "");
+        });
+
+        $(".lkpDepartamento").bind("keydown click", function (e) {
+            cwk_EventoConsultaUnico(e, this, "EventoConsultaOpcaoTodas", "Departamento", "#lkpEmpresa", callBackDepartamento, "");
+        });
+
+        $(".lkpContrato").bind("keydown click", function (e) {
+            cwk_EventoConsultaUnico(e, this, "EventoConsulta", "Contrato", "#lkpEmpresa", callBackContrato, 3);
+        });
+
+        $(".lkpFuncionario").bind("keydown click", function (e) {
+            var empresa = $("#lkpEmpresa").val();
+            var codigoEmp = empresa.split('|');
+            codigoEmp = $.trim(codigoEmp[0]);
+
+            var departamento = $("#lkpDepartamento").val();
+            var codigoDep = departamento.split('|');
+            codigoDep = $.trim(codigoDep[0]);
+
+            var contrato = $("#lkpContrato").val();
+            var codigoCont = contrato.split('|');
+            codigoCont = $.trim(codigoCont[0]);
+
+            var tipo = 2;
+            var campo = "#lkpDepartamento";
+            if (codigoCont > 0) {
+                var tipo = 5;
+                var campo = "#lkpContrato";
+            }
+            else if (codigoDep > 0 && codigoEmp > 0) {
+                var tipo = 2;
+                var campo = "#lkpDepartamento";
+            }
+            else if (codigoEmp == 0) {
+                var tipo = 3;
+                var campo = "#lkpEmpresa";
+            }
+            else if (codigoDep == 0) {
+                var tipo = 1;
+                var campo = "#lkpEmpresa";
+            }
+            cwk_EventoConsultaUnico(e, this, "GetTabelaMarcacao", "Funcionario", campo, callBackFuncionario, "", parametros = { tipo: tipo }, callBackErro);
+        });
+
+        //Tratamento Período
+        setaDatePiker('#DataInicial');
+        setaDatePiker('#DataFinal');
+        cwk_DataCalendario('#btnDataInicial', '#DataInicial');
+        cwk_DataCalendario('#btnDataFinal', '#DataFinal');
+        var dtIniAnt;
+        var dtFinAnt;
+        $('#DataInicial').datepicker().on('show', function (ev) {
+            dtIniAnt = $("#DataInicial").val();
+            dtFinAnt = $("#DataFinal").val();
+        });
+        $('#DataFinal').datepicker().on('show', function (ev) {
+            dtIniAnt = $("#DataInicial").val();
+            dtFinAnt = $("#DataFinal").val();
+        });
+
+        $('#DataInicial').datepicker().on('hide', function (ev) {
+            $('#FormTabelaMarcacao input').clearErrors();
+            if (($("#DataInicial").val() != null && $("#DataInicial").val() != "") && ($("#DataFinal").val() == null || $("#DataFinal").val() == "")) {
+                var inid = new Date(ev.date);
+                endDate = new Date(ev.date);
+                endDate.setDate(endDate.getDate() + 30);
+                endDateString = ('0' + endDate.getDate()).slice(-2) + '/'
+                    + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
+                    + endDate.getFullYear();
+                $('#DataFinal').val(endDateString);
+                $('#DataFinal').datepicker('update');
+            }
+
+            if ($("#DataInicial").val() != dtIniAnt || $("#DataFinal").val() != dtFinAnt) {
+                carregaGridMarcacao("", null);
+            }
+        });
+
+        $('input:radio[name="QuantidadeRegistros"]').change(function () {
+            carregaGridMarcacao("", null);
+        });
+
+        $('#DataFinal').datepicker().on('hide', function (ev) {
+            $('#FormTabelaMarcacao input').clearErrors();
+            if ($("#DataInicial").val() != dtIniAnt || $("#DataFinal").val() != dtFinAnt)
+            {
+                let oData = new Date();
+                oData.setDate(oData.getDate() + 60);
+
+                let final = new Date(ev.date);
+                if (final > oData)
+                {
+                    let endDateString = ('0' + oData.getDate()).slice(-2) + '/' + ('0' + (oData.getMonth() + 1)).slice(-2) + '/' + oData.getFullYear();
+                    $('#DataFinal').val(endDateString);
+                    $('#DataFinal').datepicker('update');
+                }
+                carregaGridMarcacao("", null);
+            }
+        });
+        //Fim Tratamento Período
+        $("#corpoModel").css("height", (cwk_AlturaTela() - 100) + "px");
+
+        $('#btnSalvar').click(function () {
+            $(this).prop("disabled", true);
+            $("#loading").modal();
+            if (!$('form').valid()) {
+                $(this).prop("disabled", false);
+                $("#loading").modal('hide');
+                return false;
+            }
+            $('form').submit();
+        });
+    });
+
+    function validaPeriodoTabelaMarcacao() {
+        return validaPeriodo("#DataInicial", "#DataFinal", "#pnlData", "intervalo", "#FormTabelaMarcacao", false, 1);
+    }
+
+    function callBackEmpresa(campo) {
+        $("#lkpDepartamento").val("0 | TODOS OS DEPARTAMENTOS");
+        $("#lkpContrato").val("0 | TODOS OS CONTRATOS");
+        ValidaDadosEmpresa(campo);
+        if (codigoEmp != "0") {
+            ajax_GetObjetoExecCallBack("Empresa", "PeriodoFechamento", { 'codigo': codigoEmp }, PeriodoFechamentoPonto);
+        }
+    }
+
+    function ValidaDadosEmpresa(campo) {
+        codigoEmp = getCodigoCampo(campo);
+        if (codigoEmp == "0") {
+            $('#lkpDepartamento').prop('readonly', true);
+            $("#btnDepartamento").prop('disabled', true);
+            $('#lkpContrato').prop('readonly', true);
+            $("#btnContrato").prop('disabled', true);
+        }
+        else {
+            $('#lkpDepartamento').prop('readonly', false);
+            $("#btnDepartamento").prop('disabled', false);
+            $('#lkpContrato').prop('readonly', false);
+            $("#btnContrato").prop('disabled', false);
+        }
+        $(".lkpFuncionario").val("");
+        controlaFocus();
+    }
+
+    function controlaFocus() {
+        if ($("#DataInicial").val() == null || $("#DataInicial").val() == "") {
+            campoFoco = "#DataInicial";
+        }
+        else {
+            if (!$('#lkpDepartamento').is('[readonly]')) {
+                campoFoco = "#lkpDepartamento";
+            }
+            else {
+                campoFoco = "#lkpFuncionario";
+            }
+        }
+        $(campoFoco).focus();
+    }
+
+    function callBackDepartamento(campo) {
+        $(".lkpFuncionario").val("");
+        campoFoco = "#lkpFuncionario";
+        chamaProximoFuncionario(1);
+    }
+
+    function callBackContrato(campo) {
+        codigo = getCodigoCampo(campo);
+        if (codigo != "0") {
+            ajax_GetObjetoExecCallBack("Contrato", "PeriodoFechamento", { 'codigo': codigo }, PeriodoFechamentoPonto);
+        }
+        callBackDepartamento(campo);
+    }
+
+    function PeriodoFechamentoPonto(objetoJson) {
+        if (objetoJson.Sucesso) {
+            $("#DataInicial").datepicker("update", ConvertDate(objetoJson.PeriodoFechamento.DataFechamentoInicialStr));
+            $("#DataFinal").datepicker("update", ConvertDate(objetoJson.PeriodoFechamento.DataFechamentoFinalStr));
+            carregaGridMarcacao("", "#lkpFuncionario");
+        }
+        else {
+            controlaFocus();
+        }
+    }
+
+    function callBackFuncionario(campo) {
+        campoFoco = "#btnProximo";
+        DadosFuncionario();
+        $(".datepickerpt").datepicker('hide');
+    };
+
+    function callBackErro(campo) {
+        $("#divDadosFuncionario").html("");
+        $("#divGridMarcacao").html("");
+    }
+
+    function DadosFuncionario() {
+        if (parametrosValidos(false, false)) {
+            CarregaDadosAjax('DadosFuncionario', 'Marcacao', ParamPeriodoEmpDepFunc(), '#divDadosFuncionario', campoFoco);
+        }
+        if (parametrosValidos(true, true)) {
+            carregaGridMarcacao("", campoFoco);
+        }
+    }
+
+
+    function carregaGridMarcacao(response, campoChamou) {
+        if (parametrosValidos(true, true)) {
+            var parms = $("#FormTabelaMarcacao").serialize();
+            CarregaDadosAjax('GridMarcacoes', 'LancamentoCartaoPonto', parms, '#divGridMarcacao', campoChamou, callBackCarregouGridMarcacao);
+        }
+        else {
+            $("#divGridMarcacao").html("");
+        }
+    }
+
+    function callBackCarregouGridMarcacao() {
+        $("#btnPrimeiro").prop('disabled', !temAnterior);
+        $("#btnAnterior").prop('disabled', !temAnterior);
+        $("#btnProximo").prop('disabled', !temProximo);
+        $("#btnUltimo").prop('disabled', !temProximo);
+    }
+
+    function proximoFuncionario(func, tipofiltro, filtro, tipoposicao) {
+        var codigoFunc = func.split('|');
+        codigoFunc = $.trim(codigoFunc[0]);
+        var parametros = {
+            consulta: codigoFunc,
+            tipoFiltro: tipofiltro,
+            filtro: filtro,
+            tipoPosicao: tipoposicao
+        };
+
+        $.ajax({
+            url: '/Funcionario/ProximoFuncionario',
+            type: 'GET',
+            dataType: "html",
+            data: parametros,
+            crossDomain: true,
+            beforeSend: function () {
+            },
+            error: function (ex) {
+                $("#lkpFuncionario").val("");
+                $("#btnPrimeiro").prop('disabled', true);
+                $("#btnAnterior").prop('disabled', true);
+                $("#btnProximo").prop('disabled', false);
+                $("#btnUltimo").prop('disabled', false);
+            },
+            success: function (response, status, jqXHR) {
+                obj = jQuery.parseJSON(response);
+                $("#lkpFuncionario").val(obj.Funcionario);
+                temAnterior = !obj.Primeiro;
+                temProximo = !obj.Ultimo;
+                $("#btnProximo").prop('disabled', false);
+                $("#btnUltimo").prop('disabled', false);
+                $("#btnPrimeiro").prop('disabled', false);
+                $("#btnAnterior").prop('disabled', false);
+                if (obj.Primeiro) {
+                    campoFoco = "#btnProximo";
+                    $("#btnProximo").prop('disabled', false);
+                    $("#btnUltimo").prop('disabled', false);
+                    $("#btnPrimeiro").prop('disabled', true);
+                    $("#btnAnterior").prop('disabled', true);
+                }
+                if (obj.Ultimo) {
+                    campoFoco = "#btnAnterior";
+                    $("#btnProximo").prop('disabled', true);
+                    $("#btnUltimo").prop('disabled', true);
+                    $("#btnPrimeiro").prop('disabled', false);
+                    $("#btnAnterior").prop('disabled', false);
+                }
+                if ($("#DataInicial").val() == null || $("#DataInicial").val() == "") {
+                    campoFoco = "#DataInicial";
+                }
+                try {
+                    DadosFuncionario();
+                } catch (x) {
+                    handleError(jqXHR, status, x);
+                }
+            }
+        });
+    }
+
+    function handleError(jqXHR, status, exception) {
+        cwkErroTit("Erro ao carregar funcionário", "Recarregue a página e tente novamente, caso o problema persista contate o suporte. Status = " + status + " Erro = " + exception);
+    }
+
+    $("#btnAtualizar").click(function () {
+        campoFoco = "#lkpFuncionario";
+        DadosFuncionario();
+    });
+
+    $("#btnPrimeiro").click(function () {
+        var tipoPosicao = 1; //Primeiro
+        campoFoco = "#" + this.id;
+        chamaProximoFuncionario(tipoPosicao);
+    });
+    $("#btnAnterior").click(function () {
+        var tipoPosicao = 2; //Anterior
+        campoFoco = "#" + this.id;
+        chamaProximoFuncionario(tipoPosicao);
+    });
+    $("#btnProximo").click(function () {
+        var tipoPosicao = 3; //Proximo
+        campoFoco = "#" + this.id;
+        chamaProximoFuncionario(tipoPosicao);
+    });
+    $("#btnUltimo").click(function () {
+        var tipoPosicao = 4; //Ultimo
+        campoFoco = "#" + this.id;
+        chamaProximoFuncionario(tipoPosicao);
+    });
+
+    function chamaProximoFuncionario(tipoPosicao) {
+        $("#btnPrimeiro").prop('disabled', true);
+        $("#btnProximo").prop('disabled', true);
+        $("#btnAnterior").prop('disabled', true);
+        $("#btnUltimo").prop('disabled', true);
+        var empresa = $("#lkpEmpresa").val();
+        var codigoEmp = empresa.split('|');
+        codigoEmp = $.trim(codigoEmp[0]);
+        var departamento = $("#lkpDepartamento").val();
+        var codigoDep = departamento.split('|');
+        codigoDep = $.trim(codigoDep[0]);
+        var tipo = 2;
+
+        var contrato = $("#lkpContrato").val();
+        var codigoCont = contrato.split('|');
+        codigoCont = $.trim(codigoCont[0]);
+
+        var campo = "#lkpDepartamento";
+        if (codigoDep > 0 && codigoEmp > 0) {
+            tipo = 2;
+            campo = "#lkpDepartamento";
+        }
+        else if (codigoCont > 0 && codigoEmp > 0) {
+            tipo = 5;
+            campo = "#lkpContrato";
+        }
+        else if (codigoEmp == 0) {
+            tipo = 3;
+            campo = "#lkpEmpresa";
+        }
+        else if (codigoDep == 0) {
+            tipo = 1;
+            campo = "#lkpEmpresa";
+        }
+        else if (codigoCont == 0) {
+            tipo = 1;
+            campo = "#lkpEmpresa";
+        }
+
+        var func = $("#lkpFuncionario").val();
+        var tipofiltro = tipo;
+        var filtro = $(campo).val();
+
+        proximoFuncionario(func, tipofiltro, filtro, tipoPosicao);
+    }
+
+    function callBackFoco() {
+        $('.date').datepicker('show').datepicker('hide');
+    };
+
+    function ParamPeriodoEmpDepFunc() {
+        var emp = $("#lkpEmpresa").val();
+        var depart = $("#lkpDepartamento").val();
+        var func = $("#lkpFuncionario").val();
+        var dataIni = $("#DataInicial").val();
+        var dataFin = $("#DataFinal").val();
+        return parametros = {
+            empresa: emp,
+            departamento: depart,
+            funcionario: func,
+            dataInicial: dataIni,
+            dataFinal: dataFin
+        };
+    }
+
+    function parametrosValidos(bValidaPeriodo, bValidaQuantidade) {
+        var dias = diasPeriodo($("#DataInicial").val(), $('#DataFinal').val());
+        var emp = $("#lkpEmpresa").val();
+        var depart = $("#lkpDepartamento").val();
+        var func = $("#lkpFuncionario").val();
+        if ((!bValidaPeriodo || (bValidaPeriodo && validaPeriodoTabelaMarcacao())) && func != null && func != "" && depart != null && depart != "" && emp != null && emp != "" &&
+            (!bValidaQuantidade || (bValidaQuantidade && $("input:radio[name=QuantidadeRegistros]").is(":checked")))) {
+            errorArray["Funcionario"] = '';
+            errorArray["QuantidadeRegistros"] = '';
+            $("form").validate().showErrors(errorArray);
+            limpaErro("Funcionario");
+            return true;
+        }
+        else {
+            if (func == null || func == "") {
+                errorArray["Funcionario"] = 'Funcionário deve ser informado!';
+                $("form").validate().showErrors(errorArray);
+                $('#divDadosFuncionario').html('');
+                $('#divGridMarcacao').html('');
+            }
+            else {
+                errorArray["Funcionario"] = '';
+                $("form").validate().showErrors(errorArray);
+                limpaErro("Funcionario");
+            }
+
+            if ($("input:radio[name=QuantidadeRegistros]").is(":checked")) {
+                errorArray["QuantidadeRegistros"] = '';
+                $("form").validate().showErrors(errorArray);
+                limpaErro("QuantidadeRegistros");
+            }
+            else {
+                errorArray["QuantidadeRegistros"] = 'Quantidade de registros deve ser informado!';
+                $("form").validate().showErrors(errorArray);
+            }
+            return false;
+        }
+    }
+
+    var $window = $(window).on('resize', function () {
+        var alturaTela = cwk_AlturaTela();
+        var alturaDiv = alturaTela * 36 / 100;
+        if (cwk_AlturaResolucao() <= 768) {
+            alturaDiv = alturaTela * 45 / 100;
+        }
+        $("#divGrid").height(alturaDiv);
+    }).trigger('resize');
+
+    $(".lkpJustificativa").bind("keydown click", function (e) {
+        cwk_EventoConsultaUnico(e, this, "", "Justificativa", "", callBackMotivo, "", "");
+    });
+
+    function callBackMotivo(campo) {
+        var valor = $(campo).val().split("|")[1].trim();
+        identcampo = campo.replace("#lkpJustificativa", "");
+        $("#txtMotivo").val(valor);
+        $('#FormTabelaMarcacao input').clearErrors();
+    
+    }
+</script>

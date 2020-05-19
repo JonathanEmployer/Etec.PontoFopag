@@ -1638,6 +1638,11 @@ namespace BLL
             Task.WaitAll(taskList.ToArray());
             return VincularBilhetesMarcacao(tMarcacao.Result, tBilhetes.Result);
         }
+
+        public List<Modelo.LancamentoCartaoPontoRegistros> GetLancamentoCartaoPonto(int idFuncionario, DateTime dataInicial, DateTime DataFinal)
+        {
+            return dalMarcacao.GetLancamentoCartaoPonto(idFuncionario, dataInicial, DataFinal);
+        }
     }
 
     public struct MarcPA

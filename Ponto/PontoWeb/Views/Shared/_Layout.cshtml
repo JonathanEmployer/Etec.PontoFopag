@@ -216,19 +216,20 @@
                                 </ul>
                             </li>
                             <li role="presentation" class="divider"></li>
-                            <li>
-                                @Html.ActionLink("Fechamento Ponto", "Grid", "FechamentoPonto")
-                            </li>
-                            <li role="presentation" class="divider"></li>
                             <li class="dropdown-submenu">
                                 <a href="#">Lançamentos em Lote</a>
                                 <ul class="dropdown-menu">
+                                    <li> @Html.ActionLink("Ponto Manual", "Index", "LancamentoCartaoPonto")</li>
                                     <li> @Html.ActionLink("Mudança Horário", "Grid", "LancamentoLoteMudancaHorario")</li>
                                     <li> @Html.ActionLink("Marcação Manual", "Grid", "LancamentoLoteBilhetesImp")</li>
                                     <li> @Html.ActionLink("Afastamento", "Grid", "LancamentoLoteAfastamento")</li>
                                     <li> @Html.ActionLink("Folgas", "Grid", "LancamentoLoteFolga")</li>
                                     <li> @Html.ActionLink("Crédito/Débito", "Grid", "LancamentoLoteInclusaoBanco")</li>
                                 </ul>
+                            </li>
+                            <li role="presentation" class="divider"></li>
+                            <li>
+                                @Html.ActionLink("Fechamento Ponto", "Grid", "FechamentoPonto")
                             </li>
                         </ul>
                     </li>
