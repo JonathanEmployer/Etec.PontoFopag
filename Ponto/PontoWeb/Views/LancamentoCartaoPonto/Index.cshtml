@@ -37,8 +37,8 @@
                                                                                 <button class="btn btn-primary btndatepicker" id="btnDataInicial" type="button" title="Data Inicial"><span class="glyphicon glyphicon-calendar"></span></button>
                                                                             </span>
                                                                         </div>
+                                                                        @Html.ValidationMessageFor(model => model.DataInicial)
                                                                     </div>
-                                                                    @Html.ValidationMessageFor(model => model.DataInicial)
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -234,7 +234,11 @@
     var errorArray = {};
     var temAnterior = true;
     var temProximo = true;
-
+    $.fn.clearErrors = function () {
+        $(this).each(function () {
+            $(this).trigger('reset.unobtrusiveValidation');
+        });
+    };
     $(document).ready(function () {
         $("#myModal").modal('show');
         $("#btnPrimeiro").prop('disabled', true);
@@ -314,6 +318,7 @@
         });
 
         $('#DataInicial').datepicker().on('hide', function (ev) {
+            $('#FormTabelaMarcacao input').clearErrors();
             if (($("#DataInicial").val() != null && $("#DataInicial").val() != "") && ($("#DataFinal").val() == null || $("#DataFinal").val() == "")) {
                 var inid = new Date(ev.date);
                 endDate = new Date(ev.date);
@@ -324,6 +329,7 @@
                 $('#DataFinal').val(endDateString);
                 $('#DataFinal').datepicker('update');
             }
+
             if ($("#DataInicial").val() != dtIniAnt || $("#DataFinal").val() != dtFinAnt) {
                 carregaGridMarcacao("", null);
             }
@@ -334,6 +340,7 @@
         });
 
         $('#DataFinal').datepicker().on('hide', function (ev) {
+            $('#FormTabelaMarcacao input').clearErrors();
             if ($("#DataInicial").val() != dtIniAnt || $("#DataFinal").val() != dtFinAnt)
             {
                 let oData = new Date();
@@ -684,5 +691,7 @@
         var valor = $(campo).val().split("|")[1].trim();
         identcampo = campo.replace("#lkpJustificativa", "");
         $("#txtMotivo").val(valor);
+        $('#FormTabelaMarcacao input').clearErrors();
+    
     }
 </script>
