@@ -4589,7 +4589,7 @@ WHERE
             parms[2].Value = pDataFinal;
             #region sql
             string sql = @"SELECT  m.*
-	                      ,hd.IdJornada
+	                      ,isnull(jPara.id, hd.IdJornada) IdJornada
 	                      ,p.InicioAdNoturno
 	                      ,p.fimadnoturno
                           ,p.ReducaoHoraNoturna
@@ -4627,6 +4627,8 @@ WHERE
 			            END
 			            AND m.data = inclusaobanco.data
 			            AND inclusaobanco.credito IS NOT null
+                        LEFT JOIN jornadasubstituir js on js.id = m.idjornadasubstituir
+					    LEFT JOIN jornada jPara on js.idjornadapara = jPara.id
                         LEFT JOIN dbo.justificativa j ON j.id = inclusaobanco.IdJustificativa
                         LEFT JOIN horariodetalhe hd ON hd.idhorario = m.idhorario 
                         AND ((h.tipohorario = 1 AND hd.dia = (CASE WHEN (CAST(DATEPART(WEEKDAY, m.data) AS INT) - 1) = 0 THEN 7 ELSE (CAST(DATEPART(WEEKDAY, m.data) AS INT) - 1) END) ) OR

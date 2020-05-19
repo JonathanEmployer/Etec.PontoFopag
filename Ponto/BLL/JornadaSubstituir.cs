@@ -58,9 +58,9 @@ namespace BLL
             return dalJornadaSubstituir.LoadObject(id);
         }
 
-        public List<Modelo.JornadaSubstituir> GetAllList()
+        public List<Modelo.JornadaSubstituir> GetAllList(bool validarPermissao)
         {
-            return dalJornadaSubstituir.GetAllList();
+            return dalJornadaSubstituir.GetAllList(validarPermissao);
         }
 
         public Dictionary<string, string> ValidaObjeto(Modelo.JornadaSubstituir objeto)
@@ -193,6 +193,11 @@ namespace BLL
         public List<PxyJornadaSubstituirCalculo> GetPxyJornadaSubstituirCalculo(DateTime dataIni, DateTime dataFim, List<int> idsFuncs)
         {
             return dalJornadaSubstituir.GetPxyJornadaSubstituirCalculo(dataIni, dataFim, idsFuncs);
+        }
+
+        public List<PxyJornadaSubstituirCalculo> GetPxyJornadaSubstituirCalculo(List<int> idsJornadaSubstituir)
+        {
+            return dalJornadaSubstituir.GetPxyJornadaSubstituirCalculo(idsJornadaSubstituir);
         }
     }
 }
