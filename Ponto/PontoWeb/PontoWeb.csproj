@@ -1791,7 +1791,7 @@
     <Content Include="Views\ReplicarBancoHoras\Index.cshtml" />
     <Content Include="Views\JornadaSubstituir\Grid.cshtml" />
     <Content Include="Views\JornadaSubstituir\Cadastrar.cshtml" />
-    <Content Include="Views\LancamentoCartaoPonto\Index.cshtml" />
+    <Content Include="Views\LancamentoCartaoPonto\Cadastro.cshtml" />
     <Content Include="Views\LancamentoCartaoPonto\GridMarcacoes.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>

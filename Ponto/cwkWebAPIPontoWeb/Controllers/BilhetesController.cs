@@ -57,7 +57,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                     List<Models.Bilhetes> ListaBilhetes = new List<Models.Bilhetes>();
                     List<Modelo.BilhetesImp> ListaBilhetesImp = new List<Modelo.BilhetesImp>();
                     BLL.BilhetesImp bllbilhetes = new BLL.BilhetesImp(connectionStr);
-                    ListaBilhetesImp = bllbilhetes.GetImportadosPeriodo(new List<int>() { func.Id }, data, data, true);
+                    ListaBilhetesImp = bllbilhetes.GetImportadosPeriodo(2, func.Id, data, data);
 
                     foreach (var item in ListaBilhetesImp)
                     {
