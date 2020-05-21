@@ -269,8 +269,11 @@ namespace BLL
             });
 
             this.Salvar(Modelo.Acao.Incluir, marcacoes.OrderBy(o => o.Idfuncionario).ThenBy(o => o.Data).ToList());
-            BLL.CalculaMarcacao bllCalculaMarcacao = new BLL.CalculaMarcacao(2, objMarcacao.Idfuncionario, pDataI, pDataF, ObjProgressBar, false, ConnectionString, UsuarioLogado, false);
-            bllCalculaMarcacao.CalculaMarcacoes();
+            if (objMarcacao != null)
+            {
+                BLL.CalculaMarcacao bllCalculaMarcacao = new BLL.CalculaMarcacao(2, objMarcacao.Idfuncionario, pDataI, pDataF, ObjProgressBar, false, ConnectionString, UsuarioLogado, false);
+                bllCalculaMarcacao.CalculaMarcacoes();
+            }
         }
 
         public Dictionary<string, string> AtualizaData(List<Modelo.Parametros> Parametros, List<Modelo.Horario> pListaHorario, DateTime pDataI, DateTime pDataF, List<Modelo.Funcionario> ListFuncionario, List<Modelo.InclusaoBanco> InclusaoBancoLista, List<Modelo.JornadaAlternativa> JornadasAlternativas, List<Modelo.FechamentoBHD> FechamentoBHDLista, List<Modelo.Feriado> FeriadoLista, List<Modelo.BancoHoras> BancoHorasLista, List<Modelo.Afastamento> AfastamentosLista, List<Modelo.Contrato> ContratoLista, List<Modelo.MudancaHorario> MudancaHorarioList, List<Modelo.Marcacao> MarcacoesPeriodo, IList<Modelo.Proxy.pxyFechamentoPontoFuncionario> Fechamentos)
