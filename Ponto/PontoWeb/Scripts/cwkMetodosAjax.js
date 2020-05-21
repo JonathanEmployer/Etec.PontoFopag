@@ -1154,11 +1154,11 @@ function requestBeforeSend(texto) { return $.blockUI({ message: '<h2>' + texto +
 // FIM Componente para carregar a grid de funcionários por ajax
 
 
-function PostFormJob(form, callBackSucesso, divAbrirJobs) {
-    PostReturnJob(form.action, form.method, $(form).serialize(), divAbrirJobs, false, callBackSucesso);
+function PostFormJob(form, callBackSucesso, divAbrirJobs, divModal) {
+    PostReturnJob(form.action, form.method, $(form).serialize(), divAbrirJobs, false, callBackSucesso, divModal);
 }
 
-function PostReturnJob(url, type, data, divAbrirJobs, LimparComponentes, callBackSucesso)
+function PostReturnJob(url, type, data, divAbrirJobs, LimparComponentes, callBackSucesso, divModal)
 {
     if (isEmpty(LimparComponentes)) {
         LimparComponentes = true;
@@ -1227,7 +1227,10 @@ function PostReturnJob(url, type, data, divAbrirJobs, LimparComponentes, callBac
                         }
                     }
                 } else {
-                    if(result.indexOf('<form') > 0) {
+                    if (!isEmpty(divModal)) {
+                        $("#" + divModal).html(result);
+                    }
+                    else if(result.indexOf('<form') > 0) {
                         $("html").html(result);
                     }
                 }

@@ -223,9 +223,17 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <button type="button" id="btTurnoFunc" title="Turno do Funcionário" class="btn btn-primary btn-sm">
-                                    <span class="glyphicon glyphicon-time"></span> Horário
-                                </button>
+                                <div class="btn-group dropup">
+                                    <button type="button" id="btTurnoFunc" title="Turno do Funcionário" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-time"></span> Horário</button>
+                                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#" id="btCadMudancaHorario">Mudança de horário</a></li>
+                                        <li><a href="#" id="btHMudancaHorario">Hist. Mudança de Horário</a></li>
+                                    </ul>
+                                </div>
                                 <button type="button" id="btTotHorasFunc" title="Total de Horas do Funcionário" class="btn btn-primary btn-sm">
                                     <span class="glyphicon glyphicon-list-alt"></span> Total Horas
                                 </button>
@@ -651,6 +659,9 @@
             }
         }
     });
+
+    cwk_EventoAlterarAjaxParam('#btHMudancaHorario', 'GridPorMarcacao', 'MudancaHorario', '#tb', "");
+    cwk_EventoAlterarAjaxParam('#btCadMudancaHorario', 'CadastrarManutMarcacao', 'MudancaHorario', '#tb', "");
 
     function callBackFoco() {
         $('.date').datepicker('show').datepicker('hide');
