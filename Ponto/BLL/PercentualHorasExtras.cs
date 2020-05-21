@@ -50,7 +50,7 @@ namespace BLL
             }
 
             var domingo = horariosPHExtra[7];
-            if (diaFinalSemana < 7 && ((domingo.TipoAcumulo == 1 && tipoDia == TipoDiaAcumulo.Domingo)
+            if (tipoDia == TipoDiaAcumulo.Domingo && diaFinalSemana < 7 && ((domingo.TipoAcumulo == 1 && tipoDia == TipoDiaAcumulo.Domingo)
                 || (domingo.TipoAcumulo == 2 && acumularSemana) || (domingo.TipoAcumulo == 3)))
             {
                 LimpaAcumuloTotal(acumulosTotais, ref acumuloCorrente, domingo.TipoAcumulo, acumularMes, acumularSemana);
