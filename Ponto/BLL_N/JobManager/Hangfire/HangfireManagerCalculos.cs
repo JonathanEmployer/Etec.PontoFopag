@@ -283,6 +283,14 @@ namespace BLL_N.JobManager.Hangfire
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
+
+        public PxyJobReturn ImportarBilhetes(string nomeProcesso, string parametrosExibicao, int idFuncionario, DateTime dtIni, DateTime dtFim)
+        {
+            JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
+            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.ImportarBilhetes(null, jobControl, dataBase, usuarioLogado, idFuncionario, dtIni, dtFim), _enqueuedStateNormal);
+            PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
+            return jobReturn;
+        }
         #endregion
     }
 }

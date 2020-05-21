@@ -4863,6 +4863,63 @@ WHERE
             cmd.Parameters.Clear();
         }
 
+        public List<Modelo.LancamentoCartaoPontoRegistros> GetLancamentoCartaoPonto(int idFuncionario, DateTime dataInicial, DateTime DataFinal)
+        {
+            List<Modelo.LancamentoCartaoPontoRegistros> lista = new List<Modelo.LancamentoCartaoPontoRegistros>();
+            SqlParameter[] parms = new SqlParameter[3]
+            {
+                    new SqlParameter("@idFuncionario", SqlDbType.Int),
+                    new SqlParameter("@dtIni", SqlDbType.DateTime),
+                    new SqlParameter("@dtFim", SqlDbType.DateTime),
+            };
+            parms[0].Value = idFuncionario;
+            parms[1].Value = dataInicial;
+            parms[2].Value = DataFinal;
+
+            string aux = @"
+                            SET LANGUAGE Brazilian;
+                            SELECT d.data Data,
+		                            SUBSTRING(DATENAME(dw,d.data),0,4)+'.' Dia,
+		                            m.LegendasConcatenadas Legenda,
+		                            iif(COALESCE(m.entrada_1, m.saida_1, m.entrada_2, m.saida_2, m.entrada_3, m.saida_3, m.entrada_4, m.saida_5) is null, 1, 0) Editavel,
+		                            m.entrada_1 e1,
+		                            m.entrada_2 e2,
+		                            m.entrada_3 e3,
+		                            m.entrada_4 e4,
+		                            m.entrada_5 e5,
+		                            m.entrada_6 e6,
+		                            m.entrada_7 e7,
+		                            m.entrada_8 e8,
+		                            m.saida_1 s1,
+		                            m.saida_2 s2,
+		                            m.saida_3 s3,
+		                            m.saida_4 s4,
+		                            m.saida_5 s5,
+		                            m.saida_6 s6,
+		                            m.saida_7 s7,
+		                            m.saida_8 s8
+                              FROM dbo.FN_DatasPeriodo(@dtIni, @dtFim) d
+                              LEFT JOIN marcacao m ON d.data = m.data and m.idfuncionario = @idFuncionario
+                             ORDER BY d.data 
+                           ";
+
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            try
+            {
+                if (dr.HasRows)
+                {
+                    var map = Mapper.CreateMap<IDataReader, List<Modelo.LancamentoCartaoPontoRegistros>>();
+                    lista = Mapper.Map<List<Modelo.LancamentoCartaoPontoRegistros>>(dr);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            return lista;
+        }
+
         #region Fechamento Ponto
         /// <summary>
         /// Retira o id fechamento da marcação
