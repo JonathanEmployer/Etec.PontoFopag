@@ -33,7 +33,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         [TratamentoDeErro]
         public HttpResponseMessage Bilhetes(string CPF, string Data, string Matricula)
         {
-            RetornoErro retErro = new RetornoErro(); 
+            RetornoErro retErro = new RetornoErro();
             string connectionStr = MetodosAuxiliares.Conexao();
             CPF = CPF.Replace("-", "").Replace(".", "");
             Int64 CPFint = Convert.ToInt64(CPF);
@@ -57,7 +57,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                     List<Models.Bilhetes> ListaBilhetes = new List<Models.Bilhetes>();
                     List<Modelo.BilhetesImp> ListaBilhetesImp = new List<Modelo.BilhetesImp>();
                     BLL.BilhetesImp bllbilhetes = new BLL.BilhetesImp(connectionStr);
-                    ListaBilhetesImp = bllbilhetes.GetImportadosPeriodo(2, func.Id, data, data);
+                    ListaBilhetesImp = bllbilhetes.GetImportadosPeriodo(new List<int>() { func.Id }, data, data, true);
 
                     foreach (var item in ListaBilhetesImp)
                     {
@@ -74,7 +74,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                         bil.Relogio = item.Relogio;
                         ListaBilhetes.Add(bil);
                     }
-                    
+
                     bilhetesmanutencao.ListaBilhetes = ListaBilhetes;
 
                     return Request.CreateResponse(HttpStatusCode.OK, bilhetesmanutencao);
@@ -129,173 +129,174 @@ namespace cwkWebAPIPontoWeb.Controllers
                 {
                     // Desconsidera pre assinaladas, sempre serão geradas automaticamente pelo rotina de calcula
                     Bilhetes.ListaBilhetes = Bilhetes.ListaBilhetes.Where(w => w.Relogio != "PA").ToList();
-                string connectionStr = MetodosAuxiliares.Conexao();
-                BLL.BilhetesImp BllBilhete = new BLL.BilhetesImp(connectionStr);
-                BLL.Funcionario BllFuncionario = new BLL.Funcionario(connectionStr);
-                Dictionary<string, string> erros = new Dictionary<string, string>();
-                BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(connectionStr);
-                Modelo.BilhetesImp BilheteAnt = new Modelo.BilhetesImp();
-                Modelo.Funcionario Func = new Modelo.Funcionario();
-                Func = BllFuncionario.LoadObject(IdFuncionario);
-                if (Func == null || Func.Id == 0)
-                {
-                    throw new Exception("Funcionário com id = "+IdFuncionario+" não encontrado no Pontofopag.");
-                } else if (!Func.bFuncionarioativo)
-                {
-                    throw new Exception("Funcionário "+Func.Nome+" não esta ativo no Pontofopag.");
-                }
-                else if (Func.Excluido == 1)
-                {
-                    throw new Exception("Funcionário " + Func.Nome + " excluído no Pontofopag.");
-                }
-
-                BLL.Marcacao BllMarcacao = new BLL.Marcacao(connectionStr);
-                Modelo.Marcacao marcacao = new Modelo.Marcacao();
-                if (Bilhetes.ListaBilhetes == null)
-                {
-                    Bilhetes.ListaBilhetes = new List<Bilhetes>();
-                }
-                
-                for (int i = 0; i < 8; i++)
-                {
-                    if (Bilhetes.ListaBilhetes.Where(x => x.Entrada_Saida == "E" && x.Posicao == i).GroupBy(x => new { x.Entrada_Saida, x.Posicao, x.Hora, x.DataMarcacao }).Count() > 1)
+                    string connectionStr = MetodosAuxiliares.Conexao();
+                    BLL.BilhetesImp BllBilhete = new BLL.BilhetesImp(connectionStr);
+                    BLL.Funcionario BllFuncionario = new BLL.Funcionario(connectionStr);
+                    Dictionary<string, string> erros = new Dictionary<string, string>();
+                    BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(connectionStr);
+                    Modelo.BilhetesImp BilheteAnt = new Modelo.BilhetesImp();
+                    Modelo.Funcionario Func = new Modelo.Funcionario();
+                    Func = BllFuncionario.LoadObject(IdFuncionario);
+                    if (Func == null || Func.Id == 0)
                     {
-                        Bilhetes.ListaBilhetes.Where(x => x.Entrada_Saida == "E" && x.Posicao == i).ToList().ForEach(x => { x.Erro = true; x.Descricaoerro = "Posição duplicada!"; });
+                        throw new Exception("Funcionário com id = " + IdFuncionario + " não encontrado no Pontofopag.");
                     }
-                    if (Bilhetes.ListaBilhetes.Where(x => x.Entrada_Saida == "S" && x.Posicao == i).GroupBy(x => new { x.Entrada_Saida, x.Posicao, x.Hora, x.DataMarcacao }).Count() > 1)
+                    else if (!Func.bFuncionarioativo)
                     {
-                        Bilhetes.ListaBilhetes.Where(x => x.Entrada_Saida == "S" && x.Posicao == i).ToList().ForEach(x => { x.Erro = true; x.Descricaoerro = "Posição duplicada!"; });
+                        throw new Exception("Funcionário " + Func.Nome + " não esta ativo no Pontofopag.");
                     }
-                    i++;
-                }
-
-                if (Bilhetes.ListaBilhetes.Where(x => x.Erro == true).Count() > 0)
-                {
-                    Bilhetes.Erro = true;
-                    Bilhetes.ErroDetalhe = "Bilhetes com Erro! Verifique!";
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, Bilhetes);
-                }
-
-                if (Bilhetes.IdMarcacao > 0)
-                {
-                    marcacao = BllMarcacao.LoadObject(Bilhetes.IdMarcacao);
-                }
-                else if ( Bilhetes.ListaBilhetes.Count() > 0)
-                {
-                    marcacao = BllMarcacao.GetPorFuncionario(Func.Id, Convert.ToDateTime(Bilhetes.ListaBilhetes.FirstOrDefault().DataMarcacao), Convert.ToDateTime(Bilhetes.ListaBilhetes.FirstOrDefault().DataMarcacao), true).FirstOrDefault();   
-                } 
-
-                if (marcacao == null || marcacao.Id == 0)
-                {
-                    throw new Exception("Nenhuma marcação encontrada para a data do bilhete ou com o id informado.");
-                }
-
-                if ((marcacao.Idfechamentobh != null && marcacao.Idfechamentobh > 0) || (marcacao.IdFechamentoPonto != null && marcacao.IdFechamentoPonto > 0))
-                {
-                    throw new Exception("O espelho de ponto já foi fechado nesse dia, não é permitido realizar alterações.");
-                }
-
-                marcacao.BilhetesMarcacao.Where(w => w.Relogio == "MA" && !Bilhetes.ListaBilhetes.Select(s => s.Id).Contains(w.Id)).ToList().ForEach(f => f.Acao = Acao.Excluir);
-
-                foreach (var bilhetePainel in Bilhetes.ListaBilhetes)
-                {
-                    Modelo.BilhetesImp bilhetePontofopag = null;
-                    if (marcacao.BilhetesMarcacao.Where(x => x.Hora == bilhetePainel.Hora && x.Data == bilhetePainel.DataBilhete && x.Id != bilhetePainel.Id && bilhetePainel.Id == 0).Count() > 0)
+                    else if (Func.Excluido == 1)
                     {
-                        bilhetePainel.Erro = true;
-                        bilhetePainel.Descricaoerro = "Já existe um bilhete no mesmo horário e dia.";
+                        throw new Exception("Funcionário " + Func.Nome + " excluído no Pontofopag.");
                     }
-                    else
-                    {
-                        if (bilhetePainel.Id > 0)
-                        {
-                            bilhetePontofopag = marcacao.BilhetesMarcacao.Where(x => x.Id == bilhetePainel.Id).FirstOrDefault();
-                        }
-                        if (bilhetePontofopag != null && bilhetePainel.Excluir == true)
-                        {
-                            if (bilhetePontofopag.Relogio != "MA")
-                            {
-                                bilhetePainel.Erro = true;
-                                bilhetePainel.Descricaoerro = "Não é possível excluir um bilhete originado de um relógio!";
-                            }
-                            else
-                            {
-                                bilhetePontofopag.Acao = Acao.Excluir;
-                            }
-                        }
-                        else if (bilhetePontofopag != null)
-                        {
-                            if ((bilhetePainel.Hora != bilhetePontofopag.Hora && bilhetePontofopag.Relogio != "MA") || bilhetePainel.DataBilhete != bilhetePontofopag.Data || bilhetePainel.Relogio != bilhetePontofopag.Relogio)
-                            {
-                                bilhetePainel.Erro = true;
-                                bilhetePainel.Descricaoerro = "Não é permitido alterar os campos Relógio, Data ou Hora do Bilhete original. Verifique!";
-                            }
-                            else
-                            {
-                                if (bilhetePontofopag.Relogio == "MA")
-                                {
-                                    bilhetePontofopag.Hora = bilhetePainel.Hora;
-                                    bilhetePontofopag.Mar_hora = bilhetePainel.Hora;
-                                }
-                                bilhetePontofopag.Ent_sai = bilhetePainel.Entrada_Saida;
-                                bilhetePontofopag.Posicao = bilhetePainel.Posicao;
-                                bilhetePontofopag.Idjustificativa = bilhetePainel.IdJustificativa.GetValueOrDefault();
-                                bilhetePontofopag.Ocorrencia = Convert.ToChar(bilhetePainel.Ocorrencia.Substring(0, 1));
-                                bilhetePontofopag.Motivo = bilhetePainel.Motivo;
-                                bilhetePontofopag.Acao = Acao.Alterar;
-                            }
-                        }
-                        else if (bilhetePainel.Id != 0 && bilhetePontofopag == null)
-                        {
-                            bilhetePainel.Erro = true;
-                            bilhetePainel.Descricaoerro = "Bilhete não encontrado!";
-                        }
-                        else
-                        {
-                            if (bilhetePainel.Relogio != "MA")
-                            {
-                                bilhetePainel.Erro = true;
-                                bilhetePainel.Descricaoerro = "Não é possível incluir um bilhete com identificação diferente de manual (MA)!";
-                            }
-                            Modelo.BilhetesImp BilheteNovo = new Modelo.BilhetesImp();
-                            BilheteNovo.Acao = Acao.Incluir;
-                            BilheteNovo.Ordem = "010";
-                            BilheteNovo.Data = Convert.ToDateTime(bilhetePainel.DataBilhete).Date;
-                            BilheteNovo.Hora = bilhetePainel.Hora.ToString();
-                            BilheteNovo.Func = Func.Dscodigo.ToString();
-                            BilheteNovo.Posicao = bilhetePainel.Posicao;
-                            BilheteNovo.Ent_sai = bilhetePainel.Entrada_Saida;
-                            BilheteNovo.Relogio = "MA";
-                            BilheteNovo.Importado = 0;
-                            BilheteNovo.Codigo = bllBilhetesImp.MaxCodigo();
-                            BilheteNovo.Mar_data = bilhetePainel.DataBilhete;
-                            BilheteNovo.Mar_hora = bilhetePainel.Hora;
-                            BilheteNovo.Mar_relogio = bilhetePainel.Relogio;
-                            BilheteNovo.DsCodigo = Func.Dscodigo.ToString();
-                            BilheteNovo.Incdata = DateTime.Now;
-                            BilheteNovo.Inchora = DateTime.Now;
-                            BilheteNovo.Codigo = bllBilhetesImp.MaxCodigo();
-                            BilheteNovo.Ocorrencia = Convert.ToChar(bilhetePainel.Ocorrencia);
-                            BilheteNovo.Idjustificativa = bilhetePainel.IdJustificativa.GetValueOrDefault();
-                            BilheteNovo.Motivo = bilhetePainel.Motivo;
-                            BilheteNovo.Importado = 1;
-                            BilheteNovo.Chave = null;
-                            BilheteNovo.DescJustificativa = bilhetePainel.Motivo;
-                            BilheteNovo.IdFuncionario = Func.Id;
-                            BilheteNovo.PIS = Func.Pis;
-                            marcacao.BilhetesMarcacao.Add(BilheteNovo);
-                        }
-                    }                  
-                }
 
-                if (Bilhetes.ListaBilhetes.Where(x => x.Erro == true).Count() > 0)
-                {
+                    BLL.Marcacao BllMarcacao = new BLL.Marcacao(connectionStr);
+                    Modelo.Marcacao marcacao = new Modelo.Marcacao();
+                    if (Bilhetes.ListaBilhetes == null)
+                    {
+                        Bilhetes.ListaBilhetes = new List<Bilhetes>();
+                    }
+
+                    for (int i = 0; i < 8; i++)
+                    {
+                        if (Bilhetes.ListaBilhetes.Where(x => x.Entrada_Saida == "E" && x.Posicao == i).GroupBy(x => new { x.Entrada_Saida, x.Posicao, x.Hora, x.DataMarcacao }).Count() > 1)
+                        {
+                            Bilhetes.ListaBilhetes.Where(x => x.Entrada_Saida == "E" && x.Posicao == i).ToList().ForEach(x => { x.Erro = true; x.Descricaoerro = "Posição duplicada!"; });
+                        }
+                        if (Bilhetes.ListaBilhetes.Where(x => x.Entrada_Saida == "S" && x.Posicao == i).GroupBy(x => new { x.Entrada_Saida, x.Posicao, x.Hora, x.DataMarcacao }).Count() > 1)
+                        {
+                            Bilhetes.ListaBilhetes.Where(x => x.Entrada_Saida == "S" && x.Posicao == i).ToList().ForEach(x => { x.Erro = true; x.Descricaoerro = "Posição duplicada!"; });
+                        }
+                        i++;
+                    }
+
+                    if (Bilhetes.ListaBilhetes.Where(x => x.Erro == true).Count() > 0)
+                    {
                         Bilhetes.Erro = true;
                         Bilhetes.ErroDetalhe = "Bilhetes com Erro! Verifique!";
                         return Request.CreateResponse(HttpStatusCode.BadRequest, Bilhetes);
-                }
-                else
-	            {
+                    }
+
+                    if (Bilhetes.IdMarcacao > 0)
+                    {
+                        marcacao = BllMarcacao.LoadObject(Bilhetes.IdMarcacao);
+                    }
+                    else if (Bilhetes.ListaBilhetes.Count() > 0)
+                    {
+                        marcacao = BllMarcacao.GetPorFuncionario(Func.Id, Convert.ToDateTime(Bilhetes.ListaBilhetes.FirstOrDefault().DataMarcacao), Convert.ToDateTime(Bilhetes.ListaBilhetes.FirstOrDefault().DataMarcacao), true).FirstOrDefault();
+                    }
+
+                    if (marcacao == null || marcacao.Id == 0)
+                    {
+                        throw new Exception("Nenhuma marcação encontrada para a data do bilhete ou com o id informado.");
+                    }
+
+                    if ((marcacao.Idfechamentobh != null && marcacao.Idfechamentobh > 0) || (marcacao.IdFechamentoPonto != null && marcacao.IdFechamentoPonto > 0))
+                    {
+                        throw new Exception("O espelho de ponto já foi fechado nesse dia, não é permitido realizar alterações.");
+                    }
+
+                    marcacao.BilhetesMarcacao.Where(w => w.Relogio == "MA" && !Bilhetes.ListaBilhetes.Select(s => s.Id).Contains(w.Id)).ToList().ForEach(f => f.Acao = Acao.Excluir);
+
+                    foreach (var bilhetePainel in Bilhetes.ListaBilhetes)
+                    {
+                        Modelo.BilhetesImp bilhetePontofopag = null;
+                        if (marcacao.BilhetesMarcacao.Where(x => x.Hora == bilhetePainel.Hora && x.Data == bilhetePainel.DataBilhete && x.Id != bilhetePainel.Id && bilhetePainel.Id == 0).Count() > 0)
+                        {
+                            bilhetePainel.Erro = true;
+                            bilhetePainel.Descricaoerro = "Já existe um bilhete no mesmo horário e dia.";
+                        }
+                        else
+                        {
+                            if (bilhetePainel.Id > 0)
+                            {
+                                bilhetePontofopag = marcacao.BilhetesMarcacao.Where(x => x.Id == bilhetePainel.Id).FirstOrDefault();
+                            }
+                            if (bilhetePontofopag != null && bilhetePainel.Excluir == true)
+                            {
+                                if (bilhetePontofopag.Relogio != "MA")
+                                {
+                                    bilhetePainel.Erro = true;
+                                    bilhetePainel.Descricaoerro = "Não é possível excluir um bilhete originado de um relógio!";
+                                }
+                                else
+                                {
+                                    bilhetePontofopag.Acao = Acao.Excluir;
+                                }
+                            }
+                            else if (bilhetePontofopag != null)
+                            {
+                                if ((bilhetePainel.Hora != bilhetePontofopag.Hora && bilhetePontofopag.Relogio != "MA") || bilhetePainel.DataBilhete != bilhetePontofopag.Data || bilhetePainel.Relogio != bilhetePontofopag.Relogio)
+                                {
+                                    bilhetePainel.Erro = true;
+                                    bilhetePainel.Descricaoerro = "Não é permitido alterar os campos Relógio, Data ou Hora do Bilhete original. Verifique!";
+                                }
+                                else
+                                {
+                                    if (bilhetePontofopag.Relogio == "MA")
+                                    {
+                                        bilhetePontofopag.Hora = bilhetePainel.Hora;
+                                        bilhetePontofopag.Mar_hora = bilhetePainel.Hora;
+                                    }
+                                    bilhetePontofopag.Ent_sai = bilhetePainel.Entrada_Saida;
+                                    bilhetePontofopag.Posicao = bilhetePainel.Posicao;
+                                    bilhetePontofopag.Idjustificativa = bilhetePainel.IdJustificativa.GetValueOrDefault();
+                                    bilhetePontofopag.Ocorrencia = Convert.ToChar(bilhetePainel.Ocorrencia.Substring(0, 1));
+                                    bilhetePontofopag.Motivo = bilhetePainel.Motivo;
+                                    bilhetePontofopag.Acao = Acao.Alterar;
+                                }
+                            }
+                            else if (bilhetePainel.Id != 0 && bilhetePontofopag == null)
+                            {
+                                bilhetePainel.Erro = true;
+                                bilhetePainel.Descricaoerro = "Bilhete não encontrado!";
+                            }
+                            else
+                            {
+                                if (bilhetePainel.Relogio != "MA")
+                                {
+                                    bilhetePainel.Erro = true;
+                                    bilhetePainel.Descricaoerro = "Não é possível incluir um bilhete com identificação diferente de manual (MA)!";
+                                }
+                                Modelo.BilhetesImp BilheteNovo = new Modelo.BilhetesImp();
+                                BilheteNovo.Acao = Acao.Incluir;
+                                BilheteNovo.Ordem = "010";
+                                BilheteNovo.Data = Convert.ToDateTime(bilhetePainel.DataBilhete).Date;
+                                BilheteNovo.Hora = bilhetePainel.Hora.ToString();
+                                BilheteNovo.Func = Func.Dscodigo.ToString();
+                                BilheteNovo.Posicao = bilhetePainel.Posicao;
+                                BilheteNovo.Ent_sai = bilhetePainel.Entrada_Saida;
+                                BilheteNovo.Relogio = "MA";
+                                BilheteNovo.Importado = 0;
+                                BilheteNovo.Codigo = bllBilhetesImp.MaxCodigo();
+                                BilheteNovo.Mar_data = bilhetePainel.DataBilhete;
+                                BilheteNovo.Mar_hora = bilhetePainel.Hora;
+                                BilheteNovo.Mar_relogio = bilhetePainel.Relogio;
+                                BilheteNovo.DsCodigo = Func.Dscodigo.ToString();
+                                BilheteNovo.Incdata = DateTime.Now;
+                                BilheteNovo.Inchora = DateTime.Now;
+                                BilheteNovo.Codigo = bllBilhetesImp.MaxCodigo();
+                                BilheteNovo.Ocorrencia = Convert.ToChar(bilhetePainel.Ocorrencia);
+                                BilheteNovo.Idjustificativa = bilhetePainel.IdJustificativa.GetValueOrDefault();
+                                BilheteNovo.Motivo = bilhetePainel.Motivo;
+                                BilheteNovo.Importado = 1;
+                                BilheteNovo.Chave = null;
+                                BilheteNovo.DescJustificativa = bilhetePainel.Motivo;
+                                BilheteNovo.IdFuncionario = Func.Id;
+                                BilheteNovo.PIS = Func.Pis;
+                                marcacao.BilhetesMarcacao.Add(BilheteNovo);
+                            }
+                        }
+                    }
+
+                    if (Bilhetes.ListaBilhetes.Where(x => x.Erro == true).Count() > 0)
+                    {
+                        Bilhetes.Erro = true;
+                        Bilhetes.ErroDetalhe = "Bilhetes com Erro! Verifique!";
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, Bilhetes);
+                    }
+                    else
+                    {
                         //Seta as entradas e saídas na marcação
                         marcacao.Entrada_1 = VerificaBilheteNulo(marcacao.BilhetesMarcacao, "E", 1);
                         marcacao.Entrada_2 = VerificaBilheteNulo(marcacao.BilhetesMarcacao, "E", 2);
@@ -364,12 +365,12 @@ namespace cwkWebAPIPontoWeb.Controllers
                     Bilhetes.ErroDetalhe = "Existem bilhetes duplicados. Verifique";
                 }
                 else
-	            {
+                {
                     Bilhetes.ErroDetalhe = ex.Message;
-	            }
+                }
                 return Request.CreateResponse(HttpStatusCode.BadRequest, Bilhetes);
             }
-           
+
         }
 
         private string VerificaNumRelogioMarcacao(List<Modelo.BilhetesImp> BilValidos, string EntSai, int Posicao)
@@ -378,7 +379,7 @@ namespace cwkWebAPIPontoWeb.Controllers
             Bil = BilValidos.Where(x => x.Ent_sai == EntSai && x.Posicao == Posicao && x.Acao != Acao.Excluir).FirstOrDefault();
             if (Bil != null)
             {
-                return Bil.Relogio; 
+                return Bil.Relogio;
             }
             else
             {
@@ -391,7 +392,7 @@ namespace cwkWebAPIPontoWeb.Controllers
             Modelo.BilhetesImp Bil = BilValidos.Where(x => x.Ent_sai == EntSai && x.Posicao == Posicao && x.Acao != Acao.Excluir).FirstOrDefault();
             if (Bil != null)
             {
-                return  Bil.Mar_hora;
+                return Bil.Mar_hora;
             }
             else
             {
@@ -400,12 +401,12 @@ namespace cwkWebAPIPontoWeb.Controllers
         }
 
 
-        private void SetaValorProgressBar(int valor){}
+        private void SetaValorProgressBar(int valor) { }
 
-        private void SetaMinMaxProgressBar(int min, int max){}
+        private void SetaMinMaxProgressBar(int min, int max) { }
 
-        private void SetaMensagem(string mensagem){}
+        private void SetaMensagem(string mensagem) { }
 
-        private void IncrementaProgressBar(int incremento){}
+        private void IncrementaProgressBar(int incremento) { }
     }
 }

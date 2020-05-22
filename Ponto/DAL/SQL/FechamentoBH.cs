@@ -275,9 +275,6 @@ namespace DAL.SQL
 					where 
 						f.id in ({0}))", String.Join(",", idsFuncs));
 
-
-                sql += GetWhereSelectAll();
-
                 if (ValidaPermissao)
                 {
                     sql = PermissaoUsuarioFuncionarioIncBanco(UsuarioLogado, sql);
