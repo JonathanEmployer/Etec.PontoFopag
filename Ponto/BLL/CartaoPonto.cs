@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Collections.Concurrent;
 using System.Collections;
+using Modelo;
 
 namespace BLL
 {
@@ -112,6 +113,9 @@ namespace BLL
                 pPBRecalculo.setaMensagem("Carregando fechamento de banco");
                 List<Modelo.FechamentoBH> fechamentosbh = dalFechamentoBH.GetAllListFuncs(idsFuncs, false);
                 List<Modelo.FechamentoBHD> fechamentosbhd = dalFechamentoBHD.GetAllList();
+                JornadaSubstituir bllJornadaSubstituir = new JornadaSubstituir(ConnectionString, UsuarioLogado);
+                List<Int32> idsJornadaSubstituir = dt.AsEnumerable().Where(row => row.Field<Int32?>("idJornadaSubstituir") != null).Select(row => Convert.ToInt32(row.Field<Int32>("idJornadaSubstituir"))).Distinct().ToList();
+                List<PxyJornadaSubstituirCalculo> pxyJornadaSubstituirCalculosList = bllJornadaSubstituir.GetPxyJornadaSubstituirCalculo(idsJornadaSubstituir);
 
                 int chdiurna = 0, chnoturna = 0, chcargamista = 0, chmistaflexivel = 0;
                 string entrada_1, entrada_2, entrada_3, entrada_4;
@@ -212,6 +216,8 @@ namespace BLL
                         Modelo.JornadaAlternativa objJornadaAlternativa =
                             bllJornadaAlternativa.PossuiRegistro(jornadasAlternativas, data, idfuncionario, idfuncao, iddepartamento, idempresa);
 
+                        PxyJornadaSubstituirCalculo jornadasubstituir = pxyJornadaSubstituirCalculosList.Where(w => w.Id == (row.Field<Int32?>("idJornadaSubstituir") == null ? 0 : ((int)row["idjornadasubstituir"]))).FirstOrDefault();
+
                         if (objJornadaAlternativa != null)
                         {
                             chdiurna = Modelo.cwkFuncoes.ConvertHorasMinuto(objJornadaAlternativa.TotalTrabalhadaDiurna);
@@ -224,6 +230,29 @@ namespace BLL
                             saida_2 = objJornadaAlternativa.Saida_2;
                             saida_3 = objJornadaAlternativa.Saida_3;
                             saida_4 = objJornadaAlternativa.Saida_4;
+                        }
+                        if (jornadasubstituir != null)
+                        {
+                            int[] entrada = new int[4] { jornadasubstituir.Entrada1 == "--:--" ? -1 : jornadasubstituir.Entrada1.ConvertHorasMinuto(),
+                                                         jornadasubstituir.Entrada2 == "--:--" ? -1 : jornadasubstituir.Entrada2.ConvertHorasMinuto(),
+                                                         jornadasubstituir.Entrada3 == "--:--" ? -1 : jornadasubstituir.Entrada3.ConvertHorasMinuto(),
+                                                         jornadasubstituir.Entrada4 == "--:--" ? -1 : jornadasubstituir.Entrada4.ConvertHorasMinuto() };
+                            int[] saida = new int[4] { jornadasubstituir.Saida1 == "--:--" ? -1 : jornadasubstituir.Saida1.ConvertHorasMinuto(),
+                                                       jornadasubstituir.Saida2 == "--:--" ? -1 : jornadasubstituir.Saida2.ConvertHorasMinuto(),
+                                                       jornadasubstituir.Saida3 == "--:--" ? -1 : jornadasubstituir.Saida3.ConvertHorasMinuto(),
+                                                       jornadasubstituir.Saida4 == "--:--" ? -1 : jornadasubstituir.Saida4.ConvertHorasMinuto()};
+                            int trabDiurna = 0, trabNoturna = 0;
+                            int inicioAdNoturno = Convert.ToString(row["inicioAdNoturno"]).ConvertHorasMinuto();
+                            int fimAdNoturno = Convert.ToString(row["fimAdNoturno"]).ConvertHorasMinuto();
+                            BLL.CalculoHoras.QtdHorasDiurnaNoturna(entrada, saida, inicioAdNoturno, fimAdNoturno, ref trabDiurna, ref trabNoturna);
+                            entrada_1 = jornadasubstituir.Entrada1;
+                            entrada_2 = jornadasubstituir.Entrada2;
+                            entrada_3 = jornadasubstituir.Entrada3;
+                            entrada_4 = jornadasubstituir.Entrada4;
+                            saida_1 = jornadasubstituir.Saida1;
+                            saida_2 = jornadasubstituir.Saida2;
+                            saida_3 = jornadasubstituir.Saida3;
+                            saida_4 = jornadasubstituir.Saida4;
                         }
                         else
                         {
@@ -1030,7 +1059,6 @@ namespace BLL
             List<DataColumn> colunas = new List<DataColumn>();
             foreach (DataColumn c in dt.Columns)
             {
-
                 if (Array.IndexOf(new string[] { "entrada_5", "entrada_6", "entrada_7", "entrada_8"
                     , "saida_5", "saida_6", "saida_7", "saida_8", "valordsr", "tipohorario"
                     , "idempresa", "iddepartamento", "idfuncao"
@@ -1055,7 +1083,7 @@ namespace BLL
                     , "percentualextraNoturnasab", "quantidadeextraNoturnasab", "percentualextraNoturnadom", "quantidadeextraNoturnadom", "percentualextraNoturnafer", "quantidadeextraNoturnafer"
                     , "percentualextraNoturnafol", "quantidadeextraNoturnafol", "percextraprimeiroNoturna1", "percextraprimeiroNoturna2", "percextraprimeiroNoturna3", "percextraprimeiroNoturna4"
                     , "percextraprimeiroNoturna5", "percextraprimeiroNoturna6", "percextraprimeiroNoturna7", "percextraprimeiroNoturna8", "percextraprimeiroNoturna9", "percextraprimeiroNoturna10"
-                    , "SeparaExtraNoturnaPercentual", "TotalIntervaloPrevL","idferiado","FeriadoParcial","FeriadoParcialInicio","FeriadoParcialFim","inicioAdNoturno","fimAdNoturno"
+                    , "SeparaExtraNoturnaPercentual", "TotalIntervaloPrevL","idferiado","FeriadoParcial","FeriadoParcialInicio","FeriadoParcialFim","inicioAdNoturno","fimAdNoturno", "idjornadasubstituir"
                 }, c.ColumnName) == -1)
                 {
                     ret.Columns.Add(c.ColumnName);

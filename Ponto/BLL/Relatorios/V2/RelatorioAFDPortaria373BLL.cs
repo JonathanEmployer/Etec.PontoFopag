@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using GerarExcel.Modelo;
 using Modelo;
 using Modelo.Relatorios;
@@ -54,23 +55,46 @@ namespace BLL.Relatorios.V2
 				Directory.CreateDirectory(PathRelatorios);
 			}
 			string caminho = Path.Combine(PathRelatorios, parms.NomeArquivo + "." + "txt");
-            DataTable dados = GetDados();
+			
+			Empresa bllEmpresa = new Empresa(_usuario.ConnectionString);
+			Modelo.Empresa empresa = bllEmpresa.LoadObject(parms.lIdEmpAndNumRep.FirstOrDefault().Key);
+			DataTable dados = GetDados();
             using (TextWriter tw = new StreamWriter(caminho))
             {
-                for (int i = 0; i < dados.Rows.Count; i++)
+                if (dados.Rows.Count > 0)
                 {
-                    DataRow row = dados.Rows[i];
-                    DateTime dataHoraReg = Convert.ToDateTime(Convert.ToDateTime(row["data"].ToString()).ToString("dd/MM/yyyy") + " " + row["hora"].ToString());
-                    string linha = string.Format("{0}{1}{2}{3}{4}",
-                        row["nsr"].ToString().PadLeft(9, '0'),
-                        row["TipoReg"].ToString(),
-                        dataHoraReg.ToString("ddMMyyyy"),
-                        dataHoraReg.ToString("HHmm"),
-                        row["pis"].ToString().PadLeft(12, '0')
-                        );
+                    if (parms.GerarCabecalhoRodape)
+                    {
+                        string tipoIdentificador = String.IsNullOrEmpty(empresa.Cnpj) ? "2" : "1";
+                        string documento = empresa.CnpjCpf.Replace(".", "").Replace("-", "").Replace("/", "");
+                        string numSerie = documento.PadLeft(17, '0');
+                        documento = documento.PadLeft(14, '0');
+                        string cei = empresa.CEI.Replace(".", "").Replace("-", "").Replace("/", "").PadLeft(12, '0');
+                        string razaoSocial = empresa.Nome.PadRight(150, ' ');
+                        DateTime dtIni = Convert.ToDateTime(dados.AsEnumerable().Min(row => row["Data"]));
+                        DateTime dtFim = Convert.ToDateTime(dados.AsEnumerable().Max(row => row["Data"]));
+                        tw.WriteLine($"0000000001{tipoIdentificador}{documento}{cei}{razaoSocial}{numSerie}{dtIni.ToString("ddMMyyyy")}{dtFim.ToString("ddMMyyyy")}{DateTime.Now.ToString("ddMMyyyy")}{DateTime.Now.ToString("HHmm")}"); 
+                    }
+                    for (int i = 0; i < dados.Rows.Count; i++)
+                    {
+                        DataRow row = dados.Rows[i];
+                        DateTime dataHoraReg = Convert.ToDateTime(Convert.ToDateTime(row["data"].ToString()).ToString("dd/MM/yyyy") + " " + row["hora"].ToString());
+                        string linha = string.Format("{0}{1}{2}{3}{4}",
+                            row["nsr"].ToString().PadLeft(9, '0'),
+                            row["TipoReg"].ToString(),
+                            dataHoraReg.ToString("ddMMyyyy"),
+                            dataHoraReg.ToString("HHmm"),
+                            row["pis"].ToString().PadLeft(12, '0')
+                            );
 
-                    tw.WriteLine(linha);
-                }
+                        tw.WriteLine(linha);
+                    }
+                    if (parms.GerarCabecalhoRodape)
+                    {
+                        string qtdRegistros3 = dados.Rows.Count.ToString().PadLeft(9, '0');
+                        tw.WriteLine($"999999999000000000{qtdRegistros3}0000000000000000009"); 
+                    }
+				}
             }
             return caminho;
         }

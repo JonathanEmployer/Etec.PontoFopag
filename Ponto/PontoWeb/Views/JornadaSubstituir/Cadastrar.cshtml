@@ -11,6 +11,13 @@
                 <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
             </div>
             <div class="panel-body panelConteudo" id="panelBodyMaximo">
+                @if (ViewBag.SemPermissao == 1)
+                {
+                    <div class="alert alert-warning" role="alert"> 
+                        <p>Usuário não possui permissão para alterar o registro pois existem funcionários vinculados ao registro que não tem acesso!</p>
+                        <p>Na consulta serão exibidos apenas os funcionários que o usuário possui acesso.</p>
+                    </div>
+                }
                 @Html.HiddenFor(x => x.Id)
                 @Html.HiddenFor(model => model.Incdata)
                 @Html.HiddenFor(model => model.Inchora)
@@ -38,7 +45,7 @@
                             }
                             <a data-toggle="collapse" href="#pnlJC" class="close">&times </a>
                         </div>
-                        <div class="panel-body" >
+                        <div class="panel-body">
                             <div style="max-height:100px; overflow-y: scroll;">
                                 @foreach (string erro in ViewBag.JornadasConflitantes)
                                 {
@@ -163,7 +170,7 @@
     }
 </script>
 
-@if (ViewBag.Consultar == 1)
+@if (ViewBag.Consultar == 1 || ViewBag.SemPermissao == 1)
 {
     <script>
         $(document).ready(function () {

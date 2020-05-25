@@ -4589,7 +4589,7 @@ WHERE
             parms[2].Value = pDataFinal;
             #region sql
             string sql = @"SELECT  m.*
-	                      ,hd.IdJornada
+	                      ,isnull(jPara.id, hd.IdJornada) IdJornada
 	                      ,p.InicioAdNoturno
 	                      ,p.fimadnoturno
                           ,p.ReducaoHoraNoturna
@@ -4627,6 +4627,8 @@ WHERE
 			            END
 			            AND m.data = inclusaobanco.data
 			            AND inclusaobanco.credito IS NOT null
+                        LEFT JOIN jornadasubstituir js on js.id = m.idjornadasubstituir
+					    LEFT JOIN jornada jPara on js.idjornadapara = jPara.id
                         LEFT JOIN dbo.justificativa j ON j.id = inclusaobanco.IdJustificativa
                         LEFT JOIN horariodetalhe hd ON hd.idhorario = m.idhorario 
                         AND ((h.tipohorario = 1 AND hd.dia = (CASE WHEN (CAST(DATEPART(WEEKDAY, m.data) AS INT) - 1) = 0 THEN 7 ELSE (CAST(DATEPART(WEEKDAY, m.data) AS INT) - 1) END) ) OR
@@ -4859,6 +4861,63 @@ WHERE
 
             SqlCommand cmd = db.ExecNonQueryCmd(CommandType.Text, sql, false, parms);
             cmd.Parameters.Clear();
+        }
+
+        public List<Modelo.LancamentoCartaoPontoRegistros> GetLancamentoCartaoPonto(int idFuncionario, DateTime dataInicial, DateTime DataFinal)
+        {
+            List<Modelo.LancamentoCartaoPontoRegistros> lista = new List<Modelo.LancamentoCartaoPontoRegistros>();
+            SqlParameter[] parms = new SqlParameter[3]
+            {
+                    new SqlParameter("@idFuncionario", SqlDbType.Int),
+                    new SqlParameter("@dtIni", SqlDbType.DateTime),
+                    new SqlParameter("@dtFim", SqlDbType.DateTime),
+            };
+            parms[0].Value = idFuncionario;
+            parms[1].Value = dataInicial;
+            parms[2].Value = DataFinal;
+
+            string aux = @"
+                            SET LANGUAGE Brazilian;
+                            SELECT d.data Data,
+		                            SUBSTRING(DATENAME(dw,d.data),0,4)+'.' Dia,
+		                            m.LegendasConcatenadas Legenda,
+		                            iif(COALESCE(m.entrada_1, m.saida_1, m.entrada_2, m.saida_2, m.entrada_3, m.saida_3, m.entrada_4, m.saida_5) is null, 1, 0) Editavel,
+		                            m.entrada_1 e1,
+		                            m.entrada_2 e2,
+		                            m.entrada_3 e3,
+		                            m.entrada_4 e4,
+		                            m.entrada_5 e5,
+		                            m.entrada_6 e6,
+		                            m.entrada_7 e7,
+		                            m.entrada_8 e8,
+		                            m.saida_1 s1,
+		                            m.saida_2 s2,
+		                            m.saida_3 s3,
+		                            m.saida_4 s4,
+		                            m.saida_5 s5,
+		                            m.saida_6 s6,
+		                            m.saida_7 s7,
+		                            m.saida_8 s8
+                              FROM dbo.FN_DatasPeriodo(@dtIni, @dtFim) d
+                              LEFT JOIN marcacao m ON d.data = m.data and m.idfuncionario = @idFuncionario
+                             ORDER BY d.data 
+                           ";
+
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            try
+            {
+                if (dr.HasRows)
+                {
+                    var map = Mapper.CreateMap<IDataReader, List<Modelo.LancamentoCartaoPontoRegistros>>();
+                    lista = Mapper.Map<List<Modelo.LancamentoCartaoPontoRegistros>>(dr);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            return lista;
         }
 
         #region Fechamento Ponto

@@ -492,9 +492,13 @@ namespace BLL
                 trs.Add(tr);
             }
 
-            if (trs.Count() == 0)
+            if (marc.LegendasConcatenadas.Contains("S"))
             {
-                trs.Add(new PxyCPETratamentos());
+                PxyCPETratamentos tr = new PxyCPETratamentos();
+                tr.Horario = "";
+                tr.Ocorrencia = "S";
+                tr.Motivo = "SUBSTITUIÇÃO DE JORNADA";
+                trs.Add(tr);
             }
 
             if (marc.CredInclusaoBanco != "---:--" && marc.CredInclusaoBanco != null)
@@ -526,6 +530,11 @@ namespace BLL
                 }
                 tr.Horario = "-" + marc.DebInclusaoBanco;
                 trs.Add(tr);
+            }
+
+            if (trs.Count() == 0)
+            {
+                trs.Add(new PxyCPETratamentos());
             }
 
             return trs;

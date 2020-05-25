@@ -272,6 +272,8 @@
     <Compile Include="JornadaSubstituir.cs" />
     <Compile Include="JornadaSubstituirFuncionario.cs" />
     <Compile Include="JustificativaRestricao.cs" />
+    <Compile Include="LancamentoCartaoPontoRegistros.cs" />
+    <Compile Include="LancamentoCartaoPonto.cs" />
     <Compile Include="OcorrenciaRestricao.cs" />
     <Compile Include="HorarioDinamicoRestricao.cs" />
     <Compile Include="HorarioRestricao.cs" />
