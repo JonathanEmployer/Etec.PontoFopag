@@ -592,12 +592,10 @@ namespace BLL
             legenda = BuscaLegenda();
             LegendasConcatenadas = BuscaLegendaConcatenada();
             CalculaHorasPrevistasDentroFeriado();
-            //Não executa calculo de horas para dia compensado
             if (idCompensado != 0)
             {
                 legenda = "C";
                 LegendasConcatenadas = cwkFuncoes.ConcatenarStrings(LegendasConcatenadas, "C");
-                return;
             }
 
             horasCompensarMin = 0;
