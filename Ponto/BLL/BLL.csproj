@@ -512,6 +512,7 @@
     <Compile Include="CalculoMarcacoes\TotalizadorHoras.cs" />
     <Compile Include="TipoVinculo.cs" />
     <Compile Include="TransferenciaBilhetes.cs" />
+    <Compile Include="LancamentoCartaoPonto.cs" />
     <Compile Include="TransferenciaBilhetesDetalhes.cs" />
     <Compile Include="TratamentoDePonto.cs" />
     <Compile Include="Tratamentomarcacao.cs" />

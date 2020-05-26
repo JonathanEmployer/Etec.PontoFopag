@@ -842,7 +842,7 @@ function CarregaDadosAjax(acao, controller, parametros, div, campo, callback, ca
         cache: false,
         beforeSend: function () {
             $(".desabilitar-ao-carregar").attr("disabled", "disabled");
-            $(div).html('<div class="col-md-12"> <div style="left:0;right:0;margin-left:auto;margin-right:auto;"><h1 style="text-align: center">Carregando<img src="../../Content/img/circulosLoading.GIF"></h1></div> </div>');
+            $(div).html('<div class="row"><div class="col-md-12"> <div style="left:0;right:0;margin-left:auto;margin-right:auto;"><h1 style="text-align: center">Carregando<img src="../../Content/img/circulosLoading.GIF"></h1></div> </div></div>');
         },
         error: function (e, xhr, settings) {
             //alert(this.url);

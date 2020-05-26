@@ -20,14 +20,14 @@
                 @Html.HiddenFor(x => x.TipoSelecao)
                 <div>
                     <div class="row" style="padding-bottom:5px;">
-                        <div id="divPeriodo" class="col-md-8">
+                        <div id="divPeriodo" class="col-md-5">
                             <div class="panel panel-default">
                                 <div class="panel-heading" style="padding-top:5px; padding-bottom:5px">
                                     <div class="row">
                                         <div class="col-md-1">
                                             @Html.LabelFor(model => Model.InicioPeriodo, new { @class = "label-sm" })
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="input-group input-group-sm" >
                                                 @Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "InicioPeriodo" })
                                                 <span class="input-group-btn">
@@ -39,7 +39,7 @@
                                         <div class="col-md-1">
                                             @Html.LabelFor(model => Model.FimPeriodo, new { @class = "label-sm" })
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="input-group input-group-sm" >
                                                 @Html.TextBoxFor(model => Model.FimPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "FimPeriodo" })
                                                 <span class="input-group-btn">
@@ -50,6 +50,11 @@
                                         @Html.ValidationMessageFor(model => Model.FimPeriodo)
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="checkbox">
+                                @Html.CheckBoxFor(model => model.GerarCabecalhoRodape) Considerar cabeçalho para arquivo TXT
                             </div>
                         </div>
                     </div>

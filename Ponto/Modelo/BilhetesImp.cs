@@ -46,81 +46,92 @@ namespace Modelo
         /// <summary>
         /// Ordem do Bilhete
         /// </summary>
+        [DataTableAttribute()]
         public string Ordem { get; set; }
         /// <summary>
         /// Data Importada
         /// </summary>
+        [DataTableAttribute()]
         public DateTime Data { get; set; }
         /// <summary>
         /// Hora Importada
         /// </summary>
+        [DataTableAttribute()]
         public string Hora { get; set; }
         /// <summary>
         /// Codigo do Funcionário
         /// </summary>
+        [DataTableAttribute()]
         public string Func { get; set; }
         /// <summary>
         /// Número do Relógio
         /// </summary>
+        [DataTableAttribute()]
         [Display(Name = "Relógio")]
         public string Relogio { get; set; }
         /// <summary>
         /// Flag que Verifica se o Bilhete foi gravado na tblMarcação
         /// </summary>
+        [DataTableAttribute()]
         public Int16 Importado { get; set; }
-        
         /// <summary>
         /// Data da Marcação
         /// </summary>
+        [DataTableAttribute()]
         [Display(Name="Data")]
-        public DateTime? Mar_data
-        {
-            get;
-            set;
-        }
+        public DateTime? Mar_data { get; set; }
         /// <summary>
         /// Hora da Marcação
         /// </summary>
+        [DataTableAttribute()]
         [Display(Name = "Hora")]
         public string Mar_hora { get; set; }
         /// <summary>
         /// Número do Relógio da Marcação
         /// </summary>
+        [DataTableAttribute()]
         [Display(Name = "Relógio")]
         public string Mar_relogio { get; set; }
         /// <summary>
         /// Posição Entrada e Saida da Marcação
         /// </summary>
+        [DataTableAttribute()]
         [Display(Name = "Posição")]
         public int Posicao { get; set; }
         /// <summary>
         /// Tratamento da Ordem do Bilhete
         /// </summary>
+        [DataTableAttribute()]
         public string Ent_sai { get; set; }
 
         /// <summary>
         /// Chave para validar se os dados do bilhete não foram manipulados
         /// </summary>
+        [DataTableAttribute()]
         public string Chave { get; set; }
 
         /// <summary>
         /// DsCodigo da Marcação
         /// </summary>
+        [DataTableAttribute()]
         public string DsCodigo { get; set; }
 
         /// <summary>
         /// Ocorrência da Marcação
         /// </summary>
         [Display(Name = "Ocorrência")]
+        [DataTableAttribute()]
         public char Ocorrencia { get; set; }
         /// <summary>
         /// Motivo da Ocorrência
         /// </summary>
+        [DataTableAttribute()]
         public string Motivo { get; set; }
 
         /// <summary>
         /// Identificação da Justificativa
         /// </summary>
+        [DataTableAttribute()]
         public int Idjustificativa { get; set; }
         /// <summary>
         /// Identificação da Justificativa para o ponto web, composto por codigo | descrição
@@ -160,9 +171,13 @@ namespace Modelo
             }
         }
 
+        [DataTableAttribute()]
         public int Nsr { get; set; }
+        [DataTableAttribute()]
         public int? IdLancamentoLoteFuncionario { get; set; }
+        [DataTableAttribute()]
         public int IdFuncionario { get; set; }
+        [DataTableAttribute()]
         public string PIS { get; set; }
 
         /// <summary>
@@ -188,6 +203,7 @@ namespace Modelo
             }
         }
 
+        [DataTableAttribute()]
         public int? IdRegistroPonto { get; set; }
 
         [IsComparable(false)]

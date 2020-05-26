@@ -1,0 +1,173 @@
+﻿@model Modelo.LancamentoCartaoPonto
+    <div class="panel panel-default" style="margin-bottom:0px;">
+        <div class="panel-body" style="margin-top:0; margin-bottom:0; padding-top:0px; padding-bottom:5px;">
+            <div id="divErro" class="bg-danger" style="text-align:center; font-weight: bold; font-size:16px;">
+                @ViewBag.Fechamento
+            </div>
+            <table id="tb">
+                <thead>
+                    <tr>
+                        <th style="width:50px">Data</th>
+                        <th style="width:26px">Dia</th>
+                        <th style="width:1px">Leg.</th>
+                        <th>Ent.1</th>
+                        <th>Sai.1</th>
+                        @if (Model.QuantidadeRegistros >= 4)
+                        {
+                            <th>Ent.2</th>
+                            <th>Sai.2</th>
+                        }
+                        @if (Model.QuantidadeRegistros >= 6)
+                        {
+                            <th>Ent.3</th>
+                            <th>Sai.3</th>
+                        }
+                        @if (Model.QuantidadeRegistros >= 8)
+                        {
+                            <th>Ent.4</th>
+                            <th>Sai.4</th>
+                        }
+                        @if (Model.QuantidadeRegistros >= 10)
+                        {
+                            <th>Ent.5</th>
+                            <th>Sai.5</th>
+                        }
+                        @if (Model.QuantidadeRegistros >= 12)
+                        {
+                            <th>Ent.6</th>
+                            <th>Sai.6</th>
+                        }
+                        @if (Model.QuantidadeRegistros >= 14)
+                        {
+                            <th>Ent.7</th>
+                            <th>Sai.7</th>
+                        }
+                        @if (Model.QuantidadeRegistros >= 16)
+                        {
+                            <th>Ent.8</th>
+                            <th>Sai.8</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (var i = 0; i < Model.Regs.Count; i++)
+                    {
+                        <tr disable>
+                            <td>
+                                @Html.HiddenFor(model => model.Regs[i].Editavel)
+                                @Html.HiddenFor(model => model.Regs[i].Data)
+                                @Html.HiddenFor(model => model.Regs[i].Dia)
+                                @Html.HiddenFor(model => model.Regs[i].Legenda)
+                                @Model.Regs[i].Data.ToShortDateString()
+                            </td>
+                            <td>
+                                @Model.Regs[i].Dia
+                            </td>
+                            <td>
+                                @Model.Regs[i].Legenda
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.Regs[i].E1, new { @class = "form-control input-sm time", Style = "width: 50px;" }).IsDisabled(!Model.Regs[i].Editavel)
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.Regs[i].S1, new { @class = "form-control input-sm time", Style = "width: 50px;" }).IsDisabled(!Model.Regs[i].Editavel)
+                            </td>
+                            @if (Model.QuantidadeRegistros >= 4)
+                            {
+                                <td>
+                                    @Html.TextBoxFor(model => model.Regs[i].E2, new { @class = "form-control input-sm time", Style = "width: 50px;" }).IsDisabled(!Model.Regs[i].Editavel)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.Regs[i].S2, new { @class = "form-control input-sm time", Style = "width: 50px;" }).IsDisabled(!Model.Regs[i].Editavel)
+                                </td>
+                            }
+                            @if (Model.QuantidadeRegistros >= 6)
+                            {
+                                <td>
+                                    @Html.TextBoxFor(model => model.Regs[i].E3, new { @class = "form-control input-sm time", Style = "width: 50px;" }).IsDisabled(!Model.Regs[i].Editavel)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.Regs[i].S3, new { @class = "form-control input-sm time", Style = "width: 50px;" }).IsDisabled(!Model.Regs[i].Editavel)
+                                </td>
+                            }
+                            @if (Model.QuantidadeRegistros >= 8)
+                            {
+                                <td>
+                                    @Html.TextBoxFor(model => model.Regs[i].E4, new { @class = "form-control input-sm time", Style = "width: 50px;" }).IsDisabled(!Model.Regs[i].Editavel)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.Regs[i].S4, new { @class = "form-control input-sm time", Style = "width: 50px;" }).IsDisabled(!Model.Regs[i].Editavel)
+                                </td>
+                            }
+                            @if (Model.QuantidadeRegistros >= 10)
+                            {
+                                <td>
+                                    @Html.TextBoxFor(model => model.Regs[i].E5, new { @class = "form-control input-sm time", Style = "width: 50px;" }).IsDisabled(!Model.Regs[i].Editavel)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.Regs[i].S5, new { @class = "form-control input-sm time", Style = "width: 50px;" }).IsDisabled(!Model.Regs[i].Editavel)
+                                </td>
+                            }
+                            @if (Model.QuantidadeRegistros >= 12)
+                            {
+                                <td>
+                                    @Html.TextBoxFor(model => model.Regs[i].E6, new { @class = "form-control input-sm time", Style = "width: 50px;" }).IsDisabled(!Model.Regs[i].Editavel)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.Regs[i].S6, new { @class = "form-control input-sm time", Style = "width: 50px;" }).IsDisabled(!Model.Regs[i].Editavel)
+                                </td>
+                            }
+                            @if (Model.QuantidadeRegistros >= 14)
+                            {
+                                <td>
+                                    @Html.TextBoxFor(model => model.Regs[i].E7, new { @class = "form-control input-sm time", Style = "width: 50px;" }).IsDisabled(!Model.Regs[i].Editavel)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.Regs[i].S7, new { @class = "form-control input-sm time", Style = "width: 50px;" }).IsDisabled(!Model.Regs[i].Editavel)
+                                </td>
+                            }
+                            @if (Model.QuantidadeRegistros >= 16)
+                            {
+                                <td>
+                                    @Html.TextBoxFor(model => model.Regs[i].E8, new { @class = "form-control input-sm time", Style = "width: 50px;" }).IsDisabled(!Model.Regs[i].Editavel)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.Regs[i].S8, new { @class = "form-control input-sm time", Style = "width: 50px;" }).IsDisabled(!Model.Regs[i].Editavel)
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        $('.time, .timeB').mask('00:00');
+        $(".time").blur(function () {
+            var valor = formataHora24($(this).val(), 2, 2);
+            $(this).val(valor);
+        });
+
+        $('#tb').DataTable({
+            dom: "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            cache: true,
+            scrollX: true,
+            ordering: false,
+            // scrollY: '310px',
+            paginate: false,
+            select: { style: 'single' },
+            "info": false,
+            scrollCollapse: true,
+            language: {
+                'decimal': ',',
+                'thousands': '.',
+                'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json'
+            }
+        });
+
+        $('#tb').addClass('table table-striped table-bordered table-hover table-condensed nowrap');
+        $('#tb').attr("cellspacing", 0);
+
+    </script>

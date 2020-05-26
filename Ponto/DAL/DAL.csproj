@@ -255,6 +255,7 @@
     <Compile Include="IHorarioDinamicoPHExtra.cs" />
     <Compile Include="IParametroWebfopag.cs" />
     <Compile Include="ITransferenciaBilhetes.cs" />
+    <Compile Include="ILancamentoCartaoPonto.cs" />
     <Compile Include="ITransferenciaBilhetesDetalhes.cs" />
     <Compile Include="SQL\JornadaSubstituir.cs" />
     <Compile Include="SQL\JornadaSubstituirFuncionario.cs" />
@@ -471,6 +472,7 @@
     <Compile Include="SQL\TipoBilhetes.cs" />
     <Compile Include="SQL\TipoVinculo.cs" />
     <Compile Include="SQL\TransferenciaBilhetes.cs" />
+    <Compile Include="SQL\LancamentoCartaoPonto.cs" />
     <Compile Include="SQL\TransferenciaBilhetesDetalhes.cs" />
     <Compile Include="SQL\TratamentoDePonto.cs" />
     <Compile Include="SQL\Tratamentomarcacao.cs" />

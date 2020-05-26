@@ -937,6 +937,17 @@ namespace BLL_N.JobManager.Hangfire.Job
             }
         }
 
+        public void ImportarBilhetes(PerformContext context, JobControl jobReport, string db, string usuario, int idFuncionario, DateTime dtIni, DateTime dtFim)
+        {
+            SetParametersBase(context, jobReport, db, usuario);
+            BLL.ImportaBilhetes bllImportaBilhetes = new BLL.ImportaBilhetes(userPF.ConnectionString, userPF);
+            List<string> log = new List<string>();
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(userPF.ConnectionString, userPF);
+            string dscodigoDestino = bllFuncionario.GetDsCodigosByIDs(new List<int>() { idFuncionario }).FirstOrDefault();
+            bllImportaBilhetes.ImportarBilhetes(dscodigoDestino, false, dtIni, dtFim, out DateTime? pdataiD, out DateTime? pdatafD, pb, log);
+            RecalculaMarcacao(context, jobReport, db, usuario, new List<int>() { idFuncionario }, pdataiD.GetValueOrDefault(), pdatafD.GetValueOrDefault(), true);
+        }
+
         public void FechamentoBH(PerformContext context, JobControl jobReport, string db, string usuario, Modelo.FechamentoBH objFechamentoBH, Modelo.BancoHoras objBancoHoras)
         {
             SetParametersBase(context, jobReport, db, usuario);
