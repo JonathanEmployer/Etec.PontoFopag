@@ -69,8 +69,9 @@ optionsDP['format'] = "dd/mm/yyyy";
 optionsDP['todayBtn'] = "linked";
 optionsDP['autoclose'] = "true";
 optionsDP['todayHighlight'] = "true";
-optionsDP['startDate'] = "01/01/1760";
 optionsDP['orientation'] = "auto";
+optionsDP['startDate'] = '01/01/2000';
+optionsDP['endDate'] = '31/12/2099';
 function setaDatePiker(idDatePiker) {
     $(idDatePiker).datepicker(optionsDP);
 }
