@@ -260,7 +260,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                         if (erros.Count > 0)
                         {
                             TrataErros(erros);
-                            TrataErroModelState(new RetornoErro());
+                            return TrataErroModelState(new RetornoErro());
                         }
                         BLLAPI.Marcacao.RecalcularAfastamento(afastamento, usuarioPontoWeb);
                         return Request.CreateResponse(HttpStatusCode.OK);

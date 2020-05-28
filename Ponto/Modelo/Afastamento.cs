@@ -293,6 +293,8 @@ namespace Modelo
         [DisplayName("Sem Abono")]
         public bool SemAbono { get; set; }
 
+        public DateTime? DataUltimoFechamentoPontoEBanco { get; set; }
+
         public void SetTipoAfastamentoPorDefaulOcorrencia(Modelo.Ocorrencia ocorrencia)
         {
             switch (ocorrencia.DefaultTipoAfastamento)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using DAL.SQL;
+using Modelo.Proxy;
 using Modelo.Proxy.Relatorios;
 
 namespace BLL
@@ -99,6 +100,7 @@ namespace BLL
                 ret.Add("txtDatai", "Campo obrigatório.");
             }
 
+            int tipoIdentificador = 0;
             if (objeto.Tipo == -1)
             {
                 ret.Add("rgTipo", "Campo obrigatório.");
@@ -115,6 +117,7 @@ namespace BLL
                     {
                         identificacao = objeto.IdFuncionario;
                     }
+                    tipoIdentificador = 2;
                 }
                 else if (objeto.Tipo == 1)
                 {
@@ -130,6 +133,7 @@ namespace BLL
                     {
                         identificacao = objeto.IdDepartamento;
                     }
+                    tipoIdentificador = 1;
                 }
                 else if (objeto.Tipo == 2)
                 {
@@ -141,6 +145,7 @@ namespace BLL
                     {
                         identificacao = objeto.IdEmpresa;
                     }
+                    tipoIdentificador = 0;
                 }
 
                 if (objeto.Datai != null)
@@ -155,8 +160,64 @@ namespace BLL
                     }
                 }
 
+                List<PxyUltimoFechamentoPonto> pxyUltimoFechamentos;
+                DateTime? maiorFechamento;
+                GetFechamentos(identificacao, tipoIdentificador, out pxyUltimoFechamentos, out maiorFechamento);
+                Modelo.Afastamento afastamentoAnt = LoadObject(objeto.Id);
+                DateTime? dataInicioAfastamento = objeto.Datai;
+                DateTime? dataFimAfastamento = objeto.Dataf ?? DateTime.MaxValue;
+                DateTime? dataInicioAfastamentoAnt = null;
+                DateTime? dataFimAfastamentoAnt = null;
+
+                //Se esta sendo excluido, a data inicial ou a final não pode violar
+                if ((objeto.Acao == Modelo.Acao.Excluir || objeto.Acao == Modelo.Acao.Incluir) && (objeto.Datai <= maiorFechamento || objeto.Dataf <= maiorFechamento))
+                {
+                    AddErroFechamento(ret, pxyUltimoFechamentos);
+                }
+                //Se a data Inicial e final forem menor que a data do fechamento não permite alterar nada
+                else
+                {
+                    if (afastamentoAnt.Id > 0)
+                    {
+                        dataInicioAfastamentoAnt = afastamentoAnt.Datai;
+                        dataFimAfastamentoAnt = afastamentoAnt.Dataf ?? DateTime.MaxValue;
+                    }
+
+                    if (((dataInicioAfastamentoAnt != null && dataInicioAfastamentoAnt <= maiorFechamento) || (dataInicioAfastamento < maiorFechamento)) &&
+                      ((dataFimAfastamentoAnt != null && dataFimAfastamentoAnt <= maiorFechamento) || (dataFimAfastamento < maiorFechamento)))
+                    {
+                        AddErroFechamento(ret, pxyUltimoFechamentos);
+                    }
+                    //Se a data final é maior que o Fechamento e a inicial é menor, apenas altera a data fim do afastamento
+                    else if (((dataInicioAfastamentoAnt != null && dataInicioAfastamentoAnt <= maiorFechamento) || (dataInicioAfastamento < maiorFechamento)) &&
+                             ((dataFimAfastamento == null || dataFimAfastamento > maiorFechamento) && (dataFimAfastamentoAnt == null || dataFimAfastamentoAnt > maiorFechamento)))
+                    {
+                        afastamentoAnt.Dataf = objeto.Dataf;
+                        objeto = afastamentoAnt;
+                    }
+                }
             }
             return ret;
+        }
+
+        public void GetFechamentos(int identificacao, int tipoIdentificador, out List<PxyUltimoFechamentoPonto> pxyUltimoFechamentos, out DateTime? maiorFechamento)
+        {
+            BLL.Funcionario bllFunc = new Funcionario(ConnectionString, UsuarioLogado);
+            List<int> idsFuncs = bllFunc.GetIDsByTipo(tipoIdentificador, new List<int>() { identificacao }, false, false);
+            pxyUltimoFechamentos = bllFunc.GetUltimoFechamentoPontoFuncionarios(idsFuncs);
+            maiorFechamento = pxyUltimoFechamentos.Max(m => m.UltimoFechamento);
+        }
+
+        private static void AddErroFechamento(Dictionary<string, string> ret, List<PxyUltimoFechamentoPonto> pxyUltimoFechamentos)
+        {
+            if (pxyUltimoFechamentos.Where(w => w.UltimoFechamento != null).Any())
+            {
+                ret.Add("FechamentoPonto", string.Join("</br>", pxyUltimoFechamentos.Where(w => w.UltimoFechamento != null).Select(s => $"{s.Codigo} | {s.Nome} - Fechamento Ponto: {s.UltimoFechamento.GetValueOrDefault().ToShortDateString()}").Take(100)));
+            }
+            if (pxyUltimoFechamentos.Where(w => w.UltimoFechamentoBanco != null).Any())
+            {
+                ret.Add("FechamentoBanco", string.Join("</br>", pxyUltimoFechamentos.Where(w => w.UltimoFechamentoBanco != null).Select(s => $"{s.Codigo} | {s.Nome} - Fechamento Banco: {s.UltimoFechamento.GetValueOrDefault().ToShortDateString()}").Take(100)));
+            }
         }
 
         public Dictionary<string, string> Salvar(Modelo.Acao pAcao, Modelo.Afastamento pObjAfastamento)
