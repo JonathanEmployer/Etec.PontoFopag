@@ -17,7 +17,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                 !ChecaFuncionarioExcluido() &&
                 !ChecaFuncionarioDemitido(bil))
             {
-                BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(StrConexao);
+                BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                 string relogio = "RE";
                 BilhetesImp objBilhete = new BilhetesImp();
                 try
@@ -50,7 +50,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                     {
                         if (bSalvaLocalizacao)
                         {
-                            BLL.LocalizacaoRegistroPonto bllLrp = new BLL.LocalizacaoRegistroPonto(StrConexao);
+                            BLL.LocalizacaoRegistroPonto bllLrp = new BLL.LocalizacaoRegistroPonto(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                             bil.LocalizacaoRegistroPonto.IdBilhetesImp = objBilhete.Id;
                             bllLrp.Salvar(Modelo.Acao.Incluir, bil.LocalizacaoRegistroPonto);
                         }
@@ -77,7 +77,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                         registroPonto.nome = func.Nome;
                         registroPonto.pis = func.Pis;
 
-                        BLL.Empresa bllEmpresa = new BLL.Empresa(StrConexao);
+                        BLL.Empresa bllEmpresa = new BLL.Empresa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                         Modelo.Empresa emp = bllEmpresa.LoadObject(func.Idempresa);
                         registroPonto.empresa = emp.Nome;
                         registroPonto.cnpj = emp.Cnpj;

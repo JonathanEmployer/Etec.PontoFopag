@@ -14,7 +14,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// <summary>
     /// Métodos Referentes ao Cadastro de Departamento
     /// </summary>
-    public class DepartamentoController : ApiController
+    public class DepartamentoController : ExtendedApiController
     {
         /// <summary>
         /// Cadastrar/Alterar Departamento.
@@ -26,8 +26,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Cadastrar(Models.Departamento departamento)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Departamento bllDepart = new BLL.Departamento(connectionStr);
+            BLL.Departamento bllDepart = new BLL.Departamento(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
             if (ModelState.IsValid)
             {
@@ -51,7 +50,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                     Modelo.Empresa emp = new Modelo.Empresa();
                     if (departamento.DocumentoEmpresa > 0)
                     {
-                        BLL.Empresa bllEmp = new BLL.Empresa(connectionStr);
+                        BLL.Empresa bllEmp = new BLL.Empresa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                         emp = bllEmp.LoadObjectByDocumento(departamento.DocumentoEmpresa);
                     }
                     if (emp.Id == 0)
@@ -93,8 +92,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Excluir(int idIntegracao)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Departamento bllDepart = new BLL.Departamento(connectionStr);
+            BLL.Departamento bllDepart = new BLL.Departamento(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
             if (ModelState.IsValid)
             {
