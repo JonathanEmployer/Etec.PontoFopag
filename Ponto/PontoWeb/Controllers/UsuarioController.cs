@@ -166,7 +166,7 @@ namespace PontoWeb.Controllers
                                         Usuario.DeletarUsuarioCentralClienteByUsuario(usuarioCentralCliente.Login);
                                         throw;
                                     }
-                                    
+
                                     if (erros.Count > 0)
                                     {
                                         // Caso não consiga incluir no ponto, exclui da central do cliente
@@ -270,9 +270,9 @@ namespace PontoWeb.Controllers
                                 }
 
                                 if (customError.Count > 0)
-	                            {
+                                {
                                     ModelState.AddModelError("CustomError", String.Join("; ", customError));
-	                            }
+                                }
                             }
                         }
                         if (erros.Count == 0)
@@ -561,12 +561,12 @@ namespace PontoWeb.Controllers
                 ViewBag.Validar = 1;
             }
 
-           Models.UsuarioLogin user = new Models.UsuarioLogin();
+            Models.UsuarioLogin user = new Models.UsuarioLogin();
             user.ReturnURL = returnUrl;
             user.Cpt = "0";
             //Se o projeto estiver em Debug faz o login automático
 #if DEBUG
-             String con = System.Configuration.ConfigurationManager.ConnectionStrings["ConnCentralCliente"].ConnectionString;
+            String con = System.Configuration.ConfigurationManager.ConnectionStrings["ConnCentralCliente"].ConnectionString;
 
             if (con.ToUpper().Contains(@"\PRD"))
             {
@@ -598,7 +598,7 @@ namespace PontoWeb.Controllers
                 return View(user);
             }
 
-                string retorno = "";
+            string retorno = "";
             if (Usuario.ValidaUsuario(user, ref retorno))
             {
                 tl.Tentativas = 0;
@@ -611,8 +611,9 @@ namespace PontoWeb.Controllers
                 return View(user);
             }
 #else
-                return View();
+            return View();
 #endif
+            //return View();
         }
 
         [AllowAnonymous]
@@ -699,7 +700,7 @@ namespace PontoWeb.Controllers
         public ActionResult EventoConsulta(String consulta, String filtro)
         {
             UsuarioPontoWeb _user = Usuario.GetUsuarioPontoWebLogadoCache();
-            
+
             BLL.UsuarioPontoWeb bllUsuarioPontoWeb = new BLL.UsuarioPontoWeb(_user.ConnectionString, _user);
 
             IList<UsuarioPontoWeb> lUser = new List<UsuarioPontoWeb>();

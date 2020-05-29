@@ -21,6 +21,12 @@ namespace PontoWeb.Controllers.BLLWeb
 			CentralCliente.Usuario user = BuscaUsuarioCentralCliente(userLogin.login);
 			if (user != null)
 			{
+                if (user.Ativo == false)
+                {
+					retorno = "Usuário inativo!";
+					return IsValid;
+				}
+
 				if (String.IsNullOrEmpty(user.connectionString))
 				{
 					retorno = "Nenhum banco de dados vinculado ao usuário, Por favor entre em contato com o suporte!";

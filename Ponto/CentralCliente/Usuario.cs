@@ -41,7 +41,9 @@ namespace CentralCliente
         public string connectionString { get; set; }
         public Nullable<short> UtilizaPontoWeb { get; set; }
         public string PasswordWebAPI { get; set; }
-    
+
+        public bool Ativo { get; set; }
+
         public virtual ICollection<AspNetUsers> AspNetUsers { get; set; }
         public virtual Cliente Cliente { get; set; }
         public virtual Empresa Empresa { get; set; }

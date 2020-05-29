@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
@@ -33,5 +34,8 @@ namespace Modelo.Proxy
 
         [TableHTMLAttribute("Controle por Supervisor", 8, true, ItensSearch.text, OrderType.none)]
         public string ControlePorSupervisor { get; set; }
+
+        [TableHTMLAttribute("Ativo", 9, true, ItensSearch.text, OrderType.none)]
+        public string Ativo { get; set; }
     }
 }
