@@ -1797,6 +1797,7 @@
     <Content Include="Views\MudancaHorario\_MudancaHorario.cshtml" />
     <Content Include="Views\MudancaHorario\CadastrarManutMarcacao.cshtml" />
     <Content Include="Views\RelatorioRefeicao\Refeicao.cshtml" />
+    <Content Include="Views\Usuario\GridControleUsuario.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
