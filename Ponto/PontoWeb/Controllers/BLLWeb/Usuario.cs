@@ -21,12 +21,6 @@ namespace PontoWeb.Controllers.BLLWeb
 			CentralCliente.Usuario user = BuscaUsuarioCentralCliente(userLogin.login);
 			if (user != null)
 			{
-                if (user.Ativo == false)
-                {
-					retorno = "Usuário inativo!";
-					return IsValid;
-				}
-
 				if (String.IsNullOrEmpty(user.connectionString))
 				{
 					retorno = "Nenhum banco de dados vinculado ao usuário, Por favor entre em contato com o suporte!";
@@ -37,14 +31,20 @@ namespace PontoWeb.Controllers.BLLWeb
 				{
 					try
 					{
-						user.UltimoAcesso = DateTime.Now;
+                        if (user.Ativo == false)
+                        {
+                            retorno = "Usuário inativo!";
+                            return IsValid;
+                        }
+
+                        user.UltimoAcesso = DateTime.Now;
 						AdicionaUsuarioCache(user);
 						AtualizaUsuarioCentralCliente(user);
 						IsValid = true;
                         //Adiciona o login como o usuário, pois se o usuário logou com e-mail, altero para o nome de usuário
                         userLogin.login = user.Login;
 
-                    }
+					}
 					catch (Exception e)
 					{
 						retorno = e.Message;
@@ -129,7 +129,8 @@ namespace PontoWeb.Controllers.BLLWeb
 										Password = @Password,
 										EMAIL = @EMAIL,
 										UltimoAcesso = @UltimoAcesso, 
-										connectionString = @connectionString
+										connectionString = @connectionString,
+										Ativo = @Ativo
 								  where id = @Id;";
 
 			try
@@ -146,6 +147,7 @@ namespace PontoWeb.Controllers.BLLWeb
 						cmd.Parameters.AddWithValue("@UltimoAcesso", user.UltimoAcesso);
 						cmd.Parameters.AddWithValue("@connectionString", user.connectionString);
 						cmd.Parameters.AddWithValue("@Id", user.ID);
+						cmd.Parameters.AddWithValue("@Ativo", user.Ativo);
 
 						conn.Open();
 						cmd.ExecuteNonQuery();
@@ -164,9 +166,9 @@ namespace PontoWeb.Controllers.BLLWeb
 		public static bool IncluiUsuarioCentralCliente(CentralCliente.Usuario user)
 		{
 			bool retorno = true;
-			string sqlUpdate = @"INSERT INTO usuario (Login, Senha, PasswordSalt, Password, EMAIL, UltimoAcesso, connectionString, UtilizaPontoWeb)
+			string sqlUpdate = @"INSERT INTO usuario (Login, Senha, PasswordSalt, Password, EMAIL, UltimoAcesso, connectionString, UtilizaPontoWeb, Ativo)
 									VALUES
-									(@Login, @Senha, @PasswordSalt, @Password, @EMAIL, @UltimoAcesso, @connectionString, @UtilizaPontoWeb)";
+									(@Login, @Senha, @PasswordSalt, @Password, @EMAIL, @UltimoAcesso, @connectionString, @UtilizaPontoWeb, @Ativo)";
 
 			try
 			{
@@ -182,6 +184,7 @@ namespace PontoWeb.Controllers.BLLWeb
 						cmd.Parameters.AddWithValue("@UltimoAcesso", user.UltimoAcesso);
 						cmd.Parameters.AddWithValue("@connectionString", user.connectionString);
 						cmd.Parameters.AddWithValue("@UtilizaPontoWeb", user.UtilizaPontoWeb);
+						cmd.Parameters.AddWithValue("@Ativo", user.Ativo);
 
 						conn.Open();
 						cmd.ExecuteNonQuery();

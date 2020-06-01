@@ -207,6 +207,8 @@ namespace PontoWeb.Controllers
                             {
                                 usuarioCentralCliente.Login = obj.Login;
                                 usuarioCentralCliente.EMAIL = obj.Email;
+
+                                usuarioCentralCliente.Ativo = obj.Ativo;
                             }
 
                             // Regra:
@@ -230,6 +232,7 @@ namespace PontoWeb.Controllers
                                         obj.Senha = usuarioCentralCliente.Senha;
                                         obj.Password = usuarioCentralCliente.Password;
                                         obj.PasswordSalt = usuarioCentralCliente.PasswordSalt;
+                                        
 
                                         if (usuarioCentralCliente.UltimoAcesso != null)
                                             obj.UltimoAcesso = (DateTime)usuarioCentralCliente.UltimoAcesso;
@@ -565,55 +568,55 @@ namespace PontoWeb.Controllers
             user.ReturnURL = returnUrl;
             user.Cpt = "0";
             //Se o projeto estiver em Debug faz o login automático
-#if DEBUG
-            String con = System.Configuration.ConfigurationManager.ConnectionStrings["ConnCentralCliente"].ConnectionString;
+//#if DEBUG
+//            String con = System.Configuration.ConfigurationManager.ConnectionStrings["ConnCentralCliente"].ConnectionString;
 
-            if (con.ToUpper().Contains(@"\PRD"))
-            {
-                user.login = "produtoemployer";
-                user.Password = "qwer1234";
-            }
-            else if (con.ToUpper().Contains(@"\SUP"))
-            {
-                user.login = "produtojmalucelli";
-                user.Password = "Pfp#2020";
-            }
-            else if (con.ToUpper().Contains(@"\HOM"))
-            {
-                user.login = "homemployer";
-                user.Password = "pfphom";
-            }
-            else if (con.ToUpper().Contains(@"\DEV"))
-            {
-                user.login = "devemployer";
-                user.Password = "pfpdev";
-            }
-            else if (con.ToUpper().Contains(@"DATA SOURCE=LOCALHOST"))
-            {
-                user.login = "localemployer";
-                user.Password = "pfphom";
-            }
-            else
-            {
-                return View(user);
-            }
+//            if (con.ToUpper().Contains(@"\PRD"))
+//            {
+//                user.login = "produtoemployer";
+//                user.Password = "qwer1234";
+//            }
+//            else if (con.ToUpper().Contains(@"\SUP"))
+//            {
+//                user.login = "produtojmalucelli";
+//                user.Password = "Pfp#2020";
+//            }
+//            else if (con.ToUpper().Contains(@"\HOM"))
+//            {
+//                user.login = "homemployer";
+//                user.Password = "pfphom";
+//            }
+//            else if (con.ToUpper().Contains(@"\DEV"))
+//            {
+//                user.login = "devemployer";
+//                user.Password = "pfpdev";
+//            }
+//            else if (con.ToUpper().Contains(@"DATA SOURCE=LOCALHOST"))
+//            {
+//                user.login = "localemployer";
+//                user.Password = "pfphom";
+//            }
+//            else
+//            {
+//                return View(user);
+//            }
 
-            string retorno = "";
-            if (Usuario.ValidaUsuario(user, ref retorno))
-            {
-                tl.Tentativas = 0;
-                tl.UltimaTentativa = DateTime.Now;
-                Usuario.AdicionaTentativasLogin(tl);
-                return RealizaLogin(user);
-            }
-            else
-            {
-                return View(user);
-            }
-#else
+//            string retorno = "";
+//            if (Usuario.ValidaUsuario(user, ref retorno))
+//            {
+//                tl.Tentativas = 0;
+//                tl.UltimaTentativa = DateTime.Now;
+//                Usuario.AdicionaTentativasLogin(tl);
+//                return RealizaLogin(user);
+//            }
+//            else
+//            {
+//                return View(user);
+//            }
+//#else
+//            return View();
+//#endif
             return View();
-#endif
-            //return View();
         }
 
         [AllowAnonymous]

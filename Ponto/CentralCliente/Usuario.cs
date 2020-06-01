@@ -50,5 +50,6 @@ namespace CentralCliente
         public virtual Entidade Entidade { get; set; }
         public virtual ICollection<Pedido> Pedido { get; set; }
         public virtual Revenda Revenda { get; set; }
+
     }
 }

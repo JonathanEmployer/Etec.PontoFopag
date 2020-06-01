@@ -447,7 +447,18 @@ function ajax_CarregarConsultaEventoTab(acao, controller, consulta, campo, filtr
                             if (ids >= 0) {
                                 var dados = tbPesquisa.rows('.selected').data()[0];
                                 var id = dados[0].replace('undefined', '');
+
+                                if (Date.parse(dados[1]) != NaN) {
+                                    console.log("é data");
+                                } else {
+                                    console.log("não é data");
+                                }
+
                                 var nome = dados[1].replace('undefined', '');
+
+
+
+                                console.log(dados);
                                 $(campo).val(id + ' | ' + nome);
                                 $("#divLoadModalLkp").modal('hide');
                                 $.unblockUI();
@@ -601,7 +612,7 @@ function ajax_CarregarConsultaEventoTabComFiltro(acao, idFiltro, controller, con
                     if (ids > 0) {
                         oTbLkpModal.$("tr").filter(".selected").each(function (index, row) {
                             id = $(row).find("td:eq(0)").text().replace('undefined', '');
-                            nome = $(row).find("td:eq(1)").text().replace('undefined', '');
+                            nome = $(row).find("td:eq(1)").text().replace('undefined', '');                            
                             $(campo).val(id + ' | ' + nome);
                             $("#divLoadModalLkp").modal('hide');
                             if (carregaDetalhes) {
