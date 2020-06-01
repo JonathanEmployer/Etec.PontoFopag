@@ -283,6 +283,7 @@ namespace Modelo
         public Modelo.Proxy.pxyRelPontoWeb PxyRelPontoWeb { get; set; }
 
         public string IdFuncsSelecionados { get; set; }
+        public string IdRepsSelecionados { get; set; }
         public string IdFuncsSelecionados_Ant { get; set; }
 
         public void SetaDiasSemana()
