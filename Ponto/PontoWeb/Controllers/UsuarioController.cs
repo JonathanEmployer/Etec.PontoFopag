@@ -732,5 +732,31 @@ namespace PontoWeb.Controllers
             ViewBag.Title = "Pesquisar Usuários";
             return View(lUser);
         }
+
+        public ActionResult GridControleUsuario(int id)
+        {
+            return View(new Modelo.UsuarioControleAcesso() { Idfuncionario = id });
+        }
+
+        [Authorize]
+        public JsonResult DadosGridControleUsuario(int id)
+        {
+
+            UsuarioPontoWeb _usr = Usuario.GetUsuarioPontoWebLogadoCache();
+
+            try
+            {
+                BLL.ControleAcessoUsuario bllControleAcessoUsuario = new BLL.ControleAcessoUsuario(_usr.ConnectionString, _usr);
+                List<Modelo.UsuarioControleAcesso> dados = bllControleAcessoUsuario.GetListaControleAcesso(id);
+                JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
+                jsonResult.MaxJsonLength = int.MaxValue;
+                return jsonResult;
+            }
+            catch (Exception ex)
+            {
+                BLL.cwkFuncoes.LogarErro(ex);
+                throw;
+            }
+        }
     }
 }

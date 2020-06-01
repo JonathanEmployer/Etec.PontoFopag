@@ -27,5 +27,7 @@ namespace DAL
         List<int> GetAllIds();
         bool ConsultaUtilizaRegistradorAllEmp();
         List<Modelo.Empresa> GetAllListEmpresa();
+
+        List<Modelo.Empresa> GetEmpresasUsuarioId(int idUsuario);
     }
 }
