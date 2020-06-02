@@ -379,6 +379,7 @@
     <Compile Include="Proxy\PxyUltimoFechamentoPonto.cs" />
     <Compile Include="Proxy\Webfopag\PxyRetornoColetor.cs" />
     <Compile Include="Relatorios\RelatorioAfdPortaria373Model.cs" />
+    <Compile Include="Relatorios\RelatorioRefeicaoModel.cs" />
     <Compile Include="TipoBiometria.cs" />
     <Compile Include="FuncionarioRFID.cs" />
     <Compile Include="HorarioDinamicoCicloSequencia.cs" />

@@ -214,9 +214,28 @@
                                     <button class="btn btn-primary btn-sm desabilitar-ao-carregar" type="button" id="btnOrdenaHorarioData">
                                         <span class="fa fa-calendar-o"></span>&nbsp;Ordenar Horário
                                     </button>
-                                    <button type="button" id="btTurnoFunc" title="Turno do Funcionário" class="btn btn-primary btn-sm desabilitar-ao-carregar">
-                                        <span class="glyphicon glyphicon-time"></span> Horário
-                                    </button>
+                                    <div class="btn-group dropup">
+                                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="btHorarios" data-toggle="dropdown">
+                                            <span class="fa fa-clock-o"></span>&nbsp;Horário&nbsp;<span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="btHorarios">
+                                            <li role="presentation">
+                                                <button class="btn btn-primary btn-block btn-sm" type="button" id="btTurnoFunc">
+                                                    <span class="fa fa-clock-o"></span>&nbsp;Horário
+                                                </button>
+                                            </li>
+                                            <li role="presentation">
+                                                <button class="btn btn-primary btn-block btn-sm" type="button" id="btCadMudancaHorario">
+                                                    <span class="fa fa-refresh"></span>&nbsp;Mudança de horário
+                                                </button>
+                                            </li>
+                                            <li role="presentation">
+                                                <button class="btn btn-primary btn-block btn-sm" type="button" id="btHMudancaHorario">
+                                                    <span class="fa fa-list"></span>&nbsp;Hist. Mudança de Horário
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
                                     <button type="button" id="btTotHorasFunc" title="Total de Horas do Funcionário" class="btn btn-primary btn-sm desabilitar-ao-carregar">
                                         <span class="glyphicon glyphicon-list-alt"></span> Total Horas
                                     </button>
@@ -350,6 +369,9 @@
             }
         }
     });
+
+    cwk_EventoAlterarAjaxParam('#btHMudancaHorario', 'GridPorMarcacao', 'MudancaHorario', '#tb', "");
+    cwk_EventoAlterarAjaxParam('#btCadMudancaHorario', 'CadastrarManutMarcacao', 'MudancaHorario', '#tb', "");
 
     function callBackEmpresa(campo) {
         var empresa = $(campo).val();

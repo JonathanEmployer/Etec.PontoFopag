@@ -616,11 +616,13 @@ function cwk_SalvaCadastroAjax(Objeto, divAbrir, fCallBack) {
     }).done(function (data) {
         $(divAbrir).modal('hide');
         $("#loading").modal('hide');
-        $(divAbrir).html(data);
-        $(divAbrir).modal();
-        corrigeDatePickerAjax();
-        var primeiroCampoDiv = $(divAbrir).find('input:visible:first');
-        primeiroCampoDiv.focus();
+        if (!isEmpty(data)) {
+            $(divAbrir).html(data);
+            $(divAbrir).modal();
+            corrigeDatePickerAjax();
+            var primeiroCampoDiv = $(divAbrir).find('input:visible:first');
+            primeiroCampoDiv.focus();
+        }
         if (fCallBack && typeof (fCallBack) !== "undefined" && fCallBack !== "") {
             fCallBack();
         }

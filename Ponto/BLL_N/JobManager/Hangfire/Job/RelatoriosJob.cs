@@ -117,7 +117,14 @@ namespace BLL_N.JobManager.Hangfire.Job
             string caminhoArquivo = rel.GetRelatorio();
 			JobControlManager.UpdateFileDownload(context, caminhoArquivo);
 		}
-	
+
+        public void GetRelatorioRefeicao(PerformContext context, JobControl jobReport, RelatorioRefeicaoModel relatorioFiltro, string db, string usuario)
+        {
+            SetParametersBase(context, jobReport, db, usuario);
+            RelatorioRefeicaoBLL rel = new RelatorioRefeicaoBLL(relatorioFiltro, userPF, pb);
+            string caminhoArquivo = rel.GetRelatorio();
+            JobControlManager.UpdateFileDownload(context, caminhoArquivo);
+        }
 
         public void GetRelatorioConclusoesBloqueioPnlRh(PerformContext context, JobControl jobReport, RelatorioConclusoesBloqueioPnlRhModel relatorioFiltro, string db, string usuario)
         {

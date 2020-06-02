@@ -592,12 +592,10 @@ namespace BLL
             legenda = BuscaLegenda();
             LegendasConcatenadas = BuscaLegendaConcatenada();
             CalculaHorasPrevistasDentroFeriado();
-            //Não executa calculo de horas para dia compensado
             if (idCompensado != 0)
             {
                 legenda = "C";
                 LegendasConcatenadas = cwkFuncoes.ConcatenarStrings(LegendasConcatenadas, "C");
-                return;
             }
 
             horasCompensarMin = 0;
@@ -830,7 +828,6 @@ namespace BLL
             List<Modelo.BilhetesImp> tratamentosDiaAnterior = tratamentomarcacaoList.Where(x => x.Mar_data == data.AddDays(-1) && x.DsCodigo == Convert.ToString(pMarcacao["dscodigo"])).ToList();
             List<Modelo.BilhetesImp> tratamentosDiaSeguinte = tratamentomarcacaoList.Where(x => x.Mar_data == data.AddDays(1) && x.DsCodigo == Convert.ToString(pMarcacao["dscodigo"])).ToList();
             Interjornada = CalculaInterjornada(tratamentosDia, tratamentosDiaAnterior);
-            //horaExtraInterjornada = CalculaHoraExtraInterjornada(tratamentosDia, tratamentosDiaSeguinte, horasExtrasDiurnaMin + horasExtraNoturnaMin); //Para setar no dia anterior
             horaExtraInterjornada = CalculaHoraExtraInterjornada(tratamentosDia, tratamentosDiaAnterior, horasExtrasDiurnaMin + horasExtraNoturnaMin); //Para setar no dia seguinte
 
             if (VerificaAlteracaoMarcao(pMarcacao, objMarcacaoAnt))
@@ -1013,8 +1010,8 @@ namespace BLL
                     Modelo.BilhetesImp bsa = tratamentosDiaAnterior.Where(x => x.Ent_sai == "S").OrderByDescending(x => x.Posicao).FirstOrDefault();
                     if (be != null && bsa != null)
                     {
-                        DateTime dtIni = Convert.ToDateTime(bsa.Mar_data.GetValueOrDefault().ToShortDateString().ToString() + ' ' + bsa.Mar_hora);
-                        DateTime dtFim = Convert.ToDateTime(be.Mar_data.GetValueOrDefault().ToShortDateString().ToString() + ' ' + be.Mar_hora);
+                        DateTime dtIni = Convert.ToDateTime(bsa.Data.ToShortDateString().ToString() + ' ' + bsa.Mar_hora);
+                        DateTime dtFim = Convert.ToDateTime(be.Data.ToShortDateString().ToString() + ' ' + be.Mar_hora);
                         if (bsa.Data == be.Mar_data) ///Se é virada de turno, a saída foi alocada no dia anterior, considero a data do bilhete não da marcacao
                         {
                             dtIni = Convert.ToDateTime(bsa.Data.ToShortDateString().ToString() + ' ' + bsa.Mar_hora);

@@ -257,6 +257,7 @@
     <Compile Include="ITransferenciaBilhetes.cs" />
     <Compile Include="ILancamentoCartaoPonto.cs" />
     <Compile Include="ITransferenciaBilhetesDetalhes.cs" />
+    <Compile Include="RelatoriosSQL\RelatorioRefeicao.cs" />
     <Compile Include="SQL\JornadaSubstituir.cs" />
     <Compile Include="SQL\JornadaSubstituirFuncionario.cs" />
     <Compile Include="SQL\JustificaticaRestricao.cs" />
