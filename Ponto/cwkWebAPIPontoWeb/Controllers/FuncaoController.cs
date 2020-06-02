@@ -15,7 +15,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// <summary>
     /// Métodos Referentes ao Cadastro de Função
     /// </summary>
-    public class FuncaoController : ApiController
+    public class FuncaoController : ExtendedApiController
     {
         /// <summary>
         /// Cadastrar/Alterar Função.
@@ -28,8 +28,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Cadastrar(Models.Funcao funcao)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Funcao bllFuncao = new BLL.Funcao(connectionStr);
+            BLL.Funcao bllFuncao = new BLL.Funcao(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
             
             if (ModelState.IsValid)
             {
@@ -84,8 +83,7 @@ namespace cwkWebAPIPontoWeb.Controllers
             if (!String.IsNullOrEmpty(DescricaoFuncao))
             {
                 RetornoErro retErro = new RetornoErro();
-                string connectionStr = MetodosAuxiliares.Conexao();
-                BLL.Funcao bllFuncao = new BLL.Funcao(connectionStr);
+                BLL.Funcao bllFuncao = new BLL.Funcao(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                 try
                 {
                     Modelo.Funcao DadosAntFunc;
@@ -124,8 +122,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Excluir(int? idIntegracao)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Funcao bllFuncao = new BLL.Funcao(connectionStr);
+            BLL.Funcao bllFuncao = new BLL.Funcao(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
             try
             {
                 if (ModelState.IsValid)
@@ -171,8 +168,7 @@ namespace cwkWebAPIPontoWeb.Controllers
             if (!String.IsNullOrEmpty(DescricaoFuncao))
             {
                 RetornoErro retErro = new RetornoErro();
-                string connectionStr = MetodosAuxiliares.Conexao();
-                BLL.Funcao bllFuncao = new BLL.Funcao(connectionStr);
+                BLL.Funcao bllFuncao = new BLL.Funcao(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                 try
                 {
                     int? idfuncao = bllFuncao.getFuncaoNome(DescricaoFuncao);

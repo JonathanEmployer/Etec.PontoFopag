@@ -18,7 +18,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// </summary>
     [Authorize]
     [ApiExplorerSettings(IgnoreApi = true)]
-    public class ClassificacaoController : ApiController
+    public class ClassificacaoController : ExtendedApiController
     {
         /// <summary>
         /// Método responsável por retornar a lista de Ocorrências
@@ -29,8 +29,8 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Classificacao()
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Classificacao bllClass = new BLL.Classificacao(connectionStr);
+
+            BLL.Classificacao bllClass = new BLL.Classificacao(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
             if (ModelState.IsValid)
             {

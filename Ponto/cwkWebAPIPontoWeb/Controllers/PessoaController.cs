@@ -15,7 +15,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// <summary>
     /// Métodos Referentes ao Cadastro de Pessoa
     /// </summary>
-    public class PessoaController : ApiController
+    public class PessoaController : ExtendedApiController
     {
         /// <summary>
         /// Cadastrar/Alterar Pessoa.
@@ -129,8 +129,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Excluir(string idIntegracao)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Pessoa bllPessoa = new BLL.Pessoa(connectionStr);
+            BLL.Pessoa bllPessoa = new BLL.Pessoa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
             try
             {
                 if (ModelState.IsValid)

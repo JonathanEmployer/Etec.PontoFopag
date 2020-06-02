@@ -14,7 +14,7 @@ using System.Web.Http;
 
 namespace cwkWebAPIPontoWeb.Controllers
 {
-    public class RelatorioInconsistenciasController : ApiController
+    public class RelatorioInconsistenciasController : ExtendedApiController
     {
 
         [HttpPost]
@@ -29,11 +29,9 @@ namespace cwkWebAPIPontoWeb.Controllers
                 Modelo.UsuarioPontoWeb userPW = MetodosAuxiliares.UsuarioPontoWeb();
                 if (ModelState.IsValid)
                 {
-                    string connectionStr = MetodosAuxiliares.Conexao();
-
-                    BLL.Funcionario bllFuncionario = new BLL.Funcionario(connectionStr);
-                    BLL.Inconsistencia bllInconsistencias = new BLL.Inconsistencia(connectionStr);
-                    BLL.ContratoFuncionario bllContratoFuncionario = new BLL.ContratoFuncionario(connectionStr);
+                    BLL.Funcionario bllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+                    BLL.Inconsistencia bllInconsistencias = new BLL.Inconsistencia(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+                    BLL.ContratoFuncionario bllContratoFuncionario = new BLL.ContratoFuncionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     List<Modelo.Funcionario> funcionarios = new List<Modelo.Funcionario>();
                     funcionarios = bllFuncionario.GetAllFuncsListPorCPF(parms.CPFsMatriculas.Select(s => s.CPF).ToList());
                     ConcurrentBag<int> idsFuncs = new ConcurrentBag<int>();

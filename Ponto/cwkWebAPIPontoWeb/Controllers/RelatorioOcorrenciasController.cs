@@ -14,7 +14,7 @@ using System.Web.Http;
 
 namespace cwkWebAPIPontoWeb.Controllers
 {
-    public class RelatorioOcorrenciasController : ApiController
+    public class RelatorioOcorrenciasController : ExtendedApiController
     {
 
         [HttpPost]
@@ -28,8 +28,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                 Modelo.UsuarioPontoWeb userPW = MetodosAuxiliares.UsuarioPontoWeb();
                 if (ModelState.IsValid)
                 {
-                    string connectionStr = MetodosAuxiliares.Conexao();
-                    BLL.Funcionario bllFuncionario = new BLL.Funcionario(connectionStr);
+                    BLL.Funcionario bllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     ConcurrentBag<int> idsFuncionarios = new ConcurrentBag<int>();
                     List<Modelo.Funcionario> funcionarios = new List<Modelo.Funcionario>();
                     funcionarios = bllFuncionario.GetAllFuncsListPorCPF(parametros.CPFsMatriculas.Select(s => s.CPF).ToList());
@@ -93,12 +92,12 @@ namespace cwkWebAPIPontoWeb.Controllers
                                                                 pegaOcorrencias,
                                                                 sIdsOcorrencia,
                                                                 sIdsJustificativa,
-                                                                connectionStr, 
+                                                                usuarioPontoWeb.ConnectionString, 
                                                                 userPW);
 
                     DataTable dt = bllRelatorioOcorrencia.GeraRelatorio();
                     List<Modelo.Proxy.Relatorios.PxyRelatorioOcorrencias> listRel = new List<Modelo.Proxy.Relatorios.PxyRelatorioOcorrencias>();
-                    BLL.Marcacao bllMarcacao = new BLL.Marcacao(connectionStr);
+                    BLL.Marcacao bllMarcacao = new BLL.Marcacao(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
                     foreach (DataRow row in dt.Rows)
                     {
