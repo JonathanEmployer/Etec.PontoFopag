@@ -248,7 +248,8 @@ namespace DAL.SQL
 		                    us.EMAIL AS Email,
 		                    CASE WHEN us.UtilizaControleEmpresa = 1 THEN 'Sim' ELSE 'Não' END  AS ControlePorEmpresa,
 		                    CASE WHEN us.UtilizaControleContratos = 1 THEN 'Sim' ELSE 'Não' END AS ControlePorContrato,
-		                    CASE WHEN us.UtilizaControleSupervisor = 1 THEN 'Sim' ELSE 'Não' END AS ControlePorSupervisor                                                         
+		                    CASE WHEN us.UtilizaControleSupervisor = 1 THEN 'Sim' ELSE 'Não' END AS ControlePorSupervisor,
+                            CASE WHEN us.Ativo = 1 THEN 'Sim' ELSE 'Não' END AS Ativo
                             FROM cw_usuario us
                             LEFT JOIN cw_grupo gp ON gp.id = us.idgrupo  
                             WHERE us.login not in ('revenda','cwork')
