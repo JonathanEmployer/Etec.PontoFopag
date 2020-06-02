@@ -34,12 +34,12 @@ namespace BLL
             UsuarioLogado = usuarioLogado;
         }
 
-        public List<UsuarioControleAcesso> GetListaControleAcesso(int pIdFuncionario)
+        public List<UsuarioControleAcesso> GetListaControleAcesso(int pIdUsuario)
         {
             List<UsuarioControleAcesso> Acessos = new List<UsuarioControleAcesso>();
 
-            var EmpresasList = dalEmpresa.GetEmpresasUsuarioId(pIdFuncionario);
-            var ContratosList = dalContrato.ContratosPorFuncionario(pIdFuncionario);
+            var EmpresasList = dalEmpresa.GetEmpresasUsuarioId(pIdUsuario);
+            var ContratosList = dalContrato.ContratosPorUsuario(pIdUsuario);
 
             if (EmpresasList.Count != 0)
             {
@@ -63,7 +63,7 @@ namespace BLL
                     UsuarioControleAcesso Acesso = new UsuarioControleAcesso()
                     {
                         Codigo = contrato.Codigo,
-                        Descricao = contrato.DescricaoContrato,
+                        Descricao = contrato.CodigoContrato + " | " + contrato.DescricaoContrato,
                         Tipo = "Contrato"
                     };
 

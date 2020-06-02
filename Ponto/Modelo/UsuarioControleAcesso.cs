@@ -9,11 +9,11 @@ namespace Modelo
     {
         public int Idfuncionario { get; set; }
 
-        [TableHTMLAttribute("Tipo", 2, true, ItensSearch.text, OrderType.asc)]
+        [TableHTMLAttribute("Tipo", 1, true, ItensSearch.text, OrderType.asc)]
         [Display(Name = "Tipo")]
         public string Tipo { get; set; }
 
-        [TableHTMLAttribute("Código", 1, true, ItensSearch.text, OrderType.asc)]
+        [TableHTMLAttribute("Código", 2, true, ItensSearch.text, OrderType.asc)]
         [Display(Name = "Código")]
         public int Codigo { get; set; }
 

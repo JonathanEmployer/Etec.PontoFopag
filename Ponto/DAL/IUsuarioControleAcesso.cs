@@ -7,6 +7,6 @@ namespace DAL
     public interface IUsuarioControleAcesso : DAL.IDAL
     {
         Modelo.UsuarioControleAcesso LoadObject(int id);
-        List<Modelo.Contrato> ContratosPorFuncionario(int idFuncionario);
+        List<Modelo.Contrato> ContratoPorUsuario(int idUsuario);
     }
 }
