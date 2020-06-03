@@ -309,6 +309,7 @@
   <ItemGroup>
     <Compile Include="Afastamento.cs" />
     <Compile Include="AFD.cs" />
+    <Compile Include="AlertasRepAcompanhamento.cs" />
     <Compile Include="ApiWebfopag\V1\Coletor.cs" />
     <Compile Include="ApiWebfopag\V1\Login.cs" />
     <Compile Include="HorarioDinamicoRestricao.cs" />

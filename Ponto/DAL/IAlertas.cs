@@ -7,6 +7,7 @@ namespace DAL
     {
         Modelo.Alertas LoadObject(int id);
         List<Modelo.Alertas> GetAllList();
+        List<Modelo.Alertas> GetAllListAcompanhamentoRep();
     }
 }
 

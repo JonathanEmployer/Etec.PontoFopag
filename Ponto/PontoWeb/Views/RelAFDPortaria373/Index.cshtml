@@ -141,7 +141,8 @@
 		return false;
 	});
 
-	function validaForm() {
+    function validaForm() {
+        console.log('selecionados')
 		$("#IdSelecionados").val(tbFunGetSelecionado());
 		if ($("#IdSelecionados").val().length <= 0 || $("#IdSelecionados").val() == '' || $("#IdSelecionados").val() == null) {
 			var msgErro = 'Para Imprimir o Relatório é Necessário Selecionar Pelo Menos um registro.';

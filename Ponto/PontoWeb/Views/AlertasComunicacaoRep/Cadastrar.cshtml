@@ -21,6 +21,7 @@
                 @Html.HiddenFor(m => m.Tipo)
                 @Html.HiddenFor(m => m.DiasSemanaEnvio)
                 @Html.HiddenFor(m => m.EmailIndividual)
+                @Html.HiddenFor(m => m.ProcedureAlerta)
                 @Html.ValidationMessage("CustomError")
                 <div class="row">
                     <div class="col-md-1">
@@ -73,11 +74,10 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        @Html.HiddenFor(x => x.IdFuncsSelecionados)
-                        @Html.HiddenFor(m => m.IdFuncsSelecionados_Ant)
-                        @Html.ValidationMessageFor(x => x.IdFuncsSelecionados)
+                        @Html.HiddenFor(x => x.IdRepsSelecionados)
+                        @Html.ValidationMessageFor(x => x.IdRepsSelecionados)
                         <div class="row">
-                            @Html.GridFor("tbRep", new Modelo.REP().GetType(), true, "REP", "DadosGrid", "", "", Model.IdRepsSelecionados,"")
+                            @Html.GridFor("tbRep", new Modelo.REP().GetType(), true, "REP", "DadosGrid", "", "", Model.IdRepsSelecionados, "")
                         </div>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
     $(":input[type='text']:enabled:visible:first").focus();
     $(document).ready(function () {
         lkpGenerico();
-        $('#tbFun tbody').on('click', 'tr', function () {
+        $('#tbRep tbody').on('click', 'tr', function () {
             limpaErro("Pessoa");
         });
         //$('#UltimaExecucao').datetimepicker({
@@ -179,8 +179,8 @@
     });
 
     function validaForm() {
-        $("#IdFuncsSelecionados").val(tbFunGetSelecionado());
-        if ($("#IdFuncsSelecionados").val() == null || $("#IdFuncsSelecionados").val() == '' || $("#IdFuncsSelecionados").val().length <= 0)
+        $("#IdRepsSelecionados").val(tbRepGetSelecionado());
+        if ($("#IdRepsSelecionados").val() == null || $("#IdRepsSelecionados").val() == '' || $("#IdRepsSelecionados").val().length <= 0)
         {
             var msgErro = 'Selecionar um rep para ser monitorado pelo alerta';
             errorArray["Pessoa"] = msgErro;

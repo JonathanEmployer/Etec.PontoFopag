@@ -207,5 +207,10 @@ namespace BLL
         {
             throw new NotImplementedException();
         }
+
+        public List<Modelo.Alertas> GetAllListAcompanhamentoRep()
+        {
+            return dalAlertas.GetAllListAcompanhamentoRep();
+        }
     }
 }

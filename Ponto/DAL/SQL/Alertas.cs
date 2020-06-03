@@ -31,7 +31,8 @@ namespace DAL.SQL
 		                            ad.Nome NomeAlerta
                                FROM Alertas 
                                LEFT JOIN dbo.Pessoa pe ON alertas.idPessoa = pe.id
-                               LEFT JOIN dbo.AlertasDisponiveis ad ON Alertas.ProcedureAlerta = ad.NomeProcedure ";
+                               LEFT JOIN dbo.AlertasDisponiveis ad ON Alertas.ProcedureAlerta = ad.NomeProcedure
+                              WHERE 1 = 1 ";
 
             INSERT = @"  INSERT INTO Alertas
 							(codigo, incdata, inchora, incusuario, Tipo,Tolerancia,InicioVerificacao,FimVerificacao,IntervaloVerificacao,EmailUsuario,ultimaExecucao,Condicao,HorarioFixo,idPessoa,DiasSemanaEnvio,ProcedureAlerta,EmailIndividual,Ativo,Descricao)
@@ -263,7 +264,34 @@ namespace DAL.SQL
         {
             SqlParameter[] parms = new SqlParameter[0];
 
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SELECTALL, parms);
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SELECTALL + " AND ad.NomeProcedure <> 'p_enviaAlertasAcompanhamentoRep' ", parms);
+
+            List<Modelo.Alertas> lista = new List<Modelo.Alertas>();
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Alertas>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Alertas>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
+
+        public List<Modelo.Alertas> GetAllListAcompanhamentoRep()
+        {
+            SqlParameter[] parms = new SqlParameter[0];
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SELECTALL + " AND ad.NomeProcedure = 'p_enviaAlertasAcompanhamentoRep' ", parms);
 
             List<Modelo.Alertas> lista = new List<Modelo.Alertas>();
             try

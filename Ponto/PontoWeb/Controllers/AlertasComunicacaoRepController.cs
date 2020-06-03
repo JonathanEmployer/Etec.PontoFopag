@@ -24,7 +24,7 @@ namespace PontoWeb.Controllers
                 var usr = Usuario.GetUsuarioPontoWebLogadoCache();
                 string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
                 BLL.Alertas bllAlertas = new BLL.Alertas(conn, usr);
-                List<Modelo.Alertas> dados = bllAlertas.GetAllList();
+                List<Modelo.Alertas> dados = bllAlertas.GetAllListAcompanhamentoRep();
                 JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
                 jsonResult.MaxJsonLength = int.MaxValue;
                 return jsonResult;
@@ -166,6 +166,7 @@ namespace PontoWeb.Controllers
                 alertas.IdFuncsSelecionados_Ant = "";
                 alertas.UltimaExecucao = DateTime.Now;
                 alertas.EmailIndividual = true;
+                alertas.ProcedureAlerta = "p_enviaAlertasAcompanhamentoRep";
             }
             else
             {
