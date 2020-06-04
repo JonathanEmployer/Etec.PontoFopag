@@ -64,11 +64,11 @@ namespace DAL.SQL
 
             INSERT = @"  INSERT INTO cw_usuario
                             (codigo, login, senha, nome, tipo, idgrupo, incdata, inchora, incusuario, altdata, althora, altusuario, EMAIL, SENHAEMAIL, 
-                             SMTP, SSL, PORTA, PasswordSalt, Password, UltimoAcesso, connectionString, idUsuarioCentralCliente, UtilizaControleContratos, UtilizaControleEmpresa, UtilizaControleSupervisor, Cpf, SenhaRep, LoginRep, utilizaregistradordesktop, Ativo
+                             SMTP, SSL, PORTA, PasswordSalt, Password, UltimoAcesso, connectionString, idUsuarioCentralCliente, UtilizaControleContratos, UtilizaControleEmpresa, UtilizaControleSupervisor, Cpf, SenhaRep, LoginRep, utilizaregistradordesktop, Ativo,
                              CpfUsuario, PermissaoConcluirFluxoPnl)
 							VALUES
 							(@codigo, @login, @senha, @nome, @tipo, @idgrupo, @incdata, @inchora, @incusuario, @altdata, @althora, @altusuario, @EMAIL, @SENHAEMAIL, 
-                             @SMTP, @SSL, @PORTA, @PasswordSalt, @Password, @UltimoAcesso, @connectionString, @idUsuarioCentralCliente, @UtilizaControleContratos, @UtilizaControleEmpresa, @UtilizaControleSupervisor, @Cpf, @SenhaRep, @LoginRep, @utilizaregistradordesktop, @Ativo
+                             @SMTP, @SSL, @PORTA, @PasswordSalt, @Password, @UltimoAcesso, @connectionString, @idUsuarioCentralCliente, @UtilizaControleContratos, @UtilizaControleEmpresa, @UtilizaControleSupervisor, @Cpf, @SenhaRep, @LoginRep, @utilizaregistradordesktop, @Ativo,
                              @CpfUsuario, @PermissaoConcluirFluxoPnl) 
 						SET @id = SCOPE_IDENTITY()";
 
