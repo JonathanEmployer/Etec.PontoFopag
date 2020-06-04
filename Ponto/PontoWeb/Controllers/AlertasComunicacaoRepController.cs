@@ -113,6 +113,7 @@ namespace PontoWeb.Controllers
             var conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
             BLL.Alertas bllAlertas = new BLL.Alertas(conn, usr);
             ValidarForm(obj);
+            ModelState.Remove("FimVerificacao");
             if (ModelState.IsValid)
             {
                 try
@@ -170,10 +171,10 @@ namespace PontoWeb.Controllers
             }
             else
             {
-                BLL.AlertasFuncionario bllAlertasFunc = new BLL.AlertasFuncionario(conn, usr);
-                List<AlertasFuncionario> alertasFuncs = bllAlertasFunc.GetAllPorAlerta(alertas.Id);
-                alertas.IdFuncsSelecionados = String.Join(",", alertasFuncs.Select(s => s.IDFuncionario).ToList());
-                alertas.IdFuncsSelecionados_Ant = alertas.IdFuncsSelecionados;
+                BLL.AlertasRepAcompanhamento bllAlertasRepAcompanhamento = new BLL.AlertasRepAcompanhamento(conn, usr);
+                List<AlertasRepAcompanhamento> alertasRepAcompanhamento = bllAlertasRepAcompanhamento.GetAllPorAlerta(alertas.Id);
+                alertas.IdRepsSelecionados = String.Join(",", alertasRepAcompanhamento.Select(s => s.IdRep).ToList());
+                alertas.IdRepsSelecionados_Ant = alertas.IdRepsSelecionados;
             }
 
             AlertasDispononiveis(usr, conn);

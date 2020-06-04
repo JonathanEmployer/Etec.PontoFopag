@@ -106,14 +106,14 @@ namespace BLL
             return dalAlertasRepAcompanhamento.getId(pValor, pCampo, pValor2);
         }
 
-        public void IncluirLoteIdsFuncionario(SqlTransaction trans, int idAlerta, List<int> idsFuncs)
+        public void IncluirLoteIdsRep(SqlTransaction trans, int idAlerta, List<int> idsFuncs)
         {
-            dalAlertasRepAcompanhamento.IncluirLoteIdsFuncionario(trans, idAlerta, idsFuncs);
+            dalAlertasRepAcompanhamento.IncluirLoteIdsRep(trans, idAlerta, idsFuncs);
         }
 
-        public void ExcluirLoteIdsFuncionario(SqlTransaction trans, int idAlerta, List<int> idsFuncs)
+        public void ExcluirLoteIdsRep(SqlTransaction trans, int idAlerta, List<int> idsFuncs)
         {
-            dalAlertasRepAcompanhamento.ExcluirLoteIdsFuncionario(trans, idAlerta, idsFuncs);
+            dalAlertasRepAcompanhamento.ExcluirLoteIdsRep(trans, idAlerta, idsFuncs);
         }
 
         public List<Modelo.AlertasRepAcompanhamento> GetAllPorAlerta(Int32 idAlerta)

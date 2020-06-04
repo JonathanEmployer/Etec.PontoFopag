@@ -8,8 +8,8 @@ namespace DAL
     {
         Modelo.AlertasRepAcompanhamento LoadObject(int id);
         List<Modelo.AlertasRepAcompanhamento> GetAllList();
-        void IncluirLoteIdsFuncionario(SqlTransaction trans, int idAlerta, List<int> idsFuncs);
-        void ExcluirLoteIdsFuncionario(SqlTransaction trans, int idAlerta, List<int> idsFuncs);
+        void IncluirLoteIdsRep(SqlTransaction trans, int idAlerta, List<int> idsFuncs);
+        void ExcluirLoteIdsRep(SqlTransaction trans, int idAlerta, List<int> idsFuncs);
         List<Modelo.AlertasRepAcompanhamento> GetAllPorAlerta(Int32 idAlerta);
     }
 }

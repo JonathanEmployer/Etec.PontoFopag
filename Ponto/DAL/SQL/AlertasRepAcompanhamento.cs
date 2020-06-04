@@ -159,21 +159,21 @@ namespace DAL.SQL
             return lista;
         }
 
-        public void IncluirLoteIdsFuncionario(SqlTransaction trans, int idAlerta, List<int> idsFuncs)
+        public void IncluirLoteIdsRep(SqlTransaction trans, int idAlerta, List<int> idsReps)
         {
-            if (idAlerta > 0 && idsFuncs.Count() > 0)
+            if (idAlerta > 0 && idsReps.Count() > 0)
             {
                 SqlParameter[] parms = new SqlParameter[2]
                 {
-                    new SqlParameter("@idsFuncs", SqlDbType.VarChar),
+                    new SqlParameter("@idsReps", SqlDbType.VarChar),
                     new SqlParameter("@idAlerta", SqlDbType.Int)
                 };
 
-                parms[0].Value = String.Join(",", idsFuncs);
+                parms[0].Value = String.Join(",", idsReps);
                 parms[1].Value = idAlerta;
 
-                string sql = @"INSERT INTO dbo.AlertasRepAcompanhamento ( IDAlertas, IDFuncionario )
-                           SELECT @idAlerta, Id FROM dbo.funcionario WHERE id IN (SELECT * FROM dbo.F_ClausulaIn(@idsFuncs))";
+                string sql = @"INSERT INTO dbo.AlertasRepAcompanhamento ( IDAlertas, IDRep )
+                           SELECT @idAlerta, Id FROM dbo.rep WHERE id IN (SELECT * FROM dbo.F_ClausulaIn(@idsReps))";
                 try
                 {
                     SqlCommand cmd = TransactDbOps.ExecNonQueryCmd(trans, CommandType.Text, sql, true, parms);
@@ -190,22 +190,22 @@ namespace DAL.SQL
             }
         }
 
-        public void ExcluirLoteIdsFuncionario(SqlTransaction trans, int idAlerta, List<int> idsFuncs)
+        public void ExcluirLoteIdsRep(SqlTransaction trans, int idAlerta, List<int> idsReps)
         {
-            if (idAlerta > 0 && idsFuncs.Count() > 0)
+            if (idAlerta > 0 && idsReps.Count() > 0)
             {
                 SqlParameter[] parms = new SqlParameter[2]
                 {
-                    new SqlParameter("@idsFuncs", SqlDbType.VarChar),
+                    new SqlParameter("@idsReps", SqlDbType.VarChar),
                     new SqlParameter("@idAlertas", SqlDbType.Int)
                 };
 
-                parms[0].Value = String.Join(",", idsFuncs);
+                parms[0].Value = String.Join(",", idsReps);
                 parms[1].Value = idAlerta;
 
                 try
                 {
-                    SqlCommand cmd = TransactDbOps.ExecNonQueryCmd(trans, CommandType.Text, @"DELETE FROM AlertasRepAcompanhamento WHERE idFuncionario in (SELECT * FROM dbo.F_ClausulaIn(@idsFuncs)) and idAlertas = @idAlertas", true, parms);
+                    SqlCommand cmd = TransactDbOps.ExecNonQueryCmd(trans, CommandType.Text, @"DELETE FROM AlertasRepAcompanhamento WHERE idrep in (SELECT * FROM dbo.F_ClausulaIn(@idsReps)) and idAlertas = @idAlertas", true, parms);
                 }
                 catch (SqlException ex)
                 {

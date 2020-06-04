@@ -10,11 +10,13 @@ namespace DAL.SQL
     {
 
         AlertasFuncionario dalAlertasFuncs;
+        AlertasRepAcompanhamento dalAlertasRepAcompanhamento;
         AlertasLog dalAlertasLog;
         public Alertas(DataBase database)
         {
             db = database;
             dalAlertasFuncs = new AlertasFuncionario(db);
+            dalAlertasRepAcompanhamento = new AlertasRepAcompanhamento(db);
             dalAlertasLog = new AlertasLog(db);
             TABELA = "Alertas";
 
@@ -88,6 +90,7 @@ namespace DAL.SQL
 
         private void TratarInclusaoEExclusaoFuncionario(SqlTransaction trans, Modelo.ModeloBase obj)
         {
+            #region Incluir Registros Funcionário
             List<Int32> IdsFuncs = new List<Int32>();
             List<Int32> IdsFuncsAntes = new List<Int32>();
             if (!String.IsNullOrEmpty(((Modelo.Alertas)obj).IdFuncsSelecionados))
@@ -105,6 +108,27 @@ namespace DAL.SQL
 
             dalAlertasFuncs.ExcluirLoteIdsFuncionario(trans, obj.Id, idsFuncsExcluir);
             dalAlertasFuncs.IncluirLoteIdsFuncionario(trans, obj.Id, idsFuncsIncluir);
+            #endregion
+
+            #region Incluir Registros Rep
+            List<Int32> IdsRep = new List<Int32>();
+            List<Int32> IdsRepAntes = new List<Int32>();
+            if (!String.IsNullOrEmpty(((Modelo.Alertas)obj).IdRepsSelecionados))
+            {
+                IdsRep = ((Modelo.Alertas)obj).IdRepsSelecionados.Split(',').ToList().Select(s => Convert.ToInt32(s)).ToList();
+            }
+
+            if (!String.IsNullOrEmpty(((Modelo.Alertas)obj).IdRepsSelecionados_Ant))
+            {
+                IdsRepAntes = ((Modelo.Alertas)obj).IdRepsSelecionados_Ant.Split(',').ToList().Select(s => Convert.ToInt32(s)).ToList();
+            }
+
+            List<Int32> idsRepExcluir = IdsRepAntes.Except(IdsRep).ToList();
+            List<Int32> idsRepIncluir = IdsRep.Except(IdsRepAntes).ToList();
+
+            dalAlertasRepAcompanhamento.ExcluirLoteIdsRep(trans, obj.Id, idsRepExcluir);
+            dalAlertasRepAcompanhamento.IncluirLoteIdsRep(trans, obj.Id, idsRepIncluir);
+            #endregion
         }
 
         protected override void ExcluirAux(SqlTransaction trans, Modelo.ModeloBase obj)

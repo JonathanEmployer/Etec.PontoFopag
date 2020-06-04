@@ -78,7 +78,18 @@ namespace BLL
                 ValidaUltimaExecucao(objeto, ret);
                 ValidaPessoaSupervisor(objeto);
                 ValidarDestinatario(objeto, ref ret);
-                ValidarMonitorados(objeto, ref ret);
+                if (objeto.ProcedureAlerta != "p_enviaAlertasAcompanhamentoRep")
+                {
+                    ValidarMonitorados(objeto, ref ret); 
+                }
+
+                if (objeto.ProcedureAlerta == "p_enviaAlertasAcompanhamentoRep")
+                {
+                    if (String.IsNullOrEmpty(objeto.IdRepsSelecionados))
+                    {
+                        ret.Add("IdRepsSelecionados", "Para enviar o alerta é necessário selecionar o rep a ser acompanhado.");
+                    }
+                }
             }
             return ret;
         }

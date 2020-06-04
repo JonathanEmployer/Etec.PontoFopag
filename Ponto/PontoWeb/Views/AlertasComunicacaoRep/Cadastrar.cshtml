@@ -75,6 +75,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         @Html.HiddenFor(x => x.IdRepsSelecionados)
+                        @Html.HiddenFor(x => x.IdRepsSelecionados_Ant)
                         @Html.ValidationMessageFor(x => x.IdRepsSelecionados)
                         <div class="row">
                             @Html.GridFor("tbRep", new Modelo.REP().GetType(), true, "REP", "DadosGrid", "", "", Model.IdRepsSelecionados, "")
