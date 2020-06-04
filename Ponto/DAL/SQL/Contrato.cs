@@ -556,7 +556,7 @@ namespace DAL.SQL
             };
             parms[0].Value = idUsuario;
 
-            string sql = @"select * from contrato c
+            string sql = @"select c.* from contrato c
 	                        inner join contratousuario cf on c.id = cf.idcontrato
 	                            where cf.idcwusuario = @idUsuario";
 
