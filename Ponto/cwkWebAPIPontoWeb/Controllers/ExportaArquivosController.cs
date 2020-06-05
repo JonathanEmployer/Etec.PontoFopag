@@ -13,15 +13,14 @@ using System.Web.Http;
 namespace cwkWebAPIPontoWeb.Controllers
 {
     [Authorize]
-    public class ExportaArquivosController : ApiController
+    public class ExportaArquivosController : ExtendedApiController
     {
         [HttpGet]
         [TratamentoDeErro]
         public HttpResponseMessage GetArquivo([FromUri]ExportaArquivos parms)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Empresa bllEmp = new BLL.Empresa(connectionStr);
+            BLL.Empresa bllEmp = new BLL.Empresa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
             Modelo.Empresa emp = bllEmp.LoadObjectByDocumento(parms.DocumentoEmpresa);
             DateTime dataini;
             DateTime datafin;
@@ -39,8 +38,8 @@ namespace cwkWebAPIPontoWeb.Controllers
 
                     byte[] arquivoMemoria;
                     string nomeArquivo = "ArquivoExportado";
-                    BLL.ExportaArquivos bllExpArquivos = new BLL.ExportaArquivos(connectionStr);
-                    bllExpArquivos.efetuaExportacaoWeb(out arquivoMemoria, parms.TipoArquivo, emp.Id, dataini, datafin, objProgressBar, out nomeArquivo, connectionStr, User.Identity.Name);
+                    BLL.ExportaArquivos bllExpArquivos = new BLL.ExportaArquivos(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+                    bllExpArquivos.efetuaExportacaoWeb(out arquivoMemoria, parms.TipoArquivo, emp.Id, dataini, datafin, objProgressBar, out nomeArquivo, usuarioPontoWeb.ConnectionString, User.Identity.Name);
 
                
 

@@ -14,7 +14,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// Métodos Referentes ao Cadastro de Ocorrências
     /// </summary>
     [Authorize]
-    public class OcorrenciaController : ApiController
+    public class OcorrenciaController : ExtendedApiController
     {
         /// <summary>
         /// Método responsável por retornar a lista de Ocorrências
@@ -25,9 +25,8 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Ocorrencias(int idFuncionario)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Ocorrencia bllOco = new BLL.Ocorrencia(connectionStr);
-            BLL.Funcionario bllFuncionario = new BLL.Funcionario(connectionStr);
+            BLL.Ocorrencia bllOco = new BLL.Ocorrencia(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
             if (ModelState.IsValid)
             {
@@ -85,8 +84,8 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Ocorrencias()
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Ocorrencia bllOco = new BLL.Ocorrencia(connectionStr);
+
+            BLL.Ocorrencia bllOco = new BLL.Ocorrencia(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
             if (ModelState.IsValid)
             {

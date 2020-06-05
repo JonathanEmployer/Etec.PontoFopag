@@ -30,9 +30,8 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Cadastrar(Models.Ferias Ferias)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Afastamento bllAfastamento = new BLL.Afastamento(connectionStr);
-            BLL.Marcacao bllMarcacao = new BLL.Marcacao(connectionStr);
+            BLL.Afastamento bllAfastamento = new BLL.Afastamento(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+            BLL.Marcacao bllMarcacao = new BLL.Marcacao(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
             Models.Afastamento af = new Models.Afastamento();
             af.Codigo = Ferias.Codigo.GetValueOrDefault();
@@ -45,7 +44,7 @@ namespace cwkWebAPIPontoWeb.Controllers
             if (ModelState.IsValid)
             {
                 int? idFuncionario, idOcorrencia;
-                ValidaDados(af, connectionStr, out idFuncionario, out idOcorrencia);
+                ValidaDados(af, usuarioPontoWeb.ConnectionString, out idFuncionario, out idOcorrencia);
 
                 if (ModelState.IsValid)
                 {
@@ -72,7 +71,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                                 DadosAntAfastamento.Dataf = af.DataFinal;
                                 DadosAntAfastamento.Tipo = 0;
                                 DadosAntAfastamento.IdFuncionario = idFuncionario.GetValueOrDefault();
-                                BLL.Ocorrencia bllocorrencia = new BLL.Ocorrencia(connectionStr);
+                                BLL.Ocorrencia bllocorrencia = new BLL.Ocorrencia(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                                 int? idocorrencia = bllocorrencia.getOcorrenciaNome("Férias");
                                 DadosAntAfastamento.IdOcorrencia = idocorrencia.GetValueOrDefault();
                                 Modelo.Ocorrencia ocorrencia = bllocorrencia.LoadObject(idocorrencia.GetValueOrDefault());
@@ -86,7 +85,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                                 DadosAntAfastamento.Datai = af.DataInicial;
                                 DadosAntAfastamento.Dataf = af.DataFinal;
                                 DadosAntAfastamento.IdFuncionario = idFuncionario.GetValueOrDefault();
-                                BLL.Ocorrencia bllocorrencia = new BLL.Ocorrencia(connectionStr);
+                                BLL.Ocorrencia bllocorrencia = new BLL.Ocorrencia(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                                 int? idocorrencia = bllocorrencia.getOcorrenciaNome("Férias");
                                 DadosAntAfastamento.IdOcorrencia = idocorrencia.GetValueOrDefault();
                                 DadosAntAfastamento.Observacao = af.Observacao;
@@ -143,7 +142,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                             DadosAntAfastamento.Datai = af.DataInicial;
                             DadosAntAfastamento.Dataf = af.DataFinal;
                             DadosAntAfastamento.IdFuncionario = idFuncionario.GetValueOrDefault();
-                            BLL.Ocorrencia bllocorrencia = new BLL.Ocorrencia(connectionStr);
+                            BLL.Ocorrencia bllocorrencia = new BLL.Ocorrencia(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                             int? idocorrencia = bllocorrencia.getOcorrenciaNome("Férias");
                             DadosAntAfastamento.IdOcorrencia = idocorrencia.GetValueOrDefault();
                             DadosAntAfastamento.Tipo = 0;

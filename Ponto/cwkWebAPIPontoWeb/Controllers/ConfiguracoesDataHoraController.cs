@@ -20,7 +20,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// <summary>
     /// Controlador para envio de dados de Configurações de Data e Hora para o Rep.
     /// </summary>
-    public class ConfiguracoesDataHoraController : ApiController
+    public class ConfiguracoesDataHoraController : ExtendedApiController
     {
         /// <summary>
         /// Retorna uma lista de Objetos do tipo EnvioConfiguracoesDataHora com os dados a serem importados pelos relógios.

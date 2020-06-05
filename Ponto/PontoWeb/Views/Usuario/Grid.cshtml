@@ -5,6 +5,11 @@
     ViewBag.Title = "Usuário";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string nomeTabela = "tbUsuario";
+    string rowCallBack = @" function( row, data, index ) {
+                if (data.Ativo == 'Não') {
+                    $('td', row).css('color', 'Red');
+                }
+            }";
 }
 
 <div class="">
@@ -16,7 +21,15 @@
         <div class="panel-body panelConteudo" id="panelBodyFixo">
             @Html.ValidationSummary(true)
             <div class="row">
-                @Html.GridFor(nomeTabela, Model.GetType(), false, "Usuario", "DadosGrid")
+                @Html.GridFor(nomeTabela, Model.GetType(), false, "Usuario", "DadosGrid", rowCallBack, "CallBackLoadGrid")
+            </div>
+            <div class="row" style="padding-top:10px;">
+                <div class="col-md-12">
+                    <div class="form-group" style="padding-bottom: 0px; margin-bottom: 0px;">
+                        @Html.CheckBox("Esconder Inativos", new { id = "BEsconderInativos", @checked = "checked" })
+                        @Html.Label("Esconder Inativos", new { style = "padding-bottom: 0px; margin-bottom: 0px;", @for = "BEsconderInativos" })
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -40,7 +53,7 @@
     var nomeTabela = "#" + '@nomeTabela';
     $(document).ready(function () {
         cwk_EventoDbClickEditar('Alterar', 'Usuario', nomeTabela);
-        
+
         cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', 'Usuario');
         cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', 'Usuario', nomeTabela);
         cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', 'Usuario', nomeTabela);
@@ -49,6 +62,38 @@
         cwk_EventoAlterarAjaxParam('#btControledeusuario', 'GridControleUsuario', 'Usuario', nomeTabela, "");
 
     });
+
+    function CallBackLoadGrid() {
+        var val = $("#tbUsuariopsqAtivo").val();
+        if (val.toLowerCase().indexOf("s") >= 0) {
+            $("#BEsconderInativos").prop('checked', true);
+        }
+        else {
+            ApenasAtivos();
+        }
+    }
+
+    $("#BEsconderInativos").click(function (event) {
+        EscondeInativos(event);
+    });
+
+    function EscondeInativos(event) {
+        var table = $(nomeTabela).DataTable();
+        if ($("#BEsconderInativos").is(':checked')) {
+            ApenasAtivos();
+        }
+        else {
+            $("#tbUsuariopsqAtivo").val("");
+            table.columns(9).search("").draw();
+        }
+    };
+
+    function ApenasAtivos() {
+        var table = $(nomeTabela).DataTable();
+        $("#tbUsuariopsqAtivo").val("Sim");
+        table.columns(9).search("Sim", true, false, true).draw();
+    }
+
 </script>
 
 

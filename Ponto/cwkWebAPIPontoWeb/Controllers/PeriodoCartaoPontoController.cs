@@ -30,7 +30,7 @@ namespace cwkWebAPIPontoWeb.Controllers
             {
                 try
                 {
-                    BLL.ConfiguracoesGerais bllConfiguracoes = new BLL.ConfiguracoesGerais(StrConexao);
+                    BLL.ConfiguracoesGerais bllConfiguracoes = new BLL.ConfiguracoesGerais(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     DateTime dataIni = DateTime.Now.Date;
                     DateTime dataFin = DateTime.Now.Date.AddDays(30);
                     bool mudadataautomaticamente;

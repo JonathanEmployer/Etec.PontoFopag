@@ -17,7 +17,7 @@ namespace Modelo
         /// </summary>
         [Required(ErrorMessage = "Campo Obrigatório")]
         [DataType(DataType.Date, ErrorMessage = "Data inválida")]
-        [MinDate("01/01/1760")]
+        [MinDate("31/12/1999")]
         public DateTime? Data { get; set; }
 
         [TableHTMLAttribute("Data", 2, true, ItensSearch.text, OrderType.none)]
