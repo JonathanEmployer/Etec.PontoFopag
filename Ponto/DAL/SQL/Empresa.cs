@@ -958,7 +958,7 @@ namespace DAL.SQL
             };
             parms[0].Value = idFuncionario;
 
-            string sql = @"select * from dbo.empresa c
+            string sql = @"select c.* from dbo.empresa c
 	                        inner join dbo.empresacwusuario cf on c.id = cf.idempresa
 	                            where cf.idcw_usuario = @idFuncionario";
 
