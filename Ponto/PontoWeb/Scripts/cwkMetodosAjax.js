@@ -610,7 +610,7 @@ function ajax_CarregarConsultaEventoTabComFiltro(acao, idFiltro, controller, con
                     if (ids > 0) {
                         oTbLkpModal.$("tr").filter(".selected").each(function (index, row) {
                             id = $(row).find("td:eq(0)").text().replace('undefined', '');
-                            nome = $(row).find("td:eq(1)").text().replace('undefined', '');
+                            nome = $(row).find("td:eq(1)").text().replace('undefined', '');                            
                             $(campo).val(id + ' | ' + nome);
                             $("#divLoadModalLkp").modal('hide');
                             if (carregaDetalhes) {

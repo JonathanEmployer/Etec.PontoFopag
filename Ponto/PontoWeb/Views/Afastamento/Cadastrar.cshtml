@@ -28,6 +28,7 @@
     @Html.HiddenFor(model => model.Datai_Ant);
     @Html.HiddenFor(model => model.Dataf_Ant);
     @Html.HiddenFor(model => model.IdIntegracao);
+    @Html.HiddenFor(model => model.DataUltimoFechamentoPontoEBanco)
 
     <div class="divCenterMedio">
         <div class="panel panel-default" style="padding:0">
@@ -62,7 +63,7 @@
                     <div class="col-md-3">
                         <div class="form-group input-group-sm">
                             @Html.LabelFor(model => model.Dataf, new { @class = "control-label label-sm" })
-                            <div class="input-group input-group-sm" >
+                            <div class="input-group input-group-sm">
                                 @Html.TextBoxFor(model => model.Dataf, new { @class = "form-control input-sm MascDate datepickerpt", id = "Dataf" }).IsReadonly(integrado)
                                 <span class="input-group-btn">
                                     <button class="btn btn-primary desabilitar" id="btnDataFinal" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -271,7 +272,7 @@
                                     @Html.ValidationMessageFor(model => model.Horaf)
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                 </div>
             </div>
@@ -545,15 +546,15 @@
         });
     }
 
-    function OcultarCheckContabilizarJornadaT() {  
+    function OcultarCheckContabilizarJornadaT() {
                 if ($("#BAbonado").is(':checked') && (!$("#BParcial").is(':checked')))
                 { $("#rowcontabilizarjornada").show(); }
                 else {
                     $("#rowcontabilizarjornada").hide();
-                    $("#BcontabilizarjornadaBool").prop("checked", false);                  
+                    $("#BcontabilizarjornadaBool").prop("checked", false);
                 }
-    }    
-    
+    }
+
 </script>
 @if (ViewBag.Consultar == 1 || !String.IsNullOrEmpty(@ViewBag.MensagemBloqueio))
 {
@@ -562,4 +563,50 @@
             $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
         })
     </script>
+}
+
+@if (Model.DataUltimoFechamentoPontoEBanco != null)
+{
+<script>
+    var dataIni = ConvertDate('@Model.Datai');
+    var dataFinal = ConvertDate('@Model.Dataf');
+    var ultimoFechamento = ConvertDate('@Model.DataUltimoFechamentoPontoEBanco');
+
+    $(document).ready(function (e) {
+        if (dataIni <= ultimoFechamento) {
+            $('form').find('input:visible, textarea, button, select').attr('disabled', 'disabled');
+            ComparaDataFinalComDataFechmento();
+        }
+        else {
+            LimitaDataIni();
+            LimitaDataFim();
+        }
+    })
+
+    function ComparaDataFinalComDataFechmento() {
+        if (dataFinal > ultimoFechamento) {
+            $('#Dataf, #btnDataFinal').removeAttr('disabled');
+            $('.salvando').removeAttr('disabled');
+            LimitaDataFim();
+        }
+    }
+
+    var optionsDP = new Array();
+    optionsDP['language'] = 'pt-BR';
+    optionsDP['format'] = "dd/mm/yyyy";
+    optionsDP['todayBtn'] = "linked";
+    optionsDP['autoclose'] = "true";
+    optionsDP['todayHighlight'] = "true";
+    optionsDP['startDate'] = ultimoFechamento.addDays(1);
+    optionsDP['orientation'] = "auto";
+    function LimitaDataFim() {
+        $('#Dataf').datepicker("remove");
+        $('#Dataf').datepicker(optionsDP);
+    }
+
+    function LimitaDataIni() {
+        $('#Datai').datepicker("remove");
+        $('#Datai').datepicker(optionsDP);
+    }
+</script>
 }

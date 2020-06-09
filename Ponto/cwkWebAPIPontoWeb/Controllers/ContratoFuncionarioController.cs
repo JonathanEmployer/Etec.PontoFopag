@@ -16,7 +16,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// <summary>
     /// Métodos Referentes ao Vínculo de Contratos e Funcionários
     /// </summary>
-    public class ContratoFuncionarioController : ApiController
+    public class ContratoFuncionarioController : ExtendedApiController
     {
         /// <summary>
         /// Vincular Contrato a Funcionário
@@ -34,10 +34,9 @@ namespace cwkWebAPIPontoWeb.Controllers
         private HttpResponseMessage IncluiExcluiContratoFuncionario(List<Models.ContratoFuncionario> listacontratofuncionario, Acao acao)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Funcionario bllFuncionario = new BLL.Funcionario(connectionStr);
-            BLL.Contrato bllContrato = new BLL.Contrato(connectionStr);
-            BLL.ContratoFuncionario bllContratoFuncionario = new BLL.ContratoFuncionario(connectionStr);
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+            BLL.Contrato bllContrato = new BLL.Contrato(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+            BLL.ContratoFuncionario bllContratoFuncionario = new BLL.ContratoFuncionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
             Dictionary<string, string> erros = new Dictionary<string, string>();
             if (ModelState.IsValid)
             {
@@ -52,7 +51,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                         {
                             Modelo.Contrato Contrato = bllContrato.LoadObject(contid.GetValueOrDefault());
                             Modelo.ContratoFuncionario ContratoFunc = new Modelo.ContratoFuncionario();
-                            BLL.ContratoFuncionario bllContratoFun = new BLL.ContratoFuncionario(connectionStr);                          
+                            BLL.ContratoFuncionario bllContratoFun = new BLL.ContratoFuncionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);                          
 
                             ContratoFunc.IdContrato = contid.GetValueOrDefault();
                             ContratoFunc.IdFuncionario = funcid.GetValueOrDefault();

@@ -13,7 +13,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// <summary>
     /// Envio de feriados para o pontofopag
     /// </summary>
-    public class FeriadoController : ApiController
+    public class FeriadoController : ExtendedApiController
     {
         
 
@@ -26,11 +26,11 @@ namespace cwkWebAPIPontoWeb.Controllers
         [TratamentoDeErro]
         public HttpResponseMessage Cadastrar(Models.Feriado feriado)
         {
-            string connectionStr = MetodosAuxiliares.Conexao();
+
             BLL.Feriado bllFeriado = new BLL.Feriado(MetodosAuxiliares.Conexao());
             RetornoErro retErro = new RetornoErro();
             bool salvouTodos = true;
-            ValidaDados(feriado, connectionStr);
+            ValidaDados(feriado, usuarioPontoWeb.ConnectionString);
 
             if (ModelState.IsValid)
             {
@@ -38,7 +38,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                 {
                     List<Feriado> feriados = bllFeriado.GetIdPorIdIntegracao(feriado.IdIntegracao);
 
-                    BLL.Funcionario bllFunc = new BLL.Funcionario(connectionStr);
+                    BLL.Funcionario bllFunc = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                    
                     List<Models.FuncionariosRecalculo> funcsRecalculo;
                     
@@ -50,7 +50,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                         if (feriado.Tipo == 0)
                         {
                             Modelo.Feriado feriadoNovo = new Feriado();
-                            if (SalvarFeriado(Modelo.Acao.Incluir, feriadoNovo, feriado, connectionStr))
+                            if (SalvarFeriado(Modelo.Acao.Incluir, feriadoNovo, feriado, usuarioPontoWeb.ConnectionString))
                             {
                                 idsFuncs = bllFunc.GetIdsFuncsAtivos("");
                                 funcsRecalculo.AddRange(idsFuncs.Select(s => new Models.FuncionariosRecalculo() { idFuncionario = s, DataInicial = feriado.Data, DataFinal = feriado.Data }).ToList());
@@ -66,7 +66,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                             {
                                 Modelo.Feriado feriadoNovo = new Feriado();
                                 feriadoNovo.IdEmpresa = emp.Key;
-                                if (SalvarFeriado(Modelo.Acao.Incluir, feriadoNovo, feriado, connectionStr))
+                                if (SalvarFeriado(Modelo.Acao.Incluir, feriadoNovo, feriado, usuarioPontoWeb.ConnectionString))
                                 {
                                     idsFuncs = bllFunc.GetIdsFuncsAtivos(" and idempresa = " + emp.Key);
                                     funcsRecalculo.AddRange(idsFuncs.Select(s => new Models.FuncionariosRecalculo() { idFuncionario = s, DataInicial = feriado.Data, DataFinal = feriado.Data }).ToList());
@@ -81,7 +81,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                         {
                             Modelo.Feriado feriadoNovo = new Feriado();
                             feriadoNovo.IdsFeriadosFuncionariosSelecionados = String.Join(",", feriado.Funcionarios.Select(s => s.Key));
-                            if (SalvarFeriado(Modelo.Acao.Incluir, feriadoNovo, feriado, connectionStr))
+                            if (SalvarFeriado(Modelo.Acao.Incluir, feriadoNovo, feriado, usuarioPontoWeb.ConnectionString))
                             {
                                 idsFuncs = feriado.Funcionarios.Select(s => s.Key).ToList();
                                 funcsRecalculo.AddRange(idsFuncs.Select(s => new Models.FuncionariosRecalculo() { idFuncionario = s, DataInicial = feriado.Data, DataFinal = feriado.Data }).ToList());
@@ -134,14 +134,14 @@ namespace cwkWebAPIPontoWeb.Controllers
 
         private bool ExcluirFeriados(List<Feriado> feriados, BLL.Funcionario bllFunc, out List<Models.FuncionariosRecalculo> funcsRecalculo)
         {
-            string connectionStr = MetodosAuxiliares.Conexao();
+
             BLL.Feriado bllFeriado = new BLL.Feriado(MetodosAuxiliares.Conexao());
             funcsRecalculo = new List<Models.FuncionariosRecalculo>();
             List<int> idsFuncs = new List<int>();
             bool excluiu = true;
             foreach (Modelo.Feriado feriadoExc in feriados)
             {
-                BLL.FeriadoFuncionario bllFerFunc = new BLL.FeriadoFuncionario(connectionStr);
+                BLL.FeriadoFuncionario bllFerFunc = new BLL.FeriadoFuncionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                 List<Modelo.Funcionario> funcs = bllFerFunc.ListaFuncionariosFeriado(feriadoExc.Id);
                 Dictionary<string, string> erros = new Dictionary<string, string>();
                 feriadoExc.NaoRecalcular = true;
@@ -216,7 +216,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                     ModelState.AddModelError("CPFFuncionario", "Quando tipo do feriado for por funcionário é necessário informar ao menos um CPF");
                 }
 
-                BLL.Funcionario bllFuncionario = new BLL.Funcionario(connectionStr);
+                BLL.Funcionario bllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                 feriado.Funcionarios = new Dictionary<int, string>();
 
                 foreach (String cpf in feriado.CPFFuncionario)
@@ -244,7 +244,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                 }
                 else
                 {
-                    BLL.Empresa bllEmpresa = new BLL.Empresa(connectionStr);
+                    BLL.Empresa bllEmpresa = new BLL.Empresa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     feriado.Empresas = new Dictionary<int, string>();
                     foreach (String documento in feriado.DocumentoEmpresa)
                     {
@@ -272,17 +272,16 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Excluir(int idIntegracao)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Departamento bllDepart = new BLL.Departamento(connectionStr);
+            BLL.Departamento bllDepart = new BLL.Departamento(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
             bool excluiu = true;
             if (ModelState.IsValid)
             {
                 try
                 {
-                    BLL.Feriado bllFeriado = new BLL.Feriado(connectionStr);
+                    BLL.Feriado bllFeriado = new BLL.Feriado(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     List<Feriado> feriados = bllFeriado.GetIdPorIdIntegracao(idIntegracao);
 
-                    BLL.Funcionario bllFunc = new BLL.Funcionario(connectionStr);
+                    BLL.Funcionario bllFunc = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     List<Models.FuncionariosRecalculo> funcsRecalculo;
                     
                     bool retorno = ExcluirFeriados(feriados, bllFunc, out funcsRecalculo);

@@ -542,6 +542,7 @@
         corrigeDatePicker();
         $('#DiasJA_' + nextIndex + '__Codigo').val(Number(maxcod) + 1);
         $(container).find('input:visible:last').focus();
+        $('.MascDate').mask('00/00/0000');
     }
 
     function calcHoras() {
