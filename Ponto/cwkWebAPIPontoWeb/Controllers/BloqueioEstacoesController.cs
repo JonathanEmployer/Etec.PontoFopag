@@ -15,7 +15,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// API para carga de bloqueios de estações por regras temporais.
     /// </summary>
     [Authorize]
-    public class BloqueioEstacoesController : ApiController
+    public class BloqueioEstacoesController : ExtendedApiController
     {
         /// <summary>
         /// Retorna o estado do bloqueio das estações dos funcionários informados.
@@ -27,8 +27,8 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage EstadoFuncionarios(string[] cpfs)
         {
             ConcurrentBag<EstadoBloqueioFuncionario> retorno = new ConcurrentBag<EstadoBloqueioFuncionario>();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Funcionario bllFuncionario = new BLL.Funcionario(connectionStr);
+
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
             try
             {

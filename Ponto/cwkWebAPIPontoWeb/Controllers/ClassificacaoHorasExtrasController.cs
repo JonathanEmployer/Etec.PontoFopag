@@ -14,7 +14,7 @@ namespace cwkWebAPIPontoWeb.Controllers
 {
     [Authorize]
     [ApiExplorerSettings(IgnoreApi = true)]
-    public class ClassificacaoHorasExtrasController : ApiController
+    public class ClassificacaoHorasExtrasController : ExtendedApiController
     {
         /// <summary>
         /// Cadastrar/Alterar Classificação de Horas extras.
@@ -28,8 +28,8 @@ namespace cwkWebAPIPontoWeb.Controllers
         {
             Utils.MetodosAuxiliares.EscreveLog("Requisicao Recebida Pelo Post ClassificacaoHorasExtrasController do usuário = " + User.Identity.Name + ", Parâmetros:  IdMarcacao = " + IdMarcacao + " IdClassificacaoHoraExtra = " + IdClassificacaoHoraExtra + " IdClassificacao = " + IdClassificacao + " Observacao =" + Observacao, "ClassificacaoHorasExtrasController");
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.ClassificacaoHorasExtras bllClassHE = new BLL.ClassificacaoHorasExtras(connectionStr);
+
+            BLL.ClassificacaoHorasExtras bllClassHE = new BLL.ClassificacaoHorasExtras(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
                 try
                 {
@@ -40,7 +40,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                     {
                         classhe = classificacoes.Where(x => x.Integrado).FirstOrDefault();
                     }
-                    BLL.Classificacao bllclass = new BLL.Classificacao(connectionStr);
+                    BLL.Classificacao bllclass = new BLL.Classificacao(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     Modelo.Classificacao Classificacao = new Classificacao();
                     Classificacao = bllclass.LoadObject(IdClassificacao);
                     if (Classificacao.Id != 0)
@@ -151,13 +151,13 @@ namespace cwkWebAPIPontoWeb.Controllers
         {
             Utils.MetodosAuxiliares.EscreveLog("Requisicao Recebida Pelo Delete ClassificacaoHorasExtrasController do usuário = " + User.Identity.Name + ", Parâmetros:  IdMarcacao = " + IdMarcacao, "ClassificacaoHorasExtrasController");
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Afastamento bllAfastamento = new BLL.Afastamento(connectionStr);
+
+            BLL.Afastamento bllAfastamento = new BLL.Afastamento(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
             try
             {
                 if (ModelState.IsValid)
                 {
-                    BLL.ClassificacaoHorasExtras bllclasshe = new BLL.ClassificacaoHorasExtras(connectionStr);
+                    BLL.ClassificacaoHorasExtras bllclasshe = new BLL.ClassificacaoHorasExtras(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     Modelo.Proxy.pxyClassHorasExtrasMarcacao pxyclasshe = new Modelo.Proxy.pxyClassHorasExtrasMarcacao();
                     pxyclasshe = bllclasshe.GetClassificacoesMarcacao(IdMarcacao).Where(x => x.Integrado).FirstOrDefault();
 

@@ -26,13 +26,13 @@ namespace Modelo.Relatorios
 
         [Display(Name = "Início")]
         [Required(ErrorMessage = "Campo Obrigatório")]
-        [MinDate("01/01/1760")]
+        [MinDate("31/12/1999")]
         public new DateTime InicioPeriodo { get; set; }
 
         [Display(Name = "Fim")]
         [DataType(DataType.DateTime)]
         [Required(ErrorMessage = "Campo Obrigatório")]
-        [MinDate("01/01/1760")]
+        [MinDate("31/12/1999")]
         [DateGreaterThan("InicioPeriodo", "Início")]
         public new DateTime FimPeriodo { get; set; }
 

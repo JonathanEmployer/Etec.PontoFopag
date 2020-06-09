@@ -53,7 +53,7 @@ namespace Modelo
         /// </summary>
 
         [Required(ErrorMessage = "Campo Obrigatório")]
-        [MinDate("01/01/1760")]
+        [MinDate("31/12/1999")]
         [Display(Name = "Início")]
         public DateTime? Periodoinicial { get; set; }
         [TableHTMLAttribute("Período Inicial", 4, true, ItensSearch.text, OrderType.none)]
@@ -70,7 +70,7 @@ namespace Modelo
         /// </summary>
 
         [Required(ErrorMessage = "Campo Obrigatório")]
-        [MinDate("01/01/1760")]
+        [MinDate("31/12/1999")]
         [Display(Name = "Fim")]
         public DateTime? Periodofinal { get; set; }
         [TableHTMLAttribute("Período Final", 5, true, ItensSearch.text, OrderType.none)]

@@ -17,7 +17,7 @@ namespace Modelo.Proxy
         /// </summary>
         [Display(Name = "Início")]
         [Required(ErrorMessage = "Campo Obrigatório")]
-        [MinDate("01/01/1760")]
+        [MinDate("31/12/1999")]
         public DateTime InicioPeriodo { get; set; }
         /// <summary>
         /// Data Final
@@ -25,7 +25,7 @@ namespace Modelo.Proxy
         [Display(Name = "Fim")]
         [DataType(DataType.DateTime)]
         [Required(ErrorMessage = "Campo Obrigatório")]
-        [MinDate("01/01/1760")]
+        [MinDate("31/12/1999")]
         [DateGreaterThan("InicioPeriodo", "Início")]
         public DateTime FimPeriodo { get; set; }
 

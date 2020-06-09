@@ -19,7 +19,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// </summary>
     [Authorize]
     [ApiExplorerSettings(IgnoreApi = true)]
-    public class BilhetesController : ApiController
+    public class BilhetesController : ExtendedApiController
     {
         /// <summary>
         /// Método responsável por retornar a lista de bilhets por dia
@@ -34,7 +34,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Bilhetes(string CPF, string Data, string Matricula)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
+
             CPF = CPF.Replace("-", "").Replace(".", "");
             Int64 CPFint = Convert.ToInt64(CPF);
 
@@ -47,7 +47,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                 {
                     Dictionary<string, string> erros = new Dictionary<string, string>();
 
-                    BLL.Funcionario bllFuncionario = new BLL.Funcionario(connectionStr);
+                    BLL.Funcionario bllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     Modelo.Funcionario func = bllFuncionario.GetFuncionarioPorCpfeMatricula(CPFint, Matricula);
                     if (func == null || func.Id == null)
                     {
@@ -56,7 +56,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                     }
                     List<Models.Bilhetes> ListaBilhetes = new List<Models.Bilhetes>();
                     List<Modelo.BilhetesImp> ListaBilhetesImp = new List<Modelo.BilhetesImp>();
-                    BLL.BilhetesImp bllbilhetes = new BLL.BilhetesImp(connectionStr);
+                    BLL.BilhetesImp bllbilhetes = new BLL.BilhetesImp(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     ListaBilhetesImp = bllbilhetes.GetImportadosPeriodo(new List<int>() { func.Id }, data, data, true);
 
                     foreach (var item in ListaBilhetesImp)
@@ -129,11 +129,11 @@ namespace cwkWebAPIPontoWeb.Controllers
                 {
                     // Desconsidera pre assinaladas, sempre serão geradas automaticamente pelo rotina de calcula
                     Bilhetes.ListaBilhetes = Bilhetes.ListaBilhetes.Where(w => w.Relogio != "PA").ToList();
-                    string connectionStr = MetodosAuxiliares.Conexao();
-                    BLL.BilhetesImp BllBilhete = new BLL.BilhetesImp(connectionStr);
-                    BLL.Funcionario BllFuncionario = new BLL.Funcionario(connectionStr);
+
+                    BLL.BilhetesImp BllBilhete = new BLL.BilhetesImp(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+                    BLL.Funcionario BllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     Dictionary<string, string> erros = new Dictionary<string, string>();
-                    BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(connectionStr);
+                    BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     Modelo.BilhetesImp BilheteAnt = new Modelo.BilhetesImp();
                     Modelo.Funcionario Func = new Modelo.Funcionario();
                     Func = BllFuncionario.LoadObject(IdFuncionario);
@@ -150,7 +150,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                         throw new Exception("Funcionário " + Func.Nome + " excluído no Pontofopag.");
                     }
 
-                    BLL.Marcacao BllMarcacao = new BLL.Marcacao(connectionStr);
+                    BLL.Marcacao BllMarcacao = new BLL.Marcacao(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     Modelo.Marcacao marcacao = new Modelo.Marcacao();
                     if (Bilhetes.ListaBilhetes == null)
                     {

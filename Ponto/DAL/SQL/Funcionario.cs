@@ -1940,7 +1940,7 @@ namespace DAL.SQL
         /// <summary>
         /// Retorna os ids dos funcionário relacionados a o tipo passado como parâmetro
         /// </summary>
-        /// <param name="pTipo">0:Empresa, 1:Departamento, 2:Funcionário,3:Função,4:Horário</param>
+        /// <param name="pTipo">0:Empresa, 1:Departamento, 2:Funcionário,3:Função,4:Horário,5:contrato</param>
         /// <param name="pIdentificacao">Id do registro passado no tipo</param>
         /// <param name="pegaExcluidos">Indica se deseja retornar os funcionário excluídos</param>
         /// <param name="pegaInativos">Indica se deseja retornar os funcionários inativos</param>
@@ -1975,6 +1975,9 @@ namespace DAL.SQL
                         break;
                     case 4://Horário
                         comando += " AND funcionario.idhorario in (select * from F_ClausulaIn(@identificacao))";
+                        break;
+                    case 5://contrato
+                        comando += " AND funcionario.id in (SELECT cf.idfuncionario FROM contratofuncionario cf WHERE cf.idcontrato in (SELECT * FROM F_ClausulaIn(@identificacao))) ";
                         break;
                     default:
                         break;

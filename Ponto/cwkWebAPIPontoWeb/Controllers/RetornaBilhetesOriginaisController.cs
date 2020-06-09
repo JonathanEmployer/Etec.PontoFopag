@@ -14,7 +14,7 @@ namespace cwkWebAPIPontoWeb.Controllers
 {
     [Authorize]
     [ApiExplorerSettings(IgnoreApi = true)]
-    public class RetornaBilhetesOriginaisController : ApiController
+    public class RetornaBilhetesOriginaisController : ExtendedApiController
     {
         // GET: RetornaBilhetesOriginais
         /// <summary>
@@ -33,15 +33,14 @@ namespace cwkWebAPIPontoWeb.Controllers
                 {
                     // Desconsidera pre assinaladas, sempre serão geradas automaticamente pelo rotina de calcula
                     BilhetesPainel.ListaBilhetes = BilhetesPainel.ListaBilhetes.Where(w => w.Relogio != "PA").ToList();
-                    string connectionStr = MetodosAuxiliares.Conexao();
-                    BLL.BilhetesImp BllBilhete = new BLL.BilhetesImp(connectionStr);
-                    BLL.Funcionario BllFuncionario = new BLL.Funcionario(connectionStr);
+                    BLL.BilhetesImp BllBilhete = new BLL.BilhetesImp(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+                    BLL.Funcionario BllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     Dictionary<string, string> erros = new Dictionary<string, string>();
-                    BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(connectionStr);
+                    BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     Modelo.BilhetesImp BilheteAnt = new Modelo.BilhetesImp();
                     Modelo.Funcionario Func = new Modelo.Funcionario();
                     Func = BllFuncionario.LoadObject(IdFuncionario);
-                    BLL.Marcacao BllMarcacao = new BLL.Marcacao(connectionStr);
+                    BLL.Marcacao BllMarcacao = new BLL.Marcacao(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     Modelo.Marcacao marcacao = new Modelo.Marcacao();
                     List<Modelo.BilhetesImp> bilsPonto = new List<Modelo.BilhetesImp>();
                     DateTime data = BllMarcacao.LoadObject(BilhetesPainel.IdMarcacao).Data;

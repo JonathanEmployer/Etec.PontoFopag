@@ -37,7 +37,7 @@ namespace Modelo
         /// </summary>
         [DisplayName("Data Fechamento")]
         [Required(ErrorMessage = "Campo Data Fechamento Obrigatório")]
-        [MinDate("01/01/2000")]
+        [MinDate("31/12/1999")]
         public DateTime DataFechamento { get; set; }
         [TableHTMLAttribute("Data Fechamento", 2, true, ItensSearch.text, OrderType.none)]
         public string DataFechamentoStr

@@ -14,7 +14,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// <summary>
     /// Método para buscar o último fechamento de Ponto e de Banco de Horas do Funcionário
     /// </summary>
-    public class FechamentoPontoController : ApiController
+    public class FechamentoPontoController : ExtendedApiController
     {
         /// <summary>
         ///     Método para buscar o último fechamento de Ponto e de Banco de Horas do Funcionário
@@ -28,8 +28,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                Modelo.UsuarioPontoWeb userPW = MetodosAuxiliares.UsuarioPontoWeb();
-                BLL.Funcionario bllFuncionario = new BLL.Funcionario(userPW.ConnectionString);
+                BLL.Funcionario bllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
                 List<Modelo.Funcionario> funcionarios = bllFuncionario.GetAllFuncsListPorCPF(parametros.Select(s => s.CPF).ToList());
                 if (funcionarios.Count() <= 0)

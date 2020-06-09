@@ -16,7 +16,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// <summary>
     /// Controller Responsável pelos dados do Relatório Homem Hora
     /// </summary>
-    public class RelatorioHomemHoraController : ApiController
+    public class RelatorioHomemHoraController : ExtendedApiController
     {
         /// <summary>
         /// Método responsável por retornar os dados do Relatório Homem Hora
@@ -34,11 +34,11 @@ namespace cwkWebAPIPontoWeb.Controllers
                 Modelo.UsuarioPontoWeb userPW = MetodosAuxiliares.UsuarioPontoWeb();
                 if (ModelState.IsValid)
                 {
-                    string connectionStr = MetodosAuxiliares.Conexao();
+
                     BLL.Relatorios.RelatorioHomemHora bllRelatorioHomemHora = new BLL.Relatorios.RelatorioHomemHora(userPW.ConnectionString);
                     ConcurrentBag<int> idsFuncs = new ConcurrentBag<int>();
                     List<Modelo.Funcionario> funcionarios = new List<Modelo.Funcionario>();
-                    BLL.Funcionario bllFuncionario = new BLL.Funcionario(connectionStr);
+                    BLL.Funcionario bllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
                     funcionarios = bllFuncionario.GetAllFuncsListPorCPF(parametros.CPFsMatriculas.Select(s => s.CPF).ToList());
 
