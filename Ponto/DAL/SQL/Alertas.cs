@@ -1,3 +1,4 @@
+using Modelo.Proxy;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -37,9 +38,9 @@ namespace DAL.SQL
                               WHERE 1 = 1 ";
 
             INSERT = @"  INSERT INTO Alertas
-							(codigo, incdata, inchora, incusuario, Tipo,Tolerancia,InicioVerificacao,FimVerificacao,IntervaloVerificacao,EmailUsuario,ultimaExecucao,Condicao,HorarioFixo,idPessoa,DiasSemanaEnvio,ProcedureAlerta,EmailIndividual,Ativo,Descricao)
+							(codigo, incdata, inchora, incusuario, Tipo,Tolerancia,InicioVerificacao,FimVerificacao,IntervaloVerificacao,EmailUsuario,ultimaExecucao,Condicao,HorarioFixo,idPessoa,DiasSemanaEnvio,ProcedureAlerta,EmailIndividual,Ativo,Descricao,IntervaloVerificacaoLivre)
 							VALUES
-							(@codigo, @incdata, @inchora, @incusuario, @Tipo,@Tolerancia,@InicioVerificacao,@FimVerificacao,@IntervaloVerificacao,@EmailUsuario,@ultimaExecucao,@Condicao,@HorarioFixo,@idPessoa,@DiasSemanaEnvio,@ProcedureAlerta,@EmailIndividual,@Ativo,@Descricao)
+							(@codigo, @incdata, @inchora, @incusuario, @Tipo,@Tolerancia,@InicioVerificacao,@FimVerificacao,@IntervaloVerificacao,@EmailUsuario,@ultimaExecucao,@Condicao,@HorarioFixo,@idPessoa,@DiasSemanaEnvio,@ProcedureAlerta,@EmailIndividual,@Ativo,@Descricao,@IntervaloVerificacaoLivre)
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @" UPDATE Alertas SET  
@@ -62,7 +63,7 @@ namespace DAL.SQL
                            ,EmailIndividual = @EmailIndividual
                            ,Ativo = @Ativo
                            ,Descricao = @Descricao
-
+                           ,IntervaloVerificacaoLivre = @IntervaloVerificacaoLivre
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM Alertas WHERE id = @id";
@@ -141,6 +142,7 @@ namespace DAL.SQL
         {
             dalAlertasFuncs.ExcluirLoteIdAlerta(trans, obj.Id);
             dalAlertasLog.ExcluirLogPorAlerta(trans, obj.Id);
+            dalAlertasRepAcompanhamento.ExcluirLoteIdAlerta(trans, obj.Id);
         }
 
         protected override bool SetInstance(SqlDataReader dr, Modelo.ModeloBase obj)
@@ -201,6 +203,8 @@ namespace DAL.SQL
              {
                  ((Modelo.Alertas)obj).NomeAlerta = Convert.ToString(dr["NomeAlerta"]);
              }
+
+             ((Modelo.Alertas)obj).IntervaloVerificacaoLivre = Convert.ToString(dr["IntervaloVerificacaoLivre"]);
         }
 
         protected override SqlParameter[] GetParameters()
@@ -230,8 +234,9 @@ namespace DAL.SQL
                 ,new SqlParameter ("@EmailIndividual", SqlDbType.Bit)
                 ,new SqlParameter ("@Ativo", SqlDbType.Bit)
                 ,new SqlParameter ("@Descricao", SqlDbType.VarChar)
+                ,new SqlParameter ("@IntervaloVerificacaoLivre", SqlDbType.VarChar)
 
-			};
+            };
             return parms;
         }
 
@@ -264,6 +269,7 @@ namespace DAL.SQL
            parms[20].Value = ((Modelo.Alertas)obj).EmailIndividual;
            parms[21].Value = ((Modelo.Alertas)obj).Ativo;
            parms[22].Value = ((Modelo.Alertas)obj).Descricao;
+           parms[23].Value = ((Modelo.Alertas)obj).IntervaloVerificacaoLivre;
 
         }
 
@@ -311,17 +317,17 @@ namespace DAL.SQL
             return lista;
         }
 
-        public List<Modelo.Alertas> GetAllListAcompanhamentoRep()
+        public List<PxyGridAlertasComunicacaoRep> GetAllListAcompanhamentoRep()
         {
             SqlParameter[] parms = new SqlParameter[0];
 
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SELECTALL + " AND ad.NomeProcedure = 'p_enviaAlertasAcompanhamentoRep' ", parms);
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SELECTALL + " AND Alertas.ProcedureAlerta = 'p_enviaAlertasAcompanhamentoRep' ", parms);
 
-            List<Modelo.Alertas> lista = new List<Modelo.Alertas>();
+            List<PxyGridAlertasComunicacaoRep> lista = new List<PxyGridAlertasComunicacaoRep>();
             try
             {
-                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Alertas>();
-                lista = AutoMapper.Mapper.Map<List<Modelo.Alertas>>(dr);
+                AutoMapper.Mapper.CreateMap<IDataReader, PxyGridAlertasComunicacaoRep>();
+                lista = AutoMapper.Mapper.Map<List<PxyGridAlertasComunicacaoRep>>(dr);
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
 ﻿using Modelo;
+using Modelo.Proxy;
 using PontoWeb.Controllers.BLLWeb;
 using PontoWeb.Security;
 using System;
@@ -10,10 +11,10 @@ namespace PontoWeb.Controllers
 {
     public class AlertasComunicacaoRepController : IControllerPontoWeb<Alertas>
     {
-        [PermissoesFiltro(Roles = "Alertas")]
+        [PermissoesFiltro(Roles = "AcompanhamentoRep")]
         public override ActionResult Grid()
         {
-            return View(new Modelo.Alertas());
+            return View(new Modelo.Proxy.PxyGridAlertasComunicacaoRep());
         }
 
         [Authorize]
@@ -24,7 +25,7 @@ namespace PontoWeb.Controllers
                 var usr = Usuario.GetUsuarioPontoWebLogadoCache();
                 string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
                 BLL.Alertas bllAlertas = new BLL.Alertas(conn, usr);
-                List<Modelo.Alertas> dados = bllAlertas.GetAllListAcompanhamentoRep();
+                List<PxyGridAlertasComunicacaoRep> dados = bllAlertas.GetAllListAcompanhamentoRep();
                 JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
                 jsonResult.MaxJsonLength = int.MaxValue;
                 return jsonResult;
@@ -36,40 +37,40 @@ namespace PontoWeb.Controllers
             }
         }
 
-        [PermissoesFiltro(Roles = "AlertasConsultar")]
+        [PermissoesFiltro(Roles = "AcompanhamentoRepConsultar")]
         public override ActionResult Consultar(int id)
         {
             ViewBag.Consultar = 1;
             return GetPagina(id);
         }
 
-        [PermissoesFiltro(Roles = "AlertasCadastrar")]
+        [PermissoesFiltro(Roles = "AcompanhamentoRepCadastrar")]
         public override ActionResult Cadastrar()
         {
             return GetPagina(0);
         }
 
-        [PermissoesFiltro(Roles = "AlertasAlterar")]
+        [PermissoesFiltro(Roles = "AcompanhamentoRepAlterar")]
         public override ActionResult Alterar(int id)
         {
             return GetPagina(id);
         }
 
-        [PermissoesFiltro(Roles = "AlertasCadastrar")]
+        [PermissoesFiltro(Roles = "AcompanhamentoRepCadastrar")]
         [HttpPost]
         public override ActionResult Cadastrar(Alertas obj)
         {
             return Salvar(obj);
         }
 
-        [PermissoesFiltro(Roles = "AlertasAlterar")]
+        [PermissoesFiltro(Roles = "AcompanhamentoRepAlterar")]
         [HttpPost]
         public override ActionResult Alterar(Alertas obj)
         {
             return Salvar(obj);
         }
 
-        [PermissoesFiltro(Roles = "AlertasExcluir")]
+        [PermissoesFiltro(Roles = "AcompanhamentoRepExcluir")]
         [HttpPost]
         public override ActionResult Excluir(int id)
         {
@@ -137,7 +138,7 @@ namespace PontoWeb.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Grid", "Alertas");
+                        return RedirectToAction("Grid");
                     }
                 }
                 catch (Exception ex)
@@ -168,6 +169,10 @@ namespace PontoWeb.Controllers
                 alertas.UltimaExecucao = DateTime.Now;
                 alertas.EmailIndividual = true;
                 alertas.ProcedureAlerta = "p_enviaAlertasAcompanhamentoRep";
+                alertas.IntervaloVerificacao = new TimeSpan(0, 5, 0);
+                alertas.Tolerancia = new TimeSpan(0,0,0);
+                alertas.InicioVerificacao = new TimeSpan(0, 0, 0);
+                alertas.FimVerificacao = new TimeSpan(23, 59, 59);
             }
             else
             {
@@ -190,10 +195,9 @@ namespace PontoWeb.Controllers
 
         protected override void ValidarForm(Alertas obj)
         {
-            TimeSpan iniVeri = obj.InicioVerificacao.Add(new TimeSpan(0, 5, 0));
-            if (iniVeri > obj.FimVerificacao)
+            if (string.IsNullOrEmpty(obj.IntervaloVerificacaoLivre))
             {
-                ModelState.AddModelError("FimVerificacao", "Fim deve ser maior que início + 5 min");
+                ModelState.AddModelError("IntervaloVerificacaoLivre", "Intervalo deve ser informado");
             }
         }
 

@@ -1,4 +1,5 @@
 using DAL.SQL;
+using Modelo.Proxy;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -219,7 +220,7 @@ namespace BLL
             throw new NotImplementedException();
         }
 
-        public List<Modelo.Alertas> GetAllListAcompanhamentoRep()
+        public List<PxyGridAlertasComunicacaoRep> GetAllListAcompanhamentoRep()
         {
             return dalAlertas.GetAllListAcompanhamentoRep();
         }

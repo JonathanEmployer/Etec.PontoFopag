@@ -73,6 +73,9 @@ namespace Modelo
         [Required(ErrorMessage="Campo Obrigatório")]
         public Boolean Ativo { get; set; }
 
+        [Display(Name = "Intervalo")]
+        public string IntervaloVerificacaoLivre { get; set; }
+
         #region Propriedades Auxiliares (Não salvam em Banco)
         [TableHTML("Código", 1, true, ItensSearch.text, OrderType.none)]
         public int CodigoExibicao { get { return Codigo; } }

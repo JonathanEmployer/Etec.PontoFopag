@@ -22,6 +22,10 @@
                 @Html.HiddenFor(m => m.DiasSemanaEnvio)
                 @Html.HiddenFor(m => m.EmailIndividual)
                 @Html.HiddenFor(m => m.ProcedureAlerta)
+                @Html.HiddenFor(m => m.IntervaloVerificacao)
+                @Html.HiddenFor(m => m.Tolerancia)
+                @Html.HiddenFor(m => m.InicioVerificacao)
+                @Html.HiddenFor(m => m.FimVerificacao)
                 @Html.ValidationMessage("CustomError")
                 <div class="row">
                     <div class="col-md-1">
@@ -65,8 +69,9 @@
                             <div class="panel-body">
                                 <div class="form-group form-inline">
                                     @Html.Label("Rep sem comunicação ou com falhas a mais de")
-                                    @Html.TextBoxFor(model => model.IntervaloVerificacao, new { @class = "form-control  input-sm editor-field timeL limiteIntervalo", @style = "width:60px" })
+                                    @Html.TextBoxFor(model => model.IntervaloVerificacaoLivre, new { @class = "form-control  input-sm editor-field timeL limiteIntervalo", @style = "width:60px" })
                                     @Html.Label("(intervalo mínimo de 6 horas)")
+                                    @Html.ValidationMessageFor(x => x.IntervaloVerificacaoLivre)
                                 </div>
                             </div>
                         </div>
@@ -109,14 +114,6 @@
         $('#tbRep tbody').on('click', 'tr', function () {
             limpaErro("Pessoa");
         });
-        //$('#UltimaExecucao').datetimepicker({
-        //    locale: 'pt-BR'
-        //});
-        //$('#UltimaExecucao').datetimepicker({
-        //    format: 'dd/MM/yyyy hh:mm:ss',
-        //    language: 'en',
-        //    pick12HourFormat: true
-        //});
     })
 
     var mask = "HH:MM",
@@ -176,10 +173,15 @@
         if ($(this).valid() && validaForm()) {
             return true;
         }
+        setTimeout(function () {
+            $(".salvando").prop('disabled', false);
+            $(".salvando").removeAttr("disabled");
+        }, 1000);
         return false;
     });
 
     function validaForm() {
+        var retorno = true;
         $("#IdRepsSelecionados").val(tbRepGetSelecionado());
         if ($("#IdRepsSelecionados").val() == null || $("#IdRepsSelecionados").val() == '' || $("#IdRepsSelecionados").val().length <= 0)
         {
@@ -187,12 +189,23 @@
             errorArray["Pessoa"] = msgErro;
             cwkErro(msgErro);
             $("form").validate().showErrors(errorArray);
-            return false;
+            retorno = false;
         }
         else {
             limpaErro("Pessoa");
-            return true;
         }
+
+        if (isEmpty($("#IntervaloVerificacaoLivre").val())) {
+            var msgErro = 'O intervalo deve ser informado';
+            errorArray["IntervaloVerificacaoLivre"] = msgErro;
+            cwkErro(msgErro);
+            $("form").validate().showErrors(errorArray);
+            retorno = false;
+        }
+        else {
+            limpaErro("IntervaloVerificacaoLivre");
+        }
+        return retorno;
     }
 </script>
 @if (ViewBag.Consultar == 1)
