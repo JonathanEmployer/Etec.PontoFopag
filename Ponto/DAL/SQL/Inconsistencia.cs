@@ -352,7 +352,7 @@ namespace DAL.SQL
                                DiasTrabalhados DiasTrabalhadosConsec,
                                IIF((dbo.FN_CONVHORA(d.Interjornada) > 0 AND  dbo.FN_CONVHORA(d.Interjornada) < dbo.FN_CONVHORA(ISNULL(d.LimiteInterjornada, CONVERT(TIME, '11:00',108))) AND D.Interjornada != '--:--' AND d.Interjornada IS NOT NULL),1,0) Interjornada,
                                ISNULL(d.Interjornada,'--:--') ValorInterjornada,
-                               IIF((d.tempoRealizadoAlmocoMin < dbo.FN_CONVHORA(ISNULL(d.LimiteMinimoHorasAlmoco, CONVERT(TIME, '01:00',108))) AND D.tempoRealizadoAlmocoMin > 0),1,0) Intrajornada,
+                               IIF((d.tempoRealizadoAlmocoMin < dbo.FN_CONVHORA(ISNULL(d.LimiteMinimoHorasAlmoco, CONVERT(TIME, '01:00',108))) AND LEN(d.Batidas) > 0),1,0) Intrajornada,
                                dbo.FN_CONVMIN(d.tempoRealizadoAlmocoMin) ValorIntrajornada,
                                IIF ((D.periodo1 > 360 OR D.periodo2 > 360 OR D.periodo3 > 360 OR D.periodo4 > 360 OR D.periodo5 > 360 OR D.periodo6 > 360),1,0) TempoSemIntervaloMinimo,
                                case when D.periodo1 > 360 then dbo.FN_CONVMIN(D.periodo1)
@@ -369,6 +369,7 @@ namespace DAL.SQL
                                SeqDomingoTrabalhados
                           FROM (
                             SELECT  t.*,
+                                    REPLACE(RTRIM(CONCAT(t.entrada_1,' ',t.saida_1,' ',t.entrada_2,' ',t.saida_2,' ',t.entrada_3,' ',t.saida_3,' ',t.entrada_4,' ',t.saida_4)),' ',' - ') AS Batidas,
                                     SUBSTRING(comp.mesComp,1,CHARINDEX('/',comp.mesComp,0)-1) mesComp,
                                     SUBSTRING(comp.mesComp,CHARINDEX('/',comp.mesComp,0)+1,LEN(comp.mesComp)) anoComp,
                                     IIF(t.trabalhou = 0, 0, RANK() OVER ( PARTITION BY t.Ordenador,
