@@ -1,0 +1,29 @@
+﻿@model Modelo.UsuarioControleAcesso
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Controle de Usuário";
+    Layout = null;
+    string nometabela = "tbControleAcessoUsuario";
+}
+
+<div class="divCenterMedio">
+    <div class="panel panel-default" style="padding:0">
+        <div class="panel-heading">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="fecharModalGrid">X</button>
+            <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+        </div>
+        <div class="panel-body panelConteudo" id="panelBodyFixo">
+            @Html.ValidationSummary(true)
+            <div class="row">
+                @Html.GridFor(nometabela, Model.GetType(), false, "Usuario", "DadosGridControleUsuario/" + Model.Idfuncionario, "", "")
+            </div>
+        </div>
+    </div>
+</div>
+@*<script>
+        var nometabela = "#" + '@nometabela';
+        $(document).ready(function () {
+            EventoClickDeletePostReturnJob('#btExcluirMudHorario', 'Excluir', 'MudancaHorario', nometabela, 'Mudança de Horário excluída com sucesso. ');
+        });
+</script>*@

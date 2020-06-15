@@ -262,7 +262,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public UsuarioPainelAutenticacaoRetorno VerificaUsuarioPainel(string cpf, string senha)
         {
-            BLL.ParametroPainelRH bllParametroPainel = new BLL.ParametroPainelRH(StrConexao);
+            BLL.ParametroPainelRH bllParametroPainel = new BLL.ParametroPainelRH(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
             Modelo.ParametroPainelRH parm = new ParametroPainelRH();
             parm = bllParametroPainel.GetAllList().FirstOrDefault();
 

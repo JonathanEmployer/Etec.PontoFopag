@@ -882,7 +882,9 @@ namespace PontoWeb.Helpers
                                     $('#"+propName+ @"').datetimepicker({
                                         locale: 'pt-BR',
                                         format : 'DD/MM/YYYY HH:mm',
-                                        showTodayButton: true
+                                        showTodayButton: true,
+                                        minDate: '01/01/2000',
+                                        maxDate: '12/31/2099 23:59:00'
                                     });
                                     $('.MaskDateTimeHelper').mask('00/00/0000 00:00', { 'translation': { 0: { pattern: /[0-9*]/ } } });
                                 });

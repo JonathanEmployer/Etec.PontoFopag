@@ -32,8 +32,8 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Marcacoes(string CPF, int Mes, int Ano, string Matricula)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Justificativa bllJust = new BLL.Justificativa(connectionStr);
+
+            BLL.Justificativa bllJust = new BLL.Justificativa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
             CPF = CPF.Replace("-", "").Replace(".", "");
             Int64 CPFint = Convert.ToInt64(CPF);
             DateTime datainicio;
@@ -42,14 +42,14 @@ namespace cwkWebAPIPontoWeb.Controllers
             int diafechamentofinal;
             Modelo.PeriodoFechamento periodofechamento = new PeriodoFechamento();
             Modelo.ClassificacaoHorasExtras classificacaohorasextras = new Modelo.ClassificacaoHorasExtras();
-            BLL.ClassificacaoHorasExtras bllclasshe = new BLL.ClassificacaoHorasExtras(connectionStr);
-            BLL.Afastamento bllAfastamento = new BLL.Afastamento(connectionStr);
+            BLL.ClassificacaoHorasExtras bllclasshe = new BLL.ClassificacaoHorasExtras(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+            BLL.Afastamento bllAfastamento = new BLL.Afastamento(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
             if (ModelState.IsValid)
             {
                 try
                 {
                     Dictionary<string, string> erros = new Dictionary<string, string>();
-                    BLL.Funcionario bllFuncionario = new BLL.Funcionario(connectionStr);
+                    BLL.Funcionario bllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     Funcionario func = bllFuncionario.GetFuncionarioPorCpfeMatricula(CPFint, Matricula);
                     if (func == null || func.Id == null)
                     {
@@ -58,8 +58,8 @@ namespace cwkWebAPIPontoWeb.Controllers
                     }
 
                     //Busca o período de fechamento
-                    BLL.Contrato bllcontrato = new BLL.Contrato(connectionStr);
-                    BLL.Empresa bllempresa = new BLL.Empresa(connectionStr);
+                    BLL.Contrato bllcontrato = new BLL.Contrato(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+                    BLL.Empresa bllempresa = new BLL.Empresa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     List<Contrato> contratosfunc = bllcontrato.ContratosPorFuncionario(func.Id);
                     Modelo.Contrato contrato = new Modelo.Contrato();
                     contrato = contratosfunc.Where(x => x.DiaFechamentoInicial != 0).FirstOrDefault();
@@ -83,7 +83,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                         if (diafechamentoinicial == 0 || diafechamentoinicial == null)
                         {
                             //Por Geral
-                            BLL.Parametros bllparametros = new BLL.Parametros(connectionStr);
+                            BLL.Parametros bllparametros = new BLL.Parametros(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                             Modelo.Parametros parametro = new Modelo.Parametros();
                             parametro = bllparametros.LoadPrimeiro();
                             diafechamentoinicial = parametro.DiaFechamentoInicial;
@@ -100,16 +100,16 @@ namespace cwkWebAPIPontoWeb.Controllers
                         periodofechamento.DataFechamentoFinal = datafim;
                     }
 
-                    BLL.Marcacao bllMarcacao = new BLL.Marcacao(connectionStr);
+                    BLL.Marcacao bllMarcacao = new BLL.Marcacao(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     List<Modelo.MarcacaoLista> ListaMarcacao = new List<Modelo.MarcacaoLista>();
                     ListaMarcacao = bllMarcacao.GetMarcacaoListaPorFuncionario(func.Id, Convert.ToDateTime(periodofechamento.DataFechamentoInicial), Convert.ToDateTime(periodofechamento.DataFechamentoFinal));
 
-                    BLL.BilhetesImp bllBilhetes = new BLL.BilhetesImp(connectionStr);
+                    BLL.BilhetesImp bllBilhetes = new BLL.BilhetesImp(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     List<BilhetesImp> bilhetes = bllBilhetes.GetBilhetesFuncPeriodo(func.Dscodigo, periodofechamento.DataFechamentoInicial, periodofechamento.DataFechamentoFinal);
 
                     Models.EspelhoPonto EspelhoPonto = new Models.EspelhoPonto();
 
-                    BLL.ParametroPainelRH bllParametroPainelRH = new BLL.ParametroPainelRH(connectionStr);
+                    BLL.ParametroPainelRH bllParametroPainelRH = new BLL.ParametroPainelRH(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     Modelo.ParametroPainelRH paramPainel = bllParametroPainelRH.GetAllList().FirstOrDefault();
 
                     EspelhoPonto.PermiteAprovarMarcacaoIncorreta = paramPainel == null ? true : paramPainel.PermiteAprovarMarcacaoImpar;
@@ -123,7 +123,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                     lfunc.Add(func.Id);
                     IList<Modelo.Proxy.pxyAbonosPorMarcacao> afastamentos = bllAfastamento.GetAbonosPorMarcacoes(lfunc, Convert.ToDateTime(periodofechamento.DataFechamentoInicial), Convert.ToDateTime(periodofechamento.DataFechamentoFinal));
 
-                    BLL.Ocorrencia bllOco = new BLL.Ocorrencia(connectionStr);
+                    BLL.Ocorrencia bllOco = new BLL.Ocorrencia(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     List<Modelo.Ocorrencia> ocorrencias = bllOco.GetAllList(false);
 
                     var classificacoesPeriodo = bllclasshe.GetClassificacoesMarcacao(ListaMarcacao.Select(s => s.Id).Distinct().ToList());
@@ -208,7 +208,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                     }
 
                     //Busca Jornadas Executadas
-                    BLL.Jornada bllJornada = new BLL.Jornada(connectionStr);
+                    BLL.Jornada bllJornada = new BLL.Jornada(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     List<Modelo.Jornada> jornadas = bllJornada.GetAllList(EspelhoPonto.ListaMarcacao.Select(s => s.IdJornada).Distinct().ToList());
                     Mapper.CreateMap<Modelo.Jornada, Models.Jornada>();
                     List<Models.Jornada> JornadaApi = Mapper.Map<List<Models.Jornada>>(jornadas);
@@ -220,7 +220,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                     }
 
                     Modelo.TotalHoras objTotalHoras = new Modelo.TotalHoras(Convert.ToDateTime(periodofechamento.DataFechamentoInicial), Convert.ToDateTime(periodofechamento.DataFechamentoFinal));
-                    var totalizadorHoras = new BLL.TotalizadorHorasFuncionario(func, Convert.ToDateTime(periodofechamento.DataFechamentoInicial), Convert.ToDateTime(periodofechamento.DataFechamentoFinal), connectionStr, null);
+                    var totalizadorHoras = new BLL.TotalizadorHorasFuncionario(func, Convert.ToDateTime(periodofechamento.DataFechamentoInicial), Convert.ToDateTime(periodofechamento.DataFechamentoFinal), usuarioPontoWeb.ConnectionString, null);
                     totalizadorHoras.TotalizeHorasEBancoHoras(objTotalHoras);
                     objTotalHoras.lRateioHorasExtras = new List<RateioHorasExtras>();
                     foreach (var rateio in objTotalHoras.RateioHorasExtras)
@@ -267,7 +267,7 @@ namespace cwkWebAPIPontoWeb.Controllers
 
                     EspelhoPonto.TotalizadorEspelhoPonto = TotalizadorEspelhoPonto;
                     //Criar parâmetro para setar este campo como True ou False, na Empresa.
-                    BLL.Empresa bllEmpresa = new BLL.Empresa(connectionStr);
+                    BLL.Empresa bllEmpresa = new BLL.Empresa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     Modelo.Empresa Emp = bllempresa.LoadObject(func.Idempresa);
                     EspelhoPonto.ClassificarHorasExtras = Emp.PermiteClassHorasExtrasPainel;
                     EspelhoPonto.BloqueiaJustificativaForaPeriodo = Emp.BloqueiaJustificativaForaPeriodo;
@@ -324,7 +324,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                         EspelhoPonto.PeriodosFerias.Add(periodo);
                     }
 
-                    BLL.Feriado bllFeriado = new BLL.Feriado(connectionStr);
+                    BLL.Feriado bllFeriado = new BLL.Feriado(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     List<Modelo.Feriado> feriados = bllFeriado.GetFeriadosFuncionarioPeriodo(func.Id, datainicio, datafim.AddMonths(1));
                     EspelhoPonto.Feriados = new List<Models.Feriados>();
                     foreach (Feriado objFeriado in feriados)

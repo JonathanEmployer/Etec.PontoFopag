@@ -43,7 +43,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                 DescriptografarConexao(objDadosConexao.Conexao);
                 if (!String.IsNullOrEmpty(objDadosConexao.Conexao))
                 {
-                    BLL.Biometria BiometriaBLL = new BLL.Biometria(StrConexao);
+                    BLL.Biometria BiometriaBLL = new BLL.Biometria(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     lstBiometrias = BiometriaBLL.GetAllList();
                     return Request.CreateResponse(HttpStatusCode.OK, lstBiometrias);
                 }
@@ -79,7 +79,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                 usu = db.AspNetUsers.Where(r => r.UserName == usuario).FirstOrDefault().Usuario;
                 string connectionStr = CriptoString.Decrypt(usu.connectionString);
 
-                BLL.Biometria BiometriaBLL = new BLL.Biometria(connectionStr);
+                BLL.Biometria BiometriaBLL = new BLL.Biometria(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
                 var listFuncionario = new List<Modelo.Biometria>();
 

@@ -242,6 +242,7 @@
     <Compile Include="IJornadaSubstituir.cs" />
     <Compile Include="IJornadaSubstituirFuncionario.cs" />
     <Compile Include="IJustificativaRestricao.cs" />
+    <Compile Include="IUsuarioControleAcesso.cs" />
     <Compile Include="IOcorrenciaRestricao.cs" />
     <Compile Include="IHorarioRestricao.cs" />
     <Compile Include="IEmpresaTermoUso.cs" />

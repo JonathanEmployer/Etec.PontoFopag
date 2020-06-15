@@ -16,7 +16,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// Métodos Referentes ao Cadastro de Justificativas
     /// </summary>
     [Authorize]
-    public class JustificativaController : ApiController
+    public class JustificativaController : ExtendedApiController
     {
         /// <summary>
         /// Cadastrar/Alterar Justificativa.
@@ -28,8 +28,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Cadastrar(Models.Justificativa justificativa)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.ConexaoContexto(this.ActionContext);
-            BLL.Justificativa bllJust = new BLL.Justificativa(connectionStr);
+            BLL.Justificativa bllJust = new BLL.Justificativa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
             if (ModelState.IsValid)
             {
                 try
@@ -83,8 +82,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Excluir(int IdIntegracao)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Justificativa bllJust = new BLL.Justificativa(connectionStr);
+            BLL.Justificativa bllJust = new BLL.Justificativa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
             if (ModelState.IsValid)
             {
@@ -180,9 +178,9 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Justificativas(int idFuncionario)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Justificativa bllJust = new BLL.Justificativa(connectionStr);
-            BLL.Funcionario bllFuncionario = new BLL.Funcionario(connectionStr);
+
+            BLL.Justificativa bllJust = new BLL.Justificativa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
             if (ModelState.IsValid)
             {
@@ -228,8 +226,8 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Justificativas()
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Justificativa bllJustificativa = new BLL.Justificativa(connectionStr);
+
+            BLL.Justificativa bllJustificativa = new BLL.Justificativa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
             if (ModelState.IsValid)
             {

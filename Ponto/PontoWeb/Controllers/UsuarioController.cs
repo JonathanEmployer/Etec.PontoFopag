@@ -166,7 +166,7 @@ namespace PontoWeb.Controllers
                                         Usuario.DeletarUsuarioCentralClienteByUsuario(usuarioCentralCliente.Login);
                                         throw;
                                     }
-                                    
+
                                     if (erros.Count > 0)
                                     {
                                         // Caso não consiga incluir no ponto, exclui da central do cliente
@@ -207,6 +207,8 @@ namespace PontoWeb.Controllers
                             {
                                 usuarioCentralCliente.Login = obj.Login;
                                 usuarioCentralCliente.EMAIL = obj.Email;
+
+                                usuarioCentralCliente.Ativo = obj.Ativo;
                             }
 
                             // Regra:
@@ -230,6 +232,7 @@ namespace PontoWeb.Controllers
                                         obj.Senha = usuarioCentralCliente.Senha;
                                         obj.Password = usuarioCentralCliente.Password;
                                         obj.PasswordSalt = usuarioCentralCliente.PasswordSalt;
+                                        
 
                                         if (usuarioCentralCliente.UltimoAcesso != null)
                                             obj.UltimoAcesso = (DateTime)usuarioCentralCliente.UltimoAcesso;
@@ -270,9 +273,9 @@ namespace PontoWeb.Controllers
                                 }
 
                                 if (customError.Count > 0)
-	                            {
+                                {
                                     ModelState.AddModelError("CustomError", String.Join("; ", customError));
-	                            }
+                                }
                             }
                         }
                         if (erros.Count == 0)
@@ -561,58 +564,59 @@ namespace PontoWeb.Controllers
                 ViewBag.Validar = 1;
             }
 
-           Models.UsuarioLogin user = new Models.UsuarioLogin();
+            Models.UsuarioLogin user = new Models.UsuarioLogin();
             user.ReturnURL = returnUrl;
             user.Cpt = "0";
             //Se o projeto estiver em Debug faz o login automático
-#if DEBUG
-             String con = System.Configuration.ConfigurationManager.ConnectionStrings["ConnCentralCliente"].ConnectionString;
+//#if DEBUG
+//            String con = System.Configuration.ConfigurationManager.ConnectionStrings["ConnCentralCliente"].ConnectionString;
 
-            if (con.ToUpper().Contains(@"\PRD"))
-            {
-                user.login = "produtoemployer";
-                user.Password = "qwer1234";
-            }
-            else if (con.ToUpper().Contains(@"\SUP"))
-            {
-                user.login = "produtojmalucelli";
-                user.Password = "Pfp#2020";
-            }
-            else if (con.ToUpper().Contains(@"\HOM"))
-            {
-                user.login = "homemployer";
-                user.Password = "pfphom";
-            }
-            else if (con.ToUpper().Contains(@"\DEV"))
-            {
-                user.login = "devemployer";
-                user.Password = "pfpdev";
-            }
-            else if (con.ToUpper().Contains(@"DATA SOURCE=LOCALHOST"))
-            {
-                user.login = "localemployer";
-                user.Password = "pfphom";
-            }
-            else
-            {
-                return View(user);
-            }
+//            if (con.ToUpper().Contains(@"\PRD"))
+//            {
+//                user.login = "produtoemployer";
+//                user.Password = "qwer1234";
+//            }
+//            else if (con.ToUpper().Contains(@"\SUP"))
+//            {
+//                user.login = "produtojmalucelli";
+//                user.Password = "Pfp#2020";
+//            }
+//            else if (con.ToUpper().Contains(@"\HOM"))
+//            {
+//                user.login = "homemployer";
+//                user.Password = "pfphom";
+//            }
+//            else if (con.ToUpper().Contains(@"\DEV"))
+//            {
+//                user.login = "devemployer";
+//                user.Password = "pfpdev";
+//            }
+//            else if (con.ToUpper().Contains(@"DATA SOURCE=LOCALHOST"))
+//            {
+//                user.login = "localemployer";
+//                user.Password = "pfphom";
+//            }
+//            else
+//            {
+//                return View(user);
+//            }
 
-                string retorno = "";
-            if (Usuario.ValidaUsuario(user, ref retorno))
-            {
-                tl.Tentativas = 0;
-                tl.UltimaTentativa = DateTime.Now;
-                Usuario.AdicionaTentativasLogin(tl);
-                return RealizaLogin(user);
-            }
-            else
-            {
-                return View(user);
-            }
-#else
-                return View();
-#endif
+//            string retorno = "";
+//            if (Usuario.ValidaUsuario(user, ref retorno))
+//            {
+//                tl.Tentativas = 0;
+//                tl.UltimaTentativa = DateTime.Now;
+//                Usuario.AdicionaTentativasLogin(tl);
+//                return RealizaLogin(user);
+//            }
+//            else
+//            {
+//                return View(user);
+//            }
+//#else
+//            return View();
+//#endif
+            return View();
         }
 
         [AllowAnonymous]
@@ -699,7 +703,7 @@ namespace PontoWeb.Controllers
         public ActionResult EventoConsulta(String consulta, String filtro)
         {
             UsuarioPontoWeb _user = Usuario.GetUsuarioPontoWebLogadoCache();
-            
+
             BLL.UsuarioPontoWeb bllUsuarioPontoWeb = new BLL.UsuarioPontoWeb(_user.ConnectionString, _user);
 
             IList<UsuarioPontoWeb> lUser = new List<UsuarioPontoWeb>();
@@ -731,6 +735,32 @@ namespace PontoWeb.Controllers
             }
             ViewBag.Title = "Pesquisar Usuários";
             return View(lUser);
+        }
+
+        public ActionResult GridControleUsuario(int id)
+        {
+            return View(new Modelo.UsuarioControleAcesso() { Idfuncionario = id });
+        }
+
+        [Authorize]
+        public JsonResult DadosGridControleUsuario(int id)
+        {
+
+            UsuarioPontoWeb _usr = Usuario.GetUsuarioPontoWebLogadoCache();
+
+            try
+            {
+                BLL.ControleAcessoUsuario bllControleAcessoUsuario = new BLL.ControleAcessoUsuario(_usr.ConnectionString, _usr);
+                List<Modelo.UsuarioControleAcesso> dados = bllControleAcessoUsuario.GetListaControleAcesso(id);
+                JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
+                jsonResult.MaxJsonLength = int.MaxValue;
+                return jsonResult;
+            }
+            catch (Exception ex)
+            {
+                BLL.cwkFuncoes.LogarErro(ex);
+                throw;
+            }
         }
     }
 }

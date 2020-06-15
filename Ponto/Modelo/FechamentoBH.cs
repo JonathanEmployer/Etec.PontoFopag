@@ -16,7 +16,7 @@ namespace Modelo
         /// </summary>
         [Display(Name = "Data de Fechamento")]
         [Required(ErrorMessage = "Campo Obrigatório")]
-        [MinDate("01/01/1760")] 
+        [MinDate("31/12/1999")] 
         public DateTime? Data { get; set; }
         /// <summary>
         /// Tipo do FechamentoBH:  0 - Empresa, 1 - Departamento, 2 - Funcionario, 3 - Função

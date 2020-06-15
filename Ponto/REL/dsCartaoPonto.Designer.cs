@@ -1990,6 +1990,8 @@ namespace REL {
             
             private global::System.Data.DataColumn columnColunaGrupoData;
             
+            private global::System.Data.DataColumn columntotalExtraInterjornada;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public DataTable1DataTable() {
@@ -2825,6 +2827,14 @@ namespace REL {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn totalExtraInterjornadaColumn {
+                get {
+                    return this.columntotalExtraInterjornada;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -2959,7 +2969,8 @@ namespace REL {
                         string totalHorasaTrabNoturna, 
                         string totalHorasaTrabalhar, 
                         string PessoaSupervisor, 
-                        string ColunaGrupoData) {
+                        string ColunaGrupoData, 
+                        string totalExtraInterjornada) {
                 DataTable1Row rowDataTable1Row = ((DataTable1Row)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -3061,7 +3072,8 @@ namespace REL {
                         totalHorasaTrabNoturna,
                         totalHorasaTrabalhar,
                         PessoaSupervisor,
-                        ColunaGrupoData};
+                        ColunaGrupoData,
+                        totalExtraInterjornada};
                 rowDataTable1Row.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDataTable1Row);
                 return rowDataTable1Row;
@@ -3191,6 +3203,7 @@ namespace REL {
                 this.columntotalHorasaTrabalhar = base.Columns["totalHorasaTrabalhar"];
                 this.columnPessoaSupervisor = base.Columns["PessoaSupervisor"];
                 this.columnColunaGrupoData = base.Columns["ColunaGrupoData"];
+                this.columntotalExtraInterjornada = base.Columns["totalExtraInterjornada"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3396,6 +3409,8 @@ namespace REL {
                 base.Columns.Add(this.columnPessoaSupervisor);
                 this.columnColunaGrupoData = new global::System.Data.DataColumn("ColunaGrupoData", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnColunaGrupoData);
+                this.columntotalExtraInterjornada = new global::System.Data.DataColumn("totalExtraInterjornada", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columntotalExtraInterjornada);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnid}, true));
                 this.columnid.AutoIncrement = true;
@@ -8873,6 +8888,22 @@ namespace REL {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string totalExtraInterjornada {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.totalExtraInterjornadaColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'totalExtraInterjornada\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.totalExtraInterjornadaColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsidhorarioNull() {
                 return this.IsNull(this.tableDataTable1.idhorarioColumn);
             }
@@ -10045,6 +10076,18 @@ namespace REL {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetColunaGrupoDataNull() {
                 this[this.tableDataTable1.ColunaGrupoDataColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IstotalExtraInterjornadaNull() {
+                return this.IsNull(this.tableDataTable1.totalExtraInterjornadaColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SettotalExtraInterjornadaNull() {
+                this[this.tableDataTable1.totalExtraInterjornadaColumn] = global::System.Convert.DBNull;
             }
         }
         

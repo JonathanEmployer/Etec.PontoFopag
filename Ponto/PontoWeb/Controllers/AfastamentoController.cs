@@ -1,5 +1,6 @@
 ﻿using BLL_N.JobManager.Hangfire;
 using Modelo;
+using Modelo.Proxy;
 using PontoWeb.Controllers.BLLWeb;
 using PontoWeb.Security;
 using System;
@@ -219,9 +220,24 @@ namespace PontoWeb.Controllers
         protected override ActionResult Salvar(Afastamento afastamento)
         {
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+            BLL.Afastamento bllAfastamento = new BLL.Afastamento(usr.ConnectionString, usr);
+
+            if (afastamento.DataUltimoFechamentoPontoEBanco != null || (afastamento.Codigo == 0 && afastamento.Id > 0))
+            {
+                Afastamento afOriginal = bllAfastamento.LoadObject(afastamento.Id);
+                if ((afastamento.DataUltimoFechamentoPontoEBanco.GetValueOrDefault() > afastamento.Datai || afastamento.Datai == null) && afastamento.DataUltimoFechamentoPontoEBanco.GetValueOrDefault() > afOriginal.Datai)
+                {
+                    SetTipo(afOriginal, out int tipoIdentificador, out int identificacao);
+                    SetDadosAfastamento(afOriginal);
+                    afOriginal.Dataf = afastamento.Dataf;
+                    afastamento = afOriginal;
+                    ModelState.Clear();
+                    TryValidateModel(afastamento);
+                }
+            }
+
             Modelo.Parametros parm = new Parametros();
             BLL.Parametros bllparm = new BLL.Parametros(usr.ConnectionString, usr);
-            BLL.Afastamento bllAfastamento = new BLL.Afastamento(usr.ConnectionString, usr);
             BLL.Empresa bllEmp = new BLL.Empresa(usr.ConnectionString, usr);
             parm = bllparm.LoadPrimeiro();
             ValidarForm(afastamento);
@@ -293,50 +309,105 @@ namespace PontoWeb.Controllers
             }
             else
             {
-                switch (afastamento.Tipo)
-                {
-                    case 0:
-                        TipoFuncionario(afastamento);
-                        break;
-                    case 1:
-                        TipoDepartamento(afastamento);
-                        break;
-                    case 2:
-                        TipoEmpresa(afastamento);
-                        break;
-                    case 3:
-                        TipoContrato(afastamento);
-                        break;
-                    default:
-                        break;
-                }
-                NomeOcorrencia(afastamento);
+                int tipoIdentificador, identificacao;
+                SetTipo(afastamento, out tipoIdentificador, out identificacao);
+                SetDadosAfastamento(afastamento);
                 if ((afastamento.objFuncionario != null) && (afastamento.objFuncionario.Excluido == 1))
                 {
                     string erro = "O funcionário " + afastamento.objFuncionario.Nome + " está excluído. Para alterar este afastamento é necessário restaurar o funcionário.";
                     ModelState.AddModelError("CustomError", erro);
                     ViewBag.DesabilitaCampos = true;
                 }
-                afastamento.Tipo_Ant = afastamento.Tipo;
-                afastamento.IdEmpresa_Ant = afastamento.IdEmpresa;
-                afastamento.IdDepartamento_Ant = afastamento.IdDepartamento;
-                afastamento.IdFuncionario_Ant = afastamento.IdFuncionario;
-                afastamento.IdContrato_Ant = afastamento.IdContrato;
-                afastamento.Datai_Ant = afastamento.Datai;
-                afastamento.Dataf_Ant = afastamento.Dataf;
 
                 #region Valida Fechamento
                 if (ViewBag.Consultar != 1)
                 {
-                    string erro = "";
-                    if (!validaFechamento(out erro, afastamento))
+                    List<PxyUltimoFechamentoPonto> pxyUltimoFechamentos;
+                    DateTime? maiorFechamento;
+                    bllAfastamento.GetFechamentos(identificacao, tipoIdentificador, out pxyUltimoFechamentos, out maiorFechamento);
+                    afastamento.DataUltimoFechamentoPontoEBanco = maiorFechamento;
+                    string mensagemFechamentoBH = "";
+                    if (pxyUltimoFechamentos.Where(w => w.UltimoFechamentoBanco != null).Any())
                     {
-                        @ViewBag.MensagemBloqueio = erro;
+                        mensagemFechamentoBH += "Fechamento de Banco <br/>";
+                        mensagemFechamentoBH += String.Join("<br/>", pxyUltimoFechamentos.Where(w => w.UltimoFechamentoBanco != null).Take(100).Select(fbh => " - Data: " + fbh.UltimoFechamentoBanco.GetValueOrDefault().ToShortDateString() + " código: " + fbh.Codigo + " descrição: " + fbh.Nome).ToList());
+                        if (pxyUltimoFechamentos.Where(w => w.UltimoFechamentoBanco != null).Count() > 100)
+                        {
+                            mensagemFechamentoBH += "<br/> - * Exibindo 100 registros de fechamento de Banco de " + pxyUltimoFechamentos.Where(w => w.UltimoFechamentoBanco != null).Count();
+                        }
+
+                    }
+
+                    string mensagemFechamentoPonto = "";
+                    if (pxyUltimoFechamentos.Where(w => w.UltimoFechamentoPonto != null).Any())
+                    {
+                        mensagemFechamentoBH += "Fechamento de Ponto <br/>";
+                        mensagemFechamentoBH += String.Join("<br/>", pxyUltimoFechamentos.Where(w => w.UltimoFechamentoPonto != null).Take(100).Select(fbh => " - Data: " + fbh.UltimoFechamentoBanco.GetValueOrDefault().ToShortDateString() + " código: " + fbh.Codigo + " descrição: " + fbh.Nome).ToList());
+                        if (pxyUltimoFechamentos.Where(w => w.UltimoFechamentoBanco != null).Count() > 100)
+                        {
+                            mensagemFechamentoBH += "<br/> - * Exibindo 100 registros de fechamento de ponto de " + pxyUltimoFechamentos.Where(w => w.UltimoFechamentoBanco != null).Count();
+                        }
+
+                    }
+
+                    if (!string.IsNullOrEmpty(mensagemFechamentoPonto))
+                        mensagemFechamentoPonto = "Fechamento de Ponto <br/>" + mensagemFechamentoPonto;
+
+
+                    if (!String.IsNullOrEmpty(mensagemFechamentoPonto) || !String.IsNullOrEmpty(mensagemFechamentoBH))
+                    {
+                        string mensagemFechamento = "Registro não pode mais ser alterado. Existe fechamento. Detalhes: <br/>";
+                        mensagemFechamento += mensagemFechamentoPonto;
+                        mensagemFechamento += mensagemFechamentoBH;
+                        @ViewBag.MensagemFechamento = mensagemFechamento;
                     }
                 }
                 #endregion
             }
             return View("Cadastrar", afastamento);
+        }
+
+        private static void SetDadosAfastamento(Afastamento afastamento)
+        {
+            NomeOcorrencia(afastamento);
+            afastamento.Tipo_Ant = afastamento.Tipo;
+            afastamento.IdEmpresa_Ant = afastamento.IdEmpresa;
+            afastamento.IdDepartamento_Ant = afastamento.IdDepartamento;
+            afastamento.IdFuncionario_Ant = afastamento.IdFuncionario;
+            afastamento.IdContrato_Ant = afastamento.IdContrato;
+            afastamento.Datai_Ant = afastamento.Datai;
+            afastamento.Dataf_Ant = afastamento.Dataf;
+        }
+
+        private void SetTipo(Afastamento afastamento, out int tipoIdentificador, out int identificacao)
+        {
+            tipoIdentificador = 0;
+            identificacao = 0;
+            switch (afastamento.Tipo)
+            {
+                case 0:
+                    TipoFuncionario(afastamento);
+                    tipoIdentificador = 2;
+                    identificacao = afastamento.IdFuncionario;
+                    break;
+                case 1:
+                    TipoDepartamento(afastamento);
+                    identificacao = afastamento.IdDepartamento;
+                    tipoIdentificador = 1;
+                    break;
+                case 2:
+                    TipoEmpresa(afastamento);
+                    identificacao = afastamento.IdEmpresa;
+                    tipoIdentificador = 0;
+                    break;
+                case 3:
+                    TipoContrato(afastamento);
+                    identificacao = afastamento.IdContrato.GetValueOrDefault();
+                    tipoIdentificador = 5;
+                    break;
+                default:
+                    break;
+            }
         }
 
         protected override void ValidarForm(Afastamento afastamento)
@@ -358,10 +429,6 @@ namespace PontoWeb.Controllers
                     break;
             }
             string erro = "";
-            if (!validaFechamento(out erro, afastamento))
-            {
-                ModelState.AddModelError("CustomError", erro);
-            }
 
             VerificaOcorrencia(afastamento);
         }

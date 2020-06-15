@@ -17,7 +17,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// <summary>
     /// Controller Responsável pelos dados do Relatório de Afastamento
     /// </summary>
-    public class RelatorioAfastamentoController : ApiController
+    public class RelatorioAfastamentoController : ExtendedApiController
     {
         /// <summary>
         /// Método responsável por retornar os dados do Relatório Afastamentos
@@ -35,11 +35,10 @@ namespace cwkWebAPIPontoWeb.Controllers
                 Modelo.UsuarioPontoWeb userPW = MetodosAuxiliares.UsuarioPontoWeb();
                 if (ModelState.IsValid)
                 {
-                    string connectionStr = MetodosAuxiliares.Conexao();
                     BLL.Afastamento bllAfastamento = new BLL.Afastamento(userPW.ConnectionString);
                     ConcurrentBag<int> idsFuncs = new ConcurrentBag<int>();
                     List<Modelo.Funcionario> funcionarios = new List<Modelo.Funcionario>();
-                    BLL.Funcionario bllFuncionario = new BLL.Funcionario(connectionStr);
+                    BLL.Funcionario bllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
                     funcionarios = bllFuncionario.GetAllFuncsListPorCPF(parametros.CPFsMatriculas.Select(s => s.CPF).ToList());
 
