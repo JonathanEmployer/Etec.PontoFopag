@@ -26,7 +26,13 @@ namespace BLL.Relatorios.V2
             RelatorioRefeicaoModel parms = ((RelatorioRefeicaoModel)_relatorioFiltro);
             _progressBar.setaMensagem("Carregando dados de " + parms.InicioPeriodo.ToShortDateString() + " a " + parms.FimPeriodo.ToShortDateString() + " para " + parms.IdSelecionados.Split(',').Count().ToString() + " Funcionário(s)");
             DAL.RelatoriosSQL.RelatorioRefeicao dalRelatorioRefeicao = new DAL.RelatoriosSQL.RelatorioRefeicao(new DataBase(_usuario.ConnectionString));
-            DataTable dt = dalRelatorioRefeicao.GetRelatorioRefeicao(parms.IdSelecionados.Split(',').Where(w => !String.IsNullOrWhiteSpace(w)).Select(s => Convert.ToInt32(s)).ToList(), parms.InicioPeriodo, parms.FimPeriodo, parms.PercentualJornadaMinima, parms.ValorDescRefeicao, parms.ConsiderarDoisRegistros);
+            DataTable dt = dalRelatorioRefeicao.GetRelatorioRefeicao(parms.IdSelecionados.Split(',').Where(w => !String.IsNullOrWhiteSpace(w)).Select(s => Convert.ToInt32(s)).ToList(), parms.InicioPeriodo, parms.FimPeriodo, parms.PercentualJornadaMinima, parms.ValorDescRefeicao, parms.ConsiderarDoisRegistros, parms.ConsiderarDiasSemjornada);
+
+            if (parms.ConsiderarDiasSemjornada)
+            {
+
+            }
+
             dt.TableName = "Refeição";
             foreach (DataColumn col in dt.Columns)
             {
