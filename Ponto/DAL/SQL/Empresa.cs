@@ -984,6 +984,37 @@ namespace DAL.SQL
             }
             return lista;
         }
+
+        public void DeletarEmpresasUsuario(int idUsuario)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@idUsuario", SqlDbType.Int)
+            };
+            parms[0].Value = idUsuario;
+
+            string sql = @"DELETE FROM empresacwusuario WHERE idcw_usuario = " + idUsuario;
+
+            using (SqlConnection conn = new SqlConnection(db.ConnectionString))
+            using (SqlCommand cmd = new SqlCommand(sql, db.GetConnection))
+            {         
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception();
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+
         #endregion
     }
 }

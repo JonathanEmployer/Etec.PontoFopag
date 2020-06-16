@@ -16,14 +16,30 @@
         <div class="panel-body panelConteudo" id="panelBodyFixo">
             @Html.ValidationSummary(true)
             <div class="row">
-                @Html.GridFor(nometabela, Model.GetType(), false, "Usuario", "DadosGridControleUsuario/" + Model.Idfuncionario, "", "")
+                @Html.GridFor(nometabela, Model.GetType(), true, "Usuario", "DadosGridControleUsuario/" + Model.Idfuncionario, "", "")
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-5 center-block">
+                    <div style="text-align: left">
+                        <a href="#" id="btCopiar" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Copiar</a>
+                    </div>
+                </div>
+                <div class="col-xs-7 center-block">
+                    <div style="text-align: right">
+                        <a href="#" id="btIncluir" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
+                        <a href="#" id="btExcluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-@*<script>
-        var nometabela = "#" + '@nometabela';
+
+<script>
+        @*var nometabela = "#" + '@nometabela';
         $(document).ready(function () {
             EventoClickDeletePostReturnJob('#btExcluirMudHorario', 'Excluir', 'MudancaHorario', nometabela, 'Mudança de Horário excluída com sucesso. ');
-        });
-</script>*@
+        });*@
+</script>

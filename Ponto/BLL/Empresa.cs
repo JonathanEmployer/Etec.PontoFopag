@@ -43,7 +43,7 @@ namespace BLL
             {
                 dalEmpresa.UsuarioLogado = usuarioLogado;
             }
-            
+
         }
 
         public void SetTermosUsoApp(Modelo.Empresa e)
@@ -81,13 +81,13 @@ namespace BLL
 
         public bool ConsultaBloqueiousuariosEmpresa()
         {
-           return dalEmpresa.ConsultaBloqueiousuariosEmpresa();
+            return dalEmpresa.ConsultaBloqueiousuariosEmpresa();
         }
 
         public bool UtilizaControleContratos()
         {
             return dalEmpresa.UtilizaControleContratos();
-        }               
+        }
         public DataTable GetAll()
         {
             return dalEmpresa.GetAll();
@@ -240,7 +240,7 @@ namespace BLL
                         dalEmpresa.Alterar(objeto);
                         SalvarLogoEmpresa(objeto, Modelo.Acao.Alterar);
                         mec.IncluirOuAlterarEntidade((String.IsNullOrEmpty(objeto.Cnpj) ? 'F' : 'J'), objeto.Nome, objeto.Nome, (String.IsNullOrEmpty(objeto.Cnpj) ? objeto.Cpf : objeto.Cnpj), null, (String.IsNullOrEmpty(empAnt.Cnpj) ? empAnt.Cpf : empAnt.Cnpj), connCript);
-                        bllEmpTermoUso.IncluiAlteraTermoUso(objeto);                     
+                        bllEmpTermoUso.IncluiAlteraTermoUso(objeto);
                         bllFuncionario.setFuncionariosEmpresa(objeto.Id, objeto.Ativo);
                         break;
                     case Modelo.Acao.Excluir:
@@ -250,15 +250,15 @@ namespace BLL
                         bllEmpTermoUso.ExcluirTermoUso(objeto);
                         break;
                 }
-                
+
             }
 
-            
+
             return erros;
         }
 
         private void SalvarLogoEmpresa(Modelo.Empresa objeto, Modelo.Acao acaoPai)
-        {          
+        {
             BLL.EmpresaLogo bllEmpLogo = new BLL.EmpresaLogo(ConnectionString, dalEmpresa.UsuarioLogado);
             if (acaoPai != Modelo.Acao.Excluir)
             {
@@ -276,14 +276,14 @@ namespace BLL
                         acaologo = Modelo.Acao.Excluir;
                     }
                     bllEmpLogo.Salvar(acaologo, objeto.EmpresaLogo);
-                }  
+                }
             }
             else
             {
                 List<Modelo.EmpresaLogo> emplogo = bllEmpLogo.GetAllListPorEmpresa(objeto.Id);
                 foreach (var item in emplogo)
                 {
-                    bllEmpLogo.Salvar(acaoPai, item);   
+                    bllEmpLogo.Salvar(acaoPai, item);
                 }
             }
         }
@@ -495,7 +495,7 @@ namespace BLL
         {
             return dalEmpresa.GetAllListPxyEmpresa(filtro);
         }
-        
+
         public int? GetIdporIdIntegracao(int? IdIntegracao)
         {
             return dalEmpresa.GetIdporIdIntegracao(IdIntegracao);
@@ -595,6 +595,29 @@ namespace BLL
         public List<Modelo.Empresa> GetAllListEmpresa()
         {
             return dalEmpresa.GetAllListEmpresa();
+        }
+
+
+        public List<Modelo.Empresa> GetEmpresasUsuarioId(int id)
+        {
+            return dalEmpresa.GetEmpresasUsuarioId(id);
+        }
+
+        public bool DeletaEmpresasUsuario(int idQueVaiSerAlterado)
+        {
+            try
+            {
+                //deleta as empresas exixstentes do usuario
+                dalEmpresa.DeletarEmpresasUsuario(idQueVaiSerAlterado);
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+
+
+            return true;
         }
     }
 }

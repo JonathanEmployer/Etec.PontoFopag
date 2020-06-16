@@ -63,6 +63,12 @@
 
     });
 
+    //ABRE MODAL COPIAR
+    $(document).on('click', '#btCopiar', function () {
+        cwk_CadastroAjax('GridUsuarioCopiar', 'Usuario');
+    });
+
+
     function CallBackLoadGrid() {
         var val = $("#tbUsuariopsqAtivo").val();
         if (val.toLowerCase().indexOf("s") >= 0) {

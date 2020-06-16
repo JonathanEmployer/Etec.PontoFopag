@@ -1,0 +1,78 @@
+﻿@model Tuple<Modelo.Proxy.pxyUsuarioControleAcessoAdicionarEmpresa, Modelo.Proxy.pxyUsuarioControleAcessoAdicionarContrato>
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Adicionar controle de usuário";
+    Layout = null;
+    string nometabelaE = "tbControleAcessoUsuarioAddEmpresa";
+    string nometabelaC = "tbControleAcessoUsuarioAddContrato";
+}
+
+<div id="divModalAdicionarContoleUser" class="modal" accesskey="" data-keyboard="false" data-backdrop="static">
+    <div class="divModalSecundaria" style="position:absolute; width:100%; height:100%"></div>
+    <div class="divCenter" style="width:50%; margin-top:20%;">
+        <div class="modal-body">
+            <div class="panel panel-default">
+                <div class="panel-heading salvando">
+                    <button type="button" class="close fecharModalAdicionarContoleUser">X</button>
+                    <h3 class="panel-title titulo-pagina">Adicionar controle de usuário</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        
+                    </div>
+                </div>
+                <div class="panel-body" id="divEmpresas">
+                    @Html.ValidationSummary(true)
+                    <div class="row">
+                        @Html.GridFor(nometabelaE, Model.Item1.GetType(), true, "Usuario", "DadosGridControleUsuario/" + Model.Item1.Idempresa, "", "")
+                    </div>
+                </div>
+                <div class="panel-body" id="divContratos" hidden>
+                    @Html.ValidationSummary(true)
+                    <div class="row">
+                        @Html.GridFor(nometabelaC, Model.Item2.GetType(), true, "Usuario", "DadosGridControleUsuario/" + Model.Item2.IdContrato, "", "")
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-xs-12 center-block" style="text-align: right">
+                            <a href="#" id="btSalvarControle" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Salvar</a>
+                            <a href="#" id="btCancelarControle" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //FUNÇÃO PARA FECHAR MODAL ADD CONTROLE USUARIO
+    function fechaModalControle() {
+        $("#divModalAdicionarContoleUser").modal('hide');
+    }
+
+    //FECHA MODAL ADD CONTROLE USUARIO
+    $(document).on('click', '.fecharModalAdicionarContoleUser', function () {
+        fechaModalControle();
+    });
+    //CANCELA MODAL ADD CONTROLE USUARIO
+    $(document).on('click', '#btCancelarControle', function () {
+        fechaModalControle();
+    });
+    //SALVA MODAL ADD CONTROLE USUARIO
+    $(document).on('click', '#btSalvarControle', function () {
+
+    });
+
+    //SELECIONA GRID EMPRESAS
+    $(document).on('click', '#radiobtnbEmpresas', function () {
+
+    });
+
+    //SELECIONA GRID CONTRATOS
+    $(document).on('click', '#radiobtnContratos', function () {
+
+    });
+</script>

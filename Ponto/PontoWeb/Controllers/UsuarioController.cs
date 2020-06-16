@@ -1,5 +1,7 @@
 ﻿using Employer.Componentes.UI.WebMVC.Helpers;
 using Modelo;
+using Modelo.Proxy;
+using NPOI.SS.Formula.Functions;
 using PontoWeb.Controllers.BLLWeb;
 using PontoWeb.Models;
 using PontoWeb.Security;
@@ -232,7 +234,7 @@ namespace PontoWeb.Controllers
                                         obj.Senha = usuarioCentralCliente.Senha;
                                         obj.Password = usuarioCentralCliente.Password;
                                         obj.PasswordSalt = usuarioCentralCliente.PasswordSalt;
-                                        
+
 
                                         if (usuarioCentralCliente.UltimoAcesso != null)
                                             obj.UltimoAcesso = (DateTime)usuarioCentralCliente.UltimoAcesso;
@@ -568,55 +570,55 @@ namespace PontoWeb.Controllers
             user.ReturnURL = returnUrl;
             user.Cpt = "0";
             //Se o projeto estiver em Debug faz o login automático
-//#if DEBUG
-//            String con = System.Configuration.ConfigurationManager.ConnectionStrings["ConnCentralCliente"].ConnectionString;
+#if DEBUG
+            String con = System.Configuration.ConfigurationManager.ConnectionStrings["ConnCentralCliente"].ConnectionString;
 
-//            if (con.ToUpper().Contains(@"\PRD"))
-//            {
-//                user.login = "produtoemployer";
-//                user.Password = "qwer1234";
-//            }
-//            else if (con.ToUpper().Contains(@"\SUP"))
-//            {
-//                user.login = "produtojmalucelli";
-//                user.Password = "Pfp#2020";
-//            }
-//            else if (con.ToUpper().Contains(@"\HOM"))
-//            {
-//                user.login = "homemployer";
-//                user.Password = "pfphom";
-//            }
-//            else if (con.ToUpper().Contains(@"\DEV"))
-//            {
-//                user.login = "devemployer";
-//                user.Password = "pfpdev";
-//            }
-//            else if (con.ToUpper().Contains(@"DATA SOURCE=LOCALHOST"))
-//            {
-//                user.login = "localemployer";
-//                user.Password = "pfphom";
-//            }
-//            else
-//            {
-//                return View(user);
-//            }
+            if (con.ToUpper().Contains(@"\PRD"))
+            {
+                user.login = "produtoemployer";
+                user.Password = "qwer1234";
+            }
+            else if (con.ToUpper().Contains(@"\SUP"))
+            {
+                user.login = "produtojmalucelli";
+                user.Password = "Pfp#2020";
+            }
+            else if (con.ToUpper().Contains(@"\HOM"))
+            {
+                user.login = "homemployer";
+                user.Password = "pfphom";
+            }
+            else if (con.ToUpper().Contains(@"\DEV"))
+            {
+                user.login = "devemployer";
+                user.Password = "pfpdev";
+            }
+            else if (con.ToUpper().Contains(@"DATA SOURCE=LOCALHOST"))
+            {
+                user.login = "localemployer";
+                user.Password = "pfphom";
+            }
+            else
+            {
+                return View(user);
+            }
 
-//            string retorno = "";
-//            if (Usuario.ValidaUsuario(user, ref retorno))
-//            {
-//                tl.Tentativas = 0;
-//                tl.UltimaTentativa = DateTime.Now;
-//                Usuario.AdicionaTentativasLogin(tl);
-//                return RealizaLogin(user);
-//            }
-//            else
-//            {
-//                return View(user);
-//            }
-//#else
-//            return View();
-//#endif
+            string retorno = "";
+            if (Usuario.ValidaUsuario(user, ref retorno))
+            {
+                tl.Tentativas = 0;
+                tl.UltimaTentativa = DateTime.Now;
+                Usuario.AdicionaTentativasLogin(tl);
+                return RealizaLogin(user);
+            }
+            else
+            {
+                return View(user);
+            }
+#else
             return View();
+#endif
+            //return View();
         }
 
         [AllowAnonymous]
@@ -760,6 +762,123 @@ namespace PontoWeb.Controllers
             {
                 BLL.cwkFuncoes.LogarErro(ex);
                 throw;
+            }
+        }
+
+
+        public ActionResult GridUsuarioCopiar()
+        {
+            return View(new Modelo.Proxy.pxyUsuarioControleAcessoCopiar());
+        }
+
+
+        [Authorize]
+        public JsonResult DadosGridModalCopiar()
+        {
+
+            UsuarioPontoWeb _usr = Usuario.GetUsuarioPontoWebLogadoCache();
+
+            try
+            {
+                BLL.Cw_GrupoAcesso bllGrupo = new BLL.Cw_GrupoAcesso(_usr.ConnectionString, _usr);
+                List<Modelo.Proxy.pxyUsuarioControleAcessoCopiar> GridUsuarioCopiar = bllGrupo.GetAllGridUCompact();
+                JsonResult jsonResult = Json(new { data = GridUsuarioCopiar }, JsonRequestBehavior.AllowGet);
+                jsonResult.MaxJsonLength = int.MaxValue;
+                return jsonResult;
+            }
+            catch (Exception ex)
+            {
+                BLL.cwkFuncoes.LogarErro(ex);
+                throw;
+            }
+        }
+
+
+       
+        public ActionResult SalvarCopia(pxyPermissoes obj)
+        {
+            return SalvarCopiaMethod(obj);
+        }
+
+        private ActionResult SalvarCopiaMethod(pxyPermissoes obj)
+        {
+            string connString = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
+            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+
+            cw_usuario usuarioLogado = Usuario.GetUsuarioLogadoCache();
+
+            BLL.ContratoUsuario bllCcwu = new BLL.ContratoUsuario(connString, usr);
+            BLL.EmpresaCw_Usuario bllEcwu = new BLL.EmpresaCw_Usuario(connString, usr);
+
+            BLL.Empresa bllEmpresa = new BLL.Empresa(usr.ConnectionString, usr);
+            BLL.Contrato bllContrato = new BLL.Contrato(usr.ConnectionString, usr);
+
+            var empresas = bllEmpresa.GetEmpresasUsuarioId(obj.idUsuarioParaAlterar);
+            var contratos = bllContrato.ContratosPorUsuario(obj.idUsuarioParaAlterar);
+
+            bool retorno;
+
+            if (empresas.Count() == 0 && contratos.Count() == 0)
+            {
+                return JavaScript("cwkErroTit('Erro ao copiar usuário!', 'Usuário não possui permissões!')");
+            }
+
+            using (var db = new cworkpontoEntities())
+            {
+                try
+                {
+                    retorno = bllEmpresa.DeletaEmpresasUsuario(obj.idQueVaiSerAlterado);
+
+                    if (retorno == true)
+                    {
+                        foreach (var empresa in empresas)
+                        {
+                            EmpresaCw_Usuario ecu = new EmpresaCw_Usuario();
+                            ecu.Codigo = bllEcwu.MaxCodigo();
+                            ecu.IdCw_Usuario = obj.idQueVaiSerAlterado;
+                            ecu.IdEmpresa = empresa.Id;
+                            ecu.Acao = Acao.Incluir;
+                            bllEcwu.Salvar(Acao.Incluir, ecu);
+                        }
+
+                    }
+
+                    retorno = bllContrato.DeletaContratosUsuario(obj.idQueVaiSerAlterado);
+
+                    if (retorno == true)
+                    {
+                        foreach (var contrato in contratos)
+                        {
+                            ContratoUsuario contU = new ContratoUsuario();
+                            contU.Codigo = bllCcwu.MaxCodigo();
+                            contU.IdContrato = contrato.Id;
+                            contU.IdCw_Usuario = obj.idQueVaiSerAlterado;
+                            contU.Acao = Acao.Incluir;
+                            bllCcwu.Salvar(Acao.Incluir, contU);
+                        }
+                    }
+
+                    if (retorno == true)
+                    {
+                        //Limpa e adiciona o usuário novamente para atualizar as permissões (Por Empresa/Contrato/Supervisor no cache.)
+                        if (Usuario.GetUsuarioLogadoCache().id == obj.idQueVaiSerAlterado)
+                        {
+                            Usuario.LimpaUsuarioPontoWebLogadoCache();
+                            Usuario.GetUsuarioPontoWebLogadoCache();
+                        }
+                        return JavaScript("$('#fecharModalUserCopiar').click()");
+                    }
+                    else
+                    {
+                        return JavaScript("cwkErroTit('Erro ao copiar usuário!', 'Não foi possivel alterar o usuário, por favor entre em contato com a revendao!')");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    BLL.cwkFuncoes.LogarErro(ex);
+                    ModelState.AddModelError("CustomError", ex.Message);
+                }
+                return JavaScript("$('#fecharModalUserCopiar').click()");
             }
         }
     }

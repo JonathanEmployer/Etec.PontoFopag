@@ -366,6 +366,10 @@
     <Compile Include="BloqueioFuncionario.cs" />
     <Compile Include="ManutencaoBiometrica.cs" />
     <Compile Include="ParametroWebfopag.cs" />
+    <Compile Include="Proxy\pxyPermissoes.cs" />
+    <Compile Include="Proxy\pxyUsuarioControleAcessoAdicionarContrato.cs" />
+    <Compile Include="Proxy\pxyUsuarioControleAcessoAdicionarEmpresa.cs" />
+    <Compile Include="Proxy\pxyUsuarioControleAcessoCopiar.cs" />
     <Compile Include="Proxy\PxyCopiaBancoHoras.cs" />
     <Compile Include="Proxy\PxyFuncionarioExcluidoGrid.cs" />
     <Compile Include="Proxy\PxyFuncionarioFechamentosPontoEBH.cs" />

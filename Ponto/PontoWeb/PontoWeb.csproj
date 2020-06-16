@@ -1798,6 +1798,8 @@
     <Content Include="Views\MudancaHorario\CadastrarManutMarcacao.cshtml" />
     <Content Include="Views\RelatorioRefeicao\Refeicao.cshtml" />
     <Content Include="Views\Usuario\GridControleUsuario.cshtml" />
+    <Content Include="Views\Usuario\GridAddAcesso.cshtml" />
+    <Content Include="Views\Usuario\GridUsuarioCopiar.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
