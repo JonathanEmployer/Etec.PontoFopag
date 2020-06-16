@@ -37,6 +37,7 @@
             <div class="row">
                 <div class="col-xs-12 center-block">
                     <div style="text-align: right">
+                        <a href="#" id="btControledeusuario" class="btn btn-info"><span class="glyphicon glyphicon-th-list"></span>&nbsp;Controle de usuário</a>
                         <a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
                         <a href="#" id="btIncluir" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
                         <a href="#" id="btAlterar" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
@@ -57,6 +58,9 @@
         cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', 'Usuario', nomeTabela);
         cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', 'Usuario', nomeTabela);
         cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir', 'Usuario', nomeTabela, 'Usuário excluído com sucesso.');
+
+        cwk_EventoAlterarAjaxParam('#btControledeusuario', 'GridControleUsuario', 'Usuario', nomeTabela, "");
+
     });
 
     function CallBackLoadGrid() {

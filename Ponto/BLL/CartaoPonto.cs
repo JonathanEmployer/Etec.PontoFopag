@@ -1160,7 +1160,8 @@ namespace BLL
                 new DataColumn("qtdAdNot"),
                 new DataColumn("totalHorasaTrabDiurna"),
                 new DataColumn("totalHorasaTrabNoturna"),
-                new DataColumn("totalHorasaTrabalhar")
+                new DataColumn("totalHorasaTrabalhar"),
+                new DataColumn("totalExtraInterjornada"),
 
             };
 
@@ -1338,6 +1339,7 @@ namespace BLL
             row["totalnoturnageral"] = objTotalHoras.horasTrabNoturna;
             row["totalAdicionalNoturno"] = objTotalHoras.horasAdNoturno;
             row["qtdAdNot"] = objTotalHoras.qtdAdNot;
+            row["totalExtraInterjornada"] = objTotalHoras.horasExtraInterjornada;
 
             SetTotalAbonoDsr(ret.Rows[indice], dataInicial, dataFinal);
         }
@@ -1433,7 +1435,8 @@ namespace BLL
                 new DataColumn("totalAdicionalNoturno"),
                 new DataColumn("qtdAdNot"),
                 new DataColumn("totalaTrabDiurna"),
-                new DataColumn("totalaTrabNoturna")
+                new DataColumn("totalaTrabNoturna"),
+                new DataColumn("totalExtraInterjornada"),
             };
 
             ret.Columns.AddRange(colunasHora);
@@ -2016,7 +2019,8 @@ namespace BLL
                 new DataColumn("totalAbonoDias"),
                 new DataColumn("totalAbonoHoras"),
                 new DataColumn("qtdDDSR"),
-                new DataColumn("dataCompleta")
+                new DataColumn("dataCompleta"),
+                new DataColumn("totalExtraInterjornada"),
             };
 
             ret.Columns.AddRange(colunasHora);

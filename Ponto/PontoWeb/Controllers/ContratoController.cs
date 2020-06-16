@@ -317,6 +317,6 @@ namespace PontoWeb.Controllers
                 ret.Erro = e.Message;
             }
             return Json(ret, JsonRequestBehavior.AllowGet);
-        }        
+        }
     }
 }

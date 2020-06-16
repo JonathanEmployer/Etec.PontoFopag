@@ -46,5 +46,6 @@ namespace Modelo
         public int? IdHorarioPadraoFunc { get; set; }
         [Display(Name = "Tipo Horário")]
         public int TipoHorarioPadraoFunc { get; set; }
+
     }
 }

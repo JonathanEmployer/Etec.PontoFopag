@@ -517,6 +517,7 @@
     <Compile Include="TransferenciaBilhetesDetalhes.cs" />
     <Compile Include="TratamentoDePonto.cs" />
     <Compile Include="Tratamentomarcacao.cs" />
+    <Compile Include="ControleAcessoUsuario.cs" />
     <Compile Include="UsuarioPontoWeb.cs" />
     <Compile Include="Util\Conversores.cs" />
     <Compile Include="Util\DataSplitMonthsExtensions.cs" />

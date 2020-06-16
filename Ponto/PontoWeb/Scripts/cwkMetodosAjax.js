@@ -97,8 +97,7 @@ function ajax_CarregaTela(acao, controller, id) {
     });
 }
 
-function ajax_CallControllerSemRetorno(acao, controller, id)
-{
+function ajax_CallControllerSemRetorno(acao, controller, id) {
     $.ajax({
         url: '/' + controller + '/' + acao,
         type: 'GET',
@@ -211,8 +210,7 @@ function ajax_ExcluirRegistro(acao, controller, id, mensagem, tb, callBackSucess
     });
 }
 
-function BloqueiaSalvando()
-{
+function BloqueiaSalvando() {
     $.blockUI({ message: '<h2>Salvando...<img src="../../Content/img/circulosLoading.GIF"></h1>' });
 }
 
@@ -318,7 +316,7 @@ function ajax_GetObjetoExecCallBack(controller, acao, parms, eventoCallBack, blo
         beforeSend: function () {
             if (bloquearTela) {
                 if (!isEmpty(msgBloqueioTela)) {
-                    $.blockUI({ message: '<h2>' + msgBloqueioTela+' <img src="../../Content/img/circulosLoading.GIF"></h2>' });
+                    $.blockUI({ message: '<h2>' + msgBloqueioTela + ' <img src="../../Content/img/circulosLoading.GIF"></h2>' });
                 }
                 else {
                     $.blockUI({ message: '<h2>Excluindo<img src="../../Content/img/circulosLoading.GIF"></h2>' });
@@ -365,7 +363,7 @@ function ajax_GetObjetoExecCallBack(controller, acao, parms, eventoCallBack, blo
 }
 
 function ajax_CarregarConsultaEventoTab(acao, controller, consulta, campo, filtro, eventoCallBack, posicaoNome, paramAdicionais, eventoCallBackErro) {
-    if ($(campo).is('[readonly]') ) { 
+    if ($(campo).is('[readonly]')) {
         return;
     }
 
@@ -447,18 +445,12 @@ function ajax_CarregarConsultaEventoTab(acao, controller, consulta, campo, filtr
                             if (ids >= 0) {
                                 var dados = tbPesquisa.rows('.selected').data()[0];
                                 var id = dados[0].replace('undefined', '');
-
-                                if (Date.parse(dados[1]) != NaN) {
-                                    console.log("é data");
+                                //Verifica se é data, se for ele pega a 5 coluna
+                                if (Date.parse(dados[1])) {
+                                    var nome = dados[4].replace('undefined', '');
                                 } else {
-                                    console.log("não é data");
+                                    var nome = dados[1].replace('undefined', '');
                                 }
-
-                                var nome = dados[1].replace('undefined', '');
-
-
-
-                                console.log(dados);
                                 $(campo).val(id + ' | ' + nome);
                                 $("#divLoadModalLkp").modal('hide');
                                 $.unblockUI();
@@ -480,6 +472,12 @@ function ajax_CarregarConsultaEventoTab(acao, controller, consulta, campo, filtr
                                 var dados = tbPesquisa.rows('.selected').data()[0];
                                 var id = dados[0].replace('undefined', '');
                                 var nome = dados[1].replace('undefined', '');
+                                //Verifica se é data, se for ele pega a 5 coluna
+                                if (Date.parse(dados[1])) {
+                                    var nome = dados[4].replace('undefined', '');
+                                } else {
+                                    var nome = dados[1].replace('undefined', '');
+                                }
                                 $(campo).val(id + ' | ' + nome);
                                 $("#divLoadModalLkp").modal('hide');
                                 $.unblockUI();
@@ -526,7 +524,7 @@ function cwk_EventoConsultaUnico(event, objeto, acao, controller, filtro, evento
         var valorlkp = $(lkp).val();
         ajax_CarregarConsultaEventoTab(acao, controller, valorlkp, lkp, valorFiltro, eventoCallBack, posicaoNome, paramAdicionais, eventoCallBackErro);
     }
-        // Se o campo  que chamou for um "btn" funciona apenas no método click do botão
+    // Se o campo  que chamou for um "btn" funciona apenas no método click do botão
     else {
         if (event.type == "click" && idObjeto.toLowerCase().indexOf("btn") >= 0) {
             var idCampo = idObjeto.replace("btn", "");
@@ -918,19 +916,19 @@ function ExecutaAjaxComProgress(acao, controller, parametros, fCallBack) {
         method: 'POST',
         data: parametros,
         success: function (data) {
-                if (data.JobId != "" && data != null && data.JobId != undefined) {
-                    trackJobProgress(data, fCallBack);
+            if (data.JobId != "" && data != null && data.JobId != undefined) {
+                trackJobProgress(data, fCallBack);
+            }
+            else {
+                if (data.indexOf("Usuario/LogIn") > -1) {
+                    window.location.href = '/Usuario/LogIn?ReturnUrl=' + window.location.href;
                 }
                 else {
-                    if (data.indexOf("Usuario/LogIn") > -1) {
-                        window.location.href = '/Usuario/LogIn?ReturnUrl=' + window.location.href;
-                    }
-                    else {
-                        ProgressLimpo();
-                        $("#divModalProgress").modal('hide');
-                        cwkErro(data.Erro);
-                    }
+                    ProgressLimpo();
+                    $("#divModalProgress").modal('hide');
+                    cwkErro(data.Erro);
                 }
+            }
         },
         error: function (xhr, textStatus, errorThrown) {
             if (xhr.responseText.indexOf('Usuário sem permissão') >= 0) {
@@ -1001,7 +999,7 @@ function ProgressLimpo() {
 }
 // Controla a progress bar
 function trackJobProgress(job, fCallBack, fCallBackErro, abrirNovaAba) {
-    
+
     $("#divModalProgress").modal();
     setProgressBarWidth(job.Progress);
     $("#completedDisplay").hide();
@@ -1102,31 +1100,26 @@ function E_GridFuncGetSelecionados() {
 //opção 0 - empregado inativo
 //opção 1 - empregado ativo
 //opção 2 - todos
-function EventoFuncionarioFiltroRequest(opcao,url)
-{
+function EventoFuncionarioFiltroRequest(opcao, url) {
     let _parametros = { opcao: opcao };
     let _url = url;
     let _type = 'Post';
     let _contentType = 'application/json'
     var req = request(_parametros, _url, _type, _contentType, requestBeforeSend('Buscando dados'));
 
-    req.done(function (data)
-    {
+    req.done(function (data) {
         EventoFuncionarioFiltroSuccess(data);
         $.unblockUI();
-    }).fail(function (xhr, textStatus, errorThrown)
-    {
+    }).fail(function (xhr, textStatus, errorThrown) {
         EventoFuncionarioFiltroError(xhr, textStatus, errorThrown);
         $.unblockUI();
     });
 }
 function EventoFuncionarioFiltroError(xhr, textStatus, errorThrown) {
-    if (xhr.responseText.indexOf('Usuário sem permissão') >= 0)
-    {
+    if (xhr.responseText.indexOf('Usuário sem permissão') >= 0) {
         cwkErro("Acesso negado, Contate o administrador do sistema!");
     }
-    else
-    {
+    else {
         var sErrMsg = "";
         sErrMsg += "Erro: ";
         sErrMsg += "\n\n" + " - Status :" + textStatus;
@@ -1136,8 +1129,7 @@ function EventoFuncionarioFiltroError(xhr, textStatus, errorThrown) {
         cwkErro(sErrMsg);
     }
 }
-function EventoFuncionarioFiltroSuccess(dados)
-{
+function EventoFuncionarioFiltroSuccess(dados) {
     let funcDataTables = $('#tbFun').DataTable();
     funcDataTables.clear().draw();
     funcDataTables.rows.add(dados.data);
@@ -1169,8 +1161,7 @@ function PostFormJob(form, callBackSucesso, divAbrirJobs, divModal) {
     PostReturnJob(form.action, form.method, $(form).serialize(), divAbrirJobs, false, callBackSucesso, divModal);
 }
 
-function PostReturnJob(url, type, data, divAbrirJobs, LimparComponentes, callBackSucesso, divModal)
-{
+function PostReturnJob(url, type, data, divAbrirJobs, LimparComponentes, callBackSucesso, divModal) {
     if (isEmpty(LimparComponentes)) {
         LimparComponentes = true;
     }
@@ -1228,7 +1219,7 @@ function PostReturnJob(url, type, data, divAbrirJobs, LimparComponentes, callBac
                         } catch (e) {
                             console.log('não foi possível rolar a página');
                         }
-                        
+
                     } else {
                         for (var i = 0; i < result.errors.length; i++) {
                             var error = result.errors[i];
@@ -1241,7 +1232,7 @@ function PostReturnJob(url, type, data, divAbrirJobs, LimparComponentes, callBac
                     if (!isEmpty(divModal)) {
                         $("#" + divModal).html(result);
                     }
-                    else if(result.indexOf('<form') > 0) {
+                    else if (result.indexOf('<form') > 0) {
                         $("html").html(result);
                     }
                 }
@@ -1249,7 +1240,7 @@ function PostReturnJob(url, type, data, divAbrirJobs, LimparComponentes, callBac
             catch (e) {
                 cwkErroTit('Erro', 'Erro genárico ao processar a solicitação');
             }
-            
+
         },
         complete: function () {
             $.unblockUI();
@@ -1271,9 +1262,9 @@ function ScrollPageJobHistorico() {
 }
 function ScrollPageJobIncio() {
     var divComScroll = GetDivScrollJob();
-        $('#' + divComScroll).animate({
-            scrollTop: 0
-        }, 1000);
+    $('#' + divComScroll).animate({
+        scrollTop: 0
+    }, 1000);
 }
 
 function GetDivScrollJob() {

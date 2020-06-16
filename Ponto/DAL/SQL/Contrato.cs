@@ -543,6 +543,46 @@ namespace DAL.SQL
             return lista;
         }
 
+        /// <summary>
+        /// Retorna uma lista de contratos vinculados a um usuário
+        /// </summary>
+        /// <param name="idUsuario">ID do Usuario</param>
+        /// <returns>Lista contendo os contratos vinculados aquele funcionário</returns>
+        public List<Modelo.Contrato> ContratosPorUsuario(int idUsuario)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@idUsuario", SqlDbType.Int)
+            };
+            parms[0].Value = idUsuario;
+
+            string sql = @"select c.* from contrato c
+	                        inner join contratousuario cf on c.id = cf.idcontrato
+	                            where cf.idcwusuario = @idUsuario";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+
+            List<Modelo.Contrato> lista = new List<Modelo.Contrato>();
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Contrato>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Contrato>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
+
         public bool ValidaContratoCodigo(int codcontrato, int idempresa)
         {
             SqlParameter[] parms = new SqlParameter[]

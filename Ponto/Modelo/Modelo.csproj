@@ -649,6 +649,7 @@
     <Compile Include="TransferenciaBilhetes.cs" />
     <Compile Include="TransferenciaBilhetesDetalhes.cs" />
     <Compile Include="Tratamentomarcacao.cs" />
+    <Compile Include="UsuarioControleAcesso.cs" />
     <Compile Include="UsuarioPontoWeb.cs" />
     <Compile Include="Utils\AtributoObrigatorio.cs" />
     <Compile Include="Utils\CPF_CNPJ.cs" />

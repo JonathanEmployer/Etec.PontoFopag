@@ -271,6 +271,7 @@
 <script>
     $(":input[type='text']:enabled:visible:first").focus();
     $(document).ready(function () {
+
         if ($('#rdbAdm').is(':checked')) {
             modificaProperties('#lkpGrupoUsuario', true);
             modificaProperties('#btnGrupoUsuario', true);
@@ -320,5 +321,12 @@
         $(document).ready(function () {
             $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
         })
+    </script>
+}
+
+@if (Model.Ativo != false || Model.Id == 0)
+{
+    <script>
+        $('#Ativo').prop('checked', 'checked');
     </script>
 }
