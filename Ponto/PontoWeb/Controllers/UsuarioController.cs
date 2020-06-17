@@ -739,6 +739,8 @@ namespace PontoWeb.Controllers
             return View(lUser);
         }
 
+        //[Authorize]
+        //[PermissoesFiltro(Roles = "UsuarioAlterar")]
         public ActionResult GridControleUsuario(int id)
         {
             return View(new Modelo.UsuarioControleAcesso() { Idfuncionario = id });
@@ -765,15 +767,65 @@ namespace PontoWeb.Controllers
             }
         }
 
-
+        [Authorize]
+        [PermissoesFiltro(Roles = "UsuarioAlterar")]
         public ActionResult GridUsuarioCopiar()
         {
             return View(new Modelo.Proxy.pxyUsuarioControleAcessoCopiar());
         }
 
+        [Authorize]
+        [PermissoesFiltro(Roles = "UsuarioAlterar")]
+        public ActionResult GridPermissoesAdd()
+        {
+            var tupleModel = new Tuple<pxyUsuarioControleAcessoAdicionarEmpresa, pxyUsuarioControleAcessoAdicionarContrato>(new pxyUsuarioControleAcessoAdicionarEmpresa(),new pxyUsuarioControleAcessoAdicionarContrato());
+            return View("GridAddAcesso",tupleModel);
+        }
 
         [Authorize]
-        public JsonResult DadosGridModalCopiar()
+        public JsonResult DadosGridEmpresas()
+        {
+
+            UsuarioPontoWeb _usr = Usuario.GetUsuarioPontoWebLogadoCache();
+
+            try
+            {
+                BLL.Empresa bllEmpresa = new BLL.Empresa(_usr.ConnectionString, _usr);
+                List<Modelo.Proxy.pxyUsuarioControleAcessoAdicionarEmpresa> GridEmpresas = bllEmpresa.GetAllEmpresasControle();
+                JsonResult jsonResult = Json(new { data = GridEmpresas }, JsonRequestBehavior.AllowGet);
+                jsonResult.MaxJsonLength = int.MaxValue;
+                return jsonResult;
+            }
+            catch (Exception ex)
+            {
+                BLL.cwkFuncoes.LogarErro(ex);
+                throw;
+            }
+        }
+
+
+        [Authorize]
+        public JsonResult DadosGridContratos()
+        {
+            UsuarioPontoWeb _usr = Usuario.GetUsuarioPontoWebLogadoCache();
+
+            try
+            {
+                BLL.Contrato bllGrupo = new BLL.Contrato(_usr.ConnectionString, _usr);
+                List<Modelo.Proxy.pxyUsuarioControleAcessoAdicionarContrato> GridContratos = bllGrupo.GetAllGridUCompact();
+                JsonResult jsonResult = Json(new { data = GridContratos }, JsonRequestBehavior.AllowGet);
+                jsonResult.MaxJsonLength = int.MaxValue;
+                return jsonResult;
+            }
+            catch (Exception ex)
+            {
+                BLL.cwkFuncoes.LogarErro(ex);
+                throw;
+            }
+        }
+
+        [Authorize]
+        private JsonResult DadosGridModalCopiar()
         {
 
             UsuarioPontoWeb _usr = Usuario.GetUsuarioPontoWebLogadoCache();
@@ -915,5 +967,12 @@ namespace PontoWeb.Controllers
                 return Json(new { Success = false, Erro = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+
+
+
+
+
+
     }
 }

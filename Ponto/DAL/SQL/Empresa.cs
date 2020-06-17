@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Modelo.Proxy;
 
 namespace DAL.SQL
 {
@@ -1012,6 +1013,40 @@ namespace DAL.SQL
                     conn.Close();
                 }
             }
+        }
+
+        public List<pxyUsuarioControleAcessoAdicionarEmpresa> GetAllEmpresasControle()
+        {
+            List<Modelo.Proxy.pxyUsuarioControleAcessoAdicionarEmpresa> lista = new List<Modelo.Proxy.pxyUsuarioControleAcessoAdicionarEmpresa>();
+
+            SqlParameter[] parms = new SqlParameter[] { };
+
+            string aux = @" SELECT   emp.id AS Id,
+		                             emp.codigo AS Codigo,
+                                     emp.nome AS Nome,
+		                             ISNULL(emp.cnpj, emp.cpf) AS CpfCnpj,
+                                      'Empresa' AS Tipo
+		                                FROM empresa emp";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Proxy.pxyUsuarioControleAcessoAdicionarEmpresa>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Proxy.pxyUsuarioControleAcessoAdicionarEmpresa>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
         }
 
 

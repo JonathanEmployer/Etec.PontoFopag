@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Modelo.Proxy;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -632,6 +633,37 @@ namespace DAL.SQL
                     conn.Close();
                 }
             }
+        }
+
+        public List<pxyUsuarioControleAcessoAdicionarContrato> GetAllGridUCompact()
+        {
+            List<Modelo.Proxy.pxyUsuarioControleAcessoAdicionarContrato> lista = new List<Modelo.Proxy.pxyUsuarioControleAcessoAdicionarContrato>();
+
+            string aux = @" SELECT   con.id AS Id,
+		                             con.codigo AS Codigo,
+		                             CONCAT(con.codigocontrato, ' | ' , con.descricaocontrato) AS Nome,
+                                     'Contrato' AS Tipo
+		                                FROM contrato con";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux);
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Proxy.pxyUsuarioControleAcessoAdicionarContrato>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Proxy.pxyUsuarioControleAcessoAdicionarContrato>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
         }
 
         #endregion

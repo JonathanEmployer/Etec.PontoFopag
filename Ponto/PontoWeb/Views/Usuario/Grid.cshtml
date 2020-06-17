@@ -62,10 +62,16 @@
         cwk_EventoAlterarAjaxParam('#btControledeusuario', 'GridControleUsuario', 'Usuario', nomeTabela, "");    
     });
 
-    //ABRE MODAL COPIAR
+    //ABRE MODAL COPIAR - CONTROLE
     $(document).on('click', '#btCopiar', function () {
         cwk_CadastroAjax('GridUsuarioCopiar', 'Usuario');
     });
+
+    //ABRE MODAL ADICIONAR - CONTROLE
+    $(document).on('click', '#btIncluirPermissao', function () {
+        cwk_CadastroAjax('GridPermissoesAdd', 'Usuario');
+    });
+
 
     function CallBackLoadGrid() {
         var val = $("#tbUsuariopsqAtivo").val();

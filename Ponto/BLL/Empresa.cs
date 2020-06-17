@@ -4,6 +4,7 @@ using System.Data;
 using DAL.SQL;
 using CentralCliente;
 using System.Linq;
+using Modelo.Proxy;
 
 namespace BLL
 {
@@ -618,6 +619,11 @@ namespace BLL
 
 
             return true;
+        }
+
+        public List<pxyUsuarioControleAcessoAdicionarEmpresa> GetAllEmpresasControle()
+        {
+            return dalEmpresa.GetAllEmpresasControle();
         }
     }
 }

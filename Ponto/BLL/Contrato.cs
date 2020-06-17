@@ -1,4 +1,5 @@
 ﻿using DAL.SQL;
+using Modelo.Proxy;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -250,6 +251,11 @@ namespace BLL
 
 
             return true;
+        }
+
+        public List<pxyUsuarioControleAcessoAdicionarContrato> GetAllGridUCompact()
+        {
+            return dalContrato.GetAllGridUCompact();
         }
     }
 }
