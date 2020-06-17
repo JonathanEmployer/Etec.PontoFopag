@@ -793,8 +793,8 @@ namespace PontoWeb.Controllers
             }
         }
 
-
-       
+        [Authorize]
+        [PermissoesFiltro(Roles = "UsuarioAlterar")]
         public ActionResult SalvarCopia(pxyPermissoes obj)
         {
             return SalvarCopiaMethod(obj);
@@ -804,8 +804,6 @@ namespace PontoWeb.Controllers
         {
             string connString = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
-
-            cw_usuario usuarioLogado = Usuario.GetUsuarioLogadoCache();
 
             BLL.ContratoUsuario bllCcwu = new BLL.ContratoUsuario(connString, usr);
             BLL.EmpresaCw_Usuario bllEcwu = new BLL.EmpresaCw_Usuario(connString, usr);
@@ -840,7 +838,6 @@ namespace PontoWeb.Controllers
                             ecu.Acao = Acao.Incluir;
                             bllEcwu.Salvar(Acao.Incluir, ecu);
                         }
-
                     }
 
                     retorno = bllContrato.DeletaContratosUsuario(obj.idQueVaiSerAlterado);
@@ -879,6 +876,43 @@ namespace PontoWeb.Controllers
                     ModelState.AddModelError("CustomError", ex.Message);
                 }
                 return JavaScript("$('#fecharModalUserCopiar').click()");
+            }
+        }
+
+        [Authorize]
+        [PermissoesFiltro(Roles = "UsuarioExcluir")]
+        [HttpPost]
+        public ActionResult ExcluirPermissao(string jsonData)
+        {
+            pxyPermissoes PermissoesParaExcluir = Newtonsoft.Json.JsonConvert.DeserializeObject<pxyPermissoes>(jsonData);
+
+            string connString = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
+            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+
+            BLL.EmpresaCw_Usuario bllEcwu = new BLL.EmpresaCw_Usuario(connString, usr);
+            BLL.ContratoUsuario bllCcwu = new BLL.ContratoUsuario(connString, usr);
+
+            try
+            {
+                foreach (var item in PermissoesParaExcluir.EmpresasContratos)
+                {
+                    if (item.Tipo == "Contrato")
+                    {
+                        ContratoUsuario contU = bllCcwu.LoadObjectUser(item.idEmpresaContrato, PermissoesParaExcluir.idQueVaiSerAlterado);
+                        bllCcwu.Salvar(Acao.Excluir, contU);
+                    }
+                    else if (item.Tipo == "Empresa")
+                    {
+                        EmpresaCw_Usuario ecu = bllEcwu.LoadObjectUser(item.idEmpresaContrato, PermissoesParaExcluir.idQueVaiSerAlterado);
+                        bllEcwu.Salvar(Acao.Excluir, ecu);
+                    }
+                }
+                return Json(new { Success = true, Erro = " " }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                BLL.cwkFuncoes.LogarErro(ex);
+                return Json(new { Success = false, Erro = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
     }

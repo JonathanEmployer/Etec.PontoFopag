@@ -333,5 +333,41 @@ namespace DAL.SQL
             }
             return res;
         }
+
+        public Modelo.ContratoUsuario LoadObjectUser(int idContrato, int idUsuario)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@idContrato", SqlDbType.Int),
+                new SqlParameter("@idUsuario", SqlDbType.Int),
+            };
+            parms[0].Value = idContrato;
+            parms[1].Value = idUsuario;
+
+            string sql = @"SELECT * FROM dbo.contratousuario 
+                            WHERE idcontrato = @idContrato AND idcwusuario = @idUsuario";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+
+            Modelo.ContratoUsuario contratoUsuario = new Modelo.ContratoUsuario();
+            try
+            {
+                var mapUsr = Mapper.CreateMap<IDataReader, Modelo.ContratoUsuario>();
+                contratoUsuario = Mapper.Map<List<Modelo.ContratoUsuario>>(dr).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return contratoUsuario;
+        }
     }
 }

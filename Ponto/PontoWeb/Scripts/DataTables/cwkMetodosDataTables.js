@@ -1242,6 +1242,8 @@ function cwk_EventoClickCadastroExcluir(botao, acao, controller, nomeTabela, men
         }
     });
 }
+
+
 ///Fim Métodos para Inserção, Edição, Consulta e Exclusão de registro.
 
 // Executa o evento de alterar ao dar duplo click numa linha da tabela. Usa o método "CarregaTelaComLoading"
