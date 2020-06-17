@@ -213,7 +213,7 @@ function ajax_ExcluirRegistro(acao, controller, id, mensagem, tb, callBackSucess
 
 // Remove mais de um registro. Ele não adiciona o evento click, mas já adiciona as mensagens de validação.
 // Foi criado inicialmente passar um objeto JSON e jogar uma string pra controller = (string jsonData)
-function ajax_ExcluirRegistroJSON(acao, controller, obj, mensagem, tb, callBackSucesso, mensagemConfirmacaoPersonalizada) {
+function ajax_ExcluirRegistroJSON(acao, controller, obj, mensagem, tb, callBackSucesso, mensagemConfirmacaoPersonalizada, qtdSelecionados) {
     debugger;
     var mensagemConfirmacao = "Ao confirmar a ação será permanente!";
     if (mensagemConfirmacaoPersonalizada && typeof (mensagemConfirmacaoPersonalizada) !== "undefined" && mensagemConfirmacaoPersonalizada !== "") {
@@ -259,7 +259,7 @@ function ajax_ExcluirRegistroJSON(acao, controller, obj, mensagem, tb, callBackS
                             $.unblockUI();
                             if (ret.Success === true) {
                                 cwkSucessoTit('Registro Excluído!', mensagem);
-                                cwk_RemoverLinhasSelecionadas(tb);
+                                cwk_RemoverLinhasSelecionadas(tb, qtdSelecionados);
                                 if (callBackSucesso && typeof (callBackSucesso) !== "undefined" && callBackSucesso !== "") {
                                     callBackSucesso(ret);
                                 }

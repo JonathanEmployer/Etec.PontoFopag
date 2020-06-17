@@ -30,22 +30,22 @@ function cwk_MontarDataTable(nomeTabela, temBotoes, DestruirAoFechar, TemFiltro,
             "oTableTools": {
                 "sSwfPath": '../scripts/swf/copy_csv_xls_pdf.swf',
                 "aButtons": [
-                {
-                    "oSelectorOpts": { filter: 'applied', order: 'current' },
-                    "sExtends": "copy",
-                    "sButtonText": 'Copiar'
-                },
-                {
-                    "oSelectorOpts": { filter: 'applied', order: 'current' },
-                    "sExtends": "print",
-                    "sButtonText": 'Imprimir'
-                },
-                {
-                    "oSelectorOpts": { filter: 'applied', order: 'current' },
-                    "sExtends": "collection",
-                    "sButtonText": 'Salvar <span class="caret" />',
-                    "aButtons": ["csv", "xls", "pdf"]
-                }
+                    {
+                        "oSelectorOpts": { filter: 'applied', order: 'current' },
+                        "sExtends": "copy",
+                        "sButtonText": 'Copiar'
+                    },
+                    {
+                        "oSelectorOpts": { filter: 'applied', order: 'current' },
+                        "sExtends": "print",
+                        "sButtonText": 'Imprimir'
+                    },
+                    {
+                        "oSelectorOpts": { filter: 'applied', order: 'current' },
+                        "sExtends": "collection",
+                        "sButtonText": 'Salvar <span class="caret" />',
+                        "aButtons": ["csv", "xls", "pdf"]
+                    }
                 ]
             },
             "oLanguage": {
@@ -115,7 +115,7 @@ function cwk_MontarDataTableTheme(nomeTabela, nomeTela, DiminuiGrid, altura, lar
         "scrollY": altura,
         "scrollX": true,
         "bScrollCollapse": DiminuiGrid,
-      
+
         "bAutoWidth": true,
         "bSaveState": true,
         "sDom": '<"H"Tfr>t<"F"ip>',
@@ -153,17 +153,18 @@ function cwk_MontarDataTableTheme(nomeTabela, nomeTela, DiminuiGrid, altura, lar
                         "sExtends": "csv",
                         "sFileName": nomeTela + ".csv"
                     },
-                                 {
-                                     "oSelectorOpts": { filter: 'applied', order: 'current' },
-                                     "sExtends": "xls",
-                                     "sFileName": nomeTela + ".xls"
-                                 },
-                                 {
-                                     "oSelectorOpts": {
-                                     filter: 'applied', order: 'current' },
-                                     "sExtends": "pdf",
-                                     "sFileName": nomeTela + ".pdf"
-                                 }, ]
+                    {
+                        "oSelectorOpts": { filter: 'applied', order: 'current' },
+                        "sExtends": "xls",
+                        "sFileName": nomeTela + ".xls"
+                    },
+                    {
+                        "oSelectorOpts": {
+                            filter: 'applied', order: 'current'
+                        },
+                        "sExtends": "pdf",
+                        "sFileName": nomeTela + ".pdf"
+                    },]
                 }
             ]
         }
@@ -241,7 +242,7 @@ function cwk_MicroTBTheme2(nomeTabela, altura, largura, bfiltro, sDom, colunaOrd
     oTable = $(nomeTabela).dataTable({
         orderCellsTop: true,
         dom: "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         cache: false,
         scrollX: true,
         scrollY: altura,
@@ -295,33 +296,33 @@ function cwk_MontarDataTableThemeMarcacao(nomeTabela, altura, colunasDinamicas) 
             retiraAltura = parseFloat(altura);
         }
         alturaNum = cwk_AlturaTela() - utilizadoGridGenerica();
-        alturaNum = alturaNum - 50 ; 
+        alturaNum = alturaNum - 50;
         alturaNum = (alturaNum + retiraAltura)
         altura = alturaNum + 'px';
     }
 
     var aoColumns = [
-          { "bSortable": true },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false }
+        { "bSortable": true },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false }
     ];
 
     for (var i = 0; i < colunasDinamicas; i++)
@@ -330,8 +331,8 @@ function cwk_MontarDataTableThemeMarcacao(nomeTabela, altura, colunasDinamicas) 
     oTable = $(nomeTabela).dataTable({
         "orderCellsTop": true,
         "dom": "<'row'<'col-sm-3'l><'col-sm-3 text-center'f><'col-sm-6'>>" +
-                    "<'row'<'col-sm-12'tr>>" +
-                    "<'row'<'col-sm-5'><'col-sm-7'>>",
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-5'><'col-sm-7'>>",
         "rowId": "Id",
         "stateSave": true,
         "cache": true,
@@ -384,28 +385,28 @@ function cwk_MontarDataTableThemeManutencaoDiaria(nomeTabela, altura, colunasDin
     }
 
     var aoColumns = [
-          { "bSortable": true },
-          { "bSortable": true },
-          { "bSortable": true },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false },
-          { "bSortable": false } 
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false },
+        { "bSortable": false }
     ];
 
     for (var i = 0; i < colunasDinamicas; i++)
@@ -416,8 +417,8 @@ function cwk_MontarDataTableThemeManutencaoDiaria(nomeTabela, altura, colunasDin
     oTable = $(nomeTabela).DataTable({
         "orderCellsTop": true,
         "dom": "<'row'<'col-sm-3'l><'col-sm-3'><'col-sm-6'f>>" +
-                    "<'row'<'col-sm-12'tr>>" +
-                    "<'row'<'col-sm-5'><'col-sm-7'>>",
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-5'><'col-sm-7'>>",
         "rowId": "Id",
         "scrollX": true,
         "sScrollY": altura,
@@ -427,7 +428,7 @@ function cwk_MontarDataTableThemeManutencaoDiaria(nomeTabela, altura, colunasDin
             'decimal': ',',
             'thousands': '.',
             'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json',
-                                 },
+        },
         "aoColumns": aoColumns
     });
     $(nomeTabela).addClass('table table-striped table-bordered table-hover table-condensed nowrap');
@@ -459,14 +460,14 @@ function cwk_MontarDataTableThemeHorariosFlexiveis(nomeTabela) {
     oTable = $(nomeTabela).DataTable({
         orderCellsTop: true,
         dom: "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         cache: true,
         scrollX: true,
         scrollY: '310px',
         paginate: false,
         select: { style: 'single' },
         scrollCollapse: true,
-        language: { 
+        language: {
             'decimal': ',',
             'thousands': '.',
             'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json',
@@ -489,7 +490,7 @@ function cwk_MicroTBRelatorios(nomeTabela, altura, bfiltro) {
     oTable = $(nomeTabela).DataTable({
         orderCellsTop: true,
         dom: "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         cache: true,
         scrollX: true,
         scrollY: '310px',
@@ -605,12 +606,12 @@ function cwk_DataTableRelatorio(idTabela, altura, paginar, qtdRegistroPagina, Ca
             retiraAltura = parseFloat(altura);
         }
         alturaNum = cwk_AlturaTela() - utilizadoGridGenerica();
-        alturaNum = alturaNum - 50 ; 
+        alturaNum = alturaNum - 50;
         alturaNum = (alturaNum + retiraAltura)
         altura = alturaNum + 'px';
     }
-        
-        
+
+
 
     if (paginar == null || paginar == "" || paginar == undefined) {
         paginar = false;
@@ -633,17 +634,17 @@ function cwk_DataTableRelatorio(idTabela, altura, paginar, qtdRegistroPagina, Ca
         var title = $('#' + idTabela + ' thead th').eq($(this).index()).text().replace('.', '') + idTabela;
 
         var inputbutton = '<div class="input-group  input-group-sm">' +
-                               '<input type="text" class="form-control" placeholder="Pesquisar ' + title.replace(idTabela,'') + '" name="' + title + '" list="' + title + 'list"/> ';
+            '<input type="text" class="form-control" placeholder="Pesquisar ' + title.replace(idTabela, '') + '" name="' + title + '" list="' + title + 'list"/> ';
         if ($(this).hasClass('addLista')) {
             inputbutton = inputbutton;
         }
-        inputbutton = inputbutton + 
-                            '</div>';
+        inputbutton = inputbutton +
+            '</div>';
 
         $(this).html(inputbutton);
 
 
-    });  
+    });
 
     if (dom == null || dom == "" || dom == undefined) {
         dom = '<"H"<"floatLeft"lr><"btnsSelect"><"centerDom"f>>t<"F"ip>';
@@ -660,13 +661,13 @@ function cwk_DataTableRelatorio(idTabela, altura, paginar, qtdRegistroPagina, Ca
     if (diminuir == undefined) {
         diminuir = true;
     }
-    
+
     // Cria o Datatable
     var table = $('#' + idTabela).DataTable({
         "orderCellsTop": true,
-        "dom":    "<'row'<'col-sm-2'f><'col-sm-3 text-center'l><'col-sm-7 text-right'B>>" +
-                    "<'row'<'col-sm-12'tr>>" +
-                    "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        "dom": "<'row'<'col-sm-2'f><'col-sm-3 text-center'l><'col-sm-7 text-right'B>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         "rowId": "Id",
         "select": { style: 'multi' },
         "stateSave": false,
@@ -675,7 +676,7 @@ function cwk_DataTableRelatorio(idTabela, altura, paginar, qtdRegistroPagina, Ca
         "scrollX": true,
         "bPaginate": false,
         "pagingType": 'full_numbers',
-        
+
         "language": {
             "decimal": ",",
             "thousands": ".",
@@ -700,57 +701,57 @@ function cwk_DataTableRelatorio(idTabela, altura, paginar, qtdRegistroPagina, Ca
             }
         },
         buttons: [
-                        
-           {
-               text: '<i class="fa fa-filter" aria-hidden="true"></i> Selecionados <i class="fa fa-square-o"></i>',
-               titleAttr: 'Filtrar ou Retirar filtro de selecionados',
-               action: function () {                   
-                   if (this.text() == '<i class="fa fa-filter" aria-hidden="true"></i> Selecionados <i class="fa fa-square-o"></i>') {
-                       if (table.rows('.selected').count() > 0) {
-                           table.columns(0).search('^(' + table.rows({ selected: true }).ids().toArray().join('|') + ')$', true, false).draw();
-                           
-                       }
-                       this.text('<i class="fa fa-filter" aria-hidden="true"></i> Selecionados <i class="fa fa-check-square-o"></i>');
-                   }
-                   else {
-                       this.text('<i class="fa fa-filter" aria-hidden="true"></i> Selecionados <i class="fa fa-square-o"></i>');
-                       table.columns(0).search('').draw();
-                   }
 
-               }
-           },
-                                        {
-                                            text: '<i class="fa fa-check-square-o"></i>',
-                                            titleAttr: 'Selecionar',
-                                            action: function () {
-                                                table.rows({ filter: 'applied' }).select();
-                                                + table.NomeTabela + GetSelecionados();
-                                                                }
-                                        },
-                                            {
-                                                text: '<i class="fa fa-square-o"></i>',
-                                                titleAttr: 'Desselecionar',
-                                                action: function () {
-                                                    table.rows({ filter: 'applied' }).deselect();
-                                                    + table.NomeTabela + GetSelecionados();
-                                                }
-                                            },
-                                            {
-                                                text: '<i class="fa fa-retweet"></i>',
-                                                titleAttr: 'Inverter Seleção',
-                                                action: function (e, dt, button, config) {
-                                                var rowsSelected = table.rows({ filter: 'applied', selected: true });
-                                                var rowsDeselect = table.rows({ filter: 'applied', selected: false });
-                                                rowsSelected.deselect();
-                                                rowsDeselect.select();
-                                                + table.NomeTabela + GetSelecionados();
-                                                }
-                                            }
-                        ],
+            {
+                text: '<i class="fa fa-filter" aria-hidden="true"></i> Selecionados <i class="fa fa-square-o"></i>',
+                titleAttr: 'Filtrar ou Retirar filtro de selecionados',
+                action: function () {
+                    if (this.text() == '<i class="fa fa-filter" aria-hidden="true"></i> Selecionados <i class="fa fa-square-o"></i>') {
+                        if (table.rows('.selected').count() > 0) {
+                            table.columns(0).search('^(' + table.rows({ selected: true }).ids().toArray().join('|') + ')$', true, false).draw();
+
+                        }
+                        this.text('<i class="fa fa-filter" aria-hidden="true"></i> Selecionados <i class="fa fa-check-square-o"></i>');
+                    }
+                    else {
+                        this.text('<i class="fa fa-filter" aria-hidden="true"></i> Selecionados <i class="fa fa-square-o"></i>');
+                        table.columns(0).search('').draw();
+                    }
+
+                }
+            },
+            {
+                text: '<i class="fa fa-check-square-o"></i>',
+                titleAttr: 'Selecionar',
+                action: function () {
+                    table.rows({ filter: 'applied' }).select();
+                    + table.NomeTabela + GetSelecionados();
+                }
+            },
+            {
+                text: '<i class="fa fa-square-o"></i>',
+                titleAttr: 'Desselecionar',
+                action: function () {
+                    table.rows({ filter: 'applied' }).deselect();
+                    + table.NomeTabela + GetSelecionados();
+                }
+            },
+            {
+                text: '<i class="fa fa-retweet"></i>',
+                titleAttr: 'Inverter Seleção',
+                action: function (e, dt, button, config) {
+                    var rowsSelected = table.rows({ filter: 'applied', selected: true });
+                    var rowsDeselect = table.rows({ filter: 'applied', selected: false });
+                    rowsSelected.deselect();
+                    rowsDeselect.select();
+                    + table.NomeTabela + GetSelecionados();
+                }
+            }
+        ],
     });
 
     table.column(0).visible(false);
-    
+
     $("div.dataTables_filter").find("input[type=search]").each(function (ev) {
         if (!$(this).val()) {
             $(this).attr("placeholder", "Pesquisar");
@@ -772,16 +773,16 @@ function cwk_DataTableRelatorio(idTabela, altura, paginar, qtdRegistroPagina, Ca
             }
         });
 
-     //Aplica o filtro
+    //Aplica o filtro
     $("#" + idTabela + "_wrapper thead tr#filterrow input").on('keyup change input', function () {
         table.column($(this).parent().parent().index() + ':visible')
             .search(this.value, false, false)
             .draw();
     });
 
-$(table).addClass('table table-striped table-bordered table-hover table-condensed nowrap');
-$(table).attr("cellspacing", 0);
-$(table).attr("width", "100%");
+    $(table).addClass('table table-striped table-bordered table-hover table-condensed nowrap');
+    $(table).attr("cellspacing", 0);
+    $(table).attr("width", "100%");
     return table;
 }
 
@@ -823,12 +824,12 @@ function cwk_DataTableRelatorioGridEmp(idTabela, altura, paginar, qtdRegistroPag
         var title = $('#' + idTabela + ' thead th').eq($(this).index()).text().replace('.', '') + idTabela;
 
         var inputbutton = '<div class="input-group  input-group-sm">' +
-                               '<input type="text" class="form-control" placeholder="Pesquisar ' + title.replace(idTabela, '') + '" name="' + title + '" list="' + title + 'list"/> ';
+            '<input type="text" class="form-control" placeholder="Pesquisar ' + title.replace(idTabela, '') + '" name="' + title + '" list="' + title + 'list"/> ';
         if ($(this).hasClass('addLista')) {
             inputbutton = inputbutton;
         }
         inputbutton = inputbutton +
-                            '</div>';
+            '</div>';
 
         $(this).html(inputbutton);
 
@@ -855,8 +856,8 @@ function cwk_DataTableRelatorioGridEmp(idTabela, altura, paginar, qtdRegistroPag
     var table = $('#' + idTabela).DataTable({
         "orderCellsTop": true,
         "dom": "<'row'<'col-sm-2'f><'col-sm-3 text-center'l><'col-sm-7 text-right'B>>" +
-                    "<'row'<'col-sm-12'tr>>" +
-                    "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         "rowId": "Id",
         "select": { style: 'multi' },
         "stateSave": false,
@@ -891,67 +892,67 @@ function cwk_DataTableRelatorioGridEmp(idTabela, altura, paginar, qtdRegistroPag
         },
         buttons: [
 
-           {
-               text: '<i class="fa fa-filter" aria-hidden="true"></i> Selecionados <i class="fa fa-square-o"></i>',
-               titleAttr: 'Filtrar ou Retirar filtro de selecionados',
-               action: function () {
-                   if (this.text() == '<i class="fa fa-filter" aria-hidden="true"></i> Selecionados <i class="fa fa-square-o"></i>') {
-                       if (table.rows('.selected').count() > 0) {
-                           table.columns(0).search('^(' + table.rows({ selected: true }).ids().toArray().join('|') + ')$', true, false).draw();
+            {
+                text: '<i class="fa fa-filter" aria-hidden="true"></i> Selecionados <i class="fa fa-square-o"></i>',
+                titleAttr: 'Filtrar ou Retirar filtro de selecionados',
+                action: function () {
+                    if (this.text() == '<i class="fa fa-filter" aria-hidden="true"></i> Selecionados <i class="fa fa-square-o"></i>') {
+                        if (table.rows('.selected').count() > 0) {
+                            table.columns(0).search('^(' + table.rows({ selected: true }).ids().toArray().join('|') + ')$', true, false).draw();
 
-                       }
-                       this.text('<i class="fa fa-filter" aria-hidden="true"></i> Selecionados <i class="fa fa-check-square-o"></i>');
-                   }
-                   else {
-                       this.text('<i class="fa fa-filter" aria-hidden="true"></i> Selecionados <i class="fa fa-square-o"></i>');
-                       table.columns(0).search('').draw();
-                   }
+                        }
+                        this.text('<i class="fa fa-filter" aria-hidden="true"></i> Selecionados <i class="fa fa-check-square-o"></i>');
+                    }
+                    else {
+                        this.text('<i class="fa fa-filter" aria-hidden="true"></i> Selecionados <i class="fa fa-square-o"></i>');
+                        table.columns(0).search('').draw();
+                    }
 
-               }
-           },
-                                        {
-                                            text: '<i class="fa fa-check-square-o"></i>',
-                                            titleAttr: 'Selecionar',
-                                            action: function () {
-                                                table.rows({ filter: 'applied' }).select();
-                                                +table.NomeTabela + GetSelecionados();
-                                                $("#idsFuncionariosSelecionados").val(GetSelecionados('tbFun'));
-                                                var parametros = {
-                                                    IdsEmpresas: GetSelecionados('tbEmp')
-                                                };
-                                                CarregaDadosAjax('CarregarGridFuncionario', 'EnvioDadosRep', parametros, '#tbGridFuncionario', null);
-                                            }
-                                        },
-                                            {
-                                                text: '<i class="fa fa-square-o"></i>',
-                                                titleAttr: 'Desselecionar',
-                                                action: function () {
-                                                    table.rows({ filter: 'applied' }).deselect();
-                                                    +table.NomeTabela + GetSelecionados();
-                                                    $("#idsFuncionariosSelecionados").val(GetSelecionados('tbFun'));
-                                                    var parametros = {
-                                                        IdsEmpresas: GetSelecionados('tbEmp')
-                                                    };
-                                                    CarregaDadosAjax('CarregarGridFuncionario', 'EnvioDadosRep', parametros, '#tbGridFuncionario', null);
-                                                }
-                                            },
-                                            {
-                                                text: '<i class="fa fa-retweet"></i>',
-                                                titleAttr: 'Inverter Seleção',
-                                                action: function (e, dt, button, config) {
-                                                    var rowsSelected = table.rows({ filter: 'applied', selected: true });
-                                                    var rowsDeselect = table.rows({ filter: 'applied', selected: false });
-                                                    rowsSelected.deselect();
-                                                    rowsDeselect.select();
-                                                    +table.NomeTabela + GetSelecionados();
-                                                    $("#idsFuncionariosSelecionados").val(GetSelecionados('tbFun'));
-                                                    var parametros = {
-                                                        IdsEmpresas: GetSelecionados('tbEmp')
-                                                    };
-                                                    CarregaDadosAjax('CarregarGridFuncionario', 'EnvioDadosRep', parametros, '#tbGridFuncionario', null);
+                }
+            },
+            {
+                text: '<i class="fa fa-check-square-o"></i>',
+                titleAttr: 'Selecionar',
+                action: function () {
+                    table.rows({ filter: 'applied' }).select();
+                    +table.NomeTabela + GetSelecionados();
+                    $("#idsFuncionariosSelecionados").val(GetSelecionados('tbFun'));
+                    var parametros = {
+                        IdsEmpresas: GetSelecionados('tbEmp')
+                    };
+                    CarregaDadosAjax('CarregarGridFuncionario', 'EnvioDadosRep', parametros, '#tbGridFuncionario', null);
+                }
+            },
+            {
+                text: '<i class="fa fa-square-o"></i>',
+                titleAttr: 'Desselecionar',
+                action: function () {
+                    table.rows({ filter: 'applied' }).deselect();
+                    +table.NomeTabela + GetSelecionados();
+                    $("#idsFuncionariosSelecionados").val(GetSelecionados('tbFun'));
+                    var parametros = {
+                        IdsEmpresas: GetSelecionados('tbEmp')
+                    };
+                    CarregaDadosAjax('CarregarGridFuncionario', 'EnvioDadosRep', parametros, '#tbGridFuncionario', null);
+                }
+            },
+            {
+                text: '<i class="fa fa-retweet"></i>',
+                titleAttr: 'Inverter Seleção',
+                action: function (e, dt, button, config) {
+                    var rowsSelected = table.rows({ filter: 'applied', selected: true });
+                    var rowsDeselect = table.rows({ filter: 'applied', selected: false });
+                    rowsSelected.deselect();
+                    rowsDeselect.select();
+                    +table.NomeTabela + GetSelecionados();
+                    $("#idsFuncionariosSelecionados").val(GetSelecionados('tbFun'));
+                    var parametros = {
+                        IdsEmpresas: GetSelecionados('tbEmp')
+                    };
+                    CarregaDadosAjax('CarregarGridFuncionario', 'EnvioDadosRep', parametros, '#tbGridFuncionario', null);
 
-                                                }
-                                            }
+                }
+            }
         ],
     });
 
@@ -971,13 +972,13 @@ function cwk_DataTableRelatorioGridEmp(idTabela, altura, paginar, qtdRegistroPag
             CallBackSelecao();
         }
     })
-    .on('deselect', function (e, dt, type, indexes) {
-        if (CallBackSelecao != undefined) {
-            CallBackSelecao();
-        }
-    });
+        .on('deselect', function (e, dt, type, indexes) {
+            if (CallBackSelecao != undefined) {
+                CallBackSelecao();
+            }
+        });
 
-     //Aplica o filtro
+    //Aplica o filtro
     $("#" + idTabela + "_wrapper thead tr#filterrow input").on('keyup change input', function () {
         table.column($(this).parent().parent().index() + ':visible')
             .search(this.value, false, false)
@@ -993,10 +994,10 @@ function cwk_DataTableRelatorioGridEmp(idTabela, altura, paginar, qtdRegistroPag
 // Função que pega todos os registros selecionados em uma grid e retorna uma lista de ids
 // Parâmetro idTable = Id da Tabela (Não passar # no início.)
 function GetSelecionados(idTable) {
-    var id = '';    
-    try {     
+    var id = '';
+    try {
         var table = $('#' + idTable.replace("#", "")).DataTable();
-            id = table.rows(table.$("tr.selected")).ids().toArray().join();
+        id = table.rows(table.$("tr.selected")).ids().toArray().join();
     }
     catch (err) {
         var table2 = $('#' + idTable.replace("#", "")).DataTable();
@@ -1008,7 +1009,7 @@ function GetSelecionados(idTable) {
 // Função que recebe uma lista de ids e seleciona os registros no datatable
 // Parâmetro idTable = Id da Tabela (Não passar # no início.)
 // Parâmetro selecionados = Ids dos registros a serem selecionados (Ex.: 123,124,125) ***Passar os ids sem espaços entre os números e as virgulas
-function SetSelecionados(idTable, selecionados) {    
+function SetSelecionados(idTable, selecionados) {
     var ids = selecionados.split(',');
     var table = $('#' + idTable).DataTable();
     if (ids != null && selecionados != "") {
@@ -1166,11 +1167,11 @@ function cwk_EventoClickTicarCheckBoxTabela(nomeTabela) {
 
 ///Métodos para Inserção, Edição, Consulta e Exclusão de registro.
 /// Pega o id selecionado no dataTable
-function GetIdSelecionadoTable(nomeTabela) { 
-    var id = 0;    
+function GetIdSelecionadoTable(nomeTabela) {
+    var id = 0;
     try {
         id = parseInt(window[nomeTabela.replace("#", "") + 'GetSelecionado']());
-        if (isNaN(id)) {            
+        if (isNaN(id)) {
             var table = $(nomeTabela).DataTable();
             id = table.rows(table.$("tr.selected")).ids().toArray()[0];
         }
@@ -1285,6 +1286,20 @@ function cwk_RemoverLinhasSelecionadas(objetoTabela) {
 
 }
 
+// Remove varias linha selecionada num datatable.
+// recebe o obj tabela e o numero de linhas selecionadas
+function cwk_RemoverLinhasSelecionadas(objetoTabela, nrmlinhas) {
+    try {
+        for (var i = 0; i < nrmlinhas; i++) {
+            objetoTabela.row('.selected').remove().draw(false);
+        }
+    }
+    catch (err) {
+        objetoTabela.api().row('.selected').remove().draw(false); // Tenta pela forma do datatable (Antigo)
+    }
+}
+
+
 // Retorna uma string de 'ids' dos objetos selecionados num datatable. A primeira célula deve ser o id
 function cwk_GerarStringIds(objetoTabela) {
     var rows = objetoTabela.fnGetNodes();
@@ -1397,7 +1412,7 @@ function filtraTabelaPorTexto(keywords, idTabelaFilha) {
  */
 
 function corrigeColoracaoTabela(idTabela) {
-    
+
 }
 
 function adicionaTodosElementos(idTbOrigem, idTbDestino, nomeListaOrigem, nomeListaDestino, listaChaveValorInputs) {
@@ -1465,99 +1480,99 @@ function updateIndexes(idTabela, nomeLista, listaChaveValorInputs) {
 /// Datatable Nova
 
 function cwk_tbEventroConsulta(nomeTabela, bfiltro) {
-$(document).on('keydown', 'input', function (e) {
-    if (e.which == 13) e.preventDefault();
-});
+    $(document).on('keydown', 'input', function (e) {
+        if (e.which == 13) e.preventDefault();
+    });
     $(nomeTabela + ' thead tr:eq(1) th').each(function () {
-            var title = $(nomeTabela + ' thead tr:eq(0) th').eq($(this).index()).text();
-            title = title.replace(/[^a-zA-Z0-9]/g, '_');
-            if ($(this).hasClass('text') || $(this).hasClass('select')) {
-                var tipoCampo = 'text';
-                if ($(this).hasClass('select')) {
-                    tipoCampo = 'select'
-                }
-                
-                $(this).html('<input class="form-control input-sm" type="text" tipoCampo=' + tipoCampo + ' placeholder="Pesquisar ' + title + '" id="' + nomeTabela.replace('#','') + 'psq' + title + '" />');
+        var title = $(nomeTabela + ' thead tr:eq(0) th').eq($(this).index()).text();
+        title = title.replace(/[^a-zA-Z0-9]/g, '_');
+        if ($(this).hasClass('text') || $(this).hasClass('select')) {
+            var tipoCampo = 'text';
+            if ($(this).hasClass('select')) {
+                tipoCampo = 'select'
             }
-        });
 
-        var oTable = $(nomeTabela).DataTable({
- 
-            orderCellsTop: true,
-            dom:    "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
-                    "<'row'<'col-sm-12'tr>>" +
-                    "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-            rowId: 'Codigo',
-            scrollX: true,
-            pagingType: 'full_numbers',
-            select: { style: 'single' },
-            order: [ [ 1, "asc"],],
-            Filter: bfiltro,
-            language: {
-                'decimal': ',',
-                'thousands': '.',
-                'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json',
-                buttons: {
-                    copyTitle: 'Copiado para área de transferência.',
-                    copySuccess: {
-                        _: 'Copiados %d registros',
-                        1: 'Copiado 1 registro'
-                    }
-                },
-                select: {
-                    rows: {
-                        _: '(Selecionados %d registros)',
-                        0: '(Clique para selecionar)',
-                        1: '(Selecionado 1 registro)'
-                    }
+            $(this).html('<input class="form-control input-sm" type="text" tipoCampo=' + tipoCampo + ' placeholder="Pesquisar ' + title + '" id="' + nomeTabela.replace('#', '') + 'psq' + title + '" />');
+        }
+    });
+
+    var oTable = $(nomeTabela).DataTable({
+
+        orderCellsTop: true,
+        dom: "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        rowId: 'Codigo',
+        scrollX: true,
+        pagingType: 'full_numbers',
+        select: { style: 'single' },
+        order: [[1, "asc"],],
+        Filter: bfiltro,
+        language: {
+            'decimal': ',',
+            'thousands': '.',
+            'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json',
+            buttons: {
+                copyTitle: 'Copiado para área de transferência.',
+                copySuccess: {
+                    _: 'Copiados %d registros',
+                    1: 'Copiado 1 registro'
                 }
             },
-            lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todos']],
-            initComplete: function (oSettings, json) {
-                //Adiciona funcionalidades no campo de pesquisa
-                this.api().columns().every(function (index) {
-                    var coluna = this;
-                    var nomeColuna = $(coluna.header()).html();
-                    nomeColuna = nomeColuna.replace(/[^a-zA-Z0-9]/g, '_');
-                    var campoPesquisa = $(nomeTabela + 'psq' + nomeColuna);
+            select: {
+                rows: {
+                    _: '(Selecionados %d registros)',
+                    0: '(Clique para selecionar)',
+                    1: '(Selecionado 1 registro)'
+                }
+            }
+        },
+        lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todos']],
+        initComplete: function (oSettings, json) {
+            //Adiciona funcionalidades no campo de pesquisa
+            this.api().columns().every(function (index) {
+                var coluna = this;
+                var nomeColuna = $(coluna.header()).html();
+                nomeColuna = nomeColuna.replace(/[^a-zA-Z0-9]/g, '_');
+                var campoPesquisa = $(nomeTabela + 'psq' + nomeColuna);
 
-                    // Funcionalidade da pesquisa
-                    campoPesquisa.on('keyup input', function (event) {
-                        event.preventDefault();
-                        var val = $(this).val();
-                        if (event.keyCode == 13 || val == '' ||
-                            $(nomeTabela+'lst' + nomeColuna + ' option').filter(function () { return this.value === val; }).length)// vai disparar a pesquisa quando apertar enter, quando apagar os dados ou quando input preenchido com valor contendo na lista
-                        {
-                            var val = $.fn.dataTable.util.escapeRegex(
-                                $(this).val()
-                                );
-                            if (coluna.search() !== this.value) {
-                                coluna
-                                        .search(val, true, false)
-                                        .draw();
-                            }
-                            return false;
+                // Funcionalidade da pesquisa
+                campoPesquisa.on('keyup input', function (event) {
+                    event.preventDefault();
+                    var val = $(this).val();
+                    if (event.keyCode == 13 || val == '' ||
+                        $(nomeTabela + 'lst' + nomeColuna + ' option').filter(function () { return this.value === val; }).length)// vai disparar a pesquisa quando apertar enter, quando apagar os dados ou quando input preenchido com valor contendo na lista
+                    {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+                        if (coluna.search() !== this.value) {
+                            coluna
+                                .search(val, true, false)
+                                .draw();
                         }
-                    });
-                    //
-
-                    // Se o tipo do campo for lista add lista
-                    if (campoPesquisa.attr('tipoCampo') == 'select') {
-                        campoPesquisa.attr('list', nomeTabela.replace('#', '') + 'lst' + nomeColuna);
-
-                        var lista = $('<datalist id="'+nomeTabela.replace('#', '') +'lst' + nomeColuna + '"></datalist>')
-
-                        this.data().unique().sort().each(function (d, j) {
-                                lista.append('<option value="' + d + '">' + d + '</option>')
-                        });
-
-                        campoPesquisa.append(lista);
+                        return false;
                     }
-                    //
                 });
                 //
-            }
-        });        
-        
-        return oTable;
+
+                // Se o tipo do campo for lista add lista
+                if (campoPesquisa.attr('tipoCampo') == 'select') {
+                    campoPesquisa.attr('list', nomeTabela.replace('#', '') + 'lst' + nomeColuna);
+
+                    var lista = $('<datalist id="' + nomeTabela.replace('#', '') + 'lst' + nomeColuna + '"></datalist>')
+
+                    this.data().unique().sort().each(function (d, j) {
+                        lista.append('<option value="' + d + '">' + d + '</option>')
+                    });
+
+                    campoPesquisa.append(lista);
+                }
+                //
+            });
+            //
+        }
+    });
+
+    return oTable;
 }
