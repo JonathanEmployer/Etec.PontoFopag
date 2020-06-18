@@ -87,37 +87,58 @@
     });
 
     $(document).on('click', '#btSalvarControle', function () {
-        var idUser = $('#iduser').val();
-        var nomeTabela = "#" + $('#nomtab').val();
+        var idUser = $('.selected').eq(0).attr('id');
 
-        var qtdSelecionados = $('#tbControleAcessoUsuario tbody tr.selected').length;
+        var objPermissoes = {
+            "idQueVaiSerAlterado": idUser,
+            "EmpresasContratos": []
+        };
 
-        console.log(idUser);
+        //Empresas
+        var nomeTabelaEmpresa = "#" + "tbControleAcessoUsuarioAddEmpresa";
+        var objetoTabelaEmpresa = $(nomeTabelaEmpresa).closest('table').DataTable();
 
-        //var objPermissoes = {
-        //    "idQueVaiSerAlterado": idUser,
-        //    "EmpresasContratos": []
-        //};
+        var qtdSelecionadosEmpresa = objetoTabelaEmpresa.rows({ selected: true }).count();
 
-        //for (var i = 0; i < qtdSelecionados; i++) {
-        //    var id = $('#tbControleAcessoUsuario tbody tr.selected').eq(i).attr('id');
-        //    var tipo = $('#tbControleAcessoUsuario tbody tr.selected').eq(i).find('td').eq(0).html()
+        var dataEmpresas = objetoTabelaEmpresa.rows({ selected: true }).data();
 
-        //    var Obj = {
-        //        "idEmpresaContrato": id,
-        //        "Tipo": tipo
-        //    };
-        //    objPermissoes.EmpresasContratos.push(Obj);
-        //};
+        $.each(dataEmpresas, function (index, val) {
+            var id = val.Id;
+            var tipo = val.Tipo;
 
-        //var id = GetIdSelecionadoTable(nomeTabela);
-        //if (id > 0) {
-        //    var objetoTabela = $(nomeTabela).closest('table').DataTable();
+            var Obj = {
+                "idEmpresaContrato": id,
+                "Tipo": tipo
+            };
+            objPermissoes.EmpresasContratos.push(Obj);
+        });
 
-        //    cwk_CadastroAjaxParam('SalvarCopia', 'Usuario', '', { idQueVaiSerAlterado: idUserToAlter, idUsuarioParaAlterar: idUsuarioQueVaiSerCopiado });
+        //Contratos
+        var nomeTabelaContrato = "#" + "tbControleAcessoUsuarioAddContrato";
+        var objetoTabelaContrato = $(nomeTabelaContrato).closest('table').DataTable();
 
-        //} else {
-        //    cwkErroTit('Selecione um Registro!', 'Antes de salvar selecione um registro!');
-        //}
+        var qtdSelecionadosContrato = objetoTabelaContrato.rows({ selected: true }).count();
+
+        var dataContratos = objetoTabelaContrato.rows({ selected: true }).data();
+
+        $.each(dataContratos, function (index, val) {
+            var id = val.Id;
+            var tipo = val.Tipo;
+
+            var Obj = {
+                "idEmpresaContrato": id,
+                "Tipo": tipo
+            };
+            objPermissoes.EmpresasContratos.push(Obj);
+        });
+
+        var qtTotal = qtdSelecionadosContrato + qtdSelecionadosEmpresa;
+        
+        if (qtTotal > 0) {
+            $("#loading").modal();
+            cwk_CadastroAjaxParam('SalvarPermissoes', 'Usuario', '', { jsonData: JSON.stringify(objPermissoes) });
+        } else {
+            cwkErroTit('Selecione um Registro!', 'É necessário selecionar um registo para realizar essa operação!');
+        }
     });
 </script>

@@ -6,10 +6,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     string nomeTabela = "tbUsuario";
     string rowCallBack = @" function( row, data, index ) {
-                if (data.Ativo == 'Não') {
-                    $('td', row).css('color', 'Red');
-                }
-            }";
+        if (data.Ativo == 'Não') {
+            $('td', row).css('color', 'Red');
+        }
+    }";
 }
 
 <div class="">
@@ -59,7 +59,7 @@
         cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', 'Usuario', nomeTabela);
         cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir', 'Usuario', nomeTabela, 'Usuário excluído com sucesso.');
 
-        cwk_EventoAlterarAjaxParam('#btControledeusuario', 'GridControleUsuario', 'Usuario', nomeTabela, "");    
+        cwk_EventoAlterarAjaxParam('#btControledeusuario', 'GridControleUsuario', 'Usuario', nomeTabela, "");
     });
 
     //ABRE MODAL COPIAR - CONTROLE
@@ -103,6 +103,15 @@
         $("#tbUsuariopsqAtivo").val("Sim");
         table.columns(9).search("Sim", true, false, true).draw();
     }
+
+    function retornoDosErros(msg1, msg2) {
+        cwkErroTit(msg1, msg2);
+    }
+
+    $(document).on('click', '.close', function () {
+        $('#divLoadCadastroModal').hide();
+        $('.modal-backdrop').hide();
+    });
 
 </script>
 

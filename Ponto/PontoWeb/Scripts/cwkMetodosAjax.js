@@ -214,7 +214,7 @@ function ajax_ExcluirRegistro(acao, controller, id, mensagem, tb, callBackSucess
 // Remove mais de um registro. Ele não adiciona o evento click, mas já adiciona as mensagens de validação.
 // Foi criado inicialmente passar um objeto JSON e jogar uma string pra controller = (string jsonData)
 function ajax_ExcluirRegistroJSON(acao, controller, obj, mensagem, tb, callBackSucesso, mensagemConfirmacaoPersonalizada, qtdSelecionados) {
-    debugger;
+
     var mensagemConfirmacao = "Ao confirmar a ação será permanente!";
     if (mensagemConfirmacaoPersonalizada && typeof (mensagemConfirmacaoPersonalizada) !== "undefined" && mensagemConfirmacaoPersonalizada !== "") {
         mensagemConfirmacao = mensagemConfirmacaoPersonalizada;
