@@ -5136,7 +5136,7 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIF(Last(Fields!totalExtraInterjornada.Value) &lt;&gt; "", "Interjornada  " &amp; Last(Fields!totalExtraInterjornada.Value), "")</Value>
+                                  <Value>=IIF(Last(Fields!totalExtraInterjornada.Value) &lt;&gt; "00:00" , "Interjornada  " &amp; Last(Fields!totalExtraInterjornada.Value), " ")</Value>
                                   <Style>
                                     <FontFamily>Courier New</FontFamily>
                                     <FontSize>6.5pt</FontSize>
@@ -5155,14 +5155,13 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                             <TopBorder>
                               <Style>None</Style>
                             </TopBorder>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>1pt</PaddingTop>
+                            <PaddingBottom>1pt</PaddingBottom>
                           </Style>
                         </Textbox>
                         <ColSpan>3</ColSpan>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
