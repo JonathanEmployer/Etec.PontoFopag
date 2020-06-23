@@ -317,6 +317,37 @@ namespace DAL.SQL
             return lista;
         }
 
+        public Modelo.Alertas GetByDescricao(string descricao)
+        {
+            SqlParameter[] parms = new SqlParameter[1]
+            {
+                new SqlParameter("@descricao",SqlDbType.VarChar)
+            };
+            parms[0].Value = descricao;
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SELECTALL + " AND Alertas.descricao = @descricao ", parms);
+
+            List<Modelo.Alertas> lista = new List<Modelo.Alertas>();
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Alertas>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Alertas>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista.FirstOrDefault();
+        }
+
         public List<PxyGridAlertasComunicacaoRep> GetAllListAcompanhamentoRep()
         {
             SqlParameter[] parms = new SqlParameter[0];

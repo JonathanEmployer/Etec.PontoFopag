@@ -90,6 +90,17 @@ namespace BLL
                     {
                         ret.Add("IdRepsSelecionados", "Para enviar o alerta é necessário selecionar o rep a ser acompanhado.");
                     }
+
+                    if (string.IsNullOrEmpty(objeto.Descricao))
+                    {
+                        ret.Add("Descricao", "Campo obrigatório.");
+                    }
+
+                    var descricaoIgual = GetByDescricao(objeto.Descricao);
+                    if (descricaoIgual != null && descricaoIgual.Id != objeto.Id)
+                    {
+                        ret.Add("Descricao", $"Descricão já utilizada no alerta de código {objeto.Codigo}.");
+                    }
                 }
             }
             return ret;
@@ -223,6 +234,11 @@ namespace BLL
         public List<PxyGridAlertasComunicacaoRep> GetAllListAcompanhamentoRep()
         {
             return dalAlertas.GetAllListAcompanhamentoRep();
+        }
+
+        public Modelo.Alertas GetByDescricao(string descricao)
+        {
+            return dalAlertas.GetByDescricao(descricao);
         }
     }
 }
