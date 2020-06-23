@@ -867,6 +867,7 @@ namespace BLL
             cells["G:G"].Insert();
             cells["H:H"].Insert();
             cells["I:I"].Insert();
+            cells["J:J"].Insert();
 
             //J new DataColumn("id"),
             //K new DataColumn("empresa"),
@@ -891,33 +892,35 @@ namespace BLL
 
 
             //Insere os valores nas colunas criadas
-            cells["K:K"].Copy(cells["A:A"]);
-            cells["M:M"].Copy(cells["B:B"]);
-            cells["O:O"].Copy(cells["C:C"]);
+            cells["L:L"].Copy(cells["A:A"]);
+            cells["N:N"].Copy(cells["B:B"]);
+            cells["AE:AE"].Copy(cells["C:C"]);
             cells["P:P"].Copy(cells["D:D"]);
-            cells["R:R"].Copy(cells["E:E"]);
+            cells["Q:Q"].Copy(cells["E:E"]);
             cells["S:S"].Copy(cells["F:F"]);
             cells["T:T"].Copy(cells["G:G"]);
             cells["U:U"].Copy(cells["H:H"]);
             cells["V:V"].Copy(cells["I:I"]);
+            cells["W:W"].Copy(cells["J:J"]);
 
             // Formatando celulas de quantidade de horas
-            cells["G:I"].NumberFormat = "[h]:mm";
-            cells["D:D"].NumberFormat = "dd/mm/yyyy";
+            cells["H:J"].NumberFormat = "[h]:mm";
+            cells["E:E"].NumberFormat = "dd/mm/yyyy";
 
             // Corrigindo o nome dos cabeçalhos
             cells["A1"].Formula = "Empresa";
             cells["B1"].Formula = "Departamento";
-            cells["C1"].Formula = "Funcionário";
-            cells["D1"].Formula = "Data";
-            cells["E1"].Formula = "Ocorrência";
-            cells["F1"].Formula = "Marcações";
-            cells["G1"].Formula = "Deb. BH";
-            cells["H1"].Formula = "Horas Diurnas";
-            cells["I1"].Formula = "Horas Noturnas";
+            cells["C1"].Formula = "Contrato";
+            cells["D1"].Formula = "Funcionário";
+            cells["E1"].Formula = "Data";
+            cells["F1"].Formula = "Ocorrência";
+            cells["G1"].Formula = "Marcações";
+            cells["H1"].Formula = "Deb. BH";
+            cells["I1"].Formula = "Horas Diurnas";
+            cells["J1"].Formula = "Horas Noturnas";
 
             // Removendo colunas do dataset que não podem ser exportadas
-            cells["J:AZ"].Delete(DeleteShiftDirection.Left);
+            cells["K:AZ"].Delete(DeleteShiftDirection.Left);
 
             // Reconfigura a largura das colunas
             worksheet.UsedRange.Columns.AutoFit();
@@ -926,7 +929,7 @@ namespace BLL
         }
         public static byte[] Relatorio_de_Ocorrencias_por_Funcionario_Data(DataTable dados)
         {
-            string[] selectedColumns = new[] { "empresa", "cnpj_cpf", "departamento", "dscodigo", "funcionario", "data", "ocorrencia", "marcacoes", "bancohorasdeb", "horasextradiurna", "horasextranoturna" };
+            string[] selectedColumns = new[] { "empresa", "cnpj_cpf", "departamento", "contrato", "dscodigo", "funcionario", "data", "ocorrencia", "marcacoes", "bancohorasdeb", "horasextradiurna", "horasextranoturna" };
             DataTable dt = new DataView(dados).ToTable(false, selectedColumns);
             IWorkbook workbook = Factory.GetWorkbook();
             GeraRelatorio(workbook, dt);
@@ -938,14 +941,15 @@ namespace BLL
             cells["A1"].Formula = "Empresa";
             cells["B1"].Formula = "CNPJ-CPF";
             cells["C1"].Formula = "Departamento";
-            cells["D1"].Formula = "Código";
-            cells["E1"].Formula = "Funcionário";
-            cells["F1"].Formula = "Data";
-            cells["G1"].Formula = "Ocorrência";
-            cells["H1"].Formula = "Marcações";
-            cells["I1"].Formula = "Deb. BH";
-            cells["J1"].Formula = "Horas Diurnas ";
-            cells["K1"].Formula = "Horas Noturnas";
+            cells["D1"].Formula = "Contrato";
+            cells["E1"].Formula = "Código";
+            cells["F1"].Formula = "Funcionário";
+            cells["G1"].Formula = "Data";
+            cells["H1"].Formula = "Ocorrência";
+            cells["I1"].Formula = "Marcações";
+            cells["J1"].Formula = "Deb. BH";
+            cells["K1"].Formula = "Horas Diurnas ";
+            cells["L1"].Formula = "Horas Noturnas";
 
             // Formatando celulas de quantidade de horas
             cells["I:K"].NumberFormat = "[h]:mm";
