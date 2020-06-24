@@ -741,7 +741,7 @@ namespace PontoWeb.Controllers
         }
 
         [Authorize]
-        [PermissoesFiltro(Roles = "UsuarioAlterar")]
+        [PermissoesFiltro(Roles = "UsuarioConsultar")]
         public ActionResult GridControleUsuario(int id)
         {
             return View(new Modelo.UsuarioControleAcesso() { Idfuncionario = id });
@@ -873,18 +873,17 @@ namespace PontoWeb.Controllers
 
             if (empresas.Count() == 0 && contratos.Count() == 0)
             {
-                erros.Add("Erro ao copiar usuário!", "Usuário selecionado não possui nenhuma permissão");
-                string erro = string.Join(";", erros.Select(x => x.Key + "=" + x.Value).ToArray());
-                return Json(new { Success = false, Erro = erro }, JsonRequestBehavior.AllowGet);
+                return JavaScript("cwkErroTit('Erro ao copiar usuário!', 'Usuário selecionado não possui nenhuma permissão!')");
             }
 
             using (var db = new cworkpontoEntities())
             {
                 try
                 {
-                    var usaurio = CwuserBLL.LoadObject(obj.idQueVaiSerAlterado);
+                    var usaurioA = CwuserBLL.LoadObject(obj.idQueVaiSerAlterado);
+                    var usaurioB = CwuserBLL.LoadObject(obj.idUsuarioParaAlterar);
 
-                    if (usaurio.UtilizaControleEmpresa == true)
+                    if (usaurioA.UtilizaControleEmpresa == true && usaurioB.UtilizaControleEmpresa == true)
                     {
                         retorno = bllEmpresa.DeletaEmpresasUsuario(obj.idQueVaiSerAlterado);
 
@@ -901,12 +900,16 @@ namespace PontoWeb.Controllers
                             }
                         }
                     }
-                    else
+                    else if (empresas.Count() > 0)
+                    {
+                        return JavaScript("cwkErroTit('Erro ao adicionar permissões por empresas!', 'Usuário não utiliza controle de acesso por empresa!')");
+                    }
+                    else if (usaurioA.UtilizaControleEmpresa == true && usaurioB.UtilizaControleEmpresa == false)
                     {
                         return JavaScript("cwkErroTit('Erro ao adicionar permissões por empresas!', 'Usuário não utiliza controle de acesso por empresa!')");
                     }
 
-                    if (usaurio.UtilizaControleContratos == true)
+                    if (usaurioA.UtilizaControleContratos == true && usaurioB.UtilizaControleContratos == true)
                     {
                         retorno = bllContrato.DeletaContratosUsuario(obj.idQueVaiSerAlterado);
 
@@ -923,7 +926,11 @@ namespace PontoWeb.Controllers
                             }
                         }
                     }
-                    else
+                    else if (contratos.Count() > 0)
+                    {
+                        return JavaScript("cwkErroTit('Erro ao adicionar permissões por contratos!', 'Usuário não utiliza controle de acesso por contrato!')");
+                    }
+                    else if (usaurioA.UtilizaControleContratos == true && usaurioB.UtilizaControleContratos == false)
                     {
                         return JavaScript("cwkErroTit('Erro ao adicionar permissões por contratos!', 'Usuário não utiliza controle de acesso por contrato!')");
                     }

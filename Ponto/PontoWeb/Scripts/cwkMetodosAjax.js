@@ -287,17 +287,6 @@ function ajax_ExcluirRegistroJSON(acao, controller, obj, mensagem, tb, callBackS
     });
 }
 
-
-
-
-
-
-
-
-
-
-
-
 function BloqueiaSalvando() {
     $.blockUI({ message: '<h2>Salvando...<img src="../../Content/img/circulosLoading.GIF"></h1>' });
 }

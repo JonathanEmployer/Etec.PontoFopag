@@ -29,7 +29,7 @@
                         <div id="divEmpresas">
                             @Html.ValidationSummary(true)
                             <div class="row">
-                                @Html.GridFor(nometabelaE, Model.Item1.GetType(), true, "Usuario", "DadosGridEmpresas/" + Model.Item1.Id)
+                                @Html.GridFor(nometabelaE, Model.Item1.GetType(), true, "Usuario", "DadosGridEmpresas/" + Model.Item1.Id, "", "", "", "", true)
                             </div>
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                         <div id="divContratos" hidden>
                             @Html.ValidationSummary(true)
                             <div class="row">
-                                @Html.GridFor(nometabelaC, Model.Item2.GetType(), true, "Usuario", "DadosGridContratos/" + Model.Item2.Id)
+                                @Html.GridFor(nometabelaC, Model.Item2.GetType(), true, "Usuario", "DadosGridContratos/" + Model.Item2.Id, "", "", "", "", true)
                             </div>
                         </div>
                     </div>
@@ -67,7 +67,7 @@
             $('#divContratos').attr('hidden', true);
 
             $('#tbControleAcessoUsuarioAddEmpresa').DataTable().ajax.reload();
-        } 
+        }
     });
 
     $(document).on('click', '#Contrato-tab', function () {
@@ -76,7 +76,7 @@
             $('#divEmpresas').attr('hidden', true);
 
             $('#tbControleAcessoUsuarioAddContrato').DataTable().ajax.reload();
-        } 
+        }
     });
 
     $(document).ready(function () {
@@ -133,7 +133,7 @@
         });
 
         var qtTotal = qtdSelecionadosContrato + qtdSelecionadosEmpresa;
-        
+
         if (qtTotal > 0) {
             $("#loading").modal();
             cwk_CadastroAjaxParam('SalvarPermissoes', 'Usuario', '', { jsonData: JSON.stringify(objPermissoes) });
