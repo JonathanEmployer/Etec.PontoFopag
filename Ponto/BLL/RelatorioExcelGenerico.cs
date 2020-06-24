@@ -688,7 +688,7 @@ namespace BLL
 
             }
 
-            string[] selectedColumns = new[] { "empresa", "cnpj_cpf", "endereco", "cidade", "estado", "DataFormatada", "funcionario", "dscodigo", "hentrada_1", "hsaida_1", "hentrada_2", "hsaida_2", "entrada_1", "saida_1", "entrada_2", "saida_2", "entrada_3", "saida_3", "entrada_4", "saida_4", "TotalHorasAlmoco", "TotalIntervaloPrev", "horastrabalhadas", "totaltrabalhadanoturna", "horariojornada", "horasextrasdiurna", "horasextranoturna", "bancohorascre", "TotalHorasTrabalhadas", "Interjornada", "legenda", "F" };
+            string[] selectedColumns = new[] { "empresa", "cnpj_cpf", "endereco", "cidade", "estado", "contrato", "DataFormatada", "funcionario", "dscodigo", "hentrada_1", "hsaida_1", "hentrada_2", "hsaida_2", "entrada_1", "saida_1", "entrada_2", "saida_2", "entrada_3", "saida_3", "entrada_4", "saida_4", "TotalHorasAlmoco", "TotalIntervaloPrev", "horastrabalhadas", "totaltrabalhadanoturna", "horariojornada", "horasextrasdiurna", "horasextranoturna", "bancohorascre", "TotalHorasTrabalhadas", "Interjornada", "legenda", "F" };
             DataTable dt = dados.Rows.Count > 0 ? new DataView(dados).ToTable(false, selectedColumns) : null;
             IWorkbook workbook = Factory.GetWorkbook();
             GeraRelatorio(workbook, dt);
@@ -696,7 +696,7 @@ namespace BLL
             IRange cells = worksheet.Cells;
 
             // Formatando celulas de quantidade de horas
-            cells["I:AG"].NumberFormat = "[h]:mm";
+            cells["J:AE"].NumberFormat = "[h]:mm";
 
             // Corrigindo o nome dos cabeçalhos
             cells["A1"].Formula = "Empresa";
@@ -704,41 +704,42 @@ namespace BLL
             cells["C1"].Formula = "Endereço";
             cells["D1"].Formula = "Cidade";
             cells["E1"].Formula = "UF";
-            cells["F1"].Formula = "Data";
+            cells["F1"].Formula = "Contrato";
+            cells["G1"].Formula = "Data";
 
-            cells["G1"].Formula = "Funcionário";
-            cells["H1"].Formula = "Código";
-            cells["I1"].Formula = "J.Ent1";
-            cells["J1"].Formula = "J.Sai1";
-            cells["K1"].Formula = "J.Ent2";
-            cells["L1"].Formula = "J.Sai2";
-            cells["M1"].Formula = "Ent 1";
-            cells["N1"].Formula = "Sai 1";
-            cells["O1"].Formula = "Ent 2";
-            cells["P1"].Formula = "Sai 2";
-            cells["Q1"].Formula = "Ent 3";
-            cells["R1"].Formula = "Sai 3";
-            cells["S1"].Formula = "Ent 4";
-            cells["T1"].Formula = "Sai 4";
-            cells["U1"].Formula = "IntraJ Real";
-            cells["V1"].Formula = "IntraJ Esp";
-            cells["W1"].Formula = "Trab Diu";
-            cells["X1"].Formula = "Trab Not";
-            cells["Y1"].Formula = "Trab Jornada";
-            cells["Z1"].Formula = "HE Diu";
-            cells["AA1"].Formula = "HE Not";
-            cells["AB1"].Formula = "BH Cred";
-            cells["AC1"].Formula = "Total Trab";
-            cells["AD1"].Formula = "Interjornada";
-            cells["AE1"].Formula = "Legenda";
-            cells["AF1"].Formula = "F";
+            cells["H1"].Formula = "Funcionário";
+            cells["I1"].Formula = "Código";
+            cells["J1"].Formula = "J.Ent1";
+            cells["K1"].Formula = "J.Sai1";
+            cells["L1"].Formula = "J.Ent2";
+            cells["M1"].Formula = "J.Sai2";
+            cells["N1"].Formula = "Ent 1";
+            cells["O1"].Formula = "Sai 1";
+            cells["P1"].Formula = "Ent 2";
+            cells["Q1"].Formula = "Sai 2";
+            cells["R1"].Formula = "Ent 3";
+            cells["S1"].Formula = "Sai 3";
+            cells["T1"].Formula = "Ent 4";
+            cells["U1"].Formula = "Sai 4";
+            cells["V1"].Formula = "IntraJ Real";
+            cells["W1"].Formula = "IntraJ Esp";
+            cells["X1"].Formula = "Trab Diu";
+            cells["Y1"].Formula = "Trab Not";
+            cells["Z1"].Formula = "Trab Jornada";
+            cells["AA1"].Formula = "HE Diu";
+            cells["AB1"].Formula = "HE Not";
+            cells["AC1"].Formula = "BH Cred";
+            cells["AD1"].Formula = "Total Trab";
+            cells["AE1"].Formula = "Interjornada";
+            cells["AF1"].Formula = "Legenda";
+            cells["AG1"].Formula = "F";
             // Removendo colunas do dataset que não podem ser exportadas
-            cells["AG:EZ"].Delete(DeleteShiftDirection.Left);
+            cells["AH:EZ"].Delete(DeleteShiftDirection.Left);
 
             // Reconfigura coluna
-            IRange cells2 = worksheet.Cells["A1:AE1"];
+            IRange cells2 = worksheet.Cells["A1:AF1"];
             cells2.Font.Bold = true;
-            worksheet.Cells["AF1:AG1"].Columns.Hidden = true;
+            worksheet.Cells["AG1:AH1"].Columns.Hidden = true;
             cells2.HorizontalAlignment = HAlign.Center;
             cells2.EntireColumn.AutoFit();
 
