@@ -274,7 +274,7 @@ namespace DAL.SQL
                                                 , pe.RazaoSocial AS PessoaSupervisor
                                                 , marcacao.idjornadasubstituir
 
-                                                , contrato.descricaocontrato AS contrato
+                                                , (contrato.codigocontrato +  ' | ' + contrato.descricaocontrato) AS contrato
 
 			                              FROM marcacao AS marcacao (NOLOCK)
                                          INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario

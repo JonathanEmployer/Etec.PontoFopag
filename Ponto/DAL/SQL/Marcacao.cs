@@ -2512,7 +2512,7 @@ namespace DAL.SQL
                         + ", departamento.descricao AS departamento "
                         + ", empresa.nome AS empresa "
 
-                        + ", contrato.descricaocontrato AS contrato "
+                        + ", (contrato.codigocontrato + ' | ' + contrato.descricaocontrato) AS contrato "
 
                         + ", case when ISNULL(empresa.cnpj, '') <> '' then empresa.cnpj else empresa.cpf end AS cnpj_cpf "
                         + ", horario.tipohorario "
