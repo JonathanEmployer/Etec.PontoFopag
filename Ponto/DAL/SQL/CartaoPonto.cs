@@ -289,7 +289,7 @@ namespace DAL.SQL
                                           LEFT JOIN horariodetalhe AS horariodetalheflexivel ON horariodetalheflexivel.idhorario = marcacao.idhorario AND horario.tipohorario = 2 AND horariodetalheflexivel.data = marcacao.data
                                           LEFT JOIN pessoa pe ON pe.id = funcionario.IdPessoaSupervisor
                                             
-                                         LEFT JOIN contratofuncionario ON contratofuncionario.idfuncionario = funcionario.id 
+                                         LEFT JOIN contratofuncionario ON contratofuncionario.idfuncionario = funcionario.id AND contratofuncionario.excluido = 0
                                          LEFT JOIN contrato ON contrato.id = contratofuncionario.idcontrato 
 
 

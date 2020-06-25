@@ -2579,7 +2579,7 @@ namespace DAL.SQL
                         + " INNER JOIN departamento ON departamento.id = funcionario.iddepartamento "
                         + " INNER JOIN empresa ON empresa.id = funcionario.idempresa "
 
-                        + " LEFT JOIN contratofuncionario ON contratofuncionario.idfuncionario = funcionario.id "
+                        + " LEFT JOIN contratofuncionario ON contratofuncionario.idfuncionario = funcionario.id AND contratofuncionario.excluido = 0  "
                         + " LEFT JOIN contrato ON contrato.id = contratofuncionario.idcontrato "
 
 
