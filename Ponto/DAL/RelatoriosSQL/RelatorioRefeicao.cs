@@ -25,27 +25,29 @@ namespace DAL.RelatoriosSQL
         /// <param name="pDataInicial">Data inicial para o filtro do relatório</param>
         /// <param name="pDataFinal">Data Final para o filtro do relatório</param>
         /// <returns>DataTable</returns>
-        public DataTable GetRelatorioRefeicao(List<int> idsFunc, DateTime pDataInicial, DateTime pDataFinal, int percJornadaMinima, decimal valorRefeicao, bool considerarDoisRegistros)
+        public DataTable GetRelatorioRefeicao(List<int> idsFunc, DateTime pDataInicial, DateTime pDataFinal, int percJornadaMinima, decimal valorRefeicao, bool considerarDoisRegistros, bool considerarDiasSemjornada)
         {
-            SqlParameter[] parms = new SqlParameter[6]
-            { 
+            SqlParameter[] parms = new SqlParameter[7]
+            {
                     new SqlParameter("@identificadores", SqlDbType.Structured),
                     new SqlParameter("@dataIni", SqlDbType.DateTime),
                     new SqlParameter("@dataFin", SqlDbType.DateTime),
                     new SqlParameter("@jornadaMin", SqlDbType.Int),
                     new SqlParameter("@valorRefeicao", SqlDbType.Decimal),
-                    new SqlParameter("@considerarDoisRegistros", SqlDbType.Bit)
+                    new SqlParameter("@considerarDoisRegistros", SqlDbType.Bit),
+                    new SqlParameter("@considerarDiasSemjornada", SqlDbType.Bit)
             };
             IEnumerable<long> ids = idsFunc.Select(s => (long)s);
             parms[0].Value = DAL.SQL.DALBase.CreateDataTableIdentificadores(ids);
-            parms[0].TypeName = "Identificadores";         
+            parms[0].TypeName = "Identificadores";
             parms[1].Value = pDataInicial;
             parms[2].Value = pDataFinal;
             parms[3].Value = percJornadaMinima;
             parms[4].Value = valorRefeicao;
             parms[5].Value = considerarDoisRegistros;
+			parms[6].Value = considerarDiasSemjornada;
 
-            string aux = @" SELECT D.EmpresaNome,
+			string aux = @" SELECT D.EmpresaNome,
 							   D.EmpresaCNPJ,
 							   D.FuncionarioCodigo,
 							   D.FuncionarioNome,
@@ -53,19 +55,19 @@ namespace DAL.RelatoriosSQL
 							   COUNT(*) * @valorRefeicao Valor
 						  FROM (
 							SELECT I.*,
-								   (I.trabalhadasMin * 100) / I.trabalharMin percTrab
+								    (I.trabalhadasMin * 100) / iif(I.trabalharMin = 0,1,trabalharMin) percTrab
 							  FROM (
 								SELECT E.*,
-										IIF(j.entrada_1 = '--:--',0,1) +
-										IIF(j.saida_1 = '--:--',0,1) +
-										IIF(j.entrada_2 = '--:--',0,1) +
-										IIF(j.saida_2 = '--:--',0,1) +
-										IIF(j.entrada_3 = '--:--',0,1) +
-										IIF(j.saida_3 = '--:--',0,1) +
-										IIF(j.entrada_4 = '--:--',0,1) +
-										IIF(j.saida_4 = '--:--',0,1) QtdRegistroJornada,
+										IIF(ISNULL(j.entrada_1,'--:--') = '--:--',0,1) +
+										IIF(ISNULL(j.saida_1, '--:--') = '--:--',0,1) +
+										IIF(ISNULL(j.entrada_2, '--:--') = '--:--',0,1) +
+										IIF(ISNULL(j.saida_2, '--:--') = '--:--',0,1) +
+										IIF(ISNULL(j.entrada_3, '--:--') = '--:--',0,1) +
+										IIF(ISNULL(j.saida_3, '--:--') = '--:--',0,1) + 
+										IIF(ISNULL(j.entrada_4, '--:--') = '--:--',0,1) +
+										IIF(ISNULL(j.saida_4, '--:--') = '--:--',0,1) AS QtdRegistroJornada,
 										dbo.FN_CONVHORA(dbo.fnTotalHorasTrabalhadas(data, j.entrada_1, j.entrada_2, j.entrada_3, j.entrada_4,'--:--','--:--', '--:--', '--:--',
-																		  j.saida_1, j.saida_2, j.saida_3, j.saida_4,'--:--','--:--', '--:--', '--:--')) trabalharMin
+																		  j.saida_1, j.saida_2, j.saida_3, j.saida_4,'--:--','--:--', '--:--', '--:--')) AS trabalharMin
 								  FROM (
 										SELECT m.id IdMarcacao,
 											   m.data,
@@ -78,15 +80,15 @@ namespace DAL.RelatoriosSQL
 											   f.nome FuncionarioNome,
 											   ISNULL(ja.idjornada, hd.idjornada) idJornada
 										  FROM marcacao_view as m with (nolock)
-										 INNER JOIN funcionario as f ON f.id = m.idfuncionario 
+										 INNER JOIN funcionario as f ON f.id = m.idfuncionario
 										 INNER JOIN @identificadores i on i.Identificador = f.id
 										 INNER JOIN empresa e on f.idempresa = e.id
-										 INNER JOIN horario ON horario.id = m.idhorario 
+										  LEFT JOIN horario ON horario.id = m.idhorario 
 										  LEFT JOIN horariodetalhe as hd ON hd.idhorario = m.idhorario AND 
 											   ((horario.tipohorario = 2 AND hd.data = m.data) OR 
 											   (hd.idhorario = m.idhorario 
-											   AND horario.tipohorario = 1  
-											   AND hd.dia = (CASE WHEN (CAST(DATEPART(WEEKDAY, m.data) AS INT)-1) = 0 THEN 7 ELSE (CAST(DATEPART(WEEKDAY, m.data) AS INT)-1) END))) 
+											   AND horario.tipohorario = 1
+											   AND hd.dia = (CASE WHEN (CAST(DATEPART(WEEKDAY, m.data) AS INT)-1) = 0 THEN 7 ELSE (CAST(DATEPART(WEEKDAY, m.data) AS INT)-1) END)))                        
 										  LEFT JOIN jornadaalternativa_view jav ON 
 											   ((jav.tipo = 0 AND jav.identificacao = f.idempresa) 
 											   OR (jav.tipo = 1 AND jav.identificacao = f.iddepartamento) 
@@ -97,10 +99,11 @@ namespace DAL.RelatoriosSQL
 										  LEFT JOIN jornadaalternativa ja on ja.id = jav.id
 										 WHERE m.data BETWEEN @dataIni AND @dataFin
 									   ) E
-								   INNER JOIN jornada AS j ON E.idJornada = j.id
+								   LEFT JOIN jornada AS j ON E.idJornada = j.id
 								   ) I
 						   WHERE ((@considerarDoisRegistros = 1 and I.QtdRegistroJornada >= 2) OR
-								  (@considerarDoisRegistros = 0 and I.QtdRegistroJornada >= 4))
+								      (@considerarDoisRegistros = 0 and I.QtdRegistroJornada >= 4) OR
+                      ((@considerarDiasSemjornada = 1 and  I.idjornada IS NULL) OR (@considerarDiasSemjornada = 0 AND I.idJornada is not NULL)))
 							) D
 						WHERE D.percTrab >= @jornadaMin
 						GROUP BY D.EmpresaNome,
