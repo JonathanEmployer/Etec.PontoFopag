@@ -2511,6 +2511,9 @@ namespace DAL.SQL
                         + ", funcionario.nome AS funcionario "
                         + ", departamento.descricao AS departamento "
                         + ", empresa.nome AS empresa "
+
+                        + ", (contrato.codigocontrato + ' | ' + contrato.descricaocontrato) AS contrato "
+
                         + ", case when ISNULL(empresa.cnpj, '') <> '' then empresa.cnpj else empresa.cpf end AS cnpj_cpf "
                         + ", horario.tipohorario "
                         + ", (SELECT [dbo].CONVERTHORAMINUTO(ISNULL(parametros.thorafalta, '--:--'))) AS thorafalta "
@@ -2575,6 +2578,11 @@ namespace DAL.SQL
                         + " INNER JOIN parametros ON parametros.id = horario.idparametro "
                         + " INNER JOIN departamento ON departamento.id = funcionario.iddepartamento "
                         + " INNER JOIN empresa ON empresa.id = funcionario.idempresa "
+
+                        + " LEFT JOIN contratofuncionario ON contratofuncionario.idfuncionario = funcionario.id AND contratofuncionario.excluido = 0  "
+                        + " LEFT JOIN contrato ON contrato.id = contratofuncionario.idcontrato "
+
+
                         + " LEFT JOIN horariodetalhe horariodetalhenormal ON horariodetalhenormal.idhorario = marcacao.idhorario "
                         + " AND horario.tipohorario = 1 AND horariodetalhenormal.dia = (CASE WHEN (CAST(DATEPART(WEEKDAY, marcacao.data) AS INT) - 1) = 0 THEN 7 ELSE (CAST(DATEPART(WEEKDAY, marcacao.data) AS INT) - 1) END) "
                         + " LEFT JOIN horariodetalhe horariodetalheflexivel ON horariodetalheflexivel.idhorario = marcacao.idhorario "
