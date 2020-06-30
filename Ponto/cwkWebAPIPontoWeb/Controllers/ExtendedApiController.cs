@@ -346,7 +346,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         {
 
         }
-
+        [NonAction]
         public string GetRawPostData()
         {
             return (string)Request.Properties["rawpostdata"];

@@ -38,9 +38,9 @@
             </div>
             <div class="panel-body panelConteudo" id="panelBodyMaximo">
                 @Html.Raw(HttpUtility.HtmlDecode(@Html.ValidationMessage("CustomError").ToHtmlString()))
-                @if (!String.IsNullOrEmpty(@ViewBag.MensagemBloqueio))
+                @if (!String.IsNullOrEmpty(@ViewBag.MensagemFechamento))
                 {
-                    <div class="alert alert-info" role="alert" style="margin-bottom:0">@Html.Raw(ViewBag.MensagemBloqueio)</div>
+                    <div class="alert alert-info" role="alert" style="margin-bottom:0">@Html.Raw(ViewBag.MensagemFechamento)</div>
                 }
                 <div class="row">
                     <div class="col-md-2">
@@ -584,7 +584,7 @@
     })
 
     function ComparaDataFinalComDataFechmento() {
-        if (dataFinal > ultimoFechamento) {
+        if (dataFinal > ultimoFechamento || isEmpty('@Model.Dataf')) {
             $('#Dataf, #btnDataFinal').removeAttr('disabled');
             $('.salvando').removeAttr('disabled');
             LimitaDataFim();

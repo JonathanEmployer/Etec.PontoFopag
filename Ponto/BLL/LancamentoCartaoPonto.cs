@@ -166,11 +166,14 @@ namespace BLL
 
         private static void ValidaViradaDia(ref bool virouDia, ref string regAnt, string hora)
         {
-            if (!string.IsNullOrEmpty(regAnt) && !string.IsNullOrEmpty(regAnt) && regAnt.ConvertHorasMinuto() > hora.ConvertHorasMinuto())
+            if (!string.IsNullOrEmpty(regAnt) && !string.IsNullOrEmpty(hora) && regAnt.ConvertHorasMinuto() > hora.ConvertHorasMinuto())
             {
                 virouDia = true;
             }
-            regAnt = hora;
+            if (!string.IsNullOrEmpty(hora))
+            {
+                regAnt = hora;
+            }
         }
 
         private void AddBilhete(List<Modelo.BilhetesImp> bilhetes, DateTime dt, DateTime dt_mar, string hora, string entSai, Modelo.Funcionario funcionario, int idJustificativa, string motivo, int codigo, int posicao)
