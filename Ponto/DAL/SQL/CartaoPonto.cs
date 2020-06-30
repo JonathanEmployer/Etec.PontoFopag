@@ -64,7 +64,7 @@ namespace DAL.SQL
                               FROM (
                                 SELECT *,
                                         0 TotalIntervalo,
-                                        dbo.fnTotalTempoIntervalo(entrada_1normal, entrada_2normal, entrada_3normal, entrada_4normal, '--:--', '--:--', '--:--', '--:--', saida_1normal, saida_2normal, saida_3normal, saida_4normal, '--:--', '--:--', '--:--') TotalIntervaloPrevL,
+                                        dbo.fnTotalTempoIntervalo(isnull(entrada_1normal,t.entrada_1flexivel), isnull(entrada_2normal,t.entrada_2flexivel), isnull(entrada_3normal,t.entrada_3flexivel), isnull(entrada_4normal,t.entrada_4flexivel), '--:--', '--:--', '--:--', '--:--', isnull(saida_1normal,t.saida_1flexivel), isnull(saida_2normal,t.saida_2flexivel), isnull(saida_3normal,t.saida_3flexivel), isnull(saida_4normal,t.saida_4flexivel), '--:--', '--:--', '--:--') TotalIntervaloPrevL,
                                         0 TotalHorasAlmoco,
                                         '' ObservacaoInconsistencia
                                     FROM (
