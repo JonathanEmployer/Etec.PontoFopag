@@ -69,5 +69,8 @@ namespace Modelo.Proxy.Relatorios
 
         [ExportToXls("Horas Extras", 18)]
         public string HorasExtrasRealizada { get; set; }
+
+        [ExportToXls("Observação", 19)]
+        public string Observacao { get; set; }
     }
 }
