@@ -539,7 +539,7 @@ namespace PontoWeb.Controllers
             if (erroTratado.Count > 0)
             {
                 string campoErro = "LHorariosDetalhe[0].DescJornada";
-                ModelState[campoErro].Errors.Add(string.Join(";", erroTratado.Select(x => x.Value).ToArray()));                
+                ModelState[campoErro].Errors.Add(string.Join(";", erroTratado.Select(x => x.Value).ToArray()));
             }
 
             erroTratado = erros.Where(x => x.Key.Equals("cbTipoAcumuloSab")).ToDictionary(x => x.Key, x => x.Value);
