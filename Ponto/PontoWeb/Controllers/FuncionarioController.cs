@@ -292,6 +292,19 @@ namespace PontoWeb.Controllers
                     {
                         try
                         {
+                            if (funcionario.OpcaoSMSEmailSenha == "Email")
+                            {
+
+                            }
+                            else if (funcionario.OpcaoSMSEmailSenha == "SMS")
+                            {
+
+                            }
+                            else if (funcionario.OpcaoSMSEmailSenha == "Ambos")
+                            {
+
+                            }
+
                             bllFuncionario.SetContratoFuncionario(funcionario.Id, funcionario.Contrato);
                             BLL_N.JobManager.CalculoMarcacoes.RecalculaEdicaoFuncionario(funcionario, usuarioLogado, true);                            
                             //Se o Funcionário utiliza registrador insere funcionario no Central do cliente
@@ -949,6 +962,11 @@ namespace PontoWeb.Controllers
                 string erro = string.Join(";", errosCustom);
                 ModelState.AddModelError("CustomError", erro);
             }
+        }
+
+        public static void SendPassEmail(string server)
+        {
+
         }
 
         #region Validações
