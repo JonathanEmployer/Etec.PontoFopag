@@ -3,6 +3,11 @@
     ViewBag.Title = "Acompanhamento da Comunicação";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string nomeTabela = "tbAlertas";
+    string rowCallBack = @" function( row, data, index ) {
+                if (data.AtivoStr == 'Não') {
+                    $('td', row).css('color', 'Red');
+                }
+            }";
 }
 
 <div style="margin-top:0">
@@ -14,7 +19,7 @@
         <div class="panel-body panelConteudo" id="panelBodyFixo">
             @Html.ValidationSummary(true)
             <div class="row">
-                @Html.GridFor(nomeTabela, Model.GetType(), false, "AlertasComunicacaoRep", "DadosGrid")
+                @Html.GridFor(nomeTabela, Model.GetType(), false, "AlertasComunicacaoRep", "DadosGrid", rowCallBack, "CallBackLoadGrid")
             </div>
         </div>
 
@@ -22,7 +27,17 @@
             <div class="row">
                 <div class="col-xs-4 center-block">
                     <div style="text-align: left">
-                        <a href="#" id="btLog" class="btn btn-info"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;Log</a>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group" style="padding-bottom: 0px; margin-bottom: 0px;">
+                                    @Html.CheckBox("Esconder Inativos", new { id = "BEsconderInativos", @checked = "checked" })
+                                    @Html.Label("Esconder Inativos", new { style = "padding-bottom: 0px; margin-bottom: 0px;", @for = "BEsconderInativos" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="#" id="btLog" class="btn btn-info"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;Log</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -51,5 +66,36 @@
 
         cwk_EventoAlterarAjaxParam('#btLog', 'Grid', 'AlertasLog', nomeTabela, "");
     });
+
+    function CallBackLoadGrid() {
+        var val = $(nomeTabela+"psqAtivo").val();
+        if (val.toLowerCase().indexOf("s") >= 0) {
+            $("#BEsconderInativos").prop('checked', true);
+        }
+        else {
+            ApenasAtivos();
+        }
+    }
+
+    $("#BEsconderInativos").click(function (event) {
+        EscondeInativos(event);
+    });
+
+    function EscondeInativos(e) {
+        var table = $(nomeTabela).DataTable();
+        if ($("#BEsconderInativos").is(':checked')) {
+            ApenasAtivos();
+        }
+        else {
+            $(nomeTabela + "psqAtivo").val("");
+            table.columns(6).search("").draw();
+        }
+    };
+
+    function ApenasAtivos() {
+        var table = $(nomeTabela).DataTable();
+        $(nomeTabela+"psqAtivo").val("Sim");
+        table.columns(6).search("Sim", true, false, true).draw();
+    }
 </script>
 
