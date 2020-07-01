@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ParametrizarComunicadorServico</RootNamespace>
     <AssemblyName>ParametrizarComunicadorServico</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <SccProjectName>SAK</SccProjectName>
@@ -363,6 +363,10 @@
     <ProjectReference Include="..\ModeloAux\ModeloAux.csproj">
       <Project>{106ac139-4c19-4a8c-857b-91cdddc2cd31}</Project>
       <Name>ModeloAux</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Modelo\Modelo.csproj">
+      <Project>{dfe5a7e8-8798-43d3-a61f-f1dd3ab38593}</Project>
+      <Name>Modelo</Name>
     </ProjectReference>
     <ProjectReference Include="..\Negocio\Negocio.csproj">
       <Project>{2349e863-a386-4c8d-9504-835e5a3d1156}</Project>
