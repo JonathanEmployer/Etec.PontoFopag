@@ -16,7 +16,7 @@ namespace cwkPontoMT.Integracao.Auxiliares.Henry.HexaParseStrategies.Impl
                 string msg2 = GetStringSomenteAlfanumerico(msg);
                 if (!msg2.Contains("]"))
                 {
-                    throw new Exception("Mensagem ("+ msg + ") MalFormada (Não encontrado \"]\" da separação entre os comando e os dados)");
+                    throw new Exception("Mensagem (" + msg + ") MalFormada (Não encontrado \"]\" da separação entre os comando e os dados)");
                 }
                 if (msg2.Contains("++"))
                 {
@@ -28,7 +28,7 @@ namespace cwkPontoMT.Integracao.Auxiliares.Henry.HexaParseStrategies.Impl
                 {
                     throw new Exception("Mensagem (" + msg + ") MalFormada (encontrado menos sinais de + do que o esperado no retorno)");
                 }
-                result.Indice = Convert.ToInt32(split2[0]);
+                result.Indice = Convert.ToInt32(split2[0].Substring(0, split2[0].Length > 2 ? 2 : split2[0].Length));
                 if (split2[1] != command)
                 {
                     result.Comando = command;
@@ -38,11 +38,11 @@ namespace cwkPontoMT.Integracao.Auxiliares.Henry.HexaParseStrategies.Impl
                     result.Comando = split2[1];
                 }
                 result.Info = Convert.ToInt32(split2[2]);
-                
+
                 if (split1.Count > 1)
                 {
                     result = new TicketMessage(split1[1]);
-                    result.Indice = Convert.ToInt32(split2[0]);
+                    result.Indice = Convert.ToInt32(split2[0].Substring(0, split2[0].Length > 2 ? 2 : split2[0].Length));
                     if (split2[1] != command)
                     {
                         result.Comando = command;
@@ -53,7 +53,7 @@ namespace cwkPontoMT.Integracao.Auxiliares.Henry.HexaParseStrategies.Impl
                     }
                     result.Info = Convert.ToInt32(split2[2]);
                 }
-                
+
             }
             catch (Exception e)
             {
