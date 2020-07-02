@@ -349,5 +349,6 @@ namespace Modelo
         [Display(Name = "Índice Ciclo")]
         [RequiredIf("Tipohorario", 3, "Tipo Horário", "Dinâmico")]
         public int? CicloSequenciaIndice { get; set; }
+        public string Celular { get; set; }
     }
 }

@@ -343,6 +343,7 @@ namespace PontoWeb.Controllers
             return View("Cadastrar", funcionario);
         }
 
+
         private void PreencheTipoVinculo(string connString, UsuarioPontoWeb usuarioPontoWebLogado)
         {
             BLL.TipoVinculo bllTipoVinculo = new BLL.TipoVinculo(connString, usuarioPontoWebLogado);
