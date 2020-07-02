@@ -265,7 +265,7 @@
                                                     @Html.CheckBoxFor(model => model.UtilizaAppPontofopag)
                                                     @Html.LabelFor(model => model.UtilizaAppPontofopag, new { @class = "control-label label-sm" })
                                                 </div>
-                                                <div id="divReconhecimentoFacilAppPontofopagBeta" hidden>
+                                                <div>
                                                     <div class="checkbox checkboxFilho" style="display:none" id="divReconhecimentoFacilAppPontofopag" hidden>
                                                         @Html.CheckBoxFor(model => model.UtilizaReconhecimentoFacilAppPontofopag)
                                                         @Html.LabelFor(model => model.UtilizaReconhecimentoFacilAppPontofopag, new { @class = "control-label label-sm" })
@@ -646,16 +646,6 @@
             $("#divReconhecimentoFacilWebAppPontofopag").hide();
         }
     });
-    var countClick = 0;
-    $("#Cnpj").on("click", function () {
-        countClick++;
-        if (countClick > 10) {
-            $("#divReconhecimentoFacilAppPontofopagBeta").removeAttr("hidden");
-        }
-    })
-
-
-
 </script>
 
 @if (ViewBag.Consultar == 1)

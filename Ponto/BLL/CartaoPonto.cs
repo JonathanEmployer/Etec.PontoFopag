@@ -675,6 +675,7 @@ namespace BLL
                     row["PercAdicNoturno"],
                     row["horaExtraInterjornada"],
                     row["PessoaSupervisor"],
+                    row["contrato"],
                     folga ? "" : entrada_1 == "--:--" ? "" : entrada_1,
                     folga ? "" : entrada_2 == "--:--" ? "" : entrada_2,
                     folga ? "" : saida_1 == "--:--" ? "" : saida_1,
@@ -794,6 +795,7 @@ namespace BLL
                     row["PercAdicNoturno"],
                     "",
                     row["PessoaSupervisor"],
+                    row["contrato"],
                     folga ? "" : entrada_3 == "--:--" ? "" : entrada_3,
                     folga ? "" : entrada_4 == "--:--" ? "" : entrada_4,
                     folga ? "" : saida_3 == "--:--" ? "" : saida_3,
@@ -1162,7 +1164,6 @@ namespace BLL
                 new DataColumn("totalHorasaTrabNoturna"),
                 new DataColumn("totalHorasaTrabalhar"),
                 new DataColumn("totalExtraInterjornada"),
-
             };
 
             ret.Columns.AddRange(colunasHora);

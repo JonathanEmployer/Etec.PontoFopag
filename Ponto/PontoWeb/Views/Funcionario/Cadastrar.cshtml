@@ -82,25 +82,35 @@
                                                 @Html.ValidationMessageFor(model => model.Dscodigo)
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.Codigofolha, new { @class = "control-label label-sm" })
                                                 @Html.TextBoxFor(model => model.Codigofolha, ViewBag.Disabled ? (object)new { @class = "form-control  input-sm", @autofocus = "autofocus" } : new { @class = "form-control  input-sm" }).IsReadonly(integrado)
                                                 @Html.ValidationMessageFor(model => model.Codigofolha)
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.Matricula, new { @class = "control-label label-sm" })
                                                 @Html.TextBoxFor(model => model.Matricula, new { @class = "form-control  input-sm" }).IsReadonly(integrado)
                                                 @Html.ValidationMessageFor(model => model.Matricula)
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.Carteira, new { @class = "control-label label-sm" })
                                                 @Html.TextBoxFor(model => model.Carteira, new { @class = "form-control  input-sm" }).IsReadonly(integrado)
                                                 @Html.ValidationMessageFor(model => model.Carteira)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Salario, new { @class = "control-label label-sm" })
+                                                <div class="input-group input-group-sm">
+                                                    <span class="input-group-addon">R$</span>
+                                                    @Html.TextBoxFor(model => model.Salario, new { @class = "form-control  input-sm money" }).IsReadonly(integrado)
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Salario)
                                             </div>
                                         </div>
                                     </div>
@@ -121,12 +131,9 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.Salario, new { @class = "control-label label-sm" })
-                                                <div class="input-group input-group-sm">
-                                                    <span class="input-group-addon">R$</span>
-                                                    @Html.TextBoxFor(model => model.Salario, new { @class = "form-control  input-sm money" }).IsReadonly(integrado)
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.Salario)
+                                                @Html.LabelFor(model => model.Celular, new { @class = "control-label label-sm" })
+                                                @Html.TextBoxFor(model => model.Celular, new { @class = "form-control  input-sm", @autocomplete = "off" })
+                                                @Html.ValidationMessageFor(model => model.Celular)
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -174,14 +181,26 @@
                                             <div class="form-group input-group-sm">
                                                 @Html.LabelFor(model => model.DataInativacao, new { @class = "control-label label-sm" })
                                                 <div class="input-group input-group-sm">
-                                                    @Html.TextBoxFor(model => model.DataInativacao, new { @class = "form-control input-sm MascDate datepickerptLimitado", id = "dtDataInativacao" }).IsReadonly(integrado)
+                                                    @Html.TextBoxFor(model => model.DataInativacao, new { @class = "form-control input-sm MascDate datepickerfunc", id = "dtDataInativacao" }).IsReadonly((Model.DataInativacao == null ? DateTime.MaxValue : Model.DataInativacao) <= Model.DataUltimoFechamento).IsReadonly(integrado)
                                                     <span class="input-group-btn">
-                                                        <button class="btn btn-primary" id="btnDataInativacao" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                        <button class="btn btn-primary" id="btnDataInativacao" type="button" @(((Model.DataInativacao == null ? DateTime.MaxValue : Model.DataInativacao) <= Model.DataUltimoFechamento) == true ? "disabled" : "")><span class="glyphicon glyphicon-calendar"></span></button>
                                                     </span>
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.DataInativacao)
                                             </div>
                                         </div>
+                                        @*<div class="col-md-2">
+                                                <div class="form-group input-group-sm">
+                                                    @Html.LabelFor(model => model.DataInativacao, new { @class = "control-label label-sm" })
+                                                    <div class="input-group input-group-sm">
+                                                        @Html.TextBoxFor(model => model.DataInativacao, new { @class = "form-control input-sm MascDate datepickerptLimitado", id = "dtDataInativacao" }).IsReadonly(integrado)
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-primary" id="btnDataInativacao" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                        </span>
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.DataInativacao)
+                                                </div>
+                                            </div>*@
                                     </div>
 
                                     <div class="row">
@@ -777,6 +796,17 @@
 
         validaEdicaoSenhaMobile();
         validaParametrosEmpresa();
+
+
+        $("#Celular").mask("(99) 99999-9999");
+        $("#Celular").blur(function (event) {
+            if ($(this).val().length == 15) {
+                $('#Celular').mask('(00) 00000-0000');
+            } else {
+                $('#Celular').mask('(00) 0000-00009');
+            }
+        });
+
     });
 
     function exibicaoAPPs(registradorEmpresa, appEmpresa, utilizaReconhecimentoFacilApp, webAppEmpresa, utilizaReconhecimentoFacilWebApp) {

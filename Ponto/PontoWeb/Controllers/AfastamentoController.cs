@@ -342,10 +342,10 @@ namespace PontoWeb.Controllers
                     if (pxyUltimoFechamentos.Where(w => w.UltimoFechamentoPonto != null).Any())
                     {
                         mensagemFechamentoBH += "Fechamento de Ponto <br/>";
-                        mensagemFechamentoBH += String.Join("<br/>", pxyUltimoFechamentos.Where(w => w.UltimoFechamentoPonto != null).Take(100).Select(fbh => " - Data: " + fbh.UltimoFechamentoBanco.GetValueOrDefault().ToShortDateString() + " código: " + fbh.Codigo + " descrição: " + fbh.Nome).ToList());
-                        if (pxyUltimoFechamentos.Where(w => w.UltimoFechamentoBanco != null).Count() > 100)
+                        mensagemFechamentoBH += String.Join("<br/>", pxyUltimoFechamentos.Where(w => w.UltimoFechamentoPonto != null).Take(100).Select(fbh => " - Data: " + fbh.UltimoFechamentoPonto.GetValueOrDefault().ToShortDateString() + " código: " + fbh.Codigo + " descrição: " + fbh.Nome).ToList());
+                        if (pxyUltimoFechamentos.Where(w => w.UltimoFechamentoPonto != null).Count() > 100)
                         {
-                            mensagemFechamentoBH += "<br/> - * Exibindo 100 registros de fechamento de ponto de " + pxyUltimoFechamentos.Where(w => w.UltimoFechamentoBanco != null).Count();
+                            mensagemFechamentoBH += "<br/> - * Exibindo 100 registros de fechamento de ponto de " + pxyUltimoFechamentos.Where(w => w.UltimoFechamentoPonto != null).Count();
                         }
 
                     }

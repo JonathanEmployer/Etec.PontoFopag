@@ -24,7 +24,7 @@ namespace BLL
         private BLL.Funcionario bllFuncionario;
         private BLL.JornadaAlternativa bllJornadaAlternativa;
 
-        string ocorrencia, empresa, cnpj_cpf, departamento, funcionario
+        string ocorrencia, empresa, cnpj_cpf, departamento, contrato, funcionario
         , dscodigo, marcacoes, matricula, cpf, competencia, observacao, idDocumentoWorkflow;
         int idMarcacao;
 
@@ -85,7 +85,6 @@ namespace BLL
                 _AgrupaDepartamento = 0;
             }
 
-
             bllMarcacao = new Marcacao(ConnectionString, UsuarioLogado);
             bllAfastamento = new Afastamento(ConnectionString, UsuarioLogado);
             bllOcorrencia = new Ocorrencia(ConnectionString, UsuarioLogado);
@@ -131,7 +130,8 @@ namespace BLL
                 new DataColumn("Observacao"),
                 new DataColumn("Competencia"),
                 new DataColumn("IdDocumentoWorkflow"),
-                new DataColumn("nomeRelatorio")
+                new DataColumn("contrato"),
+                new DataColumn("nomeRelatorio"),
             };
 
             ret.Columns.AddRange(colunas);
@@ -498,6 +498,7 @@ namespace BLL
 
             idMarcacao = Convert.ToInt32(pMarc["id"]);
             empresa = pMarc["empresa"].ToString();
+            contrato = pMarc["contrato"].ToString();
             cnpj_cpf = pMarc["cnpj_cpf"].ToString();
             departamento = pMarc["departamento"].ToString();
             funcionario = pMarc["funcionario"].ToString();
@@ -637,6 +638,7 @@ namespace BLL
                             observacao,
                             competencia,
                             idDocumentoWorkflow,
+                            contrato,
                         };
             pRet.Rows.Add(values);
         }

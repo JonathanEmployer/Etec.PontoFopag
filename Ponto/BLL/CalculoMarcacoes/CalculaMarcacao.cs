@@ -761,7 +761,6 @@ namespace BLL
                 horasTrabalhadasMin = 0;
                 horasTrabalhadasNoturnasMin = 0;
                 ocorrencia = "";
-                AdicionalNoturno = 0;
             }
             else
             {

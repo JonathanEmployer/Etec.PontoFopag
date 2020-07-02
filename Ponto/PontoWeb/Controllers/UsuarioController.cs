@@ -616,7 +616,7 @@ namespace PontoWeb.Controllers
 #else
             return View();
 #endif
-            return View();
+            //return View();
         }
 
         [AllowAnonymous]

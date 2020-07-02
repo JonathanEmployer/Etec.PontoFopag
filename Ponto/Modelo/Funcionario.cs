@@ -351,5 +351,6 @@ namespace Modelo
         public int? CicloSequenciaIndice { get; set; }
 
         public string OpcaoSMSEmailSenha { get; set; }
+        public string Celular { get; set; }
     }
 }

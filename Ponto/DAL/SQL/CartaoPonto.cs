@@ -64,7 +64,7 @@ namespace DAL.SQL
                               FROM (
                                 SELECT *,
                                         0 TotalIntervalo,
-                                        dbo.fnTotalTempoIntervalo(entrada_1normal, entrada_2normal, entrada_3normal, entrada_4normal, '--:--', '--:--', '--:--', '--:--', saida_1normal, saida_2normal, saida_3normal, saida_4normal, '--:--', '--:--', '--:--') TotalIntervaloPrevL,
+                                        dbo.fnTotalTempoIntervalo(isnull(entrada_1normal,t.entrada_1flexivel), isnull(entrada_2normal,t.entrada_2flexivel), isnull(entrada_3normal,t.entrada_3flexivel), isnull(entrada_4normal,t.entrada_4flexivel), '--:--', '--:--', '--:--', '--:--', isnull(saida_1normal,t.saida_1flexivel), isnull(saida_2normal,t.saida_2flexivel), isnull(saida_3normal,t.saida_3flexivel), isnull(saida_4normal,t.saida_4flexivel), '--:--', '--:--', '--:--') TotalIntervaloPrevL,
                                         0 TotalHorasAlmoco,
                                         '' ObservacaoInconsistencia
                                     FROM (
@@ -273,6 +273,9 @@ namespace DAL.SQL
 				                                , parametros.fimadnoturno AS fimAdNoturno
                                                 , pe.RazaoSocial AS PessoaSupervisor
                                                 , marcacao.idjornadasubstituir
+
+                                                , (contrato.codigocontrato +  ' | ' + contrato.descricaocontrato) AS contrato
+
 			                              FROM marcacao AS marcacao (NOLOCK)
                                          INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario
                                          INNER JOIN horario     ON horario.id = marcacao.idhorario
@@ -285,6 +288,12 @@ namespace DAL.SQL
                                           LEFT JOIN horariodetalhe AS horariodetalhenormal ON horariodetalhenormal.idhorario = marcacao.idhorario AND horario.tipohorario = 1 AND horariodetalhenormal.dia = (CASE WHEN (DATEPART(WEEKDAY, marcacao.data) - 1) = 0 THEN 7 ELSE (DATEPART(WEEKDAY, marcacao.data) - 1) END)
                                           LEFT JOIN horariodetalhe AS horariodetalheflexivel ON horariodetalheflexivel.idhorario = marcacao.idhorario AND horario.tipohorario = 2 AND horariodetalheflexivel.data = marcacao.data
                                           LEFT JOIN pessoa pe ON pe.id = funcionario.IdPessoaSupervisor
+                                            
+                                         LEFT JOIN contratofuncionario ON contratofuncionario.idfuncionario = funcionario.id AND contratofuncionario.excluido = 0
+                                         LEFT JOIN contrato ON contrato.id = contratofuncionario.idcontrato 
+
+
+
                                           OUTER APPLY (SELECT TOP(1) * FROM feriado where horario.desconsiderarferiado = 0 
                                                  AND feriado.data = marcacao.data 
                                                  AND ( feriado.tipoferiado = 0 

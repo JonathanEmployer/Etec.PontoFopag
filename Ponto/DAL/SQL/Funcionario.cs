@@ -100,7 +100,8 @@ namespace DAL.SQL
                                     , func.IdAlocacao
                                     , func.IdTipoVinculo
                                     , func.IdIntegracaoPainel
-                                    , func.Email                                
+                                    , func.Email   
+                                    , func.Celular
                              FROM funcionario func
                              LEFT JOIN empresa emp ON emp.id = func.idempresa
                              LEFT JOIN departamento ON departamento.id = func.iddepartamento
@@ -139,7 +140,8 @@ namespace DAL.SQL
                                     , func.IdAlocacao
                                     , func.IdTipoVinculo
                                     , func.IdIntegracaoPainel
-                                    , func.Email                                 
+                                    , func.Email  
+                                    , func.Celular
                              FROM funcionario func
                              LEFT JOIN empresa emp ON emp.id = func.idempresa
                              LEFT JOIN departamento ON departamento.id = func.iddepartamento
@@ -178,7 +180,8 @@ namespace DAL.SQL
                                     , func.IdAlocacao
                                     , func.IDTipoVinculo
                                     , func.IdIntegracaoPainel
-                                    , func.Email                                  
+                                    , func.Email   
+                                    , func.Celular 
                              FROM funcionario func
                              LEFT JOIN empresa emp ON emp.id = func.idempresa
                              LEFT JOIN departamento ON departamento.id = func.iddepartamento
@@ -247,6 +250,7 @@ namespace DAL.SQL
        func.IdAlocacao,
        func.IdTipoVinculo,
        func.Email,
+       func.Celular,
        func.IdIntegracaoPainel,
        func.RFID, 
         '' foto,
@@ -328,6 +332,7 @@ namespace DAL.SQL
                                        func.IdAlocacao,
                                        func.IdTipoVinculo,
                                        func.Email,
+                                       func.Celular,
                                        func.IdIntegracaoPainel,
                                        func.RFID,
                                        func.foto
@@ -403,6 +408,7 @@ namespace DAL.SQL
                                        func.IdAlocacao,
                                        func.IdTipoVinculo,
                                        func.Email,
+                                       func.Celular,
                                        func.IdIntegracaoPainel,
                                        func.RFID,  
                                        '' foto
@@ -480,6 +486,7 @@ namespace DAL.SQL
                                        f.IdAlocacao,
                                        f.IdTipoVinculo,
                                        f.Email,
+                                       f.Celular,
                                        f.IdIntegracaoPainel,
                                        f.RFID, 
                                         '' foto
@@ -540,6 +547,7 @@ namespace DAL.SQL
                                        f.IdAlocacao,
                                        f.IdTipoVinculo,
                                        f.Email,
+                                       f.Celular,
                                        f.IdIntegracaoPainel,
                                        f.RFID, 
                                         '' foto
@@ -553,9 +561,9 @@ namespace DAL.SQL
                             WHERE ct.id = @idcontrato and cf.excluido = 0";
 
             INSERT = @"  INSERT INTO funcionario
-							( codigo,  dscodigo,  matricula,  nome,  codigofolha,  idempresa,  iddepartamento,  idfuncao,  idhorario,  tipohorario,  carteira,  dataadmissao,  datademissao,  salario,  naoentrarbanco,  naoentrarcompensacao,  excluido,  campoobservacao,  foto,  incdata,  inchora,  incusuario,  pis,  senha,  toleranciaentrada,  toleranciasaida,  quantidadetickets,  tipotickets,  CPF,  Mob_Senha,  idcw_usuario,  utilizaregistrador,  idIntegracao,  IdPessoaSupervisor,  TipoMaoObra,  IdAlocacao,  IdTipoVinculo,  IdIntegracaoPainel,  Email,  RFID,  IdHorarioDinamico,  CicloSequenciaIndice,  DataInativacao,  UtilizaAppPontofopag,  UtilizaReconhecimentoFacialApp,  UtilizaWebAppPontofopag,  UtilizaReconhecimentoFacialWebApp)
+							( codigo,  dscodigo,  matricula,  nome,  codigofolha,  idempresa,  iddepartamento,  idfuncao,  idhorario,  tipohorario,  carteira,  dataadmissao,  datademissao,  salario,  naoentrarbanco,  naoentrarcompensacao,  excluido,  campoobservacao,  foto,  incdata,  inchora,  incusuario,  pis,  senha,  toleranciaentrada,  toleranciasaida,  quantidadetickets,  tipotickets,  CPF,  Mob_Senha,  idcw_usuario,  utilizaregistrador,  idIntegracao,  IdPessoaSupervisor,  TipoMaoObra,  IdAlocacao,  IdTipoVinculo,  IdIntegracaoPainel,  Email,  RFID,  IdHorarioDinamico,  CicloSequenciaIndice,  DataInativacao,  UtilizaAppPontofopag,  UtilizaReconhecimentoFacialApp,  UtilizaWebAppPontofopag,  UtilizaReconhecimentoFacialWebApp, Celular)
 							VALUES
-							(@codigo, @dscodigo, @matricula, @nome, @codigofolha, @idempresa, @iddepartamento, @idfuncao, @idhorario, @tipohorario, @carteira, @dataadmissao, @datademissao, @salario, @naoentrarbanco, @naoentrarcompensacao, @excluido, @campoobservacao, @foto, @incdata, @inchora, @incusuario, @pis, @senha, @toleranciaentrada, @toleranciasaida, @quantidadetickets, @tipotickets, @CPF, @Mob_Senha, @idcw_usuario, @utilizaregistrador, @idIntegracao, @IdPessoaSupervisor, @TipoMaoObra, @IdAlocacao, @IdTipoVinculo, @IdIntegracaoPainel, @Email, @RFID, @IdHorarioDinamico, @CicloSequenciaIndice, @DataInativacao, @UtilizaAppPontofopag, @UtilizaReconhecimentoFacialApp, @UtilizaWebAppPontofopag, @UtilizaReconhecimentoFacialWebApp)
+							(@codigo, @dscodigo, @matricula, @nome, @codigofolha, @idempresa, @iddepartamento, @idfuncao, @idhorario, @tipohorario, @carteira, @dataadmissao, @datademissao, @salario, @naoentrarbanco, @naoentrarcompensacao, @excluido, @campoobservacao, @foto, @incdata, @inchora, @incusuario, @pis, @senha, @toleranciaentrada, @toleranciasaida, @quantidadetickets, @tipotickets, @CPF, @Mob_Senha, @idcw_usuario, @utilizaregistrador, @idIntegracao, @IdPessoaSupervisor, @TipoMaoObra, @IdAlocacao, @IdTipoVinculo, @IdIntegracaoPainel, @Email, @RFID, @IdHorarioDinamico, @CicloSequenciaIndice, @DataInativacao, @UtilizaAppPontofopag, @UtilizaReconhecimentoFacialApp, @UtilizaWebAppPontofopag, @UtilizaReconhecimentoFacialWebApp, @Celular)
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE funcionario SET codigo = @codigo
@@ -605,6 +613,7 @@ namespace DAL.SQL
                             , UtilizaReconhecimentoFacialApp = @UtilizaReconhecimentoFacialApp
                             , UtilizaWebAppPontofopag = @UtilizaWebAppPontofopag
                             , UtilizaReconhecimentoFacialWebApp = @UtilizaReconhecimentoFacialWebApp
+                            , Celular = @Celular
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM funcionario WHERE id = @id";
@@ -695,6 +704,7 @@ namespace DAL.SQL
                                        f.IdAlocacao,
                                        f.IdTipoVinculo,
                                        f.Email,
+                                       f.Celular,
                                        f.IdIntegracaoPainel,
                                        f.RFID, 
                                         '' foto
@@ -822,6 +832,7 @@ namespace DAL.SQL
             ((Modelo.Funcionario)obj).HorarioDinamico = dr["HorarioDinamico"] is DBNull ? String.Empty : Convert.ToString(dr["HorarioDinamico"]);
             ((Modelo.Funcionario)obj).DataInativacao = (dr["DataInativacao"] is DBNull ? null : (DateTime?)(dr["DataInativacao"]));
             ((Modelo.Funcionario)obj).DataInativacao_Ant = ((Modelo.Funcionario)obj).DataInativacao;
+            ((Modelo.Funcionario)obj).Celular = Convert.ToString(dr["Celular"]);
         }
 
         protected override SqlParameter[] GetParameters()
@@ -878,7 +889,8 @@ namespace DAL.SQL
                 new SqlParameter ("@UtilizaAppPontofopag", SqlDbType.Bit),
                 new SqlParameter ("@UtilizaReconhecimentoFacialApp", SqlDbType.Bit),
                 new SqlParameter ("@UtilizaWebAppPontofopag", SqlDbType.Bit),
-                new SqlParameter ("@UtilizaReconhecimentoFacialWebApp", SqlDbType.Bit)
+                new SqlParameter ("@UtilizaReconhecimentoFacialWebApp", SqlDbType.Bit),
+                new SqlParameter ("@Celular", SqlDbType.VarChar)
             };
             return parms;
         }
@@ -949,6 +961,7 @@ namespace DAL.SQL
             parms[48].Value = ((Modelo.Funcionario)obj).UtilizaReconhecimentoFacialApp;
             parms[49].Value = ((Modelo.Funcionario)obj).UtilizaWebAppPontofopag;
             parms[50].Value = ((Modelo.Funcionario)obj).UtilizaReconhecimentoFacialWebApp;
+            parms[51].Value = ((Modelo.Funcionario)obj).Celular;
         }
 
         public bool VerificaCodigoDuplicado(string pCodigo)
@@ -1133,6 +1146,7 @@ namespace DAL.SQL
                                            func.Email,
                                            func.IdIntegracaoPainel,
                                            func.RFID,
+                                           func.Celular,    
                                            '' foto,
                                             '' contrato,
                                 horario.descricao AS jornada ,
@@ -1809,6 +1823,7 @@ namespace DAL.SQL
                                            funcionario.Email,
                                            funcionario.IdIntegracaoPainel,
                                            funcionario.RFID,
+                                           funcionario.Celular,
                          , horario.descricao AS jornada
                          , convert(varchar,empresa.codigo)+' | '+empresa.nome as empresa
                           FROM funcionario 
@@ -2048,6 +2063,7 @@ namespace DAL.SQL
                 ,func.datademissao
                 ,func.dscodigo
                 ,func.Email
+                ,func.Celular   
                 ,func.excluido
                 ,func.funcionarioativo
                 ,func.DataInativacao
@@ -2591,6 +2607,7 @@ namespace DAL.SQL
                                    func.IdAlocacao,
                                    func.IdTipoVinculo,
                                    func.Email,
+                                   func.Celular,
                                    func.IdIntegracaoPainel,
                                    func.RFID,
                                     '' foto,
@@ -2766,6 +2783,7 @@ namespace DAL.SQL
                                    func.datademissao,
                                    func.dscodigo,
                                    func.Email,
+                                   func.Celular,
                                    func.excluido,
                                    func.funcionarioativo,
                                    func.DataInativacao,
@@ -2922,6 +2940,7 @@ namespace DAL.SQL
                                    func.IdAlocacao,
                                    func.IdTipoVinculo,
                                    func.Email,
+                                   func.Celular,
                                    func.IdIntegracaoPainel
                                     , horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+ empresa.nome as empresa  
@@ -3041,6 +3060,7 @@ namespace DAL.SQL
                                    func.IdAlocacao,
                                    func.IdTipoVinculo,
                                    func.Email,
+                                   func.Celular,
                                    func.IdIntegracaoPainel,
                                    func.RFID, 
                                    '' foto,
@@ -3159,6 +3179,7 @@ namespace DAL.SQL
                                    func.IdAlocacao,
                                    func.IdTipoVinculo,
                                    func.Email,
+                                   func.Celular,
                                    func.IdIntegracaoPainel,
                                    func.RFID, 
                                     '' foto,
@@ -3261,6 +3282,7 @@ namespace DAL.SQL
                                     func.IdAlocacao,
                                     func.IdTipoVinculo,
                                     func.Email,
+                                    func.Celular,
                                     func.IdIntegracaoPainel,
                                     func.RFID,
                                     '' foto,
@@ -3369,6 +3391,7 @@ namespace DAL.SQL
                                     func.IdAlocacao,
                                     func.IdTipoVinculo,
                                     func.Email,
+                                    func.Celular,
                                     func.IdIntegracaoPainel,
                                     func.RFID,        
                                     '' foto,
@@ -3468,6 +3491,7 @@ namespace DAL.SQL
                                     func.IdAlocacao,
                                     func.IdTipoVinculo,
                                     func.Email,
+                                    func.Celular,
                                     func.IdIntegracaoPainel,
                                     func.RFID,
                                     '' foto, 
@@ -3567,6 +3591,7 @@ namespace DAL.SQL
                                    func.IdAlocacao,
                                    func.IdTipoVinculo,
                                    func.Email,
+                                   func.Celular,
                                    func.IdIntegracaoPainel
                                     , horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+empresa.nome as empresa
@@ -3671,6 +3696,7 @@ namespace DAL.SQL
                                    func.IdAlocacao,
                                    func.IdTipoVinculo,
                                    func.Email,
+                                   func.Celular,
                                    func.IdIntegracaoPainel,
                                    func.RFID, 
                                     '' foto,
@@ -3894,6 +3920,7 @@ namespace DAL.SQL
                                    funcionario.IdAlocacao,
                                    funcionario.IdTipoVinculo,
                                    funcionario.Email,
+                                   funcionario.Celular,
                                    funcionario.IdIntegracaoPainel,
                                    funcionario.RFID, 
                                     '' foto,
@@ -4003,6 +4030,7 @@ namespace DAL.SQL
                                    funcionario.IdAlocacao,
                                    funcionario.IdTipoVinculo,
                                    funcionario.Email,
+                                   funcionario.Celular,
                                    funcionario.IdIntegracaoPainel,
                                    funcionario.RFID, 
                                     '' foto,
@@ -4111,6 +4139,7 @@ namespace DAL.SQL
                                    funcionario.IdAlocacao,
                                    funcionario.IdTipoVinculo,
                                    funcionario.Email,
+                                   funcionario.Celular,
                                    funcionario.IdIntegracaoPainel,
                                    funcionario.RFID, 
                                     '' foto,
@@ -4226,6 +4255,7 @@ namespace DAL.SQL
                                    func.IdAlocacao,
                                    func.IdTipoVinculo,
                                    func.Email,
+                                   func.Celular,
                                    func.IdIntegracaoPainel,
                                    func.RFID, 
                                     '' foto,
@@ -4350,6 +4380,7 @@ namespace DAL.SQL
                                        func.IdAlocacao,
                                        func.IdTipoVinculo,
                                        func.Email,
+                                       func.Celular,
                                        func.IdIntegracaoPainel,
                                        func.RFID, 
                                         '' foto,
@@ -4451,6 +4482,7 @@ namespace DAL.SQL
                                        func.IdAlocacao,
                                        func.IdTipoVinculo,
                                        func.Email,
+                                       func.Celular,
                                        func.IdIntegracaoPainel,
                                        func.RFID, 
                                         '' foto,
@@ -4674,6 +4706,7 @@ namespace DAL.SQL
                                    func.IdAlocacao,
                                    func.IdTipoVinculo,
                                    func.Email,
+                                   func.Celular,
                                    func.IdIntegracaoPainel,
                                    func.RFID, 
                                     '' foto,
@@ -5444,6 +5477,7 @@ namespace DAL.SQL
                                    f.IdAlocacao,
                                    f.IdTipoVinculo,
                                    f.Email,
+                                   f.Celular,
                                    f.IdIntegracaoPainel
                             from funcionario f
                            where CONVERT(DECIMAL, replace(replace(replace(f.CPF,'.',''),'-',''),'/','')) in
@@ -5594,6 +5628,7 @@ namespace DAL.SQL
                                        func.IdAlocacao,
                                        func.IdTipoVinculo,
                                        func.Email,
+                                       func.Celular,
                                        func.IdIntegracaoPainel
                             FROM    dbo.funcionario func
                             WHERE   ISNULL(func.excluido, 0) = 0
