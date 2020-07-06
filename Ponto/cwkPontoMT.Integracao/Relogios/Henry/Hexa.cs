@@ -1390,7 +1390,6 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                             log.Debug(NumeroSerie + " Solicitando " + step.ToString() + " registros a partir do = " + nsrInicio.ToString() + ". Comando = \"RR\", info = \"00\", dados = N]" + step.ToString() + "]" + nsrInicio.ToString());
                             string strFinal = rep.Comunicar(aes, "01", "RR", "00", "N]" + step.ToString() + "]" + nsrInicio.ToString());
                             log.Debug(NumeroSerie + " Lendo Retorno Solicitado = " + strFinal);
-                            infoRetorno = PreValidaRetornoColeta(infoRetorno, strFinal);
                             // Se foi retorno de erro para o processo
                             if (infoRetorno == 50)
                                 break;
@@ -1491,20 +1490,6 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                 rep.Desconectar();
             }
             return sb.ToString();
-        }
-
-        private static int PreValidaRetornoColeta(int infoRetorno, string strFinal)
-        {
-            // Pre validacao do retorno (as vezes o retorno tem erro e a formatacao esta errado, e o stratRR não consegue validar, por tanto foi criada essa segunda validacao)
-            try
-            {
-                string[] retorno = strFinal.Split('+');
-                infoRetorno = Convert.ToInt32(retorno[2].Substring(0, 3));
-            }
-            catch (Exception)
-            {
-            }
-            return infoRetorno;
         }
 
         public enum TipoEmpregador

@@ -82,25 +82,35 @@
                                                 @Html.ValidationMessageFor(model => model.Dscodigo)
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.Codigofolha, new { @class = "control-label label-sm" })
                                                 @Html.TextBoxFor(model => model.Codigofolha, ViewBag.Disabled ? (object)new { @class = "form-control  input-sm", @autofocus = "autofocus" } : new { @class = "form-control  input-sm" }).IsReadonly(integrado)
                                                 @Html.ValidationMessageFor(model => model.Codigofolha)
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.Matricula, new { @class = "control-label label-sm" })
                                                 @Html.TextBoxFor(model => model.Matricula, new { @class = "form-control  input-sm" }).IsReadonly(integrado)
                                                 @Html.ValidationMessageFor(model => model.Matricula)
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.Carteira, new { @class = "control-label label-sm" })
                                                 @Html.TextBoxFor(model => model.Carteira, new { @class = "form-control  input-sm" }).IsReadonly(integrado)
                                                 @Html.ValidationMessageFor(model => model.Carteira)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Salario, new { @class = "control-label label-sm" })
+                                                <div class="input-group input-group-sm">
+                                                    <span class="input-group-addon">R$</span>
+                                                    @Html.TextBoxFor(model => model.Salario, new { @class = "form-control  input-sm money" }).IsReadonly(integrado)
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Salario)
                                             </div>
                                         </div>
                                     </div>
@@ -121,18 +131,15 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.Salario, new { @class = "control-label label-sm" })
-                                                <div class="input-group input-group-sm">
-                                                    <span class="input-group-addon">R$</span>
-                                                    @Html.TextBoxFor(model => model.Salario, new { @class = "form-control  input-sm money" }).IsReadonly(integrado)
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.Salario)
+                                                @Html.LabelFor(model => model.Celular, new { @class = "control-label label-sm" })
+                                                @Html.TextBoxFor(model => model.Celular, new { @class = "form-control  input-sm", @autocomplete = "off" })
+                                                @Html.ValidationMessageFor(model => model.Celular)
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.Email, new { @class = "control-label label-sm" })
-                                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control  input-sm", @autocomplete="off" })
+                                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control  input-sm", @autocomplete = "off" })
                                                 @Html.ValidationMessageFor(model => model.Email)
                                             </div>
                                         </div>
@@ -159,7 +166,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-2">
-                                            <div class="form-group input-group-sm" >
+                                            <div class="form-group input-group-sm">
                                                 @Html.LabelFor(model => model.Datademissao, new { @class = "control-label label-sm" })
                                                 <div class="input-group input-group-sm">
                                                     @Html.TextBoxFor(model => model.Datademissao, new { @class = "form-control input-sm MascDate datepickerfunc", id = "dtDemissao" }).IsReadonly((Model.Datademissao == null ? DateTime.MaxValue : Model.Datademissao) <= Model.DataUltimoFechamento).IsReadonly(integrado)
@@ -174,14 +181,26 @@
                                             <div class="form-group input-group-sm">
                                                 @Html.LabelFor(model => model.DataInativacao, new { @class = "control-label label-sm" })
                                                 <div class="input-group input-group-sm">
-                                                    @Html.TextBoxFor(model => model.DataInativacao, new { @class = "form-control input-sm MascDate datepickerptLimitado", id = "dtDataInativacao" }).IsReadonly(integrado)
+                                                    @Html.TextBoxFor(model => model.DataInativacao, new { @class = "form-control input-sm MascDate datepickerfunc", id = "dtDataInativacao" }).IsReadonly((Model.DataInativacao == null ? DateTime.MaxValue : Model.DataInativacao) <= Model.DataUltimoFechamento).IsReadonly(integrado)
                                                     <span class="input-group-btn">
-                                                        <button class="btn btn-primary" id="btnDataInativacao" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                        <button class="btn btn-primary" id="btnDataInativacao" type="button" @(((Model.DataInativacao == null ? DateTime.MaxValue : Model.DataInativacao) <= Model.DataUltimoFechamento) == true ? "disabled" : "")><span class="glyphicon glyphicon-calendar"></span></button>
                                                     </span>
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.DataInativacao)
                                             </div>
                                         </div>
+                                        @*<div class="col-md-2">
+                                                <div class="form-group input-group-sm">
+                                                    @Html.LabelFor(model => model.DataInativacao, new { @class = "control-label label-sm" })
+                                                    <div class="input-group input-group-sm">
+                                                        @Html.TextBoxFor(model => model.DataInativacao, new { @class = "form-control input-sm MascDate datepickerptLimitado", id = "dtDataInativacao" }).IsReadonly(integrado)
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-primary" id="btnDataInativacao" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                        </span>
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.DataInativacao)
+                                                </div>
+                                            </div>*@
                                     </div>
 
                                     <div class="row">
@@ -287,7 +306,7 @@
                                         <div class="col-md-2" id="divMobSenha" style="display: none;">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.Mob_Senha, new { @class = "control-label label-sm" })
-                                                @Html.PasswordFor(model => model.Mob_Senha, new { @class = "form-control  input-sm", value = Model.Mob_Senha, @autocomplete="new-password" })
+                                                @Html.PasswordFor(model => model.Mob_Senha, new { @class = "form-control  input-sm", value = Model.Mob_Senha, @autocomplete = "new-password" })
                                                 @Html.ValidationMessageFor(model => model.Mob_Senha)
                                             </div>
                                         </div>
@@ -380,7 +399,7 @@
                                             <div>
                                                 <div class="row" style="padding-bottom:5px;">
                                                     <div class="col-md-12">
-                                                        <div class="col-md-12" style="text-align:center"> 
+                                                        <div class="col-md-12" style="text-align:center">
                                                             <canvas id="meuCanvas" class="hidden"></canvas>
                                                             <img id="imgFunc" alt="Foto" class="img-responsive img-thumbnail" src="data:image/jpg;base64,@Model.Foto" />
                                                             @Html.ValidationMessageFor(model => model.Foto)
@@ -535,9 +554,10 @@
         <div class="modal_dialog modal_part" id="tn_select"></div>
     </div>
 }
-<script>   
+<script>
+
     function addRow(idfuncionario) {
-        var senha = $('#txtSenha').val();        
+        var senha = $('#txtSenha').val();
         var cracha = Number($('#lkpHistorioRFID').val());
         var rd = $("input[name=rdioTipo]:checked").val();
         if (rd == 0) {
@@ -640,7 +660,7 @@
         cwk_CadastroAjaxParam('Grid', 'FuncionarioRFID', $('#idFuncionario').val(), "", "");
     });
 
-    $(document).ready(function () {        
+    $(document).ready(function () {
         cwk_EventoConsulta("#btnDepart",            "#lkpDepart",           "EventoConsulta",   "Departamento",          "#lkpEmpresa");
         cwk_EventoConsulta("#btnContrato",          "#lkpContrato",         "EventoConsultaSemTodos",    "Contrato",              "#lkpEmpresa");
         cwk_EventoConsulta("#btnEmpresa",           "#lkpEmpresa",          "EventoConsulta",   "Empresa",                          "", validaParametrosEmpresa);
@@ -650,7 +670,7 @@
         cwk_EventoConsulta("#btnHorario", "#lkpHorario", "EventoConsulta", "Horario", "#Tipohorario");
         cwk_EventoConsulta("#btnHorarioDinamico", "#lkpHorarioDinamico", "EventoConsulta", "HorarioDinamico", "", GetHorarioDinamico);
         cwk_EventoConsulta("#btnSupervisor",        "#lkpSupervisor",       "EventoConsulta",   "Usuario",                          "");
-        cwk_EventoConsulta("#btnPessoaSupervisor",  "#lkpPessoaSupervisor", "EventoConsulta",   "Pessoa",                           "");        
+        cwk_EventoConsulta("#btnPessoaSupervisor",  "#lkpPessoaSupervisor", "EventoConsulta",   "Pessoa",                           "");
         ValidaTipoHorario();
         GetHorarioDinamico();
 
@@ -659,7 +679,7 @@
         cwk_DataCalendario('#btnDataInativacao', '#dtDataInativacao');
 
         Ajax_CarregaGridParametro('Grid', 'FuncionarioHistorico', $('#idFuncionario').val(), '#gridHistorico');
-        
+
         $(function () {
             $('.nav-tabs a').on('click', function (e) {
                 e.preventDefault();
@@ -699,6 +719,17 @@
 
         validaEdicaoSenhaMobile();
         validaParametrosEmpresa();
+
+
+        $("#Celular").mask("(99) 99999-9999");
+        $("#Celular").blur(function (event) {
+            if ($(this).val().length == 15) {
+                $('#Celular').mask('(00) 00000-0000');
+            } else {
+                $('#Celular').mask('(00) 0000-00009');
+            }
+        });
+
     });
 
     function exibicaoAPPs(registradorEmpresa, appEmpresa, utilizaReconhecimentoFacilApp, webAppEmpresa, utilizaReconhecimentoFacilWebApp) {
@@ -741,7 +772,7 @@
             $("#UtilizaReconhecimentoFacialApp").prop('checked', false);
             $("#divReconhecimentoFacilAppPontofopag").css("display", "none");
         }
-        
+
         if (getBool(utilizaReconhecimentoFacilWebApp) === true) {
             $("#divReconhecimentoFacilWebAppPontofopag").css("display", "");
         }
@@ -771,7 +802,7 @@
          $('#lkpContrato').val('');
     });
 
-    
+
     function validaParametrosEmpresa() {
         var obj = {
             empSelecionada: $("#lkpEmpresa").val()
@@ -784,7 +815,7 @@
             cwkErro('Erro ao consultar permissões de aplicativos');
         })
     }
-    
+
 
     $("#imgUp").change(function () {
         readImage(this)
@@ -795,10 +826,10 @@
     });
     function verificaTamanhoImagem(img) {
         $(img).one("load", function () {
-            
+
             mudaPropriedade('#imgFunc', 'src', img.src);
             $('#base').val(img.src);
-            
+
         }).each(function () {
             if (this.complete) $(this).load();
         });
@@ -929,7 +960,7 @@
             $("#UtilizaReconhecimentoFacialWebApp").prop("checked", false);
         }
     });
-    
+
 </script>
 
 

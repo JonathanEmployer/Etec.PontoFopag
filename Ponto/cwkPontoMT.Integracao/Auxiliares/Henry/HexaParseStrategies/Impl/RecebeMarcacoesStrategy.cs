@@ -16,17 +16,17 @@ namespace cwkPontoMT.Integracao.Auxiliares.Henry.HexaParseStrategies.Impl
                 string msg2 = GetStringSomenteAlfanumerico(msg);
                 if (!msg2.Contains("]"))
                 {
-                    throw new Exception("Mensagem MalFormada (Não encontrado \"]\" da separação entre os comando e os dados)");
+                    throw new Exception("Mensagem ("+ msg + ") MalFormada (Não encontrado \"]\" da separação entre os comando e os dados)");
                 }
                 if (msg2.Contains("++"))
                 {
-                    throw new Exception("Mensagem MalFormada (encontrado dois sinais de + juntos no retorno)");
+                    throw new Exception("Mensagem (" + msg + ") MalFormada (encontrado dois sinais de + juntos no retorno)");
                 }
                 List<string> split1 = msg2.Split(']').ToList();
                 List<string> split2 = split1[0].Split('+').ToList();
                 if (split2.Count < 3)
                 {
-                    throw new Exception("Mensagem MalFormada (encontrado mais sinais de + do que o esperado no retorno)");
+                    throw new Exception("Mensagem (" + msg + ") MalFormada (encontrado menos sinais de + do que o esperado no retorno)");
                 }
                 result.Indice = Convert.ToInt32(split2[0]);
                 if (split2[1] != command)
@@ -57,7 +57,7 @@ namespace cwkPontoMT.Integracao.Auxiliares.Henry.HexaParseStrategies.Impl
             }
             catch (Exception e)
             {
-                throw new Exception("Mensagem MalFormada", e);
+                throw new Exception("Mensagem ("+ msg + ") MalFormada", e);
             }
 
             return result;

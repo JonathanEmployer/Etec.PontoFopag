@@ -22,9 +22,9 @@ namespace DAL.SQL
 					                                    che.Tipo,
 					                                    CASE WHEN che.Tipo = 0 THEN 'Quantidade' ELSE 'Total' END TipoDesc,
 					                                    che.IdClassificacao,
+                                                        che.Observacao,
 														c.Codigo ClassificacaoCodigo,
 					                                    c.descricao ClassificacaoDescricao,
-                                                        che.Observacao,
                                                         che.Integrado,
 					                                    dbo.FN_CONVHORA(m.horasextrasdiurna) + dbo.FN_CONVHORA(m.horasextranoturna) HorasExtrasRealizadaMin,
 														CASE WHEN (che.Tipo = 1 and (dbo.FN_CONVHORA(m.horasextrasdiurna) + dbo.FN_CONVHORA(m.horasextranoturna) > ISNULL(ct.total,0))) THEN 
@@ -460,7 +460,8 @@ namespace DAL.SQL
 				   G.NaoClassificadasMin,
 				   G.NaoClassificadas,
 				   G.HorasExtrasRealizadaMin,
-				   G.HorasExtrasRealizada
+				   G.HorasExtrasRealizada,
+                   G.Observacao
 			  FROM (
 					SELECT E.*,
 	                       dbo.FN_CONVMIN(e.ClassificadasMin) Classificadas,
@@ -486,6 +487,7 @@ namespace DAL.SQL
 								   ClassificacaoDescricao,
                                    IdClassificacaoHorasExtras,
                                    IdClassificacao,
+                                   Observacao,
                                    Tipo,
 								   D.IdEmpresa,
 								   D.IdDepartamento
