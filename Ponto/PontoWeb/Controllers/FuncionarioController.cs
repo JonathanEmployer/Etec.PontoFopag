@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
+using System.Web.Management;
 using System.Web.Mvc;
 
 namespace PontoWeb.Controllers
@@ -252,6 +253,9 @@ namespace PontoWeb.Controllers
 
         }
 
+        //UtilizaAppPontofopag = false
+        //utilizaregistrador = true
+
         protected override ActionResult Salvar(Funcionario funcionario)
         {
             string connString = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
@@ -273,6 +277,8 @@ namespace PontoWeb.Controllers
                     funcionario.Senha = null;
                     funcionario.TipoCracha = null;
 
+                    string conteudoEmail = GeraConteudoEmail(funcionario.UtilizaAppPontofopag, funcionario.UtilizaWebAppPontofopag, funcionario.Mob_Senha);
+
                     Funcionario DadosAntFunc = bllFuncionario.LoadObject(funcionario.Id);
                     tratamentoSenhas(funcionario, DadosAntFunc);
                     if (funcionario.Pis != null)
@@ -292,17 +298,30 @@ namespace PontoWeb.Controllers
                     {
                         try
                         {
+
                             if (funcionario.OpcaoSMSEmailSenha == "Email")
                             {
-
+                                EnvioEmail.EnviaEmailClient enviaEmail = new EnvioEmail.EnviaEmailClient();
+                                enviaEmail.EnviaEmail("no-reply@employer.com.br", funcionario.Email, "Email", conteudoEmail,
+                                    "", null, "", "", "", "", "", null);
                             }
                             else if (funcionario.OpcaoSMSEmailSenha == "SMS")
                             {
+                                EnviaSms.WsEnviaSmsClient objEnvioSMS = new EnviaSms.WsEnviaSmsClient();
+
+                                string descricao = string.Empty;
+                                Int64 numCelular = Convert.ToInt64("55" + "41998890134");
+
+                                descricao = string.Format("Bem-vindo ao Meuholerite! Sua nova senha de acesso e ({0})", funcionario.Mob_Senha);
+
+                                objEnvioSMS.EnviaSmsPadrao("41998890134", numCelular, descricao, null, 2);
 
                             }
                             else if (funcionario.OpcaoSMSEmailSenha == "Ambos")
                             {
-
+                                EnvioEmail.EnviaEmailClient enviaEmail = new EnvioEmail.EnviaEmailClient();
+                                enviaEmail.EnviaEmail("no-reply@employer.com.br", funcionario.Email, "Email", conteudoEmail,
+                                    "", null, "", "", "", "", "", null);
                             }
 
                             bllFuncionario.SetContratoFuncionario(funcionario.Id, funcionario.Contrato);
@@ -356,6 +375,44 @@ namespace PontoWeb.Controllers
             return View("Cadastrar", funcionario);
         }
 
+        private string GeraConteudoEmail(bool utilizaApp, bool utilizaWEBApp, string senha)
+        {
+            string conteudo = "";
+
+            if (utilizaApp == true && utilizaWEBApp == false)
+            {
+                conteudo = ""
+                        + "Aplicativo Pontofopag habilitado para uso <br><br>"
+                        + "O aplicativo Pontofopag para registro de Ponto está habilitado e disponível para seu uso. Basta acessar o link webapp.pontofopag.com.br.  <br>"
+                        + "No momento do login, se identifique com seu CPF e utilize a senha:" + senha + " <br>"
+                        + "Qualquer dúvida na utilização, contate seu RH.  <br>"
+                        + "Att. <br>"
+                        + "Equipe Pontofopag";
+            }
+            else if (utilizaApp == false && utilizaWEBApp == true)
+            {
+                conteudo = ""
+                        + "Web APP Pontofopag habilitado para uso <br><br>"
+                        + "O aplicativo Pontofopag para registro de Ponto está habilitado e disponível para seu uso. Basta acessar o link webapp.pontofopag.com.br.  <br>"
+                        + "No momento do login, se identifique com seu CPF e utilize a senha:" + senha + " <br>"
+                        + "Qualquer dúvida na utilização, contate seu RH.  <br>"
+                        + "Att. <br>"
+                        + "Equipe Pontofopag";
+            }
+            else if (utilizaApp == true && utilizaWEBApp == true)
+            {
+                conteudo = ""
+                        + "Web APP Pontofopag e Aplicativo Pontofopag habilitados para uso <br><br>"
+                        + "O aplicativo Pontofopag para registro de Ponto está habilitado e disponível para seu uso. Basta acessar o link webapp.pontofopag.com.br.  <br>"
+                        + "No momento do login, se identifique com seu CPF e utilize a senha:" + senha + " <br>"
+                        + "Qualquer dúvida na utilização, contate seu RH.  <br>"
+                        + "Att. <br>"
+                        + "Equipe Pontofopag";
+            }
+
+
+            return conteudo;
+        }
 
         private void PreencheTipoVinculo(string connString, UsuarioPontoWeb usuarioPontoWebLogado)
         {

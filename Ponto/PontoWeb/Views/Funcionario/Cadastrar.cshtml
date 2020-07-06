@@ -699,25 +699,29 @@
     }
 
     $(document).on('click', '#btnEnviarSenhaEmailSMS', function () {
-        if ($('#Mob_Senha').val() && $('#Email').val() /*Colocar o celular aqui*/) {
+        errorArray = [];
+        if ($('#Mob_Senha').val() == "") {
+            errorArray["Mob_Senha"] = 'Campo Obrigatório!';
+            $("form").validate().showErrors(errorArray);
+        }
+        if ($('#Mob_Senha').val() && $('#Email').val() || $('#Celular').val()) {
             limpaErro("Mob_Senha");
             limpaErro("Email");
-            //limpaErro("Email"); // colocar o celualr
-            if ($('#Email').val() /*&& celular empty*/) {
+            limpaErro("Celular");
+            if ($('#Mob_Senha').val() != "" && $('#Email').val() && $('#Celular').val() == "") {
                 cwkNotificacao('O email com a senha só será enviado após salvar os dados do funcionário!');
                 $('#OpcaoSMSEmailSenha').val('Email');
-            } else if (/*celular value && email empty*/$('#Email').val() == "rteste") {
+            } else if ($('#Mob_Senha').val() != "" && $('#Celular').val() && $('#Email').val() == "") {
                 cwkNotificacao('O SMS com a senha só será enviado após salvar os dados do funcionário!');
                 $('#OpcaoSMSEmailSenha').val('SMS');
-            } else {
+            } else if ($('#Mob_Senha').val() != "" && $('#Celular').val() && $('#Email').val()) {
                 $("#divSelecionaOndeEnvia").modal();
                 $('#EnvioTipo').click();
             }
-        } else {
-            errorArray = [];
+        } else {      
             errorArray["Mob_Senha"] = 'Campo Obrigatório!';
             errorArray["Email"] = 'Campo Obrigatório!';
-            //errorArray["Mob_Senha"] = 'Campo Obrigatório!'; // colocar o celualr
+            errorArray["Celular"] = 'Campo Obrigatório!';
             $("form").validate().showErrors(errorArray);
         }
     });
