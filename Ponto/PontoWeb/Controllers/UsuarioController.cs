@@ -776,7 +776,7 @@ namespace PontoWeb.Controllers
         }
 
         [Authorize]
-        [PermissoesFiltro(Roles = "UsuarioAlterar")]
+        [PermissoesFiltro(Roles = "UsuarioCadastrar")]
         public ActionResult GridPermissoesAdd()
         {
             var tupleModel = new Tuple<pxyUsuarioControleAcessoAdicionarEmpresa, pxyUsuarioControleAcessoAdicionarContrato>(new pxyUsuarioControleAcessoAdicionarEmpresa(), new pxyUsuarioControleAcessoAdicionarContrato());
@@ -998,7 +998,7 @@ namespace PontoWeb.Controllers
         }
 
         [Authorize]
-        [PermissoesFiltro(Roles = "UsuarioAlterar")]
+        [PermissoesFiltro(Roles = "UsuarioCadastrar")]
         public ActionResult SalvarPermissoes(string jsonData)
         {
             return SalvarPermissoesMethod(jsonData);
