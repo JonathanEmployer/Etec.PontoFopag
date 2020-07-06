@@ -572,19 +572,19 @@ namespace BLL
                 {
                     if ((saida_1Min > saida_2Min) && (saida_2Min < 0) && (saida_1Min < inicioAdNoturno && fimAdNoturno < saida_1Min))
                     {
-                        fimAdNoturno = saida_1Min;
+                        fimAdNoturno = saida_1Min < saida_1MinHD ? saida_1MinHD : saida_1Min;
                     }
                     else if ((saida_2Min > saida_3Min) && (saida_3Min < 0) && (saida_2Min < inicioAdNoturno && fimAdNoturno < saida_2Min))
                     {
-                        fimAdNoturno = saida_2Min;
+                        fimAdNoturno = saida_2Min < saida_2MinHD ? saida_2MinHD : saida_2Min;
                     }
                     else if ((saida_3Min > saida_4Min) && (saida_4Min < 0) && (saida_3Min < inicioAdNoturno && fimAdNoturno < saida_3Min))
                     {
-                        fimAdNoturno = saida_3Min;
+                        fimAdNoturno = saida_3Min < saida_3MinHD ? saida_3MinHD : saida_3Min;
                     }
                     else if (saida_4Min > saida_3Min && (saida_4Min < inicioAdNoturno && fimAdNoturno < saida_4Min))
                     {
-                        fimAdNoturno = saida_4Min;
+                        fimAdNoturno = saida_4Min < saida_4MinHD ? saida_4MinHD : saida_4Min;
                     }
                 }
             }
@@ -761,7 +761,6 @@ namespace BLL
                 horasTrabalhadasMin = 0;
                 horasTrabalhadasNoturnasMin = 0;
                 ocorrencia = "";
-                AdicionalNoturno = 0;
             }
             else
             {

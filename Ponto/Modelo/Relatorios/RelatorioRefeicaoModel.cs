@@ -12,5 +12,6 @@ namespace Modelo.Relatorios
         public int PercentualJornadaMinima { get; set; }
         public decimal ValorDescRefeicao { get; set; }
         public bool ConsiderarDoisRegistros { get; set; }
+        public bool ConsiderarDiasSemjornada { get; set; }
     }
 }

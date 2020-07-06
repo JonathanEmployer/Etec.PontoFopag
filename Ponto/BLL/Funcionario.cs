@@ -937,6 +937,12 @@ namespace BLL
                     BLL.Pessoa bllPessoaSupervisor = new BLL.Pessoa(ConnectionString, UsuarioLogado);
                     objeto.ObjPessoaSupervisor = bllPessoaSupervisor.LoadObject(objeto.IdPessoaSupervisor.GetValueOrDefault());
 
+                    if (!String.IsNullOrEmpty(objeto.Celular))
+                    {
+                        var celular = objeto.Celular;
+                        objeto.Celular = RemoveCharactersTelefone(celular);
+                    }
+
                     BLL.ParametroPainelRH BllParametroPnlRH = new BLL.ParametroPainelRH(ConnectionString, UsuarioLogado);
                     Modelo.ParametroPainelRH parametroPainelRH = new Modelo.ParametroPainelRH();
                     parametroPainelRH = BllParametroPnlRH.GetAllList().FirstOrDefault();
@@ -1030,6 +1036,18 @@ namespace BLL
                 }
             }
             return erros;
+        }
+
+        public static string RemoveCharactersTelefone(string Text)
+        {
+            if (!string.IsNullOrEmpty(Text))
+            {
+                foreach (var chr in new string[] { "(", ")", "-", " " })
+                {
+                    Text = Text.Replace(chr, "");
+                }
+            }
+            return Text;
         }
 
         private void VerificaHorarioDinamico(Modelo.Funcionario objeto)
