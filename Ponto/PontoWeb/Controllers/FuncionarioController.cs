@@ -264,7 +264,7 @@ namespace PontoWeb.Controllers
 
 
             Modelo.Funcionario funcionarioAntigo = bllFuncionario.LoadObject(funcionario.Id);
-            
+
             ValidarForm(funcionario);
 
             Acao acao = EscolhaDaAcao(funcionario);
@@ -277,7 +277,22 @@ namespace PontoWeb.Controllers
                     funcionario.Senha = null;
                     funcionario.TipoCracha = null;
 
-                    string conteudoEmail = GeraConteudoEmail(funcionario.UtilizaAppPontofopag, funcionario.UtilizaWebAppPontofopag, funcionario.Mob_Senha);
+                    string conteudoEmail = "";
+                    string conteudoSMS = "";
+
+                    if (funcionario.OpcaoSMSEmailSenha == "Email")
+                    {
+                        conteudoEmail = GeraConteudoEmail(funcionario.UtilizaAppPontofopag, funcionario.UtilizaWebAppPontofopag, funcionario.Mob_Senha);
+                    }
+                    else if (funcionario.OpcaoSMSEmailSenha == "SMS")
+                    {
+                        conteudoSMS = GeraConteudoSMS(funcionario.UtilizaAppPontofopag, funcionario.UtilizaWebAppPontofopag, funcionario.Mob_Senha);
+                    }
+                    else if (funcionario.OpcaoSMSEmailSenha == "Ambos")
+                    {
+                        conteudoEmail = GeraConteudoEmail(funcionario.UtilizaAppPontofopag, funcionario.UtilizaWebAppPontofopag, funcionario.Mob_Senha);
+                        conteudoSMS = GeraConteudoSMS(funcionario.UtilizaAppPontofopag, funcionario.UtilizaWebAppPontofopag, funcionario.Mob_Senha);
+                    }
 
                     Funcionario DadosAntFunc = bllFuncionario.LoadObject(funcionario.Id);
                     tratamentoSenhas(funcionario, DadosAntFunc);
@@ -298,34 +313,31 @@ namespace PontoWeb.Controllers
                     {
                         try
                         {
-
+                            EnvioEmail.EnviaEmailClient enviaEmail = new EnvioEmail.EnviaEmailClient();
+                            EnviaSms.WsEnviaSmsClient objEnvioSMS = new EnviaSms.WsEnviaSmsClient();
                             if (funcionario.OpcaoSMSEmailSenha == "Email")
                             {
-                                EnvioEmail.EnviaEmailClient enviaEmail = new EnvioEmail.EnviaEmailClient();
-                                enviaEmail.EnviaEmail("no-reply@employer.com.br", funcionario.Email, "Email", conteudoEmail,
+                                enviaEmail.EnviaEmail("no-reply@employer.com.br", funcionario.Email, "Pontofopag", conteudoEmail,
                                     "", null, "", "", "", "", "", null);
                             }
                             else if (funcionario.OpcaoSMSEmailSenha == "SMS")
                             {
-                                EnviaSms.WsEnviaSmsClient objEnvioSMS = new EnviaSms.WsEnviaSmsClient();
-
-                                string descricao = string.Empty;
-                                Int64 numCelular = Convert.ToInt64("55" + "41998890134");
-
-                                descricao = string.Format("Bem-vindo ao Meuholerite! Sua nova senha de acesso e ({0})", funcionario.Mob_Senha);
-
-                                objEnvioSMS.EnviaSmsPadrao("41998890134", numCelular, descricao, null, 2);
-
+                                Int64 numCelular = Convert.ToInt64("55" + funcionario.Celular);
+                              
+                                objEnvioSMS.EnviaSmsPadrao(funcionario.Celular, numCelular, conteudoSMS, null, 2);
                             }
                             else if (funcionario.OpcaoSMSEmailSenha == "Ambos")
                             {
-                                EnvioEmail.EnviaEmailClient enviaEmail = new EnvioEmail.EnviaEmailClient();
-                                enviaEmail.EnviaEmail("no-reply@employer.com.br", funcionario.Email, "Email", conteudoEmail,
+                                Int64 numCelular = Convert.ToInt64("55" + funcionario.Celular);
+
+                                enviaEmail.EnviaEmail("no-reply@employer.com.br", funcionario.Email, "Pontofopag", conteudoEmail,
                                     "", null, "", "", "", "", "", null);
+
+                                objEnvioSMS.EnviaSmsPadrao(funcionario.Celular, numCelular, conteudoSMS, null, 2);
                             }
 
                             bllFuncionario.SetContratoFuncionario(funcionario.Id, funcionario.Contrato);
-                            BLL_N.JobManager.CalculoMarcacoes.RecalculaEdicaoFuncionario(funcionario, usuarioLogado, true);                            
+                            BLL_N.JobManager.CalculoMarcacoes.RecalculaEdicaoFuncionario(funcionario, usuarioLogado, true);
                             //Se o Funcionário utiliza registrador insere funcionario no Central do cliente
                             if (funcionario.utilizaregistrador || funcionario.UtilizaAppPontofopag || funcionario.UtilizaWebAppPontofopag)
                             {
@@ -333,7 +345,7 @@ namespace PontoWeb.Controllers
                                 {
                                     TrataErroInclusaoCentralCliente();
                                     AdicionaFotoPadrao(funcionario);
-                                    PreencheTipoVinculo(connString, usuarioLogado);                                    
+                                    PreencheTipoVinculo(connString, usuarioLogado);
                                     return View("Cadastrar", funcionario);
                                 }
                             }
@@ -382,34 +394,53 @@ namespace PontoWeb.Controllers
             if (utilizaApp == true && utilizaWEBApp == false)
             {
                 conteudo = ""
-                        + "Aplicativo Pontofopag habilitado para uso <br><br>"
-                        + "O aplicativo Pontofopag para registro de Ponto está habilitado e disponível para seu uso. Basta acessar o link webapp.pontofopag.com.br.  <br>"
-                        + "No momento do login, se identifique com seu CPF e utilize a senha:" + senha + " <br>"
-                        + "Qualquer dúvida na utilização, contate seu RH.  <br>"
+                        + "<p><b>Aplicativo Pontofopag habilitado para uso</b></p> <br><br>"
+                        + "O aplicativo Pontofopag para registro de Ponto está habilitado e disponível para seu uso. Basta baixar o app através da Play Store ou Apple Store e instalar.  <br>"
+                        + "No momento do login, se identifique com seu <b>CPF e utilize a senha:" + senha + "</b> <br>"
+                        + "Qualquer dúvida na utilização, contate seu RH.  <br><br>"
                         + "Att. <br>"
                         + "Equipe Pontofopag";
             }
             else if (utilizaApp == false && utilizaWEBApp == true)
             {
                 conteudo = ""
-                        + "Web APP Pontofopag habilitado para uso <br><br>"
-                        + "O aplicativo Pontofopag para registro de Ponto está habilitado e disponível para seu uso. Basta acessar o link webapp.pontofopag.com.br.  <br>"
-                        + "No momento do login, se identifique com seu CPF e utilize a senha:" + senha + " <br>"
-                        + "Qualquer dúvida na utilização, contate seu RH.  <br>"
+                        + "<p><b>Web APP Pontofopag habilitado para uso</b></p> <br><br>"
+                        + "O aplicativo Pontofopag para registro de Ponto está habilitado e disponível para seu uso. Basta acessar o link <a href='webapp.pontofopag.com.br'>webapp.pontofopag.com.br</a>.  <br>"
+                        + "No momento do login, se identifique com seu <b>CPF e utilize a senha:" + senha + "</b> <br>"
+                        + "Qualquer dúvida na utilização, contate seu RH.  <br><br>"
                         + "Att. <br>"
                         + "Equipe Pontofopag";
             }
             else if (utilizaApp == true && utilizaWEBApp == true)
             {
                 conteudo = ""
-                        + "Web APP Pontofopag e Aplicativo Pontofopag habilitados para uso <br><br>"
-                        + "O aplicativo Pontofopag para registro de Ponto está habilitado e disponível para seu uso. Basta acessar o link webapp.pontofopag.com.br.  <br>"
-                        + "No momento do login, se identifique com seu CPF e utilize a senha:" + senha + " <br>"
-                        + "Qualquer dúvida na utilização, contate seu RH.  <br>"
+                        + "<p><b>Web APP Pontofopag e Aplicativo Pontofopag habilitados para uso</b></p> <br><br>"
+                        + "O aplicativo Pontofopag para registro de Ponto está habilitado e disponível para seu uso. Basta acessar o link <a href='webapp.pontofopag.com.br'>webapp.pontofopag.com.br</a> e baixar o app através da Play Store ou Apple Store e instalar.  <br>"
+                        + "No momento do login, se identifique com seu <b>CPF e utilize a senha:" + senha + "</b> <br>"
+                        + "Qualquer dúvida na utilização, contate seu RH.  <br><br>"
                         + "Att. <br>"
                         + "Equipe Pontofopag";
             }
 
+            return conteudo;
+        }
+
+        private string GeraConteudoSMS(bool utilizaApp, bool utilizaWEBApp, string senha)
+        {
+            string conteudo = "";
+
+            if (utilizaApp == true && utilizaWEBApp == false)
+            {
+                conteudo = string.Format("Para acessar o App do Ponto utilize seu CPF e senha: {0}, disponível na Play Store e Apple Store. Equipe Pontofopag", senha);
+            }
+            else if (utilizaApp == false && utilizaWEBApp == true)
+            {
+                conteudo = string.Format("Para acessar o Web App do Ponto utilize seu CPF e senha: {0}, disponível no link www.webapp.pontofopag.com.br. Equipe Pontofopag", senha);
+            }
+            else if (utilizaApp == true && utilizaWEBApp == true)
+            {
+                conteudo = string.Format("Para acessar o Web App e App do Ponto do Ponto utilize seu CPF e senha: {0}, disponível no link www.webapp.pontofopag.com.br e na Play Store e Apple Store. Equipe Pontofopag", senha);
+            }
 
             return conteudo;
         }
@@ -535,7 +566,7 @@ namespace PontoWeb.Controllers
 
             return empresaRetorno;
         }
-    
+
         private Acao EscolhaDaAcao(Funcionario funcionario)
         {
             Acao acao = new Acao();
@@ -733,14 +764,14 @@ namespace PontoWeb.Controllers
                 }
             }
             ViewBag.Title = "Pesquisar Funcionários";
-            return View("EventoConsulta",lFunc);
+            return View("EventoConsulta", lFunc);
         }
 
         [Authorize]
         public ActionResult GetTabelaMarcacao(String consulta, String filtro, String tipo)
         {
             UsuarioPontoWeb usr = Usuario.GetUsuarioPontoWebLogadoCache();
-            BLL.Funcionario bllFuncionario = new BLL.Funcionario(usr.ConnectionString, usr);            
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(usr.ConnectionString, usr);
             int idIdentificacao = 0;
             if (tipo == "5" && !string.IsNullOrEmpty(filtro))
             {
@@ -763,12 +794,12 @@ namespace PontoWeb.Controllers
             if (codigo != -1)
             {
                 int id = bllFuncionario.GetIdDsCodigo(consulta);
-                Funcionario func = bllFuncionario.LoadObject(id);             
+                Funcionario func = bllFuncionario.LoadObject(id);
                 int ContratoFuncionario = tipo == "5" && !string.IsNullOrEmpty(filtro) ? Convert.ToInt32(func.Contrato.Split(new string[] { " | " }, StringSplitOptions.RemoveEmptyEntries)[0]) : 0;
-                                        
+
                 if (func.Funcionarioativo == 1 && func.Excluido == 0 && func != null && func.Id > 0 && ((tipo == "2" && func.Iddepartamento == idIdentificacao) || (tipo == "1" && func.Idempresa == idIdentificacao) || tipo == "3" || (tipo == "5" && ContratoFuncionario == idIdentificacao)))
                 {
-                     lFunc.Add(func);
+                    lFunc.Add(func);
                 }
             }
 
@@ -1206,8 +1237,8 @@ namespace PontoWeb.Controllers
                 int CodContrato = Convert.ToInt32(funcionario.Contrato.Split(new string[] { " | " }, StringSplitOptions.RemoveEmptyEntries)[0]);
                 BLL.Contrato bllContrato = new BLL.Contrato(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
                 bool validacontrato = bllContrato.ValidaContratoCodigo(CodContrato, funcionario.Idempresa);
-                if (validacontrato == false)                
-                { ModelState["Contrato"].Errors.Add("Contrato " + funcionario.Contrato + " não pertence a empresa selecionada!"); }             
+                if (validacontrato == false)
+                { ModelState["Contrato"].Errors.Add("Contrato " + funcionario.Contrato + " não pertence a empresa selecionada!"); }
             }
         }
 
