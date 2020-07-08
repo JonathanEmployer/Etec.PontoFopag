@@ -298,6 +298,11 @@ namespace PontoWeb.Helpers
             return GridFor<TModel>(htmlHelper, tableName, type, multSelecao, controllerDados, acaoDados, rowCallback, callBackLoad, null, "", false);
         }
 
+        public static IHtmlString GridFor<TModel>(this HtmlHelper<TModel> htmlHelper, string tableName, Type type, bool multSelecao, string controllerDados, string acaoDados, string rowCallback, string callBackLoad, string selecionados, string tamanho)
+        {
+            return GridFor<TModel>(htmlHelper, tableName, type, multSelecao, controllerDados, acaoDados, rowCallback, callBackLoad, null, "", false);
+        }
+
         /// <summary>
         /// Cria um datatable apartir de um modelo e uma fonte de dados
         /// </summary>
