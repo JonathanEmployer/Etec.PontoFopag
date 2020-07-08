@@ -307,14 +307,14 @@
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.Mob_Senha, new { @class = "control-label label-sm" })
                                                 <div class="input-group input-group-sm">
-                                                    @Html.PasswordFor(model => model.Mob_Senha, new { @class = "form-control  input-sm", value = Model.Mob_Senha, @autocomplete = "new-password" })
+                                                    @*@Html.PasswordFor(model => model.Mob_Senha, new { @class = "form-control  input-sm", value = Model.Mob_Senha, @autocomplete = "new-password" })*@
                                                     <span class="input-group-btn">
-                                                        <button class="btn btn-success" id="btnEnviarSenhaEmailSMS" type="button">Enviar</button>
+                                                        <button class="btn btn-success" id="btnEnviarSenhaEmailSMS" type="button">Enviar Senha</button>
                                                     </span>
-                                                    @*<input id="OpcaoSMSEmailSenha" value="" hidden>*@
+                                                    <input id="OpcaoSMSEmailSenha" value="" hidden>
                                                     @Html.HiddenFor(model => model.OpcaoSMSEmailSenha, new { id = "OpcaoSMSEmailSenha" })
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.Mob_Senha)
+                                                @*@Html.ValidationMessageFor(model => model.Mob_Senha)*@
                                             </div>
                                         </div>
                                         <div class="col-md-5">
@@ -700,12 +700,7 @@
 
     $(document).on('click', '#btnEnviarSenhaEmailSMS', function () {
         errorArray = [];
-        if ($('#Mob_Senha').val() == "") {
-            errorArray["Mob_Senha"] = 'Campo Obrigatório!';
-            $("form").validate().showErrors(errorArray);
-        }
-        if ($('#Mob_Senha').val() && $('#Email').val() || $('#Celular').val()) {
-            limpaErro("Mob_Senha");
+        if ($('#Email').val() || $('#Celular').val()) {
             limpaErro("Email");
             limpaErro("Celular");
             if ($('#Mob_Senha').val() != "" && $('#Email').val() && $('#Celular').val() == "") {
@@ -719,7 +714,6 @@
                 $('#EnvioTipo').click();
             }
         } else {      
-            errorArray["Mob_Senha"] = 'Campo Obrigatório!';
             errorArray["Email"] = 'Campo Obrigatório!';
             errorArray["Celular"] = 'Campo Obrigatório!';
             $("form").validate().showErrors(errorArray);
