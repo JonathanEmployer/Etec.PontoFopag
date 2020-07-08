@@ -15,5 +15,6 @@ namespace DAL
         pxyEmpresaCwUsuario GetListaUsuariosLiberadosBloquadosPorEmpresa(int idEmpresa);
         Cw_Usuario GetUsuarioPorCodigo(int codigo);
         bool CWUtilizaControleContratos();
+        EmpresaCw_Usuario LoadObjectUser(int idEmpresaContrato, int idQueVaiSerAlterado);
     }
 }

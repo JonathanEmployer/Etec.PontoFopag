@@ -155,5 +155,10 @@ namespace BLL
         {
             return dalEmpresaUsuario.CWUtilizaControleContratos();
         }
+
+        public Modelo.EmpresaCw_Usuario LoadObjectUser(int idEmpresaContrato, int idQueVaiSerAlterado)
+        {
+            return dalEmpresaUsuario.LoadObjectUser(idEmpresaContrato, idQueVaiSerAlterado);
+        }
     }
 }

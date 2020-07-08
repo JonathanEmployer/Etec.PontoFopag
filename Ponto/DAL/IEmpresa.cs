@@ -1,6 +1,8 @@
 using System;
 using System.Data;
 using System.Collections.Generic;
+using Modelo;
+using Modelo.Proxy;
 
 namespace DAL
 {
@@ -29,5 +31,7 @@ namespace DAL
         List<Modelo.Empresa> GetAllListEmpresa();
 
         List<Modelo.Empresa> GetEmpresasUsuarioId(int idUsuario);
+        void DeletarEmpresasUsuario(int idUsuario);
+        List<pxyUsuarioControleAcessoAdicionarEmpresa> GetAllEmpresasControle();
     }
 }

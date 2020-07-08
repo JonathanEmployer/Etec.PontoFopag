@@ -210,6 +210,83 @@ function ajax_ExcluirRegistro(acao, controller, id, mensagem, tb, callBackSucess
     });
 }
 
+
+// Remove mais de um registro. Ele não adiciona o evento click, mas já adiciona as mensagens de validação.
+// Foi criado inicialmente passar um objeto JSON e jogar uma string pra controller = (string jsonData)
+function ajax_ExcluirRegistroJSON(acao, controller, obj, mensagem, tb, callBackSucesso, mensagemConfirmacaoPersonalizada, qtdSelecionados) {
+
+    var mensagemConfirmacao = "Ao confirmar a ação será permanente!";
+    if (mensagemConfirmacaoPersonalizada && typeof (mensagemConfirmacaoPersonalizada) !== "undefined" && mensagemConfirmacaoPersonalizada !== "") {
+        mensagemConfirmacao = mensagemConfirmacaoPersonalizada;
+    }
+
+    //converte o JSON pra string
+    var stringJSON = JSON.stringify(obj);
+
+    bootbox.dialog({
+        message: mensagemConfirmacao,
+        title: "Deseja realmente excluir?",
+        buttons: {
+            success: {
+                label: "Excluir!",
+                className: "btn-primary",
+                callback: function () {
+                    $.ajax({
+                        url: '/' + controller + '/' + acao,
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { jsonData: stringJSON },
+                        beforeSend: function () {
+                            $.blockUI({ message: '<h2>Excluindo<img src="../../Content/img/circulosLoading.GIF"></h2>' });
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            $.unblockUI();
+                            if (xhr.responseText.indexOf('Usuário sem permissão') >= 0) {
+                                cwkErro("Acesso negado, Contate o administrador do sistema!");
+                            }
+                            else {
+                                $.unblockUI();
+                                var sErrMsg = "";
+                                sErrMsg += "Erro: ";
+                                sErrMsg += "\n\n" + " - Status :" + textStatus;
+                                sErrMsg += "\n\n" + " - Status Erro :" + xhr.status;
+                                sErrMsg += "\n\n" + " - Tipo Erro :" + errorThrown;
+                                sErrMsg += "\n\n" + " - Mensagem Erro :" + xhr.responseText;
+                                cwkErro(sErrMsg);
+                            }
+                        },
+                        success: function (ret) {
+                            $.unblockUI();
+                            if (ret.Success === true) {
+                                cwkSucessoTit('Registro Excluído!', mensagem);
+                                cwk_RemoverLinhasSelecionadas(tb, qtdSelecionados);
+                                if (callBackSucesso && typeof (callBackSucesso) !== "undefined" && callBackSucesso !== "") {
+                                    callBackSucesso(ret);
+                                }
+                                verificaProgress();
+                            } else {
+                                if (ret.Aviso != undefined && ret.Aviso != "" && ret.Aviso == true) {
+                                    cwkNotificacaoTit('Alerta!', ret.Erro);
+                                }
+                                else {
+                                    cwkErroTit('Erro!', ret.Erro);
+                                }
+                            }
+                        },
+                    });
+                }
+            },
+            danger: {
+                label: "Cancelar!",
+                className: "btn-default",
+                callback: function () {
+
+                }
+            }
+        }
+    });
+}
+
 function BloqueiaSalvando() {
     $.blockUI({ message: '<h2>Salvando...<img src="../../Content/img/circulosLoading.GIF"></h1>' });
 }

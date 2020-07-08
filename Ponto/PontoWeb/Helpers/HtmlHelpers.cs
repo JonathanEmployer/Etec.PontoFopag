@@ -21,11 +21,11 @@ namespace PontoWeb.Helpers
 
             TagBuilder tbSpan = new TagBuilder("span");
             tbSpan.AddCssClass("glyphicon glyphicon-trash");
-            
+
             tb.Attributes.Add("onclick", js);
 
             tb.InnerHtml = tbSpan.ToString(TagRenderMode.Normal) + (String.IsNullOrEmpty(linkText) ? "" : "&nbsp;" + linkText);
-            
+
             var tag = tb.ToString(TagRenderMode.Normal);
             return MvcHtmlString.Create(tag);
         }
@@ -75,23 +75,23 @@ namespace PontoWeb.Helpers
             string htmlFieldPrefixNome = "";
             string collectionPropertyMasterById = "";
             string collectionPropertyMasterByName = "";
-            
+
             if (!String.IsNullOrEmpty(htmlFieldPrefix))
             {
                 collectionPropertyMasterById = htmlFieldPrefixById = htmlFieldPrefix.Replace('[', '_').Replace(']', '_') + "_";
                 collectionPropertyMasterByName = htmlFieldPrefixNome = htmlFieldPrefix + ".";
-                
+
                 if (htmlFieldPrefix.Contains("nestedObject"))
                 {
                     if (!String.IsNullOrEmpty(collectionPropertyMaster))
                     {
-                        ticksMaster = DateTime.UtcNow.Ticks*10;
+                        ticksMaster = DateTime.UtcNow.Ticks * 10;
                         collectionPropertyMasterById = collectionPropertyMaster + "_" + ticksMaster + "__";
                         collectionPropertyMasterByName = collectionPropertyMaster + "[" + ticksMaster + "].";
                     }
                 }
             }
-            
+
             IDictionary<string, object> tags = new Dictionary<string, object>();
             try
             {
@@ -102,10 +102,10 @@ namespace PontoWeb.Helpers
                 tags = null;
             }
 
-            
+
             var nestedObject = Activator.CreateInstance(nestedType);
             var partial = htmlHelper.EditorFor(x => nestedObject).ToHtmlString().JsEncode();
-            int posClassCounterElement = partial.IndexOf(counterElement.Replace(".",""));
+            int posClassCounterElement = partial.IndexOf(counterElement.Replace(".", ""));
             int posFechaClassCounterElement = partial.IndexOf('>', posClassCounterElement);
             partial = partial.Insert(posFechaClassCounterElement, "idGrupo=\"" + ticks + "\"");
             partial = partial.Replace("id=\\\"" + htmlFieldPrefixById + "nestedObject", "id=\\\"" + collectionPropertyMasterById + collectionProperty + "_" + ticks + "_");
@@ -223,7 +223,7 @@ namespace PontoWeb.Helpers
             Boolean.TryParse(booleanStr, out isChecked);
 
             TagBuilder checkbox = new TagBuilder("input");
-            checkbox.MergeAttribute("id", propertyName+"Disabled");
+            checkbox.MergeAttribute("id", propertyName + "Disabled");
             checkbox.MergeAttribute("name", propertyName + "Disabled");
             checkbox.MergeAttribute("type", "checkbox");
             checkbox.MergeAttribute("value", isChecked.ToString());
@@ -290,12 +290,12 @@ namespace PontoWeb.Helpers
 
         public static IHtmlString GridFor<TModel>(this HtmlHelper<TModel> htmlHelper, string tableName, Type type, bool multSelecao, string controllerDados, string acaoDados)
         {
-            return GridFor<TModel>(htmlHelper, tableName, type, multSelecao, controllerDados, acaoDados, "","", null,"");
+            return GridFor<TModel>(htmlHelper, tableName, type, multSelecao, controllerDados, acaoDados, "", "", null, "", false);
         }
 
         public static IHtmlString GridFor<TModel>(this HtmlHelper<TModel> htmlHelper, string tableName, Type type, bool multSelecao, string controllerDados, string acaoDados, string rowCallback, string callBackLoad)
         {
-            return GridFor<TModel>(htmlHelper, tableName, type, multSelecao, controllerDados, acaoDados, rowCallback, callBackLoad, null,"");
+            return GridFor<TModel>(htmlHelper, tableName, type, multSelecao, controllerDados, acaoDados, rowCallback, callBackLoad, null, "", false);
         }
 
         /// <summary>
@@ -313,15 +313,15 @@ namespace PontoWeb.Helpers
         /// <param name="selecionados">string com os ids separados com vingula que devem vir selecionados (caso não informado será selecionado o que estiver salvo em cache que foi selecionado anteriormente.)</param>
         /// <param name="tamanho">Tamanho corpo da grid (onde ficam as linhas) ex: "350px" ou "($(window).height() - 424)"</param>
         /// <returns></returns>
-        public static IHtmlString GridFor<TModel>(this HtmlHelper<TModel> htmlHelper, string tableName, Type type, bool multSelecao, string controllerDados, string acaoDados, string rowCallback, string callBackLoad, string selecionados, string tamanho)
+        public static IHtmlString GridFor<TModel>(this HtmlHelper<TModel> htmlHelper, string tableName, Type type, bool multSelecao, string controllerDados, string acaoDados, string rowCallback, string callBackLoad, string selecionados, string tamanho, bool gridModal)
         {
             TableHTML table = Utils.GetPropertiesTableHTML.GetProperties(tableName, multSelecao, controllerDados, acaoDados, type);
             string html = GerarStrTabelaHTML(table);
-            string js = JqueryDataTabela(table, rowCallback, callBackLoad, selecionados, tamanho);
+            string js = JqueryDataTabela(table, rowCallback, callBackLoad, selecionados, tamanho, gridModal);
             return MvcHtmlString.Create(html + js);
         }
 
-        private static string JqueryDataTabela(TableHTML table, string rowCallback, string callBackLoad, string selecionados, string tamanho)
+        private static string JqueryDataTabela(TableHTML table, string rowCallback, string callBackLoad, string selecionados, string tamanho, bool gridModal)
         {
             string multSelecao = "single";
             string filtroExportacao = "";
@@ -336,14 +336,14 @@ namespace PontoWeb.Helpers
             string js = @"
             <script>";
             if (selecionados != null)
-	        {
-                js += @" var "+ table.NomeTabela+ "Selecionados = '" + selecionados + @"';";
-	        }
+            {
+                js += @" var " + table.NomeTabela + "Selecionados = '" + selecionados + @"';";
+            }
             else
             {
-                js += @" var "+ table.NomeTabela + "Selecionados; ";
+                js += @" var " + table.NomeTabela + "Selecionados; ";
             }
-            
+
             js += @" 
             $(document).on('keydown', 'input', function (e) {
                 if (e.which == 13) e.preventDefault();
@@ -430,7 +430,7 @@ namespace PontoWeb.Helpers
             processing: true,";
             if (!String.IsNullOrEmpty(tamanho))
             {
-                js += @"scrollY: "+tamanho+",";
+                js += @"scrollY: " + tamanho + ",";
             }
             js += @"pagingType: 'full_numbers',
             select: { style: '" + multSelecao + @"' },
@@ -548,7 +548,10 @@ namespace PontoWeb.Helpers
                                                 }
                                             }, ";
             }
-            js += @"{
+
+            if (gridModal == false)
+            {
+                js += @"{
                             text: '<i class=""fa fa-recycle"" aria-hidden=""true""></i>',
                             titleAttr: 'Volta tabela ao estado original',
                             action: function () {
@@ -559,13 +562,36 @@ namespace PontoWeb.Helpers
                                 window.location.reload();
                             }
                         }
-            ],
-            ajax: {
-                url: '/" + table.ControllerDados + @"/" + table.AcaoDados + @"',
-                dataSrc: 'data',
-                cache: false
-            },
-            'columns': [ ";
+                    ],
+                    ajax: {
+                        url: '/" + table.ControllerDados + @"/" + table.AcaoDados + @"',
+                        dataSrc: 'data',
+                        cache: false
+                    },
+                    'columns': [ ";
+            }
+            else
+            {
+                js += @"{
+                            text: '<i class=""fa fa-recycle"" aria-hidden=""true""></i>',
+                            titleAttr: 'Volta tabela ao estado original',
+                            action: function () {
+                                obj" + table.NomeTabela + @".search('').columns().search('').draw();
+                                obj" + table.NomeTabela + @".rows().deselect();
+                                " + table.NomeTabela + @"GetSelecionados();
+                                obj" + table.NomeTabela + @".state.clear();
+                            }
+                        }
+                    ],
+                    ajax: {
+                        url: '/" + table.ControllerDados + @"/" + table.AcaoDados + @"',
+                        dataSrc: 'data',
+                        cache: false
+                    },
+                    'columns': [ ";
+            }
+
+
             foreach (ItemsForTable item in table.Columns)
             {
                 js += "{ 'data': '" + item.PropertyName + "' },";
@@ -610,14 +636,14 @@ namespace PontoWeb.Helpers
             lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todos']],";
             if (!String.IsNullOrEmpty(rowCallback))
             {
-                js += @" rowCallback: " + rowCallback +","; 
+                js += @" rowCallback: " + rowCallback + ",";
             }
 
             js += @"
             initComplete: function (oSettings, json) {
                 //Se passou os registros que devem ficar selecionados, sobrescreve o cache
-                if ("+ table.NomeTabela + "Selecionados != null && "+ table.NomeTabela + @"Selecionados != undefined ) {
-                    " + table.NomeTabela + @"selected = "+ table.NomeTabela + @"Selecionados.split(',');
+                if (" + table.NomeTabela + "Selecionados != null && " + table.NomeTabela + @"Selecionados != undefined ) {
+                    " + table.NomeTabela + @"selected = " + table.NomeTabela + @"Selecionados.split(',');
                     sessionStorage.setItem(nomeTabela+'Selecionados_' + window.location.pathname, JSON.stringify(" + table.NomeTabela + @"selected.join()));
                 }
 
@@ -741,7 +767,7 @@ namespace PontoWeb.Helpers
             {
                 js += callBackLoad + "();";
             }
-            
+
             js += @"
             }
         });";
@@ -766,7 +792,7 @@ namespace PontoWeb.Helpers
             }
             else
             {
-            js += @"        
+                js += @"        
                     $(nomeTabela + ' tbody').on('click', 'tr', function () { 
                         " + table.NomeTabela + @"selected = [];
                         if ( $(this).hasClass('selected') ) {
@@ -795,7 +821,7 @@ namespace PontoWeb.Helpers
             ";
             }
 
-        js += @"
+            js += @"
         function " + table.NomeTabela + @"GetSelecionados() {
             " + table.NomeTabela + @"selected = obj" + table.NomeTabela + @".rows({ selected: true }).ids().toArray();
             sessionStorage.setItem(nomeTabela+'Selecionados_' + window.location.pathname, JSON.stringify((" + table.NomeTabela + @"selected.join())));
@@ -879,7 +905,7 @@ namespace PontoWeb.Helpers
             html.Append("</div>");
             string script = @"<script type='text/javascript'>
                                 $(function () {
-                                    $('#"+propName+ @"').datetimepicker({
+                                    $('#" + propName + @"').datetimepicker({
                                         locale: 'pt-BR',
                                         format : 'DD/MM/YYYY HH:mm',
                                         showTodayButton: true,

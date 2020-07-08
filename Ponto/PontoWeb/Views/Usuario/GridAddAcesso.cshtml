@@ -1,0 +1,144 @@
+﻿@model Tuple<Modelo.Proxy.pxyUsuarioControleAcessoAdicionarEmpresa, Modelo.Proxy.pxyUsuarioControleAcessoAdicionarContrato>
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Adicionar controle de usuário";
+    Layout = null;
+    string nometabelaE = "tbControleAcessoUsuarioAddEmpresa";
+    string nometabelaC = "tbControleAcessoUsuarioAddContrato";
+}
+
+<div class="divCenterGrande">
+    <div class="panel panel-default" style="padding:0">
+        <div class="panel-heading">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="fecharModalAdicionarContoleUser">X</button>
+            <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="Empresa-tab" data-toggle="tab" href="#Empresas" role="tab" aria-controls="empres" aria-selected="true">Empresas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="Contrato-tab" data-toggle="tab" href="#Contratos" role="tab" aria-controls="contrato" aria-selected="false">Contratos</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="Empresas" role="tabpanel" aria-labelledby="Empresa-tab">
+                        <div id="divEmpresas">
+                            @Html.ValidationSummary(true)
+                            <div class="row">
+                                @Html.GridFor(nometabelaE, Model.Item1.GetType(), true, "Usuario", "DadosGridEmpresas/" + Model.Item1.Id, "", "", "", "", true)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="Contratos" role="tabpanel" aria-labelledby="Contrato-tab">
+                        <div id="divContratos" hidden>
+                            @Html.ValidationSummary(true)
+                            <div class="row">
+                                @Html.GridFor(nometabelaC, Model.Item2.GetType(), true, "Usuario", "DadosGridContratos/" + Model.Item2.Id, "", "", "", "", true)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-12 center-block">
+                    <div style="text-align: right">
+                        <div class="col-xs-12 center-block" style="text-align: right">
+                            <a href="#" id="btSalvarControle" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Salvar</a>
+                            <a href="#" id="btCancelarControle" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //SELECIONA AS GRIDS
+    $(document).on('click', '#Empresa-tab', function () {
+        if ($('#divEmpresas').prop('hidden')) {
+            $('#divEmpresas').removeAttr('hidden');
+            $('#divContratos').attr('hidden', true);
+
+            $('#tbControleAcessoUsuarioAddEmpresa').DataTable().ajax.reload();
+        }
+    });
+
+    $(document).on('click', '#Contrato-tab', function () {
+        if ($('#divContratos').prop('hidden')) {
+            $('#divContratos').removeAttr('hidden');
+            $('#divEmpresas').attr('hidden', true);
+
+            $('#tbControleAcessoUsuarioAddContrato').DataTable().ajax.reload();
+        }
+    });
+
+    $(document).ready(function () {
+        $('#Empresa-tab').click();
+
+        cwk_EventoAlterarAjaxParam('#fecharModalAdicionarContoleUser', 'GridControleUsuario', 'Usuario', nomeTabela, "");
+        cwk_EventoAlterarAjaxParam('#btCancelarControle', 'GridControleUsuario', 'Usuario', nomeTabela, "");
+    });
+
+    $(document).on('click', '#btSalvarControle', function () {
+        var idUser = $('.selected').eq(0).attr('id');
+
+        var objPermissoes = {
+            "idQueVaiSerAlterado": idUser,
+            "EmpresasContratos": []
+        };
+
+        //Empresas
+        var nomeTabelaEmpresa = "#" + "tbControleAcessoUsuarioAddEmpresa";
+        var objetoTabelaEmpresa = $(nomeTabelaEmpresa).closest('table').DataTable();
+
+        var qtdSelecionadosEmpresa = objetoTabelaEmpresa.rows({ selected: true }).count();
+
+        var dataEmpresas = objetoTabelaEmpresa.rows({ selected: true }).data();
+
+        $.each(dataEmpresas, function (index, val) {
+            var id = val.Id;
+            var tipo = val.Tipo;
+
+            var Obj = {
+                "idEmpresaContrato": id,
+                "Tipo": tipo
+            };
+            objPermissoes.EmpresasContratos.push(Obj);
+        });
+
+        //Contratos
+        var nomeTabelaContrato = "#" + "tbControleAcessoUsuarioAddContrato";
+        var objetoTabelaContrato = $(nomeTabelaContrato).closest('table').DataTable();
+
+        var qtdSelecionadosContrato = objetoTabelaContrato.rows({ selected: true }).count();
+
+        var dataContratos = objetoTabelaContrato.rows({ selected: true }).data();
+
+        $.each(dataContratos, function (index, val) {
+            var id = val.Id;
+            var tipo = val.Tipo;
+
+            var Obj = {
+                "idEmpresaContrato": id,
+                "Tipo": tipo
+            };
+            objPermissoes.EmpresasContratos.push(Obj);
+        });
+
+        var qtTotal = qtdSelecionadosContrato + qtdSelecionadosEmpresa;
+
+        if (qtTotal > 0) {
+            $("#loading").modal();
+            cwk_CadastroAjaxParam('SalvarPermissoes', 'Usuario', '', { jsonData: JSON.stringify(objPermissoes) });
+        } else {
+            cwkErroTit('Selecione um Registro!', 'É necessário selecionar um registo para realizar essa operação!');
+        }
+    });
+</script>

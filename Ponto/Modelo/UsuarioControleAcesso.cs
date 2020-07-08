@@ -9,6 +9,9 @@ namespace Modelo
     {
         public int Idfuncionario { get; set; }
 
+        [TableHTMLAttribute("Id", 0, false, ItensSearch.none, OrderType.none)]
+        public int Id { get; set; }
+
         [TableHTMLAttribute("Tipo", 1, true, ItensSearch.text, OrderType.asc)]
         [Display(Name = "Tipo")]
         public string Tipo { get; set; }

@@ -1,5 +1,8 @@
 ﻿using Employer.Componentes.UI.WebMVC.Helpers;
+using Hangfire.States;
 using Modelo;
+using Modelo.Proxy;
+using NPOI.SS.Formula.Functions;
 using PontoWeb.Controllers.BLLWeb;
 using PontoWeb.Models;
 using PontoWeb.Security;
@@ -232,7 +235,7 @@ namespace PontoWeb.Controllers
                                         obj.Senha = usuarioCentralCliente.Senha;
                                         obj.Password = usuarioCentralCliente.Password;
                                         obj.PasswordSalt = usuarioCentralCliente.PasswordSalt;
-                                        
+
 
                                         if (usuarioCentralCliente.UltimoAcesso != null)
                                             obj.UltimoAcesso = (DateTime)usuarioCentralCliente.UltimoAcesso;
@@ -737,6 +740,8 @@ namespace PontoWeb.Controllers
             return View(lUser);
         }
 
+        [Authorize]
+        [PermissoesFiltro(Roles = "UsuarioConsultar")]
         public ActionResult GridControleUsuario(int id)
         {
             return View(new Modelo.UsuarioControleAcesso() { Idfuncionario = id });
@@ -760,6 +765,327 @@ namespace PontoWeb.Controllers
             {
                 BLL.cwkFuncoes.LogarErro(ex);
                 throw;
+            }
+        }
+
+        [Authorize]
+        [PermissoesFiltro(Roles = "UsuarioAlterar")]
+        public ActionResult GridUsuarioCopiar()
+        {
+            return View(new Modelo.Proxy.pxyUsuarioControleAcessoCopiar());
+        }
+
+        [Authorize]
+        [PermissoesFiltro(Roles = "UsuarioCadastrar")]
+        public ActionResult GridPermissoesAdd()
+        {
+            var tupleModel = new Tuple<pxyUsuarioControleAcessoAdicionarEmpresa, pxyUsuarioControleAcessoAdicionarContrato>(new pxyUsuarioControleAcessoAdicionarEmpresa(), new pxyUsuarioControleAcessoAdicionarContrato());
+            return View("GridAddAcesso", tupleModel);
+        }
+
+        [Authorize]
+        public JsonResult DadosGridEmpresas()
+        {
+
+            UsuarioPontoWeb _usr = Usuario.GetUsuarioPontoWebLogadoCache();
+
+            try
+            {
+                BLL.Empresa bllEmpresa = new BLL.Empresa(_usr.ConnectionString, _usr);
+                List<Modelo.Proxy.pxyUsuarioControleAcessoAdicionarEmpresa> GridEmpresas = bllEmpresa.GetAllEmpresasControle();
+                JsonResult jsonResult = Json(new { data = GridEmpresas }, JsonRequestBehavior.AllowGet);
+                jsonResult.MaxJsonLength = int.MaxValue;
+                return jsonResult;
+            }
+            catch (Exception ex)
+            {
+                BLL.cwkFuncoes.LogarErro(ex);
+                throw;
+            }
+        }
+
+        [Authorize]
+        public JsonResult DadosGridContratos()
+        {
+            UsuarioPontoWeb _usr = Usuario.GetUsuarioPontoWebLogadoCache();
+
+            try
+            {
+                BLL.Contrato bllGrupo = new BLL.Contrato(_usr.ConnectionString, _usr);
+                List<Modelo.Proxy.pxyUsuarioControleAcessoAdicionarContrato> GridContratos = bllGrupo.GetAllGridUCompact();
+                JsonResult jsonResult = Json(new { data = GridContratos }, JsonRequestBehavior.AllowGet);
+                jsonResult.MaxJsonLength = int.MaxValue;
+                return jsonResult;
+            }
+            catch (Exception ex)
+            {
+                BLL.cwkFuncoes.LogarErro(ex);
+                throw;
+            }
+        }
+
+        [Authorize]
+        public JsonResult DadosGridModalCopiar()
+        {
+
+            UsuarioPontoWeb _usr = Usuario.GetUsuarioPontoWebLogadoCache();
+
+            try
+            {
+                BLL.Cw_GrupoAcesso bllGrupo = new BLL.Cw_GrupoAcesso(_usr.ConnectionString, _usr);
+                List<Modelo.Proxy.pxyUsuarioControleAcessoCopiar> GridUsuarioCopiar = bllGrupo.GetAllGridUCompact();
+                JsonResult jsonResult = Json(new { data = GridUsuarioCopiar }, JsonRequestBehavior.AllowGet);
+                jsonResult.MaxJsonLength = int.MaxValue;
+                return jsonResult;
+            }
+            catch (Exception ex)
+            {
+                BLL.cwkFuncoes.LogarErro(ex);
+                throw;
+            }
+        }
+
+        [Authorize]
+        [PermissoesFiltro(Roles = "UsuarioAlterar")]
+        public ActionResult SalvarCopia(pxyPermissoes obj)
+        {
+            return SalvarCopiaMethod(obj);
+        }
+
+        private ActionResult SalvarCopiaMethod(pxyPermissoes obj)
+        {
+            Dictionary<string, string> erros = new Dictionary<string, string>();
+            string connString = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
+            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+
+            BLL.ContratoUsuario bllCcwu = new BLL.ContratoUsuario(connString, usr);
+            BLL.EmpresaCw_Usuario bllEcwu = new BLL.EmpresaCw_Usuario(connString, usr);
+
+            BLL.Empresa bllEmpresa = new BLL.Empresa(usr.ConnectionString, usr);
+            BLL.Contrato bllContrato = new BLL.Contrato(usr.ConnectionString, usr);
+
+            var empresas = bllEmpresa.GetEmpresasUsuarioId(obj.idUsuarioParaAlterar);
+            var contratos = bllContrato.ContratosPorUsuario(obj.idUsuarioParaAlterar);
+
+            BLL.Cw_Usuario CwuserBLL = new BLL.Cw_Usuario(usr.ConnectionString, usr);
+
+            bool retorno = false;
+
+            if (empresas.Count() == 0 && contratos.Count() == 0)
+            {
+                return JavaScript("cwkErroTit('Erro ao copiar usuário!', 'Usuário selecionado não possui nenhuma permissão!')");
+            }
+
+            using (var db = new cworkpontoEntities())
+            {
+                try
+                {
+                    var usaurioA = CwuserBLL.LoadObject(obj.idQueVaiSerAlterado);
+                    var usaurioB = CwuserBLL.LoadObject(obj.idUsuarioParaAlterar);
+
+                    if (usaurioA.UtilizaControleEmpresa == true && usaurioB.UtilizaControleEmpresa == true)
+                    {
+                        retorno = bllEmpresa.DeletaEmpresasUsuario(obj.idQueVaiSerAlterado);
+
+                        if (retorno == true)
+                        {
+                            foreach (var empresa in empresas)
+                            {
+                                EmpresaCw_Usuario ecu = new EmpresaCw_Usuario();
+                                ecu.Codigo = bllEcwu.MaxCodigo();
+                                ecu.IdCw_Usuario = obj.idQueVaiSerAlterado;
+                                ecu.IdEmpresa = empresa.Id;
+                                ecu.Acao = Acao.Incluir;
+                                bllEcwu.Salvar(Acao.Incluir, ecu);
+                            }
+                        }
+                    }
+                    else if (empresas.Count() > 0)
+                    {
+                        return JavaScript("cwkErroTit('Erro ao adicionar permissões por empresas!', 'Usuário não utiliza controle de acesso por empresa!')");
+                    }
+                    else if (usaurioA.UtilizaControleEmpresa == true && usaurioB.UtilizaControleEmpresa == false)
+                    {
+                        return JavaScript("cwkErroTit('Erro ao adicionar permissões por empresas!', 'Usuário não utiliza controle de acesso por empresa!')");
+                    }
+
+                    if (usaurioA.UtilizaControleContratos == true && usaurioB.UtilizaControleContratos == true)
+                    {
+                        retorno = bllContrato.DeletaContratosUsuario(obj.idQueVaiSerAlterado);
+
+                        if (retorno == true)
+                        {
+                            foreach (var contrato in contratos)
+                            {
+                                ContratoUsuario contU = new ContratoUsuario();
+                                contU.Codigo = bllCcwu.MaxCodigo();
+                                contU.IdContrato = contrato.Id;
+                                contU.IdCw_Usuario = obj.idQueVaiSerAlterado;
+                                contU.Acao = Acao.Incluir;
+                                bllCcwu.Salvar(Acao.Incluir, contU);
+                            }
+                        }
+                    }
+                    else if (contratos.Count() > 0)
+                    {
+                        return JavaScript("cwkErroTit('Erro ao adicionar permissões por contratos!', 'Usuário não utiliza controle de acesso por contrato!')");
+                    }
+                    else if (usaurioA.UtilizaControleContratos == true && usaurioB.UtilizaControleContratos == false)
+                    {
+                        return JavaScript("cwkErroTit('Erro ao adicionar permissões por contratos!', 'Usuário não utiliza controle de acesso por contrato!')");
+                    }
+
+                    if (retorno == true)
+                    {
+                        //Limpa e adiciona o usuário novamente para atualizar as permissões (Por Empresa/Contrato/Supervisor no cache.)
+                        if (Usuario.GetUsuarioLogadoCache().id == obj.idQueVaiSerAlterado)
+                        {
+                            Usuario.LimpaUsuarioPontoWebLogadoCache();
+                            Usuario.GetUsuarioPontoWebLogadoCache();
+                        }
+                        return JavaScript("$('#fecharModalUserCopiar').click()");
+                    }
+                    else
+                    {
+                        return JavaScript("cwkErroTit('Erro ao copiar usuário!', 'Não foi possivel alterar o usuário, por favor entre em contato com a revendao!')");
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    BLL.cwkFuncoes.LogarErro(ex);
+                    ModelState.AddModelError("CustomError", ex.Message);
+                }
+                return JavaScript("$('#fecharModalUserCopiar').click()");
+            }
+        }
+
+        [Authorize]
+        [PermissoesFiltro(Roles = "UsuarioExcluir")]
+        [HttpPost]
+        public ActionResult ExcluirPermissao(string jsonData)
+        {
+            pxyPermissoes PermissoesParaExcluir = Newtonsoft.Json.JsonConvert.DeserializeObject<pxyPermissoes>(jsonData);
+
+            string connString = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
+            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+
+            BLL.EmpresaCw_Usuario bllEcwu = new BLL.EmpresaCw_Usuario(connString, usr);
+            BLL.ContratoUsuario bllCcwu = new BLL.ContratoUsuario(connString, usr);
+
+            try
+            {
+                foreach (var item in PermissoesParaExcluir.EmpresasContratos)
+                {
+                    if (item.Tipo == "Contrato")
+                    {
+                        ContratoUsuario contU = bllCcwu.LoadObjectUser(item.idEmpresaContrato, PermissoesParaExcluir.idQueVaiSerAlterado);
+                        bllCcwu.Salvar(Acao.Excluir, contU);
+                    }
+                    else if (item.Tipo == "Empresa")
+                    {
+                        EmpresaCw_Usuario ecu = bllEcwu.LoadObjectUser(item.idEmpresaContrato, PermissoesParaExcluir.idQueVaiSerAlterado);
+                        bllEcwu.Salvar(Acao.Excluir, ecu);
+                    }
+                }
+                return Json(new { Success = true, Erro = " " }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                BLL.cwkFuncoes.LogarErro(ex);
+                return Json(new { Success = false, Erro = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [Authorize]
+        [PermissoesFiltro(Roles = "UsuarioCadastrar")]
+        public ActionResult SalvarPermissoes(string jsonData)
+        {
+            return SalvarPermissoesMethod(jsonData);
+        }
+
+        private ActionResult SalvarPermissoesMethod(string jsonData)
+        {
+            pxyPermissoes Permissoes = Newtonsoft.Json.JsonConvert.DeserializeObject<pxyPermissoes>(jsonData);
+
+            Dictionary<string, string> erros = new Dictionary<string, string>();
+
+            string connString = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
+            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+
+            BLL.ContratoUsuario bllCcwu = new BLL.ContratoUsuario(connString, usr);
+            BLL.EmpresaCw_Usuario bllEcwu = new BLL.EmpresaCw_Usuario(connString, usr);
+
+            BLL.Cw_Usuario CwuserBLL = new BLL.Cw_Usuario(usr.ConnectionString, usr);
+
+            using (var db = new cworkpontoEntities())
+            {
+                try
+                {
+                    var usaurio = CwuserBLL.LoadObject(Permissoes.idQueVaiSerAlterado);
+
+                    foreach (var empresascontratos in Permissoes.EmpresasContratos)
+                    {
+                        if (empresascontratos.Tipo == "Contrato")
+                        {
+                            if (usaurio.UtilizaControleContratos == true)
+                            {
+                                var contratoExistente = bllCcwu.LoadObjectUser(empresascontratos.idEmpresaContrato, Permissoes.idQueVaiSerAlterado);
+
+                                if (contratoExistente == null)
+                                {
+                                    ContratoUsuario contU = new ContratoUsuario();
+                                    contU.Codigo = bllCcwu.MaxCodigo();
+                                    contU.IdContrato = empresascontratos.idEmpresaContrato;
+                                    contU.IdCw_Usuario = Permissoes.idQueVaiSerAlterado;
+                                    contU.Acao = Acao.Incluir;
+                                    bllCcwu.Salvar(Acao.Incluir, contU);
+                                }
+                            }
+                            else
+                            {
+                                return JavaScript("retornoDosErros('Erro ao adicionar permissões por contratos!', 'Usuário não utiliza controle de acesso por contrato!')");
+                            }
+                        }
+                        else if (empresascontratos.Tipo == "Empresa")
+                        {
+                            if (usaurio.UtilizaControleEmpresa == true)
+                            {
+                                var empresaExistente = bllEcwu.LoadObjectUser(empresascontratos.idEmpresaContrato, Permissoes.idQueVaiSerAlterado);
+
+                                if (empresaExistente == null)
+                                {
+                                    EmpresaCw_Usuario ecu = new EmpresaCw_Usuario();
+                                    ecu.Codigo = bllEcwu.MaxCodigo();
+                                    ecu.IdEmpresa = empresascontratos.idEmpresaContrato;
+                                    ecu.IdCw_Usuario = Permissoes.idQueVaiSerAlterado;
+                                    ecu.Acao = Acao.Incluir;
+                                    bllEcwu.Salvar(Acao.Incluir, ecu);
+                                }
+                            }
+                            else
+                            {
+                                return JavaScript("retornoDosErros('Erro ao adicionar permissões por empresas!', 'Usuário não utiliza controle de acesso por empresa!');");
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    BLL.cwkFuncoes.LogarErro(ex);
+                    ModelState.AddModelError("CustomError", ex.Message);
+                    return JavaScript("retornoDosErros('Erro ao adicionar permissões!', 'Não foi possivel adicionar permissões para o usuário selecionado!')");
+                }
+                finally
+                {
+                    //Limpa e adiciona o usuário novamente para atualizar as permissões (Por Empresa/Contrato/Supervisor no cache.)
+                    if (Usuario.GetUsuarioLogadoCache().id == Permissoes.idQueVaiSerAlterado)
+                    {
+                        Usuario.LimpaUsuarioPontoWebLogadoCache();
+                        Usuario.GetUsuarioPontoWebLogadoCache();
+                    }
+                }
+                return Json(new { Success = true, Erro = " " }, JsonRequestBehavior.AllowGet);
             }
         }
     }
