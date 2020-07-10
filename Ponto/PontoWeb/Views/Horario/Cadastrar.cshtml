@@ -900,6 +900,11 @@
         $(container).find('input:visible:last').focus();
     }
     $(document).ready(function () {
+        var erro = '@Html.ValidationMessageFor(model => model.Diasemanadsr)';
+        if (erro.indexOf('field-validation-error') >= 0) {
+            cwkErroTit('Foram encontrados Erros', erro)
+        }
+        
         validaCkbDias();
         validackbMarcaPercentualExtra();
         loadConvertDadosDSR();
