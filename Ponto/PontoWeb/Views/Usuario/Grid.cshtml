@@ -108,11 +108,12 @@
         cwkErroTit(msg1, msg2);
     }
 
-    $(document).on('click', '.close', function () {
+    $(document).on('click', 'body.modal-open button.close', function () {
+        console.log('clicou');
         $('#divLoadCadastroModal').hide();
         $('.modal-backdrop').hide();
+        location.reload();
     });
-
 </script>
 
 
