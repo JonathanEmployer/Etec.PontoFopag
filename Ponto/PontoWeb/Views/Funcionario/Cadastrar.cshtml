@@ -306,7 +306,14 @@
                                         <div class="col-md-2" id="divMobSenha" style="display: none;">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.Mob_Senha, new { @class = "control-label label-sm" })
-                                                @Html.PasswordFor(model => model.Mob_Senha, new { @class = "form-control  input-sm", value = Model.Mob_Senha, @autocomplete = "new-password" })
+                                                <div class="input-group input-group-sm">
+                                                    @Html.PasswordFor(model => model.Mob_Senha, new { @class = "form-control  input-sm", value = Model.Mob_Senha, @autocomplete = "new-password" })
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-success" id="btnEnviarSenhaEmailSMS" type="button">Enviar</button>
+                                                    </span>
+                                                    @*<input id="OpcaoSMSEmailSenha" value="" hidden>*@
+                                                    @Html.HiddenFor(model => model.OpcaoSMSEmailSenha, new { id = "OpcaoSMSEmailSenha" })
+                                                </div>
                                                 @Html.ValidationMessageFor(model => model.Mob_Senha)
                                             </div>
                                         </div>
@@ -553,6 +560,42 @@
         <div class="modal_block modal_part"></div>
         <div class="modal_dialog modal_part" id="tn_select"></div>
     </div>
+    <div id="divSelecionaOndeEnvia" class="modal" accesskey="" data-keyboard="false" data-backdrop="static">
+        <div class="divModalSecundaria" style="position:absolute; width:100%; height:100%"></div>
+        <div class="divCenter" style="width:480px; margin-top:5%;">
+            <div class="modal-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <button type="button" class="close">X</button>
+                        <h3 class="panel-title titulo-pagina">Selecione para onde deseja enviar a senha:</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="panel-body" style="padding-top:8px; padding-bottom:5px ; text-align:center">
+                            <div class="radio-inline" data-toggle="radioTipo" style="margin-top:-4px">
+                                <input type="radio" id="EnvioTipo" name="EnvioTipo" value="Email">
+                                <label class="label-sm" for="Email">E-mail</label>
+                            </div>
+                            <div class="radio-inline" data-toggle="radioTipo" style="margin-top:-4px">
+                                <input type="radio" id="EnvioTipo" name="EnvioTipo" value="SMS">
+                                <label class="label-sm" for="SMS">Celular</label>
+                            </div>
+                            <div class="radio-inline" data-toggle="radioTipo" style="margin-top:-4px">
+                                <input type="radio" id="EnvioTipo" name="EnvioTipo" value="Ambos">
+                                <label class="label-sm" for="AmbosEnvio">Ambos</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer" style="text-align:right">
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" id="btnSelecionaTipoEnvio" type="button">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;OK&nbsp;&nbsp;
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 <script>
 
@@ -654,6 +697,44 @@
             })
         }
     }
+
+    $(document).on('click', '#btnEnviarSenhaEmailSMS', function () {
+        errorArray = [];
+        if ($('#Mob_Senha').val() == "") {
+            errorArray["Mob_Senha"] = 'Campo Obrigatório!';
+            $("form").validate().showErrors(errorArray);
+        }
+        if ($('#Mob_Senha').val() && $('#Email').val() || $('#Celular').val()) {
+            limpaErro("Mob_Senha");
+            limpaErro("Email");
+            limpaErro("Celular");
+            if ($('#Mob_Senha').val() != "" && $('#Email').val() && $('#Celular').val() == "") {
+                cwkNotificacao('O email com a senha só será enviado após salvar os dados do funcionário!');
+                $('#OpcaoSMSEmailSenha').val('Email');
+            } else if ($('#Mob_Senha').val() != "" && $('#Celular').val() && $('#Email').val() == "") {
+                cwkNotificacao('O SMS com a senha só será enviado após salvar os dados do funcionário!');
+                $('#OpcaoSMSEmailSenha').val('SMS');
+            } else if ($('#Mob_Senha').val() != "" && $('#Celular').val() && $('#Email').val()) {
+                $("#divSelecionaOndeEnvia").modal();
+                $('#EnvioTipo').click();
+            }
+        } else {      
+            errorArray["Mob_Senha"] = 'Campo Obrigatório!';
+            errorArray["Email"] = 'Campo Obrigatório!';
+            errorArray["Celular"] = 'Campo Obrigatório!';
+            $("form").validate().showErrors(errorArray);
+        }
+    });
+
+    $(document).on('click', '#btnSelecionaTipoEnvio', function () {
+        cwkNotificacao('A senha só será enviada após salvar os dados do funcionário!');
+        var selecEnvioSenha = $('#EnvioTipo:checked').val();
+        $('#OpcaoSMSEmailSenha').val(selecEnvioSenha);
+    });
+
+    $(document).on('click', '.close', function () {
+        $('#divSelecionaOndeEnvia').modal('hide');
+    });
 
     $(document).on('click', '#btnHistoricoRFID', function () {
         var idfuncionario = $('#idFuncionario').val();
@@ -790,10 +871,12 @@
         bUtilizaAPP = $("#utilizaregistrador").is(':checked') || $("#UtilizaAppPontofopag").is(':checked') || $("#UtilizaWebAppPontofopag").is(':checked');
         if (bUtilizaAPP) {
             $("#Mob_Senha").removeAttr("disabled");
+            $("#btnEnviarSenhaEmailSMS").removeAttr("disabled");
         }
         else {
             $("#Mob_Senha").val("");
             $("#Mob_Senha").attr("disabled", true)
+            $("#btnEnviarSenhaEmailSMS").attr("disabled", true)
         }
     }
 

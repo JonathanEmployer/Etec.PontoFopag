@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/EnviaEmail" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/EnviaEmail" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://wsprdservicoemail.ponteazul.com.br/WsEnviaSms.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/PonteAzul.Services.DAL.Enum" />
+  <xs:complexType name="SmsRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Agendamento" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Celular" type="xs:long" />
+      <xs:element minOccurs="0" name="Mensagem" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Origem" type="xs:int" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/PonteAzul.Services.DAL.Enum" minOccurs="0" name="Remetente" type="q1:EnumRemetenteSms" />
+      <xs:element minOccurs="0" name="SeuNum" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SmsRequest" nillable="true" type="tns:SmsRequest" />
+  <xs:complexType name="ArrayOfSmsRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SmsRequest" nillable="true" type="tns:SmsRequest" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSmsRequest" nillable="true" type="tns:ArrayOfSmsRequest" />
+</xs:schema>
