@@ -4,9 +4,8 @@
     Layout = null;
 }
 
-@using (Html.BeginForm("Cadastrar", "IP", new { }, FormMethod.Post, new { role = "form" }))
+@using (Html.BeginForm("Cadastrar", "IP", new {  }, FormMethod.Post, new { role = "form" }))
 {
-    @Html.AntiForgeryToken()
     <div class="divCenterPequeno">
         <div class="panel panel-default">
             <div class="panel-heading salvando">
@@ -59,34 +58,34 @@
                         </div>
                     </div>
                     @*<div class="col-md-4">
-                            <div class="panel panel-default" style="margin-bottom:10px;">
-                                <div class="panel-heading" style="padding-top:2px; padding-bottom:0">
-                                    @Html.Label("Liberar Acesso", new { @class = "control-label label-sm" })
-                                </div>
-                                <div class="panel-body" style="padding-top:5px;">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="checkbox style=" margin:0px"">
-                                                <label>
-                                                    @Html.CheckBoxFor(model => model.BloqueiaRegistrador)
-                                                    @Html.LabelFor(model => model.BloqueiaRegistrador)
-                                                    @Html.ValidationMessageFor(model => model.BloqueiaRegistrador)
-                                                </label>
-                                            </div>
+                        <div class="panel panel-default" style="margin-bottom:10px;">
+                            <div class="panel-heading" style="padding-top:2px; padding-bottom:0">
+                                @Html.Label("Liberar Acesso", new { @class = "control-label label-sm" })
+                            </div>
+                            <div class="panel-body" style="padding-top:5px;">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="checkbox style=" margin:0px"">
+                                            <label>
+                                                @Html.CheckBoxFor(model => model.BloqueiaRegistrador)
+                                                @Html.LabelFor(model => model.BloqueiaRegistrador)
+                                                @Html.ValidationMessageFor(model => model.BloqueiaRegistrador)
+                                            </label>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="checkbox style=" margin:0px"">
-                                                <label>
-                                                    @Html.CheckBoxFor(model => model.BloqueiaPontoFopag)
-                                                    @Html.LabelFor(model => model.BloqueiaPontoFopag)
-                                                    @Html.ValidationMessageFor(model => model.BloqueiaPontoFopag)
-                                                </label>
-                                            </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="checkbox style=" margin:0px"">
+                                            <label>
+                                                @Html.CheckBoxFor(model => model.BloqueiaPontoFopag)
+                                                @Html.LabelFor(model => model.BloqueiaPontoFopag)
+                                                @Html.ValidationMessageFor(model => model.BloqueiaPontoFopag)
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>*@
+                        </div>
+                    </div>*@
                 </div>
             </div>
             <div class="panel-footer">

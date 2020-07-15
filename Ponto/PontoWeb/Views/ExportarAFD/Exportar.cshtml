@@ -5,15 +5,15 @@
 }
 @using (Html.BeginForm("Exportar", "ExportarAFD", FormMethod.Post, new { id = "FormExportar" }))
 {
-    @Html.AntiForgeryToken()
+    
     @Html.HiddenFor(model => model.IdRep, new { id = "id" });
-
-
+    
+    
     <div class="divCenterPequeno">
         @*Conteúdo da tela, onde está localizado os campos com informações do REP e a Data Inicial e Data Final*@
         <div class="panel panel-default" style="padding:0">
             <div class="panel-heading salvando">
-                @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+                @Html.ActionLink("X", "Index", "Home", null, new { @class = "close"})
                 <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
             </div>
             <div class="panel-body panelConteudo">
@@ -53,7 +53,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             @Html.LabelFor(model => model.DataInicial, new { @class = "control-label label-sm" })
-                            <div class="input-group input-group-sm">
+                            <div class="input-group input-group-sm" >
                                 @Html.TextBoxFor(model => model.DataInicial, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataInicial" })
                                 <span class="input-group-btn">
                                     <button class="btn btn-primary" id="btnDataInicial" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -66,7 +66,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             @Html.LabelFor(model => model.DataFinal, new { @class = "control-label label-sm" })
-                            <div class="input-group input-group-sm">
+                            <div class="input-group input-group-sm" >
                                 @Html.TextBoxFor(model => model.DataFinal, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataFinal" })
                                 <span class="input-group-btn">
                                     <button class="btn btn-primary" id="btnDataFinal" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -95,7 +95,7 @@
                             <a class="btn btn-danger"
                                href="@Url.Action("Index", "Home")">
                                 <span class="glyphicon glyphicon-remove salvando"></span> Cancelar
-                            </a>
+                           </a>
                         </div>
                     </div>
                 </div>

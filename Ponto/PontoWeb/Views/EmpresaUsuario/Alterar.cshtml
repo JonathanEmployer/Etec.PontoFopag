@@ -4,7 +4,6 @@
 }
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
     <div class="divCenterMedio">
         <div class="panel panel-default" style="padding:0">
             <div class="panel-heading salvando">
@@ -115,7 +114,7 @@
     var oTb1 = cwk_MicroTBRelatorios('#tbBlock', 110, true);
     var oTb2 = cwk_MicroTBRelatorios('#tbAllow', 110, true);
     var dic = [{ "codigo": "Codigo" }, { "login": "Login" }, { "nome": "Nome" }, { "idempcwusuario": "IdEmpCwUsuario" }];
-
+    
     $(document).ready(function () {
         cwk_EventoClickSelecionarSingle('#tbBlock');
         cwk_EventoClickSelecionarSingle('#tbAllow');

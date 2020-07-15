@@ -5,11 +5,10 @@
     if (Model.idIntegracao.GetValueOrDefault() > 0 && ViewBag.BloqueiaDadosIntegrados)
     {
         integrado = true;
-    }
+    }    
 }
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id, new { id = "idContrato" });
     @Html.HiddenFor(model => model.Incdata);
     @Html.HiddenFor(model => model.Inchora);
@@ -95,7 +94,7 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         @Html.LabelFor(model => model.TipoHorarioPadraoFunc, new { @class = "control-label label-sm" })
-                        @Html.DropDownListFor(model => model.TipoHorarioPadraoFunc, cwkPontoWeb.Models.Helpers.EnumHelper.GetSelectedItemList<Modelo.Listas.TipoHorario>(1), new { @class = "form-control input-sm", style = "height: 25px;" })
+                        @Html.DropDownListFor(model => model.TipoHorarioPadraoFunc, cwkPontoWeb.Models.Helpers.EnumHelper.GetSelectedItemList<Modelo.Listas.TipoHorario>(1),  new { @class = "form-control input-sm", style = "height: 25px;" })
                         @Html.HiddenFor(model => model.TipoHorarioPadraoFunc)
                         @Html.ValidationMessageFor(model => model.TipoHorarioPadraoFunc)
                     </div>
@@ -130,9 +129,9 @@
                     </div>
                 </div>
             </div>
+            </div>          
         </div>
-    </div>
-
+    
 }
 <script>
     $(document).ready(function () {
@@ -154,7 +153,7 @@
             $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
         })
 
-
+       
 
     </script>
 }

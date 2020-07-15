@@ -4,7 +4,6 @@
 }
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id, new { id = "idFechamento" });
     @Html.HiddenFor(model => model.Incdata);
     @Html.HiddenFor(model => model.Inchora);
@@ -125,7 +124,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                         </div>
 
                         <div style="padding-top:5px">
                             <div id="divEmpresa" class="row divsTipo">
@@ -188,7 +187,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             @Html.LabelFor(model => model.MotivoFechamento, new { @class = "control-label label-sm" })
-                            @Html.TextBoxFor(model => model.MotivoFechamento, new { @class = "form-control input-sm", maxlength = 36 })
+                            @Html.TextBoxFor(model => model.MotivoFechamento, new { @class = "form-control input-sm", maxlength = 36})
                             @Html.ValidationMessageFor(model => model.MotivoFechamento)
                         </div>
                     </div>
@@ -293,7 +292,7 @@
     $(".lkpBancoHoras").bind("keydown click", function (e) {
         cwk_EventoConsultaUnico(e, this, "", "BancoHoras", "", "", 4);
     });
-
+    
 </script>
 @if (ViewBag.Consultar == 1)
 {

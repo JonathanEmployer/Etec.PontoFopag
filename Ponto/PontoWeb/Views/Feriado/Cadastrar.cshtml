@@ -10,7 +10,6 @@
 
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id, new { id = "idFeriado" });
     @Html.HiddenFor(model => model.Incdata);
     @Html.HiddenFor(model => model.Data_Ant);

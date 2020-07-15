@@ -6,7 +6,6 @@
 
 @using (Html.BeginForm("Cadastrar", "ClassificacaoHorasExtras", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
 {
-    @Html.AntiForgeryToken()
     <div class="divCenterPequeno" id="divCadastroClassificacao">
         <div class="panel panel-default" style="padding:0">
             <div class="panel-heading salvando">
@@ -173,7 +172,7 @@
     function validaTipo(valor) {
         if (valor == 0 || valor == 2) {
             $("#divClassificacao").show();
-
+            
         }
         else
         {

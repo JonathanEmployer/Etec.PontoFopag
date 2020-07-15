@@ -7,7 +7,6 @@
 }
 @using (Html.BeginForm("ManutencaoDiaria", "RelatorioManutencaoDiaria", FormMethod.Post, new { target = "_blank" }))
 {
-    @Html.AntiForgeryToken()
     <div class="">
         <div class="panel panel-default" style="padding:0px;margin-bottom:0">
             <div class="panel-heading">
@@ -137,5 +136,5 @@
         }
         return false;
     });
-
+        
 </script>

@@ -6,7 +6,6 @@
 
 @using (Html.BeginForm("Cadastrar", "FuncionarioHistorico", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
 {
-    @Html.AntiForgeryToken()
     <div class="divCenterPequeno">
         <div class="panel panel-default">
             <div class="panel-heading salvando">
@@ -16,7 +15,7 @@
             <div class="panel-body panelConteudo">
                 @Html.ValidationMessage("CustomError")
                 @Html.HiddenFor(model => model.Id)
-                @Html.HiddenFor(model => model.Idfuncionario, new { @id = "idFuncionario" })
+                @Html.HiddenFor(model => model.Idfuncionario, new { @id = "idFuncionario"})
                 @Html.HiddenFor(model => model.Incdata)
                 @Html.HiddenFor(model => model.Inchora)
                 @Html.HiddenFor(model => model.Incusuario)
@@ -88,7 +87,7 @@
         $('.timeL').mask('00:00');
         cwk_EventoIncluirAjaxParam('#fecharCadastroModal', 'Grid', 'FuncionarioHistorico', parametros = { id: $("#idFuncionario").val() }, "");
         cwk_EventoIncluirAjaxParam('#xfecharCadastroModal', 'Grid', 'FuncionarioHistorico', parametros = { id: $("#idFuncionario").val() }, "");
-
+        
         $('form').submit(function () {
             if ($(this).valid()) {
                 cwk_SalvaCadastroAjax(this);

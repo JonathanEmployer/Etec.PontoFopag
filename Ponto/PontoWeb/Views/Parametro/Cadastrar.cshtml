@@ -11,7 +11,6 @@
 
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id, new { id = "idParametro" });
     @Html.HiddenFor(model => model.Incdata);
     @Html.HiddenFor(model => model.Inchora);
@@ -32,7 +31,7 @@
                 @Html.ActionLink("X", "Grid", "Parametro", null, new { @class = "close" })
                 <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
             </div>
-            <div class="panel-body panelConteudo" id="panelBodyMaximo">
+            <div class="panel-body panelConteudo"  id="panelBodyMaximo">
                 @Html.ValidationMessage("CustomError")
                 <div class="row">
                     <div class="col-md-3">
@@ -109,7 +108,7 @@
                                         <div class="checkbox" style="margin:2px">
                                             <label>
                                                 @Html.CheckBoxFor(model => model.Flg_Separar_Trabalhadas_Noturna_Extras_Noturna)
-                                                @Html.LabelFor(model => model.Flg_Separar_Trabalhadas_Noturna_Extras_Noturna, new { @class = "control-label label-sm", @style = "font-weight: bold;" })
+                                                @Html.LabelFor(model => model.Flg_Separar_Trabalhadas_Noturna_Extras_Noturna, new { @class = "control-label label-sm",  @style="font-weight: bold;" })
                                             </label>
                                         </div>
                                     </div>
@@ -142,7 +141,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p></p>
+                            <p></p>
 
                     </div>
 
@@ -319,7 +318,7 @@
             <div class="row">
                 <div class="col-xs-12 center-block">
                     <div style="text-align: right">
-                        <button type="submit" class="btn btn-success salvando desabilitar" id="btnsalvar">
+                        <button type="submit" class="btn btn-success salvando desabilitar" id="btnsalvar" >
                             <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
                         </button>
                         <a class="btn btn-danger salvando"
@@ -339,7 +338,7 @@
         $(":input[type='text']:enabled:visible:first").focus();
         var redHora = $('#ReducaoHoraNoturna').val();
         ValidaReducaoHoraNoturna(redHora);
-        document.getElementById(id).disabled = false;
+        document.getElementById(id).disabled=false;
     });
 
     $('#ReducaoHoraNoturna').on('input', function () {
@@ -396,10 +395,10 @@
         $('#SpanCalcRed').addClass("glyphicon");
         $('#SpanCalcRed').addClass("glyphicon-remove-sign");
     }
-
+    
     $('form').submit(function () {
-        if ($(this).valid() && validaFormt()) {
-            document.getElementById('btnsalvar').disabled = true;
+            if ($(this).valid() && validaFormt()) {
+            document.getElementById('btnsalvar').disabled=true;
             return true;
         }
         return false;

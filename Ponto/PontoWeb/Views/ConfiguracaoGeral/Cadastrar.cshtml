@@ -5,7 +5,6 @@
 }
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
     <div class="divCenterPequeno">
         <div class="panel panel-default">
             <div class="panel-heading salvando">
@@ -107,7 +106,7 @@
                             </div>
                         </div>
                     </div>
-
+                    
                 </div>
                 <div class="col-md-3">
                     <div class="well" style="padding-top:5px; padding-bottom:5px;">
@@ -136,14 +135,14 @@
                     <div class="row">
                         <div class="checkbox">
                             <label>
-                                @Html.CheckBoxFor(model => model.IntegrarSalarioFuncionario)
+                                @Html.CheckBoxFor(model => model.IntegrarSalarioFuncionario)  
                                 @Html.LabelFor(model => model.IntegrarSalarioFuncionario, new { @class = "control-label label-sm" })
                                 @Html.ValidationMessageFor(model => model.IntegrarSalarioFuncionario)
                             </label>
                         </div>
                     </div>
                 </div>
-                <p></p>
+                        <p></p>
                 <div class="col-md-12">
                     <div class="col-md-2">
                         <div class="form-group">
@@ -167,56 +166,56 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="panel-footer">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div style="text-align: left">
-                            <button type="button" class="btn btn-primary salvando desabilitar" id="btnTesteEmail">
-                                <span class="glyphicon glyphicon-send"></span> &nbsp;Testar Envio de E-mail&nbsp;&nbsp;
-                            </button>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div style="text-align: left">
+                                    <button type="button" class="btn btn-primary salvando desabilitar" id="btnTesteEmail">
+                                        <span class="glyphicon glyphicon-send"></span> &nbsp;Testar Envio de E-mail&nbsp;&nbsp;
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div style="text-align: right">
+                                    <button type="button" class="btn btn-success salvando desabilitar" id="btnSalvar">
+                                        <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                                    </button>
+                                    <a class="btn btn-danger"
+                                       href="@Url.Action("Index", "Home")">
+                                        <span class="glyphicon glyphicon-remove salvando"></span> Cancelar
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div style="text-align: right">
-                            <button type="button" class="btn btn-success salvando desabilitar" id="btnSalvar">
-                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
-                            </button>
-                            <a class="btn btn-danger"
-                               href="@Url.Action("Index", "Home")">
-                                <span class="glyphicon glyphicon-remove salvando"></span> Cancelar
-                            </a>
+                    <div id="ModelEnviando" class="modal">
+                        <div style="height: 200px; width: 400px; position: fixed; left: 45%; top: 40%; margin-left:-55px; margin-top:-90px">
+                            <h2><label class="label label-primary">Enviando E-mail</label></h2>
+                        </div>
+                        <div style="height: 200px; width: 400px; position: fixed; left: 45%; top: 40%; margin: -25px 0 0 -25px; z-index: 9999998; overflow-y: hidden">
+                            <div id="circularG" style="text-align:center;">
+                                <div id="circularG_1" class="circularG">
+                                </div>
+                                <div id="circularG_2" class="circularG">
+                                </div>
+                                <div id="circularG_3" class="circularG">
+                                </div>
+                                <div id="circularG_4" class="circularG">
+                                </div>
+                                <div id="circularG_5" class="circularG">
+                                </div>
+                                <div id="circularG_6" class="circularG">
+                                </div>
+                                <div id="circularG_7" class="circularG">
+                                </div>
+                                <div id="circularG_8" class="circularG">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="ModelEnviando" class="modal">
-                <div style="height: 200px; width: 400px; position: fixed; left: 45%; top: 40%; margin-left:-55px; margin-top:-90px">
-                    <h2><label class="label label-primary">Enviando E-mail</label></h2>
-                </div>
-                <div style="height: 200px; width: 400px; position: fixed; left: 45%; top: 40%; margin: -25px 0 0 -25px; z-index: 9999998; overflow-y: hidden">
-                    <div id="circularG" style="text-align:center;">
-                        <div id="circularG_1" class="circularG">
-                        </div>
-                        <div id="circularG_2" class="circularG">
-                        </div>
-                        <div id="circularG_3" class="circularG">
-                        </div>
-                        <div id="circularG_4" class="circularG">
-                        </div>
-                        <div id="circularG_5" class="circularG">
-                        </div>
-                        <div id="circularG_6" class="circularG">
-                        </div>
-                        <div id="circularG_7" class="circularG">
-                        </div>
-                        <div id="circularG_8" class="circularG">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
 }
 
@@ -419,7 +418,7 @@
                             label: "Continuar",
                             className: "btn-primary",
                             callback: function () {
-
+                               
                             }
                         }
                     }

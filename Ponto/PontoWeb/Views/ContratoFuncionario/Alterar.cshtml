@@ -4,7 +4,6 @@
 }
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
     <div class="divCenter">
         <div class="panel panel-default" style="padding:0">
             <div class="panel-heading salvando">
@@ -141,7 +140,7 @@
     $('#txtFiltroLiberado').keyup(function () {
         filtraTabelaPorTexto([$('#txtFiltroLiberado').val()], '#tbAllow');
     });
-
+    
     $(document).ready(function () {
         cwk_EventoClickSelecionarSingle('#tbBlock');
         cwk_EventoClickSelecionarSingle('#tbAllow');

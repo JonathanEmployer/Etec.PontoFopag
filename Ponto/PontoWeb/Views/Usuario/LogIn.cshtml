@@ -22,31 +22,30 @@
                         <img class="img-responsive" src="~/Content/img/cwork-logo-form.png">
                         @using (Html.BeginForm())
                         {
-                            @Html.AntiForgeryToken()
                             @Html.HiddenFor(model => model.ReturnURL)
                             <form role="form" action="#">
                                 <div class="form-group">
-                                    <div class="input-group input-group-lg">
-                                        <span class="input-group-addon" style="padding:6px 12px"><span class="fa fa-user" aria-hidden="true"></span></span>
-                                        @Html.TextBoxFor(model => model.login, new { @class = "form-control", @placeholder = "Usuário ou E-mail", @autofocus = "autofocus", autocomplete = "off" })
-                                    </div>
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-addon" style="padding:6px 12px"><span class="fa fa-user" aria-hidden="true"></span></span>
+                                    @Html.TextBoxFor(model => model.login, new { @class = "form-control", @placeholder = "Usuário ou E-mail", @autofocus = "autofocus", autocomplete = "off" })
+                                </div>
                                     @Html.ValidationMessageFor(model => model.login, null, new { @class = "label cwork-label-erro" })
                                 </div>
                                 <div class="form-group">
-                                    <div class="input-group input-group-lg">
-                                        <span class="input-group-addon" style="padding:6px 10px"><span class="fa fa-key" aria-hidden="true"></span></span>
-                                        @Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "Senha", autocomplete = "off" })
-                                    </div>
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-addon" style="padding:6px 10px"><span class="fa fa-key" aria-hidden="true"></span></span>
+                                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "Senha", autocomplete = "off" })
+                                </div>
                                     @Html.ValidationMessageFor(model => model.Password, null, new { @class = "label cwork-label-erro" })
                                 </div>
 
-                                @if (ViewBag.Validar > 0)
-                                {
-                                    <div id="divCaptcha">
-                                        @Html.Partial("Captcha")
-                                    </div>
-                                }
-                                <button type="submit" class="btn btn-default btn-lg btn-block">Entrar</button>
+                            @if (ViewBag.Validar > 0)
+                            {
+                                <div id="divCaptcha">
+                                    @Html.Partial("Captcha")
+                                </div>
+                            }
+                            <button type="submit" class="btn btn-default btn-lg btn-block">Entrar</button>
                                 @ViewBag.resultSucess
                                 <label class="label cwork-label-erro">@ViewBag.resultError</label>
 

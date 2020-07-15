@@ -7,7 +7,6 @@
 }
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
     <div class="">
         <div class="panel panel-default" style="padding:0px; margin-bottom:0px;">
             <div class="panel-heading">
@@ -241,7 +240,7 @@
     function CarregarGridEmpresa() {
         if ( $("#lkpRelogioSelecionado").val() !== '' && $("#lkpRelogioSelecionado").val() !== undefined) {
             CarregaDadosAjax('CarregarGridEmpresa', 'EnvioDadosRep', ParamCarregaTela(), '#tbGridEmpresa', null);
-        }
+        }   
     }
 
     function CarregarGridFuncionario() {
@@ -299,7 +298,7 @@
             {
                 SetSelecionados('tbEmp', $("#idEmpresaRelogio").val());
             }
-
+            
             $('#idsEmpresasSelecionadas').val(GetSelecionados('tbEmp'));
             $('#pnlEmpresa :input').attr('disabled', true);
             $('#pnlEmpresa').css('pointer-events', 'none');
@@ -316,7 +315,7 @@
 @if (ViewBag.Consultar == 1)
 {
     <script>
-        $(document).ready(function () {
+        $(document).ready(function (){
             $('form').find('button, select').attr('disabled', 'disabled');
         })
     </script>

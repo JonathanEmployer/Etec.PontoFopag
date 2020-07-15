@@ -4,7 +4,6 @@
 
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
     @Html.ValidationMessage("CustomError")
     @Html.HiddenFor(model => model.Codigo);
     <div class="divCenterPequeno">

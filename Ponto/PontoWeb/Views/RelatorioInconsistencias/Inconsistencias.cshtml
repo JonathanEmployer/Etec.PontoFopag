@@ -8,7 +8,6 @@
 
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
     <div class="">
         <div class="panel panel-default" style="padding:0px;margin-bottom:0">
             <div class="panel-heading">
@@ -33,7 +32,7 @@
                                         <div class="col-md-12">
                                             <div class="row">
                                                 <div class="col-md-5">
-                                                    <div class="input-group input-group-sm">
+                                                    <div class="input-group input-group-sm" >
                                                         @Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "InicioPeriodo" })
                                                         <span class="input-group-btn">
                                                             <button class="btn btn-primary" id="btnDtInicio" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -44,7 +43,7 @@
                                                     @Html.Label("a", new { @class = "label-sm" })
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <div class="input-group input-group-sm">
+                                                    <div class="input-group input-group-sm" >
                                                         @Html.TextBoxFor(model => Model.FimPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "FimPeriodo" })
                                                         <span class="input-group-btn">
                                                             <button class="btn btn-primary" id="btnDtFim" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -177,8 +176,8 @@
                 endDate = new Date(ev.date);
                 endDate.setDate(endDate.getDate() + 30);
                 endDateString = ('0' + endDate.getDate()).slice(-2) + '/'
-                    + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
-                    + endDate.getFullYear();
+                                + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
+                                + endDate.getFullYear();
                 $('#FimPeriodo').val(endDateString);
                 $('#FimPeriodo').datepicker('update');
             }
@@ -248,7 +247,8 @@
         validaConsideracaoInconsistencia(false);
     });
 
-    function validaConsideracaoInconsistencia(exibeAlerta) {
+    function validaConsideracaoInconsistencia(exibeAlerta)
+    {
         if (exibeAlerta == undefined || exibeAlerta == "" || exibeAlerta == null) {
             exibeAlerta = false;
         }
@@ -264,7 +264,8 @@
             $("#pnlConsiderar").addClass("panel-danger");
             return false;
         }
-        else {
+        else
+        {
             errorArray["bLimMaxHorasTrab"] = null;
             $("form").validate().showErrors(errorArray);
             $("#pnlConsiderar").removeClass("panel-default").removeClass("panel-danger");
@@ -286,28 +287,28 @@
                 if (exibeAlerta) {
                     cwkErro(msgErro);
                 }
-                errorArray["Intervalo"] = msgErro;
-                $("form").validate().showErrors(errorArray);
-                $("#pnlData").removeClass("panel-default").removeClass("panel-success");
-                $("#pnlData").addClass("panel-danger");
-                return false;
-            }
+                    errorArray["Intervalo"] = msgErro;
+                    $("form").validate().showErrors(errorArray);
+                    $("#pnlData").removeClass("panel-default").removeClass("panel-success");
+                    $("#pnlData").addClass("panel-danger");
+                    return false;
+                }
             if (dias > 31) {
                 var msgErro = 'O período não pode ser maior que 31 dias.';
                 if (exibeAlerta) {
                     cwkErro(msgErro);
                 }
                 errorArray["Intervalo"] = msgErro;
-                $("form").validate().showErrors(errorArray);
-                $("#pnlData").removeClass("panel-default").removeClass("panel-success");
-                $("#pnlData").addClass("panel-danger");
-                return false;
-            }
-            else {
-                $("#pnlData").removeClass("panel-default").removeClass("panel-danger");
-                $("#pnlData").addClass("panel-success");
-                return true;
-            }
+                    $("form").validate().showErrors(errorArray);
+                    $("#pnlData").removeClass("panel-default").removeClass("panel-success");
+                    $("#pnlData").addClass("panel-danger");
+                    return false;
+                }
+                else {
+                    $("#pnlData").removeClass("panel-default").removeClass("panel-danger");
+                    $("#pnlData").addClass("panel-success");
+                    return true;
+                }
 
         }
         else {
@@ -333,5 +334,5 @@
             return false;
         }
     }
-
+     
 </script>

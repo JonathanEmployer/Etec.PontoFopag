@@ -7,7 +7,6 @@
 }
 @using (Html.BeginForm("", "", FormMethod.Post, new { id = "FormTabelaMarcacao" }))
 {
-    @Html.AntiForgeryToken()
     <div class="" style="padding-top:2px;">
         <!-- Modal -->
         <div class="modal fade in" id="myModal" tabindex="" role="dialog" data-keyboard="false" data-backdrop="static" aria-labelledby="myModalLabel" aria-hidden="true" style="padding-right:5px; padding-left:5px; padding-top:1px;">
@@ -49,7 +48,7 @@
                                                             </div>
 
                                                         </div>
-                                                    </div>
+                                                    </div>                                                            
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <div class="btn-group btn-group-sm btn-group-justified" role="group">
@@ -61,7 +60,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div class>
                                                 </div>
                                             </div>
                                         </div>

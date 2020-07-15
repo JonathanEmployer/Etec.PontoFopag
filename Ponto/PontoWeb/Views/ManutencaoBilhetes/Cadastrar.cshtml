@@ -6,7 +6,6 @@
 
 @using (Html.BeginForm("Cadastrar", "ManutencaoBilhetes", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
 {
-    @Html.AntiForgeryToken()
     <div class="divCenterPequeno">
         <div class="panel panel-default">
             <div class="panel-heading salvando">

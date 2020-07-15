@@ -15,17 +15,16 @@
 
 <style>
     .divPeriodoFixo {
-        width: 360px !important;
-        margin: auto;
-        margin-left: auto;
-        margin-top: 20px;
-        margin-bottom: 10px;
-    }
+    width: 360px !important;
+    margin: auto;
+    margin-left: auto;
+    margin-top:20px;
+    margin-bottom:10px;
+}
 </style>
 
 @using (Html.BeginForm("FCartaoPontoIndividual", "ImpressaoCartaoPonto", FormMethod.Post, new { id = "FormFCartaoPontoIndividual", target = "_blank" }))
 {
-    @Html.AntiForgeryToken()
     <div class="divCenterPequeno">
         <div class="divPeriodoFixo">
             <div class="panel panel-default" style="padding:0">
@@ -119,8 +118,8 @@
                 endDate = new Date(ev.date);
                 endDate.setDate(endDate.getDate() + 30);
                 endDateString = ('0' + endDate.getDate()).slice(-2) + '/'
-                    + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
-                    + endDate.getFullYear();
+                                + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
+                                + endDate.getFullYear();
                 $('#DataFinalCPI').val(endDateString);
                 $('#DataFinalCPI').datepicker('update');
                 $('#DataFinalCPI').datepicker('hide');
@@ -142,7 +141,7 @@
     function validaPeriodoCPI() {
         return validaPeriodo("#DataInicialCPI", "#DataFinalCPI", "#pnlDataCPI", "intervaloCPI", "#FormFCartaoPontoIndividual");
     }
-
+    
     $("#btnRelPdf").click(function (event) {
         $("#tipoArquivo").val("PDF")
         if (!validaPeriodoCPI()) {

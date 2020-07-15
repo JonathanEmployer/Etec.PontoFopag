@@ -8,7 +8,6 @@
 
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
     <div class="">
         <div class="panel panel-default" style="padding:0px;margin-bottom:0">
             <div class="panel-heading">
@@ -65,7 +64,7 @@
                                         <div class="col-md-12">
                                             <div class="row">
                                                 <div class="col-md-5">
-                                                    <div class="input-group input-group-sm">
+                                                    <div class="input-group input-group-sm" >
                                                         @Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "InicioPeriodo" })
                                                         <span class="input-group-btn">
                                                             <button class="btn btn-primary" id="btnDtInicio" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -76,7 +75,7 @@
                                                     @Html.Label("a", new { @class = "label-sm" })
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <div class="input-group input-group-sm">
+                                                    <div class="input-group input-group-sm" >
                                                         @Html.TextBoxFor(model => Model.FimPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "FimPeriodo" })
                                                         <span class="input-group-btn">
                                                             <button class="btn btn-primary" id="btnDtFim" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -235,16 +234,17 @@
                 endDate = new Date(ev.date);
                 endDate.setDate(endDate.getDate() + 30);
                 endDateString = ('0' + endDate.getDate()).slice(-2) + '/'
-                    + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
-                    + endDate.getFullYear();
+                                + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
+                                + endDate.getFullYear();
                 $('#FimPeriodo').val(endDateString);
                 $('#FimPeriodo').datepicker('update');
             }
-            //            validaPeriodo(this);
+//            validaPeriodo(this);
             validaPeriodoCartaoPontoMarcacao("#InicioPeriodo", "#FimPeriodo", "#pnlData", "Intervalo", "form");
         });
 
-        $('#tbFun tbody').on('click', 'tr', function () {
+        $('#tbFun tbody').on('click', 'tr', function ()
+        {
             errorArray["IdSelecionados"] = null;
             $("form").validate().showErrors(errorArray);
         });
@@ -297,13 +297,15 @@
         }
     }
 
-    function EventoFuncionarioFiltro() {
+    function EventoFuncionarioFiltro()
+    {
         let x = $("input[name='rdFuncionarioFiltro']:checked").val();
         let y = '/GetFuncsRel/GetFunsComParms';
-        EventoFuncionarioFiltroRequest(x, y);
+        EventoFuncionarioFiltroRequest(x,y);
     }
 
-    function EventoDatePicker(ev) {
+    function EventoDatePicker(ev)
+    {
         $("#pnlData").removeClass("panel-danger").removeClass("panel-success");
         $("#pnlData").addClass("panel-default");
         errorArray["Intervalo"] = null;
@@ -320,5 +322,5 @@
         }
         validaPeriodoCartaoPontoMarcacao("#InicioPeriodo", "#FimPeriodo", "#pnlData", "Intervalo", "form");
     }
-
+   
 </script>

@@ -8,7 +8,6 @@
 
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
     <div class="">
         <div class="panel panel-default" style="padding:0px;">
             <div class="panel-heading">
@@ -20,68 +19,68 @@
                 @Html.ValidationSummary(true)
                 @Html.ValidationMessage("CustomError", new { id = "CustomError" })
                 @Html.HiddenFor(model => model.TipoArquivo, new { id = "tipoArquivo" })
-                <div>
-                    <div class="row" style="padding-bottom:2px">
-                        <div id="divPeriodo" class="col-md-5">
-                            <div class="panel panel-default" id="pnlData">
-                                <div class="panel-heading" style="padding-top:5px; padding-bottom:5px">
-                                    <div class="row">
-                                        <div class="col-md-2"><label class="control-label label-sm">Período</label></div>
-                                    </div>
-                                </div>
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                            <div class="row">
-                                                <div class="col-md-5">
-                                                    <div class="input-group input-group-sm">
-                                                        @Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "InicioPeriodo" })
-                                                        <span class="input-group-btn">
-                                                            <button class="btn btn-primary" id="btnDtInicio" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-1">
-                                                    @Html.Label("a", new { @class = "label-sm" })
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <div class="input-group input-group-sm">
-                                                        @Html.TextBoxFor(model => Model.FimPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "FimPeriodo" })
-                                                        <span class="input-group-btn">
-                                                            <button class="btn btn-primary" id="btnDtFim" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                @Html.HiddenFor(model => model.Intervalo)
-                                                @Html.ValidationMessageFor(model => model.Intervalo)
-                                                @Html.ValidationMessageFor(model => Model.InicioPeriodo)
-                                                @Html.ValidationMessageFor(model => Model.FimPeriodo)
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            @Html.HiddenFor(x => x.IdSelecionados)
-                            @Html.ValidationMessageFor(x => x.IdSelecionados)
-                            <div class="row">
-                                @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorio()).GetType(), true, "GetFuncsRel", "GetFuns")
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            @Html.Partial("../JobManager/JobView")
-                        </div>
-                    </div>
-                </div>
+				<div>
+					<div class="row" style="padding-bottom:2px">
+						<div id="divPeriodo" class="col-md-5">
+							<div class="panel panel-default" id="pnlData">
+								<div class="panel-heading" style="padding-top:5px; padding-bottom:5px">
+									<div class="row">
+										<div class="col-md-2"><label class="control-label label-sm">Período</label></div>
+									</div>
+								</div>
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-md-10">
+											<div class="row">
+												<div class="col-md-5">
+													<div class="input-group input-group-sm" >
+														@Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "InicioPeriodo" })
+														<span class="input-group-btn">
+															<button class="btn btn-primary" id="btnDtInicio" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+														</span>
+													</div>
+												</div>
+												<div class="col-md-1">
+													@Html.Label("a", new { @class = "label-sm" })
+												</div>
+												<div class="col-md-5">
+													<div class="input-group input-group-sm" >
+														@Html.TextBoxFor(model => Model.FimPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "FimPeriodo" })
+														<span class="input-group-btn">
+															<button class="btn btn-primary" id="btnDtFim" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+														</span>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12">
+												@Html.HiddenFor(model => model.Intervalo)
+												@Html.ValidationMessageFor(model => model.Intervalo)
+												@Html.ValidationMessageFor(model => Model.InicioPeriodo)
+												@Html.ValidationMessageFor(model => Model.FimPeriodo)
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							@Html.HiddenFor(x => x.IdSelecionados)
+							@Html.ValidationMessageFor(x => x.IdSelecionados)
+							<div class="row">
+								@Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorio()).GetType(), true, "GetFuncsRel", "GetFuns")
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							@Html.Partial("../JobManager/JobView")
+						</div>
+					</div>
+				</div>
             </div>
             <div class="panel-footer">
                 <div class="row">
@@ -101,7 +100,7 @@
     cwk_DataCalendario('#btnDtInicio', '#InicioPeriodo');
     cwk_DataCalendario('#btnDtFim', '#FimPeriodo');
     $(document).ready(function () {
-
+       
         $('.datepickerpt').datepicker().on('hide', function (ev) {
             $("#pnlData").removeClass("panel-danger").removeClass("panel-success");
             $("#pnlData").addClass("panel-default");
@@ -112,18 +111,18 @@
                 endDate = new Date(ev.date);
                 endDate.setDate(endDate.getDate() + 30);
                 endDateString = ('0' + endDate.getDate()).slice(-2) + '/'
-                    + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
-                    + endDate.getFullYear();
+                                + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
+                                + endDate.getFullYear();
                 $('#FimPeriodo').val(endDateString);
                 $('#FimPeriodo').datepicker('update');
             }
             validaPeriodo(this);
         });
 
-        $('#tbFun tbody').on('click', 'tr', function () {
-            errorArray["IdSelecionados"] = null;
-            $("form").validate().showErrors(errorArray);
-        });
+		$('#tbFun tbody').on('click', 'tr', function () {
+			errorArray["IdSelecionados"] = null;
+			$("form").validate().showErrors(errorArray);
+		});
     });
 
     $("#btnExcel").click(function (event) {
@@ -138,26 +137,26 @@
 
     $('form').submit(function () {
         if ($(this).valid()) {
-            PostFormJob(this);
+			PostFormJob(this);
         }
         return false;
     });
 
-    function validaForm() {
-        $("#IdSelecionados").val(tbFunGetSelecionado());
-        if ($("#IdSelecionados").val().length <= 0 || $("#IdSelecionados").val() == '' || $("#IdSelecionados").val() == null) {
-            var msgErro = 'Para Imprimir o Relatório é Necessário Selecionar Pelo Menos um Funcionário.';
-            errorArray["IdSelecionados"] = msgErro;
-            cwkErro(msgErro);
-            $("form").validate().showErrors(errorArray);
-            return false;
-        }
-        else {
-            errorArray["IdSelecionados"] = null;
-            $("form").validate().showErrors(errorArray);
-            return true;
-        }
-    }
+	function validaForm() {
+		$("#IdSelecionados").val(tbFunGetSelecionado());
+		if ($("#IdSelecionados").val().length <= 0 || $("#IdSelecionados").val() == '' || $("#IdSelecionados").val() == null) {
+			var msgErro = 'Para Imprimir o Relatório é Necessário Selecionar Pelo Menos um Funcionário.';
+			errorArray["IdSelecionados"] = msgErro;
+			cwkErro(msgErro);
+			$("form").validate().showErrors(errorArray);
+			return false;
+		}
+		else {
+			errorArray["IdSelecionados"] = null;
+			$("form").validate().showErrors(errorArray);
+			return true;
+		}
+	}
 
     function validaPeriodo(campo) {
         if (($("#InicioPeriodo").val() != null && $("#InicioPeriodo").val() != "") && ($("#FimPeriodo").val() != null && $("#FimPeriodo").val() != "")) {
@@ -200,5 +199,5 @@
             return false;
         }
     }
-
+     
 </script>

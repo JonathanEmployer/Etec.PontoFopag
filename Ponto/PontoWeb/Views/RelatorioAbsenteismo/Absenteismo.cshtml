@@ -7,7 +7,6 @@
 }
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
     <div class="">
         <div class="panel panel-default" style="padding:0px;margin-bottom:0">
             <div class="panel-heading">
@@ -34,7 +33,7 @@
                                         </div>
                                         <div class="col-md-5">
                                             @Html.LabelFor(model => Model.InicioPeriodo, new { @class = "label-sm editor-label" })
-                                            <div class="input-group input-group-sm" style="width:110px">
+                                            <div class="input-group input-group-sm" style="width:110px" >
                                                 @Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control input-sm editor-field MascDate datepickerpt", id = "InicioPeriodo" })
                                                 <span class="input-group-btn">
                                                     <button class="btn btn-primary" id="btnDtInicio" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -44,7 +43,7 @@
                                         </div>
                                         <div class="col-md-5">
                                             @Html.LabelFor(model => Model.FimPeriodo, new { @class = "label-sm editor-label" })
-                                            <div class="input-group input-group-sm" style="width:110px">
+                                            <div class="input-group input-group-sm" style="width:110px" >
                                                 @Html.TextBoxFor(model => Model.FimPeriodo, new { @class = "form-control input-sm editor-field MascDate datepickerpt", id = "FimPeriodo" })
                                                 <span class="input-group-btn">
                                                     <button class="btn btn-primary" id="btnDtFim" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -195,8 +194,8 @@
                 endDate = new Date(ev.date);
                 endDate.setDate(endDate.getDate() + 30);
                 endDateString = ('0' + endDate.getDate()).slice(-2) + '/'
-                    + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
-                    + endDate.getFullYear();
+                                + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
+                                + endDate.getFullYear();
                 $('#FimPeriodo').val(endDateString);
                 $('#FimPeriodo').datepicker('update');
             }
@@ -204,7 +203,7 @@
         });
 
         $('#tbFun tbody').on('click', 'tr', function () {
-            errorArray["IdSelecionados"] = null;
+			errorArray["IdSelecionados"] = null;
             $("form").validate().showErrors(errorArray);
         });
     });
@@ -238,16 +237,16 @@
     });
 
     function validaForm() {
-        $("#IdSelecionados").val(tbFunGetSelecionado());
-        if ($("#IdSelecionados").val().length <= 0 || $("#IdSelecionados").val() === '' || $("#IdSelecionados").val() === null) {
+		$("#IdSelecionados").val(tbFunGetSelecionado());
+		if ($("#IdSelecionados").val().length <= 0 || $("#IdSelecionados").val() === '' || $("#IdSelecionados").val() === null) {
             var msgErro = 'Para Imprimir o Relatório de Absenteismo é Necessário Selecionar Pelo Menos um Funcionário.';
-            errorArray["IdSelecionados"] = msgErro;
+			errorArray["IdSelecionados"] = msgErro;
             cwkErro(msgErro);
             $("form").validate().showErrors(errorArray);
             return false;
         }
         else {
-            errorArray["IdSelecionados"] = null;
+			errorArray["IdSelecionados"] = null;
             $("form").validate().showErrors(errorArray);
             return true;
         }
@@ -296,6 +295,6 @@
             $("#divGridMarcacao").html("");
             return false;
         }
-    }
-
+    } 
+    
 </script>

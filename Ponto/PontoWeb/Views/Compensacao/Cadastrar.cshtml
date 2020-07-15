@@ -4,7 +4,6 @@
 }
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id, new { id = "idCompensacao" });
     @Html.HiddenFor(model => model.Identificacao);
     @Html.HiddenFor(model => model.Dias_1);

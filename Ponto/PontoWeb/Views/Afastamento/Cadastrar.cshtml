@@ -9,26 +9,25 @@
 }
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => model.Id, new { id = "idAfastamento" })
-    @Html.HiddenFor(model => model.Incdata)
-    @Html.HiddenFor(model => model.Inchora)
-    @Html.HiddenFor(model => model.Incusuario)
-    @Html.HiddenFor(model => model.Altdata)
-    @Html.HiddenFor(model => model.Althora)
-    @Html.HiddenFor(model => model.Altusuario)
-    @Html.HiddenFor(model => model.Descricao)
-    @Html.HiddenFor(model => model.IdOcorrencia)
-    @Html.HiddenFor(model => model.IdFuncionario)
-    @Html.HiddenFor(model => model.IdEmpresa)
-    @Html.HiddenFor(model => model.IdDepartamento)
-    @Html.HiddenFor(model => model.IdFuncionario_Ant)
-    @Html.HiddenFor(model => model.IdDepartamento_Ant)
-    @Html.HiddenFor(model => model.IdEmpresa_Ant)
-    @Html.HiddenFor(model => model.Tipo_Ant)
-    @Html.HiddenFor(model => model.Datai_Ant)
-    @Html.HiddenFor(model => model.Dataf_Ant)
-    @Html.HiddenFor(model => model.IdIntegracao)
+    @Html.HiddenFor(model => model.Id, new { id = "idAfastamento" });
+    @Html.HiddenFor(model => model.Incdata);
+    @Html.HiddenFor(model => model.Inchora);
+    @Html.HiddenFor(model => model.Incusuario);
+    @Html.HiddenFor(model => model.Altdata);
+    @Html.HiddenFor(model => model.Althora);
+    @Html.HiddenFor(model => model.Altusuario);
+    @Html.HiddenFor(model => model.Descricao);
+    @Html.HiddenFor(model => model.IdOcorrencia);
+    @Html.HiddenFor(model => model.IdFuncionario);
+    @Html.HiddenFor(model => model.IdEmpresa);
+    @Html.HiddenFor(model => model.IdDepartamento);
+    @Html.HiddenFor(model => model.IdFuncionario_Ant);
+    @Html.HiddenFor(model => model.IdDepartamento_Ant);
+    @Html.HiddenFor(model => model.IdEmpresa_Ant);
+    @Html.HiddenFor(model => model.Tipo_Ant);
+    @Html.HiddenFor(model => model.Datai_Ant);
+    @Html.HiddenFor(model => model.Dataf_Ant);
+    @Html.HiddenFor(model => model.IdIntegracao);
     @Html.HiddenFor(model => model.DataUltimoFechamentoPontoEBanco)
 
     <div class="divCenterMedio">
@@ -568,7 +567,7 @@
 
 @if (Model.DataUltimoFechamentoPontoEBanco != null)
 {
-    <script>
+<script>
     var dataIni = ConvertDate('@Model.Datai');
     var dataFinal = ConvertDate('@Model.Dataf');
     var ultimoFechamento = ConvertDate('@Model.DataUltimoFechamentoPontoEBanco');
@@ -609,5 +608,5 @@
         $('#Datai').datepicker("remove");
         $('#Datai').datepicker(optionsDP);
     }
-    </script>
+</script>
 }

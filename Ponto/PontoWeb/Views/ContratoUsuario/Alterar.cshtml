@@ -4,7 +4,6 @@
 }
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.NomeEmpresa)
     <div class="divCenterMedio">
         <div class="panel panel-default" style="padding:0">
@@ -140,7 +139,7 @@
     function filtraGrid(texto) {
         filtraTabelaPorTexto([texto], '#tbPerms');
     }
-
+    
     $(document).ready(function () {
         cwk_EventoClickSelecionarSingle('#tbBlock');
         cwk_EventoClickSelecionarSingle('#tbAllow');
