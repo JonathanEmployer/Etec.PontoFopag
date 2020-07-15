@@ -4,6 +4,7 @@
 }
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     <div class="divCenter">
         <div class="panel panel-default" style="padding:0">
             <div class="panel-heading salvando">
@@ -13,7 +14,7 @@
             <div class="panel-body panelConteudo" id="panelBodyMaximo">
                 @if (ViewBag.SemPermissao == 1)
                 {
-                    <div class="alert alert-warning" role="alert"> 
+                    <div class="alert alert-warning" role="alert">
                         <p>Usuário não possui permissão para alterar o registro pois existem funcionários vinculados ao registro que não tem acesso!</p>
                         <p>Na consulta serão exibidos apenas os funcionários que o usuário possui acesso.</p>
                     </div>
@@ -155,8 +156,7 @@
 
     function validaForm() {
         $("#IdFuncsSelecionados").val(E_GridFuncGetSelecionados());
-        if ($("#IdFuncsSelecionados").val() == null || $("#IdFuncsSelecionados").val() == '' || $("#IdFuncsSelecionados").val().length <= 0)
-        {
+        if ($("#IdFuncsSelecionados").val() == null || $("#IdFuncsSelecionados").val() == '' || $("#IdFuncsSelecionados").val().length <= 0) {
             var msgErro = 'É necessário selecionar pelo menos um funcionário';
             errorArray["IdFuncsSelecionados"] = msgErro;
             cwkErro(msgErro);

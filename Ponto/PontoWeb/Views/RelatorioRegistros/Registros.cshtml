@@ -7,6 +7,7 @@
 }
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     <div class="">
         <div class="">
             <div class="panel panel-default" style="margin-bottom:0">
@@ -34,7 +35,7 @@
                                             <div class="col-md-12">
                                                 <div class="row">
                                                     <div class="col-md-5">
-                                                        <div class="input-group input-group-sm" >
+                                                        <div class="input-group input-group-sm">
                                                             @Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "InicioPeriodo" })
                                                             <span class="input-group-btn">
                                                                 <button class="btn btn-primary" id="btnDtInicio" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -45,7 +46,7 @@
                                                         @Html.Label("a", new { @class = "label-sm" })
                                                     </div>
                                                     <div class="col-md-5">
-                                                        <div class="input-group input-group-sm" >
+                                                        <div class="input-group input-group-sm">
                                                             @Html.TextBoxFor(model => Model.FimPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "FimPeriodo" })
                                                             <span class="input-group-btn">
                                                                 <button class="btn btn-primary" id="btnDtFim" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -153,8 +154,8 @@
                 endDate = new Date(ev.date);
                 endDate.setDate(endDate.getDate() + 30);
                 endDateString = ('0' + endDate.getDate()).slice(-2) + '/'
-                                + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
-                                + endDate.getFullYear();
+                    + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
+                    + endDate.getFullYear();
                 $('#FimPeriodo').val(endDateString);
                 $('#FimPeriodo').datepicker('update');
             }
@@ -163,18 +164,17 @@
         });
 
         $('#tbFun tbody').on('click', 'tr', function () {
-			errorArray["IdSelecionados"] = null;
+            errorArray["IdSelecionados"] = null;
             $("form").validate().showErrors(errorArray);
         });
 
         $("#btnBuscarFiltro").click(function () { EventoFuncionarioFiltro(); });
     });
 
-    function EventoFuncionarioFiltro()
-    {
+    function EventoFuncionarioFiltro() {
         let x = $("input[name='rdFuncionarioFiltro']:checked").val();
         let y = '/GetFuncsRel/GetFunsComParms';
-        EventoFuncionarioFiltroRequest(x,y);
+        EventoFuncionarioFiltroRequest(x, y);
     }
 
     $("#btnXls").click(function (event) {
@@ -188,23 +188,23 @@
 
     $('form').submit(function () {
         if ($(this).valid()) {
-			PostFormJob(this);
+            PostFormJob(this);
         }
         return false;
     });
 
     function validaForm() {
         var retorno = true;
-		$("#IdSelecionados").val(GetSelecionados('tbFun'));
-		if ($("#IdSelecionados").val().length <= 0 || $("#IdSelecionados").val() == '' || $("#IdSelecionados").val() == null) {
+        $("#IdSelecionados").val(GetSelecionados('tbFun'));
+        if ($("#IdSelecionados").val().length <= 0 || $("#IdSelecionados").val() == '' || $("#IdSelecionados").val() == null) {
             var msgErro = 'Para Imprimir o Relatório é Necessário Selecionar Pelo Menos um Funcionário.';
-			errorArray["IdSelecionados"] = msgErro;
+            errorArray["IdSelecionados"] = msgErro;
             cwkErro(msgErro);
             $("form").validate().showErrors(errorArray);
             retorno = false;
         }
         else {
-			errorArray["IdSelecionados"] = null;
+            errorArray["IdSelecionados"] = null;
             $("form").validate().showErrors(errorArray);
             retorno = true;
         }
@@ -256,7 +256,7 @@
             return false;
         }
     }
-     
+
 </script>
 
 

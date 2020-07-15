@@ -24,6 +24,7 @@
 </style>
 @using (Html.BeginForm("BloquearLiberarEdicaoLotePainelRH", "Marcacao", FormMethod.Post, new { id = "FormBloqLibEdicaoPnlRh", target = "_blank" }))
 {
+    @Html.AntiForgeryToken()
     <div class="divCenterPequeno">
         <div class="divPeriodoFixo">
             <div class="panel panel-default" style="padding:0px">
@@ -115,8 +116,8 @@
                 endDate = new Date(ev.date);
                 endDate.setDate(endDate.getDate() + 30);
                 endDateString = ('0' + endDate.getDate()).slice(-2) + '/'
-                                + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
-                                + endDate.getFullYear();
+                    + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
+                    + endDate.getFullYear();
                 $('#DataFinalCPI').val(endDateString);
                 $('#DataFinalCPI').datepicker('update');
                 $('#DataFinalCPI').datepicker('hide');

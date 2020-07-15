@@ -11,6 +11,7 @@
 }
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id, new { id = "idRep" });
     @Html.HiddenFor(model => model.Incdata);
     @Html.HiddenFor(model => model.Inchora);
@@ -357,10 +358,10 @@
                     }
 
                     var DllTipoBiometria = $("#DllTipoBiometria");
-                    DllTipoBiometria.empty(); 
+                    DllTipoBiometria.empty();
 
                     DllTipoBiometria.append(new Option("Selecione", "0"));
-                    
+
                     $.each(ret.EquipamentoTipoBiometria, function (index, item) {
                         var p = new Option(item.Descricao, item.Id);
                         DllTipoBiometria.append(p);
@@ -407,7 +408,7 @@
 
     $(":input[type='text']:enabled:visible:first").focus();
 
-     
+
 </script>
 @if (ViewBag.Consultar == 1)
 {

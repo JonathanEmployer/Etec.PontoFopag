@@ -4,6 +4,7 @@
 }
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     <div class="divCenterMedio">
         <div class="panel panel-default">
             <div class="panel-heading salvando">
@@ -92,17 +93,17 @@
                             </div>
                         </div>
                     </div>
-                @if (Model.FirstOrDefault().ResultImport.Length > 0)
-                {
-                    <div class="row">
-                        <div class="col-md-12">
-                            @Html.LabelFor(model => model.FirstOrDefault().ResultImport, new { @class = "control-label label-sm" })
-                            @Html.TextAreaFor(model => model.FirstOrDefault().ResultImport, new { @class = "form-control  input-sm" })
+                    @if (Model.FirstOrDefault().ResultImport.Length > 0)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.FirstOrDefault().ResultImport, new { @class = "control-label label-sm" })
+                                @Html.TextAreaFor(model => model.FirstOrDefault().ResultImport, new { @class = "form-control  input-sm" })
+                            </div>
                         </div>
-                    </div>
-                }
-             </div>
-         </div>
+                    }
+                </div>
+            </div>
             <div class="panel-footer">
                 <div class="row">
                     <div class="col-md-12">

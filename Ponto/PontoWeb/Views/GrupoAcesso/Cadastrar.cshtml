@@ -4,6 +4,7 @@
 }
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.NomeGrupo)
     <div class="">
         <div class="panel panel-default" style="padding:0; margin-bottom:0px;">
@@ -177,7 +178,7 @@
         var notchecked = $(classeCheck).filter(function () { return !this.checked; });
         checked.prop('checked', false);
         notchecked.prop('checked', true);
-        
+
     }
 
     $('#txtFiltro').keyup(function () {
