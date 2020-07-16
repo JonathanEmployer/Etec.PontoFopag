@@ -182,7 +182,12 @@ function ajax_ExcluirRegistro(acao, controller, id, mensagem, tb, callBackSucess
                             $.unblockUI();
                             if (ret.Success === true) {
                                 cwkSucessoTit('Registro Excluído!', mensagem);
-                                cwk_RemoverLinhasSelecionadas(tb);
+                                try {
+                                    tb.row('.selected').remove().draw(false);
+                                }
+                                catch (err) {
+                                    tb.api().row('.selected').remove().draw(false);
+                                }
                                 if (callBackSucesso && typeof (callBackSucesso) !== "undefined" && callBackSucesso !== "") {
                                     callBackSucesso(ret);
                                 }
