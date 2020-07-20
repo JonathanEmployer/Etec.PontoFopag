@@ -97,7 +97,7 @@
     @foreach (Modelo.Proxy.Relatorios.PxyRelTotalHoras item in Model)
     {
 
-        if (count % 3 == 0 || umFuncPorPagina)
+        if (count % 2 == 0 || umFuncPorPagina)
         {
             if (count > 0)
             {
@@ -121,9 +121,21 @@
         <div>
             <table style="width:100%" class="backgroudDefault">
                 <tbody>
-                    <tr style="font-size: 9pt; font-weight: bold;">
-                        <td style="width: 80%; padding:10px;">Funcionário: @item.FuncionarioDsCodigo | @item.FuncionarioNome</td>
-                        <td style="width: 20%; padding:10px;">Matrícula: @item.FuncionarioMatricula</td>
+                    <tr style="font-size: 8pt; font-weight: bold;">
+                        <td style="width: 50%; padding:5px;">Funcionário: @item.FuncionarioDsCodigo | @item.FuncionarioNome</td>
+                        <td style="width: 50%; padding:5px;">Matrícula: @item.FuncionarioMatricula</td>
+                    </tr>
+                    <tr style="font-size: 8pt; font-weight: bold;">
+                        <td style="width: 50%; padding:5px;">Contrato: @item.FuncionarioContrato</td>
+                        <td style="width: 50%; padding:5px;">Data de admissão: @item.FuncionarioDataAdmissaoStr</td>
+                    </tr>
+                    <tr style="font-size: 8pt; font-weight: bold;">
+                        <td style="width: 50%; padding:5px;">Departamento: @item.FuncionarioDepartamento</td>
+                        <td style="width: 50%; padding:5px;">Data de demissão: @item.FuncionarioDataRecisaoStr</td>
+                    </tr>
+                    <tr style="font-size: 8pt; font-weight: bold;">
+                        <td style="width: 50%; padding:5px;">Alocação: @item.FuncionarioAlocacao</td>
+                        <td style="width: 50%; padding:5px;">Supervisor: @item.FuncionarioSupervisor</td>
                     </tr>
                 </tbody>
             </table>

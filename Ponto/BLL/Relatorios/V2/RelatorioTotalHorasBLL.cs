@@ -66,9 +66,15 @@ namespace BLL.Relatorios.V2
             {
                 Dictionary<string, GerarExcel.Modelo.Coluna> colunasExcel = new Dictionary<string, GerarExcel.Modelo.Coluna>();
                 #region Dados Empregado
+                colunasExcel.Add("FuncionarioContrato", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Contrato", Visivel = true, NomeColunaNegrito = true });
                 colunasExcel.Add("FuncionarioDsCodigo", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Cód. Funcionário", Visivel = true, NomeColunaNegrito = true });
                 colunasExcel.Add("FuncionarioNome", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Funcionário", Visivel = true, NomeColunaNegrito = true });
                 colunasExcel.Add("FuncionarioMatricula", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Matrícula", Visivel = true, NomeColunaNegrito = true });
+                colunasExcel.Add("FuncionarioDepartamento", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Departamento", Visivel = true, NomeColunaNegrito = true });
+                colunasExcel.Add("FuncionarioAlocacao", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Alocação", Visivel = true, NomeColunaNegrito = true });
+                colunasExcel.Add("FuncionarioSupervisor", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Supervisor", Visivel = true, NomeColunaNegrito = true });
+                colunasExcel.Add("FuncionarioDataAdmissao", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Data de admissão", Visivel = true, NomeColunaNegrito = true });
+                colunasExcel.Add("FuncionarioDataRecisao", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Data de descisão", Visivel = true, NomeColunaNegrito = true });
                 colunasExcel.Add("HorasTrabDiurna", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA3, NomeColuna = "Trab. diurna", Visivel = true, NomeColunaNegrito = true });
                 colunasExcel.Add("HorasTrabNoturna", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA3, NomeColuna = "Trab. noturna", Visivel = true, NomeColunaNegrito = true });
                 colunasExcel.Add("HorasAdNoturno", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Adicional Noturno", Visivel = true, NomeColunaNegrito = true });
@@ -154,6 +160,12 @@ namespace BLL.Relatorios.V2
                     FuncionarioDsCodigo = item.funcionario.Dscodigo,
                     FuncionarioNome = item.funcionario.Nome,
                     FuncionarioMatricula = item.funcionario.Matricula,
+                    FuncionarioContrato = item.funcionario.Contrato,
+                    FuncionarioDepartamento = item.funcionario.Departamento,
+                    FuncionarioSupervisor = item.funcionario.PessoaSupervisor,
+                    FuncionarioAlocacao = item.funcionario.Alocacao,
+                    FuncionarioDataAdmissao = item.funcionario.Dataadmissao,
+                    FuncionarioDataRecisao = item.funcionario.Datademissao,
                     HorasTrabDiurna = item.horasTrabDiurna,
                     HorasTrabNoturna = item.horasTrabNoturna,
                     HorasAdNoturno = item.horasAdNoturno,

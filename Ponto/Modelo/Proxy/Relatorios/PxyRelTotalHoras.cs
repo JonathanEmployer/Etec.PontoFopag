@@ -13,6 +13,14 @@ namespace Modelo.Proxy.Relatorios
         public string FuncionarioNome { get; set; }
         [Display(Name = "FuncionarioMatricula")]
         public string FuncionarioMatricula { get; set; }
+        public string FuncionarioContrato { get; set; }
+        public string FuncionarioDepartamento { get; set; }
+        public string FuncionarioSupervisor { get; set; }
+        public string FuncionarioAlocacao { get; set; }
+        public DateTime? FuncionarioDataAdmissao { get; set; }
+        public string FuncionarioDataAdmissaoStr { get { return FuncionarioDataAdmissao == null ? "" : FuncionarioDataAdmissao.GetValueOrDefault().ToShortDateString(); } }
+        public DateTime? FuncionarioDataRecisao { get; set; }
+        public string FuncionarioDataRecisaoStr { get { return FuncionarioDataRecisao == null ? "" : FuncionarioDataRecisao.GetValueOrDefault().ToShortDateString(); } }
         [Display(Name = "HorasTrabDiurna")]
         public string HorasTrabDiurna { get; set; }
         [Display(Name = "HorasTrabNoturna")]

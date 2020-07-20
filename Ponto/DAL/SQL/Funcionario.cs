@@ -3132,7 +3132,7 @@ namespace DAL.SQL
             };
             parms[0].Value = _func;
 
-            string aux =string.Format(@"SELECT   func.id,
+            string aux =string.Format(@" SELECT   func.id,
                                    func.codigo,
                                    func.dscodigo,
                                    func.matricula,
@@ -3183,7 +3183,7 @@ namespace DAL.SQL
                                    func.IdIntegracaoPainel,
                                    func.RFID, 
                                     '' foto,
-                                    '' contrato
+                                    uContr.contrato contrato
                                     , horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+ empresa.nome as empresa  
                                     , convert(varchar,departamento.codigo)+' | '+ departamento.descricao AS departamento
@@ -3206,6 +3206,8 @@ namespace DAL.SQL
                              LEFT JOIN Alocacao ON alocacao.id = func.idAlocacao
                              LEFT JOIN TipoVinculo ON TipoVinculo.id = func.idTipoVinculo
                              LEFT JOIN HorarioDinamico HDN ON HDN.id = func.idhorariodinamico
+                            OUTER APPLY(SELECT TOP 1 CASE WHEN cont.codigo is null THEN '-' ELSE CONCAT(cont.codigo,' | ',cont.codigocontrato,' - ',cont.descricaocontrato) END contrato FROM dbo.contratofuncionario cfun LEFT JOIN dbo.contrato cont ON cont.id = cfun.idcontrato 
+												WHERE func.id = cfun.idfuncionario and cfun.excluido =0 ) AS uContr 
                             WHERE func.id in ({0}) ORDER BY func.nome", _func);
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
