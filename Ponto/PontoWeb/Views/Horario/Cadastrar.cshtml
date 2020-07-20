@@ -900,6 +900,61 @@
         $(container).find('input:visible:last').focus();
     }
     $(document).ready(function () {
+        var erros = ['@Html.ValidationMessageFor(model => model.Codigo)',
+                    '@Html.ValidationMessageFor(model => model.Descricao)',
+                    '@Html.ValidationMessageFor(model => model.Ativo)',
+                    '@Html.ValidationMessageFor(model => model.DescParametro)',
+                    '@Html.ValidationMessageFor(model => model.Limitemin)',
+                    '@Html.ValidationMessageFor(model => model.Limitemax)',
+                    '@Html.ValidationMessageFor(model => model.ConversaohoranoturnaBool)',
+                    '@Html.ValidationMessageFor(model => model.ConsideraadhtrabalhadasBool)',
+                    '@Html.ValidationMessageFor(model => model.Ordem_entBool)',
+                    '@Html.ValidationMessageFor(model => model.OrdenabilhetesaidaBool)',
+                    '@Html.ValidationMessageFor(model => model.IntervaloautomaticoBool)',
+                    '@Html.ValidationMessageFor(model => model.HorasnormaisBool)',
+                    '@Html.ValidationMessageFor(model => model.MarcacargahorariamistaBool)',
+                    '@Html.ValidationMessageFor(model => model.SeparaExtraNoturnaPercentual)',
+                    '@Html.ValidationMessageFor(model => model.Tipoacumulo)',
+                    '@Html.ValidationMessageFor(model => model.Habilitaperiodo01Bool)',
+                    '@Html.ValidationMessageFor(model => model.Habilitaperiodo02Bool)',
+                    '@Html.ValidationMessageFor(model => model.DescontacafetardeBool)',
+                    '@Html.ValidationMessageFor(model => model.Dias_cafe_1Bool)',
+                    '@Html.ValidationMessageFor(model => model.Dias_cafe_5Bool)',
+                    '@Html.ValidationMessageFor(model => model.Dias_cafe_2Bool)',
+                    '@Html.ValidationMessageFor(model => model.Dias_cafe_6Bool)',
+                    '@Html.ValidationMessageFor(model => model.Dias_cafe_3Bool)',
+                    '@Html.ValidationMessageFor(model => model.Dias_cafe_7Bool)',
+                    '@Html.ValidationMessageFor(model => model.Dias_cafe_4Bool)',
+                    '@Html.ValidationMessageFor(model => model.ConsiderasabadosemanaBool)',
+                    '@Html.ValidationMessageFor(model => model.ConsideradomingosemanaBool)',
+                    '@Html.ValidationMessageFor(model => model.ConsiderarAdicionalNoturnoIntervBool)',
+                    '@Html.ValidationMessageFor(model => model.LimiteHorasTrabalhadasDia)',
+                    '@Html.ValidationMessageFor(model => model.LimiteMinimoHorasAlmoco)',
+                    '@Html.ValidationMessageFor(model => model.LimiteInterjornada)',
+                    '@Html.ValidationMessageFor(model => model.Obs)',
+                    '@Html.ValidationMessageFor(model => model.QtdHEPreClassificadas)',
+                    '@Html.ValidationMessageFor(model => model.DescClassificacao)',
+                    '@Html.ValidationMessageFor(model => model.DescontardsrBool)',
+                    '@Html.ValidationMessageFor(model => model.DescontarFeriadoDDSR)',
+                    '@Html.ValidationMessageFor(model => model.bUtilizaDDSRProporcional)',
+                    '@Html.ValidationMessageFor(model => model.DSRPorPercentual)',
+                    '@Html.ValidationMessageFor(model => model.Qtdhorasdsr)',
+                    '@Html.ValidationMessageFor(model => model.Limiteperdadsr)',
+                    '@Html.ValidationMessageFor(model => model.DDSRConsideraFaltaDuranteSemana)',
+                    '@Html.ValidationMessageFor(model => model.Descontohorasdsr)',
+                    '@Html.ValidationMessageFor(model => model.LimitesDDsrProporcionais)',
+                    '@Html.ValidationMessageFor(model => model.Diasemanadsr)',
+                    '@Html.ValidationMessageFor(model => model.HabilitaInItinere)',
+                    '@Html.ValidationMessageFor(model => model.DescontarAtrasoInItinere)',
+                    '@Html.ValidationMessageFor(model => model.DescontarFaltaInItinere)'
+        ];
+
+        for (var i = 0; i < erros.length; i++) {
+            if (erros[i].indexOf('field-validation-error') >= 0) {
+                cwkErroTit('Foram encontrados Erros', erros[i])
+            }
+        }
+
         validaCkbDias();
         validackbMarcaPercentualExtra();
         loadConvertDadosDSR();
