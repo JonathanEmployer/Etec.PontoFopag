@@ -1158,7 +1158,7 @@ function E_GridFunc(EidDivPartial, EidCampoSelecionados, FuncPosCarregamento) {
     EidDivPartial = $(EidDivPartial);
     EidCampoSelecionados = $(EidCampoSelecionados);
     if (!EidDivPartial.find('table').length > 0) {
-        cwk_CarregarPartialAjaxPorPost('GridFuncionariosPost', 'FuncionariosRelatorio', parametros = { idsSelecionados: EidCampoSelecionados.val() }, '', AfterLoad);
+        cwk_CarregarPartialAjaxPorPost('GridFuncionariosPost', 'FuncionariosRelatorio', parametros = { idsSelecionados: EidCampoSelecionados.val(), __RequestVerificationToken: gettoken()  }, '', AfterLoad);
     }
 
     function AfterLoad(fCallBack) {
