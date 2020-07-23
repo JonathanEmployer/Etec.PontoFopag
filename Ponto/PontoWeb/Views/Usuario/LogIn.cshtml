@@ -62,7 +62,7 @@
             <div class="container">
                 <div class="row">
                    <div class="col-md-6 logo-footer">
-                       <div class="col-md-4" style="padding-top:6px"><img class="img-responsive" src="~/Content/img/logo_site_blindado.png" /></div>
+                       <div class="col-md-4" style="padding-top:6px"><img class="img-responsive" alt="Logo Microsoft" src="~/Content/img/logo_msft_azure_Bco.png" /></div>
                        <div class="col-md-8 social-footer" style="padding-left:0">
                            <ul>
                                <li class="employer">O Pontofopag é um site seguro</li>
@@ -78,7 +78,8 @@
                     </div>
                     <div class="col-md-3 social-footer">
                         <ul>
-                            <li class="employer">© 2016 - Employer</li>
+                            @{ string ano = DateTime.Now.Year.ToString(); }
+                            <li class="employer">© @ano - Employer</li>
                         </ul> 
                    </div>
                 </div>
