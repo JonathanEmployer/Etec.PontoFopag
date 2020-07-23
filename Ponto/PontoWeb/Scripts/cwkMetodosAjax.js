@@ -182,7 +182,12 @@ function ajax_ExcluirRegistro(acao, controller, id, mensagem, tb, callBackSucess
                             $.unblockUI();
                             if (ret.Success === true) {
                                 cwkSucessoTit('Registro Excluído!', mensagem);
-                                cwk_RemoverLinhasSelecionadas(tb);
+                                try {
+                                    tb.row('.selected').remove().draw(false);
+                                }
+                                catch (err) {
+                                    tb.api().row('.selected').remove().draw(false); // Tenta pela forma do datatable (Antigo)
+                                }
                                 if (callBackSucesso && typeof (callBackSucesso) !== "undefined" && callBackSucesso !== "") {
                                     callBackSucesso(ret);
                                 }
@@ -1029,6 +1034,7 @@ function verificaProgress() {
     $.ajax({
         url: '/job/GetJob',
         method: 'POST',
+        data: { __RequestVerificationToken: gettoken() },
         success: function (data) {
             if (data.JobId != "" && data != null && data.JobId != undefined) {
                 trackJobProgress(data);
@@ -1158,7 +1164,7 @@ function E_GridFunc(EidDivPartial, EidCampoSelecionados, FuncPosCarregamento) {
     EidDivPartial = $(EidDivPartial);
     EidCampoSelecionados = $(EidCampoSelecionados);
     if (!EidDivPartial.find('table').length > 0) {
-        cwk_CarregarPartialAjaxPorPost('GridFuncionariosPost', 'FuncionariosRelatorio', parametros = { idsSelecionados: EidCampoSelecionados.val() }, '', AfterLoad);
+        cwk_CarregarPartialAjaxPorPost('GridFuncionariosPost', 'FuncionariosRelatorio', parametros = { idsSelecionados: EidCampoSelecionados.val(), __RequestVerificationToken: gettoken()  }, '', AfterLoad);
     }
 
     function AfterLoad(fCallBack) {

@@ -864,7 +864,8 @@
     <Content Include="Content\img\LogoCworkPreto-bkp.png" />
     <Content Include="Content\img\LogoCworkPreto.png" />
     <Content Include="Content\img\logout.png" />
-    <Content Include="Content\img\logo_site_blindado.png" />
+    <Content Include="Content\img\logo_msft_azure.png" />
+    <Content Include="Content\img\logo_msft_azure_Bco.png" />
     <Content Include="Content\img\ManutMarca.png" />
     <Content Include="Content\img\Marcacoes.png" />
     <Content Include="Content\img\pdf48.png" />
