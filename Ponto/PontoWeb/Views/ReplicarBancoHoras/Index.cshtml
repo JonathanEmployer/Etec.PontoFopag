@@ -6,77 +6,78 @@
 
 @using (Html.BeginForm())
 {
-        <div class="panel panel-default" style="padding:0px;margin-bottom:0">
-            <div class="panel-heading">
-                @Html.ActionLink("X", "Grid", "BancoHoras", null, new { @class = "close" })
-                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
-            </div>
-            <div class="panel-body panelConteudo" id="panelBodyFixodivCenter">
-                @Html.HiddenFor(m => m.IdBancoHoras)
-                @Html.HiddenFor(m => m.DataInicial)
-                @Html.HiddenFor(m => m.DataFinal)
-                @Html.ValidationSummary(true)
-                @Html.ValidationMessage("CustomError", new { id = "CustomError" })
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
-                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm" }).IsDisabled(true)
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.DataInicialStr, new { @class = "control-label label-sm" })
-                            @Html.TextBoxFor(model => model.DataInicialStr, new { @class = "form-control  input-sm" }).IsDisabled(true)
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.DataFinalStr, new { @class = "control-label label-sm" })
-                            @Html.TextBoxFor(model => model.DataFinalStr, new { @class = "form-control  input-sm" }).IsDisabled(true)
-                        </div>
+    @Html.AntiForgeryToken()
+    <div class="panel panel-default" style="padding:0px;margin-bottom:0">
+        <div class="panel-heading">
+            @Html.ActionLink("X", "Grid", "BancoHoras", null, new { @class = "close" })
+            <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+        </div>
+        <div class="panel-body panelConteudo" id="panelBodyFixodivCenter">
+            @Html.HiddenFor(m => m.IdBancoHoras)
+            @Html.HiddenFor(m => m.DataInicial)
+            @Html.HiddenFor(m => m.DataFinal)
+            @Html.ValidationSummary(true)
+            @Html.ValidationMessage("CustomError", new { id = "CustomError" })
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm" }).IsDisabled(true)
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.TipoDescricao, new { @class = "control-label label-sm" })
-                            @Html.TextBoxFor(model => model.TipoDescricao, new { @class = "form-control  input-sm" }).IsDisabled(true)
-                        </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Nome, new { @class = "control-label label-sm" })
-                            @Html.TextBoxFor(model => model.Nome, new { @class = "form-control  input-sm" }).IsDisabled(true)
-                        </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DataInicialStr, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.DataInicialStr, new { @class = "form-control  input-sm" }).IsDisabled(true)
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        @Html.HiddenFor(x => x.IdSelecionados)
-                        @Html.ValidationMessageFor(x => x.IdSelecionados)
-                        <div class="row">
-                            @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorio()).GetType(), true, "ReplicarBancoHoras", "GetFuns?idBancoHoras=" + Model.IdBancoHoras, "", "", Model.IdSelecionados, "")
-                        </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DataFinalStr, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.DataFinalStr, new { @class = "form-control  input-sm" }).IsDisabled(true)
                     </div>
                 </div>
             </div>
-            <div class="panel-footer">
-                <div class="row">
-                    <div class="col-xs-12 center-block">
-                        <div style="text-align: right">
-                            <button type="submit" class="btn btn-success salvando" id="btnSalvar">
-                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
-                            </button>
-                            <a class="btn btn-danger salvando"
-                               href="@Url.Action("Grid", "BancoHoras")">
-                                <span class="glyphicon glyphicon-remove"></span> Cancelar
-                            </a>
-                        </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TipoDescricao, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.TipoDescricao, new { @class = "form-control  input-sm" }).IsDisabled(true)
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Nome, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.Nome, new { @class = "form-control  input-sm" }).IsDisabled(true)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.HiddenFor(x => x.IdSelecionados)
+                    @Html.ValidationMessageFor(x => x.IdSelecionados)
+                    <div class="row">
+                        @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorio()).GetType(), true, "ReplicarBancoHoras", "GetFuns?idBancoHoras=" + Model.IdBancoHoras, "", "", Model.IdSelecionados, "")
                     </div>
                 </div>
             </div>
         </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-12 center-block">
+                    <div style="text-align: right">
+                        <button type="submit" class="btn btn-success salvando" id="btnSalvar">
+                            <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                        </button>
+                        <a class="btn btn-danger salvando"
+                           href="@Url.Action("Grid", "BancoHoras")">
+                            <span class="glyphicon glyphicon-remove"></span> Cancelar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 
 <script>

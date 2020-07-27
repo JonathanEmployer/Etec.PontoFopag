@@ -6,6 +6,7 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     <div class="divCenterMedio">
         <div class="panel panel-default">
             <div class="panel-heading salvando">
@@ -181,15 +182,15 @@
                             <div class="panel-body">
                                 <div class="col-md-6" style="padding:0; padding-right:5px">
                                     @{
-    string classResultado = "panel-primary";
-    if (Model.creditoBHPeriodoMin > Model.debitoBHPeriodoMin)
-    {
-        classResultado = "panel-success";
-    }
-    if (Model.creditoBHPeriodoMin < Model.debitoBHPeriodoMin)
-    {
-        classResultado = "panel-danger";
-    }
+                                        string classResultado = "panel-primary";
+                                        if (Model.creditoBHPeriodoMin > Model.debitoBHPeriodoMin)
+                                        {
+                                            classResultado = "panel-success";
+                                        }
+                                        if (Model.creditoBHPeriodoMin < Model.debitoBHPeriodoMin)
+                                        {
+                                            classResultado = "panel-danger";
+                                        }
                                     }
                                     <div class="panel @classResultado">
                                         <div class="panel-heading" style="padding-top:5px; padding-bottom:5px; text-align:center">
@@ -242,29 +243,29 @@
                                                     @Html.Label("Crédito", new { @class = "control-label label-sm" })
                                                 }
                                                 else if (Model.sinalSaldoAnteriorBH == '-')
-                                                { @Html.Label("Débito", new { @class = "control-label label-sm" }) }
+                                                { @Html.Label("Débito", new { @class = "control-label label-sm" })}
                                             </div>
                                             <div class="row">
                                                 @Html.Label("Mês: ", new { @class = "control-label label-sm", style = "text-align: right; width:60px;" })
                                                 @Html.Label(Model.saldoBHPeriodo, new { @class = "control-label label-sm" })
                                                 @if (Model.sinalSaldoBHPeriodo == '+')
-                                            {
+                                                {
                                                     @Html.Label("Crédito", new { @class = "control-label label-sm" })
-                                            }
-                                            else if (Model.sinalSaldoBHPeriodo == '-')
-                                            { @Html.Label("Débito", new { @class = "control-label label-sm" }) }
+                                                }
+                                                else if (Model.sinalSaldoBHPeriodo == '-')
+                                                { @Html.Label("Débito", new { @class = "control-label label-sm" })}
                                             </div>
                                             <div class="row">
                                                 @Html.Label("Atual: ", new { @class = "control-label label-sm", style = "text-align: right; width:60px;" })
                                                 @Html.Label(Model.saldoBHAtual, new { @class = "control-label label-sm" })
                                                 @if (Model.sinalSaldoBHAtual == '+')
-                                            {
+                                                {
                                                     @Html.Label("Crédito", new { @class = "control-label label-sm" })
-                                            }
-                                            else if (Model.sinalSaldoBHAtual == '-')
-                                            { @Html.Label("Débito", new { @class = "control-label label-sm" }) }
+                                                }
+                                                else if (Model.sinalSaldoBHAtual == '-')
+                                                { @Html.Label("Débito", new { @class = "control-label label-sm" })}
                                             </div>
-                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

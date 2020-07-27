@@ -6,13 +6,14 @@
 
 @using (Html.BeginForm("Importar", "ImportacaoBilhetes", FormMethod.Post, new { id = "FormImportar" }))
 {
+    @Html.AntiForgeryToken()
     <div class="divCenterMedio">
         <div class="panel panel-default" style="padding:0">
             <div class="panel-heading salvando">
                 @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
                 <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
             </div>
-            <div class="panel-body panelConteudo"  id="panelBodyMaximo">
+            <div class="panel-body panelConteudo" id="panelBodyMaximo">
                 @Html.ValidationMessage("CustomError")
                 @Html.HiddenFor(x => x.IdRep)
                 <div class="panel panel-default" id="pnlFiltroImportacao" style="margin-top:7px; padding-top:0px;">
@@ -27,7 +28,7 @@
                                             <div class="form-group">
                                                 <div class="form-group input-group-sm">
                                                     <div class="col-md-12">
-                                                        <div class="input-group input-group-sm" >
+                                                        <div class="input-group input-group-sm">
                                                             @Html.TextBoxFor(model => model.DataInicial, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataInicial" })
                                                             <span class="input-group-btn">
                                                                 <button class="btn btn-primary btndatepicker" id="btnDataInicial" type="button" title="Data Inicial"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -42,7 +43,7 @@
                                             <div class="form-group">
                                                 <div class="form-group input-group-sm">
                                                     <div class="col-md-12">
-                                                        <div class="input-group input-group-sm" >
+                                                        <div class="input-group input-group-sm">
                                                             @Html.TextBoxFor(model => model.DataFinal, new { @class = "form-control input-sm MascDate datepickerpt col-md-8", id = "DataFinal" })
                                                             <span class="input-group-btn">
                                                                 <button class="btn btn-primary btndatepicker" id="btnDataFinal" type="button" title="Data Final"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -207,9 +208,9 @@
 
             },
             done: function (e, data) {
-                    $('#nome_arquivo').val(data.result.nome);
-                    $('.progress .progress-bar').css('width', 0 + '%');
-                    ValidaArquivo(data);
+                $('#nome_arquivo').val(data.result.nome);
+                $('.progress .progress-bar').css('width', 0 + '%');
+                ValidaArquivo(data);
             },
             fail: function (e, data) {
                 var Errors = [];
@@ -318,7 +319,7 @@
             $('#lkpNomeFuncionarioSelecionado').val('');
         }
     });
-    
+
 </script>
 @if (ViewBag.Consultar == 1)
 {

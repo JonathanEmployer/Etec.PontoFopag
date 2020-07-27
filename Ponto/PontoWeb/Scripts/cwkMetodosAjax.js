@@ -9,7 +9,7 @@ function ajax_CarregaTelaComLoading(acao, controller, id) {
         type: 'GET',
         dataType: "html",
         crossDomain: true,
-        data: { 'id': id },
+        data: { 'id': id, __RequestVerificationToken: gettoken() },
         beforeSend: function () {
             $("#loading").modal();
         },
@@ -158,7 +158,7 @@ function ajax_ExcluirRegistro(acao, controller, id, mensagem, tb, callBackSucess
                         url: '/' + controller + '/' + acao,
                         type: 'POST',
                         dataType: 'json',
-                        data: { 'id': id },
+                        data: { __RequestVerificationToken: gettoken(), 'id': id },
                         beforeSend: function () {
                             $.blockUI({ message: '<h2>Excluindo<img src="../../Content/img/circulosLoading.GIF"></h2>' });
                         },
@@ -240,7 +240,7 @@ function ajax_ExcluirRegistroJSON(acao, controller, obj, mensagem, tb, callBackS
                         url: '/' + controller + '/' + acao,
                         type: 'POST',
                         dataType: 'json',
-                        data: { jsonData: stringJSON },
+                        data: { jsonData: stringJSON, __RequestVerificationToken: gettoken() },
                         beforeSend: function () {
                             $.blockUI({ message: '<h2>Excluindo<img src="../../Content/img/circulosLoading.GIF"></h2>' });
                         },
@@ -336,7 +336,7 @@ function ajax_ModificarRegistro(acao, controller, id, msgTituloFormConfirmar, ti
                         url: '/' + controller + '/' + acao,
                         type: 'POST',
                         dataType: 'json',
-                        data: { 'id': id },
+                        data: { 'id': id, __RequestVerificationToken: gettoken() },
                         error: function (ex) {
                             cwkErro("Erro!!\n\n" + ex.status + ': ' + ex.statusText);
                         },
@@ -1184,7 +1184,7 @@ function E_GridFuncGetSelecionados() {
 //opção 1 - empregado ativo
 //opção 2 - todos
 function EventoFuncionarioFiltroRequest(opcao, url) {
-    let _parametros = { opcao: opcao };
+    let _parametros = { opcao: opcao, __RequestVerificationToken: gettoken() };
     let _url = url;
     let _type = 'Post';
     let _contentType = 'application/json'
@@ -1397,7 +1397,7 @@ function EventoClickDeletePostReturnJob(botao, acao, controller, nomeTabela, men
                                 url: url,
                                 type: 'POST',
                                 dataType: 'json',
-                                data: { 'id': id },
+                                data: { 'id': id, __RequestVerificationToken: gettoken() },
                                 beforeSend: function () {
                                     $.blockUI({ message: '<h2>Excluindo<img src="../../Content/img/circulosLoading.GIF"></h2>' });
                                 },
