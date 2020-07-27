@@ -66,5 +66,6 @@ namespace Modelo.Proxy.Relatorios
         public DateTime DataFin { get; set; }
 
         public bool UmFuncPorPagina { get; set; }
+        public bool ConsiderarCabecalho { get; set; }
     }
 }

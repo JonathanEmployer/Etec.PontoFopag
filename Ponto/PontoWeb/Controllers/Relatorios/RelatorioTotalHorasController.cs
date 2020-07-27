@@ -22,7 +22,7 @@ namespace PontoWeb.Controllers.Relatorios
         [PermissoesFiltro(Roles = "RelatorioTotalHorasConsultar")]
         public ActionResult Index()
         {
-            RelatorioPadraoModel parms = new RelatorioPadraoModel();
+            RelatorioTotalHoras parms = new RelatorioTotalHoras();
             parms.InicioPeriodo = DateTime.Now.Date.AddDays(-30);
             parms.FimPeriodo = DateTime.Now.Date;
             parms.TipoSelecao = 2;
@@ -33,7 +33,7 @@ namespace PontoWeb.Controllers.Relatorios
         #region Métodos Post
         [HttpPost]
         [PermissoesFiltro(Roles = "RelatorioTotalHorasConsultar")]
-        public ActionResult Index(RelatorioPadraoModel param)
+        public ActionResult Index(RelatorioTotalHoras param)
         {
             ValidarRelatorio(param);
             if (ModelState.IsValid)
@@ -52,7 +52,7 @@ namespace PontoWeb.Controllers.Relatorios
         }
         #endregion
 
-        private ActionResult GeraRelTotalHoras(RelatorioPadraoModel parms)
+        private ActionResult GeraRelTotalHoras(RelatorioTotalHoras parms)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace PontoWeb.Controllers.Relatorios
         }
 
         #region Validações
-        private void ValidarRelatorio(RelatorioPadraoModel param)
+        private void ValidarRelatorio(RelatorioTotalHoras param)
         {
             if (String.IsNullOrEmpty(param.IdSelecionados))
             {
@@ -89,7 +89,7 @@ namespace PontoWeb.Controllers.Relatorios
         #region Teste/Geração HTML Relatório
         public ActionResult RelatorioTotalHorasHtml()
         {
-            RelatorioPadraoModel parms = new RelatorioPadraoModel()
+            RelatorioTotalHoras parms = new RelatorioTotalHoras()
             {
                 InicioPeriodo = Convert.ToDateTime("2019-03-01"),
                 FimPeriodo = Convert.ToDateTime("2019-03-30"),

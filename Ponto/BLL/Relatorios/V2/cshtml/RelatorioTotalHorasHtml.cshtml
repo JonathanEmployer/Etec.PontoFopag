@@ -93,11 +93,17 @@
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
 </head>
 <body>
-    @{ int count = 0; bool umFuncPorPagina = Model.FirstOrDefault().UmFuncPorPagina; }
+    @{ 
+        int count = 0;
+        bool umFuncPorPagina = Model.FirstOrDefault().UmFuncPorPagina;
+        bool considerarCabecacao = Model.FirstOrDefault().ConsiderarCabecalho;
+        int qtdQuebra = Model.FirstOrDefault().ConsiderarCabecalho == true ? 2 : 3;
+    }
+
     @foreach (Modelo.Proxy.Relatorios.PxyRelTotalHoras item in Model)
     {
 
-        if (count % 2 == 0 || umFuncPorPagina)
+        if (count % qtdQuebra == 0 || umFuncPorPagina)
         {
             if (count > 0)
             {
@@ -125,18 +131,21 @@
                         <td style="width: 50%; padding:5px;">Funcionário: @item.FuncionarioDsCodigo | @item.FuncionarioNome</td>
                         <td style="width: 50%; padding:5px;">Matrícula: @item.FuncionarioMatricula</td>
                     </tr>
-                    <tr style="font-size: 8pt; font-weight: bold;">
-                        <td style="width: 50%; padding:5px;">Contrato: @item.FuncionarioContrato</td>
-                        <td style="width: 50%; padding:5px;">Data de admissão: @item.FuncionarioDataAdmissaoStr</td>
-                    </tr>
-                    <tr style="font-size: 8pt; font-weight: bold;">
-                        <td style="width: 50%; padding:5px;">Departamento: @item.FuncionarioDepartamento</td>
-                        <td style="width: 50%; padding:5px;">Data de demissão: @item.FuncionarioDataRecisaoStr</td>
-                    </tr>
-                    <tr style="font-size: 8pt; font-weight: bold;">
-                        <td style="width: 50%; padding:5px;">Alocação: @item.FuncionarioAlocacao</td>
-                        <td style="width: 50%; padding:5px;">Supervisor: @item.FuncionarioSupervisor</td>
-                    </tr>
+                    @if (considerarCabecacao)
+                    {
+                        <tr style="font-size: 8pt; font-weight: bold;">
+                            <td style="width: 50%; padding:5px;">Contrato: @item.FuncionarioContrato</td>
+                            <td style="width: 50%; padding:5px;">Data de admissão: @item.FuncionarioDataAdmissaoStr</td>
+                        </tr>
+                        <tr style="font-size: 8pt; font-weight: bold;">
+                            <td style="width: 50%; padding:5px;">Departamento: @item.FuncionarioDepartamento</td>
+                            <td style="width: 50%; padding:5px;">Data de demissão: @item.FuncionarioDataRecisaoStr</td>
+                        </tr>
+                        <tr style="font-size: 8pt; font-weight: bold;">
+                            <td style="width: 50%; padding:5px;">Alocação: @item.FuncionarioAlocacao</td>
+                            <td style="width: 50%; padding:5px;">Supervisor: @item.FuncionarioSupervisor</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
             <table style="width:100%">
