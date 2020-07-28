@@ -1248,6 +1248,8 @@ function PostReturnJob(url, type, data, divAbrirJobs, LimparComponentes, callBac
     if (isEmpty(LimparComponentes)) {
         LimparComponentes = true;
     }
+    data.__RequestVerificationToken = gettoken();
+    console.log(data);
     $.ajax({
         url: url,
         type: type,
