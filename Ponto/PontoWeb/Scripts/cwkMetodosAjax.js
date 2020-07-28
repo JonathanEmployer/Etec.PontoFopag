@@ -186,7 +186,7 @@ function ajax_ExcluirRegistro(acao, controller, id, mensagem, tb, callBackSucess
                                     tb.row('.selected').remove().draw(false);
                                 }
                                 catch (err) {
-                                    tb.api().row('.selected').remove().draw(false); // Tenta pela forma do datatable (Antigo)
+                                    tb.api().row('.selected').remove().draw(false);
                                 }
                                 if (callBackSucesso && typeof (callBackSucesso) !== "undefined" && callBackSucesso !== "") {
                                     callBackSucesso(ret);
@@ -528,10 +528,10 @@ function ajax_CarregarConsultaEventoTab(acao, controller, consulta, campo, filtr
                                 var dados = tbPesquisa.rows('.selected').data()[0];
                                 var id = dados[0].replace('undefined', '');
                                 //Verifica se é data, se for ele pega a 5 coluna
-                                if (Date.parse(dados[1])) {
-                                    var nome = dados[4].replace('undefined', '');
-                                } else {
+                                if (!Date.parse(dados[1])) {
                                     var nome = dados[1].replace('undefined', '');
+                                } else {
+                                    var nome = dados[4].replace('undefined', '');
                                 }
                                 $(campo).val(id + ' | ' + nome);
                                 $("#divLoadModalLkp").modal('hide');
