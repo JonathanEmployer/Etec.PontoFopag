@@ -311,6 +311,8 @@
     <Content Include="Config\ConnectionStrings.release.config" />
     <Content Include="Config\AppSettings.suporte.config" />
     <Content Include="Config\ConnectionStrings.suporte.config" />
+    <Content Include="Config\AppSettings.teste.config" />
+    <Content Include="Config\ConnectionStrings.teste.config" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -392,6 +394,9 @@
     <None Include="Web.DebugSuporte.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <None Include="Web.DebugTeste.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Web.Desenvolvimento.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -399,6 +404,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Suporte.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Teste.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
