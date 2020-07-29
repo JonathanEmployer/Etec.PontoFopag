@@ -526,12 +526,18 @@ function ajax_CarregarConsultaEventoTab(acao, controller, consulta, campo, filtr
                             var ids = cwk_GetIdSelecionado(tbPesquisa);
                             if (ids >= 0) {
                                 var dados = tbPesquisa.rows('.selected').data()[0];
+                                debugger;
                                 var id = dados[0].replace('undefined', '');
                                 //Verifica se é data, se for ele pega a 5 coluna
-                                if (!Date.parse(dados[1])) {
-                                    var nome = dados[1].replace('undefined', '');
+                                if (Date.parse(dados[1])) {
+                                    if (dados.length > 4) {
+                                        var nome = dados[4].replace('undefined', '');
+                                    }
+                                    else {
+                                        var nome = dados[3].replace('undefined', '');
+                                    }
                                 } else {
-                                    var nome = dados[4].replace('undefined', '');
+                                    var nome = dados[1].replace('undefined', '');
                                 }
                                 $(campo).val(id + ' | ' + nome);
                                 $("#divLoadModalLkp").modal('hide');
@@ -556,7 +562,12 @@ function ajax_CarregarConsultaEventoTab(acao, controller, consulta, campo, filtr
                                 var nome = dados[1].replace('undefined', '');
                                 //Verifica se é data, se for ele pega a 5 coluna
                                 if (Date.parse(dados[1])) {
-                                    var nome = dados[4].replace('undefined', '');
+                                    if (dados.length > 4) {
+                                        var nome = dados[4].replace('undefined', '');
+                                    }
+                                    else {
+                                        var nome = dados[3].replace('undefined', '');
+                                    }
                                 } else {
                                     var nome = dados[1].replace('undefined', '');
                                 }
