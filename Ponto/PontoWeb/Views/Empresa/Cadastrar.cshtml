@@ -11,20 +11,20 @@
 
 <style>
     .checkbox {
-        margin-top:0px;
-        margin-bottom:0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
     }
 
     .checkboxFilho {
-        padding-left:16px;
-        margin-top:3px !important;
-        margin-bottom:3px !important;
+        padding-left: 16px;
+        margin-top: 3px !important;
+        margin-bottom: 3px !important;
     }
 </style>
 
 @using (Html.BeginForm())
 {
-
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.BDAlterado);
     @Html.HiddenFor(model => model.Bloqueiousuarios);
     @Html.HiddenFor(model => model.bPrincipal);

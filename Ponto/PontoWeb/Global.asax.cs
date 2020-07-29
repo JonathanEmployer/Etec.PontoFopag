@@ -1,5 +1,6 @@
 ﻿using Modelo;
 using PontoWeb.Controllers.BLLWeb;
+using PontoWeb.Providers;
 using PontoWeb.Utils;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace PontoWeb
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ModelBinders.Binders.Add( typeof(decimal), new DecimalModelBinder()); ModelBinders.Binders.Add( typeof(decimal?), new DecimalModelBinder());
             this.Error += WebApiApplication_Error;
+            FilterProviders.Providers.Add(new AntiForgeryTokenFilterProvider());
         }
 
         void WebApiApplication_Error(object sender, EventArgs e)

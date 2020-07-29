@@ -581,7 +581,7 @@ namespace PontoWeb.Controllers
             }
             else if (con.ToUpper().Contains(@"\SUP"))
             {
-                user.login = "produtojmalucelli";
+                user.login = "produtoemployer";
                 user.Password = "Pfp#2020";
             }
             else if (con.ToUpper().Contains(@"\HOM"))
@@ -593,6 +593,11 @@ namespace PontoWeb.Controllers
             {
                 user.login = "devemployer";
                 user.Password = "pfpdev";
+            }
+            else if (con.ToUpper().Contains(@"\PRE"))
+            {
+                user.login = "testeemployer";
+                user.Password = "pfpteste";
             }
             else if (con.ToUpper().Contains(@"DATA SOURCE=LOCALHOST"))
             {
