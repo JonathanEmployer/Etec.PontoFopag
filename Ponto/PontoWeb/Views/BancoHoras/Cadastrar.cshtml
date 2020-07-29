@@ -1286,7 +1286,7 @@
 {
     <script>
         $(document).ready(function (e) {
-            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+            $('form').find('input:visible, textarea:visible, button, select:visible').attr('disabled', 'disabled');
             ComparaDataFinalComDataFechmento();
         })
 

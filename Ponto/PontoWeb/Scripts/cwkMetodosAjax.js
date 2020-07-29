@@ -186,7 +186,7 @@ function ajax_ExcluirRegistro(acao, controller, id, mensagem, tb, callBackSucess
                                     tb.row('.selected').remove().draw(false);
                                 }
                                 catch (err) {
-                                    tb.api().row('.selected').remove().draw(false); // Tenta pela forma do datatable (Antigo)
+                                    tb.api().row('.selected').remove().draw(false);
                                 }
                                 if (callBackSucesso && typeof (callBackSucesso) !== "undefined" && callBackSucesso !== "") {
                                     callBackSucesso(ret);
@@ -526,10 +526,16 @@ function ajax_CarregarConsultaEventoTab(acao, controller, consulta, campo, filtr
                             var ids = cwk_GetIdSelecionado(tbPesquisa);
                             if (ids >= 0) {
                                 var dados = tbPesquisa.rows('.selected').data()[0];
+                                debugger;
                                 var id = dados[0].replace('undefined', '');
                                 //Verifica se é data, se for ele pega a 5 coluna
                                 if (Date.parse(dados[1])) {
-                                    var nome = dados[4].replace('undefined', '');
+                                    if (dados.length > 4) {
+                                        var nome = dados[4].replace('undefined', '');
+                                    }
+                                    else {
+                                        var nome = dados[3].replace('undefined', '');
+                                    }
                                 } else {
                                     var nome = dados[1].replace('undefined', '');
                                 }
@@ -556,7 +562,12 @@ function ajax_CarregarConsultaEventoTab(acao, controller, consulta, campo, filtr
                                 var nome = dados[1].replace('undefined', '');
                                 //Verifica se é data, se for ele pega a 5 coluna
                                 if (Date.parse(dados[1])) {
-                                    var nome = dados[4].replace('undefined', '');
+                                    if (dados.length > 4) {
+                                        var nome = dados[4].replace('undefined', '');
+                                    }
+                                    else {
+                                        var nome = dados[3].replace('undefined', '');
+                                    }
                                 } else {
                                     var nome = dados[1].replace('undefined', '');
                                 }
@@ -1248,6 +1259,8 @@ function PostReturnJob(url, type, data, divAbrirJobs, LimparComponentes, callBac
     if (isEmpty(LimparComponentes)) {
         LimparComponentes = true;
     }
+    data.__RequestVerificationToken = gettoken();
+    console.log(data);
     $.ajax({
         url: url,
         type: type,

@@ -1579,6 +1579,7 @@
         var parametros = {
             idMarcacao: $('#idMarcacao').val(),
             idFuncionario: $('#Idfuncionario').val(),
+            __RequestVerificationToken: gettoken()
         };
         $.ajax({
             type: "POST",
