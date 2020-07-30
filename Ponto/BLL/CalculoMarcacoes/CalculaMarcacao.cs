@@ -575,7 +575,17 @@ namespace BLL
                     int saidaRealizada = Modelo.cwkFuncoes.ConvertHorasMinuto(tratamentosMarcacaoAnt.Where(w => w.Ent_sai == "S" && w.Ocorrencia != 'D').OrderBy(o => o.Posicao).Select(s => s.Mar_hora).LastOrDefault());
 
                     List<int> saidasParaFimAdNoturno = new List<int>() { saidaPrevista, saidaRealizada, fimAdNoturno };
-                    fimAdNoturno = saidasParaFimAdNoturno.OrderByDescending(o => o).FirstOrDefault();
+                    int fimAdNoturnoCalc = saidasParaFimAdNoturno.OrderByDescending(o => o).FirstOrDefault();
+
+                    //Se o fim do ad noturno for maior que 12:00 significa que não é para extender mais
+                    if (fimAdNoturno < fimAdNoturnoCalc && fimAdNoturnoCalc > 720)
+                    {
+                        fimAdNoturno = fimAdNoturno;
+                    }
+                    else
+                    {
+                        fimAdNoturno = fimAdNoturnoCalc;
+                    }
                 }
             }
 
