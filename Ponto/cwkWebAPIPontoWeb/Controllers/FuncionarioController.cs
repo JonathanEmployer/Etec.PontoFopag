@@ -82,6 +82,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                         DadosAntFunc.Carteira = funcionario.Carteira;
                         DadosAntFunc.Pis = funcionario.Pis;
                         DadosAntFunc.CPF = funcionario.CPF;
+                        DadosAntFunc.Celular = funcionario.Celular;
                         if (parametro.IntegrarSalarioFunc == true)
                         {
                             DadosAntFunc.Salario = funcionario.Salario;
