@@ -1877,7 +1877,8 @@
 
     function adicionarHorariosFlexiveis() {
         $("#GridHorariosFlexiveis").load('@Url.Action("AdicionarHorariosFlexiveis")', {
-            horario: getModeloHorario()
+            horario: getModeloHorario(),
+            __RequestVerificationToken: gettoken()
         });
     }
 
@@ -2200,7 +2201,10 @@
             $.ajax({
                 type: 'POST',
                 url: "/HorarioMovel/Cadastrar",
-                data: { horario: formDados },
+                data: {
+                    horario: formDados,
+                    __RequestVerificationToken: gettoken()
+                },
                 dataType: 'json',
                 beforeSend: function () {
                     $.blockUI({ message: '<h2>Salvando <img src="../../Content/img/circulosLoading.GIF"></h2>' });
