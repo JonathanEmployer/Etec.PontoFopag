@@ -4,6 +4,7 @@
 }
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id, new { id = "idFechamentoBHD" });
     @Html.HiddenFor(model => model.Incdata);
     @Html.HiddenFor(model => model.Inchora);
@@ -189,7 +190,7 @@
         }
     });
 
-    
+
     $('form').submit(function () {
         $('input[name=Saldobh]').val($("#txbSaldobh").val());
     });

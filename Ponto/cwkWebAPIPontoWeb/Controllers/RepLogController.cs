@@ -15,7 +15,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// <summary>
     /// Grava log para o rep
     /// </summary>
-    public class RepLogController : ApiController
+    public class RepLogController : ExtendedApiController
     {
         /// <summary>
         /// Método para gravar o log para o rep
@@ -27,8 +27,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Cadastrar(Modelo.RepLog log)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.RepLog bllRepLog = new BLL.RepLog(connectionStr);
+            BLL.RepLog bllRepLog = new BLL.RepLog(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
             if (ModelState.IsValid)
             {

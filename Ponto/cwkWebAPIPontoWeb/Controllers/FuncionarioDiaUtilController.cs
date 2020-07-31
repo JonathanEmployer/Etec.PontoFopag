@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using cwkWebAPIPontoWeb.Controllers;
 
 namespace cwkWebAPIPontoWeb.Controllers
 {
@@ -15,8 +16,9 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// </summary>
     [Authorize]
     [ApiExplorerSettings(IgnoreApi = true)]
-    public class FuncionarioDiaUtilController : ApiController
+    public class FuncionarioDiaUtilController : ExtendedApiController
     {
+
         /// <summary>
         /// Método responsável por retornar se o dia deve ser trabalhado pelo funcionário
         /// </summary>
@@ -26,8 +28,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage GetFuncionarioPorCPFeMatricula(string CPF, string Matricula, DateTime Data)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Funcionario bllFunc = new BLL.Funcionario(connectionStr);
+            BLL.Funcionario bllFunc = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
             try
             {
                 CPF = CPF.Replace("-", "").Replace(".", "");

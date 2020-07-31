@@ -559,11 +559,11 @@ namespace Modelo
         }
 
         [Display(Name = "Data Inicial")]
-        [MinDate("01/01/1760")]
+        [MinDate("31/12/1999")]
         public DateTime? DataInicial { get; set; }
         [Display(Name = "Data Final")]
         [DataType(DataType.DateTime)]
-        [MinDate("01/01/1760")]
+        [MinDate("31/12/1999")]
         [DateGreaterThan("DataInicial", "Data Inicial")]
         public DateTime? DataFinal { get; set; }
 

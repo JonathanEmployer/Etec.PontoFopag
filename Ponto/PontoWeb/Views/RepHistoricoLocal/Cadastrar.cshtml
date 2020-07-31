@@ -6,6 +6,7 @@
 
 @using (Html.BeginForm("Cadastrar", "RepHistoricoLocal", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
 {
+    @Html.AntiForgeryToken()
     <div class="divCenterPequeno">
         <div class="panel panel-default">
             <div class="panel-heading salvando">
@@ -72,7 +73,7 @@
 
     $(document).ready(function () {
         setaDatePiker('#Data');
-        $('.date').mask('00/00/0000');
+        $('.MascDate').mask('00/00/0000');
         cwk_EventoIncluirAjaxParam('#fecharCadastroModal', 'Grid', 'RepHistoricoLocal', parametros = { id: $("#idRep").val() }, "");
         cwk_EventoIncluirAjaxParam('#xfecharCadastroModal', 'Grid', 'RepHistoricoLocal', parametros = { id: $("#idRep").val() }, "");
 

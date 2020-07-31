@@ -353,7 +353,7 @@ $(function () {
 
     $("#btCalculo").click(function (e) {
         e.preventDefault();
-        $.post("/Home/Calcular", { usuario: "userFixo" }, function (data) {
+        $.post("/Home/Calcular", { usuario: "userFixo", __RequestVerificationToken: gettoken() }, function (data) {
             var divAbrirJobs = window.location.pathname.replace(/\//g, "");
             CriarOuReportarProgresso(divAbrirJobs, data);
         }, 'json');
@@ -508,14 +508,14 @@ function CriarProgresso(divIncluir, pxyJobReturn, append) {
 }
 
 function ReprocessarTask(btn) {
-    $.post("/JobManager/ReprocessarJob", { jobId: $(btn).attr("idtask") }, function (data) {
+    $.post("/JobManager/ReprocessarJob", { jobId: $(btn).attr("idtask"), __RequestVerificationToken: gettoken() }, function (data) {
         var divAbrirJobs = window.location.pathname.replace(/\//g, "");
         CriarOuReportarProgresso(divAbrirJobs, data);
     }, 'json');
 }
 
 function CancelarTask(btn) {
-    $.post("/JobManager/DeleteJob", { jobId: $(btn).attr("idtask") }, function (data) {
+    $.post("/JobManager/DeleteJob", { jobId: $(btn).attr("idtask"), __RequestVerificationToken: gettoken() }, function (data) {
         var divAbrirJobs = window.location.pathname.replace(/\//g, "");
         CriarOuReportarProgresso(divAbrirJobs, data);
     }, 'json');
@@ -543,7 +543,7 @@ $(".btnReprocessarTask").click(function (e) {
 function GetJobs(skip) {
     $("#loadJob").show();
     $("#recarregarJobs").attr("disabled", "disabled");
-    $.post("/JobManager/LoadJobs", { skip: skip }, function (data) {
+    $.post("/JobManager/LoadJobs", { skip: skip, __RequestVerificationToken: gettoken() }, function (data) {
         if (data.length < 10) {
             $("#btnCarregarJobs").attr("disabled", "disabled");
             $("#btnCarregarJobs").text("Sem dados");

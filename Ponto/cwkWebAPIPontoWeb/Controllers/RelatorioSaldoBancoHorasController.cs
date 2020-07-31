@@ -15,7 +15,7 @@ using System.Collections.Concurrent;
 
 namespace cwkWebAPIPontoWeb.Controllers
 {
-    public class RelatorioSaldoBancoHorasController : ApiController
+    public class RelatorioSaldoBancoHorasController : ExtendedApiController
     {
        [HttpPost]
        [Authorize]
@@ -28,12 +28,10 @@ namespace cwkWebAPIPontoWeb.Controllers
                 Modelo.UsuarioPontoWeb userPW = MetodosAuxiliares.UsuarioPontoWeb();
                 if (ModelState.IsValid)
                 {
-                    string connectionStr = MetodosAuxiliares.Conexao();
-
-                    BLL.Funcionario bllFuncionario = new BLL.Funcionario(connectionStr);
-                    BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(connectionStr);
-                    BLL.Contrato bllContratos = new BLL.Contrato(connectionStr);
-                    BLL.ContratoFuncionario bllContratoFuncionario = new BLL.ContratoFuncionario(connectionStr);
+                    BLL.Funcionario bllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+                    BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+                    BLL.Contrato bllContratos = new BLL.Contrato(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+                    BLL.ContratoFuncionario bllContratoFuncionario = new BLL.ContratoFuncionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     List<Modelo.Funcionario> funcionarios = new List<Modelo.Funcionario>();
                     //Parallel.ForEach(parms.CPFsMatriculas, (CpfMatricula) =>
                     //{

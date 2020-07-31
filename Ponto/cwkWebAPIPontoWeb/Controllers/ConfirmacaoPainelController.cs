@@ -17,7 +17,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// </summary>
     [Authorize]
     [ApiExplorerSettings(IgnoreApi = true)]
-    public class ConfirmacaoPainelController : ApiController
+    public class ConfirmacaoPainelController : ExtendedApiController
     {
         /// <summary>
         /// Método responsável por retornar se o período solicitado está confirmado no Painel
@@ -28,9 +28,8 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage ConfirmacaoPainel(int Mes, int Ano, int idFuncionario)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.ConfirmacaoPainel bllConfirmacao = new BLL.ConfirmacaoPainel(connectionStr);
-            BLL.Funcionario bllFunc = new BLL.Funcionario(connectionStr);
+            BLL.ConfirmacaoPainel bllConfirmacao = new BLL.ConfirmacaoPainel(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+            BLL.Funcionario bllFunc = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
             try
             {
                 Models.ConfirmacaoPainel Conf = new Models.ConfirmacaoPainel();
@@ -89,9 +88,9 @@ namespace cwkWebAPIPontoWeb.Controllers
         {
             try
             {
-                    string connectionStr = MetodosAuxiliares.Conexao();
-                    BLL.ConfirmacaoPainel BllConfirmacao = new BLL.ConfirmacaoPainel(connectionStr);
-                    BLL.Funcionario BllFuncionario = new BLL.Funcionario(connectionStr);
+
+                    BLL.ConfirmacaoPainel BllConfirmacao = new BLL.ConfirmacaoPainel(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+                    BLL.Funcionario BllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     Modelo.ConfirmacaoPainel Conf = BllConfirmacao.GetPorMesAnoIdFunc(ConfirmacaoPainel.Mes, ConfirmacaoPainel.Ano, ConfirmacaoPainel.idFuncionario);
                     Dictionary<string, string> erros = new Dictionary<string, string>();
                     

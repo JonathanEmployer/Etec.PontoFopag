@@ -1,4 +1,5 @@
 ﻿using Modelo;
+using Modelo.Proxy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,9 @@ namespace DAL
         Modelo.PeriodoFechamento PeriodoFechamento(int idContrato);
         Modelo.PeriodoFechamento PeriodoFechamentoPorCodigo(int codigoContrato);
         List<Modelo.Contrato> ContratosPorFuncionario(int idFuncionario);
+        List<Modelo.Contrato> ContratosPorUsuario(int idFuncionario);
         bool ValidaContratoCodigo(int codcontrato, int idempresa);
+        void DeletaContratosUsuario(int idQueVaiSerAlterado);
+        List<pxyUsuarioControleAcessoAdicionarContrato> GetAllGridUCompact();
     }
 }

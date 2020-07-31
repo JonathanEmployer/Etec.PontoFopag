@@ -17,7 +17,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// <summary>
     /// Método responsável por receber os AFDs do serviço comunicador e importar
     /// </summary>
-    public class ImportarAFDServicoComunicadorController : ApiController
+    public class ImportarAFDServicoComunicadorController : ExtendedApiController
     {
         /// <summary>
         ///  Método que recebe e importa o AFD
@@ -33,12 +33,10 @@ namespace cwkWebAPIPontoWeb.Controllers
             {
                 try
                 {
-                    string connectionStr = MetodosAuxiliares.Conexao();
-                    Cw_Usuario usuarioLogado = MetodosAuxiliares.Cw_Usuario();
-                    BLL.REP bllRep = new BLL.REP(connectionStr, usuarioLogado);
+                    BLL.REP bllRep = new BLL.REP(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     string numSerie = RegsAFD.Where(w => w.Campo02 == "1").Select(s => s.Campo07).Distinct().FirstOrDefault().ToString();
                     Modelo.REP repCliente = bllRep.LoadObjectByNumSerie(numSerie);
-                    ProcessarRegistroAFD processarRegistros = new ProcessarRegistroAFD(repCliente, connectionStr, usuarioLogado);
+                    ProcessarRegistroAFD processarRegistros = new ProcessarRegistroAFD(repCliente, usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
                     ResultadoImportacao res = processarRegistros.ProcessarImportacao(new List<int>(), RegsAFD);
                     return Request.CreateResponse(HttpStatusCode.OK, res);

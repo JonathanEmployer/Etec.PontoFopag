@@ -7,6 +7,7 @@
 }
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     <div class="">
         <div class="panel panel-default" style="padding:0px;margin-bottom:0">
             <div class="panel-heading">
@@ -28,7 +29,7 @@
                                             @Html.LabelFor(model => Model.InicioPeriodo, new { @class = "label-sm" })
                                         </div>
                                         <div class="col-md-4">
-                                            <div class="input-group input-group-sm" >
+                                            <div class="input-group input-group-sm">
                                                 @Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "InicioPeriodo" })
                                                 <span class="input-group-btn">
                                                     <button class="btn btn-primary" id="btnDtInicio" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -40,7 +41,7 @@
                                             @Html.LabelFor(model => Model.FimPeriodo, new { @class = "label-sm" })
                                         </div>
                                         <div class="col-md-4">
-                                            <div class="input-group input-group-sm" >
+                                            <div class="input-group input-group-sm">
                                                 @Html.TextBoxFor(model => Model.FimPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "FimPeriodo" })
                                                 <span class="input-group-btn">
                                                     <button class="btn btn-primary" id="btnDtFim" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -88,75 +89,74 @@
     </div>
 }
 <script>
-	var errorArray = new Array();
-	cwk_DataCalendario('#btnDtInicio', '#InicioPeriodo');
-	cwk_DataCalendario('#btnDtFim', '#FimPeriodo');
+    var errorArray = new Array();
+    cwk_DataCalendario('#btnDtInicio', '#InicioPeriodo');
+    cwk_DataCalendario('#btnDtFim', '#FimPeriodo');
 
 
-	function retornaAltura() {
-		var altura = cwk_AlturaTela() * 28 / 100;
-		if (cwk_AlturaTela() <= 768) {
-			altura = cwk_AlturaTela() * 18 / 100;
-		}
-		return altura;
-	}
+    function retornaAltura() {
+        var altura = cwk_AlturaTela() * 28 / 100;
+        if (cwk_AlturaTela() <= 768) {
+            altura = cwk_AlturaTela() * 18 / 100;
+        }
+        return altura;
+    }
 
-	$(document).ready(function () {
-		$('#tbFun tbody').on('click', 'tr', function () {
-			errorArray["IdSelecionados"] = null;
-			$("form").validate().showErrors(errorArray);
-		});
+    $(document).ready(function () {
+        $('#tbFun tbody').on('click', 'tr', function () {
+            errorArray["IdSelecionados"] = null;
+            $("form").validate().showErrors(errorArray);
+        });
 
-	});
+    });
 
-	function modificaProperties(componente, valor) {
-		$(componente).prop('disabled', valor);
-		$(componente).attr('disabled', valor);
-		$(componente).prop('readonly', valor);
-		$(componente).attr('readonly', valor);
-	}
+    function modificaProperties(componente, valor) {
+        $(componente).prop('disabled', valor);
+        $(componente).attr('disabled', valor);
+        $(componente).prop('readonly', valor);
+        $(componente).attr('readonly', valor);
+    }
 
-	$("#btnTxt").click(function (event) {
-		if (!validaForm()) {
-			event.preventDefault();
-		}
-		else {
-			$("#TipoArquivo").val("PDF");
-		}
-	});
+    $("#btnTxt").click(function (event) {
+        if (!validaForm()) {
+            event.preventDefault();
+        }
+        else {
+            $("#TipoArquivo").val("PDF");
+        }
+    });
 
-	$("#btnXls").click(function (event) {
-		if (!validaForm()) {
-			event.preventDefault();
-		}
-		else {
-			$("#TipoArquivo").val("Excel");
-		}
-	});
+    $("#btnXls").click(function (event) {
+        if (!validaForm()) {
+            event.preventDefault();
+        }
+        else {
+            $("#TipoArquivo").val("Excel");
+        }
+    });
 
-	$('form').submit(function () {
-		if ($(this).valid()) {
-			PostFormJob(this);
-		}
-		return false;
-	});
+    $('form').submit(function () {
+        if ($(this).valid()) {
+            PostFormJob(this);
+        }
+        return false;
+    });
 
     function validaForm() {
-        console.log('selecionados')
-		$("#IdSelecionados").val(tbFunGetSelecionado());
-		if ($("#IdSelecionados").val().length <= 0 || $("#IdSelecionados").val() == '' || $("#IdSelecionados").val() == null) {
-			var msgErro = 'Para Imprimir o Relatório é Necessário Selecionar Pelo Menos um registro.';
-			errorArray["IdSelecionados"] = msgErro;
-			cwkErro(msgErro);
-			$("form").validate().showErrors(errorArray);
-			return false;
-		}
-		else {
-			errorArray["IdSelecionados"] = null;
-			$("form").validate().showErrors(errorArray);
-			return true;
-		}
-	}
+        $("#IdSelecionados").val(tbFunGetSelecionado());
+        if ($("#IdSelecionados").val().length <= 0 || $("#IdSelecionados").val() == '' || $("#IdSelecionados").val() == null) {
+            var msgErro = 'Para Imprimir o Relatório é Necessário Selecionar Pelo Menos um registro.';
+            errorArray["IdSelecionados"] = msgErro;
+            cwkErro(msgErro);
+            $("form").validate().showErrors(errorArray);
+            return false;
+        }
+        else {
+            errorArray["IdSelecionados"] = null;
+            $("form").validate().showErrors(errorArray);
+            return true;
+        }
+    }
 
 
 

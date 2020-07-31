@@ -57,9 +57,9 @@ namespace PontoWeb.Controllers
             BLL.Empresa bllEmpresa = new BLL.Empresa(_user.ConnectionString, _user);
             try
             {
-                if (exp.DataInicial < new DateTime(1760, 1, 1))
+                if (exp.DataInicial < new DateTime(2000, 1, 1))
                 {
-                    ModelState["DataInicial"].Errors.Add("A Data Inicial deve ser maior que 01/01/1760");
+                    ModelState["DataInicial"].Errors.Add("A Data Inicial deve ser maior que 01/01/2000");
                 }
                 int idEmpresa = CarregarObjEmpresa(exp, bllEmpresa);
                 if (idEmpresa > 0)

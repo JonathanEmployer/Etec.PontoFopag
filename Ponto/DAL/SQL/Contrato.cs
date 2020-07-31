@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Modelo.Proxy;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -543,6 +544,46 @@ namespace DAL.SQL
             return lista;
         }
 
+        /// <summary>
+        /// Retorna uma lista de contratos vinculados a um usuário
+        /// </summary>
+        /// <param name="idUsuario">ID do Usuario</param>
+        /// <returns>Lista contendo os contratos vinculados aquele funcionário</returns>
+        public List<Modelo.Contrato> ContratosPorUsuario(int idUsuario)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@idUsuario", SqlDbType.Int)
+            };
+            parms[0].Value = idUsuario;
+
+            string sql = @"select c.* from contrato c
+	                        inner join contratousuario cf on c.id = cf.idcontrato
+	                            where cf.idcwusuario = @idUsuario";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+
+            List<Modelo.Contrato> lista = new List<Modelo.Contrato>();
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Contrato>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Contrato>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
+
         public bool ValidaContratoCodigo(int codcontrato, int idempresa)
         {
             SqlParameter[] parms = new SqlParameter[]
@@ -563,6 +604,66 @@ namespace DAL.SQL
                 return false;
             }
             return true;
+        }
+
+        public void DeletaContratosUsuario(int idUsuario)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@idUsuario", SqlDbType.Int)
+            };
+            parms[0].Value = idUsuario;
+
+            string sql = @"DELETE FROM contratousuario WHERE idcwusuario =" + idUsuario;
+
+            using (SqlConnection conn = new SqlConnection(db.ConnectionString))
+            using (SqlCommand cmd = new SqlCommand(sql, db.GetConnection))
+            {
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception();
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public List<pxyUsuarioControleAcessoAdicionarContrato> GetAllGridUCompact()
+        {
+            List<Modelo.Proxy.pxyUsuarioControleAcessoAdicionarContrato> lista = new List<Modelo.Proxy.pxyUsuarioControleAcessoAdicionarContrato>();
+
+            string aux = @" SELECT   con.id AS Id,
+		                             con.codigo AS Codigo,
+		                             CONCAT(con.codigocontrato, ' | ' , con.descricaocontrato) AS Nome,
+                                     'Contrato' AS Tipo
+		                                FROM contrato con";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux);
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Proxy.pxyUsuarioControleAcessoAdicionarContrato>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Proxy.pxyUsuarioControleAcessoAdicionarContrato>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
         }
 
         #endregion

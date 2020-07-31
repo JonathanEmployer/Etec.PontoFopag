@@ -248,7 +248,8 @@ namespace DAL.SQL
 		                    us.EMAIL AS Email,
 		                    CASE WHEN us.UtilizaControleEmpresa = 1 THEN 'Sim' ELSE 'Não' END  AS ControlePorEmpresa,
 		                    CASE WHEN us.UtilizaControleContratos = 1 THEN 'Sim' ELSE 'Não' END AS ControlePorContrato,
-		                    CASE WHEN us.UtilizaControleSupervisor = 1 THEN 'Sim' ELSE 'Não' END AS ControlePorSupervisor                                                         
+		                    CASE WHEN us.UtilizaControleSupervisor = 1 THEN 'Sim' ELSE 'Não' END AS ControlePorSupervisor,
+                            CASE WHEN us.Ativo = 1 THEN 'Sim' ELSE 'Não' END AS Ativo
                             FROM cw_usuario us
                             LEFT JOIN cw_grupo gp ON gp.id = us.idgrupo  
                             WHERE us.login not in ('revenda','cwork')
@@ -391,6 +392,39 @@ namespace DAL.SQL
                 dr.Dispose();
             }
             return objCw_GrupoAcesso;
+        }
+
+        public List<Modelo.Proxy.pxyUsuarioControleAcessoCopiar> GetAllGridUCompact()
+        {
+            List<Modelo.Proxy.pxyUsuarioControleAcessoCopiar> lista = new List<Modelo.Proxy.pxyUsuarioControleAcessoCopiar>();
+
+            SqlParameter[] parms = new SqlParameter[] { };
+
+            string aux = @" SELECT   us.id AS Id,
+		                             us.codigo AS Codigo, 
+		                             us.login AS Login,
+		                             us.nome AS Nome
+		                                FROM cw_usuario us";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Proxy.pxyUsuarioControleAcessoCopiar>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Proxy.pxyUsuarioControleAcessoCopiar>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
         }
         #endregion
     }

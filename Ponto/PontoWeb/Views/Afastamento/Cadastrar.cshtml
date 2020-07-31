@@ -9,25 +9,27 @@
 }
 @using (Html.BeginForm())
 {
-    @Html.HiddenFor(model => model.Id, new { id = "idAfastamento" });
-    @Html.HiddenFor(model => model.Incdata);
-    @Html.HiddenFor(model => model.Inchora);
-    @Html.HiddenFor(model => model.Incusuario);
-    @Html.HiddenFor(model => model.Altdata);
-    @Html.HiddenFor(model => model.Althora);
-    @Html.HiddenFor(model => model.Altusuario);
-    @Html.HiddenFor(model => model.Descricao);
-    @Html.HiddenFor(model => model.IdOcorrencia);
-    @Html.HiddenFor(model => model.IdFuncionario);
-    @Html.HiddenFor(model => model.IdEmpresa);
-    @Html.HiddenFor(model => model.IdDepartamento);
-    @Html.HiddenFor(model => model.IdFuncionario_Ant);
-    @Html.HiddenFor(model => model.IdDepartamento_Ant);
-    @Html.HiddenFor(model => model.IdEmpresa_Ant);
-    @Html.HiddenFor(model => model.Tipo_Ant);
-    @Html.HiddenFor(model => model.Datai_Ant);
-    @Html.HiddenFor(model => model.Dataf_Ant);
-    @Html.HiddenFor(model => model.IdIntegracao);
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id, new { id = "idAfastamento" })
+    @Html.HiddenFor(model => model.Incdata)
+    @Html.HiddenFor(model => model.Inchora)
+    @Html.HiddenFor(model => model.Incusuario)
+    @Html.HiddenFor(model => model.Altdata)
+    @Html.HiddenFor(model => model.Althora)
+    @Html.HiddenFor(model => model.Altusuario)
+    @Html.HiddenFor(model => model.Descricao)
+    @Html.HiddenFor(model => model.IdOcorrencia)
+    @Html.HiddenFor(model => model.IdFuncionario)
+    @Html.HiddenFor(model => model.IdEmpresa)
+    @Html.HiddenFor(model => model.IdDepartamento)
+    @Html.HiddenFor(model => model.IdFuncionario_Ant)
+    @Html.HiddenFor(model => model.IdDepartamento_Ant)
+    @Html.HiddenFor(model => model.IdEmpresa_Ant)
+    @Html.HiddenFor(model => model.Tipo_Ant)
+    @Html.HiddenFor(model => model.Datai_Ant)
+    @Html.HiddenFor(model => model.Dataf_Ant)
+    @Html.HiddenFor(model => model.IdIntegracao)
+    @Html.HiddenFor(model => model.DataUltimoFechamentoPontoEBanco)
 
     <div class="divCenterMedio">
         <div class="panel panel-default" style="padding:0">
@@ -37,9 +39,9 @@
             </div>
             <div class="panel-body panelConteudo" id="panelBodyMaximo">
                 @Html.Raw(HttpUtility.HtmlDecode(@Html.ValidationMessage("CustomError").ToHtmlString()))
-                @if (!String.IsNullOrEmpty(@ViewBag.MensagemBloqueio))
+                @if (!String.IsNullOrEmpty(@ViewBag.MensagemFechamento))
                 {
-                    <div class="alert alert-info" role="alert" style="margin-bottom:0">@Html.Raw(ViewBag.MensagemBloqueio)</div>
+                    <div class="alert alert-info" role="alert" style="margin-bottom:0">@Html.Raw(ViewBag.MensagemFechamento)</div>
                 }
                 <div class="row">
                     <div class="col-md-2">
@@ -62,7 +64,7 @@
                     <div class="col-md-3">
                         <div class="form-group input-group-sm">
                             @Html.LabelFor(model => model.Dataf, new { @class = "control-label label-sm" })
-                            <div class="input-group input-group-sm" >
+                            <div class="input-group input-group-sm">
                                 @Html.TextBoxFor(model => model.Dataf, new { @class = "form-control input-sm MascDate datepickerpt", id = "Dataf" }).IsReadonly(integrado)
                                 <span class="input-group-btn">
                                     <button class="btn btn-primary desabilitar" id="btnDataFinal" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -271,7 +273,7 @@
                                     @Html.ValidationMessageFor(model => model.Horaf)
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                 </div>
             </div>
@@ -545,15 +547,15 @@
         });
     }
 
-    function OcultarCheckContabilizarJornadaT() {  
+    function OcultarCheckContabilizarJornadaT() {
                 if ($("#BAbonado").is(':checked') && (!$("#BParcial").is(':checked')))
                 { $("#rowcontabilizarjornada").show(); }
                 else {
                     $("#rowcontabilizarjornada").hide();
-                    $("#BcontabilizarjornadaBool").prop("checked", false);                  
+                    $("#BcontabilizarjornadaBool").prop("checked", false);
                 }
-    }    
-    
+    }
+
 </script>
 @if (ViewBag.Consultar == 1 || !String.IsNullOrEmpty(@ViewBag.MensagemBloqueio))
 {
@@ -561,5 +563,51 @@
         $(document).ready(function () {
             $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
         })
+    </script>
+}
+
+@if (Model.DataUltimoFechamentoPontoEBanco != null)
+{
+    <script>
+    var dataIni = ConvertDate('@Model.Datai');
+    var dataFinal = ConvertDate('@Model.Dataf');
+    var ultimoFechamento = ConvertDate('@Model.DataUltimoFechamentoPontoEBanco');
+
+    $(document).ready(function (e) {
+        if (dataIni <= ultimoFechamento) {
+            $('form').find('input:visible, textarea:visible, button, select:visible').attr('disabled', 'disabled');
+            ComparaDataFinalComDataFechmento();
+        }
+        else {
+            LimitaDataIni();
+            LimitaDataFim();
+        }
+    })
+
+    function ComparaDataFinalComDataFechmento() {
+        if (dataFinal > ultimoFechamento || isEmpty('@Model.Dataf')) {
+            $('#Dataf, #btnDataFinal').removeAttr('disabled');
+            $('.salvando').removeAttr('disabled');
+            LimitaDataFim();
+        }
+    }
+
+    var optionsDP = new Array();
+    optionsDP['language'] = 'pt-BR';
+    optionsDP['format'] = "dd/mm/yyyy";
+    optionsDP['todayBtn'] = "linked";
+    optionsDP['autoclose'] = "true";
+    optionsDP['todayHighlight'] = "true";
+    optionsDP['startDate'] = ultimoFechamento.addDays(1);
+    optionsDP['orientation'] = "auto";
+    function LimitaDataFim() {
+        $('#Dataf').datepicker("remove");
+        $('#Dataf').datepicker(optionsDP);
+    }
+
+    function LimitaDataIni() {
+        $('#Datai').datepicker("remove");
+        $('#Datai').datepicker(optionsDP);
+    }
     </script>
 }

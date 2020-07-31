@@ -4,6 +4,7 @@
 }
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id, new { id = "idInclusaoBanco" });
     @Html.HiddenFor(model => model.Incdata);
     @Html.HiddenFor(model => model.Inchora);
@@ -73,8 +74,8 @@
                             <div class="form-group input-group-sm">
                                 <div class="col-md-3 divempdev">
                                     <div class="radio-inline" data-toggle="radio">
-                                        @Html.RadioButtonFor(model => model.Tipo, 0, new { id = "idRadioEmpresa", name = "rdio" }) 
-                                        @Html.Label("lbEmpresa", "Empresa", new { @class = "control-label label-sm",  @for = "idRadioEmpresa"}) 
+                                        @Html.RadioButtonFor(model => model.Tipo, 0, new { id = "idRadioEmpresa", name = "rdio" })
+                                        @Html.Label("lbEmpresa", "Empresa", new { @class = "control-label label-sm", @for = "idRadioEmpresa" })
                                     </div>
                                 </div>
                                 <div class="col-md-3 divempdev">
@@ -91,7 +92,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="radio-inline" data-toggle="radio">
-                                        @Html.RadioButtonFor(model => model.Tipo, 2, new { id = "idRadioFuncionario", name = "rdio" }) 
+                                        @Html.RadioButtonFor(model => model.Tipo, 2, new { id = "idRadioFuncionario", name = "rdio" })
                                         @Html.Label("lbFuncionario", "Funcionário", new { @class = "control-label label-sm", @for = "idRadioFuncionario" })
                                     </div>
                                 </div>
@@ -166,13 +167,13 @@
                                 <div class="col-md-3">
                                     <div class="radio-inline" data-toggle="radioTipoLancamento">
                                         @Html.RadioButtonFor(model => model.Tipocreditodebito, 0, new { id = "idRadioCredito", name = "rdioTipoLancamento" })
-                                        @Html.Label("lbCredito", "Crédito", new { @class = "control-label label-sm", @for = "idRadioCredito" }) 
+                                        @Html.Label("lbCredito", "Crédito", new { @class = "control-label label-sm", @for = "idRadioCredito" })
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="radio-inline" data-toggle="radioTipoLancamento">
-                                        @Html.RadioButtonFor(model => model.Tipocreditodebito, 1, new { id = "idRadioDebito", name = "rdioTipoLancamento" }) 
-                                        @Html.Label("lbDebito", "Débito", new { @class = "control-label label-sm", @for = "idRadioDebito" }) 
+                                        @Html.RadioButtonFor(model => model.Tipocreditodebito, 1, new { id = "idRadioDebito", name = "rdioTipoLancamento" })
+                                        @Html.Label("lbDebito", "Débito", new { @class = "control-label label-sm", @for = "idRadioDebito" })
                                     </div>
                                 </div>
                                 <div id="divCredito" class="row divsTipoLancamento">
@@ -300,7 +301,7 @@
         $(".divsTipoLancamento").hide();
         $(idDiv).show();
     }
-    
+
 </script>
 @if (ViewBag.Consultar == 1)
 {

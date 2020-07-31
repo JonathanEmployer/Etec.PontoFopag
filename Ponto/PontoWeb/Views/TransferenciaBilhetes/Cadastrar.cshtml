@@ -7,6 +7,7 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     <div class="divCenter">
         <div class="panel panel-default" style="margin-bottom:0">
             <div class="panel-heading">
@@ -54,9 +55,9 @@
                 <div class="row">
                     @if (ViewBag.Consultar != 1)
                     {
-                    <div id="divTbFuncionarioDestino">
-                        @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorio()).GetType(), false, "TransferenciaBilhetes", "GetOutrosRegistrosFuncionario/" + Model.IdFuncionarioOrigem, "", "", Model.IdFuncionarioDestino.ToString(), "")
-                    </div>
+                        <div id="divTbFuncionarioDestino">
+                            @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorio()).GetType(), false, "TransferenciaBilhetes", "GetOutrosRegistrosFuncionario/" + Model.IdFuncionarioOrigem, "", "", Model.IdFuncionarioDestino.ToString(), "")
+                        </div>
                     }
                     else
                     {
@@ -103,8 +104,8 @@
 
     function buscaFuncionariosDestino() {
         @if (ViewBag.Consultar != 1)
-        { 
-            <text>  
+        {
+            <text>
                 CarregaDadosAjax("GridOutrosRegistrosFuncionario", "TransferenciaBilhetes", $('form').serialize(), "#divTbFuncionarioDestino", "#btnXls", "");
             </text>
         }

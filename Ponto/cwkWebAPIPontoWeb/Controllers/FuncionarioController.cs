@@ -37,26 +37,25 @@ namespace cwkWebAPIPontoWeb.Controllers
                 try
                 {
                     bool erro = false;
-                    string connectionStr = MetodosAuxiliares.Conexao();
                     Modelo.Empresa emp;
                     int? IdDep, IdFuncao, idHorario;
 
-                    BLL.Contrato bllContrato = new BLL.Contrato(connectionStr);
+                    BLL.Contrato bllContrato = new BLL.Contrato(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     int contid = bllContrato.GetIdPorIdIntegracao(funcionario.IdintegracaoContrato.GetValueOrDefault()).GetValueOrDefault();
                     Modelo.Contrato cont = bllContrato.LoadObject(contid);
 
 
-                    erro = ValidaDados(funcionario, retErro, connectionStr, out emp, out IdDep, out IdFuncao, funcionario.DescricaoFuncao, cont);
+                    erro = ValidaDados(funcionario, retErro, usuarioPontoWeb.ConnectionString, out emp, out IdDep, out IdFuncao, funcionario.DescricaoFuncao, cont);
 
                     if (!erro)
                     {
-                        BLL.Pessoa bllPessoa = new BLL.Pessoa(connectionStr);
-                        BLL.Funcionario bllFuncionario = new BLL.Funcionario(connectionStr);
-                        BLL.TipoVinculo bllTipoVinculo = new BLL.TipoVinculo(connectionStr);
-                        BLL.Parametros bllParametros = new BLL.Parametros(connectionStr);
-                        BLL.Departamento bllDepartamento = new BLL.Departamento(connectionStr);
+                        BLL.Pessoa bllPessoa = new BLL.Pessoa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+                        BLL.Funcionario bllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+                        BLL.TipoVinculo bllTipoVinculo = new BLL.TipoVinculo(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+                        BLL.Parametros bllParametros = new BLL.Parametros(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+                        BLL.Departamento bllDepartamento = new BLL.Departamento(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
-                        BLL.Empresa bllEmpresa = new BLL.Empresa(connectionStr);
+                        BLL.Empresa bllEmpresa = new BLL.Empresa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                         Modelo.Parametros parametro = bllParametros.LoadPrimeiro();
 
 
@@ -131,7 +130,7 @@ namespace cwkWebAPIPontoWeb.Controllers
 
                             if (supervisor == null || supervisor.Id == 0)
                             {
-                                supervisor = PessoaController.SalvarPessoaWeb(funcionario.PessoaSupervisor, connectionStr, out Dictionary<string, string> errosPessoa);
+                                supervisor = PessoaController.SalvarPessoaWeb(funcionario.PessoaSupervisor, usuarioPontoWeb.ConnectionString, out Dictionary<string, string> errosPessoa);
                                 if (errosPessoa.Count() != 0)
                                     throw new Exception("Erro ao cadastrar o supervisor do funcionário, Erro: " + string.Join(";", errosPessoa.Select(x => x.Key + "=" + x.Value).ToArray()));
                             }
@@ -154,7 +153,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                             DadosAntFunc.Codigo = ultimoCodigo;
                             DadosAntFunc.Dscodigo = ultimoCodigo.ToString();
                             DadosAntFunc.idIntegracao = funcionario.IdIntegracao;
-                            BLL.Horario bllHorario = new BLL.Horario(connectionStr);
+                            BLL.Horario bllHorario = new BLL.Horario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                             idHorario = bllHorario.MinIdHorarioNormal();
                             Modelo.Departamento dep = bllDepartamento.LoadObject(DadosAntFunc.Iddepartamento);
                             Modelo.Empresa empr = bllEmpresa.LoadObject(DadosAntFunc.Idempresa);
@@ -207,7 +206,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                         }
                         else
                         {
-                            BLL.ContratoFuncionario bllContratoFun = new BLL.ContratoFuncionario(connectionStr);
+                            BLL.ContratoFuncionario bllContratoFun = new BLL.ContratoFuncionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                             bllFuncionario.SetContratoFuncionarioIntegracao(funcionario.IdIntegracao, (funcionario.IdintegracaoContrato).GetValueOrDefault(), acao);
                             BLL_N.JobManager.CalculoMarcacoes.RecalculaEdicaoFuncionario(DadosAntFunc, usuarioPontoWeb, true);
                             funcionario.Codigo = DadosAntFunc.Codigo;
@@ -254,10 +253,9 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Excluir(int IdIntegracao)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Funcionario bllFuncionario = new BLL.Funcionario(connectionStr);
-            BLL.ContratoFuncionario bllContratoFun = new BLL.ContratoFuncionario(connectionStr);
-            BLL.Contrato bllContrato = new BLL.Contrato(connectionStr);
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+            BLL.ContratoFuncionario bllContratoFun = new BLL.ContratoFuncionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+            BLL.Contrato bllContrato = new BLL.Contrato(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
             if (ModelState.IsValid)
             {
@@ -307,7 +305,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                 erro = true;
             }
 
-            BLL.Empresa empBLL = new BLL.Empresa(connectionStr);
+            BLL.Empresa empBLL = new BLL.Empresa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
             emp = new Modelo.Empresa();
             emp = empBLL.LoadObjectByDocumento(funcionario.DocumentoEmpresa);
             if (emp.Id <= 0)
@@ -316,7 +314,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                 ModelState.AddModelError("DocumentoEmpresa", "Empresa informada não encontrada");
                 erro = true;
             }
-            BLL.Departamento depBLL = new BLL.Departamento(connectionStr);
+            BLL.Departamento depBLL = new BLL.Departamento(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
             if (funcionario.IdIntegracaoDepartamento != null)
             {
                 IdDep = depBLL.GetIdPoridIntegracao(funcionario.IdIntegracaoDepartamento.GetValueOrDefault());
@@ -328,7 +326,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                 {
                     try
                     {
-                        BLL.Departamento bllDep = new BLL.Departamento(connectionStr);
+                        BLL.Departamento bllDep = new BLL.Departamento(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                         Modelo.Departamento dep = new Modelo.Departamento();
                         dep.Codigo = bllDep.MaxCodigo();
                         dep.Descricao = emp.Nome;
@@ -354,7 +352,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                 ModelState.AddModelError("CodigoDepartamento", "Departamento não encontrado");
                 erro = true;
             }
-            BLL.Funcao funcBLL = new BLL.Funcao(connectionStr);
+            BLL.Funcao funcBLL = new BLL.Funcao(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
             idFunc = null;
             if (funcionario.IdIntegracaoFuncao != null)
             {
@@ -472,8 +470,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage GetFuncionarioPorCPFeMatricula(string CPF, string Matricula)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Funcionario bllFunc = new BLL.Funcionario(connectionStr);
+            BLL.Funcionario bllFunc = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
             try
             {
                 CPF = CPF.Replace("-", "").Replace(".", "");
@@ -519,8 +516,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         [HttpGet]
         public HttpResponseMessage CarregarAtivosBloqueio()
         {
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Funcionario bllFunc = new BLL.Funcionario(connectionStr);
+            BLL.Funcionario bllFunc = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
             DataTable funcionariosEntrada = bllFunc.CarregarTodosParaAPI();
             List<Models.Funcionario> funcionariosSaida = new List<LModel.Funcionario>();
 

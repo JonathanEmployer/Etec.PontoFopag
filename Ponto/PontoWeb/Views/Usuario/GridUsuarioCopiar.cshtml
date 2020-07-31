@@ -1,0 +1,59 @@
+﻿@model Modelo.Proxy.pxyUsuarioControleAcessoCopiar
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Copiar controle de usuário";
+    Layout = null;
+    string nometabela = "tblGridCopiarControleUsuario";
+}
+
+<div class="divCenterGrande">
+    <div class="panel panel-default" style="padding:0">
+        <div class="panel-heading">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="fecharModalUserCopiar">X</button>
+            <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+        </div>
+        <div class="panel-body panelConteudo" id="panelBodyFixo">
+            @Html.ValidationSummary(true)
+            <div class="row">
+                @Html.GridFor(nometabela, Model.GetType(), false, "Usuario", "DadosGridModalCopiar", "", "", "", "", true)
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-12 center-block" style="text-align: right">
+                    <a href="#" id="btSalvarCopiar" class="btn btn-success"><span class="glyphicon glyphicon-ok-circle"></span>&nbsp;Salvar</a>
+                    <a href="#" id="btCancelarCopiar" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        cwk_EventoAlterarAjaxParam('#fecharModalUserCopiar', 'GridControleUsuario', 'Usuario', nomeTabela, "");
+        cwk_EventoAlterarAjaxParam('#btCancelarCopiar', 'GridControleUsuario', 'Usuario', nomeTabela, "");
+    });
+
+    //SALVAR
+    $(document).on('click', '#btSalvarCopiar', function () {
+
+        //id do usuario a ser alterado
+        var idUserToAlter = $('.selected').eq(0).attr('id');
+
+        //codigo do usuario que vai ser copiado
+        var idUsuarioQueVaiSerCopiado = $('.selected').eq(1).attr('id');
+
+        if (idUsuarioQueVaiSerCopiado !== null && idUsuarioQueVaiSerCopiado !== 0 && idUsuarioQueVaiSerCopiado !== undefined) {
+            if (idUsuarioQueVaiSerCopiado != idUserToAlter) {
+                $("#loading").modal();
+                cwk_CadastroAjaxParam('SalvarCopia', 'Usuario','', { idQueVaiSerAlterado: idUserToAlter, idUsuarioParaAlterar: idUsuarioQueVaiSerCopiado });
+            } else {
+                cwkErroTit('Erro ao copiar usuário!', 'Não é possivel copiar o usuário selecionado para ele mesmo!');
+            }
+        } else {
+            cwkErroTit('Selecione um Registro!', 'É necessário selecionar um registro para realizar essa operação!');
+        }
+    });
+</script>
