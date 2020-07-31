@@ -11,6 +11,7 @@
 </style>
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     <div>
         <div class="panel panel-default" style="padding:0; margin-bottom:0px">
             <div class="panel-heading salvando">
@@ -183,8 +184,7 @@
     function validaForm() {
         var retorno = true;
         $("#IdRepsSelecionados").val(tbRepGetSelecionado());
-        if ($("#IdRepsSelecionados").val() == null || $("#IdRepsSelecionados").val() == '' || $("#IdRepsSelecionados").val().length <= 0)
-        {
+        if ($("#IdRepsSelecionados").val() == null || $("#IdRepsSelecionados").val() == '' || $("#IdRepsSelecionados").val().length <= 0) {
             var msgErro = 'Selecionar um rep para ser monitorado pelo alerta';
             errorArray["Pessoa"] = msgErro;
             cwkErro(msgErro);
