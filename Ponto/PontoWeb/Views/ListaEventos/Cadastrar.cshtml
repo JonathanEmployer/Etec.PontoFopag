@@ -11,6 +11,7 @@
 </style>
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     <div>
         <div class="panel panel-default" style="padding:0; margin-bottom:0px">
             <div class="panel-heading salvando">

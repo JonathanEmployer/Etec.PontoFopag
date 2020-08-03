@@ -9,6 +9,7 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.idEmpresa);
     @Html.HiddenFor(model => model.idsSelecionados)
 
@@ -22,7 +23,7 @@
                 @Html.ValidationSummary(true)
                 <div class="panel-body" style="padding:0px;">
                     <div class="row">
-                        @Html.GridFor(nometabela, new Modelo.OcorrenciaEmpresa().GetType(),true,"OcorrenciaEmpresa","DadosGrid/" + Model.idEmpresa, "","", Model.idsSelecionados,"")
+                        @Html.GridFor(nometabela, new Modelo.OcorrenciaEmpresa().GetType(), true, "OcorrenciaEmpresa", "DadosGrid/" + Model.idEmpresa, "", "", Model.idsSelecionados, "")
                     </div>
                 </div>
                 <div class="panel-footer">

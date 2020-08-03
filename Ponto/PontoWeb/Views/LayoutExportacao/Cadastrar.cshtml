@@ -4,6 +4,7 @@
 }
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id, new { id = "idLayoutExportacao" });
     @Html.HiddenFor(x => x.Codigo)
     @Html.HiddenFor(x => x.Incdata)
@@ -21,7 +22,7 @@
                 @Html.ActionLink("X", "Grid", "LayoutExportacao", null, new { @class = "close" })
                 <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
             </div>
-            <div class="panel-body panelConteudo" >
+            <div class="panel-body panelConteudo">
                 @Html.ValidationMessage("CustomError")
                 <div class="row">
                     <div class="col-md-3">
