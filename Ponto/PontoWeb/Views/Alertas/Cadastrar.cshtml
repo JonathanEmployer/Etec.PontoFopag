@@ -11,6 +11,7 @@
 </style>
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     <div>
         <div class="panel panel-default" style="padding:0; margin-bottom:0px">
             <div class="panel-heading salvando">
@@ -274,7 +275,7 @@
     function validaForm() {
         $("#IdFuncsSelecionados").val(tbFunGetSelecionado());
         if (($("#IdFuncsSelecionados").val() == null || $("#IdFuncsSelecionados").val() == '' || $("#IdFuncsSelecionados").val().length <= 0)
-             && ($("#lkpPessoa").val() == '' || $("#lkpPessoa").val() == null || $("#lkpPessoa").val().length <= 0)) {
+            && ($("#lkpPessoa").val() == '' || $("#lkpPessoa").val() == null || $("#lkpPessoa").val().length <= 0)) {
             var msgErro = 'Selecionar um supervisor ou um funcionário para ser monitorado pelo alerta';
             errorArray["Pessoa"] = msgErro;
             cwkErro(msgErro);

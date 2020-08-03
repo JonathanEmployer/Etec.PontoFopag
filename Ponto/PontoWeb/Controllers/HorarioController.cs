@@ -256,7 +256,7 @@ namespace PontoWeb.Controllers
 
                         if (erros.Count > 0)
                         {
-                            TrataErros(erros);
+                            TrataErros(erros);      
                         }
                         else
                         {

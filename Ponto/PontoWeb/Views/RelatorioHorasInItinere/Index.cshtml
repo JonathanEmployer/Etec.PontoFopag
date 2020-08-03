@@ -8,6 +8,7 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     <div class="">
         <div class="panel panel-default" style="padding:0px;">
             <div class="panel-heading">
@@ -33,7 +34,7 @@
                                         <div class="col-md-10">
                                             <div class="row">
                                                 <div class="col-md-5">
-                                                    <div class="input-group input-group-sm" >
+                                                    <div class="input-group input-group-sm">
                                                         @Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "InicioPeriodo" })
                                                         <span class="input-group-btn">
                                                             <button class="btn btn-primary" id="btnDtInicio" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -44,7 +45,7 @@
                                                     @Html.Label("a", new { @class = "label-sm" })
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <div class="input-group input-group-sm" >
+                                                    <div class="input-group input-group-sm">
                                                         @Html.TextBoxFor(model => Model.FimPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "FimPeriodo" })
                                                         <span class="input-group-btn">
                                                             <button class="btn btn-primary" id="btnDtFim" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -121,8 +122,8 @@
                 endDate = new Date(ev.date);
                 endDate.setDate(endDate.getDate() + 30);
                 endDateString = ('0' + endDate.getDate()).slice(-2) + '/'
-                                + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
-                                + endDate.getFullYear();
+                    + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
+                    + endDate.getFullYear();
                 $('#FimPeriodo').val(endDateString);
                 $('#FimPeriodo').datepicker('update');
             }
@@ -180,19 +181,19 @@
     function validaPeriodo(campo) {
         if (($("#InicioPeriodo").val() != null && $("#InicioPeriodo").val() != "") && ($("#FimPeriodo").val() != null && $("#FimPeriodo").val() != "")) {
             var dias = diasPeriodo($("#InicioPeriodo").val(), $('#FimPeriodo').val());
-                if (dias <= 0) {
-                    errorArray["Intervalo"] = 'Data Inícial deve ser menor que a Final';
-                    $("form").validate().showErrors(errorArray);
-                    $("#pnlData").removeClass("panel-default").removeClass("panel-success");
-                    $("#pnlData").addClass("panel-danger");
-                    $("#divGridMarcacao").html("");
-                    return false;
-                }
-                else {
-                    $("#pnlData").removeClass("panel-default").removeClass("panel-danger");
-                    $("#pnlData").addClass("panel-success");
-                    return true;
-                }
+            if (dias <= 0) {
+                errorArray["Intervalo"] = 'Data Inícial deve ser menor que a Final';
+                $("form").validate().showErrors(errorArray);
+                $("#pnlData").removeClass("panel-default").removeClass("panel-success");
+                $("#pnlData").addClass("panel-danger");
+                $("#divGridMarcacao").html("");
+                return false;
+            }
+            else {
+                $("#pnlData").removeClass("panel-default").removeClass("panel-danger");
+                $("#pnlData").addClass("panel-success");
+                return true;
+            }
         }
         else {
             if (($("#InicioPeriodo").val() == null || $("#InicioPeriodo").val() == "") && ($("#FimPeriodo").val() == null || $("#FimPeriodo").val() == "")) {
@@ -218,5 +219,5 @@
             return false;
         }
     }
-    
+
 </script>

@@ -570,22 +570,12 @@ namespace BLL
                 BLL.CalculoHoras.QtdHorasDiurnaNoturna(entrada, saida, inicioAdNoturno, fimAdNoturno, ref trabDiurna, ref trabNoturna);           
                 if (trabNoturna > 0)
                 {
-                    if ((saida_1Min > saida_2Min) && (saida_2Min < 0) && (saida_1Min < inicioAdNoturno && fimAdNoturno < saida_1Min))
-                    {
-                        fimAdNoturno = saida_1Min;
-                    }
-                    else if ((saida_2Min > saida_3Min) && (saida_3Min < 0) && (saida_2Min < inicioAdNoturno && fimAdNoturno < saida_2Min))
-                    {
-                        fimAdNoturno = saida_2Min;
-                    }
-                    else if ((saida_3Min > saida_4Min) && (saida_4Min < 0) && (saida_3Min < inicioAdNoturno && fimAdNoturno < saida_3Min))
-                    {
-                        fimAdNoturno = saida_3Min;
-                    }
-                    else if (saida_4Min > saida_3Min && (saida_4Min < inicioAdNoturno && fimAdNoturno < saida_4Min))
-                    {
-                        fimAdNoturno = saida_4Min;
-                    }
+                    List<int> saidasPrevistas = new List<int>() { saida_1MinHD, saida_2MinHD, saida_3MinHD, saida_4MinHD };
+                    int saidaPrevista = saidasPrevistas.Where(w => w >= 0).LastOrDefault();
+                    int saidaRealizada = Modelo.cwkFuncoes.ConvertHorasMinuto(tratamentosMarcacaoAnt.Where(w => w.Ent_sai == "S" && w.Ocorrencia != 'D').OrderBy(o => o.Posicao).Select(s => s.Mar_hora).LastOrDefault());
+
+                    List<int> saidasParaFimAdNoturno = new List<int>() { saidaPrevista, saidaRealizada, fimAdNoturno };
+                    fimAdNoturno = saidasParaFimAdNoturno.OrderByDescending(o => o).FirstOrDefault();
                 }
             }
 

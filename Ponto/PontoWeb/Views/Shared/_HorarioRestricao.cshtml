@@ -115,7 +115,7 @@
             $("#loading").modal();
             var idHor = $("#idHorario").val();
 
-            var obj = { index: itemIndex, tipoRestricao: tipoRest, restricao: restr, idHorario: idHor };
+            var obj = { index: itemIndex, tipoRestricao: tipoRest, restricao: restr, idHorario: idHor, __RequestVerificationToken: gettoken() };
             var url = '@Url.Action("AdicionaNovaRestricao", "Horario")' + "?" + $.param(obj, true);
             $.post(url, function (data) {
                 if (data.Success == true) {

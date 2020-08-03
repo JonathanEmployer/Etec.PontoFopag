@@ -153,6 +153,12 @@ namespace BLL
                 ret.Add("Fechamento Ponto", mensagemFechamento);
             }
 
+            if (!objeto.BancoHorasDiarioMensal)
+            {
+                objeto.LimiteBancoHorasSemanal = "";
+                objeto.LimiteHorasBancoHorasDiarioMensal = "";
+            }
+
             return ret;
         }
 

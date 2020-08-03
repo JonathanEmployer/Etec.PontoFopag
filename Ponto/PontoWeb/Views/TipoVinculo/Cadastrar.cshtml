@@ -1,9 +1,10 @@
 ﻿@model Modelo.TipoVinculo
-    @{
+@{
     ViewBag.Title = "Cadastrar Tipo Vínculo";
-    }
+}
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     <div class="divCenterPequeno">
         <div class="panel panel-default" style="padding:0">
             <div class="panel-heading salvando">
