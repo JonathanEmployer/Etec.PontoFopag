@@ -575,7 +575,7 @@
 
     $(document).ready(function (e) {
         if (dataIni <= ultimoFechamento) {
-            $('form').find('input:visible, textarea, button, select').attr('disabled', 'disabled');
+            $('form').find('input:visible, textarea:visible, button, select:visible').attr('disabled', 'disabled');
             ComparaDataFinalComDataFechmento();
         }
         else {
