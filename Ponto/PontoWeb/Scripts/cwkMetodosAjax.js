@@ -9,7 +9,7 @@ function ajax_CarregaTelaComLoading(acao, controller, id) {
         type: 'GET',
         dataType: "html",
         crossDomain: true,
-        data: { 'id': id },
+        data: { 'id': id, __RequestVerificationToken: gettoken() },
         beforeSend: function () {
             $("#loading").modal();
         },
@@ -158,7 +158,7 @@ function ajax_ExcluirRegistro(acao, controller, id, mensagem, tb, callBackSucess
                         url: '/' + controller + '/' + acao,
                         type: 'POST',
                         dataType: 'json',
-                        data: { 'id': id },
+                        data: { __RequestVerificationToken: gettoken(), 'id': id },
                         beforeSend: function () {
                             $.blockUI({ message: '<h2>Excluindo<img src="../../Content/img/circulosLoading.GIF"></h2>' });
                         },
@@ -182,7 +182,12 @@ function ajax_ExcluirRegistro(acao, controller, id, mensagem, tb, callBackSucess
                             $.unblockUI();
                             if (ret.Success === true) {
                                 cwkSucessoTit('Registro Excluído!', mensagem);
-                                cwk_RemoverLinhasSelecionadas(tb);
+                                try {
+                                    tb.row('.selected').remove().draw(false);
+                                }
+                                catch (err) {
+                                    tb.api().row('.selected').remove().draw(false);
+                                }
                                 if (callBackSucesso && typeof (callBackSucesso) !== "undefined" && callBackSucesso !== "") {
                                     callBackSucesso(ret);
                                 }
@@ -235,7 +240,7 @@ function ajax_ExcluirRegistroJSON(acao, controller, obj, mensagem, tb, callBackS
                         url: '/' + controller + '/' + acao,
                         type: 'POST',
                         dataType: 'json',
-                        data: { jsonData: stringJSON },
+                        data: { jsonData: stringJSON, __RequestVerificationToken: gettoken() },
                         beforeSend: function () {
                             $.blockUI({ message: '<h2>Excluindo<img src="../../Content/img/circulosLoading.GIF"></h2>' });
                         },
@@ -331,7 +336,7 @@ function ajax_ModificarRegistro(acao, controller, id, msgTituloFormConfirmar, ti
                         url: '/' + controller + '/' + acao,
                         type: 'POST',
                         dataType: 'json',
-                        data: { 'id': id },
+                        data: { 'id': id, __RequestVerificationToken: gettoken() },
                         error: function (ex) {
                             cwkErro("Erro!!\n\n" + ex.status + ': ' + ex.statusText);
                         },
@@ -521,10 +526,16 @@ function ajax_CarregarConsultaEventoTab(acao, controller, consulta, campo, filtr
                             var ids = cwk_GetIdSelecionado(tbPesquisa);
                             if (ids >= 0) {
                                 var dados = tbPesquisa.rows('.selected').data()[0];
+                                debugger;
                                 var id = dados[0].replace('undefined', '');
                                 //Verifica se é data, se for ele pega a 5 coluna
                                 if (Date.parse(dados[1])) {
-                                    var nome = dados[4].replace('undefined', '');
+                                    if (dados.length > 4) {
+                                        var nome = dados[4].replace('undefined', '');
+                                    }
+                                    else {
+                                        var nome = dados[3].replace('undefined', '');
+                                    }
                                 } else {
                                     var nome = dados[1].replace('undefined', '');
                                 }
@@ -551,7 +562,12 @@ function ajax_CarregarConsultaEventoTab(acao, controller, consulta, campo, filtr
                                 var nome = dados[1].replace('undefined', '');
                                 //Verifica se é data, se for ele pega a 5 coluna
                                 if (Date.parse(dados[1])) {
-                                    var nome = dados[4].replace('undefined', '');
+                                    if (dados.length > 4) {
+                                        var nome = dados[4].replace('undefined', '');
+                                    }
+                                    else {
+                                        var nome = dados[3].replace('undefined', '');
+                                    }
                                 } else {
                                     var nome = dados[1].replace('undefined', '');
                                 }
@@ -1029,6 +1045,7 @@ function verificaProgress() {
     $.ajax({
         url: '/job/GetJob',
         method: 'POST',
+        data: { __RequestVerificationToken: gettoken() },
         success: function (data) {
             if (data.JobId != "" && data != null && data.JobId != undefined) {
                 trackJobProgress(data);
@@ -1158,7 +1175,7 @@ function E_GridFunc(EidDivPartial, EidCampoSelecionados, FuncPosCarregamento) {
     EidDivPartial = $(EidDivPartial);
     EidCampoSelecionados = $(EidCampoSelecionados);
     if (!EidDivPartial.find('table').length > 0) {
-        cwk_CarregarPartialAjaxPorPost('GridFuncionariosPost', 'FuncionariosRelatorio', parametros = { idsSelecionados: EidCampoSelecionados.val() }, '', AfterLoad);
+        cwk_CarregarPartialAjaxPorPost('GridFuncionariosPost', 'FuncionariosRelatorio', parametros = { idsSelecionados: EidCampoSelecionados.val(), __RequestVerificationToken: gettoken()  }, '', AfterLoad);
     }
 
     function AfterLoad(fCallBack) {
@@ -1178,7 +1195,7 @@ function E_GridFuncGetSelecionados() {
 //opção 1 - empregado ativo
 //opção 2 - todos
 function EventoFuncionarioFiltroRequest(opcao, url) {
-    let _parametros = { opcao: opcao };
+    let _parametros = { opcao: opcao, __RequestVerificationToken: gettoken() };
     let _url = url;
     let _type = 'Post';
     let _contentType = 'application/json'
@@ -1242,6 +1259,8 @@ function PostReturnJob(url, type, data, divAbrirJobs, LimparComponentes, callBac
     if (isEmpty(LimparComponentes)) {
         LimparComponentes = true;
     }
+    data.__RequestVerificationToken = gettoken();
+    console.log(data);
     $.ajax({
         url: url,
         type: type,
@@ -1391,7 +1410,7 @@ function EventoClickDeletePostReturnJob(botao, acao, controller, nomeTabela, men
                                 url: url,
                                 type: 'POST',
                                 dataType: 'json',
-                                data: { 'id': id },
+                                data: { 'id': id, __RequestVerificationToken: gettoken() },
                                 beforeSend: function () {
                                     $.blockUI({ message: '<h2>Excluindo<img src="../../Content/img/circulosLoading.GIF"></h2>' });
                                 },

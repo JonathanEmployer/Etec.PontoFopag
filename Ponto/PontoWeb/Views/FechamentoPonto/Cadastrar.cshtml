@@ -8,6 +8,7 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     <div class="">
         <div class="panel panel-default" style="padding:0px; margin-bottom:0px;">
             <div class="panel-heading">
@@ -78,7 +79,7 @@
 
                                 <div class="panel-body" style="padding:0px;">
                                     <div class="row">
-                                        @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorio()).GetType(), true, "GetFuncsRel", "GetFuns", "", "", Model.PxyRelPontoWeb.idSelecionados,"")
+                                        @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorio()).GetType(), true, "GetFuncsRel", "GetFuns", "", "", Model.PxyRelPontoWeb.idSelecionados, "")
                                     </div>
                                 </div>
                             </div>
@@ -114,7 +115,7 @@
             errorArray["PxyRelPontoWeb.idSelecionados"] = null;
             $("form").validate().showErrors(errorArray);
         });
-        
+
     });
 
     $('form').submit(function () {
@@ -139,7 +140,7 @@
             return true;
         }
     }
-    
+
 </script>
 @if (ViewBag.Consultar == 1)
 {

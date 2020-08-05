@@ -1,13 +1,14 @@
 ﻿@model Modelo.Eventos
 @{
-    ViewBag.Title = "Cadastrar Evento de Exportação";    
+    ViewBag.Title = "Cadastrar Evento de Exportação";
     string nomeTabela = "tbClassHE";
     string nomeTabelaOcorrencia = "tbOcorrencia";
-    
-    
+
+
 }
 @using (Html.BeginForm("Cadastrar", "Eventos", null, FormMethod.Post, new { role = "form", id = "FormManutEvento" }))
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id, new { id = "idEvento" });
 
     <div class="">
@@ -611,7 +612,7 @@
                 }
             }
         }
-        
+
         return ret;
     }
 
@@ -636,7 +637,7 @@
 
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             if ($(this).attr('id') == 'tabOcorrencia') {
-                $("#tbOcorrencia").DataTable().columns.adjust().draw();                
+                $("#tbOcorrencia").DataTable().columns.adjust().draw();
             }
         });
 
