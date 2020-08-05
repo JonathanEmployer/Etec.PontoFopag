@@ -111,6 +111,7 @@ namespace cwkWebAPIPontoWeb.Models
         public int? TipoMaoObra { get; set; }
         public Models.Pessoa PessoaSupervisor { get; set; }
         public string Celular { get; set; }
+        public string Email { get; set; }
     }
 
 }
