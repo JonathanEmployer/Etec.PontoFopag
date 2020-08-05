@@ -18,10 +18,11 @@ namespace BLL.Relatorios.V2
 {
     public class RelatorioTotalHorasBLL : RelatorioBaseBLL
     {
+        Modelo.Relatorios.RelatorioTotalHoras _parms;
         public RelatorioTotalHorasBLL(IRelatorioModel relatorioFiltro, Modelo.UsuarioPontoWeb usuario, ProgressBar progressBar) : base(relatorioFiltro, usuario, progressBar)
         {
-            RelatorioPadraoModel parms = ((RelatorioPadraoModel)relatorioFiltro);
-            parms.NomeArquivo = "Relatorio_Total_Horas" + parms.InicioPeriodo.ToString("ddMMyyyy") + "_" + parms.FimPeriodo.ToString("ddMMyyyy");
+            _parms = ((Modelo.Relatorios.RelatorioTotalHoras)relatorioFiltro);
+            _parms.NomeArquivo = "Relatorio_Total_Horas" + _parms.InicioPeriodo.ToString("ddMMyyyy") + "_" + _parms.FimPeriodo.ToString("ddMMyyyy");
         }
 
         protected override string GetRelatorioExcel()
@@ -66,9 +67,19 @@ namespace BLL.Relatorios.V2
             {
                 Dictionary<string, GerarExcel.Modelo.Coluna> colunasExcel = new Dictionary<string, GerarExcel.Modelo.Coluna>();
                 #region Dados Empregado
+                if (_parms.ConsiderarCabecalho)
+                    colunasExcel.Add("FuncionarioContrato", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Contrato", Visivel = true, NomeColunaNegrito = true });
                 colunasExcel.Add("FuncionarioDsCodigo", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Cód. Funcionário", Visivel = true, NomeColunaNegrito = true });
                 colunasExcel.Add("FuncionarioNome", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Funcionário", Visivel = true, NomeColunaNegrito = true });
                 colunasExcel.Add("FuncionarioMatricula", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Matrícula", Visivel = true, NomeColunaNegrito = true });
+                if (_parms.ConsiderarCabecalho)
+                {
+                    colunasExcel.Add("FuncionarioDepartamento", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Departamento", Visivel = true, NomeColunaNegrito = true });
+                    colunasExcel.Add("FuncionarioAlocacao", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Alocação", Visivel = true, NomeColunaNegrito = true });
+                    colunasExcel.Add("FuncionarioSupervisor", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Supervisor", Visivel = true, NomeColunaNegrito = true });
+                    colunasExcel.Add("FuncionarioDataAdmissao", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Data de Admissão", Visivel = true, NomeColunaNegrito = true });
+                    colunasExcel.Add("FuncionarioDataRecisao", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Data de Rescisão", Visivel = true, NomeColunaNegrito = true });
+                }
                 colunasExcel.Add("HorasTrabDiurna", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA3, NomeColuna = "Trab. diurna", Visivel = true, NomeColunaNegrito = true });
                 colunasExcel.Add("HorasTrabNoturna", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA3, NomeColuna = "Trab. noturna", Visivel = true, NomeColunaNegrito = true });
                 colunasExcel.Add("HorasAdNoturno", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Adicional Noturno", Visivel = true, NomeColunaNegrito = true });
@@ -101,7 +112,7 @@ namespace BLL.Relatorios.V2
 
                 throw e;
             }
-            ParametrosReportExcel p = new ParametrosReportExcel() { NomeArquivo = ((RelatorioPadraoModel)_relatorioFiltro).NomeArquivo, TipoArquivo = Enumeradores.TipoArquivo.Excel, RenderedBytes = Arquivo };
+            ParametrosReportExcel p = new ParametrosReportExcel() { NomeArquivo = ((Modelo.Relatorios.RelatorioTotalHoras)_relatorioFiltro).NomeArquivo, TipoArquivo = Enumeradores.TipoArquivo.Excel, RenderedBytes = Arquivo };
             string caminho = base.GerarArquivoExcel(p);
             return caminho;
         }
@@ -110,12 +121,10 @@ namespace BLL.Relatorios.V2
         {
             _progressBar.setaMensagem("Carregando dados...");
             _progressBar.setaValorPB(-1);
-            RelatorioPadraoModel parms = ((RelatorioPadraoModel)_relatorioFiltro);
-            IList<PxyRelTotalHoras> totais = GetTotalizadoresFuncionarios(parms);
-            if (parms.Generico) // Campo no relátório de Total de Horas foi utilizado para controlar a quebra de página
-            {
-                totais.ToList().ForEach(F => F.UmFuncPorPagina = true);
-            }
+            IList<PxyRelTotalHoras> totais = GetTotalizadoresFuncionarios(_parms);
+            // Campo UmFuncPorPagina no relátório de Total de Horas foi utilizado para controlar a quebra de página
+            // Campo ConsiderarCabecalho utilizado para exibir ou não mais informações sobre o funcionário
+            totais.ToList().ForEach(F => { F.UmFuncPorPagina = _parms.Generico; F.ConsiderarCabecalho = _parms.ConsiderarCabecalho;  });
             return totais;
         }
 
@@ -134,12 +143,12 @@ namespace BLL.Relatorios.V2
             return new ParametrosReportHTML()
             {
                 Dados = GetDados(),
-                NomeArquivo = ((RelatorioPadraoModel)_relatorioFiltro).NomeArquivo,
+                NomeArquivo = ((Modelo.Relatorios.RelatorioTotalHoras)_relatorioFiltro).NomeArquivo,
                 ResourceName = "BLL.Relatorios.V2.cshtml.RelatorioTotalHorasHtml.cshtml"
             };
         }
 
-        public List<Modelo.Proxy.Relatorios.PxyRelTotalHoras> GetTotalizadoresFuncionarios(RelatorioPadraoModel imp)
+        public List<Modelo.Proxy.Relatorios.PxyRelTotalHoras> GetTotalizadoresFuncionarios(Modelo.Relatorios.RelatorioTotalHoras imp)
         {
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(_usuario.ConnectionString, _usuario);
             List <Modelo.Funcionario> funcionarios = bllFuncionario.GetAllListByIds(imp.IdSelecionados);
@@ -154,6 +163,12 @@ namespace BLL.Relatorios.V2
                     FuncionarioDsCodigo = item.funcionario.Dscodigo,
                     FuncionarioNome = item.funcionario.Nome,
                     FuncionarioMatricula = item.funcionario.Matricula,
+                    FuncionarioContrato = item.funcionario.Contrato,
+                    FuncionarioDepartamento = item.funcionario.Departamento,
+                    FuncionarioSupervisor = item.funcionario.PessoaSupervisor,
+                    FuncionarioAlocacao = item.funcionario.Alocacao,
+                    FuncionarioDataAdmissao = item.funcionario.Dataadmissao,
+                    FuncionarioDataRecisao = item.funcionario.Datademissao,
                     HorasTrabDiurna = item.horasTrabDiurna,
                     HorasTrabNoturna = item.horasTrabNoturna,
                     HorasAdNoturno = item.horasAdNoturno,
