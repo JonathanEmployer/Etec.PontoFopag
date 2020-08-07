@@ -117,7 +117,7 @@
 
             var obj = { index: itemIndex, tipoRestricao: tipoRest, restricao: restr, idHorario: idHor, __RequestVerificationToken: gettoken() };
             var url = '@Url.Action("AdicionaNovaRestricao", "Horario")' + "?" + $.param(obj, true);
-            $.post(url, function (data) {
+            $.post(url, { __RequestVerificationToken: gettoken() }, function (data) {
                 if (data.Success == true) {
                     $("#divRestricoes").prepend(data.HTML);
                     $("#lkpEmpresa").val("");

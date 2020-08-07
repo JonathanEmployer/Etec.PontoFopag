@@ -426,6 +426,7 @@
     <Compile Include="Proxy\Webfopag\PxyRetornoColetor.cs" />
     <Compile Include="Relatorios\RelatorioAfdPortaria373Model.cs" />
     <Compile Include="Relatorios\RelatorioRefeicaoModel.cs" />
+    <Compile Include="Relatorios\RelatorioTotalHoras.cs" />
     <Compile Include="TipoBiometria.cs" />
     <Compile Include="FuncionarioRFID.cs" />
     <Compile Include="HorarioDinamicoCicloSequencia.cs" />

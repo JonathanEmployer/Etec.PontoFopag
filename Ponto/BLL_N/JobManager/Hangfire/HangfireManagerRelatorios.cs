@@ -530,7 +530,7 @@ namespace BLL_N.JobManager.Hangfire
             jobControl.PermiteCancelar = true;
             string idJob = new BackgroundJobClient().Create<RelatoriosJob>(x => x.GetRelatorioTotalHoras(null,
                                                                                                             jobControl,
-                                                                                                            (RelatorioPadraoModel)parametros,
+                                                                                                            (RelatorioTotalHoras)parametros,
                                                                                                             dataBase,
                                                                                                             usuarioLogado),
                                                                                                             _enqueuedStateNormal);
