@@ -267,9 +267,13 @@ namespace cwkWebAPIPontoWeb.Controllers
                     int? idContratoAnt = bllContratoFun.getContratoId((idfuncionario).GetValueOrDefault());
                     Modelo.Funcionario funcionario = bllFuncionario.LoadObject(idfuncionario.GetValueOrDefault());
 
-                    if (funcionario.Id > 0 && funcionario.Id != null)
+                    if (funcionario.Id > 0)
                     {
                         Dictionary<string, string> erros = new Dictionary<string, string>();
+                        if (funcionario.DataInativacao == null)
+                        {
+                            funcionario.DataInativacao = DateTime.Now;
+                        }
                         erros = bllFuncionario.Salvar(Acao.Excluir, funcionario);
                         if (erros.Count > 0)
                         {
