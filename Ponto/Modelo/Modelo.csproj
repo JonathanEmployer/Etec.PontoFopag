@@ -308,6 +308,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AFD.cs" />
+    <Compile Include="AlertasRepAcompanhamento.cs" />
     <Compile Include="AutoMapper\ConfigureAutoMapper.cs" />
     <Compile Include="JornadaSubstituir.cs" />
     <Compile Include="JornadaSubstituirFuncionario.cs" />
@@ -414,6 +415,7 @@
     <Compile Include="Proxy\PxyFuncionarioExcluidoGrid.cs" />
     <Compile Include="Proxy\PxyFuncionarioFechamentosPontoEBH.cs" />
     <Compile Include="Proxy\PxyFuncionariosRecalcular.cs" />
+    <Compile Include="Proxy\PxyGridAlertasComunicacaoRep.cs" />
     <Compile Include="Proxy\PxyGridRepsPortaria373.cs" />
     <Compile Include="Proxy\PxyGridTransferenciaBilhetes.cs" />
     <Compile Include="Proxy\PxyJornadaSubstituirCalculo.cs" />
