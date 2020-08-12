@@ -30,7 +30,7 @@ namespace BLL.Relatorios.V2
             _progressBar.setaMensagem("Organizando dados...");
             IList<string> ColunasAddDinamic = new List<string>();
             DataTable dados = Conversores.ToDataTable<PxyRelTotalHoras>(totais);
-            IList<int> percs = totais.SelectMany(x => x.LRateioHorasExtras).Select(s => s.percentual).ToList();
+            IList<decimal> percs = totais.SelectMany(x => x.LRateioHorasExtras).Select(s => s.percentual).ToList();
             percs = percs.Distinct().OrderBy(x => x).ToList();
 
             foreach (var perc in percs) // Adiciona os percentuais existentes como coluna no datatable

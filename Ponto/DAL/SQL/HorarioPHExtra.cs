@@ -139,10 +139,10 @@ namespace DAL.SQL
 				new SqlParameter ("@altusuario", SqlDbType.VarChar),
                 new SqlParameter ("@considerapercextrasemana", SqlDbType.TinyInt),
                 new SqlParameter ("@tipoacumulo", SqlDbType.SmallInt),
-                new SqlParameter ("@percentualextrasegundo", SqlDbType.SmallInt),
+                new SqlParameter ("@percentualextrasegundo", SqlDbType.Decimal),
                 new SqlParameter ("@percentualExtraNoturna", SqlDbType.Decimal),
                 new SqlParameter ("@quantidadeExtraNoturna", SqlDbType.VarChar),
-                new SqlParameter ("@percentualextrasegundoNoturna", SqlDbType.SmallInt)
+                new SqlParameter ("@percentualextrasegundoNoturna", SqlDbType.Decimal)
             };
             return parms;
         }
