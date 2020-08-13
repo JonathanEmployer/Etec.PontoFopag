@@ -110,6 +110,8 @@ namespace cwkWebAPIPontoWeb.Models
         public bool FuncionarioExcluido { get; set; }
         public int? TipoMaoObra { get; set; }
         public Models.Pessoa PessoaSupervisor { get; set; }
+        public string Celular { get; set; }
+        public string Email { get; set; }
     }
 
 }
