@@ -47,11 +47,11 @@ namespace BLL
                 {
                     UsuarioControleAcesso Acesso = new UsuarioControleAcesso()
                     {
+                        Id = empresa.Id,
                         Codigo = empresa.Codigo,
                         Descricao = empresa.Nome,
                         Tipo = "Empresa"
                     };
-
                     Acessos.Add(Acesso);
                 }
             }
@@ -62,11 +62,11 @@ namespace BLL
                 {
                     UsuarioControleAcesso Acesso = new UsuarioControleAcesso()
                     {
+                        Id = contrato.Id,
                         Codigo = contrato.Codigo,
                         Descricao = contrato.CodigoContrato + " | " + contrato.DescricaoContrato,
                         Tipo = "Contrato"
                     };
-
                     Acessos.Add(Acesso);
                 }
             }

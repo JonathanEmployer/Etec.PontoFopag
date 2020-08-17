@@ -413,6 +413,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AfastamentoController.cs" />
+    <Compile Include="Controllers\AlertasComunicacaoRepController.cs" />
     <Compile Include="Controllers\EmpresaTermoUsoController.cs" />
     <Compile Include="Controllers\JornadaSubstituirController.cs" />
     <Compile Include="Controllers\LancamentoCartaoPontoController.cs" />
@@ -759,6 +760,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Providers\AntiForgeryTokenFilterProvider.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Security\PermissaoProvider.cs" />
@@ -864,7 +866,8 @@
     <Content Include="Content\img\LogoCworkPreto-bkp.png" />
     <Content Include="Content\img\LogoCworkPreto.png" />
     <Content Include="Content\img\logout.png" />
-    <Content Include="Content\img\logo_site_blindado.png" />
+    <Content Include="Content\img\logo_msft_azure.png" />
+    <Content Include="Content\img\logo_msft_azure_Bco.png" />
     <Content Include="Content\img\ManutMarca.png" />
     <Content Include="Content\img\Marcacoes.png" />
     <Content Include="Content\img\pdf48.png" />
@@ -1439,6 +1442,8 @@
     <Content Include="Config\ConnectionStrings.homologacao.config" />
     <Content Include="Config\AppSettings.suporte.config" />
     <Content Include="Config\ConnectionStrings.suporte.config" />
+    <Content Include="Config\AppSettings.teste.config" />
+    <Content Include="Config\ConnectionStrings.teste.config" />
     <Content Include="Properties\DataSources\System.Data.DataSet.datasource" />
     <None Include="Properties\PublishProfiles\Publicar Arquivos.pubxml" />
     <None Include="Properties\PublishProfiles\Publish zip.pubxml" />
@@ -1850,6 +1855,8 @@
     <Content Include="Views\MudancaHorario\CadastrarManutMarcacao.cshtml" />
     <Content Include="Views\RelatorioRefeicao\Refeicao.cshtml" />
     <Content Include="Views\Usuario\GridControleUsuario.cshtml" />
+    <Content Include="Views\Usuario\GridAddAcesso.cshtml" />
+    <Content Include="Views\Usuario\GridUsuarioCopiar.cshtml" />
     <None Include="Service References\EnvioEmail\WsEnviaEmail.wsdl" />
     <None Include="Service References\EnvioEmail\WsEnviaEmail.xsd">
       <SubType>Designer</SubType>
@@ -1863,6 +1870,8 @@
     <None Include="Service References\EnvioEmail\WsEnviaEmail3.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Views\AlertasComunicacaoRep\Grid.cshtml" />
+    <Content Include="Views\AlertasComunicacaoRep\Cadastrar.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1874,6 +1883,9 @@
     <None Include="Web.DebugSuporte.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <None Include="Web.DebugTeste.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Web.Desenvolvimento.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1883,6 +1895,9 @@
     <Content Include="Views\ManutencaoBiometrica\Index.cshtml" />
     <Content Include="Views\Funcionario\FuncionarioRFID.cshtml" />
     <None Include="Web.Suporte.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Teste.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
@@ -2082,6 +2097,43 @@
     <DefineConstants>TRACE;DEBUG;LOCAL</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugTeste|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugTeste|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Teste|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Teste|x86'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>

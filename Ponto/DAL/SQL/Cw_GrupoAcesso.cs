@@ -393,6 +393,39 @@ namespace DAL.SQL
             }
             return objCw_GrupoAcesso;
         }
+
+        public List<Modelo.Proxy.pxyUsuarioControleAcessoCopiar> GetAllGridUCompact()
+        {
+            List<Modelo.Proxy.pxyUsuarioControleAcessoCopiar> lista = new List<Modelo.Proxy.pxyUsuarioControleAcessoCopiar>();
+
+            SqlParameter[] parms = new SqlParameter[] { };
+
+            string aux = @" SELECT   us.id AS Id,
+		                             us.codigo AS Codigo, 
+		                             us.login AS Login,
+		                             us.nome AS Nome
+		                                FROM cw_usuario us";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Proxy.pxyUsuarioControleAcessoCopiar>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Proxy.pxyUsuarioControleAcessoCopiar>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
         #endregion
     }
 }

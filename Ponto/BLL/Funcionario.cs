@@ -1505,12 +1505,14 @@ namespace BLL
                             ContFuncAnt = bllContratoFuncionario.LoadObject(IdContratoFuncAnt);
                             acao = Acao.Alterar;
                             ContFuncAnt.excluido = 1;
+                            ContFuncAnt.NaoValidaCodigo = true;
                             erros = bllContratoFuncionario.Salvar(acao, ContFuncAnt);
                         }
                         ContFunc.IdContrato = contid.GetValueOrDefault();
                         ContFunc.IdFuncionario = funcid.GetValueOrDefault();
                         ContFunc.Codigo = bllContratoFuncionario.MaxCodigo();
                         acao = Acao.Incluir;
+                        ContFunc.NaoValidaCodigo = true;
                         erros = bllContratoFuncionario.Salvar(acao, ContFunc);
                     }
                     else if (contid != 0 && acao == Acao.Excluir)
@@ -1519,6 +1521,7 @@ namespace BLL
                         acao = Acao.Alterar;
                         ContFunc.Acao = Acao.Alterar;
                         ContFunc.excluido = 1;
+                        ContFunc.NaoValidaCodigo = true;
                         erros = bllContratoFuncionario.Salvar(acao, ContFunc);
                     }
 

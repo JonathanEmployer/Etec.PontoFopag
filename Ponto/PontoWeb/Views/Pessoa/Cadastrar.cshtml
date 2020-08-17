@@ -5,10 +5,11 @@
     if (Model.IdIntegracao != null && !string.IsNullOrEmpty(Model.IdIntegracao) && ViewBag.BloqueiaDadosIntegrados)
     {
         integrado = true;
-    }    
+    }
 }
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.IdIntegracao);
     <div class="divCenterPequeno">
         <div class="panel panel-default" style="padding:0">
@@ -35,11 +36,11 @@
 
                             <div class="row">
                                 <div class="radio-inline" data-toggle="radio">
-                                    @Html.RadioButtonFor(model => model.TipoPessoa, 0, new { id = "idRadioFisico", name = "rdio"})
+                                    @Html.RadioButtonFor(model => model.TipoPessoa, 0, new { id = "idRadioFisico", name = "rdio" })
                                     @Html.Label("lbFisico", "Física", new { @class = "control-label label-sm", @for = "idRadioFisico" })
                                 </div>
                                 <div class="radio-inline" data-toggle="radio">
-                                    @Html.RadioButtonFor(model => model.TipoPessoa, 1, new { id = "idRadioJuridico", name = "rdio"})
+                                    @Html.RadioButtonFor(model => model.TipoPessoa, 1, new { id = "idRadioJuridico", name = "rdio" })
                                     @Html.Label("lbJuridico", "Jurídica", new { @class = "control-label label-sm", @for = "idRadioJuridico" })
                                 </div>
                             </div>
@@ -113,7 +114,8 @@
         </div>
     </div>
 }
-<script>   
+<script>
+
     $(document).ready(function () {
         ValidaPessoa('@Model.TipoPessoa');
         $(':input:enabled:visible:not([readonly]):first').focus();

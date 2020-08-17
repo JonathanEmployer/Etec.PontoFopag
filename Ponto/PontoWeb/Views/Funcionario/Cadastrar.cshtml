@@ -11,6 +11,7 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id, new { id = "idFuncionario" });
     @Html.HiddenFor(model => model.Codigo);
     @Html.HiddenFor(model => model.Incdata);
@@ -713,7 +714,8 @@
                 $("#divSelecionaOndeEnvia").modal();
                 $('#EnvioTipo').click();
             }
-        } else {      
+        } else {
+            errorArray["Mob_Senha"] = 'Campo Obrigatório!';
             errorArray["Email"] = 'Campo Obrigatório!';
             errorArray["Celular"] = 'Campo Obrigatório!';
             $("form").validate().showErrors(errorArray);

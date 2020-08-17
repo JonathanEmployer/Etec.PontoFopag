@@ -14,5 +14,6 @@ namespace DAL
         List<ContratoUsuario> GetAllListPorContrato(int idContrato);
         ContratoUsuario LoadPorCodigo(int codigo);
         pxyContratoCwUsuario GetListaUsuariosLiberadosBloqueadosPorContrato(int idContrato);
+        ContratoUsuario LoadObjectUser(int idContrato, int idUsuario);
     }
 }

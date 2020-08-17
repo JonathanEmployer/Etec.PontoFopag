@@ -7,7 +7,7 @@
     string nometabela = "tbControleAcessoUsuario";
 }
 
-<div class="divCenterMedio">
+<div class="divCenterGrande">
     <div class="panel panel-default" style="padding:0">
         <div class="panel-heading">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="fecharModalGrid">X</button>
@@ -16,14 +16,65 @@
         <div class="panel-body panelConteudo" id="panelBodyFixo">
             @Html.ValidationSummary(true)
             <div class="row">
-                @Html.GridFor(nometabela, Model.GetType(), false, "Usuario", "DadosGridControleUsuario/" + Model.Idfuncionario, "", "")
+                @Html.GridFor(nometabela, Model.GetType(), true, "Usuario", "DadosGridControleUsuario/" + Model.Idfuncionario, "", "", "", "", true)
+            </div>
+        </div>
+        <div class="panel-footer">
+            <input id="iduser" value="@Model.Idfuncionario" hidden />
+            <input id="nomtab" value="@nometabela" hidden />
+            <div class="row">
+                <div class="col-xs-5 center-block">
+                    <div style="text-align: left">
+                        <a href="#" id="btCopiar" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Copiar</a>
+                    </div>
+                </div>
+                <div class="col-xs-7 center-block">
+                    <div style="text-align: right">
+                        <a href="#" id="btIncluirPermissao" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
+                        <a href="#" id="btExcluirPermissao" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-@*<script>
-        var nometabela = "#" + '@nometabela';
-        $(document).ready(function () {
-            EventoClickDeletePostReturnJob('#btExcluirMudHorario', 'Excluir', 'MudancaHorario', nometabela, 'Mudança de Horário excluída com sucesso. ');
+
+<script>
+    //EXCLUIR PERMISSÔES
+    $(document).on('click', '#btExcluirPermissao', function () {
+        var idUser = $('#iduser').val();
+        var nomeTabela = "#" + $('#nomtab').val();
+        var objetoTabela = $(nomeTabela).closest('table').DataTable();
+
+        var qtdSelecionados = objetoTabela.rows({ selected: true }).count();
+
+        var data = objetoTabela.rows({ selected: true }).data();
+
+        var objPermissoes = {
+            "idQueVaiSerAlterado": idUser,
+            "EmpresasContratos" : []
+        };
+
+        $.each(data, function (index, val) {
+            var id = val.Id;
+            var tipo = val.Tipo;
+
+            var Obj = {
+                "idEmpresaContrato": id,
+                "Tipo": tipo
+            };
+            objPermissoes.EmpresasContratos.push(Obj);
         });
-</script>*@
+
+        var id = GetIdSelecionadoTable(nomeTabela);
+        if (id > 0) {        
+            ajax_ExcluirRegistroJSON('ExcluirPermissao', 'Usuario', objPermissoes, 'Permissões excluidas.', objetoTabela, fechamodal(), null, qtdSelecionados);
+        } else {
+            cwkErroTit('Selecione um Registro!', 'Antes de excluir um registro é necessário selecioná-lo!');
+        }
+    });
+
+    function fechamodal() {
+        $('.bootbox-close-button').click();
+    }
+</script>

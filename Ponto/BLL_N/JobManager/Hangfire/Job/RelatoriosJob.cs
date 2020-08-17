@@ -270,7 +270,7 @@ namespace BLL_N.JobManager.Hangfire.Job
 			JobControlManager.UpdateFileDownload(context, caminhoArquivo);
 		}
 
-        public void GetRelatorioTotalHoras(PerformContext context, JobControl jobReport, RelatorioPadraoModel relatorioFiltro, string db, string usuario)
+        public void GetRelatorioTotalHoras(PerformContext context, JobControl jobReport, RelatorioTotalHoras relatorioFiltro, string db, string usuario)
         {
             SetParametersBase(context, jobReport, db, usuario);
             RelatorioTotalHorasBLL rel = new RelatorioTotalHorasBLL(relatorioFiltro, userPF, pb);

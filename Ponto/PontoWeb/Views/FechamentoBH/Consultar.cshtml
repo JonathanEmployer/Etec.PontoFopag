@@ -4,6 +4,7 @@
 }
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id, new { id = "idFechamento" });
     @Html.HiddenFor(model => model.Incdata);
     @Html.HiddenFor(model => model.Inchora);
@@ -17,7 +18,7 @@
     @Html.HiddenFor(model => model.Codigo);
     @Html.HiddenFor(model => model.Data);
     @Html.HiddenFor(model => model.Tipo);
-    
+
     <div class="divCenterPequeno">
         <div class="panel panel-default" style="padding:0">
             <div class="panel-heading salvando">

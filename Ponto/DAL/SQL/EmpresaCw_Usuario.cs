@@ -304,7 +304,41 @@ namespace DAL.SQL
             return true;
         }
 
-        #endregion
+        public EmpresaCw_Usuario LoadObjectUser(int idEmpresa, int idUsuario)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+{
+                new SqlParameter("@idEmpresa", SqlDbType.Int),
+                new SqlParameter("@idUsuario", SqlDbType.Int),
+};
+            parms[0].Value = idEmpresa;
+            parms[1].Value = idUsuario;
 
+            string sql = @"SELECT * FROM dbo.empresacwusuario 
+                            WHERE idempresa = @idEmpresa AND idcw_usuario = @idUsuario";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+
+            Modelo.EmpresaCw_Usuario empresaUsuario = new Modelo.EmpresaCw_Usuario();
+            try
+            {
+                var mapUsr = Mapper.CreateMap<IDataReader, Modelo.EmpresaCw_Usuario>();
+                empresaUsuario = Mapper.Map<List<Modelo.EmpresaCw_Usuario>>(dr).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return empresaUsuario;
+        }
+        #endregion
     }
 }

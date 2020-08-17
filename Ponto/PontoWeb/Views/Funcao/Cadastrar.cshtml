@@ -5,10 +5,11 @@
     if (Model.idIntegracao.GetValueOrDefault() > 0 && ViewBag.BloqueiaDadosIntegrados)
     {
         integrado = true;
-    }    
+    }
 }
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.idIntegracao);
     <div class="divCenterPequeno">
         <div class="panel panel-default" style="padding:0">

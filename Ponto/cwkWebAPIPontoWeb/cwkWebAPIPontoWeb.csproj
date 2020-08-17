@@ -550,6 +550,8 @@
     <Content Include="Config\ConnectionStrings.release.config" />
     <Content Include="Config\AppSettings.suporte.config" />
     <Content Include="Config\ConnectionStrings.suporte.config" />
+    <Content Include="Config\AppSettings.teste.config" />
+    <Content Include="Config\ConnectionStrings.teste.config" />
     <None Include="Properties\PublishProfiles\Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -593,6 +595,9 @@
     <None Include="Web.DebugSuporte.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <None Include="Web.DebugTeste.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Web.Desenvolvimento.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -600,6 +605,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Suporte.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Teste.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
@@ -730,6 +738,28 @@
     <DocumentationFile>App_Data\Documentacao.XML</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugTeste|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>App_Data\Documentacao.XML</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Teste|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>App_Data\Documentacao.XML</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>

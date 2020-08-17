@@ -56,7 +56,7 @@ namespace cwkPontoMT.Integracao.Auxiliares.Henry.HexaParseStrategies
                 foreach (string item in retSplit)
                 {
                     string itemFiltrado = GetStringSomenteAlfanumerico(item);
-                    if (!String.IsNullOrEmpty(itemFiltrado))
+                    if (!String.IsNullOrEmpty(itemFiltrado) && itemFiltrado.Replace(" ", "").Length >= 10)
                     {
                         var t = new Ticket(item);
                         Tickets.Add(t); 

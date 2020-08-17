@@ -5,6 +5,7 @@
 }
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.IdsFuncionariosSelecionados);
     <div class="divCenterGrande">
         <div class="panel panel-default">
@@ -28,7 +29,7 @@
                                                         <div class="row">
                                                             <div class="col-md-5">
                                                                 <div class="input-group input-group-sm">
-                                                                    @Html.TextBoxFor(model => Model.DataInicial, new { @class = "form-control input-sm MascDate datepickerpt", id="Dt_inicial" })
+                                                                    @Html.TextBoxFor(model => Model.DataInicial, new { @class = "form-control input-sm MascDate datepickerpt", id = "Dt_inicial" })
                                                                     <span class="input-group-btn">
                                                                         <button class="btn btn-primary" id="btnDataInicial" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
                                                                     </span>
@@ -40,7 +41,7 @@
                                                             </div>
                                                             <div class="col-md-5">
                                                                 <div class="input-group input-group-sm">
-                                                                    @Html.TextBoxFor(model => Model.DataFinal, new { @class = "form-control input-sm MascDate datepickerpt", id="Dt_final" })
+                                                                    @Html.TextBoxFor(model => Model.DataFinal, new { @class = "form-control input-sm MascDate datepickerpt", id = "Dt_final" })
                                                                     <span class="input-group-btn">
                                                                         <button class="btn btn-primary" id="btnDataFinal" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
                                                                     </span>
@@ -174,8 +175,9 @@
     var errorArray = new Array();
     $(document).ready(function () {
         $("#lkpEmpresa").focus();
-        cwk_DataCalendario('#btnDataInicial', '#DataInicial');
-        cwk_DataCalendario('#btnDataFinal', '#DataFinal');
+        cwk_DataCalendario('#btnDataInicial', '#Dt_inicial');
+        cwk_DataCalendario('#btnDataFinal', '#Dt_final');
+
         cwk_EventoConsulta("#btnEmpresa", "#lkpEmpresa", "EventoConsulta", "Empresa", "");
         cwk_EventoConsulta("#btnDepartamento", "#lkpDepartamento", "EventoConsulta", "Departamento", "");
         cwk_EventoConsulta("#btnFuncao", "#lkpFuncao", "EventoConsulta", "Funcao", "");
@@ -243,7 +245,7 @@
         }
         return false;
     });
-    
+
 </script>
 
 

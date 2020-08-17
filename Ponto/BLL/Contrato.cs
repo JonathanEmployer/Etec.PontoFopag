@@ -1,4 +1,5 @@
 ﻿using DAL.SQL;
+using Modelo.Proxy;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -209,7 +210,14 @@ namespace BLL
         public List<Modelo.Contrato> ContratosPorFuncionario(int idFuncionario)
         {
             return dalContrato.ContratosPorFuncionario(idFuncionario);
-        }        
+        }
+
+        public List<Modelo.Contrato> ContratosPorUsuario(int idUsuario)
+        {
+            return dalContrato.ContratosPorUsuario(idUsuario);
+        }
+
+
         public bool ValidaContratoCodigo(int codcontrato, int idempresa)
         {
             return dalContrato.ValidaContratoCodigo(codcontrato,idempresa);
@@ -228,5 +236,26 @@ namespace BLL
             return 0;
         }
 
+        public bool DeletaContratosUsuario(int idQueVaiSerAlterado)
+        {
+            try
+            {
+                //deleta os contratos exixstentes do usuario
+                dalContrato.DeletaContratosUsuario(idQueVaiSerAlterado);
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+
+
+            return true;
+        }
+
+        public List<pxyUsuarioControleAcessoAdicionarContrato> GetAllGridUCompact()
+        {
+            return dalContrato.GetAllGridUCompact();
+        }
     }
 }

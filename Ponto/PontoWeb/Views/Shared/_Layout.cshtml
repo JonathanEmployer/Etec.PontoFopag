@@ -136,8 +136,13 @@
                             <li> @Html.ActionLink("Feriado", "Grid", "Feriado") </li>
                             <li> @Html.ActionLink("Compensação", "Grid", "Compensacao") </li>
                             <li role="presentation" class="divider"></li>
-                            <li>
-                                @Html.ActionLink("Rep", "Grid", "Rep")
+                            <li class="dropdown-submenu">
+                                <a href="#">Rep</a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Cadastrar", "Grid", "Rep")</li>
+                                    <li>@Html.ActionLink("Acompanhamento", "Grid", "AlertasComunicacaoRep")</li>
+                                    <li><a href="https://api.pontofopag.com.br/Download?arquivo=ServicoComunicador">Download Comunicador</a></li>
+                                </ul>
                             </li>
                             <li role="presentation" class="divider"></li>
                             <li>
@@ -419,6 +424,11 @@
     </div>
 
     <script>
+        function gettoken() {
+        var token = '@Html.AntiForgeryToken()';
+        token = $(token).val();
+        return token;
+    }
     function CloseModalRelatorio() {
             $('#divRelatorio').modal('hide');
         }
