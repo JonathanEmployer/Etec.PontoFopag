@@ -277,6 +277,8 @@ namespace PontoWeb.Controllers
                     funcionario.Senha = null;
                     funcionario.TipoCracha = null;
 
+                    funcionario.Mob_Senha = VerificaGeraMob_senha(funcionarioAntigo);
+
                     string conteudoEmail = "";
                     string conteudoSMS = "";
 
@@ -1013,7 +1015,7 @@ namespace PontoWeb.Controllers
 
             if (!String.IsNullOrEmpty(funcionario.Mob_Senha))
             {
-                string mobsenha = "";
+                string mobsenha = "";     
                 if (funcionario.Mob_Senha != mobsenha.PadLeft(bllFuncionario.GetMobSenha(DadosAntFunc).Length, '#'))
                 {
                     bllFuncionario.SetMobSenha(funcionario, funcionario.Mob_Senha.ToString());
@@ -1053,8 +1055,25 @@ namespace PontoWeb.Controllers
             }
         }
 
-        public static void SendPassEmail(string server)
+        public static string VerificaGeraMob_senha(Funcionario funcionarioAntigo)
         {
+            if (funcionarioAntigo.Mob_Senha != null)
+            {
+                BLL.Funcionario bllFuncionario = new BLL.Funcionario(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+                return bllFuncionario.GetMobSenha(funcionarioAntigo);
+            }
+            else 
+            {
+                int length = 6;
+                const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+                StringBuilder res = new StringBuilder();
+                Random rnd = new Random();
+                while (0 < length--)
+                {
+                    res.Append(valid[rnd.Next(valid.Length)]);
+                }
+                return res.ToString();
+            }
 
         }
 
