@@ -312,6 +312,13 @@
                                                         @Html.ValidationMessageFor(model => model.IntervaloautomaticoBool)
                                                     </label>
                                                 </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        @Html.CheckBoxFor(model => model.PontoPorExcecao, new { @class = "checkboxHN", id = "PontoPorExcecaoBool" })
+                                                        @Html.LabelFor(model => model.PontoPorExcecao, new { @class = "control-label label-sm", @for = "PontoPorExcecaoBool" })
+                                                        @Html.ValidationMessageFor(model => model.PontoPorExcecao)
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -2453,6 +2460,19 @@
         }
     }
 
+
+    $('#PontoPorExcecaoBool').click(function (e) {
+        if ($("#PontoPorExcecaoBool").is(':checked')) {
+            $("#IntervaloautomaticoBool").prop("checked", false);
+            validaIntervaloAutomatico();
+        }
+    });
+
+    $('#IntervaloautomaticoBool').click(function (e) {
+        if ($("#IntervaloautomaticoBool").is(':checked')) {
+            $("#PontoPorExcecaoBool").prop("checked", false);
+        }
+    });
 </script>
 
 @if (ViewBag.Consultar == 1 || Model.PossuiFechamento)
