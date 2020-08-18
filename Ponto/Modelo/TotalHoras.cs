@@ -8,8 +8,8 @@ namespace Modelo
     {
         public TotalHoras(DateTime dataInicial, DateTime dataFinal)
         {
-            RateioFechamentobhdHE = new Dictionary<int, String>();
-            RateioHorasExtras = new Dictionary<int, Turno>();
+            RateioFechamentobhdHE = new Dictionary<decimal, String>();
+            RateioHorasExtras = new Dictionary<decimal, Turno>();
             EventosAfastamentos = new List<EventoAfastamentos>();
             DataInicial = dataInicial;
             DataFinal = dataFinal;
@@ -104,7 +104,7 @@ namespace Modelo
         public int horasDDSRMin { get; set; }
         public int qtdDDSR { get; set; }
 
-        public Dictionary<int, Turno> RateioHorasExtras { get; set; }
+        public Dictionary<decimal, Turno> RateioHorasExtras { get; set; }
         public List<RateioHorasExtras> lRateioHorasExtras { get; set; }
         public List<EventoAfastamentos> EventosAfastamentos { get; set; }
         public IList<HorasExtrasPorDia> HorasExtrasDoPeriodo { get; set; }
@@ -169,7 +169,7 @@ namespace Modelo
         public int totalAbonoDias { get; set; }
         public int totalAbonoMinutos { get; set; }
 
-        public Dictionary<int, String> RateioFechamentobhdHE { get; set; }
+        public Dictionary<decimal, String> RateioFechamentobhdHE { get; set; }
 
         public Funcionario funcionario { get; set; }
 
