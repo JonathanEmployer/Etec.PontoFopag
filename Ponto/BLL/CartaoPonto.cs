@@ -1217,7 +1217,7 @@ namespace BLL
                 percExtras.Clear();           
                 foreach (var item in objTotalHoras.RateioHorasExtras.OrderBy(r => r.Key))
                 {
-                    str.Append(String.Format("{0:000}", item.Key) + "%          ");
+                    str.Append(String.Format("{0:000.00}", item.Key) + "%       ");
                     str.Append(Modelo.cwkFuncoes.ConvertMinutosHora(3, item.Value.Diurno));
                     str.Append("   " + Modelo.cwkFuncoes.ConvertMinutosHora(3, item.Value.Noturno));
                     percExtras.Add(str.ToString());
