@@ -529,7 +529,7 @@ namespace BLL
             {
                 if (campo.Zeroesquerda == 1)
                 {
-                    if (campo.Formatoevento != String.Empty)
+                    if (campo.Formatoevento != String.Empty || (string.IsNullOrEmpty(campo.Formatoevento) && m > 0))
                     {
                         totstr.Append(String.Format("{0:000}", h));
                         totstr.Append(campo.Formatoevento.Trim());
@@ -542,7 +542,7 @@ namespace BLL
                 }
                 else
                 {
-                    if (campo.Formatoevento != String.Empty)
+                    if (campo.Formatoevento != String.Empty || (string.IsNullOrEmpty(campo.Formatoevento) && m > 0))
                     {
                         totstr.Append(String.Format("{0, 3}", h));
                         totstr.Append(campo.Formatoevento.Trim());
