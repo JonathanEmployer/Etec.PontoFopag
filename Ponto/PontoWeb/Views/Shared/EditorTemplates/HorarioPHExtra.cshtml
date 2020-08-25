@@ -25,7 +25,7 @@
                 <div class="row">
                     <div class="col-md-2" style="padding-right:0px;">
                         <div class="form-group">
-                            @Html.TextBoxFor(model => model.Percentualextra, new { @class = "form-control  input-sm", id = string.Format("txtPercentualextra{0}", Model.Codigo) })
+                            @Html.TextBoxFor(model => model.Percentualextra, new { @class = "form-control input-sm decimalPercent", id = string.Format("txtPercentualextra{0}", Model.Codigo) })
                             @Html.ValidationMessageFor(model => model.Percentualextra)
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                     </div>
                     <div class="col-md-2 separaPercentualNoturno" style="padding-right:0px;">
                         <div class="form-group">
-                            @Html.TextBoxFor(model => model.PercentualExtraNoturna, new { @class = "form-control  input-sm", id = string.Format("txtPercentualExtraNoturna{0}", Model.Codigo) })
+                            @Html.TextBoxFor(model => model.PercentualExtraNoturna, new { @class = "form-control  input-sm decimalPercent", id = string.Format("txtPercentualExtraNoturna{0}", Model.Codigo) })
                             @Html.ValidationMessageFor(model => model.PercentualExtraNoturna)
                         </div>
                     </div>
@@ -149,7 +149,7 @@
                 <div class="row">
                     <div class="col-md-2" style="padding-right:0px;">
                         <div class="form-group">
-                            @Html.TextBoxFor(model => model.Percentualextra, new { @class = "form-control  input-sm", id = string.Format("txtPercentualextra{0}", Model.Codigo) })
+                            @Html.TextBoxFor(model => model.Percentualextra, new { @class = "form-control  input-sm decimalPercent", id = string.Format("txtPercentualextra{0}", Model.Codigo) })
                             @Html.ValidationMessageFor(model => model.Percentualextra)
                         </div>
                     </div> @*Percentual Diurno*@
@@ -161,13 +161,13 @@
                     </div> @*Limite Diurno*@
                     <div class="col-md-2">
                         <div class="form-group">
-                            @Html.TextBoxFor(model => model.PercentualExtraSegundo, new { @class = "form-control  input-sm", id = string.Format("txtPercentualExtraSegundo{0}", Model.Codigo) })
+                            @Html.TextBoxFor(model => model.PercentualExtraSegundo, new { @class = "form-control  input-sm decimalPercent", id = string.Format("txtPercentualExtraSegundo{0}", Model.Codigo) })
                             @Html.ValidationMessageFor(model => model.PercentualExtraSegundo)
                         </div>
                     </div> @*Percentual Outros Diurno*@
                     <div class="col-md-2 separaPercentualNoturno" style="padding-right:0px;">
                         <div class="form-group">
-                            @Html.TextBoxFor(model => model.PercentualExtraNoturna, new { @class = "form-control  input-sm", id = string.Format("txtPercentualExtraNoturna{0}", Model.Codigo) })
+                            @Html.TextBoxFor(model => model.PercentualExtraNoturna, new { @class = "form-control  input-sm decimalPercent", id = string.Format("txtPercentualExtraNoturna{0}", Model.Codigo) })
                             @Html.ValidationMessageFor(model => model.PercentualExtraNoturna)
                         </div>
                     </div> @*Percentual Noturno*@
@@ -179,7 +179,7 @@
                     </div> @*Limite Noturno*@
                     <div class="col-md-2 separaPercentualNoturno">
                         <div class="form-group">
-                            @Html.TextBoxFor(model => model.PercentualExtraSegundoNoturna, new { @class = "form-control  input-sm", id = string.Format("txtPercentualExtraSegundoNoturna{0}", Model.Codigo) })
+                            @Html.TextBoxFor(model => model.PercentualExtraSegundoNoturna, new { @class = "form-control  input-sm decimalPercent", id = string.Format("txtPercentualExtraSegundoNoturna{0}", Model.Codigo) })
                             @Html.ValidationMessageFor(model => model.PercentualExtraSegundoNoturna)
                         </div>
                     </div> @*Percentual Outros Noturno*@

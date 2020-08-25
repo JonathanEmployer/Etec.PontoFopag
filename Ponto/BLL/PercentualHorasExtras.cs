@@ -13,7 +13,7 @@ namespace BLL
     {
         public static void TotalizarPercentuaisDia(DataRow marc, PercentualHoraExtra[] horariosPHExtra,
             int flagFolga, bool trocaMes, int dia, DateTime data, DateTime dataFinal, int horaExtraNoturna,
-            int horaExtraDiurna, List<Dictionary<int, AcumuloPercentual>> acumulosTotais, Dictionary<TipoDiaAcumulo, Turno> acumulosParciais)
+            int horaExtraDiurna, List<Dictionary<decimal, AcumuloPercentual>> acumulosTotais, Dictionary<TipoDiaAcumulo, Turno> acumulosParciais)
         {
 
             short consideraSabadoSemana = Convert.ToInt16(marc["considerasabadosemana"]);
@@ -28,7 +28,7 @@ namespace BLL
             bool acumularMes = trocaMes
                 , acumularSemana = diaFinalSemana == dia;
 
-            Dictionary<int, AcumuloPercentual> acumuloCorrente = new Dictionary<int, AcumuloPercentual>();
+            Dictionary<decimal, AcumuloPercentual> acumuloCorrente = new Dictionary<decimal, AcumuloPercentual>();
 
             if (tipoDia == TipoDiaAcumulo.Geral && (tipoAcumuloSemana == 1 || (tipoAcumuloSemana == 2) || (tipoAcumuloSemana == 3)))
             {
@@ -77,11 +77,11 @@ namespace BLL
             }
         }
 
-        private static void LimpaAcumuloTotal(List<Dictionary<int, AcumuloPercentual>> acumulosTotais, ref Dictionary<int, AcumuloPercentual> acumuloCorrente, short tipoAcumuloSemana, bool acumularMes, bool acumularSemana)
+        private static void LimpaAcumuloTotal(List<Dictionary<decimal, AcumuloPercentual>> acumulosTotais, ref Dictionary<decimal, AcumuloPercentual> acumuloCorrente, short tipoAcumuloSemana, bool acumularMes, bool acumularSemana)
         {
             if (acumulosTotais.Count == 0 || tipoAcumuloSemana == 1 || (tipoAcumuloSemana == 2 && acumularSemana) || (tipoAcumuloSemana == 3 && acumularMes))
             {
-                acumulosTotais.Add(new Dictionary<int, AcumuloPercentual>());
+                acumulosTotais.Add(new Dictionary<decimal, AcumuloPercentual>());
             }
             acumuloCorrente = acumulosTotais.LastOrDefault();
         }
@@ -122,7 +122,7 @@ namespace BLL
             acumulosParciais[tipoDia] = new Turno() { Diurno = 0, Noturno = 0 };
         }
 
-        private static void Acumular(PercentualHoraExtra horariosPHExtra, Dictionary<int, AcumuloPercentual> acumulosPercentuais, Dictionary<TipoDiaAcumulo, Turno> acumulosParciais, int tipoAcumulo, TipoDiaAcumulo tipoDia)
+        private static void Acumular(PercentualHoraExtra horariosPHExtra, Dictionary<decimal, AcumuloPercentual> acumulosPercentuais, Dictionary<TipoDiaAcumulo, Turno> acumulosParciais, int tipoAcumulo, TipoDiaAcumulo tipoDia)
         {
             Dictionary<TipoDiaAcumulo, Turno> acumulos = null;
 
@@ -297,7 +297,7 @@ namespace BLL
             return diaFinalSemana;
         }
 
-        private static AcumuloPercentual PegarAcumuloPercentual(int percentual, Dictionary<int, AcumuloPercentual> acumulosPercentuais)
+        private static AcumuloPercentual PegarAcumuloPercentual(decimal percentual, Dictionary<decimal, AcumuloPercentual> acumulosPercentuais)
         {
             AcumuloPercentual acumulo;
             if (!acumulosPercentuais.ContainsKey(percentual))
@@ -341,7 +341,7 @@ namespace BLL
             return tipoDia;
         }
 
-        public static void TotalizarPercentuaisExtra(Modelo.TotalHoras objTotalHoras, Dictionary<int, AcumuloPercentual> acumulosTotais)
+        public static void TotalizarPercentuaisExtra(Modelo.TotalHoras objTotalHoras, Dictionary<decimal, AcumuloPercentual> acumulosTotais)
         {
             foreach (var item in acumulosTotais)
             {
@@ -354,7 +354,7 @@ namespace BLL
             }
         }
 
-        private static void TotalizaPercentuaisTipoAcumulo(Modelo.TotalHoras objTotalHoras, int percentual, Dictionary<TipoDiaAcumulo, Turno> acumulos)
+        private static void TotalizaPercentuaisTipoAcumulo(Modelo.TotalHoras objTotalHoras, decimal percentual, Dictionary<TipoDiaAcumulo, Turno> acumulos)
         {
             foreach (var a in acumulos)
             {
@@ -365,7 +365,7 @@ namespace BLL
             }
         }
 
-        private static void AdicionarPercentualTotal(Modelo.TotalHoras objTotalHoras, KeyValuePair<int, AcumuloPercentual> item)
+        private static void AdicionarPercentualTotal(Modelo.TotalHoras objTotalHoras, KeyValuePair<decimal, AcumuloPercentual> item)
         {
             if (!objTotalHoras.RateioHorasExtras.ContainsKey(item.Key))
                 objTotalHoras.RateioHorasExtras.Add(item.Key, new Modelo.Turno());

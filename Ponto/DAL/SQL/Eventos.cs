@@ -168,16 +168,16 @@ namespace DAL.SQL
             ((Modelo.Eventos)obj).HeferN = dr["hefern"] is DBNull ? (short)0 : Convert.ToInt16(dr["hefern"]);
             ((Modelo.Eventos)obj).FolgaN = dr["folgan"] is DBNull ? (short)0 : Convert.ToInt16(dr["folgan"]);
             ((Modelo.Eventos)obj).Extranoturnabh = dr["extranoturnabh"] is DBNull ? (short)0 : Convert.ToInt16(dr["extranoturnabh"]);
-            ((Modelo.Eventos)obj).PercentualExtra1 = Convert.ToInt16(dr["percentualextra1"]);
-            ((Modelo.Eventos)obj).PercentualExtra2 = Convert.ToInt16(dr["percentualextra2"]);
-            ((Modelo.Eventos)obj).PercentualExtra3 = Convert.ToInt16(dr["percentualextra3"]);
-            ((Modelo.Eventos)obj).PercentualExtra4 = Convert.ToInt16(dr["percentualextra4"]);
-            ((Modelo.Eventos)obj).PercentualExtra5 = Convert.ToInt16(dr["percentualextra5"]);
-            ((Modelo.Eventos)obj).PercentualExtra6 = Convert.ToInt16(dr["percentualextra6"]);
-            ((Modelo.Eventos)obj).PercentualExtra7 = Convert.ToInt16(dr["percentualextra7"]);
-            ((Modelo.Eventos)obj).PercentualExtra8 = Convert.ToInt16(dr["percentualextra8"]);
-            ((Modelo.Eventos)obj).PercentualExtra9 = Convert.ToInt16(dr["percentualextra9"]);
-            ((Modelo.Eventos)obj).PercentualExtra10 = Convert.ToInt16(dr["percentualextra10"]);
+            ((Modelo.Eventos)obj).PercentualExtra1 = Convert.ToDecimal(dr["percentualextra1"]);
+            ((Modelo.Eventos)obj).PercentualExtra2 = Convert.ToDecimal(dr["percentualextra2"]);
+            ((Modelo.Eventos)obj).PercentualExtra3 = Convert.ToDecimal(dr["percentualextra3"]);
+            ((Modelo.Eventos)obj).PercentualExtra4 = Convert.ToDecimal(dr["percentualextra4"]);
+            ((Modelo.Eventos)obj).PercentualExtra5 = Convert.ToDecimal(dr["percentualextra5"]);
+            ((Modelo.Eventos)obj).PercentualExtra6 = Convert.ToDecimal(dr["percentualextra6"]);
+            ((Modelo.Eventos)obj).PercentualExtra7 = Convert.ToDecimal(dr["percentualextra7"]);
+            ((Modelo.Eventos)obj).PercentualExtra8 = Convert.ToDecimal(dr["percentualextra8"]);
+            ((Modelo.Eventos)obj).PercentualExtra9 = Convert.ToDecimal(dr["percentualextra9"]);
+            ((Modelo.Eventos)obj).PercentualExtra10 = Convert.ToDecimal(dr["percentualextra10"]);
             ((Modelo.Eventos)obj).HorasAbonadas = Convert.ToInt16(dr["horasabonadas"]);
             ((Modelo.Eventos)obj).OcorrenciasSelecionadas = Convert.ToInt16(dr["ocorrenciasselecionadas"]);
             ((Modelo.Eventos)obj).IdsOcorrencias = Convert.ToString(dr["idsocorrencias"]);
@@ -242,16 +242,16 @@ namespace DAL.SQL
 				new SqlParameter ("@hefern", SqlDbType.SmallInt),
 				new SqlParameter ("@folgan", SqlDbType.SmallInt),
                 new SqlParameter ("@extranoturnabh", SqlDbType.SmallInt),
-                new SqlParameter ("@percentualextra1", SqlDbType.SmallInt),
-                new SqlParameter ("@percentualextra2", SqlDbType.SmallInt),
-                new SqlParameter ("@percentualextra3", SqlDbType.SmallInt),
-                new SqlParameter ("@percentualextra4", SqlDbType.SmallInt),
-                new SqlParameter ("@percentualextra5", SqlDbType.SmallInt),
-                new SqlParameter ("@percentualextra6", SqlDbType.SmallInt),
-                new SqlParameter ("@percentualextra7", SqlDbType.SmallInt),
-                new SqlParameter ("@percentualextra8", SqlDbType.SmallInt),
-                new SqlParameter ("@percentualextra9", SqlDbType.SmallInt),
-                new SqlParameter ("@percentualextra10", SqlDbType.SmallInt),
+                new SqlParameter ("@percentualextra1", SqlDbType.Decimal),
+                new SqlParameter ("@percentualextra2", SqlDbType.Decimal),
+                new SqlParameter ("@percentualextra3", SqlDbType.Decimal),
+                new SqlParameter ("@percentualextra4", SqlDbType.Decimal),
+                new SqlParameter ("@percentualextra5", SqlDbType.Decimal),
+                new SqlParameter ("@percentualextra6", SqlDbType.Decimal),
+                new SqlParameter ("@percentualextra7", SqlDbType.Decimal),
+                new SqlParameter ("@percentualextra8", SqlDbType.Decimal),
+                new SqlParameter ("@percentualextra9", SqlDbType.Decimal),
+                new SqlParameter ("@percentualextra10", SqlDbType.Decimal),
                 new SqlParameter ("@horasabonadas", SqlDbType.SmallInt),
                 new SqlParameter ("@ocorrenciasselecionadas", SqlDbType.SmallInt),
                 new SqlParameter ("@idsocorrencias", SqlDbType.VarChar),
