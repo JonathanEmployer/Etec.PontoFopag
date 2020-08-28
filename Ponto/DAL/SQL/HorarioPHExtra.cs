@@ -108,7 +108,7 @@ namespace DAL.SQL
             ((Modelo.HorarioPHExtra)obj).Marcapercentualextra = Convert.ToInt16(dr["marcapercentualextra"]);
             ((Modelo.HorarioPHExtra)obj).Considerapercextrasemana = Convert.ToInt16(dr["considerapercextrasemana"]);
             ((Modelo.HorarioPHExtra)obj).TipoAcumulo = (dr["tipoacumulo"] is DBNull ? Convert.ToInt16(-1) : Convert.ToInt16(dr["tipoacumulo"]));
-            ((Modelo.HorarioPHExtra)obj).PercentualExtraSegundo = (dr["percentualextrasegundo"] is DBNull ? null : (Int16?)Convert.ToInt16(dr["percentualextrasegundo"]));
+            ((Modelo.HorarioPHExtra)obj).PercentualExtraSegundo = (dr["percentualextrasegundo"] is DBNull ? null : (decimal?)Convert.ToDecimal(dr["percentualextrasegundo"]));
             if (!(dr["PercentualExtraNoturna"] is DBNull))
             {
                 ((Modelo.HorarioPHExtra)obj).PercentualExtraNoturna = Convert.ToDecimal(dr["PercentualExtraNoturna"]);
@@ -116,7 +116,7 @@ namespace DAL.SQL
             ((Modelo.HorarioPHExtra)obj).QuantidadeExtraNoturna = Convert.ToString(dr["QuantidadeExtraNoturna"]);
             if (!(dr["percentualextrasegundoNoturna"] is DBNull))
             {
-                ((Modelo.HorarioPHExtra)obj).PercentualExtraSegundoNoturna = Convert.ToInt16(dr["percentualextrasegundoNoturna"]);
+                ((Modelo.HorarioPHExtra)obj).PercentualExtraSegundoNoturna = Convert.ToDecimal(dr["percentualextrasegundoNoturna"]);
             }
         }
 
@@ -139,10 +139,10 @@ namespace DAL.SQL
 				new SqlParameter ("@altusuario", SqlDbType.VarChar),
                 new SqlParameter ("@considerapercextrasemana", SqlDbType.TinyInt),
                 new SqlParameter ("@tipoacumulo", SqlDbType.SmallInt),
-                new SqlParameter ("@percentualextrasegundo", SqlDbType.SmallInt),
+                new SqlParameter ("@percentualextrasegundo", SqlDbType.Decimal),
                 new SqlParameter ("@percentualExtraNoturna", SqlDbType.Decimal),
                 new SqlParameter ("@quantidadeExtraNoturna", SqlDbType.VarChar),
-                new SqlParameter ("@percentualextrasegundoNoturna", SqlDbType.SmallInt)
+                new SqlParameter ("@percentualextrasegundoNoturna", SqlDbType.Decimal)
             };
             return parms;
         }

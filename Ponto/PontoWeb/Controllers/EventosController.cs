@@ -161,7 +161,7 @@ namespace PontoWeb.Controllers
             {
                 string propName = prop.Name;
                 object propValue = prop.GetValue(obj, null);
-                if (propName.StartsWith("PercentualExtra") && propValue.ToString() != "0")
+                if (propName.StartsWith("PercentualExtra") && Convert.ToDecimal(propValue.ToString()) != 0)
                 {
                     dictioValue.Add(propName, propValue.ToString());
                     listPercentualHE.Add(propValue);

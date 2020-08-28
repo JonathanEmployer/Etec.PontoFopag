@@ -86,7 +86,7 @@ namespace DAL.SQL
             ((Modelo.HorarioDinamicoPHExtra)obj).MarcaPercentualExtra = Convert.ToInt16(dr["marcapercentualextra"]);
             ((Modelo.HorarioDinamicoPHExtra)obj).ConsideraPercExtraSemana = Convert.ToInt16(dr["considerapercextrasemana"]);
             ((Modelo.HorarioDinamicoPHExtra)obj).TipoAcumulo = (dr["tipoacumulo"] is DBNull ? Convert.ToInt16(-1) : Convert.ToInt16(dr["tipoacumulo"]));
-            ((Modelo.HorarioDinamicoPHExtra)obj).PercentualExtraSegundo = (dr["percentualextrasegundo"] is DBNull ? null : (Int16?)Convert.ToInt16(dr["percentualextrasegundo"]));
+            ((Modelo.HorarioDinamicoPHExtra)obj).PercentualExtraSegundo = (dr["percentualextrasegundo"] is DBNull ? null : (decimal?)Convert.ToDecimal(dr["percentualextrasegundo"]));
             if (!(dr["PercentualExtraNoturna"] is DBNull))
             {
                 ((Modelo.HorarioDinamicoPHExtra)obj).PercentualExtraNoturna = Convert.ToDecimal(dr["PercentualExtraNoturna"]);
@@ -94,7 +94,7 @@ namespace DAL.SQL
             ((Modelo.HorarioDinamicoPHExtra)obj).QuantidadeExtraNoturna = Convert.ToString(dr["QuantidadeExtraNoturna"]);
             if (!(dr["percentualextrasegundoNoturna"] is DBNull))
             {
-                ((Modelo.HorarioDinamicoPHExtra)obj).PercentualExtraSegundoNoturna = Convert.ToInt16(dr["percentualextrasegundoNoturna"]);
+                ((Modelo.HorarioDinamicoPHExtra)obj).PercentualExtraSegundoNoturna = Convert.ToDecimal(dr["percentualextrasegundoNoturna"]);
             }
 
         }

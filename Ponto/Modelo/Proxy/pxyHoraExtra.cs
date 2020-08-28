@@ -17,7 +17,7 @@ namespace Modelo.Proxy
 
     public class HoraExtra
     {
-        public int Percentual { get; set; }
+        public decimal Percentual { get; set; }
         public int HoraDiurna { get; set; }
         public int HoraNoturna { get; set; }
     }
