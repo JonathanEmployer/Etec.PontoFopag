@@ -45,7 +45,10 @@ namespace BLL_N.JobManager.Hangfire.Job
         {
             this.jobRetorno = new PxyJobReturn(jobReport);
             this.context = context;
-            this.userPF = new Modelo.UsuarioPontoWeb() { Login = usuario, ConnectionString = BLL.cwkFuncoes.ConstroiConexao(db).ConnectionString };
+            string conexao = BLL.cwkFuncoes.ConstroiConexao(db).ConnectionString;
+            DAL.SQL.UsuarioPontoWeb dalUsuarioPontoWeb = new DAL.SQL.UsuarioPontoWeb(new DAL.SQL.DataBase(conexao));
+            this.userPF = dalUsuarioPontoWeb.LoadObjectLogin(usuario);// new Modelo.UsuarioPontoWeb() { Login = usuario, ConnectionString = conexao };
+            this.userPF.ConnectionString = conexao;
         }
 
         protected string CaminhoArquivo()
