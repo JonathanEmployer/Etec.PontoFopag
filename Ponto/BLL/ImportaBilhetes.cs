@@ -7,6 +7,8 @@ using System.Collections;
 using DAL.SQL;
 using System.Configuration;
 using System.Web.Hosting;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using Modelo;
 
 namespace BLL
 {
@@ -290,8 +292,10 @@ namespace BLL
                 Modelo.BilhetesImp objBilhete;
                 List<Modelo.BilhetesImp> bilhetesPersistir = new List<Modelo.BilhetesImp>();
                 List<int> idsFuncionarios = dtBilhete.AsEnumerable().Select(r => r.Field<int>("funcionarioid")).ToList();
+                DataTable dtBilhetePontoExcessaoRemover = dtBilhete.Clone();
                 for (int i = 0; i < dtBilhete.Rows.Count; i++)
                 {
+                    SepararBilhetesExcluirPontoExcessao(dtBilhete, dtBilhetePontoExcessaoRemover, i);
                     idBilhete = Convert.ToInt32(dtBilhete.Rows[i]["bimp_id"]);
                     if (idBilheteAnt == idBilhete)
                     {
@@ -340,6 +344,7 @@ namespace BLL
 
                     if (auxidfunc != aux)
                     {
+                        dtBilhetePontoExcessaoRemover = dtBilhete.Clone();
                         auxidfunc = Convert.ToInt32(dtBilhete.Rows[i]["funcionarioid"]);
 
                         if (!htFuncionario.ContainsKey(auxidfunc))
@@ -365,7 +370,12 @@ namespace BLL
                     //Carrega a Marcação na Data Correta
                     drMar = (DataRow)htmarcacao[String.Format("{0:dd/MM/yyyy}", ((DateTime)dtBilhete.Rows[i]["mar_data"]).AddDays(dia)) + dtBilhete.Rows[i]["funcionarioid"].ToString()];
                     ordembilhete = drMar["horario_ordem_ent"] is DBNull ? 0 : Convert.ToInt32(drMar["horario_ordem_ent"]);
-
+                    var ultimoRowPESubstituir = dtBilhetePontoExcessaoRemover.AsEnumerable().LastOrDefault();
+                    int ultimoPESubstituir = -9999;
+                    if (ultimoRowPESubstituir != null)
+                    {
+                        ultimoPESubstituir = Convert.ToInt32(ultimoRowPESubstituir["hora"].ToString());
+                    }
                     //Encaixa Bilhete na Marcação
                     if (ordembilhete == 0 || new string[] { "000", String.Empty }.Contains((string)dtBilhete.Rows[i]["ordem"]))
                     {
@@ -375,12 +385,12 @@ namespace BLL
                             var horaEntrada = Convert.ToInt32(drMar["marcacao_ent" + m.ToString()]);
                             var horaSaida = Convert.ToInt32(drMar["marcacao_sai" + m.ToString()]);
                             // Caso não exista a marcação insere, se existir apenas atualiza
-                            if ((horaEntrada == -1) || horaEntrada == horaBilhete)
+                            if ((horaEntrada == -1) || horaEntrada == horaBilhete || horaEntrada == ultimoPESubstituir)
                             {
                                 AtribuiMarcacaoEnt(dtBilhete, drMar, horaBilhete, (string)dtBilhete.Rows[i]["relogio"], m, i);
                                 break;
                             }
-                            else if ((horaSaida == -1) || horaSaida == horaBilhete)
+                            else if ((horaSaida == -1) || horaSaida == horaBilhete || horaSaida == ultimoPESubstituir)
                             {
                                 AtribuiMarcacaiSai(dtBilhete, drMar, horaBilhete, (string)dtBilhete.Rows[i]["relogio"], m, i);
                                 break;
@@ -397,7 +407,7 @@ namespace BLL
                             {
                                 var horaEntrada = Convert.ToInt32(drMar["marcacao_ent" + m.ToString()]);
                                 // Caso não exista a marcação insere, se existir apenas atualiza
-                                if ((horaEntrada == -1) || horaEntrada == horaBilhete)
+                                if ((horaEntrada == -1) || horaEntrada == horaBilhete || horaEntrada == ultimoPESubstituir)
                                 {
                                     AtribuiMarcacaoEnt(dtBilhete, drMar, horaBilhete, (string)dtBilhete.Rows[i]["relogio"], m, i);
                                     break;
@@ -412,7 +422,7 @@ namespace BLL
                             {
                                 var horaSaida = Convert.ToInt32(drMar["marcacao_sai" + m.ToString()]);
                                 // Caso não exista a marcação insere, se existir apenas atualiza
-                                if ((horaSaida == -1) || horaSaida == horaBilhete)
+                                if ((horaSaida == -1) || horaSaida == horaBilhete || horaSaida == ultimoPESubstituir)
                                 {
                                     AtribuiMarcacaiSai(dtBilhete, drMar, horaBilhete, (string)dtBilhete.Rows[i]["relogio"], m, i);
                                     break;
@@ -527,6 +537,8 @@ namespace BLL
                 ObjProgressBar.setaMinMaxPB(0, 1);
                 ObjProgressBar.setaValorPB(1);
                 ObjProgressBar.setaMensagem("Salvando Marcações...");
+                List<int> idsBilhetesPorExcessaoRemover = dtBilhetePontoExcessaoRemover.AsEnumerable().Select(s => s.Field<int>("bimp_id")).ToList();
+                bilhetesPersistir.Where(w => idsBilhetesPorExcessaoRemover.Contains(w.Id)).ToList().ForEach(f => f.Acao = Acao.Excluir);
                 foreach (var marc in marcacoesPersistir)
                 {
                     marc.BilhetesMarcacao.AddRange(bilhetesPersistir.Where(w => w.Mar_data == marc.Data && w.DsCodigo == marc.Dscodigo).ToList());
@@ -558,6 +570,8 @@ namespace BLL
             Modelo.Marcacao objMarcacao = new Modelo.Marcacao();
 
             dtBilhete = dal.GetBilhetesImportarByIDs(idsBilhetes);
+            DataTable dtBilhetePontoExcessaoRemover = dtBilhete.Clone();
+
 
             //Lista dos bilhetes antes de alterar os dados, é utilizada para remover do salvar os registros que não sofreram alterações
             List<Modelo.BilhetesImp> bilhetesOriginais = new List<Modelo.BilhetesImp>();
@@ -679,8 +693,10 @@ namespace BLL
                 Modelo.BilhetesImp objBilhete;
                 List<Modelo.BilhetesImp> bilhetesPersistir = new List<Modelo.BilhetesImp>();
                 List<int> idsFuncionarios = dtBilhete.AsEnumerable().Select(r => r.Field<int>("funcionarioid")).Distinct().ToList();
+                dtBilhetePontoExcessaoRemover = dtBilhete.Clone();
                 for (int i = 0; i < dtBilhete.Rows.Count; i++)
                 {
+                    SepararBilhetesExcluirPontoExcessao(dtBilhete, dtBilhetePontoExcessaoRemover, i);
                     idBilhete = Convert.ToInt32(dtBilhete.Rows[i]["bimp_id"]);
                     if (idBilheteAnt == idBilhete)
                     {
@@ -729,6 +745,7 @@ namespace BLL
 
                     if (auxidfunc != aux)
                     {
+                        dtBilhetePontoExcessaoRemover = dtBilhete.Clone();
                         auxidfunc = Convert.ToInt32(dtBilhete.Rows[i]["funcionarioid"]);
 
                         if (!htFuncionario.ContainsKey(auxidfunc))
@@ -752,7 +769,12 @@ namespace BLL
                     //Carrega a Marcação na Data Correta
                     drMar = (DataRow)htmarcacao[String.Format("{0:dd/MM/yyyy}", ((DateTime)dtBilhete.Rows[i]["mar_data"]).AddDays(dia)) + dtBilhete.Rows[i]["funcionarioid"].ToString()];
                     ordembilhete = drMar["horario_ordem_ent"] is DBNull ? 0 : Convert.ToInt32(drMar["horario_ordem_ent"]);
-
+                    var ultimoRowPESubstituir = dtBilhetePontoExcessaoRemover.AsEnumerable().LastOrDefault();
+                    int ultimoPESubstituir = -9999;
+                    if (ultimoRowPESubstituir != null)
+                    {
+                        ultimoPESubstituir = Convert.ToInt32(ultimoRowPESubstituir["hora"].ToString());
+                    }
                     //Encaixa Bilhete na Marcação
                     if (ordembilhete == 0 || new string[] { "000", String.Empty }.Contains((string)dtBilhete.Rows[i]["ordem"]))
                     {
@@ -762,12 +784,12 @@ namespace BLL
                             var horaEntrada = Convert.ToInt32(drMar["marcacao_ent" + m.ToString()]);
                             var horaSaida = Convert.ToInt32(drMar["marcacao_sai" + m.ToString()]);
                             // Caso não exista a marcação insere, se existir apenas atualiza
-                            if ((horaEntrada == -1) || horaEntrada == horaBilhete)
+                            if ((horaEntrada == -1) || horaEntrada == horaBilhete || horaEntrada == ultimoPESubstituir)
                             {
                                 AtribuiMarcacaoEnt(dtBilhete, drMar, horaBilhete, (string)dtBilhete.Rows[i]["relogio"], m, i);
                                 break;
                             }
-                            else if ((horaSaida == -1) || horaSaida == horaBilhete)
+                            else if ((horaSaida == -1) || horaSaida == horaBilhete || horaSaida == ultimoPESubstituir)
                             {
                                 AtribuiMarcacaiSai(dtBilhete, drMar, horaBilhete, (string)dtBilhete.Rows[i]["relogio"], m, i);
                                 break;
@@ -784,7 +806,7 @@ namespace BLL
                             {
                                 var horaEntrada = Convert.ToInt32(drMar["marcacao_ent" + m.ToString()]);
                                 // Caso não exista a marcação insere, se existir apenas atualiza
-                                if ((horaEntrada == -1) || horaEntrada == horaBilhete)
+                                if ((horaEntrada == -1) || horaEntrada == horaBilhete || horaEntrada == ultimoPESubstituir)
                                 {
                                     AtribuiMarcacaoEnt(dtBilhete, drMar, horaBilhete, (string)dtBilhete.Rows[i]["relogio"], m, i);
                                     break;
@@ -799,7 +821,7 @@ namespace BLL
                             {
                                 var horaSaida = Convert.ToInt32(drMar["marcacao_sai" + m.ToString()]);
                                 // Caso não exista a marcação insere, se existir apenas atualiza
-                                if ((horaSaida == -1) || horaSaida == horaBilhete)
+                                if ((horaSaida == -1) || horaSaida == horaBilhete || horaSaida == ultimoPESubstituir)
                                 {
                                     AtribuiMarcacaiSai(dtBilhete, drMar, horaBilhete, (string)dtBilhete.Rows[i]["relogio"], m, i);
                                     break;
@@ -905,6 +927,8 @@ namespace BLL
 
                 htmarcacao.Clear();
                 #endregion
+                List<int> idsBilhetesPorExcessaoRemover = dtBilhetePontoExcessaoRemover.AsEnumerable().Select(s => s.Field<int>("bimp_id")).ToList();
+                bilhetesPersistir.Where(w => idsBilhetesPorExcessaoRemover.Contains(w.Id)).ToList().ForEach(f => f.Acao = Acao.Excluir);
 
                 foreach (var marc in marcacoesPersistir)
                 {
@@ -915,7 +939,7 @@ namespace BLL
                     List<Modelo.BilhetesImp> bilhetesSemAlteracao = new List<Modelo.BilhetesImp>();
                     foreach (Modelo.BilhetesImp bilhete in marc.BilhetesMarcacao)
                     {
-                        if (bilhete.BilheteIsEqual(bilhetesOriginais.Where(w => w.Id == bilhete.Id).FirstOrDefault()))
+                        if (bilhete.BilheteIsEqual(bilhetesOriginais.Where(w => w.Id == bilhete.Id).FirstOrDefault()) && bilhete.Acao != Modelo.Acao.Excluir)
                         {
                             bilhetesSemAlteracao.Add(bilhete);
                         }
@@ -955,6 +979,40 @@ namespace BLL
                 pDataImpI = DateTime.Now;
                 pDataImpF = DateTime.Now;
                 return false;
+            }
+        }
+
+        private static void SepararBilhetesExcluirPontoExcessao(DataTable dtBilhete, DataTable dtBilhetePontoExcessaoRemover, int i)
+        {
+            if (Convert.ToInt32(dtBilhete.Rows[i]["importado"].ToString()) == 2 || Convert.ToInt32(dtBilhete.Rows[i]["importado"].ToString()) == 0 && dtBilhete.Rows[i]["relogio"].ToString() != "PE")
+            {
+                DataRow ant = i == 0 ? null : dtBilhete.Rows[i - 1];
+                DataRow pos = i == dtBilhete.Rows.Count ? null : dtBilhete.Rows[i + 1];
+                if ((ant != null && ant["relogio"].ToString() == "PE") && pos == null)
+                {
+                    dtBilhetePontoExcessaoRemover.Rows.Add(ant.ItemArray);
+                }
+                else if ((pos != null && pos["relogio"].ToString() == "PE") && ant == null)
+                {
+                    dtBilhetePontoExcessaoRemover.Rows.Add(pos.ItemArray);
+                }
+                else if ((ant != null && ant["relogio"].ToString() == "PE") && (pos != null && pos["relogio"].ToString() == "PE"))
+                {
+                    int antHora = Convert.ToInt32(ant["hora"].ToString());
+                    int posHora = Convert.ToInt32(pos["hora"].ToString());
+                    int horaBil = Convert.ToInt32(dtBilhete.Rows[i]["hora"].ToString());
+                    int difAnt = antHora > horaBil ? (horaBil + 1440) - antHora : horaBil - antHora;
+                    int difPos = posHora < horaBil ? posHora - (horaBil + 1440) : posHora - horaBil;
+
+                    if (difAnt <= difPos)
+                    {
+                        dtBilhetePontoExcessaoRemover.Rows.Add(ant.ItemArray);
+                    }
+                    else
+                    {
+                        dtBilhetePontoExcessaoRemover.Rows.Add(pos.ItemArray);
+                    }
+                }
             }
         }
 
@@ -1147,7 +1205,9 @@ namespace BLL
             DataTable dtBilhete;
             Modelo.Marcacao objMarcacao = new Modelo.Marcacao();
             dtBilhete = dal.GetBilhetesImportar(pDsCodigo, pManutBilhete, pDataImpI, pDataImpF);
+            DataTable dtBilhetePontoExcessaoRemover = dtBilhete.Clone();
             dtBilhete = ReorganizaBilhetesPorRegistroDeFuncionario(false, pDataImpI, pDataImpF, dtBilhete, ref pDsCodigo);
+
             if (dtBilhete.Rows.Count > 0)
             {
                 ObjProgressBar.setaMinMaxPB(0, dtBilhete.Rows.Count);
@@ -1281,6 +1341,7 @@ namespace BLL
                 Modelo.BilhetesImp objBilhete;
                 List<Modelo.BilhetesImp> bilhetesPersistir = new List<Modelo.BilhetesImp>();
                 List<int> idsFuncionarios = dtBilhete.AsEnumerable().Select(r => r.Field<int>("funcionarioid")).ToList();
+                dtBilhetePontoExcessaoRemover = dtBilhete.Clone();
                 for (int i = 0; i < dtBilhete.Rows.Count; i++)
                 {
                     idBilhete = Convert.ToInt32(dtBilhete.Rows[i]["bimp_id"]);
@@ -1331,6 +1392,7 @@ namespace BLL
 
                     if (auxidfunc != aux)
                     {
+                        dtBilhetePontoExcessaoRemover = dtBilhete.Clone();
                         auxidfunc = Convert.ToInt32(dtBilhete.Rows[i]["funcionarioid"]);
 
                         if (!htFuncionario.ContainsKey(auxidfunc))
@@ -1357,6 +1419,12 @@ namespace BLL
                     drMar = (DataRow)htmarcacao[String.Format("{0:dd/MM/yyyy}", ((DateTime)dtBilhete.Rows[i]["mar_data"]).AddDays(dia)) + dtBilhete.Rows[i]["funcionarioid"].ToString()];
                     ordembilhete = drMar["horario_ordem_ent"] is DBNull ? 0 : Convert.ToInt32(drMar["horario_ordem_ent"]);
 
+                    var ultimoRowPESubstituir = dtBilhetePontoExcessaoRemover.AsEnumerable().LastOrDefault();
+                    int ultimoPESubstituir = -9999;
+                    if (ultimoRowPESubstituir != null)
+                    {
+                        ultimoPESubstituir = Convert.ToInt32(ultimoRowPESubstituir["hora"].ToString());
+                    }
                     //Encaixa Bilhete na Marcação
                     if (ordembilhete == 0 || new string[] { "000", String.Empty }.Contains((string)dtBilhete.Rows[i]["ordem"]))
                     {
@@ -1366,12 +1434,12 @@ namespace BLL
                             var horaEntrada = Convert.ToInt32(drMar["marcacao_ent" + m.ToString()]);
                             var horaSaida = Convert.ToInt32(drMar["marcacao_sai" + m.ToString()]);
                             // Caso não exista a marcação insere, se existir apenas atualiza
-                            if ((horaEntrada == -1) || horaEntrada == horaBilhete)
+                            if ((horaEntrada == -1) || horaEntrada == horaBilhete || horaEntrada == ultimoPESubstituir)
                             {
                                 AtribuiMarcacaoEnt(dtBilhete, drMar, horaBilhete, (string)dtBilhete.Rows[i]["relogio"], m, i);
                                 break;
                             }
-                            else if ((horaSaida == -1) || horaSaida == horaBilhete)
+                            else if ((horaSaida == -1) || horaSaida == horaBilhete || horaSaida == ultimoPESubstituir)
                             {
                                 AtribuiMarcacaiSai(dtBilhete, drMar, horaBilhete, (string)dtBilhete.Rows[i]["relogio"], m, i);
                                 break;
@@ -1388,7 +1456,7 @@ namespace BLL
                             {
                                 var horaEntrada = Convert.ToInt32(drMar["marcacao_ent" + m.ToString()]);
                                 // Caso não exista a marcação insere, se existir apenas atualiza
-                                if ((horaEntrada == -1) || horaEntrada == horaBilhete)
+                                if ((horaEntrada == -1) || horaEntrada == horaBilhete || horaEntrada == ultimoPESubstituir)
                                 {
                                     AtribuiMarcacaoEnt(dtBilhete, drMar, horaBilhete, (string)dtBilhete.Rows[i]["relogio"], m, i);
                                     break;
@@ -1403,7 +1471,7 @@ namespace BLL
                             {
                                 var horaSaida = Convert.ToInt32(drMar["marcacao_sai" + m.ToString()]);
                                 // Caso não exista a marcação insere, se existir apenas atualiza
-                                if ((horaSaida == -1) || horaSaida == horaBilhete)
+                                if ((horaSaida == -1) || horaSaida == horaBilhete || horaSaida == ultimoPESubstituir)
                                 {
                                     AtribuiMarcacaiSai(dtBilhete, drMar, horaBilhete, (string)dtBilhete.Rows[i]["relogio"], m, i);
                                     break;

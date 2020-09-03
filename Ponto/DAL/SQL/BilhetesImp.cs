@@ -2184,7 +2184,7 @@ namespace DAL.SQL
             sql.AppendLine("where 1 = 1");
             sql.AppendLine("and bimp.id in ( SELECT b.id /*Select para trazer os bilhetes a serem importados, caso exista bilhetes já importados com data maior ao ser importado agora, tras esses bilhetes mais novos também do dia para reposicionar*/");
             sql.AppendLine("                   FROM dbo.bilhetesimp b ");
-            sql.AppendLine("                 INNER JOIN dbo.bilhetesimp bi on bi.dscodigo = b.dscodigo AND b.data = bi.data AND CONVERT(datetime, b.data + ' ' + b.hora) >= CONVERT(DATETIME, bi.data + ' ' + bi.hora) ");
+            sql.AppendLine("                 INNER JOIN dbo.bilhetesimp bi on bi.dscodigo = b.dscodigo AND b.data = bi.data ");
             sql.AppendLine("                 WHERE bi.id IN (" + String.Join(",", idsBilhetes) + "))");
             //sql.AppendLine("and bimp.id in (" + String.Join(",", idsBilhetes) + ")");
             sql.AppendLine(PermissaoUsuarioFuncionario(UsuarioLogado, sql.ToString(), "func.idempresa", "func.id", null));

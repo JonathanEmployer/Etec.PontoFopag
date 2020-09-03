@@ -15,14 +15,13 @@ namespace MonitorJobs.Jobs
         public void Execute(IJobExecutionContext context)
         {
             AgendarDeleteArquivosAntigos();
-#if !DEBUG
                 IList<Models.Bases> lbases = Negocio.Bases.GetBasesPontofopagAtivas();
 
                 log.Debug("Bases para manitorar = " + String.Join("; ", lbases.Select(s => s.Nome)));
 
                 IScheduler scheduler = context.Scheduler;
                 int interacao = 0;
-                foreach (Models.Bases item in lbases)
+                foreach (Models.Bases item in lbases.Where(w => w.Nome.Equals("PONTOFOPAG_JMALUCELLI")))
                 {
                     log.Debug(item.Nome + ": Agendando");
                     AgendarProcessamentoLote(scheduler, item.Nome);
@@ -38,7 +37,6 @@ namespace MonitorJobs.Jobs
                     AgendarEnvioRegistros(item);
             #endregion
                 }
-#endif
         }
 
         private static void AgendarGeracaoMarcacao(int interacao, Models.Bases item)
