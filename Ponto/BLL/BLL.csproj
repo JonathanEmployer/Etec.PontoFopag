@@ -352,6 +352,7 @@
     <Compile Include="AlertasRepAcompanhamento.cs" />
     <Compile Include="ApiWebfopag\V1\Coletor.cs" />
     <Compile Include="ApiWebfopag\V1\Login.cs" />
+    <Compile Include="CalculoMarcacoes\PontoPorExcecao.cs" />
     <Compile Include="HorarioDinamicoRestricao.cs" />
     <Compile Include="JornadaSubstituir.cs" />
     <Compile Include="JornadaSubstituirFuncionario.cs" />

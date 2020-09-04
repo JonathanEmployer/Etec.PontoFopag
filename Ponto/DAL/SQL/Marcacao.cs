@@ -2402,6 +2402,22 @@ namespace DAL.SQL
                 objMarcLista.DataConclusaoFluxoPnlRh = objMarcacao.DataConclusaoFluxoPnlRh;
                 objMarcLista.LoginConclusaoFluxoPnlRh = objMarcacao.LoginConclusaoFluxoPnlRh;
                 objMarcLista.horaExtraInterjornada = objMarcacao.horaExtraInterjornada;
+                objMarcLista.Ent_num_relogio_1 = objMarcacao.Ent_num_relogio_1;
+                objMarcLista.Ent_num_relogio_2 = objMarcacao.Ent_num_relogio_2;
+                objMarcLista.Ent_num_relogio_3 = objMarcacao.Ent_num_relogio_3;
+                objMarcLista.Ent_num_relogio_4 = objMarcacao.Ent_num_relogio_4;
+                objMarcLista.Ent_num_relogio_5 = objMarcacao.Ent_num_relogio_5;
+                objMarcLista.Ent_num_relogio_6 = objMarcacao.Ent_num_relogio_6;
+                objMarcLista.Ent_num_relogio_7 = objMarcacao.Ent_num_relogio_7;
+                objMarcLista.Ent_num_relogio_8 = objMarcacao.Ent_num_relogio_8;
+                objMarcLista.Sai_num_relogio_1 = objMarcacao.Sai_num_relogio_1;
+                objMarcLista.Sai_num_relogio_2 = objMarcacao.Sai_num_relogio_2;
+                objMarcLista.Sai_num_relogio_3 = objMarcacao.Sai_num_relogio_3;
+                objMarcLista.Sai_num_relogio_4 = objMarcacao.Sai_num_relogio_4;
+                objMarcLista.Sai_num_relogio_5 = objMarcacao.Sai_num_relogio_5;
+                objMarcLista.Sai_num_relogio_6 = objMarcacao.Sai_num_relogio_6;
+                objMarcLista.Sai_num_relogio_7 = objMarcacao.Sai_num_relogio_7;
+                objMarcLista.Sai_num_relogio_8 = objMarcacao.Sai_num_relogio_8;
 
                 lista.Add(objMarcLista);
 

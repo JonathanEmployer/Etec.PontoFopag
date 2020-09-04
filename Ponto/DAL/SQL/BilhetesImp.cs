@@ -1332,13 +1332,16 @@ namespace DAL.SQL
         {
             string sqlDelete = "DELETE FROM dbo.bilhetesimp WHERE id in (" + String.Join(",", listaObjeto.Where(w => w.Id > 0).Select(s => s.Id)) + ")";
             int count = 0;
-            if (trans == null)
+            if (listaObjeto != null && listaObjeto.Count > 0)
             {
-                count = db.ExecuteNonQuery(CommandType.Text, sqlDelete, new SqlParameter[0]);
-            }
-            else
-            {
-                count = TransactDbOps.ExecuteNonQuery(trans, CommandType.Text, sqlDelete, new SqlParameter[0]);
+                if (trans == null)
+                {
+                    count = db.ExecuteNonQuery(CommandType.Text, sqlDelete, new SqlParameter[0]);
+                }
+                else
+                {
+                    count = TransactDbOps.ExecuteNonQuery(trans, CommandType.Text, sqlDelete, new SqlParameter[0]);
+                } 
             }
             return count;
         }
@@ -2509,6 +2512,71 @@ namespace DAL.SQL
                 dr.Close();
             dr.Dispose();
             return ret;
+        }
+
+        public List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> RegistrosValidarPontoExcecao()
+        {
+            return RegistrosValidarPontoExcecao(new List<int>());
+        }
+
+        public List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> RegistrosValidarPontoExcecao(List<int> idsFuncs)
+        {
+            SqlParameter[] parms = new SqlParameter[1]
+            {
+                    new SqlParameter("@idsFuncs", SqlDbType.Structured)
+            };
+            parms[0].Value = CreateDataTableIdentificadores(idsFuncs.Select(s => (long)s).ToList());
+            parms[0].TypeName = "Identificadores";
+
+            string sql = @" SET DATEFIRST 1
+                            SELECT m.data DataMarcacacao, 
+                                   j.entrada_1 EntradaPrevista1, 
+                                   j.saida_1 SaidaPrevista1,
+                                   j.entrada_2 EntradaPrevista2, 
+                                   j.saida_2 SaidaPrevista2,
+                                   j.entrada_3 EntradaPrevista3, 
+                                   j.saida_3 SaidaPrevista3,
+                                   j.entrada_4 EntradaPrevista4, 
+                                   j.saida_4 SaidaPrevista4,
+                                   f.dscodigo,
+                                   f.pis,
+                                   f.id idfuncionario,
+                                   b.*
+                              FROM marcacao m
+                             INNER JOIN horario h ON m.idhorario = h.id 
+                             INNER JOIN funcionario f ON f.idhorario = h.id AND m.idfuncionario = f.id 
+                              LEFT JOIN bilhetesimp b ON f.id = b.idfuncionario AND m.data = b.mar_data
+					                                                             LEFT JOIN dbo.horariodetalhe hd ON h.id = hd.idhorario AND ((h.tipohorario = 1 AND hd.dia = DATEPART(WEEKDAY, m.data)) OR 
+																						                                                            (h.tipohorario = 2 AND hd.data = m.data ))
+                              LEFT JOIN jornada j ON j.id = hd.idjornada
+                             WHERE 1 = 1 
+                               AND h.pontoporexcecao = 1
+                               AND j.entrada_1 IS NOT NULL
+                               AND (f.id in (SELECT Identificador from @idsFuncs) OR
+                                    (SELECT count(Identificador) from @idsFuncs) = 0
+                                    ) ";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+
+            List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> lista = new List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao>();
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Proxy.PxyRegistrosValidarPontoExcecao>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
         }
         #endregion
     }
