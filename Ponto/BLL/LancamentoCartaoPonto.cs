@@ -136,6 +136,11 @@ namespace BLL
                         var ev = reg.GetType().GetProperty("E" + j).GetValue(reg, null);
                         ent = ev == null ? "" : ev.ToString();
                         ValidaViradaDia(ref virouDia, ref regAnt, ent);
+                        if(ent == "23:50")
+                        {
+                            AddBilhete(bilhetes, reg.Data, reg.Data.AddDays(-1), ent, "E", funcionario, obj.IdJustificativa, obj.Motivo, maxCodigoBilhetes++, j);
+
+                        }else
                         AddBilhete(bilhetes, !virouDia ? reg.Data : reg.Data.AddDays(+1), reg.Data, ent, "E", funcionario, obj.IdJustificativa, obj.Motivo, maxCodigoBilhetes++, j);
                         var sv = reg.GetType().GetProperty("S" + j).GetValue(reg, null);
                         sai = sv == null ? "" : sv.ToString();
