@@ -26,6 +26,7 @@ namespace PontoWeb
             ModelBinders.Binders.Add( typeof(decimal), new DecimalModelBinder()); ModelBinders.Binders.Add( typeof(decimal?), new DecimalModelBinder());
             this.Error += WebApiApplication_Error;
             FilterProviders.Providers.Add(new AntiForgeryTokenFilterProvider());
+            UnityConfig.RegisterComponents();
         }
 
         void WebApiApplication_Error(object sender, EventArgs e)

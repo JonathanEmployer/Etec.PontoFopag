@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace PontoWeb.Controllers
@@ -548,6 +549,18 @@ namespace PontoWeb.Controllers
                 idEmpresa = 0;
             }
             return idEmpresa;
+        }
+        //[Authorize]
+        public async Task<JsonResult> PostGenerationTokenEPays(bool EPays)
+        {
+            try
+            {
+                return Json(new { Success = true, Token = Guid.NewGuid() }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
         #endregion
     }
