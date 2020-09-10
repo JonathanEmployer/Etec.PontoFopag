@@ -142,8 +142,8 @@ namespace PontoWeb.Utils
             var tokenResponse = await _httpclient.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = TokenUri.Token,
-                ClientId = UserToken.User,
-                ClientSecret = UserToken.Password,
+                ClientId = "ApiMongo",//UserToken.User,
+                ClientSecret = "secret",//UserToken.Password,
                 Scope = "ApiMongo"
             });
 

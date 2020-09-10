@@ -566,8 +566,10 @@
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\HtmlHelpers.cs" />
+    <Compile Include="Models\ConnectionDataBaseDto.cs" />
     <Compile Include="Models\Helpers\JsonBinderAttribute.cs" />
     <Compile Include="Models\Helpers\ModelStateExtensions.cs" />
+    <Compile Include="Models\ParametersPontofopagDto.cs" />
     <Compile Include="Models\ResultadoArquivoUpload.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -803,7 +805,7 @@
     <Compile Include="Utils\GetPropertiesTableHTML.cs" />
     <Compile Include="Utils\HtmlExtensions.cs" />
     <Compile Include="Utils\Interface\IEPaysConfig.cs" />
-    <Compile Include="Utils\Interface\SyncAsync.cs" />
+    <Compile Include="Utils\Interface\ISyncAsync.cs" />
     <Compile Include="Utils\JsonContent.cs" />
     <Compile Include="Utils\MultiButtonAttribute.cs" />
     <Compile Include="Utils\Result.cs" />

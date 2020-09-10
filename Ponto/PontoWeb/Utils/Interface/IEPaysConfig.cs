@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using PontoWeb.Models;
 using System.Threading.Tasks;
 
 namespace PontoWeb.Utils.Interface
 {
     public interface IEPaysConfig
     {
+        Task<Result<string>> PostToken(ConnectionDataBaseDto ConnectionDataBase);
     }
 }
