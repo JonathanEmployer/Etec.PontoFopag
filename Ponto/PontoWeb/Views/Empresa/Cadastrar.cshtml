@@ -314,22 +314,22 @@
                                                 <div data-toggle="radioTipoIntegracao">
                                                     @if (Model.IntegraEPays == false)
                                                     {
-                                                        @Html.RadioButtonFor(model => model.IntegraEPays, new { id = "TipoIntegracao", name = "TipoEPays" }, new { @checked = "checked" });
+                                                        @Html.RadioButtonFor(model => model.IntegraEPays, new { id = "TipoIntegracao", name = "TipoEPays" }, new { @checked = "checked", @class= "DeleteToken" });
                                                     }
                                                     else
                                                     {
-                                                        @Html.RadioButtonFor(model => model.IntegraEPays, new {id = "TipoIntegracao", name = "TipoEPays" });
+                                                        @Html.RadioButtonFor(model => model.IntegraEPays, new {id = "TipoIntegracao", name = "TipoEPays" }, new { @class = "DeleteToken" });
                                                     }
                                                     <label class="label-sm" for="TipoEPays">Nenhum</label>
                                                 </div>
                                                 <div data-toggle="radioTipoIntegracao">
                                                     @if (Model.IntegraEPays == true)
                                                     {
-                                                        @Html.RadioButtonFor(model => model.IntegraEPays, new { id = "TipoIntegracao", name = "TipoEPays" }, new { @checked = "checked" });
+                                                        @Html.RadioButtonFor(model => model.IntegraEPays, new { id = "TipoIntegracao", name = "TipoEPays" }, new { @checked = "checked", @class = "CreateToken" });
                                                     }
                                                     else
                                                     {
-                                                        @Html.RadioButtonFor(model => model.IntegraEPays, new { id = "TipoIntegracao", name = "TipoEPays" });
+                                                        @Html.RadioButtonFor(model => model.IntegraEPays, new { id = "TipoIntegracao", name = "TipoEPays" }, new { @class = "CreateToken" });
                                                     }
                                                     <label class="label-sm" for="TipoEPays">EPays</label>
                                                 </div>
@@ -506,6 +506,20 @@
         {
             $('#lkpAtivo').prop('checked', true);
         }
+        $(".CreateToken").change(function () {
+            alert("Create");
+        });
+        $(".DeleteToken").change(function () {
+            var url = '@Url.Action("PostGenerationTokenEPays", "Empresa")' + "?EPays=true";
+            $.get(url, function (data) {
+                if (data.Success === true) {
+                    alert(data.Token);
+                }
+                else {
+                    cwkErro(data.Erro)
+                }
+            });
+        });
     });
 
     function salvar() {
