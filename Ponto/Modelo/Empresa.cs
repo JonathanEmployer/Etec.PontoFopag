@@ -337,5 +337,9 @@ namespace Modelo
                 return Ativo == true ? "Sim" : "Não";
             }
         }
+        public bool IntegraEPays { get; set; }
+        public string TokenPontofopag { get; set; }
+        public string UsuarioEPays { get; set; }
+        public string SenhaEPays { get; set; }
     }
 }
