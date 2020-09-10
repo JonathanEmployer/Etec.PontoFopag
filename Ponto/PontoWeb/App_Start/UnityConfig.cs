@@ -12,8 +12,8 @@ namespace PontoWeb
         {
 			var container = new UnityContainer();
             
-           container.RegisterType<ISyncAsync, SyncAsync>();
-           container.RegisterType<IEPaysConfig, EPaysConfig>();
+            container.RegisterType<ISyncAsync, SyncAsync>();
+            container.RegisterType<IEPaysConfig, EPaysConfig>();
             
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Unity;
@@ -15,13 +16,10 @@ namespace PontoWeb.Controllers
 {
     public class EmpresaController : IControllerPontoWeb<Empresa>
     {
-        private readonly IUnityContainer _iContainer;
         private readonly IEPaysConfig _iEPaysConfig;
 
-        public EmpresaController(IUnityContainer IUnityContainer, IEPaysConfig IEPaysConfig)
+        public EmpresaController(IEPaysConfig IEPaysConfig)
         {
-            //var _iContainer.ResolveAll<IEPaysConfig>();
-            _iContainer = IUnityContainer;
             _iEPaysConfig = IEPaysConfig;
         }
 
@@ -567,8 +565,16 @@ namespace PontoWeb.Controllers
         {
             try
             {
-                
-                return Json(new { Success = true, Token = Guid.NewGuid() }, JsonRequestBehavior.AllowGet);
+                var dataBase = new Regex(@"(Catalog=[A-Z]*_[A-Z]*)").Match(_user.ConnectionString).Value.Replace("Catalog=", "");
+                var token = await _iEPaysConfig.PostToken(new Models.ConnectionDataBaseDto() { 
+                    ConnectionString = _user.ConnectionString,
+                    DataBaseName = dataBase,
+                    Product = 2,
+                    ParametersPontofopag = new Models.ParametersPontofopagDto() { 
+                        EnableEPays = EPays
+                    }
+                });   
+                return Json(new { Success = true, Token = token.Data }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
