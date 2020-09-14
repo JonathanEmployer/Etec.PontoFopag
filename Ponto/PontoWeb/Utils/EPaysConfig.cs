@@ -1,33 +1,46 @@
 ﻿using Newtonsoft.Json;
 using PontoWeb.Models;
-using PontoWeb.Utils.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace PontoWeb.Utils
 {
-    public class EPaysConfig : IEPaysConfig
+    public class EPaysConfig
     {
-        private readonly ISyncAsync _iSyncAsync;
-        public EPaysConfig(ISyncAsync ISyncAsync)
+        private readonly SyncAsync _SyncAsync;
+        public EPaysConfig()
         {
-            _iSyncAsync = ISyncAsync;
+            _SyncAsync = new SyncAsync();
         }
-        public async Task<Result<string>> PostToken(ConnectionDataBaseDto ConnectionDataBase)
+        public Result<string> PostToken(ParametersPontofopagDto Parameters)
         {
             var result = new Result<string>();
-            _iSyncAsync.HTTPVerb = HTTPVerb.POST;
-            _iSyncAsync.Url = UriMongo.Parameters;
-            _iSyncAsync.Obj = ConnectionDataBase;
-            var resultAux = await _iSyncAsync.GoSyncAsync();
+            _SyncAsync.HTTPVerb = HTTPVerb.POST;
+            _SyncAsync.Url = UriMongo.Parameters;
+            _SyncAsync.Obj = Parameters;
+            var resultAux = _SyncAsync.GoSyncAsync();
 
             if (resultAux.StatusCode == HttpStatusCode.OK)
             {
                 result = JsonConvert.DeserializeObject<Result<string>>(resultAux.Data);
+            }
+            else
+            {
+                result.Message = resultAux.Message;
+                result.StatusCode = resultAux.StatusCode;
+            }
+            return result;
+        }
+        public Result<ParametersPontofopagDto> GetToken(string DataBaseName, string Cnpj)
+        {
+            var result = new Result<ParametersPontofopagDto>();
+            _SyncAsync.HTTPVerb = HTTPVerb.GET;
+            _SyncAsync.Url = $"{UriMongo.Parameters}?Name={DataBaseName}&Cnpj={Cnpj}";
+            var resultAux = _SyncAsync.GoSyncAsync();
+
+            if (resultAux.StatusCode == HttpStatusCode.OK)
+            {
+                result = JsonConvert.DeserializeObject<Result<ParametersPontofopagDto>>(resultAux.Data);
             }
             else
             {

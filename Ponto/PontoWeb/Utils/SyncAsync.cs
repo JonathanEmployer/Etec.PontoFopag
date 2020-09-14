@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using IdentityModel.Client;
-using PontoWeb.Utils.Interface;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PontoWeb.Utils
 {
-    public class SyncAsync : IDisposable, ISyncAsync
+    public class SyncAsync : IDisposable
     {
         public object Obj { get; set; }
         public HTTPVerb HTTPVerb { get; set; }
@@ -54,11 +53,11 @@ namespace PontoWeb.Utils
             _taskhttpmessage.Wait();
             return _taskhttpmessage.Result;
         }
-        public async Task<Result<string>> GoSyncAsync()
+        public Result<string> GoSyncAsync()
         {
             if (Token == null && !Url.ToLower().Contains("token"))
             {
-                await GetToken();
+                GetToken();
             }
             else if (Token != null)
             {
@@ -106,8 +105,8 @@ namespace PontoWeb.Utils
                 }
                 else if (_httpmessage.StatusCode == HttpStatusCode.Unauthorized)
                 {
-                    await GetToken();
-                    return await GoSyncAsync();
+                    GetToken();
+                    return GoSyncAsync();
                 }
                 else if (_httpmessage.StatusCode != HttpStatusCode.OK)
                 {
@@ -133,29 +132,29 @@ namespace PontoWeb.Utils
             return result;
         }
 
-        public async Task<Result<string>> GetToken()
+        public Result<string> GetToken()
         {
             var result = new Result<string>();
 
             _httpclientToken = new HttpClient();
 
-            var tokenResponse = await _httpclient.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            var tokenResponse = _httpclientToken.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = TokenUri.Token,
                 ClientId = "ApiMongo",//UserToken.User,
                 ClientSecret = "secret",//UserToken.Password,
                 Scope = "ApiMongo"
             });
-
-            if (tokenResponse.IsError)
+            tokenResponse.Wait();
+            if (tokenResponse.Result.IsError)
             {
                 result.Error = true;
-                result.StatusCode = tokenResponse.HttpStatusCode;
-                result.Message = $"{ tokenResponse.ErrorDescription } *** { tokenResponse.Error}";
+                result.StatusCode = tokenResponse.Result.HttpStatusCode;
+                result.Message = $"{ tokenResponse.Result.ErrorDescription } *** { tokenResponse.Result.Error}";
             }
             else
             {
-                result.Data = tokenResponse.AccessToken;
+                result.Data = tokenResponse.Result.AccessToken;
             }
 
             if (!result.Error)
@@ -168,8 +167,10 @@ namespace PontoWeb.Utils
 
         public void Dispose()
         {
-            _httpclient.Dispose();
-            _httpmessage.Dispose();
+            if (_httpclient != null)
+                _httpclient.Dispose();
+            if (_httpmessage != null)
+                _httpmessage.Dispose();
         }
     }
     public enum HTTPVerb

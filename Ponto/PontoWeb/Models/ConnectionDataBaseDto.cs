@@ -9,8 +9,5 @@ namespace PontoWeb.Models
     {
         public string DataBaseName { get; set; }
         public string ConnectionString { get; set; }
-        public int Product { get; set; }
-
-        public virtual ParametersPontofopagDto ParametersPontofopag { get; set; }
     }
 }

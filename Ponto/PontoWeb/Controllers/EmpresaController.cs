@@ -1,28 +1,22 @@
 ﻿using Modelo;
 using Modelo.Proxy;
 using PontoWeb.Controllers.BLLWeb;
+using PontoWeb.Models;
 using PontoWeb.Security;
-using PontoWeb.Utils.Interface;
+using PontoWeb.Utils;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Unity;
 
 namespace PontoWeb.Controllers
 {
     public class EmpresaController : IControllerPontoWeb<Empresa>
     {
-        private readonly IEPaysConfig _iEPaysConfig;
-
-        public EmpresaController(IEPaysConfig IEPaysConfig)
-        {
-            _iEPaysConfig = IEPaysConfig;
-        }
-
         private UsuarioPontoWeb _user = Usuario.GetUsuarioPontoWebLogadoCache();
         [PermissoesFiltro(Roles = "Empresa")]
         public override ActionResult Grid()
@@ -195,6 +189,8 @@ namespace PontoWeb.Controllers
                     }
                     else
                     {
+                        var result = SaveConfigEPays(obj);
+
                         SalvarEmpresaCWUsuario(obj, bllacessoPEmpresa, acao, _user);
 
                         return RedirectToAction("Grid", "Empresa");
@@ -216,7 +212,47 @@ namespace PontoWeb.Controllers
             AdicionaLogoPadrao(obj);
             return View("Cadastrar", obj);
         }
+        private (bool, string) SaveConfigEPays(Empresa Empresa)
+        {
+            try
+            {
+                var ePaysConfig = new EPaysConfig();
+                var dataBase = new Regex(@"(Catalog=[A-Z]*_[A-Z]*)").Match(_user.ConnectionString).Value.Replace("Catalog=", "");
+                var result = ePaysConfig.PostToken(new ParametersPontofopagDto()
+                {
+                    DataBase = new ConnectionDataBaseDto()
+                    {
+                        ConnectionString = _user.ConnectionString,
+                        DataBaseName = dataBase
+                    },
+                    Cnpj = Empresa.Cnpj,
+                    EnableEPays = Empresa.IntegraEPays,
+                    UserEPays = Empresa.UsuarioEPays,
+                    PasswordEPays = Empresa.SenhaEPays,
+                    TokenPontofopag = Empresa.TokenPontofopag
+                });
+                return (result.Error, result.Data);
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message);
+            }
+        }
+        private void GetConfigEPays(Empresa Empresa)
+        {
 
+            var ePaysConfig = new EPaysConfig();
+            var dataBase = new Regex(@"(Catalog=[A-Z]*_[A-Z]*)").Match(_user.ConnectionString).Value.Replace("Catalog=", "");
+            var result = ePaysConfig.GetToken(dataBase, Empresa.Cnpj);
+
+            if (result.StatusCode == HttpStatusCode.OK)
+            {
+                Empresa.UsuarioEPays = result.Data.UserEPays;
+                Empresa.SenhaEPays = result.Data.PasswordEPays;
+                Empresa.TokenPontofopag = result.Data.TokenPontofopag;
+                Empresa.IntegraEPays = result.Data.EnableEPays;
+            }
+        }
         private static void SalvarEmpresaCWUsuario(Empresa obj, BLL.EmpresaCw_Usuario bllacessoPEmpresa, Acao acao, UsuarioPontoWeb usuarioPontoWebLogadoCache)
         {
             if (((usuarioPontoWebLogadoCache != null) &&
@@ -290,6 +326,9 @@ namespace PontoWeb.Controllers
             ViewBag.Estados = Listas.Estados;
 
             AdicionaLogoPadrao(e);
+
+            GetConfigEPays(e);
+
             return View("Cadastrar", e);
         }
 
@@ -561,25 +600,9 @@ namespace PontoWeb.Controllers
             return idEmpresa;
         }
         //[Authorize]
-        public async Task<JsonResult> PostGenerationTokenEPays(bool EPays)
+        public async Task<JsonResult> PostGenerationTokenEPays()
         {
-            try
-            {
-                var dataBase = new Regex(@"(Catalog=[A-Z]*_[A-Z]*)").Match(_user.ConnectionString).Value.Replace("Catalog=", "");
-                var token = await _iEPaysConfig.PostToken(new Models.ConnectionDataBaseDto() { 
-                    ConnectionString = _user.ConnectionString,
-                    DataBaseName = dataBase,
-                    Product = 2,
-                    ParametersPontofopag = new Models.ParametersPontofopagDto() { 
-                        EnableEPays = EPays
-                    }
-                });   
-                return Json(new { Success = true, Token = token.Data }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { Success = false, Error = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
+            return Json(new { Success = true, Token = Guid.NewGuid().ToString() }, JsonRequestBehavior.AllowGet);
         }
         #endregion
     }

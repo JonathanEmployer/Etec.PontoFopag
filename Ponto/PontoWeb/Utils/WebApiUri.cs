@@ -20,6 +20,6 @@ namespace PontoWeb.Utils
     }
     public static class UriMongo
     {
-        public static string Parameters = WebApiUri.UriApi + "Configuration/Parameters";
+        public static string Parameters = WebApiUri.UriApi + "ConfigurationPontofopag/Parameters";
     }
 }

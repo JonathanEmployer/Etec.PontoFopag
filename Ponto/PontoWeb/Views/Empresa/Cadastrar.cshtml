@@ -314,24 +314,24 @@
                                                 <div data-toggle="radioTipoIntegracao">
                                                     @if (Model.IntegraEPays == false)
                                                     {
-                                                        @Html.RadioButtonFor(model => model.IntegraEPays, new { id = "TipoIntegracao", name = "TipoEPays" }, new { @checked = "checked", @class = "DeleteToken" });
+                                                        <input type="radio" id="rblNenhum" name="IntegraEPays" class="DeleteToken" value="false" checked="checked"/>
                                                     }
-                                                    else
+                                                    else 
                                                     {
-                                                        @Html.RadioButtonFor(model => model.IntegraEPays, new { id = "TipoIntegracao", name = "TipoEPays" }, new { @class = "DeleteToken" });
+                                                        <input type="radio" id="rblNenhum" name="IntegraEPays" class="DeleteToken" value="false" />
                                                     }
-                                                    <label class="label-sm" for="TipoEPays">Nenhum</label>
+                                                    <label class="label-sm" for="IntegraEPays">Nenhum</label>
                                                 </div>
                                                 <div data-toggle="radioTipoIntegracao">
                                                     @if (Model.IntegraEPays == true)
                                                     {
-                                                        @Html.RadioButtonFor(model => model.IntegraEPays, new { id = "TipoIntegracao", name = "TipoEPays" }, new { @checked = "checked", @class = "CreateToken" });
+                                                        <input type="radio" id="rblEPays" name="IntegraEPays" class="CreateToken" value="true" checked="checked" />
                                                     }
                                                     else
                                                     {
-                                                        @Html.RadioButtonFor(model => model.IntegraEPays, new { id = "TipoIntegracao", name = "TipoEPays" }, new { @class = "CreateToken" });
+                                                        <input type="radio" id="rblEPays" name="IntegraEPays" class="CreateToken" value="true" />
                                                     }
-                                                    <label class="label-sm" for="TipoEPays">EPays</label>
+                                                    <label class="label-sm" for="IntegraEPays">EPays</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-3 ">
@@ -505,18 +505,10 @@
             $('#lkpAtivo').prop('checked', true);
         }
         $(".DeleteToken").change(function () {
-            var url = '@Url.Action("PostGenerationTokenEPays", "Empresa")' + "?EPays=false";
-            $.get(url, function (data) {
-                if (data.Success === true) {
-                    alert(data.Token);
-                }
-                else {
-                    cwkErro(data.Erro)
-                }
-            });
+            $("#TokenPontofopag").val('');
         });
         $(".CreateToken").change(function () {
-            var url = '@Url.Action("PostGenerationTokenEPays", "Empresa")' + "?EPays=true";
+            var url = '@Url.Action("PostGenerationTokenEPays", "Empresa")';
             $.get(url, function (data) {
                 if (data.Success === true) {
                     $("#TokenPontofopag").val(data.Token);

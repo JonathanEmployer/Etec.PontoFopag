@@ -89,7 +89,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Factory.cs" />
     <Compile Include="EPays\EPaysConfigTest.cs" />
     <Compile Include="SyncAsync\SyncAsyncTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
