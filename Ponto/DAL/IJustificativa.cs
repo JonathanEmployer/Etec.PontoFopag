@@ -19,5 +19,6 @@ namespace DAL
         Modelo.Justificativa LoadObjectParaColetor();
         List<Modelo.Justificativa> GetAllListPorIds(List<int> ids);
         List<Modelo.Justificativa> GetAllPorExibePainelRHPorFuncionario(int idFuncionario);
+        bool BuscaJustificativaCodigo(int codigo);
     }
 }
