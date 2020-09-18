@@ -23,6 +23,7 @@
     @Html.HiddenFor(model => model.Altusuario);
     @Html.HiddenFor(model => model.Funcionarioativo_Ant);
     @Html.HiddenFor(model => model.Naoentrarbanco_Ant);
+    @Html.HiddenFor(model => model.UltilizaIntegracaoWebFopag);
     @Html.HiddenFor(model => model.Naoentrarcompensacao_Ant);
     @Html.HiddenFor(model => model.Iddepartamento_Ant);
     @Html.HiddenFor(model => model.Idempresa_Ant);
@@ -427,6 +428,19 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div style="padding-left:7px">
+
+                                                    <div class="checkbox">
+                                                        @if ((Model.Dataadmissao == null ? DateTime.MaxValue : Model.Dataadmissao) <= Model.DataUltimoFechamento)
+                                                        {
+                                                            @Html.CheckBoxDisabledFor(model => model.bUltilizaIntegracaoWebFopag.ToString())
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.CheckBoxFor(model => model.bUltilizaIntegracaoWebFopag)
+                                                        }
+                                                        @Html.LabelFor(model => model.bUltilizaIntegracaoWebFopag, new { @class = "control-label label-sm" })
+                                                    </div>
+
                                                     <div class="checkbox">
                                                         @if ((Model.Dataadmissao == null ? DateTime.MaxValue : Model.Dataadmissao) <= Model.DataUltimoFechamento)
                                                         {
