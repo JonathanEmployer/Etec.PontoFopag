@@ -70,10 +70,11 @@ namespace BLL
             {
                 ret.Add("txtDescricao", "Campo obrigatório.");
             }
-
+                     
             return ret;
         }
 
+     
         public Dictionary<string, string> Salvar(Modelo.Acao pAcao, Modelo.Justificativa objeto)
         {
             Dictionary<string, string> ret = new Dictionary<string, string>();
@@ -83,7 +84,7 @@ namespace BLL
                 switch (pAcao)
                 {
                     case Modelo.Acao.Incluir:
-                        if (dalJustificativa.BuscaJustificativa(objeto.Descricao))
+                        if (dalJustificativa.BuscaJustificativaCodigo(objeto.Codigo))
                         {
                             ret.Add("txtDescricao", "Já existe uma justificativa com esse nome. Verifique!");
                         }

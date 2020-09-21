@@ -144,6 +144,10 @@
 
     <script>
         $('.time, .timeB').mask('00:00');
+        $(".time").change(function () {
+            var valor = formataHora24($(this).val(), 2, 2);
+            $(this).val(valor);
+        });
         $(".time").blur(function () {
             var valor = formataHora24($(this).val(), 2, 2);
             $(this).val(valor);
