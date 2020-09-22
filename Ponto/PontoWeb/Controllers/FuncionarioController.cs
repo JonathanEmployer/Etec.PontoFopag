@@ -367,7 +367,9 @@ namespace PontoWeb.Controllers
                         {
                             var dataBase = new Regex(@"(Catalog=[A-Z]*_[A-Z]*)").Match(connString).Value.Replace("Catalog=", "");
                             BLL.Empresa bllEmpresa = new BLL.Empresa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
-                            Modelo.Empresa empresaPrincipal = bllEmpresa.GetEmpresaPrincipal();
+                            var empresas = new List<int>();
+                            empresas.Add(funcionario.Idempresa);
+                            Modelo.Empresa empresaPrincipal = bllEmpresa.GetEmpresaByIds(empresas).SingleOrDefault();
 
                             var messageIntegration = new MessageIntegrationDto
                             {
