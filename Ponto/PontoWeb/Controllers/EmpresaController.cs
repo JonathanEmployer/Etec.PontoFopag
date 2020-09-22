@@ -193,6 +193,21 @@ namespace PontoWeb.Controllers
 
                         SalvarEmpresaCWUsuario(obj, bllacessoPEmpresa, acao, _user);
 
+                        using (var RabbitMqController = new RabbitMqController())
+                        {
+                            var dataBase = new Regex(@"(Catalog=[A-Z]*_[A-Z]*)").Match(_user.ConnectionString).Value.Replace("Catalog=", "");
+                            //BLL.Empresa bllEmpresa = new BLL.Empresa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+                            //Modelo.Empresa empresaPrincipal = bllEmpresa.GetEmpresaPrincipal();
+
+                            var messageIntegration = new MessageIntegrationDto
+                            {
+                                Id = obj.Id,
+                                DataBaseName = dataBase,
+                                Tracking = Guid.NewGuid().ToString(),
+                                Cnpj = obj.Cnpj
+                            };
+                        }
+
                         return RedirectToAction("Grid", "Empresa");
                     }
                 }
