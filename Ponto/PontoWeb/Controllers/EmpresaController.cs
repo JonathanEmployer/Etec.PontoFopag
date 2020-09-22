@@ -206,6 +206,7 @@ namespace PontoWeb.Controllers
                                 Tracking = Guid.NewGuid().ToString(),
                                 Cnpj = obj.Cnpj
                             };
+                            RabbitMqController.SendEmployerIntegration(messageIntegration);
                         }
 
                         return RedirectToAction("Grid", "Empresa");
