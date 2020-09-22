@@ -4,6 +4,7 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace PontoWeb.Utils
 {
@@ -141,8 +142,8 @@ namespace PontoWeb.Utils
             var tokenResponse = _httpclientToken.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = TokenUri.Token,
-                ClientId = "ApiMongo",//UserToken.User,
-                ClientSecret = "secret",//UserToken.Password,
+                ClientId = ConfigurationManager.AppSettings["UserApiMongo"],
+                ClientSecret = ConfigurationManager.AppSettings["PasswordApiMongo"],
                 Scope = "ApiMongo"
             });
             tokenResponse.Wait();
