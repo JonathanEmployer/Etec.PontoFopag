@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 
@@ -7,8 +8,7 @@ namespace PontoWeb.Utils
 {
     public static class WebApiUri
     {
-        //public static string UriApi = "https://localhost:5001/";
-        public static string UriApi = "https://api.mongo.webfopag.com.br/";
+        public static string UriApi = ConfigurationManager.AppSettings["UrlApiMongo"];
 
         public static string IdentityServerUri = "https://identityserver.webfopag.com.br/";
     }
