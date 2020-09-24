@@ -5246,7 +5246,6 @@ WHERE
                            ";
 
 
-
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
             try
             {
