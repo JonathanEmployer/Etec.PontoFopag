@@ -256,7 +256,6 @@ namespace PontoWeb.Controllers
         }
         private void GetConfigEPays(Empresa Empresa)
         {
-
             var ePaysConfig = new EPaysConfig();
             var dataBase = new Regex(@"(Catalog=[A-Z]*_[A-Z]*)").Match(_user.ConnectionString).Value.Replace("Catalog=", "");
             var result = ePaysConfig.GetToken(dataBase, Empresa.Cnpj);
@@ -322,6 +321,7 @@ namespace PontoWeb.Controllers
             }
             else
             {
+                GetConfigEPays(e);
                 bllEmp.SetTermosUsoApp(e);
                 ViewBag.Disabled = true;
             }
@@ -342,8 +342,6 @@ namespace PontoWeb.Controllers
             ViewBag.Estados = Listas.Estados;
 
             AdicionaLogoPadrao(e);
-
-            GetConfigEPays(e);
 
             return View("Cadastrar", e);
         }

@@ -320,7 +320,7 @@
                                                     {
                                                         <input type="radio" id="rblNenhum" name="IntegraEPays" class="DeleteToken" value="false" />
                                                     }
-                                                    <label class="label-sm" for="IntegraEPays">Nenhum</label>
+                                                    <label class="control-label label-sm" for="IntegraEPays">Nenhum</label>
                                                 </div>
                                                 <div data-toggle="radioTipoIntegracao">
                                                     @if (Model.IntegraEPays == true)
@@ -331,22 +331,24 @@
                                                     {
                                                         <input type="radio" id="rblEPays" name="IntegraEPays" class="CreateToken" value="true" />
                                                     }
-                                                    <label class="label-sm" for="IntegraEPays">EPays</label>
+                                                    <label class="control-label label-sm" for="IntegraEPays">EPays</label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3 ">
-                                                <div class="form-group input-group-sm">
-                                                    <label>Token Pontofopag</label>
-                                                    @Html.TextBoxFor(model => model.TokenPontofopag, new { @class = "form-control input-sm hidden" })
-                                                    <button type="button" class="btn btn-success" onclick="copiarTexto()">Copiar</button>
+                                            <div class="col-md-9" id="dvEPays">
+                                                <div class="col-md-4">
+                                                    <div class="form-group input-group-sm">
+                                                        <label class="control-label label-sm">Token Pontofopag</label>
+                                                        @Html.TextBoxFor(model => model.TokenPontofopag, new { @class = "form-control input-sm hidden" })
+                                                        <button type="button" class="btn btn-success" onclick="copiarTexto()">Copiar</button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group input-group-sm">
-                                                    <label>Usuário EPays</label>
-                                                    @Html.TextBoxFor(model => model.UsuarioEPays, new { @class = "form-control input-sm", type = "text" })
-                                                    <label>Senha EPays</label>
-                                                    @Html.TextBoxFor(model => model.SenhaEPays, new { @class = "form-control input-sm", type = "text" })
+                                                <div class="col-md-8">
+                                                    <div class="form-group input-group-sm">
+                                                        <label class="control-label label-sm">Usuário EPays</label>
+                                                        @Html.TextBoxFor(model => model.UsuarioEPays, new { @class = "form-control input-sm", type = "text" })
+                                                        <label class="control-label label-sm">Senha EPays</label>
+                                                        @Html.TextBoxFor(model => model.SenhaEPays, new { @class = "form-control input-sm", type = "text" })
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -504,10 +506,16 @@
         {
             $('#lkpAtivo').prop('checked', true);
         }
+
+        if ($("#rblNenhum").is(":checked"))
+            $("#dvEPays").hide();
+
         $(".DeleteToken").change(function () {
             $("#TokenPontofopag").val('');
+            $("#dvEPays").hide();
         });
         $(".CreateToken").change(function () {
+            $("#dvEPays").show();
             var url = '@Url.Action("PostGenerationTokenEPays", "Empresa")';
             $.get(url, function (data) {
                 if (data.Success === true) {
