@@ -37,19 +37,11 @@ namespace BLL.Relatorios.V2
             foreach (var perc in percs) // Adiciona os percentuais existentes como coluna no datatable
             {
 
-                string nomeColunaNoturna = "Extras Noturna " + perc + "%";
-                dados.Columns.Add(nomeColunaNoturna, typeof(System.String));
-                ColunasAddDinamic.Add(nomeColunaNoturna);
-
-                string nomeColunaDiurna = "Extras Diurna " + perc + "%";
-                dados.Columns.Add(nomeColunaDiurna, typeof(System.String));
-                ColunasAddDinamic.Add(nomeColunaDiurna);
 
 
-
-                //string nomeColuna = "Extras " + perc + "%";
-                //dados.Columns.Add(nomeColuna, typeof(System.String));
-                //ColunasAddDinamic.Add(nomeColuna);
+                string nomeColuna = "Extras " + perc + "%";
+                dados.Columns.Add(nomeColuna, typeof(System.String));
+                ColunasAddDinamic.Add(nomeColuna);
             }
 
             foreach (DataRow dr in dados.Rows) // Adiciona os valores nos percentuais
@@ -67,14 +59,9 @@ namespace BLL.Relatorios.V2
                 
                 foreach (var item in horasExtrasFunc)// Adiciona os percentuais nas respectivas colunas
                 {
-                    string nomeColunaNoturna = "Extras Noturna " + item.Percentual + "%";
-                    dr[nomeColunaNoturna] = Modelo.cwkFuncoes.ConvertMinutosHoraExcel(item.HoraNoturna).Replace("--:--", "");
 
-                    string nomeColunaDiurna = "Extras Diurna " + item.Percentual + "%";
-                    dr[nomeColunaDiurna] = Modelo.cwkFuncoes.ConvertMinutosHoraExcel(item.HoraDiurna).Replace("--:--", "");
-
-                    //string nomeColuna = "Extras " + item.Percentual + "%";
-                    //dr[nomeColuna] = Modelo.cwkFuncoes.ConvertMinutosHoraExcel(item.HoraDiurna + item.HoraNoturna).Replace("--:--", "");
+                    string nomeColuna = "Extras " + item.Percentual + "%";
+                    dr[nomeColuna] = Modelo.cwkFuncoes.ConvertMinutosHoraExcel(item.HoraDiurna + item.HoraNoturna).Replace("--:--", "");
                 }
             }
 
