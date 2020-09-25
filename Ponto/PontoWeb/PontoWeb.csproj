@@ -828,6 +828,7 @@
     <Compile Include="Utils\CustomizeHelpers.cs" />
     <Compile Include="Utils\DataHora.cs" />
     <Compile Include="Utils\DecimalModelBinder.cs" />
+    <Compile Include="Utils\Encryption.cs" />
     <Compile Include="Utils\EPaysConfig.cs" />
     <Compile Include="Utils\ExceptionExtensions.cs" />
     <Compile Include="Utils\GetPropertiesTableHTML.cs" />

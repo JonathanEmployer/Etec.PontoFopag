@@ -314,9 +314,9 @@
                                                 <div data-toggle="radioTipoIntegracao">
                                                     @if (Model.IntegraEPays == false)
                                                     {
-                                                        <input type="radio" id="rblNenhum" name="IntegraEPays" class="DeleteToken" value="false" checked="checked"/>
+                                                        <input type="radio" id="rblNenhum" name="IntegraEPays" class="DeleteToken" value="false" checked="checked" />
                                                     }
-                                                    else 
+                                                    else
                                                     {
                                                         <input type="radio" id="rblNenhum" name="IntegraEPays" class="DeleteToken" value="false" />
                                                     }
@@ -516,15 +516,21 @@
         });
         $(".CreateToken").change(function () {
             $("#dvEPays").show();
-            var url = '@Url.Action("PostGenerationTokenEPays", "Empresa")';
-            $.get(url, function (data) {
-                if (data.Success === true) {
-                    $("#TokenPontofopag").val(data.Token);
-                }
-                else {
-                    cwkErro(data.Error)
-                }
-            });
+            var cnpj = $("#Cnpj").val();
+            if (cnpj === '') {
+                cwkErro('Cnpj é obrigatório!');
+            }
+            else {
+                var url = '@Url.Action("PostGenerationTokenEPays", "Empresa")?Cnpj=' + cnpj;
+                $.get(url, function (data) {
+                    if (data.Success === true) {
+                        $("#TokenPontofopag").val(data.Token);
+                    }
+                    else {
+                        cwkErro(data.Error)
+                    }
+                });
+            }
         });
     });
 
