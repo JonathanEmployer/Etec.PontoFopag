@@ -15,7 +15,7 @@ namespace MonitorJobs.Jobs
         public void Execute(IJobExecutionContext context)
         {
             AgendarDeleteArquivosAntigos();
-//#if !DEBUG
+#if !DEBUG
                 IList<Models.Bases> lbases = Negocio.Bases.GetBasesPontofopagAtivas();
 
                 log.Debug("Bases para manitorar = " + String.Join("; ", lbases.Select(s => s.Nome)));
@@ -24,22 +24,22 @@ namespace MonitorJobs.Jobs
                 int interacao = 0;
                 foreach (Models.Bases item in lbases)
                 {
-            //        log.Debug(item.Nome + ": Agendando");
-            //        AgendarProcessamentoLote(scheduler, item.Nome);
+                log.Debug(item.Nome + ": Agendando");
+                AgendarProcessamentoLote(scheduler, item.Nome);
 
-            //#region Agenda processos recorrentes para o Hangfire
-            //        AgendarGeracaoMarcacao(interacao, item);
-            //        interacao++;
-            //#endregion
+            #region Agenda processos recorrentes para o Hangfire
+                AgendarGeracaoMarcacao(interacao, item);
+                interacao++;
+            #endregion
 
-            //        AgendarImportacaoRegistrosColetor(item);
-                    AgendarExclusaoLogicaFuncionarios(item);
+                AgendarImportacaoRegistrosColetor(item);
+                AgendarExclusaoLogicaFuncionarios(item);
 
-            //#region Processo em teste
-            //        AgendarEnvioRegistros(item);
-            //#endregion
-                }
-//#endif
+            #region Processo em teste
+                AgendarEnvioRegistros(item);
+            #endregion
+            }
+#endif
         }
 
         private static void AgendarGeracaoMarcacao(int interacao, Models.Bases item)
