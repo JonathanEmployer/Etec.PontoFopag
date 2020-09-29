@@ -6248,5 +6248,22 @@ where 1=1
             }
             return lista;
         }
+
+        public void DeleteLogicoFuncionariosInativos(int qtdMeses)
+        {
+            string aux = @" UPDATE funcionario
+                               SET excluido = 1
+                              WHERE DATEADD(MONTH, @meses, DataInativacao) <= GETDATE() 
+                                AND excluido = 0 
+                                AND DataInativacao is not null ";
+            SqlParameter[] parms = new SqlParameter[]
+             {
+                new SqlParameter ("@meses", SqlDbType.Int)
+             };
+            parms[0].Value = qtdMeses;
+            SqlCommand cmd = db.ExecNonQueryCmd(CommandType.Text, aux, false, parms);
+            cmd.Parameters.Clear();
+            return;
+        }
     }
 }

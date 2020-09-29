@@ -2151,5 +2151,10 @@ namespace BLL
         {
             return dalFuncionario.GetFuncionariosComUltimoFechamentosPontoEBH(pegaTodos, idsFuncs, dataInicio);
         }
+
+        public void DeleteLogicoFuncionariosInativos(int qtdMeses)
+        {
+            dalFuncionario.DeleteLogicoFuncionariosInativos(qtdMeses);
+        }
     }
 }
