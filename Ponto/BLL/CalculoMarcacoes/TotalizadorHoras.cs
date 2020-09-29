@@ -197,7 +197,7 @@ namespace BLL
 
                 PercentualHoraExtra[] HorariosPHExtra = new PercentualHoraExtra[10];
                 Modelo.HorarioDetalhe objHorarioDetalhe = new Modelo.HorarioDetalhe();
-                List<Dictionary<decimal, AcumuloPercentual>> acumulosTotais = new List< Dictionary<decimal, AcumuloPercentual>>();
+                List<(TipoDiaAcumulo, Dictionary<decimal, AcumuloPercentual>)> acumulosTotais = new List<(TipoDiaAcumulo, Dictionary<decimal, AcumuloPercentual>)>();
                 Dictionary<TipoDiaAcumulo, Turno> acumulosParciais = new Dictionary<TipoDiaAcumulo, Turno>();
                 int idHorarioAnterior = 0;
                 Modelo.Horario horario = new Modelo.Horario();
@@ -237,6 +237,8 @@ namespace BLL
                 {
                     DateTime data = PegaData(marc);
                     bool trocaMes = false;
+
+                    DiaIniPeriodoFechamento = DiaIniPeriodoFechamento == 0 ? 1 : DiaIniPeriodoFechamento;
                     if (DiaIniPeriodoFechamento == data.Day)
                     {
                         trocaMes = true;
@@ -342,7 +344,7 @@ namespace BLL
                     initinere.PercentualForaJornada = marc["InItinerePercForaJornada"] is DBNull ? 0 : Convert.ToDecimal(marc["InItinerePercForaJornada"]);
                     objTotalHoras.totalInItinere.Add(initinere);
                 }
-                foreach (Dictionary<decimal, AcumuloPercentual> acumulo in acumulosTotais)
+                foreach ((TipoDiaAcumulo, Dictionary<decimal, AcumuloPercentual>) acumulo in acumulosTotais)
                 {
                     PercentualHorasExtras.TotalizarPercentuaisExtra(objTotalHoras, acumulo);   
                 }

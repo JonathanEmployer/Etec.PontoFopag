@@ -97,35 +97,31 @@ namespace PontoWeb.Controllers
         {
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
             BLL.Justificativa bllJustificativa = new BLL.Justificativa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    Acao acao = new Acao();
-                    if (obj.Id == 0)
-                        acao = Acao.Incluir;
-                    else
-                        acao = Acao.Alterar;
+                Acao acao = new Acao();
+                if (obj.Id == 0)
+                    acao = Acao.Incluir;
+                else
+                    acao = Acao.Alterar;
 
-                    Dictionary<string, string> erros = new Dictionary<string, string>();
-                    erros = bllJustificativa.Salvar(acao, obj);
-                    if (erros.Count > 0)
-                    {
-                        string erro = string.Join(";", erros.Select(x => x.Key + "=" + x.Value).ToArray());
-                        ModelState.AddModelError("CustomError", erro);
-                    }
-                    else
-                    {
-                        return RedirectToAction("Grid", "Justificativa");
-                    }
-                }
-                catch (Exception ex)
+                Dictionary<string, string> erros = new Dictionary<string, string>();
+                erros = bllJustificativa.Salvar(acao, obj);
+                if (erros.Count > 0)
                 {
-                    BLL.cwkFuncoes.LogarErro(ex);
-                    ModelState.AddModelError("CustomError", ex.Message);
+                    string erro = string.Join(";", erros.Select(x => x.Key + "=" + x.Value).ToArray());
+                    return Json(new { Success = false, Erro = erro }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return RedirectToAction("Grid", "Justificativa");
                 }
             }
-            return View("Cadastrar", obj);
+            catch (Exception ex)
+            {
+                BLL.cwkFuncoes.LogarErro(ex);
+                return Json(new { Success = false, Erro = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         protected override ActionResult GetPagina(int id)
@@ -150,7 +146,7 @@ namespace PontoWeb.Controllers
 
         protected override void ValidarForm(Justificativa obj)
         {
-            
+
         }
 
         [Authorize]
@@ -224,7 +220,7 @@ namespace PontoWeb.Controllers
                         {
                             return just.Id;
                         }
-                    } 
+                    }
                 }
                 return id;
             }

@@ -57,7 +57,7 @@ namespace BLL.Relatorios.V2
                 foreach (var item in horasExtrasFunc)// Adiciona os percentuais nas respectivas colunas
                 {
                     string nomeColuna = "Extras " + item.Percentual + "%";
-                    dr[nomeColuna] = Modelo.cwkFuncoes.ConvertMinutosHora(item.HoraDiurna + item.HoraNoturna).Replace("--:--", "");
+                    dr[nomeColuna] = Modelo.cwkFuncoes.ConvertMinutosHoraExcel(item.HoraDiurna + item.HoraNoturna).Replace("--:--", "");
                 }
             }
 
