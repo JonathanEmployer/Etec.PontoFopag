@@ -33,6 +33,7 @@ namespace DAL.SQL
             {
                 return @"   SELECT ja.* 
                             , ja.identificacao AS nome
+                            , empresa.id as idempresa
                             , (SELECT convert(varchar,j.codigo)+' | '+j.descricao) AS descjornada  
                             , funcionario.id idfuncionario
                             FROM jornadaalternativa ja
