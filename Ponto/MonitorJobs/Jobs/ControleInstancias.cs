@@ -77,7 +77,7 @@ namespace MonitorJobs.Jobs
             //Lógica para remover a palavra "Pontofpag" do nome da base
             if (item.Nome == "PONTOFOPAG_EMPLOYER")
             {
-                DateTime database = Convert.ToDateTime("2020-09-28 12:26:00").ToUniversalTime();
+                DateTime database = Convert.ToDateTime("2020-09-28 01:30:00").ToUniversalTime();
                 int hora = database.Hour;
                 int minuto = database.Minute;
                 string[] nome = item.Nome.Split('_');
