@@ -86,7 +86,7 @@ namespace MonitorJobs.Jobs
                     idJob = String.Format(idJob, String.Join("_", nome.Skip(1).ToArray()));
                 else
                     idJob = String.Format(idJob, item.Nome);
-                RecurringJob.AddOrUpdate(idJob, () => Negocio.ExclusaoLogicaFuncionariosInativos.ExcluirFuncionariosInativos(item.Nome), string.Format("{0} {1} * * *", minuto, hora), queue: "cqibne2485");
+                RecurringJob.AddOrUpdate(idJob, () => Negocio.ExclusaoLogicaFuncionariosInativos.ExcluirFuncionariosInativos(item.Nome), string.Format("{0} {1} * * *", minuto, hora), queue: "pequeno");
             }
         }
 
