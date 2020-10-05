@@ -639,13 +639,15 @@ namespace PontoWeb.Controllers
             if (!String.IsNullOrEmpty(funcionario.Senha))
             {
                 string nsenha = "";
-                funcionario.Senha = nsenha.PadLeft(bllFuncionario.GetSenha(funcionario).Length, '#');
+                funcionario.Senha = bllFuncionario.GetSenha(funcionario);
+                //funcionario.Senha = nsenha.PadLeft(bllFuncionario.GetSenha(funcionario).Length, '#');
             }
 
             if (!String.IsNullOrEmpty(funcionario.Mob_Senha))
             {
                 string mobsenha = "";
-                funcionario.Mob_Senha = mobsenha.PadLeft(bllFuncionario.GetMobSenha(funcionario).Length, '#');
+                funcionario.Mob_Senha = bllFuncionario.GetMobSenha(funcionario);
+                //funcionario.Mob_Senha = mobsenha.PadLeft(bllFuncionario.GetMobSenha(funcionario).Length, '#');
             }
 
             funcionario.Historico = bllFuncHist.LoadPorFuncionario(funcionario.Id);
