@@ -101,7 +101,8 @@ namespace DAL.SQL
                                     , func.IdTipoVinculo
                                     , func.IdIntegracaoPainel
                                     , func.Email   
-                                    , func.Celular
+                                    , func.Celular           
+                                    , func.UtilizaIntegracaoFotoWebfopag 
                              FROM funcionario func
                              LEFT JOIN empresa emp ON emp.id = func.idempresa
                              LEFT JOIN departamento ON departamento.id = func.iddepartamento
@@ -141,7 +142,8 @@ namespace DAL.SQL
                                     , func.IdTipoVinculo
                                     , func.IdIntegracaoPainel
                                     , func.Email  
-                                    , func.Celular
+                                    , func.Celular                                    
+                                    , func.UtilizaIntegracaoFotoWebfopag 
                              FROM funcionario func
                              LEFT JOIN empresa emp ON emp.id = func.idempresa
                              LEFT JOIN departamento ON departamento.id = func.iddepartamento
@@ -182,6 +184,7 @@ namespace DAL.SQL
                                     , func.IdIntegracaoPainel
                                     , func.Email   
                                     , func.Celular 
+                                    , func.UtilizaIntegracaoFotoWebfopag
                              FROM funcionario func
                              LEFT JOIN empresa emp ON emp.id = func.idempresa
                              LEFT JOIN departamento ON departamento.id = func.iddepartamento
@@ -251,6 +254,7 @@ namespace DAL.SQL
        func.IdTipoVinculo,
        func.Email,
        func.Celular,
+       func.UtilizaIntegracaoFotoWebfopag, 
        func.IdIntegracaoPainel,
        func.RFID, 
         '' foto,
@@ -333,6 +337,7 @@ namespace DAL.SQL
                                        func.IdTipoVinculo,
                                        func.Email,
                                        func.Celular,
+                                       func.UtilizaIntegracaoFotoWebfopag, 
                                        func.IdIntegracaoPainel,
                                        func.RFID,
                                        func.foto
@@ -409,6 +414,7 @@ namespace DAL.SQL
                                        func.IdTipoVinculo,
                                        func.Email,
                                        func.Celular,
+                                       func.UtilizaIntegracaoFotoWebfopag, 
                                        func.IdIntegracaoPainel,
                                        func.RFID,  
                                        '' foto
@@ -487,6 +493,7 @@ namespace DAL.SQL
                                        f.IdTipoVinculo,
                                        f.Email,
                                        f.Celular,
+                                       f.UtilizaIntegracaoFotoWebfopag, 
                                        f.IdIntegracaoPainel,
                                        f.RFID, 
                                         '' foto
@@ -548,6 +555,7 @@ namespace DAL.SQL
                                        f.IdTipoVinculo,
                                        f.Email,
                                        f.Celular,
+                                       f.UtilizaIntegracaoFotoWebfopag, 
                                        f.IdIntegracaoPainel,
                                        f.RFID, 
                                         '' foto
@@ -561,9 +569,9 @@ namespace DAL.SQL
                             WHERE ct.id = @idcontrato and cf.excluido = 0";
 
             INSERT = @"  INSERT INTO funcionario
-							( codigo,  dscodigo,  matricula,  nome,  codigofolha,  idempresa,  iddepartamento,  idfuncao,  idhorario,  tipohorario,  carteira,  dataadmissao,  datademissao,  salario,  naoentrarbanco,  naoentrarcompensacao,  excluido,  campoobservacao,  foto,  incdata,  inchora,  incusuario,  pis,  senha,  toleranciaentrada,  toleranciasaida,  quantidadetickets,  tipotickets,  CPF,  Mob_Senha,  idcw_usuario,  utilizaregistrador,  idIntegracao,  IdPessoaSupervisor,  TipoMaoObra,  IdAlocacao,  IdTipoVinculo,  IdIntegracaoPainel,  Email,  RFID,  IdHorarioDinamico,  CicloSequenciaIndice,  DataInativacao,  UtilizaAppPontofopag,  UtilizaReconhecimentoFacialApp,  UtilizaWebAppPontofopag,  UtilizaReconhecimentoFacialWebApp, Celular)
+							( codigo,  dscodigo,  matricula,  nome,  codigofolha,  idempresa,  iddepartamento,  idfuncao,  idhorario,  tipohorario,  carteira,  dataadmissao,  datademissao,  salario,  naoentrarbanco,  naoentrarcompensacao,  excluido,  campoobservacao,  foto,  incdata,  inchora,  incusuario,  pis,  senha,  toleranciaentrada,  toleranciasaida,  quantidadetickets,  tipotickets,  CPF,  Mob_Senha,  idcw_usuario,  utilizaregistrador,  idIntegracao,  IdPessoaSupervisor,  TipoMaoObra,  IdAlocacao,  IdTipoVinculo,  IdIntegracaoPainel,  Email,  RFID,  IdHorarioDinamico,  CicloSequenciaIndice,  DataInativacao,  UtilizaAppPontofopag,  UtilizaReconhecimentoFacialApp,  UtilizaWebAppPontofopag,  UtilizaReconhecimentoFacialWebApp, Celular,UtilizaIntegracaoFotoWebfopag)
 							VALUES
-							(@codigo, @dscodigo, @matricula, @nome, @codigofolha, @idempresa, @iddepartamento, @idfuncao, @idhorario, @tipohorario, @carteira, @dataadmissao, @datademissao, @salario, @naoentrarbanco, @naoentrarcompensacao, @excluido, @campoobservacao, @foto, @incdata, @inchora, @incusuario, @pis, @senha, @toleranciaentrada, @toleranciasaida, @quantidadetickets, @tipotickets, @CPF, @Mob_Senha, @idcw_usuario, @utilizaregistrador, @idIntegracao, @IdPessoaSupervisor, @TipoMaoObra, @IdAlocacao, @IdTipoVinculo, @IdIntegracaoPainel, @Email, @RFID, @IdHorarioDinamico, @CicloSequenciaIndice, @DataInativacao, @UtilizaAppPontofopag, @UtilizaReconhecimentoFacialApp, @UtilizaWebAppPontofopag, @UtilizaReconhecimentoFacialWebApp, @Celular)
+							(@codigo, @dscodigo, @matricula, @nome, @codigofolha, @idempresa, @iddepartamento, @idfuncao, @idhorario, @tipohorario, @carteira, @dataadmissao, @datademissao, @salario, @naoentrarbanco, @naoentrarcompensacao, @excluido, @campoobservacao, @foto, @incdata, @inchora, @incusuario, @pis, @senha, @toleranciaentrada, @toleranciasaida, @quantidadetickets, @tipotickets, @CPF, @Mob_Senha, @idcw_usuario, @utilizaregistrador, @idIntegracao, @IdPessoaSupervisor, @TipoMaoObra, @IdAlocacao, @IdTipoVinculo, @IdIntegracaoPainel, @Email, @RFID, @IdHorarioDinamico, @CicloSequenciaIndice, @DataInativacao, @UtilizaAppPontofopag, @UtilizaReconhecimentoFacialApp, @UtilizaWebAppPontofopag, @UtilizaReconhecimentoFacialWebApp, @Celular,@UtilizaIntegracaoFotoWebfopag)
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE funcionario SET codigo = @codigo
@@ -614,6 +622,7 @@ namespace DAL.SQL
                             , UtilizaWebAppPontofopag = @UtilizaWebAppPontofopag
                             , UtilizaReconhecimentoFacialWebApp = @UtilizaReconhecimentoFacialWebApp
                             , Celular = @Celular
+                            , UtilizaIntegracaoFotoWebfopag =@UtilizaIntegracaoFotoWebfopag
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM funcionario WHERE id = @id";
@@ -705,6 +714,7 @@ namespace DAL.SQL
                                        f.IdTipoVinculo,
                                        f.Email,
                                        f.Celular,
+                                       f.UtilizaIntegracaoFotoWebfopag,
                                        f.IdIntegracaoPainel,
                                        f.RFID, 
                                         '' foto
@@ -811,6 +821,8 @@ namespace DAL.SQL
             ((Modelo.Funcionario)obj).UtilizaReconhecimentoFacialApp = dr["UtilizaReconhecimentoFacialApp"] is DBNull ? false : Convert.ToBoolean(dr["UtilizaReconhecimentoFacialApp"]);
             ((Modelo.Funcionario)obj).UtilizaWebAppPontofopag = dr["UtilizaWebAppPontofopag"] is DBNull ? false : Convert.ToBoolean(dr["UtilizaWebAppPontofopag"]);
             ((Modelo.Funcionario)obj).UtilizaReconhecimentoFacialWebApp = dr["UtilizaReconhecimentoFacialWebApp"] is DBNull ? false : Convert.ToBoolean(dr["UtilizaReconhecimentoFacialWebApp"]);
+            ((Modelo.Funcionario)obj).UtilizaIntegracaoFotoWebfopag = dr["UtilizaIntegracaoFotoWebfopag"] is DBNull ? false : Convert.ToBoolean(dr["UtilizaIntegracaoFotoWebfopag"]);
+
 
             object val = dr["idIntegracao"];
             Int32? idint = (val == null || val is DBNull) ? (Int32?)null : (Int32?)val;
@@ -890,7 +902,8 @@ namespace DAL.SQL
                 new SqlParameter ("@UtilizaReconhecimentoFacialApp", SqlDbType.Bit),
                 new SqlParameter ("@UtilizaWebAppPontofopag", SqlDbType.Bit),
                 new SqlParameter ("@UtilizaReconhecimentoFacialWebApp", SqlDbType.Bit),
-                new SqlParameter ("@Celular", SqlDbType.VarChar)
+                new SqlParameter ("@Celular", SqlDbType.VarChar),
+                new SqlParameter ("@UtilizaIntegracaoFotoWebfopag", SqlDbType.Bit)
             };
             return parms;
         }
@@ -962,6 +975,7 @@ namespace DAL.SQL
             parms[49].Value = ((Modelo.Funcionario)obj).UtilizaWebAppPontofopag;
             parms[50].Value = ((Modelo.Funcionario)obj).UtilizaReconhecimentoFacialWebApp;
             parms[51].Value = ((Modelo.Funcionario)obj).Celular;
+            parms[52].Value = ((Modelo.Funcionario)obj).UtilizaIntegracaoFotoWebfopag;
         }
 
         public bool VerificaCodigoDuplicado(string pCodigo)
@@ -993,6 +1007,7 @@ namespace DAL.SQL
 
             return ret;
         }
+
 
         public Modelo.Funcionario LoadObject(int id)
         {
@@ -1146,7 +1161,8 @@ namespace DAL.SQL
                                            func.Email,
                                            func.IdIntegracaoPainel,
                                            func.RFID,
-                                           func.Celular,    
+                                           func.Celular,  
+                                           func.UtilizaIntegracaoFotoWebfopag, 
                                            '' foto,
                                             '' contrato,
                                 horario.descricao AS jornada ,

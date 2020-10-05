@@ -331,6 +331,9 @@ namespace Modelo
         [Display(Name = "Utiliza Reconhecimento Facial")]
         public bool UtilizaReconhecimentoFacialWebApp { get; set; }
 
+        [Display(Name = "Utiliza Integração de Foto da Webfopag")]
+        public bool UtilizaIntegracaoFotoWebfopag { get; set; }
+
         /// <summary>
         /// Conexao do banco onde o funcionario esta cadastrado
         /// </summary>

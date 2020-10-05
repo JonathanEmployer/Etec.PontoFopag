@@ -182,6 +182,7 @@ namespace PontoWeb.Controllers
 
                 return PartialFuncionarioRFID(bllFuncionario, idfuncionario, usr);
 
+
             }
             catch (Exception ex)
             {
