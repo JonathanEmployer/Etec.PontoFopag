@@ -8,11 +8,12 @@ using Modelo.Proxy;
 
 namespace BLL
 {
-    public class Empresa : IBLL<Modelo.Empresa>
+    public class Empresa : IEmpresaBLL
     {
         DAL.IEmpresa dalEmpresa;
         DAL.IFuncionario dalFuncionario;
         private string ConnectionString;
+        private bool RequisicaoAPI;
 
         public Empresa() : this(null)
         {
@@ -219,6 +220,11 @@ namespace BLL
 
         }
 
+        public Dictionary<string, string> Salvar(Modelo.Acao pAcao, Modelo.Empresa objeto, bool requisicaoAPI = false)
+        {
+            RequisicaoAPI = true;
+            return Salvar(pAcao, objeto, requisicaoAPI);
+        }
         public Dictionary<string, string> Salvar(Modelo.Acao pAcao, Modelo.Empresa objeto)
         {
             Dictionary<string, string> erros = ValidaObjeto(objeto);
@@ -234,14 +240,14 @@ namespace BLL
                         dalEmpresa.Incluir(objeto);
                         SalvarLogoEmpresa(objeto, Modelo.Acao.Incluir);
                         mec.IncluirOuAlterarEntidade((String.IsNullOrEmpty(objeto.Cnpj) ? 'F' : 'J'), objeto.Nome, objeto.Nome, (String.IsNullOrEmpty(objeto.Cnpj) ? objeto.Cpf : objeto.Cnpj), null, null, connCript);
-                        bllEmpTermoUso.IncluiAlteraTermoUso(objeto);
+                        bllEmpTermoUso.IncluiAlteraTermoUso(objeto, RequisicaoAPI);
                         break;
                     case Modelo.Acao.Alterar:
                         Modelo.Empresa empAnt = LoadObject(objeto.Id);
                         dalEmpresa.Alterar(objeto);
                         SalvarLogoEmpresa(objeto, Modelo.Acao.Alterar);
                         mec.IncluirOuAlterarEntidade((String.IsNullOrEmpty(objeto.Cnpj) ? 'F' : 'J'), objeto.Nome, objeto.Nome, (String.IsNullOrEmpty(objeto.Cnpj) ? objeto.Cpf : objeto.Cnpj), null, (String.IsNullOrEmpty(empAnt.Cnpj) ? empAnt.Cpf : empAnt.Cnpj), connCript);
-                        bllEmpTermoUso.IncluiAlteraTermoUso(objeto);
+                        bllEmpTermoUso.IncluiAlteraTermoUso(objeto, RequisicaoAPI);
                         bllFuncionario.setFuncionariosEmpresa(objeto.Id, objeto.Ativo);
                         break;
                     case Modelo.Acao.Excluir:

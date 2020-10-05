@@ -353,6 +353,7 @@
     <Compile Include="ApiWebfopag\V1\Coletor.cs" />
     <Compile Include="ApiWebfopag\V1\Login.cs" />
     <Compile Include="HorarioDinamicoRestricao.cs" />
+    <Compile Include="IEmpresaBLL.cs" />
     <Compile Include="JornadaSubstituir.cs" />
     <Compile Include="JornadaSubstituirFuncionario.cs" />
     <Compile Include="JustificativaRestricao.cs" />

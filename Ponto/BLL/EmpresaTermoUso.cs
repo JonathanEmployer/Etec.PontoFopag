@@ -117,7 +117,7 @@ namespace BLL
             dalEmpresaTermoUso.DeleteByIdsEmpresas(idsEmpresas);
         }
 
-        public void IncluiAlteraTermoUso(Modelo.Empresa emp)
+        public void IncluiAlteraTermoUso(Modelo.Empresa emp, bool requisicaoAPI)
         {
             List<Modelo.EmpresaTermoUso> empresaTermoUsos = LoadObjectsByIdsEmpresa(new List<int>() { emp.Id });
             Modelo.Cw_Usuario userAceite = new Modelo.Cw_Usuario();
@@ -129,11 +129,11 @@ namespace BLL
                 userAceite = bllCw_Usuario.LoadObjectLogin(dalEmpresaTermoUso.UsuarioLogado.Login);
                 termoAceito = GetTermoResponsabilidade(emp.Codigo, emp.CEI, emp.Cnpj, emp.Cpf, emp.Nome, emp.Endereco, emp.Cidade, emp.Cep, out erros);
             }
-            OperacoesTermoUso(emp, emp.UtilizaAppPontofopag, emp.UtilizaReconhecimentoFacilAppPontofopag, 1, empresaTermoUsos, userAceite.Id, termoAceito);
-            OperacoesTermoUso(emp, emp.UtilizaWebAppPontofopag, emp.UtilizaReconhecimentoFacilWebAppPontofopag, 2, empresaTermoUsos, userAceite.Id, termoAceito);
+            OperacoesTermoUso(emp, emp.UtilizaAppPontofopag, emp.UtilizaReconhecimentoFacilAppPontofopag, 1, empresaTermoUsos, userAceite.Id, termoAceito, requisicaoAPI);
+            OperacoesTermoUso(emp, emp.UtilizaWebAppPontofopag, emp.UtilizaReconhecimentoFacilWebAppPontofopag, 2, empresaTermoUsos, userAceite.Id, termoAceito, requisicaoAPI);
         }
 
-        public void OperacoesTermoUso(Modelo.Empresa emp, bool utilizaApp, bool utilizaReconhecimentoFacil, int tipoTermo, List<Modelo.EmpresaTermoUso> empresaTermoUsos, int idUsuario, string termoAceito)
+        public void OperacoesTermoUso(Modelo.Empresa emp, bool utilizaApp, bool utilizaReconhecimentoFacil, int tipoTermo, List<Modelo.EmpresaTermoUso> empresaTermoUsos, int idUsuario, string termoAceito, bool requisicaoAPI)
         {
             //Termo uso Web APP
             if (utilizaApp && (empresaTermoUsos == null || empresaTermoUsos.Where(w => w.Tipo == tipoTermo).Count() == 0))
@@ -161,10 +161,14 @@ namespace BLL
                     alterou = true;
                     empresaTermoUso.UtilizaReconhecimentoFacial = utilizaReconhecimentoFacil;
                 }
-                if (emp.TermoAppAlterado)
+                if (emp.TermoAppAlterado )
                 {
-                    alterou = true;
-                    empresaTermoUso.TermoAceito = termoAceito;
+                    var empresaAntes = new Empresa().LoadObject(emp.Id);
+                    if (!requisicaoAPI || (requisicaoAPI && (empresaAntes?.Nome != emp.Nome || empresaAntes?.Cnpj != emp.Cnpj)))
+                    {
+                        alterou = true;
+                        empresaTermoUso.TermoAceito = termoAceito;
+                    }
                 }
 
                 if (alterou)

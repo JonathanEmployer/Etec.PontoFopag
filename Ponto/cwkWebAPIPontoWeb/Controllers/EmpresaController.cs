@@ -84,7 +84,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                         DadosAntEmp.Ativo = obj.Ativo;
 
                         Dictionary<string, string> erros = new Dictionary<string, string>();
-                        erros = bllEmpresa.Salvar(acao, DadosAntEmp);
+                        erros = bllEmpresa.Salvar(acao, DadosAntEmp, true);
                         if (erros.Count > 0)
                         {
                             TrataErros(erros);
