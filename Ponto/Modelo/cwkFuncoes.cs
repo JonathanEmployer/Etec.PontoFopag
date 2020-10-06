@@ -405,6 +405,25 @@ namespace Modelo
         }
 
 
+        public static string ConvertMinutosHoraExcel(decimal pMinutos)
+        {
+            if (pMinutos <= 0)
+            {
+                return "--:--";
+            }
+
+            decimal hh;
+            decimal mm;
+
+            decimal aux = pMinutos / 60;
+
+            hh = Math.Truncate(aux);
+            mm = Math.Truncate(Math.Round((aux - hh) * 60, 0));
+
+            return String.Format("{0:00}:{1:00}", hh, mm);
+        }
+
+
         /// <summary>
         /// Método que recebe como parâmetro um valor decimal em minutos (positivos ou negativos) e converte esse número em uma string de horas 
         /// </summary>

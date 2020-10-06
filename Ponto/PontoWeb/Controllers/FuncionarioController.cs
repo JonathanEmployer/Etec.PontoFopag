@@ -440,15 +440,15 @@ namespace PontoWeb.Controllers
 
             if (utilizaApp == true && utilizaWEBApp == false)
             {
-                conteudo = string.Format("Para acessar o App do Ponto utilize seu CPF e senha: {0}, disponível na Play Store e Apple Store. Equipe Pontofopag", senha);
+                conteudo = string.Format("Para acessar o App do Ponto utilize seu CPF e senha: {0}, disponível na Play Store e Apple Store.", senha);
             }
             else if (utilizaApp == false && utilizaWEBApp == true)
             {
-                conteudo = string.Format("Para acessar o Web App do Ponto utilize seu CPF e senha: {0}, disponível no link www.webapp.pontofopag.com.br. Equipe Pontofopag", senha);
+                conteudo = string.Format("Para acessar o Web App do Ponto utilize seu CPF e senha: {0}, disponível no link www.webapp.pontofopag.com.br.", senha);
             }
             else if (utilizaApp == true && utilizaWEBApp == true)
             {
-                conteudo = string.Format("Para acessar o Web App e App do Ponto do Ponto utilize seu CPF e senha: {0}, disponível no link www.webapp.pontofopag.com.br e na Play Store e Apple Store. Equipe Pontofopag", senha);
+                conteudo = string.Format("Para acessar o Web App e App do Ponto do Ponto utilize seu CPF e senha: {0}, disponível no link www.webapp.pontofopag.com.br e na Play Store e Apple Store.", senha);
             }
 
             return conteudo;
