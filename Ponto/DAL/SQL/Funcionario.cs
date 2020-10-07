@@ -904,6 +904,7 @@ namespace DAL.SQL
                 new SqlParameter ("@UtilizaReconhecimentoFacialWebApp", SqlDbType.Bit),
                 new SqlParameter ("@Celular", SqlDbType.VarChar),
                 new SqlParameter ("@UtilizaIntegracaoFotoWebfopag", SqlDbType.Bit)
+
             };
             return parms;
         }

@@ -170,15 +170,7 @@ namespace Modelo
             get { return Naoentrarbanco == 1 ? true : false; }
             set { Naoentrarbanco = value ? (short)1 : (short)0; }
         }
-
-        public Int16 UltilizaIntegracaoWebFopag { get; set; }
-
-        [Display(Name = "Ultiliza Integração de Foto da Webfopag")]
-        public virtual bool bUltilizaIntegracaoWebFopag
-        {
-            get { return UltilizaIntegracaoWebFopag == 1 ? true : false; }
-            set { UltilizaIntegracaoWebFopag = value ? (short)1 : (short)0; }
-        }
+             
         public Int16 Naoentrarbanco_Ant { get; set; }
 
         /// <summary>
