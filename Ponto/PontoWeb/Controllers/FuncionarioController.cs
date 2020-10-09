@@ -274,7 +274,7 @@ namespace PontoWeb.Controllers
                 try
                 {
                     funcionario.RFID = null;
-                    funcionario.Senha = null;
+                    //funcionario.Senha = null;
                     funcionario.TipoCracha = null;
 
                     string conteudoEmail = "";
