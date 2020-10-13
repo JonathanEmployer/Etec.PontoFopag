@@ -14,7 +14,7 @@ namespace Modelo
         public int IdFuncionario { get; set; }
         public string MIFARE { get; set; }
         public bool Ativo { get; set; }
-
+        public string Senha { get; set; }
         public Funcionario Funcionario { get; set; }
     }
 }
