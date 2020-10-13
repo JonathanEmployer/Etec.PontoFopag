@@ -242,6 +242,7 @@ namespace BLL.IntegracaoPainel
                     }
                     else
                     {
+
                         var e = BLL.IntegracaoPainel.ApiException.CreateApiException(response);
                         if (e.Data.Count > 0)
                         {
