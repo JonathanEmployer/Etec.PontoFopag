@@ -107,6 +107,8 @@ namespace DAL.SQL
             ((Modelo.FuncionarioRFID)obj).RFID = (dr["RFID"] is DBNull ? 0 : Convert.ToInt32(dr["RFID"]));
             ((Modelo.FuncionarioRFID)obj).MIFARE = Convert.ToString(dr["MIFARE"]);
             ((Modelo.FuncionarioRFID)obj).Ativo = Convert.ToBoolean(dr["Ativo"]);
+            ((Modelo.FuncionarioRFID)obj).Senha = Convert.ToString(dr["Senha"]);
+
         }
 
         protected override void SetParameters(SqlParameter[] parms, ModeloBase obj)
@@ -182,7 +184,26 @@ namespace DAL.SQL
             SqlParameter[] parms = new SqlParameter[1] { new SqlParameter("@idFuncionario", SqlDbType.Int) };
             parms[0].Value = idFuncionario;
 
-            string cmd = " SELECT *  FROM FuncionarioRFID where idfuncionario = @idfuncionario";
+            //string cmd = " SELECT *  FROM FuncionarioRFID where idfuncionario = @idfuncionario";
+            string cmd = @"SELECT 
+FuncionarioRFID.Id
+,FuncionarioRFID.Codigo
+,FuncionarioRFID.IncData
+,FuncionarioRFID.IncHora
+,FuncionarioRFID.IncUsuario
+,FuncionarioRFID.AltData
+,FuncionarioRFID.AltHora
+,FuncionarioRFID.AltUsuario
+,FuncionarioRFID.RFID
+,FuncionarioRFID.IdFuncionario
+,FuncionarioRFID.MIFARE
+,FuncionarioRFID.Ativo
+,FuncionarioRFID.Ctl_Inicio
+,FuncionarioRFID.Ctl_Fim 
+,fu.Senha
+FROM FuncionarioRFID
+JOIN funcionario fu ON dbo.FuncionarioRFID.IdFuncionario = fu.id
+where idfuncionario =@idfuncionario";
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, cmd, parms);
 
             List<Modelo.FuncionarioRFID> lista = new List<Modelo.FuncionarioRFID>();
