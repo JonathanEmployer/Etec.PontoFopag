@@ -54,6 +54,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                         return Request.CreateResponse(HttpStatusCode.NotFound, retErro);
                     }
 
+
                     BLL.ConfirmacaoPainel bllConfirmacao;
                     BuscaPeriodoFechamento(ref MesBase, ref AnoBase, usuarioPontoWeb.ConnectionString, func, out datainicio, out datafim, out diafechamentoinicial, out diafechamentofinal, out bllConfirmacao);
 
