@@ -283,6 +283,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\TabLogErro.cs" />
     <Compile Include="Negocio\Bases.cs" />
+    <Compile Include="Negocio\ExclusaoLogicaFuncionariosInativos.cs" />
     <Compile Include="Negocio\ImportarRegistrosColetor.cs" />
     <Compile Include="Negocio\EnviarRegistroPonto.cs" />
     <Compile Include="Negocio\GerarMarcacoes.cs" />

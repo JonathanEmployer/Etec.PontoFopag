@@ -832,7 +832,10 @@ namespace BLL.CalculoMarcacoes
                     return true;
                 }
             }
-
+            if (bilheteSaida == null)
+            {
+                return false;
+            }
             int bsaida = bilheteSaida.HoraEmMinutos;
 
             if (bentrada > bsaida)
