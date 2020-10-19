@@ -134,6 +134,8 @@ namespace DAL
         void setFuncionariosEmpresa(int idEmpresa, bool FuncionarioAtivo);
         List<string> GetDsCodigosByIDs(List<int> lIds);
         List<PxyFuncionarioFechamentosPontoEBH> GetFuncionariosComUltimoFechamentosPontoEBH(bool pegaTodos, IList<int> idsFuncs, DateTime dataInicio);
+
+        void DeleteLogicoFuncionariosInativos(int qtdMeses);
     }
 }
 
