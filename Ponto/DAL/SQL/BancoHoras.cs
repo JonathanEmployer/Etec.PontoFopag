@@ -1524,7 +1524,7 @@ FROM    ( SELECT    t.IdFuncionario ,
                     INSERT  INTO #funcionarios
                             SELECT  Identificador
                             FROM    @Identificadores; 
-
+    
                     /*Tabela temporária para o banco de horas por funcionário*/
                     CREATE TABLE #funcionariobancodehoras
                         (
