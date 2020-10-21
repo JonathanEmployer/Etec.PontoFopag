@@ -113,7 +113,8 @@ namespace cwkWebAPIPontoWeb.Controllers
                         DadosAntFunc.Idfuncao = IdFuncao.GetValueOrDefault();
                         DadosAntFunc.Funcionarioativo = Convert.ToInt16(funcionario.FuncionarioAtivo);
                         DadosAntFunc.Campoobservacao = funcionario.CampoObservacao;
-                        DadosAntFunc.Foto = funcionario.Foto;
+                        if (DadosAntFunc.UtilizaIntegracaoFotoWebfopag != false)
+                            DadosAntFunc.Foto = funcionario.Foto;
                         DadosAntFunc.Excluido = 0;
                         DadosAntFunc.idIntegracao = funcionario.IdIntegracao;
                         DadosAntFunc.TipoMaoObra = funcionario.TipoMaoObra;
