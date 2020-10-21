@@ -23,7 +23,8 @@ namespace DAL.SQL
         private string SqlGetAll()
         {
             string sql = @"SELECT e.*
-                            FROM equipamentohomologado e ";
+                            FROM equipamentohomologado e 
+                            WHERE 1 = 1 ";
             return sql;
         }
 
@@ -32,12 +33,12 @@ namespace DAL.SQL
             db = database;
             TABELA = "equipamentohomologado";
 
-            SELECTPID = SqlGetAll() + " WHERE e.id = @id";
+            SELECTPID = SqlGetAll() + " AND e.id = @id";
 
             INSERT = @"  INSERT INTO equipamentohomologado
-							(codigoModelo, nomeModelo, nomeFabricante, numeroFabricante, identificacaoRelogio, incdata, inchora, incusuario, EquipamentoHomologadoInmetro, ServicoComunicador)
+							(codigoModelo, nomeModelo, nomeFabricante, numeroFabricante, identificacaoRelogio, incdata, inchora, incusuario, EquipamentoHomologadoInmetro, ServicoComunicador, Portaria373)
 							VALUES
-							(@codigoModelo, @nomeModelo, @nomeFabricante, @numeroFabricante, @identificacaoRelogio, @incdata, @inchora, @incusuario, @EquipamentoHomologadoInmetro, @ServicoComunicador) 
+							(@codigoModelo, @nomeModelo, @nomeFabricante, @numeroFabricante, @identificacaoRelogio, @incdata, @inchora, @incusuario, @EquipamentoHomologadoInmetro, @ServicoComunicador, @Portaria373) 
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE equipamentohomologado SET 
@@ -51,6 +52,7 @@ namespace DAL.SQL
 							, altusuario = @altusuario
                             , EquipamentoHomologadoInmetro = @EquipamentoHomologadoInmetro
                             , ServicoComunicador = @ServicoComunicador
+                            , Portaria373 = @Portaria373
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM equipamentohomologado WHERE id = @id";
@@ -99,6 +101,7 @@ namespace DAL.SQL
             ((Modelo.EquipamentoHomologado)obj).identificacaoRelogio = Convert.ToInt32(dr["identificacaoRelogio"]);
             ((Modelo.EquipamentoHomologado)obj).EquipamentoHomologadoInmetro = Convert.ToBoolean(dr["EquipamentoHomologadoInmetro"]);
             ((Modelo.EquipamentoHomologado)obj).ServicoComunicador = Convert.ToBoolean(dr["ServicoComunicador"]);
+            ((Modelo.EquipamentoHomologado)obj).Portaria373 = Convert.ToBoolean(dr["Portaria373"]);
         }
 
         protected override SqlParameter[] GetParameters()
@@ -118,7 +121,8 @@ namespace DAL.SQL
 				new SqlParameter ("@althora", SqlDbType.DateTime),
 				new SqlParameter ("@altusuario", SqlDbType.VarChar),
                 new SqlParameter ("@EquipamentoHomologadoInmetro", SqlDbType.Bit),
-                new SqlParameter ("@ServicoComunicador", SqlDbType.Bit)
+                new SqlParameter ("@ServicoComunicador", SqlDbType.Bit),
+                new SqlParameter ("@Portaria373", SqlDbType.Bit)
 			};
             return parms;
         }
@@ -137,6 +141,7 @@ namespace DAL.SQL
             parms[5].Value = ((Modelo.EquipamentoHomologado)obj).identificacaoRelogio;
             parms[6].Value = ((Modelo.EquipamentoHomologado)obj).EquipamentoHomologadoInmetro;
             parms[7].Value = ((Modelo.EquipamentoHomologado)obj).ServicoComunicador;
+            parms[8].Value = ((Modelo.EquipamentoHomologado)obj).Portaria373;
         }
 
         public Modelo.EquipamentoHomologado LoadObject(int id)
@@ -160,6 +165,37 @@ namespace DAL.SQL
             SqlParameter[] parms = new SqlParameter[0];
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, SqlGetAll(), parms);
+
+            List<Modelo.EquipamentoHomologado> lista = new List<Modelo.EquipamentoHomologado>();
+            try
+            {
+                while (dr.Read())
+                {
+                    Modelo.EquipamentoHomologado objEquipamentoHomologado = new Modelo.EquipamentoHomologado();
+                    AuxSetInstance(dr, objEquipamentoHomologado);
+                    lista.Add(objEquipamentoHomologado);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
+
+        public List<Modelo.EquipamentoHomologado> GetAllListPortaria373()
+        {
+            SqlParameter[] parms = new SqlParameter[0];
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SqlGetAll() + " AND PORTARIA373 = 1 ", parms);
 
             List<Modelo.EquipamentoHomologado> lista = new List<Modelo.EquipamentoHomologado>();
             try
