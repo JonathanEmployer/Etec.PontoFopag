@@ -103,5 +103,9 @@ namespace BLL
             return dalEquipamentoHomologado.getId(pValor, pCampo, pValor2);
         }
 
+        public List<Modelo.EquipamentoHomologado> GetAllListPortaria373()
+        {
+            return dalEquipamentoHomologado.GetAllListPortaria373();
+        }
     }
 }
