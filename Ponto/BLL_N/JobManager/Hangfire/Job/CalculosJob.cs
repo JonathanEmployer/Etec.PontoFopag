@@ -205,8 +205,21 @@ namespace BLL_N.JobManager.Hangfire.Job
 
             threads.Add(new Task(() => {
                 dtMarcacoes = (DataTable)ExecuteMethodThredCancellation(() => dalCalculaMarcacao.GetMarcacoesCalculo(idsFuncionario, dataInicial, dataFinal, considerarInativos, false));
+                List<int> idsHorario = dtMarcacoes.AsEnumerable().Where(r => !r.IsNull("idhorario")).Select(s => s.Field<int>("idhorario")).Distinct().ToList();
+                bool gerouRegistroPonto = false;
+                if (idsHorario.Count > 0)
+                {
+                    BLL.CalculoMarcacoes.PontoPorExcecao pontoPorExcecao = new BLL.CalculoMarcacoes.PontoPorExcecao(userPF.ConnectionString, userPF);
+                    pb.setaMensagem("Gerando ponto por exceção");
+                    if (pontoPorExcecao.CriarRegistroPontoPorExcecao(new List<int>(), idsHorario).Count > 0)
+                    {
+                        gerouRegistroPonto = true;
+                        //Aguarda a importação dos registros para continar
+                        Thread.Sleep(15000);
+                    }
+                }
                 BLL.HorarioDinamico bllHorarioDinamico = new BLL.HorarioDinamico(userPF.ConnectionString, userPF);
-                if (bllHorarioDinamico.GerarHorariosDetalhesAPartirMarcacoes(dtMarcacoes))
+                if (bllHorarioDinamico.GerarHorariosDetalhesAPartirMarcacoes(dtMarcacoes) || gerouRegistroPonto)
                 {
                     dtMarcacoes = (DataTable)ExecuteMethodThredCancellation(() => dalCalculaMarcacao.GetMarcacoesCalculo(idsFuncionario, dataInicial, dataFinal, considerarInativos, false));
                 }
@@ -249,6 +262,7 @@ namespace BLL_N.JobManager.Hangfire.Job
                 dscodigo = row.Field<string>("dscodigo"),
                 nomeFunc = row.Field<string>("nomeFuncionario"),
             }).OrderBy(o => o.Key.nomeFunc);
+
             ConcurrentBag<LoteMarcacaoProcessar> lote = new ConcurrentBag<LoteMarcacaoProcessar>();
             foreach (var group in MarcsFuncs)
             {

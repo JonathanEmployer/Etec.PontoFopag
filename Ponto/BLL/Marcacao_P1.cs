@@ -370,6 +370,9 @@ namespace BLL
                 Modelo.Funcionario objFuncionario = new Modelo.Funcionario();
                 objFuncionario = bllFuncionario.LoadObject(pIdFuncionario);
                 this.AtualizaData(pdataInicial, pDataFinal, objFuncionario);
+                CalculoMarcacoes.PontoPorExcecao bllPontoPorExcecao = new CalculoMarcacoes.PontoPorExcecao(ConnectionString, UsuarioLogado);
+                bllPontoPorExcecao.CriarRegistroPontoPorExcecao(new List<int>() { pIdFuncionario}, new List<int>());
+                System.Threading.Thread.Sleep(5000);
             }
 
             return dalMarcacao.GetMarcacaoListaPorFuncionario(pIdFuncionario, pdataInicial, pDataFinal);

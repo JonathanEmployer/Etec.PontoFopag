@@ -891,7 +891,8 @@ namespace DAL.SQL
 	                                isnull(usuAlt.login, 'Integracao') AltUsu,
 	                                FORMAT(hdm.althora , 'dd/MM/yyyy HH:mm:ss') altHora,
 		                            hdm.QtdCiclo qtdCiclos,
-		                            (select count(1) from HorarioDinamicoCicloSequencia s inner join horariodinamicociclo c on s.idhorariodinamicociclo = c.id  where c.idhorariodinamico = hdm.id) qtdSequencias
+		                            (select count(1) from HorarioDinamicoCicloSequencia s inner join horariodinamicociclo c on s.idhorariodinamicociclo = c.id  where c.idhorariodinamico = hdm.id) qtdSequencias,
+                                    CASE WHEN hdm.PontoPorExcecao = 1 THEN 'Sim' ELSE 'Não' END PontoPorExcecao
                               from horariodinamico hdm
                               left join cw_usuario usuInc on hdm.incusuario = usuInc.login
                               left join cw_usuario usuAlt on hdm.incusuario = usuAlt.login

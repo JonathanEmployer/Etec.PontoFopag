@@ -12,6 +12,7 @@ using System.Drawing.Imaging;
 using System.Collections.Concurrent;
 using System.Collections;
 using Modelo;
+using System.Threading;
 
 namespace BLL
 {
@@ -1907,6 +1908,12 @@ namespace BLL
                     var erros = bllMarcacao.AtualizaData(_parametros, _horarios, pDataInicial, pDataFinal, _listFuncionario, _inclusaoBancoLista, _jornadasAlternativas, _fechamentoBHDLista, _feriadoLista, _bancoHorasLista, _afastamentosLista, _contratosLista, _mudancaHorarioList, _marcacoesPeriodo, _fechamentos);
 
                     retorno = (erros.Count() == 0);
+                    PontoPorExcecao pontoPorExcecao = new PontoPorExcecao(ConnectionString, UsuarioLogado);
+                    if (pontoPorExcecao.CriarRegistroPontoPorExcecao(idsFuncs, new List<int>()).Count > 0)
+                    {
+                        //Se gerou bilhetes aguarda um pouco para o mesmo ser importado
+                        Thread.Sleep(15000);
+                    }
                 }
                 else
                     retorno = true;//para funcionários inativos retornar true

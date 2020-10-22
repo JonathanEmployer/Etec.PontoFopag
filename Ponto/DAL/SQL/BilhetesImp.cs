@@ -2516,20 +2516,25 @@ namespace DAL.SQL
 
         public List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> RegistrosValidarPontoExcecao()
         {
-            return RegistrosValidarPontoExcecao(new List<int>());
+            return RegistrosValidarPontoExcecao(new List<int>(), new List<int>());
         }
 
-        public List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> RegistrosValidarPontoExcecao(List<int> idsFuncs)
+        public List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> RegistrosValidarPontoExcecao(List<int> idsFuncs, List<int> idsHorario)
         {
-            SqlParameter[] parms = new SqlParameter[1]
+            SqlParameter[] parms = new SqlParameter[2]
             {
-                    new SqlParameter("@idsFuncs", SqlDbType.Structured)
+                    new SqlParameter("@idsFuncs", SqlDbType.Structured),
+                    new SqlParameter("@idsHorarios", SqlDbType.Structured)
             };
             parms[0].Value = CreateDataTableIdentificadores(idsFuncs.Select(s => (long)s).ToList());
             parms[0].TypeName = "Identificadores";
 
-            string sql = @" SET DATEFIRST 1
-                            SELECT m.data DataMarcacacao, 
+            parms[1].Value = CreateDataTableIdentificadores(idsHorario.Select(s => (long)s).ToList());
+            parms[1].TypeName = "Identificadores";
+
+            string sql = @"  SET DATEFIRST 1
+                            SELECT m.data DataMarcacacao,
+                                   m.legenda, 
                                    j.entrada_1 EntradaPrevista1, 
                                    j.saida_1 SaidaPrevista1,
                                    j.entrada_2 EntradaPrevista2, 
@@ -2541,20 +2546,31 @@ namespace DAL.SQL
                                    f.dscodigo,
                                    f.pis,
                                    f.id idfuncionario,
+                                   h.PontoPorExcecao,
+                                   h.id idhorario,
                                    b.*
                               FROM marcacao m
                              INNER JOIN horario h ON m.idhorario = h.id 
                              INNER JOIN funcionario f ON f.idhorario = h.id AND m.idfuncionario = f.id 
                               LEFT JOIN bilhetesimp b ON f.id = b.idfuncionario AND m.data = b.mar_data
-					                                                             LEFT JOIN dbo.horariodetalhe hd ON h.id = hd.idhorario AND ((h.tipohorario = 1 AND hd.dia = DATEPART(WEEKDAY, m.data)) OR 
-																						                                                            (h.tipohorario = 2 AND hd.data = m.data ))
+                              LEFT JOIN dbo.horariodetalhe hd ON h.id = hd.idhorario AND ((h.tipohorario = 1 AND hd.dia = DATEPART(WEEKDAY, m.data)) OR 
+                                                                                                              (h.tipohorario = 2 AND hd.data = m.data ))
                               LEFT JOIN jornada j ON j.id = hd.idjornada
                              WHERE 1 = 1 
-                               AND h.pontoporexcecao = 1
+                               AND m.legenda not in ('A', 'F')
+                               AND (h.pontoporexcecao = 1 or (h.PontoPorExcecao = 0 and b.relogio = 'PE'))
                                AND j.entrada_1 IS NOT NULL
+                               AND m.idFechamentoPonto IS NULL
+                               AND m.idfechamentobh IS NULL
+                               AND m.[data] >=  f.dataadmissao 
+                               AND (m.[data] < f.datademissao OR f.datademissao IS NULL)
+                               AND (m.[data] < f.DataInativacao OR f.DataInativacao IS NULL)
                                AND (f.id in (SELECT Identificador from @idsFuncs) OR
                                     (SELECT count(Identificador) from @idsFuncs) = 0
-                                    ) ";
+                                    ) 
+                               AND (H.id in (SELECT Identificador from @idsHorarios) OR
+                                    (SELECT count(Identificador) from @idsHorarios) = 0
+                                    )  ";
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 

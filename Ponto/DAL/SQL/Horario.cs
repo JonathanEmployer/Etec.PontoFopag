@@ -1393,6 +1393,7 @@ namespace DAL.SQL
 	                    , CASE WHEN h.descontardsr = 1 THEN 'Sim' ELSE 'Não' END descontardsr
 	                    , CASE WHEN h.bUtilizaDDSRProporcional = 1 THEN 'Sim' ELSE 'Não' END bUtilizaDDSRProporcional
 	                    , CASE WHEN h.DescontarFeriadoDDSR = 1 THEN 'Sim' ELSE 'Não' END DescontarFeriadoDDSR
+                        , CASE WHEN h.PontoPorExcecao = 1 THEN 'Sim' ELSE 'Não' END PontoPorExcecao
                     FROM horario h
 	                    LEFT JOIN parametros parms ON parms.id = h.idparametro
 	                WHERE 

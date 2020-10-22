@@ -312,13 +312,6 @@
                                                         @Html.ValidationMessageFor(model => model.IntervaloautomaticoBool)
                                                     </label>
                                                 </div>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        @Html.CheckBoxFor(model => model.PontoPorExcecao, new { @class = "checkboxHN", id = "PontoPorExcecaoBool" })
-                                                        @Html.LabelFor(model => model.PontoPorExcecao, new { @class = "control-label label-sm", @for = "PontoPorExcecaoBool" })
-                                                        @Html.ValidationMessageFor(model => model.PontoPorExcecao)
-                                                    </label>
-                                                </div>
                                             </div>
                                         </div>
 
@@ -329,6 +322,15 @@
                                                         @Html.CheckBoxFor(model => model.Ordem_entBool, new { @class = "checkboxHN horario", id = "Ordem_entBool" })
                                                         @Html.LabelFor(model => model.Ordem_entBool, new { @class = "control-label label-sm", @for = "Ordem_entBool" })
                                                         @Html.ValidationMessageFor(model => model.Ordem_entBool)
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="checkbox" style="margin:5px">
+                                                    <label>
+                                                        @Html.CheckBoxFor(model => model.PontoPorExcecao, new { @class = "checkboxHN", id = "PontoPorExcecaoBool" })
+                                                        @Html.LabelFor(model => model.PontoPorExcecao, new { @class = "control-label label-sm", @for = "PontoPorExcecaoBool" })
+                                                        @Html.ValidationMessageFor(model => model.PontoPorExcecao)
                                                     </label>
                                                 </div>
                                             </div>
@@ -2464,8 +2466,8 @@
     $('#PontoPorExcecaoBool').click(function (e) {
         if ($("#PontoPorExcecaoBool").is(':checked')) {
             $("#IntervaloautomaticoBool").prop("checked", false);
-            validaIntervaloAutomatico();
         }
+        validaIntervaloAutomatico();
     });
 
     $('#IntervaloautomaticoBool').click(function (e) {

@@ -78,13 +78,13 @@ namespace BLL.CalculoMarcacoes
 
         public List<Modelo.RegistroPonto> CriarRegistroPontoPorExcecao()
         {
-            return CriarRegistroPontoPorExcecao(new List<int>());
+            return CriarRegistroPontoPorExcecao(new List<int>(), new List<int>());
         }
 
-        public List<Modelo.RegistroPonto> CriarRegistroPontoPorExcecao(List<int> idsFuncs)
+        public List<Modelo.RegistroPonto> CriarRegistroPontoPorExcecao(List<int> idsFuncs, List<int> idsHorario)
         {
             RegistroPonto bllRegistroPonto = new RegistroPonto(_connectionString, _usuarioLogado);
-            List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> registrosValidar = dalBilhetesImp.RegistrosValidarPontoExcecao(idsFuncs);
+            List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> registrosValidar = dalBilhetesImp.RegistrosValidarPontoExcecao(idsFuncs, idsHorario);
 
             int maxCodigo = bllRegistroPonto.MaxCodigo();
             List<Modelo.RegistroPonto> registroPontos = new List<Modelo.RegistroPonto>();
@@ -122,20 +122,6 @@ namespace BLL.CalculoMarcacoes
 
             bllRegistroPonto.InserirRegistros(registroPontos);
             return registroPontos;
-        }
-
-        public void RegistrarPontoPorExcecao(List<int> idsFuncs)
-        {
-            //List<Modelo.BilhetesImp> lists = CriarRegistrarPontoPorExcecao(idsFuncs);
-            //BLL.RegistroPonto bllRegistroPonto = new RegistroPonto(_connectionString, _usuarioLogado);
-            //List<Modelo.RegistroPonto> registroPontos = new List<Modelo.RegistroPonto>()
-
-            //ImportaBilhetes importaBilhetes = new ImportaBilhetes(_connectionString, _usuarioLogado);
-            //if (importaBilhetes.ImportarBilhetes(, false, funcReprocessar.DataInicial, funcReprocessar.DataFinal, out dataInicial, out dataFinal, cwkFuncoes.ProgressVazia(), pLog))
-            //{
-            //    BLL.CalculaMarcacao bllCalculaMarcacao = new CalculaMarcacao(2, funcReprocessar.IdFuncionario, dataInicial.Value, dataFinal.Value.AddDays(1), cwkFuncoes.ProgressVazia(), false, ConnectionString, UsuarioLogado, false);
-            //    bllCalculaMarcacao.CalculaMarcacoes();
-            //}
         }
     }
 }
