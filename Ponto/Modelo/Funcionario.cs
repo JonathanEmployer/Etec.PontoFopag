@@ -324,13 +324,8 @@ namespace Modelo
         public bool UtilizaReconhecimentoFacialWebApp { get; set; }
 
         [Display(Name = "Utiliza Integração de Foto da Webfopag")]
-        public virtual bool UtilizaIntegracaoFotoWebfopag 
-        { get
-            { return UtilizaReconhecimentoFacialApp == false ? false : true; }
-            set { }
-        }
+        public bool? UtilizaIntegracaoFotoWebfopag { get; set; }
 
-       
         /// <summary>
         /// Conexao do banco onde o funcionario esta cadastrado
         /// </summary>
