@@ -119,18 +119,21 @@ namespace BLL
 
         public void IncluiAlteraTermoUso(Modelo.Empresa emp)
         {
-            List<Modelo.EmpresaTermoUso> empresaTermoUsos = LoadObjectsByIdsEmpresa(new List<int>() { emp.Id });
-            Modelo.Cw_Usuario userAceite = new Modelo.Cw_Usuario();
-            string termoAceito = "";
-            Dictionary<string, string> erros = new Dictionary<string, string>();
-            if (emp.UtilizaAppPontofopag || emp.UtilizaWebAppPontofopag)
+            if (emp != null && !emp.Integrando)
             {
-                BLL.Cw_Usuario bllCw_Usuario = new Cw_Usuario(ConnectionString, dalEmpresaTermoUso.UsuarioLogado);
-                userAceite = bllCw_Usuario.LoadObjectLogin(dalEmpresaTermoUso.UsuarioLogado.Login);
-                termoAceito = GetTermoResponsabilidade(emp.Codigo, emp.CEI, emp.Cnpj, emp.Cpf, emp.Nome, emp.Endereco, emp.Cidade, emp.Cep, out erros);
+                List<Modelo.EmpresaTermoUso> empresaTermoUsos = LoadObjectsByIdsEmpresa(new List<int>() { emp.Id });
+                Modelo.Cw_Usuario userAceite = new Modelo.Cw_Usuario();
+                string termoAceito = "";
+                Dictionary<string, string> erros = new Dictionary<string, string>();
+                if (emp.UtilizaAppPontofopag || emp.UtilizaWebAppPontofopag)
+                {
+                    BLL.Cw_Usuario bllCw_Usuario = new Cw_Usuario(ConnectionString, dalEmpresaTermoUso.UsuarioLogado);
+                    userAceite = bllCw_Usuario.LoadObjectLogin(dalEmpresaTermoUso.UsuarioLogado.Login);
+                    termoAceito = GetTermoResponsabilidade(emp.Codigo, emp.CEI, emp.Cnpj, emp.Cpf, emp.Nome, emp.Endereco, emp.Cidade, emp.Cep, out erros);
+                }
+                OperacoesTermoUso(emp, emp.UtilizaAppPontofopag, emp.UtilizaReconhecimentoFacilAppPontofopag, 1, empresaTermoUsos, userAceite.Id, termoAceito);
+                OperacoesTermoUso(emp, emp.UtilizaWebAppPontofopag, emp.UtilizaReconhecimentoFacilWebAppPontofopag, 2, empresaTermoUsos, userAceite.Id, termoAceito);
             }
-            OperacoesTermoUso(emp, emp.UtilizaAppPontofopag, emp.UtilizaReconhecimentoFacilAppPontofopag, 1, empresaTermoUsos, userAceite.Id, termoAceito);
-            OperacoesTermoUso(emp, emp.UtilizaWebAppPontofopag, emp.UtilizaReconhecimentoFacilWebAppPontofopag, 2, empresaTermoUsos, userAceite.Id, termoAceito);
         }
 
         public void OperacoesTermoUso(Modelo.Empresa emp, bool utilizaApp, bool utilizaReconhecimentoFacil, int tipoTermo, List<Modelo.EmpresaTermoUso> empresaTermoUsos, int idUsuario, string termoAceito)
