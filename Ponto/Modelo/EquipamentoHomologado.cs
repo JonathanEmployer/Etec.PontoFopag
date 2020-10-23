@@ -13,5 +13,6 @@ namespace Modelo
         public int identificacaoRelogio { get; set; }
         public bool EquipamentoHomologadoInmetro { get; set; }
         public bool ServicoComunicador { get; set; }
+        public bool Portaria373 { get; set; }
     }
 }

@@ -183,6 +183,10 @@ namespace BLL
                 }
             }
 
+            if (objeto.IdEquipamentoTipoBiometria == 0)
+            {
+                ret.Add("IdEquipamentoTipoBiometria", "O campo Tipo Biometria é obrigatório.");
+            }
             return ret;
         }
 
