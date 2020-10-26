@@ -596,15 +596,6 @@
     $('#btRelManutDiaria').click(function (event) {
         var parms = ParamPeriodoEmpDepCont();
         if (parms != null) {
-            //var param = {
-            //    method: "post",
-            //    action: "/RelatorioManutencaoDiaria/ManutencaoDiaria",
-            //    emp: parms.empresa,
-            //    depart: parms.departamento,
-            //    dataInicial: parms.dataInicial,
-            //    dataFinal: parms.dataFinal
-            //};
-            //cwk_PostAjax('ManutencaoDiariaParms', 'RelatorioManutencaoDiaria', param);
             PostReturnJob("/RelatorioManutencaoDiaria/ManutencaoDiariaParms", "Post", parms, "ManutencaoDiariaTabelaMarcacao", false);
         }
         else {

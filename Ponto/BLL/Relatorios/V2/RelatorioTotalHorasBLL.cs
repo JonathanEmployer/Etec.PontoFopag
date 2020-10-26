@@ -31,11 +31,13 @@ namespace BLL.Relatorios.V2
             _progressBar.setaMensagem("Organizando dados...");
             IList<string> ColunasAddDinamic = new List<string>();
             DataTable dados = Conversores.ToDataTable<PxyRelTotalHoras>(totais);
-            IList<int> percs = totais.SelectMany(x => x.LRateioHorasExtras).Select(s => s.percentual).ToList();
+            IList<decimal> percs = totais.SelectMany(x => x.LRateioHorasExtras).Select(s => s.percentual).ToList();
             percs = percs.Distinct().OrderBy(x => x).ToList();
 
             foreach (var perc in percs) // Adiciona os percentuais existentes como coluna no datatable
             {
+
+
                 string nomeColuna = "Extras " + perc + "%";
                 dados.Columns.Add(nomeColuna, typeof(System.String));
                 ColunasAddDinamic.Add(nomeColuna);
@@ -53,11 +55,12 @@ namespace BLL.Relatorios.V2
                                         HoraDiurna = lg.Sum(w => w.diurnoMin),
                                         HoraNoturna = lg.Sum(w => w.noturnoMin)
                                     }).OrderBy(x => x.Percentual);
-
+                
                 foreach (var item in horasExtrasFunc)// Adiciona os percentuais nas respectivas colunas
                 {
+  
                     string nomeColuna = "Extras " + item.Percentual + "%";
-                    dr[nomeColuna] = Modelo.cwkFuncoes.ConvertMinutosHora(item.HoraDiurna + item.HoraNoturna).Replace("--:--", "");
+                    dr[nomeColuna] = Modelo.cwkFuncoes.ConvertMinutosHoraExcel(item.HoraDiurna + item.HoraNoturna).Replace("--:--", "");
                 }
             }
 

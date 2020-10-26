@@ -476,7 +476,19 @@ namespace PontoWeb.Controllers
                         ModelState.Remove("LHorariosPHExtra[" + i + "].PercentualExtraNoturna");
                     }
                 }                
-            }      
+            }
+
+            for (int i = 0; i < obj.LHorariosPHExtra.Count; i++)
+            {
+                if (string.IsNullOrEmpty(obj.LHorariosPHExtra[i].PercentualExtraSegundoNoturna.ToString()))
+                {
+                    obj.LHorariosPHExtra[i].PercentualExtraSegundoNoturna = null;
+                    if (ModelState.ContainsKey("LHorariosPHExtra[" + i + "].PercentualExtraSegundoNoturna"))
+                    {
+                        ModelState.Remove("LHorariosPHExtra[" + i + "].PercentualExtraSegundoNoturna");
+                    } 
+                }
+            }
         }
 
         private static void TrataDados(Horario horario)

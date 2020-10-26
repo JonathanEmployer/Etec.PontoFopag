@@ -3828,10 +3828,10 @@ namespace BLL
                 horasFaltaNoturnaMin = 0;
                 ocorrencia = "";
             }
-            else if (legenda == "" && horasFaltaNoturnaMin != 0 && horasFaltaNoturnaMin == horarioN)
-            {
-                ocorrencia = "Falta";
-            }
+            //else if (legenda == "" && horasFaltaNoturnaMin != 0 && horasFaltaNoturnaMin == horarioN)
+            //{
+            //    ocorrencia = "Falta";
+            //}
         }
         #endregion
 

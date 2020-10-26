@@ -15,6 +15,7 @@ namespace MonitorJobs.Jobs
         public void Execute(IJobExecutionContext context)
         {
             AgendarDeleteArquivosAntigos();
+#if !DEBUG
                 IList<Models.Bases> lbases = Negocio.Bases.GetBasesPontofopagAtivas();
 
                 log.Debug("Bases para manitorar = " + String.Join("; ", lbases.Select(s => s.Nome)));
@@ -23,20 +24,22 @@ namespace MonitorJobs.Jobs
                 int interacao = 0;
                 foreach (Models.Bases item in lbases.Where(w => w.Nome.Equals("PONTOFOPAG_JMALUCELLI")))
                 {
-                    log.Debug(item.Nome + ": Agendando");
-                    AgendarProcessamentoLote(scheduler, item.Nome);
+                log.Debug(item.Nome + ": Agendando");
+                AgendarProcessamentoLote(scheduler, item.Nome);
 
             #region Agenda processos recorrentes para o Hangfire
-                    AgendarGeracaoMarcacao(interacao, item);
-                    interacao++;
+                AgendarGeracaoMarcacao(interacao, item);
+                interacao++;
             #endregion
 
-                    AgendarImportacaoRegistrosColetor(item);
+                AgendarImportacaoRegistrosColetor(item);
+                AgendarExclusaoLogicaFuncionarios(item);
 
             #region Processo em teste
-                    AgendarEnvioRegistros(item);
+                AgendarEnvioRegistros(item);
             #endregion
-                }
+            }
+#endif
         }
 
         private static void AgendarGeracaoMarcacao(int interacao, Models.Bases item)
@@ -66,6 +69,24 @@ namespace MonitorJobs.Jobs
                 else
                     idJob = String.Format(idJob, item.Nome);
                 RecurringJob.AddOrUpdate(idJob, () => Negocio.EnviarRegistroPonto.EnviarRegistroPontoCS(item.Nome), "*/1 * * * *", queue: "pequeno"); 
+            }
+        }
+
+        private static void AgendarExclusaoLogicaFuncionarios(Models.Bases item)
+        {
+            //Lógica para remover a palavra "Pontofpag" do nome da base
+            if (item.Nome == "PONTOFOPAG_EMPLOYER")
+            {
+                DateTime database = Convert.ToDateTime("2020-09-28 01:30:00").ToUniversalTime();
+                int hora = database.Hour;
+                int minuto = database.Minute;
+                string[] nome = item.Nome.Split('_');
+                String idJob = "ExclusaoLogicaFuncionarios{0}";
+                if (nome.Count() > 1)
+                    idJob = String.Format(idJob, String.Join("_", nome.Skip(1).ToArray()));
+                else
+                    idJob = String.Format(idJob, item.Nome);
+                RecurringJob.AddOrUpdate(idJob, () => Negocio.ExclusaoLogicaFuncionariosInativos.ExcluirFuncionariosInativos(item.Nome), string.Format("{0} {1} * * *", minuto, hora), queue: "pequeno");
             }
         }
 

@@ -9,6 +9,6 @@ namespace cwkWebAPIPontoWeb.Models
     {
         public string diurno { get; set; }
         public string noturno { get; set; }
-        public int percentual { get; set; }
+        public decimal percentual { get; set; }
     }
 }

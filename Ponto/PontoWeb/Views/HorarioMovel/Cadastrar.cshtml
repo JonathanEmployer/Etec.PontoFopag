@@ -1945,6 +1945,9 @@
                 if ($(element).attr("type") == "checkbox") {
                     value = element.is(':checked');
                 }
+                else if (element.hasClass('currency') || element.hasClass('money') || element.hasClass('decimalPercent')) {
+                    value = element.val().replace(',', '.');
+                }
                 else {
                     value = element.val();
                 }

@@ -2200,6 +2200,9 @@
                 if ($(element).attr("type") == "checkbox") {
                     value = element.is(':checked');
                 }
+                else if (element.hasClass('currency') || element.hasClass('money') || element.hasClass('decimalPercent')) {
+                    value = element.val().replace(',', '.');
+                }
                 else {
                     value = element.val();
                 }
@@ -2500,7 +2503,7 @@
             var url = '@Url.Action("AdicionaNovaRestricao", "HorarioDinamico")' + "?" + $.param(obj, true);
             url = decodeURIComponent(url);
 
-            $.post(url, function (data) {
+            $.get(url, function (data) {
                 if (data.Success == true) {
                     $("#divRestricoes").prepend(data.HTML);
                     $("#lkpEmpresa").val("");

@@ -315,6 +315,23 @@ namespace DAL.SQL
 
         }
 
+        public bool BuscaJustificativaCodigo(int codigo)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@Codigo", SqlDbType.VarChar)
+            };
+            parms[0].Value = codigo;
+
+            string cmd = @" SELECT COUNT (id) as quantidade
+                            FROM justificativa
+                            WHERE codigo =  @Codigo";
+
+            int valor = (int)db.ExecuteScalar(CommandType.Text, cmd, parms);
+
+            return valor == 0 ? false : true;
+
+        }
         public List<Modelo.Justificativa> GetAllList(bool validaPermissaoUser)
         {
             SqlParameter[] parms = new SqlParameter[0];
