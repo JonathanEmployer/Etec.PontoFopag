@@ -107,7 +107,7 @@ namespace DAL.SQL
             ((Modelo.FuncionarioRFID)obj).RFID = (dr["RFID"] is DBNull ? 0 : Convert.ToInt32(dr["RFID"]));
             ((Modelo.FuncionarioRFID)obj).MIFARE = Convert.ToString(dr["MIFARE"]);
             ((Modelo.FuncionarioRFID)obj).Ativo = Convert.ToBoolean(dr["Ativo"]);
-            ((Modelo.FuncionarioRFID)obj).Senha = Convert.ToString(dr["Senha"]);
+            //((Modelo.FuncionarioRFID)obj).Senha = Convert.ToString(dr["Senha"]);
 
         }
 
