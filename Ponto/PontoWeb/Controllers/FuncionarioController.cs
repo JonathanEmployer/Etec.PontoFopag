@@ -182,6 +182,7 @@ namespace PontoWeb.Controllers
 
                 return PartialFuncionarioRFID(bllFuncionario, idfuncionario, usr);
 
+
             }
             catch (Exception ex)
             {
@@ -646,8 +647,7 @@ namespace PontoWeb.Controllers
             if (!String.IsNullOrEmpty(funcionario.Mob_Senha))
             {
                 string mobsenha = "";
-                funcionario.Mob_Senha = bllFuncionario.GetMobSenha(funcionario);
-                //funcionario.Mob_Senha = mobsenha.PadLeft(bllFuncionario.GetMobSenha(funcionario).Length, '#');
+                funcionario.Mob_Senha = mobsenha.PadLeft(bllFuncionario.GetMobSenha(funcionario).Length, '#');
             }
 
             funcionario.Historico = bllFuncHist.LoadPorFuncionario(funcionario.Id);
