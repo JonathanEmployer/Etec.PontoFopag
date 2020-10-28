@@ -44,6 +44,13 @@
                             @Html.ValidationMessageFor(model => model.NumRelogio)
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Portaria373, new { @class = "control-label label-sm" })
+                            @Html.CheckBoxFor(model => model.Portaria373, new { @class = "checkbox" })
+                            @Html.ValidationMessageFor(model => model.Portaria373)
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">
@@ -58,6 +65,13 @@
                             @Html.LabelFor(model => model.modeloNome, new { @class = "control-label label-sm" })
                             @Html.TextBoxFor(model => model.modeloNome, new { id = "lkpEquipamentoHomologadoStr", @class = "form-control  input-sm ", @disabled = "true" })
                             @Html.ValidationMessageFor(model => model.modeloNome)
+                        </div>
+                    </div>
+                    <div class="col-md-5" id="divSelPortaria373">
+                        <div class="form-group">
+                            @Html.Label("lbRelogio373", "Relógio", new { @class = "control-label label-sm disabled" })
+                            @Html.DropDownListFor(m => m.IdEquipamentoHomologado373, new SelectList(ViewBag.equipamentoPortaria373, "Id", "Descricao"), "Selecione", new { @id = "comboEquipamentoPortaria373", @class = "form-control input-sm" })
+                            @Html.ValidationMessageFor(model => model.IdEquipamentoHomologado373)
                         </div>
                     </div>
                     <div class="col-md-4" id="divCampoCracha">
@@ -295,7 +309,23 @@
         ExibeDivImportacao('@Convert.ToInt32(Model.Relogio)', '@Convert.ToBoolean(Model.EquipamentoHomologado.ServicoComunicador)');
         ExibeEscolhaCampoCracha(@Convert.ToInt32(Model.Relogio));
         cwk_DataCalendario('#btnInicioImp', '#dtInicioImp');
+        validaPortaria373();
     });
+
+    $("#Portaria373").change(function () {
+        validaPortaria373();
+    })
+
+    function validaPortaria373() {
+        if ($("#Portaria373").is(':checked')) {
+            $("#divSelPortaria373").show();
+            $("#divNome").hide();
+        }
+        else {
+            $("#divSelPortaria373").hide();
+            $("#divNome").show();
+        }
+    }
 
     $("#TipoComunicacao").change(function () {
         HabilitaDesabilitaIP();
@@ -369,7 +399,12 @@
 
                     ExibeDivImportacao(ret.IdentificacaoRelogio, ret.ServicoComunicador);
                     ExibeEscolhaCampoCracha(ret.IdentificacaoRelogio);
-                    $("#dtInicioImp").focus();
+                    if ($("#Portaria373").is(':checked')) {
+                        $("#IdEquipamentoTipoBiometria").focus();
+                    }
+                    else {
+                        $("#dtInicioImp").focus();
+                    }
                 } else {
                     cwkErroTit('Erro!', ret.Erro);
                 }

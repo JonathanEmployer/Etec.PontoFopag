@@ -3134,7 +3134,11 @@ namespace BLL
 				marcaCargaHorariaMistaHD = 0;
 
             BLL.CalculoHoras.QtdHorasDiurnaNoturna(HoraEntrada, HoraSaida, inicioAdNoturno, fimAdNoturno, ref CargaHorariaD, ref CargaHorariaN);
-			CargaHorariaM = CargaHorariaD + CargaHorariaN; 
+            if (bCafe && naoConsiderarCafe == 0)
+            {
+                BLL.Horario.CalculaCafe(HoraEntrada, HoraSaida, habilitaPeriodo01, habilitaPeriodo02, ref CargaHorariaD, ref CargaHorariaN);
+            }
+            CargaHorariaM = CargaHorariaD + CargaHorariaN; 
              Marcacargahorariamista = marcaCargaHorariaMistaHD.Value; //CRNC - 09/01/2010   
 		}
 

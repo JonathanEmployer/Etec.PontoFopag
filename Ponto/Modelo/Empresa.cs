@@ -341,5 +341,6 @@ namespace Modelo
         public string TokenPontofopag { get; set; }
         public string UsuarioEPays { get; set; }
         public string SenhaEPays { get; set; }
+        public bool Integrando { get; set; }
     }
 }
