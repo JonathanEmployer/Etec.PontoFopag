@@ -2532,9 +2532,10 @@ namespace DAL.SQL
             parms[1].Value = CreateDataTableIdentificadores(idsHorario.Select(s => (long)s).ToList());
             parms[1].TypeName = "Identificadores";
 
-            string sql = @"  SET DATEFIRST 1
-                            SELECT m.data DataMarcacacao,
-                                   m.legenda, 
+            string sql = @" SET DATEFIRST 1
+
+                            SELECT t.DataMarcacacao,
+                                   t.legenda, 
                                    j.entrada_1 EntradaPrevista1, 
                                    j.saida_1 SaidaPrevista1,
                                    j.entrada_2 EntradaPrevista2, 
@@ -2543,34 +2544,38 @@ namespace DAL.SQL
                                    j.saida_3 SaidaPrevista3,
                                    j.entrada_4 EntradaPrevista4, 
                                    j.saida_4 SaidaPrevista4,
-                                   f.dscodigo,
-                                   f.pis,
-                                   f.id idfuncionario,
-                                   h.PontoPorExcecao,
-                                   h.id idhorario,
+                                   t.dscodigo,
+                                   t.pis,
+                                   t.idfuncionario,
+                                   PontoPorExcecao,
+                                   t.idhorario,
                                    b.*
-                              FROM marcacao m
-                             INNER JOIN horario h ON m.idhorario = h.id 
-                             INNER JOIN funcionario f ON f.idhorario = h.id AND m.idfuncionario = f.id 
-                              LEFT JOIN bilhetesimp b ON f.id = b.idfuncionario AND m.data = b.mar_data
-                              LEFT JOIN dbo.horariodetalhe hd ON h.id = hd.idhorario AND ((h.tipohorario = 1 AND hd.dia = DATEPART(WEEKDAY, m.data)) OR 
-                                                                                                              (h.tipohorario = 2 AND hd.data = m.data ))
-                              LEFT JOIN jornada j ON j.id = hd.idjornada
-                             WHERE 1 = 1 
-                               AND m.legenda not in ('A', 'F')
-                               AND (h.pontoporexcecao = 1 or (h.PontoPorExcecao = 0 and b.relogio = 'PE'))
-                               AND j.entrada_1 IS NOT NULL
-                               AND m.idFechamentoPonto IS NULL
-                               AND m.idfechamentobh IS NULL
-                               AND m.[data] >=  f.dataadmissao 
-                               AND (m.[data] < f.datademissao OR f.datademissao IS NULL)
-                               AND (m.[data] < f.DataInativacao OR f.DataInativacao IS NULL)
-                               AND (f.id in (SELECT Identificador from @idsFuncs) OR
-                                    (SELECT count(Identificador) from @idsFuncs) = 0
-                                    ) 
-                               AND (H.id in (SELECT Identificador from @idsHorarios) OR
-                                    (SELECT count(Identificador) from @idsHorarios) = 0
-                                    )  ";
+                            FROM (
+                                SELECT
+                                    m.data DataMarcacacao,
+                                    m.legenda, 
+                                    f.dscodigo,
+                                    f.pis,
+                                    f.id idfuncionario,
+                                    h.PontoPorExcecao,
+                                    h.id idhorario,
+                                    h.tipohorario
+                                FROM dbo.marcacao m 
+                                INNER JOIN dbo.horario  h  ON m.idhorario = h.id  AND m.idfechamentobh IS NULL and m.idFechamentoPonto is NULL
+                                INNER JOIN dbo.funcionario  f ON f.idhorario = h.id AND m.idfuncionario = f.id and m.[data] >=  f.dataadmissao AND (m.[data] < f.datademissao OR f.datademissao IS NULL) AND (m.[data] < f.DataInativacao OR f.DataInativacao IS NULL)
+                                WHERE m.legenda not in ('A', 'F')
+                                AND (h.pontoporexcecao = 1)                             
+                                AND (f.id in (SELECT Identificador from @idsFuncs) OR
+                                        (SELECT count(Identificador) from @idsFuncs) = 0
+                                        ) 
+                                AND (h.id in (SELECT Identificador from @idsHorarios) OR
+                                        (SELECT count(Identificador) from @idsHorarios) = 0
+                                        )
+                            ) T
+                            LEFT JOIN dbo.bilhetesimp  b ON t.idfuncionario = b.idfuncionario AND t.DataMarcacacao = b.mar_data
+                            LEFT JOIN dbo.horariodetalhe  hd ON t.idhorario = hd.idhorario AND ((t.tipohorario = 1 AND hd.dia = DATEPART(WEEKDAY, t.DataMarcacacao)) OR  (t.tipohorario = 2 AND hd.data = t.DataMarcacacao ))
+                            LEFT JOIN dbo.jornada  j ON j.id = hd.idjornada AND j.entrada_1 IS NOT NULL
+                            WHERE 1 = 1 ";
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 

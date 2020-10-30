@@ -22,7 +22,7 @@ namespace MonitorJobs.Jobs
 
                 IScheduler scheduler = context.Scheduler;
                 int interacao = 0;
-                foreach (Models.Bases item in lbases.Where(w => w.Nome.Equals("PONTOFOPAG_JMALUCELLI")))
+                foreach (Models.Bases item in lbases)
                 {
                 log.Debug(item.Nome + ": Agendando");
                 AgendarProcessamentoLote(scheduler, item.Nome);
