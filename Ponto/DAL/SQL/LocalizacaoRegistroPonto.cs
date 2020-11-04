@@ -250,7 +250,9 @@ namespace DAL.SQL
 	                               ISNULL(LRP.IpInterno, LRP.IpPublico) IP,
 	                               LRP.Browser,
 	                               LRP.BrowserVersao,
-                                   Convert(VARCHAR, @datainicial, 103) + ' a ' + Convert(VARCHAR, @datafinal, 103) Periodo
+                                   Convert(VARCHAR, @datainicial, 103) + ' a ' + Convert(VARCHAR, @datafinal, 103) Periodo,
+								   Convert(VARCHAR,LRP.Latitude) Latitude,
+								   Convert(VARCHAR,LRP.Longitude)  Longitude
                               FROM LocalizacaoRegistroPonto LRP
                              INNER JOIN bilhetesimp	bi ON LRP.IdBilhetesImp = bi.id
                              INNER JOIN funcionario f ON bi.func = f.dscodigo
