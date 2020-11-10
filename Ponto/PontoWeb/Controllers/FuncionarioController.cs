@@ -247,7 +247,7 @@ namespace PontoWeb.Controllers
 
             Funcionario funcionario = new Funcionario();
             funcionario = bllFuncionario.LoadObject(idfuncionario);
-            funcionario.FuncionarioRFID = bllFuncionarioRFID.GetAllListByFuncionario(idfuncionario).Where(x => x.Ativo).ToList();
+            funcionario.FuncionarioRFID = bllFuncionarioRFID.GetAllListByFuncionario(idfuncionario, true).ToList();
             funcionario.Senha = bllFuncionario.GetSenha(funcionario);
 
             return PartialView("FuncionarioRFID", funcionario);
@@ -608,7 +608,7 @@ namespace PontoWeb.Controllers
             PreencheTipoVinculo(conn, usr);
             funcionario = bllFuncionario.LoadObject(id);
             funcionario.Biometrias = bllBiometria.GetBiometriaTipoBiometria(id);
-            funcionario.FuncionarioRFID = bllFuncionarioRFID.GetAllListByFuncionario(id).Where(x => x.Ativo).ToList();
+            funcionario.FuncionarioRFID = bllFuncionarioRFID.GetAllListByFuncionario(id, true).ToList();
 
             BLL.Parametros bllparm = new BLL.Parametros(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
             Modelo.Parametros parm = new Parametros();
