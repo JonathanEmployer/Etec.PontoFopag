@@ -69,6 +69,11 @@ namespace BLL.IntegracaoRelogio
                 }
                 else
                 {
+                    _ = long.TryParse(func.MIFARE, out long mifireConv);
+                    long? mifire = null;
+                    if (!String.IsNullOrEmpty(func.MIFARE))
+                        mifire = mifireConv;
+
                     empregados.Add(new Empregado()
                     {
                         Biometria = false,
@@ -77,8 +82,9 @@ namespace BLL.IntegracaoRelogio
                         Pis = func.Pis,
                         Senha = bllFuncionario.GetSenha(func),
                         RFID = func.RFID,
-                        Matricula = func.Matricula
-                                       });
+                        Matricula = func.Matricula,
+                        MIFARE = mifire
+                    });
                 }
             }
             relogio.SetEmpregados(empregados);

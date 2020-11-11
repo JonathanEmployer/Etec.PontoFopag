@@ -179,31 +179,45 @@ namespace DAL.SQL
             return lista;
         }
 
-        public List<Modelo.FuncionarioRFID> GetAllListByFuncionario(int idFuncionario)
+        public List<Modelo.FuncionarioRFID> GetAllListByFuncionario(int idFunc, bool apenasAtivos)
         {
-            SqlParameter[] parms = new SqlParameter[1] { new SqlParameter("@idFuncionario", SqlDbType.Int) };
-            parms[0].Value = idFuncionario;
+            return GetAllListByFuncionario(new List<int>() { idFunc }, apenasAtivos);
+        }
+
+        public List<Modelo.FuncionarioRFID> GetAllListByFuncionario(List<int> idsFuncs, bool apenasAtivos)
+        {
+            SqlParameter[] parms = new SqlParameter[1]
+            {
+                    new SqlParameter("@idsFuncs", SqlDbType.Structured)
+            };
+            parms[0].Value = CreateDataTableIdentificadores(idsFuncs.Select(s => (long)s));
+            parms[0].TypeName = "Identificadores";
 
             //string cmd = " SELECT *  FROM FuncionarioRFID where idfuncionario = @idfuncionario";
             string cmd = @"SELECT 
-FuncionarioRFID.Id
-,FuncionarioRFID.Codigo
-,FuncionarioRFID.IncData
-,FuncionarioRFID.IncHora
-,FuncionarioRFID.IncUsuario
-,FuncionarioRFID.AltData
-,FuncionarioRFID.AltHora
-,FuncionarioRFID.AltUsuario
-,FuncionarioRFID.RFID
-,FuncionarioRFID.IdFuncionario
-,FuncionarioRFID.MIFARE
-,FuncionarioRFID.Ativo
-,FuncionarioRFID.Ctl_Inicio
-,FuncionarioRFID.Ctl_Fim 
-,fu.Senha
-FROM FuncionarioRFID
-JOIN funcionario fu ON dbo.FuncionarioRFID.IdFuncionario = fu.id
-where idfuncionario =@idfuncionario";
+                                    FuncionarioRFID.Id
+                                    ,FuncionarioRFID.Codigo
+                                    ,FuncionarioRFID.IncData
+                                    ,FuncionarioRFID.IncHora
+                                    ,FuncionarioRFID.IncUsuario
+                                    ,FuncionarioRFID.AltData
+                                    ,FuncionarioRFID.AltHora
+                                    ,FuncionarioRFID.AltUsuario
+                                    ,FuncionarioRFID.RFID
+                                    ,FuncionarioRFID.IdFuncionario
+                                    ,FuncionarioRFID.MIFARE
+                                    ,FuncionarioRFID.Ativo
+                                    ,FuncionarioRFID.Ctl_Inicio
+                                    ,FuncionarioRFID.Ctl_Fim 
+                                    ,fu.Senha
+                            FROM @idsFuncs FI
+                            INNER JOIN funcionario fu on fi.Identificador = fu.id
+                            INNER JOIN FuncionarioRFID ON dbo.FuncionarioRFID.IdFuncionario = fu.id
+                            where 1 = 1 ";
+            if (apenasAtivos)
+            {
+                cmd += " and ativo = 1 ";
+            }
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, cmd, parms);
 
             List<Modelo.FuncionarioRFID> lista = new List<Modelo.FuncionarioRFID>();
