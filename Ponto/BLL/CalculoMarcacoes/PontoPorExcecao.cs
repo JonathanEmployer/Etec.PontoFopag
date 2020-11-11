@@ -101,7 +101,7 @@ namespace BLL.CalculoMarcacoes
                 previstos.Add((registro.EntradaPrevista4, "E"));
                 previstos.Add((registro.SaidaPrevista4, "S"));
 
-                foreach ((string, string) previsto in previstos.Where(w => w.Item1 != "--:--"))
+                foreach ((string, string) previsto in previstos.Where(w => w.Item1 != "--:--" && w.Item1 != null))
                 {
                     registroPontos.Add(new Modelo.RegistroPonto()
                     {
