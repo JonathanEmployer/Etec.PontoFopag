@@ -19,7 +19,7 @@ namespace PontoWeb.Controllers
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
             BLL.FuncionarioRFID bllFuncionarioRFID = new BLL.FuncionarioRFID(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
 
-            return View(bllFuncionarioRFID.GetAllListByFuncionario(id));
+            return View(bllFuncionarioRFID.GetAllListByFuncionario(id, false));
         }
 
 
@@ -30,7 +30,7 @@ namespace PontoWeb.Controllers
             {
                 var usr = Usuario.GetUsuarioPontoWebLogadoCache();
                 BLL.FuncionarioRFID bllFuncionarioRFID = new BLL.FuncionarioRFID(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
-                List<Modelo.FuncionarioRFID> dados = bllFuncionarioRFID.GetAllListByFuncionario(id);
+                List<Modelo.FuncionarioRFID> dados = bllFuncionarioRFID.GetAllListByFuncionario(id, false);
                 JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
                 jsonResult.MaxJsonLength = int.MaxValue;
                 return jsonResult;

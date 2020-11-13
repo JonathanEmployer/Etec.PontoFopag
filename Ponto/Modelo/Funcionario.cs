@@ -221,6 +221,7 @@ namespace Modelo
         [Range(0, double.MaxValue, ErrorMessage = "Campo inválido")]
         public Int64? RFID { get; set; }
         public Int64? RFID_Ant { get; set; }
+        public string MIFARE { get; set; }
 
         /// <summary>
         /// Valor anterior da variável Funcionárioativo
