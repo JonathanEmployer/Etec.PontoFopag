@@ -975,7 +975,7 @@ namespace DAL.SQL
             aux += " marcacao.idfuncionario in (select * from dbo.f_clausulaIn(@idsFuncionarios)) AND ";
 
             aux += " marcacao.data >= @datai AND marcacao.data <= @dataf ";
-            aux += GetRestricaoUsuario();
+            aux += DALBase.PermissaoUsuarioFuncionario(UsuarioLogado, aux, "funcionario.idempresa", "marcacao.idfuncionario", null);
             aux += " ORDER BY funcionario.id, marcacao.data option(MaxDop 8) ";
 
             DataTable dt = new DataTable();

@@ -269,8 +269,16 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
 
                 Empregados.GroupBy(x => x.DsCodigo).ToList().ForEach(x =>
                 {
-                    var empregado = Empregados.Where(y => y.DsCodigo == x.Key).ToList();
-                    EnviaFuncionarioBiometria(x.Key, empregado.Count(), empregado.Select(b => Encoding.UTF8.GetString(b.valorBiometria)).ToList());
+                    try
+                    {
+                        var empregado = Empregados.Where(y => y.DsCodigo == x.Key && y.valorBiometria != null).ToList();
+                        EnviaFuncionarioBiometria(x.Key, empregado.Count(), empregado.Select(b => Encoding.UTF8.GetString(b.valorBiometria)).ToList());
+                    }
+                    catch (Exception e)
+                    {
+
+                        throw e;
+                    }
                 });
 
                 IList<string> err = erros.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
