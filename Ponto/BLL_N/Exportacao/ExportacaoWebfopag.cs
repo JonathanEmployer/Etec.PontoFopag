@@ -308,8 +308,7 @@ namespace BLL_N.Exportacao
 
                         byte[] res = bllExportacao.ExportarFolhaWeb(dataI, dataF, idsFuncs, idLayout, progressBar, listalayouttxt, idsEventos);
 
-
-                        string str = System.Text.Encoding.Default.GetString(res);
+                        string str = System.Text.Encoding.UTF8.GetString(res);
 
                         string[] array = str.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
                         List<String> listTxt = new List<String>();
