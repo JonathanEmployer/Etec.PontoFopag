@@ -1294,11 +1294,6 @@
             Salário do  Funcionário
             </summary>
         </member>
-        <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.SenhaRelogio">
-            <summary>
-            Senha do Relógio
-            </summary>
-        </member>
         <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.Dataadmissao">
             <summary>
             Data de Admissão do Funcionário
