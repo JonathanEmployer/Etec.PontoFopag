@@ -26,7 +26,8 @@ namespace PontoWeb.Controllers
         public ActionResult GridPorMarcacao(int id)
         {
             BLL.Marcacao bllMarcacao = new BLL.Marcacao(_usr.ConnectionString, _usr);
-            var mar = bllMarcacao.LoadObject(id);
+            var mar = bllMarcacao.LoadObject(id); 
+
             return View("GridPorFuncionario", new Modelo.MudancaHorario() { Idfuncionario = mar.Idfuncionario });
         }
 
