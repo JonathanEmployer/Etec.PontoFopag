@@ -158,7 +158,16 @@ namespace BLL
                             Modelo.Marcacao marcDia = marcsFuncs.Where(w => w.Data == marData).FirstOrDefault();
                             int idHorario = marcDia.Idhorario;
                             Modelo.Horario horario = horarios.Where(w => w.Id == idHorario).FirstOrDefault();
-                            Modelo.HorarioDetalhe horarioDetalhe = horario.HorariosDetalhe.ToList().Where(w => w == null || w.Data == marcDia.Data || w.DiaStr == marcDia.Dia).FirstOrDefault();
+                            Modelo.HorarioDetalhe horarioDetalhe = new Modelo.HorarioDetalhe();
+                            if (horario.HorariosDetalhe.ToList().Where(w => w != null).Any())
+                            {
+                                horarioDetalhe = horario.HorariosDetalhe.ToList().Where(w => w.DiaStr == marcDia.Dia).FirstOrDefault();
+                            }
+                            else
+                            {
+                                horarioDetalhe = horario.HorariosFlexiveis.ToList().Where(w => w.Data == marcDia.Data).FirstOrDefault();
+                            }
+                            
                             if (horarioDetalhe != null && ent.ConvertHorasMinuto() > sai.ConvertHorasMinuto())
                             {
                                 int entPrevistaMin = horarioDetalhe.Entrada_1.ConvertHorasMinuto();
