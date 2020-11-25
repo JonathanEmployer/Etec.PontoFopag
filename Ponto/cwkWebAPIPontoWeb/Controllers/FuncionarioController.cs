@@ -69,20 +69,8 @@ namespace cwkWebAPIPontoWeb.Controllers
                         {
                             // Lógica para atender os casos de dados que foram incluídos manualmente no ponto e agora a folha esta tentando integrar via integração.
                             // Nesses casos o idintegração do ponto esta 0 e a folha vai mandar com um idIntegracao, então vejo se o funcionário enviado pela folha bate a matricula, cpf e empresa, caso positivo apenas atualiza o cadastro incluindo o idIntegracao
-                            var verificaFuncionarioExistente = GetFuncionarioPorCPFeMatricula(funcionario.CPF, funcionario.Matricula);
-                            if (verificaFuncionarioExistente.IsSuccessStatusCode)
-                            {
-                                DadosAntFunc = bllFuncionario.LoadPorCPF(funcionario.CPF);
-                            }
-                            else
-                            {
-                                BLL.Funcionario bllFunc = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
-                                var teste2 = bllFunc.GetFuncionarioPorMatricula(funcionario.Matricula);
-                                if (teste2 != null)
-                                {
-                                    throw new Exception("A Mátricula inserida já está cadastrada para outro funcionário");
-                                }
-                            }
+                            Int64.TryParse(funcionario.CPF.Replace(".", "").Replace("-", ""), out Int64 cpfInt64);
+                            DadosAntFunc = bllFuncionario.GetFuncionarioPorCpfeMatricula(cpfInt64, funcionario.Matricula);
 
                         }
                         if (funcionario.IdIntegracao > 0 && (DadosAntFunc == null || DadosAntFunc.Matricula != funcionario.Matricula || DadosAntFunc.Idempresa != emp.Id))
