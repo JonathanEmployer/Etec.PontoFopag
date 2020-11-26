@@ -154,32 +154,45 @@ namespace cwkPontoMT.Integracao.Relogios.ControlID
         {
             try
             {
+                log.Debug("Iniciando Processo de envio de empresa/funcionário");
                 Dictionary<string, object> dadosRep = new Dictionary<string, object>();
                 string errData = "";
+                log.Debug("Tentando receber informações do rep");
                 dadosRep = RecebeInformacoesRep(out errData);
                 int x = dadosRep.Count();
+                log.Debug("Dados Recebidos = "+x);
 
+                log.Debug("Conectando com o REP");
                 RepCid rep = Connect(IP, Convert.ToInt32(Porta), 0);
+                log.Debug("Conectado com o REP");
 
                 bool sucessoEmpresa = false;
                 bool gravouEmpresa = false;
                 erros = "";
                 if (Empregador != null)
                 {
+                    log.Debug("Iniciando envio de empresa");
                     string documento, cei, razaosocial, local, cpf;
                     int tipodoc;
                     DadosEmpregador(out documento, out tipodoc, out cei, out razaosocial, out local, out cpf);
+                    log.Debug($"Enviando os dados documento = {documento}; tipodoc = {tipodoc}; cei = {cei}; razaosocial = {razaosocial}; local = {local}, cpf = {cpf}");
                     sucessoEmpresa = rep.iDClass_GravarEmpregador(documento, tipodoc, cei, razaosocial, local, cpf, out gravouEmpresa);
                     
                     if (!(sucessoEmpresa && gravouEmpresa))
                     {
+                        log.Debug("Erro ao atualizar os dados de Empregador");
                         erros += "Erro ao atualizar os dados de Empregador\r\n";
+                    }
+                    else
+                    {
+                        log.Debug("Empresa enviada com sucesso");
                     }
                 }
                 
                 Dictionary<string, string> errosEmpregados = new Dictionary<string, string>();
                 foreach (var item in Empregados)
                 {
+                    log.Debug("Iniciando envio de Empregados");
                     bool sucessoEmpregado = false;
                     bool gravouEmpregado = false;
                     try
@@ -189,8 +202,8 @@ namespace cwkPontoMT.Integracao.Relogios.ControlID
                         int dscodigo;
                         Int64 RFID, matricula;
                         DadosFuncionario(item, out pis, out nome, out matricula, out dscodigo, out senha, out codBarras, out RFID);
+                        log.Debug($"Enviando os dados pis = {pis}; nome = {nome}; matricula = {matricula}; dscodigo = {dscodigo}; senha = {senha}; codBarras = {codBarras}; RFID = {RFID}");
                         sucessoEmpregado = rep.iDClass_GravarUsuario(pis, nome, matricula, dscodigo, senha, codBarras, RFID, 0, new string[0], out gravouEmpregado);
-                   
 
                         if (!(sucessoEmpregado && gravouEmpregado))
                         {
@@ -203,16 +216,23 @@ namespace cwkPontoMT.Integracao.Relogios.ControlID
                                 if (!string.IsNullOrEmpty(stringTratada))
                                 {
                                     errosEmpregados.Add(item.Pis, stringTratada + "\r\n");
+                                    log.Debug($"Erro no PIS = {item.Pis}; Erro = {stringTratada}");
                                 }
                                 else
                                 {
                                     errosEmpregados.Add(item.Pis, "Erro ao comunicar/enviar para o Rep\r\n");
+                                    log.Debug($"Erro no PIS = {item.Pis}; Erro = Erro ao comunicar / enviar para o Rep");
                                 }
                             }
                             else
                             {
                                 errosEmpregados[item.Pis] += "Erro ao comunicar/enviar para o Rep\r\n";
+                                log.Debug($"Erro no PIS = {item.Pis}; Erro = Erro ao comunicar / enviar para o Rep");
                             }
+                        }
+                        else
+                        {
+                            log.Debug($"Dados enviado com sucesso");
                         }
                     }
                     catch (Exception e)
@@ -225,6 +245,7 @@ namespace cwkPontoMT.Integracao.Relogios.ControlID
                         {
                             errosEmpregados[item.Pis] += e.Message + "\r\n";
                         }
+                        log.Debug($"Erro no PIS = {item.Pis}; Erro = {e.Message}");
                     }
                 }
                 if (errosEmpregados.Count > 0)
@@ -234,8 +255,10 @@ namespace cwkPontoMT.Integracao.Relogios.ControlID
                         erros += ("Pis: " + key + " -- " + errosEmpregados[key]);
                     }
                 }
-                
+
+                log.Debug($"desconectando do equipamento");
                 rep.Desconectar();
+                log.Debug($"desconectado do equipamento");
                 if (Empregador != null)
                 {
                     return (sucessoEmpresa && gravouEmpresa && String.IsNullOrEmpty(erros));
@@ -248,6 +271,7 @@ namespace cwkPontoMT.Integracao.Relogios.ControlID
             }
             catch (Exception e)
             {
+                log.Debug($"Erro no Processo de envio");
                 erros = e.Message;
                 return false;
             }
