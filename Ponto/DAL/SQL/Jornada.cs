@@ -35,35 +35,23 @@ namespace DAL.SQL
             INSERT = @"  INSERT INTO jornada
                         (codigo, descricao, entrada_1, entrada_2, entrada_3, entrada_4, saida_1, saida_2, saida_3, saida_4, incdata, inchora, incusuario)
                         VALUES
-                        (@codigo, (@entrada_1 + ' - ' + @saida_1 
-                                   + case when @entrada_2 <> '--:--' then ' - ' + @entrada_2 else '' end 
-                                   + case when @saida_2 <> '--:--' then ' - ' + @saida_2 else '' end 
-                                   + case when @entrada_3 <> '--:--' then ' - ' + @entrada_3 else '' end 
-                                   + case when @saida_3 <> '--:--' then ' - ' + @saida_3 else '' end 
-                                   + case when @entrada_4 <> '--:--' then ' - ' + @entrada_4 else '' end 
-                                   + case when @saida_4 <> '--:--' then ' - ' + @saida_4 else '' end ), @entrada_1, @entrada_2, @entrada_3, @entrada_4, @saida_1, @saida_2, @saida_3, @saida_4, @incdata, @inchora, @incusuario) 
+                        (@codigo, @descricao, @entrada_1, @entrada_2, @entrada_3, @entrada_4, @saida_1, @saida_2, @saida_3, @saida_4, @incdata, @inchora, @incusuario) 
                         SET @id = SCOPE_IDENTITY()";
 
-            UPDATE = @"  UPDATE jornada SET codigo = @codigo 
-                                        , descricao = (@entrada_1 + ' - ' + @saida_1 
-                                                        + case when @entrada_2<> '--:--' then ' - ' + @entrada_2 else '' end
-                                                        + case when @saida_2<> '--:--' then ' - ' + @saida_2 else '' end
-                                                        + case when @entrada_3<> '--:--' then ' - ' + @entrada_3 else '' end
-                                                        + case when @saida_3<> '--:--' then ' - ' + @saida_3 else '' end
-                                                        + case when @entrada_4<> '--:--' then ' - ' + @entrada_4 else '' end
-                                                        + case when @saida_4<> '--:--' then ' - ' + @saida_4 else '' end ) 
-                                        , entrada_1 = @entrada_1 
-                                        , entrada_2 = @entrada_2 
-                                        , entrada_3 = @entrada_3 
-                                        , entrada_4 = @entrada_4 
-                                        , saida_1 = @saida_1 
-                                        , saida_2 = @saida_2 
-                                        , saida_3 = @saida_3 
-                                        , saida_4 = @saida_4 
-                                        , altdata = @altdata 
-                                        , althora = @althora 
-                                        , altusuario = @altusuario 
-                                    WHERE id = @id";
+            UPDATE = "  UPDATE jornada SET codigo = @codigo " +
+                                        ", descricao = @descricao " +
+                                        ", entrada_1 = @entrada_1 " +
+                                        ", entrada_2 = @entrada_2 " +
+                                        ", entrada_3 = @entrada_3 " +
+                                        ", entrada_4 = @entrada_4 " +
+                                        ", saida_1 = @saida_1 " +
+                                        ", saida_2 = @saida_2 " +
+                                        ", saida_3 = @saida_3 " +
+                                        ", saida_4 = @saida_4 " +
+                                        ", altdata = @altdata " +
+                                        ", althora = @althora " +
+                                        ", altusuario = @altusuario " +
+                                    "WHERE id = @id";
             
             DELETE = "DELETE FROM jornada WHERE id = @id";
 
