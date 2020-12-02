@@ -1,11 +1,13 @@
 ﻿using Modelo;
 using PontoWeb.Controllers.BLLWeb;
 using PontoWeb.Security;
+using PontoWeb.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web.Management;
 using System.Web.Mvc;
 
@@ -324,7 +326,7 @@ namespace PontoWeb.Controllers
                             else if (funcionario.OpcaoSMSEmailSenha == "SMS")
                             {
                                 Int64 numCelular = Convert.ToInt64("55" + funcionario.Celular);
-                              
+
                                 objEnvioSMS.EnviaSmsPadrao(funcionario.Celular, numCelular, conteudoSMS, null, 2);
                             }
                             else if (funcionario.OpcaoSMSEmailSenha == "Ambos")
@@ -360,6 +362,25 @@ namespace PontoWeb.Controllers
                         catch (Exception)
                         {
                             TrataErroInclusaoCentralCliente();
+                        }
+
+                        using (var RabbitMqController = new RabbitMqController())
+                        {
+                            var dataBase = new Regex(@"(Catalog=[A-Z]*_[A-Z]*)").Match(connString).Value.Replace("Catalog=", "");
+                            BLL.Empresa bllEmpresa = new BLL.Empresa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+                            var empresas = new List<int>();
+                            empresas.Add(funcionario.Idempresa);
+                            Modelo.Empresa empresaPrincipal = bllEmpresa.GetEmpresaByIds(empresas).SingleOrDefault();
+
+                            var messageIntegration = new MessageIntegrationDto
+                            {
+                                Id = funcionario.Id,
+                                DataBaseName = dataBase,
+                                Tracking = Guid.NewGuid().ToString(),
+                                Cnpj = empresaPrincipal.Cnpj
+                            };
+
+                            RabbitMqController.SendEmployeeIntegration(messageIntegration);
                         }
 
                         return RedirectToAction("Grid", "Funcionario");
