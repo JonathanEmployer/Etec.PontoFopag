@@ -56,5 +56,9 @@ namespace Modelo.Proxy.Relatorios
         public string BrowserVersao { get; set; }
 
         public string Periodo { get; set; }
+        [ExportToXls("Latitude", 14)]
+        public string Latitude { get; set; }
+        [ExportToXls("Longitude", 15)]
+        public string Longitude { get; set; }
     }
 }

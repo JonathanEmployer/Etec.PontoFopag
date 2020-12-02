@@ -487,6 +487,8 @@ namespace PontoWeb.Controllers.BLLWeb
 			cache.Clear();
 			LimpaAcessoCache();
 		}
+
+
 		#endregion
         #region Adiciona tentativas login cache
         public static void AdicionaTentativasLogin(TentativasLogin tl)

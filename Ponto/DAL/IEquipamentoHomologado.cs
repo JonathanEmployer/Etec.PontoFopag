@@ -9,5 +9,6 @@ namespace DAL
         Modelo.EquipamentoHomologado LoadObject(int id);
         List<Modelo.EquipamentoHomologado> GetAllList();
         Modelo.EquipamentoHomologado LoadByCodigoModelo(string codModelo);
+        List<Modelo.EquipamentoHomologado> GetAllListPortaria373();
     }
 }

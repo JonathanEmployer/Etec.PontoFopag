@@ -85,6 +85,7 @@ namespace BLL_N.JobManager.Hangfire
 
         public PxyJobReturn AtualizaMarcacaoJornadaAlternativa(string nomeProcesso, string parametrosExibicao, JornadaAlternativa jornada)
         {
+            jornada.DiasJA.ForEach(f => f.JornadaAlternativa = null);
             JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
             string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.AtualizaMarcacaoJornadaAlternativa(null, jobControl, dataBase, usuarioLogado, jornada), _enqueuedStateNormal);
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);

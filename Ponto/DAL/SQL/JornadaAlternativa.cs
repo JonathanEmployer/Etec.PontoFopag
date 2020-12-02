@@ -33,6 +33,7 @@ namespace DAL.SQL
             {
                 return @"   SELECT ja.* 
                             , ja.identificacao AS nome
+                            , empresa.id as idempresa
                             , (SELECT convert(varchar,j.codigo)+' | '+j.descricao) AS descjornada  
                             , funcionario.id idfuncionario
                             FROM jornadaalternativa ja
@@ -102,6 +103,7 @@ namespace DAL.SQL
         {
             db = database;
             dalDiasJornadaAlternativa = new DAL.SQL.DiasJornadaAlternativa(db);
+            
             TABELA = "jornadaalternativa";
 
             SELECTPID = SELECTALLLIST + " AND ja.id = @id";
@@ -159,7 +161,6 @@ namespace DAL.SQL
             DELETE = @"  DELETE FROM jornadaalternativa WHERE id = @id";
 
             MAXCOD = @"  SELECT MAX(codigo) AS codigo FROM jornadaalternativa";
-
         }
 
         #region Metodos
@@ -459,6 +460,7 @@ namespace DAL.SQL
 
         private void SalvarDiasJA(SqlTransaction trans, Modelo.JornadaAlternativa obj)
         {
+            dalDiasJornadaAlternativa.UsuarioLogado = UsuarioLogado;
             foreach (Modelo.DiasJornadaAlternativa dja in obj.DiasJA)
             {
                 dja.IdJornadaAlternativa = obj.Id;

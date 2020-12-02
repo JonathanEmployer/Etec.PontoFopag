@@ -184,6 +184,7 @@ namespace PontoWeb.Controllers
 
                 return PartialFuncionarioRFID(bllFuncionario, idfuncionario, usr);
 
+
             }
             catch (Exception ex)
             {
@@ -248,7 +249,7 @@ namespace PontoWeb.Controllers
 
             Funcionario funcionario = new Funcionario();
             funcionario = bllFuncionario.LoadObject(idfuncionario);
-            funcionario.FuncionarioRFID = bllFuncionarioRFID.GetAllListByFuncionario(idfuncionario).Where(x => x.Ativo).ToList();
+            funcionario.FuncionarioRFID = bllFuncionarioRFID.GetAllListByFuncionario(idfuncionario, true).ToList();
             funcionario.Senha = bllFuncionario.GetSenha(funcionario);
 
             return PartialView("FuncionarioRFID", funcionario);
@@ -276,7 +277,7 @@ namespace PontoWeb.Controllers
                 try
                 {
                     funcionario.RFID = null;
-                    funcionario.Senha = null;
+                    //funcionario.Senha = null;
                     funcionario.TipoCracha = null;
 
                     string conteudoEmail = "";
@@ -414,33 +415,42 @@ namespace PontoWeb.Controllers
 
             if (utilizaApp == true && utilizaWEBApp == false)
             {
-                conteudo = ""
+                conteudo = string.Format("<div style='max-width: 580; text-align: center;'>"
+                        + "<img src='https://i.ibb.co/2MH6RBm/thumbnail-image-1.png' ><br>"
                         + "<p><b>Aplicativo Pontofopag habilitado para uso</b></p> <br><br>"
-                        + "O aplicativo Pontofopag para registro de Ponto está habilitado e disponível para seu uso. Basta baixar o app através da Play Store ou Apple Store e instalar.  <br>"
-                        + "No momento do login, se identifique com seu <b>CPF e utilize a senha:" + senha + "</b> <br>"
+                        + "O aplicativo Pontofopag para registro de Ponto está habilitado e disponível para seu uso.<br> Basta baixar o app através da Play Store ou Apple Store e instalar.  <br>"
+                        + "No momento do login, se identifique com seu <b>CPF e utilize a senha:{0}</b> <br>"
                         + "Qualquer dúvida na utilização, contate seu RH.  <br><br>"
                         + "Att. <br>"
-                        + "Equipe Pontofopag";
+                        + "Equipe Pontofopag"
+                        + "<br><img src='https://i.ibb.co/GtLSByz/thumbnail-image-2.png'>"
+                        + "</div>", senha);
             }
             else if (utilizaApp == false && utilizaWEBApp == true)
             {
-                conteudo = ""
+                conteudo = string.Format("<div style='max-width: 580; text-align: center;'>"
+                        + "<img src ='https://i.ibb.co/2MH6RBm/thumbnail-image-1.png' ><br>"
                         + "<p><b>Web APP Pontofopag habilitado para uso</b></p> <br><br>"
-                        + "O aplicativo Pontofopag para registro de Ponto está habilitado e disponível para seu uso. Basta acessar o link <a href='webapp.pontofopag.com.br'>webapp.pontofopag.com.br</a>.  <br>"
-                        + "No momento do login, se identifique com seu <b>CPF e utilize a senha:" + senha + "</b> <br>"
+                        + "O aplicativo Pontofopag para registro de Ponto está habilitado e disponível para seu uso.<br> Basta acessar o link <a href='https://webapp.pontofopag.com.br'>webapp.pontofopag.com.br</a>.  <br>"
+                        + "No momento do login, se identifique com seu <b>CPF e utilize a senha:{0}</b> <br>"
                         + "Qualquer dúvida na utilização, contate seu RH.  <br><br>"
                         + "Att. <br>"
-                        + "Equipe Pontofopag";
+                        + "Equipe Pontofopag"
+                        + "<br><img src = 'https://i.ibb.co/GtLSByz/thumbnail-image-2.png'>"
+                        + "</div>", senha);
             }
             else if (utilizaApp == true && utilizaWEBApp == true)
             {
-                conteudo = ""
+                conteudo = string.Format("<div style='max-width: 580; text-align: center;'>"
+                        + "<img src='https://i.ibb.co/2MH6RBm/thumbnail-image-1.png' ><br>"
                         + "<p><b>Web APP Pontofopag e Aplicativo Pontofopag habilitados para uso</b></p> <br><br>"
-                        + "O aplicativo Pontofopag para registro de Ponto está habilitado e disponível para seu uso. Basta acessar o link <a href='webapp.pontofopag.com.br'>webapp.pontofopag.com.br</a> e baixar o app através da Play Store ou Apple Store e instalar.  <br>"
-                        + "No momento do login, se identifique com seu <b>CPF e utilize a senha:" + senha + "</b> <br>"
+                        + "O aplicativo Pontofopag para registro de Ponto está habilitado e disponível para seu uso.<br> Basta acessar o link <a href='https://webapp.pontofopag.com.br'>webapp.pontofopag.com.br</a> <br> e baixar o app através da Play Store ou Apple Store e instalar.  <br>"
+                        + "No momento do login, se identifique com seu <b>CPF e utilize a senha:{0}</b> <br>"
                         + "Qualquer dúvida na utilização, contate seu RH.  <br><br>"
                         + "Att. <br>"
-                        + "Equipe Pontofopag";
+                        + "Equipe Pontofopag"
+                        + "<br><img src='https://i.ibb.co/GtLSByz/thumbnail-image-2.png'>"
+                        + "</div>", senha);
             }
 
             return conteudo;
@@ -452,15 +462,15 @@ namespace PontoWeb.Controllers
 
             if (utilizaApp == true && utilizaWEBApp == false)
             {
-                conteudo = string.Format("Para acessar o App do Ponto utilize seu CPF e senha: {0}, disponível na Play Store e Apple Store. Equipe Pontofopag", senha);
+                conteudo = string.Format("Para acessar o App do Ponto utilize seu CPF e senha: {0}, disponível na Play Store e Apple Store.", senha);
             }
             else if (utilizaApp == false && utilizaWEBApp == true)
             {
-                conteudo = string.Format("Para acessar o Web App do Ponto utilize seu CPF e senha: {0}, disponível no link www.webapp.pontofopag.com.br. Equipe Pontofopag", senha);
+                conteudo = string.Format("Para acessar o Web App do Ponto utilize seu CPF e senha: {0}, disponível no link www.webapp.pontofopag.com.br.", senha);
             }
             else if (utilizaApp == true && utilizaWEBApp == true)
             {
-                conteudo = string.Format("Para acessar o Web App e App do Ponto do Ponto utilize seu CPF e senha: {0}, disponível no link www.webapp.pontofopag.com.br e na Play Store e Apple Store. Equipe Pontofopag", senha);
+                conteudo = string.Format("Para acessar o Web App e App do Ponto do Ponto utilize seu CPF e senha: {0}, disponível no link www.webapp.pontofopag.com.br e na Play Store e Apple Store.", senha);
             }
 
             return conteudo;
@@ -619,7 +629,7 @@ namespace PontoWeb.Controllers
             PreencheTipoVinculo(conn, usr);
             funcionario = bllFuncionario.LoadObject(id);
             funcionario.Biometrias = bllBiometria.GetBiometriaTipoBiometria(id);
-            funcionario.FuncionarioRFID = bllFuncionarioRFID.GetAllListByFuncionario(id).Where(x => x.Ativo).ToList();
+            funcionario.FuncionarioRFID = bllFuncionarioRFID.GetAllListByFuncionario(id, true).ToList();
 
             BLL.Parametros bllparm = new BLL.Parametros(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
             Modelo.Parametros parm = new Parametros();
@@ -651,7 +661,8 @@ namespace PontoWeb.Controllers
             if (!String.IsNullOrEmpty(funcionario.Senha))
             {
                 string nsenha = "";
-                funcionario.Senha = nsenha.PadLeft(bllFuncionario.GetSenha(funcionario).Length, '#');
+                funcionario.Senha = bllFuncionario.GetSenha(funcionario);
+                //funcionario.Senha = nsenha.PadLeft(bllFuncionario.GetSenha(funcionario).Length, '#');
             }
 
             if (!String.IsNullOrEmpty(funcionario.Mob_Senha))

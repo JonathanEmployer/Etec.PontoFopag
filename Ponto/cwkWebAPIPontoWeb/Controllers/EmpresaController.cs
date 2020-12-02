@@ -49,7 +49,8 @@ namespace cwkWebAPIPontoWeb.Controllers
                             long documento = Convert.ToInt64(BLL.cwkFuncoes.ApenasNumeros(obj.Cnpj == null ? obj.Cpf : obj.Cnpj));
                             DadosAntEmp = bllEmpresa.LoadObjectByDocumento(documento);
                         }
-                       
+                        bllEmpresa.SetTermosUsoApp(DadosAntEmp);
+
                         Acao acao = new Acao();
                         DateTime dt = DateTime.Now;
                         if (DadosAntEmp.Id == 0)
@@ -82,6 +83,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                         DadosAntEmp.Chave = DadosAntEmp.HashMD5ComRelatoriosValidacaoNova();
                         DadosAntEmp.IdIntegracao = obj.IdIntegracao;
                         DadosAntEmp.Ativo = obj.Ativo;
+                        DadosAntEmp.Integrando = true;
 
                         Dictionary<string, string> erros = new Dictionary<string, string>();
                         erros = bllEmpresa.Salvar(acao, DadosAntEmp);

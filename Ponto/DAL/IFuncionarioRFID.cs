@@ -12,6 +12,7 @@ namespace DAL
         Modelo.FuncionarioRFID LoadObject(int id);
         List<FuncionarioRFID> GetAllList();
         int? GetIdPorCod(int Cod);
-        List<Modelo.FuncionarioRFID> GetAllListByFuncionario(int idFuncionario);
+        List<Modelo.FuncionarioRFID> GetAllListByFuncionario(int idFuncionario, bool apenasAtivos);
+        List<Modelo.FuncionarioRFID> GetAllListByFuncionario(List<int> idsFuncs, bool apenasAtivos);
     }
 }

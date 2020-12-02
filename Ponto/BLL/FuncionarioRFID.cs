@@ -54,9 +54,9 @@ namespace BLL
             return dalFuncionarioRFID.GetAllList();
         }
 
-        public List<Modelo.FuncionarioRFID> GetAllListByFuncionario(int idFuncionario)
+        public List<Modelo.FuncionarioRFID> GetAllListByFuncionario(int idFuncionario, bool apenasAtivos)
         {
-            return dalFuncionarioRFID.GetAllListByFuncionario(idFuncionario);
+            return dalFuncionarioRFID.GetAllListByFuncionario(idFuncionario, apenasAtivos);
         }
 
 
@@ -122,6 +122,11 @@ namespace BLL
         public int? GetIdPorCod(int Cod)
         {
             return dalFuncionarioRFID.GetIdPorCod(Cod);
+        }
+
+        public List<Modelo.FuncionarioRFID> GetAllListByFuncionario(List<int> idsFuncs, bool apenasAtivos)
+        {
+            return dalFuncionarioRFID.GetAllListByFuncionario(idsFuncs, apenasAtivos);
         }
     }
 }

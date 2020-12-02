@@ -73,6 +73,8 @@ namespace cwkWebAPIPontoWeb.Controllers
                             if (funcionario.IdIntegracao > 0 && (DadosAntFunc == null || DadosAntFunc.Matricula != funcionario.Matricula || DadosAntFunc.Idempresa != emp.Id))
                             {
                                 DadosAntFunc = new Modelo.Funcionario();
+                                DadosAntFunc.UtilizaIntegracaoFotoWebfopag = true;
+
                             }
                         }
 
@@ -92,7 +94,6 @@ namespace cwkWebAPIPontoWeb.Controllers
                         {
                             DadosAntFunc.Salario = 0;
                         }
-                        DadosAntFunc.Senha = BLL.ClSeguranca.Criptografar(funcionario.SenhaRelogio == null ? "" : funcionario.SenhaRelogio);
                         DadosAntFunc.Dataadmissao = funcionario.Dataadmissao;
                         DadosAntFunc.Datademissao = funcionario.Datademissao;
 
@@ -113,7 +114,8 @@ namespace cwkWebAPIPontoWeb.Controllers
                         DadosAntFunc.Idfuncao = IdFuncao.GetValueOrDefault();
                         DadosAntFunc.Funcionarioativo = Convert.ToInt16(funcionario.FuncionarioAtivo);
                         DadosAntFunc.Campoobservacao = funcionario.CampoObservacao;
-                        DadosAntFunc.Foto = funcionario.Foto;
+                        if (DadosAntFunc.UtilizaIntegracaoFotoWebfopag)
+                            DadosAntFunc.Foto = funcionario.Foto;
                         DadosAntFunc.Excluido = 0;
                         DadosAntFunc.idIntegracao = funcionario.IdIntegracao;
                         DadosAntFunc.TipoMaoObra = funcionario.TipoMaoObra;

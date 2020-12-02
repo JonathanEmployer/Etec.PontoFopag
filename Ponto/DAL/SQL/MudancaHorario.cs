@@ -45,7 +45,7 @@ namespace DAL.SQL
             dalHorario = new DAL.SQL.Horario(db);
             dalMarcacao = new DAL.SQL.Marcacao(db);
             dalHorarioDinamico = new DAL.SQL.HorarioDinamico(db);
-            
+
             TABELA = "mudancahorario";
 
             SELECTPID = @"   SELECT * FROM mudancahorario WHERE id = @id";
@@ -152,21 +152,21 @@ namespace DAL.SQL
         protected override SqlParameter[] GetParameters()
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@id", SqlDbType.Int),
-				new SqlParameter ("@codigo", SqlDbType.Int),
-				new SqlParameter ("@idfuncionario", SqlDbType.Int),
-				new SqlParameter ("@tipohorario", SqlDbType.SmallInt),
-				new SqlParameter ("@idhorario", SqlDbType.Int),
-				new SqlParameter ("@data", SqlDbType.DateTime),
-				new SqlParameter ("@tipohorario_ant", SqlDbType.SmallInt),
-				new SqlParameter ("@idhorario_ant", SqlDbType.SmallInt),
-				new SqlParameter ("@incdata", SqlDbType.DateTime),
-				new SqlParameter ("@inchora", SqlDbType.DateTime),
-				new SqlParameter ("@incusuario", SqlDbType.VarChar),
-				new SqlParameter ("@altdata", SqlDbType.DateTime),
-				new SqlParameter ("@althora", SqlDbType.DateTime),
-				new SqlParameter ("@altusuario", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@id", SqlDbType.Int),
+                new SqlParameter ("@codigo", SqlDbType.Int),
+                new SqlParameter ("@idfuncionario", SqlDbType.Int),
+                new SqlParameter ("@tipohorario", SqlDbType.SmallInt),
+                new SqlParameter ("@idhorario", SqlDbType.Int),
+                new SqlParameter ("@data", SqlDbType.DateTime),
+                new SqlParameter ("@tipohorario_ant", SqlDbType.SmallInt),
+                new SqlParameter ("@idhorario_ant", SqlDbType.SmallInt),
+                new SqlParameter ("@incdata", SqlDbType.DateTime),
+                new SqlParameter ("@inchora", SqlDbType.DateTime),
+                new SqlParameter ("@incusuario", SqlDbType.VarChar),
+                new SqlParameter ("@altdata", SqlDbType.DateTime),
+                new SqlParameter ("@althora", SqlDbType.DateTime),
+                new SqlParameter ("@altusuario", SqlDbType.VarChar),
                 new SqlParameter ("@idLancamentoLoteFuncionario", SqlDbType.Int),
                 new SqlParameter ("@idHorarioDinamico", SqlDbType.Int),
                 new SqlParameter ("@CicloSequenciaIndice", SqlDbType.Int)
@@ -280,7 +280,7 @@ namespace DAL.SQL
                 new SqlParameter("@idsfuncs", SqlDbType.VarChar)
             };
 
-            parms[0].Value =  String.Join(",", pIdFuncionarios);
+            parms[0].Value = String.Join(",", pIdFuncionarios);
 
             string aux = @"SELECT MAX(data) as data,
 	                               idfuncionario
@@ -347,7 +347,7 @@ namespace DAL.SQL
         {
             SqlDataReader dataReader;
             string aux = "";
-            
+
             #region MontaListaFuncionario
             //Mosta a lista dos funcionários
 
@@ -404,45 +404,45 @@ namespace DAL.SQL
             List<string> pisDuplicados = lPis.GroupBy(x => x)
             .Where(group => group.Count() > 1)
             .Select(group => group.Key).ToList();
-                        
+
             if (pisDuplicados.Count() > 0)
             {
                 List<Modelo.Funcionario> funcsDoisRegistrosMud = funcsDoisRegistros.Where(w => pisDuplicados.Contains(w.Pis)).ToList();
                 throw new Exception("Existe a mesma mudança de horário para registros de funcionários iguais, funcionários: " + String.Join(" <br/> ", funcsDoisRegistrosMud.Select(s => s.Dscodigo + " | " + s.Nome)));
             }
             #endregion
-
-            //Processa a lista dos funcionários executando a mudança de horário
-            foreach (DataRow dr in dt.Rows)
+            using (SqlConnection conn = db.GetConnection)
             {
-                //Caso a mudança seja para o mesmo horário, as alterações não são feitas
-                if (Convert.ToInt32(dr["idhorario"]) == pIDHorario)
+                using (TransactionScope scope = new TransactionScope())
                 {
-                    if (pTipoMudanca == 0)
+                    //Processa a lista dos funcionários executando a mudança de horário
+                    foreach (DataRow dr in dt.Rows)
                     {
-                        string erro = "O funcionário já se encontra no horário informado.";
-                        if (horarioRegistro1.IdHorarioDinamico > 0)
+                        //Caso a mudança seja para o mesmo horário, as alterações não são feitas
+                        if (Convert.ToInt32(dr["idhorario"]) == pIDHorario)
                         {
-                            erro = "O funcionário já se encontra no horário informado, verifique o horário ou o ciclo selecionado.";
+                            if (pTipoMudanca == 0)
+                            {
+                                string erro = "O funcionário já se encontra no horário informado.";
+                                if (horarioRegistro1.IdHorarioDinamico > 0)
+                                {
+                                    erro = "O funcionário já se encontra no horário informado, verifique o horário ou o ciclo selecionado.";
+                                }
+                                throw new Exception(erro);
+                            }
+                            continue;
                         }
-                        throw new Exception(erro);
-                    }
-                    continue;
-                }
 
-                #region UltimaMudança
-                //Verifica a última data de mudança de horário para o funcionário
-                //ultimadata = this.GetUltimaMudanca(Convert.ToInt32(dr["id"]));
-                var dtUltimaMudancaFunc = dtUltimaMudanca.Select(@"idfuncionario = "+Convert.ToString(dr["id"]));
-                if (dtUltimaMudancaFunc.Length > 0)
-                    ultimadata = Convert.ToDateTime(dtUltimaMudancaFunc[0]["data"]);
-                else ultimadata = null;
+                        #region UltimaMudança
+                        //Verifica a última data de mudança de horário para o funcionário
+                        //ultimadata = this.GetUltimaMudanca(Convert.ToInt32(dr["id"]));
+                        var dtUltimaMudancaFunc = dtUltimaMudanca.Select(@"idfuncionario = " + Convert.ToString(dr["id"]));
+                        if (dtUltimaMudancaFunc.Length > 0)
+                            ultimadata = Convert.ToDateTime(dtUltimaMudancaFunc[0]["data"]);
+                        else ultimadata = null;
 
-                #endregion
-                using (SqlConnection conn = db.GetConnection)
-                {
-                    using (TransactionScope scope = new TransactionScope())
-                    {
+                        #endregion
+
                         try
                         {
                             #region AtualizaFuncionario
@@ -490,10 +490,10 @@ namespace DAL.SQL
                             #region AtualizaMarcação
                             //Atualiza as marações partindo da data da alteração do horário
                             SqlParameter[] parms2 = new SqlParameter[3]
-                            { 
-                                    new SqlParameter("@idfuncionario", SqlDbType.Int) 
-                                , new SqlParameter("@idhorario", SqlDbType.Int) 
-                                , new SqlParameter("@data", SqlDbType.DateTime) 
+                            {
+                                    new SqlParameter("@idfuncionario", SqlDbType.Int)
+                                , new SqlParameter("@idhorario", SqlDbType.Int)
+                                , new SqlParameter("@data", SqlDbType.DateTime)
                             };
                             parms2[0].Value = Convert.ToInt32(dr["id"]);
                             parms2[1].Value = pIDHorario;
@@ -515,9 +515,8 @@ namespace DAL.SQL
                             cmd2.Connection.Close();
                             cmd2.Connection.Dispose();
                             cmd2.Dispose();
-                            
+
                             #endregion
-                            scope.Complete();
                         }
                         catch (Exception ex)
                         {
@@ -532,12 +531,13 @@ namespace DAL.SQL
                             }
                         }
                     }
+                    scope.Complete();
                 }
             }
             return true;
         }
 
-        private void AtualizaSeparaExtraFaltaMarcacao(SqlTransaction trans, DateTime dataApartir, Int32 idHorario,  Int32 idFuncionario)
+        private void AtualizaSeparaExtraFaltaMarcacao(SqlTransaction trans, DateTime dataApartir, Int32 idHorario, Int32 idFuncionario)
         {
             SqlParameter[] parms = new SqlParameter[3] {
                                 new SqlParameter("@dataApartir", SqlDbType.DateTime),
@@ -675,11 +675,11 @@ namespace DAL.SQL
                     {
                         #region AtualizaFuncionario
                         //Atualiza o horário no cadastro de funcionário
-                        SqlParameter[] parms = new SqlParameter[3] 
-                                { 
-                                      new SqlParameter("@id", SqlDbType.Int) 
-                                    , new SqlParameter("@tipohorario", SqlDbType.Int) 
-                                    , new SqlParameter("@idhorario", SqlDbType.Int) 
+                        SqlParameter[] parms = new SqlParameter[3]
+                                {
+                                      new SqlParameter("@id", SqlDbType.Int)
+                                    , new SqlParameter("@tipohorario", SqlDbType.Int)
+                                    , new SqlParameter("@idhorario", SqlDbType.Int)
                                 };
                         parms[0].Value = pMudanca.Idfuncionario;
                         parms[1].Value = pMudanca.Tipohorario_ant;
@@ -693,11 +693,11 @@ namespace DAL.SQL
 
                         #region AtualizaMarcação
                         //Atualiza as marcações partindo da data da alteração do horário
-                        SqlParameter[] parms2 = new SqlParameter[3] 
-                                { 
-                                      new SqlParameter("@idfuncionario", SqlDbType.Int) 
-                                    , new SqlParameter("@idhorario", SqlDbType.Int) 
-                                    , new SqlParameter("@data", SqlDbType.DateTime) 
+                        SqlParameter[] parms2 = new SqlParameter[3]
+                                {
+                                      new SqlParameter("@idfuncionario", SqlDbType.Int)
+                                    , new SqlParameter("@idhorario", SqlDbType.Int)
+                                    , new SqlParameter("@data", SqlDbType.DateTime)
                                 };
                         parms2[0].Value = pMudanca.Idfuncionario;
                         parms2[1].Value = pMudanca.Idhorario_ant;
@@ -738,9 +738,9 @@ namespace DAL.SQL
 
         public bool VerificaExiste(int pIdFuncionario, DateTime pData)
         {
-            SqlParameter[] parms = new SqlParameter[] 
-            { 
-                  new SqlParameter("@idfuncionario", SqlDbType.Int) 
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                  new SqlParameter("@idfuncionario", SqlDbType.Int)
                 , new SqlParameter("@data", SqlDbType.DateTime)
             };
             parms[0].Value = pIdFuncionario;
