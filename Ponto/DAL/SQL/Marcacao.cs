@@ -2736,6 +2736,20 @@ namespace DAL.SQL
 				            , feriado.HoraFim AS FeriadoParcialFim
                             , p.inicioadnoturno AS inicioAdNoturno
 				            , p.fimadnoturno AS fimAdNoturno
+                            , h.horasnormais
+                            , h.marcacargahorariamista
+                            , IdJornadaSubstituir
+                            , jors.entrada_1 entrada_1Substituido
+                            , jors.entrada_2 entrada_2Substituido
+                            , jors.entrada_3 entrada_3Substituido
+                            , jors.entrada_4 entrada_4Substituido
+                            , jors.saida_1 saida_1Substituido
+                            , jors.saida_2 saida_2Substituido
+                            , jors.saida_3 saida_3Substituido
+                            , jors.saida_4 saida_4Substituido
+                            , p.inicioadnoturno
+                            , p.fimadnoturno
+                            , p.toleranciaAdicionalNoturno
                             FROM    dbo.marcacao_view AS marcacao  WITH ( NOLOCK )
                                     JOIN #funcionarios fff WITH ( NOLOCK ) ON marcacao.idfuncionario = fff.idfuncionario
 						            JOIN dbo.horario AS h ON marcacao.idhorario = h.id
@@ -2764,6 +2778,8 @@ namespace DAL.SQL
                                                                     AND FFUNC.idFuncionario = f.id ) 
                                                 ) 
                                             )) feriado
+                                    LEFT JOIN JornadaSubstituir js on marcacao.IdJornadaSubstituir = js.id
+                                    LEFT JOIN jornada jors on jors.id = js.idjornadapara
                             WHERE   marcacao.data BETWEEN @datainicial AND @datafinal
 				                and ISNULL(f.excluido,0) = 0
 				                and (@pegaInativos = 1 OR
