@@ -611,7 +611,6 @@ namespace PontoWeb.Controllers
         }
         #endregion
 
-        [HttpPost]
         public ActionResult AdicionaNovaRestricao(int index, int tipoRestricao, string restricao, int idHorario)
         {
             try

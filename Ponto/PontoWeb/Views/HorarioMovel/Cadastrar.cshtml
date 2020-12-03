@@ -1877,7 +1877,8 @@
 
     function adicionarHorariosFlexiveis() {
         $("#GridHorariosFlexiveis").load('@Url.Action("AdicionarHorariosFlexiveis")', {
-            horario: getModeloHorario()
+            horario: getModeloHorario(),
+            __RequestVerificationToken: gettoken()
         });
     }
 
@@ -1934,6 +1935,9 @@
                 name = name.substr(name.indexOf(".") + 1, name.length);
                 if ($(element).attr("type") == "checkbox") {
                     value = element.is(':checked');
+                }
+                else if (element.hasClass('currency') || element.hasClass('money') || element.hasClass('decimalPercent')) {
+                    value = element.val().replace(',', '.');
                 }
                 else {
                     value = element.val();
@@ -2200,7 +2204,10 @@
             $.ajax({
                 type: 'POST',
                 url: "/HorarioMovel/Cadastrar",
-                data: { horario: formDados },
+                data: {
+                    horario: formDados,
+                    __RequestVerificationToken: gettoken()
+                },
                 dataType: 'json',
                 beforeSend: function () {
                     $.blockUI({ message: '<h2>Salvando <img src="../../Content/img/circulosLoading.GIF"></h2>' });

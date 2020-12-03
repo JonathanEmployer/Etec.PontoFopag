@@ -170,6 +170,7 @@ namespace Modelo
             get { return Naoentrarbanco == 1 ? true : false; }
             set { Naoentrarbanco = value ? (short)1 : (short)0; }
         }
+             
         public Int16 Naoentrarbanco_Ant { get; set; }
 
         /// <summary>
@@ -220,6 +221,7 @@ namespace Modelo
         [Range(0, double.MaxValue, ErrorMessage = "Campo inválido")]
         public Int64? RFID { get; set; }
         public Int64? RFID_Ant { get; set; }
+        public string MIFARE { get; set; }
 
         /// <summary>
         /// Valor anterior da variável Funcionárioativo
@@ -321,6 +323,9 @@ namespace Modelo
 
         [Display(Name = "Utiliza Reconhecimento Facial")]
         public bool UtilizaReconhecimentoFacialWebApp { get; set; }
+
+        [Display(Name = "Utiliza Integração de Foto da Webfopag")]
+        public bool UtilizaIntegracaoFotoWebfopag { get; set; }
 
         /// <summary>
         /// Conexao do banco onde o funcionario esta cadastrado

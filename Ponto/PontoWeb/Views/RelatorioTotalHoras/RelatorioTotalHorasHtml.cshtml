@@ -85,7 +85,6 @@
         font-size: 9pt;
         font-weight: bold;
     }
-
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <html>
@@ -93,11 +92,16 @@
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
 </head>
 <body>
-    @{ int count = 0; bool umFuncPorPagina = Model.FirstOrDefault().UmFuncPorPagina; }
+    @{
+        int count = 0;
+        bool umFuncPorPagina = Model.FirstOrDefault().UmFuncPorPagina;
+        bool considerarCabecalho = Model.FirstOrDefault().ConsiderarCabecalho;
+    }
+
     @foreach (Modelo.Proxy.Relatorios.PxyRelTotalHoras item in Model)
     {
 
-        if (count % 3 == 0 || umFuncPorPagina)
+        if (count % (considerarCabecalho ? 2 : 3) == 0 || umFuncPorPagina)
         {
             if (count > 0)
             {
@@ -121,10 +125,25 @@
         <div>
             <table style="width:100%" class="backgroudDefault">
                 <tbody>
-                    <tr style="font-size: 9pt; font-weight: bold;">
-                        <td style="width: 80%; padding:10px;">Funcionário: @item.FuncionarioDsCodigo | @item.FuncionarioNome</td>
-                        <td style="width: 20%; padding:10px;">Matrícula: @item.FuncionarioMatricula</td>
+                    <tr style="font-size: 8pt; font-weight: bold;">
+                        <td style="width: 50%; padding:5px;">Funcionário: @item.FuncionarioDsCodigo | @item.FuncionarioNome</td>
+                        <td style="width: 50%; padding:5px;">Matrícula: @item.FuncionarioMatricula</td>
                     </tr>
+                    @if (considerarCabecalho)
+                    {
+                        <tr style="font-size: 8pt; font-weight: bold;">
+                            <td style="width: 50%; padding:5px;">Contrato: @item.FuncionarioContrato</td>
+                            <td style="width: 50%; padding:5px;">Data de admissão: @item.FuncionarioDataAdmissaoStr</td>
+                        </tr>
+                        <tr style="font-size: 8pt; font-weight: bold;">
+                            <td style="width: 50%; padding:5px;">Departamento: @item.FuncionarioDepartamento</td>
+                            <td style="width: 50%; padding:5px;">Data de demissão: @item.FuncionarioDataRecisaoStr</td>
+                        </tr>
+                        <tr style="font-size: 8pt; font-weight: bold;">
+                            <td style="width: 50%; padding:5px;">Alocação: @item.FuncionarioAlocacao</td>
+                            <td style="width: 50%; padding:5px;">Supervisor: @item.FuncionarioSupervisor</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
             <table style="width:100%">
@@ -238,11 +257,11 @@
                                     </tr>
                                     <tr>
                                         <td></td>
-                                        <td class="borderInfo">@item.HorasExtraDiurna</td>
+                                        <td class="borderInfo">@item.HorasFaltaDiurna</td>
                                         <td></td>
-                                        <td class="borderPrimary">@item.HorasExtraNoturna</td>
+                                        <td class="borderPrimary">@item.HorasFaltaNoturna</td>
                                         <td></td>
-                                        <td class="borderDefault">@item.HorasExtraInterjornada</td>
+                                        <td class="borderDefault">@item.HorasDDSR</td>
                                         <td></td>
                                     </tr>
                                     <tr><td colspan="7" style="height: 10px"></td></tr>
@@ -273,7 +292,7 @@
                                     {
                                         <tr>
                                             <td style="padding:10px">
-                                                @(String.Format("{0:000}%", rateioHorasExtras.percentual))
+                                                @(String.Format("{0:N}%", rateioHorasExtras.percentual))
                                             </td>
                                             <td style="padding:10px">
                                                 @(rateioHorasExtras.diurno)
@@ -364,7 +383,7 @@
                                                             Anterior: &nbsp;
                                                         </td>
                                                         <td style="text-align:left; padding:3px">
-                                                            <span>@item.SaldoAnteriorBH</span>
+                                                            <span>@item.SaldoAnteriorBH  &nbsp; @item.SinalSaldoAnteriorBH</span>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -372,7 +391,7 @@
                                                             <span>Mês:  &nbsp;</span>
                                                         </td>
                                                         <td style="text-align:left; padding:3px">
-                                                            <span>@item.SaldoBHPeriodo</span>
+                                                            <span>@item.SaldoBHPeriodo  &nbsp; @item.SinalSaldoBHPeriodo</span>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -380,7 +399,7 @@
                                                             <span>Atual: &nbsp;</span>
                                                         </td>
                                                         <td style="text-align:left; padding:3px">
-                                                            <span>@item.SaldoBHAtual</span>
+                                                            <span>@item.SaldoBHAtual  &nbsp; @item.SinalSaldoBHAtual</span>
                                                         </td>
                                                     </tr>
                                                     <tr><td colspan="2" style="height: 8px"></td></tr>

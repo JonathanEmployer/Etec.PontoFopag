@@ -160,7 +160,7 @@ namespace BLL
             int totalTrabD = 0, totalTrabN = 0, totalExtraD = 0, totalExtraN = 0, totalFaltaD = 0, totalFaltaN = 0, totalDsr = 0;
             int idEmpresaAnt = 0;
             Modelo.TotalHoras objTotalHoras = null;
-            Dictionary<int, Turno> totalPercentuais = new Dictionary<int, Turno>();
+            Dictionary<decimal, Turno> totalPercentuais = new Dictionary<decimal, Turno>();
             string[] percentuaisImprimir = null;
             foreach (DataRow row in dt.Rows)
             {
@@ -174,7 +174,7 @@ namespace BLL
                 {
                     totalTrabD = 0; totalTrabN = 0; totalExtraD = 0; totalExtraN = 0; totalFaltaD = 0; totalFaltaN = 0; totalDsr = 0;
                     idEmpresaAnt = idempresa;
-                    totalPercentuais = new Dictionary<int, Turno>();
+                    totalPercentuais = new Dictionary<decimal, Turno>();
                     percentuaisImprimir = new string[16];
                 }
 
@@ -319,7 +319,7 @@ namespace BLL
             int totalTrabD = 0, totalTrabN = 0, totalExtraD = 0, totalExtraN = 0, totalFaltaD = 0, totalFaltaN = 0, totalDsr = 0;
             int idEmpresaAnt = 0;
             Modelo.TotalHoras objTotalHoras = null;
-            Dictionary<int, Turno> totalPercentuais = new Dictionary<int, Turno>();
+            Dictionary<decimal, Turno> totalPercentuais = new Dictionary<decimal, Turno>();
             string[] percentuaisImprimir = null;
             foreach (DataRow row in dt.Rows)
             {
@@ -333,7 +333,7 @@ namespace BLL
                 {
                     totalTrabD = 0; totalTrabN = 0; totalExtraD = 0; totalExtraN = 0; totalFaltaD = 0; totalFaltaN = 0; totalDsr = 0;
                     idEmpresaAnt = idempresa;
-                    totalPercentuais = new Dictionary<int, Turno>();
+                    totalPercentuais = new Dictionary<decimal, Turno>();
                     percentuaisImprimir = new string[16];
                 }
 
@@ -419,7 +419,7 @@ namespace BLL
             return ret;
         }
 
-        private static void SetPercentuaisImprimir(Dictionary<int, Turno> totalPercentuais, string[] percentuaisImprimir)
+        private static void SetPercentuaisImprimir(Dictionary<decimal, Turno> totalPercentuais, string[] percentuaisImprimir)
         {
             int i = 0;
             foreach (var item in totalPercentuais)

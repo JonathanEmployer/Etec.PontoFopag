@@ -1,9 +1,7 @@
 ﻿using Ionic.Zip;
 using Modelo;
 using PontoWeb.Controllers.BLLWeb;
-using PontoWeb.Models;
 using PontoWeb.Security;
-using PontoWeb.Utils;
 using ProgressReporting.Controllers;
 using System;
 using System.Collections.Generic;
@@ -11,12 +9,11 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net.Mime;
-using System.Text;
 using System.Web.Mvc;
 
 namespace PontoWeb.Controllers
 {
-	public class EnvioDadosRepController : Controller
+    public class EnvioDadosRepController : Controller
 	{
 		[PermissoesFiltro(Roles = "EnvioEmpresaFuncionariosRep")]
 		public ActionResult Cadastrar()
@@ -125,6 +122,13 @@ namespace PontoWeb.Controllers
             foreach (string idEmpresa in lIdEmpresa)
             {
                 obj.Empresas.Add(bllEmpresa.LoadObject(Convert.ToInt32(idEmpresa)));
+            }
+
+            if (obj.Funcionarios.Any())
+            {
+                BLL.FuncionarioRFID bllFuncionarioRFID = new BLL.FuncionarioRFID(connection, usr);
+                List<FuncionarioRFID> proximidades = bllFuncionarioRFID.GetAllListByFuncionario(obj.Funcionarios.Select(s => s.Id).ToList(), true);
+                proximidades.ForEach(f => obj.Funcionarios.Where(w => w.Id == f.IdFuncionario).ToList().ForEach(x => { x.RFID = f.RFID; x.MIFARE = f.MIFARE; }));
             }
 
             obj.Funcionarios.ForEach(x => x.Selecionado = true);

@@ -73,6 +73,8 @@ namespace cwkWebAPIPontoWeb.Controllers
                             if (funcionario.IdIntegracao > 0 && (DadosAntFunc == null || DadosAntFunc.Matricula != funcionario.Matricula || DadosAntFunc.Idempresa != emp.Id))
                             {
                                 DadosAntFunc = new Modelo.Funcionario();
+                                DadosAntFunc.UtilizaIntegracaoFotoWebfopag = true;
+
                             }
                         }
 
@@ -82,6 +84,8 @@ namespace cwkWebAPIPontoWeb.Controllers
                         DadosAntFunc.Carteira = funcionario.Carteira;
                         DadosAntFunc.Pis = funcionario.Pis;
                         DadosAntFunc.CPF = funcionario.CPF;
+                        DadosAntFunc.Celular = funcionario.Celular;
+                        DadosAntFunc.Email = funcionario.Email;
                         if (parametro.IntegrarSalarioFunc == true)
                         {
                             DadosAntFunc.Salario = funcionario.Salario;
@@ -90,7 +94,6 @@ namespace cwkWebAPIPontoWeb.Controllers
                         {
                             DadosAntFunc.Salario = 0;
                         }
-                        DadosAntFunc.Senha = BLL.ClSeguranca.Criptografar(funcionario.SenhaRelogio == null ? "" : funcionario.SenhaRelogio);
                         DadosAntFunc.Dataadmissao = funcionario.Dataadmissao;
                         DadosAntFunc.Datademissao = funcionario.Datademissao;
 
@@ -111,7 +114,8 @@ namespace cwkWebAPIPontoWeb.Controllers
                         DadosAntFunc.Idfuncao = IdFuncao.GetValueOrDefault();
                         DadosAntFunc.Funcionarioativo = Convert.ToInt16(funcionario.FuncionarioAtivo);
                         DadosAntFunc.Campoobservacao = funcionario.CampoObservacao;
-                        DadosAntFunc.Foto = funcionario.Foto;
+                        if (DadosAntFunc.UtilizaIntegracaoFotoWebfopag)
+                            DadosAntFunc.Foto = funcionario.Foto;
                         DadosAntFunc.Excluido = 0;
                         DadosAntFunc.idIntegracao = funcionario.IdIntegracao;
                         DadosAntFunc.TipoMaoObra = funcionario.TipoMaoObra;
@@ -265,9 +269,13 @@ namespace cwkWebAPIPontoWeb.Controllers
                     int? idContratoAnt = bllContratoFun.getContratoId((idfuncionario).GetValueOrDefault());
                     Modelo.Funcionario funcionario = bllFuncionario.LoadObject(idfuncionario.GetValueOrDefault());
 
-                    if (funcionario.Id > 0 && funcionario.Id != null)
+                    if (funcionario.Id > 0)
                     {
                         Dictionary<string, string> erros = new Dictionary<string, string>();
+                        if (funcionario.DataInativacao == null)
+                        {
+                            funcionario.DataInativacao = DateTime.Now;
+                        }
                         erros = bllFuncionario.Salvar(Acao.Excluir, funcionario);
                         if (erros.Count > 0)
                         {

@@ -575,7 +575,17 @@ namespace BLL
                     int saidaRealizada = Modelo.cwkFuncoes.ConvertHorasMinuto(tratamentosMarcacaoAnt.Where(w => w.Ent_sai == "S" && w.Ocorrencia != 'D').OrderBy(o => o.Posicao).Select(s => s.Mar_hora).LastOrDefault());
 
                     List<int> saidasParaFimAdNoturno = new List<int>() { saidaPrevista, saidaRealizada, fimAdNoturno };
-                    fimAdNoturno = saidasParaFimAdNoturno.OrderByDescending(o => o).FirstOrDefault();
+                    int fimAdNoturnoCalc = saidasParaFimAdNoturno.OrderByDescending(o => o).FirstOrDefault();
+
+                    //Se o fim do ad noturno for maior que 12:00 significa que não é para extender mais
+                    if (fimAdNoturno < fimAdNoturnoCalc && fimAdNoturnoCalc > 720)
+                    {
+                        fimAdNoturno = fimAdNoturno;
+                    }
+                    else
+                    {
+                        fimAdNoturno = fimAdNoturnoCalc;
+                    }
                 }
             }
 
@@ -3075,7 +3085,11 @@ namespace BLL
 				marcaCargaHorariaMistaHD = 0;
 
             BLL.CalculoHoras.QtdHorasDiurnaNoturna(HoraEntrada, HoraSaida, inicioAdNoturno, fimAdNoturno, ref CargaHorariaD, ref CargaHorariaN);
-			CargaHorariaM = CargaHorariaD + CargaHorariaN; 
+            if (bCafe && naoConsiderarCafe == 0)
+            {
+                BLL.Horario.CalculaCafe(HoraEntrada, HoraSaida, habilitaPeriodo01, habilitaPeriodo02, ref CargaHorariaD, ref CargaHorariaN);
+            }
+            CargaHorariaM = CargaHorariaD + CargaHorariaN; 
              Marcacargahorariamista = marcaCargaHorariaMistaHD.Value; //CRNC - 09/01/2010   
 		}
 
@@ -3769,10 +3783,10 @@ namespace BLL
                 horasFaltaNoturnaMin = 0;
                 ocorrencia = "";
             }
-            else if (legenda == "" && horasFaltaNoturnaMin != 0 && horasFaltaNoturnaMin == horarioN)
-            {
-                ocorrencia = "Falta";
-            }
+            //else if (legenda == "" && horasFaltaNoturnaMin != 0 && horasFaltaNoturnaMin == horarioN)
+            //{
+            //    ocorrencia = "Falta";
+            //}
         }
         #endregion
 

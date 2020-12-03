@@ -136,6 +136,7 @@ namespace PontoWeb.Controllers
                     {
                         foreach (var item in obj.DiasJA)
                         {
+                            item.NaoValidaCodigo = true;
                             item.JornadaAlternativa = obj;
                             if (item.Delete)
                             {
@@ -163,7 +164,10 @@ namespace PontoWeb.Controllers
                         acao = Acao.Alterar;
                         JornadaAlternativa jAnt = bllJornada.LoadObject(obj.Id);
                         var log = obj.GetChanges(jAnt);
-                        if (log.Where(w => w.OldValue != w.NewValue).ToList().Count == 0)
+                        if (log.Where(w => w.OldValue != w.NewValue).ToList().Count == 0 &&
+                            obj.DiasJA.Where(w => w.Acao == Acao.Incluir).Count() != jAnt.DiasJA.Where(w => w.Acao == Acao.Incluir).Count() &&
+                            obj.DiasJA.Where(w => w.Acao == Acao.Alterar).Count() != jAnt.DiasJA.Where(w => w.Acao == Acao.Alterar).Count() &&
+                            obj.DiasJA.Where(w => w.Acao == Acao.Excluir).Count() != jAnt.DiasJA.Where(w => w.Acao == Acao.Excluir).Count() )
                         {
                             salvar = false;
                         }

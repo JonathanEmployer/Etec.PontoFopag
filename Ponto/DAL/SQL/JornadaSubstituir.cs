@@ -97,7 +97,7 @@ namespace DAL.SQL
 	                              FROM funcionario f
 	                             WHERE f.excluido = 0
 	                               AND f.funcionarioativo = 1
-	                               AND EXISTS (select top 1 1 from cw_usuario WHERE login = '{UsuarioLogado.Login}' AND UtilizaControleContratos = 0 AND UtilizaControleEmpresa = 0 AND f.UtilizaReconhecimentoFacialWebApp = 0)
+	                               AND EXISTS (select top 1 1 from cw_usuario WHERE login = '{UsuarioLogado.Login}' AND UtilizaControleContratos = 0 AND UtilizaControleEmpresa = 0 AND UtilizaControleSupervisor = 0)
                                    ) funcPermitido
                             SELECT p.*
                               FROM (

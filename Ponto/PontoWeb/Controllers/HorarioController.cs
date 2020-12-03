@@ -109,8 +109,8 @@ namespace PontoWeb.Controllers
 
         }
 
-
-
+       
+       
 
         [PermissoesFiltro(Roles = "HorarioCadastrar")]
         public override ActionResult Cadastrar()
@@ -412,9 +412,9 @@ namespace PontoWeb.Controllers
 
             if (horario.HorarioRestricao == null)
             {
-                horario.HorarioRestricao = new List<HorarioRestricao>();
+                horario.HorarioRestricao = new List<HorarioRestricao>(); 
             }
-
+            
             return View("Cadastrar", horario);
         }
 
@@ -448,7 +448,7 @@ namespace PontoWeb.Controllers
         {
             VerificaParametro(obj);
             VerificaJornada(obj);
-            ValidaClassificacao(obj);
+            ValidaClassificacao(obj);           
             if (ModelState.ContainsKey("DataInicial"))
             {
                 ModelState.Remove("DataInicial");
@@ -465,7 +465,7 @@ namespace PontoWeb.Controllers
             {
                 ModelState.Remove("HorarioRestricao");
             }
-
+            
             if (!obj.SeparaExtraNoturnaPercentual)
             {
                 for (int i = 0; i < obj.LHorariosPHExtra.Count; i++)
@@ -475,6 +475,18 @@ namespace PontoWeb.Controllers
                     {
                         ModelState.Remove("LHorariosPHExtra[" + i + "].PercentualExtraNoturna");
                     }
+                }                
+            }
+
+            for (int i = 0; i < obj.LHorariosPHExtra.Count; i++)
+            {
+                if (string.IsNullOrEmpty(obj.LHorariosPHExtra[i].PercentualExtraSegundoNoturna.ToString()))
+                {
+                    obj.LHorariosPHExtra[i].PercentualExtraSegundoNoturna = null;
+                    if (ModelState.ContainsKey("LHorariosPHExtra[" + i + "].PercentualExtraSegundoNoturna"))
+                    {
+                        ModelState.Remove("LHorariosPHExtra[" + i + "].PercentualExtraSegundoNoturna");
+                    } 
                 }
             }
         }
@@ -517,24 +529,21 @@ namespace PontoWeb.Controllers
             erros = erros.Where(x => !x.Key.Equals("cbIdentificacao")).ToDictionary(x => x.Key, x => x.Value);
             if (erroTratado.Count > 0)
             {
-                string campoErro = "DescParametro";
-                ModelState[campoErro].Errors.Add(string.Join(";", erroTratado.Select(x => x.Value).ToArray()));
+                ModelState["DescParametro"].Errors.Add(string.Join(";", erroTratado.Select(x => x.Value).ToArray()));
             }
 
             erroTratado = erros.Where(x => x.Key.Equals("DescClassificacao")).ToDictionary(x => x.Key, x => x.Value);
             erros = erros.Where(x => !x.Key.Equals("DescClassificacao")).ToDictionary(x => x.Key, x => x.Value);
             if (erroTratado.Count > 0)
             {
-                string campoErro = "DescClassificacao";
-                ModelState[campoErro].Errors.Add(string.Join(";", erroTratado.Select(x => x.Value).ToArray()));
+                ModelState["DescClassificacao"].Errors.Add(string.Join(";", erroTratado.Select(x => x.Value).ToArray()));
             }
 
             erroTratado = erros.Where(x => x.Key.Equals("QtdHEPreClassificadas")).ToDictionary(x => x.Key, x => x.Value);
             erros = erros.Where(x => !x.Key.Equals("QtdHEPreClassificadas")).ToDictionary(x => x.Key, x => x.Value);
             if (erroTratado.Count > 0)
             {
-                string campoErro = "QtdHEPreClassificadas";
-                ModelState[campoErro].Errors.Add(string.Join(";", erroTratado.Select(x => x.Value).ToArray()));
+                ModelState["QtdHEPreClassificadas"].Errors.Add(string.Join(";", erroTratado.Select(x => x.Value).ToArray()));
             }
 
             erroTratado = erros.Where(x => x.Key.Equals("txtEntrada_1")).ToDictionary(x => x.Key, x => x.Value);
@@ -872,7 +881,7 @@ namespace PontoWeb.Controllers
                     if (hflex.Idjornada.GetValueOrDefault() > 0)
                     {
                         Jornada jornada = jornadas.Where(w => w.Id == hflex.Idjornada.GetValueOrDefault()).FirstOrDefault();
-                        hflex.DescJornada = (jornada.Codigo != 0) ? jornada.Codigo + " | " + jornada.horarios : string.Empty;
+                        hflex.DescJornada = (jornada.Codigo != 0) ? jornada.Codigo + " | " + jornada.horarios : string.Empty; 
                     }
                     else
                     {
@@ -900,7 +909,7 @@ namespace PontoWeb.Controllers
                 horario.IdClassificacao = null;
             }
 
-        }
+        }        
 
         [PermissoesFiltro(Roles = "HorarioCadastrar")]
         [HttpPost]
@@ -984,7 +993,7 @@ namespace PontoWeb.Controllers
                 string novo = RenderViewToString("AddNovaRestricao", horario);
                 novo = novo.Replace("HorarioRestricao_0__", "HorarioRestricao_" + index + "__");
                 novo = novo.Replace("HorarioRestricao[0].", "HorarioRestricao[" + index + "].");
-                return Json(new { Success = true, HTML = novo }, JsonRequestBehavior.AllowGet);
+                return Json ( new { Success = true, HTML = novo }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

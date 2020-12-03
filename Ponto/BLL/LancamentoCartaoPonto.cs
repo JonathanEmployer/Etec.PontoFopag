@@ -115,14 +115,25 @@ namespace BLL
             bilhetes = new List<Modelo.BilhetesImp>();
             funcionario = new Modelo.Funcionario();
             if (erros.Count == 0)
-            {   
+            {
+                Marcacao bllMarcacao = new Marcacao(ConnectionString, UsuarioLogado);
+                Funcionario bllFuncionario = new Funcionario(ConnectionString, UsuarioLogado);
+                funcionario = bllFuncionario.LoadObject(obj.IdFuncionario);
+                GeraMarcacoesNaoGeradas(obj, funcionario, bllMarcacao);
+
                 bool virouDia = false;
                 LancamentoCartaoPontoRegistros[] registrosSalvar = obj.Regs.Where(w => w.Editavel).ToArray();
                 Modelo.LancamentoCartaoPontoRegistros reg = new Modelo.LancamentoCartaoPontoRegistros();
                 BilhetesImp bllBilhetesImp = new BilhetesImp(ConnectionString, UsuarioLogado);
-                Funcionario bllFuncionario = new Funcionario(ConnectionString, UsuarioLogado);
-                Marcacao bllMarcacao = new Marcacao(ConnectionString, UsuarioLogado);
-                funcionario = bllFuncionario.LoadObject(obj.IdFuncionario);
+                Horario bllHorario = new Horario(ConnectionString, UsuarioLogado);
+                List<Modelo.Marcacao> marcsFuncs = bllMarcacao.GetPorFuncionario(obj.IdFuncionario, Convert.ToDateTime(obj.DataInicial), Convert.ToDateTime(obj.DataFinal), false);
+                List<int> idsHorarios = marcsFuncs.Select(s => s.Idhorario).Distinct().ToList();
+                List<Modelo.Horario> horarios = new List<Modelo.Horario>();
+                foreach (int idHorario in idsHorarios)
+                {
+                    horarios.Add(bllHorario.LoadObject(idHorario));
+                }
+
                 int maxCodigoBilhetes = bllBilhetesImp.MaxCodigo();
                 for (int i = 0; i < registrosSalvar.Count(); i++)
                 {
@@ -131,37 +142,97 @@ namespace BLL
                     string regAnt = "";
                     reg = registrosSalvar[i];
                     virouDia = false;
+                    DateTime marData = reg.Data;
+                    bool primeiroRegistroDiaAnterior = false;
                     for (int j = 1; j < 9; j++)
                     {
                         var ev = reg.GetType().GetProperty("E" + j).GetValue(reg, null);
                         ent = ev == null ? "" : ev.ToString();
-                        ValidaViradaDia(ref virouDia, ref regAnt, ent);
-                        AddBilhete(bilhetes, !virouDia ? reg.Data : reg.Data.AddDays(+1), reg.Data, ent, "E", funcionario, obj.IdJustificativa, obj.Motivo, maxCodigoBilhetes++, j);
                         var sv = reg.GetType().GetProperty("S" + j).GetValue(reg, null);
                         sai = sv == null ? "" : sv.ToString();
-                        ValidaViradaDia(ref virouDia, ref regAnt, sai);
-                        AddBilhete(bilhetes, !virouDia ? reg.Data : reg.Data.AddDays(+1), reg.Data, sai, "S", funcionario, obj.IdJustificativa, obj.Motivo, maxCodigoBilhetes++, j);
+                        string entTeste = ent;
+                        ValidaViradaDia(ref virouDia, ref entTeste, sai);
+                        //Verifica se a primeira batida é quem deve ser puxada para o dia corrente Ex: jornada 00:00 - 03:00 - 04:00 - 07:00 Registros 23:50 - 03:00 - 04:00 - 07:00
+                        if (j == 1 && virouDia)
+                        {
+                            Modelo.Marcacao marcDia = marcsFuncs.Where(w => w.Data == marData).FirstOrDefault();
+                            int idHorario = marcDia.Idhorario;
+                            Modelo.Horario horario = horarios.Where(w => w.Id == idHorario).FirstOrDefault();
+                            Modelo.HorarioDetalhe horarioDetalhe = new Modelo.HorarioDetalhe();
+                            if (horario.HorariosDetalhe.ToList().Where(w => w != null).Any())
+                            {
+                                horarioDetalhe = horario.HorariosDetalhe.ToList().Where(w => w.DiaStr == marcDia.Dia).FirstOrDefault();
+                            }
+                            else
+                            {
+                                horarioDetalhe = horario.HorariosFlexiveis.ToList().Where(w => w.Data == marcDia.Data).FirstOrDefault();
+                            }
+                            
+                            if (horarioDetalhe != null && ent.ConvertHorasMinuto() > sai.ConvertHorasMinuto())
+                            {
+                                int entPrevistaMin = horarioDetalhe.Entrada_1.ConvertHorasMinuto();
+                                entPrevistaMin = entPrevistaMin == 0 ? 1440 : entPrevistaMin;
+                                int entMin = ent.ConvertHorasMinuto();
+                                int difAceitavel = horario.Limitemin.ConvertHorasMinuto();
+                                int dif = Math.Abs(entPrevistaMin - entMin);
+                                if (dif <= difAceitavel)
+                                {
+                                    primeiroRegistroDiaAnterior = true;
+                                    AddBilhete(bilhetes, reg.Data.AddDays(-1), reg.Data, ent, "E", funcionario, obj.IdJustificativa, obj.Motivo, maxCodigoBilhetes++, j);
+                                    AddBilhete(bilhetes, reg.Data, reg.Data, sai, "S", funcionario, obj.IdJustificativa, obj.Motivo, maxCodigoBilhetes++, j);
+                                }
+                                virouDia = false;
+                            }
+                        }
+
+                        if (!primeiroRegistroDiaAnterior)
+                        {
+                            ValidaViradaDia(ref virouDia, ref regAnt, ent);
+                            AddBilhete(bilhetes, !virouDia ? reg.Data : reg.Data.AddDays(+1), reg.Data, ent, "E", funcionario, obj.IdJustificativa, obj.Motivo, maxCodigoBilhetes++, j);
+                            ValidaViradaDia(ref virouDia, ref regAnt, sai);
+                            AddBilhete(bilhetes, !virouDia ? reg.Data : reg.Data.AddDays(+1), reg.Data, sai, "S", funcionario, obj.IdJustificativa, obj.Motivo, maxCodigoBilhetes++, j);
+                        }
+                        else
+                            primeiroRegistroDiaAnterior = false;
                     }
                 }
 
                 if (bilhetes.Count > 0)
                 {
-                    DateTime pdataInicial = bilhetes.Min(m => m.Mar_data).GetValueOrDefault();
-                    DateTime pDataFinal = bilhetes.Max(m => m.Mar_data).GetValueOrDefault();
-                    TimeSpan ts = pDataFinal.AddDays(1) - pdataInicial;
-
-                    int qtd = bllMarcacao.QuantidadeMarcacoes(funcionario.Id, pdataInicial, pDataFinal);
-
-                    if (ts.TotalDays > qtd)
-                    {
-                        Modelo.Funcionario objFuncionario = new Modelo.Funcionario();
-                        bllMarcacao.AtualizaData(pdataInicial, pDataFinal, funcionario);
-                    }
                     registrosSalvar.ToList().ForEach(f => f.IdFuncionario = obj.IdFuncionario);
                     dalLancamentoCartaoPonto.IncluirRegistros(bilhetes, registrosSalvar.ToList());
                 }
             }
             return erros;
+        }
+
+        private static void GeraMarcacoesNaoGeradas(Modelo.LancamentoCartaoPonto obj, Modelo.Funcionario funcionario, Marcacao bllMarcacao)
+        {
+            if (!DateTime.TryParse(obj.DataInicial, out DateTime pdataInicial))
+            {
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
+                throw new Exception("Erro ao converter a data inicial do lançamento do cartão ponto");
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
+            }
+
+            if (!DateTime.TryParse(obj.DataFinal, out DateTime pDataFinal))
+            {
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
+                throw new Exception("Erro ao converter a data final do lançamento do cartão ponto");
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
+            }
+
+            pdataInicial = pdataInicial.AddDays(-1);
+            pDataFinal = pDataFinal.AddDays(+1);
+            TimeSpan ts = pDataFinal.AddDays(1) - pdataInicial;
+
+            int qtd = bllMarcacao.QuantidadeMarcacoes(funcionario.Id, pdataInicial, pDataFinal);
+
+            if (ts.TotalDays > qtd)
+            {
+                Modelo.Funcionario objFuncionario = new Modelo.Funcionario();
+                bllMarcacao.AtualizaData(pdataInicial, pDataFinal, funcionario);
+            }
         }
 
         private static void ValidaViradaDia(ref bool virouDia, ref string regAnt, string hora)
