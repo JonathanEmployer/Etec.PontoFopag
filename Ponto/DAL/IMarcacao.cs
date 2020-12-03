@@ -88,6 +88,7 @@ namespace DAL
         void AtualizaMudancaHorarioMarcacao(List<int> idsFuncionarios, DateTime dataInicio);
         List<Modelo.Marcacao> GetCartaoPontoV2(List<int> pIdFuncionarios, DateTime pdataInicial, DateTime pDataFinal);
         DataTable GetRelatorioRegistros(string idsFuncionarios, DateTime pdataInicial, DateTime pDataFinal);
+        DataTable GetRelatorioSubstituicaoJornada(string idsFuncionarios, DateTime pdataInicial, DateTime pDataFinal);
         void AtualizarDataLoginBloqueioEdicaoPnlRh(DateTime dataInicio, DateTime dataFim, int idFunc, string tipoSolicitacao);
         DateTime? GetLastDateMarcacao(int idFunc);
         int GetIdDocumentoWorkflow(int idMarcacao);
