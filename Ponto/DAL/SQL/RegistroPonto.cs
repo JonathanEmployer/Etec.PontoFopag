@@ -274,27 +274,31 @@ namespace DAL.SQL
             SqlParameter[] parms = new SqlParameter[]
             {
             };
-            string sql = SELECTALL + " WHERE IdIntegracao IN ('"+String.Join("','",idsIntegracao)+"') ";
-
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
-
             List<Modelo.RegistroPonto> lista = new List<Modelo.RegistroPonto>();
-            try
+
+            var listPart = TransactDbOps.splitList(idsIntegracao, 5000);
+
+            foreach (List<string> part in listPart)
             {
-                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.RegistroPonto>();
-                lista = AutoMapper.Mapper.Map<List<Modelo.RegistroPonto>>(dr);
-            }
-            catch (Exception ex)
-            {
-                throw (ex);
-            }
-            finally
-            {
-                if (!dr.IsClosed)
+                string sql = SELECTALL + " WHERE IdIntegracao IN ('" + String.Join("','", part) + "') ";
+                SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+                try
                 {
-                    dr.Close();
+                    AutoMapper.Mapper.CreateMap<IDataReader, Modelo.RegistroPonto>();
+                    lista.AddRange(AutoMapper.Mapper.Map<List<Modelo.RegistroPonto>>(dr));
                 }
-                dr.Dispose();
+                catch (Exception ex)
+                {
+                    throw (ex);
+                }
+                finally
+                {
+                    if (!dr.IsClosed)
+                    {
+                        dr.Close();
+                    }
+                    dr.Dispose();
+                }
             }
             return lista;
         }

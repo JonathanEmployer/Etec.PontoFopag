@@ -22,6 +22,68 @@ namespace TesteProgramacao
         private static EventLog eventLog1;
         static void Main(string[] args)
         {
+            //           List<PxyFuncionariosRecalcular> funcsRecalculo = new List<PxyFuncionariosRecalcular>();
+            //           string connectionString = BLL.cwkFuncoes.ConstroiConexao("PONTOFOPAG_syngenta").ConnectionString;
+            //           using (SqlConnection connection =
+            //           new SqlConnection(connectionString))
+            //           {
+            //               string queryString = @" SELECT f.id idfuncionario, '2020-10-01' dataInicial, '2020-11-16' dataFinal
+            // FROM funcionario f 
+            //WHERE  f.excluido = 0
+            //  and (f.DataInativacao <= '2020-10-01' or DataInativacao is null)
+            //  and dataadmissao <= '2020-11-16'
+            //  and (datademissao >= '2020-11-16' OR datademissao is null) ";
+
+            //               try
+            //               {
+            //                   connection.Open();
+            //                   using (SqlCommand command = connection.CreateCommand())
+            //                   {
+            //                       command.CommandTimeout = 600;
+            //                       command.CommandText = queryString;
+            //                       command.CommandType = CommandType.Text;
+            //                       using (SqlDataReader reader = command.ExecuteReader())
+            //                       {
+            //                           while (reader.Read())
+            //                           {
+            //                               PxyFuncionariosRecalcular rec = new PxyFuncionariosRecalcular();
+            //                               rec.IdFuncionario = (int)reader["idfuncionario"];
+            //                               //rec.DataInicio = (DateTime)reader["dataInicial"];
+            //                               //rec.DataFim = (DateTime)reader["dataFinal"];
+            //                               funcsRecalculo.Add(rec);
+            //                           }
+            //                       }
+            //                   }
+            //               }
+            //               catch (Exception ex)
+            //               {
+            //                   Console.WriteLine(ex.Message);
+            //               }
+            //           }
+
+            //           int skipe = 0;
+            //           funcsRecalculo.ForEach(f => { f.DataInicio = new DateTime(2020, 10, 01); f.DataFim = new DateTime(2020, 11, 16); });
+            //           List<PxyFuncionariosRecalcular> funcsCalcAgora = new List<PxyFuncionariosRecalcular>();
+            //           bool existe = true;
+            //           Console.WriteLine($"Total a ser calculado = {funcsRecalculo.Count()}");
+            //           while (existe)
+            //           {
+            //               funcsCalcAgora = funcsRecalculo.Skip(skipe).Take(100).ToList();
+            //               Console.WriteLine("\t{0}\t{1}\t{2}",
+            //                           String.Join(",", funcsCalcAgora.Select(s => s.IdFuncionario)),
+            //                           funcsCalcAgora.Min(m => m.DataInicio),
+            //                           funcsCalcAgora.Max(m => m.DataFim));
+            //               Console.WriteLine($"{DateTime.Now} - Recalculando funcionários");
+            //               BLL_N.JobManager.Hangfire.Job.CalculosJob cj = new BLL_N.JobManager.Hangfire.Job.CalculosJob();
+            //               cj.RecalculaMarcacao(null, new JobControl(), "PONTOFOPAG_syngenta", "produtosyngenta", funcsCalcAgora);
+            //               Console.WriteLine($"{DateTime.Now} -  Total Calculado = {skipe}");
+            //               skipe += 100;
+            //               existe = funcsCalcAgora.Any();
+            //           }
+
+
+
+
             ////teste reflection
             //var teste = new testes();
             //var t = teste.GetBllObjects(new string[] {"HorarioDinamico", "HorarioDinamicoCiclo" });
@@ -89,8 +151,8 @@ namespace TesteProgramacao
 
             ////Método para teste de erros na fila de calculo do pontofopag.
             ////Para testar basta passar o número do id do job e debugar
-            //TesteHangfire th = new TesteHangfire();
-            //th.Simular(2287926);
+            TesteHangfire th = new TesteHangfire();
+            th.Simular(3725228);
 
             //Console.Read();
             //string connectionString = BLL.cwkFuncoes.ConstroiConexao("pontofopag_employer").ConnectionString;

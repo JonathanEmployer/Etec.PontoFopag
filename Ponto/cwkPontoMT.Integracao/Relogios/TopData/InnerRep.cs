@@ -7,6 +7,7 @@ using System.Threading;
 using Sdk_Inner_Rep;
 using System.IO;
 using cwkPontoMT.Integracao.Entidades;
+using java.text;
 
 namespace cwkPontoMT.Integracao.Relogios.TopData
 {
@@ -235,25 +236,26 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
             {
                 log.Debug($"Relógio não tem senha cadastrada, para enviar funcionários é necessário que essa senha esteja cadastrada");
             }
-            if (QntDigitos == "5")
+            switch (QntDigitos)
             {
-                ret = innerRep.ConfiguraInnerRep(Local, Senha, Senha, Senha, "00 00 00 00 00 00 00 00 00 00 00 16 07 08 09 10");
-            }
-            else if (QntDigitos == "16")
-            {
-                ret = innerRep.ConfiguraInnerRep(Local, Senha, Senha, Senha, "01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16");
-            }
-            else if (QntDigitos == "14")
-            {
-                ret = innerRep.ConfiguraInnerRep(Local, Senha, Senha, Senha, "00 00 00 00 02 03 04 05 00 00 00 00 00 01 00 00");
-            }
-            else if (QntDigitos == "3")
-            {
-                ret = innerRep.ConfiguraInnerRep(Local, Senha, Senha, Senha, "00 00 00 00 00 00 00 00 00 00 00 00 00 13 14 15");
-            }
-            else if (QntDigitos == "6")
-            {
-                ret = innerRep.ConfiguraInnerRep(Local, Senha, Senha, Senha, "00 00 00 00 01 02 03 04 00 00 00 00 00 00 00 00");
+                case "3":
+                    ret = innerRep.ConfiguraInnerRep(Local, Senha, Senha, Senha, "00 00 00 00 00 00 00 00 00 00 00 00 00 13 14 15");
+                    break;
+                case "5": 
+                    ret = innerRep.ConfiguraInnerRep(Local, Senha, Senha, Senha, "00 00 00 00 00 00 00 00 00 00 00 16 07 08 09 10");
+                    break;
+                case "6":
+                    ret = innerRep.ConfiguraInnerRep(Local, Senha, Senha, Senha, "00 00 00 00 01 02 03 04 00 00 00 00 00 00 00 00");
+                    break;
+                case "14":
+                    ret = innerRep.ConfiguraInnerRep(Local, Senha, Senha, Senha, "00 00 00 00 02 03 04 05 00 00 00 00 00 01 00 00");
+                    break;
+                case "16":
+                    ret = innerRep.ConfiguraInnerRep(Local, Senha, Senha, Senha, "01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16");
+                    break;
+                default:
+                    log.Debug("Número de dígitos incompatível, valores aceitos (3,5,6,14 ou 16)");
+                    throw new Exception("Número de dígitos incompatível, valores aceitos (3,5,6,14 ou 16)");
             }
 
             if (Empregador.RazaoSocial.Length > 150)
@@ -267,7 +269,7 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
                 MensagemErroEmpresa(logRet, ret);
             }
 
-            //innerRep.LimpaListaEmpregados();
+            innerRep.LimpaListaEmpregados();
 
             string nomeExibicao
                 , senhaFuncionario;
@@ -314,7 +316,7 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
 
             int _ret = innerRep.EnviaConfiguracoes();
             log.Debug("Retorno config = "+_ret);
-            innerRep.FinalizaLeitura();
+
             if (_ret > 0)
             {
                 log.Debug($"Se codigo erro {_ret } maior que zero exibe erro");

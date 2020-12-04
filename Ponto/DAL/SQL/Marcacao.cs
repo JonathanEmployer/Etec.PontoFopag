@@ -514,7 +514,7 @@ namespace DAL.SQL
             ((Modelo.Marcacao)obj).ContAtrasosSaidasAntec = (dr["ContAtrasosSaidasAntec"] is DBNull ? (short)0 : Convert.ToInt16(dr["ContAtrasosSaidasAntec"]));
             ((Modelo.Marcacao)obj).ContabilizarCreditos = (dr["ContabilizarCreditos"] is DBNull ? (short)0 : Convert.ToInt16(dr["ContabilizarCreditos"]));
             ((Modelo.Marcacao)obj).IdJornadaSubstituir = (dr["IdJornadaSubstituir"] is DBNull ? (int?)null : Convert.ToInt32(dr["IdJornadaSubstituir"]));
-            
+
             if (ColunaExiste("Tratamento_Ent_1", dr))
             {
                 ((Modelo.Marcacao)obj).Tratamento_Ent_1 = (dr["Tratamento_Ent_1"]) is DBNull ? "--" : Convert.ToString(dr["Tratamento_Ent_1"]);
@@ -539,78 +539,78 @@ namespace DAL.SQL
         protected override SqlParameter[] GetParameters()
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@id", SqlDbType.Int),
-				new SqlParameter ("@idfuncionario", SqlDbType.Int),
-				new SqlParameter ("@dscodigo", SqlDbType.VarChar),
-				new SqlParameter ("@legenda", SqlDbType.Char),
-				new SqlParameter ("@data", SqlDbType.DateTime),
-				new SqlParameter ("@dia", SqlDbType.VarChar),
-				new SqlParameter ("@entrada_1", SqlDbType.VarChar),
-				new SqlParameter ("@entrada_2", SqlDbType.VarChar),
-				new SqlParameter ("@entrada_3", SqlDbType.VarChar),
-				new SqlParameter ("@entrada_4", SqlDbType.VarChar),
-				new SqlParameter ("@entrada_5", SqlDbType.VarChar),
-				new SqlParameter ("@entrada_6", SqlDbType.VarChar),
-				new SqlParameter ("@entrada_7", SqlDbType.VarChar),
-				new SqlParameter ("@entrada_8", SqlDbType.VarChar),
-				new SqlParameter ("@saida_1", SqlDbType.VarChar),
-				new SqlParameter ("@saida_2", SqlDbType.VarChar),
-				new SqlParameter ("@saida_3", SqlDbType.VarChar),
-				new SqlParameter ("@saida_4", SqlDbType.VarChar),
-				new SqlParameter ("@saida_5", SqlDbType.VarChar),
-				new SqlParameter ("@saida_6", SqlDbType.VarChar),
-				new SqlParameter ("@saida_7", SqlDbType.VarChar),
-				new SqlParameter ("@saida_8", SqlDbType.VarChar),
-				new SqlParameter ("@horastrabalhadas", SqlDbType.VarChar),
-				new SqlParameter ("@horasextrasdiurna", SqlDbType.VarChar),
-				new SqlParameter ("@horasfaltas", SqlDbType.VarChar),
-				new SqlParameter ("@entradaextra", SqlDbType.VarChar),
-				new SqlParameter ("@saidaextra", SqlDbType.VarChar),
-				new SqlParameter ("@horastrabalhadasnoturnas", SqlDbType.VarChar),
-				new SqlParameter ("@horasextranoturna", SqlDbType.VarChar),
-				new SqlParameter ("@horasfaltanoturna", SqlDbType.VarChar),
-				new SqlParameter ("@ocorrencia", SqlDbType.VarChar),
-				new SqlParameter ("@idhorario", SqlDbType.Int),
-				new SqlParameter ("@bancohorascre", SqlDbType.VarChar),
-				new SqlParameter ("@bancohorasdeb", SqlDbType.VarChar),
-				new SqlParameter ("@idfechamentobh", SqlDbType.Int),
-				new SqlParameter ("@semcalculo", SqlDbType.TinyInt),
-				new SqlParameter ("@ent_num_relogio_1", SqlDbType.VarChar),
-				new SqlParameter ("@ent_num_relogio_2", SqlDbType.VarChar),
-				new SqlParameter ("@ent_num_relogio_3", SqlDbType.VarChar),
-				new SqlParameter ("@ent_num_relogio_4", SqlDbType.VarChar),
-				new SqlParameter ("@ent_num_relogio_5", SqlDbType.VarChar),
-				new SqlParameter ("@ent_num_relogio_6", SqlDbType.VarChar),
-				new SqlParameter ("@ent_num_relogio_7", SqlDbType.VarChar),
-				new SqlParameter ("@ent_num_relogio_8", SqlDbType.VarChar),
-				new SqlParameter ("@sai_num_relogio_1", SqlDbType.VarChar),
-				new SqlParameter ("@sai_num_relogio_2", SqlDbType.VarChar),
-				new SqlParameter ("@sai_num_relogio_3", SqlDbType.VarChar),
-				new SqlParameter ("@sai_num_relogio_4", SqlDbType.VarChar),
-				new SqlParameter ("@sai_num_relogio_5", SqlDbType.VarChar),
-				new SqlParameter ("@sai_num_relogio_6", SqlDbType.VarChar),
-				new SqlParameter ("@sai_num_relogio_7", SqlDbType.VarChar),
-				new SqlParameter ("@sai_num_relogio_8", SqlDbType.VarChar),
-				new SqlParameter ("@naoentrarbanco", SqlDbType.TinyInt),
-				new SqlParameter ("@naoentrarnacompensacao", SqlDbType.TinyInt),
-				new SqlParameter ("@horascompensadas", SqlDbType.VarChar),
-				new SqlParameter ("@idcompensado", SqlDbType.Int),
-				new SqlParameter ("@naoconsiderarcafe", SqlDbType.TinyInt),
-				new SqlParameter ("@dsr", SqlDbType.TinyInt),
-				new SqlParameter ("@valordsr", SqlDbType.VarChar),
-				new SqlParameter ("@abonardsr", SqlDbType.TinyInt),
-				new SqlParameter ("@totalizadoresalterados", SqlDbType.TinyInt),
-				new SqlParameter ("@calchorasextrasdiurna", SqlDbType.Int),
-				new SqlParameter ("@calchorasextranoturna", SqlDbType.Int),
-				new SqlParameter ("@calchorasfaltas", SqlDbType.Int),
-				new SqlParameter ("@calchorasfaltanoturna", SqlDbType.Int),
-				new SqlParameter ("@incdata", SqlDbType.DateTime),
-				new SqlParameter ("@inchora", SqlDbType.DateTime),
-				new SqlParameter ("@incusuario", SqlDbType.VarChar),
-				new SqlParameter ("@altdata", SqlDbType.DateTime),
-				new SqlParameter ("@althora", SqlDbType.DateTime),
-				new SqlParameter ("@altusuario", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@id", SqlDbType.Int),
+                new SqlParameter ("@idfuncionario", SqlDbType.Int),
+                new SqlParameter ("@dscodigo", SqlDbType.VarChar),
+                new SqlParameter ("@legenda", SqlDbType.Char),
+                new SqlParameter ("@data", SqlDbType.DateTime),
+                new SqlParameter ("@dia", SqlDbType.VarChar),
+                new SqlParameter ("@entrada_1", SqlDbType.VarChar),
+                new SqlParameter ("@entrada_2", SqlDbType.VarChar),
+                new SqlParameter ("@entrada_3", SqlDbType.VarChar),
+                new SqlParameter ("@entrada_4", SqlDbType.VarChar),
+                new SqlParameter ("@entrada_5", SqlDbType.VarChar),
+                new SqlParameter ("@entrada_6", SqlDbType.VarChar),
+                new SqlParameter ("@entrada_7", SqlDbType.VarChar),
+                new SqlParameter ("@entrada_8", SqlDbType.VarChar),
+                new SqlParameter ("@saida_1", SqlDbType.VarChar),
+                new SqlParameter ("@saida_2", SqlDbType.VarChar),
+                new SqlParameter ("@saida_3", SqlDbType.VarChar),
+                new SqlParameter ("@saida_4", SqlDbType.VarChar),
+                new SqlParameter ("@saida_5", SqlDbType.VarChar),
+                new SqlParameter ("@saida_6", SqlDbType.VarChar),
+                new SqlParameter ("@saida_7", SqlDbType.VarChar),
+                new SqlParameter ("@saida_8", SqlDbType.VarChar),
+                new SqlParameter ("@horastrabalhadas", SqlDbType.VarChar),
+                new SqlParameter ("@horasextrasdiurna", SqlDbType.VarChar),
+                new SqlParameter ("@horasfaltas", SqlDbType.VarChar),
+                new SqlParameter ("@entradaextra", SqlDbType.VarChar),
+                new SqlParameter ("@saidaextra", SqlDbType.VarChar),
+                new SqlParameter ("@horastrabalhadasnoturnas", SqlDbType.VarChar),
+                new SqlParameter ("@horasextranoturna", SqlDbType.VarChar),
+                new SqlParameter ("@horasfaltanoturna", SqlDbType.VarChar),
+                new SqlParameter ("@ocorrencia", SqlDbType.VarChar),
+                new SqlParameter ("@idhorario", SqlDbType.Int),
+                new SqlParameter ("@bancohorascre", SqlDbType.VarChar),
+                new SqlParameter ("@bancohorasdeb", SqlDbType.VarChar),
+                new SqlParameter ("@idfechamentobh", SqlDbType.Int),
+                new SqlParameter ("@semcalculo", SqlDbType.TinyInt),
+                new SqlParameter ("@ent_num_relogio_1", SqlDbType.VarChar),
+                new SqlParameter ("@ent_num_relogio_2", SqlDbType.VarChar),
+                new SqlParameter ("@ent_num_relogio_3", SqlDbType.VarChar),
+                new SqlParameter ("@ent_num_relogio_4", SqlDbType.VarChar),
+                new SqlParameter ("@ent_num_relogio_5", SqlDbType.VarChar),
+                new SqlParameter ("@ent_num_relogio_6", SqlDbType.VarChar),
+                new SqlParameter ("@ent_num_relogio_7", SqlDbType.VarChar),
+                new SqlParameter ("@ent_num_relogio_8", SqlDbType.VarChar),
+                new SqlParameter ("@sai_num_relogio_1", SqlDbType.VarChar),
+                new SqlParameter ("@sai_num_relogio_2", SqlDbType.VarChar),
+                new SqlParameter ("@sai_num_relogio_3", SqlDbType.VarChar),
+                new SqlParameter ("@sai_num_relogio_4", SqlDbType.VarChar),
+                new SqlParameter ("@sai_num_relogio_5", SqlDbType.VarChar),
+                new SqlParameter ("@sai_num_relogio_6", SqlDbType.VarChar),
+                new SqlParameter ("@sai_num_relogio_7", SqlDbType.VarChar),
+                new SqlParameter ("@sai_num_relogio_8", SqlDbType.VarChar),
+                new SqlParameter ("@naoentrarbanco", SqlDbType.TinyInt),
+                new SqlParameter ("@naoentrarnacompensacao", SqlDbType.TinyInt),
+                new SqlParameter ("@horascompensadas", SqlDbType.VarChar),
+                new SqlParameter ("@idcompensado", SqlDbType.Int),
+                new SqlParameter ("@naoconsiderarcafe", SqlDbType.TinyInt),
+                new SqlParameter ("@dsr", SqlDbType.TinyInt),
+                new SqlParameter ("@valordsr", SqlDbType.VarChar),
+                new SqlParameter ("@abonardsr", SqlDbType.TinyInt),
+                new SqlParameter ("@totalizadoresalterados", SqlDbType.TinyInt),
+                new SqlParameter ("@calchorasextrasdiurna", SqlDbType.Int),
+                new SqlParameter ("@calchorasextranoturna", SqlDbType.Int),
+                new SqlParameter ("@calchorasfaltas", SqlDbType.Int),
+                new SqlParameter ("@calchorasfaltanoturna", SqlDbType.Int),
+                new SqlParameter ("@incdata", SqlDbType.DateTime),
+                new SqlParameter ("@inchora", SqlDbType.DateTime),
+                new SqlParameter ("@incusuario", SqlDbType.VarChar),
+                new SqlParameter ("@altdata", SqlDbType.DateTime),
+                new SqlParameter ("@althora", SqlDbType.DateTime),
+                new SqlParameter ("@altusuario", SqlDbType.VarChar),
                 new SqlParameter ("@codigo", SqlDbType.Int),
                 new SqlParameter ("@folga", SqlDbType.SmallInt),
                 new SqlParameter ("@exphorasextranoturna", SqlDbType.VarChar),
@@ -889,10 +889,10 @@ namespace DAL.SQL
         public Dictionary<int, int> QuantidadeMarcacoes(List<int> pIdFuncs, DateTime pDataI, DateTime pDataF)
         {
             if (pIdFuncs.Count == 0 || pDataI == null || pDataF == null)
-                throw new  ArgumentNullException("O parametro passado é nulo ou não tem valor, pIdFuncs,pDataI,pDataF");
+                throw new ArgumentNullException("O parametro passado é nulo ou não tem valor, pIdFuncs,pDataI,pDataF");
 
             //funcionario - quantidade
-            string _sql,_lista;
+            string _sql, _lista;
             SqlParameter[] _parms;
 
             _parms = new SqlParameter[]
@@ -916,7 +916,7 @@ namespace DAL.SQL
             using (SqlDataReader dr = db.ExecuteReader(CommandType.Text, _sql, _parms))
                 dt.Load(dr);
 
-            Dictionary<int,int> QtdMarcacoes = dt.AsEnumerable().ToDictionary<DataRow, int,int>(row => row.Field<int>("idfuncionario") , row => row.Field<int>("qtdmarcacao"));
+            Dictionary<int, int> QtdMarcacoes = dt.AsEnumerable().ToDictionary<DataRow, int, int>(row => row.Field<int>("idfuncionario"), row => row.Field<int>("qtdmarcacao"));
             QtdMarcacoes = QtdMarcacoes.OrderBy(o => o.Key).ToDictionary(x => x.Key, x => x.Value);
 
             return QtdMarcacoes;
@@ -1642,51 +1642,51 @@ namespace DAL.SQL
                 new DataColumn ("id", objMarcacao.Id.GetType()),
                 new DataColumn ("codigo", objMarcacao.Codigo.GetType()),
                 new DataColumn ("idfuncionario", objMarcacao.Idfuncionario.GetType()),
-                new DataColumn () { ColumnName = "dscodigo", DataType = typeof(string), MaxLength = 16}, 
+                new DataColumn () { ColumnName = "dscodigo", DataType = typeof(string), MaxLength = 16},
                 new DataColumn () { ColumnName = "legenda", DataType = typeof(string), MaxLength = 1},
                 new DataColumn ("data", typeof(DateTime)),
-                new DataColumn () { ColumnName = "dia", DataType = typeof(string), MaxLength = 10}, 
-                new DataColumn () { ColumnName = "entradaextra", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "saidaextra", DataType = typeof(string), MaxLength = 5}, 
-                new DataColumn () { ColumnName = "ocorrencia", DataType = typeof(string), MaxLength = 60}, 
-                new DataColumn ("idhorario", objMarcacao.Idhorario.GetType()), 
-                new DataColumn ("idfechamentobh", objMarcacao.Idfechamentobh.GetType()), 
-                new DataColumn ("semcalculo", objMarcacao.Semcalculo.GetType()), 
-                new DataColumn ("ent_num_relogio_1", objMarcacao.Ent_num_relogio_1.GetType()), 
-                new DataColumn ("ent_num_relogio_2", objMarcacao.Ent_num_relogio_2.GetType()), 
-                new DataColumn ("ent_num_relogio_3", objMarcacao.Ent_num_relogio_3.GetType()), 
-                new DataColumn ("ent_num_relogio_4", objMarcacao.Ent_num_relogio_4.GetType()), 
-                new DataColumn ("ent_num_relogio_5", objMarcacao.Ent_num_relogio_5.GetType()), 
-                new DataColumn ("ent_num_relogio_6", objMarcacao.Ent_num_relogio_6.GetType()), 
-                new DataColumn ("ent_num_relogio_7", objMarcacao.Ent_num_relogio_7.GetType()), 
-                new DataColumn ("ent_num_relogio_8", objMarcacao.Ent_num_relogio_8.GetType()), 
-                new DataColumn ("sai_num_relogio_1", objMarcacao.Sai_num_relogio_1.GetType()), 
-                new DataColumn ("sai_num_relogio_2", objMarcacao.Sai_num_relogio_2.GetType()), 
-                new DataColumn ("sai_num_relogio_3", objMarcacao.Sai_num_relogio_3.GetType()), 
-                new DataColumn ("sai_num_relogio_4", objMarcacao.Sai_num_relogio_4.GetType()), 
-                new DataColumn ("sai_num_relogio_5", objMarcacao.Sai_num_relogio_5.GetType()), 
-                new DataColumn ("sai_num_relogio_6", objMarcacao.Sai_num_relogio_6.GetType()), 
-                new DataColumn ("sai_num_relogio_7", objMarcacao.Sai_num_relogio_7.GetType()), 
-                new DataColumn ("sai_num_relogio_8", objMarcacao.Sai_num_relogio_8.GetType()), 
-                new DataColumn ("naoentrarbanco", objMarcacao.Naoentrarbanco.GetType()), 
-                new DataColumn ("naoentrarnacompensacao", objMarcacao.Naoentrarnacompensacao.GetType()), 
-                new DataColumn () { ColumnName = "horascompensadas", DataType = typeof(string), MaxLength = 6}, 
-                new DataColumn ("idcompensado", objMarcacao.Idcompensado.GetType()), 
-                new DataColumn ("naoconsiderarcafe", objMarcacao.Naoconsiderarcafe.GetType()), 
+                new DataColumn () { ColumnName = "dia", DataType = typeof(string), MaxLength = 10},
+                new DataColumn () { ColumnName = "entradaextra", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "saidaextra", DataType = typeof(string), MaxLength = 5},
+                new DataColumn () { ColumnName = "ocorrencia", DataType = typeof(string), MaxLength = 60},
+                new DataColumn ("idhorario", objMarcacao.Idhorario.GetType()),
+                new DataColumn ("idfechamentobh", objMarcacao.Idfechamentobh.GetType()),
+                new DataColumn ("semcalculo", objMarcacao.Semcalculo.GetType()),
+                new DataColumn ("ent_num_relogio_1", objMarcacao.Ent_num_relogio_1.GetType()),
+                new DataColumn ("ent_num_relogio_2", objMarcacao.Ent_num_relogio_2.GetType()),
+                new DataColumn ("ent_num_relogio_3", objMarcacao.Ent_num_relogio_3.GetType()),
+                new DataColumn ("ent_num_relogio_4", objMarcacao.Ent_num_relogio_4.GetType()),
+                new DataColumn ("ent_num_relogio_5", objMarcacao.Ent_num_relogio_5.GetType()),
+                new DataColumn ("ent_num_relogio_6", objMarcacao.Ent_num_relogio_6.GetType()),
+                new DataColumn ("ent_num_relogio_7", objMarcacao.Ent_num_relogio_7.GetType()),
+                new DataColumn ("ent_num_relogio_8", objMarcacao.Ent_num_relogio_8.GetType()),
+                new DataColumn ("sai_num_relogio_1", objMarcacao.Sai_num_relogio_1.GetType()),
+                new DataColumn ("sai_num_relogio_2", objMarcacao.Sai_num_relogio_2.GetType()),
+                new DataColumn ("sai_num_relogio_3", objMarcacao.Sai_num_relogio_3.GetType()),
+                new DataColumn ("sai_num_relogio_4", objMarcacao.Sai_num_relogio_4.GetType()),
+                new DataColumn ("sai_num_relogio_5", objMarcacao.Sai_num_relogio_5.GetType()),
+                new DataColumn ("sai_num_relogio_6", objMarcacao.Sai_num_relogio_6.GetType()),
+                new DataColumn ("sai_num_relogio_7", objMarcacao.Sai_num_relogio_7.GetType()),
+                new DataColumn ("sai_num_relogio_8", objMarcacao.Sai_num_relogio_8.GetType()),
+                new DataColumn ("naoentrarbanco", objMarcacao.Naoentrarbanco.GetType()),
+                new DataColumn ("naoentrarnacompensacao", objMarcacao.Naoentrarnacompensacao.GetType()),
+                new DataColumn () { ColumnName = "horascompensadas", DataType = typeof(string), MaxLength = 6},
+                new DataColumn ("idcompensado", objMarcacao.Idcompensado.GetType()),
+                new DataColumn ("naoconsiderarcafe", objMarcacao.Naoconsiderarcafe.GetType()),
                 new DataColumn ("dsr", objMarcacao.Dsr.GetType()),
-                new DataColumn ("abonardsr", objMarcacao.Abonardsr.GetType()), 
-                new DataColumn ("totalizadoresalterados", objMarcacao.Totalizadoresalterados.GetType()), 
-                new DataColumn ("calchorasextrasdiurna", objMarcacao.Calchorasextrasdiurna.GetType()), 
-                new DataColumn ("calchorasextranoturna", objMarcacao.Calchorasextranoturna.GetType()), 
-                new DataColumn ("calchorasfaltas", objMarcacao.Calchorasfaltas.GetType()), 
-                new DataColumn ("calchorasfaltanoturna", objMarcacao.Calchorasfaltanoturna.GetType()), 
-                new DataColumn ("incdata", typeof(DateTime)), 
-                new DataColumn ("inchora", typeof(DateTime)), 
-                new DataColumn () { ColumnName = "incusuario", DataType = typeof(string), MaxLength = 20}, 
-                new DataColumn ("altdata", typeof(DateTime)), 
-                new DataColumn ("althora", typeof(DateTime)), 
+                new DataColumn ("abonardsr", objMarcacao.Abonardsr.GetType()),
+                new DataColumn ("totalizadoresalterados", objMarcacao.Totalizadoresalterados.GetType()),
+                new DataColumn ("calchorasextrasdiurna", objMarcacao.Calchorasextrasdiurna.GetType()),
+                new DataColumn ("calchorasextranoturna", objMarcacao.Calchorasextranoturna.GetType()),
+                new DataColumn ("calchorasfaltas", objMarcacao.Calchorasfaltas.GetType()),
+                new DataColumn ("calchorasfaltanoturna", objMarcacao.Calchorasfaltanoturna.GetType()),
+                new DataColumn ("incdata", typeof(DateTime)),
+                new DataColumn ("inchora", typeof(DateTime)),
+                new DataColumn () { ColumnName = "incusuario", DataType = typeof(string), MaxLength = 20},
+                new DataColumn ("altdata", typeof(DateTime)),
+                new DataColumn ("althora", typeof(DateTime)),
                 new DataColumn () { ColumnName = "altusuario", DataType = typeof(string), MaxLength = 20},
-                new DataColumn ("folga", objMarcacao.Folga.GetType()), 
+                new DataColumn ("folga", objMarcacao.Folga.GetType()),
                 new DataColumn ("neutro", objMarcacao.Neutro.GetType()),
                 new DataColumn () { ColumnName = "totalHorasTrabalhadas", DataType = typeof(string), MaxLength = 6},
                 new DataColumn () { ColumnName = "chave", DataType = typeof(string), MaxLength = 255},
@@ -1898,8 +1898,8 @@ namespace DAL.SQL
                 Modelo.Marcacao objMarcacao = new Modelo.Marcacao();
                 #region Criação das colunas
                 DataTable dt = new DataTable();
-                        DataColumn[] colunas = new DataColumn[]
-                    {
+                DataColumn[] colunas = new DataColumn[]
+            {
                 new DataColumn ("id", objMarcacao.Id.GetType()),
                 new DataColumn ("codigo", objMarcacao.Codigo.GetType()),
                 new DataColumn ("idfuncionario", objMarcacao.Idfuncionario.GetType()),
@@ -2003,7 +2003,7 @@ namespace DAL.SQL
                 new DataColumn ("ContAtrasosSaidasAntec", objMarcacao.ContAtrasosSaidasAntec.GetType()),
                 new DataColumn ("ContabilizarCreditos", objMarcacao.ContabilizarCreditos.GetType()),
                 new DataColumn ("IdJornadaSubstituir", typeof(int))
-            };
+    };
                 dt.Columns.AddRange(colunas);
                 #endregion
 
@@ -2016,7 +2016,7 @@ namespace DAL.SQL
                 foreach (Modelo.Marcacao marc in marcacoes)
                 {
                     marc.IdFechamentoPonto = fechamentos.Where(x => x.DataFechamento >= marc.Data && x.IdFuncionario == marc.Idfuncionario).OrderBy(x => x.DataFechamento).Select(x => x.IdFechamentoPonto).FirstOrDefault();
-                            SetDadosAlt(marc);
+                    SetDadosAlt(marc);
 
                     row = dt.NewRow();
                     row["id"] = marc.Id;
@@ -2126,16 +2126,16 @@ namespace DAL.SQL
                 }
                 #endregion
 
-                        SqlParameter parm = new SqlParameter("@dados", SqlDbType.Structured);
-                        parm.Value = dt;
-                        SqlCommand cmd = new SqlCommand("update_marcacao", conn, trans);
-                        cmd.CommandTimeout = 600;
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(parm);
-                        cmd.ExecuteNonQuery();
+                SqlParameter parm = new SqlParameter("@dados", SqlDbType.Structured);
+                parm.Value = dt;
+                SqlCommand cmd = new SqlCommand("update_marcacao", conn, trans);
+                cmd.CommandTimeout = 600;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(parm);
+                cmd.ExecuteNonQuery();
 
-                        dt.Dispose();
-                    }
+                dt.Dispose();
+            }
 
         }
 
@@ -2254,8 +2254,8 @@ namespace DAL.SQL
         public bool PossuiRegistro(DateTime pDt, int pIdFuncionario)
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@data", SqlDbType.DateTime),
+            {
+                new SqlParameter ("@data", SqlDbType.DateTime),
                 new SqlParameter ("@funcionario", SqlDbType.Int)
             };
             parms[0].Value = pDt;
@@ -2278,7 +2278,7 @@ namespace DAL.SQL
         public List<Modelo.MarcacaoLista> GetMarcacaoListaPorFuncionario(int pIdFuncionario, DateTime pdataInicial, DateTime pDataFinal)
         {
             SqlParameter[] parms = new SqlParameter[3]
-            { 
+            {
                     new SqlParameter("@idfuncionario", SqlDbType.Int),
                     new SqlParameter("@datainicial", SqlDbType.DateTime),
                     new SqlParameter("@datafinal", SqlDbType.DateTime)
@@ -2459,7 +2459,7 @@ namespace DAL.SQL
         public DataTable GetParaRelatorioOcorrencia(int pTipo, string pIdentificacao, DateTime pDataI, DateTime pDataF, int pModoOrdenacao, int pAgrupaDepartamento)
         {
             SqlParameter[] parms = new SqlParameter[]
-            {                     
+            {
                     new SqlParameter("@datai", SqlDbType.DateTime),
                     new SqlParameter("@dataf", SqlDbType.DateTime),
                     new SqlParameter("@modoOrdenacao", SqlDbType.Int)
@@ -2586,7 +2586,20 @@ namespace DAL.SQL
                         + ", (select top(1) case when bimp.ocorrencia = 'I' then bimp.idjustificativa else null end FROM bilhetesimp bimp where bimp.mar_data = marcacao.data and bimp.idfuncionario = marcacao.idfuncionario and ent_sai='S' and posicao=6) as justif_sai_6"
                         + ", (select top(1) case when bimp.ocorrencia = 'I' then bimp.idjustificativa else null end FROM bilhetesimp bimp where bimp.mar_data = marcacao.data and bimp.idfuncionario = marcacao.idfuncionario and ent_sai='S' and posicao=7) as justif_sai_7"
                         + ", (select top(1) case when bimp.ocorrencia = 'I' then bimp.idjustificativa else null end FROM bilhetesimp bimp where bimp.mar_data = marcacao.data and bimp.idfuncionario = marcacao.idfuncionario and ent_sai='S' and posicao=8) as justif_sai_8"
-
+                        + ", horario.horasnormais"
+                        + ", horario.marcacargahorariamista"
+                        + ", IdJornadaSubstituir"
+                        + ", jors.entrada_1 entrada_1Substituido"
+                        + ", jors.entrada_2 entrada_2Substituido"
+                        + ", jors.entrada_3 entrada_3Substituido"
+                        + ", jors.entrada_4 entrada_4Substituido"
+                        + ", jors.saida_1 saida_1Substituido"
+                        + ", jors.saida_2 saida_2Substituido"
+                        + ", jors.saida_3 saida_3Substituido"
+                        + ", jors.saida_4 saida_4Substituido"
+                        + ", parametros.inicioadnoturno"
+                        + ", parametros.fimadnoturno"
+                        + ", parametros.toleranciaAdicionalNoturno"
 
                         + " FROM marcacao_view AS marcacao "
                         + " INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario AND funcionario.funcionarioativo = 1 "
@@ -2609,7 +2622,8 @@ namespace DAL.SQL
                         + " INNER JOIN (SELECT * FROM [dbo].[FN_CompetenciaPeriodoFuncionario]({0}, @datai, @dataf))comp "
                         + " ON funcionario.id = comp.IdFuncionario AND CONVERT(DATE, marcacao.data) = CONVERT(DATE, comp.data)"
 
-
+                        + " LEFT JOIN JornadaSubstituir js on marcacao.IdJornadaSubstituir = js.id"
+                        + " LEFT JOIN jornada jors on jors.id = js.idjornadapara"
                         + " WHERE marcacao.data >= @datai AND marcacao.data <= @dataf ";
 
             switch (pTipo)
@@ -2738,6 +2752,20 @@ namespace DAL.SQL
 				            , feriado.HoraFim AS FeriadoParcialFim
                             , p.inicioadnoturno AS inicioAdNoturno
 				            , p.fimadnoturno AS fimAdNoturno
+                            , h.horasnormais
+                            , h.marcacargahorariamista
+                            , IdJornadaSubstituir
+                            , jors.entrada_1 entrada_1Substituido
+                            , jors.entrada_2 entrada_2Substituido
+                            , jors.entrada_3 entrada_3Substituido
+                            , jors.entrada_4 entrada_4Substituido
+                            , jors.saida_1 saida_1Substituido
+                            , jors.saida_2 saida_2Substituido
+                            , jors.saida_3 saida_3Substituido
+                            , jors.saida_4 saida_4Substituido
+                            , p.inicioadnoturno
+                            , p.fimadnoturno
+                            , p.toleranciaAdicionalNoturno
                             FROM    dbo.marcacao_view AS marcacao  WITH ( NOLOCK )
                                     JOIN #funcionarios fff WITH ( NOLOCK ) ON marcacao.idfuncionario = fff.idfuncionario
 						            JOIN dbo.horario AS h ON marcacao.idhorario = h.id
@@ -2766,6 +2794,8 @@ namespace DAL.SQL
                                                                     AND FFUNC.idFuncionario = f.id ) 
                                                 ) 
                                             )) feriado
+                                    LEFT JOIN JornadaSubstituir js on marcacao.IdJornadaSubstituir = js.id
+                                    LEFT JOIN jornada jors on jors.id = js.idjornadapara
                             WHERE   marcacao.data BETWEEN @datainicial AND @datafinal
 				                and ISNULL(f.excluido,0) = 0
 				                and (@pegaInativos = 1 OR
@@ -2789,7 +2819,7 @@ namespace DAL.SQL
         public DataTable GetParaRelatorioAbstinencia(int pIdFuncionario, DateTime pdataInicial, DateTime pDataFinal)
         {
             SqlParameter[] parms = new SqlParameter[3]
-            { 
+            {
                     new SqlParameter("@idfuncionario", SqlDbType.Int),
                     new SqlParameter("@datainicial", SqlDbType.DateTime),
                     new SqlParameter("@datafinal", SqlDbType.DateTime)
@@ -2843,7 +2873,7 @@ namespace DAL.SQL
         public DataTable GetParaACJEF(int pIdEmpresa, DateTime pdataInicial, DateTime pDataFinal, bool PegaInativos)
         {
             SqlParameter[] parms = new SqlParameter[3]
-            { 
+            {
                     new SqlParameter("@idempresa", SqlDbType.Int),
                     new SqlParameter("@datainicial", SqlDbType.DateTime),
                     new SqlParameter("@datafinal", SqlDbType.DateTime)
@@ -3031,7 +3061,7 @@ WHERE
         public List<Modelo.Marcacao> GetPorFuncionario(int pIdFuncionario, DateTime pdataInicial, DateTime pDataFinal, bool PegaInativos)
         {
             SqlParameter[] parms = new SqlParameter[3]
-            { 
+            {
                     new SqlParameter("@idfuncionario", SqlDbType.Int),
                     new SqlParameter("@datainicial", SqlDbType.DateTime),
                     new SqlParameter("@datafinal", SqlDbType.DateTime)
@@ -3073,7 +3103,7 @@ WHERE
         public List<Modelo.Marcacao> GetPorFuncionarios(List<int> pIdsFuncionario, DateTime pdataInicial, DateTime pDataFinal, bool PegaInativos)
         {
             SqlParameter[] parms = new SqlParameter[3]
-            { 
+            {
                     new SqlParameter("@ids", SqlDbType.VarChar),
                     new SqlParameter("@datainicial", SqlDbType.DateTime),
                     new SqlParameter("@datafinal", SqlDbType.DateTime)
@@ -3114,7 +3144,7 @@ WHERE
         public List<Modelo.Marcacao> GetPorFuncionario(int pIdFuncionario)
         {
             SqlParameter[] parms = new SqlParameter[1]
-            { 
+            {
                     new SqlParameter("@idfuncionario", SqlDbType.Int)
             };
             parms[0].Value = pIdFuncionario;
@@ -3142,10 +3172,10 @@ WHERE
         {
             string aux;
             SqlParameter[] parms = new SqlParameter[3]
-            { 
+            {
                     new SqlParameter("@idempresa", SqlDbType.Int),
                     new SqlParameter("@datainicial", SqlDbType.DateTime),
-                    new SqlParameter("@datafinal", SqlDbType.DateTime)                    
+                    new SqlParameter("@datafinal", SqlDbType.DateTime)
             };
             parms[0].Value = pEmpresa;
             parms[1].Value = pdataInicial;
@@ -3176,7 +3206,7 @@ WHERE
 
             AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Marcacao>();
             lista = AutoMapper.Mapper.Map<List<Modelo.Marcacao>>(dr);
-            lista.ForEach((l)=> { l.BilhetesMarcacao = tratamentos.Where(t => t.DsCodigo == l.Dscodigo && t.Mar_data == l.Data).ToList(); });
+            lista.ForEach((l) => { l.BilhetesMarcacao = tratamentos.Where(t => t.DsCodigo == l.Dscodigo && t.Mar_data == l.Data).ToList(); });
 
             if (!dr.IsClosed)
                 dr.Close();
@@ -3189,7 +3219,7 @@ WHERE
         {
             string aux;
             SqlParameter[] parms = new SqlParameter[3]
-            { 
+            {
                     new SqlParameter("@idempresa", SqlDbType.Int),
                     new SqlParameter("@datainicial", SqlDbType.DateTime),
                     new SqlParameter("@datafinal", SqlDbType.DateTime)
@@ -3247,7 +3277,7 @@ WHERE
                 objMarcLista.Ocorrencia = objMarcacao.Ocorrencia;
                 objMarcLista.LegendasConcatenadas = objMarcacao.LegendasConcatenadas;
                 objMarcLista.AdicionalNoturno = objMarcacao.AdicionalNoturno;
-                objMarcLista.horaExtraInterjornada= objMarcacao.horaExtraInterjornada;
+                objMarcLista.horaExtraInterjornada = objMarcacao.horaExtraInterjornada;
 
                 lista.Add(objMarcLista);
 
@@ -3285,7 +3315,7 @@ WHERE
         {
             string aux;
             SqlParameter[] parms = new SqlParameter[3]
-            { 
+            {
                     new SqlParameter("@idempresa", SqlDbType.Int),
                     new SqlParameter("@datainicial", SqlDbType.DateTime),
                     new SqlParameter("@datafinal", SqlDbType.DateTime)
@@ -3392,7 +3422,7 @@ WHERE
         public List<Modelo.Marcacao> GetPorDepartamento(int pDepartamento, DateTime pdataInicial, DateTime pDataFinal, bool PegaInativos)
         {
             SqlParameter[] parms = new SqlParameter[3]
-            { 
+            {
                     new SqlParameter("@iddepartamento", SqlDbType.Int),
                     new SqlParameter("@datainicial", SqlDbType.DateTime),
                     new SqlParameter("@datafinal", SqlDbType.DateTime)
@@ -3437,8 +3467,8 @@ WHERE
         public List<Modelo.MarcacaoLista> GetPorDepartamentoList(int piddepartamento, DateTime pDataFinal, bool PegaInativos)
         {
             SqlParameter[] parms = new SqlParameter[2]
-            { 
-                 
+            {
+
                 new SqlParameter("@iddepartamento", SqlDbType.Int),
                 new SqlParameter("@datafinal", SqlDbType.DateTime)
             };
@@ -3518,7 +3548,7 @@ WHERE
         public List<Modelo.MarcacaoLista> GetPorManutDiariaCont(int pidcontrato, DateTime pDataIni, DateTime pDataFin, bool PegaInativos)
         {
             SqlParameter[] parms = new SqlParameter[3]
-            { 
+            {
                 new SqlParameter("@idcontrato", SqlDbType.Int),
                 new SqlParameter("@dataIni", SqlDbType.DateTime),
                 new SqlParameter("@dataFin", SqlDbType.DateTime)
@@ -3557,8 +3587,8 @@ WHERE
         public List<Modelo.MarcacaoLista> GetPorManutDiariaDep(int piddepartamento, DateTime pDataIni, DateTime pDataFin, bool PegaInativos)
         {
             SqlParameter[] parms = new SqlParameter[3]
-            { 
-                 
+            {
+
                 new SqlParameter("@iddepartamento", SqlDbType.Int),
                 new SqlParameter("@dataIni", SqlDbType.DateTime),
                 new SqlParameter("@dataFin", SqlDbType.DateTime)
@@ -3596,7 +3626,7 @@ WHERE
         public List<Modelo.Marcacao> GetPorFuncao(int pIdFuncao, DateTime pdataInicial, DateTime pDataFinal, bool PegaInativos)
         {
             SqlParameter[] parms = new SqlParameter[3]
-            { 
+            {
                     new SqlParameter("@idfuncao", SqlDbType.Int),
                     new SqlParameter("@datainicial", SqlDbType.DateTime),
                     new SqlParameter("@datafinal", SqlDbType.DateTime)
@@ -3639,7 +3669,7 @@ WHERE
         public List<Modelo.Marcacao> GetPorPeriodo(DateTime pdataInicial, DateTime pDataFinal)
         {
             SqlParameter[] parms = new SqlParameter[2]
-            { 
+            {
                     new SqlParameter("@datainicial", SqlDbType.DateTime),
                     new SqlParameter("@datafinal", SqlDbType.DateTime)
             };
@@ -3672,7 +3702,7 @@ WHERE
         public List<Modelo.Marcacao> GetPorHorario(int pIdHorario, DateTime pdataInicial, DateTime pDataFinal)
         {
             SqlParameter[] parms = new SqlParameter[3]
-            { 
+            {
                     new SqlParameter("@idhorario", SqlDbType.Int),
                     new SqlParameter("@datainicial", SqlDbType.DateTime),
                     new SqlParameter("@datafinal", SqlDbType.DateTime)
@@ -3751,7 +3781,7 @@ WHERE
                         dr.Close();
                     }
                     dr.Dispose();
-                } 
+                }
             }
             return lista;
         }
@@ -3761,7 +3791,7 @@ WHERE
         public Modelo.Marcacao GetPorData(Modelo.Funcionario pFuncionario, DateTime pData)
         {
             SqlParameter[] parms = new SqlParameter[]
-            { 
+            {
                     new SqlParameter("@idfuncionario", SqlDbType.Int),
                     new SqlParameter("@data", SqlDbType.DateTime)
             };
@@ -3795,7 +3825,7 @@ WHERE
 
             List<Modelo.MarcacaoLista> lista = new List<Modelo.MarcacaoLista>();
             SqlParameter[] parms = new SqlParameter[]
-            { 
+            {
                    new SqlParameter("@dataIni", SqlDbType.DateTime),
                    new SqlParameter("@dataFin", SqlDbType.DateTime)
             };
@@ -4020,7 +4050,7 @@ WHERE
         public List<Modelo.Marcacao> GetListaFuncionario(int pIdFuncionario, DateTime pdataInicial, DateTime pDataFinal)
         {
             SqlParameter[] parms = new SqlParameter[3]
-            { 
+            {
                     new SqlParameter("@idfuncionario", SqlDbType.Int),
                     new SqlParameter("@dataInicial", SqlDbType.Date),
                     new SqlParameter("@dataFinal", SqlDbType.Date)
@@ -4050,7 +4080,7 @@ WHERE
         public void ClearFechamentoBH(int pIdFechamentoBH)
         {
             SqlParameter[] parms = new SqlParameter[1]
-            { 
+            {
                     new SqlParameter("@idfechamentobh", SqlDbType.Int)
             };
             parms[0].Value = pIdFechamentoBH;
@@ -4099,7 +4129,7 @@ WHERE
         public List<Modelo.Marcacao> GetTratamentosMarcacao(DateTime datainicial, DateTime datafinal)
         {
             SqlParameter[] parms = new SqlParameter[2]
-            { 
+            {
                     new SqlParameter("@datainicial", SqlDbType.DateTime),
                     new SqlParameter("@datafinal", SqlDbType.DateTime)
             };
@@ -4137,7 +4167,7 @@ WHERE
         public List<DateTime> GetDataMarcacoesPeriodo(int pIdFuncionario, DateTime pDataI, DateTime pDataF)
         {
             SqlParameter[] parms = new SqlParameter[3]
-            { 
+            {
                     new SqlParameter("@idfuncionario", SqlDbType.Int),
                     new SqlParameter("@datai", SqlDbType.DateTime),
                     new SqlParameter("@dataf", SqlDbType.DateTime)
@@ -4455,7 +4485,7 @@ WHERE
         public Hashtable GetMarcDiaFunc(int pTipo, int pIdTipo, DateTime pDataInicial, DateTime pDataFinal)
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
+            {
                 new SqlParameter ("@datai", SqlDbType.Date),
                 new SqlParameter ("@dataf", SqlDbType.Date),
                 new SqlParameter ("@identificacao", SqlDbType.Int)
@@ -4603,7 +4633,7 @@ WHERE
             List<Modelo.Marcacao> lista = new List<Modelo.Marcacao>();
 
             SqlParameter[] parms = new SqlParameter[3]
-            { 
+            {
                     new SqlParameter("@idsFuncionarios", SqlDbType.VarChar),
                     new SqlParameter("@datainicial", SqlDbType.DateTime),
                     new SqlParameter("@datafinal", SqlDbType.DateTime)
@@ -4705,7 +4735,7 @@ WHERE
                 dataBloqPnlRh = DateTime.Now;
                 usuarioPnlRh = UsuarioLogado.Login;
             }
-            
+
             SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@dataInicio", SqlDbType.DateTime),
@@ -4719,7 +4749,7 @@ WHERE
             parms[2].Value = idFunc;
             parms[3].Value = dataBloqPnlRh;
             parms[4].Value = usuarioPnlRh;
-            
+
             string aux = @"UPDATE dbo.marcacao
                            SET DataBloqueioEdicaoPnlRh = @dataBloqPnlRh, 
                                LoginBloqueioEdicaoPnlRh = @usuarioPnlRh
@@ -4728,7 +4758,7 @@ WHERE
                            WHERE m.data BETWEEN @dataInicio AND @dataFim
                            AND 
                            m.idfuncionario = @idFunc";
-            
+
             SqlCommand cmd = db.ExecNonQueryCmd(CommandType.Text, aux, false, parms);
             cmd.Parameters.Clear();
         }
@@ -4751,7 +4781,7 @@ WHERE
             {
                 lastDate = Convert.ToDateTime(dr["data"]);
             }
-            
+
 
             if (!dr.IsClosed)
                 dr.Close();
@@ -4952,7 +4982,7 @@ WHERE
         public void ClearFechamentoPonto(SqlTransaction trans, int pIdFechamentoPonto)
         {
             SqlParameter[] parms = new SqlParameter[1]
-            { 
+            {
                     new SqlParameter("@idFechamentoPonto", SqlDbType.Int)
             };
             parms[0].Value = pIdFechamentoPonto;
@@ -4974,7 +5004,7 @@ WHERE
         public void AdicionarFechamentoPonto(SqlTransaction trans, int pIdFechamentoPonto, int pIdFuncionario)
         {
             SqlParameter[] parms = new SqlParameter[2]
-            { 
+            {
                     new SqlParameter("@idFechamentoPonto", SqlDbType.Int),
                     new SqlParameter("@idfuncionario", SqlDbType.Int)
             };
@@ -5015,7 +5045,7 @@ WHERE
         public void SetaFolgaEmLote(SqlTransaction trans, List<int> idsFuncionarios, DateTime dataInicial, DateTime dataFinal, bool folga)
         {
             SqlParameter[] parms = new SqlParameter[4]
-            { 
+            {
                     new SqlParameter("@idsFuncionarios", SqlDbType.VarChar),
                     new SqlParameter("@dataInicial", SqlDbType.DateTime),
                     new SqlParameter("@dataFinal", SqlDbType.DateTime),
@@ -5044,7 +5074,7 @@ WHERE
         public void AtualizaMudancaHorarioMarcacao(List<int> idsFuncionarios, DateTime dataInicio)
         {
             SqlParameter[] parms = new SqlParameter[2]
-            { 
+            {
                     new SqlParameter("@idsFuncionarios", SqlDbType.VarChar),
                     new SqlParameter("@dataInicio", SqlDbType.DateTime)
             };
@@ -5087,7 +5117,7 @@ WHERE
         public DataTable GetRelatorioObras(string idsFuncionarios, DateTime pdataInicial, DateTime pDataFinal, string codsLocalReps)
         {
             SqlParameter[] parms = new SqlParameter[4]
-            { 
+            {
                     new SqlParameter("@idsFuncionarios", SqlDbType.VarChar),
                     new SqlParameter("@datainicial", SqlDbType.DateTime),
                     new SqlParameter("@datafinal", SqlDbType.DateTime),
@@ -5236,7 +5266,7 @@ WHERE
             List<Modelo.Proxy.Relatorios.PxyRelConferenciaHoras> lista = new List<Modelo.Proxy.Relatorios.PxyRelConferenciaHoras>();
             string ListaCpfs = String.Join(",", cpfsFuncionarios);
             SqlParameter[] parms = new SqlParameter[3]
-            { 
+            {
                     new SqlParameter("@ListaCpfs", SqlDbType.VarChar),
                     new SqlParameter("@datainicial", SqlDbType.DateTime),
                     new SqlParameter("@datafinal", SqlDbType.DateTime),
@@ -5674,5 +5704,5 @@ WHERE
         }
 
         #endregion
-    }   
+    }
 }
