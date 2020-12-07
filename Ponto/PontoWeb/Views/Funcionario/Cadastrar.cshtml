@@ -627,12 +627,25 @@
         var senha = $('#txtSenha').val();
         var cracha = Number($('#lkpHistorioRFID').val());
         var rd = $("input[name=rdioTipo]:checked").val();
+
+        if (($('#lkpHistorioRFID').val().length) == 0) {
+           $('#vsRfid').removeClass('field-validation-valid');
+           $('#vsRfid').addClass('field-validation-error');
+           $('#vsRfid').html('Campo Obrigatório');
+           return false;
+        }
         if (rd == 0) {
             if (($('#lkpHistorioRFID').val().length) > 8)
             {
                 $('#vsRfid').removeClass('field-validation-valid');
                 $('#vsRfid').addClass('field-validation-error');
                 $('#vsRfid').html('(RFID) Tamanho máximo 8 caracteres');
+                return false;
+            }
+            else if (!cracha) {
+                $('#vsRfid').removeClass('field-validation-valid');
+                $('#vsRfid').addClass('field-validation-error');
+                $('#vsRfid').html('(RFID) Preencha o campo com números');
                 return false;
             }
         }
@@ -642,6 +655,12 @@
                 $('#vsRfid').removeClass('field-validation-valid');
                 $('#vsRfid').addClass('field-validation-error');
                 $('#vsRfid').html('(MIFARE) Tamanho mínimo 10 caracteres');
+                return false;
+            }
+             else if (!cracha) {
+                $('#vsRfid').removeClass('field-validation-valid');
+                $('#vsRfid').addClass('field-validation-error');
+                $('#vsRfid').html('(MIFARE) Preencha o campo com números');
                 return false;
             }
 
