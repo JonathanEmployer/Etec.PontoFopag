@@ -1186,7 +1186,11 @@
             else {
                 if (campo.indexOf("btnDesc") >= 0) {
                     var _val = $("#txtOcorrencia" + identManut).val();
-                    if (_val != "" && _val != "�" && _val != undefined && _val!= "P") {
+                    var _relogio = $("#txtRelogioBil" + identManut).val();
+                    if (_relogio == "PE") {
+                        cwkNotificacaoTit("Marcação por excessão", "Marcações por excessão não podem ser desconsideradas!");
+                    }
+                    else if (_val != "" && _val != "�" && _val != undefined && _val != "P"){
                         cwkNotificacaoTit("Marcação com Manutenção", "Para Desconsiderar a Marcação exclua a manutenção existente!");
                     }
                     else {
