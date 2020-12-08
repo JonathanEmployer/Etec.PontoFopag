@@ -11,7 +11,7 @@ namespace BLL
         private string ConnectionString;
         private Modelo.Cw_Usuario UsuarioLogado;
 
-        public FuncionarioRFID() : this(null){  }
+        public FuncionarioRFID() : this(null) { }
 
         public FuncionarioRFID(string connString)
             : this(connString, cwkControleUsuario.Facade.getUsuarioLogado)
@@ -32,7 +32,7 @@ namespace BLL
             switch (Modelo.cwkGlobal.BD)
             {
                 case 1:
-                    dalFuncionarioRFID = new DAL.SQL.FuncionarioRFID (new DataBase(ConnectionString));
+                    dalFuncionarioRFID = new DAL.SQL.FuncionarioRFID(new DataBase(ConnectionString));
                     break;
             }
             UsuarioLogado = usuarioLogado;
@@ -86,7 +86,8 @@ namespace BLL
         public Dictionary<string, string> Salvar(Modelo.Acao pAcao, Modelo.FuncionarioRFID objeto)
         {
             Dictionary<string, string> ret = new Dictionary<string, string>();
-            Dictionary<string, string> erros = ValidaObjeto(objeto);
+            Dictionary<string, string> erros = pAcao == Modelo.Acao.Alterar && objeto.Ativo == false ? new Dictionary<string, string>() : ValidaObjeto(objeto);
+
             if (erros.Count == 0)
             {
                 switch (pAcao)
