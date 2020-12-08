@@ -53,7 +53,7 @@ namespace BLL
         private int[,] listTotalHorasGeral = new int[10, 3];
         private int[,] listTotalHoras = new int[10, 3];
 
-        public bool CalcularAtraso { get; set; }        
+        public bool CalcularAtraso { get; set; }
         public DataTable Marcacoes { get; private set; }
 
         public TotalizadorHorasFuncionario(int pIdEmpresa, int pIdDepartamento, int pIdFuncionario, int pIdFuncao
@@ -108,11 +108,11 @@ namespace BLL
                 Marcacoes = bllMarcacao.GetParaTotalizaHoras(pIdFuncionario, pDataI, pDataF, false);
             else
                 Marcacoes = marcacoes;
-            
+
         }
 
         public TotalizadorHorasFuncionario(Modelo.Funcionario objFuncionario, DateTime pDataI, DateTime pDataF, string connString, Modelo.Cw_Usuario usuarioLogado)
-            : this(objFuncionario.Idempresa, objFuncionario.Iddepartamento, objFuncionario.Id, objFuncionario.Idfuncao, pDataI, pDataF,  connString, usuarioLogado)
+            : this(objFuncionario.Idempresa, objFuncionario.Iddepartamento, objFuncionario.Id, objFuncionario.Idfuncao, pDataI, pDataF, connString, usuarioLogado)
         {
         }
 
@@ -182,8 +182,8 @@ namespace BLL
             List<Modelo.FechamentoBH> fechamentoBHList = bllFechamentoBH.GetAllListFuncs(idsFuncs, false);
             List<Modelo.FechamentoBHD> fechamentoBHDList = bllFechamentoBHD.getPorListaFuncionario(idsFuncs);
 
-            BLL.CalculoMarcacoes.TotalizadorBancoHoras totalizadorBancoHoras = 
-            new BLL.CalculoMarcacoes.TotalizadorBancoHoras(idEmpresa, idDepartamento, idFuncionario, idFuncao, dataI, dataF, bancoHorasList, fechamentoBHList, 
+            BLL.CalculoMarcacoes.TotalizadorBancoHoras totalizadorBancoHoras =
+            new BLL.CalculoMarcacoes.TotalizadorBancoHoras(idEmpresa, idDepartamento, idFuncionario, idFuncao, dataI, dataF, bancoHorasList, fechamentoBHList,
                                                            fechamentoBHDList, Marcacoes, true, ConnectionString, UsuarioLogado);
 
             totalizadorBancoHoras.PreenchaBancoHoras(objTotalHoras);
@@ -204,7 +204,7 @@ namespace BLL
                 objTotalHoras.totalInItinere = new List<pxyInItinerePorPercentual>();
                 int DiaIniPeriodoFechamento;
                 int DiaFimPeriodoFechamento;
-                
+
                 List<Modelo.Empresa> empresas = new List<Modelo.Empresa>();
                 if (objTotalHoras.Empresa == null)
                 {
@@ -259,7 +259,7 @@ namespace BLL
                         totalTrabDiurna += Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["horastrabalhadas"]);
                         totalTrabNoturna += Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["horastrabalhadasnoturnas"]);
 
-                        if (marc["AdicionalNoturno"] is DBNull|| marc["AdicionalNoturno"].ToString() == "--:--")
+                        if (marc["AdicionalNoturno"] is DBNull || marc["AdicionalNoturno"].ToString() == "--:--")
                         {
                             totalAdNoturno += Modelo.cwkFuncoes.ConvertHorasMinuto("0");
                         }
@@ -271,9 +271,9 @@ namespace BLL
                             {
                                 double percAdDoub;
                                 if (Double.TryParse(marc["PercAdicNoturno"].ToString(), out percAdDoub))
-	                            {
+                                {
                                     percAdicNoturno = percAdDoub;
-	                            }
+                                }
                                 else
                                 {
                                     percAdicNoturno = 0;
@@ -327,7 +327,7 @@ namespace BLL
                         }
                         totalExtraDiurna += horaExtraDiurna;
                         totalExtraNoturna += horaExtraNoturna;
-                        totalInterjornadaExtra += Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["horaExtraInterjornada"]); 
+                        totalInterjornadaExtra += Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["horaExtraInterjornada"]);
                         totalExtraNoturnaBH += Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["exphorasextranoturna"]);
 
                         PercentualHorasExtras.TotalizarPercentuaisDia(marc, HorariosPHExtra, objHorarioDetalhe.Flagfolga, trocaMes, dia, data, dataF, horaExtraNoturna, horaExtraDiurna, acumulosTotais, acumulosParciais);
@@ -346,7 +346,7 @@ namespace BLL
                 }
                 foreach ((TipoDiaAcumulo, Dictionary<decimal, AcumuloPercentual>) acumulo in acumulosTotais)
                 {
-                    PercentualHorasExtras.TotalizarPercentuaisExtra(objTotalHoras, acumulo);   
+                    PercentualHorasExtras.TotalizarPercentuaisExtra(objTotalHoras, acumulo);
                 }
                 AtribuaTotais(objTotalHoras);
             }
@@ -380,7 +380,7 @@ namespace BLL
                     }
 
                     BLL.HoraExtra HE = new BLL.HoraExtra(marcParaCalc);
-                    objTotalHoras.HorasExtrasDoPeriodo = HE.CalcularHoraExtraDiaria(); 
+                    objTotalHoras.HorasExtrasDoPeriodo = HE.CalcularHoraExtraDiaria();
                 }
             }
             catch (Exception e)
@@ -423,7 +423,33 @@ namespace BLL
         public bool CarregaHorarioDetalhe(Modelo.HorarioDetalhe objHorarioDetalhe, DataRow marc)
         {
             bool retorno = true;
-            if (marc["legenda"].ToString() == "J")
+            if (!(marc["idJornadaSubstituir"] is DBNull))
+            {
+                int[] entradas = new int[4] { marc["entrada_1Substituido"].ToString().ConvertHorasMinuto(), marc["entrada_2Substituido"].ToString().ConvertHorasMinuto(), marc["entrada_3Substituido"].ToString().ConvertHorasMinuto(), marc["entrada_4Substituido"].ToString().ConvertHorasMinuto() };
+                int[] saidas = new int[4] { marc["saida_1Substituido"].ToString().ConvertHorasMinuto(), marc["saida_2Substituido"].ToString().ConvertHorasMinuto(), marc["saida_3Substituido"].ToString().ConvertHorasMinuto(), marc["saida_4Substituido"].ToString().ConvertHorasMinuto() };
+                int pHoraNoturnaI = marc["inicioadnoturno"].ToString().ConvertHorasMinuto();
+                int pHoraNoturnaF = marc["fimadnoturno"].ToString().ConvertHorasMinuto();
+                int pHoraD = 0;
+                int pHoraN = 0;
+                int adicionalNoturnoTolerancia = marc["toleranciaAdicionalNoturno"].ToString().ConvertHorasMinuto();
+
+                BLL.CalculoHoras.QtdHorasDiurnaNoturna(entradas, saidas, pHoraNoturnaI, pHoraNoturnaF, adicionalNoturnoTolerancia, ref pHoraD, ref pHoraN);
+                if (marc["marcacargahorariamista"].ToString() == "1")
+                {
+                    objHorarioDetalhe.Cargahorariamista = Modelo.cwkFuncoes.ConvertMinutosHora(pHoraD + pHoraN);
+                    objHorarioDetalhe.Totaltrabalhadadiurna = "--:--";
+                    objHorarioDetalhe.Totaltrabalhadanoturna = "--:--";
+                    objHorarioDetalhe.Flagfolga = marc["flagfolganormal"] is DBNull ? Convert.ToInt16(0) : Convert.ToInt16(marc["flagfolganormal"]);
+                }
+                else
+                {
+                    objHorarioDetalhe.Cargahorariamista = "--:--";
+                    objHorarioDetalhe.Totaltrabalhadadiurna = Modelo.cwkFuncoes.ConvertMinutosHora(pHoraD);
+                    objHorarioDetalhe.Totaltrabalhadanoturna = Modelo.cwkFuncoes.ConvertMinutosHora(pHoraN);
+                    objHorarioDetalhe.Flagfolga = marc["flagfolganormal"] is DBNull ? Convert.ToInt16(0) : Convert.ToInt16(marc["flagfolganormal"]);
+                }
+            }
+            else if (marc["legenda"].ToString() == "J")
             {
                 Modelo.JornadaAlternativa objJornadaAlternativa = bllJornadaAlternativa.PossuiRegistro(Convert.ToDateTime(marc["data"]), Convert.ToInt32(marc["idempresa"]),
                     Convert.ToInt32(marc["iddepartamento"]), Convert.ToInt32(marc["idfuncionario"]), Convert.ToInt32(marc["idfuncao"]));
@@ -526,7 +552,7 @@ namespace BLL
                 totalFaltaDiurna += horasfaltasD;
                 totalFaltaNoturna += horasfaltasN;
             }
-          
+
         }
 
         private void InicializeTotalizadores()
@@ -578,7 +604,7 @@ namespace BLL
                             abonoD = Math.Min(abonoDiurno, objHorarioDetalhe.TotaltrabalhadadiurnaMin);
                             abonoN = Math.Min(abonoNoturno, objHorarioDetalhe.TotaltrabalhadanoturnaMin);
                         }
-                        
+
                         item.TotalHoras += abonoD;
                         item.TotalHoras += abonoN;
                     }

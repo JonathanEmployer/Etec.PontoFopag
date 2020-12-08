@@ -155,7 +155,7 @@ namespace BLL
         {
             bool Condicao = true;
             BLL.Parametros bllParametros = new BLL.Parametros(ConnectionString, UsuarioLogado);
-            ExportarValorZerado = bllParametros.GetAllList().ToArray()[0].ExportarValorZerado == 0? false : true;
+            ExportarValorZerado = bllParametros.GetAllList().ToArray()[0].ExportarValorZerado == 0 ? false : true;
             progressBar.Value.setaMensagem("Carregando dados");
             List<int> idsFuncs = funcionarios.Select(s => s.Id).Distinct().ToList();
             List<Modelo.Eventos> listaEventos = dalEventos.GetAllList().OrderBy(e => e.Codigo).ToList();
@@ -164,7 +164,7 @@ namespace BLL
                 listaEventos = listaEventos.FindAll(e => idsEventos.Contains(e.Id));
             }
             List<Modelo.BancoHoras> bancoHorasList = dalBancoHoras.GetAllListFuncs(false, idsFuncs);
-            List<Modelo.FechamentoBH> fechamentoBHList = dalFechamentoBH.GetAllListFuncs(idsFuncs,false);
+            List<Modelo.FechamentoBH> fechamentoBHList = dalFechamentoBH.GetAllListFuncs(idsFuncs, false);
             List<Modelo.FechamentoBHD> fechamentoBHDList = dalFechamentoBHD.getPorListaFuncionario(idsFuncs);
             List<Modelo.FechamentobhdHE> fechamentobhdHEList = dalFechamentobhdHE.GetAllList().ToList();
             List<Modelo.JornadaAlternativa> listaJornadas = dalJornadaAlternativa.GetPeriodoFuncionarios(dataI.Value, dataF.Value, idsFuncs);
@@ -265,7 +265,7 @@ namespace BLL
             foreach (Modelo.Funcionario func in funcionarios)
             {
                 progressBar.Value.incrementaPB(1);
-                progressBar.Value.setaMensagem("Exportando "+func.Nome);
+                progressBar.Value.setaMensagem("Exportando " + func.Nome);
 
                 List<Modelo.TotalHoras> totalhoras = new List<Modelo.TotalHoras>();
                 List<Modelo.TotalHoras> totalhorasMensalista = new List<Modelo.TotalHoras>();
@@ -309,7 +309,7 @@ namespace BLL
                         if (totalizadorBancoHoras.PercQuantHorasPerc2FechamentobhdHE > 0)
                         {
                             objTotalHoras.RateioFechamentobhdHE.Add(totalizadorBancoHoras.PercQuantHorasPerc2FechamentobhdHE, totalizadorBancoHoras.QuantHorasPerc2FechamentobhdHE);
-                        } 
+                        }
                     }
 
                     foreach (var hm in listaEventos.GroupBy(x => x.HoristaMensalista).Select(g => new { HoristaMensalista = g.Key }))
@@ -690,9 +690,9 @@ namespace BLL
                             //}
                             //else
                             //{
-                                valorPerc = String.Format(formato.ToString(), valorPercentualAjustado);
+                            valorPerc = String.Format(formato.ToString(), valorPercentualAjustado);
                             //}
-                            
+
                         }
                         else
                         {
@@ -889,7 +889,7 @@ namespace BLL
         {
             if (campo.Zeroesquerda == 1)
             {
-                
+
                 if (campo.Tipo.Contains("Percentual"))
                 {
                     formato.Append("{0:N");
