@@ -35,6 +35,7 @@
                 }
                 @*Tab Panel*@
                 <div class="tabbable" style="margin-top:0;">
+
                     <ul class="nav nav-tabs" id="hnTab">
                         <li class="active"><a href="#pnlTurnoNormal" data-toggle="tab" id="liPnlTurnoNormal" style="padding:5px;">Turno Normal</a></li>
                         <li><a href="#pnlParametros" data-toggle="tab" id="liPnlParametros" style="padding:5px;">Parâmetros</a></li>
@@ -639,7 +640,7 @@
                                                         </div>
                                                         <div class="row" style="padding-top:10px; text-align:right;">
                                                             @Html.LinkToAddNestedForm("Adicionar", "#limitesDDSR", ".limiteDDSR", "LimitesDDsrProporcionais",
-                                                                typeof(Modelo.LimiteDDsr), "Codigo", null)
+typeof(Modelo.LimiteDDsr), "Codigo", null)
                                                         </div>
                                                     </div>
                                                 </div>
@@ -883,6 +884,72 @@
             </div>
         </div>*@
 }
+
+<script>
+
+    $('#liPnlTurnoNormal').on('shown.bs.tab', function (e) {
+        if (true) {
+            $(e.target).tab('show')
+        }
+        else {
+            $(e.relatedTarget).tab('show')
+        }
+    })
+    $('#liPnlParametros').on('shown.bs.tab', function (e) {
+        if (true) {
+            $(e.target).tab('show');
+        }
+        else {
+            $(e.relatedTarget).tab('show')
+        }
+    })
+    $('#liPnlDSR').on('shown.bs.tab', function (e) {
+        if (true) {
+            $(e.target).tab('show');
+        }
+        else {
+            $(e.relatedTarget).tab('show')
+        }
+    })
+    $('#liPnlIntervaloAutomatico').on('shown.bs.tab', function (e) {
+        if (true) {
+            $(e.target).tab('show');
+        }
+        else {
+            $(e.relatedTarget).tab('show')
+        } ')
+    })
+    $('#liPnlInItinere').on('shown.bs.tab', function (e) {
+        if (true) {
+            $(e.target).tab('show');
+        }
+        else {
+            $(e.relatedTarget).tab('show')
+        }
+    })
+    $('#liPnlRestricoes').on('shown.bs.tab', function (e) {
+        if (true) {
+            $(e.target).tab('show');
+        }
+        else {
+            $(e.relatedTarget).tab('show')
+        }
+    })
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
 <script>
     var prontoSubmit = false;
     cwk_DataCalendario('#btnInicioVigencia', '#InicioVigencia');

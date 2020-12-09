@@ -192,6 +192,11 @@ namespace PontoWeb.Controllers
                 return Json(new { Success = false, Erro = ex.Message }, JsonRequestBehavior.AllowGet);
         }
 
+        public bool Teste()
+        {
+            return ModelState.IsValid;
+        }
+
         protected override ActionResult Salvar(Horario obj)
         {
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
