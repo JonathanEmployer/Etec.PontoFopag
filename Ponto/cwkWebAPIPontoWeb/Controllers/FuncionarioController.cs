@@ -94,7 +94,6 @@ namespace cwkWebAPIPontoWeb.Controllers
                         {
                             DadosAntFunc.Salario = 0;
                         }
-                        DadosAntFunc.Senha = BLL.ClSeguranca.Criptografar(funcionario.SenhaRelogio == null ? "" : funcionario.SenhaRelogio);
                         DadosAntFunc.Dataadmissao = funcionario.Dataadmissao;
                         DadosAntFunc.Datademissao = funcionario.Datademissao;
 
