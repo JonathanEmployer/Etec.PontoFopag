@@ -1087,6 +1087,9 @@ namespace BLL
                     , "percentualextraNoturnafol", "quantidadeextraNoturnafol", "percextraprimeiroNoturna1", "percextraprimeiroNoturna2", "percextraprimeiroNoturna3", "percextraprimeiroNoturna4"
                     , "percextraprimeiroNoturna5", "percextraprimeiroNoturna6", "percextraprimeiroNoturna7", "percextraprimeiroNoturna8", "percextraprimeiroNoturna9", "percextraprimeiroNoturna10"
                     , "SeparaExtraNoturnaPercentual", "TotalIntervaloPrevL","idferiado","FeriadoParcial","FeriadoParcialInicio","FeriadoParcialFim","inicioAdNoturno","fimAdNoturno", "idjornadasubstituir"
+                    , "horasnormais", "marcacargahorariamista", "entrada_1Substituido", "entrada_2Substituido", "entrada_3Substituido", "entrada_4Substituido", "saida_1Substituido", "saida_2Substituido"
+                    , "saida_3Substituido", "saida_4Substituido", "toleranciaAdicionalNoturno", "totalAdicionalNoturno", "qtdAdNot", "totalHorasaTrabDiurna", "totalHorasaTrabNoturna"
+                    , "totalHorasaTrabalhar", "totalExtraInterjornada"
                 }, c.ColumnName) == -1)
                 {
                     ret.Columns.Add(c.ColumnName);
