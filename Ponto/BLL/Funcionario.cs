@@ -1622,6 +1622,10 @@ namespace BLL
         {
             return dalFuncionario.GetFuncionarioPorCpfeMatricula(cpf, matricula);
         }
+        public Modelo.Funcionario GetFuncionarioPorMatricula(string matricula)
+        {
+            return dalFuncionario.GetFuncionarioPorMatricula(matricula);
+        }
 
         public IList<Modelo.Proxy.PxyFuncionarioCabecalhoRel> GetFuncionariosCabecalhoRel(IList<int> IdFuncs)
         {
