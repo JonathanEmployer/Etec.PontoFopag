@@ -90,6 +90,10 @@ namespace Modelo
         public string idSelecionados { get; set; }
         public IList<Proxy.pxyFuncionariosLote> pxyFuncionariosLote { get; set; }
         public bool UtilizaControleContrato { get; set; }
+
+        [DisplayName("Desconsiderar empregados afastados")]
+        public bool DesconsideraAfastados { get; set; }
+
     }
 
     public enum TipoLancamento
