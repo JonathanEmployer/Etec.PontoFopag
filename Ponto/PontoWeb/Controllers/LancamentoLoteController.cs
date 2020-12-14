@@ -176,7 +176,7 @@ namespace PontoWeb.Controllers
                         {
                             idsFuncionariosSelecionados.Remove(item.IdFuncionario);
                         }
-
+               
                     }
 
                 }
