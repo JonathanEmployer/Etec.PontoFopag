@@ -260,7 +260,7 @@ namespace PontoWeb.Controllers
 
             if (obj.Horario != null)
             {
-                int idHorario = HorarioController.BuscaIdHorario(obj.Horario);
+                int idHorario = HorarioController.BuscaIdHorario(obj.Horario , obj.TipoHorarioPadraoFunc);
                 List<Horario> lHorarioNormalMovel = new List<Horario>();
 
                 switch (obj.TipoHorarioPadraoFunc)

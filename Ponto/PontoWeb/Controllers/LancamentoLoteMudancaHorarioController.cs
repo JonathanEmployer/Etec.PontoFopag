@@ -176,7 +176,7 @@ namespace PontoWeb.Controllers
 
         private void ValidaHorarioNormal(LancamentoLoteMudancaHorario mudHorario)
         {
-            int Idhorario = HorarioController.BuscaIdHorario(mudHorario.HorarioNormal);
+            int Idhorario = HorarioController.BuscaIdHorario(mudHorario.HorarioNormal, mudHorario.Tipohorario) ;
             if (Idhorario > 0)
             { mudHorario.Idhorario = Idhorario; }
             else
@@ -185,7 +185,7 @@ namespace PontoWeb.Controllers
 
         private void ValidaHorarioFlexivel(LancamentoLoteMudancaHorario mudHorario)
         {
-            int idHorario = HorarioController.BuscaIdHorario(mudHorario.HorarioFlexivel);
+            int idHorario = HorarioController.BuscaIdHorario(mudHorario.HorarioFlexivel, mudHorario.Tipohorario);
             if (idHorario > 0)
             { mudHorario.Idhorario = idHorario; }
             else
