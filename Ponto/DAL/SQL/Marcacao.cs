@@ -2992,6 +2992,17 @@ namespace DAL.SQL
 		, feriado.HoraFim AS FeriadoParcialFim
         , p.inicioadnoturno AS inicioAdNoturno
 		, p.fimadnoturno AS fimAdNoturno
+        , horario.horasnormais
+        , horario.marcacargahorariamista
+        , IdJornadaSubstituir
+        , jors.entrada_1 entrada_1Substituido
+        , jors.entrada_2 entrada_2Substituido
+        , jors.entrada_3 entrada_3Substituido
+        , jors.entrada_4 entrada_4Substituido
+        , jors.saida_1 saida_1Substituido
+        , jors.saida_2 saida_2Substituido
+        , jors.saida_3 saida_3Substituido
+        , jors.saida_4 saida_4Substituido
 FROM marcacao_view AS marcacao WITH (NOLOCK)
 	INNER JOIN horario ON horario.id = marcacao.idhorario 
 	INNER JOIN #horariophextra as hphe on hphe.idhorario = marcacao.idhorario
@@ -3017,6 +3028,8 @@ FROM marcacao_view AS marcacao WITH (NOLOCK)
                                                      AND FFUNC.idFuncionario = funcionario.id ) 
                                  ) 
                              )) feriado
+    LEFT JOIN JornadaSubstituir js on marcacao.IdJornadaSubstituir = js.id
+    LEFT JOIN jornada jors on jors.id = js.idjornadapara
 WHERE 
 	funcionario.idempresa = @idempresa";
 
