@@ -1937,7 +1937,13 @@
                     value = element.is(':checked');
                 }
                 else if (element.hasClass('currency') || element.hasClass('money') || element.hasClass('decimalPercent')) {
-                    value = element.val().replace(',', '.');
+                    var valorElemento = element.val();
+                    if (isEmpty(valorElemento)) {
+                        value = 0;
+                    }
+                    else {
+                    value = valorElemento.replace(',', '.');
+                    }
                 }
                 else {
                     value = element.val();
