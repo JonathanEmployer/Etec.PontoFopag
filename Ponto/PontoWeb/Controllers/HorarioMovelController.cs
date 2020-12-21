@@ -743,11 +743,12 @@ namespace PontoWeb.Controllers
             IList<Horario> lHorario = new List<Horario>();
             IList<Horario> horarios = new List<Horario>();
             int codigo = -1;
+            int tipo = 1;
             try { codigo = Int32.Parse(consulta); }
             catch (Exception) { codigo = -1; }
             if (codigo != -1)
             {
-                int id = bllHorario.GetIdPorCodigo(codigo, true).GetValueOrDefault();
+                int id = bllHorario.GetIdPorCodigo(codigo, tipo, true).GetValueOrDefault();
                 Horario horario = bllHorario.LoadObject(id);
                 if (horario != null && horario.Id > 0 && horario.Ativo)
                 {
@@ -777,6 +778,7 @@ namespace PontoWeb.Controllers
             BLL.Horario bllHorario = new BLL.Horario(usr.ConnectionString, usr);
             string codigo = horario.Split('|')[0].Trim();
             int cod = 0;
+            int tipo = 1;
             try
             {
                 cod = Convert.ToInt32(codigo);
@@ -785,7 +787,7 @@ namespace PontoWeb.Controllers
             {
                 cod = 0;
             }
-            int? idHorario = bllHorario.GetIdPorCodigo(cod, true);
+            int? idHorario = bllHorario.GetIdPorCodigo(cod, tipo, true);
             return idHorario.GetValueOrDefault();
         }
         #endregion

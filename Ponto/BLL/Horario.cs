@@ -88,9 +88,9 @@ namespace BLL
             return dalHorario.GetPorDescricao(pHorarios);
         }
 
-        public int? GetIdPorCodigo(int Cod, bool validaPermissaoUser)
+        public int? GetIdPorCodigo(int Cod, int Tipo, bool validaPermissaoUser)
         {
-            return dalHorario.GetIdPorCodigo(Cod, validaPermissaoUser);
+            return dalHorario.GetIdPorCodigo(Cod,Tipo, validaPermissaoUser);
         }
 
         public DataTable GetHorarioNormal()
