@@ -184,7 +184,7 @@ namespace PontoWeb.Controllers
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
             BLL.Horario bllHorario = new BLL.Horario(conn, usr);
 
-            int idHorario = HorarioController.BuscaIdHorario(obj.Horario);
+            int idHorario = HorarioController.BuscaIdHorario(obj.Horario, obj.TipoHorarioPadraoFunc);
             List<Horario> lHorarioNormalMovel = new List<Horario>();
 
             switch (obj.TipoHorarioPadraoFunc)
