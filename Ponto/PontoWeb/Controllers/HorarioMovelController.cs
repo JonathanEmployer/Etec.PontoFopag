@@ -731,6 +731,8 @@ namespace PontoWeb.Controllers
         {
             ValidaHorario(obj);
             ValidaClassificacao(obj);
+
+            ValidaPercentualParametros(obj);
         }
         #endregion
 
@@ -791,5 +793,23 @@ namespace PontoWeb.Controllers
             return idHorario.GetValueOrDefault();
         }
         #endregion
+
+        private void ValidaPercentualParametros(Horario horario)
+        {
+            for (int i = 0; i < horario.LHorariosPHExtra.Count(); i++)
+            {
+                var item = horario.LHorariosPHExtra[i];
+                if (item.MarcapercentualextraBool)
+                {
+                    if (item.Percentualextra == 0)
+                    {
+                        ModelState.AddModelError(("LHorariosPHExtra[" + i + "].Percentualextra"), "O campo deve ter um valor maior que 0!");
+                        //ModelState["LHorariosDinamicosPHExtra[" + i + "].PercentualExtra"].Errors.Add("O campo deve ter um valor maior que 0!");
+                    }
+                }
+            }
+        }
+
+
     }
 }

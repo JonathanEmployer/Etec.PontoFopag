@@ -107,7 +107,7 @@ namespace PontoWeb.Controllers
                     erro = "Não é possível excluir esse registro pois ele está relacionado a marcação de funcionário";
                     return Json(new { Success = false, Erro = erro }, JsonRequestBehavior.AllowGet);
                 }
-                else  erro = ex.Message;
+                else erro = ex.Message;
                 return Json(new { Success = false, Erro = erro }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -383,9 +383,9 @@ namespace PontoWeb.Controllers
                 {
                     hdin.DescJornada = string.Empty;
                 }
-            });            
+            });
             return _horarioDinamico;// novoHorarioDinamico;
-        }        
+        }
         #endregion
 
         #region Tramentos e Validações
@@ -520,6 +520,9 @@ namespace PontoWeb.Controllers
             ValidaHorario(obj);
             ValidaClassificacao(obj);
             VerificaJornada(obj);
+
+            //valida Campos Parametro
+            ValidaPercentualParametros(obj);
         }
         #endregion
 
@@ -589,7 +592,7 @@ namespace PontoWeb.Controllers
             {
                 id = idHorarioDinamico.GetValueOrDefault();
             }
-            
+
 
             BLL.HorarioDinamico bllHorarioDinamico = new BLL.HorarioDinamico(_usr.ConnectionString, _usr);
             Modelo.HorarioDinamico hd = bllHorarioDinamico.LoadObjectAllChildren(id);
@@ -605,8 +608,8 @@ namespace PontoWeb.Controllers
                     }
                 }
             }
-            
-            
+
+
             return View("HorarioDinamicoSelecionar", hd);
         }
         #endregion
@@ -661,5 +664,22 @@ namespace PontoWeb.Controllers
                 return Json(new { Success = false, Erro = e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        private void ValidaPercentualParametros(HorarioDinamico horario)
+        {
+            for (int i = 0; i < horario.LHorariosDinamicosPHExtra.Count(); i++)
+            {
+                var item = horario.LHorariosDinamicosPHExtra[i];
+                if (item.MarcaPercentualExtraBool)
+                {
+                    if (item.PercentualExtra == 0)
+                    {
+                        ModelState.AddModelError(("LHorariosDinamicosPHExtra[" + i + "].PercentualExtra"), "O campo deve ter um valor maior que 0!");
+                        //ModelState["LHorariosDinamicosPHExtra[" + i + "].PercentualExtra"].Errors.Add("O campo deve ter um valor maior que 0!");
+                    }
+                }
+            }
+        }
+
     }
 }
