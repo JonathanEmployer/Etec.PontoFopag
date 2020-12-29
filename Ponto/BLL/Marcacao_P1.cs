@@ -279,40 +279,8 @@ namespace BLL
             return dalMarcacao.GetRelatorioObras(idsFuncionarios, pdataInicial, pDataFinal, codsLocalReps);
         }
         public DataTable GetRelatorioSubstituicaoJornada(string idsFuncionarios, DateTime pdataInicial, DateTime pDataFinal)
-        {
-            DataTable dadosRel = new DataTable();
-            //if (Versao == 3)
-            //{
-            //    Versao = 2;
-            List<int> idsFuncs = idsFuncionarios.Split(',').Select(s => Convert.ToInt32(s)).ToList();
-            int partes = idsFuncs.Count();
-            if (partes >= 3)
-            {
-                partes = idsFuncs.Count() / 3;
-            }
-            IList<List<int>> idsParciais = BLL.cwkFuncoes.SplitList(idsFuncs, partes);
-
-            Parallel.ForEach(idsParciais,
-            ids =>
-            {
-                DataTable dt = dalMarcacao.GetRelatorioSubstituicaoJornada(String.Join(",", ids), pdataInicial, pDataFinal);
-                lock (dadosRel)
-                {
-                    dadosRel.Merge(dt);
-                }
-
-            });
-            //}
-            //else
-            //{
-            //DataTable dt = dalMarcacao.GetRelatorioRegistros(idsFuncionarios, pdataInicial, pDataFinal);
-            //dadosRel.Merge(dt);
-            //}
-
-
-            DataView dtV = dadosRel.DefaultView;
-            dtV.Sort = "nome,dataSemFormat,Matrícula";
-            return dadosRel;
+        {         
+            return dalMarcacao.GetRelatorioSubstituicaoJornada(idsFuncionarios, pdataInicial, pDataFinal);
         }
         public DataTable GetRelatorioRegistros(string idsFuncionarios, DateTime pdataInicial, DateTime pDataFinal)
         {

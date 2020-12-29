@@ -5545,272 +5545,46 @@ WHERE
         public DataTable GetRelatorioSubstituicaoJornada(string idsFuncionarios, DateTime pdataInicial, DateTime pDataFinal)
         {
             string aux = "";
-            SqlParameter[] parms = new SqlParameter[3]
-            {
-                    new SqlParameter("@Identificadores", SqlDbType.Structured),
-                    new SqlParameter("@datainicial", SqlDbType.DateTime),
-                    new SqlParameter("@datafinal", SqlDbType.DateTime)
-            };
-            IEnumerable<long> ids = idsFuncionarios.Split(',').Select(s => long.Parse(s));
-            parms[0].Value = CreateDataTableIdentificadores(ids);
-            parms[0].TypeName = "Identificadores";
-            parms[1].Value = pdataInicial;
-            parms[2].Value = pDataFinal;
+
+            SqlParameter[] parms = new SqlParameter[2]
+              {
+                    new SqlParameter("@dtIni", SqlDbType.DateTime),
+                    new SqlParameter("@dtFim", SqlDbType.DateTime),
+              };
+            parms[0].Value = pdataInicial;
+            parms[1].Value = pDataFinal;
 
             #region Select Otimizado
             aux = @"
-                SELECT *
-                INTO #horariophextra
-                FROM dbo.FnGethorariophextra()
-
-                /*Adiciona os funcionarios do filtro em uma tabela temporaria*/
-                CREATE TABLE #funcionarios
-                    (
-                        idfuncionario INT PRIMARY KEY CLUSTERED
-                    );
-                INSERT  INTO #funcionarios
-                        SELECT  Identificador
-                        FROM    @Identificadores; 
-
-                /*Tabela temporária para o banco de horas por funcionário*/
-                CREATE TABLE #funcionariobancodehoras
-                    (
-                        id INT PRIMARY KEY CLUSTERED ,
-                        idfuncionario INT ,
-                        data DATETIME ,
-                        Hra_Banco_Horas VARCHAR(200)
-                    );
-                INSERT INTO #funcionariobancodehoras
-                SELECT id, idfuncionario, data, Hra_Banco_Horas FROM [dbo].[F_BancoHorasNew](@datainicial, @datafinal, @Identificadores)
-
-
-                /*Select para o relatório*/
-                SELECT  CONVERT(VARCHAR(10), vm.data, 103) 'Data' ,
-                        vm.dia 'Dia' ,
-                        vm.nome 'Nome' ,
-                        vm.matricula 'Matrícula' ,
-                        al.descricao 'Alocação' ,
-                        tv.descricao 'Tipo de Vínculo' ,
-                        CONVERT(VARCHAR(10), f.dataadmissao, 103) 'Data de Admissão' ,
-                        CONVERT(VARCHAR(10), f.datademissao, 103) 'Data de Demissão' ,
-                        d.descricao 'Departamento' ,
-                        FU.descricao 'Função' ,
-                        REPLACE(REPLACE(ISNULL(ja.entrada_1, vm.entrada_1) + ' - '
-                                        + ISNULL(ja.saida_1, vm.saida_1) + ' - '
-                                        + ISNULL(ja.entrada_2, vm.entrada_2) + ' - '
-                                        + ISNULL(ja.saida_2, vm.saida_2) + ' - '
-                                        + ISNULL(ja.entrada_3, vm.entrada_3) + ' - '
-                                        + ISNULL(ja.saida_3, vm.saida_3) + ' - '
-                                        + ISNULL(ja.entrada_4, vm.entrada_4) + ' - '
-                                        + ISNULL(ja.saida_4, vm.saida_4), '- --:--', ''),
-                                '--:--', '') AS 'Jornada' ,
-                        [E1] 'Ent1' ,
-                        [S1] 'Sai1' ,
-                        [E2] 'Ent2' ,
-                        [S2] 'Sai2' ,
-                        [E3] 'Ent3' ,
-                        [S3] 'Sai3' ,
-                        [E4] 'Ent4' ,
-                        [S4] 'Sai4' ,
-                        [E5] 'Ent5' ,
-                        [S5] 'Sai5' ,
-                        [E6] 'Ent6' ,
-                        [S6] 'Sai6' ,
-                        [E7] 'Ent7' ,
-                        [S7] 'Sai7' ,
-                        [E8] 'Ent8' ,
-                        [S8] 'Sai8' ,
-                        ISNULL(( SELECT STUFF(( SELECT  ',' + bs.mar_hora
-                                                FROM    bilhetesimp bs WITH ( NOLOCK )
-                                                WHERE   bs.mar_data = vm.data
-                                                        AND bs.dscodigo = vm.dscodigo
-                                                        AND bs.ocorrencia = 'D'
-                                                FOR
-                                                XML PATH('')
-                                                ), 1, 1, '')
-                                ), '') 'Desconsideradas' ,
-                        REPLACE(CASE WHEN horastrabalhadas IS NULL THEN '--:--'
-                                        ELSE horastrabalhadas
-                                END, '--:--', '') AS 'H. Diurnas' ,
-                        REPLACE(CASE WHEN horastrabalhadasnoturnas IS NULL THEN '--:--'
-                                        ELSE horastrabalhadasnoturnas
-                                END, '--:--', '') AS 'H. Noturnas' ,
-                        REPLACE(REPLACE(vm.AdicionalNoturno, '--:--', ''), '--:--', '') AS 'Ad. Noturno' ,
-                        REPLACE(valordsr, '--:--', '') AS 'Dsr' ,
-                        REPLACE(ISNULL(horasfaltas, ''),
-                                '--:--', '') AS 'Faltas' ,
-                        vm.horasfaltas As horasfaltadiurna,
-						vm.horasfaltanoturna,
-                        vm.data 'dataSemFormat' ,
-                        vm.folga 'folga' ,
-                        vm.neutro 'neutro' ,
-                        vm.totalHorasTrabalhadas 'totalHorasTrabalhadas' ,
-                        vm.tipohorario 'tipoHorario' ,
-                        vm.considerasabadosemana 'considerasabadosemana' ,
-                        vm.consideradomingosemana 'consideradomingosemana' ,
-                        vm.tipoacumulo 'tipoacumulo' ,
-                        /*Ver possibilidade de fazer PIVOT*/
-                        ISNULL(hphe.percextraprimeiro1, 0) AS 'percextraprimeiro1' ,
-                        hphe.tipoacumulo1 AS tipoacumulo1 ,
-                        ISNULL(hphe.percextraprimeiro2, 0) AS 'percextraprimeiro2' ,
-                        hphe.tipoacumulo2 AS tipoacumulo2 ,
-                        ISNULL(hphe.percextraprimeiro3, 0) AS 'percextraprimeiro3' ,
-                        hphe.tipoacumulo3 AS tipoacumulo3 ,
-                        ISNULL(hphe.percextraprimeiro4, 0) AS 'percextraprimeiro4' ,
-                        hphe.tipoacumulo4 AS tipoacumulo4 ,
-                        ISNULL(hphe.percextraprimeiro5, 0) AS 'percextraprimeiro5' ,
-                        hphe.tipoacumulo5 AS tipoacumulo5 ,
-                        ISNULL(hphe.percextraprimeiro6, 0) AS 'percextraprimeiro6' ,
-                        hphe.tipoacumulo6 AS tipoacumulo6 ,
-                        ISNULL(hphe.percextraprimeiro7, 0) AS 'percextraprimeiro7' ,
-                        hphe.tipoacumulo7 AS tipoacumulo7 ,
-                        ISNULL(hphe.percextraprimeiro8, 0) AS 'percextraprimeiro8' ,
-                        hphe.tipoacumulo8 AS tipoacumulo8 ,
-                        ISNULL(hphe.percextraprimeiro9, 0) AS 'percextraprimeiro9' ,
-                        hphe.tipoacumulo9 AS tipoacumulo9 ,
-                        ISNULL(hphe.percextraprimeiro10, 0) AS 'percextraprimeiro10' ,
-                        hphe.tipoacumulo10 AS 'tipoacumulo10' ,
-                        hphe.percentualextra50 ,
-                        hphe.quantidadeextra50 ,
-                        hphe.percentualextra60 ,
-                        hphe.quantidadeextra60 ,
-                        hphe.percentualextra70 ,
-                        hphe.quantidadeextra70 ,
-                        hphe.percentualextra80 ,
-                        hphe.quantidadeextra80 ,
-                        hphe.percentualextra90 ,
-                        hphe.quantidadeextra90 ,
-                        hphe.percentualextra100 ,
-                        hphe.quantidadeextra100 ,
-                        hphe.percentualextrasab ,
-                        hphe.quantidadeextrasab ,
-                        hphe.percentualextradom ,
-                        hphe.quantidadeextradom ,
-                        hphe.percentualextrafer ,
-                        hphe.quantidadeextrafer ,
-                        hphe.percentualextrafol ,
-                        hphe.quantidadeextrafol ,
-                        horariodetalhenormal.totaltrabalhadadiurna AS 'chdiurnanormal' ,
-                        horariodetalhenormal.totaltrabalhadanoturna AS 'chnoturnanormal' ,
-                        horariodetalhenormal.flagfolga AS 'flagfolganormal' ,
-                        horariodetalhenormal.cargahorariamista AS 'cargamistanormal' ,
-                        horariodetalheflexivel.totaltrabalhadadiurna AS 'chdiurnaflexivel' ,
-                        horariodetalheflexivel.totaltrabalhadanoturna AS 'chnoturnaflexivel' ,
-                        horariodetalheflexivel.flagfolga AS 'flagfolgaflexivel' ,
-                        horariodetalheflexivel.cargahorariamista AS 'cargamistaflexivel' ,
-                        REPLACE(REPLACE(vm.bancohorascre, '--:--',
-                                        ''), '-', '') AS 'Créd. BH' ,
-                        REPLACE(REPLACE(vm.bancohorasdeb, '--:--',
-                                        ''), '-', '') AS 'Déb. BH' ,
-                        REPLACE(vm.totalHorasTrabalhadas, '--:--', '') 'Total' ,
-                        (CASE WHEN vm.folga = 1 OR horariodetalhenormal.flagfolga = 1 OR horariodetalheflexivel.flagfolga = 1
-							THEN 'Folga'
-							ELSE vm.ocorrencia 
-						END) 'Ocorrência' ,
-                        ISNULL(vm.horasextranoturna, '--:--') 'horasextranoturna' ,
-                        ISNULL(vm.horasextrasdiurna, '--:--') 'horasextrasdiurna' ,
-                        vm.idfuncionario 'idFuncionario' ,
-                        vm.legenda 'legenda' ,
-                        vm.LegendasConcatenadas 'LegendasConcatenadas' ,
-                        vm.AdicionalNoturno 'AdicionalNoturno' ,
-                        ISNULL(banco.Hra_Banco_Horas, '00:00') AS 'Hra_Banco_Horas' ,
-                        vm.idhorario,
-						hphe.percentualextraNoturna50,
-                        hphe.quantidadeextraNoturna50,
-                        hphe.percentualextraNoturna60,
-                        hphe.quantidadeextraNoturna60,
-                        hphe.percentualextraNoturna70,
-                        hphe.quantidadeextraNoturna70,
-                        hphe.percentualextraNoturna80,
-                        hphe.quantidadeextraNoturna80,
-                        hphe.percentualextraNoturna90,
-                        hphe.quantidadeextraNoturna90,
-                        hphe.percentualextraNoturna100,
-                        hphe.quantidadeextraNoturna100,
-                        hphe.percentualextraNoturnasab,
-                        hphe.quantidadeextraNoturnasab,
-                        hphe.percentualextraNoturnadom,
-                        hphe.quantidadeextraNoturnadom,
-                        hphe.percentualextraNoturnafer,
-                        hphe.quantidadeextraNoturnafer,
-                        hphe.percentualextraNoturnafol,
-                        hphe.quantidadeextraNoturnafol,
-						hphe.percextraprimeiroNoturna1,
-                        hphe.percextraprimeiroNoturna2,
-                        hphe.percextraprimeiroNoturna3,
-                        hphe.percextraprimeiroNoturna4,
-                        hphe.percextraprimeiroNoturna5,
-                        hphe.percextraprimeiroNoturna6,
-                        hphe.percextraprimeiroNoturna7,
-                        hphe.percextraprimeiroNoturna8,
-                        hphe.percextraprimeiroNoturna9,
-                        hphe.percextraprimeiroNoturna10,
-						vm.SeparaExtraNoturnaPercentual
-                FROM    dbo.VW_Marcacao vm  WITH ( NOLOCK )
-                        JOIN #funcionarios fff WITH ( NOLOCK ) ON vm.idfuncionario = fff.idfuncionario
-                        LEFT JOIN funcionario f ON vm.idfuncionario = f.id
-                        LEFT JOIN TipoVinculo tv ON f.IdTipoVinculo = tv.id
-                        LEFT JOIN #funcionariobancodehoras banco ON vm.id = banco.id
-                        LEFT JOIN #horariophextra hphe ON hphe.idhorario = vm.idhorario
-                        LEFT JOIN horariodetalhe horariodetalhenormal WITH ( NOLOCK ) ON horariodetalhenormal.idhorario = vm.idhorario
-                                                                                AND vm.tipohorario = 1
-                                                                                AND horariodetalhenormal.diadescricao = vm.dia
-                        LEFT JOIN horariodetalhe horariodetalheflexivel WITH ( NOLOCK ) ON horariodetalheflexivel.idhorario = vm.idhorario
-                                                                                AND vm.tipohorario = 2
-                                                                                AND horariodetalheflexivel.data = vm.data
-                        OUTER APPLY ( SELECT    [E1] ,
-                                                [S1] ,
-                                                [E2] ,
-                                                [S2] ,
-                                                [E3] ,
-                                                [S3] ,
-                                                [E4] ,
-                                                [S4] ,
-                                                [E5] ,
-                                                [S5] ,
-                                                [E6] ,
-                                                [S6] ,
-                                                [E7] ,
-                                                [S7] ,
-                                                [E8] ,
-                                                [S8]
-                                        FROM      ( SELECT    CONCAT(b.ent_sai, b.posicao) Tipo ,
-                                                            mar_hora
-                                                    FROM      bilhetesimp b WITH ( NOLOCK )
-                                                    WHERE     b.dscodigo = vm.dscodigo
-                                                            AND b.mar_data = vm.data
-                                                            AND b.ocorrencia != 'D'
-                                                ) bilhetes PIVOT
-                    ( MAX(bilhetes.mar_hora) FOR Tipo IN ( [E1], [S1], [E2], [S2], [E3], [S3],
-                                                            [E4], [S4], [E5], [S5], [E6], [S6],
-                                                            [E7], [S7], [E8], [S8] ) ) piv
-                                    ) ess
-                        LEFT JOIN dbo.departamento d WITH ( NOLOCK ) ON d.id = vm.iddepartamento
-                        LEFT JOIN dbo.Alocacao al WITH ( NOLOCK ) ON al.id = vm.IdAlocacao
-                        LEFT JOIN dbo.empresa e WITH ( NOLOCK ) ON vm.idempresa = e.id
-                        LEFT JOIN dbo.funcao FU WITH ( NOLOCK ) ON FU.id = vm.idfuncao
-                        LEFT JOIN jornadaalternativa ja WITH ( NOLOCK ) ON vm.data BETWEEN ja.datainicial AND ja.datafinal
-                                                                            AND ( ( ja.tipo = 0
-                                                                                AND ja.identificacao = vm.idempresa
-                                                                                )
-                                                                                OR ( ja.tipo = 1
-                                                                                AND ja.identificacao = vm.iddepartamento
-                                                                                )
-                                                                                OR ( ja.tipo = 2
-                                                                                AND ja.identificacao = vm.idfuncionario
-                                                                                )
-                                                                                )
-                WHERE   vm.data BETWEEN @datainicial AND @datafinal
-                ORDER BY vm.nome ,
-                        vm.data ,
-                        vm.matricula;
-
-
-                DROP TABLE #funcionarios;
-                DROP TABLE #funcionariobancodehoras;
-                DROP TABLE #horariophextra
+                select 
+                f.codigo 'Código',
+                f.nome 'Nome',
+                f.matricula 'Matrícula',
+                f.CPF 'CPF',
+                ct.codigocontrato + ' | ' + ct.descricaocontrato  'Contrato',
+                CONVERT(VARCHAR(10),  @dtIni, 103)   'Data Inicio' ,
+                CONVERT(VARCHAR(10),  @dtFim, 103)   'Data Fim' ,
+                CONVERT(VARCHAR(max), jD.codigo) +' | '+ ISNULL(jD.descricao , '') 'Jornada De',
+                CONVERT(VARCHAR(max), jP.codigo) +' | '+ ISNULL(jP.descricao , '') 'Jornada Para',
+                f.incusuario 'Usuario Inclusão',
+                CONVERT(VARCHAR(10), f.IncHora, 103) + ' '  + convert(VARCHAR(8), f.IncHora, 14) 'Data/Hora Inclusão',
+                f.altusuario 'Usuario alteração',
+                CONVERT(VARCHAR(10), f.altdata, 103) + ' '  + convert(VARCHAR(8), f.althora, 14)  'Data/Hora Alteração' 
+                from funcionario f 
+                join contratofuncionario cf on cf.idfuncionario = f.id
+                join contrato ct on ct.id = cf.idcontrato
+                join JornadaSubstituirFuncionario jsf on jsf.IdFuncionario = f.id 
+                join JornadaSubstituir js on js.Id = jsf.IdJornadaSubstituir
+                
+                join jornada jD on jD.id = js.IdJornadaDe
+                join jornada jP on jP.id = js.IdJornadaPara
+                where f.id  in ( {0} )  and cf.excluido = 0 and 
+                 jsf.IncData BETWEEN @dtIni AND @dtFim
                 ";
+
             #endregion
+
+            aux = string.Format(aux, idsFuncionarios);
 
             DataTable dt = new DataTable();
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
