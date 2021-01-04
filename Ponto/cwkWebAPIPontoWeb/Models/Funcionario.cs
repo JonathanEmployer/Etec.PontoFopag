@@ -52,10 +52,6 @@ namespace cwkWebAPIPontoWeb.Models
         /// </summary>
         public decimal Salario { get; set; }
         /// <summary>
-        /// Senha do Relógio
-        /// </summary>
-        public string SenhaRelogio { get; set; }
-        /// <summary>
         /// Data de Admissão do Funcionário
         /// </summary>
         [DataType(DataType.Date, ErrorMessage = "Data inválida")]

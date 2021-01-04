@@ -136,6 +136,7 @@ namespace PontoWeb.Controllers
                     {
                         foreach (var item in obj.DiasJA)
                         {
+                            item.NaoValidaCodigo = true;
                             item.JornadaAlternativa = obj;
                             if (item.Delete)
                             {

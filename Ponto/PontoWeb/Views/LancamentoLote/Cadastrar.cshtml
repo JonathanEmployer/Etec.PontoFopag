@@ -6,10 +6,10 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     string rowCallback = @" function( row, data, index ) {
-        if (data.EfetivadoStr == 'Não' && (data.DescricaoErro != '' && data.DescricaoErro != undefined && data.DescricaoErro != null)) {
-            $('td', row).css('color', '#ff6666');
-        }
-    }";
+if (data.EfetivadoStr == 'Não' && (data.DescricaoErro != '' && data.DescricaoErro != undefined && data.DescricaoErro != null)) {
+$('td', row).css('color', '#ff6666');
+}
+}";
 }
 <style>
     .input-group-legenda {
@@ -92,6 +92,13 @@
                                             </div>
                                             @Html.ValidationMessageFor(model => model.DataLancamento)
                                         </div>
+                                    </div>
+                                    @*--------------*@
+                                    <div class="col-md-8" style="line-height:4">
+                                        <label>
+                                            @Html.CheckBoxFor((model => model.DesconsideraAfastados), new { id = "DesconsideraAfastados" })
+                                            @Html.LabelFor(model => model.DesconsideraAfastados, new { @class = "control-label label-sm", @for = "DesconsideraAfastados" })
+                                        </label>
                                     </div>
                                 </div>
                             }

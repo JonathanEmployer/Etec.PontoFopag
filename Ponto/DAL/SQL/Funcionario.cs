@@ -75,9 +75,9 @@ namespace DAL.SQL
             }
         }
 
-        public string SELECTPRO 
+        public string SELECTPRO
         {
-            get 
+            get
             {
                 return @"   SELECT    func.id
                                     , func.codigo
@@ -160,7 +160,7 @@ namespace DAL.SQL
         protected override string SELECTALL
         {
             get
-                {
+            {
                 return @"   SELECT   func.id
                                     , func.nome
                                     , CAST(func.dscodigo AS BIGINT) AS dscodigo 
@@ -633,7 +633,7 @@ namespace DAL.SQL
                         FROM    ( SELECT    ISNULL(MAX(codigo),0) codigo ,
                                             ISNULL(MAX(CONVERT(BIGINT,ISNULL(dscodigo,0))),0) dscodigo
                                   FROM      dbo.funcionario
-                                ) t ";       
+                                ) t ";
 
         }
 
@@ -1219,6 +1219,7 @@ namespace DAL.SQL
 
         #region Relatórios
 
+
         public DataTable GetOrdenadoPorNomeRel(string pInicial, string pFinal, string pEmpresas)
         {
             SqlParameter[] parms = new SqlParameter[0];
@@ -1683,7 +1684,7 @@ namespace DAL.SQL
             {
                 new SqlParameter("@datainicial", SqlDbType.DateTime)
             };
-			parms[0].Value = dataInicial.Date;
+            parms[0].Value = dataInicial.Date;
 
             DataTable dt = new DataTable();
             string aux = @"SELECT   empresa.nome as empresa
@@ -2748,7 +2749,7 @@ namespace DAL.SQL
                 aux += "and func.funcionarioativo = 0 ";
             else if (flag == 1)
                 aux += "and func.funcionarioativo = 1 ";
-            
+
 
             aux += PermissaoUsuarioFuncionario(UsuarioLogado, aux, "func.idempresa", "func.id", null);
             aux += " ORDER BY func.nome";
@@ -3148,14 +3149,14 @@ namespace DAL.SQL
             var _func = funcionarios.Replace("(", "").Replace(")", "");
 
             List<Modelo.Funcionario> lista = new List<Modelo.Funcionario>();
-            
+
             SqlParameter[] parms = new SqlParameter[]
             {
                  new SqlParameter("@funcionarios", SqlDbType.VarChar)
             };
             parms[0].Value = _func;
 
-            string aux =string.Format(@" SELECT   func.id,
+            string aux = string.Format(@" SELECT   func.id,
                                    func.codigo,
                                    func.dscodigo,
                                    func.matricula,
@@ -4608,7 +4609,7 @@ namespace DAL.SQL
         }
         public DataTable GetPisCodigo()
         {
-            return GetPisCodigo(new List<string> ());
+            return GetPisCodigo(new List<string>());
         }
         public DataTable GetPisCodigo(List<string> pis)
         {
@@ -4627,7 +4628,7 @@ namespace DAL.SQL
 
             if (pis != null && pis.Count() > 0)
             {
-                aux += " and func.pis in ('"+String.Join("','", pis) +"') ";
+                aux += " and func.pis in ('" + String.Join("','", pis) + "') ";
             }
 
             aux += "  ORDER BY func.excluido, ISNULL(func.datademissao, DATEADD(YEAR, 1000, GETDATE())) DESC, ISNULL(func.althora, DATEADD(YEAR, 1000, GETDATE())) DESC";
@@ -5211,21 +5212,39 @@ namespace DAL.SQL
 
         public Modelo.Funcionario GetFuncionarioPorCpfeMatricula(Int64 cpf, string matricula)
         {
-                SqlParameter[] parms = new SqlParameter[]
-                {
+            SqlParameter[] parms = new SqlParameter[]
+            {
                     new SqlParameter("@cpf", SqlDbType.BigInt),
                     new SqlParameter("@matricula", SqlDbType.VarChar)
-                };
-                parms[0].Value = cpf;
-                parms[1].Value = matricula;
-                IList<Modelo.Funcionario> lista = new List<Modelo.Funcionario>();
+            };
+            parms[0].Value = cpf;
+            parms[1].Value = matricula;
+            IList<Modelo.Funcionario> lista = new List<Modelo.Funcionario>();
 
-                string sql = SqlLoadByCpfeMatricula();
-                SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
-                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Funcionario>();
-                lista = AutoMapper.Mapper.Map<List<Modelo.Funcionario>>(dr);
-                return lista.OrderByDescending(x => x.Funcionarioativo).FirstOrDefault();
+            string sql = SqlLoadByCpfeMatricula();
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+            AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Funcionario>();
+            lista = AutoMapper.Mapper.Map<List<Modelo.Funcionario>>(dr);
+            return lista.OrderByDescending(x => x.Funcionarioativo).FirstOrDefault();
         }
+
+        public Modelo.Funcionario GetFuncionarioPorMatricula(string matricula)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                    new SqlParameter("@matricula", SqlDbType.VarChar)
+            };
+            parms[0].Value = matricula;
+            IList<Modelo.Funcionario> lista = new List<Modelo.Funcionario>();
+
+            string sql = SELECTREL + " AND func.matricula = '" + matricula + "'";
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+            AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Funcionario>();
+            lista = AutoMapper.Mapper.Map<List<Modelo.Funcionario>>(dr);
+            return lista.OrderByDescending(x => x.Funcionarioativo).FirstOrDefault();
+        }
+
+
 
         /// <summary>
         /// Retorna uma lista com os ids dos funcionários de acordo com o parâmetro com valor maior que zero, ou seja caso id departamento > 0 traz por departamento, contrato > 0 por contrato, empresa > 0 por empresa, seguindo essa ordem
@@ -5887,7 +5906,7 @@ where 1=1
         public List<int> GetIDsByDsCodigos(List<string> lDsCodigos)
         {
             DataTable dt = new DataTable();
-            string aux = @" SELECT id FROM dbo.funcionario WHERE dscodigo IN ( '"+String.Join("','",lDsCodigos)+"') ";
+            string aux = @" SELECT id FROM dbo.funcionario WHERE dscodigo IN ( '" + String.Join("','", lDsCodigos) + "') ";
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, null);
             dt.Load(dr);
@@ -6079,9 +6098,9 @@ where 1=1
             dr.Dispose();
             List<int> ids = dt.AsEnumerable().Select(x => Convert.ToInt32(x[0])).ToList();
             return ids;
-        }        
+        }
 
-        public  void setFuncionariosEmpresa(int idEmpresa, bool EmpresaAtiva)
+        public void setFuncionariosEmpresa(int idEmpresa, bool EmpresaAtiva)
         {
             SqlParameter[] parms = new SqlParameter[]
 {
@@ -6102,8 +6121,8 @@ where 1=1
                 parms[2].Value = 1;
             }
             List<int> idFuncionarios = getAtivosEmpresaFunc(idEmpresa, EmpresaAtiva);
-            if(idFuncionarios.Count > 0 && EmpresaAtiva == false)
-                setEmpresaFunc(idEmpresa, idFuncionarios);            
+            if (idFuncionarios.Count > 0 && EmpresaAtiva == false)
+                setEmpresaFunc(idEmpresa, idFuncionarios);
             if (EmpresaAtiva == true && idFuncionarios.Count > 0)
                 deletarEmpresaFunc(idEmpresa);
             parms[3].Value = String.Join(",", idFuncionarios);
@@ -6156,8 +6175,8 @@ where 1=1
                 new SqlParameter ("@inchora", SqlDbType.DateTime),
                 new SqlParameter ("@incusuario", SqlDbType.VarChar)
              };
-            
-            
+
+
             foreach (int func in idFuncionarios)
             {
                 parms[0].Value = MaxCODEmpresaFunc();
@@ -6168,8 +6187,8 @@ where 1=1
                 parms[5].Value = UsuarioLogado.Login;
                 SqlCommand cmd = db.ExecNonQueryCmd(CommandType.Text, aux, false, parms);
                 cmd.Parameters.Clear();
-            }              
-                  
+            }
+
             return;
         }
 
@@ -6178,11 +6197,11 @@ where 1=1
             string aux = @"DELETE empresafuncionarios WHERE idempresa = @idempresa";
             SqlParameter[] parms = new SqlParameter[]
              {
-                new SqlParameter ("@idempresa", SqlDbType.Int)                
+                new SqlParameter ("@idempresa", SqlDbType.Int)
              };
-            parms[0].Value = idempresa;           
+            parms[0].Value = idempresa;
             SqlCommand cmd = db.ExecNonQueryCmd(CommandType.Text, aux, false, parms);
-            cmd.Parameters.Clear();            
+            cmd.Parameters.Clear();
             return;
         }
 
@@ -6303,5 +6322,6 @@ where 1=1
             cmd.Parameters.Clear();
             return;
         }
+           
     }
 }

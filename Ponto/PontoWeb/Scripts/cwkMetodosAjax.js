@@ -526,7 +526,6 @@ function ajax_CarregarConsultaEventoTab(acao, controller, consulta, campo, filtr
                             var ids = cwk_GetIdSelecionado(tbPesquisa);
                             if (ids >= 0) {
                                 var dados = tbPesquisa.rows('.selected').data()[0];
-                                debugger;
                                 var id = dados[0].replace('undefined', '');
                                 //Verifica se é data, se for ele pega a 5 coluna
                                 if (Date.parse(dados[1])) {

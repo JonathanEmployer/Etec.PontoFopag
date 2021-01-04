@@ -1,12 +1,15 @@
 ﻿using Modelo;
 using Modelo.Proxy;
 using PontoWeb.Controllers.BLLWeb;
+using PontoWeb.Models;
 using PontoWeb.Security;
+using PontoWeb.Utils;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Net;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 
 namespace PontoWeb.Controllers
@@ -185,7 +188,21 @@ namespace PontoWeb.Controllers
                     }
                     else
                     {
+                        var result = SaveConfigEPays(obj);
+
                         SalvarEmpresaCWUsuario(obj, bllacessoPEmpresa, acao, _user);
+
+                        using (var RabbitMqController = new RabbitMqController())
+                        {
+                            var messageIntegration = new MessageIntegrationDto
+                            {
+                                Id = obj.Id,
+                                DataBaseName = GetDataBaseName(),
+                                Tracking = Guid.NewGuid().ToString(),
+                                Cnpj = obj.Cnpj
+                            };
+                            RabbitMqController.SendEmployerIntegration(messageIntegration);
+                        }
 
                         return RedirectToAction("Grid", "Empresa");
                     }
@@ -206,7 +223,6 @@ namespace PontoWeb.Controllers
             AdicionaLogoPadrao(obj);
             return View("Cadastrar", obj);
         }
-
         private static void SalvarEmpresaCWUsuario(Empresa obj, BLL.EmpresaCw_Usuario bllacessoPEmpresa, Acao acao, UsuarioPontoWeb usuarioPontoWebLogadoCache)
         {
             if (((usuarioPontoWebLogadoCache != null) &&
@@ -260,6 +276,7 @@ namespace PontoWeb.Controllers
             }
             else
             {
+                GetConfigEPays(e);
                 bllEmp.SetTermosUsoApp(e);
                 ViewBag.Disabled = true;
             }
@@ -280,6 +297,7 @@ namespace PontoWeb.Controllers
             ViewBag.Estados = Listas.Estados;
 
             AdicionaLogoPadrao(e);
+
             return View("Cadastrar", e);
         }
 
@@ -379,7 +397,7 @@ namespace PontoWeb.Controllers
         {
             BLL.Horario bllHorario = new BLL.Horario(_user.ConnectionString, _user);
 
-            int idHorario = HorarioController.BuscaIdHorario(obj.NomeHorario);
+            int idHorario = HorarioController.BuscaIdHorario(obj.NomeHorario, obj.TipoHorarioPadraoFunc);
             List<Horario> lHorarioNormalMovel = new List<Horario>();
 
             switch (obj.TipoHorarioPadraoFunc)
@@ -550,15 +568,52 @@ namespace PontoWeb.Controllers
             }
             return idEmpresa;
         }
-
-        //[Authorize]
-        public async Task<JsonResult> PostGenerationTokenEPays(bool EPays)
+        private string GetDataBaseName()
         {
-            //IList<Empresa> lEmp = PesquisaEmpresa(consulta, true);
-            //ViewBag.Title = "Pesquisar Empresa";
-            //return View("EventoConsulta", lEmp);
+            return new Regex(@"(Catalog=[A-Z]*_[A-Z]*)").Match(_user.ConnectionString).Value.Replace("Catalog=", "");
+        }
+        private (bool, string) SaveConfigEPays(Empresa Empresa)
+        {
+            try
+            {
+                var ePaysConfig = new EPaysConfig();
+                var result = ePaysConfig.PostToken(new ParametersPontofopagDto()
+                {
+                    DataBase = new ConnectionDataBaseDto()
+                    {
+                        ConnectionString = _user.ConnectionString,
+                        DataBaseName = GetDataBaseName()
+                    },
+                    Cnpj = Empresa.Cnpj,
+                    EnableEPays = Empresa.IntegraEPays,
+                    UserEPays = Empresa.UsuarioEPays,
+                    PasswordEPays = Empresa.SenhaEPays,
+                    TokenPontofopag = Empresa.TokenPontofopag
+                });
+                return (result.Error, result.Data);
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message);
+            }
+        }
+        private void GetConfigEPays(Empresa Empresa)
+        {
+            var ePaysConfig = new EPaysConfig();
+            var result = ePaysConfig.GetToken(GetDataBaseName(), Empresa.Cnpj);
 
-            return Json(new { Success = true, Token = Guid.NewGuid() }, JsonRequestBehavior.AllowGet);
+            if (result.StatusCode == HttpStatusCode.OK)
+            {
+                Empresa.UsuarioEPays = result.Data.UserEPays;
+                Empresa.SenhaEPays = result.Data.PasswordEPays;
+                Empresa.TokenPontofopag = result.Data.TokenPontofopag;
+                Empresa.IntegraEPays = result.Data.EnableEPays;
+            }
+        }
+        public JsonResult PostGenerationTokenEPays(string Cnpj)
+        {
+            var token = $"{GetDataBaseName()}@@{Cnpj.Replace(".", "").Replace(".", "").Replace("/", "").Replace("-", "")}".EncryptionXOR(true);
+            return Json(new { Success = true, Token = token }, JsonRequestBehavior.AllowGet);
         }
         #endregion
     }

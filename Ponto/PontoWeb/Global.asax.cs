@@ -1,11 +1,6 @@
-﻿using Modelo;
-using PontoWeb.Controllers.BLLWeb;
-using PontoWeb.Providers;
+﻿using PontoWeb.Providers;
 using PontoWeb.Utils;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;

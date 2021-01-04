@@ -1086,6 +1086,9 @@ namespace BLL
                     , "percentualextraNoturnafol", "quantidadeextraNoturnafol", "percextraprimeiroNoturna1", "percextraprimeiroNoturna2", "percextraprimeiroNoturna3", "percextraprimeiroNoturna4"
                     , "percextraprimeiroNoturna5", "percextraprimeiroNoturna6", "percextraprimeiroNoturna7", "percextraprimeiroNoturna8", "percextraprimeiroNoturna9", "percextraprimeiroNoturna10"
                     , "SeparaExtraNoturnaPercentual", "TotalIntervaloPrevL","idferiado","FeriadoParcial","FeriadoParcialInicio","FeriadoParcialFim","inicioAdNoturno","fimAdNoturno", "idjornadasubstituir"
+                    , "horasnormais", "marcacargahorariamista", "entrada_1Substituido", "entrada_2Substituido", "entrada_3Substituido", "entrada_4Substituido", "saida_1Substituido", "saida_2Substituido"
+                    , "saida_3Substituido", "saida_4Substituido", "toleranciaAdicionalNoturno", "totalAdicionalNoturno", "qtdAdNot", "totalHorasaTrabDiurna", "totalHorasaTrabNoturna"
+                    , "totalHorasaTrabalhar", "totalExtraInterjornada"
                 }, c.ColumnName) == -1)
                 {
                     ret.Columns.Add(c.ColumnName);
@@ -1869,6 +1872,7 @@ namespace BLL
 
             bool retorno = false;
             TimeSpan ts = pDataFinal.AddDays(1) - pDataInicial;
+
             Dictionary<int, int> _qtdMarcacoesFuncionarios = bllMarcacao.QuantidadeMarcacoesPorLista(pListIdFunc, pDataInicial, pDataFinal);
 
             if (_qtdMarcacoesFuncionarios.Any(x => x.Value != ts.TotalDays))
@@ -1903,6 +1907,7 @@ namespace BLL
                             _contratosLista.Union(obj);
                         });
                     }
+
 
                     var erros = bllMarcacao.AtualizaData(_parametros, _horarios, pDataInicial, pDataFinal, _listFuncionario, _inclusaoBancoLista, _jornadasAlternativas, _fechamentoBHDLista, _feriadoLista, _bancoHorasLista, _afastamentosLista, _contratosLista, _mudancaHorarioList, _marcacoesPeriodo, _fechamentos);
 

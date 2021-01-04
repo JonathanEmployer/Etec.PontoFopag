@@ -59,8 +59,7 @@ namespace BLL
             }
 
             var feriado = horariosPHExtra[8];
-            if ((tipoDia == TipoDiaAcumulo.Feriado || (acumulosParciais != null && acumulosParciais.ContainsKey(TipoDiaAcumulo.Feriado))) && (feriado.TipoAcumulo == 1
-                || (feriado.TipoAcumulo == 2 && acumularSemana) || (feriado.TipoAcumulo == 3)))
+            if (tipoDia == TipoDiaAcumulo.Feriado )
             {
                 LimpaAcumuloTotal(acumulosTotais, ref acumuloCorrente, feriado.TipoAcumulo, acumularMes, acumularSemana, tipoDia);
                 Acumular(feriado, acumuloCorrente, acumulosParciais, feriado.TipoAcumulo, TipoDiaAcumulo.Feriado);
