@@ -277,6 +277,8 @@ namespace Negocio
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
                     Configuracao.RequisitarNovoToken();
+                    Modelo.Proxy.PxyConfigComunicadorServico conf = Configuracao.GetConfiguracao();
+                    token = conf.TokenAccess;
                     response = await EnviarLog(log);
                     if (response.IsSuccessStatusCode)
                     {
