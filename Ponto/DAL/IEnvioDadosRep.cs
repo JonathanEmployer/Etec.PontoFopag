@@ -21,5 +21,6 @@ namespace DAL
         List<Modelo.Proxy.PxyGridLogComunicador> GetGridLogImportacaoWebAPI();
 
         List<Modelo.Proxy.PxyGridLogComunicador> GetGridLogImportacaoWebAPIById(int id);
+        int ExluirEnvioDadosRepEDetalhes(int idEnvioDadosRep);
     }
 }
