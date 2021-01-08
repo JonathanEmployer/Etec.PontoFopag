@@ -5562,6 +5562,7 @@ WHERE
                 f.matricula 'Matrícula',
                 f.CPF 'CPF',
                 ct.codigocontrato + ' | ' + ct.descricaocontrato  'Contrato',
+                ct.codigo 'Código Substituição',
                 CONVERT(VARCHAR(10),  @dtIni, 103)   'Data Inicio' ,
                 CONVERT(VARCHAR(10),  @dtFim, 103)   'Data Fim' ,
                 CONVERT(VARCHAR(max), jD.codigo) +' | '+ ISNULL(jD.descricao , '') 'Jornada De',
