@@ -273,10 +273,19 @@ namespace DAL.SQL
 				                                , parametros.fimadnoturno AS fimAdNoturno
                                                 , pe.RazaoSocial AS PessoaSupervisor
                                                 , marcacao.idjornadasubstituir
-
                                                 , (contrato.codigocontrato +  ' | ' + contrato.descricaocontrato) AS contrato
-
-			                              FROM marcacao AS marcacao (NOLOCK)
+							                    , horario.horasnormais
+                                                , horario.marcacargahorariamista
+                                                , jors.entrada_1 entrada_1Substituido
+                                                , jors.entrada_2 entrada_2Substituido
+                                                , jors.entrada_3 entrada_3Substituido
+                                                , jors.entrada_4 entrada_4Substituido
+                                                , jors.saida_1 saida_1Substituido
+                                                , jors.saida_2 saida_2Substituido
+                                                , jors.saida_3 saida_3Substituido
+                                                , jors.saida_4 saida_4Substituido
+                                                , parametros.toleranciaAdicionalNoturno
+                                          FROM marcacao AS marcacao (NOLOCK)
                                          INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario
                                          INNER JOIN horario     ON horario.id = marcacao.idhorario
                                          INNER JOIN parametros  ON parametros.id = horario.idparametro
@@ -310,6 +319,8 @@ namespace DAL.SQL
                                                                              AND FFUNC.idFuncionario = funcionario.id ) 
                                                          ) 
                                                      )) feriado
+                                                LEFT JOIN JornadaSubstituir js on marcacao.IdJornadaSubstituir = js.id
+                                                LEFT JOIN jornada jors on jors.id = js.idjornadapara
                                          WHERE 
                                             --funcionario.funcionarioativo = 1 AND 
                                             ISNULL(funcionario.excluido, 0) = 0 AND 

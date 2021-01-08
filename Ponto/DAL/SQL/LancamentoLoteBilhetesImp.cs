@@ -438,11 +438,11 @@ namespace DAL.SQL
         {
             IList<Modelo.LancamentoLoteFuncionario> lFuncAdd = lancLote.LancamentoLoteFuncionarios.Where(x => x.Acao == Modelo.Acao.Incluir && x.UltimaAcao == (int)Modelo.Acao.Incluir && x.Efetivado == true).ToList();
             Funcionario dalFunc = new Funcionario(db);
-            List<Modelo.Funcionario> funcs = dalFunc.GetAllListByIds(String.Join(",", lFuncAdd.Select(s => s.IdFuncionario).Distinct()));
-            BilhetesImp dalBilhetes = new BilhetesImp(db);
-            dalBilhetes.UsuarioLogado = UsuarioLogado;
-            if (lFuncAdd.Count() > 0)
+            if (lFuncAdd.Any())
             {
+                List<Modelo.Funcionario> funcs = dalFunc.GetAllListByIds(String.Join(",", lFuncAdd.Select(s => s.IdFuncionario).Distinct()));
+                BilhetesImp dalBilhetes = new BilhetesImp(db);
+                dalBilhetes.UsuarioLogado = UsuarioLogado;
                 List<Modelo.BilhetesImp> lBilhetes = new List<Modelo.BilhetesImp>();
                 foreach (Modelo.LancamentoLoteFuncionario lancFuncionario in lFuncAdd)
                 {
@@ -485,7 +485,7 @@ namespace DAL.SQL
             {
                 lFuncAlt = lancLote.LancamentoLoteFuncionarios.Where(x => x.Acao == Modelo.Acao.Alterar).Select(s => s.Id).ToList();
             }
-            if (lFuncAlt.Count() > 0)
+            if (lFuncAlt.Any())
             {
                 List<Modelo.BilhetesImp> lBilhetes = GetBilhetesLoteFuncionario(lFuncAlt, trans);
                 foreach (Modelo.BilhetesImp bil in lBilhetes)

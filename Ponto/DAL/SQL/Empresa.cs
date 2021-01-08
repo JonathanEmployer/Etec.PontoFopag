@@ -888,7 +888,16 @@ namespace DAL.SQL
             int utiliza = 1;
             SqlParameter[] parms = new SqlParameter[] { new SqlParameter("@utiliza", SqlDbType.Int) };
             parms[0].Value = utiliza;
-            string aux = @"SELECT utilizaregistradorfunc FROM dbo.empresa where utilizaregistradorfunc = @utiliza";
+            string aux = @"select top 1 * 
+                              from (
+                            	select iif(utilizaregistradorfunc = 1 or utilizaApp > 0, 1,0) utilizaregistradorfunc
+                            	from (
+                            		SELECT utilizaregistradorfunc, (select top 1 count(1) from EmpresaTermoUso et where em.id = et.idempresa) utilizaApp
+                            		FROM dbo.empresa em
+                            	      ) t
+                                   ) x 
+                             where utilizaregistradorfunc = @utiliza
+                             order by 1 desc ";
 
             var controEmp = db.ExecuteScalar(CommandType.Text, aux, parms);
             var Bloq = Convert.ToInt32(controEmp);
@@ -898,6 +907,23 @@ namespace DAL.SQL
             }
             return true;
         }
+
+
+        //public bool ConsultaUtilizaRegistradorAllEmpAppPontoWebAppPonto()
+        //{
+        //    int utiliza = 1;
+        //    SqlParameter[] parms = new SqlParameter[] { new SqlParameter("@utiliza", SqlDbType.Int) };
+        //    parms[0].Value = utiliza;
+        //    string aux = @"SELECT utilizaregistradorfunc FROM dbo.empresa where utilizaregistradorfunc = @utiliza";
+
+        //    var controEmp = db.ExecuteScalar(CommandType.Text, aux, parms);
+        //    var Bloq = Convert.ToInt32(controEmp);
+        //    if (controEmp == null)
+        //    {
+        //        return false;
+        //    }
+        //    return true;
+        //}
 
         public bool UtilizaControleContratos()
         {

@@ -161,7 +161,7 @@ namespace DAL.SQL
         public List<Modelo.DiasJornadaAlternativa> LoadPJornadaAlternativa(List<int> IdsJA)
         {
             SqlParameter[] parms = new SqlParameter[] { new SqlParameter("@idsJornadaalternativa", SqlDbType.VarChar) };
-            parms[0].Value = IdsJA;
+            parms[0].Value = string.Join(",", IdsJA);
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, SELECTALL + @" WHERE idjornadaalternativa IN (SELECT * FROM dbo.F_ClausulaIn(@idsJornadaalternativa))", parms);
 
