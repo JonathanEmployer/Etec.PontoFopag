@@ -22,10 +22,10 @@ namespace PontoWeb.Utils
         {
             var factory = new ConnectionFactory()
             {
-                HostName = ConfigurationManager.AppSettings["RabbitMQHost"],
-                UserName = ConfigurationManager.AppSettings["RabbitMQUserName"],
-                Password = ConfigurationManager.AppSettings["RabbitMQPassword"],
-                Port = Convert.ToInt32(ConfigurationManager.AppSettings["RabbitMQPort"])
+                HostName = ConfigurationManager.AppSettings["RabbitMQHostCalculo"],
+                UserName = ConfigurationManager.AppSettings["RabbitMQUserNameCalculo"],
+                Password = ConfigurationManager.AppSettings["RabbitMQPasswordCalculo"],
+                Port = Convert.ToInt32(ConfigurationManager.AppSettings["RabbitMQPortCalculo"])
             };
             connection = factory.CreateConnection();
             channel = connection.CreateModel();

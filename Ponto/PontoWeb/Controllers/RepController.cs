@@ -6,14 +6,13 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Data.Entity;
 using Modelo.Utils;
-using System.Web.Http.Controllers;
 using CentralCliente;
 
 namespace PontoWeb.Controllers
 {
     public class RepController : Controller
     {
-        private UsuarioPontoWeb _user = Usuario.GetUsuarioPontoWebLogadoCache();
+        private UsuarioPontoWeb _user = BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache();
         [PermissoesFiltro(Roles = "Rep")]
         public ActionResult Grid()
         {
@@ -167,7 +166,7 @@ namespace PontoWeb.Controllers
                             // ou se for Dimep Printpoint III também insere para funcionar a integração com o ServCom
                             if (rep.Relogio == 17 || rep.EquipamentoHomologado.ServicoComunicador)
                             {
-                                AdicionaAlteraRepCentralCliente(rep, repAntigo, usr);
+                                AdicionaAlteraRepCentralCliente(rep, repAntigo);
                             }
                             //Se era de um fabricante ahgora e "Deixou" de ser, remove rep da Central do cliente para parar o Serviço de Integração Rep HTTP
                             //ou se for Dimep Printpoint III também executa para funcionar a integração com o ServCom
@@ -224,7 +223,7 @@ namespace PontoWeb.Controllers
             }
         }
 
-        private static void AdicionaAlteraRepCentralCliente(REP rep, REP repAnterior)
+        private void AdicionaAlteraRepCentralCliente(REP rep, REP repAnterior)
         {
             using (var db = new CentralCliente.CENTRALCLIENTEEntities())
             {
@@ -262,7 +261,7 @@ namespace PontoWeb.Controllers
 
                     try
                     {
-                        CentralCliente.CentroServico centroServico = db.CentroServico.Where(w => w.DataBaseName == usr.DataBase).FirstOrDefault();
+                        CentralCliente.CentroServico centroServico = db.CentroServico.Where(w => w.DataBaseName == _user.DataBase).FirstOrDefault();
                         if (centroServico != null && centroServico.Id > 0)
                         {
                             repCC.IdCentroServico = centroServico.Id;
@@ -323,7 +322,6 @@ namespace PontoWeb.Controllers
             CentralCliente.Rep repCC = db.Rep.Where(x => x.numSerie == rep.NumSerie).FirstOrDefault();
             return repCC;
         }
-        #endregion
 
         private ActionResult GetPagina(int id)
         {
@@ -408,7 +406,7 @@ namespace PontoWeb.Controllers
             if (!String.IsNullOrEmpty(rep.empresaNome))
             {
                 BLL.Empresa bllEmp = new BLL.Empresa(_user.ConnectionString, _user);
-                Empresa e = new Empresa();
+                Modelo.Empresa e = new Modelo.Empresa();
                 int idEmpresa;
                 string empresa = rep.empresaNome.Split('|')[0].Trim();
                 if (int.TryParse(empresa, out idEmpresa))
