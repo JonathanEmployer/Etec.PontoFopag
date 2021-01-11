@@ -2160,5 +2160,10 @@ namespace BLL
         {
             dalFuncionario.DeleteLogicoFuncionariosInativos(qtdMeses);
         }
+
+        public List<int> GetFuncionariosJornadaAlternativa(int codigo)
+        {
+            return dalFuncionario.GetFuncionariosJornadaAlternativa(codigo);
+        }
     }
 }

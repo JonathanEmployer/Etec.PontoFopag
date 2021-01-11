@@ -192,7 +192,7 @@ namespace PontoWeb.Controllers
                             obj.Acao = acao;
                             Recalcular(UsuPW, obj);
                             return RedirectToAction("Grid", "JornadaAlternativa");
-                        } 
+                        }
                     }
                     else
                     {
@@ -246,6 +246,8 @@ namespace PontoWeb.Controllers
             else
             {
                 objJornada = bllJornada.LoadObject(id);
+                //incluir os funcionarios da jornada
+                SelecaoFuncionarios(UsuPW.ConnectionString, UsuPW, objJornada);
                 #region Valida Fechamento
                 if (ViewBag.Consultar != 1)
                 {
@@ -260,7 +262,7 @@ namespace PontoWeb.Controllers
                 #endregion 
             }
             objJornada.Parametros = new Parametros();
-            
+
             objJornada.Parametros = bllParams.LoadPrimeiro();
 
             PreencheViewBagsAdNoturno(objJornada, bllParams);
@@ -270,7 +272,7 @@ namespace PontoWeb.Controllers
 
         protected override void ValidarForm(JornadaAlternativa obj)
         {
-            
+
         }
 
         #region Funções Vazia necessarias somente para o progress funcionar
@@ -290,7 +292,7 @@ namespace PontoWeb.Controllers
             BLL.Parametros bllParams = new BLL.Parametros(conn, UsuPW);
             Marcacao objMarcacao = new Marcacao();
             objMarcacao = bllMarcacao.LoadObject(id);
-            
+
             JornadaAlternativa objJornadaAlternativa = new JornadaAlternativa();
             objJornadaAlternativa = bllJornadaAlternativa.LoadParaUmaMarcacao(objMarcacao.Data, 2, objMarcacao.Idfuncionario);
             if (objJornadaAlternativa.Id == 0)
@@ -423,7 +425,7 @@ namespace PontoWeb.Controllers
                 BLL.cwkFuncoes.LogarErro(ex);
                 ModelState.AddModelError("CustomError", ex.Message);
             }
-			return ModelState.JsonErrorResult();
+            return ModelState.JsonErrorResult();
         }
 
 
@@ -488,25 +490,9 @@ namespace PontoWeb.Controllers
                         }
                         break;
                     case 2:
-                        if (String.IsNullOrEmpty(objeto.Funcionario))
+                        if (String.IsNullOrEmpty(objeto.IdsJornadaAlternativaFuncionarios))
                         {
                             ModelState["Funcionario"].Errors.Add("Selecione um funcionário.");
-                        }
-                        else
-                        {
-                            BLL.Funcionario bllFuncionario = new BLL.Funcionario(conn, UsuPW);
-                            int idFuncionario = 0;
-                            string func = objeto.Funcionario.Split('|')[0].Trim();
-                            //idFuncionario = bllfuncionario.GetIdDsCodigoProximidade(func);
-                            idFuncionario = bllFuncionario.GetIdDsCodigo(func);
-                            if (idFuncionario > 0)
-                            {
-                                objeto.Identificacao = idFuncionario;
-                            }
-                            else
-                            {
-                                ModelState["Funcionario"].Errors.Add("Funcionário " + objeto.Funcionario + " não cadastrado!");
-                            }
                         }
                         break;
                     case 3:
@@ -632,6 +618,16 @@ namespace PontoWeb.Controllers
                         }
                     }
                 }
+            }
+        }
+        private static void SelecaoFuncionarios(string conn, UsuarioPontoWeb usuPW, JornadaAlternativa objJornada)
+        {
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(conn, usuPW);
+            objJornada.IdsFuncionariosJornadaAlternativa = bllFuncionario.GetFuncionariosJornadaAlternativa(objJornada.Codigo);
+            if (objJornada.IdsFuncionariosJornadaAlternativa != null && objJornada.IdsFuncionariosJornadaAlternativa.Count() > 0)
+            {
+                objJornada.IdsJornadaAlternativaFuncionarios = String.Join(",", objJornada.IdsFuncionariosJornadaAlternativa);
+                objJornada.IdsJornadaAlternativaFuncionarios_Ant = objJornada.IdsJornadaAlternativaFuncionarios;
             }
         }
     }

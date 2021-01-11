@@ -120,7 +120,11 @@ namespace BLL
                 ret.Add("rgTipo", "Campo obrigatório.");
             }
 
-            if (objeto.Identificacao == 0)
+            //if (objeto.Identificacao == 0)
+            //{
+            //    ret.Add("cbIdIdentificacao", "Campo obrigatório");
+            //}
+            if (String.IsNullOrEmpty(objeto.IdsJornadaAlternativaFuncionarios))
             {
                 ret.Add("cbIdIdentificacao", "Campo obrigatório");
             }
@@ -158,28 +162,33 @@ namespace BLL
             Dictionary<string, string> erros = ValidaObjeto(pObjJornadaAlternativa);
             if (erros.Count == 0)
             {
-                switch (pAcao)
+                var idsFuncionarios = pObjJornadaAlternativa.IdsJornadaAlternativaFuncionarios.Split(',').ToList();
+                foreach (var idFuncionario in idsFuncionarios)
                 {
-                    case Modelo.Acao.Incluir:
-                        dalJornadaAlternativa.Incluir(pObjJornadaAlternativa);
-                        bllMarcacao.InsereMarcacoesNaoExistentes(pObjJornadaAlternativa.Tipo, pObjJornadaAlternativa.Identificacao, pObjJornadaAlternativa.DataInicial.Value, pObjJornadaAlternativa.DataFinal.Value, objProgressBar, false);
-                        break;
-                    case Modelo.Acao.Alterar:
-                        dalJornadaAlternativa.Alterar(pObjJornadaAlternativa);
-                        break;
-                    case Modelo.Acao.Excluir:
-                        if (pObjJornadaAlternativa.DiasJA != null)
-                        {
-                            if (pObjJornadaAlternativa.DiasJA.Count > 0)
+                    pObjJornadaAlternativa.Identificacao = Convert.ToInt32(idFuncionario);
+                    switch (pAcao)
+                    {
+                        case Modelo.Acao.Incluir:
+                            dalJornadaAlternativa.Incluir(pObjJornadaAlternativa);
+                            bllMarcacao.InsereMarcacoesNaoExistentes(pObjJornadaAlternativa.Tipo, pObjJornadaAlternativa.Identificacao, pObjJornadaAlternativa.DataInicial.Value, pObjJornadaAlternativa.DataFinal.Value, objProgressBar, false);
+                            break;
+                        case Modelo.Acao.Alterar:
+                            dalJornadaAlternativa.Alterar(pObjJornadaAlternativa);
+                            break;
+                        case Modelo.Acao.Excluir:
+                            if (pObjJornadaAlternativa.DiasJA != null)
                             {
-                                foreach (var item in pObjJornadaAlternativa.DiasJA)
+                                if (pObjJornadaAlternativa.DiasJA.Count > 0)
                                 {
-                                    bllDiasJA.Salvar(Modelo.Acao.Excluir, item);
+                                    foreach (var item in pObjJornadaAlternativa.DiasJA)
+                                    {
+                                        bllDiasJA.Salvar(Modelo.Acao.Excluir, item);
+                                    }
                                 }
                             }
-                        }
-                        dalJornadaAlternativa.Excluir(pObjJornadaAlternativa);
-                        break;
+                            dalJornadaAlternativa.Excluir(pObjJornadaAlternativa);
+                            break;
+                    }
                 }
             }
             return erros;

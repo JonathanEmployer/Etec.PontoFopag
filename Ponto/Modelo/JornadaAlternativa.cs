@@ -282,7 +282,7 @@ namespace Modelo
             get { return _ConversaoHoraNoturna; }
             set { _ConversaoHoraNoturna = value; }
         }
-        
+
         /// <summary>
         /// Indica se haverá Calculo do adicional noturno
         /// </summary>
@@ -349,7 +349,7 @@ namespace Modelo
             get { return _Nome; }
             set { _Nome = value; }
         }
-        
+
 
         private string _Empresa;
         [Display(Name = "Empresa")]
@@ -408,7 +408,10 @@ namespace Modelo
             }
             set { _Funcionario = value; }
         }
-        [TableHTMLAttribute("Jornada", 14, true, ItensSearch.text, OrderType.none)]
+        public List<int> IdsFuncionariosJornadaAlternativa { get; set; }
+        public string IdsJornadaAlternativaFuncionarios { get; set; }
+        public string IdsJornadaAlternativaFuncionarios_Ant { get; set; }
+[TableHTMLAttribute("Jornada", 14, true, ItensSearch.text, OrderType.none)]
         public string TipoJornada { get; set; }
 
         [Display(Name = "Horas Normais")]
