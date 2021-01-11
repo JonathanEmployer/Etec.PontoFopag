@@ -284,6 +284,7 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
                     continue;
                 }
 
+                item.Senha = item.Senha ?? "";
                 if (item.Senha.Length > 4)
                 {
                     log.Debug("Funcionário " + item.Nome + ": A senha do funcionário ultrapassa o limite de 4 digitos.");

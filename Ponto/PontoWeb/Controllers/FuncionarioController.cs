@@ -1233,7 +1233,7 @@ namespace PontoWeb.Controllers
                     ModelState["HorarioDinamico"].Errors.Clear();
                     break;
                 case 2:
-                    idHorario = HorarioMovelController.BuscaIdHorario(funcionario.Horario);
+                    idHorario = HorarioController.BuscaIdHorario(funcionario.Horario, funcionario.Tipohorario);
                     if (idHorario > 0) funcionario.Idhorario = idHorario;
                     else ModelState["Horario"].Errors.Add("Horário " + funcionario.Horario + " não cadastrado!");
                     ModelState["HorarioDinamico"].Errors.Clear();
