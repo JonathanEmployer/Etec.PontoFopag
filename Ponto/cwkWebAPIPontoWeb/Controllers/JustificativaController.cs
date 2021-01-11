@@ -16,7 +16,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// Métodos Referentes ao Cadastro de Justificativas
     /// </summary>
     [Authorize]
-    public class JustificativaController : ApiController
+    public class JustificativaController : ExtendedApiController
     {
         /// <summary>
         /// Cadastrar/Alterar Justificativa.
@@ -28,8 +28,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Cadastrar(Models.Justificativa justificativa)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.ConexaoContexto(this.ActionContext);
-            BLL.Justificativa bllJust = new BLL.Justificativa(connectionStr);
+            BLL.Justificativa bllJust = new BLL.Justificativa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
             if (ModelState.IsValid)
             {
                 try
@@ -83,8 +82,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Excluir(int IdIntegracao)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Justificativa bllJust = new BLL.Justificativa(connectionStr);
+            BLL.Justificativa bllJust = new BLL.Justificativa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
             if (ModelState.IsValid)
             {
@@ -177,11 +175,12 @@ namespace cwkWebAPIPontoWeb.Controllers
         /// <returns>Lista de justificativas
         [HttpGet]
         [TratamentoDeErro]
-        public HttpResponseMessage Justificativas()
+        public HttpResponseMessage Justificativas(int idFuncionario)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Justificativa bllJust = new BLL.Justificativa(connectionStr);
+
+            BLL.Justificativa bllJust = new BLL.Justificativa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
             if (ModelState.IsValid)
             {
@@ -191,7 +190,11 @@ namespace cwkWebAPIPontoWeb.Controllers
                     List<Models.Justificativa> listajustificativas = new List<Models.Justificativa>();
                     List<Modelo.Justificativa> justificativas = new List<Modelo.Justificativa>();
 
-                    justificativas = bllJust.GetAllPorExibePaineldoRH();
+                    Modelo.Funcionario objFuncionario = bllFuncionario.LoadObject(idFuncionario);
+                    if (objFuncionario == null || objFuncionario.Id == 0)
+                        justificativas = bllJust.GetAllPorExibePaineldoRH();
+                    else
+                        justificativas = bllJust.GetAllPorExibePainelRHPorFuncionario(objFuncionario.Id);
 
                     foreach (var item in justificativas)
                     {
@@ -203,6 +206,49 @@ namespace cwkWebAPIPontoWeb.Controllers
                         listajustificativas.Add(justificativa);
                     }
                     return Request.CreateResponse(HttpStatusCode.OK, listajustificativas);
+                }
+                catch (Exception e)
+                {
+                    BLL.cwkFuncoes.LogarErro(e);
+                    return Request.CreateResponse(HttpStatusCode.NotFound, retErro);
+                }
+            }
+            return TrataErroModelState(retErro);
+        }
+
+        /// <summary>
+        /// Método para pegar todas as justificativas
+        /// </summary>
+        /// <returns>Lista de Justificativas</returns>
+        [Route("api/TodasJustificativas")]
+        [HttpGet]
+        [TratamentoDeErro]
+        public HttpResponseMessage Justificativas()
+        {
+            RetornoErro retErro = new RetornoErro();
+
+            BLL.Justificativa bllJustificativa = new BLL.Justificativa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Dictionary<string, string> erros = new Dictionary<string, string>();
+                    List<Models.Justificativa> listaJustificativasRet = new List<Models.Justificativa>();
+                    List<Modelo.Justificativa> justificativas = new List<Modelo.Justificativa>();
+
+                    justificativas = bllJustificativa.GetAllList(false);
+
+                    foreach (var item in justificativas)
+                    {
+                        Models.Justificativa justificativa = new Models.Justificativa();
+                        justificativa.Id = item.Id;
+                        justificativa.Codigo = item.Codigo;
+                        justificativa.Descricao = item.Descricao;
+                        justificativa.IdIntegracao = item.IdIntegracao.GetValueOrDefault();
+                        listaJustificativasRet.Add(justificativa);
+                    }
+                    return Request.CreateResponse(HttpStatusCode.OK, listaJustificativasRet);
                 }
                 catch (Exception e)
                 {

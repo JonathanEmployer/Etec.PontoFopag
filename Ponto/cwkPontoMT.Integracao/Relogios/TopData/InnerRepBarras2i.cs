@@ -209,28 +209,26 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
             Sdk_Inner_Rep.InnerRepInterface innerRep = new Sdk_Inner_Rep.InnerRepSdk();
             var ret = innerRep.DefineParametrosComunicacao(IP, "**AUTENTICACAO**");
 
-
-            if (QntDigitos == "5")
+            switch (QntDigitos)
             {
-                ret = innerRep.ConfiguraInnerRep(Local, Senha, Senha, Senha, "00 00 00 00 00 00 00 00 00 00 00 16 07 08 09 10");
+                case "3":
+                    ret = innerRep.ConfiguraInnerRep(Local, Senha, Senha, Senha, "00 00 00 00 00 00 00 00 00 00 00 00 00 13 14 15");
+                    break;
+                case "5":
+                    ret = innerRep.ConfiguraInnerRep(Local, Senha, Senha, Senha, "00 00 00 00 00 00 00 00 00 00 00 16 07 08 09 10");
+                    break;
+                case "6":
+                    ret = innerRep.ConfiguraInnerRep(Local, Senha, Senha, Senha, "00 00 00 00 01 02 03 04 00 00 00 00 00 00 00 00");
+                    break;
+                case "14":
+                    ret = innerRep.ConfiguraInnerRep(Local, Senha, Senha, Senha, "00 00 00 00 02 03 04 05 00 00 00 00 00 01 00 00");
+                    break;
+                case "16":
+                    ret = innerRep.ConfiguraInnerRep(Local, Senha, Senha, Senha, "01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16");
+                    break;
+                default:
+                    throw new Exception("Número de dígitos incompatível, valores aceitos (3,5,6,14 ou 16)");
             }
-            else if (QntDigitos == "16")
-            {
-                ret = innerRep.ConfiguraInnerRep(Local, Senha, Senha, Senha, "01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16");
-            }
-            else if (QntDigitos == "14")
-            {
-                ret = innerRep.ConfiguraInnerRep(Local, Senha, Senha, Senha, "00 00 00 00 02 03 04 05 00 00 00 00 00 01 00 00");
-            }
-            else if (QntDigitos == "3")
-            {
-                ret = innerRep.ConfiguraInnerRep(Local, Senha, Senha, Senha, "00 00 00 00 00 00 00 00 00 00 00 00 00 13 14 15");
-            }
-            else if (QntDigitos == "6")
-            {
-                ret = innerRep.ConfiguraInnerRep(Local, Senha, Senha, Senha, "00 00 00 00 01 02 03 04 00 00 00 00 00 00 00 00");
-            }
-
 
             if (Empregador.RazaoSocial.Length > 150)
                 Empregador.RazaoSocial = Empregador.RazaoSocial.Substring(0, 150);
@@ -242,7 +240,7 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
                 MensagemErroEmpresa(log, ret);
             }
 
-            //innerRep.LimpaListaEmpregados();
+            innerRep.LimpaListaEmpregados();
 
             string nomeExibicao
                 , senhaFuncionario;
@@ -255,6 +253,7 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
                     continue;
                 }
 
+                item.Senha = item.Senha ?? "";
                 if (item.Senha.Length > 4)
                 {
                     log.AppendLine("Funcionário " + item.Nome + ": A senha do funcionário ultrapassa o limite de 4 digitos.");
@@ -283,7 +282,6 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
             }
 
             int _ret = innerRep.EnviaConfiguracoes();
-            innerRep.FinalizaLeitura();
 
             if (_ret > 0)
             {

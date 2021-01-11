@@ -18,7 +18,7 @@ namespace Modelo
         /// Data que foi Compensada
         /// </summary>
         [Display(Name = "Data Compensada")]
-        [MinDate("01/01/1760")]
+        [MinDate("31/12/1999")]
         public DateTime? Datacompensada {get; set; }
 
         [JsonIgnore]

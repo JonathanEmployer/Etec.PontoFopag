@@ -9,7 +9,7 @@ function ajax_CarregaTelaComLoading(acao, controller, id) {
         type: 'GET',
         dataType: "html",
         crossDomain: true,
-        data: { 'id': id },
+        data: { 'id': id, __RequestVerificationToken: gettoken() },
         beforeSend: function () {
             $("#loading").modal();
         },
@@ -97,8 +97,7 @@ function ajax_CarregaTela(acao, controller, id) {
     });
 }
 
-function ajax_CallControllerSemRetorno(acao, controller, id)
-{
+function ajax_CallControllerSemRetorno(acao, controller, id) {
     $.ajax({
         url: '/' + controller + '/' + acao,
         type: 'GET',
@@ -159,7 +158,7 @@ function ajax_ExcluirRegistro(acao, controller, id, mensagem, tb, callBackSucess
                         url: '/' + controller + '/' + acao,
                         type: 'POST',
                         dataType: 'json',
-                        data: { 'id': id },
+                        data: { __RequestVerificationToken: gettoken(), 'id': id },
                         beforeSend: function () {
                             $.blockUI({ message: '<h2>Excluindo<img src="../../Content/img/circulosLoading.GIF"></h2>' });
                         },
@@ -183,7 +182,12 @@ function ajax_ExcluirRegistro(acao, controller, id, mensagem, tb, callBackSucess
                             $.unblockUI();
                             if (ret.Success === true) {
                                 cwkSucessoTit('Registro Excluído!', mensagem);
-                                cwk_RemoverLinhasSelecionadas(tb);
+                                try {
+                                    tb.row('.selected').remove().draw(false);
+                                }
+                                catch (err) {
+                                    tb.api().row('.selected').remove().draw(false);
+                                }
                                 if (callBackSucesso && typeof (callBackSucesso) !== "undefined" && callBackSucesso !== "") {
                                     callBackSucesso(ret);
                                 }
@@ -211,8 +215,84 @@ function ajax_ExcluirRegistro(acao, controller, id, mensagem, tb, callBackSucess
     });
 }
 
-function BloqueiaSalvando()
-{
+
+// Remove mais de um registro. Ele não adiciona o evento click, mas já adiciona as mensagens de validação.
+// Foi criado inicialmente passar um objeto JSON e jogar uma string pra controller = (string jsonData)
+function ajax_ExcluirRegistroJSON(acao, controller, obj, mensagem, tb, callBackSucesso, mensagemConfirmacaoPersonalizada, qtdSelecionados) {
+
+    var mensagemConfirmacao = "Ao confirmar a ação será permanente!";
+    if (mensagemConfirmacaoPersonalizada && typeof (mensagemConfirmacaoPersonalizada) !== "undefined" && mensagemConfirmacaoPersonalizada !== "") {
+        mensagemConfirmacao = mensagemConfirmacaoPersonalizada;
+    }
+
+    //converte o JSON pra string
+    var stringJSON = JSON.stringify(obj);
+
+    bootbox.dialog({
+        message: mensagemConfirmacao,
+        title: "Deseja realmente excluir?",
+        buttons: {
+            success: {
+                label: "Excluir!",
+                className: "btn-primary",
+                callback: function () {
+                    $.ajax({
+                        url: '/' + controller + '/' + acao,
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { jsonData: stringJSON, __RequestVerificationToken: gettoken() },
+                        beforeSend: function () {
+                            $.blockUI({ message: '<h2>Excluindo<img src="../../Content/img/circulosLoading.GIF"></h2>' });
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            $.unblockUI();
+                            if (xhr.responseText.indexOf('Usuário sem permissão') >= 0) {
+                                cwkErro("Acesso negado, Contate o administrador do sistema!");
+                            }
+                            else {
+                                $.unblockUI();
+                                var sErrMsg = "";
+                                sErrMsg += "Erro: ";
+                                sErrMsg += "\n\n" + " - Status :" + textStatus;
+                                sErrMsg += "\n\n" + " - Status Erro :" + xhr.status;
+                                sErrMsg += "\n\n" + " - Tipo Erro :" + errorThrown;
+                                sErrMsg += "\n\n" + " - Mensagem Erro :" + xhr.responseText;
+                                cwkErro(sErrMsg);
+                            }
+                        },
+                        success: function (ret) {
+                            $.unblockUI();
+                            if (ret.Success === true) {
+                                cwkSucessoTit('Registro Excluído!', mensagem);
+                                cwk_RemoverLinhasSelecionadas(tb, qtdSelecionados);
+                                if (callBackSucesso && typeof (callBackSucesso) !== "undefined" && callBackSucesso !== "") {
+                                    callBackSucesso(ret);
+                                }
+                                verificaProgress();
+                            } else {
+                                if (ret.Aviso != undefined && ret.Aviso != "" && ret.Aviso == true) {
+                                    cwkNotificacaoTit('Alerta!', ret.Erro);
+                                }
+                                else {
+                                    cwkErroTit('Erro!', ret.Erro);
+                                }
+                            }
+                        },
+                    });
+                }
+            },
+            danger: {
+                label: "Cancelar!",
+                className: "btn-default",
+                callback: function () {
+
+                }
+            }
+        }
+    });
+}
+
+function BloqueiaSalvando() {
     $.blockUI({ message: '<h2>Salvando...<img src="../../Content/img/circulosLoading.GIF"></h1>' });
 }
 
@@ -256,7 +336,7 @@ function ajax_ModificarRegistro(acao, controller, id, msgTituloFormConfirmar, ti
                         url: '/' + controller + '/' + acao,
                         type: 'POST',
                         dataType: 'json',
-                        data: { 'id': id },
+                        data: { 'id': id, __RequestVerificationToken: gettoken() },
                         error: function (ex) {
                             cwkErro("Erro!!\n\n" + ex.status + ': ' + ex.statusText);
                         },
@@ -318,7 +398,7 @@ function ajax_GetObjetoExecCallBack(controller, acao, parms, eventoCallBack, blo
         beforeSend: function () {
             if (bloquearTela) {
                 if (!isEmpty(msgBloqueioTela)) {
-                    $.blockUI({ message: '<h2>' + msgBloqueioTela+' <img src="../../Content/img/circulosLoading.GIF"></h2>' });
+                    $.blockUI({ message: '<h2>' + msgBloqueioTela + ' <img src="../../Content/img/circulosLoading.GIF"></h2>' });
                 }
                 else {
                     $.blockUI({ message: '<h2>Excluindo<img src="../../Content/img/circulosLoading.GIF"></h2>' });
@@ -365,7 +445,7 @@ function ajax_GetObjetoExecCallBack(controller, acao, parms, eventoCallBack, blo
 }
 
 function ajax_CarregarConsultaEventoTab(acao, controller, consulta, campo, filtro, eventoCallBack, posicaoNome, paramAdicionais, eventoCallBackErro) {
-    if ($(campo).is('[readonly]') ) { 
+    if ($(campo).is('[readonly]')) {
         return;
     }
 
@@ -447,7 +527,17 @@ function ajax_CarregarConsultaEventoTab(acao, controller, consulta, campo, filtr
                             if (ids >= 0) {
                                 var dados = tbPesquisa.rows('.selected').data()[0];
                                 var id = dados[0].replace('undefined', '');
-                                var nome = dados[1].replace('undefined', '');
+                                //Verifica se é data, se for ele pega a 5 coluna
+                                if (Date.parse(dados[1])) {
+                                    if (dados.length > 4) {
+                                        var nome = dados[4].replace('undefined', '');
+                                    }
+                                    else {
+                                        var nome = dados[3].replace('undefined', '');
+                                    }
+                                } else {
+                                    var nome = dados[1].replace('undefined', '');
+                                }
                                 $(campo).val(id + ' | ' + nome);
                                 $("#divLoadModalLkp").modal('hide');
                                 $.unblockUI();
@@ -469,6 +559,17 @@ function ajax_CarregarConsultaEventoTab(acao, controller, consulta, campo, filtr
                                 var dados = tbPesquisa.rows('.selected').data()[0];
                                 var id = dados[0].replace('undefined', '');
                                 var nome = dados[1].replace('undefined', '');
+                                //Verifica se é data, se for ele pega a 5 coluna
+                                if (Date.parse(dados[1])) {
+                                    if (dados.length > 4) {
+                                        var nome = dados[4].replace('undefined', '');
+                                    }
+                                    else {
+                                        var nome = dados[3].replace('undefined', '');
+                                    }
+                                } else {
+                                    var nome = dados[1].replace('undefined', '');
+                                }
                                 $(campo).val(id + ' | ' + nome);
                                 $("#divLoadModalLkp").modal('hide');
                                 $.unblockUI();
@@ -515,7 +616,7 @@ function cwk_EventoConsultaUnico(event, objeto, acao, controller, filtro, evento
         var valorlkp = $(lkp).val();
         ajax_CarregarConsultaEventoTab(acao, controller, valorlkp, lkp, valorFiltro, eventoCallBack, posicaoNome, paramAdicionais, eventoCallBackErro);
     }
-        // Se o campo  que chamou for um "btn" funciona apenas no método click do botão
+    // Se o campo  que chamou for um "btn" funciona apenas no método click do botão
     else {
         if (event.type == "click" && idObjeto.toLowerCase().indexOf("btn") >= 0) {
             var idCampo = idObjeto.replace("btn", "");
@@ -601,7 +702,7 @@ function ajax_CarregarConsultaEventoTabComFiltro(acao, idFiltro, controller, con
                     if (ids > 0) {
                         oTbLkpModal.$("tr").filter(".selected").each(function (index, row) {
                             id = $(row).find("td:eq(0)").text().replace('undefined', '');
-                            nome = $(row).find("td:eq(1)").text().replace('undefined', '');
+                            nome = $(row).find("td:eq(1)").text().replace('undefined', '');                            
                             $(campo).val(id + ' | ' + nome);
                             $("#divLoadModalLkp").modal('hide');
                             if (carregaDetalhes) {
@@ -842,7 +943,7 @@ function CarregaDadosAjax(acao, controller, parametros, div, campo, callback, ca
         cache: false,
         beforeSend: function () {
             $(".desabilitar-ao-carregar").attr("disabled", "disabled");
-            $(div).html('<div class="col-md-12"> <div style="left:0;right:0;margin-left:auto;margin-right:auto;"><h1 style="text-align: center">Carregando<img src="../../Content/img/circulosLoading.GIF"></h1></div> </div>');
+            $(div).html('<div class="row"><div class="col-md-12"> <div style="left:0;right:0;margin-left:auto;margin-right:auto;"><h1 style="text-align: center">Carregando<img src="../../Content/img/circulosLoading.GIF"></h1></div> </div></div>');
         },
         error: function (e, xhr, settings) {
             //alert(this.url);
@@ -907,19 +1008,19 @@ function ExecutaAjaxComProgress(acao, controller, parametros, fCallBack) {
         method: 'POST',
         data: parametros,
         success: function (data) {
-                if (data.JobId != "" && data != null && data.JobId != undefined) {
-                    trackJobProgress(data, fCallBack);
+            if (data.JobId != "" && data != null && data.JobId != undefined) {
+                trackJobProgress(data, fCallBack);
+            }
+            else {
+                if (data.indexOf("Usuario/LogIn") > -1) {
+                    window.location.href = '/Usuario/LogIn?ReturnUrl=' + window.location.href;
                 }
                 else {
-                    if (data.indexOf("Usuario/LogIn") > -1) {
-                        window.location.href = '/Usuario/LogIn?ReturnUrl=' + window.location.href;
-                    }
-                    else {
-                        ProgressLimpo();
-                        $("#divModalProgress").modal('hide');
-                        cwkErro(data.Erro);
-                    }
+                    ProgressLimpo();
+                    $("#divModalProgress").modal('hide');
+                    cwkErro(data.Erro);
                 }
+            }
         },
         error: function (xhr, textStatus, errorThrown) {
             if (xhr.responseText.indexOf('Usuário sem permissão') >= 0) {
@@ -943,6 +1044,7 @@ function verificaProgress() {
     $.ajax({
         url: '/job/GetJob',
         method: 'POST',
+        data: { __RequestVerificationToken: gettoken() },
         success: function (data) {
             if (data.JobId != "" && data != null && data.JobId != undefined) {
                 trackJobProgress(data);
@@ -990,7 +1092,7 @@ function ProgressLimpo() {
 }
 // Controla a progress bar
 function trackJobProgress(job, fCallBack, fCallBackErro, abrirNovaAba) {
-    
+
     $("#divModalProgress").modal();
     setProgressBarWidth(job.Progress);
     $("#completedDisplay").hide();
@@ -1072,7 +1174,7 @@ function E_GridFunc(EidDivPartial, EidCampoSelecionados, FuncPosCarregamento) {
     EidDivPartial = $(EidDivPartial);
     EidCampoSelecionados = $(EidCampoSelecionados);
     if (!EidDivPartial.find('table').length > 0) {
-        cwk_CarregarPartialAjaxPorPost('GridFuncionariosPost', 'FuncionariosRelatorio', parametros = { idsSelecionados: EidCampoSelecionados.val() }, '', AfterLoad);
+        cwk_CarregarPartialAjaxPorPost('GridFuncionariosPost', 'FuncionariosRelatorio', parametros = { idsSelecionados: EidCampoSelecionados.val(), __RequestVerificationToken: gettoken()  }, '', AfterLoad);
     }
 
     function AfterLoad(fCallBack) {
@@ -1091,31 +1193,26 @@ function E_GridFuncGetSelecionados() {
 //opção 0 - empregado inativo
 //opção 1 - empregado ativo
 //opção 2 - todos
-function EventoFuncionarioFiltroRequest(opcao,url)
-{
-    let _parametros = { opcao: opcao };
+function EventoFuncionarioFiltroRequest(opcao, url) {
+    let _parametros = { opcao: opcao, __RequestVerificationToken: gettoken() };
     let _url = url;
     let _type = 'Post';
     let _contentType = 'application/json'
     var req = request(_parametros, _url, _type, _contentType, requestBeforeSend('Buscando dados'));
 
-    req.done(function (data)
-    {
+    req.done(function (data) {
         EventoFuncionarioFiltroSuccess(data);
         $.unblockUI();
-    }).fail(function (xhr, textStatus, errorThrown)
-    {
+    }).fail(function (xhr, textStatus, errorThrown) {
         EventoFuncionarioFiltroError(xhr, textStatus, errorThrown);
         $.unblockUI();
     });
 }
 function EventoFuncionarioFiltroError(xhr, textStatus, errorThrown) {
-    if (xhr.responseText.indexOf('Usuário sem permissão') >= 0)
-    {
+    if (xhr.responseText.indexOf('Usuário sem permissão') >= 0) {
         cwkErro("Acesso negado, Contate o administrador do sistema!");
     }
-    else
-    {
+    else {
         var sErrMsg = "";
         sErrMsg += "Erro: ";
         sErrMsg += "\n\n" + " - Status :" + textStatus;
@@ -1125,8 +1222,7 @@ function EventoFuncionarioFiltroError(xhr, textStatus, errorThrown) {
         cwkErro(sErrMsg);
     }
 }
-function EventoFuncionarioFiltroSuccess(dados)
-{
+function EventoFuncionarioFiltroSuccess(dados) {
     let funcDataTables = $('#tbFun').DataTable();
     funcDataTables.clear().draw();
     funcDataTables.rows.add(dados.data);
@@ -1154,15 +1250,16 @@ function requestBeforeSend(texto) { return $.blockUI({ message: '<h2>' + texto +
 // FIM Componente para carregar a grid de funcionários por ajax
 
 
-function PostFormJob(form, callBackSucesso, divAbrirJobs) {
-    PostReturnJob(form.action, form.method, $(form).serialize(), divAbrirJobs, false, callBackSucesso);
+function PostFormJob(form, callBackSucesso, divAbrirJobs, divModal) {
+    PostReturnJob(form.action, form.method, $(form).serialize(), divAbrirJobs, false, callBackSucesso, divModal);
 }
 
-function PostReturnJob(url, type, data, divAbrirJobs, LimparComponentes, callBackSucesso)
-{
+function PostReturnJob(url, type, data, divAbrirJobs, LimparComponentes, callBackSucesso, divModal) {
     if (isEmpty(LimparComponentes)) {
         LimparComponentes = true;
     }
+    data.__RequestVerificationToken = gettoken();
+    console.log(data);
     $.ajax({
         url: url,
         type: type,
@@ -1217,7 +1314,7 @@ function PostReturnJob(url, type, data, divAbrirJobs, LimparComponentes, callBac
                         } catch (e) {
                             console.log('não foi possível rolar a página');
                         }
-                        
+
                     } else {
                         for (var i = 0; i < result.errors.length; i++) {
                             var error = result.errors[i];
@@ -1227,7 +1324,10 @@ function PostReturnJob(url, type, data, divAbrirJobs, LimparComponentes, callBac
                         }
                     }
                 } else {
-                    if(result.indexOf('<form') > 0) {
+                    if (!isEmpty(divModal)) {
+                        $("#" + divModal).html(result);
+                    }
+                    else if (result.indexOf('<form') > 0) {
                         $("html").html(result);
                     }
                 }
@@ -1235,7 +1335,7 @@ function PostReturnJob(url, type, data, divAbrirJobs, LimparComponentes, callBac
             catch (e) {
                 cwkErroTit('Erro', 'Erro genárico ao processar a solicitação');
             }
-            
+
         },
         complete: function () {
             $.unblockUI();
@@ -1257,9 +1357,9 @@ function ScrollPageJobHistorico() {
 }
 function ScrollPageJobIncio() {
     var divComScroll = GetDivScrollJob();
-        $('#' + divComScroll).animate({
-            scrollTop: 0
-        }, 1000);
+    $('#' + divComScroll).animate({
+        scrollTop: 0
+    }, 1000);
 }
 
 function GetDivScrollJob() {
@@ -1309,7 +1409,7 @@ function EventoClickDeletePostReturnJob(botao, acao, controller, nomeTabela, men
                                 url: url,
                                 type: 'POST',
                                 dataType: 'json',
-                                data: { 'id': id },
+                                data: { 'id': id, __RequestVerificationToken: gettoken() },
                                 beforeSend: function () {
                                     $.blockUI({ message: '<h2>Excluindo<img src="../../Content/img/circulosLoading.GIF"></h2>' });
                                 },

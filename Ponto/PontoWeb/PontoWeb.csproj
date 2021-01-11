@@ -62,6 +62,15 @@
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Autofac, Version=5.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.5.2.0\lib\net461\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Extensions.DependencyInjection, Version=6.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.Extensions.DependencyInjection.6.0.0\lib\netstandard2.0\Autofac.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.Mvc5.5.0.0\lib\net461\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="AutoMapper, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.dll</HintPath>
       <Private>True</Private>
@@ -112,18 +121,17 @@
     <Reference Include="Hangfire.Console, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Hangfire.Console.1.4.2\lib\net45\Hangfire.Console.dll</HintPath>
     </Reference>
-    <Reference Include="Hangfire.Core, Version=1.7.9.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hangfire.Core.1.7.9\lib\net46\Hangfire.Core.dll</HintPath>
+    <Reference Include="Hangfire.Core, Version=1.7.11.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Core.1.7.11\lib\net46\Hangfire.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Hangfire.Dashboard.Authorization, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hangfire.Dashboard.Authorization.2.1.0\lib\net45\Hangfire.Dashboard.Authorization.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Hangfire.Dashboard.Authorization, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Dashboard.Authorization.3.0.0\lib\net45\Hangfire.Dashboard.Authorization.dll</HintPath>
     </Reference>
-    <Reference Include="Hangfire.SqlServer, Version=1.7.9.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hangfire.SqlServer.1.7.9\lib\net45\Hangfire.SqlServer.dll</HintPath>
+    <Reference Include="Hangfire.SqlServer, Version=1.7.11.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.SqlServer.1.7.11\lib\net45\Hangfire.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Hangfire.SqlServer.Msmq, Version=1.7.9.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hangfire.SqlServer.MSMQ.1.7.9\lib\net45\Hangfire.SqlServer.Msmq.dll</HintPath>
+    <Reference Include="Hangfire.SqlServer.Msmq, Version=1.7.11.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.SqlServer.MSMQ.1.7.11\lib\net45\Hangfire.SqlServer.Msmq.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.9.5, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.4.9.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
@@ -131,6 +139,9 @@
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="IdentityModel, Version=4.3.1.0, Culture=neutral, PublicKeyToken=e7877f4675df049f, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityModel.4.3.1\lib\net472\IdentityModel.dll</HintPath>
     </Reference>
     <Reference Include="itextsharp, Version=5.5.13.1, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\packages\iTextSharp.5.5.13.1\lib\itextsharp.dll</HintPath>
@@ -154,11 +165,11 @@
     <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.2\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.3.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.3.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.1\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.TelemetryCorrelation, Version=1.0.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.4\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
@@ -169,11 +180,15 @@
     <Reference Include="Microsoft.Azure.Services.AppAuthentication, Version=1.3.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.Services.AppAuthentication.1.3.1\lib\net472\Microsoft.Azure.Services.AppAuthentication.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
     <Reference Include="Microsoft.CSharp">
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource, Version=1.1.28.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.1.28\lib\net46\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.1.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=4.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.4.3.0\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
@@ -205,24 +220,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Dependencias\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Practices.Unity.Interception, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.Interception.4.0.1\lib\Net45\Microsoft.Practices.Unity.Interception.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.Unity.Interception.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.Interception.4.0.1\lib\Net45\Microsoft.Practices.Unity.Interception.Configuration.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
@@ -242,8 +245,11 @@
     <Reference Include="Microsoft.ReportViewer.WinForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Reporting.WinForms.v11.1.0.0.0\lib\Microsoft.ReportViewer.WinForms.DLL</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Rest.ClientRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Rest.ClientRuntime.2.3.20\lib\net461\Microsoft.Rest.ClientRuntime.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ServiceBus, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAzure.ServiceBus.5.2.0\lib\net45\Microsoft.ServiceBus.dll</HintPath>
+      <HintPath>..\packages\WindowsAzure.ServiceBus.6.0.1\lib\net462\Microsoft.ServiceBus.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.1016.290\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
@@ -262,7 +268,7 @@
       <HintPath>..\packages\Mvc.RazorTools.FontAwesome.4.1.0.0\lib\net45\Mvc.RazorTools.FontAwesome.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NPOI">
       <HintPath>..\packages\NPOI.2.2.1\lib\net40\NPOI.dll</HintPath>
@@ -291,6 +297,10 @@
     <Reference Include="System">
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data">
       <Private>True</Private>
     </Reference>
@@ -299,12 +309,25 @@
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.5.0\lib\net45\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=4.0.40306.1554, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.4.0.4.403061554\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
@@ -313,6 +336,18 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.7.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Channels, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Channels.4.7.1\lib\net461\System.Threading.Channels.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -345,6 +380,7 @@
       <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
     </Reference>
@@ -365,6 +401,15 @@
     <Reference Include="TimeZoneConverter, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\TimeZoneConverter.2.0.0\lib\net45\TimeZoneConverter.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Unity.Abstractions, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.11.1\lib\net47\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.11.1\lib\net47\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mvc5, Version=1.4.0.0, Culture=neutral, PublicKeyToken=43da31bc42a85347, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Mvc5.1.4.0\lib\net45\Unity.Mvc5.dll</HintPath>
     </Reference>
     <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -413,7 +458,10 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AfastamentoController.cs" />
+    <Compile Include="Controllers\AlertasComunicacaoRepController.cs" />
     <Compile Include="Controllers\EmpresaTermoUsoController.cs" />
+    <Compile Include="Controllers\JornadaSubstituirController.cs" />
+    <Compile Include="Controllers\LancamentoCartaoPontoController.cs" />
     <Compile Include="Controllers\ListaEventosController.cs" />
     <Compile Include="Controllers\AlertasController.cs" />
     <Compile Include="Controllers\AlertasLogController.cs" />
@@ -499,6 +547,7 @@
     <Compile Include="Controllers\RegistradorController.cs" />
     <Compile Include="Controllers\Relatorios\RelAFDPortaria373Controller.cs" />
     <Compile Include="Controllers\Relatorios\RelatorioAbsenteismoV2Controller.cs" />
+    <Compile Include="Controllers\Relatorios\RelatorioRefeicaoController.cs" />
     <Compile Include="Controllers\Relatorios\RelatorioRegistrosController.cs" />
     <Compile Include="Controllers\RelatoriosController.cs" />
     <Compile Include="Controllers\RelatoriosCustomizadosController.cs" />
@@ -535,6 +584,7 @@
     <Compile Include="Controllers\Relatorios\RelClassHorasExtrasController.cs" />
     <Compile Include="Controllers\RepController.cs" />
     <Compile Include="Controllers\RepHistoricoLocalController.cs" />
+    <Compile Include="Controllers\ReplicarBancoHorasController.cs" />
     <Compile Include="Controllers\RepLogAFDController.cs" />
     <Compile Include="Controllers\RepLogController.cs" />
     <Compile Include="Controllers\ServicoPontoComController.cs" />
@@ -545,8 +595,10 @@
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\HtmlHelpers.cs" />
+    <Compile Include="Models\ConnectionDataBaseDto.cs" />
     <Compile Include="Models\Helpers\JsonBinderAttribute.cs" />
     <Compile Include="Models\Helpers\ModelStateExtensions.cs" />
+    <Compile Include="Models\ParametersPontofopagDto.cs" />
     <Compile Include="Models\ResultadoArquivoUpload.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -751,20 +803,44 @@
     <Compile Include="Models\PontoWebContext.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\AntiForgeryTokenFilterProvider.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Security\PermissaoProvider.cs" />
     <Compile Include="Security\PermissoesFiltro.cs" />
+    <Compile Include="Service References\EnviaSms\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\EnvioEmail\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\Cacher.cs" />
     <Compile Include="Utils\CustomizeHelpers.cs" />
     <Compile Include="Utils\DataHora.cs" />
     <Compile Include="Utils\DecimalModelBinder.cs" />
+    <Compile Include="Utils\Encryption.cs" />
+    <Compile Include="Utils\EPaysConfig.cs" />
     <Compile Include="Utils\ExceptionExtensions.cs" />
     <Compile Include="Utils\GetPropertiesTableHTML.cs" />
     <Compile Include="Utils\HtmlExtensions.cs" />
+    <Compile Include="Utils\JsonContent.cs" />
+    <Compile Include="Utils\MessageIntegrationDto.cs" />
     <Compile Include="Utils\MultiButtonAttribute.cs" />
+    <Compile Include="Utils\RabbitMqController.cs" />
+    <Compile Include="Utils\Result.cs" />
+    <Compile Include="Utils\SyncAsync.cs" />
+    <Compile Include="Utils\WebApiUri.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\TermoResponsabilidadeAppPontofopag.htm" />
@@ -846,7 +922,8 @@
     <Content Include="Content\img\LogoCworkPreto-bkp.png" />
     <Content Include="Content\img\LogoCworkPreto.png" />
     <Content Include="Content\img\logout.png" />
-    <Content Include="Content\img\logo_site_blindado.png" />
+    <Content Include="Content\img\logo_msft_azure.png" />
+    <Content Include="Content\img\logo_msft_azure_Bco.png" />
     <Content Include="Content\img\ManutMarca.png" />
     <Content Include="Content\img\Marcacoes.png" />
     <Content Include="Content\img\pdf48.png" />
@@ -1421,10 +1498,17 @@
     <Content Include="Config\ConnectionStrings.homologacao.config" />
     <Content Include="Config\AppSettings.suporte.config" />
     <Content Include="Config\ConnectionStrings.suporte.config" />
+    <Content Include="Config\AppSettings.teste.config" />
+    <Content Include="Config\ConnectionStrings.teste.config" />
+    <Content Include="Properties\DataSources\System.Data.DataSet.datasource" />
     <None Include="Properties\PublishProfiles\Publicar Arquivos.pubxml" />
     <None Include="Properties\PublishProfiles\Publish zip.pubxml" />
     <Content Include="Scripts\DataTables\Buttons-1.5.4\css\common.scss" />
     <Content Include="Scripts\DataTables\Buttons-1.5.4\css\mixins.scss" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <None Include="Scripts\jquery-2.1.0-vsdoc.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1446,8 +1530,8 @@
     <Content Include="Scripts\jQuery.FileUpload\jquery.fileupload.js" />
     <Content Include="Scripts\jQuery.FileUpload\jquery.iframe-transport.js" />
     <Content Include="Scripts\jquery.mask.js" />
-    <Content Include="Scripts\jquery.signalR-2.3.0.js" />
-    <Content Include="Scripts\jquery.signalR-2.3.0.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.1.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.1.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -1474,6 +1558,36 @@
     <Content Include="Scripts\swf\copy_csv_xls.swf" />
     <Content Include="Scripts\swf\copy_csv_xls_pdf.swf" />
     <Content Include="Scripts\vfs_fonts.js" />
+    <None Include="Service References\EnviaSms\WsEnviaSms.wsdl" />
+    <None Include="Service References\EnviaSms\WsEnviaSms.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\EnviaSms\WsEnviaSms1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\EnviaSms\WsEnviaSms2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\EnviaSms\WsEnviaSms3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\EnviaSms\WsEnviaSms4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\EnvioEmail\WsEnviaEmail.disco" />
+    <None Include="Service References\EnvioEmail\configuration91.svcinfo" />
+    <None Include="Service References\EnvioEmail\configuration.svcinfo" />
+    <None Include="Service References\EnvioEmail\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\EnviaSms\WsEnviaSms.disco" />
+    <None Include="Service References\EnviaSms\configuration91.svcinfo" />
+    <None Include="Service References\EnviaSms\configuration.svcinfo" />
+    <None Include="Service References\EnviaSms\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -1788,9 +1902,6 @@
     <Content Include="Views\Shared\_Periodo.cshtml" />
     <Content Include="Views\TransferenciaBilhetes\GridOutrosRegistrosFuncionario.cshtml" />
     <Content Include="Views\TransferenciaBilhetes\Grid.cshtml" />
-    <Content Include="Views\ServicoPontoCom\Grid.cshtml" />
-    <Content Include="Views\ServicoPontoCom\Cadastrar.cshtml" />
-    <Content Include="Views\ServicoPontoCom\EventoConsulta.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1802,6 +1913,9 @@
     <None Include="Web.DebugSuporte.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <None Include="Web.DebugTeste.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Web.Desenvolvimento.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1811,6 +1925,9 @@
     <Content Include="Views\ManutencaoBiometrica\Index.cshtml" />
     <Content Include="Views\Funcionario\FuncionarioRFID.cshtml" />
     <None Include="Web.Suporte.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Teste.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
@@ -1861,6 +1978,13 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\EnviaSms\" />
+    <WCFMetadataStorage Include="Service References\EnvioEmail\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -2003,6 +2127,43 @@
     <DefineConstants>TRACE;DEBUG;LOCAL</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugTeste|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugTeste|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Teste|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Teste|x86'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>

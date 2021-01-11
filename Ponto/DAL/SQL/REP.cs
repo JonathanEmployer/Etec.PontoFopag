@@ -63,6 +63,7 @@ namespace DAL.SQL
                                     , rep.CpfRep
                                     , rep.LoginRep
                                     , rep.SenhaRep
+                                    , rep.Portaria373
                              FROM rep
                              LEFT JOIN empresa ON empresa.id = rep.idempresa 
                              LEFT JOIN equipamentohomologado ON equipamentohomologado.id = rep.idequipamentohomologado
@@ -115,9 +116,9 @@ namespace DAL.SQL
             SELECTPID += PermissaoUsuarioEmpresa(UsuarioLogado, SELECTPID, "rep.idempresa", null);
 
             INSERT = @"  INSERT INTO rep
-							(codigo, numserie, local, incdata, inchora, incusuario, numrelogio, relogio, senha, tipocomunicacao, porta, ip, qtdDigitos, biometrico, idempresa, idequipamentohomologado, UltimoNSR, ImportacaoAtivada, TempoRequisicao, DataInicioImportacao, IdTimeZoneInfo, CodigoLocal, TipoIP, UltimaIntegracao, IdEquipamentoTipoBiometria, CpfRep, LoginRep, SenhaRep, CampoCracha)
+							(codigo, numserie, local, incdata, inchora, incusuario, numrelogio, relogio, senha, tipocomunicacao, porta, ip, qtdDigitos, biometrico, idempresa, idequipamentohomologado, UltimoNSR, ImportacaoAtivada, TempoRequisicao, DataInicioImportacao, IdTimeZoneInfo, CodigoLocal, TipoIP, UltimaIntegracao, IdEquipamentoTipoBiometria, CpfRep, LoginRep, SenhaRep, CampoCracha, Portaria373)
 							VALUES
-							(@codigo, @numserie, @local, @incdata, @inchora, @incusuario, @numrelogio, @relogio, @senha, @tipocomunicacao, @porta, @ip, @qtdDigitos, @biometrico, @idempresa, @idequipamentohomologado, @UltimoNSR, @ImportacaoAtivada, @TempoRequisicao, @DataInicioImportacao, @IdTimeZoneInfo, @CodigoLocal, @TipoIP, @UltimaIntegracao, @IdEquipamentoTipoBiometria, @CpfRep, @LoginRep, @SenhaRep, @CampoCracha)
+							(@codigo, @numserie, @local, @incdata, @inchora, @incusuario, @numrelogio, @relogio, @senha, @tipocomunicacao, @porta, @ip, @qtdDigitos, @biometrico, @idempresa, @idequipamentohomologado, @UltimoNSR, @ImportacaoAtivada, @TempoRequisicao, @DataInicioImportacao, @IdTimeZoneInfo, @CodigoLocal, @TipoIP, @UltimaIntegracao, @IdEquipamentoTipoBiometria, @CpfRep, @LoginRep, @SenhaRep, @CampoCracha, @Portaria373)
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE rep SET
@@ -150,6 +151,7 @@ namespace DAL.SQL
                             , LoginRep = @LoginRep
                             , SenhaRep = @SenhaRep
                             , CampoCracha = @CampoCracha
+                            , Portaria373 = @Portaria373
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM rep WHERE id = @id";
@@ -236,6 +238,7 @@ namespace DAL.SQL
             ((Modelo.REP)obj).LoginRep = Convert.ToString(dr["LoginRep"]);
             ((Modelo.REP)obj).SenhaRep = Convert.ToString(dr["SenhaRep"]);
             ((Modelo.REP)obj).CampoCracha = Convert.ToInt16(dr["CampoCracha"]);
+            ((Modelo.REP)obj).Portaria373 = Convert.ToBoolean(dr["Portaria373"]);
         }
 
         protected override SqlParameter[] GetParameters()
@@ -274,7 +277,8 @@ namespace DAL.SQL
                 new SqlParameter ("@CpfRep", SqlDbType.VarChar),
                 new SqlParameter ("@LoginRep", SqlDbType.VarChar),
                 new SqlParameter ("@SenhaRep", SqlDbType.VarChar),
-                new SqlParameter ("@CampoCracha", SqlDbType.SmallInt)
+                new SqlParameter ("@CampoCracha", SqlDbType.SmallInt),
+                new SqlParameter ("@Portaria373", SqlDbType.Bit)
 			};
             return parms;
         }
@@ -322,6 +326,7 @@ namespace DAL.SQL
             parms[30].Value = ((Modelo.REP)obj).LoginRep;
             parms[31].Value = ((Modelo.REP)obj).SenhaRep;
             parms[32].Value = ((Modelo.REP)obj).CampoCracha;
+            parms[33].Value = ((Modelo.REP)obj).Portaria373;
         }
 
         protected override void ExcluirAux(SqlTransaction trans, Modelo.ModeloBase obj)
@@ -469,8 +474,7 @@ namespace DAL.SQL
                              LEFT JOIN equipamentohomologado ON equipamentohomologado.id = rep.idequipamentohomologado
                              LEFT JOIN equipamentotipobiometria ON equipamentotipobiometria.id = rep.IdEquipamentoTipoBiometria
                              LEFT JOIN tipobiometria ON tipobiometria.id = equipamentotipobiometria.Idtipobiometria                
-                           WHERE 1 = 1 "
-                           + GetWhereSelectAll();
+                           WHERE 1 = 1 ";
             aux += PermissaoUsuarioEmpresa(UsuarioLogado, aux, "rep.idempresa", null);
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
             if (dr.HasRows)
@@ -781,9 +785,8 @@ namespace DAL.SQL
         public List<Modelo.Proxy.PxyGridRepsPortaria373> GetGridRepsPortaria373()
         {
             SqlParameter[] parms = new SqlParameter[] {};
-
-            string query = @"SELECT e.id IdEmpresa,
-	                                   b.relogio NumRelogio, 
+            string sqlRegistradores = @" SELECT e.id IdEmpresa,
+                                                b.relogio NumRelogio, 
 	                                   CASE WHEN b.relogio = 'RE' THEN
 			                                  'Registrador Pontofopag'
 		                                    WHEN b.relogio = 'RW' THEN
@@ -793,34 +796,44 @@ namespace DAL.SQL
 			                                ELSE 'Indefinido' END App,
 		                                e.codigo EmpresaCodigo,
 		                                e.Cnpj EmpresaCnpj, 
-		                                e.Nome EmpresaNome
+		                                e.Nome EmpresaNome,
+										f.id idFuncionario
                                   FROM bilhetesimp b
                                  INNER JOIN funcionario f on b.IdFuncionario = f.id
                                  INNER JOIN empresa e on f.idempresa = e.id
-                                 WHERE b.relogio in ('RE', 'RW', 'AP') 
-                                 GROUP BY b.relogio, e.id, e.codigo, e.cnpj, e.nome
+                                 WHERE b.relogio in ('RE', 'RW', 'AP') ";
+            sqlRegistradores += PermissaoUsuarioFuncionario(UsuarioLogado, sqlRegistradores, "e.id", "f.id", null);
 
-                                 UNION ALL
-
-                                SELECT e.id IdEmpresa,
-	                                   r.numrelogio, 
+            string sqlAppMeHolerite = @" SELECT e.id IdEmpresa,
+                                       r.numrelogio, 
 	                                   'Aplicativo Meu Holerite' app,
 	                                   e.codigo EmpresaCodigo,
-	                                   e.cnpj EmpresaCnpj, 
-	                                   e.nome EmpresaNome
+                                       e.cnpj EmpresaCnpj,
+                                       e.nome EmpresaNome,
+                                       bi.IdFuncionario
                                   FROM rep r
-                                 INNER JOIN empresa e ON r.numserie like '%'+replace(replace(replace(e.cnpj,'.',''),'/',''),'-','')+'%'
+                                 INNER JOIN empresa e ON r.numserie like '%' + replace(replace(replace(e.cnpj, '.', ''), '/', ''), '-', '') + '%' 
+                                  LEFT JOIN bilhetesimp bi ON bi.relogio = r.relogio";
 
-                                 ORDER BY NumRelogio ";
+            sqlAppMeHolerite += PermissaoUsuarioFuncionario(UsuarioLogado, sqlAppMeHolerite, "e.id", "bi.IdFuncionario", null);
 
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, query, parms);
+            string consulta = @" SELECT t.IdEmpresa, t.NumRelogio, t.App, t.EmpresaCodigo, t.EmpresaCnpj, t.EmpresaNome
+                                   FROM (" +
+                                   sqlRegistradores +
+                                " UNION ALL " +
+                                   sqlAppMeHolerite +
+                              @" ) t
+                            GROUP BY t.IdEmpresa, t.NumRelogio, t.App, t.EmpresaCodigo, t.EmpresaCnpj, t.EmpresaNome
+                            ORDER BY t.NumRelogio ";
 
-            List<Modelo.Proxy.PxyGridRepsPortaria373> lista = new List<Modelo.Proxy.PxyGridRepsPortaria373>();
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, consulta, parms);
+
+            List<PxyGridRepsPortaria373> lista = new List<PxyGridRepsPortaria373>();
 
             try
             {
-                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Proxy.PxyGridRepsPortaria373>();
-                lista = AutoMapper.Mapper.Map<List<Modelo.Proxy.PxyGridRepsPortaria373>>(dr);
+                Mapper.CreateMap<IDataReader, PxyGridRepsPortaria373>();
+                lista = Mapper.Map<List<PxyGridRepsPortaria373>>(dr);
             }
             catch (Exception ex)
             {

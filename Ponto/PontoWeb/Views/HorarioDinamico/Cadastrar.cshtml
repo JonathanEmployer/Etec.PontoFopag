@@ -5,6 +5,7 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id, new { id = "idHorario", @class = "horario" })
     @Html.HiddenFor(model => model.Incdata, new { @class = "horario" })
     @Html.HiddenFor(model => model.Inchora, new { @class = "horario" })
@@ -628,91 +629,91 @@
                         </div>
 
                         @*TAB Restrições*@
-                    <div class="tab-pane fade" id="pnlRestricoes">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-md-1">
-                                        @Html.Label("Tipo", new { @class = "control-label label-sm" })
-                                    </div>
-                                    <div class="col-md-11">
-                                        <div class="row">
-                                            <div class="form-group input-group-sm">
-                                                <div class="col-md-3">
-                                                    <div class="radio-inline" data-toggle="radio">
-                                                        @Html.RadioButton("TipoRestricao", 0, new { id = "idTipoRestricaoEmpresa", @class = "radioRestricao", @checked = true })
-                                                        @Html.Label("lbRestricaoEmpresa", "Empresa", new { @class = "control-label label-sm", @for = "idTipoRestricaoEmpresa" })
+                        <div class="tab-pane fade" id="pnlRestricoes">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            @Html.Label("Tipo", new { @class = "control-label label-sm" })
+                                        </div>
+                                        <div class="col-md-11">
+                                            <div class="row">
+                                                <div class="form-group input-group-sm">
+                                                    <div class="col-md-3">
+                                                        <div class="radio-inline" data-toggle="radio">
+                                                            @Html.RadioButton("TipoRestricao", 0, new { id = "idTipoRestricaoEmpresa", @class = "radioRestricao", @checked = true })
+                                                            @Html.Label("lbRestricaoEmpresa", "Empresa", new { @class = "control-label label-sm", @for = "idTipoRestricaoEmpresa" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="radio-inline" data-toggle="radio">
-                                                        @Html.RadioButton("TipoRestricao", 1, new { id = "idTipoRestricaoContrato", @class = "radioRestricao" })
-                                                        @Html.Label("lbRestricaoContrato", "Contrato", new { @class = "control-label label-sm", @for = "idTipoRestricaoContrato" })
+                                                    <div class="col-md-3">
+                                                        <div class="radio-inline" data-toggle="radio">
+                                                            @Html.RadioButton("TipoRestricao", 1, new { id = "idTipoRestricaoContrato", @class = "radioRestricao" })
+                                                            @Html.Label("lbRestricaoContrato", "Contrato", new { @class = "control-label label-sm", @for = "idTipoRestricaoContrato" })
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-md-10">
+                                        <div id="divEmpresa">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.Label("Empresa", new { @class = "control-label label-sm" })
+                                                    <div class="input-group input-group-sm">
+                                                        @Html.TextBox("Empresa", "", new { @class = "form-control  input-sm", id = "lkpEmpresa" })
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-primary" id="btnEmpresa" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="divContrato" hidden>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.Label("Contrato", new { @class = "control-label label-sm" })
+                                                    <div class="input-group input-group-sm">
+                                                        @Html.TextBox("Contrato", "", new { @class = "form-control  input-sm", id = "lkpContrato" })
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-primary" id="btnContrato" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <br />
+                                        <button type="button" id="btnInserirNovaRestricao" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-plus"></span></button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel-body">
-                                <div class="col-md-10">
-                                    <div id="divEmpresa">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                @Html.Label("Empresa", new { @class = "control-label label-sm" })
-                                                <div class="input-group input-group-sm">
-                                                    @Html.TextBox("Empresa", "", new { @class = "form-control  input-sm", id = "lkpEmpresa" })
-                                                    <span class="input-group-btn">
-                                                        <button class="btn btn-primary" id="btnEmpresa" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="divContrato" hidden>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                @Html.Label("Contrato", new { @class = "control-label label-sm" })
-                                                <div class="input-group input-group-sm">
-                                                    @Html.TextBox("Contrato", "", new { @class = "form-control  input-sm", id = "lkpContrato" })
-                                                    <span class="input-group-btn">
-                                                        <button class="btn btn-primary" id="btnContrato" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="padding-top:2px; padding-bottom:0">
+                                    @Html.Label("", "Restrições", new { @class = "control-label label-sm" })
                                 </div>
-                                <div class="col-md-2">
-                                    <br />
-                                    <button type="button" id="btnInserirNovaRestricao" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-plus"></span></button>
+                                <div class="panel-body" style="padding-top:5px; padding-bottom:5px">
+                                    <table id="tbRestricao" class="table table-bordered table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th>Tipo</th>
+                                                <th>Descrição</th>
+                                                <th>Opções</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="divRestricoes">
+                                            @for (int i = 0; i < Model.HorarioDinamicoRestricao.Count; i++)
+                                            {
+                                                @Html.EditorFor(m => Model.HorarioDinamicoRestricao[i], "Restricoes")
+                                            }
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading" style="padding-top:2px; padding-bottom:0">
-                                @Html.Label("", "Restrições", new { @class = "control-label label-sm" })
-                            </div>
-                            <div class="panel-body" style="padding-top:5px; padding-bottom:5px">
-                                <table id="tbRestricao" class="table table-bordered table-condensed">
-                                    <thead>
-                                        <tr>
-                                            <th>Tipo</th>
-                                            <th>Descrição</th>
-                                            <th>Opções</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="divRestricoes">
-                                        @for (int i = 0; i < Model.HorarioDinamicoRestricao.Count; i++)
-                                        {
-                                            @Html.EditorFor(m => Model.HorarioDinamicoRestricao[i], "Restricoes")
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
                     </div>
                 </div>
             </div>
@@ -770,7 +771,7 @@
 
 	if (window.NodeList && !NodeList.prototype.forEach) {
 		NodeList.prototype.forEach = Array.prototype.forEach;
-    }  
+    }
     // Fim tratar incompatibilidade do navegador Edge com a função forEach
 
     (function ($) {
@@ -945,7 +946,7 @@
                 $.ajax({
                     url: '/Horario/ValidaJornada',
                     type: 'POST',
-                    data: { jornada: $('#lkpJornadaManut').val() },
+                    data: { jornada: $('#lkpJornadaManut').val(), __RequestVerificationToken: gettoken() },
                     success: function (result) {
                         if (result.erro) {
                             addErroInput("lkpJornadaManut", result.msgErro + "  ");
@@ -1109,7 +1110,7 @@
         $.ajax({
             url: '/Horario/DadosParametros',
             type: 'POST',
-            data: { parametro: $('#lkpDescParametro').val() },
+            data: { parametro: $('#lkpDescParametro').val(), __RequestVerificationToken: gettoken() },
             success: function (result) {
                 $("#InicioAdNoturno").val(result.inicioAdNoturno);
                 $("#FimAdNoturno").val(result.fimAdNoturno);
@@ -1159,17 +1160,19 @@
             $("#ConsideraadhtrabalhadasBool").prop("checked", false);
         }
     }
-    
+
     function ValidaJornadaObrigatoria() {
         if (!($("#lkpJornadaManut").val() != null && $("#lkpJornadaManut").val() != "" && $("#lkpJornadaManut").val() != undefined) && ($("#CkbFolgManut").is(':unchecked'))) {
             addErroInput("lkpJornadaManut", "Campo Jornada Obrigatório!!!");
         }
     }
-   
+
     //Adiciona erro em um input
     //Passar a propriedade name do input e o erro que deseja add.
     function addErroInput(key, erro) {
-        $('form').find(".field-validation-error").removeClass("field-validation-error").addClass("field-validation-valid");
+
+        //remove os campos com erro
+        //$('form').find(".field-validation-error").removeClass("field-validation-error").addClass("field-validation-valid");
 
         $val = $('form').find(".field-validation-valid, .field-validation-error")
             .filter("[data-valmsg-for='" + key + "']")
@@ -1440,6 +1443,7 @@
     //Submit
     $('form').on('submit', function (event)
     {
+        debugger
         event.preventDefault();
         var form = $("form");
         form.validate();
@@ -1448,7 +1452,7 @@
             $.ajax({
                 type: 'POST',
                 url: "/HorarioDinamico/Cadastrar",
-                data: { horario: formDados },
+                data: { horario: formDados, __RequestVerificationToken: gettoken() },
                 dataType: 'json',
                 beforeSend: function () {
                     $.blockUI({ message: '<h2>Salvando <img src="../../Content/img/circulosLoading.GIF"></h2>' });
@@ -2190,6 +2194,15 @@
                 if ($(element).attr("type") == "checkbox") {
                     value = element.is(':checked');
                 }
+                else if (element.hasClass('currency') || element.hasClass('money') || element.hasClass('decimalPercent')) {
+                     var valorElemento = element.val();
+                     if (isEmpty(valorElemento)) {
+                         value = 0;
+                     }
+                     else {
+                     value = valorElemento.replace(',', '.');
+                     }
+                }
                 else {
                     value = element.val();
                 }
@@ -2466,11 +2479,11 @@
             $("#loading").modal();
             var idHor = $("#idHorario").val();
 
-            var obj = { index: itemIndex, tipoRestricao: tipoRest, restricao: restr, idHorario: idHor };
+            var obj = { index: itemIndex, tipoRestricao: tipoRest, restricao: restr, idHorario: idHor, __RequestVerificationToken: gettoken() };
             var url = '@Url.Action("AdicionaNovaRestricao", "HorarioDinamico")' + "?" + $.param(obj, true);
             url = decodeURIComponent(url);
 
-            $.post(url, function (data) {
+            $.get(url, function (data) {
                 if (data.Success == true) {
                     $("#divRestricoes").prepend(data.HTML);
                     $("#lkpEmpresa").val("");

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/PonteAzul.Services.DAL.Enum" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/PonteAzul.Services.DAL.Enum" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://wsprdservicoemail.ponteazul.com.br/WsEnviaSms.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:simpleType name="EnumRemetenteSms">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="BNE">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="EnumRemetenteSms" nillable="true" type="tns:EnumRemetenteSms" />
+</xs:schema>

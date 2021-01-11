@@ -10,12 +10,12 @@ namespace Modelo.Proxy
     public class pxyExportacaoFolha
     {
         [Display(Name = "Data Inicial")]
-        [MinDate("01/01/1760")]
+        [MinDate("31/12/1999")]
         [Required(ErrorMessage = "Campo Obrigatório")]
         public DateTime? DataI { get; set; }
 
         [Display(Name = "Data Final")]
-        [MinDate("01/01/1760")]
+        [MinDate("31/12/1999")]
         [Required(ErrorMessage = "Campo Obrigatório")]
         [DateGreaterThan("DataI", "Data Inicial")]
         public DateTime? DataF { get; set; }

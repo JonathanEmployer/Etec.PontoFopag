@@ -33,7 +33,9 @@ namespace DAL.SQL
             {
                 return @"   SELECT ja.* 
                             , ja.identificacao AS nome
+                            , empresa.id as idempresa
                             , (SELECT convert(varchar,j.codigo)+' | '+j.descricao) AS descjornada  
+                            , funcionario.id idfuncionario
                             FROM jornadaalternativa ja
                             LEFT JOIN funcionario ON funcionario.id = (case when tipo = 2 then ja.identificacao else 0 end)
                             LEFT JOIN departamento ON departamento.id = (case when ja.tipo = 2 then funcionario.iddepartamento when tipo = 1 then ja.identificacao else 0 end)
@@ -42,8 +44,7 @@ namespace DAL.SQL
                             WHERE @data >= datainicial 
                             AND @data <= datafinal
                             AND tipo = @tipo
-                            AND identificacao = @identificacao "
-                            + GetWhereSelectAll();
+                            AND identificacao = @identificacao ";
             }
         }
 
@@ -68,8 +69,7 @@ namespace DAL.SQL
                              LEFT JOIN funcionario ON funcionario.id = (case when ja.tipo = 2 then ja.identificacao else 0 end)
                              LEFT JOIN departamento ON departamento.id = (case when ja.tipo = 2 then funcionario.iddepartamento when ja.tipo = 1 then ja.identificacao else 0 end)
                              LEFT JOIN empresa ON empresa.id = (case when ja.tipo = 2 then funcionario.idempresa when ja.tipo = 1 then departamento.idempresa when ja.tipo = 0 then ja.identificacao else 0 end)
-                             WHERE 1 = 1 "
-                             + GetWhereSelectAll();
+                             WHERE 1 = 1 ";
             }
             set
             {
@@ -103,6 +103,7 @@ namespace DAL.SQL
         {
             db = database;
             dalDiasJornadaAlternativa = new DAL.SQL.DiasJornadaAlternativa(db);
+            
             TABELA = "jornadaalternativa";
 
             SELECTPID = SELECTALLLIST + " AND ja.id = @id";
@@ -160,7 +161,6 @@ namespace DAL.SQL
             DELETE = @"  DELETE FROM jornadaalternativa WHERE id = @id";
 
             MAXCOD = @"  SELECT MAX(codigo) AS codigo FROM jornadaalternativa";
-
         }
 
         #region Metodos
@@ -171,7 +171,7 @@ namespace DAL.SQL
             { 
             };
 
-            string aux = SELECTALLLIST + GetWhereSelectAll();
+            string aux = SELECTALLLIST;
             aux = PermissaoUsuarioFuncionarioJornada(UsuarioLogado, aux, true);
             List<Modelo.JornadaAlternativa> ret = new List<Modelo.JornadaAlternativa>();
 
@@ -460,6 +460,7 @@ namespace DAL.SQL
 
         private void SalvarDiasJA(SqlTransaction trans, Modelo.JornadaAlternativa obj)
         {
+            dalDiasJornadaAlternativa.UsuarioLogado = UsuarioLogado;
             foreach (Modelo.DiasJornadaAlternativa dja in obj.DiasJA)
             {
                 dja.IdJornadaAlternativa = obj.Id;
@@ -780,7 +781,10 @@ namespace DAL.SQL
             parms[1].Value = tipo;
             parms[2].Value = identificacao;
 
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SELECTPE, parms);
+            string select = SELECTPE;
+            select = PermissaoUsuarioFuncionarioJornada(UsuarioLogado, select, true);
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, select, parms);
 
             Modelo.JornadaAlternativa objJornadaAlternativa = new Modelo.JornadaAlternativa();
             try
@@ -812,30 +816,33 @@ namespace DAL.SQL
             {
                 parms[0].Value = pDataI;
                 parms[1].Value = pDataF;
-
-                SQL += " AND (((@datainicial >= ja.datainicial AND @datainicial <= ja.datafinal)"
-                       + " OR (@datafinal >= ja.datainicial AND @datafinal <= ja.datafinal)"
-                       + " OR (@datainicial <= ja.datainicial AND @datafinal >= ja.datafinal))"
-                       + " OR ((SELECT COUNT(id) FROM diasjornadaalternativa"
-                       + " WHERE diasjornadaalternativa.datacompensada >= @datainicial"
-                       + " AND diasjornadaalternativa.datacompensada <= @datafinal"
-                       + " AND diasjornadaalternativa.idjornadaalternativa = ja.id"
-                       + " ) > 0))";
             }
 
             if (pTipo != null && new int[] { 0, 1, 2, 3 }.Contains(pTipo.GetValueOrDefault()))
             {
                 parms[2].Value = pTipo;
                 parms[3].Value = String.Join(",", pIdentificacoes);
-                SQL += @"and j.id in (
-				SELECT j.id FROM FUNCIONARIO F
-					left join jornadaalternativa jj on ((jj.tipo = 0 and jj.identificacao = f.idempresa) OR
-												(jj.tipo = 1 and jj.identificacao = f.iddepartamento) OR
-												(jj.tipo = 2 and jj.identificacao = f.id) OR 
-												(jj.tipo = 3 and jj.identificacao = f.idfuncao))
-				where 
-					f.id in (SELECT * FROM dbo.F_ClausulaIn(@identificacao)))";
             }
+
+            SQL += @" AND ja.id in (SELECT jj.id 
+                              FROM FUNCIONARIO F
+					         INNER JOIN jornadaalternativa jj on ((jj.tipo = 0 and jj.identificacao = f.idempresa) OR
+												                  (jj.tipo = 1 and jj.identificacao = f.iddepartamento) OR
+												                  (jj.tipo = 2 and jj.identificacao = f.id) OR 
+												                  (jj.tipo = 3 and jj.identificacao = f.idfuncao))
+				             WHERE ((@tipo IS NULL) OR
+                                    (@tipo = 0 AND f.idempresa in (SELECT * FROM dbo.F_ClausulaIn(@identificacao))) OR
+                                    (@tipo = 1 AND f.iddepartamento in (SELECT * FROM dbo.F_ClausulaIn(@identificacao))) OR
+                                    (@tipo = 2 AND f.id in (SELECT * FROM dbo.F_ClausulaIn(@identificacao))) OR
+                                    (@tipo = 3 AND f.idfuncao in (SELECT * FROM dbo.F_ClausulaIn(@identificacao)))
+                                   )
+                               AND (@datainicial IS NULL OR
+                                    (jj.datainicial BETWEEN @datainicial AND @datafinal OR
+                                     jj.datafinal BETWEEN @datainicial AND @datafinal OR
+                                     @datainicial BETWEEN jj.datainicial AND jj.datafinal OR
+                                     @datafinal BETWEEN jj.datainicial AND jj.datafinal) OR 
+                                    EXISTS (SELECT top 1 1 FROM diasjornadaalternativa WHERE diasjornadaalternativa.datacompensada >= @datainicial AND diasjornadaalternativa.datacompensada <= @datafinal AND diasjornadaalternativa.idjornadaalternativa = jj.id )
+                                   ))";
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, SQL, parms);
 

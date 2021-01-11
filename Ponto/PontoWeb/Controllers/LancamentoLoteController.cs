@@ -166,6 +166,19 @@ namespace PontoWeb.Controllers
                 if (!String.IsNullOrEmpty(obj.idSelecionados))
                 {
                     idsFuncionariosSelecionados = obj.idSelecionados.Split(',').ToList().Select(s => int.Parse(s)).ToList();
+
+                    if (obj.DesconsideraAfastados)
+                    {
+                        //---VALIDAR SE FUNCIONARIO ESTA AFASTADO---
+                        BLL.Afastamento bllAfastamento = new BLL.Afastamento(_usr.ConnectionString, _usr);
+                        List<Modelo.Afastamento> teste = bllAfastamento.GetAfastamentoFuncionarioPeriodo(idsFuncionariosSelecionados, obj.DataLancamento, obj.DataLancamento);
+                        foreach (var item in teste)
+                        {
+                            idsFuncionariosSelecionados.Remove(item.IdFuncionario);
+                        }
+               
+                    }
+
                 }
                 else
                 {

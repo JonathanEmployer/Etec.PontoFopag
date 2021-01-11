@@ -1,11 +1,14 @@
 ﻿using Modelo;
 using PontoWeb.Controllers.BLLWeb;
 using PontoWeb.Security;
+using PontoWeb.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Web.Management;
 using System.Web.Mvc;
 
 namespace PontoWeb.Controllers
@@ -181,6 +184,7 @@ namespace PontoWeb.Controllers
 
                 return PartialFuncionarioRFID(bllFuncionario, idfuncionario, usr);
 
+
             }
             catch (Exception ex)
             {
@@ -200,7 +204,7 @@ namespace PontoWeb.Controllers
             string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
             BLL.FuncionarioRFID bllFuncionarioRFID = new BLL.FuncionarioRFID(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(conn, usr);
-
+           
             try
             {
                 Funcionario funcionario = bllFuncionario.LoadObject(idfuncionario);
@@ -216,7 +220,7 @@ namespace PontoWeb.Controllers
                         Codigo = bllFuncionarioRFID.MaxCodigo(),
                         RFID = TipoCracha == 0 ? Convert.ToInt64(Cracha) : (long?)null,
                         MIFARE = TipoCracha == 1 ? Cracha : string.Empty
-
+                  
                     });
 
                     if (erros.Count > 0)
@@ -245,12 +249,15 @@ namespace PontoWeb.Controllers
 
             Funcionario funcionario = new Funcionario();
             funcionario = bllFuncionario.LoadObject(idfuncionario);
-            funcionario.FuncionarioRFID = bllFuncionarioRFID.GetAllListByFuncionario(idfuncionario).Where(x => x.Ativo).ToList();
+            funcionario.FuncionarioRFID = bllFuncionarioRFID.GetAllListByFuncionario(idfuncionario, true).ToList();
             funcionario.Senha = bllFuncionario.GetSenha(funcionario);
 
             return PartialView("FuncionarioRFID", funcionario);
 
         }
+
+        //UtilizaAppPontofopag = false
+        //utilizaregistrador = true
 
         protected override ActionResult Salvar(Funcionario funcionario)
         {
@@ -260,7 +267,7 @@ namespace PontoWeb.Controllers
 
 
             Modelo.Funcionario funcionarioAntigo = bllFuncionario.LoadObject(funcionario.Id);
-            
+
             ValidarForm(funcionario);
 
             Acao acao = EscolhaDaAcao(funcionario);
@@ -270,8 +277,25 @@ namespace PontoWeb.Controllers
                 try
                 {
                     funcionario.RFID = null;
-                    funcionario.Senha = null;
+                    //funcionario.Senha = null;
                     funcionario.TipoCracha = null;
+
+                    string conteudoEmail = "";
+                    string conteudoSMS = "";
+
+                    if (funcionario.OpcaoSMSEmailSenha == "Email")
+                    {
+                        conteudoEmail = GeraConteudoEmail(funcionario.UtilizaAppPontofopag, funcionario.UtilizaWebAppPontofopag, funcionario.Mob_Senha);
+                    }
+                    else if (funcionario.OpcaoSMSEmailSenha == "SMS")
+                    {
+                        conteudoSMS = GeraConteudoSMS(funcionario.UtilizaAppPontofopag, funcionario.UtilizaWebAppPontofopag, funcionario.Mob_Senha);
+                    }
+                    else if (funcionario.OpcaoSMSEmailSenha == "Ambos")
+                    {
+                        conteudoEmail = GeraConteudoEmail(funcionario.UtilizaAppPontofopag, funcionario.UtilizaWebAppPontofopag, funcionario.Mob_Senha);
+                        conteudoSMS = GeraConteudoSMS(funcionario.UtilizaAppPontofopag, funcionario.UtilizaWebAppPontofopag, funcionario.Mob_Senha);
+                    }
 
                     Funcionario DadosAntFunc = bllFuncionario.LoadObject(funcionario.Id);
                     tratamentoSenhas(funcionario, DadosAntFunc);
@@ -292,8 +316,31 @@ namespace PontoWeb.Controllers
                     {
                         try
                         {
+                            EnvioEmail.EnviaEmailClient enviaEmail = new EnvioEmail.EnviaEmailClient();
+                            EnviaSms.WsEnviaSmsClient objEnvioSMS = new EnviaSms.WsEnviaSmsClient();
+                            if (funcionario.OpcaoSMSEmailSenha == "Email")
+                            {
+                                enviaEmail.EnviaEmail("no-reply@employer.com.br", funcionario.Email, "Pontofopag", conteudoEmail,
+                                    "", null, "", "", "", "", "", null);
+                            }
+                            else if (funcionario.OpcaoSMSEmailSenha == "SMS")
+                            {
+                                Int64 numCelular = Convert.ToInt64("55" + funcionario.Celular);
+
+                                objEnvioSMS.EnviaSmsPadrao(funcionario.Celular, numCelular, conteudoSMS, null, 2);
+                            }
+                            else if (funcionario.OpcaoSMSEmailSenha == "Ambos")
+                            {
+                                Int64 numCelular = Convert.ToInt64("55" + funcionario.Celular);
+
+                                enviaEmail.EnviaEmail("no-reply@employer.com.br", funcionario.Email, "Pontofopag", conteudoEmail,
+                                    "", null, "", "", "", "", "", null);
+
+                                objEnvioSMS.EnviaSmsPadrao(funcionario.Celular, numCelular, conteudoSMS, null, 2);
+                            }
+
                             bllFuncionario.SetContratoFuncionario(funcionario.Id, funcionario.Contrato);
-                            BLL_N.JobManager.CalculoMarcacoes.RecalculaEdicaoFuncionario(funcionario, usuarioLogado, true);                            
+                            BLL_N.JobManager.CalculoMarcacoes.RecalculaEdicaoFuncionario(funcionario, usuarioLogado, true);
                             //Se o Funcionário utiliza registrador insere funcionario no Central do cliente
                             if (funcionario.utilizaregistrador || funcionario.UtilizaAppPontofopag || funcionario.UtilizaWebAppPontofopag)
                             {
@@ -301,7 +348,7 @@ namespace PontoWeb.Controllers
                                 {
                                     TrataErroInclusaoCentralCliente();
                                     AdicionaFotoPadrao(funcionario);
-                                    PreencheTipoVinculo(connString, usuarioLogado);                                    
+                                    PreencheTipoVinculo(connString, usuarioLogado);
                                     return View("Cadastrar", funcionario);
                                 }
                             }
@@ -315,6 +362,25 @@ namespace PontoWeb.Controllers
                         catch (Exception)
                         {
                             TrataErroInclusaoCentralCliente();
+                        }
+
+                        using (var RabbitMqController = new RabbitMqController())
+                        {
+                            var dataBase = new Regex(@"(Catalog=[A-Z]*_[A-Z]*)").Match(connString).Value.Replace("Catalog=", "");
+                            BLL.Empresa bllEmpresa = new BLL.Empresa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+                            var empresas = new List<int>();
+                            empresas.Add(funcionario.Idempresa);
+                            Modelo.Empresa empresaPrincipal = bllEmpresa.GetEmpresaByIds(empresas).SingleOrDefault();
+
+                            var messageIntegration = new MessageIntegrationDto
+                            {
+                                Id = funcionario.Id,
+                                DataBaseName = dataBase,
+                                Tracking = Guid.NewGuid().ToString(),
+                                Cnpj = empresaPrincipal.Cnpj
+                            };
+
+                            RabbitMqController.SendEmployeeIntegration(messageIntegration);
                         }
 
                         return RedirectToAction("Grid", "Funcionario");
@@ -341,6 +407,73 @@ namespace PontoWeb.Controllers
             PreencheTipoVinculo(connString, usuarioLogado);
             funcionario.FuncionarioRFID = funcionario.FuncionarioRFID == null ? new List<FuncionarioRFID>() : funcionario.FuncionarioRFID;
             return View("Cadastrar", funcionario);
+        }
+
+        private string GeraConteudoEmail(bool utilizaApp, bool utilizaWEBApp, string senha)
+        {
+            string conteudo = "";
+
+            if (utilizaApp == true && utilizaWEBApp == false)
+            {
+                conteudo = string.Format("<div style='max-width: 580; text-align: center;'>"
+                        + "<img src='https://i.ibb.co/2MH6RBm/thumbnail-image-1.png' ><br>"
+                        + "<p><b>Aplicativo Pontofopag habilitado para uso</b></p> <br><br>"
+                        + "O aplicativo Pontofopag para registro de Ponto está habilitado e disponível para seu uso.<br> Basta baixar o app através da Play Store ou Apple Store e instalar.  <br>"
+                        + "No momento do login, se identifique com seu <b>CPF e utilize a senha:{0}</b> <br>"
+                        + "Qualquer dúvida na utilização, contate seu RH.  <br><br>"
+                        + "Att. <br>"
+                        + "Equipe Pontofopag"
+                        + "<br><img src='https://i.ibb.co/GtLSByz/thumbnail-image-2.png'>"
+                        + "</div>", senha);
+            }
+            else if (utilizaApp == false && utilizaWEBApp == true)
+            {
+                conteudo = string.Format("<div style='max-width: 580; text-align: center;'>"
+                        + "<img src ='https://i.ibb.co/2MH6RBm/thumbnail-image-1.png' ><br>"
+                        + "<p><b>Web APP Pontofopag habilitado para uso</b></p> <br><br>"
+                        + "O aplicativo Pontofopag para registro de Ponto está habilitado e disponível para seu uso.<br> Basta acessar o link <a href='https://webapp.pontofopag.com.br'>webapp.pontofopag.com.br</a>.  <br>"
+                        + "No momento do login, se identifique com seu <b>CPF e utilize a senha:{0}</b> <br>"
+                        + "Qualquer dúvida na utilização, contate seu RH.  <br><br>"
+                        + "Att. <br>"
+                        + "Equipe Pontofopag"
+                        + "<br><img src = 'https://i.ibb.co/GtLSByz/thumbnail-image-2.png'>"
+                        + "</div>", senha);
+            }
+            else if (utilizaApp == true && utilizaWEBApp == true)
+            {
+                conteudo = string.Format("<div style='max-width: 580; text-align: center;'>"
+                        + "<img src='https://i.ibb.co/2MH6RBm/thumbnail-image-1.png' ><br>"
+                        + "<p><b>Web APP Pontofopag e Aplicativo Pontofopag habilitados para uso</b></p> <br><br>"
+                        + "O aplicativo Pontofopag para registro de Ponto está habilitado e disponível para seu uso.<br> Basta acessar o link <a href='https://webapp.pontofopag.com.br'>webapp.pontofopag.com.br</a> <br> e baixar o app através da Play Store ou Apple Store e instalar.  <br>"
+                        + "No momento do login, se identifique com seu <b>CPF e utilize a senha:{0}</b> <br>"
+                        + "Qualquer dúvida na utilização, contate seu RH.  <br><br>"
+                        + "Att. <br>"
+                        + "Equipe Pontofopag"
+                        + "<br><img src='https://i.ibb.co/GtLSByz/thumbnail-image-2.png'>"
+                        + "</div>", senha);
+            }
+
+            return conteudo;
+        }
+
+        private string GeraConteudoSMS(bool utilizaApp, bool utilizaWEBApp, string senha)
+        {
+            string conteudo = "";
+
+            if (utilizaApp == true && utilizaWEBApp == false)
+            {
+                conteudo = string.Format("Para acessar o App do Ponto utilize seu CPF e senha: {0}, disponível na Play Store e Apple Store.", senha);
+            }
+            else if (utilizaApp == false && utilizaWEBApp == true)
+            {
+                conteudo = string.Format("Para acessar o Web App do Ponto utilize seu CPF e senha: {0}, disponível no link www.webapp.pontofopag.com.br.", senha);
+            }
+            else if (utilizaApp == true && utilizaWEBApp == true)
+            {
+                conteudo = string.Format("Para acessar o Web App e App do Ponto do Ponto utilize seu CPF e senha: {0}, disponível no link www.webapp.pontofopag.com.br e na Play Store e Apple Store.", senha);
+            }
+
+            return conteudo;
         }
 
         private void PreencheTipoVinculo(string connString, UsuarioPontoWeb usuarioPontoWebLogado)
@@ -464,7 +597,7 @@ namespace PontoWeb.Controllers
 
             return empresaRetorno;
         }
-    
+
         private Acao EscolhaDaAcao(Funcionario funcionario)
         {
             Acao acao = new Acao();
@@ -496,7 +629,7 @@ namespace PontoWeb.Controllers
             PreencheTipoVinculo(conn, usr);
             funcionario = bllFuncionario.LoadObject(id);
             funcionario.Biometrias = bllBiometria.GetBiometriaTipoBiometria(id);
-            funcionario.FuncionarioRFID = bllFuncionarioRFID.GetAllListByFuncionario(id).Where(x => x.Ativo).ToList();
+            funcionario.FuncionarioRFID = bllFuncionarioRFID.GetAllListByFuncionario(id, true).ToList();
 
             BLL.Parametros bllparm = new BLL.Parametros(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
             Modelo.Parametros parm = new Parametros();
@@ -528,7 +661,8 @@ namespace PontoWeb.Controllers
             if (!String.IsNullOrEmpty(funcionario.Senha))
             {
                 string nsenha = "";
-                funcionario.Senha = nsenha.PadLeft(bllFuncionario.GetSenha(funcionario).Length, '#');
+                funcionario.Senha = bllFuncionario.GetSenha(funcionario);
+                //funcionario.Senha = nsenha.PadLeft(bllFuncionario.GetSenha(funcionario).Length, '#');
             }
 
             if (!String.IsNullOrEmpty(funcionario.Mob_Senha))
@@ -662,14 +796,14 @@ namespace PontoWeb.Controllers
                 }
             }
             ViewBag.Title = "Pesquisar Funcionários";
-            return View("EventoConsulta",lFunc);
+            return View("EventoConsulta", lFunc);
         }
 
         [Authorize]
         public ActionResult GetTabelaMarcacao(String consulta, String filtro, String tipo)
         {
             UsuarioPontoWeb usr = Usuario.GetUsuarioPontoWebLogadoCache();
-            BLL.Funcionario bllFuncionario = new BLL.Funcionario(usr.ConnectionString, usr);            
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(usr.ConnectionString, usr);
             int idIdentificacao = 0;
             if (tipo == "5" && !string.IsNullOrEmpty(filtro))
             {
@@ -691,13 +825,13 @@ namespace PontoWeb.Controllers
             catch (Exception) { codigo = -1; }
             if (codigo != -1)
             {
-                int id = bllFuncionario.GetIdDsCodigo(codigo.ToString());
-                Funcionario func = bllFuncionario.LoadObject(id);             
+                int id = bllFuncionario.GetIdDsCodigo(consulta);
+                Funcionario func = bllFuncionario.LoadObject(id);
                 int ContratoFuncionario = tipo == "5" && !string.IsNullOrEmpty(filtro) ? Convert.ToInt32(func.Contrato.Split(new string[] { " | " }, StringSplitOptions.RemoveEmptyEntries)[0]) : 0;
-                                        
+
                 if (func.Funcionarioativo == 1 && func.Excluido == 0 && func != null && func.Id > 0 && ((tipo == "2" && func.Iddepartamento == idIdentificacao) || (tipo == "1" && func.Idempresa == idIdentificacao) || tipo == "3" || (tipo == "5" && ContratoFuncionario == idIdentificacao)))
                 {
-                     lFunc.Add(func);
+                    lFunc.Add(func);
                 }
             }
 
@@ -749,7 +883,7 @@ namespace PontoWeb.Controllers
                     catch (Exception) { codigo = -1; }
                     if (codigo != -1)
                     {
-                        func = bllFuncionario.RetornaFuncDsCodigo(codigo.ToString());
+                        func = bllFuncionario.RetornaFuncDsCodigo(consulta);
                     }
 
                     List<Funcionario> lFunc = new List<Funcionario>();
@@ -951,6 +1085,11 @@ namespace PontoWeb.Controllers
             }
         }
 
+        public static void SendPassEmail(string server)
+        {
+
+        }
+
         #region Validações
 
         private static void ValidaFotoFuncionario(Funcionario funcionario)
@@ -979,7 +1118,8 @@ namespace PontoWeb.Controllers
 
         private void ValidaSupervisor(Funcionario funcionario)
         {
-            BLL.UsuarioPontoWeb bllUser = new BLL.UsuarioPontoWeb(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt);
+            UsuarioPontoWeb _user = Usuario.GetUsuarioPontoWebLogadoCache();
+            BLL.UsuarioPontoWeb bllUser = new BLL.UsuarioPontoWeb(_user.ConnectionString, _user);
             if (!String.IsNullOrEmpty(funcionario.Supervisor))
             {
                 try
@@ -1087,13 +1227,13 @@ namespace PontoWeb.Controllers
             switch (funcionario.Tipohorario)
             {
                 case 1:
-                    idHorario = HorarioController.BuscaIdHorario(funcionario.Horario);
+                    idHorario = HorarioController.BuscaIdHorario(funcionario.Horario, funcionario.Tipohorario);
                     if (idHorario > 0) funcionario.Idhorario = idHorario;
                     else ModelState["Horario"].Errors.Add("Horário " + funcionario.Horario + " não cadastrado!");
                     ModelState["HorarioDinamico"].Errors.Clear();
                     break;
                 case 2:
-                    idHorario = HorarioMovelController.BuscaIdHorario(funcionario.Horario);
+                    idHorario = HorarioController.BuscaIdHorario(funcionario.Horario, funcionario.Tipohorario);
                     if (idHorario > 0) funcionario.Idhorario = idHorario;
                     else ModelState["Horario"].Errors.Add("Horário " + funcionario.Horario + " não cadastrado!");
                     ModelState["HorarioDinamico"].Errors.Clear();
@@ -1105,7 +1245,7 @@ namespace PontoWeb.Controllers
                     ModelState["Horario"].Errors.Clear();
                     break;
                 default:
-                    idHorario = HorarioController.BuscaIdHorario(funcionario.Horario);
+                    idHorario = HorarioController.BuscaIdHorario(funcionario.Horario, funcionario.Tipohorario);
                     break;
             }
         }
@@ -1129,8 +1269,8 @@ namespace PontoWeb.Controllers
                 int CodContrato = Convert.ToInt32(funcionario.Contrato.Split(new string[] { " | " }, StringSplitOptions.RemoveEmptyEntries)[0]);
                 BLL.Contrato bllContrato = new BLL.Contrato(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
                 bool validacontrato = bllContrato.ValidaContratoCodigo(CodContrato, funcionario.Idempresa);
-                if (validacontrato == false)                
-                { ModelState["Contrato"].Errors.Add("Contrato " + funcionario.Contrato + " não pertence a empresa selecionada!"); }             
+                if (validacontrato == false)
+                { ModelState["Contrato"].Errors.Add("Contrato " + funcionario.Contrato + " não pertence a empresa selecionada!"); }
             }
         }
 

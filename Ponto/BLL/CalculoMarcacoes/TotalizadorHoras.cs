@@ -12,15 +12,15 @@ namespace BLL
 {
     public struct PercentualHoraExtra
     {
-        public int PercentualExtra { get; set; }
+        public decimal PercentualExtra { get; set; }
         public string QuantidadeExtra { get; set; }
         public int QuantidadeExtraMin { get; set; }
         public short TipoAcumulo { get; set; }
-        public int PercentualExtraSegundo { get; set; }
-        public int? PercentualExtraNoturna { get; set; }
+        public decimal PercentualExtraSegundo { get; set; }
+        public decimal? PercentualExtraNoturna { get; set; }
         public string QuantidadeExtraNoturna { get; set; }
         public int QuantidadeExtraNoturnaMin { get; set; }
-        public int? PercentualExtraSegundoNoturna { get; set; }
+        public decimal? PercentualExtraSegundoNoturna { get; set; }
         public bool SeparaExtraNoturnaPercentual { get; set; }
     }
 
@@ -53,7 +53,7 @@ namespace BLL
         private int[,] listTotalHorasGeral = new int[10, 3];
         private int[,] listTotalHoras = new int[10, 3];
 
-        public bool CalcularAtraso { get; set; }        
+        public bool CalcularAtraso { get; set; }
         public DataTable Marcacoes { get; private set; }
 
         public TotalizadorHorasFuncionario(int pIdEmpresa, int pIdDepartamento, int pIdFuncionario, int pIdFuncao
@@ -108,11 +108,11 @@ namespace BLL
                 Marcacoes = bllMarcacao.GetParaTotalizaHoras(pIdFuncionario, pDataI, pDataF, false);
             else
                 Marcacoes = marcacoes;
-            
+
         }
 
         public TotalizadorHorasFuncionario(Modelo.Funcionario objFuncionario, DateTime pDataI, DateTime pDataF, string connString, Modelo.Cw_Usuario usuarioLogado)
-            : this(objFuncionario.Idempresa, objFuncionario.Iddepartamento, objFuncionario.Id, objFuncionario.Idfuncao, pDataI, pDataF,  connString, usuarioLogado)
+            : this(objFuncionario.Idempresa, objFuncionario.Iddepartamento, objFuncionario.Id, objFuncionario.Idfuncao, pDataI, pDataF, connString, usuarioLogado)
         {
         }
 
@@ -182,8 +182,8 @@ namespace BLL
             List<Modelo.FechamentoBH> fechamentoBHList = bllFechamentoBH.GetAllListFuncs(idsFuncs, false);
             List<Modelo.FechamentoBHD> fechamentoBHDList = bllFechamentoBHD.getPorListaFuncionario(idsFuncs);
 
-            BLL.CalculoMarcacoes.TotalizadorBancoHoras totalizadorBancoHoras = 
-            new BLL.CalculoMarcacoes.TotalizadorBancoHoras(idEmpresa, idDepartamento, idFuncionario, idFuncao, dataI, dataF, bancoHorasList, fechamentoBHList, 
+            BLL.CalculoMarcacoes.TotalizadorBancoHoras totalizadorBancoHoras =
+            new BLL.CalculoMarcacoes.TotalizadorBancoHoras(idEmpresa, idDepartamento, idFuncionario, idFuncao, dataI, dataF, bancoHorasList, fechamentoBHList,
                                                            fechamentoBHDList, Marcacoes, true, ConnectionString, UsuarioLogado);
 
             totalizadorBancoHoras.PreenchaBancoHoras(objTotalHoras);
@@ -197,14 +197,14 @@ namespace BLL
 
                 PercentualHoraExtra[] HorariosPHExtra = new PercentualHoraExtra[10];
                 Modelo.HorarioDetalhe objHorarioDetalhe = new Modelo.HorarioDetalhe();
-                List<Dictionary<int, AcumuloPercentual>> acumulosTotais = new List< Dictionary<int, AcumuloPercentual>>();
+                List<(TipoDiaAcumulo, Dictionary<decimal, AcumuloPercentual>)> acumulosTotais = new List<(TipoDiaAcumulo, Dictionary<decimal, AcumuloPercentual>)>();
                 Dictionary<TipoDiaAcumulo, Turno> acumulosParciais = new Dictionary<TipoDiaAcumulo, Turno>();
                 int idHorarioAnterior = 0;
                 Modelo.Horario horario = new Modelo.Horario();
                 objTotalHoras.totalInItinere = new List<pxyInItinerePorPercentual>();
                 int DiaIniPeriodoFechamento;
                 int DiaFimPeriodoFechamento;
-                
+
                 List<Modelo.Empresa> empresas = new List<Modelo.Empresa>();
                 if (objTotalHoras.Empresa == null)
                 {
@@ -237,6 +237,8 @@ namespace BLL
                 {
                     DateTime data = PegaData(marc);
                     bool trocaMes = false;
+
+                    DiaIniPeriodoFechamento = DiaIniPeriodoFechamento == 0 ? 1 : DiaIniPeriodoFechamento;
                     if (DiaIniPeriodoFechamento == data.Day)
                     {
                         trocaMes = true;
@@ -257,7 +259,7 @@ namespace BLL
                         totalTrabDiurna += Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["horastrabalhadas"]);
                         totalTrabNoturna += Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["horastrabalhadasnoturnas"]);
 
-                        if (marc["AdicionalNoturno"] is DBNull|| marc["AdicionalNoturno"].ToString() == "--:--")
+                        if (marc["AdicionalNoturno"] is DBNull || marc["AdicionalNoturno"].ToString() == "--:--")
                         {
                             totalAdNoturno += Modelo.cwkFuncoes.ConvertHorasMinuto("0");
                         }
@@ -269,9 +271,9 @@ namespace BLL
                             {
                                 double percAdDoub;
                                 if (Double.TryParse(marc["PercAdicNoturno"].ToString(), out percAdDoub))
-	                            {
+                                {
                                     percAdicNoturno = percAdDoub;
-	                            }
+                                }
                                 else
                                 {
                                     percAdicNoturno = 0;
@@ -325,7 +327,7 @@ namespace BLL
                         }
                         totalExtraDiurna += horaExtraDiurna;
                         totalExtraNoturna += horaExtraNoturna;
-                        totalInterjornadaExtra += Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["horaExtraInterjornada"]); 
+                        totalInterjornadaExtra += Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["horaExtraInterjornada"]);
                         totalExtraNoturnaBH += Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["exphorasextranoturna"]);
 
                         PercentualHorasExtras.TotalizarPercentuaisDia(marc, HorariosPHExtra, objHorarioDetalhe.Flagfolga, trocaMes, dia, data, dataF, horaExtraNoturna, horaExtraDiurna, acumulosTotais, acumulosParciais);
@@ -342,9 +344,9 @@ namespace BLL
                     initinere.PercentualForaJornada = marc["InItinerePercForaJornada"] is DBNull ? 0 : Convert.ToDecimal(marc["InItinerePercForaJornada"]);
                     objTotalHoras.totalInItinere.Add(initinere);
                 }
-                foreach (Dictionary<int, AcumuloPercentual> acumulo in acumulosTotais)
+                foreach ((TipoDiaAcumulo, Dictionary<decimal, AcumuloPercentual>) acumulo in acumulosTotais)
                 {
-                    PercentualHorasExtras.TotalizarPercentuaisExtra(objTotalHoras, acumulo);   
+                    PercentualHorasExtras.TotalizarPercentuaisExtra(objTotalHoras, acumulo);
                 }
                 AtribuaTotais(objTotalHoras);
             }
@@ -378,7 +380,7 @@ namespace BLL
                     }
 
                     BLL.HoraExtra HE = new BLL.HoraExtra(marcParaCalc);
-                    objTotalHoras.HorasExtrasDoPeriodo = HE.CalcularHoraExtraDiaria(); 
+                    objTotalHoras.HorasExtrasDoPeriodo = HE.CalcularHoraExtraDiaria();
                 }
             }
             catch (Exception e)
@@ -421,7 +423,33 @@ namespace BLL
         public bool CarregaHorarioDetalhe(Modelo.HorarioDetalhe objHorarioDetalhe, DataRow marc)
         {
             bool retorno = true;
-            if (marc["legenda"].ToString() == "J")
+            if (!(marc["idJornadaSubstituir"] is DBNull))
+            {
+                int[] entradas = new int[4] { marc["entrada_1Substituido"].ToString().ConvertHorasMinuto(), marc["entrada_2Substituido"].ToString().ConvertHorasMinuto(), marc["entrada_3Substituido"].ToString().ConvertHorasMinuto(), marc["entrada_4Substituido"].ToString().ConvertHorasMinuto() };
+                int[] saidas = new int[4] { marc["saida_1Substituido"].ToString().ConvertHorasMinuto(), marc["saida_2Substituido"].ToString().ConvertHorasMinuto(), marc["saida_3Substituido"].ToString().ConvertHorasMinuto(), marc["saida_4Substituido"].ToString().ConvertHorasMinuto() };
+                int pHoraNoturnaI = marc["inicioadnoturno"].ToString().ConvertHorasMinuto();
+                int pHoraNoturnaF = marc["fimadnoturno"].ToString().ConvertHorasMinuto();
+                int pHoraD = 0;
+                int pHoraN = 0;
+                int adicionalNoturnoTolerancia = marc["toleranciaAdicionalNoturno"].ToString().ConvertHorasMinuto();
+
+                BLL.CalculoHoras.QtdHorasDiurnaNoturna(entradas, saidas, pHoraNoturnaI, pHoraNoturnaF, adicionalNoturnoTolerancia, ref pHoraD, ref pHoraN);
+                if (marc["marcacargahorariamista"].ToString() == "1")
+                {
+                    objHorarioDetalhe.Cargahorariamista = Modelo.cwkFuncoes.ConvertMinutosHora(pHoraD + pHoraN);
+                    objHorarioDetalhe.Totaltrabalhadadiurna = "--:--";
+                    objHorarioDetalhe.Totaltrabalhadanoturna = "--:--";
+                    objHorarioDetalhe.Flagfolga = marc["flagfolganormal"] is DBNull ? Convert.ToInt16(0) : Convert.ToInt16(marc["flagfolganormal"]);
+                }
+                else
+                {
+                    objHorarioDetalhe.Cargahorariamista = "--:--";
+                    objHorarioDetalhe.Totaltrabalhadadiurna = Modelo.cwkFuncoes.ConvertMinutosHora(pHoraD);
+                    objHorarioDetalhe.Totaltrabalhadanoturna = Modelo.cwkFuncoes.ConvertMinutosHora(pHoraN);
+                    objHorarioDetalhe.Flagfolga = marc["flagfolganormal"] is DBNull ? Convert.ToInt16(0) : Convert.ToInt16(marc["flagfolganormal"]);
+                }
+            }
+            else if (marc["legenda"].ToString() == "J")
             {
                 Modelo.JornadaAlternativa objJornadaAlternativa = bllJornadaAlternativa.PossuiRegistro(Convert.ToDateTime(marc["data"]), Convert.ToInt32(marc["idempresa"]),
                     Convert.ToInt32(marc["iddepartamento"]), Convert.ToInt32(marc["idfuncionario"]), Convert.ToInt32(marc["idfuncao"]));
@@ -524,7 +552,7 @@ namespace BLL
                 totalFaltaDiurna += horasfaltasD;
                 totalFaltaNoturna += horasfaltasN;
             }
-          
+
         }
 
         private void InicializeTotalizadores()
@@ -576,7 +604,7 @@ namespace BLL
                             abonoD = Math.Min(abonoDiurno, objHorarioDetalhe.TotaltrabalhadadiurnaMin);
                             abonoN = Math.Min(abonoNoturno, objHorarioDetalhe.TotaltrabalhadanoturnaMin);
                         }
-                        
+
                         item.TotalHoras += abonoD;
                         item.TotalHoras += abonoN;
                     }
@@ -806,125 +834,125 @@ namespace BLL
                 HorariosPHExtra[i].SeparaExtraNoturnaPercentual = marc["SeparaExtraNoturnaPercentual"] is DBNull ? false : Convert.ToBoolean(marc["SeparaExtraNoturnaPercentual"]);
             }
 
-            HorariosPHExtra[0].PercentualExtra = Convert.ToInt32(marc["percentualextra50"]);
+            HorariosPHExtra[0].PercentualExtra = Convert.ToDecimal(marc["percentualextra50"]);
             HorariosPHExtra[0].QuantidadeExtra = Convert.ToString(marc["quantidadeextra50"]);
             HorariosPHExtra[0].QuantidadeExtraMin = Modelo.cwkFuncoes.ConvertHorasMinuto(HorariosPHExtra[0].QuantidadeExtra);
-            HorariosPHExtra[0].PercentualExtraSegundo = Convert.ToInt32(marc["percextraprimeiro1"]);
+            HorariosPHExtra[0].PercentualExtraSegundo = Convert.ToDecimal(marc["percextraprimeiro1"]);
             HorariosPHExtra[0].TipoAcumulo = Convert.ToInt16(marc["tipoacumulo1"]);
             if (!(marc["percentualExtraNoturna50"] is DBNull))
-                HorariosPHExtra[0].PercentualExtraNoturna = Convert.ToInt32(marc["percentualExtraNoturna50"]);
+                HorariosPHExtra[0].PercentualExtraNoturna = Convert.ToDecimal(marc["percentualExtraNoturna50"]);
             HorariosPHExtra[0].QuantidadeExtraNoturna = Convert.ToString(marc["quantidadeExtraNoturna50"]);
             HorariosPHExtra[0].QuantidadeExtraNoturnaMin = Modelo.cwkFuncoes.ConvertHorasMinuto(HorariosPHExtra[0].QuantidadeExtraNoturna);
             if (!(marc["percextraprimeiroNoturna1"] is DBNull))
-                HorariosPHExtra[0].PercentualExtraSegundoNoturna = Convert.ToInt32(marc["percextraprimeiroNoturna1"]);
+                HorariosPHExtra[0].PercentualExtraSegundoNoturna = Convert.ToDecimal(marc["percextraprimeiroNoturna1"]);
 
-            HorariosPHExtra[1].PercentualExtra = Convert.ToInt32(marc["percentualextra60"]);
+            HorariosPHExtra[1].PercentualExtra = Convert.ToDecimal(marc["percentualextra60"]);
             HorariosPHExtra[1].QuantidadeExtra = Convert.ToString(marc["quantidadeextra60"]);
             HorariosPHExtra[1].QuantidadeExtraMin = Modelo.cwkFuncoes.ConvertHorasMinuto(HorariosPHExtra[1].QuantidadeExtra);
-            HorariosPHExtra[1].PercentualExtraSegundo = Convert.ToInt32(marc["percextraprimeiro2"]);
+            HorariosPHExtra[1].PercentualExtraSegundo = Convert.ToDecimal(marc["percextraprimeiro2"]);
             HorariosPHExtra[1].TipoAcumulo = Convert.ToInt16(marc["tipoacumulo2"]);
             if (!(marc["percentualExtraNoturna60"] is DBNull))
-                HorariosPHExtra[1].PercentualExtraNoturna = Convert.ToInt32(marc["percentualExtraNoturna60"]);
+                HorariosPHExtra[1].PercentualExtraNoturna = Convert.ToDecimal(marc["percentualExtraNoturna60"]);
             HorariosPHExtra[1].QuantidadeExtraNoturna = Convert.ToString(marc["quantidadeExtraNoturna60"]);
             HorariosPHExtra[1].QuantidadeExtraNoturnaMin = Modelo.cwkFuncoes.ConvertHorasMinuto(HorariosPHExtra[1].QuantidadeExtraNoturna);
             if (!(marc["percextraprimeiroNoturna2"] is DBNull))
-                HorariosPHExtra[1].PercentualExtraSegundoNoturna = Convert.ToInt32(marc["percextraprimeiroNoturna2"]);
+                HorariosPHExtra[1].PercentualExtraSegundoNoturna = Convert.ToDecimal(marc["percextraprimeiroNoturna2"]);
 
-            HorariosPHExtra[2].PercentualExtra = Convert.ToInt32(marc["percentualextra70"]);
+            HorariosPHExtra[2].PercentualExtra = Convert.ToDecimal(marc["percentualextra70"]);
             HorariosPHExtra[2].QuantidadeExtra = Convert.ToString(marc["quantidadeextra70"]);
             HorariosPHExtra[2].QuantidadeExtraMin = Modelo.cwkFuncoes.ConvertHorasMinuto(HorariosPHExtra[2].QuantidadeExtra);
-            HorariosPHExtra[2].PercentualExtraSegundo = Convert.ToInt32(marc["percextraprimeiro3"]);
+            HorariosPHExtra[2].PercentualExtraSegundo = Convert.ToDecimal(marc["percextraprimeiro3"]);
             HorariosPHExtra[2].TipoAcumulo = Convert.ToInt16(marc["tipoacumulo3"]);
             if (!(marc["percentualExtraNoturna70"] is DBNull))
-                HorariosPHExtra[2].PercentualExtraNoturna = Convert.ToInt32(marc["percentualExtraNoturna70"]);
+                HorariosPHExtra[2].PercentualExtraNoturna = Convert.ToDecimal(marc["percentualExtraNoturna70"]);
             HorariosPHExtra[2].QuantidadeExtraNoturna = Convert.ToString(marc["quantidadeExtraNoturna70"]);
             HorariosPHExtra[2].QuantidadeExtraNoturnaMin = Modelo.cwkFuncoes.ConvertHorasMinuto(HorariosPHExtra[2].QuantidadeExtraNoturna);
             if (!(marc["percextraprimeiroNoturna3"] is DBNull))
-                HorariosPHExtra[2].PercentualExtraSegundoNoturna = Convert.ToInt32(marc["percextraprimeiroNoturna3"]);
+                HorariosPHExtra[2].PercentualExtraSegundoNoturna = Convert.ToDecimal(marc["percextraprimeiroNoturna3"]);
 
-            HorariosPHExtra[3].PercentualExtra = Convert.ToInt32(marc["percentualextra80"]);
+            HorariosPHExtra[3].PercentualExtra = Convert.ToDecimal(marc["percentualextra80"]);
             HorariosPHExtra[3].QuantidadeExtra = Convert.ToString(marc["quantidadeextra80"]);
             HorariosPHExtra[3].QuantidadeExtraMin = Modelo.cwkFuncoes.ConvertHorasMinuto(HorariosPHExtra[3].QuantidadeExtra);
-            HorariosPHExtra[3].PercentualExtraSegundo = Convert.ToInt32(marc["percextraprimeiro4"]);
+            HorariosPHExtra[3].PercentualExtraSegundo = Convert.ToDecimal(marc["percextraprimeiro4"]);
             HorariosPHExtra[3].TipoAcumulo = Convert.ToInt16(marc["tipoacumulo4"]);
             if (!(marc["percentualExtraNoturna80"] is DBNull))
-                HorariosPHExtra[3].PercentualExtraNoturna = Convert.ToInt32(marc["percentualExtraNoturna80"]);
+                HorariosPHExtra[3].PercentualExtraNoturna = Convert.ToDecimal(marc["percentualExtraNoturna80"]);
             HorariosPHExtra[3].QuantidadeExtraNoturna = Convert.ToString(marc["quantidadeExtraNoturna80"]);
             HorariosPHExtra[3].QuantidadeExtraNoturnaMin = Modelo.cwkFuncoes.ConvertHorasMinuto(HorariosPHExtra[3].QuantidadeExtraNoturna);
             if (!(marc["percextraprimeiroNoturna4"] is DBNull))
-                HorariosPHExtra[3].PercentualExtraSegundoNoturna = Convert.ToInt32(marc["percextraprimeiroNoturna4"]);
+                HorariosPHExtra[3].PercentualExtraSegundoNoturna = Convert.ToDecimal(marc["percextraprimeiroNoturna4"]);
 
-            HorariosPHExtra[4].PercentualExtra = Convert.ToInt32(marc["percentualextra90"]);
+            HorariosPHExtra[4].PercentualExtra = Convert.ToDecimal(marc["percentualextra90"]);
             HorariosPHExtra[4].QuantidadeExtra = Convert.ToString(marc["quantidadeextra90"]);
             HorariosPHExtra[4].QuantidadeExtraMin = Modelo.cwkFuncoes.ConvertHorasMinuto(HorariosPHExtra[4].QuantidadeExtra);
-            HorariosPHExtra[4].PercentualExtraSegundo = Convert.ToInt32(marc["percextraprimeiro5"]);
+            HorariosPHExtra[4].PercentualExtraSegundo = Convert.ToDecimal(marc["percextraprimeiro5"]);
             HorariosPHExtra[4].TipoAcumulo = Convert.ToInt16(marc["tipoacumulo5"]);
             if (!(marc["percentualExtraNoturna90"] is DBNull))
-                HorariosPHExtra[4].PercentualExtraNoturna = Convert.ToInt32(marc["percentualExtraNoturna90"]);
+                HorariosPHExtra[4].PercentualExtraNoturna = Convert.ToDecimal(marc["percentualExtraNoturna90"]);
             HorariosPHExtra[4].QuantidadeExtraNoturna = Convert.ToString(marc["quantidadeExtraNoturna90"]);
             HorariosPHExtra[4].QuantidadeExtraNoturnaMin = Modelo.cwkFuncoes.ConvertHorasMinuto(HorariosPHExtra[4].QuantidadeExtraNoturna);
             if (!(marc["percextraprimeiroNoturna5"] is DBNull))
-                HorariosPHExtra[4].PercentualExtraSegundoNoturna = Convert.ToInt32(marc["percextraprimeiroNoturna5"]);
+                HorariosPHExtra[4].PercentualExtraSegundoNoturna = Convert.ToDecimal(marc["percextraprimeiroNoturna5"]);
 
-            HorariosPHExtra[5].PercentualExtra = Convert.ToInt32(marc["percentualextra100"]);
+            HorariosPHExtra[5].PercentualExtra = Convert.ToDecimal(marc["percentualextra100"]);
             HorariosPHExtra[5].QuantidadeExtra = Convert.ToString(marc["quantidadeextra100"]);
             HorariosPHExtra[5].QuantidadeExtraMin = Modelo.cwkFuncoes.ConvertHorasMinuto(HorariosPHExtra[5].QuantidadeExtra);
-            HorariosPHExtra[5].PercentualExtraSegundo = Convert.ToInt32(marc["percextraprimeiro6"]);
+            HorariosPHExtra[5].PercentualExtraSegundo = Convert.ToDecimal(marc["percextraprimeiro6"]);
             HorariosPHExtra[5].TipoAcumulo = Convert.ToInt16(marc["tipoacumulo6"]);
             if (!(marc["percentualExtraNoturna100"] is DBNull))
-                HorariosPHExtra[5].PercentualExtraNoturna = Convert.ToInt32(marc["percentualExtraNoturna100"]);
+                HorariosPHExtra[5].PercentualExtraNoturna = Convert.ToDecimal(marc["percentualExtraNoturna100"]);
             HorariosPHExtra[5].QuantidadeExtraNoturna = Convert.ToString(marc["quantidadeExtraNoturna100"]);
             HorariosPHExtra[5].QuantidadeExtraNoturnaMin = Modelo.cwkFuncoes.ConvertHorasMinuto(HorariosPHExtra[5].QuantidadeExtraNoturna);
             if (!(marc["percextraprimeiroNoturna6"] is DBNull))
-                HorariosPHExtra[5].PercentualExtraSegundoNoturna = Convert.ToInt32(marc["percextraprimeiroNoturna6"]);
+                HorariosPHExtra[5].PercentualExtraSegundoNoturna = Convert.ToDecimal(marc["percextraprimeiroNoturna6"]);
 
-            HorariosPHExtra[6].PercentualExtra = Convert.ToInt32(marc["percentualextrasab"]);
+            HorariosPHExtra[6].PercentualExtra = Convert.ToDecimal(marc["percentualextrasab"]);
             HorariosPHExtra[6].QuantidadeExtra = Convert.ToString(marc["quantidadeextrasab"]);
             HorariosPHExtra[6].QuantidadeExtraMin = Modelo.cwkFuncoes.ConvertHorasMinuto(HorariosPHExtra[6].QuantidadeExtra);
-            HorariosPHExtra[6].PercentualExtraSegundo = Convert.ToInt32(marc["percextraprimeiro7"]);
+            HorariosPHExtra[6].PercentualExtraSegundo = Convert.ToDecimal(marc["percextraprimeiro7"]);
             HorariosPHExtra[6].TipoAcumulo = Convert.ToInt16(marc["tipoacumulo7"]);
             if (!(marc["percentualExtraNoturnasab"] is DBNull))
-                HorariosPHExtra[6].PercentualExtraNoturna = Convert.ToInt32(marc["percentualExtraNoturnasab"]);
+                HorariosPHExtra[6].PercentualExtraNoturna = Convert.ToDecimal(marc["percentualExtraNoturnasab"]);
             HorariosPHExtra[6].QuantidadeExtraNoturna = Convert.ToString(marc["quantidadeExtraNoturnasab"]);
             HorariosPHExtra[6].QuantidadeExtraNoturnaMin = Modelo.cwkFuncoes.ConvertHorasMinuto(HorariosPHExtra[6].QuantidadeExtraNoturna);
             if (!(marc["percextraprimeiroNoturna7"] is DBNull))
-                HorariosPHExtra[6].PercentualExtraSegundoNoturna = Convert.ToInt32(marc["percextraprimeiroNoturna7"]);
+                HorariosPHExtra[6].PercentualExtraSegundoNoturna = Convert.ToDecimal(marc["percextraprimeiroNoturna7"]);
 
-            HorariosPHExtra[7].PercentualExtra = Convert.ToInt32(marc["percentualextradom"]);
+            HorariosPHExtra[7].PercentualExtra = Convert.ToDecimal(marc["percentualextradom"]);
             HorariosPHExtra[7].QuantidadeExtra = Convert.ToString(marc["quantidadeextradom"]);
             HorariosPHExtra[7].QuantidadeExtraMin = Modelo.cwkFuncoes.ConvertHorasMinuto(HorariosPHExtra[7].QuantidadeExtra);
-            HorariosPHExtra[7].PercentualExtraSegundo = Convert.ToInt32(marc["percextraprimeiro8"]);
+            HorariosPHExtra[7].PercentualExtraSegundo = Convert.ToDecimal(marc["percextraprimeiro8"]);
             HorariosPHExtra[7].TipoAcumulo = Convert.ToInt16(marc["tipoacumulo8"]);
             if (!(marc["percentualExtraNoturnadom"] is DBNull))
-                HorariosPHExtra[7].PercentualExtraNoturna = Convert.ToInt32(marc["percentualExtraNoturnadom"]);
+                HorariosPHExtra[7].PercentualExtraNoturna = Convert.ToDecimal(marc["percentualExtraNoturnadom"]);
             HorariosPHExtra[7].QuantidadeExtraNoturna = Convert.ToString(marc["quantidadeExtraNoturnadom"]);
             HorariosPHExtra[7].QuantidadeExtraNoturnaMin = Modelo.cwkFuncoes.ConvertHorasMinuto(HorariosPHExtra[7].QuantidadeExtraNoturna);
             if (!(marc["percextraprimeiroNoturna8"] is DBNull))
-                HorariosPHExtra[7].PercentualExtraSegundoNoturna = Convert.ToInt32(marc["percextraprimeiroNoturna8"]);
+                HorariosPHExtra[7].PercentualExtraSegundoNoturna = Convert.ToDecimal(marc["percextraprimeiroNoturna8"]);
 
-            HorariosPHExtra[8].PercentualExtra = Convert.ToInt32(marc["percentualextrafer"]);
+            HorariosPHExtra[8].PercentualExtra = Convert.ToDecimal(marc["percentualextrafer"]);
             HorariosPHExtra[8].QuantidadeExtra = Convert.ToString(marc["quantidadeextrafer"]);
             HorariosPHExtra[8].QuantidadeExtraMin = Modelo.cwkFuncoes.ConvertHorasMinuto(HorariosPHExtra[8].QuantidadeExtra);
-            HorariosPHExtra[8].PercentualExtraSegundo = Convert.ToInt32(marc["percextraprimeiro9"]);
+            HorariosPHExtra[8].PercentualExtraSegundo = Convert.ToDecimal(marc["percextraprimeiro9"]);
             HorariosPHExtra[8].TipoAcumulo = Convert.ToInt16(marc["tipoacumulo9"]);
             if (!(marc["percentualExtraNoturnafer"] is DBNull))
-                HorariosPHExtra[8].PercentualExtraNoturna = Convert.ToInt32(marc["percentualExtraNoturnafer"]);
+                HorariosPHExtra[8].PercentualExtraNoturna = Convert.ToDecimal(marc["percentualExtraNoturnafer"]);
             HorariosPHExtra[8].QuantidadeExtraNoturna = Convert.ToString(marc["quantidadeExtraNoturnafer"]);
             HorariosPHExtra[8].QuantidadeExtraNoturnaMin = Modelo.cwkFuncoes.ConvertHorasMinuto(HorariosPHExtra[8].QuantidadeExtraNoturna);
             if (!(marc["percextraprimeiroNoturna9"] is DBNull))
-                HorariosPHExtra[8].PercentualExtraSegundoNoturna = Convert.ToInt32(marc["percextraprimeiroNoturna9"]);
+                HorariosPHExtra[8].PercentualExtraSegundoNoturna = Convert.ToDecimal(marc["percextraprimeiroNoturna9"]);
 
-            HorariosPHExtra[9].PercentualExtra = Convert.ToInt32(marc["percentualextrafol"]);
+            HorariosPHExtra[9].PercentualExtra = Convert.ToDecimal(marc["percentualextrafol"]);
             HorariosPHExtra[9].QuantidadeExtra = Convert.ToString(marc["quantidadeextrafol"]);
             HorariosPHExtra[9].QuantidadeExtraMin = Modelo.cwkFuncoes.ConvertHorasMinuto(HorariosPHExtra[9].QuantidadeExtra);
-            HorariosPHExtra[9].PercentualExtraSegundo = Convert.ToInt32(marc["percextraprimeiro10"]);
+            HorariosPHExtra[9].PercentualExtraSegundo = Convert.ToDecimal(marc["percextraprimeiro10"]);
             HorariosPHExtra[9].TipoAcumulo = Convert.ToInt16(marc["tipoacumulo10"]);
             if (!(marc["percentualExtraNoturnafol"] is DBNull))
-                HorariosPHExtra[9].PercentualExtraNoturna = Convert.ToInt32(marc["percentualExtraNoturnafol"]);
+                HorariosPHExtra[9].PercentualExtraNoturna = Convert.ToDecimal(marc["percentualExtraNoturnafol"]);
             HorariosPHExtra[9].QuantidadeExtraNoturna = Convert.ToString(marc["quantidadeExtraNoturnafol"]);
             HorariosPHExtra[9].QuantidadeExtraNoturnaMin = Modelo.cwkFuncoes.ConvertHorasMinuto(HorariosPHExtra[9].QuantidadeExtraNoturna);
             if (!(marc["percextraprimeiroNoturna10"] is DBNull))
-                HorariosPHExtra[9].PercentualExtraSegundoNoturna = Convert.ToInt32(marc["percextraprimeiroNoturna10"]);
+                HorariosPHExtra[9].PercentualExtraSegundoNoturna = Convert.ToDecimal(marc["percextraprimeiroNoturna10"]);
         }
 
         public void TotalizeGruposInItinere(Modelo.TotalHoras objTotalHoras)

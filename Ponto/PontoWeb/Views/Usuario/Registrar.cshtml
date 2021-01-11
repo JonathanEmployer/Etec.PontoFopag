@@ -4,6 +4,7 @@
 }
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id, new { id = "idUsuario" });
     @Html.HiddenFor(model => model.Incdata);
     @Html.HiddenFor(model => model.Inchora);
@@ -47,11 +48,20 @@
                             @Html.ValidationMessageFor(model => model.Login)
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Senha, new { @class = "control-label label-sm" })
                             @Html.PasswordFor(model => model.Senha, new { @class = "form-control input-sm", value = Model.Senha })
                             @Html.ValidationMessageFor(model => model.Senha)
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="checkbox" style="padding-top:15px; padding-bottom:0">
+                            <label>
+                                @Html.CheckBoxFor(model => model.Ativo, new { id = "Ativo" })
+                                @Html.LabelFor(model => model.Ativo, new { @class = "control-label label-sm", @for = "Ativo" })
+                                @Html.ValidationMessageFor(model => model.Ativo)
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -262,6 +272,7 @@
 <script>
     $(":input[type='text']:enabled:visible:first").focus();
     $(document).ready(function () {
+
         if ($('#rdbAdm').is(':checked')) {
             modificaProperties('#lkpGrupoUsuario', true);
             modificaProperties('#btnGrupoUsuario', true);
@@ -311,5 +322,12 @@
         $(document).ready(function () {
             $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
         })
+    </script>
+}
+
+@if (Model.Ativo != false || Model.Id == 0)
+{
+    <script>
+        $('#Ativo').prop('checked', 'checked');
     </script>
 }

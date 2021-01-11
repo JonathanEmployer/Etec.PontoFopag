@@ -16,7 +16,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// <summary>
     /// Métodos Referentes ao Cadastro de Contrato
     /// </summary>
-    public class ContratoController : ApiController
+    public class ContratoController : ExtendedApiController
     {
         /// <summary>
         /// Cadastrar/Alterar Contratos.
@@ -28,9 +28,9 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Cadastrar(Models.Contrato contrato)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Contrato bllContrato = new BLL.Contrato(connectionStr);
-            BLL.Empresa bllEmpresa = new BLL.Empresa(connectionStr);
+
+            BLL.Contrato bllContrato = new BLL.Contrato(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+            BLL.Empresa bllEmpresa = new BLL.Empresa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
             if (ModelState.IsValid)
             {
@@ -86,8 +86,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Excluir(int IdIntegracao)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Contrato bllContrato = new BLL.Contrato(connectionStr);
+            BLL.Contrato bllContrato = new BLL.Contrato(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
             if (ModelState.IsValid)
             {
@@ -154,6 +153,7 @@ namespace cwkWebAPIPontoWeb.Controllers
             ComponenteToModel.Add("txtCodigo", "Codigo");
             ComponenteToModel.Add("txtDescricao", "Descricao");
             ComponenteToModel.Add("cbIdEmpresa", "CodigoEmpresa");
+            ComponenteToModel.Add("IdEmpresa", "DocumentoEmpresa");
             foreach (var item in ComponenteToModel)
             {
                 ErroToModelState(erros, item);

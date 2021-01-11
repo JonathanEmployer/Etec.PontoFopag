@@ -190,6 +190,46 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugTeste|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugTeste\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugTeste|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\DebugTeste\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Teste|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Teste\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Teste|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Teste\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.dll</HintPath>
@@ -268,8 +308,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AFD.cs" />
+    <Compile Include="AlertasRepAcompanhamento.cs" />
     <Compile Include="AutoMapper\ConfigureAutoMapper.cs" />
+    <Compile Include="JornadaSubstituir.cs" />
+    <Compile Include="JornadaSubstituirFuncionario.cs" />
     <Compile Include="JustificativaRestricao.cs" />
+    <Compile Include="LancamentoCartaoPontoRegistros.cs" />
+    <Compile Include="LancamentoCartaoPonto.cs" />
     <Compile Include="OcorrenciaRestricao.cs" />
     <Compile Include="HorarioDinamicoRestricao.cs" />
     <Compile Include="HorarioRestricao.cs" />
@@ -362,17 +407,28 @@
     <Compile Include="BloqueioFuncionario.cs" />
     <Compile Include="ManutencaoBiometrica.cs" />
     <Compile Include="ParametroWebfopag.cs" />
+    <Compile Include="Proxy\pxyPermissoes.cs" />
+    <Compile Include="Proxy\pxyUsuarioControleAcessoAdicionarContrato.cs" />
+    <Compile Include="Proxy\pxyUsuarioControleAcessoAdicionarEmpresa.cs" />
+    <Compile Include="Proxy\pxyUsuarioControleAcessoCopiar.cs" />
+    <Compile Include="Proxy\PxyCopiaBancoHoras.cs" />
     <Compile Include="Proxy\CentralCliente\PxyComunicadorServico.cs" />
     <Compile Include="Proxy\PxyFuncionarioExcluidoGrid.cs" />
+    <Compile Include="Proxy\PxyFuncionarioFechamentosPontoEBH.cs" />
     <Compile Include="Proxy\PxyFuncionariosRecalcular.cs" />
+    <Compile Include="Proxy\PxyGridAlertasComunicacaoRep.cs" />
     <Compile Include="Proxy\PxyGridRepsPortaria373.cs" />
     <Compile Include="Proxy\CentralCliente\PxyGridComunicadorServico.cs" />
     <Compile Include="Proxy\PxyGridTransferenciaBilhetes.cs" />
+    <Compile Include="Proxy\PxyJornadaSubstituirCalculo.cs" />
+    <Compile Include="Proxy\PxyJornadaSubstituirFuncionarioPeriodo.cs" />
     <Compile Include="Proxy\pxyManutencaoBiometricaFuncionarioGrid.cs" />
     <Compile Include="Proxy\PxyPeriodo.cs" />
     <Compile Include="Proxy\PxyUltimoFechamentoPonto.cs" />
     <Compile Include="Proxy\Webfopag\PxyRetornoColetor.cs" />
     <Compile Include="Relatorios\RelatorioAfdPortaria373Model.cs" />
+    <Compile Include="Relatorios\RelatorioRefeicaoModel.cs" />
+    <Compile Include="Relatorios\RelatorioTotalHoras.cs" />
     <Compile Include="TipoBiometria.cs" />
     <Compile Include="FuncionarioRFID.cs" />
     <Compile Include="HorarioDinamicoCicloSequencia.cs" />
@@ -642,6 +698,7 @@
     <Compile Include="TransferenciaBilhetes.cs" />
     <Compile Include="TransferenciaBilhetesDetalhes.cs" />
     <Compile Include="Tratamentomarcacao.cs" />
+    <Compile Include="UsuarioControleAcesso.cs" />
     <Compile Include="UsuarioPontoWeb.cs" />
     <Compile Include="Utils\AtributoObrigatorio.cs" />
     <Compile Include="Utils\CPF_CNPJ.cs" />

@@ -130,5 +130,10 @@ namespace BLL
         {
             return dal.GetListaUsuariosLiberadosBloqueadosPorContrato(idContrato);
         }
+
+        public Modelo.ContratoUsuario LoadObjectUser(int idEmpresaContrato, int idQueVaiSerAlterado)
+        {
+            return dal.LoadObjectUser(idEmpresaContrato, idQueVaiSerAlterado);
+        }
     }
 }

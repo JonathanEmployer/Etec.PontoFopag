@@ -6,16 +6,17 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Data.Entity;
 using Modelo.Utils;
+using System.Web.Http.Controllers;
 using CentralCliente;
 
 namespace PontoWeb.Controllers
 {
     public class RepController : Controller
     {
+        private UsuarioPontoWeb _user = Usuario.GetUsuarioPontoWebLogadoCache();
         [PermissoesFiltro(Roles = "Rep")]
         public ActionResult Grid()
         {
-            BLL.REP bllRep = new BLL.REP(BLLWeb.Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache());
             return View(new Modelo.REP());
         }
 
@@ -24,8 +25,7 @@ namespace PontoWeb.Controllers
         {
             try
             {
-                var usr = BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache();
-                BLL.REP bllREP = new BLL.REP(BLLWeb.Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
+                BLL.REP bllREP = new BLL.REP(_user.ConnectionString, _user);
                 List<Modelo.REP> dados = bllREP.GetAllList();
                 JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
                 jsonResult.MaxJsonLength = int.MaxValue;
@@ -42,9 +42,7 @@ namespace PontoWeb.Controllers
         [HttpPost]
         public ActionResult Excluir(int id)
         {
-            string conn = BLLWeb.Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
-            Cw_Usuario usr = BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache();
-            BLL.REP bllRep = new BLL.REP(conn, usr);
+            BLL.REP bllRep = new BLL.REP(_user.ConnectionString, _user);
             REP rep = bllRep.LoadObject(id);
             try
             {
@@ -111,15 +109,14 @@ namespace PontoWeb.Controllers
 
         private ActionResult SalvarRep(REP rep)
         {
-            string conn = BLLWeb.Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
-            var usr = BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache();
-            BLL.REP bllRep = new BLL.REP(conn, usr);
+            BLL.REP bllRep = new BLL.REP(_user.ConnectionString, _user);
 
             Modelo.REP repAntigo = bllRep.LoadObject(rep.Id);
             string senhaAntiga = repAntigo == null ? String.Empty : repAntigo.Senha;
 
-            BLL.EquipamentoTipoBiometria bllEquipamentoTipoBiometria = new BLL.EquipamentoTipoBiometria(BLLWeb.Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache());
+            BLL.EquipamentoTipoBiometria bllEquipamentoTipoBiometria = new BLL.EquipamentoTipoBiometria(_user.ConnectionString, _user);
             rep.ItensEquipamentoTipoBiometria = bllEquipamentoTipoBiometria.GetAllList(rep.IdEquipamentoHomologado);
+            Valida373(rep);
 
             ValidaEmpresa(rep);
             ValidarForm(rep);
@@ -139,7 +136,7 @@ namespace PontoWeb.Controllers
                     {
                         rep.Senha = senhaAntiga;
                     }
-                    
+
                     erros = bllRep.Salvar(acao, rep);
                     if (erros.Count > 0)
                     {
@@ -158,9 +155,9 @@ namespace PontoWeb.Controllers
                         if (customError.Count > 0)
                         {
                             string erro = string.Join(";", customError.Select(x => x.Key + "=" + x.Value).ToArray());
-                            ModelState.AddModelError("CustomError", erro);    
+                            ModelState.AddModelError("CustomError", erro);
                         }
-                        
+
                     }
                     else
                     {
@@ -191,18 +188,43 @@ namespace PontoWeb.Controllers
                     {
                         ModelState.AddModelError("NumSerie", "Para o número de série são permitidos apenas números. Remova espaços e caracteres não numéricos");
                     }
-                    else {
+                    else
+                    {
                         BLL.cwkFuncoes.LogarErro(ex);
                         ModelState.AddModelError("CustomError", ex.Message);
                     }
-                    
+
                 }
             }
+            GetEquipamentosPortaria373();
             return View("Cadastrar", rep);
         }
 
-        #region Metodos Dados Central Cliente
-        private static void AdicionaAlteraRepCentralCliente(REP rep, REP repAnterior, UsuarioPontoWeb usr)
+        private void Valida373(REP rep)
+        {
+            if (rep.Portaria373)
+            {
+                if (rep.IdEquipamentoHomologado373 > 0)
+                {
+                    BLL.EquipamentoHomologado bllEquipamentoHomologado = new BLL.EquipamentoHomologado(_user.ConnectionString, _user);
+                    var equipHomologado = bllEquipamentoHomologado.LoadObject(rep.IdEquipamentoHomologado373);
+                    rep.modeloNome = equipHomologado.nomeModelo;
+                    rep.IdEquipamentoHomologado = equipHomologado.Id;
+                    rep.Relogio = Convert.ToInt16(equipHomologado.identificacaoRelogio);
+                }
+                else
+                {
+                    ModelState.AddModelError("IdEquipamentoHomologado373", "Relógio não foi selecionado");
+                }
+            }
+            else
+            {
+                rep.IdEquipamentoHomologado373 = rep.IdEquipamentoHomologado;
+                ModelState.Remove("IdEquipamentoHomologado373");
+            }
+        }
+
+        private static void AdicionaAlteraRepCentralCliente(REP rep, REP repAnterior)
         {
             using (var db = new CentralCliente.CENTRALCLIENTEEntities())
             {
@@ -305,12 +327,21 @@ namespace PontoWeb.Controllers
 
         private ActionResult GetPagina(int id)
         {
-            BLL.REP bllRep = new BLL.REP(BLLWeb.Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache());
+            BLL.REP bllRep = new BLL.REP(_user.ConnectionString, _user);
             REP rep = new REP();
             rep = bllRep.LoadObject(id);
-            BLL.EquipamentoHomologado bllEquipamentoHomologado = new BLL.EquipamentoHomologado(BLLWeb.Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache());
-            rep.EquipamentoHomologado = bllEquipamentoHomologado.LoadByCodigoModelo(rep.NumSerie);
-            BLL.EquipamentoTipoBiometria bllEquipamentoTipoBiometria = new BLL.EquipamentoTipoBiometria(BLLWeb.Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache());
+            BLL.EquipamentoHomologado bllEquipamentoHomologado = new BLL.EquipamentoHomologado(_user.ConnectionString, _user);
+            if (rep.Portaria373)
+            {
+                rep.EquipamentoHomologado = bllEquipamentoHomologado.LoadObject(rep.IdEquipamentoHomologado);
+            }
+            else
+            {
+                rep.EquipamentoHomologado = bllEquipamentoHomologado.LoadByCodigoModelo(rep.NumSerie);
+            }
+            rep.IdEquipamentoHomologado373 = rep.EquipamentoHomologado.Id;
+
+            BLL.EquipamentoTipoBiometria bllEquipamentoTipoBiometria = new BLL.EquipamentoTipoBiometria(_user.ConnectionString, _user);
             rep.ItensEquipamentoTipoBiometria = bllEquipamentoTipoBiometria.GetAllList(rep.IdEquipamentoHomologado);
 
             bool integraComunicador = IntegraComunicadorRep(rep.EquipamentoHomologado);
@@ -321,7 +352,7 @@ namespace PontoWeb.Controllers
             else
             {
                 rep.IntegraComunicador = false;
-                rep.modeloNome =rep.EquipamentoHomologado.nomeModelo + " - Rep não possui integração com o Comunicador Pontofopag";
+                rep.modeloNome = rep.EquipamentoHomologado.nomeModelo + " - Rep não possui integração com o Comunicador Pontofopag";
             }
             if (rep.TempoRequisicao < 20)
             {
@@ -344,25 +375,40 @@ namespace PontoWeb.Controllers
             else
             {
                 rep.Senha = "#SeNhAnAoAlTeRaDa#";
-                BLL.BilhetesImp BLLBilhetesImp = new BLL.BilhetesImp(BLLWeb.Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache());
+                BLL.BilhetesImp BLLBilhetesImp = new BLL.BilhetesImp(_user.ConnectionString, _user);
                 rep.UltimoNSR = BLLBilhetesImp.GetUltimoNSRRep(rep.NumRelogio);
                 if (String.IsNullOrEmpty(rep.IdTimeZoneInfo))
                 {
                     rep.IdTimeZoneInfo = "E. South America Standard Time";
                 }
+                if (rep.Portaria373)
+                {
+                    rep.IdEquipamentoHomologado373 = rep.IdEquipamentoHomologado;
+                }
                 rep.Acao = Acao.Alterar;
                 rep.ServicoPontoCom = BLL.ServicoPontoCom.GetDescricaoServicoComunicador(rep.NumSerie);
             }
-            
+
+            GetEquipamentosPortaria373();
+
             return View("Cadastrar", rep);
+        }
+
+        private void GetEquipamentosPortaria373()
+        {
+            List<Modelo.Utils.ItensCombo> equipamentosPortaria373Combo = new List<Modelo.Utils.ItensCombo>();
+            BLL.EquipamentoHomologado bllEquipamentoHomologado373 = new BLL.EquipamentoHomologado(_user.ConnectionString, _user);
+            var equipamentoPortaria373 = bllEquipamentoHomologado373.GetAllListPortaria373();
+            equipamentoPortaria373.ForEach(f => equipamentosPortaria373Combo.Add(new ItensCombo() { Id = f.Id.ToString(), Descricao = f.nomeModelo }));
+            ViewBag.equipamentoPortaria373 = equipamentosPortaria373Combo;
         }
 
         private void ValidaEmpresa(REP rep)
         {
             if (!String.IsNullOrEmpty(rep.empresaNome))
             {
-                BLL.Empresa bllEmp = new BLL.Empresa(BLLWeb.Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache());
-                Modelo.Empresa e = new Modelo.Empresa();
+                BLL.Empresa bllEmp = new BLL.Empresa(_user.ConnectionString, _user);
+                Empresa e = new Empresa();
                 int idEmpresa;
                 string empresa = rep.empresaNome.Split('|')[0].Trim();
                 if (int.TryParse(empresa, out idEmpresa))
@@ -382,8 +428,8 @@ namespace PontoWeb.Controllers
         }
         protected void ValidarForm(REP obj)
         {
-            BLL.EquipamentoHomologado bllEquipamentoHomologado = new BLL.EquipamentoHomologado(BLLWeb.Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache());
-            BLL.REP bllRep = new BLL.REP(BLLWeb.Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache());
+            BLL.EquipamentoHomologado bllEquipamentoHomologado = new BLL.EquipamentoHomologado(_user.ConnectionString, _user);
+            BLL.REP bllRep = new BLL.REP(_user.ConnectionString, _user);
             obj.EquipamentoHomologado = bllEquipamentoHomologado.LoadObject(obj.IdEquipamentoHomologado);
             if (obj.Relogio != 17)
             {
@@ -409,7 +455,7 @@ namespace PontoWeb.Controllers
         [Authorize]
         public ActionResult EventoConsulta(String consulta, String filtro)
         {
-            BLL.REP bllRep = new BLL.REP(BLLWeb.Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache());
+            BLL.REP bllRep = new BLL.REP(_user.ConnectionString, _user);
             IList<Modelo.REP> lREP = new List<Modelo.REP>();
             int codigo = -1;
             try { codigo = Int32.Parse(consulta); }
@@ -438,14 +484,14 @@ namespace PontoWeb.Controllers
         [Authorize]
         public ActionResult BuscaEquipamentoHomologado(string NumSerie, string NumRelogio)
         {
-            BLL.EquipamentoHomologado bllEquipamentoHomologado = new BLL.EquipamentoHomologado(BLLWeb.Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache());
+            BLL.EquipamentoHomologado bllEquipamentoHomologado = new BLL.EquipamentoHomologado(_user.ConnectionString, _user);
             String nomeEquipamentoHomologado = String.Empty;
             int idEquipamentoHomologado = 0;
             int identificacaoRelogio = 0;
             bool servicoComunicador = false;
             bool integraComunicador = false;
             var ItensEquipamentoTipoBiometria = new List<ItensCombo>();
-            BLL.BilhetesImp BLLBilhetesImp = new BLL.BilhetesImp(BLLWeb.Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache());
+            BLL.BilhetesImp BLLBilhetesImp = new BLL.BilhetesImp(_user.ConnectionString, _user);
             Int64 ultimoNSR = 0;
 
             if (!String.IsNullOrEmpty(NumRelogio))
@@ -458,7 +504,7 @@ namespace PontoWeb.Controllers
                 Modelo.EquipamentoHomologado EquipamentoHomologado = bllEquipamentoHomologado.LoadByCodigoModelo(NumSerie);
                 if (EquipamentoHomologado != null)
                 {
-                    BLL.EquipamentoTipoBiometria bllEquipamentoTipoBiometria = new BLL.EquipamentoTipoBiometria(BLLWeb.Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache());
+                    BLL.EquipamentoTipoBiometria bllEquipamentoTipoBiometria = new BLL.EquipamentoTipoBiometria(_user.ConnectionString, _user);
                     ItensEquipamentoTipoBiometria = bllEquipamentoTipoBiometria.GetAllList(EquipamentoHomologado.Id);
 
                     nomeEquipamentoHomologado = EquipamentoHomologado.nomeModelo;
@@ -528,8 +574,7 @@ namespace PontoWeb.Controllers
         [OutputCache(Duration = 50, VaryByParam = "none", VaryByCustom = "User")]
         public ActionResult SituacaoRepsAtual()
         {
-            var usr = BLLWeb.Usuario.GetUsuarioPontoWebLogadoCache();
-            BLL.REP bllRep = new BLL.REP(usr.ConnectionString, usr);
+            BLL.REP bllRep = new BLL.REP(_user.ConnectionString, _user);
             List<Modelo.Proxy.RepSituacao> situacaos = bllRep.VerificarSituacaoReps(3600);
             ViewBag.UltimaAtualizacao = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
             return PartialView(situacaos);

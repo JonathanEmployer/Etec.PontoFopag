@@ -11,20 +11,20 @@
 
 <style>
     .checkbox {
-        margin-top:0px;
-        margin-bottom:0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
     }
 
     .checkboxFilho {
-        padding-left:16px;
-        margin-top:3px !important;
-        margin-bottom:3px !important;
+        padding-left: 16px;
+        margin-top: 3px !important;
+        margin-bottom: 3px !important;
     }
 </style>
 
 @using (Html.BeginForm())
 {
-
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.BDAlterado);
     @Html.HiddenFor(model => model.Bloqueiousuarios);
     @Html.HiddenFor(model => model.bPrincipal);
@@ -258,16 +258,18 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <div class="row" style="padding-left:6px" id="divParametrosApp" hidden>
+                                    <div class="row" style="padding-left:6px" id="divParametrosApp">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
                                                 <div class="checkbox">
                                                     @Html.CheckBoxFor(model => model.UtilizaAppPontofopag)
                                                     @Html.LabelFor(model => model.UtilizaAppPontofopag, new { @class = "control-label label-sm" })
                                                 </div>
-                                                <div class="checkbox checkboxFilho" style="display:none" id="divReconhecimentoFacilAppPontofopag">
-                                                    @Html.CheckBoxFor(model => model.UtilizaReconhecimentoFacilAppPontofopag)
-                                                    @Html.LabelFor(model => model.UtilizaReconhecimentoFacilAppPontofopag, new { @class = "control-label label-sm" })
+                                                <div>
+                                                    <div class="checkbox checkboxFilho" style="display:none" id="divReconhecimentoFacilAppPontofopag" hidden>
+                                                        @Html.CheckBoxFor(model => model.UtilizaReconhecimentoFacilAppPontofopag)
+                                                        @Html.LabelFor(model => model.UtilizaReconhecimentoFacilAppPontofopag, new { @class = "control-label label-sm" })
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
@@ -297,7 +299,63 @@
                         </div>
                         @*Painel RH*@
                         <div class="tab-pane fade" id="pnlPainelRH">
-                            <div class="col-md-9">
+                            <div class="col-md-5">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" style="padding-top:1px; padding-bottom:0px">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label class="control-label label-sm">Integração</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div data-toggle="radioTipoIntegracao">
+                                                    @if (Model.IntegraEPays == false)
+                                                    {
+                                                        <input type="radio" id="rblNenhum" name="IntegraEPays" class="DeleteToken" value="false" checked="checked" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="radio" id="rblNenhum" name="IntegraEPays" class="DeleteToken" value="false" />
+                                                    }
+                                                    <label class="control-label label-sm" for="IntegraEPays">Nenhum</label>
+                                                </div>
+                                                <div data-toggle="radioTipoIntegracao">
+                                                    @if (Model.IntegraEPays == true)
+                                                    {
+                                                        <input type="radio" id="rblEPays" name="IntegraEPays" class="CreateToken" value="true" checked="checked" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="radio" id="rblEPays" name="IntegraEPays" class="CreateToken" value="true" />
+                                                    }
+                                                    <label class="control-label label-sm" for="IntegraEPays">EPays</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9" id="dvEPays">
+                                                <div class="col-md-4">
+                                                    <div class="form-group input-group-sm">
+                                                        <label class="control-label label-sm">Token Pontofopag</label>
+                                                        @Html.TextBoxFor(model => model.TokenPontofopag, new { @class = "form-control input-sm hidden" })
+                                                        <button type="button" class="btn btn-success" onclick="copiarTexto()">Copiar</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="form-group input-group-sm">
+                                                        <label class="control-label label-sm">Usuário EPays</label>
+                                                        @Html.TextBoxFor(model => model.UsuarioEPays, new { @class = "form-control input-sm", type = "text" })
+                                                        <label class="control-label label-sm">Senha EPays</label>
+                                                        @Html.TextBoxFor(model => model.SenhaEPays, new { @class = "form-control input-sm", type = "text" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
                                 <div class="panel panel-default">
                                     <div class="panel-heading" style="padding-top:1px; padding-bottom:0px">
                                         <div class="row">
@@ -308,21 +366,21 @@
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     @Html.LabelFor(model => model.BloqueiaJustificativaForaPeriodo, new { @class = "control-label label-sm" })
                                                     @Html.CheckBoxFor(model => model.BloqueiaJustificativaForaPeriodo, new { @class = "checkbox" })
                                                     @Html.ValidationMessageFor(model => model.BloqueiaJustificativaForaPeriodo)
                                                 </div>
                                             </div>
-                                            <div class="col-md-3 ">
+                                            <div class="col-md-4">
                                                 <div class="form-group input-group-sm">
                                                     @Html.LabelFor(model => model.DtInicioJustificativa, new { @class = "control-label label-sm" })
                                                     @Html.TextBoxFor(model => model.DtInicioJustificativa, new { @class = "form-control input-sm", onkeypress = "return apenasNumero(event)", type = "number" })
                                                     @Html.ValidationMessageFor(model => model.DtInicioJustificativa)
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <div class="form-group input-group-sm">
                                                     @Html.LabelFor(model => model.DtFimJustificativa, new { @class = "control-label label-sm" })
                                                     @Html.TextBoxFor(model => model.DtFimJustificativa, new { @class = "form-control input-sm", onkeypress = "return apenasNumero(event)", type = "number" })
@@ -332,9 +390,8 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="row">
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.PermiteClassHorasExtrasPainel, new { @class = "control-label label-sm" })
@@ -421,6 +478,15 @@
 }
 
 <script>
+    let copiarTexto = () => {
+        const texto = $("#TokenPontofopag").val();
+        let inputTest = document.createElement("input");
+        inputTest.value = texto;
+        document.body.appendChild(inputTest);
+        inputTest.select();
+        document.execCommand('copy');
+        document.body.removeChild(inputTest);
+    };
     $(document).ready(function () {
         $(':input:enabled:visible:not([readonly]):first').focus();
         cwk_EventoConsulta("#btnHorario", "#lkpHorario", "EventoConsulta", "Horario", "#TipoHorarioPadraoFunc");
@@ -440,6 +506,32 @@
         {
             $('#lkpAtivo').prop('checked', true);
         }
+
+        if ($("#rblNenhum").is(":checked"))
+            $("#dvEPays").hide();
+
+        $(".DeleteToken").change(function () {
+            $("#TokenPontofopag").val('');
+            $("#dvEPays").hide();
+        });
+        $(".CreateToken").change(function () {
+            $("#dvEPays").show();
+            var cnpj = $("#Cnpj").val();
+            if (cnpj === '') {
+                cwkErro('Cnpj é obrigatório!');
+            }
+            else {
+                var url = '@Url.Action("PostGenerationTokenEPays", "Empresa")?Cnpj=' + cnpj;
+                $.get(url, function (data) {
+                    if (data.Success === true) {
+                        $("#TokenPontofopag").val(data.Token);
+                    }
+                    else {
+                        cwkErro(data.Error)
+                    }
+                });
+            }
+        });
     });
 
     function salvar() {
@@ -644,16 +736,6 @@
             $("#divReconhecimentoFacilWebAppPontofopag").hide();
         }
     });
-    var countClick = 0;
-    $("#Cnpj").on("click", function () {
-        countClick++;
-        if (countClick > 10) {
-            $("#divParametrosApp").removeAttr("hidden");
-        }
-    })
-
-
-
 </script>
 
 @if (ViewBag.Consultar == 1)

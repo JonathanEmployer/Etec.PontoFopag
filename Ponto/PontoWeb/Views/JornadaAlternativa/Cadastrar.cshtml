@@ -5,6 +5,7 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id, new { id = "idJornadaAlternativa" });
     @Html.HiddenFor(model => model.Identificacao)
     @Html.HiddenFor(model => model.Incdata)
@@ -177,7 +178,7 @@
                                                 @Html.LabelFor(model => model.DataInicial, new { @class = "control-label label-sm" })
                                             </div>
                                             <div class="col-md-9">
-                                                <div class="input-group input-group-sm" >
+                                                <div class="input-group input-group-sm">
                                                     @Html.TextBoxFor(model => model.DataInicial, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataInicial" })
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-primary" id="btnDtInicial" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -191,7 +192,7 @@
                                                 @Html.LabelFor(model => model.DataFinal, new { @class = "control-label label-sm" })
                                             </div>
                                             <div class="col-md-9">
-                                                <div class="input-group input-group-sm" >
+                                                <div class="input-group input-group-sm">
                                                     @Html.TextBoxFor(model => model.DataFinal, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataFinal" })
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-primary sm" id="btnDtFinal" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -542,6 +543,7 @@
         corrigeDatePicker();
         $('#DiasJA_' + nextIndex + '__Codigo').val(Number(maxcod) + 1);
         $(container).find('input:visible:last').focus();
+        $('.MascDate').mask('00/00/0000');
     }
 
     function calcHoras() {
@@ -716,8 +718,8 @@
         validaIntervaloAutomatico();
         $(":input[type='text']:enabled:visible:first").focus();
     });
-    	
-    </script>
+
+</script>
 @if (ViewBag.Consultar == 1)
 {
     <script>

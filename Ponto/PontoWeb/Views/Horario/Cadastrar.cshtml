@@ -5,6 +5,7 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id, new { id = "idHorario" })
     @Html.HiddenFor(model => model.Incdata)
     @Html.HiddenFor(model => model.Inchora)
@@ -19,7 +20,7 @@
     @Html.HiddenFor(model => model.InicioVigencia_Ant)
     @Html.HiddenFor(model => model.Id_Ant)
     @Html.HiddenFor(model => model.PossuiFechamento)
-   
+
     <div class="divCenter" id="horarioForm">
         <div class="panel panel-default" style="padding-bottom:0; margin-bottom:0px;">
             <div class="panel-heading salvando">
@@ -34,6 +35,7 @@
                 }
                 @*Tab Panel*@
                 <div class="tabbable" style="margin-top:0;">
+
                     <ul class="nav nav-tabs" id="hnTab">
                         <li class="active"><a href="#pnlTurnoNormal" data-toggle="tab" id="liPnlTurnoNormal" style="padding:5px;">Turno Normal</a></li>
                         <li><a href="#pnlParametros" data-toggle="tab" id="liPnlParametros" style="padding:5px;">Parâmetros</a></li>
@@ -638,7 +640,7 @@
                                                         </div>
                                                         <div class="row" style="padding-top:10px; text-align:right;">
                                                             @Html.LinkToAddNestedForm("Adicionar", "#limitesDDSR", ".limiteDDSR", "LimitesDDsrProporcionais",
-                                                                typeof(Modelo.LimiteDDsr), "Codigo", null)
+typeof(Modelo.LimiteDDsr), "Codigo", null)
                                                         </div>
                                                     </div>
                                                 </div>
@@ -882,6 +884,7 @@
             </div>
         </div>*@
 }
+
 <script>
     var prontoSubmit = false;
     cwk_DataCalendario('#btnInicioVigencia', '#InicioVigencia');
@@ -900,6 +903,16 @@
         $(container).find('input:visible:last').focus();
     }
     $(document).ready(function () {
+
+        if (!PaginaValida()) {
+            if ($('span[class="field-validation-error"]').length > 1) {
+                cwkErroTit('Foram encontrados Erros', 'Alguns(' + $('span[class="field-validation-error"]').length + ') campos na pagina estão com erro, por favor verifique!')
+            }
+            else {
+                cwkErroTit('Foram encontrados Erros', 'Algum campo na pagina esta com erro, por favor verifique!')
+            }
+        }
+
         validaCkbDias();
         validackbMarcaPercentualExtra();
         loadConvertDadosDSR();

@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 namespace cwkWebAPIPontoWeb.Controllers
 {
     [Authorize]
-    public class EmpresaController : ApiController
+    public class EmpresaController : ExtendedApiController
     {
         /// <summary>
         /// Cadastrar/Alterar Empresa.
@@ -26,9 +26,8 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Cadastrar(Models.PxyEmpresa obj)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Empresa bllEmpresa = new BLL.Empresa(connectionStr);
-            BLL.EmpresaCw_Usuario bllacessoPEmpresa = new BLL.EmpresaCw_Usuario(connectionStr);
+            BLL.Empresa bllEmpresa = new BLL.Empresa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+            BLL.EmpresaCw_Usuario bllacessoPEmpresa = new BLL.EmpresaCw_Usuario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
             obj.Cnpj = Utils.MetodosAuxiliares.FormatarCNPJ(obj.Cnpj);
             if (ModelState.IsValid)
             {
@@ -36,7 +35,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                 {
                     bool erro = false;
 
-                    erro = ValidaDados(obj, retErro, connectionStr);
+                    erro = ValidaDados(obj, retErro, usuarioPontoWeb.ConnectionString);
                     if (!erro)
                     {
                         Modelo.Empresa DadosAntEmp;
@@ -50,7 +49,8 @@ namespace cwkWebAPIPontoWeb.Controllers
                             long documento = Convert.ToInt64(BLL.cwkFuncoes.ApenasNumeros(obj.Cnpj == null ? obj.Cpf : obj.Cnpj));
                             DadosAntEmp = bllEmpresa.LoadObjectByDocumento(documento);
                         }
-                       
+                        bllEmpresa.SetTermosUsoApp(DadosAntEmp);
+
                         Acao acao = new Acao();
                         DateTime dt = DateTime.Now;
                         if (DadosAntEmp.Id == 0)
@@ -83,6 +83,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                         DadosAntEmp.Chave = DadosAntEmp.HashMD5ComRelatoriosValidacaoNova();
                         DadosAntEmp.IdIntegracao = obj.IdIntegracao;
                         DadosAntEmp.Ativo = obj.Ativo;
+                        DadosAntEmp.Integrando = true;
 
                         Dictionary<string, string> erros = new Dictionary<string, string>();
                         erros = bllEmpresa.Salvar(acao, DadosAntEmp);
@@ -121,8 +122,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Excluir(Int64 IdIntegracao)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Empresa bllEmpresa = new BLL.Empresa(connectionStr);
+            BLL.Empresa bllEmpresa = new BLL.Empresa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
             if (ModelState.IsValid)
             {
@@ -202,7 +202,7 @@ namespace cwkWebAPIPontoWeb.Controllers
         private bool ValidaDados(Models.PxyEmpresa obj, RetornoErro retErro, string connectionStr)
         {
             bool erro = false;
-            BLL.Empresa empBLL = new BLL.Empresa(connectionStr);
+            BLL.Empresa empBLL = new BLL.Empresa(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
             
             if ((String.IsNullOrEmpty(obj.Cnpj)) && (String.IsNullOrEmpty(obj.Cpf)))
             {

@@ -16,12 +16,12 @@ namespace Modelo.Proxy
 
         [Display(Name = "Início")]
         [Required(ErrorMessage = "Campo Obrigatório")]
-        [MinDate("01/01/1760")]
+        [MinDate("31/12/1999")]
         public DateTime InicioPeriodo { get; set; }
 
         [Display(Name = "Fim")]
         [Required(ErrorMessage = "Campo Obrigatório")]
-        [MinDate("01/01/1760")]
+        [MinDate("31/12/1999")]
         [DateRangeLessThan(31, "InicioPeriodo", "Início")]
         [DateGreaterThan("InicioPeriodo", "Início")]
         public DateTime FimPeriodo { get; set; }

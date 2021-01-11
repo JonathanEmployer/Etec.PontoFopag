@@ -187,6 +187,46 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugTeste|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugTeste\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugTeste|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\DebugTeste\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Teste|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Teste\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Teste|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Teste\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.dll</HintPath>
@@ -238,8 +278,12 @@
   <ItemGroup>
     <Compile Include="Email.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="IAlertasRepAcompanhamento.cs" />
     <Compile Include="IHorarioDinamicoRestricao.cs" />
+    <Compile Include="IJornadaSubstituir.cs" />
+    <Compile Include="IJornadaSubstituirFuncionario.cs" />
     <Compile Include="IJustificativaRestricao.cs" />
+    <Compile Include="IUsuarioControleAcesso.cs" />
     <Compile Include="IOcorrenciaRestricao.cs" />
     <Compile Include="IHorarioRestricao.cs" />
     <Compile Include="IEmpresaTermoUso.cs" />
@@ -253,7 +297,12 @@
     <Compile Include="IHorarioDinamicoPHExtra.cs" />
     <Compile Include="IParametroWebfopag.cs" />
     <Compile Include="ITransferenciaBilhetes.cs" />
+    <Compile Include="ILancamentoCartaoPonto.cs" />
     <Compile Include="ITransferenciaBilhetesDetalhes.cs" />
+    <Compile Include="RelatoriosSQL\RelatorioRefeicao.cs" />
+    <Compile Include="SQL\AlertasRepAcompanhamento.cs" />
+    <Compile Include="SQL\JornadaSubstituir.cs" />
+    <Compile Include="SQL\JornadaSubstituirFuncionario.cs" />
     <Compile Include="SQL\JustificaticaRestricao.cs" />
     <Compile Include="SQL\OcorrenciaRestricao.cs" />
     <Compile Include="SQL\HorarioDinamicoRestricao.cs" />
@@ -467,6 +516,7 @@
     <Compile Include="SQL\TipoBilhetes.cs" />
     <Compile Include="SQL\TipoVinculo.cs" />
     <Compile Include="SQL\TransferenciaBilhetes.cs" />
+    <Compile Include="SQL\LancamentoCartaoPonto.cs" />
     <Compile Include="SQL\TransferenciaBilhetesDetalhes.cs" />
     <Compile Include="SQL\TratamentoDePonto.cs" />
     <Compile Include="SQL\Tratamentomarcacao.cs" />

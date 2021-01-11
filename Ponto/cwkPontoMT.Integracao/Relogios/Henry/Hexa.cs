@@ -1237,49 +1237,60 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
 
                 string data = DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "_" + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString();
                 log.Debug(NumeroSerie + " Iniciando gravação do AFD em um arquivo a parte");
-                do
+                try
                 {
-                    count = 0;
-                    while (count < 10)
+                    do
                     {
-                        try
+                        count = 0;
+                        while (count < 10)
                         {
-                            string strFinal = rep.Comunicar(aes, "01", "RR", "00", "N]" + step.ToString() + "]" + nsrInicial.ToString());
-                            msg2 = stratRR.Parse("RR", strFinal);
+                            try
+                            {
+                                string strFinal = rep.Comunicar(aes, "01", "RR", "00", "N]" + step.ToString() + "]" + nsrInicial.ToString());
+                                msg2 = stratRR.Parse("RR", strFinal);
 
-                            foreach (var item in ((TicketMessage)msg2).Tickets)
-                            {
-                                log.Debug("AFD_" + NumeroSerie + "_" + data + "Linha " + item.TicketCompleto);
-                            }
-
-                            if (((TicketMessage)msg2).Tickets.Where(t => t.TipoTicket == 3) != null)
-                            {
-                                batidas.AddRange(((TicketMessage)msg2).Tickets.Where(t => t.TipoTicket == 3));
-                            }
-                            if (batidas.Count > 0)
-                            {
-                                if (batidas.Max(m => m.DataHora) > fim.GetValueOrDefault())
+                                foreach (var item in ((TicketMessage)msg2).Tickets)
                                 {
-                                    break;
+                                    log.Debug("AFD_" + NumeroSerie + "_" + data + "Linha " + item.TicketCompleto);
                                 }
-                            }
 
-                            break;
-                        }
-                        catch (Exception)
-                        {
-                            count++;
-                            if (count >= 10)
-                            {
-                                log.Debug(NumeroSerie + " Falha ao receber o retorno do equipamento após 10 tentativas.");
-                                throw new Exception("Falha ao receber o retorno do equipamento após 10 tentativas. Aguarde alguns instantes, ou reinicie o REP e tente novamente.");
+                                if (((TicketMessage)msg2).Tickets.Where(t => t.TipoTicket == 3) != null)
+                                {
+                                    batidas.AddRange(((TicketMessage)msg2).Tickets.Where(t => t.TipoTicket == 3));
+                                }
+                                if (batidas.Count > 0)
+                                {
+                                    if (batidas.Max(m => m.DataHora) > fim.GetValueOrDefault())
+                                    {
+                                        break;
+                                    }
+                                }
+
+                                break;
                             }
-                            Thread.Sleep(500);
-                            continue;
+                            catch (Exception)
+                            {
+                                count++;
+                                if (count >= 10)
+                                {
+                                    log.Debug(NumeroSerie + " Falha ao receber o retorno do equipamento após 10 tentativas.");
+                                    throw new Exception("Falha ao receber o retorno do equipamento após 10 tentativas. Aguarde alguns instantes, ou reinicie o REP e tente novamente.");
+                                }
+                                Thread.Sleep(500);
+                                continue;
+                            }
                         }
+                        nsrInicial += step;
+                    } while (nsrFinal >= (nsrInicial) && msg2.Info != 50);
+                }
+                catch (Exception e)
+                {
+                    //Se coletou batidas, mesmo que apresente erro, tenta enviar para o servidor
+                    if (!batidas.Any())
+                    {
+                        throw e;
                     }
-                    nsrInicial += step;
-                } while (nsrFinal >= (nsrInicial) && msg2.Info != 50);
+                }
                 log.Debug(NumeroSerie + " Setando o NSR Inicial. Posição atual: " + nsrInicial);
                 log.Debug(NumeroSerie + " Gravação do AFD Realizado com sucesso!");
 
@@ -1390,7 +1401,6 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                             log.Debug(NumeroSerie + " Solicitando " + step.ToString() + " registros a partir do = " + nsrInicio.ToString() + ". Comando = \"RR\", info = \"00\", dados = N]" + step.ToString() + "]" + nsrInicio.ToString());
                             string strFinal = rep.Comunicar(aes, "01", "RR", "00", "N]" + step.ToString() + "]" + nsrInicio.ToString());
                             log.Debug(NumeroSerie + " Lendo Retorno Solicitado = " + strFinal);
-                            infoRetorno = PreValidaRetornoColeta(infoRetorno, strFinal);
                             // Se foi retorno de erro para o processo
                             if (infoRetorno == 50)
                                 break;
@@ -1441,6 +1451,8 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                             // Se tentou coletar mais que 10 vezes aborta o processo
                             if (count >= 10)
                             {
+                                log.Debug("***************************************************************");
+                                log.Debug(NumeroSerie + $" ***** Testando dados coletados apos 10 tentativas, qtd Batidas {(batidas != null ? batidas.Count : 0)}; ultimoNSRSolicitado = {ultimoNSRColetado}; ultimoNSRSolicitado = {ultimoNSRColetado}");
                                 // Envio o que já foi coletado até o momento, pois se a variavel batidas estiver maior que 0, significa que coletou algo. Ou se ultimoNSRSolicitado e ultimoNSRColetado forem iguais significa que ele coletou até o último e depois pediu mais um fora do que existe no rep, o que da problema.
                                 if ((batidas != null && batidas.Count > 0) || (ultimoNSRSolicitado > 0 && ultimoNSRSolicitado == ultimoNSRColetado))
                                 {
@@ -1491,20 +1503,6 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                 rep.Desconectar();
             }
             return sb.ToString();
-        }
-
-        private static int PreValidaRetornoColeta(int infoRetorno, string strFinal)
-        {
-            // Pre validacao do retorno (as vezes o retorno tem erro e a formatacao esta errado, e o stratRR não consegue validar, por tanto foi criada essa segunda validacao)
-            try
-            {
-                string[] retorno = strFinal.Split('+');
-                infoRetorno = Convert.ToInt32(retorno[2].Substring(0, 3));
-            }
-            catch (Exception)
-            {
-            }
-            return infoRetorno;
         }
 
         public enum TipoEmpregador

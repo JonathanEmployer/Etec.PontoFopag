@@ -51,6 +51,7 @@ namespace DAL.SQL
                                     , us.SMTP
                                     , us.SSL
                                     , us.PORTA
+                                    , us.Ativo
                                     , case when us.tipo = 0 then 'Administrador' when us.tipo = 1 then 'Operador' when us.tipo = 2 then 'Gerente' end AS tipo
                              FROM cw_usuario us
                              LEFT JOIN cw_grupo gp ON gp.id = us.idgrupo Where us.login not in ('revenda','cwork')";
@@ -63,11 +64,11 @@ namespace DAL.SQL
 
             INSERT = @"  INSERT INTO cw_usuario
                             (codigo, login, senha, nome, tipo, idgrupo, incdata, inchora, incusuario, altdata, althora, altusuario, EMAIL, SENHAEMAIL, 
-                             SMTP, SSL, PORTA, PasswordSalt, Password, UltimoAcesso, connectionString, idUsuarioCentralCliente, UtilizaControleContratos, UtilizaControleEmpresa, UtilizaControleSupervisor, Cpf, SenhaRep, LoginRep, utilizaregistradordesktop,
+                             SMTP, SSL, PORTA, PasswordSalt, Password, UltimoAcesso, connectionString, idUsuarioCentralCliente, UtilizaControleContratos, UtilizaControleEmpresa, UtilizaControleSupervisor, Cpf, SenhaRep, LoginRep, utilizaregistradordesktop, Ativo,
                              CpfUsuario, PermissaoConcluirFluxoPnl)
 							VALUES
 							(@codigo, @login, @senha, @nome, @tipo, @idgrupo, @incdata, @inchora, @incusuario, @altdata, @althora, @altusuario, @EMAIL, @SENHAEMAIL, 
-                             @SMTP, @SSL, @PORTA, @PasswordSalt, @Password, @UltimoAcesso, @connectionString, @idUsuarioCentralCliente, @UtilizaControleContratos, @UtilizaControleEmpresa, @UtilizaControleSupervisor, @Cpf, @SenhaRep, @LoginRep, @utilizaregistradordesktop,
+                             @SMTP, @SSL, @PORTA, @PasswordSalt, @Password, @UltimoAcesso, @connectionString, @idUsuarioCentralCliente, @UtilizaControleContratos, @UtilizaControleEmpresa, @UtilizaControleSupervisor, @Cpf, @SenhaRep, @LoginRep, @utilizaregistradordesktop, @Ativo,
                              @CpfUsuario, @PermissaoConcluirFluxoPnl) 
 						SET @id = SCOPE_IDENTITY()";
 
@@ -100,6 +101,7 @@ namespace DAL.SQL
                             , utilizaregistradordesktop = @utilizaregistradordesktop
                             , CpfUsuario = @CpfUsuario
                             , PermissaoConcluirFluxoPnl = @PermissaoConcluirFluxoPnl
+                            , Ativo = @Ativo 
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM cw_usuario WHERE id = @id";
@@ -142,7 +144,8 @@ namespace DAL.SQL
                 new SqlParameter ("@LoginRep", SqlDbType.VarChar),
                 new SqlParameter ("@utilizaregistradordesktop", SqlDbType.Bit),
                 new SqlParameter ("@CpfUsuario", SqlDbType.VarChar),
-                new SqlParameter ("@PermissaoConcluirFluxoPnl", SqlDbType.Bit)
+                new SqlParameter ("@PermissaoConcluirFluxoPnl", SqlDbType.Bit),
+                new SqlParameter ("@Ativo", SqlDbType.Bit),
             };
             return parms;
         }
@@ -188,6 +191,7 @@ namespace DAL.SQL
             parms[29].Value = ((Modelo.Cw_Usuario)obj).utilizaregistradordesktop;
             parms[30].Value = ((Modelo.Cw_Usuario)obj).CPFUsuario;
             parms[31].Value = ((Modelo.Cw_Usuario)obj).PermissaoConcluirFluxoPnl;
+            parms[32].Value = ((Modelo.UsuarioPontoWeb)obj).Ativo;
 
             if (((Modelo.Cw_Usuario)obj).UtilizaControleEmpresa)
             {

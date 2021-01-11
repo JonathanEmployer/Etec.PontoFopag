@@ -30,13 +30,13 @@ namespace BLL
         public FechamentoBH()
             : this(null)
         {
-            
+
         }
 
         public FechamentoBH(string connString)
             : this(connString, cwkControleUsuario.Facade.getUsuarioLogado)
         {
-            
+
         }
 
         public FechamentoBH(string connString, Modelo.Cw_Usuario usuarioLogado)
@@ -229,7 +229,7 @@ namespace BLL
             return FachandoBH(pTipo, pIdTipo, pIdBancoHoras, ref pData, motivo, pagamentoCreditosAutomaticamente, pagamentoDebitosAutomaticamente, LimiteHorasPagamentoCredito, LimiteHorasPagamentoDebito);
         }
 
-        private Dictionary<string, string> FachandoBH(short pTipo, int pIdTipo, int pIdBancoHoras, ref DateTime pData, string  motivo, bool pagamentoCreditosAutomaticamente, bool pagamentoDebitosAutomaticamente, string LimiteHorasPagamentoCredito, string LimiteHorasPagamentoDebito)
+        private Dictionary<string, string> FachandoBH(short pTipo, int pIdTipo, int pIdBancoHoras, ref DateTime pData, string motivo, bool pagamentoCreditosAutomaticamente, bool pagamentoDebitosAutomaticamente, string LimiteHorasPagamentoCredito, string LimiteHorasPagamentoDebito)
         {
             Dictionary<string, string> erros = new Dictionary<string, string>();
             try
@@ -254,7 +254,7 @@ namespace BLL
 
                 //Realiza o fechamento do banco de horas por funcionario
                 CalculaFechamento(objBancoHoras.DataInicial.Value, objBancoHoras.DataFinal.Value, objFechamentoBH, ref listaobjFechamentoBHDPercentual, pagamentoCreditosAutomaticamente, String.Empty, pagamentoDebitosAutomaticamente, String.Empty, objBancoHoras);
-                              
+
                 bllMarcacao.RecalculaMarcacao(objBancoHoras.Tipo, objBancoHoras.Identificacao, objFechamentoBH.Data.Value, objFechamentoBH.Data.Value, objProgressBar);
             }
             catch (Exception ex)
@@ -265,7 +265,7 @@ namespace BLL
         }
 
 
-        public void ChamaCalculaFechamento(Modelo.BancoHoras objBancoHoras, Modelo.FechamentoBH objFechamentoBH, 
+        public void ChamaCalculaFechamento(Modelo.BancoHoras objBancoHoras, Modelo.FechamentoBH objFechamentoBH,
                                             ref IList<Modelo.FechamentoBHDPercentual> listaObjFechamentoBHDPercentual,
                                             bool pagamentoCreditosAutomaticamente, string LimiteHorasPagamentoCredito, bool pagamentoDebitosAutomaticamente,
                                             string LimiteHorasPagamentoDebito, ref Modelo.ProgressBar objProgressBarLocal)
@@ -274,8 +274,8 @@ namespace BLL
                 LimiteHorasPagamentoCredito, pagamentoDebitosAutomaticamente, LimiteHorasPagamentoDebito, objBancoHoras);
         }
 
-        private void CalculaFechamento(DateTime pDataInicial, DateTime pDataFinal, Modelo.FechamentoBH pObjFechamentoBH, ref IList<Modelo.FechamentoBHDPercentual> listaObjFechamentoBHPercentual, 
-                                       bool pagamentoCreditosAutomaticamente, string LimiteHorasPagamentoCredito, bool pagamentoDebitosAutomaticamente, string LimiteHorasPagamentoDebito, 
+        private void CalculaFechamento(DateTime pDataInicial, DateTime pDataFinal, Modelo.FechamentoBH pObjFechamentoBH, ref IList<Modelo.FechamentoBHDPercentual> listaObjFechamentoBHPercentual,
+                                       bool pagamentoCreditosAutomaticamente, string LimiteHorasPagamentoCredito, bool pagamentoDebitosAutomaticamente, string LimiteHorasPagamentoDebito,
                                        Modelo.BancoHoras objBancoHoras)
         {
             BLL.Marcacao bllMarcacao = new BLL.Marcacao(ConnectionString, UsuarioLogado);
@@ -407,44 +407,36 @@ namespace BLL
 
         private int VerificaLimitePagamento(int credito, string LimiteHorasPagamentoCredito, int debito, string LimiteHorasPagamentoDebito, ref int saldobh)
         {
-            int saldo = credito - debito;
-
             try
             {
+                int saldo = 0;
+                saldobh = credito - debito;
+
                 int limiteCreditoPag = Modelo.cwkFuncoes.ConvertHorasMinuto(LimiteHorasPagamentoCredito);
                 int limiteCreditoDeb = (Modelo.cwkFuncoes.ConvertHorasMinuto(LimiteHorasPagamentoDebito) * -1);
 
-                if (saldo > 0)
+                if (saldobh > 0)
                 {
                     if (limiteCreditoPag > 0)
                     {
-                        saldo -= limiteCreditoPag;
-
-                        if (saldo > 0)
-                            saldobh = limiteCreditoPag;
-                        else
-                            saldo = credito - debito;
+                        saldo = limiteCreditoPag;
+                        saldobh -= saldo;
                     }
                 }
                 else
                 {
                     if (limiteCreditoDeb < 0)
                     {
-                        saldo -= limiteCreditoDeb;
-
-                        if (saldo < 0)
-                            saldobh = limiteCreditoDeb;
-                        else
-                            saldo = credito - debito;
+                        saldo = limiteCreditoDeb;
+                        saldobh -= saldo;
                     }
                 }
+                return saldo;
             }
-            catch
+            catch (Exception ex)
             {
-                saldobh = 0;
+                throw ex;
             }
-            
-            return saldo;
         }
 
         public Dictionary<string, string> ChamaPreencheObjeto(out Modelo.BancoHoras pObjBancoHoras, out Modelo.FechamentoBH pObjFechamentoBH, short pTipo, int pIdTipo,
@@ -507,6 +499,11 @@ namespace BLL
         public List<Modelo.FechamentoBH> GetAllListFuncs(List<int> idsFuncs)
         {
             return dalFechamentoBH.GetAllListFuncs(idsFuncs, true);
+        }
+
+        public List<Modelo.FechamentoBH> GetByIdBancoHoras(int idBancoHoras)
+        {
+            return dalFechamentoBH.GetByIdBancoHoras(idBancoHoras);
         }
 
     }

@@ -220,7 +220,7 @@ namespace cwkWebAPIPontoWeb.Controllers
 		                                        DsCodigo,
 	                                            Nome,
 	                                            Pis,
-	                                            '' Senha,
+	                                            iif(func.senha is null,func.senha, master.dbo.FN_ClSeguranca_Decrypt(func.senha)) Senha,
                                                 Matricula,
                                                 (select top(1) RFID from FuncionarioRFID where IdFuncionario = func.id and Ativo = 1 and RFID is not null) RFID,
 		                                        (select top(1) MIFARE from FuncionarioRFID where IdFuncionario = func.id and Ativo = 1 and MIFARE is not null) MIFARE,

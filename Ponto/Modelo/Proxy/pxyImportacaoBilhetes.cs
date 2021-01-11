@@ -14,12 +14,12 @@ namespace Modelo.Proxy
 
         [Display(Name = "Data Inicial")]
         [Required(ErrorMessage = "Campo Obrigatório")]
-        [MinDate("01/01/1760")]
+        [MinDate("31/12/1999")]
         public DateTime? DataInicial { get; set; }
 
         [Display(Name = "Data Final")]
         [Required(ErrorMessage = "Campo Obrigatório")]
-        [MinDate("01/01/1760")]
+        [MinDate("31/12/1999")]
         public DateTime? DataFinal { get; set; }
 
         [Display(Name = "Marcação Individual")]

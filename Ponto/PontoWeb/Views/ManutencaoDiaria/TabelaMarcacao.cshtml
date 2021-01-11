@@ -7,6 +7,7 @@
 }
 @using (Html.BeginForm("", "", FormMethod.Post, new { id = "FormTabelaMarcacao" }))
 {
+    @Html.AntiForgeryToken()
     <div class="" style="padding-top:2px;">
         <!-- Modal -->
         <div class="modal fade in" id="myModal" tabindex="" role="dialog" data-keyboard="false" data-backdrop="static" aria-labelledby="myModalLabel" aria-hidden="true" style="padding-right:5px; padding-left:5px; padding-top:1px;">
@@ -48,7 +49,7 @@
                                                             </div>
 
                                                         </div>
-                                                    </div>                                                            
+                                                    </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <div class="btn-group btn-group-sm btn-group-justified" role="group">
@@ -60,7 +61,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div class>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -176,23 +177,16 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div class="col-md-2">
-                                                <p style="padding-left:15px; margin-bottom:0"><b>A</b> - Afastamento</p>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <p style="padding-left:15px; margin-bottom:0"><b>F</b> - Feriado</p>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <p style="padding-left:15px; margin-bottom:0"><b>I</b> - Inclusão Banco Horas</p>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <p style="padding-left:15px; margin-bottom:0"><b>*</b> - Marcações Alteradas</p>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <p style="padding-left:15px; margin-bottom:0"><b>J</b> - Jornada Alternativa</p>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <p style="padding-left:15px; margin-bottom:0"><b>M</b> - Mudança de Horário</p>
+                                            <div class="col-md-12">
+                                                <ul class="list-inline">
+                                                    <li><b>A</b> - Afastamento &nbsp; &nbsp;</li>
+                                                    <li><b>F</b> - Feriado &nbsp; &nbsp;</li>
+                                                    <li><b>I</b> - Inclusão Banco Horas &nbsp; &nbsp;</li>
+                                                    <li><b>*</b> - Marcações Alteradas &nbsp; &nbsp;</li>
+                                                    <li><b>J</b> - Jornada Alternativa &nbsp; &nbsp;</li>
+                                                    <li><b>M</b> - Mudança de Horário &nbsp; &nbsp;</li>
+                                                    <li><b>S</b> - Substituição de Jornada &nbsp; &nbsp;</li>
+                                                </ul>
                                             </div>
                                         </div>
                                     </div>
@@ -221,9 +215,28 @@
                                     <button class="btn btn-primary btn-sm desabilitar-ao-carregar" type="button" id="btnOrdenaHorarioData">
                                         <span class="fa fa-calendar-o"></span>&nbsp;Ordenar Horário
                                     </button>
-                                    <button type="button" id="btTurnoFunc" title="Turno do Funcionário" class="btn btn-primary btn-sm desabilitar-ao-carregar">
-                                        <span class="glyphicon glyphicon-time"></span> Horário
-                                    </button>
+                                    <div class="btn-group dropup">
+                                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="btHorarios" data-toggle="dropdown">
+                                            <span class="fa fa-clock-o"></span>&nbsp;Horário&nbsp;<span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="btHorarios">
+                                            <li role="presentation">
+                                                <button class="btn btn-primary btn-block btn-sm" type="button" id="btTurnoFunc">
+                                                    <span class="fa fa-clock-o"></span>&nbsp;Horário
+                                                </button>
+                                            </li>
+                                            <li role="presentation">
+                                                <button class="btn btn-primary btn-block btn-sm" type="button" id="btCadMudancaHorario">
+                                                    <span class="fa fa-refresh"></span>&nbsp;Mudança de horário
+                                                </button>
+                                            </li>
+                                            <li role="presentation">
+                                                <button class="btn btn-primary btn-block btn-sm" type="button" id="btHMudancaHorario">
+                                                    <span class="fa fa-list"></span>&nbsp;Hist. Mudança de Horário
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
                                     <button type="button" id="btTotHorasFunc" title="Total de Horas do Funcionário" class="btn btn-primary btn-sm desabilitar-ao-carregar">
                                         <span class="glyphicon glyphicon-list-alt"></span> Total Horas
                                     </button>
@@ -357,6 +370,9 @@
             }
         }
     });
+
+    cwk_EventoAlterarAjaxParam('#btHMudancaHorario', 'GridPorMarcacao', 'MudancaHorario', '#tb', "");
+    cwk_EventoAlterarAjaxParam('#btCadMudancaHorario', 'CadastrarManutMarcacao', 'MudancaHorario', '#tb', "");
 
     function callBackEmpresa(campo) {
         var empresa = $(campo).val();
@@ -580,15 +596,6 @@
     $('#btRelManutDiaria').click(function (event) {
         var parms = ParamPeriodoEmpDepCont();
         if (parms != null) {
-            //var param = {
-            //    method: "post",
-            //    action: "/RelatorioManutencaoDiaria/ManutencaoDiaria",
-            //    emp: parms.empresa,
-            //    depart: parms.departamento,
-            //    dataInicial: parms.dataInicial,
-            //    dataFinal: parms.dataFinal
-            //};
-            //cwk_PostAjax('ManutencaoDiariaParms', 'RelatorioManutencaoDiaria', param);
             PostReturnJob("/RelatorioManutencaoDiaria/ManutencaoDiariaParms", "Post", parms, "ManutencaoDiariaTabelaMarcacao", false);
         }
         else {

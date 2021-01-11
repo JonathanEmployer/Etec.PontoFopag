@@ -194,6 +194,10 @@ namespace Modelo
 
         public List<ItensCombo> ItensEquipamentoTipoBiometria { get; set; }
         public virtual EquipamentoTipoBiometria EquipamentoTipoBiometria { get; set; }
+        [Display(Name = "Portaria 373")]
+        public bool Portaria373 { get; set; }
+        [Display(Name = "Relógio")]
+        public int IdEquipamentoHomologado373 { get; set; }
 
         public string ServicoPontoCom { get; set; }
     }

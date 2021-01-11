@@ -4,6 +4,8 @@ namespace Modelo.Relatorios
 {
     public class RelatorioAfdPortaria373Model : RelatorioBaseModel, IRelatorioModel
     {
+        public bool GerarCabecalhoRodape { get; set; }
+
         public Dictionary<int, string> lIdEmpAndNumRep { 
             get 
             {

@@ -1055,11 +1055,11 @@ namespace DAL.SQL
             cmd.Parameters.Clear();
         }
 
-        public int? GetIdPorCodigo(int Cod, bool validaPermissaoUser)
+        public int? GetIdPorCodigo(int Cod , int Tipo, bool validaPermissaoUser)
         {
             SqlParameter[] parms = new SqlParameter[0];
             DataTable dt = new DataTable();
-            string consulta = "select top 1 id from horario where codigo = " + Cod;
+            string consulta = "select top 1 id from horario where codigo = " + Cod + " and tipohorario =  " + Tipo;
             if (validaPermissaoUser)
             {
                 consulta += AddPermissaoUsuario(" horario.id");

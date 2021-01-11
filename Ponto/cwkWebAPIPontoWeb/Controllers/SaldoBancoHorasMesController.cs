@@ -17,7 +17,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// <summary>
     /// Controler para retornar uma lista de Saldo de banco de horas por mês;
     /// </summary>
-    public class SaldoBancoHorasMesController : ApiController
+    public class SaldoBancoHorasMesController : ExtendedApiController
     {
         /// <summary>
         /// Método responsável por retornar a lista saldo de banco de horas por mês;
@@ -33,7 +33,6 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage SaldoBancoHorasMes(string CPF, int MesBase, int AnoBase, string Matricula, int QuantidadeMesesAnteriores)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
             CPF = CPF.Replace("-", "").Replace(".", "");
             Int64 CPFint = Convert.ToInt64(CPF);
             DateTime datainicio;
@@ -47,7 +46,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                 try
                 {
                     Dictionary<string, string> erros = new Dictionary<string, string>();
-                    BLL.Funcionario bllFuncionario = new BLL.Funcionario(connectionStr);
+                    BLL.Funcionario bllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     Funcionario func = bllFuncionario.GetFuncionarioPorCpfeMatricula(CPFint, Matricula);
                     if (func == null || func.Id == 0)
                     {
@@ -56,7 +55,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                     }
 
                     BLL.ConfirmacaoPainel bllConfirmacao;
-                    BuscaPeriodoFechamento(ref MesBase, ref AnoBase, connectionStr, func, out datainicio, out datafim, out diafechamentoinicial, out diafechamentofinal, out bllConfirmacao);
+                    BuscaPeriodoFechamento(ref MesBase, ref AnoBase, usuarioPontoWeb.ConnectionString, func, out datainicio, out datafim, out diafechamentoinicial, out diafechamentofinal, out bllConfirmacao);
 
                     if (diafechamentoinicial > 15 && diafechamentoinicial < DateTime.Now.Day && MesBase == DateTime.Now.Month)
                     {
@@ -91,7 +90,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                                 break;
                             }
 
-                            BLL.Marcacao dalMarcacao = new BLL.Marcacao(connectionStr);
+                            BLL.Marcacao dalMarcacao = new BLL.Marcacao(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
                             if (periodofechamento.DataFechamentoFinal.Date >= DateTime.Now.Date)
                             {
@@ -126,7 +125,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                         }
                     }
 
-                    BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(connectionStr);
+                    BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     var ini = lSaldoBancoHorasMes.Min(s => s.PeriodoInicio);
                     var fin = lSaldoBancoHorasMes.Max(s => s.PeriodoFim);
                     DataTable bancoSaldo = bllBancoHoras.GetCredDebBancoHorasComSaldoPeriodo(new List<int>() { func.Id }, ini, fin);

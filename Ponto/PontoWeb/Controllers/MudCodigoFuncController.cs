@@ -80,7 +80,6 @@ namespace PontoWeb.Controllers
 
         protected override ActionResult Salvar(MudCodigoFunc mudCodigoFunc)
         {
-            int idfunc = 0;
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(_usr.ConnectionString, _usr);
             Dictionary<string, string> erros = new Dictionary<string, string>();
             ValidarForm(mudCodigoFunc);
@@ -104,9 +103,8 @@ namespace PontoWeb.Controllers
                         //Verifica se existe algum provisório no período
                         if (!bllProvisorio.ExisteProvisorio(mudCodigoFunc.DSCodigoNovo, data))
                         {
-                            Modelo.Funcionario objFuncionario = bllFuncionario.LoadObject(idfunc);
-                            idfunc = mudCodigoFunc.IdFuncionario;
-                            DateTime? ultimaData = bllMarcacao.GetUltimaDataFuncionario(idfunc);
+                            Modelo.Funcionario objFuncionario = bllFuncionario.LoadObject(mudCodigoFunc.IdFuncionario);
+                            DateTime? ultimaData = bllMarcacao.GetUltimaDataFuncionario(mudCodigoFunc.IdFuncionario);
                             if (ultimaData == null || ultimaData == new DateTime())
                             {
                                 //Cria as marcações que não existem desde a data de admissao do funcionario até a data da mudanca
@@ -120,11 +118,11 @@ namespace PontoWeb.Controllers
                                     bllMarcacao.AtualizaData(ultimaData.Value, data.AddDays(-1), objFuncionario);
                                 }
                             }
-                            if (bllFuncionario.MudaCodigoFuncionario(idfunc, mudCodigoFunc.DSCodigoNovo, data))
+                            if (bllFuncionario.MudaCodigoFuncionario(objFuncionario.Id, codigo.ToString(), data))
                             {
                                 HangfireManagerCalculos hfm = new HangfireManagerCalculos(_usr.DataBase, "", "", "/MudCodigoFunc/Grid");
                                 string parametrosExibicao = String.Format("Mudança de código do funcionário: {0} | {1}, do código: {2} para {3}", objFuncionario.Codigo, objFuncionario.Nome, mudCodigoFunc.DSCodigoAntigo, mudCodigoFunc.DSCodigoNovo);
-                                hfm.RecalculaMarcacao("Mudança de código de funcionário", parametrosExibicao, new List<int>() { idfunc}, data, DateTime.Today);
+                                hfm.RecalculaMarcacao("Mudança de código de funcionário", parametrosExibicao, new List<int>() { objFuncionario.Id}, data, DateTime.Today);
                             }
                         }
                         else

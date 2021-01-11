@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Modelo.Proxy;
 
 namespace DAL.SQL
 {
@@ -450,7 +451,7 @@ namespace DAL.SQL
                     sb.AppendLine(" AND (SELECT COUNT(id) FROM empresacwusuario WHERE empresacwusuario.idcw_usuario = "
                         + UsuarioLogado.Id.ToString() + " AND empresacwusuario.idempresa = empresa.id) > 0 ");
                 }
-            }                   
+            }
             return sb.ToString();
         }
 
@@ -459,7 +460,7 @@ namespace DAL.SQL
             SqlParameter[] parms = new SqlParameter[0];
             string Ativo = " and empresa.Ativo = 1";
 
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SELECTLIST + GetWhereSelectAll()+ Ativo, parms);
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SELECTLIST + GetWhereSelectAll() + Ativo, parms);
 
             List<Modelo.Empresa> lista = new List<Modelo.Empresa>();
             try
@@ -887,7 +888,16 @@ namespace DAL.SQL
             int utiliza = 1;
             SqlParameter[] parms = new SqlParameter[] { new SqlParameter("@utiliza", SqlDbType.Int) };
             parms[0].Value = utiliza;
-            string aux = @"SELECT utilizaregistradorfunc FROM dbo.empresa where utilizaregistradorfunc = @utiliza";
+            string aux = @"select top 1 * 
+                              from (
+                            	select iif(utilizaregistradorfunc = 1 or utilizaApp > 0, 1,0) utilizaregistradorfunc
+                            	from (
+                            		SELECT utilizaregistradorfunc, (select top 1 count(1) from EmpresaTermoUso et where em.id = et.idempresa) utilizaApp
+                            		FROM dbo.empresa em
+                            	      ) t
+                                   ) x 
+                             where utilizaregistradorfunc = @utiliza
+                             order by 1 desc ";
 
             var controEmp = db.ExecuteScalar(CommandType.Text, aux, parms);
             var Bloq = Convert.ToInt32(controEmp);
@@ -897,6 +907,23 @@ namespace DAL.SQL
             }
             return true;
         }
+
+
+        //public bool ConsultaUtilizaRegistradorAllEmpAppPontoWebAppPonto()
+        //{
+        //    int utiliza = 1;
+        //    SqlParameter[] parms = new SqlParameter[] { new SqlParameter("@utiliza", SqlDbType.Int) };
+        //    parms[0].Value = utiliza;
+        //    string aux = @"SELECT utilizaregistradorfunc FROM dbo.empresa where utilizaregistradorfunc = @utiliza";
+
+        //    var controEmp = db.ExecuteScalar(CommandType.Text, aux, parms);
+        //    var Bloq = Convert.ToInt32(controEmp);
+        //    if (controEmp == null)
+        //    {
+        //        return false;
+        //    }
+        //    return true;
+        //}
 
         public bool UtilizaControleContratos()
         {
@@ -943,6 +970,112 @@ namespace DAL.SQL
             }
             return lista;
         }
+
+
+        /// <summary>
+        /// Retorna uma lista de empresas vinculados a um funcionário
+        /// </summary>
+        /// <param name="idFuncionario">ID do Funcionário</param>
+        /// <returns>Lista contendo as empresas vinculadas aquele funcionário</returns>
+        public List<Modelo.Empresa> GetEmpresasUsuarioId(int idFuncionario)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@idFuncionario", SqlDbType.Int)
+            };
+            parms[0].Value = idFuncionario;
+
+            string sql = @"select c.* from dbo.empresa c
+	                        inner join dbo.empresacwusuario cf on c.id = cf.idempresa
+	                            where cf.idcw_usuario = @idFuncionario";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+
+            List<Modelo.Empresa> lista = new List<Modelo.Empresa>();
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Empresa>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Empresa>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
+
+        public void DeletarEmpresasUsuario(int idUsuario)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@idUsuario", SqlDbType.Int)
+            };
+            parms[0].Value = idUsuario;
+
+            string sql = @"DELETE FROM empresacwusuario WHERE idcw_usuario = " + idUsuario;
+
+            using (SqlConnection conn = new SqlConnection(db.ConnectionString))
+            using (SqlCommand cmd = new SqlCommand(sql, db.GetConnection))
+            {         
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception();
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public List<pxyUsuarioControleAcessoAdicionarEmpresa> GetAllEmpresasControle()
+        {
+            List<Modelo.Proxy.pxyUsuarioControleAcessoAdicionarEmpresa> lista = new List<Modelo.Proxy.pxyUsuarioControleAcessoAdicionarEmpresa>();
+
+            SqlParameter[] parms = new SqlParameter[] { };
+
+            string aux = @" SELECT   emp.id AS Id,
+		                             emp.codigo AS Codigo,
+                                     emp.nome AS Nome,
+		                             ISNULL(emp.cnpj, emp.cpf) AS CpfCnpj,
+                                      'Empresa' AS Tipo
+		                                FROM empresa emp";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Proxy.pxyUsuarioControleAcessoAdicionarEmpresa>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Proxy.pxyUsuarioControleAcessoAdicionarEmpresa>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
+
+
         #endregion
     }
 }

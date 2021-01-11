@@ -253,6 +253,25 @@ namespace Modelo
             }
         }
 
+        public static bool HoraValida(string pBatida)
+        {
+            bool retorno = false;
+            try
+            {
+                if (string.IsNullOrEmpty(pBatida) || pBatida.Contains("--:--"))
+                {
+                    retorno = true;
+                }
+                string[] hora = pBatida.Split(':');
+                retorno = Convert.ToInt32(hora[0]) <= 23 && Convert.ToInt32(hora[1]) <= 59;
+            }
+            catch (Exception)
+            {
+                retorno = false;
+            }
+            return retorno;
+        }
+
         /// <summary>
         /// Método que recebe como parâmetro um string no formato HH:MM e converte esse horário em minutos 
         /// </summary>
@@ -381,6 +400,25 @@ namespace Modelo
             decimal hh;
             decimal mm;
             ConvMinutoHora(pMinutos, out hh, out mm);
+
+            return String.Format("{0:00}:{1:00}", hh, mm);
+        }
+
+
+        public static string ConvertMinutosHoraExcel(decimal pMinutos)
+        {
+            if (pMinutos <= 0)
+            {
+                return "--:--";
+            }
+
+            decimal hh;
+            decimal mm;
+
+            decimal aux = pMinutos / 60;
+
+            hh = Math.Truncate(aux);
+            mm = Math.Truncate(Math.Round((aux - hh) * 60, 0));
 
             return String.Format("{0:00}:{1:00}", hh, mm);
         }

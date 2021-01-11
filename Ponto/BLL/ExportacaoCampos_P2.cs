@@ -155,7 +155,7 @@ namespace BLL
         {
             bool Condicao = true;
             BLL.Parametros bllParametros = new BLL.Parametros(ConnectionString, UsuarioLogado);
-            ExportarValorZerado = bllParametros.GetAllList().ToArray()[0].ExportarValorZerado == 0? false : true;
+            ExportarValorZerado = bllParametros.GetAllList().ToArray()[0].ExportarValorZerado == 0 ? false : true;
             progressBar.Value.setaMensagem("Carregando dados");
             List<int> idsFuncs = funcionarios.Select(s => s.Id).Distinct().ToList();
             List<Modelo.Eventos> listaEventos = dalEventos.GetAllList().OrderBy(e => e.Codigo).ToList();
@@ -164,7 +164,7 @@ namespace BLL
                 listaEventos = listaEventos.FindAll(e => idsEventos.Contains(e.Id));
             }
             List<Modelo.BancoHoras> bancoHorasList = dalBancoHoras.GetAllListFuncs(false, idsFuncs);
-            List<Modelo.FechamentoBH> fechamentoBHList = dalFechamentoBH.GetAllListFuncs(idsFuncs,false);
+            List<Modelo.FechamentoBH> fechamentoBHList = dalFechamentoBH.GetAllListFuncs(idsFuncs, false);
             List<Modelo.FechamentoBHD> fechamentoBHDList = dalFechamentoBHD.getPorListaFuncionario(idsFuncs);
             List<Modelo.FechamentobhdHE> fechamentobhdHEList = dalFechamentobhdHE.GetAllList().ToList();
             List<Modelo.JornadaAlternativa> listaJornadas = dalJornadaAlternativa.GetPeriodoFuncionarios(dataI.Value, dataF.Value, idsFuncs);
@@ -265,7 +265,7 @@ namespace BLL
             foreach (Modelo.Funcionario func in funcionarios)
             {
                 progressBar.Value.incrementaPB(1);
-                progressBar.Value.setaMensagem("Exportando "+func.Nome);
+                progressBar.Value.setaMensagem("Exportando " + func.Nome);
 
                 List<Modelo.TotalHoras> totalhoras = new List<Modelo.TotalHoras>();
                 List<Modelo.TotalHoras> totalhorasMensalista = new List<Modelo.TotalHoras>();
@@ -309,7 +309,7 @@ namespace BLL
                         if (totalizadorBancoHoras.PercQuantHorasPerc2FechamentobhdHE > 0)
                         {
                             objTotalHoras.RateioFechamentobhdHE.Add(totalizadorBancoHoras.PercQuantHorasPerc2FechamentobhdHE, totalizadorBancoHoras.QuantHorasPerc2FechamentobhdHE);
-                        } 
+                        }
                     }
 
                     foreach (var hm in listaEventos.GroupBy(x => x.HoristaMensalista).Select(g => new { HoristaMensalista = g.Key }))
@@ -529,7 +529,7 @@ namespace BLL
             {
                 if (campo.Zeroesquerda == 1)
                 {
-                    if (campo.Formatoevento != String.Empty)
+                    if (campo.Formatoevento != String.Empty || (string.IsNullOrEmpty(campo.Formatoevento) && m > 0))
                     {
                         totstr.Append(String.Format("{0:000}", h));
                         totstr.Append(campo.Formatoevento.Trim());
@@ -542,7 +542,7 @@ namespace BLL
                 }
                 else
                 {
-                    if (campo.Formatoevento != String.Empty)
+                    if (campo.Formatoevento != String.Empty || (string.IsNullOrEmpty(campo.Formatoevento) && m > 0))
                     {
                         totstr.Append(String.Format("{0, 3}", h));
                         totstr.Append(campo.Formatoevento.Trim());
@@ -677,14 +677,22 @@ namespace BLL
                     }
                     else
                     {
-                        int valorPercentualAjustado = 0;
+                        decimal valorPercentualAjustado = 0;
                         if (objTotalHoras.Count > 0)
                         {
                             valorPercentualAjustado = GetValuePercentual(eve, objTotalHoras, valorPercentualAjustado);
                         }
                         if (valorPercentualAjustado != 0)
                         {
+                            //if (valorPercentualAjustado.ToString().Contains(',') && campo.Tipo.Contains("Percentual"))
+                            //{
+                            //    valorPerc = String.Format("{0:N}", valorPercentualAjustado);
+                            //}
+                            //else
+                            //{
                             valorPerc = String.Format(formato.ToString(), valorPercentualAjustado);
+                            //}
+
                         }
                         else
                         {
@@ -703,7 +711,7 @@ namespace BLL
                     else
                     {
 
-                        int valorPercentualAjustado = 0;
+                        decimal valorPercentualAjustado = 0;
                         if (objTotalHoras.Count > 0)
                         {
                             valorPercentualAjustado = GetValuePercentual(eve, objTotalHoras, valorPercentualAjustado);
@@ -832,10 +840,10 @@ namespace BLL
             return valorCampo;
         }
 
-        private static int GetValuePercentual(Modelo.Eventos eve, List<Modelo.TotalHoras> objTotalHoras, int valorPercentualAjustado)
+        private static decimal GetValuePercentual(Modelo.Eventos eve, List<Modelo.TotalHoras> objTotalHoras, decimal valorPercentualAjustado)
         {
             //Método responsável para armazenar os valores de percentuais extra e encontrar o valor do percentual correto
-            Dictionary<string, int> dicionarioTeste = new Dictionary<string, int>();
+            Dictionary<string, decimal> dicionarioTeste = new Dictionary<string, decimal>();
             dicionarioTeste.Add("PercentualExtra1", eve.PercentualExtra1);
             dicionarioTeste.Add("PercentualExtra2", eve.PercentualExtra2);
             dicionarioTeste.Add("PercentualExtra3", eve.PercentualExtra3);
@@ -847,8 +855,8 @@ namespace BLL
             dicionarioTeste.Add("PercentualExtra9", eve.PercentualExtra9);
             dicionarioTeste.Add("PercentualExtra10", eve.PercentualExtra10);
 
-            int getRateio = objTotalHoras.FirstOrDefault().RateioHorasExtras.FirstOrDefault().Key;
-            int getValue = dicionarioTeste.FirstOrDefault(x => x.Value == getRateio).Value;
+            decimal getRateio = objTotalHoras.FirstOrDefault().RateioHorasExtras.FirstOrDefault().Key;
+            decimal getValue = dicionarioTeste.FirstOrDefault(x => x.Value == getRateio).Value;
 
             valorPercentualAjustado = getValue;
             return valorPercentualAjustado;
@@ -881,7 +889,15 @@ namespace BLL
         {
             if (campo.Zeroesquerda == 1)
             {
-                formato.Append("{0:D");
+
+                if (campo.Tipo.Contains("Percentual"))
+                {
+                    formato.Append("{0:N");
+                }
+                else
+                {
+                    formato.Append("{0:D");
+                }
             }
             else
             {
@@ -946,7 +962,7 @@ namespace BLL
                 if (eve.Fn == 1) { total += objTotalHoras.FaltasCompletasNoturnasMin; }
             }
 
-            Dictionary<int, UsaDiurnaNoturna> percentuais = GetPercentuaisExtraEvento(eve);
+            Dictionary<decimal, UsaDiurnaNoturna> percentuais = GetPercentuaisExtraEvento(eve);
             foreach (var p in percentuais)
             {
                 if (objTotalHoras.RateioHorasExtras.ContainsKey(p.Key) || objTotalHoras.RateioFechamentobhdHE.ContainsKey(p.Key) || (eve.ClassificarHorasExtras && objTotalHoras.HorasExtrasDoPeriodo != null))
@@ -1044,9 +1060,9 @@ namespace BLL
             }
         }
 
-        private static Dictionary<int, UsaDiurnaNoturna> GetPercentuaisExtraEvento(Modelo.Eventos evento)
+        private static Dictionary<decimal, UsaDiurnaNoturna> GetPercentuaisExtraEvento(Modelo.Eventos evento)
         {
-            Dictionary<int, UsaDiurnaNoturna> ret = new Dictionary<int, UsaDiurnaNoturna>();
+            Dictionary<decimal, UsaDiurnaNoturna> ret = new Dictionary<decimal, UsaDiurnaNoturna>();
 
             if (evento.PercentualExtra1 > 0)
                 ret.Add(evento.PercentualExtra1, new UsaDiurnaNoturna()

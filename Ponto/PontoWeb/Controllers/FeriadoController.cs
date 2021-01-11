@@ -190,6 +190,7 @@ namespace PontoWeb.Controllers
             Modelo.Parametros parm = new Parametros();
             parm = bllparm.LoadPrimeiro();
             ViewBag.BloqueiaDadosIntegrados = parm.BloqueiaDadosIntegrados;
+            ViewBag.RetricaoDeAcesso = userPW.UtilizaControleContratos || userPW.UtilizaControleEmpresa || userPW.UtilizaControleSupervisor;
             feriado = bllFeriado.LoadObject(id);
             if (!feriado.Data_Ant.HasValue)
             {
@@ -206,6 +207,12 @@ namespace PontoWeb.Controllers
             {
                 SelecaoFuncionarios(userPW.ConnectionString, userPW, feriado);
                 feriado.TipoFeriado_Ant = feriado.TipoFeriado;
+                if (ViewBag.RetricaoDeAcesso && feriado.TipoFeriado != 3)
+                {
+                    ViewBag.RetricaoDeAcesso = false;
+                    ViewBag.Consultar = 1;
+                    ViewBag.MensagemRestricao = "Você não tem permissão para alterar esse tipo de lançamento de feriado, permitido apenas alterar feriados lançados por funcionário.";
+                }
                 #region Valida Fechamento
                 if (ViewBag.Consultar != 1)
                 {

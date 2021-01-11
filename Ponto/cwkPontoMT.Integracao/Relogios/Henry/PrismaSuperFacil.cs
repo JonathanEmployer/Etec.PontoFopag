@@ -1,6 +1,7 @@
 ﻿using cwkPontoMT.Integracao.Entidades;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
@@ -11,6 +12,7 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
 {
     public class PrismaSuperFacil : Relogio
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public override List<RegistroAFD> GetAFDNsr(DateTime dataI, DateTime dataF, int nsrInicio, int nsrFim, bool ordemDecrescente)
         {
             DateTime? dtInicio = dataI;
@@ -254,11 +256,8 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                     erros += "\r\n";
                     try
                     {
-                        string res = EnviaFuncionario(Operacao.Inclusao, item.Pis, item.Nome, biometrico, item.DsCodigo, String.Empty);
+                        string res = EnviaFuncionario(Operacao.Inclusao, item.Pis, item.Nome, biometrico, item.DsCodigo, (item.MIFARE == null ? item.RFID : item.MIFARE).GetValueOrDefault().ToString());
                         erros += trataRetorno(res, out info, out oper);
-
-
-
                     }
                     catch (Exception e)
                     {
@@ -269,8 +268,16 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
 
                 Empregados.GroupBy(x => x.DsCodigo).ToList().ForEach(x =>
                 {
-                    var empregado = Empregados.Where(y => y.DsCodigo == x.Key).ToList();
-                    EnviaFuncionarioBiometria(x.Key, empregado.Count(), empregado.Select(b => Encoding.UTF8.GetString(b.valorBiometria)).ToList());
+                    try
+                    {
+                        var empregado = Empregados.Where(y => y.DsCodigo == x.Key && y.valorBiometria != null).ToList();
+                        EnviaFuncionarioBiometria(x.Key, empregado.Count(), empregado.Select(b => Encoding.UTF8.GetString(b.valorBiometria)).ToList());
+                    }
+                    catch (Exception e)
+                    {
+
+                        throw e;
+                    }
                 });
 
                 IList<string> err = erros.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -449,6 +456,7 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                 qtdRefs = 1;
                 referencia = String.IsNullOrEmpty(referencia1) ? referencia2 : referencia1;
             }
+            log.Debug($"Enviando Dados: Pis = {pis}, Nome = {nome}, biometrico = {usaBiometria}, dscodigo = {referencia1}, cartao = {referencia2}");
             string result = "01+EU+00+1+" + oper + "[" + pis + "[" + nome + "[" + Convert.ToInt16(usaBiometria).ToString() + "[" + qtdRefs + "[" + referencia + "]";
 
             try

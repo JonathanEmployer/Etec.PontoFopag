@@ -904,7 +904,13 @@
             <param name="IdIntegracao">Id de Integração da Justificativa Cadastrada</param>
             <returns> Retorna um HttpResponseMessage Ok quando excluído com sucesso, quando apresentar erro retorno um json de erro.</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:cwkWebAPIPontoWeb.Controllers.JustificativaController.Justificativas" -->
+        <!-- Badly formed XML comment ignored for member "M:cwkWebAPIPontoWeb.Controllers.JustificativaController.Justificativas(System.Int32)" -->
+        <member name="M:cwkWebAPIPontoWeb.Controllers.JustificativaController.Justificativas">
+            <summary>
+            Método para pegar todas as justificativas
+            </summary>
+            <returns>Lista de Justificativas</returns>
+        </member>
         <member name="T:cwkWebAPIPontoWeb.Controllers.LoginFuncionarioController">
             <summary>
             Controller para validar login de funcionário
@@ -1286,11 +1292,6 @@
         <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.Salario">
             <summary>
             Salário do  Funcionário
-            </summary>
-        </member>
-        <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.SenhaRelogio">
-            <summary>
-            Senha do Relógio
             </summary>
         </member>
         <member name="P:cwkWebAPIPontoWeb.Models.Funcionario.Dataadmissao">

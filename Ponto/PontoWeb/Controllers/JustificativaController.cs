@@ -97,35 +97,31 @@ namespace PontoWeb.Controllers
         {
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
             BLL.Justificativa bllJustificativa = new BLL.Justificativa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    Acao acao = new Acao();
-                    if (obj.Id == 0)
-                        acao = Acao.Incluir;
-                    else
-                        acao = Acao.Alterar;
+                Acao acao = new Acao();
+                if (obj.Id == 0)
+                    acao = Acao.Incluir;
+                else
+                    acao = Acao.Alterar;
 
-                    Dictionary<string, string> erros = new Dictionary<string, string>();
-                    erros = bllJustificativa.Salvar(acao, obj);
-                    if (erros.Count > 0)
-                    {
-                        string erro = string.Join(";", erros.Select(x => x.Key + "=" + x.Value).ToArray());
-                        ModelState.AddModelError("CustomError", erro);
-                    }
-                    else
-                    {
-                        return RedirectToAction("Grid", "Justificativa");
-                    }
-                }
-                catch (Exception ex)
+                Dictionary<string, string> erros = new Dictionary<string, string>();
+                erros = bllJustificativa.Salvar(acao, obj);
+                if (erros.Count > 0)
                 {
-                    BLL.cwkFuncoes.LogarErro(ex);
-                    ModelState.AddModelError("CustomError", ex.Message);
+                    string erro = string.Join(";", erros.Select(x => x.Key + "=" + x.Value).ToArray());
+                    return Json(new { Success = false, Erro = erro }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return RedirectToAction("Grid", "Justificativa");
                 }
             }
-            return View("Cadastrar", obj);
+            catch (Exception ex)
+            {
+                BLL.cwkFuncoes.LogarErro(ex);
+                return Json(new { Success = false, Erro = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         protected override ActionResult GetPagina(int id)
@@ -150,7 +146,7 @@ namespace PontoWeb.Controllers
 
         protected override void ValidarForm(Justificativa obj)
         {
-            
+
         }
 
         [Authorize]
@@ -206,21 +202,24 @@ namespace PontoWeb.Controllers
 
         public static int BuscaIdJustificativa(string consulta)
         {
-            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
-            BLL.Justificativa bllJustificativa = new BLL.Justificativa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
             int id = 0;
             try
             {
-                int codigo = -1;
-                consulta = consulta.Split('|')[0];
-                try { codigo = Int32.Parse(consulta); }
-                catch (Exception) { codigo = -1; }
-                if (codigo != -1)
+                if (!String.IsNullOrEmpty(consulta))
                 {
-                    Justificativa just = bllJustificativa.LoadObjectByCodigo(codigo);
-                    if (just != null && just.Id > 0)
+                    var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+                    BLL.Justificativa bllJustificativa = new BLL.Justificativa(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
+                    int codigo = -1;
+                    consulta = consulta.Split('|')[0];
+                    try { codigo = Int32.Parse(consulta); }
+                    catch (Exception) { codigo = -1; }
+                    if (codigo != -1)
                     {
-                        return just.Id;
+                        Justificativa just = bllJustificativa.LoadObjectByCodigo(codigo);
+                        if (just != null && just.Id > 0)
+                        {
+                            return just.Id;
+                        }
                     }
                 }
                 return id;

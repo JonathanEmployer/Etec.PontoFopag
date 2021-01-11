@@ -22,6 +22,15 @@ namespace PontoWeb.Controllers
             return View(new Modelo.MudancaHorario() { Idfuncionario = id});
         }
 
+        [PermissoesFiltro(Roles = "MudancaHorario")]
+        public ActionResult GridPorMarcacao(int id)
+        {
+            BLL.Marcacao bllMarcacao = new BLL.Marcacao(_usr.ConnectionString, _usr);
+            var mar = bllMarcacao.LoadObject(id); 
+
+            return View("GridPorFuncionario", new Modelo.MudancaHorario() { Idfuncionario = mar.Idfuncionario });
+        }
+
         [Authorize]
         public JsonResult DadosGrid(int id)
         {
@@ -53,6 +62,26 @@ namespace PontoWeb.Controllers
             return GetPagina(0);
         }
 
+        [PermissoesFiltro(Roles = "MudancaHorarioCadastrar")]
+        public ActionResult CadastrarManutMarcacao(int Id)
+        {
+            BLL.Marcacao bllMarcacao = new BLL.Marcacao(_usr.ConnectionString, _usr);
+            Marcacao marcacao = bllMarcacao.LoadObject(Id);
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(_usr.ConnectionString, _usr);
+            Funcionario func = bllFuncionario.LoadObject(marcacao.Idfuncionario);
+            BLL.MudancaHorario bllMudancaHorario = new BLL.MudancaHorario(_usr.ConnectionString, _usr);
+            MudancaHorario mudHorario = new MudancaHorario();
+            mudHorario.Codigo = bllMudancaHorario.MaxCodigo();
+            mudHorario.Tipohorario = 1;
+            mudHorario.Tipo = 0;
+            mudHorario.NomeFuncionario = func.Codigo + " | " + func.Nome;
+            mudHorario.Data = marcacao.Data;
+
+            ViewBag.ManutencaoMarcacao = 1;
+            ViewBag.UtilizaControleContratos = _usr.UtilizaControleContratos;
+            return View(mudHorario);
+        }
+
         [PermissoesFiltro(Roles = "MudancaHorarioAlterar")]
         public ActionResult Alterar(int id)
         {
@@ -64,6 +93,20 @@ namespace PontoWeb.Controllers
         public ActionResult Cadastrar(MudancaHorario obj)
         {
             return Salvar(obj);
+        }
+
+        [PermissoesFiltro(Roles = "MudancaHorarioCadastrar")]
+        [HttpPost]
+        public ActionResult CadastrarManutMarcacao(MudancaHorario obj)
+        {
+            if (SalvarDados(obj, out Modelo.Proxy.PxyJobReturn retCalculo))
+            {
+                return Json(new { success = true, job = retCalculo }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return View(obj);
+            }
         }
 
         [PermissoesFiltro(Roles = "MudancaHorarioAlterar")]
@@ -162,6 +205,20 @@ namespace PontoWeb.Controllers
 
         private ActionResult Salvar(MudancaHorario obj)
         {
+            if (SalvarDados(obj, out Modelo.Proxy.PxyJobReturn retCalculo))
+            {
+                return RedirectToAction("Cadastrar", "MudancaHorario");
+            }
+            else
+            {
+                return View(obj);
+            }
+        }
+
+        private bool SalvarDados(MudancaHorario obj, out Modelo.Proxy.PxyJobReturn retCalculo)
+        {
+            retCalculo = new Modelo.Proxy.PxyJobReturn();
+            bool salvou = false;
             BLL.MudancaHorario bllMudancaHorario = new BLL.MudancaHorario(_usr.ConnectionString, _usr);
             ValidarForm(obj);
             if (ModelState.IsValid)
@@ -173,10 +230,10 @@ namespace PontoWeb.Controllers
                     else
                         obj.Acao = Acao.Alterar;
 
-                    
+
                     bllMudancaHorario.MudarHorarioWeb(obj.Tipo, obj.IdFuncao, obj.IdEmpresa, obj.IdDepartamento, obj.Idfuncionario, obj.Tipohorario, obj.Idhorario, obj.Data, obj.CicloSequenciaIndice);
-                    Recalcular(obj);
-                    return RedirectToAction("Cadastrar", "MudancaHorario");
+                    retCalculo = Recalcular(obj);
+                    salvou = true;
                 }
                 catch (Exception ex)
                 {
@@ -185,7 +242,7 @@ namespace PontoWeb.Controllers
                 }
             }
             ViewBag.UtilizaControleContratos = _usr.UtilizaControleContratos;
-            return View();
+            return salvou;
         }
 
         private Modelo.Proxy.PxyJobReturn Recalcular(MudancaHorario obj)
@@ -207,7 +264,7 @@ namespace PontoWeb.Controllers
                     nomeAfastamento = "tipo: desconheciado";
                     break;
             }
-            string parametrosExibicao = String.Format("Mudança de Horário código: {0}, {1}, data: {2} ", obj.Codigo, nomeAfastamento, obj.DataStr);
+            string parametrosExibicao = String.Format("Mudança de Horário {0}, data: {1} ", nomeAfastamento, obj.DataStr);
             string acao = obj.AcaoDescricao;
             Modelo.Proxy.PxyJobReturn ret = hfm.CalculaMudancaHorario(String.Format("Recalculo de marcações por {0} de mudança de horário", acao), parametrosExibicao, obj);
             return ret;
@@ -357,7 +414,7 @@ namespace PontoWeb.Controllers
 
         private void ValidaHorarioNormal(MudancaHorario mudHorario)
         {
-            int idHorario = HorarioController.BuscaIdHorario(mudHorario.HorarioNormal);
+            int idHorario = HorarioController.BuscaIdHorario(mudHorario.HorarioNormal, mudHorario.Tipohorario);
             if (idHorario > 0)
             { mudHorario.Idhorario = idHorario; }
             else
@@ -366,7 +423,7 @@ namespace PontoWeb.Controllers
 
         private void ValidaHorarioFlexivel(MudancaHorario mudHorario)
         {
-            int idHorario = HorarioController.BuscaIdHorario(mudHorario.HorarioFlexivel);
+            int idHorario = HorarioController.BuscaIdHorario(mudHorario.HorarioFlexivel, mudHorario.Tipohorario);
             if (idHorario > 0)
             { mudHorario.Idhorario = idHorario; }
             else

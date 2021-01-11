@@ -1,4 +1,5 @@
 ﻿using DAL.SQL;
+using Modelo.Proxy;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -97,6 +98,11 @@ namespace BLL
             else if (objeto.DiaFechamentoInicial != 0 && objeto.DiaFechamentoFinal == 0)
             {
                 ret.Add("DiaFechamentoFinal", "Não é possível gravar apenas uma das datas com o valor zero(0).");
+            }
+
+            if (objeto.IdEmpresa == 0)
+            {
+                ret.Add("IdEmpresa", "Empresa não informada ou não encontrada.");
             }
 
             return ret;
@@ -204,7 +210,14 @@ namespace BLL
         public List<Modelo.Contrato> ContratosPorFuncionario(int idFuncionario)
         {
             return dalContrato.ContratosPorFuncionario(idFuncionario);
-        }        
+        }
+
+        public List<Modelo.Contrato> ContratosPorUsuario(int idUsuario)
+        {
+            return dalContrato.ContratosPorUsuario(idUsuario);
+        }
+
+
         public bool ValidaContratoCodigo(int codcontrato, int idempresa)
         {
             return dalContrato.ValidaContratoCodigo(codcontrato,idempresa);
@@ -223,5 +236,26 @@ namespace BLL
             return 0;
         }
 
+        public bool DeletaContratosUsuario(int idQueVaiSerAlterado)
+        {
+            try
+            {
+                //deleta os contratos exixstentes do usuario
+                dalContrato.DeletaContratosUsuario(idQueVaiSerAlterado);
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+
+
+            return true;
+        }
+
+        public List<pxyUsuarioControleAcessoAdicionarContrato> GetAllGridUCompact()
+        {
+            return dalContrato.GetAllGridUCompact();
+        }
     }
 }

@@ -443,6 +443,7 @@ FROM         marcacao INNER JOIN
               <xs:element name="totalHorasaTrabalhar" msprop:Generator_ColumnVarNameInTable="columntotalHorasaTrabalhar" msprop:Generator_ColumnPropNameInRow="totalHorasaTrabalhar" msprop:Generator_ColumnPropNameInTable="totalHorasaTrabalharColumn" msprop:Generator_UserColumnName="totalHorasaTrabalhar" type="xs:string" minOccurs="0" />
               <xs:element name="PessoaSupervisor" msprop:Generator_ColumnVarNameInTable="columnPessoaSupervisor" msprop:Generator_ColumnPropNameInRow="PessoaSupervisor" msprop:Generator_ColumnPropNameInTable="PessoaSupervisorColumn" msprop:Generator_UserColumnName="PessoaSupervisor" type="xs:string" minOccurs="0" />
               <xs:element name="ColunaGrupoData" msprop:Generator_ColumnVarNameInTable="columnColunaGrupoData" msprop:Generator_ColumnPropNameInRow="ColunaGrupoData" msprop:Generator_ColumnPropNameInTable="ColunaGrupoDataColumn" msprop:Generator_UserColumnName="ColunaGrupoData" type="xs:string" minOccurs="0" />
+              <xs:element name="totalExtraInterjornada" msprop:Generator_ColumnVarNameInTable="columntotalExtraInterjornada" msprop:Generator_ColumnPropNameInRow="totalExtraInterjornada" msprop:Generator_ColumnPropNameInTable="totalExtraInterjornadaColumn" msprop:Generator_UserColumnName="totalExtraInterjornada" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -822,7 +823,7 @@ FROM         marcacao INNER JOIN
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="PercentualBH" msprop:Generator_TableClassName="PercentualBHDataTable" msprop:Generator_RowEvArgName="PercentualBHRowChangeEvent" msprop:Generator_TableVarName="tablePercentualBH" msprop:Generator_TablePropName="PercentualBH" msprop:Generator_RowDeletingName="PercentualBHRowDeleting" msprop:Generator_RowChangingName="PercentualBHRowChanging" msprop:Generator_RowEvHandlerName="PercentualBHRowChangeEventHandler" msprop:Generator_RowDeletedName="PercentualBHRowDeleted" msprop:Generator_RowChangedName="PercentualBHRowChanged" msprop:Generator_UserTableName="PercentualBH" msprop:Generator_RowClassName="PercentualBHRow">
+        <xs:element name="PercentualBH" msprop:Generator_TableClassName="PercentualBHDataTable" msprop:Generator_RowEvArgName="PercentualBHRowChangeEvent" msprop:Generator_TableVarName="tablePercentualBH" msprop:Generator_TablePropName="PercentualBH" msprop:Generator_RowDeletingName="PercentualBHRowDeleting" msprop:Generator_RowChangingName="PercentualBHRowChanging" msprop:Generator_RowEvHandlerName="PercentualBHRowChangeEventHandler" msprop:Generator_RowDeletedName="PercentualBHRowDeleted" msprop:Generator_UserTableName="PercentualBH" msprop:Generator_RowChangedName="PercentualBHRowChanged" msprop:Generator_RowClassName="PercentualBHRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="id" msprop:Generator_ColumnVarNameInTable="columnid" msprop:Generator_ColumnPropNameInRow="id" msprop:Generator_ColumnPropNameInTable="idColumn" msprop:Generator_UserColumnName="id" type="xs:int" minOccurs="0" />
@@ -855,7 +856,7 @@ FROM         marcacao INNER JOIN
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="ComparacaoBilhetes" msprop:Generator_TableClassName="ComparacaoBilhetesDataTable" msprop:Generator_TableVarName="tableComparacaoBilhetes" msprop:Generator_RowChangedName="ComparacaoBilhetesRowChanged" msprop:Generator_TablePropName="ComparacaoBilhetes" msprop:Generator_RowDeletingName="ComparacaoBilhetesRowDeleting" msprop:Generator_RowChangingName="ComparacaoBilhetesRowChanging" msprop:Generator_RowEvHandlerName="ComparacaoBilhetesRowChangeEventHandler" msprop:Generator_RowDeletedName="ComparacaoBilhetesRowDeleted" msprop:Generator_RowClassName="ComparacaoBilhetesRow" msprop:Generator_UserTableName="ComparacaoBilhetes" msprop:Generator_RowEvArgName="ComparacaoBilhetesRowChangeEvent">
+        <xs:element name="ComparacaoBilhetes" msprop:Generator_TableClassName="ComparacaoBilhetesDataTable" msprop:Generator_TableVarName="tableComparacaoBilhetes" msprop:Generator_TablePropName="ComparacaoBilhetes" msprop:Generator_RowDeletingName="ComparacaoBilhetesRowDeleting" msprop:Generator_RowChangingName="ComparacaoBilhetesRowChanging" msprop:Generator_RowEvHandlerName="ComparacaoBilhetesRowChangeEventHandler" msprop:Generator_RowDeletedName="ComparacaoBilhetesRowDeleted" msprop:Generator_UserTableName="ComparacaoBilhetes" msprop:Generator_RowChangedName="ComparacaoBilhetesRowChanged" msprop:Generator_RowEvArgName="ComparacaoBilhetesRowChangeEvent" msprop:Generator_RowClassName="ComparacaoBilhetesRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="id" msprop:Generator_ColumnVarNameInTable="columnid" msprop:Generator_ColumnPropNameInRow="id" msprop:Generator_ColumnPropNameInTable="idColumn" msprop:Generator_UserColumnName="id" type="xs:string" minOccurs="0" />

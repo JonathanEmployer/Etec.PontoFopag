@@ -40,7 +40,7 @@ namespace Modelo
         /// </summary>
         [DisplayName("Data Inicial")]
         [Required(ErrorMessage = "Campo Data Inicial Obrigatório")]
-        [MinDate("01/01/1760")]
+        [MinDate("31/12/1999")]
         public DateTime? Datai { get; set; }
 
         [TableHTMLAttribute("Data Inicial", 3, true, ItensSearch.text, OrderType.none)]
@@ -292,6 +292,8 @@ namespace Modelo
         public bool OcorrenciaTipoFerias { get; set; }
         [DisplayName("Sem Abono")]
         public bool SemAbono { get; set; }
+
+        public DateTime? DataUltimoFechamentoPontoEBanco { get; set; }
 
         public void SetTipoAfastamentoPorDefaulOcorrencia(Modelo.Ocorrencia ocorrencia)
         {

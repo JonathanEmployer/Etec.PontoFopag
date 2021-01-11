@@ -7,6 +7,7 @@
 
 @using (Html.BeginForm("RelatorioBilhetesRep", "RelatorioBilhetesRep", FormMethod.Post, new { id = "FormRelatorioBilhetesRep", target = "_blank" }))
 {
+    @Html.AntiForgeryToken()
     <div class="divCenterPequeno">
         <div class="panel panel-default">
             <div class="panel-heading salvando">
@@ -42,7 +43,7 @@
                         <div class="input-group input-daterange">
                             <div class="input-group-sm input-group-addon" style="border-left-width:1px"> Período de </div>
                             @Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control MascDate datepickerpt", id = "InicioPeriodo" })
-                            <div class="input-group-sm input-group-addon" >a</div>
+                            <div class="input-group-sm input-group-addon">a</div>
                             @Html.TextBoxFor(model => Model.FimPeriodo, new { @class = "form-control MascDate datepickerpt", id = "FimPeriodo" })
                         </div>
                     </div>
@@ -78,12 +79,12 @@
 
     $('form').submit(function () {
         if ($(this).valid()) {
-			PostFormJob(this, CallBackSucesso);
+            PostFormJob(this, CallBackSucesso);
         }
         return false;
-	});
+    });
 
-	function CallBackSucesso() {
-		$("#xfecharCadastroModal").click();
-	}    
+    function CallBackSucesso() {
+        $("#xfecharCadastroModal").click();
+    }
 </script>

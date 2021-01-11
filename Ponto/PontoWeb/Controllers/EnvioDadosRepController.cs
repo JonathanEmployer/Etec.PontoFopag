@@ -1,9 +1,7 @@
 ﻿using Ionic.Zip;
 using Modelo;
 using PontoWeb.Controllers.BLLWeb;
-using PontoWeb.Models;
 using PontoWeb.Security;
-using PontoWeb.Utils;
 using ProgressReporting.Controllers;
 using System;
 using System.Collections.Generic;
@@ -11,12 +9,11 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net.Mime;
-using System.Text;
 using System.Web.Mvc;
 
 namespace PontoWeb.Controllers
 {
-	public class EnvioDadosRepController : Controller
+    public class EnvioDadosRepController : Controller
 	{
 		[PermissoesFiltro(Roles = "EnvioEmpresaFuncionariosRep")]
 		public ActionResult Cadastrar()
@@ -125,6 +122,13 @@ namespace PontoWeb.Controllers
             foreach (string idEmpresa in lIdEmpresa)
             {
                 obj.Empresas.Add(bllEmpresa.LoadObject(Convert.ToInt32(idEmpresa)));
+            }
+
+            if (obj.Funcionarios.Any())
+            {
+                BLL.FuncionarioRFID bllFuncionarioRFID = new BLL.FuncionarioRFID(connection, usr);
+                List<FuncionarioRFID> proximidades = bllFuncionarioRFID.GetAllListByFuncionario(obj.Funcionarios.Select(s => s.Id).ToList(), true);
+                proximidades.ForEach(f => obj.Funcionarios.Where(w => w.Id == f.IdFuncionario).ToList().ForEach(x => { x.RFID = f.RFID; x.MIFARE = f.MIFARE; }));
             }
 
             obj.Funcionarios.ForEach(x => x.Selecionado = true);
@@ -643,20 +647,32 @@ namespace PontoWeb.Controllers
             try
             {
                 Modelo.EnvioDadosRep env = bllEnvioDadosRep.LoadObject(id);
-                BLL.EnvioDadosRepDet bllEnvioDadosRepDet = new BLL.EnvioDadosRepDet(conn, usr);
-                List<Modelo.EnvioDadosRepDet> detalhes = bllEnvioDadosRepDet.getByIdEnvioDadosRep(env.Id);
+                //BLL.EnvioDadosRepDet bllEnvioDadosRepDet = new BLL.EnvioDadosRepDet(conn, usr);
+                //List<Modelo.EnvioDadosRepDet> detalhes = bllEnvioDadosRepDet.getByIdEnvioDadosRep(env.Id);
                 Dictionary<string, string> erros = new Dictionary<string, string>();
-                foreach (Modelo.EnvioDadosRepDet det in detalhes)
+
+                try
                 {
-                    foreach (var item in bllEnvioDadosRepDet.Salvar(Acao.Excluir, det))
+                    if (env != null && env.Id > 0)
                     {
-                        erros.Add(item.Key, item.Value);
-                    } 
+                        bllEnvioDadosRep.ExluirEnvioDadosRepEDetalhes(env.Id);
+                    }
                 }
-                if (erros.Count == 0)
+                catch (Exception e)
                 {
-                    erros = bllEnvioDadosRep.Salvar(Acao.Excluir, env);
+                    erros.Add("Erro", e.Message);
                 }
+                //foreach (Modelo.EnvioDadosRepDet det in detalhes)
+                //{
+                //    foreach (var item in bllEnvioDadosRepDet.Salvar(Acao.Excluir, det))
+                //    {
+                //        erros.Add(item.Key, item.Value);
+                //    } 
+                //}
+                //if (erros.Count == 0)
+                //{
+                //    erros = bllEnvioDadosRep.Salvar(Acao.Excluir, env);
+                //}
                 
                 
                 if (erros.Count > 0)

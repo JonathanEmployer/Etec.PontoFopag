@@ -1,13 +1,14 @@
 ﻿@model Modelo.Eventos
 @{
-    ViewBag.Title = "Cadastrar Evento de Exportação";    
+    ViewBag.Title = "Cadastrar Evento de Exportação";
     string nomeTabela = "tbClassHE";
     string nomeTabelaOcorrencia = "tbOcorrencia";
-    
-    
+
+
 }
 @using (Html.BeginForm("Cadastrar", "Eventos", null, FormMethod.Post, new { role = "form", id = "FormManutEvento" }))
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id, new { id = "idEvento" });
 
     <div class="">
@@ -299,7 +300,7 @@
                                                                                     </div>
                                                                                     <div class="panel-body" style="padding-top:3px; padding-bottom:3px;">
                                                                                         <div class="row">
-                                                                                            <div class="col-md-4" style="text-align:center; align-content:center">@Html.TextBoxFor(model => model.PercentualExtra1, new { @class = "form-control  input-sm", id = "txt_he_1" })</div>
+                                                                                            <div class="col-md-4" style="text-align:center; align-content:center">@Html.TextBoxFor(model => model.PercentualExtra1, new { @class = "form-control  input-sm decimalPercent", id = "txt_he_1" })</div>
                                                                                             <div class="col-md-4" style="text-align:center; align-content:center">@Html.CheckBoxFor(model => model.bHe50, new { id = "chk_he_1" })</div>
                                                                                             <div class="col-md-4" style="text-align:center; align-content:center">@Html.CheckBoxFor(model => model.bHe50N, new { id = "chk_hen_1" })</div>
                                                                                         </div>
@@ -309,7 +310,7 @@
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="row">
-                                                                                            <div class="col-md-4" style="text-align:center; align-content:center">@Html.TextBoxFor(model => model.PercentualExtra2, new { @class = "form-control  input-sm", id = "txt_he_2" })</div>
+                                                                                            <div class="col-md-4" style="text-align:center; align-content:center">@Html.TextBoxFor(model => model.PercentualExtra2, new { @class = "form-control  input-sm decimalPercent", id = "txt_he_2" })</div>
                                                                                             <div class="col-md-4" style="text-align:center; align-content:center">@Html.CheckBoxFor(model => model.bHe60, new { id = "chk_he_2" })</div>
                                                                                             <div class="col-md-4" style="text-align:center; align-content:center">@Html.CheckBoxFor(model => model.bHe60N, new { id = "chk_hen_2" })</div>
                                                                                         </div>
@@ -319,7 +320,7 @@
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="row">
-                                                                                            <div class="col-md-4" style="text-align:center; align-content:center">@Html.TextBoxFor(model => model.PercentualExtra3, new { @class = "form-control  input-sm", id = "txt_he_3" })</div>
+                                                                                            <div class="col-md-4" style="text-align:center; align-content:center">@Html.TextBoxFor(model => model.PercentualExtra3, new { @class = "form-control  input-sm decimalPercent", id = "txt_he_3" })</div>
                                                                                             <div class="col-md-4" style="text-align:center; align-content:center">@Html.CheckBoxFor(model => model.bHe70, new { id = "chk_he_3" })</div>
                                                                                             <div class="col-md-4" style="text-align:center; align-content:center">@Html.CheckBoxFor(model => model.bHe70N, new { id = "chk_hen_3" })</div>
                                                                                         </div>
@@ -329,7 +330,7 @@
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="row">
-                                                                                            <div class="col-md-4" style="text-align:center; align-content:center">@Html.TextBoxFor(model => model.PercentualExtra4, new { @class = "form-control  input-sm", id = "txt_he_4" })</div>
+                                                                                            <div class="col-md-4" style="text-align:center; align-content:center">@Html.TextBoxFor(model => model.PercentualExtra4, new { @class = "form-control  input-sm decimalPercent", id = "txt_he_4" })</div>
                                                                                             <div class="col-md-4" style="text-align:center; align-content:center">@Html.CheckBoxFor(model => model.bHe80, new { id = "chk_he_4" })</div>
                                                                                             <div class="col-md-4" style="text-align:center; align-content:center">@Html.CheckBoxFor(model => model.bHe80N, new { id = "chk_hen_4" })</div>
                                                                                         </div>
@@ -339,7 +340,7 @@
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="row">
-                                                                                            <div class="col-md-4" style="text-align:center; align-content:center">@Html.TextBoxFor(model => model.PercentualExtra5, new { @class = "form-control  input-sm", id = "txt_he_5" })</div>
+                                                                                            <div class="col-md-4" style="text-align:center; align-content:center">@Html.TextBoxFor(model => model.PercentualExtra5, new { @class = "form-control  input-sm decimalPercent", id = "txt_he_5" })</div>
                                                                                             <div class="col-md-4" style="text-align:center; align-content:center">@Html.CheckBoxFor(model => model.bHe90, new { id = "chk_he_5" })</div>
                                                                                             <div class="col-md-4" style="text-align:center; align-content:center">@Html.CheckBoxFor(model => model.bHe90N, new { id = "chk_hen_5" })</div>
                                                                                         </div>
@@ -371,7 +372,7 @@
                                                                                     </div>
                                                                                     <div class="panel-body" style="padding-top:3px; padding-bottom:3px;">
                                                                                         <div class="row">
-                                                                                            <div class="col-md-4" style="text-align:center; align-content:center;">@Html.TextBoxFor(model => model.PercentualExtra6, new { @class = "form-control  input-sm", id = "txt_he_6" })</div>
+                                                                                            <div class="col-md-4" style="text-align:center; align-content:center;">@Html.TextBoxFor(model => model.PercentualExtra6, new { @class = "form-control  input-sm decimalPercent", id = "txt_he_6" })</div>
                                                                                             <div class="col-md-4" style="text-align:center; align-content:center;">@Html.CheckBoxFor(model => model.bHe100, new { id = "chk_he_6" })</div>
                                                                                             <div class="col-md-4" style="text-align:center; align-content:center;">@Html.CheckBoxFor(model => model.bHe100N, new { id = "chk_hen_6" })</div>
                                                                                         </div>
@@ -381,7 +382,7 @@
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="row">
-                                                                                            <div class="col-md-4" style="text-align:center; align-content:center;">@Html.TextBoxFor(model => model.PercentualExtra7, new { @class = "form-control  input-sm", id = "txt_he_7" })</div>
+                                                                                            <div class="col-md-4" style="text-align:center; align-content:center;">@Html.TextBoxFor(model => model.PercentualExtra7, new { @class = "form-control  input-sm decimalPercent", id = "txt_he_7" })</div>
                                                                                             <div class="col-md-4" style="text-align:center; align-content:center;">@Html.CheckBoxFor(model => model.bHesab, new { id = "chk_he_7" })</div>
                                                                                             <div class="col-md-4" style="text-align:center; align-content:center;">@Html.CheckBoxFor(model => model.bHesabN, new { id = "chk_hen_7" })</div>
                                                                                         </div>
@@ -391,7 +392,7 @@
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="row">
-                                                                                            <div class="col-md-4" style="text-align:center; align-content:center;">@Html.TextBoxFor(model => model.PercentualExtra8, new { @class = "form-control  input-sm", id = "txt_he_8" })</div>
+                                                                                            <div class="col-md-4" style="text-align:center; align-content:center;">@Html.TextBoxFor(model => model.PercentualExtra8, new { @class = "form-control  input-sm decimalPercent", id = "txt_he_8" })</div>
                                                                                             <div class="col-md-4" style="text-align:center; align-content:center;">@Html.CheckBoxFor(model => model.bHedom, new { id = "chk_he_8" })</div>
                                                                                             <div class="col-md-4" style="text-align:center; align-content:center;">@Html.CheckBoxFor(model => model.bHedomN, new { id = "chk_hen_8" })</div>
                                                                                         </div>
@@ -401,7 +402,7 @@
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="row">
-                                                                                            <div class="col-md-4" style="text-align:center; align-content:center;">@Html.TextBoxFor(model => model.PercentualExtra9, new { @class = "form-control  input-sm", id = "txt_he_9" })</div>
+                                                                                            <div class="col-md-4" style="text-align:center; align-content:center;">@Html.TextBoxFor(model => model.PercentualExtra9, new { @class = "form-control  input-sm decimalPercent", id = "txt_he_9" })</div>
                                                                                             <div class="col-md-4" style="text-align:center; align-content:center;">@Html.CheckBoxFor(model => model.bHefer, new { id = "chk_he_9" })</div>
                                                                                             <div class="col-md-4" style="text-align:center; align-content:center;">@Html.CheckBoxFor(model => model.bHeferN, new { id = "chk_hen_9" })</div>
                                                                                         </div>
@@ -411,7 +412,7 @@
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="row">
-                                                                                            <div class="col-md-4" style="text-align:center; align-content:center;">@Html.TextBoxFor(model => model.PercentualExtra10, new { @class = "form-control  input-sm", id = "txt_he_10" })</div>
+                                                                                            <div class="col-md-4" style="text-align:center; align-content:center;">@Html.TextBoxFor(model => model.PercentualExtra10, new { @class = "form-control  input-sm decimalPercent", id = "txt_he_10" })</div>
                                                                                             <div class="col-md-4" style="text-align:center; align-content:center;">@Html.CheckBoxFor(model => model.bFolga, new { id = "chk_he_10" })</div>
                                                                                             <div class="col-md-4" style="text-align:center; align-content:center;">@Html.CheckBoxFor(model => model.bFolgaN, new { id = "chk_hen_10" })</div>
                                                                                         </div>
@@ -611,7 +612,7 @@
                 }
             }
         }
-        
+
         return ret;
     }
 
@@ -636,7 +637,7 @@
 
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             if ($(this).attr('id') == 'tabOcorrencia') {
-                $("#tbOcorrencia").DataTable().columns.adjust().draw();                
+                $("#tbOcorrencia").DataTable().columns.adjust().draw();
             }
         });
 

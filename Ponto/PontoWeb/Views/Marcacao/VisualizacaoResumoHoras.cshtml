@@ -6,6 +6,7 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     <div class="divCenter">
         <div class="panel panel-default">
             <div class="panel-heading salvando">
@@ -19,7 +20,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 @Html.Label("Funcionário: ", new { @class = "control-label label-sm", style = "text-align: right; width:84px;" })
-                                @Html.Label(Model.funcionario.Dscodigo, new { @class = "control-label label-sm" }) 
+                                @Html.Label(Model.funcionario.Dscodigo, new { @class = "control-label label-sm" })
                                 @Html.Label(Model.funcionario.Nome, new { @class = "control-label label-sm" })
                             </div>
                         </div>
@@ -201,15 +202,15 @@
                             <div class="panel-body">
                                 <div class="col-md-6" style="padding:0; padding-right:5px">
                                     @{
-                                    string classResultado = "panel-primary";
-                                    if (Model.creditoBHPeriodoMin > Model.debitoBHPeriodoMin)
-                                    {
-                                        classResultado = "panel-success";
-                                    }
-                                    if (Model.creditoBHPeriodoMin < Model.debitoBHPeriodoMin)
-                                    {
-                                        classResultado = "panel-danger";
-                                    }
+                                        string classResultado = "panel-primary";
+                                        if (Model.creditoBHPeriodoMin > Model.debitoBHPeriodoMin)
+                                        {
+                                            classResultado = "panel-success";
+                                        }
+                                        if (Model.creditoBHPeriodoMin < Model.debitoBHPeriodoMin)
+                                        {
+                                            classResultado = "panel-danger";
+                                        }
                                     }
                                     <div class="panel @classResultado">
                                         <div class="panel-heading" style="padding-top:5px; padding-bottom:5px; text-align:center">
@@ -262,74 +263,74 @@
                                                     @Html.Label("Crédito", new { @class = "control-label label-sm" })
                                                 }
                                                 else if (Model.sinalSaldoAnteriorBH == '-')
-                                                { @Html.Label("Débito", new { @class = "control-label label-sm" }) }
+                                                { @Html.Label("Débito", new { @class = "control-label label-sm" })}
                                             </div>
                                             <div class="row">
                                                 @Html.Label("Mês: ", new { @class = "control-label label-sm", style = "text-align: right; width:60px;" })
                                                 @Html.Label(Model.saldoBHPeriodo, new { @class = "control-label label-sm" })
                                                 @if (Model.sinalSaldoBHPeriodo == '+')
-                                            {
+                                                {
                                                     @Html.Label("Crédito", new { @class = "control-label label-sm" })
-                                            }
-                                            else if (Model.sinalSaldoBHPeriodo == '-')
-                                            { @Html.Label("Débito", new { @class = "control-label label-sm" }) }
+                                                }
+                                                else if (Model.sinalSaldoBHPeriodo == '-')
+                                                { @Html.Label("Débito", new { @class = "control-label label-sm" })}
                                             </div>
                                             <div class="row">
                                                 @Html.Label("Atual: ", new { @class = "control-label label-sm", style = "text-align: right; width:60px;" })
                                                 @Html.Label(Model.saldoBHAtual, new { @class = "control-label label-sm" })
                                                 @if (Model.sinalSaldoBHAtual == '+')
-                                            {
+                                                {
                                                     @Html.Label("Crédito", new { @class = "control-label label-sm" })
-                                            }
-                                            else if (Model.sinalSaldoBHAtual == '-')
-                                            { @Html.Label("Débito", new { @class = "control-label label-sm" }) }
+                                                }
+                                                else if (Model.sinalSaldoBHAtual == '-')
+                                                { @Html.Label("Débito", new { @class = "control-label label-sm" })}
                                             </div>
-                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-               
-                  @*InItinere*@
-            @if (Model.HabilitarControleInItinere)
-            {
-                <div class="col-md-6" style="padding-left: 0px;">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading" style="padding-bottom:5px; text-align:center; padding-left: 0px;">
-                            <h3 class="panel-title">Horas In Itinere</h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            @Html.Label("Percentual", new { @class = "control-label" })
-                                        </div>
-                                        <div class="col-md-3">
-                                            @Html.Label("Horas", new { @class = "control-label" })
-                                        </div>
-                                    </div>
-                                    @foreach (var grupo in Model.GruposPercentual)
-                                    {
+
+                @*InItinere*@
+                @if (Model.HabilitarControleInItinere)
+                {
+                    <div class="col-md-6" style="padding-left: 0px;">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading" style="padding-bottom:5px; text-align:center; padding-left: 0px;">
+                                <h3 class="panel-title">Horas In Itinere</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                @Html.Label(((int)grupo.Percentual).ToString() + "%", new { @class = "control-label" })
+                                                @Html.Label("Percentual", new { @class = "control-label" })
                                             </div>
-                                            <div class="col-md-4">
-                                                @Html.Label(Modelo.cwkFuncoes.ConvertMinutosHora2(3, Convert.ToDecimal(grupo.TempoTotal.TotalMinutes)), new { @class = "control-label" })
+                                            <div class="col-md-3">
+                                                @Html.Label("Horas", new { @class = "control-label" })
                                             </div>
                                         </div>
-                                    }
+                                        @foreach (var grupo in Model.GruposPercentual)
+                                        {
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    @Html.Label(((int)grupo.Percentual).ToString() + "%", new { @class = "control-label" })
+                                                </div>
+                                                <div class="col-md-4">
+                                                    @Html.Label(Modelo.cwkFuncoes.ConvertMinutosHora2(3, Convert.ToDecimal(grupo.TempoTotal.TotalMinutes)), new { @class = "control-label" })
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-        }
-    </div>
+
+                }
+            </div>
 
 
             <div class="panel-footer">

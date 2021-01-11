@@ -2,7 +2,7 @@
 {
     public class RateioHorasExtras
     {
-        public int percentual { get; set; }
+        public decimal percentual { get; set; }
         public int diurnoMin { get; set; }
         public int noturnoMin { get; set; }
         public string diurno { get; set; }

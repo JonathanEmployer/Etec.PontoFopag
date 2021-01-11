@@ -820,6 +820,17 @@ namespace BLL
                 ret.Add("Mob_Senha", "Campo obrigatório.");
             }
 
+            if (ret.Count == 0)
+            {
+                if (Int32.TryParse(objeto.Dscodigo, out int dsCodigoSemZeroEsquerada))
+                {
+                    objeto.Dscodigo = dsCodigoSemZeroEsquerada.ToString();
+                }
+                else
+                {
+                    ret.Add("Dscodigo", "Código Inválido.");
+                }
+            }
 
             return ret;
         }
@@ -926,6 +937,12 @@ namespace BLL
                     BLL.Pessoa bllPessoaSupervisor = new BLL.Pessoa(ConnectionString, UsuarioLogado);
                     objeto.ObjPessoaSupervisor = bllPessoaSupervisor.LoadObject(objeto.IdPessoaSupervisor.GetValueOrDefault());
 
+                    if (!String.IsNullOrEmpty(objeto.Celular))
+                    {
+                        var celular = objeto.Celular;
+                        objeto.Celular = RemoveCharactersTelefone(celular);
+                    }
+
                     BLL.ParametroPainelRH BllParametroPnlRH = new BLL.ParametroPainelRH(ConnectionString, UsuarioLogado);
                     Modelo.ParametroPainelRH parametroPainelRH = new Modelo.ParametroPainelRH();
                     parametroPainelRH = BllParametroPnlRH.GetAllList().FirstOrDefault();
@@ -1019,6 +1036,18 @@ namespace BLL
                 }
             }
             return erros;
+        }
+
+        public static string RemoveCharactersTelefone(string Text)
+        {
+            if (!string.IsNullOrEmpty(Text))
+            {
+                foreach (var chr in new string[] { "(", ")", "-", " " })
+                {
+                    Text = Text.Replace(chr, "");
+                }
+            }
+            return Text;
         }
 
         private void VerificaHorarioDinamico(Modelo.Funcionario objeto)
@@ -1466,22 +1495,24 @@ namespace BLL
                     int? idContratoAnt = bllContratoFun.getContratoId(ContratoFunc.IdFuncionario); 
 
                     Modelo.ContratoFuncionario ContFunc = new Modelo.ContratoFuncionario();
-                    if (idContratoAnt != null && (acao == Acao.Incluir || acao == Acao.Alterar) && (idContratoAnt != contid))
+                    if ((acao == Acao.Incluir || acao == Acao.Alterar) && (idContratoAnt != contid))
                     {
                         int CodigoContratoAnt = bllContratoFun.getContratoCodigo(idContratoAnt.GetValueOrDefault(), ContratoFunc.IdFuncionario);
                         int IdContratoFuncAnt = CodigoContratoAnt != 0 ? bllContratoFun.getId(CodigoContratoAnt, null, null) : 0;
-                        if (idContratoAnt != ContratoFunc.IdContrato && idContratoAnt != 0)
+                        if (idContratoAnt != ContratoFunc.IdContrato && idContratoAnt.GetValueOrDefault() != 0)
                         {
                             Modelo.ContratoFuncionario ContFuncAnt = new Modelo.ContratoFuncionario();
                             ContFuncAnt = bllContratoFuncionario.LoadObject(IdContratoFuncAnt);
                             acao = Acao.Alterar;
                             ContFuncAnt.excluido = 1;
+                            ContFuncAnt.NaoValidaCodigo = true;
                             erros = bllContratoFuncionario.Salvar(acao, ContFuncAnt);
                         }
                         ContFunc.IdContrato = contid.GetValueOrDefault();
                         ContFunc.IdFuncionario = funcid.GetValueOrDefault();
                         ContFunc.Codigo = bllContratoFuncionario.MaxCodigo();
                         acao = Acao.Incluir;
+                        ContFunc.NaoValidaCodigo = true;
                         erros = bllContratoFuncionario.Salvar(acao, ContFunc);
                     }
                     else if (contid != 0 && acao == Acao.Excluir)
@@ -1490,6 +1521,7 @@ namespace BLL
                         acao = Acao.Alterar;
                         ContFunc.Acao = Acao.Alterar;
                         ContFunc.excluido = 1;
+                        ContFunc.NaoValidaCodigo = true;
                         erros = bllContratoFuncionario.Salvar(acao, ContFunc);
                     }
 
@@ -1589,6 +1621,10 @@ namespace BLL
         public Modelo.Funcionario GetFuncionarioPorCpfeMatricula(Int64 cpf, string matricula)
         {
             return dalFuncionario.GetFuncionarioPorCpfeMatricula(cpf, matricula);
+        }
+        public Modelo.Funcionario GetFuncionarioPorMatricula(string matricula)
+        {
+            return dalFuncionario.GetFuncionarioPorMatricula(matricula);
         }
 
         public IList<Modelo.Proxy.PxyFuncionarioCabecalhoRel> GetFuncionariosCabecalhoRel(IList<int> IdFuncs)
@@ -2113,6 +2149,16 @@ namespace BLL
         public List<string> GetDsCodigosByIDs(List<int> lIds)
         {
             return dalFuncionario.GetDsCodigosByIDs(lIds);
+        }
+
+        public List<PxyFuncionarioFechamentosPontoEBH> GetFuncionariosComUltimoFechamentosPontoEBH(bool pegaTodos, IList<int> idsFuncs, DateTime dataInicio)
+        {
+            return dalFuncionario.GetFuncionariosComUltimoFechamentosPontoEBH(pegaTodos, idsFuncs, dataInicio);
+        }
+
+        public void DeleteLogicoFuncionariosInativos(int qtdMeses)
+        {
+            dalFuncionario.DeleteLogicoFuncionariosInativos(qtdMeses);
         }
     }
 }

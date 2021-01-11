@@ -109,8 +109,8 @@ namespace PontoWeb.Controllers
 
         }
 
-       
-       
+
+
 
         [PermissoesFiltro(Roles = "HorarioCadastrar")]
         public override ActionResult Cadastrar()
@@ -412,9 +412,9 @@ namespace PontoWeb.Controllers
 
             if (horario.HorarioRestricao == null)
             {
-                horario.HorarioRestricao = new List<HorarioRestricao>(); 
+                horario.HorarioRestricao = new List<HorarioRestricao>();
             }
-            
+
             return View("Cadastrar", horario);
         }
 
@@ -448,7 +448,7 @@ namespace PontoWeb.Controllers
         {
             VerificaParametro(obj);
             VerificaJornada(obj);
-            ValidaClassificacao(obj);           
+            ValidaClassificacao(obj);
             if (ModelState.ContainsKey("DataInicial"))
             {
                 ModelState.Remove("DataInicial");
@@ -465,7 +465,7 @@ namespace PontoWeb.Controllers
             {
                 ModelState.Remove("HorarioRestricao");
             }
-            
+
             if (!obj.SeparaExtraNoturnaPercentual)
             {
                 for (int i = 0; i < obj.LHorariosPHExtra.Count; i++)
@@ -475,8 +475,20 @@ namespace PontoWeb.Controllers
                     {
                         ModelState.Remove("LHorariosPHExtra[" + i + "].PercentualExtraNoturna");
                     }
-                }                
-            }      
+                }
+            }
+
+            for (int i = 0; i < obj.LHorariosPHExtra.Count; i++)
+            {
+                if (string.IsNullOrEmpty(obj.LHorariosPHExtra[i].PercentualExtraSegundoNoturna.ToString()))
+                {
+                    obj.LHorariosPHExtra[i].PercentualExtraSegundoNoturna = null;
+                    if (ModelState.ContainsKey("LHorariosPHExtra[" + i + "].PercentualExtraSegundoNoturna"))
+                    {
+                        ModelState.Remove("LHorariosPHExtra[" + i + "].PercentualExtraSegundoNoturna");
+                    }
+                }
+            }
         }
 
         private static void TrataDados(Horario horario)
@@ -539,7 +551,7 @@ namespace PontoWeb.Controllers
             if (erroTratado.Count > 0)
             {
                 string campoErro = "LHorariosDetalhe[0].DescJornada";
-                ModelState[campoErro].Errors.Add(string.Join(";", erroTratado.Select(x => x.Value).ToArray()));                
+                ModelState[campoErro].Errors.Add(string.Join(";", erroTratado.Select(x => x.Value).ToArray()));
             }
 
             erroTratado = erros.Where(x => x.Key.Equals("cbTipoAcumuloSab")).ToDictionary(x => x.Key, x => x.Value);
@@ -580,6 +592,7 @@ namespace PontoWeb.Controllers
             {
                 string campoErro = "Diasemanadsr";
                 ModelState.AddModelError(campoErro, string.Join(";", erroTratado.Select(x => x.Value).ToArray()));
+                //ModelState[campoErro].Errors.Add(string.Join(";", erroTratado.Select(x => x.Value).ToArray()));
             }
             if (erros.Count() > 0)
             {
@@ -642,11 +655,12 @@ namespace PontoWeb.Controllers
                 IList<Horario> lHorario = new List<Horario>();
                 IList<Horario> horarios = new List<Horario>();
                 int codigo = -1;
+                int tipo = 1;
                 try { codigo = Int32.Parse(consulta); }
                 catch (Exception) { codigo = -1; }
                 if (codigo != -1)
                 {
-                    int id = bllHorario.GetIdPorCodigo(codigo, true).GetValueOrDefault();
+                    int id = bllHorario.GetIdPorCodigo(codigo, tipo, true).GetValueOrDefault();
                     Horario horario = bllHorario.LoadObject(id);
                     if (horario != null && horario.Id > 0 && horario.Ativo)
                     {
@@ -690,11 +704,12 @@ namespace PontoWeb.Controllers
             IList<Horario> lHorario = new List<Horario>();
             IList<Horario> horarios = new List<Horario>();
             int codigo = -1;
+            int tipo = 1;
             try { codigo = Int32.Parse(consulta); }
             catch (Exception) { codigo = -1; }
             if (codigo != -1)
             {
-                int id = bllHorario.GetIdPorCodigo(codigo, true).GetValueOrDefault();
+                int id = bllHorario.GetIdPorCodigo(codigo, tipo, true).GetValueOrDefault();
                 Horario horario = bllHorario.LoadObject(id);
 
                 if (horario != null && horario.Id > 0 && horario.TipoHorario == 1 && horario.Ativo)
@@ -724,11 +739,12 @@ namespace PontoWeb.Controllers
             IList<Horario> lHorario = new List<Horario>();
             IList<Horario> horarios = new List<Horario>();
             int codigo = -1;
+            int tipo = 2;
             try { codigo = Int32.Parse(consulta); }
             catch (Exception) { codigo = -1; }
             if (codigo != -1)
             {
-                int id = bllHorario.GetIdPorCodigo(codigo, true).GetValueOrDefault();
+                int id = bllHorario.GetIdPorCodigo(codigo, tipo, true).GetValueOrDefault();
                 List<Horario> lHorarioMovel = new List<Horario>();
                 Horario horario = bllHorario.LoadObject(id);
 
@@ -752,13 +768,14 @@ namespace PontoWeb.Controllers
         }
 
 
-        public static int BuscaIdHorario(string horario)
+        public static int BuscaIdHorario(string horario , int tipoHorario)
         {
             Horario h = new Horario();
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
             BLL.Horario bllHorario = new BLL.Horario(usr.ConnectionString, usr);
             string codigo = horario.Split('|')[0].Trim();
             int cod = 0;
+            int tipo = 1;
             try
             {
                 cod = Convert.ToInt32(codigo);
@@ -767,7 +784,16 @@ namespace PontoWeb.Controllers
             {
                 cod = 0;
             }
-            int? idHorario = bllHorario.GetIdPorCodigo(cod, true);
+
+            try
+            {
+                tipo = Convert.ToInt32(tipoHorario);
+            }
+            catch (Exception)
+            {
+                tipo = 0;
+            }
+            int? idHorario = bllHorario.GetIdPorCodigo(cod, tipo, true);
             return idHorario.GetValueOrDefault();
         }
         #endregion
@@ -868,7 +894,7 @@ namespace PontoWeb.Controllers
                     if (hflex.Idjornada.GetValueOrDefault() > 0)
                     {
                         Jornada jornada = jornadas.Where(w => w.Id == hflex.Idjornada.GetValueOrDefault()).FirstOrDefault();
-                        hflex.DescJornada = (jornada.Codigo != 0) ? jornada.Codigo + " | " + jornada.horarios : string.Empty; 
+                        hflex.DescJornada = (jornada.Codigo != 0) ? jornada.Codigo + " | " + jornada.horarios : string.Empty;
                     }
                     else
                     {
@@ -896,7 +922,7 @@ namespace PontoWeb.Controllers
                 horario.IdClassificacao = null;
             }
 
-        }        
+        }
 
         [PermissoesFiltro(Roles = "HorarioCadastrar")]
         [HttpPost]
@@ -980,7 +1006,7 @@ namespace PontoWeb.Controllers
                 string novo = RenderViewToString("AddNovaRestricao", horario);
                 novo = novo.Replace("HorarioRestricao_0__", "HorarioRestricao_" + index + "__");
                 novo = novo.Replace("HorarioRestricao[0].", "HorarioRestricao[" + index + "].");
-                return Json ( new { Success = true, HTML = novo }, JsonRequestBehavior.AllowGet);
+                return Json(new { Success = true, HTML = novo }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

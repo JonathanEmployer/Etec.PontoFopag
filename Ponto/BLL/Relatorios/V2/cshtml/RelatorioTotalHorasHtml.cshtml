@@ -69,7 +69,7 @@
 
     .backgroudDefault {
         color: #333;
-        background-color: #f5f5f5;
+        
         border-color: #ddd;
     }
 
@@ -93,11 +93,17 @@
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
 </head>
 <body>
-    @{ int count = 0; bool umFuncPorPagina = Model.FirstOrDefault().UmFuncPorPagina; }
+    @{ 
+        int count = 0;
+        bool umFuncPorPagina = Model.FirstOrDefault().UmFuncPorPagina;
+        bool considerarCabecacao = Model.FirstOrDefault().ConsiderarCabecalho;
+        int qtdQuebra = Model.FirstOrDefault().ConsiderarCabecalho == true ? 2 : 3;
+    }
+
     @foreach (Modelo.Proxy.Relatorios.PxyRelTotalHoras item in Model)
     {
 
-        if (count % 3 == 0 || umFuncPorPagina)
+        if (count % qtdQuebra == 0 || umFuncPorPagina)
         {
             if (count > 0)
             {
@@ -121,10 +127,25 @@
         <div>
             <table style="width:100%" class="backgroudDefault">
                 <tbody>
-                    <tr style="font-size: 9pt; font-weight: bold;">
-                        <td style="width: 80%; padding:10px;">Funcionário: @item.FuncionarioDsCodigo | @item.FuncionarioNome</td>
-                        <td style="width: 20%; padding:10px;">Matrícula: @item.FuncionarioMatricula</td>
+                    <tr style="font-size: 8pt; font-weight: bold;">
+                        <td style="width: 50%; padding:5px;">Funcionário: @item.FuncionarioDsCodigo | @item.FuncionarioNome</td>
+                        <td style="width: 50%; padding:5px;">Matrícula: @item.FuncionarioMatricula</td>
                     </tr>
+                    @if (considerarCabecacao)
+                    {
+                        <tr style="font-size: 8pt; font-weight: bold;">
+                            <td style="width: 50%; padding:5px;">Contrato: @item.FuncionarioContrato</td>
+                            <td style="width: 50%; padding:5px;">Data de Admissão: @item.FuncionarioDataAdmissaoStr</td>
+                        </tr>
+                        <tr style="font-size: 8pt; font-weight: bold;">
+                            <td style="width: 50%; padding:5px;">Departamento: @item.FuncionarioDepartamento</td>
+                            <td style="width: 50%; padding:5px;">Data de Rescisão: @item.FuncionarioDataRecisaoStr</td>
+                        </tr>
+                        <tr style="font-size: 8pt; font-weight: bold;">
+                            <td style="width: 50%; padding:5px;">Alocação: @item.FuncionarioAlocacao</td>
+                            <td style="width: 50%; padding:5px;">Supervisor: @item.FuncionarioSupervisor</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
             <table style="width:100%">
@@ -273,7 +294,7 @@
                                     {
                                         <tr>
                                             <td style="padding:10px">
-                                                @(String.Format("{0:000}%", rateioHorasExtras.percentual))
+                                                @(String.Format("{0:N}%", rateioHorasExtras.percentual))
                                             </td>
                                             <td style="padding:10px">
                                                 @(rateioHorasExtras.diurno)

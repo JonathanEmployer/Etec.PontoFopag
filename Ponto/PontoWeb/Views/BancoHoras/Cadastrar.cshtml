@@ -5,6 +5,7 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id, new { id = "idBancoHoras" });
     @Html.HiddenFor(model => model.Incdata);
     @Html.HiddenFor(model => model.Inchora);
@@ -18,6 +19,9 @@
     @Html.HiddenFor(model => model.DataInicial_Ant);
     @Html.HiddenFor(model => model.DataFinal_Ant);
     @Html.HiddenFor(model => model.LimiteHorasextras_10);
+    @Html.HiddenFor(model => model.DataUltimoFechamentoPontoEBanco);
+    @Html.HiddenFor(model => model.Lote);
+    @Html.HiddenFor(model => model.IdBancoHorasCopia);
 
     <div class="divCenterMedio">
         <div class="panel panel-default" style="padding-bottom:0; margin-bottom:0;">
@@ -45,7 +49,7 @@
                             <div class="col-md-4">
                                 <div class="form-group input-group-sm">
                                     @Html.LabelFor(model => model.DataInicial, new { @class = "control-label label-sm" })
-                                    <div class="input-group input-group-sm" >
+                                    <div class="input-group input-group-sm">
                                         @Html.TextBoxFor(model => model.DataInicial, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataInicial" })
                                         <span class="input-group-btn">
                                             <button class="btn btn-primary" id="btnDataInicial" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -57,7 +61,7 @@
                             <div class="col-md-4">
                                 <div class="form-group input-group-sm">
                                     @Html.LabelFor(model => model.DataFinal, new { @class = "control-label label-sm" })
-                                    <div class="input-group input-group-sm" >
+                                    <div class="input-group input-group-sm">
                                         @Html.TextBoxFor(model => model.DataFinal, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataFinal" })
                                         <span class="input-group-btn">
                                             <button class="btn btn-primary" id="btnDataFinal" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -191,7 +195,7 @@
                                 @Html.LabelFor(model => model.PercentualComoHoraExtra, new { @class = "control-label label-sm" })
                                 @Html.ValidationMessageFor(model => model.PercentualComoHoraExtra)
                             </label>
-                        </div>                        
+                        </div>
                         <div class="checkbox">
                             <label>
                                 @Html.CheckBoxFor(model => model.BancoHorasPorPercentual, new { @class = "checkboxbh", id = "BancoHorasPorPercentual" })
@@ -315,7 +319,7 @@
                                                 </div>
                                             </div>
                                             <div class="panel-body" style="padding-top:7px;padding-bottom:12px;padding-right:20px;padding-left:10px;">
-                                                
+
                                                 <div class="row">
                                                     @*Limite*@
                                                     <div class="col-md-3">
@@ -687,7 +691,7 @@
                                                                 @Html.ValidationMessageFor(model => model.Limite_4)
                                                             </label>
                                                         </div>
-                                                    </div >
+                                                    </div>
                                                     <div class="form-group" style="margin:4px">
                                                         <div class="checkbox">
                                                             <label>
@@ -697,7 +701,7 @@
                                                             </label>
                                                         </div>
                                                     </div>
-                                                   
+
                                                     <div class="form-group" style="margin:4px">
                                                         <div class="checkbox">
                                                             <label>
@@ -855,7 +859,7 @@
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.FechamentoPercentualHEPercentual1, new { @class = "control-label label-sm" })
                                                 @Html.TextBoxFor(model => model.FechamentoPercentualHEPercentual1, new { @class = "form-control  input-sm intpercent", @placeholder = "0" })
-                                                @Html.ValidationMessageFor(model => model.FechamentoPercentualHEPercentual1)                                                
+                                                @Html.ValidationMessageFor(model => model.FechamentoPercentualHEPercentual1)
                                             </div>
                                         </div>
                                     </div>
@@ -883,23 +887,23 @@
 
                 </div>
             </div>
-                    <div class="panel-footer">
-                        <div class="row">
-                            <div class="col-xs-12 center-block">
-                                <div style="text-align: right">
-                                    <button type="submit" class="btn btn-success btn-sm salvando">
-                                        <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
-                                    </button>
-                                    <a class="btn btn-danger btn-sm salvando"
-                                       href="@Url.Action("Grid", "BancoHoras")">
-                                        <span class="glyphicon glyphicon-remove salvando"></span> Cancelar
-                                    </a>
-                                </div>
-                            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success btn-sm salvando">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger btn-sm salvando"
+                               href="@Url.Action("Grid", "BancoHoras")">
+                                <span class="glyphicon glyphicon-remove salvando"></span> Cancelar
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 }
 <script>
     $(document).ready(function () {
@@ -928,15 +932,15 @@
 
         if ($('#idRadioFuncionario').is(':checked')) {
             divVisivel("#divFuncionario");
-        }; 
+        };
         //Quando for um cadastro novo marca esse parametros como default.
         var dataI = $('#DataInicial').val(); var dataF = $('#DataFinal').val();
         if (dataI == "" && dataF == "") {
             $('#lkpContabilizarFaltas').prop('checked', true);
             $('#lkpContAtrasosSaidasAntec').prop('checked', true);
-            $('#lkpContabilizarCreditos').prop('checked',true);
+            $('#lkpContabilizarCreditos').prop('checked', true);
         }
-       
+
         FechamentoPercentualHE();
 
         VerificaLimiteConjunto();
@@ -1003,7 +1007,7 @@
 
         // Se marcar Banco de Horas desabilita Hora Extra
         if (selecao == "BancoHorasPorPercentual" && $("#BancoHorasPorPercentual").is(':checked')) {
-                $("#PercentualComoHoraExtra").prop("checked", false);
+            $("#PercentualComoHoraExtra").prop("checked", false);
         }
 
         VerificaBancoHorasAcumulativo();
@@ -1043,7 +1047,7 @@
                     $(this).val("---:--");
                 }
             });
-            
+
         }
         else {
             $(".lbancohora").prop('readonly', true);
@@ -1257,7 +1261,7 @@
     function FechamentoPercentualHE() {
         if ($("#FechamentoPercentualHE").is(':unchecked')) {
             $("#pnlFechamentoPercentualHE").hide();
-        } //Se desmarcado esconde os campos 
+        } //Se desmarcado esconde os campos
         else {
             $("#pnlFechamentoPercentualHE").show();
         }
@@ -1267,7 +1271,7 @@
     $("#FechamentoPercentualHE").click(function (event) {
         FechamentoPercentualHE();
     });
-    
+
 </script>
 @if (ViewBag.Consultar == 1)
 {
@@ -1275,5 +1279,35 @@
         $(document).ready(function () {
             $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
         })
+    </script>
+}
+
+@if (Model.DataUltimoFechamentoPontoEBanco != null)
+{
+    <script>
+        $(document).ready(function (e) {
+            $('form').find('input:visible, textarea:visible, button, select:visible').attr('disabled', 'disabled');
+            ComparaDataFinalComDataFechmento();
+        })
+
+    function ComparaDataFinalComDataFechmento() {
+        var dataFinal = ConvertDate('@Model.DataFinal');
+        var ultimoFechamento = ConvertDate('@Model.DataUltimoFechamentoPontoEBanco');
+        if (dataFinal > ultimoFechamento) {
+            $('#DataFinal, #btnDataFinal').removeAttr('disabled');
+            $('.salvando').removeAttr('disabled');
+
+            //$('#DataFinal').datepicker("remove");
+            var optionsDP = new Array();
+            optionsDP['language'] = 'pt-BR';
+            optionsDP['format'] = "dd/mm/yyyy";
+            optionsDP['todayBtn'] = "linked";
+            optionsDP['autoclose'] = "true";
+            optionsDP['todayHighlight'] = "true";
+            optionsDP['startDate'] = ultimoFechamento.addDays(1);
+            optionsDP['orientation'] = "auto";
+            $('#DataFinal').datepicker(optionsDP);
+        }
+    }
     </script>
 }

@@ -443,7 +443,7 @@ namespace Modelo
         public string Ocorrencia
         {
             get { return ocorrencia; }
-            set { ocorrencia = value.Length > 60 ? value.Substring(0, 60) : value; }
+            set { ocorrencia = value != null && value.Length > 60 ? value.Substring(0, 60) : value; }
         }
 
         /// <summary>
@@ -582,7 +582,8 @@ namespace Modelo
         /// </summary>
         [Display(Name = "Contabilizar Créditos")]
         public Int16 ContabilizarCreditos { get; set; }
-        
+        public int? IdJornadaSubstituir { get; set; }
+
         /// <summary>
         /// Calcula Horas Extras Diurna
         /// </summary>
@@ -1078,7 +1079,8 @@ namespace Modelo
         public int ContabilizarFaltas { get; set; }
         public int ContAtrasosSaidasAntec { get; set; }
         public int ContabilizarCreditos { get; set; }
-        
+        public int? IdJornadaSubstituir { get; set; }
+
         public string[] ValoresInItinere { get; set; }
 
         //Declaração das variáveis de tratamento 

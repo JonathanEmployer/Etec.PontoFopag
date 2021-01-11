@@ -1,0 +1,176 @@
+﻿@model Modelo.Relatorios.RelatorioRefeicaoModel
+@{
+    ViewBag.Title = "Relatório Refeição";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="">
+        <div class="panel panel-default" style="padding:0px;margin-bottom:0">
+            <div class="panel-heading">
+                @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo" id="panelBodyFixodivCenter">
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.TipoArquivo)
+                @Html.ValidationMessageFor(model => model.TipoArquivo)
+                @Html.HiddenFor(x => x.TipoSelecao)
+                <div>
+                    <div class="row" style="padding-bottom:5px;">
+                        <div id="divPeriodo" class="col-md-12">
+                            <div class="panel panel-default" style="margin-bottom:5px">
+                                <div class="panel-heading" style="padding-top:5px; padding-bottom:5px">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="row">
+                                                <div class="col-md-1">
+                                                    @Html.LabelFor(model => Model.InicioPeriodo, new { @class = "label-sm" })
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div class="input-group input-group-sm">
+                                                        @Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "InicioPeriodo" })
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-primary" id="btnDtInicio" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => Model.InicioPeriodo)
+                                                <div class="col-md-1">
+                                                    @Html.LabelFor(model => Model.FimPeriodo, new { @class = "label-sm" })
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div class="input-group input-group-sm">
+                                                        @Html.TextBoxFor(model => Model.FimPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "FimPeriodo" })
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-primary" id="btnDtFim" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => Model.FimPeriodo)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="col-md-3">
+                                                @Html.Label("Jornada trabalhada mínima")
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBoxFor(model => model.PercentualJornadaMinima, new { @class = "form-control  input-sm int2" })
+                                                    <span class="input-group-addon" id="basic-addon2">%</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                @Html.Label("Valor Refeição")
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="input-group input-group-sm">
+                                                    <span class="input-group-addon" id="basic-addon2">$</span>
+                                                    @Html.TextBoxFor(model => model.ValorDescRefeicao, new { @class = "form-control  input-sm money" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-12">
+                                <div class="col-md-3">
+                                    <div class="checkbox">
+                                        @Html.CheckBoxFor(model => model.ConsiderarDoisRegistros) Considerar horários com 2 registros
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="checkbox">
+                                        @Html.CheckBoxFor(model => model.ConsiderarDiasSemjornada) Considerar jornada extraordinária
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.HiddenFor(x => x.IdSelecionados)
+                            @Html.ValidationMessageFor(x => x.IdSelecionados)
+                            <div class="row">
+                                @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorio()).GetType(), true, "GetFuncsRel", "GetFuns", "", "", Model.IdSelecionados, "")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.Partial("../JobManager/JobView")
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" id="btnXls" class="btn btn-primary btnEnviar"><span class="fa fa-file-excel-o"></span>&nbsp;Excel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    var errorArray = new Array();
+    cwk_DataCalendario('#btnDtInicio', '#InicioPeriodo');
+    cwk_DataCalendario('#btnDtFim', '#FimPeriodo');
+
+
+    function retornaAltura() {
+        var altura = cwk_AlturaTela() * 28 / 100;
+        if (cwk_AlturaTela() <= 768) {
+            altura = cwk_AlturaTela() * 18 / 100;
+        }
+        return altura;
+    }
+
+    $(document).ready(function () {
+        $('#tbFun tbody').on('click', 'tr', function () {
+            errorArray["IdSelecionados"] = null;
+            $("form").validate().showErrors(errorArray);
+        });
+
+    });
+
+    $("#btnXls").click(function (event) {
+        if (!validaForm()) {
+            event.preventDefault();
+        }
+        else {
+            $("#TipoArquivo").val("Excel");
+        }
+    });
+
+    $('form').submit(function () {
+        if ($(this).valid()) {
+            PostFormJob(this);
+        }
+        return false;
+    });
+
+    function validaForm() {
+        $("#IdSelecionados").val(tbFunGetSelecionado());
+        if ($("#IdSelecionados").val().length <= 0 || $("#IdSelecionados").val() == '' || $("#IdSelecionados").val() == null) {
+            var msgErro = 'Para Imprimir o Relatório é Necessário Selecionar Pelo Menos um registro.';
+            errorArray["IdSelecionados"] = msgErro;
+            cwkErro(msgErro);
+            $("form").validate().showErrors(errorArray);
+            return false;
+        }
+        else {
+            errorArray["IdSelecionados"] = null;
+            $("form").validate().showErrors(errorArray);
+            return true;
+        }
+    }
+</script>

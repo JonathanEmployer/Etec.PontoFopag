@@ -75,9 +75,9 @@ namespace DAL.SQL
             }
         }
 
-        public string SELECTPRO 
+        public string SELECTPRO
         {
-            get 
+            get
             {
                 return @"   SELECT    func.id
                                     , func.codigo
@@ -100,7 +100,9 @@ namespace DAL.SQL
                                     , func.IdAlocacao
                                     , func.IdTipoVinculo
                                     , func.IdIntegracaoPainel
-                                    , func.Email                                
+                                    , func.Email   
+                                    , func.Celular           
+                                    , func.UtilizaIntegracaoFotoWebfopag 
                              FROM funcionario func
                              LEFT JOIN empresa emp ON emp.id = func.idempresa
                              LEFT JOIN departamento ON departamento.id = func.iddepartamento
@@ -139,7 +141,9 @@ namespace DAL.SQL
                                     , func.IdAlocacao
                                     , func.IdTipoVinculo
                                     , func.IdIntegracaoPainel
-                                    , func.Email                                 
+                                    , func.Email  
+                                    , func.Celular                                    
+                                    , func.UtilizaIntegracaoFotoWebfopag 
                              FROM funcionario func
                              LEFT JOIN empresa emp ON emp.id = func.idempresa
                              LEFT JOIN departamento ON departamento.id = func.iddepartamento
@@ -156,7 +160,7 @@ namespace DAL.SQL
         protected override string SELECTALL
         {
             get
-                {
+            {
                 return @"   SELECT   func.id
                                     , func.nome
                                     , CAST(func.dscodigo AS BIGINT) AS dscodigo 
@@ -178,7 +182,9 @@ namespace DAL.SQL
                                     , func.IdAlocacao
                                     , func.IDTipoVinculo
                                     , func.IdIntegracaoPainel
-                                    , func.Email                                  
+                                    , func.Email   
+                                    , func.Celular 
+                                    , func.UtilizaIntegracaoFotoWebfopag
                              FROM funcionario func
                              LEFT JOIN empresa emp ON emp.id = func.idempresa
                              LEFT JOIN departamento ON departamento.id = func.iddepartamento
@@ -247,6 +253,8 @@ namespace DAL.SQL
        func.IdAlocacao,
        func.IdTipoVinculo,
        func.Email,
+       func.Celular,
+       func.UtilizaIntegracaoFotoWebfopag, 
        func.IdIntegracaoPainel,
        func.RFID, 
         '' foto,
@@ -328,6 +336,8 @@ namespace DAL.SQL
                                        func.IdAlocacao,
                                        func.IdTipoVinculo,
                                        func.Email,
+                                       func.Celular,
+                                       func.UtilizaIntegracaoFotoWebfopag, 
                                        func.IdIntegracaoPainel,
                                        func.RFID,
                                        func.foto
@@ -403,6 +413,8 @@ namespace DAL.SQL
                                        func.IdAlocacao,
                                        func.IdTipoVinculo,
                                        func.Email,
+                                       func.Celular,
+                                       func.UtilizaIntegracaoFotoWebfopag, 
                                        func.IdIntegracaoPainel,
                                        func.RFID,  
                                        '' foto
@@ -480,6 +492,8 @@ namespace DAL.SQL
                                        f.IdAlocacao,
                                        f.IdTipoVinculo,
                                        f.Email,
+                                       f.Celular,
+                                       f.UtilizaIntegracaoFotoWebfopag, 
                                        f.IdIntegracaoPainel,
                                        f.RFID, 
                                         '' foto
@@ -540,6 +554,8 @@ namespace DAL.SQL
                                        f.IdAlocacao,
                                        f.IdTipoVinculo,
                                        f.Email,
+                                       f.Celular,
+                                       f.UtilizaIntegracaoFotoWebfopag, 
                                        f.IdIntegracaoPainel,
                                        f.RFID, 
                                         '' foto
@@ -553,9 +569,9 @@ namespace DAL.SQL
                             WHERE ct.id = @idcontrato and cf.excluido = 0";
 
             INSERT = @"  INSERT INTO funcionario
-							( codigo,  dscodigo,  matricula,  nome,  codigofolha,  idempresa,  iddepartamento,  idfuncao,  idhorario,  tipohorario,  carteira,  dataadmissao,  datademissao,  salario,  naoentrarbanco,  naoentrarcompensacao,  excluido,  campoobservacao,  foto,  incdata,  inchora,  incusuario,  pis,  senha,  toleranciaentrada,  toleranciasaida,  quantidadetickets,  tipotickets,  CPF,  Mob_Senha,  idcw_usuario,  utilizaregistrador,  idIntegracao,  IdPessoaSupervisor,  TipoMaoObra,  IdAlocacao,  IdTipoVinculo,  IdIntegracaoPainel,  Email,  RFID,  IdHorarioDinamico,  CicloSequenciaIndice,  DataInativacao,  UtilizaAppPontofopag,  UtilizaReconhecimentoFacialApp,  UtilizaWebAppPontofopag,  UtilizaReconhecimentoFacialWebApp)
+							( codigo,  dscodigo,  matricula,  nome,  codigofolha,  idempresa,  iddepartamento,  idfuncao,  idhorario,  tipohorario,  carteira,  dataadmissao,  datademissao,  salario,  naoentrarbanco,  naoentrarcompensacao,  excluido,  campoobservacao,  foto,  incdata,  inchora,  incusuario,  pis,  senha,  toleranciaentrada,  toleranciasaida,  quantidadetickets,  tipotickets,  CPF,  Mob_Senha,  idcw_usuario,  utilizaregistrador,  idIntegracao,  IdPessoaSupervisor,  TipoMaoObra,  IdAlocacao,  IdTipoVinculo,  IdIntegracaoPainel,  Email,  RFID,  IdHorarioDinamico,  CicloSequenciaIndice,  DataInativacao,  UtilizaAppPontofopag,  UtilizaReconhecimentoFacialApp,  UtilizaWebAppPontofopag,  UtilizaReconhecimentoFacialWebApp, Celular,UtilizaIntegracaoFotoWebfopag)
 							VALUES
-							(@codigo, @dscodigo, @matricula, @nome, @codigofolha, @idempresa, @iddepartamento, @idfuncao, @idhorario, @tipohorario, @carteira, @dataadmissao, @datademissao, @salario, @naoentrarbanco, @naoentrarcompensacao, @excluido, @campoobservacao, @foto, @incdata, @inchora, @incusuario, @pis, @senha, @toleranciaentrada, @toleranciasaida, @quantidadetickets, @tipotickets, @CPF, @Mob_Senha, @idcw_usuario, @utilizaregistrador, @idIntegracao, @IdPessoaSupervisor, @TipoMaoObra, @IdAlocacao, @IdTipoVinculo, @IdIntegracaoPainel, @Email, @RFID, @IdHorarioDinamico, @CicloSequenciaIndice, @DataInativacao, @UtilizaAppPontofopag, @UtilizaReconhecimentoFacialApp, @UtilizaWebAppPontofopag, @UtilizaReconhecimentoFacialWebApp)
+							(@codigo, @dscodigo, @matricula, @nome, @codigofolha, @idempresa, @iddepartamento, @idfuncao, @idhorario, @tipohorario, @carteira, @dataadmissao, @datademissao, @salario, @naoentrarbanco, @naoentrarcompensacao, @excluido, @campoobservacao, @foto, @incdata, @inchora, @incusuario, @pis, @senha, @toleranciaentrada, @toleranciasaida, @quantidadetickets, @tipotickets, @CPF, @Mob_Senha, @idcw_usuario, @utilizaregistrador, @idIntegracao, @IdPessoaSupervisor, @TipoMaoObra, @IdAlocacao, @IdTipoVinculo, @IdIntegracaoPainel, @Email, @RFID, @IdHorarioDinamico, @CicloSequenciaIndice, @DataInativacao, @UtilizaAppPontofopag, @UtilizaReconhecimentoFacialApp, @UtilizaWebAppPontofopag, @UtilizaReconhecimentoFacialWebApp, @Celular,@UtilizaIntegracaoFotoWebfopag)
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE funcionario SET codigo = @codigo
@@ -605,6 +621,8 @@ namespace DAL.SQL
                             , UtilizaReconhecimentoFacialApp = @UtilizaReconhecimentoFacialApp
                             , UtilizaWebAppPontofopag = @UtilizaWebAppPontofopag
                             , UtilizaReconhecimentoFacialWebApp = @UtilizaReconhecimentoFacialWebApp
+                            , Celular = @Celular
+                            , UtilizaIntegracaoFotoWebfopag =@UtilizaIntegracaoFotoWebfopag
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM funcionario WHERE id = @id";
@@ -615,7 +633,7 @@ namespace DAL.SQL
                         FROM    ( SELECT    ISNULL(MAX(codigo),0) codigo ,
                                             ISNULL(MAX(CONVERT(BIGINT,ISNULL(dscodigo,0))),0) dscodigo
                                   FROM      dbo.funcionario
-                                ) t ";       
+                                ) t ";
 
         }
 
@@ -695,6 +713,8 @@ namespace DAL.SQL
                                        f.IdAlocacao,
                                        f.IdTipoVinculo,
                                        f.Email,
+                                       f.Celular,
+                                       f.UtilizaIntegracaoFotoWebfopag,
                                        f.IdIntegracaoPainel,
                                        f.RFID, 
                                         '' foto
@@ -801,6 +821,8 @@ namespace DAL.SQL
             ((Modelo.Funcionario)obj).UtilizaReconhecimentoFacialApp = dr["UtilizaReconhecimentoFacialApp"] is DBNull ? false : Convert.ToBoolean(dr["UtilizaReconhecimentoFacialApp"]);
             ((Modelo.Funcionario)obj).UtilizaWebAppPontofopag = dr["UtilizaWebAppPontofopag"] is DBNull ? false : Convert.ToBoolean(dr["UtilizaWebAppPontofopag"]);
             ((Modelo.Funcionario)obj).UtilizaReconhecimentoFacialWebApp = dr["UtilizaReconhecimentoFacialWebApp"] is DBNull ? false : Convert.ToBoolean(dr["UtilizaReconhecimentoFacialWebApp"]);
+            ((Modelo.Funcionario)obj).UtilizaIntegracaoFotoWebfopag = dr["UtilizaIntegracaoFotoWebfopag"] is DBNull ? false : Convert.ToBoolean(dr["UtilizaIntegracaoFotoWebfopag"]);
+
 
             object val = dr["idIntegracao"];
             Int32? idint = (val == null || val is DBNull) ? (Int32?)null : (Int32?)val;
@@ -822,6 +844,7 @@ namespace DAL.SQL
             ((Modelo.Funcionario)obj).HorarioDinamico = dr["HorarioDinamico"] is DBNull ? String.Empty : Convert.ToString(dr["HorarioDinamico"]);
             ((Modelo.Funcionario)obj).DataInativacao = (dr["DataInativacao"] is DBNull ? null : (DateTime?)(dr["DataInativacao"]));
             ((Modelo.Funcionario)obj).DataInativacao_Ant = ((Modelo.Funcionario)obj).DataInativacao;
+            ((Modelo.Funcionario)obj).Celular = Convert.ToString(dr["Celular"]);
         }
 
         protected override SqlParameter[] GetParameters()
@@ -878,7 +901,10 @@ namespace DAL.SQL
                 new SqlParameter ("@UtilizaAppPontofopag", SqlDbType.Bit),
                 new SqlParameter ("@UtilizaReconhecimentoFacialApp", SqlDbType.Bit),
                 new SqlParameter ("@UtilizaWebAppPontofopag", SqlDbType.Bit),
-                new SqlParameter ("@UtilizaReconhecimentoFacialWebApp", SqlDbType.Bit)
+                new SqlParameter ("@UtilizaReconhecimentoFacialWebApp", SqlDbType.Bit),
+                new SqlParameter ("@Celular", SqlDbType.VarChar),
+                new SqlParameter ("@UtilizaIntegracaoFotoWebfopag", SqlDbType.Bit)
+
             };
             return parms;
         }
@@ -949,6 +975,8 @@ namespace DAL.SQL
             parms[48].Value = ((Modelo.Funcionario)obj).UtilizaReconhecimentoFacialApp;
             parms[49].Value = ((Modelo.Funcionario)obj).UtilizaWebAppPontofopag;
             parms[50].Value = ((Modelo.Funcionario)obj).UtilizaReconhecimentoFacialWebApp;
+            parms[51].Value = ((Modelo.Funcionario)obj).Celular;
+            parms[52].Value = ((Modelo.Funcionario)obj).UtilizaIntegracaoFotoWebfopag;
         }
 
         public bool VerificaCodigoDuplicado(string pCodigo)
@@ -980,6 +1008,7 @@ namespace DAL.SQL
 
             return ret;
         }
+
 
         public Modelo.Funcionario LoadObject(int id)
         {
@@ -1133,6 +1162,8 @@ namespace DAL.SQL
                                            func.Email,
                                            func.IdIntegracaoPainel,
                                            func.RFID,
+                                           func.Celular,  
+                                           func.UtilizaIntegracaoFotoWebfopag, 
                                            '' foto,
                                             '' contrato,
                                 horario.descricao AS jornada ,
@@ -1187,6 +1218,7 @@ namespace DAL.SQL
         }
 
         #region Relatórios
+
 
         public DataTable GetOrdenadoPorNomeRel(string pInicial, string pFinal, string pEmpresas)
         {
@@ -1652,7 +1684,7 @@ namespace DAL.SQL
             {
                 new SqlParameter("@datainicial", SqlDbType.DateTime)
             };
-			parms[0].Value = dataInicial.Date;
+            parms[0].Value = dataInicial.Date;
 
             DataTable dt = new DataTable();
             string aux = @"SELECT   empresa.nome as empresa
@@ -1801,6 +1833,7 @@ namespace DAL.SQL
                                            funcionario.UtilizaReconhecimentoFacialApp,
                                            funcionario.UtilizaWebAppPontofopag,
                                            funcionario.UtilizaReconhecimentoFacialWebApp,
+                                           funcionario.UtilizaIntegracaoFotoWebfopag,
                                            funcionario.idIntegracao,
                                            funcionario.IdPessoaSupervisor,
                                            funcionario.TipoMaoObra,
@@ -1809,6 +1842,7 @@ namespace DAL.SQL
                                            funcionario.Email,
                                            funcionario.IdIntegracaoPainel,
                                            funcionario.RFID,
+                                           funcionario.Celular,
                          , horario.descricao AS jornada
                          , convert(varchar,empresa.codigo)+' | '+empresa.nome as empresa
                           FROM funcionario 
@@ -1940,7 +1974,7 @@ namespace DAL.SQL
         /// <summary>
         /// Retorna os ids dos funcionário relacionados a o tipo passado como parâmetro
         /// </summary>
-        /// <param name="pTipo">0:Empresa, 1:Departamento, 2:Funcionário,3:Função,4:Horário</param>
+        /// <param name="pTipo">0:Empresa, 1:Departamento, 2:Funcionário,3:Função,4:Horário,5:contrato</param>
         /// <param name="pIdentificacao">Id do registro passado no tipo</param>
         /// <param name="pegaExcluidos">Indica se deseja retornar os funcionário excluídos</param>
         /// <param name="pegaInativos">Indica se deseja retornar os funcionários inativos</param>
@@ -1975,6 +2009,9 @@ namespace DAL.SQL
                         break;
                     case 4://Horário
                         comando += " AND funcionario.idhorario in (select * from F_ClausulaIn(@identificacao))";
+                        break;
+                    case 5://contrato
+                        comando += " AND funcionario.id in (SELECT cf.idfuncionario FROM contratofuncionario cf WHERE cf.idcontrato in (SELECT * FROM F_ClausulaIn(@identificacao))) ";
                         break;
                     default:
                         break;
@@ -2045,6 +2082,7 @@ namespace DAL.SQL
                 ,func.datademissao
                 ,func.dscodigo
                 ,func.Email
+                ,func.Celular   
                 ,func.excluido
                 ,func.funcionarioativo
                 ,func.DataInativacao
@@ -2081,6 +2119,7 @@ namespace DAL.SQL
                 ,func.UtilizaReconhecimentoFacialApp
                 ,func.UtilizaWebAppPontofopag
                 ,func.UtilizaReconhecimentoFacialWebApp
+                ,func.UtilizaIntegracaoFotoWebfopag
                 ,func.RFID
                 ,func.IdHorarioDinamico
                 ,func.CicloSequenciaIndice
@@ -2582,12 +2621,14 @@ namespace DAL.SQL
                                    func.UtilizaReconhecimentoFacialApp,
                                    func.UtilizaWebAppPontofopag,
                                    func.UtilizaReconhecimentoFacialWebApp,
+                                   func.UtilizaIntegracaoFotoWebfopag,
                                    func.idIntegracao,
                                    func.IdPessoaSupervisor,
                                    func.TipoMaoObra,
                                    func.IdAlocacao,
                                    func.IdTipoVinculo,
                                    func.Email,
+                                   func.Celular,
                                    func.IdIntegracaoPainel,
                                    func.RFID,
                                     '' foto,
@@ -2708,7 +2749,7 @@ namespace DAL.SQL
                 aux += "and func.funcionarioativo = 0 ";
             else if (flag == 1)
                 aux += "and func.funcionarioativo = 1 ";
-            
+
 
             aux += PermissaoUsuarioFuncionario(UsuarioLogado, aux, "func.idempresa", "func.id", null);
             aux += " ORDER BY func.nome";
@@ -2763,6 +2804,7 @@ namespace DAL.SQL
                                    func.datademissao,
                                    func.dscodigo,
                                    func.Email,
+                                   func.Celular,
                                    func.excluido,
                                    func.funcionarioativo,
                                    func.DataInativacao,
@@ -2798,7 +2840,8 @@ namespace DAL.SQL
                                    func.UtilizaAppPontofopag,
                                    func.UtilizaReconhecimentoFacialApp,
                                    func.UtilizaWebAppPontofopag,
-                                   func.UtilizaReconhecimentoFacialWebApp
+                                   func.UtilizaReconhecimentoFacialWebApp,
+                                   func.UtilizaIntegracaoFotoWebfopag
                                     , horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+ empresa.nome as empresa  
                                     , convert(varchar,departamento.codigo)+' | '+ departamento.descricao AS departamento
@@ -2913,12 +2956,14 @@ namespace DAL.SQL
                                    func.UtilizaReconhecimentoFacialApp,
                                    func.UtilizaWebAppPontofopag,
                                    func.UtilizaReconhecimentoFacialWebApp,
+                                   func.UtilizaIntegracaoFotoWebfopag,
                                    func.idIntegracao,
                                    func.IdPessoaSupervisor,
                                    func.TipoMaoObra,
                                    func.IdAlocacao,
                                    func.IdTipoVinculo,
                                    func.Email,
+                                   func.Celular,
                                    func.IdIntegracaoPainel
                                     , horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+ empresa.nome as empresa  
@@ -3032,12 +3077,14 @@ namespace DAL.SQL
                                    func.UtilizaReconhecimentoFacialApp,
                                    func.UtilizaWebAppPontofopag,
                                    func.UtilizaReconhecimentoFacialWebApp,
+                                   func.UtilizaIntegracaoFotoWebfopag,
                                    func.idIntegracao,
                                    func.IdPessoaSupervisor,
                                    func.TipoMaoObra,
                                    func.IdAlocacao,
                                    func.IdTipoVinculo,
                                    func.Email,
+                                   func.Celular,
                                    func.IdIntegracaoPainel,
                                    func.RFID, 
                                    '' foto,
@@ -3102,14 +3149,14 @@ namespace DAL.SQL
             var _func = funcionarios.Replace("(", "").Replace(")", "");
 
             List<Modelo.Funcionario> lista = new List<Modelo.Funcionario>();
-            
+
             SqlParameter[] parms = new SqlParameter[]
             {
                  new SqlParameter("@funcionarios", SqlDbType.VarChar)
             };
             parms[0].Value = _func;
 
-            string aux =string.Format(@"SELECT   func.id,
+            string aux = string.Format(@" SELECT   func.id,
                                    func.codigo,
                                    func.dscodigo,
                                    func.matricula,
@@ -3150,16 +3197,18 @@ namespace DAL.SQL
                                    func.UtilizaReconhecimentoFacialApp,
                                    func.UtilizaWebAppPontofopag,
                                    func.UtilizaReconhecimentoFacialWebApp,
+                                   func.UtilizaIntegracaoFotoWebfopag,
                                    func.idIntegracao,
                                    func.IdPessoaSupervisor,
                                    func.TipoMaoObra,
                                    func.IdAlocacao,
                                    func.IdTipoVinculo,
                                    func.Email,
+                                   func.Celular,
                                    func.IdIntegracaoPainel,
                                    func.RFID, 
                                     '' foto,
-                                    '' contrato
+                                    uContr.contrato contrato
                                     , horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+ empresa.nome as empresa  
                                     , convert(varchar,departamento.codigo)+' | '+ departamento.descricao AS departamento
@@ -3182,6 +3231,8 @@ namespace DAL.SQL
                              LEFT JOIN Alocacao ON alocacao.id = func.idAlocacao
                              LEFT JOIN TipoVinculo ON TipoVinculo.id = func.idTipoVinculo
                              LEFT JOIN HorarioDinamico HDN ON HDN.id = func.idhorariodinamico
+                            OUTER APPLY(SELECT TOP 1 CASE WHEN cont.codigo is null THEN '-' ELSE CONCAT(cont.codigo,' | ',cont.codigocontrato,' - ',cont.descricaocontrato) END contrato FROM dbo.contratofuncionario cfun LEFT JOIN dbo.contrato cont ON cont.id = cfun.idcontrato 
+												WHERE func.id = cfun.idfuncionario and cfun.excluido =0 ) AS uContr 
                             WHERE func.id in ({0}) ORDER BY func.nome", _func);
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
@@ -3252,12 +3303,14 @@ namespace DAL.SQL
                                     func.UtilizaReconhecimentoFacialApp,
                                     func.UtilizaWebAppPontofopag,
                                     func.UtilizaReconhecimentoFacialWebApp,
+                                    func.UtilizaIntegracaoFotoWebfopag,
                                     func.idIntegracao,
                                     func.IdPessoaSupervisor,
                                     func.TipoMaoObra,
                                     func.IdAlocacao,
                                     func.IdTipoVinculo,
                                     func.Email,
+                                    func.Celular,
                                     func.IdIntegracaoPainel,
                                     func.RFID,
                                     '' foto,
@@ -3360,12 +3413,14 @@ namespace DAL.SQL
                                     func.UtilizaReconhecimentoFacialApp,
                                     func.UtilizaWebAppPontofopag,
                                     func.UtilizaReconhecimentoFacialWebApp,
+                                    func.UtilizaIntegracaoFotoWebfopag,
                                     func.idIntegracao,
                                     func.IdPessoaSupervisor,
                                     func.TipoMaoObra,
                                     func.IdAlocacao,
                                     func.IdTipoVinculo,
                                     func.Email,
+                                    func.Celular,
                                     func.IdIntegracaoPainel,
                                     func.RFID,        
                                     '' foto,
@@ -3459,12 +3514,14 @@ namespace DAL.SQL
                                     func.UtilizaReconhecimentoFacialApp,
                                     func.UtilizaWebAppPontofopag,
                                     func.UtilizaReconhecimentoFacialWebApp,
+                                    func.UtilizaIntegracaoFotoWebfopag,
                                     func.idIntegracao,
                                     func.IdPessoaSupervisor,
                                     func.TipoMaoObra,
                                     func.IdAlocacao,
                                     func.IdTipoVinculo,
                                     func.Email,
+                                    func.Celular,
                                     func.IdIntegracaoPainel,
                                     func.RFID,
                                     '' foto, 
@@ -3557,13 +3614,15 @@ namespace DAL.SQL
                                    func.UtilizaAppPontofopag,
                                    func.UtilizaReconhecimentoFacialApp,
                                    func.UtilizaWebAppPontofopag,
-                                   func.UtilizaReconhecimentoFacialWebApp,
+                                   func.UtilizaReconhecimentoFacialWebApp,  
+                                   func.UtilizaIntegracaoFotoWebfopag,
                                    func.idIntegracao,
                                    func.IdPessoaSupervisor,
                                    func.TipoMaoObra,
                                    func.IdAlocacao,
                                    func.IdTipoVinculo,
                                    func.Email,
+                                   func.Celular,
                                    func.IdIntegracaoPainel
                                     , horario.descricao AS jornada
                                     , convert(varchar,empresa.codigo)+' | '+empresa.nome as empresa
@@ -3662,12 +3721,14 @@ namespace DAL.SQL
                                    func.UtilizaReconhecimentoFacialApp,
                                    func.UtilizaWebAppPontofopag,
                                    func.UtilizaReconhecimentoFacialWebApp,
+                                   func.UtilizaIntegracaoFotoWebfopag,
                                    func.idIntegracao,
                                    func.IdPessoaSupervisor,
                                    func.TipoMaoObra,
                                    func.IdAlocacao,
                                    func.IdTipoVinculo,
                                    func.Email,
+                                   func.Celular,
                                    func.IdIntegracaoPainel,
                                    func.RFID, 
                                     '' foto,
@@ -3885,12 +3946,14 @@ namespace DAL.SQL
                                    funcionario.UtilizaReconhecimentoFacialApp,
                                    funcionario.UtilizaWebAppPontofopag,
                                    funcionario.UtilizaReconhecimentoFacialWebApp,
+                                   funcionario.UtilizaIntegracaoFotoWebfopag,
                                    funcionario.idIntegracao,
                                    funcionario.IdPessoaSupervisor,
                                    funcionario.TipoMaoObra,
                                    funcionario.IdAlocacao,
                                    funcionario.IdTipoVinculo,
                                    funcionario.Email,
+                                   funcionario.Celular,
                                    funcionario.IdIntegracaoPainel,
                                    funcionario.RFID, 
                                     '' foto,
@@ -3994,12 +4057,14 @@ namespace DAL.SQL
                                    funcionario.UtilizaReconhecimentoFacialApp,
                                    funcionario.UtilizaWebAppPontofopag,
                                    funcionario.UtilizaReconhecimentoFacialWebApp,
+                                   funcionario.UtilizaIntegracaoFotoWebfopag,
                                    funcionario.idIntegracao,
                                    funcionario.IdPessoaSupervisor,
                                    funcionario.TipoMaoObra,
                                    funcionario.IdAlocacao,
                                    funcionario.IdTipoVinculo,
                                    funcionario.Email,
+                                   funcionario.Celular,
                                    funcionario.IdIntegracaoPainel,
                                    funcionario.RFID, 
                                     '' foto,
@@ -4102,12 +4167,14 @@ namespace DAL.SQL
                                    funcionario.UtilizaReconhecimentoFacialApp,
                                    funcionario.UtilizaWebAppPontofopag,
                                    funcionario.UtilizaReconhecimentoFacialWebApp,
+                                   funcionario.UtilizaIntegracaoFotoWebfopag,
                                    funcionario.idIntegracao,
                                    funcionario.IdPessoaSupervisor,
                                    funcionario.TipoMaoObra,
                                    funcionario.IdAlocacao,
                                    funcionario.IdTipoVinculo,
                                    funcionario.Email,
+                                   funcionario.Celular,
                                    funcionario.IdIntegracaoPainel,
                                    funcionario.RFID, 
                                     '' foto,
@@ -4217,12 +4284,14 @@ namespace DAL.SQL
                                    func.UtilizaReconhecimentoFacialApp,
                                    func.UtilizaWebAppPontofopag,
                                    func.UtilizaReconhecimentoFacialWebApp,
+                                   func.UtilizaIntegracaoFotoWebfopag,
                                    func.idIntegracao,
                                    func.IdPessoaSupervisor,
                                    func.TipoMaoObra,
                                    func.IdAlocacao,
                                    func.IdTipoVinculo,
                                    func.Email,
+                                   func.Celular,
                                    func.IdIntegracaoPainel,
                                    func.RFID, 
                                     '' foto,
@@ -4341,12 +4410,14 @@ namespace DAL.SQL
                                        func.UtilizaReconhecimentoFacialApp,
                                        func.UtilizaWebAppPontofopag,
                                        func.UtilizaReconhecimentoFacialWebApp,
+                                       func.UtilizaIntegracaoFotoWebfopag,
                                        func.idIntegracao,
                                        func.IdPessoaSupervisor,
                                        func.TipoMaoObra,
                                        func.IdAlocacao,
                                        func.IdTipoVinculo,
                                        func.Email,
+                                       func.Celular,
                                        func.IdIntegracaoPainel,
                                        func.RFID, 
                                         '' foto,
@@ -4442,12 +4513,14 @@ namespace DAL.SQL
                                        func.UtilizaReconhecimentoFacialApp,
                                        func.UtilizaWebAppPontofopag,
                                        func.UtilizaReconhecimentoFacialWebApp,
+                                       func.UtilizaIntegracaoFotoWebfopag,
                                        func.idIntegracao,
                                        func.IdPessoaSupervisor,
                                        func.TipoMaoObra,
                                        func.IdAlocacao,
                                        func.IdTipoVinculo,
                                        func.Email,
+                                       func.Celular,
                                        func.IdIntegracaoPainel,
                                        func.RFID, 
                                         '' foto,
@@ -4536,7 +4609,7 @@ namespace DAL.SQL
         }
         public DataTable GetPisCodigo()
         {
-            return GetPisCodigo(new List<string> ());
+            return GetPisCodigo(new List<string>());
         }
         public DataTable GetPisCodigo(List<string> pis)
         {
@@ -4555,7 +4628,7 @@ namespace DAL.SQL
 
             if (pis != null && pis.Count() > 0)
             {
-                aux += " and func.pis in ('"+String.Join("','", pis) +"') ";
+                aux += " and func.pis in ('" + String.Join("','", pis) + "') ";
             }
 
             aux += "  ORDER BY func.excluido, ISNULL(func.datademissao, DATEADD(YEAR, 1000, GETDATE())) DESC, ISNULL(func.althora, DATEADD(YEAR, 1000, GETDATE())) DESC";
@@ -4665,12 +4738,14 @@ namespace DAL.SQL
                                    func.UtilizaReconhecimentoFacialApp,
                                    func.UtilizaWebAppPontofopag,
                                    func.UtilizaReconhecimentoFacialWebApp,
+                                   func.UtilizaIntegracaoFotoWebfopag,
                                    func.idIntegracao,
                                    func.IdPessoaSupervisor,
                                    func.TipoMaoObra,
                                    func.IdAlocacao,
                                    func.IdTipoVinculo,
                                    func.Email,
+                                   func.Celular,
                                    func.IdIntegracaoPainel,
                                    func.RFID, 
                                     '' foto,
@@ -5137,21 +5212,39 @@ namespace DAL.SQL
 
         public Modelo.Funcionario GetFuncionarioPorCpfeMatricula(Int64 cpf, string matricula)
         {
-                SqlParameter[] parms = new SqlParameter[]
-                {
+            SqlParameter[] parms = new SqlParameter[]
+            {
                     new SqlParameter("@cpf", SqlDbType.BigInt),
                     new SqlParameter("@matricula", SqlDbType.VarChar)
-                };
-                parms[0].Value = cpf;
-                parms[1].Value = matricula;
-                IList<Modelo.Funcionario> lista = new List<Modelo.Funcionario>();
+            };
+            parms[0].Value = cpf;
+            parms[1].Value = matricula;
+            IList<Modelo.Funcionario> lista = new List<Modelo.Funcionario>();
 
-                string sql = SqlLoadByCpfeMatricula();
-                SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
-                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Funcionario>();
-                lista = AutoMapper.Mapper.Map<List<Modelo.Funcionario>>(dr);
-                return lista.OrderByDescending(x => x.Funcionarioativo).FirstOrDefault();
+            string sql = SqlLoadByCpfeMatricula();
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+            AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Funcionario>();
+            lista = AutoMapper.Mapper.Map<List<Modelo.Funcionario>>(dr);
+            return lista.OrderByDescending(x => x.Funcionarioativo).FirstOrDefault();
         }
+
+        public Modelo.Funcionario GetFuncionarioPorMatricula(string matricula)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                    new SqlParameter("@matricula", SqlDbType.VarChar)
+            };
+            parms[0].Value = matricula;
+            IList<Modelo.Funcionario> lista = new List<Modelo.Funcionario>();
+
+            string sql = SELECTREL + " AND func.matricula = '" + matricula + "'";
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+            AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Funcionario>();
+            lista = AutoMapper.Mapper.Map<List<Modelo.Funcionario>>(dr);
+            return lista.OrderByDescending(x => x.Funcionarioativo).FirstOrDefault();
+        }
+
+
 
         /// <summary>
         /// Retorna uma lista com os ids dos funcionários de acordo com o parâmetro com valor maior que zero, ou seja caso id departamento > 0 traz por departamento, contrato > 0 por contrato, empresa > 0 por empresa, seguindo essa ordem
@@ -5435,12 +5528,14 @@ namespace DAL.SQL
                                    f.UtilizaReconhecimentoFacialApp,
                                    f.UtilizaWebAppPontofopag,
                                    f.UtilizaReconhecimentoFacialWebApp,
+                                   f.UtilizaIntegracaoFotoWebfopag,
                                    f.idIntegracao,
                                    f.IdPessoaSupervisor,
                                    f.TipoMaoObra,
                                    f.IdAlocacao,
                                    f.IdTipoVinculo,
                                    f.Email,
+                                   f.Celular,
                                    f.IdIntegracaoPainel
                             from funcionario f
                            where CONVERT(DECIMAL, replace(replace(replace(f.CPF,'.',''),'-',''),'/','')) in
@@ -5585,12 +5680,14 @@ namespace DAL.SQL
                                        func.UtilizaReconhecimentoFacialApp,
                                        func.UtilizaWebAppPontofopag,
                                        func.UtilizaReconhecimentoFacialWebApp,
+                                       func.UtilizaIntegracaoFotoWebfopag,
                                        func.idIntegracao,
                                        func.IdPessoaSupervisor,
                                        func.TipoMaoObra,
                                        func.IdAlocacao,
                                        func.IdTipoVinculo,
                                        func.Email,
+                                       func.Celular,
                                        func.IdIntegracaoPainel
                             FROM    dbo.funcionario func
                             WHERE   ISNULL(func.excluido, 0) = 0
@@ -5809,7 +5906,7 @@ where 1=1
         public List<int> GetIDsByDsCodigos(List<string> lDsCodigos)
         {
             DataTable dt = new DataTable();
-            string aux = @" SELECT id FROM dbo.funcionario WHERE dscodigo IN ( '"+String.Join("','",lDsCodigos)+"') ";
+            string aux = @" SELECT id FROM dbo.funcionario WHERE dscodigo IN ( '" + String.Join("','", lDsCodigos) + "') ";
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, null);
             dt.Load(dr);
@@ -6001,9 +6098,9 @@ where 1=1
             dr.Dispose();
             List<int> ids = dt.AsEnumerable().Select(x => Convert.ToInt32(x[0])).ToList();
             return ids;
-        }        
+        }
 
-        public  void setFuncionariosEmpresa(int idEmpresa, bool EmpresaAtiva)
+        public void setFuncionariosEmpresa(int idEmpresa, bool EmpresaAtiva)
         {
             SqlParameter[] parms = new SqlParameter[]
 {
@@ -6024,8 +6121,8 @@ where 1=1
                 parms[2].Value = 1;
             }
             List<int> idFuncionarios = getAtivosEmpresaFunc(idEmpresa, EmpresaAtiva);
-            if(idFuncionarios.Count > 0 && EmpresaAtiva == false)
-                setEmpresaFunc(idEmpresa, idFuncionarios);            
+            if (idFuncionarios.Count > 0 && EmpresaAtiva == false)
+                setEmpresaFunc(idEmpresa, idFuncionarios);
             if (EmpresaAtiva == true && idFuncionarios.Count > 0)
                 deletarEmpresaFunc(idEmpresa);
             parms[3].Value = String.Join(",", idFuncionarios);
@@ -6078,8 +6175,8 @@ where 1=1
                 new SqlParameter ("@inchora", SqlDbType.DateTime),
                 new SqlParameter ("@incusuario", SqlDbType.VarChar)
              };
-            
-            
+
+
             foreach (int func in idFuncionarios)
             {
                 parms[0].Value = MaxCODEmpresaFunc();
@@ -6090,8 +6187,8 @@ where 1=1
                 parms[5].Value = UsuarioLogado.Login;
                 SqlCommand cmd = db.ExecNonQueryCmd(CommandType.Text, aux, false, parms);
                 cmd.Parameters.Clear();
-            }              
-                  
+            }
+
             return;
         }
 
@@ -6100,13 +6197,14 @@ where 1=1
             string aux = @"DELETE empresafuncionarios WHERE idempresa = @idempresa";
             SqlParameter[] parms = new SqlParameter[]
              {
-                new SqlParameter ("@idempresa", SqlDbType.Int)                
+                new SqlParameter ("@idempresa", SqlDbType.Int)
              };
-            parms[0].Value = idempresa;           
+            parms[0].Value = idempresa;
             SqlCommand cmd = db.ExecNonQueryCmd(CommandType.Text, aux, false, parms);
-            cmd.Parameters.Clear();            
+            cmd.Parameters.Clear();
             return;
         }
+
         public virtual int MaxCODEmpresaFunc()
         {
             string MAXCODEMPRESAFUNCIONARIOS = @"  SELECT MAX(codigo) AS codigo FROM empresafuncionarios";
@@ -6121,5 +6219,109 @@ where 1=1
             }
         }
 
+        public List<PxyFuncionarioFechamentosPontoEBH> GetFuncionariosComUltimoFechamentosPontoEBH(bool pegaTodos, IList<int> idsFuncs, DateTime dataInicio)
+        {
+            List<PxyFuncionarioFechamentosPontoEBH> lista = new List<PxyFuncionarioFechamentosPontoEBH>();
+
+            SqlParameter[] parms = new SqlParameter[2]
+            {
+                new SqlParameter("@ids", SqlDbType.Structured),
+                new SqlParameter("@dataInicio", SqlDbType.DateTime)
+            };
+            parms[0].Value = CreateDataTableIdentificadores(idsFuncs.Select(s => (long)s));
+            parms[0].TypeName = "Identificadores";
+            parms[1].Value = dataInicio;
+
+            string aux = @" SELECT f.id FuncionarioId,
+	                               f.dscodigo FuncionarioCodigo,
+	                               f.nome FuncionarioNome,
+	                               f.CPF FuncionarioCPF,
+	                               f.matricula FuncionarioMatricula,
+	                               ff.TipoFechamento FechamentoTipo,
+	                               ff.DescTipoFechamento FechamentoTipoDesc,
+	                               ff.IdFechamento FechamentoId,
+	                               ff.Codigo FechamentoCodigo,
+	                               ff.descricao FechamentoDescricao,
+	                               ff.data FechamentoData
+                              FROM ( 
+	                            SELECT id.Identificador,
+		                               fechamentoPonto.*
+	                              FROM @ids id
+	                              CROSS APPLY (SELECT top 1 
+						                              1 TipoFechamento,
+						                              'Fechamento Ponto' DescTipoFechamento,
+						                              fp.id IdFechamento, 
+						                              fp.codigo Codigo, 
+						                              fp.descricao Descricao, 
+						                              fp.dataFechamento data
+					                            FROM FechamentoPonto fp 
+				                               INNER JOIN FechamentoPontoFuncionario fpf ON fp.id = fpf.idFechamentoPonto and fpf.idFuncionario = id.Identificador and fp.dataFechamento >= @dataInicio
+				                              ) fechamentoPonto
+	                            UNION ALL
+	                            SELECT id.Identificador,
+		                               fechamentoBH.*
+	                              FROM @ids id
+	                             CROSS APPLY (SELECT top 1 
+						                             2 TipoFechamento,
+						                             'Fechamento Banco Horas' DescTipoFechamento,
+						                             fbh.id IdFechamento,
+						                             fbh.codigo Codigo,
+						                             fbh.MotivoFechamento Descricao,
+						                             fbh.data dataFechamento
+					                            FROM fechamentobh fbh 
+				                               INNER JOIN fechamentobhd fbhd ON fbh.id = fbhd.idfechamentobh and fbhd.identificacao = id.Identificador AND fbh.data >= @dataInicio
+				                             ) fechamentoBH 
+	                               ) FF
+	                            INNER JOIN funcionario f on ff.Identificador = f.id
+	                            WHERE 1 = 1
+                            ";
+
+
+            if (!pegaTodos)
+            {
+                aux += " AND ISNULL(f.excluido,0)=0 AND ISNULL(f.funcionarioativo,0)=1 ";
+            }
+
+            aux += PermissaoUsuarioFuncionario(UsuarioLogado, aux, "f.idempresa", "f.id", null);
+            aux += " ORDER BY f.nome";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            try
+            {
+                _ = Mapper.CreateMap<IDataReader, PxyFuncionarioFechamentosPontoEBH>();
+                lista = Mapper.Map<List<PxyFuncionarioFechamentosPontoEBH>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
+
+        public void DeleteLogicoFuncionariosInativos(int qtdMeses)
+        {
+            string aux = @" UPDATE funcionario
+                               SET excluido = 1
+                              WHERE DATEADD(MONTH, @meses, DataInativacao) <= GETDATE() 
+                                AND excluido = 0 
+                                AND DataInativacao is not null ";
+            SqlParameter[] parms = new SqlParameter[]
+             {
+                new SqlParameter ("@meses", SqlDbType.Int)
+             };
+            parms[0].Value = qtdMeses;
+            SqlCommand cmd = db.ExecNonQueryCmd(CommandType.Text, aux, false, parms);
+            cmd.Parameters.Clear();
+            return;
+        }
+           
     }
 }

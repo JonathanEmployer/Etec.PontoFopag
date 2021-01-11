@@ -37,8 +37,8 @@ namespace cwkWebAPIPontoWeb.Controllers
                 objDadosConexao = BLLAPI.UsuarioBLL.GetConexaoUsuario(objBiometriaRegistrador.Username);
 
                 DescriptografarConexao(objDadosConexao.Conexao);
-                BLL.Biometria BiometriaBLL = new BLL.Biometria(StrConexao);
-                BLL.Funcionario FuncionarioBLL = new BLL.Funcionario(StrConexao);
+                BLL.Biometria BiometriaBLL = new BLL.Biometria(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+                BLL.Funcionario FuncionarioBLL = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
                 if ((ModelState.IsValid) && 
                     (objBiometriaRegistrador.Biometrias != null && objBiometriaRegistrador.Biometrias.Count() > 0))
@@ -101,8 +101,8 @@ namespace cwkWebAPIPontoWeb.Controllers
 
                 DescriptografarConexao(objDadosConexao.Conexao);
 
-                BLL.Biometria BiometriaBLL = new BLL.Biometria(StrConexao);
-                BLL.Funcionario FuncionarioBLL = new BLL.Funcionario(StrConexao);
+                BLL.Biometria BiometriaBLL = new BLL.Biometria(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+                BLL.Funcionario FuncionarioBLL = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
                 objFuncionario = FuncionarioBLL.LoadAtivoPorCPF(cpf);
 

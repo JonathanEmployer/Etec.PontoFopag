@@ -14,7 +14,7 @@ namespace cwkWebAPIPontoWeb.Controllers
     /// Métodos Referentes ao Cadastro de Ocorrências
     /// </summary>
     [Authorize]
-    public class OcorrenciaController : ApiController
+    public class OcorrenciaController : ExtendedApiController
     {
         /// <summary>
         /// Método responsável por retornar a lista de Ocorrências
@@ -25,9 +25,8 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Ocorrencias(int idFuncionario)
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Ocorrencia bllOco = new BLL.Ocorrencia(connectionStr);
-            BLL.Funcionario bllFuncionario = new BLL.Funcionario(connectionStr);
+            BLL.Ocorrencia bllOco = new BLL.Ocorrencia(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
             if (ModelState.IsValid)
             {
@@ -38,10 +37,10 @@ namespace cwkWebAPIPontoWeb.Controllers
                     List<Modelo.Ocorrencia> ocorrencias = new List<Modelo.Ocorrencia>();
 
                     Modelo.Funcionario objFuncionario = bllFuncionario.LoadObject(idFuncionario);
-                    if (objFuncionario == null)
+                    if (objFuncionario == null || objFuncionario.Id == 0)
                         ocorrencias = bllOco.GetAllPorExibePaineldoRH();
                     else
-                        ocorrencias = bllOco.GetAllPorExibePainelRHPorEmpresa(objFuncionario.Idempresa);
+                        ocorrencias = bllOco.GetAllPorExibePainelRHPorFuncionario(objFuncionario.Id);
 
                     foreach (var item in ocorrencias)
                     {
@@ -85,8 +84,8 @@ namespace cwkWebAPIPontoWeb.Controllers
         public HttpResponseMessage Ocorrencias()
         {
             RetornoErro retErro = new RetornoErro();
-            string connectionStr = MetodosAuxiliares.Conexao();
-            BLL.Ocorrencia bllOco = new BLL.Ocorrencia(connectionStr);
+
+            BLL.Ocorrencia bllOco = new BLL.Ocorrencia(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
 
             if (ModelState.IsValid)
             {

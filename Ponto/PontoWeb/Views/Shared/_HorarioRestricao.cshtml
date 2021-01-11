@@ -79,9 +79,12 @@
                 </tr>
             </thead>
             <tbody id="divRestricoes">
-                @for (int i = 0; i < Model.HorarioRestricao.Count; i++)
+                @if (Model.HorarioRestricao != null)
                 {
-                    @Html.EditorFor(m => Model.HorarioRestricao[i], "Restricoes")
+                    for (int i = 0; i < Model.HorarioRestricao.Count; i++)
+                    {
+                        @Html.EditorFor(m => Model.HorarioRestricao[i], "Restricoes")
+                    }
                 }
             </tbody>
         </table>
@@ -112,9 +115,9 @@
             $("#loading").modal();
             var idHor = $("#idHorario").val();
 
-            var obj = { index: itemIndex, tipoRestricao: tipoRest, restricao: restr, idHorario: idHor };
+            var obj = { index: itemIndex, tipoRestricao: tipoRest, restricao: restr, idHorario: idHor, __RequestVerificationToken: gettoken() };
             var url = '@Url.Action("AdicionaNovaRestricao", "Horario")' + "?" + $.param(obj, true);
-            $.post(url, function (data) {
+            $.post(url, { __RequestVerificationToken: gettoken() }, function (data) {
                 if (data.Success == true) {
                     $("#divRestricoes").prepend(data.HTML);
                     $("#lkpEmpresa").val("");

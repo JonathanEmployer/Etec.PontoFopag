@@ -1,0 +1,85 @@
+﻿@model Modelo.MudancaHorario
+@{
+    ViewBag.Title = "Cadastrar Mudança de Horário";
+    Layout = null;
+}
+
+@using (Html.BeginForm("CadastrarManutMarcacao", "MudancaHorario", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="divCenterMedio">
+        <div class="panel panel-default">
+            <div class="panel-heading salvando">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="xfecharCadastroModal">X</button>
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo">
+                @Html.HiddenFor(m => m.NomeFuncionario)
+                @Html.HiddenFor(m => m.Data)
+                @Html.Partial("_MudancaHorario", Model)
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <button type="button" data-dismiss="modal" aria-hidden="true" id="fecharCadastroModal" class="btn btn-danger salvando"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+
+    $(":input[type='text']:enabled:visible:first").focus();
+
+    $(document).ready(function () {
+        setaDatePiker('#Data');
+        //cwk_EventoIncluirAjaxParam('#fecharCadastroModal', 'Grid', 'FuncionarioHistorico', parametros = { id: $("#idFuncionario").val() }, "");
+        //cwk_EventoIncluirAjaxParam('#xfecharCadastroModal', 'Grid', 'FuncionarioHistorico', parametros = { id: $("#idFuncionario").val() }, "");
+
+        $('form').submit(function () {
+            if ($(this).valid()) {
+                var divAbrir = "MarcacaoTabelaMarcacao";
+                if (window.location.href.indexOf("ManutencaoDiaria") > 0) {
+                    divAbrir = "";
+                }
+                PostFormJob(this, CallBackSalvar, divAbrir, 'divLoadCadastroModal');
+            } else { cwkErroTit("Existem erros na página", "Corrija os erros destacados na página antes de salvar.") }
+            return false;
+        });
+
+        function CallBackSalvar() {
+            carregaGridMarcacao();
+            $("#divLoadCadastroModal").modal("hide");
+        }
+
+    });
+
+</script>
+
+@if (ViewBag.ManutencaoMarcacao != null && ViewBag.ManutencaoMarcacao == 1)
+{
+    <script>
+        cwk_DataCalendario('#btnDataM', '#DataM');
+        $("#divTipoMudanca *").attr("disabled", "disabled").off('click');
+        corrigeDatePicker();
+        setaDatePiker('#DataM');
+        $("#divDataMud *").attr("disabled", "disabled").off('click');
+    </script>
+}
+
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+            $('#xfecharCadastroModal').removeAttr('disabled');
+            $('#fecharCadastroModal').removeAttr('disabled');
+        })
+    </script>
+}

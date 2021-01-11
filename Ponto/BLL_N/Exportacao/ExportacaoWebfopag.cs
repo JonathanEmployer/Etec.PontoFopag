@@ -92,7 +92,7 @@ namespace BLL_N.Exportacao
                         CampoComplemento.Delimitador = ";";
                         CampoComplemento.Posicao = 52;
                         CampoComplemento.Qualificador = "[nenhum]";
-                        CampoComplemento.Tamanho = 3;
+                        CampoComplemento.Tamanho = 10;
                         CampoComplemento.Zeroesquerda = 1;
                         CampoComplemento.Formatoevento = string.Empty;
 
@@ -100,7 +100,7 @@ namespace BLL_N.Exportacao
                         CampoCodigoEmpresa.Tipo = "Código Empresa";
                         CampoCodigoEmpresa.Codigo = 7;
                         CampoCodigoEmpresa.Delimitador = ";";
-                        CampoCodigoEmpresa.Posicao = 56;
+                        CampoCodigoEmpresa.Posicao = 65;
                         CampoCodigoEmpresa.Qualificador = "[nenhum]";
                         CampoCodigoEmpresa.Tamanho = 5;
                         CampoCodigoEmpresa.Formatoevento = string.Empty;
@@ -109,7 +109,7 @@ namespace BLL_N.Exportacao
                         CampoCodigoMatricula.Tipo = "Matrícula";
                         CampoCodigoMatricula.Codigo = 8;
                         CampoCodigoMatricula.Delimitador = ";";
-                        CampoCodigoMatricula.Posicao = 62;
+                        CampoCodigoMatricula.Posicao = 71;
                         CampoCodigoMatricula.Qualificador = "[nenhum]";
                         CampoCodigoMatricula.Tamanho = 10;
                         CampoCodigoMatricula.Formatoevento = string.Empty;
@@ -118,7 +118,7 @@ namespace BLL_N.Exportacao
                         CampoPis.Tipo = "Pis";
                         CampoPis.Codigo = 9;
                         CampoPis.Delimitador = ";";
-                        CampoPis.Posicao = 73;
+                        CampoPis.Posicao = 82;
                         CampoPis.Qualificador = "[nenhum]";
                         CampoPis.Tamanho = 12;
                         CampoPis.Formatoevento = string.Empty;
@@ -127,7 +127,7 @@ namespace BLL_N.Exportacao
                         CampoNome.Tipo = "Nome do Funcionário";
                         CampoNome.Codigo = 10;
                         CampoNome.Delimitador = ";";
-                        CampoNome.Posicao = 86;
+                        CampoNome.Posicao = 95;
                         CampoNome.Qualificador = "[nenhum]";
                         CampoNome.Tamanho = 99;
                         CampoNome.Formatoevento = string.Empty;
@@ -177,7 +177,7 @@ namespace BLL_N.Exportacao
                                    
                                     wfp.CodigoEvento = itens[1];
                                     wfp.ValorEvento = itens[2];
-                                    wfp.codigoFunc = itens[4];
+                                    wfp.CodigoFunc = itens[4];
                                     wfp.CodigoContrato = "";
                                     wfp.CodigoComplemento = itens[5].Trim();
                                     wfp.CodigoFilial = itens[6].Trim();
@@ -197,17 +197,36 @@ namespace BLL_N.Exportacao
                                 throw new Exception(e.Message);
                             }
                         }
-                        
-                        ListaObjetosToExcel objToExcel = new ListaObjetosToExcel();
-                        Byte[] arq = objToExcel.ObjectToExcel("Exportação Webfopag", listwfp);
-                        return arq;
+
+                        if (listwfp.Any())
+                        {
+                            ListaObjetosToExcel objToExcel = new ListaObjetosToExcel();
+                            Byte[] arq = objToExcel.ObjectToExcel("Exportação Webfopag", listwfp);
+                            return arq;
+                        }
+                        else
+                        {
+                            return GerarArquivoVazio();
+                        }
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
-                        throw;
+                        if (e.Message.Contains("Não há dados para a solicitação"))
+                        {
+                            return GerarArquivoVazio();
+                        }
+                        throw e;
                     }
                 }
             }
+        }
+
+        private static byte[] GerarArquivoVazio()
+        {
+            List<Modelo.Proxy.pxyExportacaoWebfopag> listwfp = new List<pxyExportacaoWebfopag>() { new pxyExportacaoWebfopag() { Nome = "Não há dados para a solicitação" } };
+            ListaObjetosToExcel objToExcel = new ListaObjetosToExcel();
+            Byte[] arq = objToExcel.ObjectToExcel("Exportação Webfopag", listwfp);
+            return arq;
         }
 
         public List<Modelo.Funcionario> PreencheListaFuncExportacao(int tipo, int identificacao, string ConnectionString, Modelo.Cw_Usuario usuarioLogado)
@@ -289,8 +308,7 @@ namespace BLL_N.Exportacao
 
                         byte[] res = bllExportacao.ExportarFolhaWeb(dataI, dataF, idsFuncs, idLayout, progressBar, listalayouttxt, idsEventos);
 
-
-                        string str = System.Text.Encoding.Default.GetString(res);
+                        string str = System.Text.Encoding.UTF8.GetString(res);
 
                         string[] array = str.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
                         List<String> listTxt = new List<String>();

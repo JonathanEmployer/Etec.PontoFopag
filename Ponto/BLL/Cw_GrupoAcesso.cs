@@ -67,6 +67,11 @@ namespace BLL
             return dal.GetAllGridU();
         }
 
+        public List<Modelo.Proxy.pxyUsuarioControleAcessoCopiar> GetAllGridUCompact()
+        {
+            return dal.GetAllGridUCompact();
+        }
+
         public Dictionary<string, string> Salvar(Modelo.Acao pAcao, Modelo.Cw_GrupoAcesso objeto)
         {
             Dictionary<string, string> erros = ValidaObjeto(objeto);

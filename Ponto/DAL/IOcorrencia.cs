@@ -18,5 +18,6 @@ namespace DAL
         Modelo.Ocorrencia LoadObjectByCodigo(int pCodigo, bool validaPermissaoUser);
         List<Modelo.Proxy.pxyOcorrenciaEvento> GetAllOcorrenciaEventoList();
         int? GetIdPorIdIntegracao(int idIntegracao);
+        List<Modelo.Ocorrencia> GetAllPorExibePainelRHPorFuncionario(int idFuncionario);
     }
 }

@@ -28,8 +28,8 @@ namespace Modelo
         [DataTableAttribute()]
         public Int16 TipoAcumulo { get; set; }
         [DataTableAttribute()]
-        public Int16? PercentualExtraSegundo { get; set; }
+        public decimal? PercentualExtraSegundo { get; set; }
         [DataTableAttribute()]
-        public Int16? PercentualExtraSegundoNoturna { get; set; }
+        public decimal? PercentualExtraSegundoNoturna { get; set; }
     }
 }

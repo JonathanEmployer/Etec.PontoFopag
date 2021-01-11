@@ -446,10 +446,14 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
           <DataField>ColunaGrupoData</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="totalExtraInterjornada">
+          <DataField>totalExtraInterjornada</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>dsCartaoPonto</rd:DataSetName>
-        <rd:SchemaPath>C:\tfs\Ponto\Branchs\79056-NovasInfoCartãoPontoPadrao\Ponto\REL\dsCartaoPonto.xsd</rd:SchemaPath>
+        <rd:SchemaPath>C:\Users\loganbauer\Source\Repos\Etec.Pontofopag\Ponto\REL\dsCartaoPonto.xsd</rd:SchemaPath>
         <rd:TableName>DataTable1</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
@@ -1265,49 +1269,14 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <ColSpan>4</ColSpan>
+                        <ColSpan>6</ColSpan>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
                     <TablixCell />
                     <TablixCell />
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox474">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Courier New</FontFamily>
-                                    <FontSize>6.5pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox474</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                            </TopBorder>
-                            <PaddingLeft>1.5pt</PaddingLeft>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox475">
@@ -1353,14 +1322,14 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                     <TablixCell />
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox480">
+                        <Textbox Name="Textbox476">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>S - Substituição de Jornada</Value>
                                   <Style>
                                     <FontFamily>Courier New</FontFamily>
                                     <FontSize>6.5pt</FontSize>
@@ -1373,7 +1342,7 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox480</rd:DefaultName>
+                          <rd:DefaultName>Textbox475</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1386,230 +1355,14 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <ColSpan>6</ColSpan>
                       </CellContents>
                     </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox481">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Courier New</FontFamily>
-                                    <FontSize>6.5pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox481</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                            </TopBorder>
-                            <PaddingLeft>1.5pt</PaddingLeft>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox482">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Courier New</FontFamily>
-                                    <FontSize>6.5pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox482</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                            </TopBorder>
-                            <PaddingLeft>1.5pt</PaddingLeft>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox483">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Courier New</FontFamily>
-                                    <FontSize>6.5pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox483</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                            </TopBorder>
-                            <PaddingLeft>1.5pt</PaddingLeft>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox484">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Courier New</FontFamily>
-                                    <FontSize>6.5pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox484</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                            </TopBorder>
-                            <PaddingLeft>1.5pt</PaddingLeft>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox485">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Courier New</FontFamily>
-                                    <FontSize>6.5pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox485</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                            </TopBorder>
-                            <PaddingLeft>1.5pt</PaddingLeft>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox486">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Courier New</FontFamily>
-                                    <FontSize>6.5pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox486</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                            </TopBorder>
-                            <PaddingLeft>1.5pt</PaddingLeft>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
@@ -1798,49 +1551,14 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <ColSpan>4</ColSpan>
+                        <ColSpan>6</ColSpan>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
                     <TablixCell />
                     <TablixCell />
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox454">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Courier New</FontFamily>
-                                    <FontSize>6.5pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox454</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <TopBorder>
-                              <Style>None</Style>
-                            </TopBorder>
-                            <PaddingLeft>1.5pt</PaddingLeft>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox455">
@@ -1884,43 +1602,6 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                     <TablixCell />
                     <TablixCell />
                     <TablixCell />
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox460">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Courier New</FontFamily>
-                                    <FontSize>6.5pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox460</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <TopBorder>
-                              <Style>None</Style>
-                            </TopBorder>
-                            <PaddingLeft>1.5pt</PaddingLeft>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox461">
@@ -4247,7 +3928,6 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                           </Style>
                         </Textbox>
                         <ColSpan>3</ColSpan>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -5086,282 +4766,91 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="textbox30">
+                        <Textbox Name="Textbox404">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=IIF(Last(Fields!horaextra1.Value) &lt;&gt; "", "Hora Extra    Diurna  Noturna", "")</Value>
                                   <Style>
                                     <FontFamily>Courier New</FontFamily>
                                     <FontSize>6.5pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>textbox30</rd:DefaultName>
-                          <ZIndex>52</ZIndex>
+                          <rd:DefaultName>Textbox404</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Width>0.5pt</Width>
+                              <Style>None</Style>
                             </Border>
                             <TopBorder>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
                             </TopBorder>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <ColSpan>3</ColSpan>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="textbox59">
+                        <Textbox Name="Textbox407">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=IIF((Last(Fields!extrasabado.Value) &lt;&gt; "" OR Last(Fields!extradomingo.Value) &lt;&gt; "" OR Last(Fields!extrafolga.Value) &lt;&gt; "" OR Last(Fields!extraferiado.Value) &lt;&gt; ""), "Diurna Noturna", "")</Value>
                                   <Style>
                                     <FontFamily>Courier New</FontFamily>
                                     <FontSize>6.5pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>textbox59</rd:DefaultName>
-                          <ZIndex>51</ZIndex>
-                          <Style>
-                            <Border>
-                              <Width>0.5pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>None</Style>
-                            </TopBorder>
-                            <PaddingLeft>0.5pt</PaddingLeft>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="textbox32">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Courier New</FontFamily>
-                                    <FontSize>6.5pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>textbox32</rd:DefaultName>
-                          <ZIndex>50</ZIndex>
-                          <Style>
-                            <Border>
-                              <Width>0.5pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>None</Style>
-                            </TopBorder>
-                            <PaddingLeft>0.5pt</PaddingLeft>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="textbox33">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Courier New</FontFamily>
-                                    <FontSize>6.5pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>textbox33</rd:DefaultName>
-                          <ZIndex>49</ZIndex>
-                          <Style>
-                            <Border>
-                              <Width>0.5pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>None</Style>
-                            </TopBorder>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="textbox34">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Courier New</FontFamily>
-                                    <FontSize>6.5pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>textbox34</rd:DefaultName>
-                          <ZIndex>48</ZIndex>
-                          <Style>
-                            <Border>
-                              <Width>0.5pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>None</Style>
-                            </TopBorder>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="textbox35">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Courier New</FontFamily>
-                                    <FontSize>6.5pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>textbox35</rd:DefaultName>
-                          <ZIndex>47</ZIndex>
-                          <Style>
-                            <Border>
-                              <Width>0.5pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>None</Style>
-                            </TopBorder>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="textbox37">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Courier New</FontFamily>
-                                    <FontSize>6.5pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>textbox37</rd:DefaultName>
-                          <ZIndex>46</ZIndex>
+                          <rd:DefaultName>Textbox407</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Width>0.5pt</Width>
+                              <Style>None</Style>
                             </Border>
                             <TopBorder>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
                             </TopBorder>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
+                            <RightBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </RightBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <ColSpan>5</ColSpan>
                       </CellContents>
                     </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="textbox38">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Courier New</FontFamily>
-                                    <FontSize>6.5pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>textbox38</rd:DefaultName>
-                          <ZIndex>45</ZIndex>
-                          <Style>
-                            <Border>
-                              <Width>0.5pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>None</Style>
-                            </TopBorder>
-                            <PaddingTop>1pt</PaddingTop>
-                            <PaddingBottom>1pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="textbox39">
@@ -5640,14 +5129,14 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox404">
+                        <Textbox Name="Textbox30">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIF(Last(Fields!horaextra1.Value) &lt;&gt; "", "Hora Extra    Diurna  Noturna", "")</Value>
+                                  <Value>=IIF(Last(Fields!totalExtraInterjornada.Value) &lt;&gt; "00:00" , "Interjornada  " &amp; Last(Fields!totalExtraInterjornada.Value), " ")</Value>
                                   <Style>
                                     <FontFamily>Courier New</FontFamily>
                                     <FontSize>6.5pt</FontSize>
@@ -5658,18 +5147,18 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox404</rd:DefaultName>
+                          <rd:DefaultName>Textbox30</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Style>None</Style>
+                              <Width>0.5pt</Width>
                             </Border>
                             <TopBorder>
-                              <Style>Solid</Style>
+                              <Style>None</Style>
                             </TopBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
+                            <PaddingTop>1pt</PaddingTop>
+                            <PaddingBottom>1pt</PaddingBottom>
                           </Style>
                         </Textbox>
                         <ColSpan>3</ColSpan>
@@ -5679,38 +5168,33 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                     <TablixCell />
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox407">
+                        <Textbox Name="Textbox33">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIF((Last(Fields!extrasabado.Value) &lt;&gt; "" OR Last(Fields!extradomingo.Value) &lt;&gt; "" OR Last(Fields!extrafolga.Value) &lt;&gt; "" OR Last(Fields!extraferiado.Value) &lt;&gt; ""), "Diurna Noturna", "")</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Courier New</FontFamily>
                                     <FontSize>6.5pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
+                              <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox407</rd:DefaultName>
+                          <rd:DefaultName>Textbox33</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Style>None</Style>
+                              <Width>0.5pt</Width>
                             </Border>
                             <TopBorder>
-                              <Style>Solid</Style>
+                              <Style>None</Style>
                             </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
+                            <PaddingTop>1pt</PaddingTop>
+                            <PaddingBottom>1pt</PaddingBottom>
                           </Style>
                         </Textbox>
                         <ColSpan>5</ColSpan>
@@ -6076,14 +5560,14 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                     <TablixCell />
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="textbox86">
+                        <Textbox Name="textbox92">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Last(Fields!extrasabado.Value)</Value>
+                                  <Value>=Last(Fields!extradomingo.Value)</Value>
                                   <Style>
                                     <FontFamily>Courier New</FontFamily>
                                     <FontSize>6.5pt</FontSize>
@@ -6096,8 +5580,8 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>textbox86</rd:DefaultName>
-                          <ZIndex>72</ZIndex>
+                          <rd:DefaultName>textbox92</rd:DefaultName>
+                          <ZIndex>82</ZIndex>
                           <Style>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -6432,14 +5916,14 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                     <TablixCell />
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="textbox92">
+                        <Textbox Name="textbox86">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Last(Fields!extradomingo.Value)</Value>
+                                  <Value>=Last(Fields!extrasabado.Value)</Value>
                                   <Style>
                                     <FontFamily>Courier New</FontFamily>
                                     <FontSize>6.5pt</FontSize>
@@ -6452,8 +5936,8 @@ WHERE     (marcacao.id &gt; 0)</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>textbox92</rd:DefaultName>
-                          <ZIndex>82</ZIndex>
+                          <rd:DefaultName>textbox86</rd:DefaultName>
+                          <ZIndex>72</ZIndex>
                           <Style>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>

@@ -315,6 +315,23 @@ namespace DAL.SQL
 
         }
 
+        public bool BuscaJustificativaCodigo(int codigo)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@Codigo", SqlDbType.VarChar)
+            };
+            parms[0].Value = codigo;
+
+            string cmd = @" SELECT COUNT (id) as quantidade
+                            FROM justificativa
+                            WHERE codigo =  @Codigo";
+
+            int valor = (int)db.ExecuteScalar(CommandType.Text, cmd, parms);
+
+            return valor == 0 ? false : true;
+
+        }
         public List<Modelo.Justificativa> GetAllList(bool validaPermissaoUser)
         {
             SqlParameter[] parms = new SqlParameter[0];
@@ -402,6 +419,58 @@ namespace DAL.SQL
                     AuxSetInstance(dr, objJustificativa);
                     lista.Add(objJustificativa);
                 }
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
+
+        public List<Modelo.Justificativa> GetAllPorExibePainelRHPorFuncionario(int idFuncionario)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@idFuncionario", SqlDbType.Int)
+            };
+            parms[0].Value = idFuncionario;
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text,
+                                        @"  SELECT j.*
+                                              FROM justificativa j
+                                             WHERE j.ExibePaineldoRH = 1
+                                               AND NOT EXISTS (SELECT top 1 1 FROM JustificativaRestricao jr WHERE jr.IdJustificativa = j.id)
+                                               AND j.Ativo = 1
+                                             UNION ALL 
+                                            SELECT j.*
+                                              FROM justificativa j
+                                              JOIN JustificativaRestricao jr on j.id = jr.IdJustificativa
+                                              JOIN empresa e on jr.IdEmpresa = e.id
+                                              JOIN funcionario f on e.id = f.idempresa and f.id = @idFuncionario
+                                             WHERE j.ExibePaineldoRH = 1
+                                               AND j.Ativo = 1
+                                             UNION ALL 
+                                            SELECT j.*
+                                              FROM justificativa j
+                                              JOIN JustificativaRestricao jr on j.id = jr.IdJustificativa
+                                              JOIN contratofuncionario cf on jr.IdContrato = cf.idcontrato
+                                              JOIN funcionario f on cf.idfuncionario = f.id and f.id = @idFuncionario
+                                             WHERE j.ExibePaineldoRH = 1
+                                               AND j.Ativo = 1 ", parms);
+
+            List<Modelo.Justificativa> lista = new List<Modelo.Justificativa>();
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Justificativa>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Justificativa>>(dr);
             }
             catch (Exception ex)
             {

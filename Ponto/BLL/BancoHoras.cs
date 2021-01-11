@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using DAL.SQL;
+using Modelo.Proxy;
 
 namespace BLL
 {
@@ -152,12 +153,27 @@ namespace BLL
                 ret.Add("Fechamento Ponto", mensagemFechamento);
             }
 
+            if (!objeto.BancoHorasDiarioMensal)
+            {
+                objeto.LimiteBancoHorasSemanal = "";
+                objeto.LimiteHorasBancoHorasDiarioMensal = "";
+            }
+
             return ret;
         }
 
         public Dictionary<string, string> Salvar(Modelo.Acao pAcao, Modelo.BancoHoras objeto)
         {
+            return Salvar(pAcao, objeto, false);
+        }
+
+        public Dictionary<string, string> Salvar(Modelo.Acao pAcao, Modelo.BancoHoras objeto, bool naoValidaFechamento)
+        {
             Dictionary<string, string> erros = ValidaObjeto(objeto);
+            if (naoValidaFechamento)
+            {
+                erros.Remove("Fechamento Ponto");
+            }
             if (erros.Count == 0)
             {
                 switch (pAcao)
@@ -954,5 +970,20 @@ namespace BLL
         {
             return dalBancoHoras.GetCredDebBancoHorasComSaldoPeriodo(idsFuncionarios, pdataInicial, pDataFinal);
         }
-     }
+
+        public Modelo.BancoHoras LoadObjectSemRestricao(int id)
+        {
+            return dalBancoHoras.LoadObjectSemRestricao(id);
+        }
+
+        public List<pxyFuncionarioRelatorio> GetFuncionarioParaCopia(int idBancoHoras)
+        {
+            return dalBancoHoras.GetFuncionarioParaCopia(idBancoHoras);
+        }
+
+        public void ReplicarBancoHoras(int idBancoHoras, List<int> idsFuncionarios)
+        {
+            dalBancoHoras.ReplicarBancoHoras(idBancoHoras, idsFuncionarios);
+        }
+    }
 }

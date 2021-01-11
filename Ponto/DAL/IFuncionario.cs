@@ -90,6 +90,8 @@ namespace DAL
         List<Modelo.Funcionario> GetAllListComUltimosFechamentos(bool pegaTodos, IList<int> idsFuncs);
 
         Funcionario GetFuncionarioPorCpfeMatricula(Int64 cpf, string matricula);
+        Funcionario GetFuncionarioPorMatricula(string matricula);
+
         List<int> GetIdsFuncsPorIdsEmpOuDepOuContra(int idDep, int idCont, int idEmp);
         List<int> GetIdsFuncsPorIdsEmpOuDepOuContra(List<int> ListIdDep, List<int> ListIdCont, List<int> ListIdEmp);
         List<int> GetIdsFuncsPorIdsEmpOuDepOuContra(List<int> ListIdDep, List<int> ListIdCont, List<int> ListIdEmp, bool verificaPermissao, bool removeInativo, bool removeExcluido);
@@ -133,6 +135,11 @@ namespace DAL
         List<int> IdsFuncPeriodoContratado(TipoFiltroFuncionario tipo, List<int> idsReg, DateTime dtIni, DateTime dtFin);
         void setFuncionariosEmpresa(int idEmpresa, bool FuncionarioAtivo);
         List<string> GetDsCodigosByIDs(List<int> lIds);
+        List<PxyFuncionarioFechamentosPontoEBH> GetFuncionariosComUltimoFechamentosPontoEBH(bool pegaTodos, IList<int> idsFuncs, DateTime dataInicio);
+
+        void DeleteLogicoFuncionariosInativos(int qtdMeses);
+
+
     }
 }
 

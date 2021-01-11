@@ -406,16 +406,16 @@ namespace Modelo
         }
 
 
-        public Int16 PercentualExtra1 { get; set; }
-        public Int16 PercentualExtra2 { get; set; }
-        public Int16 PercentualExtra3 { get; set; }
-        public Int16 PercentualExtra4 { get; set; }
-        public Int16 PercentualExtra5 { get; set; }
-        public Int16 PercentualExtra6 { get; set; }
-        public Int16 PercentualExtra7 { get; set; }
-        public Int16 PercentualExtra8 { get; set; }
-        public Int16 PercentualExtra9 { get; set; }
-        public Int16 PercentualExtra10 { get; set; }
+        public decimal PercentualExtra1 { get; set; }
+        public decimal PercentualExtra2 { get; set; }
+        public decimal PercentualExtra3 { get; set; }
+        public decimal PercentualExtra4 { get; set; }
+        public decimal PercentualExtra5 { get; set; }
+        public decimal PercentualExtra6 { get; set; }
+        public decimal PercentualExtra7 { get; set; }
+        public decimal PercentualExtra8 { get; set; }
+        public decimal PercentualExtra9 { get; set; }
+        public decimal PercentualExtra10 { get; set; }
 
         private Int16 _HorasAbonadas;
 
