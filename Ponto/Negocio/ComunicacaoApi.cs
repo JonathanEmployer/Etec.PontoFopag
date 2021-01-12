@@ -237,7 +237,7 @@ namespace Negocio
                     string contentJson = JsonConvert.SerializeObject(registros);
                     string NumSerie = registros.Where(x => x.Campo01 == "000000000").FirstOrDefault().Campo07;
                     log.Info(NumSerie + " Enviando conteúdo do JSON");
-                    log.Info("Json do Rep "+ NumSerie + " Enviado: " + contentJson);
+                    log.Info("Json do Rep " + NumSerie + " Enviado: " + contentJson);
                     HttpContent content = new StringContent(contentJson, Encoding.UTF8, "application/json");
                     log.Info(NumSerie + " Token recebido");
                     httpClient.DefaultRequestHeaders.Add("Authorization", "bearer " + token);
@@ -266,6 +266,42 @@ namespace Negocio
 
         public async Task<bool> GravarLog(Modelo.RepLog log)
         {
+
+            HttpResponseMessage response = await EnviarLog(log);
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    Configuracao.RequisitarNovoToken();
+                    Modelo.Proxy.PxyConfigComunicadorServico conf = Configuracao.GetConfiguracao();
+                    token = conf.TokenAccess;
+                    response = await EnviarLog(log);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                        {
+                            throw new Exception("Requisição não autorizada, solicitando novo token.");
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+                return false;
+            }
+        }
+
+        private async Task<HttpResponseMessage> EnviarLog(RepLog log)
+        {
             using (var httpClient = new HttpClient())
             {
                 try
@@ -278,18 +314,7 @@ namespace Negocio
                     httpClient.BaseAddress = new Uri(VariaveisGlobais.UrlWebAPi);
                     httpClient.Timeout = TimeSpan.FromMinutes(1);
                     HttpResponseMessage response = await httpClient.PostAsync(str, content);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-                        {
-                            throw new Exception("Requisição não autorizada, solicitando novo token.");
-                        }
-                        return false;
-                    }
+                    return response;
                 }
                 catch (Exception e)
                 {
