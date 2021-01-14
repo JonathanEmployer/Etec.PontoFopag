@@ -14,6 +14,7 @@ namespace Negocio
         {
             try
             {
+                config = Configuracao.GetConfiguracao();
                 IList<ModeloAux.RepViewModel> reps = Negocio.Rep.GetRepConfig(config);
                 rep = reps.Where(w => w.Id == rep.Id).FirstOrDefault();
                 Int64 intervaloUltimaIntegracao = Convert.ToInt64((DateTime.Now - rep.UltimaIntegracao.GetValueOrDefault()).TotalSeconds);
