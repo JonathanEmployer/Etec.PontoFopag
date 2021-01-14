@@ -95,7 +95,7 @@ namespace Negocio
                 {
                     throw new Exception("Erro ao recuperar login do serviço, verifique as configuração no aplicativo de configuração do serviço.");
                 }
-                config = Negocio.Login.RealizarLogin(config.Usuario, config.Senha).Result;
+                config = Login.RealizarLogin(config.Usuario, config.Senha).Result;
                 if (!String.IsNullOrEmpty(config.Erro))
                 {
                     throw new Exception(config.Erro);
