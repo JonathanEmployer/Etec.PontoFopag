@@ -25,6 +25,12 @@ namespace Modelo.Proxy
         [Display(Name = "Marcação Individual")]
         public bool bMarcacaoIndividual { get; set; }
 
+
+        [Display(Name = "Razão Social Cliente")]
+        public bool bRazaoSocial { get; set; }
+
+        public String RazaoSocialCliente { get; set; }
+
         [Display(Name = "Funcionário")]
         public String NomeFuncionarioSelecionado { get; set; }
 

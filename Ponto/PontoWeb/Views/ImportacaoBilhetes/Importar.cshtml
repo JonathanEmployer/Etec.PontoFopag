@@ -88,6 +88,25 @@
                                     <div class="col-md-12">
                                         <div class="checkbox">
                                             <label>
+                                                @Html.CheckBoxFor(model => model.bRazaoSocial, new { id = "bRazaoSocial" })
+                                                @Html.LabelFor(model => model.bRazaoSocial, new { @class = "control-label label-sm" })
+                                                @Html.ValidationMessageFor(model => model.bRazaoSocial)
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="input-group-sm">
+                                            @Html.TextBoxFor(model => model.RazaoSocialCliente, new { @class = "form-control input-sm lkpRazaoSocialCliente editor-field", id = "lkpRazaoSocialCliente" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.RazaoSocialCliente)
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="checkbox">
+                                            <label>
                                                 @Html.CheckBoxFor(model => model.bMarcacaoIndividual, new { id = "bMarcacaoIndividual" })
                                                 @Html.LabelFor(model => model.bMarcacaoIndividual, new { @class = "control-label label-sm" })
                                                 @Html.ValidationMessageFor(model => model.bMarcacaoIndividual)
@@ -166,6 +185,19 @@
         }
     });
 
+
+    if ($("#bRazaoSocial").is(':checked')) {
+        $('#lkpRazaoSocialCliente').prop('readonly', false);
+    }
+    else {
+        $('#lkpRazaoSocialCliente').prop('readonly', true);
+    }
+
+    $(".lkpRazaoSocialCliente").bind("keydown click", function (e) {
+        if ($("#bRazaoSocial").is(':checked')) {
+            cwk_EventoConsultaUnico(e, this, "", "Funcionario", "");
+        }
+    });
     $(document).ready(function () {
         cwk_DataCalendario('#btnDataInicial', '#DataInicial');
         cwk_DataCalendario('#btnDataFinal', '#DataFinal');
@@ -317,6 +349,16 @@
         else {
             $('#lkpNomeFuncionarioSelecionado').prop('readonly', true);
             $('#lkpNomeFuncionarioSelecionado').val('');
+        }
+    });
+
+    $("#bRazaoSocial").click(function (event) {
+        if ($("#bRazaoSocial").is(':checked')) {
+            $('#lkpRazaoSocialCliente').prop('readonly', false);
+        }
+        else {
+            $('#lkpRazaoSocialCliente').prop('readonly', true);
+            $('#lkpRazaoSocialCliente').val('');
         }
     });
 
