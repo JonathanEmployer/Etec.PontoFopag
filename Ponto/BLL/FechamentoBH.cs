@@ -332,7 +332,7 @@ namespace BLL
 
                 fechamentoBHD.MotivoFechamento = pObjFechamentoBH.MotivoFechamento;
 
-
+            
                 fechamentoBHD.Tiposaldo = tipoSaldo;
                 fechamentoBHD.DataFechamento = pObjFechamentoBH.Data;
 
@@ -414,8 +414,13 @@ namespace BLL
 
                 int limiteCreditoPag = Modelo.cwkFuncoes.ConvertHorasMinuto(LimiteHorasPagamentoCredito);
                 int limiteCreditoDeb = (Modelo.cwkFuncoes.ConvertHorasMinuto(LimiteHorasPagamentoDebito) * -1);
-
-                if (saldobh > 0)
+                //se não informado valor de pagamento deve pagar tudo
+                if (limiteCreditoDeb == 0 && limiteCreditoPag == 0)
+                {
+                    saldo = saldobh;
+                    saldobh = 0;
+                }
+                else if (saldobh > 0)
                 {
                     if (limiteCreditoPag > 0)
                     {
