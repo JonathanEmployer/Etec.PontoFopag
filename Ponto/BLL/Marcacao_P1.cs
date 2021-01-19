@@ -278,7 +278,10 @@ namespace BLL
         {
             return dalMarcacao.GetRelatorioObras(idsFuncionarios, pdataInicial, pDataFinal, codsLocalReps);
         }
-
+        public DataTable GetRelatorioSubstituicaoJornada(string idsFuncionarios, DateTime pdataInicial, DateTime pDataFinal)
+        {         
+            return dalMarcacao.GetRelatorioSubstituicaoJornada(idsFuncionarios, pdataInicial, pDataFinal);
+        }
         public DataTable GetRelatorioRegistros(string idsFuncionarios, DateTime pdataInicial, DateTime pDataFinal)
         {
             DataTable dadosRel = new DataTable();
