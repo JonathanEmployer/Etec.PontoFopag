@@ -150,5 +150,10 @@ namespace BLL
         {
             return dalEnvioEmpresaFuncionariosRep.GetGridLogImportacaoWebAPIById(id);
         }
+
+        public int ExluirEnvioDadosRepEDetalhes(int idEnvioDadosRep)
+        {
+            return dalEnvioEmpresaFuncionariosRep.ExluirEnvioDadosRepEDetalhes(idEnvioDadosRep);
+        }
     }
 }
