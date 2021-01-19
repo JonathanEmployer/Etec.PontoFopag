@@ -3003,6 +3003,7 @@ namespace DAL.SQL
         , jors.saida_2 saida_2Substituido
         , jors.saida_3 saida_3Substituido
         , jors.saida_4 saida_4Substituido
+        , p.toleranciaAdicionalNoturno
 FROM marcacao_view AS marcacao WITH (NOLOCK)
 	INNER JOIN horario ON horario.id = marcacao.idhorario 
 	INNER JOIN #horariophextra as hphe on hphe.idhorario = marcacao.idhorario
