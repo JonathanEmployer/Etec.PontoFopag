@@ -264,10 +264,10 @@ namespace Negocio
             }
         }
 
-        public async Task<bool> GravarLog(Modelo.RepLog log)
+        public async Task<bool> GravarLog(Modelo.RepLog repLog)
         {
-
-            HttpResponseMessage response = await EnviarLog(log);
+            log.Info(" Enviando log = "+repLog.DescricaoExecucao);
+            HttpResponseMessage response = await EnviarLog(repLog);
             if (response.IsSuccessStatusCode)
             {
                 return true;
@@ -279,7 +279,7 @@ namespace Negocio
                     Configuracao.RequisitarNovoToken();
                     Modelo.Proxy.PxyConfigComunicadorServico conf = Configuracao.GetConfiguracao();
                     token = conf.TokenAccess;
-                    response = await EnviarLog(log);
+                    response = await EnviarLog(repLog);
                     if (response.IsSuccessStatusCode)
                     {
                         return true;
