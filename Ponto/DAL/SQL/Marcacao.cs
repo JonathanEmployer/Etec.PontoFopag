@@ -3003,6 +3003,7 @@ namespace DAL.SQL
         , jors.saida_2 saida_2Substituido
         , jors.saida_3 saida_3Substituido
         , jors.saida_4 saida_4Substituido
+        , p.toleranciaAdicionalNoturno
 FROM marcacao_view AS marcacao WITH (NOLOCK)
 	INNER JOIN horario ON horario.id = marcacao.idhorario 
 	INNER JOIN #horariophextra as hphe on hphe.idhorario = marcacao.idhorario
@@ -5574,6 +5575,60 @@ WHERE
                 DROP TABLE #horariophextra
                 ";
             #endregion
+
+            DataTable dt = new DataTable();
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            dt.Load(dr);
+            if (!dr.IsClosed)
+                dr.Close();
+            dr.Dispose();
+
+            return dt;
+        }
+
+        public DataTable GetRelatorioSubstituicaoJornada(string idsFuncionarios, DateTime pdataInicial, DateTime pDataFinal)
+        {
+            string aux = "";
+
+            SqlParameter[] parms = new SqlParameter[2]
+              {
+                    new SqlParameter("@dtIni", SqlDbType.DateTime),
+                    new SqlParameter("@dtFim", SqlDbType.DateTime),
+              };
+            parms[0].Value = pdataInicial;
+            parms[1].Value = pDataFinal;
+
+            #region Select Otimizado
+            aux = @"
+                select 
+                f.codigo 'Código',
+                f.nome 'Nome',
+                f.matricula 'Matrícula',
+                f.CPF 'CPF',
+                ct.codigocontrato + ' | ' + ct.descricaocontrato  'Contrato',
+                js.codigo 'Código Substituição',
+                CONVERT(VARCHAR(10),  js.DataInicio, 103)   'Data Inicio' ,
+                CONVERT(VARCHAR(10),  js.DataFim, 103)   'Data Fim' ,
+                CONVERT(VARCHAR(max), jD.codigo) +' | '+ ISNULL(jD.descricao , '') 'Jornada De',
+                CONVERT(VARCHAR(max), jP.codigo) +' | '+ ISNULL(jP.descricao , '') 'Jornada Para',
+                js.incusuario 'Usuario Inclusão',
+                CONVERT(VARCHAR(10), js.IncHora, 103) + ' '  + convert(VARCHAR(8), js.IncHora, 14) 'Data/Hora Inclusão',
+                js.altusuario 'Usuario alteração',
+                CONVERT(VARCHAR(10), js.altdata, 103) + ' '  + convert(VARCHAR(8), js.althora, 14)  'Data/Hora Alteração' 			
+                from funcionario f 
+                join contratofuncionario cf on cf.idfuncionario = f.id
+                join contrato ct on ct.id = cf.idcontrato
+                join JornadaSubstituirFuncionario jsf on jsf.IdFuncionario = f.id 
+                join JornadaSubstituir js on js.Id = jsf.IdJornadaSubstituir                
+                join jornada jD on jD.id = js.IdJornadaDe
+                join jornada jP on jP.id = js.IdJornadaPara
+                where f.id  in ( {0} )  and cf.excluido = 0 and 
+                 jsf.IncData BETWEEN @dtIni AND @dtFim
+                ";
+
+            #endregion
+
+            aux = string.Format(aux, idsFuncionarios);
 
             DataTable dt = new DataTable();
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
