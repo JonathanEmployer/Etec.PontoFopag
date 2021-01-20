@@ -396,8 +396,10 @@ namespace PontoWeb.Controllers.BLLWeb
 				usuarioPontoWeb.EmpresaPrincipal = bllEmp.GetEmpresaPrincipal();                    
                 usuarioPontoWeb.ConnectionString = cwu.ConnectionStringDecrypt;
                 usuarioPontoWeb.ConsultaUtilizaRegistradorAllEmp = bllEmp.ConsultaUtilizaRegistradorAllEmp();
+				BLL.ParametrosInternos bllParametrosInternos = new BLL.ParametrosInternos(cwu.ConnectionStringDecrypt, usuarioPontoWeb);
+				usuarioPontoWeb.ServicoCalculo = bllParametrosInternos.LoadFirtObject().ServicoCalculo;
 				// se conseguiu pegar no banco, seta no cache.
-				if (usuarioPontoWeb != null && !String.IsNullOrEmpty(usuarioPontoWeb.Login))
+					if (usuarioPontoWeb != null && !String.IsNullOrEmpty(usuarioPontoWeb.Login))
 				{
 					cacheUsuarioPontoWeb.Clear();
 					Cacher<UsuarioPontoWeb> cache = new Cacher<UsuarioPontoWeb>("UsuarioPontoWebLogado", () => usuarioPontoWeb);

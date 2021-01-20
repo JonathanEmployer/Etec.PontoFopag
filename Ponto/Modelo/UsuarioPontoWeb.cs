@@ -16,6 +16,6 @@ namespace Modelo
         } }
         public string CentroServico { get; set; }
         public bool ConsultaUtilizaRegistradorAllEmp { get; set; }
-        public bool Ativo { get; set; }
+        public int ServicoCalculo { get; set; }
     }
 }

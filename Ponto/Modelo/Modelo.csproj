@@ -406,6 +406,7 @@
     <Compile Include="Enumeradores.cs" />
     <Compile Include="BloqueioFuncionario.cs" />
     <Compile Include="ManutencaoBiometrica.cs" />
+    <Compile Include="ParametrosInternos.cs" />
     <Compile Include="ParametroWebfopag.cs" />
     <Compile Include="Proxy\pxyPermissoes.cs" />
     <Compile Include="Proxy\pxyUsuarioControleAcessoAdicionarContrato.cs" />
