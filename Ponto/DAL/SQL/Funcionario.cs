@@ -2729,7 +2729,8 @@ namespace DAL.SQL
                                     COALESCE(CONVERT(VARCHAR, pe.codigo) + ' | ' + pe.RazaoSocial, '') AS PessoaSupervisor ,
                                     CONVERT(VARCHAR, Alocacao.codigo) + ' | ' + Alocacao.descricao AS Alocacao ,
                                     CONVERT(VARCHAR, TipoVinculo.codigo) + ' | ' + TipoVinculo.descricao AS TipoVinculo,
-                                    func.RFID
+                                    func.RFID,
+                                    CASE WHEN CercaVirtualFunc.idfuncionario is null THEN 'Não' ELSE 'Sim' END PossuiCercaVirtual
                              FROM   funcionario func
                                     LEFT JOIN empresa ON empresa.id = func.idempresa
                                     LEFT JOIN departamento ON departamento.id = func.iddepartamento
@@ -2742,6 +2743,11 @@ namespace DAL.SQL
 									OUTER APPLY(SELECT TOP 1 cfun.inchora,CASE WHEN cont.codigo is null THEN '-' ELSE CONCAT(cont.codigo,' | ',cont.codigocontrato,' - ',cont.descricaocontrato) END contrato 
                                                 FROM dbo.contratofuncionario cfun LEFT JOIN dbo.contrato cont ON cont.id = cfun.idcontrato 
 												    WHERE func.id = cfun.idfuncionario and cfun.excluido =0 ) AS uContr                             
+									OUTER APPLY(SELECT TOP 1 idFuncionario
+                                                FROM dbo.CercaVirtualFuncionario cvf
+                                               INNER JOIN dbo.CercaVirtual CV ON CV.id = cvf.idCercaVirtual
+												    WHERE cvf.idfuncionario = func.id
+                                                      AND CV.Ativo = 1) AS CercaVirtualFunc
                                     WHERE  func.id in (select id from funcionario where funcionario.excluido = 0)
                                     ";
 

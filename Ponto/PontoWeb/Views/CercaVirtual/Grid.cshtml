@@ -1,0 +1,77 @@
+﻿@model Modelo.CercaVirtual
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Cerca Virtual";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string nomeTabela = "tbCercaVirtual";
+}
+<div class="">
+    <div class="panel panel-default" style="padding:0; padding-bottom:0">
+        <div class="panel-heading">
+            @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+            <h3 class="panel-title titulo-pagina">Cerca Virtual</h3>
+        </div>
+        <div class="panel-body panelConteudo" id="panelBodyFixo">
+            <input type="hidden" id="hdSelect" />
+            @Html.ValidationSummary(true)
+            <div class="row">
+                @Html.GridFor(nomeTabela, Model.GetType(), false, "CercaVirtual", "DadosGrid")
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-12 center-block">
+                    <div style="text-align: right">
+                        <a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
+                        <a href="#" id="btIncluir" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
+                        <a href="#" id="btAlterar" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
+                        <a href="#" id="btExcluir" class="btn btn-danger" style="display: none"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var nomeTabela = "#" + '@nomeTabela';
+    var trExcluir;
+    $(document).ready(function () {
+        //$('#tbCercaVirtual_wrapper').bind('DOMNodeInserted DOMNodeRemoved', function () {
+        //    $("#tbCercaVirtual_wrapper").append('<div class="dataTables_info" id="tbCercaVirtual_info" role="status" aria-live="polite"><p><b><input type="checkbox"><span> Esconder inativos</span></b></p></div>');
+        //});
+        cwk_EventoDbClickEditar('Alterar', 'CercaVirtual', nomeTabela);
+
+        cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', 'CercaVirtual');
+        cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', 'CercaVirtual', nomeTabela);
+        cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', 'CercaVirtual', nomeTabela);
+        cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir/' + $('#hdSelect').val(), 'CercaVirtual', nomeTabela, '', redirect);
+        validaExcluir();
+        cwk_EventoClickSelecionarSingle(nomeTabela);
+    });
+
+    function validaExcluir() {
+        var url = location.href.split('/');
+        if (url.length > 5) {
+            if (url[5] > 0) {
+                $('#btExcluir').css('display', '');
+                $('#btAlterar').css('display', 'none');
+                $('#btConsultar').css('display', 'none');
+            }
+        }
+    }
+    function cwk_EventoClickSelecionarSingle(nomeTabela) {
+        $(nomeTabela + ' tbody').on('click', 'tr', function () {
+            trExcluir = $(this);
+            $('#hdSelect').val(trExcluir.find('td:eq(0)').html());
+        });
+    }
+    function redirect() {
+
+        $(trExcluir).closest('tr').remove();
+        if ($('tr', $(nomeTabela).find('tbody')).length == 1 && $('tr', $(nomeTabela).find('tbody')).find('td:eq(0)').html() == 'Nenhum registro encontrado')
+            $('#btExcluir').css('display', 'none');
+        //window.location = location.href.replace('#', '');
+    }
+</script>

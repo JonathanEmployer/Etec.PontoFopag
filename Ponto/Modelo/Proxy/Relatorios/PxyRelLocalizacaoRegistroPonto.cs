@@ -45,20 +45,24 @@ namespace Modelo.Proxy.Relatorios
 
         [ExportToXls("Hora Registro", 10)]
         public string mar_hora { get; set; }
+        [ExportToXls("Relógio", 11)]
+        public string Relogio { get; set; }
 
-        [ExportToXls("IP", 11)]
+        [ExportToXls("IP", 12)]
         public string IP { get; set; }
 
-        [ExportToXls("Navegador", 12)]
+        [ExportToXls("Navegador", 13)]
         public string Browser { get; set; }
 
-        [ExportToXls("Versão Navegador", 13)]
+        [ExportToXls("Versão Navegador", 14)]
         public string BrowserVersao { get; set; }
 
         public string Periodo { get; set; }
-        [ExportToXls("Latitude", 14)]
+        [ExportToXls("Latitude", 15)]
         public string Latitude { get; set; }
-        [ExportToXls("Longitude", 15)]
+        [ExportToXls("Longitude", 16)]
         public string Longitude { get; set; }
+        [ExportToXls("Ver Mapa", 17)]
+        public string VerMapa { get; set; }
     }
 }
