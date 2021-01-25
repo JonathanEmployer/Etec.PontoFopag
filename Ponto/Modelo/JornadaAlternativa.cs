@@ -408,10 +408,15 @@ namespace Modelo
             }
             set { _Funcionario = value; }
         }
-        public List<int> IdsFuncionariosJornadaAlternativa { get; set; }
-        public string IdsJornadaAlternativaFuncionarios { get; set; }
-        public string IdsJornadaAlternativaFuncionarios_Ant { get; set; }
-[TableHTMLAttribute("Jornada", 14, true, ItensSearch.text, OrderType.none)]
+
+
+        //public List<int> IdsFuncionariosJornadaAlternativa { get; set; }
+        public IList<JornadaAlternativaFuncionario> JornadaAlternativaFuncionarios { get; set; }
+        public string IdsJornadaAlternativaFuncionariosSelecionados { get; set; }
+        public string IdsJornadaAlternativaFuncionariosSelecionados_Ant { get; set; }
+
+
+        [TableHTMLAttribute("Jornada", 14, true, ItensSearch.text, OrderType.none)]
         public string TipoJornada { get; set; }
 
         [Display(Name = "Horas Normais")]

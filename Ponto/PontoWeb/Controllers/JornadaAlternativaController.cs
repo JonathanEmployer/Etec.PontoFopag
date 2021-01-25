@@ -84,9 +84,10 @@ namespace PontoWeb.Controllers
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
             BLL.JornadaAlternativa bllJornada = new BLL.JornadaAlternativa(usr.ConnectionString, usr);
             JornadaAlternativa jornada = bllJornada.LoadObject(id);
+            jornada.NaoRecalcular = true;
             try
             {
-                jornada.NaoRecalcular = true;
+                SelecaoFuncionarios(usr.ConnectionString, usr, jornada);
                 Dictionary<string, string> erros = new Dictionary<string, string>();
                 if (!jornada.DataInicial_Ant.HasValue)
                 {
@@ -167,7 +168,7 @@ namespace PontoWeb.Controllers
                         if (log.Where(w => w.OldValue != w.NewValue).ToList().Count == 0 &&
                             obj.DiasJA.Where(w => w.Acao == Acao.Incluir).Count() != jAnt.DiasJA.Where(w => w.Acao == Acao.Incluir).Count() &&
                             obj.DiasJA.Where(w => w.Acao == Acao.Alterar).Count() != jAnt.DiasJA.Where(w => w.Acao == Acao.Alterar).Count() &&
-                            obj.DiasJA.Where(w => w.Acao == Acao.Excluir).Count() != jAnt.DiasJA.Where(w => w.Acao == Acao.Excluir).Count() )
+                            obj.DiasJA.Where(w => w.Acao == Acao.Excluir).Count() != jAnt.DiasJA.Where(w => w.Acao == Acao.Excluir).Count())
                         {
                             salvar = false;
                         }
@@ -246,13 +247,24 @@ namespace PontoWeb.Controllers
             else
             {
                 objJornada = bllJornada.LoadObject(id);
-                //incluir os funcionarios da jornada
+                if (!objJornada.DataInicial_Ant.HasValue && !objJornada.DataFinal_Ant.HasValue)
+                {
+                    objJornada.DataInicial_Ant = objJornada.DataInicial;
+                    objJornada.DataFinal_Ant = objJornada.DataFinal;
+                }
+                objJornada.Tipo_Ant = objJornada.Tipo;
                 SelecaoFuncionarios(UsuPW.ConnectionString, UsuPW, objJornada);
+
+
                 #region Valida Fechamento
                 if (ViewBag.Consultar != 1)
                 {
+                    List<int> idTipos = (!string.IsNullOrEmpty(objJornada.IdsJornadaAlternativaFuncionariosSelecionados) && objJornada.Tipo == 2) ?
+                                         objJornada.IdsJornadaAlternativaFuncionariosSelecionados.Split(',').ToList().Select(s => Convert.ToInt32(s)).ToList() :
+                                         new List<int>() { objJornada.Identificacao };
+
                     BLL.FechamentoPontoFuncionario bllFechamentoPontoFuncionario = new BLL.FechamentoPontoFuncionario(conn, UsuPW);
-                    string mensagemFechamento = bllFechamentoPontoFuncionario.RetornaMensagemFechamentosPorFuncionarios(objJornada.Tipo, new List<int>() { objJornada.Identificacao }, objJornada.DataInicial.GetValueOrDefault());
+                    string mensagemFechamento = bllFechamentoPontoFuncionario.RetornaMensagemFechamentosPorFuncionarios(objJornada.Tipo, idTipos, objJornada.DataInicial.GetValueOrDefault());
                     if (!String.IsNullOrEmpty(mensagemFechamento))
                     {
                         ViewBag.Consultar = 1;
@@ -490,11 +502,33 @@ namespace PontoWeb.Controllers
                         }
                         break;
                     case 2:
-                        if (String.IsNullOrEmpty(objeto.IdsJornadaAlternativaFuncionarios))
+
+                        if (String.IsNullOrEmpty(objeto.IdsJornadaAlternativaFuncionariosSelecionados))
                         {
-                            ModelState["Funcionario"].Errors.Add("Selecione um funcionário.");
+                            //ModelState["Funcionario"].Errors.Add("Selecione um funcionário.");
+                            ModelState["IdsJornadaAlternativaFuncionariosSelecionados"].Errors.Add("Selecione um funcionário.");
                         }
+                        //idTipos = objeto.IdsFeriadosFuncionariosSelecionados.Split(',').ToList().Select(s => Convert.ToInt32(s)).ToList();
+
+                        //else
+                        //{
+
+                        //    BLL.Funcionario bllFuncionario = new BLL.Funcionario(conn, UsuPW);
+                        //    int idFuncionario = 0;
+                        //    string func = objeto.Funcionario.Split('|')[0].Trim();
+                        //    //idFuncionario = bllfuncionario.GetIdDsCodigoProximidade(func);
+                        //    idFuncionario = bllFuncionario.GetIdDsCodigo(func);
+                        //    if (idFuncionario > 0)
+                        //    {
+                        //        objeto.Identificacao = idFuncionario;
+                        //    }
+                        //    else
+                        //    {
+                        //        ModelState["Funcionario"].Errors.Add("Funcionário " + objeto.Funcionario + " não cadastrado!");
+                        //    }
+                        //}
                         break;
+
                     case 3:
                         if (String.IsNullOrEmpty(objeto.Funcao))
                         {
@@ -536,7 +570,7 @@ namespace PontoWeb.Controllers
                 BLL.Jornada bllJornadaNormal = new BLL.Jornada(conn, UsuPW);
                 Jornada j = new Jornada();
                 int idJornada;
-                List<string> strs = objeto.DescJornada.Split(new string[]{" | "}, StringSplitOptions.RemoveEmptyEntries).ToList();
+                List<string> strs = objeto.DescJornada.Split(new string[] { " | " }, StringSplitOptions.RemoveEmptyEntries).ToList();
                 string jornada = strs[0];
                 if (int.TryParse(jornada, out idJornada))
                 {
@@ -593,10 +627,28 @@ namespace PontoWeb.Controllers
 
             if ((objeto.DataInicial != null) && (objeto.DataFinal != null))
             {
-                if (bllJornada.VerificaExiste(objeto.Id, objeto.DataInicial.Value, objeto.DataFinal.Value, objeto.Tipo, objeto.Identificacao))
+                if (!string.IsNullOrEmpty(objeto.IdsJornadaAlternativaFuncionariosSelecionados) && objeto.Tipo == 2)
                 {
-                    ModelState["DataInicial"].Errors.Add("Já existe um registro gravado dentro deste período.");
-                    ModelState["DataFinal"].Errors.Add("Já existe um registro gravado dentro deste período.");
+                    List<int> idTipos = objeto.IdsJornadaAlternativaFuncionariosSelecionados.Split(',').ToList().Select(s => Convert.ToInt32(s)).ToList();
+
+                    foreach (var item in idTipos)
+                    {
+                        if (bllJornada.VerificaExiste(objeto.Id, objeto.DataInicial.Value, objeto.DataFinal.Value, objeto.Tipo, item))
+                        {
+                            BLL.Funcionario bllFuncionario = new BLL.Funcionario(conn, UsuPW);
+                            var func = bllFuncionario.LoadObject(item);
+                            ModelState["DataInicial"].Errors.Add("Já existe um registro gravado dentro deste período para o funcionario '" + func.Nome + "'.");
+                            ModelState["DataFinal"].Errors.Add("Já existe um registro gravado dentro deste período para o funcionario '" + func.Nome + "'.");
+                        }
+                    }
+                }
+                else
+                {
+                    if (bllJornada.VerificaExiste(objeto.Id, objeto.DataInicial.Value, objeto.DataFinal.Value, objeto.Tipo, objeto.Identificacao))
+                    {
+                        ModelState["DataInicial"].Errors.Add("Já existe um registro gravado dentro deste período.");
+                        ModelState["DataFinal"].Errors.Add("Já existe um registro gravado dentro deste período.");
+                    }
                 }
             }
             if (objeto.DiasJA != null)
@@ -620,15 +672,17 @@ namespace PontoWeb.Controllers
                 }
             }
         }
-        private static void SelecaoFuncionarios(string conn, UsuarioPontoWeb usuPW, JornadaAlternativa objJornada)
+
+        private static void SelecaoFuncionarios(string conn, UsuarioPontoWeb userPW, JornadaAlternativa objJornada)
         {
-            BLL.Funcionario bllFuncionario = new BLL.Funcionario(conn, usuPW);
-            objJornada.IdsFuncionariosJornadaAlternativa = bllFuncionario.GetFuncionariosJornadaAlternativa(objJornada.Codigo);
-            if (objJornada.IdsFuncionariosJornadaAlternativa != null && objJornada.IdsFuncionariosJornadaAlternativa.Count() > 0)
+            BLL.JornadaAlternativaFuncionario bllJornadaAlternativaFuncionario = new BLL.JornadaAlternativaFuncionario(conn, userPW);
+            objJornada.JornadaAlternativaFuncionarios = bllJornadaAlternativaFuncionario.GetListWhere(" and idJornadaAlternativa = " + objJornada.Id);
+            if (objJornada.JornadaAlternativaFuncionarios != null && objJornada.JornadaAlternativaFuncionarios.Count() > 0)
             {
-                objJornada.IdsJornadaAlternativaFuncionarios = String.Join(",", objJornada.IdsFuncionariosJornadaAlternativa);
-                objJornada.IdsJornadaAlternativaFuncionarios_Ant = objJornada.IdsJornadaAlternativaFuncionarios;
+                objJornada.IdsJornadaAlternativaFuncionariosSelecionados = String.Join(",", objJornada.JornadaAlternativaFuncionarios.Select(x => x.IdFuncionario).ToArray());
+                objJornada.IdsJornadaAlternativaFuncionariosSelecionados_Ant = objJornada.IdsJornadaAlternativaFuncionariosSelecionados;
             }
         }
+
     }
 }

@@ -310,6 +310,7 @@
     <Compile Include="AFD.cs" />
     <Compile Include="AlertasRepAcompanhamento.cs" />
     <Compile Include="AutoMapper\ConfigureAutoMapper.cs" />
+    <Compile Include="JornadaAlternativaFuncionario.cs" />
     <Compile Include="JornadaSubstituir.cs" />
     <Compile Include="JornadaSubstituirFuncionario.cs" />
     <Compile Include="JustificativaRestricao.cs" />

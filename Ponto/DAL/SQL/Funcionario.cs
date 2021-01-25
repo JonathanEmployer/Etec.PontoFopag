@@ -6323,28 +6323,5 @@ where 1=1
             return;
         }
 
-        public List<int> GetFuncionariosJornadaAlternativa(int codigo)
-        {
-            DataTable dt = new DataTable();
-
-            SqlParameter[] parms = new SqlParameter[]
-            {
-                 new SqlParameter("@codigo", SqlDbType.Int)
-            };
-            parms[0].Value = codigo;
-
-            string aux = @"SELECT   *
-                            FROM funcionario f
-                            LEFT JOIN jornadaalternativa j ON f.id = j.identificacao
-                            WHERE j.codigo=@codigo";
-
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
-            dt.Load(dr);
-            if (!dr.IsClosed)
-                dr.Close();
-            dr.Dispose();
-            List<int> idfuncionarios = dt.AsEnumerable().Select(x => Convert.ToInt32(x[0])).ToList();
-            return idfuncionarios;
-        }
     }
 }

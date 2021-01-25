@@ -22,7 +22,7 @@ namespace BLL
 
         public JornadaAlternativa() : this(null)
         {
-            
+
         }
 
         public JornadaAlternativa(string connString)
@@ -33,11 +33,11 @@ namespace BLL
 
         public JornadaAlternativa(string connString, Modelo.Cw_Usuario usuarioLogado)
         {
-            if (!String.IsNullOrEmpty(connString))            
-                ConnectionString = connString;                  
+            if (!String.IsNullOrEmpty(connString))
+                ConnectionString = connString;
             else
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
-            
+
             dalJornadaAlternativa = new DAL.SQL.JornadaAlternativa(new DataBase(ConnectionString));
             dalJornadaAlternativa.UsuarioLogado = usuarioLogado;
             UsuarioLogado = usuarioLogado;
@@ -120,13 +120,14 @@ namespace BLL
                 ret.Add("rgTipo", "Campo obrigatório.");
             }
 
-            //if (objeto.Identificacao == 0)
-            //{
-            //    ret.Add("cbIdIdentificacao", "Campo obrigatório");
-            //}
-            if (String.IsNullOrEmpty(objeto.IdsJornadaAlternativaFuncionarios))
+            if (objeto.Identificacao == 0 && objeto.Tipo != 2)
             {
                 ret.Add("cbIdIdentificacao", "Campo obrigatório");
+            }
+
+            if (string.IsNullOrEmpty(objeto.IdsJornadaAlternativaFuncionariosSelecionados) && objeto.Tipo == 2)
+            {
+                ret.Add("tbFuncionario", "Campo obrigatório");
             }
 
             if (objeto.LimiteMin == "--:--")
@@ -138,19 +139,41 @@ namespace BLL
                 ret.Add("txtLimiteMax", "Campo obrigatório");
             }
 
+
+            List<int> idTipos = (objeto.Tipo == 2 && !string.IsNullOrEmpty(objeto.IdsJornadaAlternativaFuncionariosSelecionados)) ?
+                                idTipos = objeto.IdsJornadaAlternativaFuncionariosSelecionados.Split(',').ToList().Select(s => Convert.ToInt32(s)).ToList() :
+                                idTipos = new List<int>() { objeto.Identificacao };
+
             if ((objeto.DataInicial != null) && (objeto.DataFinal != null))
             {
-                if (VerificaExiste(objeto.Id, objeto.DataInicial.Value, objeto.DataFinal.Value, objeto.Tipo, objeto.Identificacao))
+                if (objeto.Tipo == 2)
                 {
-                    ret.Add("cbIdIdentificacao", "Já existe um registro gravado dentro deste período.");
+                    foreach (var item in idTipos)
+                    {
+                        if (VerificaExiste(objeto.Id, objeto.DataInicial.Value, objeto.DataFinal.Value, objeto.Tipo, item))
+                        {
+                            BLL.Funcionario bllFuncionario = new BLL.Funcionario(ConnectionString, UsuarioLogado);
+                            var func = bllFuncionario.LoadObject(item);
+                            ret.Add("cbIdIdentificacao", "Já existe um registro gravado dentro deste período para o funcionario '" + func.Nome + "'.");
+                        }
+                    }
                 }
+                else
+                {
+                    if (VerificaExiste(objeto.Id, objeto.DataInicial.Value, objeto.DataFinal.Value, objeto.Tipo, objeto.Identificacao))
+                    {
+                        ret.Add("cbIdIdentificacao", "Já existe um registro gravado dentro deste período.");
+                    }
+
+                }
+
             }
 
             BLL.FechamentoPontoFuncionario bllFechamentoPontoFuncionario = new FechamentoPontoFuncionario(ConnectionString, UsuarioLogado);
-            string mensagemFechamento = bllFechamentoPontoFuncionario.RetornaMensagemFechamentosPorFuncionarios(objeto.Tipo, new List<int>() {objeto.Identificacao}, objeto.DataInicial.GetValueOrDefault());
+            string mensagemFechamento = bllFechamentoPontoFuncionario.RetornaMensagemFechamentosPorFuncionarios(objeto.Tipo, idTipos, objeto.DataInicial.GetValueOrDefault());
             if (!String.IsNullOrEmpty(mensagemFechamento))
             {
-                ret.Add("Fechamento Ponto", mensagemFechamento);    
+                ret.Add("Fechamento Ponto", mensagemFechamento);
             }
             return ret;
         }
@@ -162,33 +185,40 @@ namespace BLL
             Dictionary<string, string> erros = ValidaObjeto(pObjJornadaAlternativa);
             if (erros.Count == 0)
             {
-                var idsFuncionarios = pObjJornadaAlternativa.IdsJornadaAlternativaFuncionarios.Split(',').ToList();
-                foreach (var idFuncionario in idsFuncionarios)
+                switch (pAcao)
                 {
-                    pObjJornadaAlternativa.Identificacao = Convert.ToInt32(idFuncionario);
-                    switch (pAcao)
-                    {
-                        case Modelo.Acao.Incluir:
-                            dalJornadaAlternativa.Incluir(pObjJornadaAlternativa);
-                            bllMarcacao.InsereMarcacoesNaoExistentes(pObjJornadaAlternativa.Tipo, pObjJornadaAlternativa.Identificacao, pObjJornadaAlternativa.DataInicial.Value, pObjJornadaAlternativa.DataFinal.Value, objProgressBar, false);
-                            break;
-                        case Modelo.Acao.Alterar:
-                            dalJornadaAlternativa.Alterar(pObjJornadaAlternativa);
-                            break;
-                        case Modelo.Acao.Excluir:
-                            if (pObjJornadaAlternativa.DiasJA != null)
+                    case Modelo.Acao.Incluir:
+                        dalJornadaAlternativa.Incluir(pObjJornadaAlternativa);
+                        if (pObjJornadaAlternativa.Tipo == 2)
+                        {
+                            List<int> idTipos = pObjJornadaAlternativa.IdsJornadaAlternativaFuncionariosSelecionados.Split(',').ToList().Select(s => Convert.ToInt32(s)).ToList();
+                            foreach (var item in idTipos)
                             {
-                                if (pObjJornadaAlternativa.DiasJA.Count > 0)
+                                bllMarcacao.InsereMarcacoesNaoExistentes(pObjJornadaAlternativa.Tipo, item, pObjJornadaAlternativa.DataInicial.Value, pObjJornadaAlternativa.DataFinal.Value, objProgressBar, false);
+                            }
+                        }
+                        else
+                        {
+                            bllMarcacao.InsereMarcacoesNaoExistentes(pObjJornadaAlternativa.Tipo, pObjJornadaAlternativa.Identificacao, pObjJornadaAlternativa.DataInicial.Value, pObjJornadaAlternativa.DataFinal.Value, objProgressBar, false);
+                        }
+
+                        break;
+                    case Modelo.Acao.Alterar:
+                        dalJornadaAlternativa.Alterar(pObjJornadaAlternativa);
+                        break;
+                    case Modelo.Acao.Excluir:
+                        if (pObjJornadaAlternativa.DiasJA != null)
+                        {
+                            if (pObjJornadaAlternativa.DiasJA.Count > 0)
+                            {
+                                foreach (var item in pObjJornadaAlternativa.DiasJA)
                                 {
-                                    foreach (var item in pObjJornadaAlternativa.DiasJA)
-                                    {
-                                        bllDiasJA.Salvar(Modelo.Acao.Excluir, item);
-                                    }
+                                    bllDiasJA.Salvar(Modelo.Acao.Excluir, item);
                                 }
                             }
-                            dalJornadaAlternativa.Excluir(pObjJornadaAlternativa);
-                            break;
-                    }
+                        }
+                        dalJornadaAlternativa.Excluir(pObjJornadaAlternativa);
+                        break;
                 }
             }
             return erros;
@@ -248,7 +278,7 @@ namespace BLL
                     }
                 }
             }
-            
+
             return null;
         }
 

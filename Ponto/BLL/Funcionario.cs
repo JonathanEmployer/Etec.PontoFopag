@@ -28,7 +28,8 @@ namespace BLL
 
         private TimeSpan MinutosParaAviso = TimeSpan.FromMinutes(10);
 
-        public Modelo.ProgressBar ObjProgressBar {
+        public Modelo.ProgressBar ObjProgressBar
+        {
             get { return objProgressBar; }
             set { objProgressBar = value; }
         }
@@ -777,7 +778,7 @@ namespace BLL
                 {
                     ret.Add("Pis", "O PIS informado é inválido.");
                 }
-            }          
+            }
 
 
             BLL.Horario bllHorario = new BLL.Horario(ConnectionString, UsuarioLogado);
@@ -806,7 +807,7 @@ namespace BLL
                     if (IdsHorariosComConflito.Count > 0)
                     {
                         ret.Add("Horario", "O Horário informado esta em conflito com o horário de outro registro desse empregado.");
-                    } 
+                    }
                 }
             }
 
@@ -1082,7 +1083,7 @@ namespace BLL
                     try
                     {
                         dalFuncionario.Incluir(objeto);
-                        erros = new Dictionary<string, string>();                        
+                        erros = new Dictionary<string, string>();
                         break;
                     }
                     catch (Exception ex)
@@ -1101,7 +1102,7 @@ namespace BLL
                         }
                     }
                 }
-            }            
+            }
             else
             {
                 throw e;
@@ -1468,7 +1469,7 @@ namespace BLL
 
             return ret;
         }
-        
+
         #region Contrato Funcionario
         public void SetContratoFuncionarioIntegracao(int idIntegracao, int idIntegracaoContrato, Acao acao)
         {
@@ -1479,20 +1480,20 @@ namespace BLL
 
             try
             {
-                int idIntegrFunc =idIntegracao;
+                int idIntegrFunc = idIntegracao;
                 int? funcid = bllFuncionario.GetIdporIdIntegracao(idIntegrFunc);
                 int? idIntegrContr = idIntegracaoContrato;
-                int? contid = bllContrato.GetIdPorIdIntegracao(idIntegrContr.GetValueOrDefault());              
+                int? contid = bllContrato.GetIdPorIdIntegracao(idIntegrContr.GetValueOrDefault());
                 if (funcid > 0 && contid > 0)
                 {
                     Modelo.Contrato Contrato = bllContrato.LoadObject(contid.GetValueOrDefault());
                     Modelo.ContratoFuncionario ContratoFunc = new Modelo.ContratoFuncionario();
                     BLL.ContratoFuncionario bllContratoFun = new BLL.ContratoFuncionario(ConnectionString);
-                    
+
                     ContratoFunc.IdContrato = contid.GetValueOrDefault();
                     ContratoFunc.IdFuncionario = funcid.GetValueOrDefault();
-                    
-                    int? idContratoAnt = bllContratoFun.getContratoId(ContratoFunc.IdFuncionario); 
+
+                    int? idContratoAnt = bllContratoFun.getContratoId(ContratoFunc.IdFuncionario);
 
                     Modelo.ContratoFuncionario ContFunc = new Modelo.ContratoFuncionario();
                     if ((acao == Acao.Incluir || acao == Acao.Alterar) && (idContratoAnt != contid))
@@ -1531,7 +1532,7 @@ namespace BLL
             }
             catch (Exception ex)
             {
-                BLL.cwkFuncoes.LogarErro(ex); 
+                BLL.cwkFuncoes.LogarErro(ex);
             }
             return;
         }
@@ -2161,9 +2162,5 @@ namespace BLL
             dalFuncionario.DeleteLogicoFuncionariosInativos(qtdMeses);
         }
 
-        public List<int> GetFuncionariosJornadaAlternativa(int codigo)
-        {
-            return dalFuncionario.GetFuncionariosJornadaAlternativa(codigo);
-        }
     }
 }
