@@ -85,15 +85,15 @@ namespace Modelo
         /// <summary>
         /// Abono Diurno
         /// </summary>
-        
+
         [DisplayName("Hora Inicio")]
         [TableHTMLAttribute("Hora Inicio", 11, true, ItensSearch.text, OrderType.none)]
         public string Horai { get; set; }
         /// <summary>
         /// Abono Noturno
         /// </summary>
-       [DisplayName("Hora Fim")]
-       [TableHTMLAttribute("Hora Fim", 12, true, ItensSearch.text, OrderType.none)]
+        [DisplayName("Hora Fim")]
+        [TableHTMLAttribute("Hora Fim", 12, true, ItensSearch.text, OrderType.none)]
         public string Horaf { get; set; }
         /// <summary>
         /// Calcular Abono Parcialmente

@@ -81,7 +81,7 @@ namespace PontoWeb
                     else
                     {
                         Response.Redirect(String.Format("~/Page/{0}/?mensagem={1}", "Erro", exception.Message));
-                    }
+                    }   
                 }
             }
             Employer.PlataformaLog.LogError.Dispose();

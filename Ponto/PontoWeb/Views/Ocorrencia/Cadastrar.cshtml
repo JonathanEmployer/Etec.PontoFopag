@@ -142,7 +142,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            @*<div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.HorasAbonoPadrao, new { @class = "control-label label-sm" })
@@ -157,7 +157,7 @@
                                         @Html.ValidationMessageFor(model => model.HorasAbonoPadraoNoturno)
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                         @*TAB Restricoes *@
                         <div class="tab-pane fade" id="pnlRestricoes">
@@ -275,19 +275,19 @@
         validaRadioDefaultTipoAfastamento();
     });
 
-    function validaRadioDefaultTipoAfastamento() {
-        var value = $('input[name=DefaultTipoAfastamento]:checked').val();
-        if (value === "1") {
-            $("#txtHoraI").prop('readonly', false);
-            $("#txtHoraF").prop('readonly', false);
-        }
-        else {
-            $("#txtHoraI").prop('readonly', true);
-            $("#txtHoraF").prop('readonly', true);
-            $("#txtHoraI").val("");
-            $("#txtHoraF").val("");
-        }
-    }
+    //function validaRadioDefaultTipoAfastamento() {
+    //    var value = $('input[name=DefaultTipoAfastamento]:checked').val();
+    //    if (value === "1") {
+    //        $("#txtHoraI").prop('readonly', false);
+    //        $("#txtHoraF").prop('readonly', false);
+    //    }
+    //    else {
+    //        $("#txtHoraI").prop('readonly', true);
+    //        $("#txtHoraF").prop('readonly', true);
+    //        $("#txtHoraI").val("");
+    //        $("#txtHoraF").val("");
+    //    }
+    //}
 </script>
 @if (ViewBag.Consultar == 1)
 {
