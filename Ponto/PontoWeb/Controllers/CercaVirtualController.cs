@@ -12,7 +12,6 @@ namespace PontoWeb.Controllers
     [Authorize]
     public class CercaVirtualController : IControllerPontoWeb<CercaVirtual>
     {
-        [PermissoesFiltro(Roles = "CercaVirtual")]
         public override ActionResult Grid()
         {
             return View(new Modelo.CercaVirtual());
@@ -42,7 +41,7 @@ namespace PontoWeb.Controllers
             }
         }
 
-        [PermissoesFiltro(Roles = "CercaVirtual")]
+        [PermissoesFiltro(Roles = "CercaVirtualCadastrar")]
         public override ActionResult Cadastrar()
         {
             return GetPagina(0);
@@ -84,32 +83,38 @@ namespace PontoWeb.Controllers
             string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
 
-            cercaVirtual.Funcionario = new List<pxyFuncionarioGrid>();
+            cercaVirtual.Funcionario = new List<pxyCercaVirtualFuncionarioGrid>();
 
             if (id != 0)
             {
                 Modelo.CercaVirtual cerca = new BLL.CercaVirtual(conn, usr).LoadObject(id);
                 cercaVirtual = cerca;
             }
+            else
+            {
+                cercaVirtual.Codigo = new BLL.CercaVirtual(conn, usr).MaxCodigo();
+                cercaVirtual.Ativo = true;
+            }
+            cercaVirtual.Raio = cercaVirtual.Raio < 100 ? 100 : cercaVirtual.Raio;
 
             return View("Cadastrar", cercaVirtual);
         }
 
 
-        [PermissoesFiltro(Roles = "CercaVirtual")]
+        [PermissoesFiltro(Roles = "CercaVirtualCadastrar")]
         public ActionResult Index()
         {
             return GetPagina(0);
         }
 
-        [PermissoesFiltro(Roles = "CercaVirtual")]
+        [PermissoesFiltro(Roles = "CercaVirtualCadastrar")]
         [HttpPost]
         public override ActionResult Cadastrar(CercaVirtual CercaVirtual)
         {
             CercaVirtual.Acao = Acao.Incluir;
             return Salvar(CercaVirtual);
         }
-        [PermissoesFiltro(Roles = "CercaVirtual")]
+        [PermissoesFiltro(Roles = "CercaVirtualAlterar")]
         [HttpPost]
         public override ActionResult Alterar(CercaVirtual CercaVirtual)
         {
@@ -135,24 +140,6 @@ namespace PontoWeb.Controllers
                     obj.NaoValidaCodigo = false;
                     objCercaVirtual.Salvar(obj.Acao, obj);
 
-
-                    //ValidaFuncionariosEmpresaSelecionados(obj, conn, usr);
-
-                    //Dictionary<string, string> erros = new Dictionary<string, string>();
-
-                    //ValidarForm(ref obj);
-
-                    //PreencheObjFilhosParaSalvar(ref obj, conn, usr);
-                    //var envioDadosRep = new EnvioDadosRep()
-                    //{
-                    //    Codigo = obj.Codigo == 0 ? 1 : obj.Codigo,
-                    //    relogioSelecionado = obj.relogioSelecionado,
-                    //    listEnvioDadosRepDet = obj.ListEnvioDadosRepDet,
-                    //    bEnviarEmpresa = false,
-                    //    TipoComunicacao = obj.Enviar ? "E" : "R",
-                    //    idRelogioSelecionado = obj.relogioSelecionado.Id
-                    //};
-                    //bllEnvioEmpresaFuncionariosRep.Salvar(envioDadosRep);
                     return RedirectToAction("Grid", "CercaVirtual");
                 }
                 var err = ModelState.Values.Where(w => w.Errors.Count > 0);
@@ -169,7 +156,7 @@ namespace PontoWeb.Controllers
                 return View("Cadastrar", obj);
             }
         }
-        [PermissoesFiltro(Roles = "CercaVirtual")]
+        [PermissoesFiltro(Roles = "CercaVirtualExcluir")]
         public override ActionResult Excluir(int id)
         {
             string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
@@ -196,13 +183,13 @@ namespace PontoWeb.Controllers
 
 
 
-        [PermissoesFiltro(Roles = "CercaVirtual")]
+        [PermissoesFiltro(Roles = "CercaVirtualConsultar")]
         public override ActionResult Consultar(int id)
         {
             ViewBag.Consultar = 1;
             return GetPagina(id);
         }
-        [PermissoesFiltro(Roles = "CercaVirtual")]
+        [PermissoesFiltro(Roles = "CercaVirtualAlterar")]
         public override ActionResult Alterar(int id)
         {
             ViewBag.Consultar = 0;

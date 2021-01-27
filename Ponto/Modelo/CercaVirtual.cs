@@ -1,4 +1,5 @@
 ﻿using Modelo.Proxy;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,11 +13,13 @@ namespace Modelo
         [TableHTMLAttribute("Descrição", 1, true, ItensSearch.text, OrderType.asc)]
         [Display(Name = "Descrição")]
         [Required]
+        [StringLength(150, ErrorMessage = "Número máximo de caracteres: {1}")]
         public string Descricao { get; set; }
 
-        [TableHTMLAttribute("Tipo", 2, true, ItensSearch.text, OrderType.asc)]
-        [Display(Name = "Tipo")]
+        [TableHTMLAttribute("Tipo de Cerca Virtual", 2, true, ItensSearch.text, OrderType.asc)]
+        [Display(Name = "Tipo de Cerca Virtual")]
         [Required]
+        [StringLength(150, ErrorMessage = "Número máximo de caracteres: {1}")]
         public string TipoDescricao { get; set; }
 
         [TableHTMLAttribute("Endereço", 3, true, ItensSearch.text, OrderType.asc)]
@@ -37,6 +40,7 @@ namespace Modelo
         [TableHTMLAttribute("Raio (m)", 6, true, ItensSearch.text, OrderType.asc)]
         [Display(Name = "Raio (m)")]
         [Required]
+        [Range(100, Int32.MaxValue)]
         public int Raio { get; set; }
 
         public bool Ativo { get; set; }
@@ -53,6 +57,6 @@ namespace Modelo
 
         public string idsFuncionariosSelecionados { get; set; }
 
-        public List<pxyFuncionarioGrid> Funcionario { get; set; }
+        public List<pxyCercaVirtualFuncionarioGrid> Funcionario { get; set; }
     }
 }
