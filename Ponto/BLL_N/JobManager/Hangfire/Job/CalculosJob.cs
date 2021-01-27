@@ -1,4 +1,5 @@
-﻿using DAL.SQL;
+﻿using cwkPontoMT.Integracao;
+using DAL.SQL;
 using Hangfire;
 using Hangfire.Server;
 using Hangfire.States;
@@ -211,11 +212,19 @@ namespace BLL_N.JobManager.Hangfire.Job
                 {
                     BLL.CalculoMarcacoes.PontoPorExcecao pontoPorExcecao = new BLL.CalculoMarcacoes.PontoPorExcecao(userPF.ConnectionString, userPF);
                     pb.setaMensagem("Gerando ponto por exceção");
-                    if (pontoPorExcecao.CriarRegistroPontoPorExcecao(new List<int>(), idsHorario).Count > 0)
+                    List<Modelo.RegistroPonto> registroPontos = pontoPorExcecao.CriarRegistroPontoPorExcecao(new List<int>(), idsHorario);
+                    if (registroPontos.Any())
                     {
                         gerouRegistroPonto = true;
                         //Aguarda a importação dos registros para continar
-                        Thread.Sleep(15000);
+                        BLL.RegistroPonto bllRegistroPonto = new BLL.RegistroPonto(userPF.ConnectionString, userPF);
+                        Dictionary<int, string> situacaoRegistro = new Dictionary<int, string>();
+                        pb.setaMensagem("Aguardando geração do ponto por excessão...");
+                        do
+                        {
+                            Thread.Sleep(1000);
+                            situacaoRegistro = bllRegistroPonto.GetSituacaoByLote(registroPontos.Select(s => s.Lote).LastOrDefault());
+                        } while (situacaoRegistro.Any() && situacaoRegistro.FirstOrDefault().Value != "C");
                     }
                 }
                 BLL.HorarioDinamico bllHorarioDinamico = new BLL.HorarioDinamico(userPF.ConnectionString, userPF);
@@ -223,9 +232,7 @@ namespace BLL_N.JobManager.Hangfire.Job
                 {
                     dtMarcacoes = (DataTable)ExecuteMethodThredCancellation(() => dalCalculaMarcacao.GetMarcacoesCalculo(idsFuncionario, dataInicial, dataFinal, considerarInativos, false));
                 }
-            }, token));
 
-            threads.Add(new Task(() => {
                 tratamentomarcacaoList = (List<Modelo.BilhetesImp>)ExecuteMethodThredCancellation(() => bllBilhetesImp.GetImportadosPeriodo(idsFuncionario, dataInicial, dataFinal, false));
             }, token));
 

@@ -119,7 +119,8 @@ namespace BLL.CalculoMarcacoes
                     });
                 }
             }
-
+            string lote = Guid.NewGuid().ToString();
+            registroPontos.ForEach(f => f.Lote = lote);
             bllRegistroPonto.InserirRegistros(registroPontos);
             return registroPontos;
         }
