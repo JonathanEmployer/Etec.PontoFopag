@@ -1227,13 +1227,13 @@ namespace PontoWeb.Controllers
             switch (funcionario.Tipohorario)
             {
                 case 1:
-                    idHorario = HorarioController.BuscaIdHorario(funcionario.Horario);
+                    idHorario = HorarioController.BuscaIdHorario(funcionario.Horario, funcionario.Tipohorario);
                     if (idHorario > 0) funcionario.Idhorario = idHorario;
                     else ModelState["Horario"].Errors.Add("Horário " + funcionario.Horario + " não cadastrado!");
                     ModelState["HorarioDinamico"].Errors.Clear();
                     break;
                 case 2:
-                    idHorario = HorarioMovelController.BuscaIdHorario(funcionario.Horario);
+                    idHorario = HorarioController.BuscaIdHorario(funcionario.Horario, funcionario.Tipohorario);
                     if (idHorario > 0) funcionario.Idhorario = idHorario;
                     else ModelState["Horario"].Errors.Add("Horário " + funcionario.Horario + " não cadastrado!");
                     ModelState["HorarioDinamico"].Errors.Clear();
@@ -1245,7 +1245,7 @@ namespace PontoWeb.Controllers
                     ModelState["Horario"].Errors.Clear();
                     break;
                 default:
-                    idHorario = HorarioController.BuscaIdHorario(funcionario.Horario);
+                    idHorario = HorarioController.BuscaIdHorario(funcionario.Horario, funcionario.Tipohorario);
                     break;
             }
         }

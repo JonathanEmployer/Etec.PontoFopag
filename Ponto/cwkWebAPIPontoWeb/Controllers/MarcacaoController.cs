@@ -126,7 +126,8 @@ namespace cwkWebAPIPontoWeb.Controllers
                     BLL.Ocorrencia bllOco = new BLL.Ocorrencia(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
                     List<Modelo.Ocorrencia> ocorrencias = bllOco.GetAllList(false);
 
-                    var classificacoesPeriodo = bllclasshe.GetClassificacoesMarcacao(ListaMarcacao.Select(s => s.Id).Distinct().ToList());
+                    //var classificacoesPeriodo = bllclasshe.GetClassificacoesMarcacao(ListaMarcacao.Select(s => s.Id).Distinct().ToList());
+                    var classificacoesPeriodo = ListaMarcacao.Any() ? bllclasshe.GetClassificacoesMarcacao(ListaMarcacao.Select(s => s.Id).Distinct().ToList()) : null;
                     foreach (var item in ListaMarcacao)
                     {
                         Models.Marcacao marc = new Models.Marcacao();

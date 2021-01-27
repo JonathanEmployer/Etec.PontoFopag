@@ -384,6 +384,9 @@ namespace PontoWeb.Controllers
             usuarioCentralCliente.connectionString = usuarioLogado.connectionString;
             usuarioCentralCliente.UtilizaPontoWeb = 1;
 
+            usuarioCentralCliente.Ativo = user.Ativo;
+
+
             return usuarioCentralCliente;
         }
 

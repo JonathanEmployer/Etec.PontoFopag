@@ -481,6 +481,7 @@
     <Compile Include="Relatorios\V2\RelatorioInconsistenciasBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioIntervalosBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioRefeicaoBLL.cs" />
+    <Compile Include="Relatorios\V2\RelatorioSubstituicaoJornadaBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioTotalHorasBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioLocalizacaoRegistroPontoBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioManutencaoDiariaBLL.cs" />

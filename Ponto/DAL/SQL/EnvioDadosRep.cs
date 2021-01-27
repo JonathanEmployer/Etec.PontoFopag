@@ -480,6 +480,18 @@ namespace DAL.SQL
             return lista;
         }
 
+        public int ExluirEnvioDadosRepEDetalhes(int idEnvioDadosRep)
+        {
+            SqlParameter[] parms = new SqlParameter[1]
+            {
+                    new SqlParameter("@id", SqlDbType.Int)
+            };
+            parms[0].Value = idEnvioDadosRep;
+            string script = @"delete from EnvioDadosRepDet where idenviodadosrep = @id
+                              delete from EnvioDadosRep where id = @id";
+            return db.ExecuteNonQueryNoKey(CommandType.Text, script, parms);
+        }
+
         #endregion
     }
 }

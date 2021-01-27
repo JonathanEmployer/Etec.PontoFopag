@@ -204,7 +204,7 @@ namespace BLL.CalculoMarcacoes
                 {
                     if (objFechamentoBHD.Tiposaldo == 0)
                     {
-                        creditoP = Modelo.cwkFuncoes.ConvertHorasMinuto(objFechamentoBHD.Saldobh);
+                        creditoP = Modelo.cwkFuncoes.ConvertHorasMinuto(objFechamentoBHD.Saldo);
                         debitoP = 0;
                         creditoAtual = creditoP;
                         debitoAtual = 0;
@@ -212,7 +212,7 @@ namespace BLL.CalculoMarcacoes
                     else
                     {
                         creditoP = 0;
-                        debitoP = Modelo.cwkFuncoes.ConvertHorasMinuto(objFechamentoBHD.Saldobh);
+                        debitoP = Modelo.cwkFuncoes.ConvertHorasMinuto(objFechamentoBHD.Saldo);
                         creditoAtual = 0;
                         debitoAtual = debitoP;
                     }

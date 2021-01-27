@@ -1179,7 +1179,9 @@
     //Adiciona erro em um input
     //Passar a propriedade name do input e o erro que deseja add.
     function addErroInput(key, erro) {
-        $('form').find(".field-validation-error").removeClass("field-validation-error").addClass("field-validation-valid");
+
+        //remove os campos com erro
+        //$('form').find(".field-validation-error").removeClass("field-validation-error").addClass("field-validation-valid");
 
         $val = $('form').find(".field-validation-valid, .field-validation-error")
             .filter("[data-valmsg-for='" + key + "']")
@@ -1450,6 +1452,7 @@
     //Submit
     $('form').on('submit', function (event)
     {
+        debugger
         event.preventDefault();
         var form = $("form");
         form.validate();
@@ -2201,7 +2204,13 @@
                     value = element.is(':checked');
                 }
                 else if (element.hasClass('currency') || element.hasClass('money') || element.hasClass('decimalPercent')) {
-                    value = element.val().replace(',', '.');
+                     var valorElemento = element.val();
+                     if (isEmpty(valorElemento)) {
+                         value = 0;
+                     }
+                     else {
+                     value = valorElemento.replace(',', '.');
+                     }
                 }
                 else {
                     value = element.val();

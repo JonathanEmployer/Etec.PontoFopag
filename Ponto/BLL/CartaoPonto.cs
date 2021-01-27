@@ -1873,6 +1873,7 @@ namespace BLL
 
             bool retorno = false;
             TimeSpan ts = pDataFinal.AddDays(1) - pDataInicial;
+
             Dictionary<int, int> _qtdMarcacoesFuncionarios = bllMarcacao.QuantidadeMarcacoesPorLista(pListIdFunc, pDataInicial, pDataFinal);
 
             if (_qtdMarcacoesFuncionarios.Any(x => x.Value != ts.TotalDays))
@@ -1907,6 +1908,7 @@ namespace BLL
                             _contratosLista.Union(obj);
                         });
                     }
+
 
                     var erros = bllMarcacao.AtualizaData(_parametros, _horarios, pDataInicial, pDataFinal, _listFuncionario, _inclusaoBancoLista, _jornadasAlternativas, _fechamentoBHDLista, _feriadoLista, _bancoHorasLista, _afastamentosLista, _contratosLista, _mudancaHorarioList, _marcacoesPeriodo, _fechamentos);
 

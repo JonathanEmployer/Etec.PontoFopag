@@ -24,7 +24,7 @@ namespace DAL
         Hashtable GetHashCodigoId();
         Hashtable GetHashCodigoIdNormal();
         Hashtable GetHashCodigoIdFlexivel();
-        int? GetIdPorCodigo(int Cod, bool validaPermissaoUser);
+        int? GetIdPorCodigo(int Cod, int Tipo, bool validaPermissaoUser);
         int MinIdHorarioNormal();
         List<Modelo.FechamentoPonto> FechamentoPontoHorario(List<int> ids);
         List<Modelo.Proxy.PxyGridHorarioFlexivel> GetAllGrid(int tipoRelogio);

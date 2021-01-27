@@ -126,9 +126,13 @@ namespace cwkWebAPIPontoWeb.Controllers
                     }
 
                     BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
-                    var ini = lSaldoBancoHorasMes.Min(s => s.PeriodoInicio);
-                    var fin = lSaldoBancoHorasMes.Max(s => s.PeriodoFim);
-                    DataTable bancoSaldo = bllBancoHoras.GetCredDebBancoHorasComSaldoPeriodo(new List<int>() { func.Id }, ini, fin);
+                    DataTable bancoSaldo = new DataTable();
+                    if (lSaldoBancoHorasMes.Any())
+                    {
+                        var ini = lSaldoBancoHorasMes.Min(s => s.PeriodoInicio);
+                        var fin = lSaldoBancoHorasMes.Max(s => s.PeriodoFim);
+                        bancoSaldo = bllBancoHoras.GetCredDebBancoHorasComSaldoPeriodo(new List<int>() { func.Id }, ini, fin);
+                    }
                     List<Models.SaldoBancoHorasMes> lSaldoBancoHorasMesRetorno = new List<Models.SaldoBancoHorasMes>();
                     foreach (var saldos in lSaldoBancoHorasMes)
                     {

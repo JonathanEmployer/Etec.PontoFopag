@@ -32,6 +32,22 @@ namespace Negocio.Jobs
                     Integracao integra = new Integracao();
                     integra.ProcessarRep(rep, config);
                 }
+                catch (Exception e)
+                {
+                    log.Error("*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*# "+rep.NumSerie + ": Erro ao processar rep na primeira tentativa, erro: " + e.Message, e);
+                    if (e.Message.Contains("Requisição não autorizada, solicitando novo token."))
+                    {
+                        log.Info("Requisitando novo token para tentar processar novamente o rep: "+rep.NumSerie);
+                        Configuracao.RequisitarNovoToken();
+                        Integracao integra = new Integracao();
+                        log.Info("Processando novamente o rep: " + rep.NumSerie);
+                        integra.ProcessarRep(rep, config);
+                    }
+                    else
+                    {
+                        throw e;
+                    }
+                }
                 finally
                 {
                     var jobKey = new TriggerKey(context.Trigger.Key.Name, ((AbstractTrigger)context.Trigger).Group);
