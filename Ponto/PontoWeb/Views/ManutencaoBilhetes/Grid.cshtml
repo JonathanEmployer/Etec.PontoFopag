@@ -89,7 +89,7 @@
                             <tr id="@item.Id">
                                 <td>@item.Data.ToShortDateString()</td>
                                 <td>@item.Hora</td>D
-                                @if (item.Relogio == "AP")
+                                @if (item.Relogio == "AP" || item.Relogio == "RW")
                                 {
                                     <td>
                                         @item.Relogio&nbsp;&nbsp;

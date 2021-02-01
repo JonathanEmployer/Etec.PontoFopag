@@ -38,9 +38,6 @@
     var nomeTabela = "#" + '@nomeTabela';
     var trExcluir;
     $(document).ready(function () {
-        //$('#tbCercaVirtual_wrapper').bind('DOMNodeInserted DOMNodeRemoved', function () {
-        //    $("#tbCercaVirtual_wrapper").append('<div class="dataTables_info" id="tbCercaVirtual_info" role="status" aria-live="polite"><p><b><input type="checkbox"><span> Esconder inativos</span></b></p></div>');
-        //});
         cwk_EventoDbClickEditar('Alterar', 'CercaVirtual', nomeTabela);
 
         cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', 'CercaVirtual');
@@ -72,6 +69,5 @@
         $(trExcluir).closest('tr').remove();
         if ($('tr', $(nomeTabela).find('tbody')).length == 1 && $('tr', $(nomeTabela).find('tbody')).find('td:eq(0)').html() == 'Nenhum registro encontrado')
             $('#btExcluir').css('display', 'none');
-        //window.location = location.href.replace('#', '');
     }
 </script>

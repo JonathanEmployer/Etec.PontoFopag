@@ -1,5 +1,6 @@
 ﻿@model Modelo.CercaVirtual
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Cadastrar Cerca Virtual";
     string nomeTabela = "tbCercaVirtual";
     var idsFuncionariosSelecionados = "";
@@ -117,7 +118,7 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
-                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm", autocomplete = "off"}).IsDisabled(true)
+                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm", autocomplete = "off" }).IsDisabled(true)
                             @Html.ValidationMessageFor(model => model.Codigo)
                         </div>
                     </div>
@@ -147,12 +148,12 @@
                             <div class="row col-md-12">
                                 <div id='searchBoxContainer'>
                                     @Html.LabelFor(model => model.Endereco, new { @class = "control-label label-sm" })
-                                    @Html.TextBoxFor(model => model.Endereco, new { placeholder = "Rua Sete de Setembro, Curiúva-Paraná, 84280-000, Brasil", @class = "form-control  input-sm", autocomplete = "off" })
+                                    @Html.TextBoxFor(model => model.Endereco, new { placeholder = "Rua Sete de Setembro, Curitiba-Paraná, 80240-001, Brasil", @class = "form-control  input-sm", autocomplete = "off" })
                                     @Html.ValidationMessageFor(model => model.Endereco)
                                 </div>
                             </div>
                         </div>
-                        <div  class="col-md-6" onclick="clickMap();" style="border-color: red;">
+                        <div class="col-md-6" onclick="clickMap();" style="border-color: red;">
                             <div id="myMap" onclick="clickMap();" style='width:90%;height:270px;margin-left: auto;margin-right: 0;'></div>
                         </div>
                     </div>
@@ -189,7 +190,7 @@
                     }
                     else
                     {
-                        @Html.GridFor(nomeTabela, typeof(Modelo.Proxy.pxyCercaVirtualFuncionarioGrid), true, "CercaVirtual", "FuncsGrid", null, null, Model.idsFuncionariosSelecionados, null)
+                        @Html.GridFor(nomeTabela, typeof(Modelo.Proxy.pxyCercaVirtualFuncionarioGrid), true, "CercaVirtual", "FuncsGrid", "", "", Model.idsFuncionariosSelecionados, "")
                     }
                 </div>
             </div>
@@ -212,9 +213,11 @@
     </div>
 }
 <script>
+    var nomeTabela = "#" + '@nomeTabela';
     $(document).ready(function () {
         $("#idsFuncionariosSelecionados").val('@idsFuncionariosSelecionados');
         SetSelecionados('@nomeTabela', '@idsFuncionariosSelecionados');
+        E_GridFuncGetSelecionados();
     });
     $('form').submit(function (e) {
         $("#idsFuncionariosSelecionados").val(GetSelecionados('@nomeTabela'));

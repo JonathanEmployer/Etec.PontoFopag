@@ -10,9 +10,9 @@ using System.Web.Mvc;
 namespace PontoWeb.Controllers
 {
     [Authorize]
-    public class CercaVirtualController : IControllerPontoWeb<CercaVirtual>
+    public class CercaVirtualController : Controller //IControllerPontoWeb<CercaVirtual>
     {
-        public override ActionResult Grid()
+        public ActionResult Grid()
         {
             return View(new Modelo.CercaVirtual());
         }
@@ -42,7 +42,7 @@ namespace PontoWeb.Controllers
         }
 
         [PermissoesFiltro(Roles = "CercaVirtualCadastrar")]
-        public override ActionResult Cadastrar()
+        public ActionResult Cadastrar()
         {
             return GetPagina(0);
         }
@@ -77,7 +77,7 @@ namespace PontoWeb.Controllers
             }
         }
 
-        protected override ActionResult GetPagina(int id)
+        protected ActionResult GetPagina(int id)
         {
             var cercaVirtual = new CercaVirtual();
             string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
@@ -109,19 +109,19 @@ namespace PontoWeb.Controllers
 
         [PermissoesFiltro(Roles = "CercaVirtualCadastrar")]
         [HttpPost]
-        public override ActionResult Cadastrar(CercaVirtual CercaVirtual)
+        public ActionResult Cadastrar(CercaVirtual CercaVirtual)
         {
             CercaVirtual.Acao = Acao.Incluir;
             return Salvar(CercaVirtual);
         }
         [PermissoesFiltro(Roles = "CercaVirtualAlterar")]
         [HttpPost]
-        public override ActionResult Alterar(CercaVirtual CercaVirtual)
+        public ActionResult Alterar(CercaVirtual CercaVirtual)
         {
             CercaVirtual.Acao = Acao.Alterar;
             return Salvar(CercaVirtual);
         }
-        protected override ActionResult Salvar(CercaVirtual obj)
+        protected ActionResult Salvar(CercaVirtual obj)
         {
             try
             {
@@ -157,7 +157,7 @@ namespace PontoWeb.Controllers
             }
         }
         [PermissoesFiltro(Roles = "CercaVirtualExcluir")]
-        public override ActionResult Excluir(int id)
+        public ActionResult Excluir(int id)
         {
             string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
@@ -184,20 +184,20 @@ namespace PontoWeb.Controllers
 
 
         [PermissoesFiltro(Roles = "CercaVirtualConsultar")]
-        public override ActionResult Consultar(int id)
+        public ActionResult Consultar(int id)
         {
             ViewBag.Consultar = 1;
             return GetPagina(id);
         }
         [PermissoesFiltro(Roles = "CercaVirtualAlterar")]
-        public override ActionResult Alterar(int id)
+        public  ActionResult Alterar(int id)
         {
             ViewBag.Consultar = 0;
             return GetPagina(id);
         }
 
 
-        protected override void ValidarForm(CercaVirtual obj)
+        protected  void ValidarForm(CercaVirtual obj)
         {
         }
     }

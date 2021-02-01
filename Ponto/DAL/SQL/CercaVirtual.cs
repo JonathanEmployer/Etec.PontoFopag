@@ -46,7 +46,7 @@ namespace DAL.SQL
                                     from CercaVirtualFuncionario 
                                    where idCercaVirtual = (select top 1 id 
                                                              from CercaVirtual 
-                                                            where codigo = @CodigoCercaVirtual) 
+                                                            where id = @CodigoCercaVirtual) 
                                      and idFuncionario = (select top 1 id 
                                                             from funcionario 
                                                            where codigo = @CodigoFuncionario)";

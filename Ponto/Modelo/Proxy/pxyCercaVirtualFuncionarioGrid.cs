@@ -1,7 +1,9 @@
 ﻿namespace Modelo.Proxy
 {
+
     public class pxyCercaVirtualFuncionarioGrid
     {
+        [TableHTMLAttribute("Id", 0, false, ItensSearch.none, OrderType.none)]
         public int Id { get; set; }
 
         [TableHTMLAttribute("Código", 1, true, ItensSearch.text, OrderType.none)]
