@@ -43,7 +43,7 @@
         cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', 'CercaVirtual');
         cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', 'CercaVirtual', nomeTabela);
         cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', 'CercaVirtual', nomeTabela);
-        cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir/' + $('#hdSelect').val(), 'CercaVirtual', nomeTabela, '', redirect);
+        cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir/' + $('#hdSelect').val(), 'CercaVirtual', nomeTabela, 'Cerca virtual excluído com sucesso.', redirect);
         validaExcluir();
         cwk_EventoClickSelecionarSingle(nomeTabela);
     });

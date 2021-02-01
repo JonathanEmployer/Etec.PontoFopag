@@ -328,8 +328,8 @@
             }
 
         $('.showMap').click(function () {
-                latitude = $(this).parent().find('#Latitude').val();
-                longitude = $(this).parent().find('#Longitude').val();
+            latitude = $(this).parent().find('#Latitude').val().replace(',', '.');
+            longitude = $(this).parent().find('#Longitude').val().replace(',', '.');
 
             var mapLocation = new Microsoft.Maps.Location(latitude, longitude);
 
