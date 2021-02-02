@@ -232,6 +232,7 @@ namespace DAL.SQL
                         , afastamentocont.idocorrencia AS idocorrenciacont 
                         , afastamentocont.contabilizarjornada AS contabilizarjornadacont
                         , jornadaalternativa_view.id AS idjornadaalternativa
+                        , jornadaAlternativaFuncionario.id as idjornadaalternativafunc
 
 						,(SELECT TOP(1) id FROM mudancahorario WHERE mudancahorario.idfuncionario = marcacao.idfuncionario AND mudancahorario.data = marcacao.data ORDER BY mudancahorario.id DESC) AS idmudancahorario 
 
@@ -347,10 +348,11 @@ namespace DAL.SQL
                													WHEN ( CAST(DATEPART(WEEKDAY, marcacao.data) AS INT) - 1 ) = 0 THEN 7 
                													ELSE ( CAST(DATEPART(WEEKDAY, marcacao.data) AS INT) - 1 ) 
                                                       END ) 
-               LEFT JOIN jornadaalternativa_view ON 
+				LEFT JOIN jornadaAlternativaFuncionario on jornadaAlternativaFuncionario.idFuncionario = funcionario.id
+				LEFT JOIN jornadaalternativa_view ON 
                ((jornadaalternativa_view.tipo = 0 AND jornadaalternativa_view.identificacao = funcionario.idempresa) 
                OR (jornadaalternativa_view.tipo = 1 AND jornadaalternativa_view.identificacao = funcionario.iddepartamento) 
-               OR (jornadaalternativa_view.tipo = 2 AND jornadaalternativa_view.identificacao = funcionario.id) 
+               OR (jornadaalternativa_view.tipo = 2 AND jornadaalternativa_view.identificacao = 0 and jornadaAlternativaFuncionario.idFuncionario = funcionario.id) 
                OR (jornadaalternativa_view.tipo = 3 AND jornadaalternativa_view.identificacao = funcionario.idfuncao)) 
                AND (jornadaalternativa_view.datacompensada = marcacao.data 
                OR (jornadaalternativa_view.datacompensada IS NULL 

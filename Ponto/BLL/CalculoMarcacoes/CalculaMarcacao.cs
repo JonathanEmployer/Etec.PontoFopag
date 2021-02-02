@@ -147,7 +147,7 @@ namespace BLL
 
         private Modelo.JornadaAlternativa objJornadaAlternativa = null;
 
-        private int? idCompensado, idFeriado, idJornadaAlternativa
+        private int? idCompensado, idFeriado, idJornadaAlternativa, idJornadaAlternativaFunc
         , idMudancaHorario, idBancoHoras;
         private bool feriadoParcial;
         private int? tipo;
@@ -4446,6 +4446,7 @@ namespace BLL
             ContAtrasosSaidasAntecMarc = pMarcacao["ContAtrasosSaidasAntec"] is DBNull ? Convert.ToInt16(0) : Convert.ToInt16(pMarcacao["ContAtrasosSaidasAntec"]);
             ContabilizarCreditosMarc = pMarcacao["ContabilizarCreditos"] is DBNull ? Convert.ToInt16(0) : Convert.ToInt16(pMarcacao["ContabilizarCreditos"]);
             idJornadaAlternativa = pMarcacao["idjornadaalternativa"] is DBNull ? null : (int?)(pMarcacao["idjornadaalternativa"]);
+            idJornadaAlternativaFunc = pMarcacao["idjornadaalternativafunc"] is DBNull ? null : (int?)(pMarcacao["idjornadaalternativafunc"]);
         }
 
         private void SetaVariaveisAfastamento(DataRow pMarcacao)
@@ -4919,7 +4920,8 @@ namespace BLL
         {
             if (idJornadaAlternativa != null)
             {
-                objJornadaAlternativa = (Modelo.JornadaAlternativa)jornadaAlternativaList[idJornadaAlternativa];
+                objJornadaAlternativa = (Modelo.JornadaAlternativa)jornadaAlternativaList[idJornadaAlternativaFunc];
+                //objJornadaAlternativa = (Modelo.JornadaAlternativa)jornadaAlternativaList[idJornadaAlternativa];
             }
             else
             {

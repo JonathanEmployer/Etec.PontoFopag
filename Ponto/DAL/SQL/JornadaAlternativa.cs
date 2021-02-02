@@ -108,6 +108,7 @@ namespace DAL.SQL
                                     , ja.saida_1
                                     , ja.entrada_2
                                     , ja.saida_2
+                                    , jaf.id as idjornadaalternativafunc
                              FROM jornadaalternativa ja
 							 LEFT JOIN jornadaAlternativaFuncionario jaf on jaf.idJornadaAlternativa = ja.id
                              LEFT JOIN funcionario ON funcionario.id = (case when ja.tipo = 2 then jaF.idFuncionario else 0 end)
@@ -143,7 +144,9 @@ namespace DAL.SQL
                 //    WHERE 1 = 1 ";
 
                 return @"
-                   SELECT   ja.*
+                   SELECT  
+                        jaf.id as idjornadaalternativafunc
+                        , ja.*
                         , case when ja.tipo = 0 then 'Empresa' when ja.tipo = 1 then 'Departamento' when ja.tipo = 2 then 'Funcionário' when ja.tipo = 3 then 'Função' end AS tipojornada
                         , case when tipo = 0 then (SELECT convert(varchar,empresa.codigo)+' | '+empresa.nome FROM empresa WHERE empresa.id = ja.identificacao) 
                                 when tipo = 1 then (SELECT convert(varchar,departamento.codigo)+' | '+departamento.descricao FROM departamento WHERE departamento.id = ja.identificacao) 
@@ -225,6 +228,23 @@ namespace DAL.SQL
 
             MAXCOD = @"  SELECT MAX(codigo) AS codigo FROM jornadaalternativa";
         }
+        protected string SELECTLISTGRID
+        {
+            get
+            {
+                return @"
+                   SELECT ja.*
+                        , case when ja.tipo = 0 then 'Empresa' when ja.tipo = 1 then 'Departamento' when ja.tipo = 2 then 'Funcionário' when ja.tipo = 3 then 'Função' end AS tipojornada
+                        , case when tipo = 0 then (SELECT convert(varchar,empresa.codigo)+' | '+empresa.nome FROM empresa WHERE empresa.id = ja.identificacao) 
+                                when tipo = 1 then (SELECT convert(varchar,departamento.codigo)+' | '+departamento.descricao FROM departamento WHERE departamento.id = ja.identificacao) 
+                                when tipo = 2 then '' 
+                                when tipo = 3 then (SELECT convert(varchar,funcao.codigo)+' | '+funcao.descricao FROM funcao WHERE funcao.id = ja.identificacao) end AS nome              
+                        , (SELECT convert(varchar,j.codigo)+' | '+j.descricao) AS descjornada
+                    FROM jornadaalternativa ja
+                    LEFT JOIN jornada j ON ja.idjornada = j.id
+                    WHERE 1 = 1 ";
+            }
+        }
 
         #region Metodos
 
@@ -234,7 +254,7 @@ namespace DAL.SQL
             {
             };
 
-            string aux = SELECTALLLIST;
+            string aux = SELECTLISTGRID;
             aux = PermissaoUsuarioFuncionarioJornada(UsuarioLogado, aux, true);
             List<Modelo.JornadaAlternativa> ret = new List<Modelo.JornadaAlternativa>();
 
@@ -354,6 +374,7 @@ namespace DAL.SQL
 
             ((Modelo.JornadaAlternativa)obj).ConverteHoraStringToInt();
 
+            ((Modelo.JornadaAlternativa)obj).IdJornadaAlternativaFunc = dr["idjornadaalternativafunc"] is DBNull ? 0 : Convert.ToInt32(dr["idjornadaalternativafunc"]);
         }
 
         protected override SqlParameter[] GetParameters()
@@ -687,7 +708,10 @@ namespace DAL.SQL
             };
             parms[0].Value = pFuncionario;
 
-            string aux = "SELECT id, datainicial, datafinal, identificacao, tipo FROM jornadaalternativa WHERE tipo = 2 and identificacao = @funcionario ";
+            //string aux = "SELECT id, datainicial, datafinal, identificacao, tipo FROM jornadaalternativa WHERE tipo = 2 and identificacao = @funcionario ";
+            string aux = @"SELECT ja.id, datainicial, datafinal, identificacao, tipo FROM jornadaalternativa ja
+                            JOIN jornadaAlternativaFuncionario jaf ON jaf.idJornadaAlternativa = ja.id
+                            WHERE tipo = 2 and jaf.idFuncionario = @funcionario ";
             aux = PermissaoUsuarioFuncionarioJornada(UsuarioLogado, aux, false);
 
             aux += "ORDER BY id";
@@ -893,7 +917,7 @@ namespace DAL.SQL
 
             Hashtable lista = new Hashtable();
             List<Modelo.JornadaAlternativa> listaTeste = new List<Modelo.JornadaAlternativa>();
-           string SQL = SELECTALLLIST;
+            string SQL = SELECTALLLIST;
 
             if (pDataI != null && pDataF != null)
             {
@@ -940,8 +964,8 @@ namespace DAL.SQL
                 {
                     objJornadaAlternativa = new Modelo.JornadaAlternativa();
                     AuxSetInstance(dr, objJornadaAlternativa);
-                    lista.Add(string.Concat(Convert.ToInt32(dr["id"]),"-", Convert.ToInt32(dr["idFuncionario"])), objJornadaAlternativa);
-                    //listaTeste.Add(objJornadaAlternativa);
+                    //lista.Add(Convert.ToInt32(dr["id"]), objJornadaAlternativa);
+                    lista.Add(Convert.ToInt32(dr["idjornadaalternativafunc"]), objJornadaAlternativa);
                 }
             }
             if (!dr.IsClosed)

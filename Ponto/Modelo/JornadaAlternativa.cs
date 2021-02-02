@@ -414,6 +414,7 @@ namespace Modelo
         public IList<JornadaAlternativaFuncionario> JornadaAlternativaFuncionarios { get; set; }
         public string IdsJornadaAlternativaFuncionariosSelecionados { get; set; }
         public string IdsJornadaAlternativaFuncionariosSelecionados_Ant { get; set; }
+        public int IdJornadaAlternativaFunc { get; set; }
 
 
         [TableHTMLAttribute("Jornada", 14, true, ItensSearch.text, OrderType.none)]
