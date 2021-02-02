@@ -1389,6 +1389,7 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                 string data = DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "_" + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString();
                 count = 0;
                 int infoRetorno = 0;
+                bool forcarSaida = false;
                 do
                 {
                     int RetornoComandoIncorreto = 0;
@@ -1458,6 +1459,7 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                                 {
                                     log.Debug(NumeroSerie + " XXX Relógio apresentou erro ao continuar buscando batidas (Ou ou rep parou de responder ou acabaram os bilhetes)");
                                     log.Debug(NumeroSerie + "     Retornando " + batidas.Count() + " que foi possível coletar do rep, NSR Fim = " + batidas.Select(s => s.NSR).Max());
+                                    forcarSaida = true;
                                     break;
                                 }
                                 else
@@ -1474,8 +1476,8 @@ namespace cwkPontoMT.Integracao.Relogios.Henry
                             continue;
                         }
                     }
-                    log.Debug(NumeroSerie + " Avaliando proxima Interacao, passa para proxima se " + nsrFim + "(nsrFim)>= (" + nsrInicio + "(nsrInicio)) && " + msg2.Info + "(msg2.Info) != 50 &&" + infoRetorno + "(infoRetorno) != 50");
-                } while (nsrFim >= (nsrInicio) && msg2.Info != 50 && infoRetorno != 50);
+                    log.Debug(NumeroSerie + " Avaliando proxima Interacao, passa para proxima se " + nsrFim + "(nsrFim)>= (" + nsrInicio + "(nsrInicio)) && " + msg2.Info + "(msg2.Info) != 50 &&" + infoRetorno + "(infoRetorno) != 50 && forcarSaida = "+forcarSaida);
+                } while (nsrFim >= (nsrInicio) && msg2.Info != 50 && infoRetorno != 50 && !forcarSaida);
 
                 log.Debug(NumeroSerie + " Adicionando a(s) batida(s) encontrada(s) no string builder.");
                 foreach (var item in batidas.Where(w => w.NSR >= nsrIniOriginal && w.NSR <= nsrFimOriginal))
