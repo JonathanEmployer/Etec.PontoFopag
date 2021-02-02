@@ -151,6 +151,15 @@
                                                     </label>
                                                 </div>
                                             </div>
+                                            <div class="col-md-6">
+                                                <div class="checkbox"  style="margin:5px">
+                                                    <label>
+                                                        @Html.CheckBoxFor(model => model.PontoPorExcecao, new { @class = "checkboxHN horario", id = "PontoPorExcecaoBool" })
+                                                        @Html.LabelFor(model => model.PontoPorExcecao, new { @class = "control-label label-sm", @for = "PontoPorExcecaoBool" })
+                                                        @Html.ValidationMessageFor(model => model.PontoPorExcecao)
+                                                    </label>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1443,7 +1452,6 @@
     //Submit
     $('form').on('submit', function (event)
     {
-        debugger
         event.preventDefault();
         var form = $("form");
         form.validate();
@@ -2124,6 +2132,7 @@
 
         //Items.QtdCiclo = _ciclos.length;
         //Gera o Json do Horário
+        console.log($(".horario"));
         $(".horario").each(function () {
             element = $(this);
             name = element.attr("name");
@@ -2452,6 +2461,26 @@
         $('#divDescontohorasdsr').toggle(habilitado);
         $('#DSRPorPercentual').val(habilitado);
     }
+
+    $('#PontoPorExcecaoBool').click(function (e) {
+        if ($("#PontoPorExcecaoBool").is(':checked')) {
+            $("#IntervaloautomaticoBool").prop("checked", false);
+        }
+        validaIntervaloAutomatico();
+    });
+
+    function validaIntervaloAutomatico() {
+        if (!$("#IntervaloautomaticoBool").is(':checked')) {
+            $('.chk_pa').attr("disabled", true);
+            $('.chk_pa').prop("checked", false);
+        }
+    }
+
+    $('#IntervaloautomaticoBool').click(function (e) {
+        if ($("#IntervaloautomaticoBool").is(':checked')) {
+            $("#PontoPorExcecaoBool").prop("checked", false);
+        }
+    });
 
 </script>
 @*Scripts referente a Restricao*@

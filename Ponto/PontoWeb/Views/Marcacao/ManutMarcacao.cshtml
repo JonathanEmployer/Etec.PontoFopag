@@ -1186,7 +1186,11 @@
             else {
                 if (campo.indexOf("btnDesc") >= 0) {
                     var _val = $("#txtOcorrencia" + identManut).val();
-                    if (_val != "" && _val != "�" && _val != undefined && _val!= "P") {
+                    var _relogio = $("#txtRelogioBil" + identManut).val();
+                    if (_relogio == "PE") {
+                        cwkNotificacaoTit("Marcação por excessão", "Marcações por excessão não podem ser desconsideradas!");
+                    }
+                    else if (_val != "" && _val != "�" && _val != undefined && _val != "P"){
                         cwkNotificacaoTit("Marcação com Manutenção", "Para Desconsiderar a Marcação exclua a manutenção existente!");
                     }
                     else {
@@ -1211,10 +1215,11 @@
 
     function RemoveMarcacao(identManut) {
         var _val = $("#txtOcorrencia" + identManut).val();
-        if (!_val || _val == "" || _val == "�" || _val == undefined) {
+        var relogio = $("#txtNumRelogio" + identManut).val();
+        if ((relogio != 'PE') && (!_val || _val == "" || _val == "�" || _val == undefined)) {
             cwkNotificacaoTit("Marcação sem Manutenção", "Não há manutenção para ser removida!");
         }
-        else if (_val == "P") {
+        else if ((relogio != 'PE') && _val == "P") {
             cwkNotificacaoTit("Registro pré-assinalado", 'Não é possível remover registro pré-assinalado, pode ser desconsiderado (opção Desconsidera Marcação), ou lançada uma jornada alternativa sem configuração de pré-assinalado.');
         }
         else {
@@ -1293,7 +1298,7 @@
         $(".btnModal").click(function () {
         var btn = $(this).attr('id');
         identManut = btn.replace("btndivBilSalva", "").replace("btndivBilCancela", "").replace("btndivBilClose", "");
-        var div = "divBil" + identManut;
+            var div = "divBil" + identManut;
             if (btn.indexOf("Salva") >= 0) {
             var errorArray = {};
             var $form = $("#FormTabelaMarcacao");
@@ -1312,7 +1317,7 @@
 
             }
             else {
-                if ($("#txtOcorrencia" + identManut).val() == "I") {
+                if ($("#txtOcorrencia" + identManut).val() == "I" || $("#txtNumRelogio" + identManut).val() == "PE") {
                     $("#txtRelogio" + identManut).text("");
                     $("#txtNumRelogio" + identManut).val("");
                     $("#txtHoraBil" + identManut).val("--:--");
