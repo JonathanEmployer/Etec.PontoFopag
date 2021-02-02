@@ -1332,13 +1332,16 @@ namespace DAL.SQL
         {
             string sqlDelete = "DELETE FROM dbo.bilhetesimp WHERE id in (" + String.Join(",", listaObjeto.Where(w => w.Id > 0).Select(s => s.Id)) + ")";
             int count = 0;
-            if (trans == null)
+            if (listaObjeto != null && listaObjeto.Count > 0)
             {
-                count = db.ExecuteNonQuery(CommandType.Text, sqlDelete, new SqlParameter[0]);
-            }
-            else
-            {
-                count = TransactDbOps.ExecuteNonQuery(trans, CommandType.Text, sqlDelete, new SqlParameter[0]);
+                if (trans == null)
+                {
+                    count = db.ExecuteNonQuery(CommandType.Text, sqlDelete, new SqlParameter[0]);
+                }
+                else
+                {
+                    count = TransactDbOps.ExecuteNonQuery(trans, CommandType.Text, sqlDelete, new SqlParameter[0]);
+                } 
             }
             return count;
         }
@@ -2184,7 +2187,7 @@ namespace DAL.SQL
             sql.AppendLine("where 1 = 1");
             sql.AppendLine("and bimp.id in ( SELECT b.id /*Select para trazer os bilhetes a serem importados, caso exista bilhetes já importados com data maior ao ser importado agora, tras esses bilhetes mais novos também do dia para reposicionar*/");
             sql.AppendLine("                   FROM dbo.bilhetesimp b ");
-            sql.AppendLine("                 INNER JOIN dbo.bilhetesimp bi on bi.dscodigo = b.dscodigo AND b.data = bi.data AND CONVERT(datetime, b.data + ' ' + b.hora) >= CONVERT(DATETIME, bi.data + ' ' + bi.hora) ");
+            sql.AppendLine("                 INNER JOIN dbo.bilhetesimp bi on bi.dscodigo = b.dscodigo AND b.data = bi.data ");
             sql.AppendLine("                 WHERE bi.id IN (" + String.Join(",", idsBilhetes) + "))");
             //sql.AppendLine("and bimp.id in (" + String.Join(",", idsBilhetes) + ")");
             sql.AppendLine(PermissaoUsuarioFuncionario(UsuarioLogado, sql.ToString(), "func.idempresa", "func.id", null));
@@ -2509,6 +2512,92 @@ namespace DAL.SQL
                 dr.Close();
             dr.Dispose();
             return ret;
+        }
+
+        public List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> RegistrosValidarPontoExcecao()
+        {
+            return RegistrosValidarPontoExcecao(new List<int>(), new List<int>());
+        }
+
+        public List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> RegistrosValidarPontoExcecao(List<int> idsFuncs, List<int> idsHorario)
+        {
+            SqlParameter[] parms = new SqlParameter[2]
+            {
+                    new SqlParameter("@idsFuncs", SqlDbType.Structured),
+                    new SqlParameter("@idsHorarios", SqlDbType.Structured)
+            };
+            parms[0].Value = CreateDataTableIdentificadores(idsFuncs.Select(s => (long)s).ToList());
+            parms[0].TypeName = "Identificadores";
+
+            parms[1].Value = CreateDataTableIdentificadores(idsHorario.Select(s => (long)s).ToList());
+            parms[1].TypeName = "Identificadores";
+
+            string sql = @" SET DATEFIRST 1
+
+                            SELECT t.DataMarcacacao,
+                                   t.legenda, 
+                                   j.entrada_1 EntradaPrevista1, 
+                                   j.saida_1 SaidaPrevista1,
+                                   j.entrada_2 EntradaPrevista2, 
+                                   j.saida_2 SaidaPrevista2,
+                                   j.entrada_3 EntradaPrevista3, 
+                                   j.saida_3 SaidaPrevista3,
+                                   j.entrada_4 EntradaPrevista4, 
+                                   j.saida_4 SaidaPrevista4,
+                                   t.dscodigo,
+                                   t.pis,
+                                   t.idfuncionario,
+                                   PontoPorExcecao,
+                                   t.idhorario,
+                                   b.*
+                            FROM (
+                                SELECT
+                                    m.data DataMarcacacao,
+                                    m.legenda, 
+                                    f.dscodigo,
+                                    f.pis,
+                                    f.id idfuncionario,
+                                    h.PontoPorExcecao,
+                                    h.id idhorario,
+                                    h.tipohorario
+                                FROM dbo.marcacao m 
+                                INNER JOIN dbo.horario  h  ON m.idhorario = h.id  AND m.idfechamentobh IS NULL and m.idFechamentoPonto is NULL
+                                INNER JOIN dbo.funcionario  f ON f.idhorario = h.id AND m.idfuncionario = f.id and m.[data] >=  f.dataadmissao AND (m.[data] < f.datademissao OR f.datademissao IS NULL) AND (m.[data] < f.DataInativacao OR f.DataInativacao IS NULL)
+                                WHERE m.legenda not in ('A', 'F')
+                                AND (h.pontoporexcecao = 1)                             
+                                AND (f.id in (SELECT Identificador from @idsFuncs) OR
+                                        (SELECT count(Identificador) from @idsFuncs) = 0
+                                        ) 
+                                AND (h.id in (SELECT Identificador from @idsHorarios) OR
+                                        (SELECT count(Identificador) from @idsHorarios) = 0
+                                        )
+                            ) T
+                            LEFT JOIN dbo.bilhetesimp  b ON t.idfuncionario = b.idfuncionario AND t.DataMarcacacao = b.mar_data
+                            LEFT JOIN dbo.horariodetalhe  hd ON t.idhorario = hd.idhorario AND ((t.tipohorario = 1 AND hd.dia = DATEPART(WEEKDAY, t.DataMarcacacao)) OR  (t.tipohorario = 2 AND hd.data = t.DataMarcacacao ))
+                            LEFT JOIN dbo.jornada  j ON j.id = hd.idjornada AND j.entrada_1 IS NOT NULL
+                            WHERE 1 = 1 ";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+
+            List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> lista = new List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao>();
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Proxy.PxyRegistrosValidarPontoExcecao>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
         }
         #endregion
     }

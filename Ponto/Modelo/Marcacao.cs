@@ -1104,6 +1104,23 @@ namespace Modelo
         public string HorasTrabalhadasDentroFeriadoNoturna { get; set; }
         public string HorasPrevistasDentroFeriadoDiurna { get; set; }
         public string HorasPrevistasDentroFeriadoNoturna { get; set; }
+
+        public string Ent_num_relogio_1 { get; set; }
+        public string Ent_num_relogio_2 { get; set; }
+        public string Ent_num_relogio_3 { get; set; }
+        public string Ent_num_relogio_4 { get; set; }
+        public string Ent_num_relogio_5 { get; set; }
+        public string Ent_num_relogio_6 { get; set; }
+        public string Ent_num_relogio_7 { get; set; }
+        public string Ent_num_relogio_8 { get; set; }
+        public string Sai_num_relogio_1 { get; set; }
+        public string Sai_num_relogio_2 { get; set; }
+        public string Sai_num_relogio_3 { get; set; }
+        public string Sai_num_relogio_4 { get; set; }
+        public string Sai_num_relogio_5 { get; set; }
+        public string Sai_num_relogio_6 { get; set; }
+        public string Sai_num_relogio_7 { get; set; }
+        public string Sai_num_relogio_8 { get; set; }
     }
 
     public class GridMarcacoes

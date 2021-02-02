@@ -408,6 +408,7 @@
     <Compile Include="ManutencaoBiometrica.cs" />
     <Compile Include="ParametroWebfopag.cs" />
     <Compile Include="Proxy\pxyPermissoes.cs" />
+    <Compile Include="Proxy\PxyRegistrosValidarPontoExcecao.cs" />
     <Compile Include="Proxy\pxyUsuarioControleAcessoAdicionarContrato.cs" />
     <Compile Include="Proxy\pxyUsuarioControleAcessoAdicionarEmpresa.cs" />
     <Compile Include="Proxy\pxyUsuarioControleAcessoCopiar.cs" />

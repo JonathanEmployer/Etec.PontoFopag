@@ -356,5 +356,15 @@ namespace BLL
         {
             return dalRegistroPonto.GetUltimoRegistroByOrigem(origemRegistro);
         }
+
+        public Dictionary<int, string> GetSituacao(List<int> idsRegistros)
+        {
+            return dalRegistroPonto.GetSituacao(idsRegistros);
+        }
+
+        public Dictionary<int, string> GetSituacaoByLote(string lote)
+        {
+            return dalRegistroPonto.GetSituacaoByLote(lote);
+        }
     }
 }
