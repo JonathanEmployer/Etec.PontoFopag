@@ -138,7 +138,7 @@ namespace DAL
         List<PxyFuncionarioFechamentosPontoEBH> GetFuncionariosComUltimoFechamentosPontoEBH(bool pegaTodos, IList<int> idsFuncs, DateTime dataInicio);
 
         void DeleteLogicoFuncionariosInativos(int qtdMeses);
-  
+
     }
 }
 

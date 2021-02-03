@@ -16,15 +16,6 @@ namespace DAL.SQL
         {
             get
             {
-                //return @"   SELECT ISNULL(COUNT(id), 0) AS qt
-                //            FROM jornadaalternativa
-                //            WHERE ((@datainicial >= datainicial AND @datainicial <= datafinal)
-                //            OR (@datafinal >= datainicial AND @datafinal <= datafinal)
-                //            OR (@datainicial <= datainicial AND @datafinal >= datafinal))
-                //            AND tipo = @tipo
-                //            AND identificacao = @identificacao
-                //            AND id <> @id";
-
                 return @"   SELECT ISNULL(COUNT(ja.id), 0) AS qt
                             FROM jornadaalternativa ja
                             LEFT JOIN jornadaAlternativaFuncionario jaf ON ja.id = jaf.idJornadaAlternativa
@@ -41,20 +32,6 @@ namespace DAL.SQL
         {
             get
             {
-                //return @"   SELECT ja.* 
-                //            , ja.identificacao AS nome
-                //            , empresa.id as idempresa
-                //            , (SELECT convert(varchar,j.codigo)+' | '+j.descricao) AS descjornada  
-                //            , funcionario.id idfuncionario
-                //            FROM jornadaalternativa ja
-                //            LEFT JOIN funcionario ON funcionario.id = (case when tipo = 2 then ja.identificacao else 0 end)
-                //            LEFT JOIN departamento ON departamento.id = (case when ja.tipo = 2 then funcionario.iddepartamento when tipo = 1 then ja.identificacao else 0 end)
-                //            LEFT JOIN empresa ON empresa.id = (case when ja.tipo = 2 then funcionario.idempresa when tipo = 1 then departamento.idempresa when tipo = 0 then ja.identificacao else 0 end)
-                //            LEFT JOIN jornada j ON ja.idjornada = j.id
-                //            WHERE @data >= datainicial 
-                //            AND @data <= datafinal
-                //            AND tipo = @tipo
-                //            AND identificacao = @identificacao ";
                 return @"   SELECT ja.* 
                             , ja.identificacao AS nome
                             , empresa.id as idempresa
@@ -77,24 +54,6 @@ namespace DAL.SQL
         {
             get
             {
-                //return @"   SELECT   ja.id
-                //                    , ja.codigo
-                //                    , ja.datainicial
-                //                    , ja.datafinal
-                //                    , case when ja.tipo = 0 then 'Empresa' when ja.tipo = 1 then 'Departamento' when ja.tipo = 2 then 'Funcionário' when ja.tipo = 3 then 'Função' end AS tipo
-                //                    , case when tipo = 0 then (SELECT empresa.nome FROM empresa WHERE empresa.id = ja.identificacao) 
-                //                           when tipo = 1 then (SELECT departamento.descricao FROM departamento WHERE departamento.id = ja.identificacao) 
-                //                           when tipo = 2 then (SELECT funcionario.nome FROM funcionario WHERE funcionario.id = ja.identificacao) 
-                //                           when tipo = 3 then (SELECT funcao.descricao FROM funcao WHERE funcao.id = ja.identificacao) end AS nome              
-                //                    , ja.entrada_1
-                //                    , ja.saida_1
-                //                    , ja.entrada_2
-                //                    , ja.saida_2
-                //             FROM jornadaalternativa ja
-                //             LEFT JOIN funcionario ON funcionario.id = (case when ja.tipo = 2 then ja.identificacao else 0 end)
-                //             LEFT JOIN departamento ON departamento.id = (case when ja.tipo = 2 then funcionario.iddepartamento when ja.tipo = 1 then ja.identificacao else 0 end)
-                //             LEFT JOIN empresa ON empresa.id = (case when ja.tipo = 2 then funcionario.idempresa when ja.tipo = 1 then departamento.idempresa when ja.tipo = 0 then ja.identificacao else 0 end)
-                //             WHERE 1 = 1 ";
                 return @"   SELECT   ja.id
                                     , ja.codigo
                                     , ja.datainicial
@@ -126,23 +85,6 @@ namespace DAL.SQL
         {
             get
             {
-                //return @"
-                //    SELECT   ja.*
-                //        , case when ja.tipo = 0 then 'Empresa' when ja.tipo = 1 then 'Departamento' when ja.tipo = 2 then 'Funcionário' when ja.tipo = 3 then 'Função' end AS tipojornada
-                //        , case when tipo = 0 then (SELECT convert(varchar,empresa.codigo)+' | '+empresa.nome FROM empresa WHERE empresa.id = ja.identificacao) 
-                //                when tipo = 1 then (SELECT convert(varchar,departamento.codigo)+' | '+departamento.descricao FROM departamento WHERE departamento.id = ja.identificacao) 
-                //                when tipo = 2 then (SELECT convert(varchar,funcionario.dscodigo)+' | '+funcionario.nome FROM funcionario WHERE funcionario.id = ja.identificacao) 
-                //                when tipo = 3 then (SELECT convert(varchar,funcao.codigo)+' | '+funcao.descricao FROM funcao WHERE funcao.id = ja.identificacao) end AS nome              
-                //        , (SELECT convert(varchar,j.codigo)+' | '+j.descricao) AS descjornada
-                //        ,isnull(isnull(departamento.idempresa, empresa.id), funcionario.idempresa) idempresa,
-                //  funcionario.id idFuncionario
-                //    FROM jornadaalternativa ja
-                //    LEFT JOIN funcionario ON funcionario.id = (case when ja.tipo = 2 then ja.identificacao else 0 end)
-                //    LEFT JOIN departamento ON departamento.id = (case when ja.tipo = 2 then funcionario.iddepartamento when ja.tipo = 1 then ja.identificacao else 0 end)
-                //    LEFT JOIN empresa ON empresa.id = (case when ja.tipo = 2 then funcionario.idempresa when ja.tipo = 1 then departamento.idempresa when ja.tipo = 0 then ja.identificacao else 0 end)
-                //    LEFT JOIN jornada j ON ja.idjornada = j.id
-                //    WHERE 1 = 1 ";
-
                 return @"
                    SELECT   ja.*
                         , case when ja.tipo = 0 then 'Empresa' when ja.tipo = 1 then 'Departamento' when ja.tipo = 2 then 'Funcionário' when ja.tipo = 3 then 'Função' end AS tipojornada
@@ -704,7 +646,6 @@ namespace DAL.SQL
             };
             parms[0].Value = pFuncionario;
 
-            //string aux = "SELECT id, datainicial, datafinal, identificacao, tipo FROM jornadaalternativa WHERE tipo = 2 and identificacao = @funcionario ";
             string aux = @"SELECT ja.id, datainicial, datafinal, identificacao, tipo FROM jornadaalternativa ja
                             JOIN jornadaAlternativaFuncionario jaf ON jaf.idJornadaAlternativa = ja.id
                             WHERE tipo = 2 and jaf.idFuncionario = @funcionario ";
@@ -966,16 +907,6 @@ namespace DAL.SQL
             List<Modelo.JornadaAlternativa> ret = Mapper.Map<List<Modelo.JornadaAlternativa>>(dr);
             ret.ForEach(f => lista.Add(f.Id, f));
 
-            //if (dr.HasRows)
-            //{
-            //while (dr.Read())
-            //{
-            //    objJornadaAlternativa = new Modelo.JornadaAlternativa();
-            //    AuxSetInstance(dr, objJornadaAlternativa);
-            //    lista.Add(Convert.ToInt32(dr["id"]), objJornadaAlternativa);
-            //    //lista.Add(Convert.ToInt32(dr["idjornadaalternativafunc"]), objJornadaAlternativa);
-            //}
-            //}
             if (!dr.IsClosed)
                 dr.Close();
             dr.Dispose();

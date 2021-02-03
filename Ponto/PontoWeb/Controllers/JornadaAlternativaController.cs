@@ -505,28 +505,9 @@ namespace PontoWeb.Controllers
 
                         if (String.IsNullOrEmpty(objeto.IdsJornadaAlternativaFuncionariosSelecionados))
                         {
-                            //ModelState["Funcionario"].Errors.Add("Selecione um funcionário.");
                             ModelState["IdsJornadaAlternativaFuncionariosSelecionados"].Errors.Add("Selecione um funcionário.");
                         }
-                        //idTipos = objeto.IdsFeriadosFuncionariosSelecionados.Split(',').ToList().Select(s => Convert.ToInt32(s)).ToList();
 
-                        //else
-                        //{
-
-                        //    BLL.Funcionario bllFuncionario = new BLL.Funcionario(conn, UsuPW);
-                        //    int idFuncionario = 0;
-                        //    string func = objeto.Funcionario.Split('|')[0].Trim();
-                        //    //idFuncionario = bllfuncionario.GetIdDsCodigoProximidade(func);
-                        //    idFuncionario = bllFuncionario.GetIdDsCodigo(func);
-                        //    if (idFuncionario > 0)
-                        //    {
-                        //        objeto.Identificacao = idFuncionario;
-                        //    }
-                        //    else
-                        //    {
-                        //        ModelState["Funcionario"].Errors.Add("Funcionário " + objeto.Funcionario + " não cadastrado!");
-                        //    }
-                        //}
                         break;
 
                     case 3:

@@ -241,16 +241,7 @@
                                             }
                                             <div id="divFuncionario" class="row divsTipo">
                                                 <div class="col-md-12">
-                                                    @*<div class="form-group">
-                                                            <div class="input-group input-group-sm">
-                                                                @Html.TextBoxFor(model => model.Funcionario, new { @class = "form-control  input-sm", id = "lkpFuncionario" })
-                                                                <span class="input-group-btn">
-                                                                    <button class="btn btn-primary desabilitar" id="btnFuncionario" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                                                                </span>
-                                                                </div>
-                                                            </div>*@
                                                     @Html.ValidationMessageFor(model => model.Funcionario)
-                                                    @*<div class="row>*@
                                                     <div class="form-group>
                                                         <div class="col-md-12">
                                                             @Html.HiddenFor(m => m.IdsJornadaAlternativaFuncionariosSelecionados)
@@ -258,9 +249,8 @@
                                                         </div>
                                                         <div class="col-md-12" id="divPartial">
                                                         </div>
-                                                            @Html.ValidationMessageFor(m => m.IdsJornadaAlternativaFuncionariosSelecionados)
+                                                        @Html.ValidationMessageFor(m => m.IdsJornadaAlternativaFuncionariosSelecionados)
                                                     </div>
-                                                    @*</div>*@
                                                 </div>
                                             </div>
                                         </div>

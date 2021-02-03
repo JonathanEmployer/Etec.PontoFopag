@@ -993,7 +993,7 @@ namespace DAL.SQL
         public DataTable GetMarcacoesGerarHorariosDinamicos()
         {
             SqlParameter[] parms = new SqlParameter[] { };
-            
+
             DataTable dt = new DataTable();
             string aux = _sqlCalculoMarcacao;
             aux += @" WHERE ISNULL(marcacao.idfechamentoponto,0) = 0 
