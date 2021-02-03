@@ -1217,7 +1217,7 @@ namespace BLL
             if (ret.Rows.Count > 0)
             {
                 StringBuilder str = new StringBuilder();
-                percExtras.Clear();           
+                percExtras.Clear();
                 foreach (var item in objTotalHoras.RateioHorasExtras.OrderBy(r => r.Key))
                 {
                     str.Append(String.Format("{0:000.00}", item.Key) + "%       ");
@@ -1226,7 +1226,7 @@ namespace BLL
                     percExtras.Add(str.ToString());
                     str.Remove(0, str.Length);
                 }
-            }            
+            }
 
             #region Saldo do Banco de Horas Fechamento
 
@@ -1873,6 +1873,8 @@ namespace BLL
             bool retorno = false;
             TimeSpan ts = pDataFinal.AddDays(1) - pDataInicial;
 
+            if (pListIdFunc.Count() == 0)
+                return false;
             Dictionary<int, int> _qtdMarcacoesFuncionarios = bllMarcacao.QuantidadeMarcacoesPorLista(pListIdFunc, pDataInicial, pDataFinal);
 
             if (_qtdMarcacoesFuncionarios.Any(x => x.Value != ts.TotalDays))
@@ -2053,7 +2055,8 @@ namespace BLL
             List<Modelo.BancoHoras> bancosdehoras = dalBancoHoras.GetAllListFuncs(false, idsFuncs);
             Hashtable ids = new Hashtable();
             foreach (var columnIdHorario in dt.AsEnumerable()
-                    .Select(s => new {
+                    .Select(s => new
+                    {
                         id = s.Field<int>("idhorario"),
                     })
                     .Distinct().ToList())

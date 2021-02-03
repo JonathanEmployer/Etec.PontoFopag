@@ -152,7 +152,7 @@ namespace TesteProgramacao
             ////Método para teste de erros na fila de calculo do pontofopag.
             ////Para testar basta passar o número do id do job e debugar
             TesteHangfire th = new TesteHangfire();
-            th.Simular(3725228);
+            th.Simular(4315573);
 
             //Console.Read();
             //string connectionString = BLL.cwkFuncoes.ConstroiConexao("pontofopag_employer").ConnectionString;
