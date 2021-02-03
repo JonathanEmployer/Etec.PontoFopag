@@ -5560,9 +5560,11 @@ WHERE
                                                                                 AND ja.identificacao = vm.iddepartamento
                                                                                 )
                                                                                 OR ( ja.tipo = 2
-                                                                                AND ja.identificacao = vm.idfuncionario
+                                                                                AND ja.identificacao = 0
                                                                                 )
                                                                                 )
+                        LEFT JOIN jornadaAlternativaFuncionario jaf WITH ( NOLOCK ) on jaf.idJornadaAlternativa=ja.id and jaf.idFuncionario = vm.idfuncionario	 					
+
                 WHERE   vm.data BETWEEN @datainicial AND @datafinal
                 ORDER BY vm.nome ,
                         vm.data ,

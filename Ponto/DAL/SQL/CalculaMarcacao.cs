@@ -232,7 +232,6 @@ namespace DAL.SQL
                         , afastamentocont.idocorrencia AS idocorrenciacont 
                         , afastamentocont.contabilizarjornada AS contabilizarjornadacont
                         , jornadaalternativa_view.id AS idjornadaalternativa
-                        , jornadaAlternativaFuncionario.id as idjornadaalternativafunc
 
 						,(SELECT TOP(1) id FROM mudancahorario WHERE mudancahorario.idfuncionario = marcacao.idfuncionario AND mudancahorario.data = marcacao.data ORDER BY mudancahorario.id DESC) AS idmudancahorario 
 

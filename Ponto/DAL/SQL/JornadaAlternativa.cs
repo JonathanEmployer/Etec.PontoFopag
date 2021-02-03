@@ -144,9 +144,7 @@ namespace DAL.SQL
                 //    WHERE 1 = 1 ";
 
                 return @"
-                   SELECT  
-                        jaf.id as idjornadaalternativafunc
-                        , ja.*
+                   SELECT   ja.*
                         , case when ja.tipo = 0 then 'Empresa' when ja.tipo = 1 then 'Departamento' when ja.tipo = 2 then 'Funcionário' when ja.tipo = 3 then 'Função' end AS tipojornada
                         , case when tipo = 0 then (SELECT convert(varchar,empresa.codigo)+' | '+empresa.nome FROM empresa WHERE empresa.id = ja.identificacao) 
                                 when tipo = 1 then (SELECT convert(varchar,departamento.codigo)+' | '+departamento.descricao FROM departamento WHERE departamento.id = ja.identificacao) 
@@ -373,8 +371,6 @@ namespace DAL.SQL
             ((Modelo.JornadaAlternativa)obj).DescJornada = Convert.ToString(dr["descjornada"]);
 
             ((Modelo.JornadaAlternativa)obj).ConverteHoraStringToInt();
-
-            ((Modelo.JornadaAlternativa)obj).IdJornadaAlternativaFunc = dr["idjornadaalternativafunc"] is DBNull ? 0 : Convert.ToInt32(dr["idjornadaalternativafunc"]);
         }
 
         protected override SqlParameter[] GetParameters()
@@ -917,7 +913,7 @@ namespace DAL.SQL
 
             Hashtable lista = new Hashtable();
             List<Modelo.JornadaAlternativa> listaTeste = new List<Modelo.JornadaAlternativa>();
-            string SQL = SELECTALLLIST;
+
 
             if (pDataI != null && pDataF != null)
             {
@@ -931,7 +927,15 @@ namespace DAL.SQL
                 parms[3].Value = String.Join(",", pIdentificacoes);
             }
 
-            SQL += @" AND ja.id in (SELECT jj.id 
+            string SQL = @" SELECT DISTINCT
+                         ja.*
+                    FROM jornadaalternativa ja
+					LEFT JOIN jornadaAlternativaFuncionario jaf on jaf.idJornadaAlternativa = ja.id
+                    LEFT JOIN funcionario ON funcionario.id = (case when ja.tipo = 2 then jaf.idFuncionario else 0 end)
+                    LEFT JOIN departamento ON departamento.id = (case when ja.tipo = 2 then funcionario.iddepartamento when ja.tipo = 1 then ja.identificacao else 0 end)
+                    LEFT JOIN empresa ON empresa.id = (case when ja.tipo = 2 then funcionario.idempresa when ja.tipo = 1 then departamento.idempresa when ja.tipo = 0 then ja.identificacao else 0 end)
+                    LEFT JOIN jornada j ON ja.idjornada = j.id
+                    WHERE 1 = 1  AND ja.id in (SELECT jj.id 
                                     FROM FUNCIONARIO F
                                     INNER JOIN jornadaAlternativaFuncionario jafu on jafu.idFuncionario = f.id
                                     INNER JOIN jornadaalternativa jj on ((jj.tipo = 0 and jj.identificacao = f.idempresa) OR
@@ -957,17 +961,21 @@ namespace DAL.SQL
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, SQL, parms);
 
-            if (dr.HasRows)
-            {
-                Modelo.JornadaAlternativa objJornadaAlternativa = null;
-                while (dr.Read())
-                {
-                    objJornadaAlternativa = new Modelo.JornadaAlternativa();
-                    AuxSetInstance(dr, objJornadaAlternativa);
-                    //lista.Add(Convert.ToInt32(dr["id"]), objJornadaAlternativa);
-                    lista.Add(Convert.ToInt32(dr["idjornadaalternativafunc"]), objJornadaAlternativa);
-                }
-            }
+            Modelo.JornadaAlternativa objJornadaAlternativa = null;
+            var mapJornAlt = Mapper.CreateMap<IDataReader, Modelo.JornadaAlternativa>();
+            List<Modelo.JornadaAlternativa> ret = Mapper.Map<List<Modelo.JornadaAlternativa>>(dr);
+            ret.ForEach(f => lista.Add(f.Id, f));
+
+            //if (dr.HasRows)
+            //{
+            //while (dr.Read())
+            //{
+            //    objJornadaAlternativa = new Modelo.JornadaAlternativa();
+            //    AuxSetInstance(dr, objJornadaAlternativa);
+            //    lista.Add(Convert.ToInt32(dr["id"]), objJornadaAlternativa);
+            //    //lista.Add(Convert.ToInt32(dr["idjornadaalternativafunc"]), objJornadaAlternativa);
+            //}
+            //}
             if (!dr.IsClosed)
                 dr.Close();
             dr.Dispose();
