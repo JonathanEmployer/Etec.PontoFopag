@@ -647,20 +647,32 @@ namespace PontoWeb.Controllers
             try
             {
                 Modelo.EnvioDadosRep env = bllEnvioDadosRep.LoadObject(id);
-                BLL.EnvioDadosRepDet bllEnvioDadosRepDet = new BLL.EnvioDadosRepDet(conn, usr);
-                List<Modelo.EnvioDadosRepDet> detalhes = bllEnvioDadosRepDet.getByIdEnvioDadosRep(env.Id);
+                //BLL.EnvioDadosRepDet bllEnvioDadosRepDet = new BLL.EnvioDadosRepDet(conn, usr);
+                //List<Modelo.EnvioDadosRepDet> detalhes = bllEnvioDadosRepDet.getByIdEnvioDadosRep(env.Id);
                 Dictionary<string, string> erros = new Dictionary<string, string>();
-                foreach (Modelo.EnvioDadosRepDet det in detalhes)
+
+                try
                 {
-                    foreach (var item in bllEnvioDadosRepDet.Salvar(Acao.Excluir, det))
+                    if (env != null && env.Id > 0)
                     {
-                        erros.Add(item.Key, item.Value);
-                    } 
+                        bllEnvioDadosRep.ExluirEnvioDadosRepEDetalhes(env.Id);
+                    }
                 }
-                if (erros.Count == 0)
+                catch (Exception e)
                 {
-                    erros = bllEnvioDadosRep.Salvar(Acao.Excluir, env);
+                    erros.Add("Erro", e.Message);
                 }
+                //foreach (Modelo.EnvioDadosRepDet det in detalhes)
+                //{
+                //    foreach (var item in bllEnvioDadosRepDet.Salvar(Acao.Excluir, det))
+                //    {
+                //        erros.Add(item.Key, item.Value);
+                //    } 
+                //}
+                //if (erros.Count == 0)
+                //{
+                //    erros = bllEnvioDadosRep.Salvar(Acao.Excluir, env);
+                //}
                 
                 
                 if (erros.Count > 0)

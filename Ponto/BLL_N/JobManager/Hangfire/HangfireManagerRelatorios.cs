@@ -197,7 +197,23 @@ namespace BLL_N.JobManager.Hangfire
                                                                                                             _enqueuedStateNormal);
             Modelo.Proxy.PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
-        }		
+        }
+
+        public Modelo.Proxy.PxyJobReturn RelatorioSubstituicaoJornada(IRelatorioModel parametros)
+        {
+            var descricaoParametros = GetDescricaoParametrosJob(parametros);
+
+            JobControl jobControl = GerarJobControl("Relatório de Substituição de Jornada", descricaoParametros);
+            jobControl.PermiteCancelar = true;
+            string idJob = new BackgroundJobClient().Create<RelatoriosJob>(x => x.GetRelatorioSubstituicaoJornada(null,
+                                                                                                            jobControl,
+                                                                                                            (RelatorioPadraoModel)parametros,
+                                                                                                            dataBase,
+                                                                                                            usuarioLogado),
+                                                                                                            _enqueuedStateNormal);
+            Modelo.Proxy.PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
+            return jobReturn;
+        }
 
         public Modelo.Proxy.PxyJobReturn RelatorioRegistros(IRelatorioModel parametros)
 		{

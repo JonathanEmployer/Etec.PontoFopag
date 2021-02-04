@@ -295,6 +295,7 @@ namespace DAL.SQL
                         , marcacao.ContabilizarCreditos
                         , marcacao.IdJornadaSubstituir
                         , horariodetalhe.idjornada IdJornadaHorario
+                        , horario.PontoPorExcecao
                FROM marcacao_view as marcacao with (nolock)
                INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario 
                INNER JOIN horario ON horario.id = marcacao.idhorario 

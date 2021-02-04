@@ -22,8 +22,7 @@ namespace BLL
 
         private Modelo.ProgressBar objProgressBar;
 
-        private Modelo.ProgressBar ObjProgressBar
-        {
+        private Modelo.ProgressBar ObjProgressBar {
             get { return objProgressBar; }
             set { objProgressBar = value; }
         }
@@ -124,7 +123,7 @@ namespace BLL
         , consideraradicionalnoturnointerv, momentoPreAssinalado;
 
         private short? marcaCargaHorariaMistaHD, bCarregar, flagFolga, diaDsr, HabilitaInItinere;
-        bool flagNeutro, DescontarAtrasoInItinere, DescontarFaltaInItinere, diaPossuiInItinere;
+        bool flagNeutro, DescontarAtrasoInItinere, DescontarFaltaInItinere, diaPossuiInItinere, pontoPorExcecao;
         decimal percentualDentroJornadaInItinere, percentualForaJornadaInItinere;
 
         #endregion
@@ -551,16 +550,64 @@ namespace BLL
             this.SetaVariaveisAfastamento(pMarcacao);
             this.SetaVariaveisHorario(pMarcacao);
             this.SetaVariaveisMarcacao(pMarcacao);
-
-            horasExtraDiurnaFeriadoMin = 0;
-            horasExtraNoturnaFeriadoMin = 0;
-            feriadoProximoDia = false;
             //Se estiver calculando e algum dos tratamentos estiver com o campo importado = 2, mudo ele para 1
             tratamentosMarcacao.Where(w => w.Importado == 2).ToList().ForEach(f => f.Importado = 1);
             //Guarda dados anterior
             List<Modelo.BilhetesImp> tratamentosMarcacaoAnt = new Modelo.BilhetesImp().Clone(tratamentosMarcacao);
+
+            if ((TemAfastamento() || !pontoPorExcecao) && tratamentosMarcacao.Where(w => w.Relogio == "PE").Any())
+            {
+                tratamentosMarcacao = tratamentomarcacaoList.Where(t => t.Mar_data == data && t.DsCodigo == dscodigo).ToList();
+                tratamentosMarcacao.Where(w => w.Relogio == "PE").ToList().ForEach(f => f.Acao = Acao.Excluir);
+                tratamentosMarcacao = tratamentosMarcacao.OrderBy(o => o.Posicao).ThenBy(o => o.Ent_sai).ToList();
+                string ent_sai = "E";
+                int posicao = 1;
+                //for (int i = 0; i < tratamentosMarcacao.Count; i++)
+                //{
+                //    var tratamento = tratamentosMarcacao[i];
+                //    if (tratamento.Acao != Acao.Excluir)
+                //    {
+                //        tratamento.Ent_sai = ent_sai;
+                //        tratamento.Posicao = posicao;
+                //        ent_sai = ent_sai == "E" ? "S" : "E";
+                //        posicao = ent_sai == "E" ? posicao++ : posicao;
+                //    }
+                //}
+                BilhetesImp.AjustarPosicaoBilhetes(tratamentosMarcacao);
+                for (int i = 1; i < 9; i++)
+                {
+                    var entrada = tratamentosMarcacao.Where(w => w.Ent_sai == "E" && w.Posicao == i && w.Acao != Acao.Excluir).FirstOrDefault();
+                    if (entrada != null)
+                    {
+                        pMarcacao[$"entrada_{i}min"] = entrada.Hora.ConvertHorasMinuto();
+                        pMarcacao[$"entrada_{i}"] = entrada.Hora;
+                    }
+                    else
+                    {
+                        pMarcacao[$"entrada_{i}min"] = -1;
+                        pMarcacao[$"entrada_{i}"] = "--:--";
+                    }
+
+                    var saida = tratamentosMarcacao.Where(w => w.Ent_sai == "S" && w.Posicao == i && w.Acao != Acao.Excluir).FirstOrDefault();
+                    if (saida != null)
+                    {
+                        pMarcacao[$"saida_{i}min"] = saida.Hora.ConvertHorasMinuto();
+                        pMarcacao[$"saida_{i}"] = saida.Hora;
+                    }
+                    else
+                    {
+                        pMarcacao[$"saida_{i}min"] = -1;
+                        pMarcacao[$"saida_{i}"] = "--:--";
+                    }
+                }
+                this.SetaVariaveisMarcacao(pMarcacao);
+            }
+
+            horasExtraDiurnaFeriadoMin = 0;
+            horasExtraNoturnaFeriadoMin = 0;
+            feriadoProximoDia = false;
             PreencheMarcacao(pMarcacao);
-            Modelo.Marcacao objMarcacaoAnt = new Modelo.Marcacao().Clone(objMarcacao);
+            Modelo.Marcacao objMarcacaoAnt = new Modelo.Marcacao().Clone(objMarcacao);            
             //Verifica Parametro Estender Periodo Noturno
             bllParametros = new BLL.Parametros(ConnectionString, UsuarioLogado);
             if (bFlgEstenderPeriodoNoturno)
@@ -568,7 +615,7 @@ namespace BLL
                 int[] entrada = new int[4] { entrada_1Min, entrada_2Min, entrada_3Min, entrada_4Min };
                 int[] saida = new int[4] { saida_1Min, saida_2Min, saida_3Min, saida_4Min };
                 int trabDiurna = 0, trabNoturna = 0;
-                BLL.CalculoHoras.QtdHorasDiurnaNoturna(entrada, saida, inicioAdNoturno, fimAdNoturno, ref trabDiurna, ref trabNoturna);
+                BLL.CalculoHoras.QtdHorasDiurnaNoturna(entrada, saida, inicioAdNoturno, fimAdNoturno, ref trabDiurna, ref trabNoturna);           
                 if (trabNoturna > 0)
                 {
                     List<int> saidasPrevistas = new List<int>() { saida_1MinHD, saida_2MinHD, saida_3MinHD, saida_4MinHD };
@@ -627,15 +674,15 @@ namespace BLL
                 {
                     this.PreencheFuncionarioInativo();
                 }
-
-                if (VerificaAlteracaoMarcao(pMarcacao, objMarcacaoAnt))
-                {
-                    objMarcacao.Acao = Modelo.Acao.Alterar;
-                    pMarcacoes.Add(objMarcacao);
-                }
-                return;
+                
+                   if (VerificaAlteracaoMarcao(pMarcacao, objMarcacaoAnt))
+                   {
+                        objMarcacao.Acao = Modelo.Acao.Alterar;
+                        pMarcacoes.Add(objMarcacao);
+                   }
+                   return;
             }
-
+            
             //Verifica se a data é anterior a Data de admissão do funcionário
             if (dataAdmissao != null && data < dataAdmissao)
             {
@@ -663,7 +710,7 @@ namespace BLL
             this.CalculaHorasTrabalhadas(Entrada, Saida);
             this.CalculaTotalHorasTrabalhadas(Entrada, Saida);
             this.CalculaHorasInItinere(Entrada, Saida);
-            this.CalculaAdicionalNoturnoIncluindoIntervalo(Entrada, Saida);
+            this.CalculaAdicionalNoturnoIncluindoIntervalo(Entrada, Saida); 
 
             //Localiza a ocorrencia verificando se tem horas para abonar
             int abono = 0;
@@ -671,7 +718,7 @@ namespace BLL
             bool semAbono = false;
             string abonoD = "--:--";
             string abonoN = "--:--";
-            AdicionalNoturno = 0;
+            AdicionalNoturno = 0;        
             this.LocalizaOcorrencia(ref ocorrencia, ref abono, ref semcalc, ref abonoD, ref abonoN, ref semAbono);
 
             int horarioD = 0;
@@ -773,7 +820,7 @@ namespace BLL
                 if (horasFaltasMin == 0 && horasFaltaNoturnaMin == 0 && ocorrencia.Contains("Falta"))
                     ocorrencia = ocorrencia.Replace("Falta", "").Trim();
 
-            }
+            }       
             this.LocalizaOcorrencia(ref ocorrencia, ref abono, ref semcalc, ref abonoD, ref abonoN, ref semAbono);
             this.TestaMarcacoesCorretas();
             setaOcorrenciaDemitido();
@@ -796,7 +843,7 @@ namespace BLL
                     LegendasConcatenadas = cwkFuncoes.ConcatenarStrings(LegendasConcatenadas, "J");
                     //Colocado para atualziar a ocorrencia somente quando não for banco de horas
                     //CRNC - 18/01/2010
-                    if ((bancoHorasCre == "---:--") && (bancoHorasDeb == "---:--") && (dataDemissao != data) && (idFechamentoBH == 0 && !ocorrencia.Contains("H. Pagas")))
+                    if ((bancoHorasCre == "---:--") && (bancoHorasDeb == "---:--") && (dataDemissao != data) && (idFechamentoBH == 0 && !ocorrencia.Contains("H. Pagas")) )
                     {
                         ocorrencia = "Jornada Alternativa";
                     }
@@ -823,7 +870,7 @@ namespace BLL
                 AdicionalNoturno -= horasExtraNoturnaMin;
             }
 
-
+                    
             List<Modelo.BilhetesImp> tratamentosDia = tratamentomarcacaoList.Where(x => x.Mar_data == data && x.DsCodigo == Convert.ToString(pMarcacao["dscodigo"])).ToList();
             List<Modelo.BilhetesImp> tratamentosDiaAnterior = tratamentomarcacaoList.Where(x => x.Mar_data == data.AddDays(-1) && x.DsCodigo == Convert.ToString(pMarcacao["dscodigo"])).ToList();
             List<Modelo.BilhetesImp> tratamentosDiaSeguinte = tratamentomarcacaoList.Where(x => x.Mar_data == data.AddDays(1) && x.DsCodigo == Convert.ToString(pMarcacao["dscodigo"])).ToList();
@@ -843,7 +890,8 @@ namespace BLL
                         List<Modelo.BilhetesImp> bilIguaisAnt = tratamentosMarcacaoAnt.Where(e => item.BilheteIsEqual(e)).ToList();
                         List<Modelo.BilhetesImp> bilIguaisAtual = tratamentosMarcacao.Where(e => item.BilheteIsEqual(e)).ToList();
                         // Salva apenas os bilhetes que possuem alteração (não tem um alterior igual), ou se for PA salva os que não estão sendo incluídos e excluídos com o mesmo valor (dois iguais)
-                        if (bilIguaisAnt.Count() == 0 || item.Relogio == "PA" && bilIguaisAtual.Count() <= 1)
+                        // Ou se é registro por excessão e foi assinalado para excluir.
+                        if ((bilIguaisAnt.Count() == 0 || item.Relogio == "PA" && bilIguaisAtual.Count() <= 1) || (item.Relogio == "PE" && item.Acao == Acao.Excluir))
                         {
                             bilhetesSalvar.Add(item);
                         }
@@ -1018,7 +1066,7 @@ namespace BLL
                             dtFim = Convert.ToDateTime(be.Data.ToShortDateString().ToString() + ' ' + be.Mar_hora);
                         }
 
-
+                        
                         int minutos = (int)dtFim.Subtract(dtIni).TotalMinutes;
 
                         interjornada = Modelo.cwkFuncoes.ConvertMinutosHora2(2, minutos);
@@ -1396,7 +1444,7 @@ namespace BLL
                                 qtdHorasDsr = Convert.ToInt32(marc["qtdhorasdsrmin"]);
                                 descontarDsr = Convert.ToInt32(marc["descontardsr"]);
                                 idHorario = Convert.ToInt32(marc["idhorario"]);
-                                descontoHorasDsr = (marc["DescontoHorasDSR"] is DBNull) ? 0 : Convert.ToDecimal(marc["DescontoHorasDSR"]);
+                                descontoHorasDsr = (marc["DescontoHorasDSR"] is DBNull)? 0: Convert.ToDecimal(marc["DescontoHorasDSR"]);
 
                                 if (h == null)
                                 {
@@ -1691,7 +1739,7 @@ namespace BLL
                         setaOcorrenciaDemitido();
                     }
 
-                    bancoHorasCre = Modelo.cwkFuncoes.ConvertMinutosHora2(3, CreditoBH) != "000:00" ? Modelo.cwkFuncoes.ConvertMinutosHora2(3, CreditoBH) : "---:--";
+                        bancoHorasCre = Modelo.cwkFuncoes.ConvertMinutosHora2(3, CreditoBH) != "000:00" ? Modelo.cwkFuncoes.ConvertMinutosHora2(3, CreditoBH) : "---:--";
                     bancoHorasDeb = Modelo.cwkFuncoes.ConvertMinutosHora2(3, DebitoBH) != "000:00" ? Modelo.cwkFuncoes.ConvertMinutosHora2(3, DebitoBH) : "---:--"; ;
                 }
             }
@@ -1757,7 +1805,7 @@ namespace BLL
             return minutosCalculados;
         }
         #endregion
-
+         
         private bool CalculaBancoHoras(int pIdFuncionario, ICollection<Modelo.Marcacao> marcacoes)
         {
             Modelo.BancoHoras objBancoHoras = null;
@@ -1782,13 +1830,13 @@ namespace BLL
                 }
                 catch (Exception)
                 {
-                    throw;
+					throw;
                 }
 
             }
 
             bancoHorasCre = "---:--";
-            bancoHorasDeb = "---:--";
+            bancoHorasDeb = "---:--"; 
             int CreditoBH = 0;
             int DebitoBH = 0;
 
@@ -1811,8 +1859,8 @@ namespace BLL
                 string[] limiteHoraSaldoBH = objBancoHoras.getLimiteSaldoBH();
 
                 //Valida primero os parametros inseridos por grid de marcação
-                if (ContabilizarFaltasMarc != 2)
-                    objBancoHoras.ContabilizarFaltas = ContabilizarFaltasMarc == 1 && ContabilizarFaltasMarc != 2 ? objBancoHoras.ContabilizarFaltas = false : objBancoHoras.ContabilizarFaltas = true;
+                if (ContabilizarFaltasMarc != 2) 
+                    objBancoHoras.ContabilizarFaltas = ContabilizarFaltasMarc == 1 && ContabilizarFaltasMarc != 2? objBancoHoras.ContabilizarFaltas = false: objBancoHoras.ContabilizarFaltas = true;
                 if (ContAtrasosSaidasAntecMarc != 2)
                     objBancoHoras.ContAtrasosSaidasAntec = ContAtrasosSaidasAntecMarc == 1 && ContAtrasosSaidasAntecMarc != 2 ? objBancoHoras.ContAtrasosSaidasAntec = false : objBancoHoras.ContAtrasosSaidasAntec = true;
                 if (ContabilizarCreditosMarc != 2)
@@ -1824,13 +1872,12 @@ namespace BLL
                 }
 
                 if (legenda != "F" || feriadoParcial)
-                {
-                    if ((objBancoHoras.ContabilizarFaltas == true && objBancoHoras.ContAtrasosSaidasAntec == true) ||
-                        (objBancoHoras.ContabilizarFaltas == true && objBancoHoras.ContAtrasosSaidasAntec == false && horasTrabalhadasMin <= 0) ||
-                        (objBancoHoras.ContabilizarFaltas == false && objBancoHoras.ContAtrasosSaidasAntec == true && horasTrabalhadasMin > 0))
+                {   if ((objBancoHoras.ContabilizarFaltas == true && objBancoHoras.ContAtrasosSaidasAntec == true) || 
+                        (objBancoHoras.ContabilizarFaltas == true && objBancoHoras.ContAtrasosSaidasAntec == false && horasTrabalhadasMin <=0) ||
+                        (objBancoHoras.ContabilizarFaltas == false && objBancoHoras.ContAtrasosSaidasAntec == true && horasTrabalhadasMin > 0)) 
                     {
                         DebitoBH = horasFaltasMin + horasFaltaNoturnaMin;
-                    }
+                    }                     
                 }
                 else
                 {
@@ -2118,7 +2165,7 @@ namespace BLL
                     }
                 }
 
-                if ((objBancoHoras.ContAtrasosSaidasAntec == true && objBancoHoras.ContabilizarFaltas == true) ||
+                if((objBancoHoras.ContAtrasosSaidasAntec == true && objBancoHoras.ContabilizarFaltas == true) || 
                     (objBancoHoras.ContAtrasosSaidasAntec == true && horasTrabalhadasMin > 0 && objBancoHoras.ContabilizarFaltas == false && horasTrabalhadasMin > 0) ||
                     (objBancoHoras.ContAtrasosSaidasAntec == false && horasTrabalhadasMin <= 0 && objBancoHoras.ContabilizarFaltas == true))
                 {
@@ -2302,7 +2349,7 @@ namespace BLL
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception )
             {
                 TotalExcedenteMensalMin = 0;
             }
@@ -2452,7 +2499,7 @@ namespace BLL
                     {
                         total += BLL.CalculoHoras.QtdHoras(Entrada[i], Saida[i]);
                     }
-                    else
+                    else 
                     {
                         #region Old method to calculate hours
                         //int agora = Modelo.cwkFuncoes.ConvertHorasMinuto(DateTime.Now.ToShortTimeString());
@@ -2490,7 +2537,7 @@ namespace BLL
 
         private bool CalculaHoraExtraFalta(string abonoD, string abonoN, int adicionalNoturno, bool feriadoProximoDia)
         {
-            bool feriadoNoDia = (idFeriado != null && naoConsiderarFeriado == 0);
+            bool feriadoNoDia = (idFeriado != null && naoConsiderarFeriado ==0);
             if (feriadoNoDia && separaExtraFalta == 1)
                 separaExtraFalta = 0;
 
@@ -2525,7 +2572,7 @@ namespace BLL
             }
             #endregion
 
-            int[] MarSaida = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
+            int[] MarSaida = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 }; 
             int[] MarEntrada = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
 
             this.GetEntradasSaidasValidas(ref MarEntrada, ref MarSaida);
@@ -2536,7 +2583,7 @@ namespace BLL
             int ExtrasToleradasD = 0;
             int ExtrasToleradasN = 0;
             bool toleranciaPorBatida = false;
-            if (flagFolga.GetValueOrDefault() != 1 && folgaMarcacao != 1 && (idFeriado == null || feriadoParcial == true || naoConsiderarFeriado == 1))
+            if (flagFolga.GetValueOrDefault() != 1 && folgaMarcacao != 1 && (idFeriado == null  || feriadoParcial == true || naoConsiderarFeriado==1))
             {
                 if (separaExtraFalta == 0)
                     //o calculo de horas toleradas para separa_extra_e_falta será executado dentro da rotina separa extra e falta 
@@ -2560,7 +2607,7 @@ namespace BLL
             string Ocorrencia = "";
 
             //WNO - Separa Extra falta tem prioridade sobre as outras rotinas, pois está setado por marcação.
-            if (separaExtraFalta == 1 && contabilizarjornada == 0)
+            if (separaExtraFalta == 1 && contabilizarjornada ==0)
             {
                 bool calculouToleranciaBatidaIntervalo = false;
                 toleranciaPorBatida = ToleranciaPorBatida();
@@ -2780,8 +2827,7 @@ namespace BLL
             return true;
         }
 
-        private bool ToleranciaPorBatida()
-        {
+        private bool ToleranciaPorBatida() {
             return (tHoraFaltaEntradaMin > 0 || tHoraFaltaSaidaMin > 0 || tHoraExtraEntradaMin > 0 || tHoraExtraSaidaMin > 0 || tHoraExtraIntervaloMin > 0 || tHoraFaltaIntervaloMin > 0);
         }
 
@@ -2825,27 +2871,27 @@ namespace BLL
         {
             // primeiro valor é a saida, segunda entrada do intervalo, o terceiro valor é o tempo do intervalo
             Tuple<int, int, int> intervaloAlmocoRealizado = new Tuple<int, int, int>(0, 0, 0);
-            CalculaToleranciaIntervaloAlmoco(HoraEntrada, HoraSaida, MarEntrada, MarSaida, ref toleranciaPorBatida, ref FaltasToleradasD, ref FaltasToleradasN, ref ExtrasToleradasD, ref ExtrasToleradasN, ref intervaloAlmocoRealizado);
+                    CalculaToleranciaIntervaloAlmoco(HoraEntrada, HoraSaida, MarEntrada, MarSaida, ref toleranciaPorBatida, ref FaltasToleradasD, ref FaltasToleradasN, ref ExtrasToleradasD, ref ExtrasToleradasN, ref intervaloAlmocoRealizado);
 
-            for (int i = 0; i < 4; i++)
-            {
-                int MarcacaoRegistro = MarEntrada[i];
-                // Não calcula se tem tolerancia por intervalo e caso seja entrada da volta do almoço
-                if (MarcacaoRegistro != intervaloAlmocoRealizado.Item2 || intervaloAlmocoRealizado.Item3 == 0)
-                {
-                    int JornadaRegistro = HoraEntrada[i];
-                    CalculaToleranciaRegistros(JornadaRegistro, MarcacaoRegistro, ref FaltasToleradasD, ref FaltasToleradasN, ref ExtrasToleradasD, ref ExtrasToleradasN, 0);
-                }
+                    for (int i = 0; i < 4; i++)
+                    {
+                        int MarcacaoRegistro = MarEntrada[i];
+                        // Não calcula se tem tolerancia por intervalo e caso seja entrada da volta do almoço
+                        if (MarcacaoRegistro != intervaloAlmocoRealizado.Item2 || intervaloAlmocoRealizado.Item3 == 0)
+                        {
+                            int JornadaRegistro = HoraEntrada[i];
+                            CalculaToleranciaRegistros(JornadaRegistro, MarcacaoRegistro, ref FaltasToleradasD, ref FaltasToleradasN, ref ExtrasToleradasD, ref ExtrasToleradasN, 0);
+                        }
 
-                // Não calcula se tem tolerancia por intervalo e caso seja saida do almoço
-                MarcacaoRegistro = MarSaida[i];
-                if (MarcacaoRegistro != intervaloAlmocoRealizado.Item1 || intervaloAlmocoRealizado.Item3 == 0)
-                {
-                    int JornadaRegistro = HoraSaida[i];
-                    CalculaToleranciaRegistros(JornadaRegistro, MarcacaoRegistro, ref FaltasToleradasD, ref FaltasToleradasN, ref ExtrasToleradasD, ref ExtrasToleradasN, 1);
-                }
+                        // Não calcula se tem tolerancia por intervalo e caso seja saida do almoço
+                        MarcacaoRegistro = MarSaida[i];
+                        if (MarcacaoRegistro != intervaloAlmocoRealizado.Item1 || intervaloAlmocoRealizado.Item3 == 0)
+                        {
+                            int JornadaRegistro = HoraSaida[i];
+                            CalculaToleranciaRegistros(JornadaRegistro, MarcacaoRegistro, ref FaltasToleradasD, ref FaltasToleradasN, ref ExtrasToleradasD, ref ExtrasToleradasN, 1);
+                        }
 
-            }
+                    }
             return true;
         }
 
@@ -3057,9 +3103,9 @@ namespace BLL
         /// <param name="Marcacargahorariamista"></param>
         private void SetaVetoresHorarioDetalhe(ref int[] HoraEntrada, ref int[] HoraSaida, ref int CargaHorariaD, ref int CargaHorariaN, ref int CargaHorariaM, ref bool bCafe, ref int Marcacargahorariamista)
         {
-            bCafe = this.SetaCafé();
-            //Se for um feriado parcial, o sistema acerta o horário de trabalho de acordo com o feriado parcial, ou seja, remove as horas a serem trabalhadas dentro do perído do feriado parcial.
-            if (feriadoParcial)
+			bCafe = this.SetaCafé();
+			//Se for um feriado parcial, o sistema acerta o horário de trabalho de acordo com o feriado parcial, ou seja, remove as horas a serem trabalhadas dentro do perído do feriado parcial.
+			if (feriadoParcial)
             {
                 int[] entrada = new int[4] { entrada_1MinHD, entrada_2MinHD, entrada_3MinHD, entrada_4MinHD };
                 int[] saida = new int[4] { saida_1MinHD, saida_2MinHD, saida_3MinHD, saida_4MinHD };
@@ -3075,26 +3121,26 @@ namespace BLL
             }
 
             HoraEntrada[0] = entrada_1MinHD;
-            HoraEntrada[1] = entrada_2MinHD;
-            HoraEntrada[2] = entrada_3MinHD;
-            HoraEntrada[3] = entrada_4MinHD;
+			HoraEntrada[1] = entrada_2MinHD;
+			HoraEntrada[2] = entrada_3MinHD;
+			HoraEntrada[3] = entrada_4MinHD;
 
-            HoraSaida[0] = saida_1MinHD;
-            HoraSaida[1] = saida_2MinHD;
-            HoraSaida[2] = saida_3MinHD;
-            HoraSaida[3] = saida_4MinHD;
+			HoraSaida[0] = saida_1MinHD;
+			HoraSaida[1] = saida_2MinHD;
+			HoraSaida[2] = saida_3MinHD;
+			HoraSaida[3] = saida_4MinHD;
 
-            if (marcaCargaHorariaMistaHD == null)
-                marcaCargaHorariaMistaHD = 0;
+			if (marcaCargaHorariaMistaHD == null)
+				marcaCargaHorariaMistaHD = 0;
 
             BLL.CalculoHoras.QtdHorasDiurnaNoturna(HoraEntrada, HoraSaida, inicioAdNoturno, fimAdNoturno, ref CargaHorariaD, ref CargaHorariaN);
             if (bCafe && naoConsiderarCafe == 0)
             {
                 BLL.Horario.CalculaCafe(HoraEntrada, HoraSaida, habilitaPeriodo01, habilitaPeriodo02, ref CargaHorariaD, ref CargaHorariaN);
             }
-            CargaHorariaM = CargaHorariaD + CargaHorariaN;
-            Marcacargahorariamista = marcaCargaHorariaMistaHD.Value; //CRNC - 09/01/2010   
-        }
+            CargaHorariaM = CargaHorariaD + CargaHorariaN; 
+             Marcacargahorariamista = marcaCargaHorariaMistaHD.Value; //CRNC - 09/01/2010   
+		}
 
         private void RemoveRegistrosDentroFeriadoParcial(ref int[] Entrada, ref int[] Saida)
         {
@@ -3186,10 +3232,10 @@ namespace BLL
         {
             bool possuiAbono = LegendasConcatenadas.Split(',').Where(s => s == "A").Count() > 0;
             #region Novo calculo abono total e parcial para todos os tipos de horário (Misto, normal e separa e falta)
-            if (legenda == "F" && possuiAbono && abono != 0)
-            {
-                abono = 0;
-            }
+			if (legenda == "F" && possuiAbono && abono != 0)
+			{
+				abono = 0;
+			}
 
             if (possuiAbono && abono == 2) //Abono total
             {
@@ -3664,12 +3710,12 @@ namespace BLL
         private void RegrasParaNoturno(int abono, bool semcalc, string abonoN, int horarioN, int horarioD, bool SemAbono)
         {
             bool possuiAbono = LegendasConcatenadas.Split(',').Where(s => s == "A").Count() > 0;
-            #region Novo calculo abono total e parcial para todos os tipos de horário (Misto, normal e separa e falta)
-            if (legenda == "F" && possuiAbono && abono != 0)
-            {
-                abono = 0;
-            }
-            if (possuiAbono && abono == 2)//Abono total
+			#region Novo calculo abono total e parcial para todos os tipos de horário (Misto, normal e separa e falta)
+			if (legenda == "F" && possuiAbono && abono != 0)
+			{
+				abono = 0;
+			}
+			if (possuiAbono && abono == 2)//Abono total
             {
                 if (separaExtraFalta != 1 && contabilizarjornada == 0) // Apenas retira as horas extras caso não seja para separar extra e falta
                 {
@@ -3677,7 +3723,7 @@ namespace BLL
                 }
                 horasFaltaNoturnaMin = 0;
                 //Contabiliza Jornada Trabalhada se estiver flegado.                
-                horasExtraNoturnaMin = contabilizarjornada == 1 ? horasExtraNoturnaMin = horasTrabalhadasNoturnasMin + horasExtraNoturnaMin : horasExtraNoturnaMin;
+                horasExtraNoturnaMin = contabilizarjornada == 1 ? horasExtraNoturnaMin =horasTrabalhadasNoturnasMin + horasExtraNoturnaMin : horasExtraNoturnaMin;
                 horasTrabalhadasNoturnasMin = horarioN;
             }
             else if (possuiAbono && abono == 1) // Abono parcial
@@ -4684,7 +4730,7 @@ namespace BLL
             tHoraExtraIntervaloMin = pMarcacao["TIntervaloExtra"] == System.DBNull.Value ? (int?)null : Convert.ToInt32(pMarcacao["TIntervaloExtra"]);
             tHoraFaltaIntervaloMin = pMarcacao["TIntervaloFalta"] == System.DBNull.Value ? (int?)null : Convert.ToInt32(pMarcacao["TIntervaloFalta"]);
             inicioAdNoturno = Convert.ToInt32(pMarcacao["inicioadnoturnomin"]);
-            fimAdNoturno = Convert.ToInt32(pMarcacao["fimadnoturnomin"]);
+            fimAdNoturno = Convert.ToInt32(pMarcacao["fimadnoturnomin"]); 
             ordenabilhetesaida = Convert.ToInt32(pMarcacao["ordenabilhetesaida"]);
             limite_max = Convert.ToInt32(pMarcacao["limitemax"]);
             limite_min = Convert.ToInt32(pMarcacao["limitemin"]);
@@ -4700,7 +4746,7 @@ namespace BLL
             percentualDentroJornadaInItinere = Convert.ToDecimal(pMarcacao["PercentualDentroJornadaInItinere"] is DBNull ? 0 : pMarcacao["PercentualDentroJornadaInItinere"]);
             percentualForaJornadaInItinere = Convert.ToDecimal(pMarcacao["PercentualForaJornadaInItinere"] is DBNull ? 0 : pMarcacao["PercentualForaJornadaInItinere"]);
             horaExtraInterjornada = pMarcacao["horaExtraInterjornada"] is DBNull ? "--:--" : pMarcacao["horaExtraInterjornada"].ToString();
-
+            pontoPorExcecao = Convert.ToBoolean(pMarcacao["PontoPorExcecao"]);
             //CorrigeEntradasESaidasHD();
             if ((pMarcacao["naoentrarnacompensacao"] is DBNull) && (pMarcacao["naocompensacaofunc"] is DBNull))
             {
@@ -5065,12 +5111,17 @@ namespace BLL
                 return "F";
             }
 
-            if (idAfastamentoFunc != null || idAfastamentoDep != null || idAfastamentoEmp != null || idAfastamentoCont != null)
+            if (TemAfastamento())
             {
                 //Existe um afastamento para aquela data                
                 return "A";
             }
             return "";
+        }
+
+        private bool TemAfastamento()
+        {
+            return idAfastamentoFunc != null || idAfastamentoDep != null || idAfastamentoEmp != null || idAfastamentoCont != null;
         }
 
         private string BuscaLegendaConcatenada()

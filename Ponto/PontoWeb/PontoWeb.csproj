@@ -579,6 +579,7 @@
     <Compile Include="Controllers\Relatorios\RelatorioManutencaoDiariaController.cs" />
     <Compile Include="Controllers\Relatorios\RelatorioOcorrenciasController.cs" />
     <Compile Include="Controllers\Relatorios\RelatorioPresencaController.cs" />
+    <Compile Include="Controllers\Relatorios\RelatorioSubstituicaoJornadaController.cs" />
     <Compile Include="Controllers\Relatorios\RelatorioTotalHorasController.cs" />
     <Compile Include="Controllers\Relatorios\RelCartaoPontoCustomController.cs" />
     <Compile Include="Controllers\Relatorios\RelClassHorasExtrasController.cs" />
@@ -1927,6 +1928,7 @@
     </None>
     <Content Include="Views\AlertasComunicacaoRep\Grid.cshtml" />
     <Content Include="Views\AlertasComunicacaoRep\Cadastrar.cshtml" />
+    <Content Include="Views\RelatorioSubstituicaoJornada\SubstituicaoJornada.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

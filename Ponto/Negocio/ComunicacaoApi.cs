@@ -264,10 +264,10 @@ namespace Negocio
             }
         }
 
-        public async Task<bool> GravarLog(Modelo.RepLog log)
+        public async Task<bool> GravarLog(Modelo.RepLog repLog)
         {
-
-            HttpResponseMessage response = await EnviarLog(log);
+            log.Info(" Enviando log = "+repLog.DescricaoExecucao);
+            HttpResponseMessage response = await EnviarLog(repLog);
             if (response.IsSuccessStatusCode)
             {
                 return true;
@@ -277,7 +277,9 @@ namespace Negocio
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
                     Configuracao.RequisitarNovoToken();
-                    response = await EnviarLog(log);
+                    Modelo.Proxy.PxyConfigComunicadorServico conf = Configuracao.GetConfiguracao();
+                    token = conf.TokenAccess;
+                    response = await EnviarLog(repLog);
                     if (response.IsSuccessStatusCode)
                     {
                         return true;

@@ -1,4 +1,5 @@
-﻿using DAL.SQL;
+﻿using cwkPontoMT.Integracao;
+using DAL.SQL;
 using Hangfire;
 using Hangfire.Server;
 using Hangfire.States;
@@ -66,8 +67,7 @@ namespace BLL_N.JobManager.Hangfire.Job
                     dt.AsEnumerable().ToList().ForEach(f => FuncsSemDataFim.Where(w => w.IdFuncionario == f.Field<int>("idfuncionario")).ToList().ForEach(fi => fi.DataFim = f.Field<DateTime>("data")));
                 }
 
-                foreach (var grupo in funcsRecalculo.Where(w => w.DataFim != null && w.DataInicio <= w.DataFim).GroupBy(g => new
-                {
+                foreach (var grupo in funcsRecalculo.Where(w => w.DataFim != null && w.DataInicio <= w.DataFim).GroupBy(g => new {
                     g.DataInicio,
                     g.DataFim
                 }))
@@ -96,8 +96,7 @@ namespace BLL_N.JobManager.Hangfire.Job
                     dt.AsEnumerable().ToList().ForEach(f => FuncsSemDataFim.Where(w => w.IdFuncionario == f.Field<int>("idfuncionario")).ToList().ForEach(fi => fi.DataFim = f.Field<DateTime>("data")));
                 }
 
-                foreach (var grupo in funcsRecalculo.Where(w => w.DataFim != null && w.DataInicio <= w.DataFim).GroupBy(g => new
-                {
+                foreach (var grupo in funcsRecalculo.Where(w => w.DataFim != null && w.DataInicio <= w.DataFim).GroupBy(g => new {
                     g.DataInicio,
                     g.DataFim
                 }))
@@ -189,43 +188,55 @@ namespace BLL_N.JobManager.Hangfire.Job
             List<PxyJornadaSubstituirCalculo> pxyJornadaSubstituirCalculosList = new List<PxyJornadaSubstituirCalculo>();
 
 
-            threads.Add(new Task(() =>
-            {
-                jornadaAlternativaList = bllJornadaAlternativa.GetHashIdObjeto(dataInicial, dataFinal, 2, idsFuncionario);
+            threads.Add(new Task(() => { 
+                jornadaAlternativaList = bllJornadaAlternativa.GetHashIdObjeto(dataInicial, dataFinal, 2, idsFuncionario); 
             }, token));
 
-            threads.Add(new Task(() =>
-            {
+            threads.Add(new Task(() => {
                 fechamentoBHDList = bllFechamentoBHD.getPorPeriodo(dataInicial, dataFinal, 2, idsFuncionario);
             }, token));
 
-            threads.Add(new Task(() =>
-            {
+            threads.Add(new Task(() => {
                 ocorrenciaList = bllOcorrencia.GetHashIdDescricao();
             }, token));
 
-            threads.Add(new Task(() =>
-            {
+            threads.Add(new Task(() => {
                 compensacaoList = bllCompensacao.GetPeriodo(dataInicial, dataFinal, 2, idsFuncionario);
             }, token));
 
-            threads.Add(new Task(() =>
-            {
+            threads.Add(new Task(() => {
                 dtMarcacoes = (DataTable)ExecuteMethodThredCancellation(() => dalCalculaMarcacao.GetMarcacoesCalculo(idsFuncionario, dataInicial, dataFinal, considerarInativos, false));
+                List<int> idsHorario = dtMarcacoes.AsEnumerable().Where(r => !r.IsNull("idhorario")).Select(s => s.Field<int>("idhorario")).Distinct().ToList();
+                bool gerouRegistroPonto = false;
+                if (idsHorario.Count > 0)
+                {
+                    BLL.CalculoMarcacoes.PontoPorExcecao pontoPorExcecao = new BLL.CalculoMarcacoes.PontoPorExcecao(userPF.ConnectionString, userPF);
+                    pb.setaMensagem("Gerando ponto por exceção");
+                    List<Modelo.RegistroPonto> registroPontos = pontoPorExcecao.CriarRegistroPontoPorExcecao(new List<int>(), idsHorario);
+                    if (registroPontos.Any())
+                    {
+                        gerouRegistroPonto = true;
+                        //Aguarda a importação dos registros para continar
+                        BLL.RegistroPonto bllRegistroPonto = new BLL.RegistroPonto(userPF.ConnectionString, userPF);
+                        Dictionary<int, string> situacaoRegistro = new Dictionary<int, string>();
+                        pb.setaMensagem("Aguardando geração do ponto por excessão...");
+                        do
+                        {
+                            Thread.Sleep(1000);
+                            situacaoRegistro = bllRegistroPonto.GetSituacaoByLote(registroPontos.Select(s => s.Lote).LastOrDefault());
+                        } while (situacaoRegistro.Any() && situacaoRegistro.FirstOrDefault().Value != "C");
+                    }
+                }
                 BLL.HorarioDinamico bllHorarioDinamico = new BLL.HorarioDinamico(userPF.ConnectionString, userPF);
-                if (bllHorarioDinamico.GerarHorariosDetalhesAPartirMarcacoes(dtMarcacoes))
+                if (bllHorarioDinamico.GerarHorariosDetalhesAPartirMarcacoes(dtMarcacoes) || gerouRegistroPonto)
                 {
                     dtMarcacoes = (DataTable)ExecuteMethodThredCancellation(() => dalCalculaMarcacao.GetMarcacoesCalculo(idsFuncionario, dataInicial, dataFinal, considerarInativos, false));
                 }
-            }, token));
 
-            threads.Add(new Task(() =>
-            {
                 tratamentomarcacaoList = (List<Modelo.BilhetesImp>)ExecuteMethodThredCancellation(() => bllBilhetesImp.GetImportadosPeriodo(idsFuncionario, dataInicial, dataFinal, false));
             }, token));
 
-            threads.Add(new Task(() =>
-            {
+            threads.Add(new Task(() => {
                 pxyJornadaSubstituirCalculosList = (List<PxyJornadaSubstituirCalculo>)ExecuteMethodThredCancellation(() => bllJornadaSubstituir.GetPxyJornadaSubstituirCalculo(dataInicial, dataFinal, idsFuncionario));
             }, token));
 
@@ -244,7 +255,7 @@ namespace BLL_N.JobManager.Hangfire.Job
                 }
                 Thread.Sleep(250);
             }
-
+            
 
             pb.setaMensagem("Carregando banco de horas");
             List<int> idsBH = dtMarcacoes.AsEnumerable().Where(r => !r.IsNull("idbancohoras")).Select(s => s.Field<int>("idbancohoras")).Distinct().ToList();
@@ -258,6 +269,7 @@ namespace BLL_N.JobManager.Hangfire.Job
                 dscodigo = row.Field<string>("dscodigo"),
                 nomeFunc = row.Field<string>("nomeFuncionario"),
             }).OrderBy(o => o.Key.nomeFunc);
+
             ConcurrentBag<LoteMarcacaoProcessar> lote = new ConcurrentBag<LoteMarcacaoProcessar>();
             foreach (var group in MarcsFuncs)
             {
@@ -366,7 +378,7 @@ namespace BLL_N.JobManager.Hangfire.Job
 
                     dataInicial = (dataIDJA < dataInicial ? dataIDJA : dataInicial);
                     dataFinal = (dataFDJA > dataFinal ? dataFDJA : dataFinal);
-                }
+                } 
 
                 if ((jornada.Identificacao_Ant > 0 && jornada.Tipo_Ant != jornada.Tipo || jornada.Identificacao_Ant != jornada.Identificacao) || (jornada.DataInicial != jornada.DataInicial_Ant || jornada.DataFinal != jornada.DataFinal_Ant))
                     RecalculaMarcacao(context, jobReport, db, usuario, jornada.Tipo_Ant, jornada.Identificacao_Ant, dataInicial, dataFinal);
@@ -954,7 +966,7 @@ namespace BLL_N.JobManager.Hangfire.Job
             List<DateTime?> dts = new List<DateTime?>() { pdataiO, pdatafO, pdataiD, pdatafD };
             if (dts.Where(d => d != null).Any())
             {
-                RecalculaMarcacao(context, jobReport, db, usuario, new List<int>() { transferenciaBilhetes.IdFuncionarioOrigem, transferenciaBilhetes.IdFuncionarioDestino }, dts.Min().GetValueOrDefault(), dts.Max().GetValueOrDefault(), true);
+                RecalculaMarcacao(context, jobReport, db, usuario, new List<int>() { transferenciaBilhetes.IdFuncionarioOrigem, transferenciaBilhetes.IdFuncionarioDestino }, dts.Min().GetValueOrDefault(), dts.Max().GetValueOrDefault(), true); 
             }
         }
 
