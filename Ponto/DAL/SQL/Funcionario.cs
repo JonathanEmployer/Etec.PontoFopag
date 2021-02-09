@@ -3148,6 +3148,10 @@ namespace DAL.SQL
         {
             var _func = funcionarios.Replace("(", "").Replace(")", "");
 
+            var LtsFunc = _func.Split(',').Where(c => c != "");
+             _func = String.Join(",", LtsFunc);
+
+
             List<Modelo.Funcionario> lista = new List<Modelo.Funcionario>();
 
             SqlParameter[] parms = new SqlParameter[]
