@@ -5344,10 +5344,16 @@ namespace DAL.SQL
             };
             parms[0].Value = String.Join(",", lPis);
 
-            string sql = @"select f.id, f.dscodigo, f.nome, f.pis, f.idempresa, f.iddepartamento, f.idfuncao, f.idhorario, f.tipohorario, f.dataadmissao,
-	                               f.datademissao, f.funcionarioativo, f.DataInativacao, f.excluido, f.matricula
-                              from funcionario f
-                             where CONVERT(DECIMAL, replace(replace(replace(f.pis,'.',''),'-',''),'/','')) in (select CONVERT(DECIMAL, replace(replace(replace(valor,'.',''),'-',''),'/',''))  from dbo.F_ClausulaIn(@lPis))";
+            //string sql = @"select f.id, f.dscodigo, f.nome, f.pis, f.idempresa, f.iddepartamento, f.idfuncao, f.idhorario, f.tipohorario, f.dataadmissao,
+            //                    f.datademissao, f.funcionarioativo, f.DataInativacao, f.excluido, f.matricula
+            //                  from funcionario f
+            //                 where CONVERT(DECIMAL, replace(replace(replace(f.pis,'.',''),'-',''),'/','')) in (select CONVERT(DECIMAL, replace(replace(replace(valor,'.',''),'-',''),'/',''))  from dbo.F_ClausulaIn(@lPis))";
+            string sql = @"select f.id, f.dscodigo, f.nome, f.pis, f.idempresa, f.iddepartamento, f.idfuncao, f.idhorario, f.tipohorario,
+            f.dataadmissao, f.datademissao, f.funcionarioativo, f.DataInativacao, f.excluido, f.matricula, f.pis
+		    from funcionario f 
+		    where CONVERT(DECIMAL, replace(replace(replace(replace(f.pis,'.',''),'-',''),'/',''),' ','')) in 
+		    (select CONVERT(DECIMAL(18), replace(replace(replace(valor,'.',''),'-',''),'/',''))  from dbo.F_ClausulaIn(@lPis))";
+
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
             List<Modelo.Funcionario> lista = new List<Modelo.Funcionario>();
             try

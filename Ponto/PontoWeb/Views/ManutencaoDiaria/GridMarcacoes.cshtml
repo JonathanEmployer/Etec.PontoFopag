@@ -77,167 +77,199 @@
                 }
 
 
-                <tr id="@item.Id">
-                    <td>@item.Data</td>
-                    <td>@item.Dia</td>
-                    <td id="@item.IdFuncionario">@item.Funcionario</td>
-                    <td>@item.LegendasConcatenadas</td>
+            <tr id="@item.Id">
+                <td>@item.Data</td>
+                <td>@item.Dia</td>
+                <td id="@item.IdFuncionario">@item.Funcionario</td>
+                <td>@item.LegendasConcatenadas</td>
 
-                    @if (item.Tratamento_Ent_1 == "P")
-                    {
-                        //Laranja Claro - Pré Assinalada
-                        <td style="color:#FFA04D">@item.Entrada_1</td>
-                    }
-                    else if (item.Tratamento_Ent_1 == "I")
-                    {
-                        //Verde Claro - Inclusão
-                        <td style="color:#3C9C52">@item.Entrada_1</td>
-                    }
-                    else if (item.Tratamento_Ent_1 == "D")
-                    {
-                        //Vermelho Vinho - Desconsiderados
-                        <td style="color:#C14A4A">@item.Entrada_1</td>
-                    }
-                    else
-                    {
-                        <td>@item.Entrada_1</td>
-                    }
+                @if (item.Tratamento_Ent_1 == "P")
+                {
+                    //Laranja Claro - Pré Assinalada
+                    <td style="color:#FFA04D">@item.Entrada_1</td>
+                }
+                else if (item.Tratamento_Ent_1 == "I")
+                {
+                    //Verde Claro - Inclusão
+                    <td style="color:#3C9C52">@item.Entrada_1</td>
+                }
+                else if (item.Tratamento_Ent_1 == "D")
+                {
+                    //Vermelho Vinho - Desconsiderados
+                    <td style="color:#C14A4A">@item.Entrada_1</td>
+                }
+                else if (item.Ent_num_relogio_1 == "PE")
+                {
+                    <td style="color:#783c00">@item.Entrada_1</td>
+                }
+                else
+                {
+                    <td>@item.Entrada_1</td>
+                }
 
-                    @if (item.Tratamento_Sai_1 == "P")
-                    {
-                        <td style="color:#FFA04D">@item.Saida_1</td>
-                    }
-                    else if (item.Tratamento_Sai_1 == "I")
-                    {
-                        <td style="color:#3C9C52">@item.Saida_1</td>
-                    }
-                    else if (item.Tratamento_Sai_1 == "D")
-                    {
-                        <td style="color:#C14A4A">@item.Saida_1</td>
-                    }
-                    else
-                    {
-                        <td>@item.Saida_1</td>
-                    }
+                @if (item.Tratamento_Sai_1 == "P")
+                {
+                    <td style="color:#FFA04D">@item.Saida_1</td>
+                }
+                else if (item.Tratamento_Sai_1 == "I")
+                {
+                    <td style="color:#3C9C52">@item.Saida_1</td>
+                }
+                else if (item.Tratamento_Sai_1 == "D")
+                {
+                    <td style="color:#C14A4A">@item.Saida_1</td>
+                }
+                else if (item.Sai_num_relogio_1 == "PE")
+                {
+                    <td style="color:#783c00">@item.Saida_1</td>
+                }
+                else
+                {
+                    <td>@item.Saida_1</td>
+                }
 
-                    @if (item.Tratamento_Ent_2 == "P")
-                    {
-                        <td style="color:#FFA04D">@item.Entrada_2</td>
-                    }
-                    else if (item.Tratamento_Ent_2 == "I")
-                    {
-                        <td style="color:#3C9C52">@item.Entrada_2</td>
-                    }
-                    else if (item.Tratamento_Ent_2 == "D")
-                    {
-                        <td style="color:#C14A4A">@item.Entrada_2</td>
-                    }
-                    else
-                    {
-                        <td>@item.Entrada_2</td>
-                    }
+                @if (item.Tratamento_Ent_2 == "P")
+                {
+                    <td style="color:#FFA04D">@item.Entrada_2</td>
+                }
+                else if (item.Tratamento_Ent_2 == "I")
+                {
+                    <td style="color:#3C9C52">@item.Entrada_2</td>
+                }
+                else if (item.Tratamento_Ent_2 == "D")
+                {
+                    <td style="color:#C14A4A">@item.Entrada_2</td>
+                }
+                else if (item.Ent_num_relogio_2 == "PE")
+                {
+                    <td style="color:#783c00">@item.Entrada_2</td>
+                }
+                else
+                {
+                    <td>@item.Entrada_2</td>
+                }
 
-                    @if (item.Tratamento_Sai_2 == "P")
-                    {
-                        <td style="color:#FFA04D">@item.Saida_2</td>
-                    }
-                    else if (item.Tratamento_Sai_2 == "I")
-                    {
-                        <td style="color:#3C9C52">@item.Saida_2</td>
-                    }
-                    else if (item.Tratamento_Sai_2 == "D")
-                    {
-                        <td style="color:#C14A4A">@item.Saida_2</td>
-                    }
-                    else
-                    {
-                        <td>@item.Saida_2</td>
-                    }
+                @if (item.Tratamento_Sai_2 == "P")
+                {
+                    <td style="color:#FFA04D">@item.Saida_2</td>
+                }
+                else if (item.Tratamento_Sai_2 == "I")
+                {
+                    <td style="color:#3C9C52">@item.Saida_2</td>
+                }
+                else if (item.Tratamento_Sai_2 == "D")
+                {
+                    <td style="color:#C14A4A">@item.Saida_2</td>
+                }
+                else if (item.Sai_num_relogio_2 == "PE")
+                {
+                    <td style="color:#783c00">@item.Saida_2</td>
+                }
+                else
+                {
+                    <td>@item.Saida_2</td>
+                }
 
-                    @if (item.Tratamento_Ent_3 == "P")
-                    {
-                        <td style="color:#FFA04D">@item.Entrada_3</td>
-                    }
-                    else if (item.Tratamento_Ent_3 == "I")
-                    {
-                        <td style="color:#3C9C52">@item.Entrada_3</td>
-                    }
-                    else if (item.Tratamento_Ent_3 == "D")
-                    {
-                        <td style="color:#C14A4A">@item.Entrada_3</td>
-                    }
-                    else
-                    {
-                        <td>@item.Entrada_3</td>
-                    }
+                @if (item.Tratamento_Ent_3 == "P")
+                {
+                    <td style="color:#FFA04D">@item.Entrada_3</td>
+                }
+                else if (item.Tratamento_Ent_3 == "I")
+                {
+                    <td style="color:#3C9C52">@item.Entrada_3</td>
+                }
+                else if (item.Tratamento_Ent_3 == "D")
+                {
+                    <td style="color:#C14A4A">@item.Entrada_3</td>
+                }
+                else if (item.Ent_num_relogio_3 == "PE")
+                {
+                    <td style="color:#783c00">@item.Entrada_3</td>
+                }
+                else
+                {
+                    <td>@item.Entrada_3</td>
+                }
 
-                    @if (item.Tratamento_Sai_3 == "P")
-                    {
-                        <td style="color:#FFA04D">@item.Saida_3</td>
-                    }
-                    else if (item.Tratamento_Sai_3 == "I")
-                    {
-                        <td style="color:#3C9C52">@item.Saida_3</td>
-                    }
-                    else if (item.Tratamento_Sai_3 == "D")
-                    {
-                        <td style="color:#C14A4A">@item.Saida_3</td>
-                    }
-                    else
-                    {
-                        <td>@item.Saida_3</td>
-                    }
+                @if (item.Tratamento_Sai_3 == "P")
+                {
+                    <td style="color:#FFA04D">@item.Saida_3</td>
+                }
+                else if (item.Tratamento_Sai_3 == "I")
+                {
+                    <td style="color:#3C9C52">@item.Saida_3</td>
+                }
+                else if (item.Tratamento_Sai_3 == "D")
+                {
+                    <td style="color:#C14A4A">@item.Saida_3</td>
+                }
+                else if (item.Sai_num_relogio_3 == "PE")
+                {
+                    <td style="color:#783c00">@item.Saida_3</td>
+                }
+                else
+                {
+                    <td>@item.Saida_3</td>
+                }
 
-                    @if (item.Tratamento_Ent_4 == "P")
-                    {
-                        <td style="color:#FFA04D">@item.Entrada_4</td>
-                    }
-                    else if (item.Tratamento_Ent_4 == "I")
-                    {
-                        <td style="color:#3C9C52">@item.Entrada_4</td>
-                    }
-                    else if (item.Tratamento_Ent_4 == "D")
-                    {
-                        <td style="color:#C14A4A">@item.Entrada_4</td>
-                    }
-                    else
-                    {
-                        <td>@item.Entrada_4</td>
-                    }
+                @if (item.Tratamento_Ent_4 == "P")
+                {
+                    <td style="color:#FFA04D">@item.Entrada_4</td>
+                }
+                else if (item.Tratamento_Ent_4 == "I")
+                {
+                    <td style="color:#3C9C52">@item.Entrada_4</td>
+                }
+                else if (item.Tratamento_Ent_4 == "D")
+                {
+                    <td style="color:#C14A4A">@item.Entrada_4</td>
+                }
+                else if (item.Ent_num_relogio_4 == "PE")
+                {
+                    <td style="color:#783c00">@item.Entrada_4</td>
+                }
+                else
+                {
+                    <td>@item.Entrada_4</td>
+                }
 
-                    @if (item.Tratamento_Sai_4 == "P")
-                    {
-                        <td style="color:#FFA04D">@item.Saida_4</td>
-                    }
-                    else if (item.Tratamento_Sai_4 == "I")
-                    {
-                        <td style="color:#3C9C52">@item.Saida_4</td>
-                    }
-                    else if (item.Tratamento_Sai_4 == "D")
-                    {
-                        <td style="color:#C14A4A">@item.Saida_4</td>
-                    }
-                    else
-                    {
-                        <td>@item.Saida_4</td>
-                    }
+                @if (item.Tratamento_Sai_4 == "P")
+                {
+                    <td style="color:#FFA04D">@item.Saida_4</td>
+                }
+                else if (item.Tratamento_Sai_4 == "I")
+                {
+                    <td style="color:#3C9C52">@item.Saida_4</td>
+                }
+                else if (item.Tratamento_Sai_4 == "D")
+                {
+                    <td style="color:#C14A4A">@item.Saida_4</td>
+                }
+                else if (item.Sai_num_relogio_4 == "PE")
+                {
+                    <td style="color:#783c00">@item.Saida_4</td>
+                }
+                else
+                {
+                    <td>@item.Saida_4</td>
+                }
 
-                    <td style="color:blue">@item.Horastrabalhadas</td>
-                    <td style="color:blue">@item.Horastrabalhadasnoturnas</td>
-                    <td style="color:blue; text-align:center">@item.AdicionalNoturno</td>
-                    @foreach (var total in item.ValoresInItinere)
-                    {
-                        <td style="color:#b36b00">@total</td>
-                    }
-                    <td style="color:blue">@item.Horasextrasdiurna</td>
-                    <td style="color:blue">@item.Horasextranoturna</td>
-                    <td style="color:red">@item.Horasfaltas</td>
-                    <td style="color:red">@item.Horasfaltanoturna</td>
-                    <td style="color:blue">@item.Bancohorascre</td>
-                    <td style="color:red">@item.Bancohorasdeb</td>
-                    <td>@item.Ocorrencia</td>
-                    <td>@FiltroOcorrencia</td>
-                </tr>
+                <td style="color:blue">@item.Horastrabalhadas</td>
+                <td style="color:blue">@item.Horastrabalhadasnoturnas</td>
+                <td style="color:blue; text-align:center">@item.AdicionalNoturno</td>
+                @foreach (var total in item.ValoresInItinere)
+                {
+                    <td style="color:#b36b00">@total</td>
+                }
+                <td style="color:blue">@item.Horasextrasdiurna</td>
+                <td style="color:blue">@item.Horasextranoturna</td>
+                <td style="color:red">@item.Horasfaltas</td>
+                <td style="color:red">@item.Horasfaltanoturna</td>
+                <td style="color:blue">@item.Bancohorascre</td>
+                <td style="color:red">@item.Bancohorasdeb</td>
+                <td>@item.Ocorrencia</td>
+                <td>@FiltroOcorrencia</td>
+            </tr>
             }
         </tbody>
     </table>

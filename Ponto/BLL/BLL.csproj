@@ -352,6 +352,7 @@
     <Compile Include="AlertasRepAcompanhamento.cs" />
     <Compile Include="ApiWebfopag\V1\Coletor.cs" />
     <Compile Include="ApiWebfopag\V1\Login.cs" />
+    <Compile Include="CalculoMarcacoes\PontoPorExcecao.cs" />
     <Compile Include="CercaVirtual.cs" />
     <Compile Include="HorarioDinamicoRestricao.cs" />
     <Compile Include="JornadaSubstituir.cs" />
@@ -481,6 +482,7 @@
     <Compile Include="Relatorios\V2\RelatorioInconsistenciasBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioIntervalosBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioRefeicaoBLL.cs" />
+    <Compile Include="Relatorios\V2\RelatorioSubstituicaoJornadaBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioTotalHorasBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioLocalizacaoRegistroPontoBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioManutencaoDiariaBLL.cs" />

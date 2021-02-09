@@ -140,7 +140,7 @@ namespace DAL.SQL
                              DomingoPercBanco, FeriadoPercBanco, FolgaPercBanco, MarcaSegundaPercBanco, MarcaTercaPercBanco, MarcaQuartaPercBanco, MarcaQuintaPercBanco, MarcaSextaPercBanco, 
                              MarcaSabadoPercBanco, MarcaDomingoPercBanco, MarcaFeriadoPercBanco, MarcaFolgaPercBanco, bUtilizaDDSRProporcional, LimiteHorasTrabalhadasDia, LimiteMinimoHorasAlmoco, 
                              LimiteInterjornada, desconsiderarferiado, HoristaMensalista, DescontarFeriadoDDSR, QtdHEPreClassificadas, IdClassificacao, HabilitaInItinere, DescontarAtrasoInItinere, 
-                             DescontarFaltaInItinere, IdHorarioOrigem, InicioVigencia, DDSRConsideraFaltaDuranteSemana, Ativo, separaExtraNoturnaPercentual, consideraradicionalnoturnointerv, DescontoHorasDSR, DSRPorPercentual, IdHorarioDinamico, CicloSequenciaIndice, DataBaseCicloSequencia)
+                             DescontarFaltaInItinere, IdHorarioOrigem, InicioVigencia, DDSRConsideraFaltaDuranteSemana, Ativo, separaExtraNoturnaPercentual, consideraradicionalnoturnointerv, DescontoHorasDSR, DSRPorPercentual, IdHorarioDinamico, CicloSequenciaIndice, DataBaseCicloSequencia, PontoPorExcecao)
 							VALUES
 							(@codigo, @descricao, @horariodescricao_1, @horariodescricao_2, @horariodescricao_3, @horariodescricao_4, @horariodescricaosai_1, 
                             @horariodescricaosai_2, @horariodescricaosai_3, @horariodescricaosai_4, @idparametro, @horasnormais, @somentecargahoraria, 
@@ -154,7 +154,7 @@ namespace DAL.SQL
                             @MarcaQuartaPercBanco, @MarcaQuintaPercBanco, @MarcaSextaPercBanco, @MarcaSabadoPercBanco, @MarcaDomingoPercBanco, @MarcaFeriadoPercBanco, @MarcaFolgaPercBanco, @bUtilizaDDSRProporcional, 
                             @LimiteHorasTrabalhadasDia, @LimiteMinimoHorasAlmoco, @LimiteInterjornada, @desconsiderarferiado, @HoristaMensalista, @DescontarFeriadoDDSR, @QtdHEPreClassificadas, @IdClassificacao, 
                             @HabilitaInItinere, @DescontarAtrasoInItinere, @DescontarFaltaInItinere, @IdHorarioOrigem, @InicioVigencia, @DDSRConsideraFaltaDuranteSemana, @Ativo, @separaExtraNoturnaPercentual, @consideraradicionalnoturnointerv, @DescontoHorasDSR, @DSRPorPercentual,
-                            @IdHorarioDinamico, @CicloSequenciaIndice, @DataBaseCicloSequencia) 
+                            @IdHorarioDinamico, @CicloSequenciaIndice, @DataBaseCicloSequencia, @PontoPorExcecao) 
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE horario SET codigo = @codigo
@@ -251,6 +251,7 @@ namespace DAL.SQL
                             , IdHorarioDinamico = @IdHorarioDinamico
                             , CicloSequenciaIndice = @CicloSequenciaIndice
                             , DataBaseCicloSequencia = @DataBaseCicloSequencia
+                            , PontoPorExcecao = @PontoPorExcecao
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM horario WHERE id = @id";
@@ -403,6 +404,7 @@ namespace DAL.SQL
             ((Modelo.Horario)obj).CicloSequenciaIndice = dr["CicloSequenciaIndice"] is DBNull ? (Int32?)null : Convert.ToInt32(dr["CicloSequenciaIndice"]);
             ((Modelo.Horario)obj).DataBaseCicloSequencia = dr["DataBaseCicloSequencia"] is DBNull ? (DateTime?)null : Convert.ToDateTime(dr["DataBaseCicloSequencia"]);
             ((Modelo.Horario)obj).HorarioDinamico = Convert.ToString(dr["DescHorarioDinamico"]);
+            ((Modelo.Horario)obj).PontoPorExcecao = Convert.ToBoolean(dr["PontoPorExcecao"]);
         }
 
         protected override SqlParameter[] GetParameters()
@@ -508,7 +510,8 @@ namespace DAL.SQL
                 new SqlParameter ("@DSRPorPercentual", SqlDbType.Bit),
                 new SqlParameter ("@IdHorarioDinamico", SqlDbType.Int),
                 new SqlParameter ("@CicloSequenciaIndice", SqlDbType.Int),
-                new SqlParameter ("@DataBaseCicloSequencia", SqlDbType.DateTime)
+                new SqlParameter ("@DataBaseCicloSequencia", SqlDbType.DateTime),
+                new SqlParameter ("@PontoPorExcecao", SqlDbType.Bit)
             };
             return parms;
         }
@@ -619,6 +622,7 @@ namespace DAL.SQL
             parms[97].Value = ((Modelo.Horario)obj).IdHorarioDinamico;
             parms[98].Value = ((Modelo.Horario)obj).CicloSequenciaIndice;
             parms[99].Value = ((Modelo.Horario)obj).DataBaseCicloSequencia;
+            parms[100].Value = ((Modelo.Horario)obj).PontoPorExcecao;
         }
 
         public Modelo.Horario LoadObject(int id)
@@ -1389,6 +1393,7 @@ namespace DAL.SQL
 	                    , CASE WHEN h.descontardsr = 1 THEN 'Sim' ELSE 'Não' END descontardsr
 	                    , CASE WHEN h.bUtilizaDDSRProporcional = 1 THEN 'Sim' ELSE 'Não' END bUtilizaDDSRProporcional
 	                    , CASE WHEN h.DescontarFeriadoDDSR = 1 THEN 'Sim' ELSE 'Não' END DescontarFeriadoDDSR
+                        , CASE WHEN h.PontoPorExcecao = 1 THEN 'Sim' ELSE 'Não' END PontoPorExcecao
                     FROM horario h
 	                    LEFT JOIN parametros parms ON parms.id = h.idparametro
 	                WHERE 

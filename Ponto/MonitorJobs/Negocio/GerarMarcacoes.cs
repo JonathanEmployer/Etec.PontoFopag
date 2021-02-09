@@ -18,7 +18,7 @@ namespace MonitorJobs.Negocio
 
             if (idsFuncs.Count > 0)
             {
-                bllCartaoPonto.TratarMarcacoes(DateTime.Now.Date, DateTime.Now.AddMonths(+1).AddDays(1).Date, idsFuncs, bllFuncionario); 
+                bllCartaoPonto.TratarMarcacoes(DateTime.Now.Date, DateTime.Now.AddMonths(+1).AddDays(1).Date, idsFuncs, bllFuncionario);
             }
 
             BLL.HorarioDinamico bllHorarioDinamico = new BLL.HorarioDinamico(conn.ConnectionString, user);

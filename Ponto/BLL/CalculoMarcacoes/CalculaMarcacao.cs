@@ -123,7 +123,7 @@ namespace BLL
         , consideraradicionalnoturnointerv, momentoPreAssinalado;
 
         private short? marcaCargaHorariaMistaHD, bCarregar, flagFolga, diaDsr, HabilitaInItinere;
-        bool flagNeutro, DescontarAtrasoInItinere, DescontarFaltaInItinere, diaPossuiInItinere;
+        bool flagNeutro, DescontarAtrasoInItinere, DescontarFaltaInItinere, diaPossuiInItinere, pontoPorExcecao;
         decimal percentualDentroJornadaInItinere, percentualForaJornadaInItinere;
 
         #endregion
@@ -550,14 +550,62 @@ namespace BLL
             this.SetaVariaveisAfastamento(pMarcacao);
             this.SetaVariaveisHorario(pMarcacao);
             this.SetaVariaveisMarcacao(pMarcacao);
-            
-            horasExtraDiurnaFeriadoMin = 0;
-            horasExtraNoturnaFeriadoMin = 0;
-            feriadoProximoDia = false;
             //Se estiver calculando e algum dos tratamentos estiver com o campo importado = 2, mudo ele para 1
             tratamentosMarcacao.Where(w => w.Importado == 2).ToList().ForEach(f => f.Importado = 1);
             //Guarda dados anterior
             List<Modelo.BilhetesImp> tratamentosMarcacaoAnt = new Modelo.BilhetesImp().Clone(tratamentosMarcacao);
+
+            if ((TemAfastamento() || !pontoPorExcecao) && tratamentosMarcacao.Where(w => w.Relogio == "PE").Any())
+            {
+                tratamentosMarcacao = tratamentomarcacaoList.Where(t => t.Mar_data == data && t.DsCodigo == dscodigo).ToList();
+                tratamentosMarcacao.Where(w => w.Relogio == "PE").ToList().ForEach(f => f.Acao = Acao.Excluir);
+                tratamentosMarcacao = tratamentosMarcacao.OrderBy(o => o.Posicao).ThenBy(o => o.Ent_sai).ToList();
+                string ent_sai = "E";
+                int posicao = 1;
+                //for (int i = 0; i < tratamentosMarcacao.Count; i++)
+                //{
+                //    var tratamento = tratamentosMarcacao[i];
+                //    if (tratamento.Acao != Acao.Excluir)
+                //    {
+                //        tratamento.Ent_sai = ent_sai;
+                //        tratamento.Posicao = posicao;
+                //        ent_sai = ent_sai == "E" ? "S" : "E";
+                //        posicao = ent_sai == "E" ? posicao++ : posicao;
+                //    }
+                //}
+                BilhetesImp.AjustarPosicaoBilhetes(tratamentosMarcacao);
+                for (int i = 1; i < 9; i++)
+                {
+                    var entrada = tratamentosMarcacao.Where(w => w.Ent_sai == "E" && w.Posicao == i && w.Acao != Acao.Excluir).FirstOrDefault();
+                    if (entrada != null)
+                    {
+                        pMarcacao[$"entrada_{i}min"] = entrada.Hora.ConvertHorasMinuto();
+                        pMarcacao[$"entrada_{i}"] = entrada.Hora;
+                    }
+                    else
+                    {
+                        pMarcacao[$"entrada_{i}min"] = -1;
+                        pMarcacao[$"entrada_{i}"] = "--:--";
+                    }
+
+                    var saida = tratamentosMarcacao.Where(w => w.Ent_sai == "S" && w.Posicao == i && w.Acao != Acao.Excluir).FirstOrDefault();
+                    if (saida != null)
+                    {
+                        pMarcacao[$"saida_{i}min"] = saida.Hora.ConvertHorasMinuto();
+                        pMarcacao[$"saida_{i}"] = saida.Hora;
+                    }
+                    else
+                    {
+                        pMarcacao[$"saida_{i}min"] = -1;
+                        pMarcacao[$"saida_{i}"] = "--:--";
+                    }
+                }
+                this.SetaVariaveisMarcacao(pMarcacao);
+            }
+
+            horasExtraDiurnaFeriadoMin = 0;
+            horasExtraNoturnaFeriadoMin = 0;
+            feriadoProximoDia = false;
             PreencheMarcacao(pMarcacao);
             Modelo.Marcacao objMarcacaoAnt = new Modelo.Marcacao().Clone(objMarcacao);            
             //Verifica Parametro Estender Periodo Noturno
@@ -842,7 +890,8 @@ namespace BLL
                         List<Modelo.BilhetesImp> bilIguaisAnt = tratamentosMarcacaoAnt.Where(e => item.BilheteIsEqual(e)).ToList();
                         List<Modelo.BilhetesImp> bilIguaisAtual = tratamentosMarcacao.Where(e => item.BilheteIsEqual(e)).ToList();
                         // Salva apenas os bilhetes que possuem alteração (não tem um alterior igual), ou se for PA salva os que não estão sendo incluídos e excluídos com o mesmo valor (dois iguais)
-                        if (bilIguaisAnt.Count() == 0 || item.Relogio == "PA" && bilIguaisAtual.Count() <= 1)
+                        // Ou se é registro por excessão e foi assinalado para excluir.
+                        if ((bilIguaisAnt.Count() == 0 || item.Relogio == "PA" && bilIguaisAtual.Count() <= 1) || (item.Relogio == "PE" && item.Acao == Acao.Excluir))
                         {
                             bilhetesSalvar.Add(item);
                         }
@@ -4697,7 +4746,7 @@ namespace BLL
             percentualDentroJornadaInItinere = Convert.ToDecimal(pMarcacao["PercentualDentroJornadaInItinere"] is DBNull ? 0 : pMarcacao["PercentualDentroJornadaInItinere"]);
             percentualForaJornadaInItinere = Convert.ToDecimal(pMarcacao["PercentualForaJornadaInItinere"] is DBNull ? 0 : pMarcacao["PercentualForaJornadaInItinere"]);
             horaExtraInterjornada = pMarcacao["horaExtraInterjornada"] is DBNull ? "--:--" : pMarcacao["horaExtraInterjornada"].ToString();
-
+            pontoPorExcecao = Convert.ToBoolean(pMarcacao["PontoPorExcecao"]);
             //CorrigeEntradasESaidasHD();
             if ((pMarcacao["naoentrarnacompensacao"] is DBNull) && (pMarcacao["naocompensacaofunc"] is DBNull))
             {
@@ -5062,12 +5111,17 @@ namespace BLL
                 return "F";
             }
 
-            if (idAfastamentoFunc != null || idAfastamentoDep != null || idAfastamentoEmp != null || idAfastamentoCont != null)
+            if (TemAfastamento())
             {
                 //Existe um afastamento para aquela data                
                 return "A";
             }
             return "";
+        }
+
+        private bool TemAfastamento()
+        {
+            return idAfastamentoFunc != null || idAfastamentoDep != null || idAfastamentoEmp != null || idAfastamentoCont != null;
         }
 
         private string BuscaLegendaConcatenada()

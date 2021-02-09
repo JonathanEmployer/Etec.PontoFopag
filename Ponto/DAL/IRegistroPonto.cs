@@ -23,6 +23,10 @@ namespace DAL
         Hashtable GetHashPorPISPeriodo(DateTime pDataI, DateTime pDataF, List<string> lPis);
 
         Modelo.RegistroPonto GetUltimoRegistroByOrigem(string origemRegistro);
+
+        Dictionary<int, string> GetSituacao(List<int> idsRegistros);
+
+        Dictionary<int, string> GetSituacaoByLote(string lote);
     }
 }
 

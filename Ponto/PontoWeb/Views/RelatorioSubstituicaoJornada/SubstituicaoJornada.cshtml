@@ -1,0 +1,265 @@
+﻿
+@model Modelo.Relatorios.RelatorioPadraoModel
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Relatório de Substituição de Jornada";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="">
+        <div class="">
+            <div class="panel panel-default" style="margin-bottom:0">
+                <div class="panel-heading">
+                    @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+                    <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+                </div>
+                <div class="panel-body panelConteudo" id="panelBodyFixo">
+                    @Html.HiddenFor(x => x.TipoSelecao)
+                    @Html.ValidationSummary(true)
+                    @Html.ValidationMessage("CustomError", new { id = "CustomError" })
+                    @Html.HiddenFor(model => model.TipoArquivo, new { id = "tipoArquivo" })
+                    <div>
+                        <div class="col-md-12">
+                            @Html.ValidationMessageFor(model => Model.TipoSelecao)
+                        </div>
+                        <div class="row" style="padding-bottom:4px;">
+                            <div id="divPeriodo" class="col-md-4">
+                                <div class="panel panel-default" id="pnlData">
+                                    <div class="panel-heading" style="padding-top:5px; padding-bottom:5px">
+                                        <label class="control-label label-sm">Período</label>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <div class="input-group input-group-sm">
+                                                            @Html.TextBoxFor(model => Model.InicioPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "InicioPeriodo" })
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-primary" id="btnDtInicio" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        @Html.Label("a", new { @class = "label-sm" })
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="input-group input-group-sm">
+                                                            @Html.TextBoxFor(model => Model.FimPeriodo, new { @class = "form-control input-sm MascDate datepickerpt", id = "FimPeriodo" })
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-primary" id="btnDtFim" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                @Html.HiddenFor(model => model.Intervalo)
+                                                @Html.ValidationMessageFor(model => model.Intervalo)
+                                                @Html.ValidationMessageFor(model => Model.InicioPeriodo)
+                                                @Html.ValidationMessageFor(model => Model.FimPeriodo)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" style="padding-top:6px; padding-bottom:6px">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label class="control-label label-sm">Funcionário</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-9">
+                                                        <div class="form-group input-group-sm" style="margin-bottom:0">
+                                                            <div class="radio-inline" data-toggle="radio">
+                                                                <input type="radio" name="rdFuncionarioFiltro" value="0" />
+                                                                <label class="label-sm" for="rdbRet">Inativo</label>
+                                                            </div>
+                                                            <div class="radio-inline" data-toggle="radio">
+                                                                <input type="radio" name="rdFuncionarioFiltro" value="1" checked />
+                                                                <label class="label-sm" for="rdbRet">Ativo</label>
+                                                            </div>
+                                                            <div class="radio-inline" data-toggle="radio">
+                                                                <input type="radio" name="rdFuncionarioFiltro" value="2" />
+                                                                <label class="label-sm" for="rdbRet">Ambos</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group input-group-sm" style="margin-bottom:0">
+                                                            <button class="btn btn-primary btn-xs" id="btnBuscarFiltro" type="button">Buscar</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.HiddenFor(x => x.IdSelecionados)
+                                @Html.ValidationMessageFor(x => x.IdSelecionados)
+                                <div class="row">
+                                    @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorio()).GetType(), true, "GetFuncsRel", "GetFunsVazioXaxo", "EventoFuncionarioRowCollor", "", null, "")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.Partial("../JobManager/JobView")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-xs-12 center-block">
+                            <div style="text-align: right">
+                                <button type="submit" id="btnXls" class="btn btn-primary btnEnviar"><span class="fa fa-file-excel-o"></span>&nbsp;Excel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+<script>
+    var errorArray = new Array();
+    cwk_DataCalendario('#btnDtInicio', '#InicioPeriodo');
+    cwk_DataCalendario('#btnDtFim', '#FimPeriodo');
+
+    $(document).ready(function () {
+        $('.datepickerpt').datepicker().on('hide', function (ev) {
+            $("#pnlData").removeClass("panel-danger").removeClass("panel-success");
+            $("#pnlData").addClass("panel-default");
+            errorArray["Intervalo"] = null;
+            $("form").validate().showErrors(errorArray);
+            if ((this.id == "InicioPeriodo") && (($("#InicioPeriodo").val() != null && $("#InicioPeriodo").val() != "") && ($("#FimPeriodo").val() == null || $("#FimPeriodo").val() == ""))) {
+                var inid = new Date(ev.date);
+                endDate = new Date(ev.date);
+                endDate.setDate(endDate.getDate() + 30);
+                endDateString = ('0' + endDate.getDate()).slice(-2) + '/'
+                    + ('0' + (endDate.getMonth() + 1)).slice(-2) + '/'
+                    + endDate.getFullYear();
+                $('#FimPeriodo').val(endDateString);
+                $('#FimPeriodo').datepicker('update');
+            }
+            validaPeriodo(this);
+
+        });
+
+        $('#tbFun tbody').on('click', 'tr', function () {
+            errorArray["IdSelecionados"] = null;
+            $("form").validate().showErrors(errorArray);
+        });
+
+        $("#btnBuscarFiltro").click(function () { EventoFuncionarioFiltro(); });
+    });
+
+    function EventoFuncionarioFiltro() {
+        let x = $("input[name='rdFuncionarioFiltro']:checked").val();
+        let y = '/GetFuncsRel/GetFunsComParms';
+        EventoFuncionarioFiltroRequest(x, y);
+    }
+
+    $("#btnXls").click(function (event) {
+        if (!validaForm()) {
+            event.preventDefault();
+        }
+        else {
+            $("#tipoArquivo").val("Excel");
+        }
+    });
+
+    $('form').submit(function () {
+        if ($(this).valid()) {
+            PostFormJob(this);
+        }
+        return false;
+    });
+
+    function validaForm() {
+        var retorno = true;
+        $("#IdSelecionados").val(GetSelecionados('tbFun'));
+        if ($("#IdSelecionados").val().length <= 0 || $("#IdSelecionados").val() == '' || $("#IdSelecionados").val() == null) {
+            var msgErro = 'Para Imprimir o Relatório é Necessário Selecionar Pelo Menos um Funcionário.';
+            errorArray["IdSelecionados"] = msgErro;
+            cwkErro(msgErro);
+            $("form").validate().showErrors(errorArray);
+            retorno = false;
+        }
+        else {
+            errorArray["IdSelecionados"] = null;
+            $("form").validate().showErrors(errorArray);
+            retorno = true;
+        }
+
+        return retorno;
+    }
+
+    function validaPeriodo(campo) {
+        if (($("#InicioPeriodo").val() != null && $("#InicioPeriodo").val() != "") && ($("#FimPeriodo").val() != null && $("#FimPeriodo").val() != "")) {
+            var dias = diasPeriodo($("#InicioPeriodo").val(), $('#FimPeriodo').val());
+
+            if (dias <= 0) {
+                errorArray["Intervalo"] = 'Data Inícial deve ser menor que a Final';
+                $("form").validate().showErrors(errorArray);
+                $("#pnlData").removeClass("panel-default");
+                $("#pnlData").addClass("panel-danger");
+                $("#divGridMarcacao").html("");
+                $("#FimPeriodo").focus();
+                return false;
+            }
+            else {
+                $("#pnlData").removeClass("panel-default").removeClass("panel-danger");
+                $("#pnlData").addClass("panel-default");
+                return true;
+            }
+
+        }
+        else {
+            if (($("#InicioPeriodo").val() == null || $("#InicioPeriodo").val() == "") && ($("#FimPeriodo").val() == null || $("#FimPeriodo").val() == "")) {
+                errorArray["Intervalo"] = 'A Data Inicial e Final devem ser preenchidas!';
+                $("#InicioPeriodo").focus();
+            }
+            else {
+
+                if ($("#InicioPeriodo").val() == null || $("#InicioPeriodo").val() == "") {
+                    errorArray["Intervalo"] = 'A Data Inicial deve ser preenchida!';
+                    $("#InicioPeriodo").focus();
+                }
+                if ($("#FimPeriodo").val() == null || $("#FimPeriodo").val() == "") {
+                    errorArray["Intervalo"] = 'A Data Final deve ser preenchida!';
+                    $("#FimPeriodo").focus();
+                }
+            }
+
+            $("form").validate().showErrors(errorArray);
+            $("#pnlData").removeClass("panel-default").removeClass("panel-success");
+            $("#pnlData").addClass("panel-danger");
+            $("#divGridMarcacao").html("");
+            return false;
+        }
+    }
+
+</script>
+
+
+
+
