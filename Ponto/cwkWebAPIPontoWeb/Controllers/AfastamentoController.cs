@@ -168,6 +168,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                             DadosAntAfastamento.IdFuncionario = idFuncionario.GetValueOrDefault();
                             DadosAntAfastamento.Tipo = 0;
                             DadosAntAfastamento.Observacao = Afastamento.Observacao;
+                            DadosAntAfastamento.IdOcorrencia = Afastamento.IdOcorrencia.GetValueOrDefault();
 
                             Dictionary<string, string> erros = new Dictionary<string, string>();
                             DadosAntAfastamento.ForcarNovoCodigo = true;
