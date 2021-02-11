@@ -113,6 +113,9 @@ namespace BLL.Relatorios
             cells[0, coluna++].Value = "Qtde Horas Previstas";
 
 
+            cells[0, coluna].VerticalAlignment = VAlign.Center;
+            cells[0, coluna++].Value = "Pessoa Supervisor";
+
             cells[0, coluna].EntireColumn.NumberFormat = "[H]:MM:SS;@";
             cells[0, coluna].VerticalAlignment = VAlign.Center;
             cells[0, coluna].WrapText = true;
@@ -271,6 +274,7 @@ namespace BLL.Relatorios
                 cells[linha, coluna++].Value = registro["Funcao"].ToString();
                 cells[linha, coluna++].Value = registro["Admissao"].ToString();
                 cells[linha, coluna++].Value = registro["QtdeHorasPrevistas"].ToString();
+                cells[linha, coluna++].Value = registro["Supervisor"].ToString();
                 cells[linha, coluna++].Value = registro["HorasTrabalhadas"].ToString();
                 cells[linha, coluna++].Value = registro["NdeDiasTrab"].ToString();
                 cells[linha, coluna++].Value = registro["PercTrabalhado"].ToString().Replace("**", (linha + 1).ToString());
@@ -332,6 +336,8 @@ namespace BLL.Relatorios
             cells[linha, coluna++].Value = FormulaSoma(iniConjunto, linha, "M"); //registro["HorasExtras"].ToString();
             cells[linha, coluna].Font.Bold = true;
             cells[linha, coluna++].Value = FormulaSoma(iniConjunto, linha, "N"); //registro["QtdHorasExtras"].ToString();
+            cells[linha, coluna].Font.Bold = true;
+            coluna++;//cells[linha, coluna++].Value = registro["PessoaSupervisor"].ToString();
             cells[linha, coluna].Font.Bold = true;
             cells[linha, coluna++].Value = registro["PercHorasExtras"].ToString().Replace("**", (linha + 1).ToString());
             cells[linha, coluna].Font.Bold = true;
@@ -397,6 +403,8 @@ namespace BLL.Relatorios
             cells[linha, coluna++].Formula = FormulaSomaGrupo(grupos, "M"); //registro["HorasExtras"].ToString();
             cells[linha, coluna].Font.Bold = true;
             cells[linha, coluna++].Formula = FormulaSomaGrupo(grupos, "N"); //registro["QtdHorasExtras"].ToString();
+            cells[linha, coluna].Font.Bold = true;
+            coluna++;//cells[linha, coluna++].Value = registro["PessoaSupervisor"].ToString();
             cells[linha, coluna].Font.Bold = true;
             cells[linha, coluna++].Formula = registro["PercHorasExtras"].ToString().Replace("**", (linha + 1).ToString());
             cells[linha, coluna].Font.Bold = true;
