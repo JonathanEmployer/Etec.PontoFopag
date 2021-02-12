@@ -247,12 +247,14 @@ namespace DAL.SQL
 	                               convert(varchar, FUNC.codigo) + ' - ' + FUNC.descricao FuncaoCodigoDescricao,
 	                               BI.mar_data,
 	                               BI.mar_hora,
+                                   BI.relogio relogio, 
 	                               ISNULL(LRP.IpInterno, LRP.IpPublico) IP,
 	                               LRP.Browser,
 	                               LRP.BrowserVersao,
                                    Convert(VARCHAR, @datainicial, 103) + ' a ' + Convert(VARCHAR, @datafinal, 103) Periodo,
 								   Convert(VARCHAR,LRP.Latitude) Latitude,
-								   Convert(VARCHAR,LRP.Longitude)  Longitude
+								   Convert(VARCHAR,LRP.Longitude)  Longitude,
+                                   'https://www.bing.com/maps/directions?cp=' + Convert(VARCHAR,LRP.Latitude) + '~' + Convert(VARCHAR,LRP.Longitude) + '&sty=r&lvl=16&rtp=~pos.' + Convert(VARCHAR,LRP.Latitude) + '_' + Convert(VARCHAR,LRP.Longitude) + '____ &FORM=MBEDLD' vermapa
                               FROM LocalizacaoRegistroPonto LRP
                              INNER JOIN bilhetesimp	bi ON LRP.IdBilhetesImp = bi.id
                              INNER JOIN funcionario f ON bi.func = f.dscodigo

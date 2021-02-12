@@ -8,7 +8,59 @@
 }
 
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD_2TJzYj_BEvul3hhk9pc4iWPCCKLVBqk&sensor=false"></script>
-    <div class="divCenterPequeno">
+<script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&setMkt=pt-BR&setLang=pt-BR&branch=release' async defer></script>
+<script type="text/javascript">
+    var mapBing;
+    var latitude = -23.314303;
+    var longitude = -51.159611;
+    function GetMap() {
+        var mapLocation = new Microsoft.Maps.Location(latitude, longitude);
+        mapBing = new Microsoft.Maps.Map('#myMap', {
+            credentials: 'AhJYB1isd5fdHwWujY-plJHkA438Hki6U0AHITVZEx-Kb78Mz8RLYo6p_C02tLgo',
+            center: mapLocation,
+            mapTypeId: Microsoft.Maps.MapTypeId.canvasLight,
+            zoom: 16,
+        });
+        Microsoft.Maps.loadModule('Microsoft.Maps.AutoSuggest', function () {
+            var manager = new Microsoft.Maps.AutosuggestManager({ map: mapBing });
+            manager.attachAutosuggest('#Endereco', '#searchBoxContainer', selectedSuggestion);
+        });
+
+        //Create an infobox at the center of the map but don't show it.
+        infobox = new Microsoft.Maps.Infobox(mapBing.getCenter(), {
+            visible: false
+        });
+
+        //Assign the infobox to a map instance.
+        infobox.setMap(mapBing);
+
+        var pin = new Microsoft.Maps.Pushpin(mapLocation);
+
+        //Add a click event handler to the pushpin.
+        Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
+
+        //Add pushpin to the map.
+        mapBing.entities.push(pin);
+    }
+    function pushpinClicked(e) {
+        //Make sure the infobox has metadata to display.
+        if (e.target.metadata) {
+            //Set the infobox options with the metadata of the pushpin.
+            infobox.setOptions({
+                location: e.target.getLocation(),
+                title: e.target.metadata.title,
+                description: e.target.metadata.description,
+                visible: true
+            });
+        }
+    }
+</script>
+<style>
+    .pointer {
+        cursor: pointer;
+    }
+</style>
+<div class="divCenterPequeno">
     <div class="modal-content">
         <div class="modal-header salvando">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="xfecharCadastroModal">X</button>
@@ -36,8 +88,25 @@
                         {
                             <tr id="@item.Id">
                                 <td>@item.Data.ToShortDateString()</td>
-                                <td>@item.Hora</td>
-                                <td>@item.Relogio</td>
+                                <td>@item.Hora</td>D
+                                @if (item.Relogio == "AP" || item.Relogio == "RW")
+                                {
+                                    <td>
+                                        @item.Relogio&nbsp;&nbsp;
+                                        @if (item.localizacaoRegistroPonto != null)
+                                        {
+                                            @Html.Hidden("Latitude", item.localizacaoRegistroPonto.Latitude)
+                                            @Html.Hidden("Longitude", item.localizacaoRegistroPonto.Longitude)
+                                            <a class="pointer showMap">
+                                                <img height="20" width="20" src="~/Content/images/bing-removebg.png" />Ver mapa
+                                            </a>
+                                        }
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>@item.Relogio</td>
+                                }
                                 <td>@Convert.ToDateTime(item.Mar_data).ToShortDateString()</td>
                                 <td>@item.Mar_hora</td>
                                 <td>@item.Mar_relogio</td>
@@ -186,36 +255,52 @@
 
             </div>
         </div>
-                <div class="modal fade" id="ModalMapa" role="dialog" style="z-index:999999;">
-                    <div class="modal-dialog" style="width: 900px; height: 280px;">
+        <div class="modal fade" id="ModalMapa" role="dialog" style="z-index:999999;">
+            <div class="modal-dialog" style="width: 900px; height: 280px;">
 
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                @Html.Label("Exibindo a Localização", new { @class = "control-label label-sm" })
-                                <button id="btnFecharModalTransferencia" type="button" class="close">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <div id="map_canvas" style="width: 100%; height: 432px; margin-right:0px;">
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-
-                            </div>
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        @Html.Label("Exibindo a Localização", new { @class = "control-label label-sm" })
+                        <button id="btnFecharModalTransferencia" type="button" class="close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="map_canvas" style="width: 100%; height: 432px; margin-right:0px;">
                         </div>
+                    </div>
+                    <div class="modal-footer">
 
                     </div>
+                </div>
+
+            </div>
         </div>
-            
-     
+        <div class="modal fade" id="ModalBing" role="dialog" style="z-index:999999;">
+            <div class="modal-dialog" style="width: 900px; height: 280px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        @Html.Label("Localização de registro", new { @class = "control-label label-sm" })
+                        <button type="button" class="close hideMap">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="myMap" style="width: 100%; height: 432px; margin-right:0px;">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
     </div>
-    
+
 </div>
 
 
 
-    <script>
-
+<script>
     var altura = cwk_AlturaTela() * 70 / 100;
     var oTbManutBilhetes = cwk_MicroTBTheme('#tbManutBilhetes', altura, false);
     $(document).ready(function () {
@@ -241,6 +326,24 @@
                 $('#btExibirLocalizacao').prop('disabled', true);
                 $('#btExibirLocalizacao').attr('disabled', true);
             }
+
+        $('.showMap').click(function () {
+            latitude = $(this).parent().find('#Latitude').val().replace(',', '.');
+            longitude = $(this).parent().find('#Longitude').val().replace(',', '.');
+
+            var mapLocation = new Microsoft.Maps.Location(latitude, longitude);
+
+            mapBing.entities.clear();
+            var pin = new Microsoft.Maps.Pushpin(mapLocation);
+            mapBing.entities.push(pin);
+            var bestView = new Microsoft.Maps.LocationRect(mapLocation);
+            mapBing.setView({ bounds: bestView});
+
+                $("#ModalBing").modal('show');
+            });
+            $('.hideMap').click(function () {
+                $("#ModalBing").modal('hide');
+            });
         })
 
         function callBackSalvaManutBilhete() {
@@ -254,8 +357,8 @@
                 cwkErroTit('Selecione um Registro!', 'É necessário selecionar um registo para realizar essa operação!');
             }
             else
-            {               
-                var parametros = p = { idMarcacao: idMarcacao, selecionados: selecionados.join(',') };               
+            {
+                var parametros = p = { idMarcacao: idMarcacao, selecionados: selecionados.join(',') };
                 cwk_PostAjaxSemProgress('TransferirDeContrato', 'ManutencaoBilhetes', parametros, callBackSalvaTransfBilhete, "")
 
             }
@@ -328,14 +431,14 @@
             $("#divLoadCadastroModal").hide();
         });
 
-
+    function callbackErro() { }
         function cwk_PostAjaxSemProgress(acao, controller, parametros, fCallBack, fCallBackErro) {
             url = "/" + controller + "/" + acao;
             $.ajax({
                 type: "POST",
                 url: url,
                 data: parametros,
-                beforeSend: function () {                    
+                beforeSend: function () {
                     $("#loading").modal();
                 },
                 success: function (data) {
@@ -400,4 +503,4 @@
 
         //    map.setCenter(myLatLgn);//leva o mapa para a posicao da marcacao
         //}
-    </script>
+</script>

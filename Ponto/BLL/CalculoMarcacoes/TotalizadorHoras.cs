@@ -377,6 +377,11 @@ namespace BLL
                             rowMarc["horasextrasdiurna"] = Modelo.cwkFuncoes.ConvertMinutosHora(((int)rowClass["ClassificadasDiurnaMin"]));
                             rowMarc["horasextranoturna"] = Modelo.cwkFuncoes.ConvertMinutosHora(((int)rowClass["ClassificadasNoturnaMin"]));
                         }
+                        else
+                        {
+                            rowMarc["horasextrasdiurna"] = "00:00";
+                            rowMarc["horasextranoturna"] = "00:00";
+                        }
                     }
 
                     BLL.HoraExtra HE = new BLL.HoraExtra(marcParaCalc);
