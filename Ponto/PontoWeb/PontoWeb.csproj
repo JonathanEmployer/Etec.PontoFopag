@@ -531,6 +531,7 @@
     <Compile Include="Controllers\LocalizacaoRegistroPontoController.cs" />
     <Compile Include="Controllers\LogErroPainelAPIController.cs" />
     <Compile Include="Controllers\ManutencaoBilhetesController.cs" />
+    <Compile Include="Controllers\CercaVirtualController.cs" />
     <Compile Include="Controllers\ManutencaoDiariaController.cs" />
     <Compile Include="Controllers\ManutencaoBiometricaController.cs" />
     <Compile Include="Controllers\MarcacaoController.cs" />
@@ -865,6 +866,7 @@
     <Content Include="Content\footerBottom.css" />
     <Content Include="Content\IconeCwork.ico" />
     <Content Include="Content\IconeCwork.png" />
+    <Content Include="Content\images\bing-removebg.png" />
     <Content Include="Content\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -1928,6 +1930,9 @@
     </None>
     <Content Include="Views\AlertasComunicacaoRep\Grid.cshtml" />
     <Content Include="Views\AlertasComunicacaoRep\Cadastrar.cshtml" />
+    <Content Include="Views\CercaVirtual\Grid.cshtml" />
+    <Content Include="Views\CercaVirtual\Cadastrar.cshtml" />
+    <Content Include="Views\CercaVirtual\EventoConsulta.cshtml" />
     <Content Include="Views\RelatorioSubstituicaoJornada\SubstituicaoJornada.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1966,6 +1971,7 @@
     <Folder Include="images\" />
     <Folder Include="Views\EmpresaTermoUso\" />
     <Folder Include="Views\GetFuncsRel\" />
+    <Folder Include="Views\NewFolder1\" />
     <Folder Include="Views\RelatorioFiltroFuncionarioGeral\" />
   </ItemGroup>
   <ItemGroup>
