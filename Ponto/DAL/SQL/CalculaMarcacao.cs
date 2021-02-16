@@ -348,10 +348,11 @@ namespace DAL.SQL
                													WHEN ( CAST(DATEPART(WEEKDAY, marcacao.data) AS INT) - 1 ) = 0 THEN 7 
                													ELSE ( CAST(DATEPART(WEEKDAY, marcacao.data) AS INT) - 1 ) 
                                                       END ) 
-               LEFT JOIN jornadaalternativa_view ON 
+				LEFT JOIN jornadaAlternativaFuncionario on jornadaAlternativaFuncionario.idFuncionario = funcionario.id
+				LEFT JOIN jornadaalternativa_view ON 
                ((jornadaalternativa_view.tipo = 0 AND jornadaalternativa_view.identificacao = funcionario.idempresa) 
                OR (jornadaalternativa_view.tipo = 1 AND jornadaalternativa_view.identificacao = funcionario.iddepartamento) 
-               OR (jornadaalternativa_view.tipo = 2 AND jornadaalternativa_view.identificacao = funcionario.id) 
+               OR (jornadaalternativa_view.tipo = 2 AND jornadaalternativa_view.identificacao = 0 and jornadaAlternativaFuncionario.idFuncionario = funcionario.id) 
                OR (jornadaalternativa_view.tipo = 3 AND jornadaalternativa_view.identificacao = funcionario.idfuncao)) 
                AND (jornadaalternativa_view.datacompensada = marcacao.data 
                OR (jornadaalternativa_view.datacompensada IS NULL 
@@ -993,7 +994,7 @@ namespace DAL.SQL
         public DataTable GetMarcacoesGerarHorariosDinamicos()
         {
             SqlParameter[] parms = new SqlParameter[] { };
-            
+
             DataTable dt = new DataTable();
             string aux = _sqlCalculoMarcacao;
             aux += @" WHERE ISNULL(marcacao.idfechamentoponto,0) = 0 

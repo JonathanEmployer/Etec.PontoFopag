@@ -2999,6 +2999,8 @@ namespace BLL
                 }
                 else
                 {
+                    if (jornada == 0)
+                        jornada = 1440;
                     dif = marcacao - jornada;
                     CalculaExtraFaltaDif(dif, ref falta, ref extra);
                     if (falta > 0)
