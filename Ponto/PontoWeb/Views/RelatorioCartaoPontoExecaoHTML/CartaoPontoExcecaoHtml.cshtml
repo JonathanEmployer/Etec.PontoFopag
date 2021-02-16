@@ -91,7 +91,7 @@
                     }
                     //Cabeçalho relatório
                     <div class="classNomeRel" id="nomeRel">
-                        Relatório Espelho de Ponto Eletrônico Detalhado
+                        Relatório Espelho de Ponto por Exceção
                     </div>
 
                     <table style="border:1px solid black; width:100%; font-size: 7pt;">
@@ -101,6 +101,7 @@
                             <tr><th colspan="3" style="padding:5px; text-align:left">Empregado: @cp.pxyFuncionarioCabecalhoRel.Pis - @cp.pxyFuncionarioCabecalhoRel.Nome</th></tr>
                             <tr><th style="width:140px; padding:5px; text-align:left">Admissão: @cp.pxyFuncionarioCabecalhoRel.DataAdmissao.ToShortDateString()</th><th style="width: 140px; padding: 5px;">Matrícula: @cp.pxyFuncionarioCabecalhoRel.Matricula</th><th style="padding:5px; text-align:right">Período: @cp.Periodo &nbsp; &nbsp; &nbsp; &nbsp; Emissão: @DateTime.Now.ToString("dd/MM/yyyy HH:mm") - Pag. @pagina / @totalPag </th></tr>
                             <tr><th colspan="3" style="padding:5px; text-align:left"><b>Legenda:</b>&nbsp;&nbsp;<b>A</b>- Afastamento &nbsp;&nbsp;<b>F</b>- Feriado&nbsp;&nbsp;<b>I</b>- Inclusão Banco Horas &nbsp;&nbsp;<b>*</b>- Marcações Alteradas &nbsp;&nbsp;<b>J</b>- Jornada Alternativa &nbsp;&nbsp;<b>M</b>- Mudança de Horário &nbsp;&nbsp;<b>S</b>- Substituição de Jornada</th></tr>
+                            <tr><th colspan="3" style="padding:5px; text-align:left"><b>E</b>&nbsp;&nbsp;<b>A</b>- Afastamento &nbsp;&nbsp;<b>F</b>- Feriado&nbsp;&nbsp;<b>I</b>- Inclusão Banco Horas &nbsp;&nbsp;<b>*</b>- Marcações Alteradas &nbsp;&nbsp;<b>J</b>- Jornada Alternativa &nbsp;&nbsp;<b>M</b>- Mudança de Horário &nbsp;&nbsp;<b>S</b>- Substituição de Jornada</th></tr>
                         </thead>
                     </table>
                     //Fim Cabeçalho relatório
