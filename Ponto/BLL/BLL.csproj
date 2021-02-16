@@ -355,6 +355,7 @@
     <Compile Include="CalculoMarcacoes\PontoPorExcecao.cs" />
     <Compile Include="CercaVirtual.cs" />
     <Compile Include="HorarioDinamicoRestricao.cs" />
+    <Compile Include="JornadaAlternativaFuncionario.cs" />
     <Compile Include="JornadaSubstituir.cs" />
     <Compile Include="JornadaSubstituirFuncionario.cs" />
     <Compile Include="JustificativaRestricao.cs" />
