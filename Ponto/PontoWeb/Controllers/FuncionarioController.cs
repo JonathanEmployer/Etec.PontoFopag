@@ -204,7 +204,7 @@ namespace PontoWeb.Controllers
             string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
             BLL.FuncionarioRFID bllFuncionarioRFID = new BLL.FuncionarioRFID(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(conn, usr);
-           
+
             try
             {
                 Funcionario funcionario = bllFuncionario.LoadObject(idfuncionario);
@@ -220,7 +220,7 @@ namespace PontoWeb.Controllers
                         Codigo = bllFuncionarioRFID.MaxCodigo(),
                         RFID = TipoCracha == 0 ? Convert.ToInt64(Cracha) : (long?)null,
                         MIFARE = TipoCracha == 1 ? Cracha : string.Empty
-                  
+
                     });
 
                     if (erros.Count > 0)
@@ -515,19 +515,19 @@ namespace PontoWeb.Controllers
 
                 if (funcsCC == null)
                 {
-                    string cnpjEmpPrincipalSemSimbolos = empresaPrincipal.Cnpj.Replace("-", "").Replace(".", "").Replace("/", "");
-
-                    CentralCliente.Cliente cliente = db.Cliente.Where(x => x.Entidade.CNPJ_CPF.Replace("-", "").Replace(".", "").Replace("/", "").Trim().Equals(cnpjEmpPrincipalSemSimbolos)).FirstOrDefault();
-
                     funcsCC = new CentralCliente.Funcionarios();
-                    if (cliente != null)
-                    {
-                        funcsCC.IDCliente = cliente.ID;
-                    }
-                    else
-                    {
-                        funcsCC.IDCliente = 0;
-                    }
+                }
+                string cnpjEmpPrincipalSemSimbolos = empresaPrincipal.Cnpj.Replace("-", "").Replace(".", "").Replace("/", "");
+              
+                CentralCliente.Cliente cliente = db.Cliente.Where(x => x.Entidade.CNPJ_CPF.Replace("-", "").Replace(".", "").Replace("/", "").Trim().Equals(cnpjEmpPrincipalSemSimbolos)).FirstOrDefault();
+
+                if (cliente != null)
+                {
+                    funcsCC.IDCliente = cliente.ID;
+                }
+                else
+                {
+                    funcsCC.IDCliente = 0;
                 }
 
                 if (funcsCC.IDCliente != 0)
