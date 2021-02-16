@@ -547,6 +547,7 @@
     <Compile Include="Controllers\RegistradorController.cs" />
     <Compile Include="Controllers\Relatorios\RelAFDPortaria373Controller.cs" />
     <Compile Include="Controllers\Relatorios\RelatorioAbsenteismoV2Controller.cs" />
+    <Compile Include="Controllers\Relatorios\RelatorioCartaoPontoExecaoHTMLController.cs" />
     <Compile Include="Controllers\Relatorios\RelatorioRefeicaoController.cs" />
     <Compile Include="Controllers\Relatorios\RelatorioRegistrosController.cs" />
     <Compile Include="Controllers\RelatoriosController.cs" />
@@ -1929,6 +1930,7 @@
     <Content Include="Views\AlertasComunicacaoRep\Grid.cshtml" />
     <Content Include="Views\AlertasComunicacaoRep\Cadastrar.cshtml" />
     <Content Include="Views\RelatorioSubstituicaoJornada\SubstituicaoJornada.cshtml" />
+    <Content Include="Views\RelatorioCartaoPontoExecaoHTML\CartaoPontoExcecaoHtml.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
