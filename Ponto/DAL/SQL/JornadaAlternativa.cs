@@ -98,7 +98,7 @@ namespace DAL.SQL
                         , case when ja.tipo = 0 then 'Empresa' when ja.tipo = 1 then 'Departamento' when ja.tipo = 2 then 'Funcionário' when ja.tipo = 3 then 'Função' end AS tipojornada
                         , case when tipo = 0 then (SELECT convert(varchar,empresa.codigo)+' | '+empresa.nome FROM empresa WHERE empresa.id = ja.identificacao) 
                                 when tipo = 1 then (SELECT convert(varchar,departamento.codigo)+' | '+departamento.descricao FROM departamento WHERE departamento.id = ja.identificacao) 
-                                when tipo = 2 then (SELECT convert(varchar,funcionario.dscodigo)+' | '+funcionario.nome FROM funcionario WHERE funcionario.id = jaf.idFuncionario) 
+                                when tipo = 2 then ('') 
                                 when tipo = 3 then (SELECT convert(varchar,funcao.codigo)+' | '+funcao.descricao FROM funcao WHERE funcao.id = ja.identificacao) end AS nome              
                         , (SELECT convert(varchar,j.codigo)+' | '+j.descricao) AS descjornada
                         ,isnull(isnull(departamento.idempresa, empresa.id), funcionario.idempresa) idempresa,
@@ -177,6 +177,7 @@ namespace DAL.SQL
                 ,calculoadnoturno
                 ,idjornada
                 ,tipojornada
+                ,nome
                 ,descjornada
                 from ( {0} ) t ";
 
