@@ -156,6 +156,137 @@ namespace BLL
             return cps;
         }
 
+
+        public IList<pxyCartaoPontoEmployer> BuscaDadosRelatorioPontoExcecao(IList<int> idsFuncs, DateTime dtIni, DateTime dtFin, ProgressBar? objProgressBar, int ordemRelatorio, bool quebraAuto)
+        {
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(conn, usuarioLogado);
+            BLL.Empresa bllEmpresa = new BLL.Empresa(conn, usuarioLogado);
+            BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(conn, usuarioLogado);
+            BLL.Jornada bllJornada = new BLL.Jornada(conn, usuarioLogado);
+            BLL.Afastamento bllAfas = new BLL.Afastamento(conn, usuarioLogado);
+            BLL.Justificativa bllJust = new BLL.Justificativa(conn, usuarioLogado);
+            BLL.Marcacao bllMarcacao = new BLL.Marcacao(conn, usuarioLogado);
+            IList<pxyCartaoPontoEmployer> cps = new List<pxyCartaoPontoEmployer>();
+            BLL.Contrato bllContrato = new BLL.Contrato(conn, usuarioLogado);
+
+            try
+            {
+                IList<Modelo.Justificativa> justificativas = bllJust.GetAllList(false);
+                if (objProgressBar != null)
+                {
+                    objProgressBar.GetValueOrDefault().setaMensagem("Carregando dados do(s) " + idsFuncs.Count() + " funcionário(s)");
+                }
+                IList<Modelo.Proxy.PxyFuncionarioCabecalhoRel> funcs = bllFuncionario.GetFuncionariosCabecalhoRel(idsFuncs);
+
+                IList<Horario> horario = new List<Horario>();
+
+                int progress = 0;
+                int totalCalc = funcs.Count();
+                if (objProgressBar != null)
+                {
+                    objProgressBar.GetValueOrDefault().setaMinMaxPB(0, totalCalc);
+                    objProgressBar.GetValueOrDefault().setaValorPB(progress);
+                }
+
+                IList<Modelo.Empresa> emps = bllEmpresa.GetEmpresaByIds(funcs.Select(s => s.IdEmpresa).Distinct().ToList());
+                //Verifica quantas quebras pode ter o período e multiplica na quantidade do progress bar
+                int qtdQuebraPeriodo = QuebraPeridoPorPeriodoFechamento(dtIni, dtFin, bllContrato, emps, funcs.FirstOrDefault(), quebraAuto).Count();
+                if (qtdQuebraPeriodo > 0)
+                {
+                    totalCalc *= qtdQuebraPeriodo;
+                }
+
+
+                // Ordem do relatório, 0 = Ordenado por empresa, 1 = Ordenado por Funcionário
+                if (ordemRelatorio == 0)
+                {
+                    funcs = funcs.OrderBy(o => o.EmpresaNome).ThenBy(o => o.Nome).ToList();
+                }
+                else
+                {
+                    funcs = funcs.OrderBy(o => o.Nome).ToList();
+                }
+
+                foreach (Modelo.Proxy.PxyFuncionarioCabecalhoRel func in funcs)
+                {
+                    Dictionary<DateTime, DateTime> periodos = QuebraPeridoPorPeriodoFechamento(dtIni, dtFin, bllContrato, emps, func, quebraAuto);
+
+                    foreach (KeyValuePair<DateTime, DateTime> periodo in periodos.OrderBy(i => i.Key))
+                    {
+                        progress++;
+                        DateTime dataIniPer = periodo.Key;
+                        DateTime dataFinPer = periodo.Value;
+
+                        if (objProgressBar != null)
+                        {
+                            objProgressBar.GetValueOrDefault().setaValorPB(progress);
+                        }
+
+                        pxyCartaoPontoEmployer cp = new pxyCartaoPontoEmployer();
+                        cp.QuebraAutHTML = quebraAuto;
+                        cp.pxyFuncionarioCabecalhoRel = func;
+                        List<Modelo.Marcacao> marcs = bllMarcacao.GetCartaoPontoExecao(new List<int> { func.IdFunc }, dataIniPer, dataFinPer);
+                        TimeSpan ts = dataFinPer - dataIniPer;
+                        if (quebraAuto == false)
+                        {   //Numero linhas de paginas + 8 linha de marc por cada dia. 
+                            cp.NumeroLinha = ts.Days * 8;
+                        }
+                        if (ts.TotalDays + 1 > marcs.Count())
+                        {
+                            Modelo.Funcionario objFuncionario = new Modelo.Funcionario();
+                            objFuncionario = bllFuncionario.LoadObject(func.IdFunc);
+
+                            bllMarcacao.AtualizaData(dataIniPer, dataFinPer, objFuncionario);
+                            marcs = bllMarcacao.GetCartaoPontoExecao(new List<int> { func.IdFunc }, dataIniPer, dataFinPer);
+                        }
+
+                        IList<Modelo.Jornada> jornadas = new List<Modelo.Jornada>();
+                        IList<Modelo.Proxy.pxyAbonosPorMarcacao> abonos = bllAfas.GetAbonosPorMarcacoes(new List<int> { func.IdFunc }, dataIniPer, dataFinPer);
+
+                        DadosCartao(dataIniPer, dataFinPer, cp);
+
+
+                        foreach (Modelo.Marcacao marc in marcs)
+                        {
+                            if (objProgressBar != null)
+                            {
+                                objProgressBar.GetValueOrDefault().setaMensagem("(" + progress.ToString() + "/" + totalCalc.ToString() + ") " + "Calculando dados do funcionário: " + func.Nome);
+                            }
+                            PxyCPEMarcacao cpeMarc = new PxyCPEMarcacao();
+                            IList<Modelo.BilhetesImp> bils = marc.BilhetesMarcacao.Where(w => w.Mar_data.GetValueOrDefault() == Convert.ToDateTime(marc.Data) && w.DsCodigo == marc.Dscodigo).ToList();
+
+                            CalculoHorasNoturnas(marc, cpeMarc);
+
+                            DadosMarcacao(marc, cpeMarc, bils);
+
+                            cpeMarc.pxyCPEJornadaRealizada = JornadaRealizadaPontoExcecao(bils);
+
+                            IList<PxyCPETratamentos> trats = Tratamentos(cpeMarc, bils, abonos.Where(x => x.IdMarcacao == marc.Id).ToList(), justificativas, marc);
+
+                            MotivosIndices(cp, trats);
+
+                            cpeMarc.pxyCPETratamentos = trats;
+
+                            JornadasFunc(bllJornada, cp, jornadas, marc, cpeMarc);
+
+                            cp.Marcacao.Add(cpeMarc);
+                        }
+
+
+                        Totalizadores(conn, usuarioLogado, dataIniPer, dataFinPer, func, cp);
+
+                        SetaPadroesParaRel(cp);
+
+                        cps.Add(cp);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return cps;
+        }
         private Dictionary<DateTime, DateTime> QuebraPeridoPorPeriodoFechamento(DateTime dtIni, DateTime dtFin, BLL.Contrato bllContrato, IList<Modelo.Empresa> emps, Modelo.Proxy.PxyFuncionarioCabecalhoRel func, bool quebraAuto)
         {
             Dictionary<DateTime, DateTime> periodos = new Dictionary<DateTime, DateTime>();
@@ -540,6 +671,51 @@ namespace BLL
             return trs;
         }
 
+        private IList<PxyCPEJornadaRealizada> JornadaRealizadaPontoExcecao(IList<Modelo.BilhetesImp> bils)
+        {
+            IList<PxyCPEJornadaRealizada> jrs = new List<PxyCPEJornadaRealizada>();
+            int qtdBilhetes = bils.Where(x => x.Ocorrencia != 'D').Count();
+            int qtdLinha = 1;
+            if (qtdBilhetes > 4)
+            {
+                qtdLinha = (int)(Math.Ceiling((double)qtdBilhetes / (double)4));
+            }
+            int posBil = 0;
+            for (int i = 0; i < qtdLinha; i++)
+            {
+                PxyCPEJornadaRealizada jr = new PxyCPEJornadaRealizada();
+                posBil++;
+                Modelo.BilhetesImp bi = bils.Where(x => x.Ent_sai == "E" && x.Posicao == posBil && x.Ocorrencia != 'D').FirstOrDefault();
+                if (bi != null)
+                {
+                    jr.Entrada1 = bi.Mar_hora;
+                    jr.RelogioE1 = bi.Mar_relogio == "PE" ? " E" : "";
+                }
+                bi = bils.Where(x => x.Ent_sai == "S" && x.Posicao == posBil && x.Ocorrencia != 'D').FirstOrDefault();
+                if (bi != null)
+                {
+                    jr.Saida1 = bi.Mar_hora;
+                    jr.RelogioS1 = bi.Mar_relogio == "PE" ? " E" : "";
+                }
+                posBil++;
+                bi = bils.Where(x => x.Ent_sai == "E" && x.Posicao == posBil && x.Ocorrencia != 'D').FirstOrDefault();
+                if (bi != null)
+                {
+                    jr.Entrada2 = bi.Mar_hora;
+                    jr.RelogioE2 = bi.Mar_relogio == "PE" ? " E" : "";
+                }
+
+                bi = bils.Where(x => x.Ent_sai == "S" && x.Posicao == posBil && x.Ocorrencia != 'D').FirstOrDefault();
+                if (bi != null)
+                {
+                    jr.Saida2 = bi.Mar_hora;
+                    jr.RelogioS2 = bi.Mar_relogio == "PE" ? " E" : "";
+                }
+                jrs.Add(jr);
+            }
+            return jrs;
+        }
+
         private IList<PxyCPEJornadaRealizada> JornadaRealizada(IList<Modelo.BilhetesImp> bils)
         {
             IList<PxyCPEJornadaRealizada> jrs = new List<PxyCPEJornadaRealizada>();
@@ -556,21 +732,21 @@ namespace BLL
                 posBil++;
                 Modelo.BilhetesImp bi = bils.Where(x => x.Ent_sai == "E" && x.Posicao == posBil && x.Ocorrencia != 'D').FirstOrDefault();
                 if (bi != null)
-                    jr.Entrada1 = bi.Mar_hora;
+                    jr.Entrada1 = bi.Mar_hora + bi.Mar_relogio == "PE" ? " E" : "" ;
 
                 bi = bils.Where(x => x.Ent_sai == "S" && x.Posicao == posBil && x.Ocorrencia != 'D').FirstOrDefault();
                 if (bi != null)
-                    jr.Saida1 = bi.Mar_hora;
+                    jr.Saida1 = bi.Mar_hora + bi.Mar_relogio == "PE" ? " E" : "";
 
                 posBil++;
                 bi = bils.Where(x => x.Ent_sai == "E" && x.Posicao == posBil && x.Ocorrencia != 'D').FirstOrDefault();
                 if (bi != null)
-                    jr.Entrada2 = bi.Mar_hora;
+                    jr.Entrada2 = bi.Mar_hora + bi.Mar_relogio == "PE" ? " E" : "";
 
                 bi = bils.Where(x => x.Ent_sai == "S" && x.Posicao == posBil && x.Ocorrencia != 'D').FirstOrDefault();
                 if (bi != null)
                 {
-                    jr.Saida2 = bi.Mar_hora;
+                    jr.Saida2 = bi.Mar_hora + bi.Mar_relogio == "PE" ? " E" : "";
                 }
                 jrs.Add(jr);
             }

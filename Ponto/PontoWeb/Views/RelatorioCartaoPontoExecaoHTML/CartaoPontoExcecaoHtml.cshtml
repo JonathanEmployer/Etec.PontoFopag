@@ -101,7 +101,7 @@
                             <tr><th colspan="3" style="padding:5px; text-align:left">Empregado: @cp.pxyFuncionarioCabecalhoRel.Pis - @cp.pxyFuncionarioCabecalhoRel.Nome</th></tr>
                             <tr><th style="width:140px; padding:5px; text-align:left">Admissão: @cp.pxyFuncionarioCabecalhoRel.DataAdmissao.ToShortDateString()</th><th style="width: 140px; padding: 5px;">Matrícula: @cp.pxyFuncionarioCabecalhoRel.Matricula</th><th style="padding:5px; text-align:right">Período: @cp.Periodo &nbsp; &nbsp; &nbsp; &nbsp; Emissão: @DateTime.Now.ToString("dd/MM/yyyy HH:mm") - Pag. @pagina / @totalPag </th></tr>
                             <tr><th colspan="3" style="padding:5px; text-align:left"><b>Legenda:</b>&nbsp;&nbsp;<b>A</b>- Afastamento &nbsp;&nbsp;<b>F</b>- Feriado&nbsp;&nbsp;<b>I</b>- Inclusão Banco Horas &nbsp;&nbsp;<b>*</b>- Marcações Alteradas &nbsp;&nbsp;<b>J</b>- Jornada Alternativa &nbsp;&nbsp;<b>M</b>- Mudança de Horário &nbsp;&nbsp;<b>S</b>- Substituição de Jornada</th></tr>
-                            <tr><th colspan="3" style="padding:5px; text-align:left"><b>E</b>&nbsp;&nbsp;<b>A</b>- Afastamento &nbsp;&nbsp;<b>F</b>- Feriado&nbsp;&nbsp;<b>I</b>- Inclusão Banco Horas &nbsp;&nbsp;<b>*</b>- Marcações Alteradas &nbsp;&nbsp;<b>J</b>- Jornada Alternativa &nbsp;&nbsp;<b>M</b>- Mudança de Horário &nbsp;&nbsp;<b>S</b>- Substituição de Jornada</th></tr>
+                            <tr><th colspan="3" style="padding:5px; text-align:left"><b>E - Ponto por Exceção  </b></th></tr>
                         </thead>
                     </table>
                     //Fim Cabeçalho relatório
@@ -149,15 +149,23 @@
                                 {
                                     cp.LinhasQuebra++;
                                     string e1 = "";
+                                    string re1 = "";
                                     string e2 = "";
+                                    string re2 = "";
                                     string s1 = "";
+                                    string rs1 = "";
                                     string s2 = "";
+                                    string rs2 = "";
                                     if (i < @item.pxyCPEJornadaRealizada.Count())
                                     {
                                         e1 = @item.pxyCPEJornadaRealizada[i].Entrada1;
                                         e2 = @item.pxyCPEJornadaRealizada[i].Entrada2;
                                         s1 = @item.pxyCPEJornadaRealizada[i].Saida1;
                                         s2 = @item.pxyCPEJornadaRealizada[i].Saida2;
+                                        re1 = @item.pxyCPEJornadaRealizada[i].RelogioE1;
+                                        re2 = @item.pxyCPEJornadaRealizada[i].RelogioE2;
+                                        rs1 = @item.pxyCPEJornadaRealizada[i].RelogioS1;
+                                        rs2 = @item.pxyCPEJornadaRealizada[i].RelogioS2;
                                     }
 
                                     string horario = "";
@@ -177,10 +185,10 @@
                                             <td class="BordaL BordaB" rowspan='@qtdLinha'>@item.Dia</td>
                                         }
 
-                                        <td class="BordaL BordaB" style="width: 36px">@e1</td>
-                                        <td class="BordaL BordaB" style=" width: 36px">@s1</td>
-                                        <td class="BordaL BordaB" style=" width: 36px">@e2</td>
-                                        <td class="BordaL BordaB" style=" width: 36px">@s2</td>
+                                        <td class="BordaL BordaB" style="width: 36px">@e1 @re1 </td>
+                                        <td class="BordaL BordaB" style=" width: 36px">@s1 @rs1</td>
+                                        <td class="BordaL BordaB" style=" width: 36px">@e2 @re2</td>
+                                        <td class="BordaL BordaB" style=" width: 36px">@s2 @rs2</td>
 
                                         @if (i == 0)
                                         {

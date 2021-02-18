@@ -1,0 +1,339 @@
+﻿@model IEnumerable<Modelo.Proxy.pxyCartaoPontoEmployer>
+    <style>
+        .classRelatorio {
+            font-family: 'Arial';
+            font-size: 6pt;
+            text-align: left;
+            font: normal;
+            width: 752px;
+        }
+
+        .Cinza {
+            background-color: rgb(200,200,200);
+            vertical-align: middle;
+        }
+
+        .classtr {
+            font-family: 'Arial';
+            font-size: 6pt;
+            color: black;
+            text-align: center;
+            font: normal;
+            height: 15px;
+        }
+
+        .classNomeRel {
+            font-size: 20px;
+            font: bold;
+            text-align: center;
+        }
+
+        .BordaL {
+            border-left: 1px solid;
+        }
+
+        .BordaB {
+            border-bottom: 1px solid;
+        }
+
+        .BordaT {
+            border-top: 1px solid;
+        }
+
+        .BordaR {
+            border-right: 1px solid;
+        }
+    </style>
+    <div style="background-color:white">
+        @foreach (var cp in Model)
+        {
+            string enderecoEmpresa = cp.pxyFuncionarioCabecalhoRel.AlocacaoEndereco;
+            if (String.IsNullOrEmpty(enderecoEmpresa))
+            {
+                enderecoEmpresa = cp.pxyFuncionarioCabecalhoRel.EmpresaEndereco;
+            }
+
+            <div class="classRelatorio">
+                @{
+
+                    bool possuiAN = cp.Marcacao.Where(s => s.pxyCPETratamentos.Where(se => se.Ocorrencia == "AN").Count() > 0).Count() > 0;
+                    int linhasPorPagina = 53 - (possuiAN == true ? 1 : 0);
+                    int linhasMarcacao = linhasPorPagina;
+                    cp.Posicao = 0;
+                    int itensPorPagina = 0;
+                    itensPorPagina += cp.Marcacao.Select(s => s.pxyCPEJornadaRealizada.Count() > s.pxyCPETratamentos.Count() ? s.pxyCPEJornadaRealizada.Count() : s.pxyCPETratamentos.Count()).Sum();
+
+                    int LinhasJornadas = cp.Jornadas.Count();
+                    int LinhasMotivosT = cp.MotivosTratamentos.Count();
+                    if (cp.QuebraAutHTML == false)
+                    {
+                        linhasMarcacao = cp.NumeroLinha;
+                    }
+                    if (LinhasJornadas > LinhasMotivosT)
+                    {
+                        linhasMarcacao -= LinhasJornadas;
+                        itensPorPagina += LinhasJornadas;
+                    }
+                    else
+                    {
+                        linhasMarcacao -= LinhasMotivosT;
+                        itensPorPagina += LinhasMotivosT;
+                    }
+
+                    int pagina = 1;
+                    int totalPag = itensPorPagina < linhasPorPagina ? 1 : (int)Math.Ceiling((double)itensPorPagina / (double)linhasPorPagina);
+
+                    while (cp.Posicao < cp.Marcacao.Count())
+                    {
+                        if (cp.Posicao > 0)
+                        {
+                            <div style="page-break-after:always"></div>
+                        }
+                        //Cabeçalho relatório
+                        <div class="classNomeRel" id="nomeRel">
+                            Relatório Espelho de Ponto por Exceção
+                        </div>
+
+                        <table style="border:1px solid black; width:100%; font-size: 7pt;">
+                            <thead>
+                                <tr><th colspan="3" style="padding:5px; text-align:left">Empregador: @cp.pxyFuncionarioCabecalhoRel.EmpresaNome &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; CNPJ: @cp.pxyFuncionarioCabecalhoRel.EmpresaCNPJCPF</th></tr>
+                                <tr><th colspan="3" style="padding:5px; text-align:left">Endereço: @enderecoEmpresa</th></tr>
+                                <tr><th colspan="3" style="padding:5px; text-align:left">Empregado: @cp.pxyFuncionarioCabecalhoRel.Pis - @cp.pxyFuncionarioCabecalhoRel.Nome</th></tr>
+                                <tr><th style="width:140px; padding:5px; text-align:left">Admissão: @cp.pxyFuncionarioCabecalhoRel.DataAdmissao.ToShortDateString()</th><th style="width: 140px; padding: 5px;">Matrícula: @cp.pxyFuncionarioCabecalhoRel.Matricula</th><th style="padding:5px; text-align:right">Período: @cp.Periodo &nbsp; &nbsp; &nbsp; &nbsp; Emissão: @DateTime.Now.ToString("dd/MM/yyyy HH:mm") - Pag. @pagina / @totalPag </th></tr>
+                                <tr><th colspan="3" style="padding:5px; text-align:left"><b>Legenda:</b>&nbsp;&nbsp;<b>A</b>- Afastamento &nbsp;&nbsp;<b>F</b>- Feriado&nbsp;&nbsp;<b>I</b>- Inclusão Banco Horas &nbsp;&nbsp;<b>*</b>- Marcações Alteradas &nbsp;&nbsp;<b>J</b>- Jornada Alternativa &nbsp;&nbsp;<b>M</b>- Mudança de Horário &nbsp;&nbsp;<b>S</b>- Substituição de Jornada</th></tr>
+                                <tr><th colspan="3" style="padding:5px; text-align:left"><b>E - Ponto por Exceção  </b></th></tr>
+                            </thead>
+                        </table>
+                        //Fim Cabeçalho relatório
+                        <table style="width:100%; margin-top: 3px;" cellspacing="0">
+                            <tr class="classtr Cinza">
+                                <th class="BordaL BordaB BordaT" rowspan="2" scope="rowgroup">Data</th>
+                                <th class="BordaL BordaB BordaT" rowspan="2" scope="rowgroup">Dia</th>
+                                <th class="BordaL BordaB BordaT" colspan="4" scope="colgroup">Jornada Realizada</th>
+                                <th class="BordaL BordaB BordaT" rowspan="2" scope="rowgroup">Marcações<br />Desconsideradas</th>
+                                <th class="BordaL BordaB BordaT" rowspan="2" scope="rowgroup">C.J.<br /></th>
+                                <th class="BordaL BordaB BordaT" colspan="3" scope="colgroup"> Tratamentos / eventos</th>
+                                <th class="BordaL BordaB BordaT" colspan="2" scope="colgroup">Horas Normais</th>
+                                <th class="BordaL BordaB BordaT" style="width:60px" colspan="2" scope="colgroup">Horas Extras</th>
+                                <th class="BordaL BordaB BordaT" rowspan="2" scope="rowgroup">Falta/<br />Atraso</th>
+                                <th class="BordaL BordaT" style="width:60px">Banco Horas</th>
+                                <th class="BordaL BordaB BordaT BordaR" rowspan="2" scope="rowgroup">Total*</th>
+                            </tr>
+                            <tr class="classtr Cinza">
+                                <th class="BordaL BordaB Cinza" style=" width: 36px">Entrada</th>
+                                <th class="BordaL BordaB Cinza" style=" width: 36px">Saída</th>
+                                <th class="BordaL BordaB Cinza" style=" width: 36px">Entrada</th>
+                                <th class="BordaL BordaB Cinza" style=" width: 36px">Saída</th>
+                                <th class="BordaL BordaB Cinza" style=" width: 36px">Horário</th>
+                                <th class="BordaL BordaB Cinza" style=" width: 36px">Ocor.</th>
+                                <th class="BordaL BordaB Cinza" style=" width: 36px">Motivo</th>
+                                <th class="BordaL BordaB Cinza">Diu.</th>
+                                <th class="BordaL BordaB Cinza">Not.</th>
+                                <th class="BordaL BordaB Cinza">Diu.</th>
+                                <th class="BordaL BordaB Cinza">Not.</th>
+                                <th class="BordaL BordaB Cinza">@cp.Totalizador.SaldoAnteriorBH</th>
+                            </tr>
+                            @{
+                                pagina++;
+                                bool quebra = false;
+                                while (!quebra)
+                                {
+                                    Modelo.Proxy.PxyCPEMarcacao item = cp.Marcacao[cp.Posicao];
+                                    int qtdLinha = item.pxyCPEJornadaRealizada.Count();
+                                    if (item.pxyCPETratamentos.Count() > item.pxyCPEJornadaRealizada.Count())
+                                    {
+                                        qtdLinha = item.pxyCPETratamentos.Count();
+                                    }
+
+                                    for (int i = 0; i < qtdLinha; i++)
+                                    {
+                                        cp.LinhasQuebra++;
+                                        string e1 = "";
+                                        string re1 = "";
+                                        string e2 = "";
+                                        string re2 = "";
+                                        string s1 = "";
+                                        string rs1 = "";
+                                        string s2 = "";
+                                        string rs2 = "";
+                                        if (i < @item.pxyCPEJornadaRealizada.Count())
+                                        {
+                                            e1 = @item.pxyCPEJornadaRealizada[i].Entrada1;
+                                            e2 = @item.pxyCPEJornadaRealizada[i].Entrada2;
+                                            s1 = @item.pxyCPEJornadaRealizada[i].Saida1;
+                                            s2 = @item.pxyCPEJornadaRealizada[i].Saida2;
+                                            re1 = @item.pxyCPEJornadaRealizada[i].RelogioE1;
+                                            re2 = @item.pxyCPEJornadaRealizada[i].RelogioE2;
+                                            rs1 = @item.pxyCPEJornadaRealizada[i].RelogioS1;
+                                            rs2 = @item.pxyCPEJornadaRealizada[i].RelogioS2;
+                                        }
+
+                                        string horario = "";
+                                        string ocorrencia = "";
+                                        int? indiceMotivo = null;
+                                        if (i < @item.pxyCPETratamentos.Count())
+                                        {
+                                            horario = @item.pxyCPETratamentos[i].Horario;
+                                            ocorrencia = @item.pxyCPETratamentos[i].Ocorrencia;
+                                            indiceMotivo = @item.pxyCPETratamentos[i].IndiceMotivo;
+                                        }
+
+                                        <tr class="classtr">
+                                            @if (i == 0)
+                                            {
+                                                <td class="BordaL BordaB" rowspan='@qtdLinha'>@item.DataFormat</td>
+                                                <td class="BordaL BordaB" rowspan='@qtdLinha'>@item.Dia</td>
+                                            }
+
+                                            <td class="BordaL BordaB" style="width: 36px">@e1 @re1 </td>
+                                            <td class="BordaL BordaB" style=" width: 36px">@s1 @rs1</td>
+                                            <td class="BordaL BordaB" style=" width: 36px">@e2 @re2</td>
+                                            <td class="BordaL BordaB" style=" width: 36px">@s2 @rs2</td>
+
+                                            @if (i == 0)
+                                            {
+                                                <td class="BordaL BordaB" style="width:78px" rowspan='@qtdLinha'>@item.MarcDesconsiderada</td>
+                                                <td class="BordaL BordaB" rowspan='@qtdLinha'>@item.CodJornada</td>
+                                            }
+
+                                            <td class="BordaL BordaB" style=" width: 36px">@horario</td>
+                                            <td class="BordaL BordaB" style=" width: 36px">@ocorrencia</td>
+                                            <td class="BordaL BordaB" style=" width: 36px">@indiceMotivo.ToString()</td>
+
+                                            @if (i == 0)
+                                            {
+                                                <td class="BordaL BordaB" style="width:34px" rowspan='@qtdLinha'>@item.HorasDiurnas</td>
+                                                <td class="BordaL BordaB" style="width:34px" rowspan='@qtdLinha'>@item.HorasNoturnas</td>
+                                                <td class="BordaL BordaB" style="width:34px" rowspan='@qtdLinha'>@item.HorasExtrasDiurnas</td>
+                                                <td class="BordaL BordaB" style="width:34px" rowspan='@qtdLinha'>@item.HorasExtrasNoturnas</td>
+                                                <td class="BordaL BordaB" style="width:34px" rowspan='@qtdLinha'>@item.FaltasAtrasos</td>
+                                                <td class="BordaL BordaB" style="width:34px" rowspan='@qtdLinha'>@item.BancoHoras</td>
+
+                                                <td class="BordaL BordaB BordaR" style="width: 36px" rowspan='@qtdLinha'>
+                                                    @item.TotalHorasTrabalhadas
+                                                    @if (item.TotalHorasTrabalhadasComHorasNoturnas != item.TotalHorasTrabalhadas)
+                                                    {
+                                                        <br /> @:(@item.TotalHorasTrabalhadasComHorasNoturnas)
+                                                    }
+                                                </td>
+                                            }
+                                        </tr>
+                                    }
+                                    cp.Posicao++;
+                                    if (cp.LinhasQuebra >= linhasMarcacao || cp.Posicao == cp.Marcacao.Count())
+                                    {
+                                        quebra = true;
+                                        if (cp.LinhasQuebra >= linhasMarcacao)
+                                        {
+                                            cp.LinhasQuebra = 0;
+                                        }
+                                    }
+                                }
+                                if (cp.Posicao == cp.Marcacao.Count())
+                                {
+                                    <tr class="classtr Cinza">
+                                        <th class="BordaL BordaB" style="text-align:right" colspan="11" scope="colgroup">Total : &nbsp;</th>
+                                        <th class="BordaL BordaB">@cp.Totalizador.TrabalhadasDiurnas</th>
+                                        <th class="BordaL BordaB">@cp.Totalizador.TrabalhadasNoturnas</th>
+                                        <th class="BordaL BordaB">@cp.Totalizador.ExtrasDiurnas</th>
+                                        <th class="BordaL BordaB">@cp.Totalizador.ExtrasNoturnas</th>
+                                        <th class="BordaL BordaB">@cp.Totalizador.FaltasAtrasos</th>
+                                        <th class="BordaL BordaB">@cp.Totalizador.SaldoAtualBH</th>
+                                        <th class="BordaL BordaB BordaR">
+                                            @cp.Totalizador.TotalTrabalhada
+                                            @if (cp.Totalizador.TotalTrabalhada != cp.Totalizador.TotalTrabalhadaComHorasNoturnas)
+                                            {
+                                                <br /> @:(@cp.Totalizador.TotalTrabalhadaComHorasNoturnas)
+                                            }
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="18" scope="colgroup">
+                                            <span style="font-size:6pt">* O Total representa o total da carga horária realizada no dia considerando-se as tolerâncias definidas na jornada.</span>
+                                        </th>
+                                    </tr>
+                                }
+                                <tr>
+                                    <th colspan="18" scope="colgroup">
+                                        <table style="width:100%; margin-top:5px" cellspacing="0">
+                                            <tr>
+                                                <td style="width:48%; vertical-align:top;">
+                                                    <span style="font:bold; font-size:9pt">Horários contratuais do empregado:</span>
+                                                    <table style="width:100%;" cellspacing="0" id="tb">
+                                                        <tr class="classtr Cinza">
+                                                            <th class="classth1 BordaB BordaT BordaL">Cód. Jornada(C.J.)</th>
+                                                            <th class="classth1 BordaB BordaT BordaL">Entrada</th>
+                                                            <th class="classth1 BordaB BordaT BordaL">Saída</th>
+                                                            <th class="classth1 BordaB BordaT BordaL">Entrada</th>
+                                                            <th class="classth1 BordaB BordaT BordaL">Saída</th>
+                                                            <th class="classth1 BordaB BordaT BordaL">Entrada</th>
+                                                            <th class="classth1 BordaB BordaT BordaL">Saída</th>
+                                                            <th class="classth1 BordaB BordaT BordaL">Entrada</th>
+                                                            <th class="classth1 BordaB BordaT BordaL BordaR">Saída</th>
+                                                        </tr>
+                                                        @foreach (Modelo.Jornada jornada in cp.Jornadas)
+                                                        {
+                                                            string codigoJornada = "";
+                                                            if (jornada.Codigo > 0)
+                                                            {
+                                                                codigoJornada = jornada.Codigo.ToString();
+                                                            }
+                                                            <tr class="classtr">
+                                                                <td style="text-align:center" class="BordaB BordaL">@codigoJornada</td>
+                                                                <td style="text-align:center" class="BordaB BordaL">@jornada.Entrada_1</td>
+                                                                <td style="text-align:center" class="BordaB BordaL">@jornada.Saida_1</td>
+                                                                <td style="text-align:center" class="BordaB BordaL">@jornada.Entrada_2</td>
+                                                                <td style="text-align:center" class="BordaB BordaL">@jornada.Saida_2</td>
+                                                                <td style="text-align:center" class="BordaB BordaL">@jornada.Entrada_3</td>
+                                                                <td style="text-align:center" class="BordaB BordaL">@jornada.Saida_3</td>
+                                                                <td style="text-align:center" class="BordaB BordaL">@jornada.Entrada_4</td>
+                                                                <td style="text-align:center" class="BordaB BordaL BordaR">@jornada.Saida_4</td>
+                                                            </tr>
+                                                        }
+                                                    </table>
+                                                </td>
+                                                <td style="width:4%"></td>
+                                                <td style="width:48%; vertical-align:top">
+                                                    <span style="font:bold; font-size:9pt">Motivos de tratamento:</span>
+                                                    <table style="width:100%" cellspacing="0" id="tb">
+                                                        <tr class="classtr Cinza">
+                                                            <th class="classth1 BordaB BordaT BordaL">Índice</th>
+                                                            <th class="classth1 BordaB BordaT BordaL BordaR">Motivo</th>
+                                                        </tr>
+                                                        @foreach (Modelo.Proxy.PxyCPEMotivosTratamento motivos in cp.MotivosTratamentos)
+                                                        {
+                                                            string indiceMotivo = "";
+                                                            if (motivos.Indice > 0)
+                                                            {
+                                                                indiceMotivo = @motivos.Indice.ToString();
+                                                            }
+                                                            <tr class="classtr">
+                                                                <td class="BordaB BordaL">@indiceMotivo</td>
+                                                                <td style="text-align:left" class="BordaB BordaL BordaR">@motivos.Motivo</td>
+                                                            </tr>
+                                                        }
+                                                    </table>
+                                                    <span style="font:bold; font-size:6pt"> Legenda: A = Abono, I = Incluído, P = Pré-assinalada, AN = Adicional noturno, S = Substituição de Jornada.</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <table style="width:100%; margin-top:25px; margin-bottom:0" cellspacing="0">
+                                            <tr>
+                                                <td style="width:10%; margin-bottom:0"></td>
+                                                <td style="width:30%; margin-bottom:0; text-align:center" class="BordaT">Assinatura Gestor</td>
+                                                <td style="width:20%; margin-bottom:0"></td>
+                                                <td style="width:30%; text-align:center" class="BordaT">Assinatura Empregado</td>
+                                                <td style="width:10%; margin-bottom:0"></td>
+                                            </tr>
+                                        </table>
+                                    </th>
+                                </tr>
+                            }
+                        </table>
+                    }
+                }
+            </div>
+            <div style="page-break-after:always"></div>
+        }
+    </div>
