@@ -458,7 +458,7 @@ namespace BLL_N.JobManager.Hangfire
         public Modelo.Proxy.PxyJobReturn RelatorioCartaoPontoExcecaoHTML(IRelatorioModel parametros)
         {
             var descricaoParametros = GetDescricaoParametrosJob(parametros);
-            JobControl jobControl = GerarJobControl("Relatório Relatório de Cartão Ponto po Exceção", descricaoParametros);
+            JobControl jobControl = GerarJobControl("Relatório de Cartão Ponto por Exceção", descricaoParametros);
             jobControl.PermiteCancelar = true;
             string idJob = new BackgroundJobClient().Create<RelatoriosJob>(x => x.GetRelatorioCartaoPontoExcecaoHTML(null,
                                                                                                             jobControl,
@@ -472,7 +472,7 @@ namespace BLL_N.JobManager.Hangfire
         public Modelo.Proxy.PxyJobReturn RelatorioCartaoPontoHTML(IRelatorioModel parametros)
         {
             var descricaoParametros = GetDescricaoParametrosJob(parametros);
-            JobControl jobControl = GerarJobControl("Relatório Relatório de Cartão Ponto - Modelo 2", descricaoParametros);
+            JobControl jobControl = GerarJobControl("Relatório de Cartão Ponto - Modelo 2", descricaoParametros);
             jobControl.PermiteCancelar = true;
             string idJob = new BackgroundJobClient().Create<RelatoriosJob>(x => x.GetRelatorioCartaoPontoHTML(null,
                                                                                                             jobControl,
@@ -487,7 +487,7 @@ namespace BLL_N.JobManager.Hangfire
 		public Modelo.Proxy.PxyJobReturn RelatorioCartaoPontoCustom(IRelatorioModel parametros)
 		{
 			var descricaoParametros = GetDescricaoParametrosJob(parametros);
-			JobControl jobControl = GerarJobControl("Relatório Relatório de Cartão Ponto - Customizável", descricaoParametros);
+			JobControl jobControl = GerarJobControl("Relatório de Cartão Ponto - Customizável", descricaoParametros);
 			jobControl.PermiteCancelar = true;
 			string idJob = new BackgroundJobClient().Create<RelatoriosJob>(x => x.GetRelatorioCartaoPontoCustom(null,
 																											jobControl,
