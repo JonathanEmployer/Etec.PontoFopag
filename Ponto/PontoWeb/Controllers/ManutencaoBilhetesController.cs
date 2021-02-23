@@ -43,6 +43,9 @@ namespace PontoWeb.Controllers
                 LocalizacaoRegistroPonto loc = bllLoc.GetPorBilhete(bilhete.Id);
                 if (loc != null && loc.Id > 0)
                 {
+                    bilhete.localizacaoRegistroPonto = new LocalizacaoRegistroPonto();
+                    bilhete.localizacaoRegistroPonto.Latitude = loc.Latitude;
+                    bilhete.localizacaoRegistroPonto.Longitude = loc.Longitude;
                     Localizacao l = new Localizacao();
                     l.Latitude = loc.Latitude.ToString();
                     l.Longitude = loc.Longitude.ToString();
