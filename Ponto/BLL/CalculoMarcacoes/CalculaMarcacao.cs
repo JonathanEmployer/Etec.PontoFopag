@@ -2979,6 +2979,16 @@ namespace BLL
                 int extra = 0;
                 int[] e = new int[1];
                 int[] s = new int[1];
+
+                if (jornada == 0)
+                {
+                    var tamanho = marcacao.ToString();
+                    if (tamanho.Length > 2)
+                    {
+                        jornada = 1440;
+                    }
+                }
+
                 //Se entrada
                 if (TipoEntradaSaida == 0)
                 {
@@ -2999,8 +3009,6 @@ namespace BLL
                 }
                 else
                 {
-                    if (jornada == 0)
-                        jornada = 1440;
                     dif = marcacao - jornada;
                     CalculaExtraFaltaDif(dif, ref falta, ref extra);
                     if (falta > 0)
