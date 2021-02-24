@@ -702,7 +702,7 @@ function ajax_CarregarConsultaEventoTabComFiltro(acao, idFiltro, controller, con
                     if (ids > 0) {
                         oTbLkpModal.$("tr").filter(".selected").each(function (index, row) {
                             id = $(row).find("td:eq(0)").text().replace('undefined', '');
-                            nome = $(row).find("td:eq(1)").text().replace('undefined', '');                            
+                            nome = $(row).find("td:eq(1)").text().replace('undefined', '');
                             $(campo).val(id + ' | ' + nome);
                             $("#divLoadModalLkp").modal('hide');
                             if (carregaDetalhes) {
@@ -1174,7 +1174,7 @@ function E_GridFunc(EidDivPartial, EidCampoSelecionados, FuncPosCarregamento) {
     EidDivPartial = $(EidDivPartial);
     EidCampoSelecionados = $(EidCampoSelecionados);
     if (!EidDivPartial.find('table').length > 0) {
-        cwk_CarregarPartialAjaxPorPost('GridFuncionariosPost', 'FuncionariosRelatorio', parametros = { idsSelecionados: EidCampoSelecionados.val(), __RequestVerificationToken: gettoken()  }, '', AfterLoad);
+        cwk_CarregarPartialAjaxPorPost('GridFuncionariosPost', 'FuncionariosRelatorio', parametros = { idsSelecionados: EidCampoSelecionados.val(), __RequestVerificationToken: gettoken() }, '', AfterLoad);
     }
 
     function AfterLoad(fCallBack) {
@@ -1227,7 +1227,46 @@ function EventoFuncionarioFiltroSuccess(dados) {
     funcDataTables.clear().draw();
     funcDataTables.rows.add(dados.data);
     funcDataTables.columns.adjust().draw();
+
+    var nomeTabela = '#tbFun';
+    funcDataTables.columns().every(function (index) {
+        var coluna = this;
+        var nomeColuna = $(coluna.header()).html();
+        nomeColuna = nomeColuna.replace(/\//g, '').replace(/\./g, '').replace(/\ /g, '').replace('(', '').replace(')', '');
+        var campoPesquisa = $(nomeTabela + 'psq' + nomeColuna);
+        //Recupera ultima pesquisa sava e adiciona valor no campo de pesquisa
+        var colsSearsh = funcDataTables.state();
+        var valorPesquisa = colsSearsh.columns[index].search.search;
+        if (valorPesquisa.length <= 0) {
+            valorPesquisa = '';
+        }
+        else {
+            var _re_escape_regex = new RegExp('(\\' + ['/', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}', '\\', '$', '^', '-'].join('|\\') + ')', 'g');
+            valorPesquisa = valorPesquisa.replace(_re_escape_regex, function myFunction(x) { return x.replace('\\', ''); });
+        }
+        if (valorPesquisa == '^s*$') {
+            campoPesquisa.val(' Sem valor');
+        } else {
+            campoPesquisa.val(valorPesquisa);
+        }
+
+        // Se o tipo do campo for lista add lista
+        if (campoPesquisa.attr('tipoCampo') == 'select') {
+            var lista = $(nomeTabela + 'lst' + nomeColuna).empty();
+            this.data().unique().sort().each(function (d, j) {
+                if (d == null) {
+                    d = ' Sem valor'
+                }
+                if (valorPesquisa === d) {
+                    lista.append('<option value="' + d + '" selected="selected">' + d + '</option>')
+                } else {
+                    lista.append('<option value="' + d + '">' + d + '</option>')
+                }
+            });
+        }
+    });
 }
+
 function EventoFuncionarioRowCollor(row, data, index) {
     if (data.Ativo == 'Não') {
         $('td', row).css('color', 'red');
