@@ -89,11 +89,12 @@ namespace DAL.RelatoriosSQL
 											   (hd.idhorario = m.idhorario 
 											   AND horario.tipohorario = 1
 											   AND hd.dia = (CASE WHEN (CAST(DATEPART(WEEKDAY, m.data) AS INT)-1) = 0 THEN 7 ELSE (CAST(DATEPART(WEEKDAY, m.data) AS INT)-1) END)))                        
+										  LEFT JOIN jornadaAlternativaFuncionario jaf ON jaf.idFuncionario = f.id
 										  LEFT JOIN jornadaalternativa_view jav ON 
 											   ((jav.tipo = 0 AND jav.identificacao = f.idempresa) 
 											   OR (jav.tipo = 1 AND jav.identificacao = f.iddepartamento) 
-											   OR (jav.tipo = 2 AND jav.identificacao = f.id) 
-											   OR (jav.tipo = 3 AND jav.identificacao = f.idfuncao)) 
+											   OR (jav.tipo = 2 AND jaf.idJornadaAlternativa = jav.id) 
+											   OR (jav.tipo = 3 AND jav.identificacao = f.idfuncao))
 											   AND ( jav.datacompensada = m.data OR
 													(jav.datacompensada IS NULL AND m.data >= jav.datainicial AND m.data <= jav.datafinal))
 										  LEFT JOIN jornadaalternativa ja on ja.id = jav.id
