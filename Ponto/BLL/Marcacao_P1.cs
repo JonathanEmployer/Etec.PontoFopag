@@ -557,6 +557,12 @@ namespace BLL
             return dalMarcacao.GetCartaoPontoV2(pIdFuncionarios, pdataInicial, pDataFinal);
         }
 
+        public List<Modelo.Marcacao> GetCartaoPontoExecao(List<int> pIdFuncionarios, DateTime pdataInicial, DateTime pDataFinal)
+        {
+            return dalMarcacao.GetCartaoPontoExecao(pIdFuncionarios, pdataInicial, pDataFinal);
+        }
+
+
         public List<Modelo.Proxy.Relatorios.PxyRelConferenciaHoras> GetRelatorioConferenciaHoras(List<string>cpfsFuncionarios, DateTime dataInicial, DateTime DataFinal)
         {
             return dalMarcacao.GetRelatorioConferenciaHoras(cpfsFuncionarios, dataInicial, DataFinal);

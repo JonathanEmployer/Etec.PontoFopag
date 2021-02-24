@@ -462,6 +462,7 @@
     <Compile Include="Relatorios\V2\RelatorioBilhetesImpBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioAFDPortaria373BLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioCartaoPontoCustomBLL.cs" />
+    <Compile Include="Relatorios\V2\RelatorioCartaoPontoExcecaoHTMLBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioCartaoPontoHTMLBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioClassificacaoHorasExtrasBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioConclusoesBloqueioPnlRhBLL.cs" />
@@ -614,6 +615,7 @@
     <EmbeddedResource Include="Relatorios\V2\cshtml\CartaoPontoHtmlCustom.cshtml" />
     <EmbeddedResource Include="Relatorios\V2\cshtml\RelatorioHorarioMovelHtml.cshtml" />
     <EmbeddedResource Include="Relatorios\V2\cshtml\RelatorioTotalHorasHtml.cshtml" />
+    <EmbeddedResource Include="Relatorios\V2\cshtml\CartaoPontoExcecaoHtml.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SqlServerTypes\readme.htm" />

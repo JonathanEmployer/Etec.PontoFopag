@@ -47,7 +47,7 @@ namespace DAL
         List<Modelo.MarcacaoLista> GetPorDataManutDiaria(DateTime pDataIni, DateTime pDataFin, bool PegaInativos);
         List<Modelo.MarcacaoLista> GetMarcacaoListaPorFuncionario(int pIdFuncionario, DateTime pdataInicial, DateTime pDataFinal);
         List<Modelo.Proxy.pxyMarcacaoMudancaHorario> GetMudancasHorarioExportacao(DateTime dataIni, DateTime dataFim, List<int> idsFuncs);
-
+        List<Modelo.Marcacao> GetCartaoPontoExecao(List<int> pIdFuncionarios, DateTime pdataInicial, DateTime pDataFinal);
 
 
         List<DateTime> GetDataMarcacoesPeriodo(int pIdFuncionario, DateTime pDataI, DateTime pDataF);

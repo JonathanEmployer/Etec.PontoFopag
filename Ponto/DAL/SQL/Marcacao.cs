@@ -4826,6 +4826,105 @@ WHERE
             return "";
         }
 
+        public List<Modelo.Marcacao> GetCartaoPontoExecao(List<int> pIdFuncionarios, DateTime pdataInicial, DateTime pDataFinal)
+        {
+            List<Modelo.Marcacao> lista = new List<Modelo.Marcacao>();
+
+            SqlParameter[] parms = new SqlParameter[3]
+            {
+                    new SqlParameter("@idsFuncionarios", SqlDbType.VarChar),
+                    new SqlParameter("@datainicial", SqlDbType.DateTime),
+                    new SqlParameter("@datafinal", SqlDbType.DateTime)
+            };
+            parms[0].Value = String.Join(",", pIdFuncionarios);
+            parms[1].Value = pdataInicial;
+            parms[2].Value = pDataFinal;
+            #region sql
+            string sql = @"SELECT  m.*
+	                      ,isnull(jPara.id, hd.IdJornada) IdJornada
+	                      ,p.InicioAdNoturno
+	                      ,p.fimadnoturno
+                          ,p.ReducaoHoraNoturna
+	                      ,CASE WHEN m.legenda = 'F' THEN
+	                      		'Feriado'
+	                          WHEN m.folga = 1 OR
+	                              hd.flagfolga = 1 THEN 'Folga'
+	                          WHEN hd.idjornada IS NULL THEN 'Compensado'
+	                          ELSE ''
+	                      END FolgaCompensado
+	                      ,h.ConversaoHoraNoturna
+	                      ,inclusaobanco.credito AS CredInclusaoBanco
+	                      ,inclusaobanco.debito AS DebInclusaoBanco
+                          ,j.descricao AS Justificativa
+						  ,m.AdicionalNoturno as AdicionalNoturno
+                          ,m.Interjornada
+						  ,m.horaExtraInterjornada
+                             FROM marcacao_view m
+                             INNER JOIN funcionario f
+	                             ON f.id = m.idfuncionario
+                              LEFT JOIN Alocacao a
+	                             ON f.IdAlocacao = a.id
+                              INNER JOIN horario h ON h.id = m.idhorario 
+                        INNER JOIN parametros p ON p.id = h.idparametro 
+		                LEFT JOIN dbo.inclusaobanco AS inclusaobanco ON inclusaobanco.identificacao = 
+			            CASE 
+				            WHEN inclusaobanco.tipo = 0 
+				            	THEN f.idempresa
+				            WHEN inclusaobanco.tipo = 1 
+				            	THEN f.iddepartamento
+				            WHEN inclusaobanco.tipo = 2
+				            	THEN f.id
+				            WHEN inclusaobanco.tipo = 3
+				            	THEN f.idfuncao
+			            END
+			            AND m.data = inclusaobanco.data
+			            AND inclusaobanco.credito IS NOT null
+                        LEFT JOIN jornadasubstituir js on js.id = m.idjornadasubstituir
+					    LEFT JOIN jornada jPara on js.idjornadapara = jPara.id
+                        LEFT JOIN dbo.justificativa j ON j.id = inclusaobanco.IdJustificativa
+                        LEFT JOIN horariodetalhe hd ON hd.idhorario = m.idhorario 
+                        AND ((h.tipohorario = 1 AND hd.dia = (CASE WHEN (CAST(DATEPART(WEEKDAY, m.data) AS INT) - 1) = 0 THEN 7 ELSE (CAST(DATEPART(WEEKDAY, m.data) AS INT) - 1) END) ) OR
+			             (h.tipohorario = 2 AND hd.data = m.data)
+			              )
+                        WHERE  m.idfuncionario in (select * from dbo.F_ClausulaIn(@idsFuncionarios))
+			                 AND m.data >= (CONVERT(DATETIME, @datainicial, 103)) AND m.data <= (CONVERT(DATETIME, @datafinal, 103)) 
+                        ORDER BY a.descricao, f.nome, m.data";
+            #endregion
+            List<Modelo.BilhetesImp> tratamentos = dalBilhesImp.GetImportadosPeriodo(pIdFuncionarios, pdataInicial, pDataFinal, true);
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+            try
+            {
+                if (dr.HasRows)
+                {
+                    var map = Mapper.CreateMap<IDataReader, List<Modelo.Marcacao>>();
+                    lista = Mapper.Map<List<Modelo.Marcacao>>(dr);
+                    foreach (Modelo.Marcacao marc in lista)
+                    {
+                        marc.BilhetesMarcacao = tratamentos.Where(t => t.Mar_data == marc.Data && t.Func == marc.Dscodigo).ToList();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+
+            if (!dr.IsClosed)
+                dr.Close();
+            dr.Dispose();
+
+            return lista;
+        }
+
+
         public List<Modelo.Marcacao> GetCartaoPontoV2(List<int> pIdFuncionarios, DateTime pdataInicial, DateTime pDataFinal)
         {
             List<Modelo.Marcacao> lista = new List<Modelo.Marcacao>();
