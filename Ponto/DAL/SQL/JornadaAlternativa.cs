@@ -16,15 +16,16 @@ namespace DAL.SQL
         {
             get
             {
-                return @"   SELECT ISNULL(COUNT(ja.id), 0) AS qt
-                            FROM jornadaalternativa ja
-                            LEFT JOIN jornadaAlternativaFuncionario jaf ON ja.id = jaf.idJornadaAlternativa
-                            WHERE((@datainicial >= datainicial AND @datainicial <= datafinal)
-                            OR(@datafinal >= datainicial AND @datafinal <= datafinal)
-                            OR(@datainicial <= datainicial AND @datafinal >= datafinal))
-	                        AND tipo = @tipo
-                            and @identificacao = (case when tipo = 2 then jaf.idFuncionario else ja.identificacao end)
-	                        AND ja.id<> @id";
+                return @"   SELECT ISNULL(COUNT(jornadaalternativa.id), 0) AS qt
+                            FROM jornadaalternativa
+                            LEFT JOIN jornadaAlternativaFuncionario jaf on jornadaalternativa.id = jaf.idJornadaAlternativa
+                            WHERE ((@datainicial >= datainicial AND @datainicial <= datafinal)
+                            OR (@datafinal >= datainicial AND @datafinal <= datafinal)
+                            OR (@datainicial <= datainicial AND @datafinal >= datafinal))
+                            AND (    (@tipo != 2 and tipo = @tipo AND identificacao = @identificacao) 
+                                  OR (@tipo = 2 and jaf.idFuncionario = @identificacao) 
+                              )
+                            AND jornadaalternativa.id <> @id ";
             }
         }
 
@@ -34,19 +35,26 @@ namespace DAL.SQL
             {
                 return @"   SELECT ja.* 
                             , ja.identificacao AS nome
-                            , empresa.id as idempresa
+                            , e.id as idempresa
                             , (SELECT convert(varchar,j.codigo)+' | '+j.descricao) AS descjornada  
-                            , funcionario.id idfuncionario
-                            FROM jornadaalternativa ja
-							LEFT JOIN jornadaAlternativaFuncionario jaf on jaf.idJornadaAlternativa = ja.id
-                            LEFT JOIN funcionario ON funcionario.id = (case when tipo = 2 then jaf.idFuncionario else 0 end)
-                            LEFT JOIN departamento ON departamento.id = (case when ja.tipo = 2 then funcionario.iddepartamento when tipo = 1 then ja.identificacao else 0 end)
-                            LEFT JOIN empresa ON empresa.id = (case when ja.tipo = 2 then funcionario.idempresa when tipo = 1 then departamento.idempresa when tipo = 0 then ja.identificacao else 0 end)
+                            , f.id idfuncionario
+                            FROM funcionario f
+                           INNER JOIN empresa e on f.idempresa = e.id
+                            LEFT JOIN jornadaAlternativaFuncionario jafu on jafu.idFuncionario = f.id
+                           INNER JOIN jornadaalternativa ja on ((ja.tipo = 0 and ja.identificacao = f.idempresa) OR
+                                                                (ja.tipo = 1 and ja.identificacao = f.iddepartamento) OR
+                                                                (ja.tipo = 2 and ja.id = jafu.idjornadaalternativa) OR 
+                                                                (ja.tipo = 3 and ja.identificacao = f.idfuncao)
+                                                                )
                             LEFT JOIN jornada j ON ja.idjornada = j.id
-                            WHERE @data >= datainicial 
-                            AND @data <= datafinal
-                            AND tipo = @tipo
-                            AND jaf.idFuncionario = @identificacao ";
+                            WHERE ((@tipo IS NULL) OR
+                                    (@tipo = 0 AND f.idempresa = @identificacao) OR
+                                    (@tipo = 1 AND f.iddepartamento = @identificacao) OR
+                                    (@tipo = 2 AND f.id = @identificacao) OR
+                                    (@tipo = 3 AND f.idfuncao = @identificacao)
+                                   )
+                            and @data >= datainicial 
+                             AND @data <= datafinal";
             }
         }
 
@@ -90,7 +98,7 @@ namespace DAL.SQL
                         , case when ja.tipo = 0 then 'Empresa' when ja.tipo = 1 then 'Departamento' when ja.tipo = 2 then 'Funcionário' when ja.tipo = 3 then 'Função' end AS tipojornada
                         , case when tipo = 0 then (SELECT convert(varchar,empresa.codigo)+' | '+empresa.nome FROM empresa WHERE empresa.id = ja.identificacao) 
                                 when tipo = 1 then (SELECT convert(varchar,departamento.codigo)+' | '+departamento.descricao FROM departamento WHERE departamento.id = ja.identificacao) 
-                                when tipo = 2 then (SELECT convert(varchar,funcionario.dscodigo)+' | '+funcionario.nome FROM funcionario WHERE funcionario.id = jaf.idFuncionario) 
+                                when tipo = 2 then ('') 
                                 when tipo = 3 then (SELECT convert(varchar,funcao.codigo)+' | '+funcao.descricao FROM funcao WHERE funcao.id = ja.identificacao) end AS nome              
                         , (SELECT convert(varchar,j.codigo)+' | '+j.descricao) AS descjornada
                         ,isnull(isnull(departamento.idempresa, empresa.id), funcionario.idempresa) idempresa,
@@ -104,6 +112,74 @@ namespace DAL.SQL
                     WHERE 1 = 1  ";
             }
         }
+
+        //Consulta deixando apenas os campos da jornada, campos que não se repetem para que consiga trazer apenas um registro por jornada, é para ser usada quando precisar que na consulta interna tenha id do funcionário por exemplo, que faz com que tenha mais de um regitro de jornada alternativa por funcionario
+        private const string SelectDistinct = @" select distinct
+                id
+                ,codigo
+                ,tipo
+                ,identificacao
+                ,datainicial
+                ,datafinal
+                ,horasnormais
+                ,somentecargahoraria
+                ,ordenabilhetesaida
+                ,habilitatolerancia
+                ,limitemin
+                ,limitemax
+                ,toleranciaantesent_1
+                ,toleranciaantesent_2
+                ,toleranciaantesent_3
+                ,toleranciaantesent_4
+                ,entrada_1
+                ,entrada_2
+                ,entrada_3
+                ,entrada_4
+                ,toleranciadepoisent_1
+                ,toleranciadepoisent_2
+                ,toleranciadepoisent_3
+                ,toleranciadepoisent_4
+                ,toleranciaantessai_1
+                ,toleranciaantessai_2
+                ,toleranciaantessai_3
+                ,toleranciaantessai_4
+                ,saida_1
+                ,saida_2
+                ,saida_3
+                ,saida_4
+                ,toleranciadepoissai_1
+                ,toleranciadepoissai_2
+                ,toleranciadepoissai_3
+                ,toleranciadepoissai_4
+                ,entrada2_1
+                ,entrada2_2
+                ,entrada2_3
+                ,entrada2_4
+                ,saida2_1
+                ,saida2_2
+                ,saida2_3
+                ,saida2_4
+                ,totaltrabalhadadiurna
+                ,totaltrabalhadanoturna
+                ,incdata
+                ,inchora
+                ,incusuario
+                ,altdata
+                ,althora
+                ,altusuario
+                ,cargamista
+                ,totalmista
+                ,intervaloautomatico
+                ,preassinaladas1
+                ,preassinaladas2
+                ,preassinaladas3
+                ,conversaohoranoturna
+                ,calculoadnoturno
+                ,idjornada
+                ,tipojornada
+                ,nome
+                ,descjornada
+                from ( {0} ) t ";
 
         public JornadaAlternativa(DataBase database)
         {
@@ -168,23 +244,6 @@ namespace DAL.SQL
 
             MAXCOD = @"  SELECT MAX(codigo) AS codigo FROM jornadaalternativa";
         }
-        protected string SELECTLISTGRID
-        {
-            get
-            {
-                return @"
-                   SELECT ja.*
-                        , case when ja.tipo = 0 then 'Empresa' when ja.tipo = 1 then 'Departamento' when ja.tipo = 2 then 'Funcionário' when ja.tipo = 3 then 'Função' end AS tipojornada
-                        , case when tipo = 0 then (SELECT convert(varchar,empresa.codigo)+' | '+empresa.nome FROM empresa WHERE empresa.id = ja.identificacao) 
-                                when tipo = 1 then (SELECT convert(varchar,departamento.codigo)+' | '+departamento.descricao FROM departamento WHERE departamento.id = ja.identificacao) 
-                                when tipo = 2 then '' 
-                                when tipo = 3 then (SELECT convert(varchar,funcao.codigo)+' | '+funcao.descricao FROM funcao WHERE funcao.id = ja.identificacao) end AS nome              
-                        , (SELECT convert(varchar,j.codigo)+' | '+j.descricao) AS descjornada
-                    FROM jornadaalternativa ja
-                    LEFT JOIN jornada j ON ja.idjornada = j.id
-                    WHERE 1 = 1 ";
-            }
-        }
 
         #region Metodos
 
@@ -194,8 +253,11 @@ namespace DAL.SQL
             {
             };
 
-            string aux = SELECTLISTGRID;
+            string aux = SELECTALLLIST;
             aux = PermissaoUsuarioFuncionarioJornada(UsuarioLogado, aux, true);
+
+            aux = string.Format(SelectDistinct,aux);
+
             List<Modelo.JornadaAlternativa> ret = new List<Modelo.JornadaAlternativa>();
 
             try
@@ -313,6 +375,7 @@ namespace DAL.SQL
             ((Modelo.JornadaAlternativa)obj).DescJornada = Convert.ToString(dr["descjornada"]);
 
             ((Modelo.JornadaAlternativa)obj).ConverteHoraStringToInt();
+
         }
 
         protected override SqlParameter[] GetParameters()
@@ -428,6 +491,9 @@ namespace DAL.SQL
 
             string sql = SELECTPID;
             sql = PermissaoUsuarioFuncionarioJornada(UsuarioLogado, sql, true);
+
+            sql = string.Format(SelectDistinct, sql);
+
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 
             Modelo.JornadaAlternativa objJornadaAlternativa = new Modelo.JornadaAlternativa();
@@ -477,7 +543,6 @@ namespace DAL.SQL
 
             SalvarDiasJA(trans, (Modelo.JornadaAlternativa)obj);
             AuxManutencao(trans, obj);
-
             cmd.Parameters.Clear();
         }
 
@@ -596,7 +661,7 @@ namespace DAL.SQL
 			                        select DISTINCT ja.id, f.nome, f.id as idfuncionario
 			                        from jornadaalternativa ja
 			                        LEFT JOIN dbo.diasjornadaalternativa Dja ON ja.id = Dja.idjornadaalternativa AND Dja.datacompensada BETWEEN @datainicial and @datafinal
-							        INNER JOIN jornadaAlternativaFuncionario jaf on jaf.idJornadaAlternativa = ja.id
+							        LEFT JOIN jornadaAlternativaFuncionario jaf on jaf.idJornadaAlternativa = ja.id
                                     INNER JOIN dbo.funcionario f ON f.id IN (SELECT * FROM dbo.F_ClausulaIn(@idsFuncs))
 			                        and ( (ja.tipo = 0 and ja.identificacao = f.idempresa) OR
 				                          (ja.tipo = 1 and ja.identificacao = f.iddepartamento) OR
@@ -629,8 +694,7 @@ namespace DAL.SQL
             if (ret.Count > 0)
             {
                 List<Modelo.DiasJornadaAlternativa> dias = dalDiasJornadaAlternativa.LoadPJornadaAlternativa(ret.Select(s => s.Id).ToList());
-                Parallel.ForEach(ret, (item) =>
-                {
+                Parallel.ForEach(ret, (item) => {
                     item.DiasJA = dias.Where(w => w.IdJornadaAlternativa == item.Id).ToList();
                 });
             }
@@ -646,9 +710,7 @@ namespace DAL.SQL
             };
             parms[0].Value = pFuncionario;
 
-            string aux = @"SELECT ja.id, datainicial, datafinal, identificacao, tipo FROM jornadaalternativa ja
-                            JOIN jornadaAlternativaFuncionario jaf ON jaf.idJornadaAlternativa = ja.id
-                            WHERE tipo = 2 and jaf.idFuncionario = @funcionario ";
+            string aux = "SELECT id, datainicial, datafinal, identificacao, tipo FROM jornadaalternativa WHERE tipo = 2 and identificacao = @funcionario ";
             aux = PermissaoUsuarioFuncionarioJornada(UsuarioLogado, aux, false);
 
             aux += "ORDER BY id";
@@ -853,8 +915,7 @@ namespace DAL.SQL
             };
 
             Hashtable lista = new Hashtable();
-            List<Modelo.JornadaAlternativa> listaTeste = new List<Modelo.JornadaAlternativa>();
-
+            string sql = SELECTALLLIST;
 
             if (pDataI != null && pDataF != null)
             {
@@ -868,21 +929,15 @@ namespace DAL.SQL
                 parms[3].Value = String.Join(",", pIdentificacoes);
             }
 
-            string SQL = @" SELECT DISTINCT
-                         ja.*
-                    FROM jornadaalternativa ja
-					LEFT JOIN jornadaAlternativaFuncionario jaf on jaf.idJornadaAlternativa = ja.id
-                    LEFT JOIN funcionario ON funcionario.id = (case when ja.tipo = 2 then jaf.idFuncionario else 0 end)
-                    LEFT JOIN departamento ON departamento.id = (case when ja.tipo = 2 then funcionario.iddepartamento when ja.tipo = 1 then ja.identificacao else 0 end)
-                    LEFT JOIN empresa ON empresa.id = (case when ja.tipo = 2 then funcionario.idempresa when ja.tipo = 1 then departamento.idempresa when ja.tipo = 0 then ja.identificacao else 0 end)
-                    LEFT JOIN jornada j ON ja.idjornada = j.id
-                    WHERE 1 = 1  AND ja.id in (SELECT jj.id 
+            sql += @"AND ja.id in (
+                          (SELECT jj.id 
                                     FROM FUNCIONARIO F
-                                    INNER JOIN jornadaAlternativaFuncionario jafu on jafu.idFuncionario = f.id
+                                     LEFT JOIN jornadaAlternativaFuncionario jafu on jafu.idFuncionario = f.id
                                     INNER JOIN jornadaalternativa jj on ((jj.tipo = 0 and jj.identificacao = f.idempresa) OR
-									                                    (jj.tipo = 1 and jj.identificacao = f.iddepartamento) OR
-									                                    (jj.tipo = 2 and jj.id = jafu.idJornadaAlternativa) OR 
-									                                    (jj.tipo = 3 and jj.identificacao = f.idfuncao))
+									                                     (jj.tipo = 1 and jj.identificacao = f.iddepartamento) OR
+									                                     (jj.tipo = 2 and jj.id = jafu.idjornadaalternativa) OR 
+									                                     (jj.tipo = 3 and jj.identificacao = f.idfuncao)
+                                                                        )
                                     WHERE ((@tipo IS NULL) OR
                                             (@tipo = 0 AND f.idempresa in (SELECT * FROM dbo.F_ClausulaIn(@identificacao))) OR
                                             (@tipo = 1 AND f.iddepartamento in (SELECT * FROM dbo.F_ClausulaIn(@identificacao))) OR
@@ -898,15 +953,22 @@ namespace DAL.SQL
                                                 diasjornadaalternativa.datacompensada >= @datainicial AND
                                                 diasjornadaalternativa.datacompensada <= @datafinal AND
                                                 diasjornadaalternativa.idjornadaalternativa = jj.id )
-                                    ))";
+                                    ))
+                                    )";
 
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SQL, parms);
+            sql = string.Format(SelectDistinct, sql);
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 
-            Modelo.JornadaAlternativa objJornadaAlternativa = null;
-            var mapJornAlt = Mapper.CreateMap<IDataReader, Modelo.JornadaAlternativa>();
-            List<Modelo.JornadaAlternativa> ret = Mapper.Map<List<Modelo.JornadaAlternativa>>(dr);
-            ret.ForEach(f => lista.Add(f.Id, f));
-
+            if (dr.HasRows)
+            {
+                Modelo.JornadaAlternativa objJornadaAlternativa = null;
+                while (dr.Read())
+                {
+                    objJornadaAlternativa = new Modelo.JornadaAlternativa();
+                    AuxSetInstance(dr, objJornadaAlternativa);
+                    lista.Add(Convert.ToInt32(dr["id"]), objJornadaAlternativa);
+                }
+            }
             if (!dr.IsClosed)
                 dr.Close();
             dr.Dispose();

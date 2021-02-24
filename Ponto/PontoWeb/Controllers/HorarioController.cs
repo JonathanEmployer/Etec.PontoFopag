@@ -273,7 +273,7 @@ namespace PontoWeb.Controllers
                                     if (DateTime.Now.Month == 1)
                                     {
                                         datainicial = new DateTime(Convert.ToInt16(DateTime.Now.AddYears(-2).Year), Convert.ToInt16(DateTime.Now.AddMonths(-1).Month), 1);
-                                        datafinal = new DateTime(DateTime.Now.Year, Convert.ToInt16(DateTime.Now.AddMonths(2).Month), DateTime.DaysInMonth(Convert.ToInt16(DateTime.Now.Year), Convert.ToInt16(DateTime.Now.AddMonths(1).Month)));
+                                        datafinal = new DateTime(DateTime.Now.Year, Convert.ToInt16(DateTime.Now.AddMonths(2).Month), DateTime.DaysInMonth(Convert.ToInt16(DateTime.Now.Year), Convert.ToInt16(DateTime.Now.AddMonths(2).Month)));
                                     }
                                     else if (DateTime.Now.Month == 12)
                                     {
@@ -283,7 +283,7 @@ namespace PontoWeb.Controllers
                                     else
                                     {
                                         datainicial = new DateTime(DateTime.Now.Year, Convert.ToInt16(DateTime.Now.AddMonths(-2).Month), 1);
-                                        datafinal = new DateTime(DateTime.Now.Year, Convert.ToInt16(DateTime.Now.AddMonths(2).Month), DateTime.DaysInMonth(Convert.ToInt16(DateTime.Now.Year), Convert.ToInt16(DateTime.Now.AddMonths(1).Month)));
+                                        datafinal = new DateTime(DateTime.Now.Year, Convert.ToInt16(DateTime.Now.AddMonths(2).Month), DateTime.DaysInMonth(Convert.ToInt16(DateTime.Now.Year), Convert.ToInt16(DateTime.Now.AddMonths(2).Month)));
                                     }
 
                                     HangfireManagerCalculos hfm = new HangfireManagerCalculos(usr.DataBase, "", "", "/Horario/Grid");

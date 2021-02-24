@@ -5895,11 +5895,12 @@ from
 	left join funcionario fun on fun.id = mar.idfuncionario
 	left join horario hor on hor.id = mar.idhorario
 	left join horariodetalhe det on det.idhorario = hor.id
+	left join jornadaAlternativaFuncionario jaf ON jaf.idFuncionario = fun.id				            
 	left join jornadaalternativa joa on ( 
 		( 0=1
 			or (joa.tipo = 0 and joa.identificacao = fun.idempresa)
 			or (joa.tipo = 1 and joa.identificacao = fun.iddepartamento)
-			or (joa.tipo = 2 and joa.identificacao = fun.id)
+			or (joa.tipo = 2 and jaf.idJornadaAlternativa = joa.id)
 		) 
 		and	(
 			mar.data between joa.datainicial and joa.datafinal

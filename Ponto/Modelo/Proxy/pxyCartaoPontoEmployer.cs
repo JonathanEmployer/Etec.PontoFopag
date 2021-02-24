@@ -209,7 +209,16 @@ namespace Modelo.Proxy
             this.Entrada2 = "";
             this.Saida1 = "";
             this.Saida2 = "";
+            this.RelogioE1 = "";
+            this.RelogioE2 = "";
+            this.RelogioS1 = "";
+            this.RelogioS2 = "";
+
         }
+        public string RelogioE1 { get; set; }
+        public string RelogioE2 { get; set; }
+        public string RelogioS1 { get; set; }
+        public string RelogioS2 { get; set; }
         public string Entrada1 { get; set; }
         public string Entrada2 { get; set; }
         public string Saida1 { get; set; }
