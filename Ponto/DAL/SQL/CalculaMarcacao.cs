@@ -352,7 +352,7 @@ namespace DAL.SQL
 				LEFT JOIN jornadaalternativa_view ON 
                ((jornadaalternativa_view.tipo = 0 AND jornadaalternativa_view.identificacao = funcionario.idempresa) 
                OR (jornadaalternativa_view.tipo = 1 AND jornadaalternativa_view.identificacao = funcionario.iddepartamento) 
-               OR (jornadaalternativa_view.tipo = 2 AND jornadaalternativa_view.identificacao = 0 and jornadaAlternativaFuncionario.idFuncionario = funcionario.id) 
+               OR (jornadaalternativa_view.tipo = 2 AND jornadaalternativa_view.id = jornadaAlternativaFuncionario.idJornadaAlternativa) 
                OR (jornadaalternativa_view.tipo = 3 AND jornadaalternativa_view.identificacao = funcionario.idfuncao)) 
                AND (jornadaalternativa_view.datacompensada = marcacao.data 
                OR (jornadaalternativa_view.datacompensada IS NULL 
@@ -582,9 +582,10 @@ namespace DAL.SQL
 							               JOIN funcionario AS f ON f.ID = t.idfuncionario
 						              LEFT JOIN departamento AS d ON f.iddepartamento = d.id
 						              LEFT JOIN empresa AS e ON f.idempresa = e.id
+						             LEFT JOIN jornadaAlternativaFuncionario jaf ON jaf.idFuncionario = f.id
 						              LEFT JOIN jornadaalternativa AS ja ON (((ja.tipo = 0 and ja.identificacao = e.id) or
 																              (ja.tipo = 1 and ja.identificacao = d.id) or
-																              (ja.tipo = 2 and ja.identificacao = f.id)) and
+																              (ja.tipo = 2 and jaf.idJornadaAlternativa = ja.id)) and
 																              t.Marc_data between ja.datainicial and ja.datafinal)
 									   ) di
 					              inner join afastamento as a on a.abonado = 1 and
