@@ -5895,18 +5895,18 @@ from
 	left join funcionario fun on fun.id = mar.idfuncionario
 	left join horario hor on hor.id = mar.idhorario
 	left join horariodetalhe det on det.idhorario = hor.id
-	left join jornadaAlternativaFuncionario jaf ON jaf.idFuncionario = fun.id				            
-	left join jornadaalternativa joa on ( 
+	left join jornadaalternativa_view joa on ( 
 		( 0=1
 			or (joa.tipo = 0 and joa.identificacao = fun.idempresa)
 			or (joa.tipo = 1 and joa.identificacao = fun.iddepartamento)
-			or (joa.tipo = 2 and jaf.idJornadaAlternativa = joa.id)
+			or (joa.tipo = 2 and joa.identificacao = fun.id)
 		) 
 		and	(
 			mar.data between joa.datainicial and joa.datafinal
 		)
 	)
-	inner join jornada jo on jo.id = coalesce(joa.idjornada, det.idjornada)
+    left join jornadaalternativa ja on joa.id = ja.id
+	inner join jornada jo on jo.id = coalesce(ja.idjornada, det.idjornada)
 where 1=1
 	and mar.id = @id
 	and det.dia = @dia
