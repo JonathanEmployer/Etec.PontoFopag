@@ -10,41 +10,41 @@ using System.Text;
 
 namespace DAL.RelatoriosSQL
 {
-    public class RelatorioRefeicao
-    {
-        private DataBase db;
-        public RelatorioRefeicao(DataBase database)
-        {
-            db = database;
-        }
+	public class RelatorioRefeicao
+	{
+		private DataBase db;
+		public RelatorioRefeicao(DataBase database)
+		{
+			db = database;
+		}
 
-        /// <summary>
-        /// Select com os dados para o relatório de homem hora
-        /// </summary>
-        /// <param name="idsFuncionarios">String com ids separados por vingula. Ex: '1,2,3,25,36'</param>
-        /// <param name="pDataInicial">Data inicial para o filtro do relatório</param>
-        /// <param name="pDataFinal">Data Final para o filtro do relatório</param>
-        /// <returns>DataTable</returns>
-        public DataTable GetRelatorioRefeicao(List<int> idsFunc, DateTime pDataInicial, DateTime pDataFinal, int percJornadaMinima, decimal valorRefeicao, bool considerarDoisRegistros, bool considerarDiasSemjornada)
-        {
-            SqlParameter[] parms = new SqlParameter[7]
-            {
-                    new SqlParameter("@identificadores", SqlDbType.Structured),
-                    new SqlParameter("@dataIni", SqlDbType.DateTime),
-                    new SqlParameter("@dataFin", SqlDbType.DateTime),
-                    new SqlParameter("@jornadaMin", SqlDbType.Int),
-                    new SqlParameter("@valorRefeicao", SqlDbType.Decimal),
-                    new SqlParameter("@considerarDoisRegistros", SqlDbType.Bit),
-                    new SqlParameter("@considerarDiasSemjornada", SqlDbType.Bit)
-            };
-            IEnumerable<long> ids = idsFunc.Select(s => (long)s);
-            parms[0].Value = DAL.SQL.DALBase.CreateDataTableIdentificadores(ids);
-            parms[0].TypeName = "Identificadores";
-            parms[1].Value = pDataInicial;
-            parms[2].Value = pDataFinal;
-            parms[3].Value = percJornadaMinima;
-            parms[4].Value = valorRefeicao;
-            parms[5].Value = considerarDoisRegistros;
+		/// <summary>
+		/// Select com os dados para o relatório de homem hora
+		/// </summary>
+		/// <param name="idsFuncionarios">String com ids separados por vingula. Ex: '1,2,3,25,36'</param>
+		/// <param name="pDataInicial">Data inicial para o filtro do relatório</param>
+		/// <param name="pDataFinal">Data Final para o filtro do relatório</param>
+		/// <returns>DataTable</returns>
+		public DataTable GetRelatorioRefeicao(List<int> idsFunc, DateTime pDataInicial, DateTime pDataFinal, int percJornadaMinima, decimal valorRefeicao, bool considerarDoisRegistros, bool considerarDiasSemjornada)
+		{
+			SqlParameter[] parms = new SqlParameter[7]
+			{
+					new SqlParameter("@identificadores", SqlDbType.Structured),
+					new SqlParameter("@dataIni", SqlDbType.DateTime),
+					new SqlParameter("@dataFin", SqlDbType.DateTime),
+					new SqlParameter("@jornadaMin", SqlDbType.Int),
+					new SqlParameter("@valorRefeicao", SqlDbType.Decimal),
+					new SqlParameter("@considerarDoisRegistros", SqlDbType.Bit),
+					new SqlParameter("@considerarDiasSemjornada", SqlDbType.Bit)
+			};
+			IEnumerable<long> ids = idsFunc.Select(s => (long)s);
+			parms[0].Value = DAL.SQL.DALBase.CreateDataTableIdentificadores(ids);
+			parms[0].TypeName = "Identificadores";
+			parms[1].Value = pDataInicial;
+			parms[2].Value = pDataFinal;
+			parms[3].Value = percJornadaMinima;
+			parms[4].Value = valorRefeicao;
+			parms[5].Value = considerarDoisRegistros;
 			parms[6].Value = considerarDiasSemjornada;
 
 			string aux = @" SELECT D.EmpresaNome,
@@ -89,12 +89,11 @@ namespace DAL.RelatoriosSQL
 											   (hd.idhorario = m.idhorario 
 											   AND horario.tipohorario = 1
 											   AND hd.dia = (CASE WHEN (CAST(DATEPART(WEEKDAY, m.data) AS INT)-1) = 0 THEN 7 ELSE (CAST(DATEPART(WEEKDAY, m.data) AS INT)-1) END)))                        
-										  LEFT JOIN jornadaAlternativaFuncionario jaf ON jaf.idFuncionario = f.id
 										  LEFT JOIN jornadaalternativa_view jav ON 
 											   ((jav.tipo = 0 AND jav.identificacao = f.idempresa) 
 											   OR (jav.tipo = 1 AND jav.identificacao = f.iddepartamento) 
-											   OR (jav.tipo = 2 AND jaf.idJornadaAlternativa = jav.id) 
-											   OR (jav.tipo = 3 AND jav.identificacao = f.idfuncao))
+											   OR (jav.tipo = 2 AND jav.identificacao = f.id) 
+											   OR (jav.tipo = 3 AND jav.identificacao = f.idfuncao)) 
 											   AND ( jav.datacompensada = m.data OR
 													(jav.datacompensada IS NULL AND m.data >= jav.datainicial AND m.data <= jav.datafinal))
 										  LEFT JOIN jornadaalternativa ja on ja.id = jav.id
@@ -112,15 +111,15 @@ namespace DAL.RelatoriosSQL
 								 D.FuncionarioCodigo,
 								 D.FuncionarioNome
 						ORDER BY FuncionarioNome";
-            DataTable dt = new DataTable();
+			DataTable dt = new DataTable();
 
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
-            dt.Load(dr);
-            if (!dr.IsClosed)
-                dr.Close();
-            dr.Dispose();
+			SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+			dt.Load(dr);
+			if (!dr.IsClosed)
+				dr.Close();
+			dr.Dispose();
 
-            return dt;
-        }
-    }
+			return dt;
+		}
+	}
 }
