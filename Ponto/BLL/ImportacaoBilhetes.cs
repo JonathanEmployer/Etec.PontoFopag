@@ -228,7 +228,7 @@ namespace BLL
         }
 
 
-        public Modelo.REP GetRepHeaderAFD(string header, out List<string> erros)
+        public Modelo.REP GetRepHeaderAFD(string header, out List<string> erros )
         {
             erros = new List<string>();
             RegistroAFD reg = cwkPontoMT.Integracao.Util.RetornaLinhaAFD(header);
@@ -246,7 +246,7 @@ namespace BLL
                 return new Modelo.REP();
             }
 
-            if (!bllRep.GetCPFCNPJ(reg.Campo04, reg.Campo03))
+            if (!bllRep.GetCPFCNPJ(reg.Campo04, reg.Campo03) )
             {
                 erros.Add(reg.Campo04 + " não esta cadastrado como cnpj ou cpf da empresa");
                 numeroRelogio = String.Empty;

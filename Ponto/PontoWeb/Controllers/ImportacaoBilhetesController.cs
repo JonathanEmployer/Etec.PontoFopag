@@ -156,6 +156,7 @@ namespace PontoWeb.Controllers
             ValidaArquivoUpload retorno = new ValidaArquivoUpload();
             try
             {
+
                 string header = "";
                 string caminhoArquivo = Path.Combine(pathAfd, Path.GetFileName(nomeArquivo));
                 using (StreamReader reader = new StreamReader(caminhoArquivo))
@@ -166,7 +167,7 @@ namespace PontoWeb.Controllers
                 {
                     BLL.ImportacaoBilhetes impBil = new BLL.ImportacaoBilhetes(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
                     List<string> erros = new List<string>();
-                    REP rel = impBil.GetRepHeaderAFD(header, out erros);
+                    REP rel = impBil.GetRepHeaderAFD(header, out erros );
                     if (erros.Count > 0)
                     {
                         retorno.Erro = String.Join("; ", erros);
