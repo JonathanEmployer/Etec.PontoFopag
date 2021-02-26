@@ -14,7 +14,7 @@ namespace BLL
 
         public ImportacaoBilhetes() : this(null)
         {
-            
+
         }
 
         public ImportacaoBilhetes(string connString)
@@ -95,7 +95,7 @@ namespace BLL
                 log.Add(ex.Message);
                 bErro = true;
             }
-            return log;          
+            return log;
         }
 
         public List<string> ImportacaoBilheteWeb(Modelo.ProgressBar pb, List<Modelo.TipoBilhetes> listaTipoBilhetes, string diretorio, int bilhete, bool bIndividual,
@@ -150,17 +150,17 @@ namespace BLL
                         log.Add("---------------------------------------------------------------------------------------");
                     }
                 }
-                
+
             }
             catch (Exception ex)
             {
                 BLL.cwkFuncoes.LogarErro(ex);
                 log.Add(ex.Message);
             }
-            return log;           
+            return log;
         }
 
-        public bool ImportacaoBilhete(Modelo.ProgressBar pb, List<Modelo.TipoBilhetes> listaTipoBilhetes, string diretorio, int bilhete, bool bIndividual, string func, 
+        public bool ImportacaoBilhete(Modelo.ProgressBar pb, List<Modelo.TipoBilhetes> listaTipoBilhetes, string diretorio, int bilhete, bool bIndividual, string func,
                                       DateTime? datai, DateTime? dataf, out string mensagem)
         {
             BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(ConnectionString, UsuarioLogado);
@@ -179,7 +179,7 @@ namespace BLL
 
             DateTime? dataInicial;
             DateTime? dataFinal;
-            
+
             if (!temBilhetes)
             {
                 DateTime datainicial, datafinal;
@@ -213,7 +213,7 @@ namespace BLL
             log.Add("---------------------------------------------------------------------------------------");
             GravarLogImportacao(log);
 
-            tempo.Stop();        
+            tempo.Stop();
             return ret;
         }
 
@@ -228,15 +228,15 @@ namespace BLL
         }
 
 
-        public Modelo.REP GetRepHeaderAFD(string header, out List<string> erros )
+        public Modelo.REP GetRepHeaderAFD(string header, out List<string> erros, bool? razaoSocial)
         {
             erros = new List<string>();
             RegistroAFD reg = cwkPontoMT.Integracao.Util.RetornaLinhaAFD(header);
             if (reg.Campo02 != "1")
-	        {
+            {
                 erros.Add("Cabeçalho do AFD não foi encontrado");
                 return new Modelo.REP();
-	        }    
+            }
 
             BLL.REP bllRep = new BLL.REP(ConnectionString, UsuarioLogado);
             string numeroRelogio = bllRep.GetNumInner(reg.Campo07);
@@ -246,18 +246,18 @@ namespace BLL
                 return new Modelo.REP();
             }
 
-            if (!bllRep.GetCPFCNPJ(reg.Campo04, reg.Campo03) )
+            if (!bllRep.GetCPFCNPJ(reg.Campo04, reg.Campo03) && razaoSocial == false)
             {
                 erros.Add(reg.Campo04 + " não esta cadastrado como cnpj ou cpf da empresa");
                 numeroRelogio = String.Empty;
                 return new Modelo.REP();
             }
-            
+
             Modelo.REP rep = bllRep.LoadObjectPorNumRelogio(numeroRelogio);
             Modelo.REP repPermissao = bllRep.LoadObjectByCodigo(rep.Codigo);
             if (repPermissao == null || repPermissao.Id == 0)
             {
-                erros.Add("Usuário não tem permissão para importar afd para o rep "+rep.Codigo+" | "+rep.Local);
+                erros.Add("Usuário não tem permissão para importar afd para o rep " + rep.Codigo + " | " + rep.Local);
                 new Modelo.REP();
             }
             return repPermissao;
