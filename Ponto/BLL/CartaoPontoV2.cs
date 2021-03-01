@@ -716,6 +716,7 @@ namespace BLL
             return jrs;
         }
 
+
         private IList<PxyCPEJornadaRealizada> JornadaRealizada(IList<Modelo.BilhetesImp> bils)
         {
             IList<PxyCPEJornadaRealizada> jrs = new List<PxyCPEJornadaRealizada>();
@@ -732,21 +733,21 @@ namespace BLL
                 posBil++;
                 Modelo.BilhetesImp bi = bils.Where(x => x.Ent_sai == "E" && x.Posicao == posBil && x.Ocorrencia != 'D').FirstOrDefault();
                 if (bi != null)
-                    jr.Entrada1 = bi.Mar_hora + bi.Mar_relogio == "PE" ? " E" : "" ;
+                    jr.Entrada1 = bi.Mar_hora;
 
                 bi = bils.Where(x => x.Ent_sai == "S" && x.Posicao == posBil && x.Ocorrencia != 'D').FirstOrDefault();
                 if (bi != null)
-                    jr.Saida1 = bi.Mar_hora + bi.Mar_relogio == "PE" ? " E" : "";
+                    jr.Saida1 = bi.Mar_hora;
 
                 posBil++;
                 bi = bils.Where(x => x.Ent_sai == "E" && x.Posicao == posBil && x.Ocorrencia != 'D').FirstOrDefault();
                 if (bi != null)
-                    jr.Entrada2 = bi.Mar_hora + bi.Mar_relogio == "PE" ? " E" : "";
+                    jr.Entrada2 = bi.Mar_hora;
 
                 bi = bils.Where(x => x.Ent_sai == "S" && x.Posicao == posBil && x.Ocorrencia != 'D').FirstOrDefault();
                 if (bi != null)
                 {
-                    jr.Saida2 = bi.Mar_hora + bi.Mar_relogio == "PE" ? " E" : "";
+                    jr.Saida2 = bi.Mar_hora;
                 }
                 jrs.Add(jr);
             }
