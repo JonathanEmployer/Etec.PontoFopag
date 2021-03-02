@@ -16,14 +16,16 @@ namespace DAL.SQL
         {
             get
             {
-                return @"   SELECT ISNULL(COUNT(id), 0) AS qt
+                return @"   SELECT ISNULL(COUNT(jornadaalternativa.id), 0) AS qt
                             FROM jornadaalternativa
+                            LEFT JOIN jornadaAlternativaFuncionario jaf on jornadaalternativa.id = jaf.idJornadaAlternativa
                             WHERE ((@datainicial >= datainicial AND @datainicial <= datafinal)
                             OR (@datafinal >= datainicial AND @datafinal <= datafinal)
                             OR (@datainicial <= datainicial AND @datafinal >= datafinal))
-                            AND tipo = @tipo
-                            AND identificacao = @identificacao
-                            AND id <> @id";
+                            AND (    (@tipo != 2 and tipo = @tipo AND identificacao = @identificacao) 
+                                  OR (@tipo = 2 and jaf.idFuncionario = @identificacao) 
+                              )
+                            AND jornadaalternativa.id <> @id ";
             }
         }
 
@@ -33,18 +35,26 @@ namespace DAL.SQL
             {
                 return @"   SELECT ja.* 
                             , ja.identificacao AS nome
-                            , empresa.id as idempresa
+                            , e.id as idempresa
                             , (SELECT convert(varchar,j.codigo)+' | '+j.descricao) AS descjornada  
-                            , funcionario.id idfuncionario
-                            FROM jornadaalternativa ja
-                            LEFT JOIN funcionario ON funcionario.id = (case when tipo = 2 then ja.identificacao else 0 end)
-                            LEFT JOIN departamento ON departamento.id = (case when ja.tipo = 2 then funcionario.iddepartamento when tipo = 1 then ja.identificacao else 0 end)
-                            LEFT JOIN empresa ON empresa.id = (case when ja.tipo = 2 then funcionario.idempresa when tipo = 1 then departamento.idempresa when tipo = 0 then ja.identificacao else 0 end)
+                            , f.id idfuncionario
+                            FROM funcionario f
+                           INNER JOIN empresa e on f.idempresa = e.id
+                            LEFT JOIN jornadaAlternativaFuncionario jafu on jafu.idFuncionario = f.id
+                           INNER JOIN jornadaalternativa ja on ((ja.tipo = 0 and ja.identificacao = f.idempresa) OR
+                                                                (ja.tipo = 1 and ja.identificacao = f.iddepartamento) OR
+                                                                (ja.tipo = 2 and ja.id = jafu.idjornadaalternativa) OR 
+                                                                (ja.tipo = 3 and ja.identificacao = f.idfuncao)
+                                                                )
                             LEFT JOIN jornada j ON ja.idjornada = j.id
-                            WHERE @data >= datainicial 
-                            AND @data <= datafinal
-                            AND tipo = @tipo
-                            AND identificacao = @identificacao ";
+                            WHERE ((@tipo IS NULL) OR
+                                    (@tipo = 0 AND f.idempresa = @identificacao) OR
+                                    (@tipo = 1 AND f.iddepartamento = @identificacao) OR
+                                    (@tipo = 2 AND f.id = @identificacao) OR
+                                    (@tipo = 3 AND f.idfuncao = @identificacao)
+                                   )
+                            and @data >= datainicial 
+                             AND @data <= datafinal";
             }
         }
 
@@ -59,17 +69,19 @@ namespace DAL.SQL
                                     , case when ja.tipo = 0 then 'Empresa' when ja.tipo = 1 then 'Departamento' when ja.tipo = 2 then 'Funcionário' when ja.tipo = 3 then 'Função' end AS tipo
                                     , case when tipo = 0 then (SELECT empresa.nome FROM empresa WHERE empresa.id = ja.identificacao) 
                                            when tipo = 1 then (SELECT departamento.descricao FROM departamento WHERE departamento.id = ja.identificacao) 
-                                           when tipo = 2 then (SELECT funcionario.nome FROM funcionario WHERE funcionario.id = ja.identificacao) 
+                                           when tipo = 2 then (SELECT funcionario.nome FROM funcionario WHERE funcionario.id = jaf.idFuncionario) 
                                            when tipo = 3 then (SELECT funcao.descricao FROM funcao WHERE funcao.id = ja.identificacao) end AS nome              
                                     , ja.entrada_1
                                     , ja.saida_1
                                     , ja.entrada_2
                                     , ja.saida_2
+                                    , jaf.id as idjornadaalternativafunc
                              FROM jornadaalternativa ja
-                             LEFT JOIN funcionario ON funcionario.id = (case when ja.tipo = 2 then ja.identificacao else 0 end)
+							 LEFT JOIN jornadaAlternativaFuncionario jaf on jaf.idJornadaAlternativa = ja.id
+                             LEFT JOIN funcionario ON funcionario.id = (case when ja.tipo = 2 then jaF.idFuncionario else 0 end)
                              LEFT JOIN departamento ON departamento.id = (case when ja.tipo = 2 then funcionario.iddepartamento when ja.tipo = 1 then ja.identificacao else 0 end)
                              LEFT JOIN empresa ON empresa.id = (case when ja.tipo = 2 then funcionario.idempresa when ja.tipo = 1 then departamento.idempresa when ja.tipo = 0 then ja.identificacao else 0 end)
-                             WHERE 1 = 1 ";
+                             WHERE 1 = 1";
             }
             set
             {
@@ -77,33 +89,103 @@ namespace DAL.SQL
             }
         }
 
-        protected override string SELECTALLLIST {
+        protected override string SELECTALLLIST
+        {
             get
             {
                 return @"
-                    SELECT   ja.*
+                   SELECT   ja.*
                         , case when ja.tipo = 0 then 'Empresa' when ja.tipo = 1 then 'Departamento' when ja.tipo = 2 then 'Funcionário' when ja.tipo = 3 then 'Função' end AS tipojornada
                         , case when tipo = 0 then (SELECT convert(varchar,empresa.codigo)+' | '+empresa.nome FROM empresa WHERE empresa.id = ja.identificacao) 
                                 when tipo = 1 then (SELECT convert(varchar,departamento.codigo)+' | '+departamento.descricao FROM departamento WHERE departamento.id = ja.identificacao) 
-                                when tipo = 2 then (SELECT convert(varchar,funcionario.dscodigo)+' | '+funcionario.nome FROM funcionario WHERE funcionario.id = ja.identificacao) 
+                                when tipo = 2 then ('') 
                                 when tipo = 3 then (SELECT convert(varchar,funcao.codigo)+' | '+funcao.descricao FROM funcao WHERE funcao.id = ja.identificacao) end AS nome              
                         , (SELECT convert(varchar,j.codigo)+' | '+j.descricao) AS descjornada
                         ,isnull(isnull(departamento.idempresa, empresa.id), funcionario.idempresa) idempresa,
 		                funcionario.id idFuncionario
                     FROM jornadaalternativa ja
-                    LEFT JOIN funcionario ON funcionario.id = (case when ja.tipo = 2 then ja.identificacao else 0 end)
+					LEFT JOIN jornadaAlternativaFuncionario jaf on jaf.idJornadaAlternativa = ja.id
+                    LEFT JOIN funcionario ON funcionario.id = (case when ja.tipo = 2 then jaf.idFuncionario else 0 end)
                     LEFT JOIN departamento ON departamento.id = (case when ja.tipo = 2 then funcionario.iddepartamento when ja.tipo = 1 then ja.identificacao else 0 end)
                     LEFT JOIN empresa ON empresa.id = (case when ja.tipo = 2 then funcionario.idempresa when ja.tipo = 1 then departamento.idempresa when ja.tipo = 0 then ja.identificacao else 0 end)
                     LEFT JOIN jornada j ON ja.idjornada = j.id
-                    WHERE 1 = 1 ";
+                    WHERE 1 = 1  ";
             }
         }
+
+        //Consulta deixando apenas os campos da jornada, campos que não se repetem para que consiga trazer apenas um registro por jornada, é para ser usada quando precisar que na consulta interna tenha id do funcionário por exemplo, que faz com que tenha mais de um regitro de jornada alternativa por funcionario
+        private const string SelectDistinct = @" select distinct
+                id
+                ,codigo
+                ,tipo
+                ,identificacao
+                ,datainicial
+                ,datafinal
+                ,horasnormais
+                ,somentecargahoraria
+                ,ordenabilhetesaida
+                ,habilitatolerancia
+                ,limitemin
+                ,limitemax
+                ,toleranciaantesent_1
+                ,toleranciaantesent_2
+                ,toleranciaantesent_3
+                ,toleranciaantesent_4
+                ,entrada_1
+                ,entrada_2
+                ,entrada_3
+                ,entrada_4
+                ,toleranciadepoisent_1
+                ,toleranciadepoisent_2
+                ,toleranciadepoisent_3
+                ,toleranciadepoisent_4
+                ,toleranciaantessai_1
+                ,toleranciaantessai_2
+                ,toleranciaantessai_3
+                ,toleranciaantessai_4
+                ,saida_1
+                ,saida_2
+                ,saida_3
+                ,saida_4
+                ,toleranciadepoissai_1
+                ,toleranciadepoissai_2
+                ,toleranciadepoissai_3
+                ,toleranciadepoissai_4
+                ,entrada2_1
+                ,entrada2_2
+                ,entrada2_3
+                ,entrada2_4
+                ,saida2_1
+                ,saida2_2
+                ,saida2_3
+                ,saida2_4
+                ,totaltrabalhadadiurna
+                ,totaltrabalhadanoturna
+                ,incdata
+                ,inchora
+                ,incusuario
+                ,altdata
+                ,althora
+                ,altusuario
+                ,cargamista
+                ,totalmista
+                ,intervaloautomatico
+                ,preassinaladas1
+                ,preassinaladas2
+                ,preassinaladas3
+                ,conversaohoranoturna
+                ,calculoadnoturno
+                ,idjornada
+                ,tipojornada
+                ,nome
+                ,descjornada
+                from ( {0} ) t ";
 
         public JornadaAlternativa(DataBase database)
         {
             db = database;
             dalDiasJornadaAlternativa = new DAL.SQL.DiasJornadaAlternativa(db);
-            
+
             TABELA = "jornadaalternativa";
 
             SELECTPID = SELECTALLLIST + " AND ja.id = @id";
@@ -168,11 +250,14 @@ namespace DAL.SQL
         public List<Modelo.JornadaAlternativa> GetAllList(bool loadDiasJA)
         {
             SqlParameter[] parms = new SqlParameter[]
-            { 
+            {
             };
 
             string aux = SELECTALLLIST;
             aux = PermissaoUsuarioFuncionarioJornada(UsuarioLogado, aux, true);
+
+            aux = string.Format(SelectDistinct,aux);
+
             List<Modelo.JornadaAlternativa> ret = new List<Modelo.JornadaAlternativa>();
 
             try
@@ -296,45 +381,45 @@ namespace DAL.SQL
         protected override SqlParameter[] GetParameters()
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@id", SqlDbType.Int),
-				new SqlParameter ("@codigo", SqlDbType.Int),
-				new SqlParameter ("@tipo", SqlDbType.SmallInt),
-				new SqlParameter ("@identificacao", SqlDbType.Int),
-				new SqlParameter ("@datainicial", SqlDbType.DateTime),
-				new SqlParameter ("@datafinal", SqlDbType.DateTime),
-				new SqlParameter ("@horasnormais", SqlDbType.TinyInt),
+            {
+                new SqlParameter ("@id", SqlDbType.Int),
+                new SqlParameter ("@codigo", SqlDbType.Int),
+                new SqlParameter ("@tipo", SqlDbType.SmallInt),
+                new SqlParameter ("@identificacao", SqlDbType.Int),
+                new SqlParameter ("@datainicial", SqlDbType.DateTime),
+                new SqlParameter ("@datafinal", SqlDbType.DateTime),
+                new SqlParameter ("@horasnormais", SqlDbType.TinyInt),
                 new SqlParameter ("@cargamista", SqlDbType.TinyInt),
-				new SqlParameter ("@somentecargahoraria", SqlDbType.TinyInt),
-				new SqlParameter ("@ordenabilhetesaida", SqlDbType.TinyInt),
-				new SqlParameter ("@habilitatolerancia", SqlDbType.TinyInt),
-				new SqlParameter ("@limitemin", SqlDbType.VarChar),
-				new SqlParameter ("@limitemax", SqlDbType.VarChar),
-				new SqlParameter ("@entrada_1", SqlDbType.VarChar),
-				new SqlParameter ("@entrada_2", SqlDbType.VarChar),
-				new SqlParameter ("@entrada_3", SqlDbType.VarChar),
-				new SqlParameter ("@entrada_4", SqlDbType.VarChar),
-				new SqlParameter ("@saida_1", SqlDbType.VarChar),
-				new SqlParameter ("@saida_2", SqlDbType.VarChar),
-				new SqlParameter ("@saida_3", SqlDbType.VarChar),
-				new SqlParameter ("@saida_4", SqlDbType.VarChar),
-				new SqlParameter ("@entrada2_1", SqlDbType.VarChar),
-				new SqlParameter ("@entrada2_2", SqlDbType.VarChar),
-				new SqlParameter ("@entrada2_3", SqlDbType.VarChar),
-				new SqlParameter ("@entrada2_4", SqlDbType.VarChar),
-				new SqlParameter ("@saida2_1", SqlDbType.VarChar),
-				new SqlParameter ("@saida2_2", SqlDbType.VarChar),
-				new SqlParameter ("@saida2_3", SqlDbType.VarChar),
-				new SqlParameter ("@saida2_4", SqlDbType.VarChar),
-				new SqlParameter ("@totaltrabalhadadiurna", SqlDbType.VarChar),
-				new SqlParameter ("@totaltrabalhadanoturna", SqlDbType.VarChar),
+                new SqlParameter ("@somentecargahoraria", SqlDbType.TinyInt),
+                new SqlParameter ("@ordenabilhetesaida", SqlDbType.TinyInt),
+                new SqlParameter ("@habilitatolerancia", SqlDbType.TinyInt),
+                new SqlParameter ("@limitemin", SqlDbType.VarChar),
+                new SqlParameter ("@limitemax", SqlDbType.VarChar),
+                new SqlParameter ("@entrada_1", SqlDbType.VarChar),
+                new SqlParameter ("@entrada_2", SqlDbType.VarChar),
+                new SqlParameter ("@entrada_3", SqlDbType.VarChar),
+                new SqlParameter ("@entrada_4", SqlDbType.VarChar),
+                new SqlParameter ("@saida_1", SqlDbType.VarChar),
+                new SqlParameter ("@saida_2", SqlDbType.VarChar),
+                new SqlParameter ("@saida_3", SqlDbType.VarChar),
+                new SqlParameter ("@saida_4", SqlDbType.VarChar),
+                new SqlParameter ("@entrada2_1", SqlDbType.VarChar),
+                new SqlParameter ("@entrada2_2", SqlDbType.VarChar),
+                new SqlParameter ("@entrada2_3", SqlDbType.VarChar),
+                new SqlParameter ("@entrada2_4", SqlDbType.VarChar),
+                new SqlParameter ("@saida2_1", SqlDbType.VarChar),
+                new SqlParameter ("@saida2_2", SqlDbType.VarChar),
+                new SqlParameter ("@saida2_3", SqlDbType.VarChar),
+                new SqlParameter ("@saida2_4", SqlDbType.VarChar),
+                new SqlParameter ("@totaltrabalhadadiurna", SqlDbType.VarChar),
+                new SqlParameter ("@totaltrabalhadanoturna", SqlDbType.VarChar),
                 new SqlParameter ("@totalmista", SqlDbType.VarChar),
-				new SqlParameter ("@incdata", SqlDbType.DateTime),
-				new SqlParameter ("@inchora", SqlDbType.DateTime),
-				new SqlParameter ("@incusuario", SqlDbType.VarChar),
-				new SqlParameter ("@altdata", SqlDbType.DateTime),
-				new SqlParameter ("@althora", SqlDbType.DateTime),
-				new SqlParameter ("@altusuario", SqlDbType.VarChar),
+                new SqlParameter ("@incdata", SqlDbType.DateTime),
+                new SqlParameter ("@inchora", SqlDbType.DateTime),
+                new SqlParameter ("@incusuario", SqlDbType.VarChar),
+                new SqlParameter ("@altdata", SqlDbType.DateTime),
+                new SqlParameter ("@althora", SqlDbType.DateTime),
+                new SqlParameter ("@altusuario", SqlDbType.VarChar),
                 new SqlParameter ("@intervaloautomatico", SqlDbType.Int),
                 new SqlParameter ("@preassinaladas1", SqlDbType.Int),
                 new SqlParameter ("@preassinaladas2", SqlDbType.Int),
@@ -342,7 +427,7 @@ namespace DAL.SQL
                 new SqlParameter ("@calculoadnoturno", SqlDbType.TinyInt),
                 new SqlParameter ("@conversaohoranoturna", SqlDbType.TinyInt),
                 new SqlParameter ("@idjornada", SqlDbType.Int),
-			};
+            };
             return parms;
         }
 
@@ -406,6 +491,9 @@ namespace DAL.SQL
 
             string sql = SELECTPID;
             sql = PermissaoUsuarioFuncionarioJornada(UsuarioLogado, sql, true);
+
+            sql = string.Format(SelectDistinct, sql);
+
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 
             Modelo.JornadaAlternativa objJornadaAlternativa = new Modelo.JornadaAlternativa();
@@ -436,7 +524,7 @@ namespace DAL.SQL
             obj.Id = Convert.ToInt32(cmd.Parameters["@id"].Value);
 
             SalvarDiasJA(trans, (Modelo.JornadaAlternativa)obj);
-
+            AuxManutencao(trans, obj);
             cmd.Parameters.Clear();
         }
 
@@ -454,10 +542,16 @@ namespace DAL.SQL
             SqlCommand cmd = TransactDbOps.ExecNonQueryCmd(trans, CommandType.Text, UPDATE, true, parms);
 
             SalvarDiasJA(trans, (Modelo.JornadaAlternativa)obj);
-
+            AuxManutencao(trans, obj);
             cmd.Parameters.Clear();
         }
 
+        protected override void ExcluirAux(SqlTransaction trans, Modelo.ModeloBase obj)
+        {
+            DAL.SQL.JornadaAlternativaFuncionario dalJornadaAlternativaFuncionario = new DAL.SQL.JornadaAlternativaFuncionario(db);
+            dalJornadaAlternativaFuncionario.ExcluirJornadaAlternativaFuncionarioLote(trans, obj.Id);
+            base.ExcluirAux(trans, obj);
+        }
         private void SalvarDiasJA(SqlTransaction trans, Modelo.JornadaAlternativa obj)
         {
             dalDiasJornadaAlternativa.UsuarioLogado = UsuarioLogado;
@@ -481,10 +575,20 @@ namespace DAL.SQL
             }
         }
 
+        private void AuxManutencao(SqlTransaction trans, Modelo.ModeloBase obj)
+        {
+            DAL.SQL.JornadaAlternativaFuncionario dalJornadaAlternativaFuncionario = new DAL.SQL.JornadaAlternativaFuncionario(db);
+            dalJornadaAlternativaFuncionario.ExcluirJornadaAlternativaFuncionarioLote(trans, obj.Id);
+            if (((Modelo.JornadaAlternativa)obj).Tipo == 2)
+            {
+                dalJornadaAlternativaFuncionario.IncluirJornadaAlternativaFuncionarioLote(trans, obj.Id, ((Modelo.JornadaAlternativa)obj).IdsJornadaAlternativaFuncionariosSelecionados);
+            }
+        }
+
         public List<Modelo.JornadaAlternativa> GetPeriodo(DateTime pDataInicial, DateTime pDataFinal)
         {
-            SqlParameter[] parms = new SqlParameter[] 
-            { 
+            SqlParameter[] parms = new SqlParameter[]
+            {
                   new SqlParameter("@datainicial", SqlDbType.DateTime)
                 , new SqlParameter("@datafinal", SqlDbType.DateTime)
             };
@@ -557,10 +661,11 @@ namespace DAL.SQL
 			                        select DISTINCT ja.id, f.nome, f.id as idfuncionario
 			                        from jornadaalternativa ja
 			                        LEFT JOIN dbo.diasjornadaalternativa Dja ON ja.id = Dja.idjornadaalternativa AND Dja.datacompensada BETWEEN @datainicial and @datafinal
-			                        INNER JOIN dbo.funcionario f ON f.id IN (SELECT * FROM dbo.F_ClausulaIn(@idsFuncs))
+							        LEFT JOIN jornadaAlternativaFuncionario jaf on jaf.idJornadaAlternativa = ja.id
+                                    INNER JOIN dbo.funcionario f ON f.id IN (SELECT * FROM dbo.F_ClausulaIn(@idsFuncs))
 			                        and ( (ja.tipo = 0 and ja.identificacao = f.idempresa) OR
 				                          (ja.tipo = 1 and ja.identificacao = f.iddepartamento) OR
-				                          (ja.tipo = 2 and ja.identificacao = f.id) OR
+				                          (ja.tipo = 2 and jaf.idFuncionario = f.id) OR
 				                          (ja.tipo = 3 and ja.identificacao = f.idfuncao) )
 			                        where ja.datainicial BETWEEN @datainicial AND @datafinal OR ja.datafinal BETWEEN @datainicial AND @datafinal
 		                        ) aFiltrada ON aFiltrada.id = a.id ";
@@ -599,9 +704,9 @@ namespace DAL.SQL
 
         private SqlDataReader getPeriodoFuncionario(int pFuncionario)
         {
-            SqlParameter[] parms = new SqlParameter[] 
-            { 
-                new SqlParameter("@funcionario", SqlDbType.Int, 4) 
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@funcionario", SqlDbType.Int, 4)
             };
             parms[0].Value = pFuncionario;
 
@@ -614,9 +719,9 @@ namespace DAL.SQL
 
         private SqlDataReader getPeriodoFuncao(int pFuncao)
         {
-            SqlParameter[] parms = new SqlParameter[] 
-            { 
-                new SqlParameter("@funcao", SqlDbType.Int, 4) 
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@funcao", SqlDbType.Int, 4)
             };
             parms[0].Value = pFuncao;
 
@@ -629,9 +734,9 @@ namespace DAL.SQL
 
         private SqlDataReader getPeriodoDepartemento(int pDepartamento)
         {
-            SqlParameter[] parms = new SqlParameter[] 
-            { 
-                new SqlParameter("@departamento", SqlDbType.Int, 4) 
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@departamento", SqlDbType.Int, 4)
             };
             parms[0].Value = pDepartamento;
 
@@ -644,9 +749,9 @@ namespace DAL.SQL
 
         private SqlDataReader getPeriodoEmpresa(int pEmpresa)
         {
-            SqlParameter[] parms = new SqlParameter[] 
-            { 
-                  new SqlParameter("@empresa", SqlDbType.Int, 4) 
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                  new SqlParameter("@empresa", SqlDbType.Int, 4)
             };
             parms[0].Value = pEmpresa;
 
@@ -801,8 +906,8 @@ namespace DAL.SQL
 
         public Hashtable GetHashIdObjeto(DateTime? pDataI, DateTime? pDataF, int? pTipo, List<int> pIdentificacoes)
         {
-            SqlParameter[] parms = new SqlParameter[] 
-            { 
+            SqlParameter[] parms = new SqlParameter[]
+            {
                 new SqlParameter("@datainicial", SqlDbType.DateTime),
                 new SqlParameter("@datafinal", SqlDbType.DateTime),
                 new SqlParameter("@tipo", SqlDbType.Int),
@@ -810,7 +915,7 @@ namespace DAL.SQL
             };
 
             Hashtable lista = new Hashtable();
-            string SQL = SELECTALLLIST;
+            string sql = SELECTALLLIST;
 
             if (pDataI != null && pDataF != null)
             {
@@ -824,27 +929,35 @@ namespace DAL.SQL
                 parms[3].Value = String.Join(",", pIdentificacoes);
             }
 
-            SQL += @" AND ja.id in (SELECT jj.id 
-                              FROM FUNCIONARIO F
-					         INNER JOIN jornadaalternativa jj on ((jj.tipo = 0 and jj.identificacao = f.idempresa) OR
-												                  (jj.tipo = 1 and jj.identificacao = f.iddepartamento) OR
-												                  (jj.tipo = 2 and jj.identificacao = f.id) OR 
-												                  (jj.tipo = 3 and jj.identificacao = f.idfuncao))
-				             WHERE ((@tipo IS NULL) OR
-                                    (@tipo = 0 AND f.idempresa in (SELECT * FROM dbo.F_ClausulaIn(@identificacao))) OR
-                                    (@tipo = 1 AND f.iddepartamento in (SELECT * FROM dbo.F_ClausulaIn(@identificacao))) OR
-                                    (@tipo = 2 AND f.id in (SELECT * FROM dbo.F_ClausulaIn(@identificacao))) OR
-                                    (@tipo = 3 AND f.idfuncao in (SELECT * FROM dbo.F_ClausulaIn(@identificacao)))
-                                   )
-                               AND (@datainicial IS NULL OR
-                                    (jj.datainicial BETWEEN @datainicial AND @datafinal OR
-                                     jj.datafinal BETWEEN @datainicial AND @datafinal OR
-                                     @datainicial BETWEEN jj.datainicial AND jj.datafinal OR
-                                     @datafinal BETWEEN jj.datainicial AND jj.datafinal) OR 
-                                    EXISTS (SELECT top 1 1 FROM diasjornadaalternativa WHERE diasjornadaalternativa.datacompensada >= @datainicial AND diasjornadaalternativa.datacompensada <= @datafinal AND diasjornadaalternativa.idjornadaalternativa = jj.id )
-                                   ))";
+            sql += @"AND ja.id in (
+                          (SELECT jj.id 
+                                    FROM FUNCIONARIO F
+                                     LEFT JOIN jornadaAlternativaFuncionario jafu on jafu.idFuncionario = f.id
+                                    INNER JOIN jornadaalternativa jj on ((jj.tipo = 0 and jj.identificacao = f.idempresa) OR
+									                                     (jj.tipo = 1 and jj.identificacao = f.iddepartamento) OR
+									                                     (jj.tipo = 2 and jj.id = jafu.idjornadaalternativa) OR 
+									                                     (jj.tipo = 3 and jj.identificacao = f.idfuncao)
+                                                                        )
+                                    WHERE ((@tipo IS NULL) OR
+                                            (@tipo = 0 AND f.idempresa in (SELECT * FROM dbo.F_ClausulaIn(@identificacao))) OR
+                                            (@tipo = 1 AND f.iddepartamento in (SELECT * FROM dbo.F_ClausulaIn(@identificacao))) OR
+                                            (@tipo = 2 AND f.id in (SELECT * FROM dbo.F_ClausulaIn(@identificacao))) OR
+                                            (@tipo = 3 AND f.idfuncao in (SELECT * FROM dbo.F_ClausulaIn(@identificacao)))
+                                            )
+                                    AND (@datainicial IS NULL OR
+                                        (jj.datainicial BETWEEN @datainicial AND @datafinal OR
+                                        jj.datafinal BETWEEN @datainicial AND @datafinal OR
+                                        @datainicial BETWEEN jj.datainicial AND jj.datafinal OR
+                                        @datafinal BETWEEN jj.datainicial AND jj.datafinal) OR 
+                                        EXISTS (SELECT top 1 1 FROM diasjornadaalternativa WHERE
+                                                diasjornadaalternativa.datacompensada >= @datainicial AND
+                                                diasjornadaalternativa.datacompensada <= @datafinal AND
+                                                diasjornadaalternativa.idjornadaalternativa = jj.id )
+                                    ))
+                                    )";
 
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, SQL, parms);
+            sql = string.Format(SelectDistinct, sql);
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 
             if (dr.HasRows)
             {

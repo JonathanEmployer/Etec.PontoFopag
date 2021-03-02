@@ -28,7 +28,7 @@
     @Html.HiddenFor(model => model.Identificacao_Ant)
     @Html.HiddenFor(model => model.Nome)
 
-    <div class="divCenterMedio">
+    <div class="divCenterGrande">
         <div class="panel panel-default">
             <div class="panel-heading salvando">
                 @Html.ActionLink("X", "Grid", "JornadaAlternativa", null, new { @class = "close" })
@@ -54,7 +54,106 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-8" style="padding-bottom:5px;">
+                        <div class="row">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="padding-top:1px; padding-bottom:0px">
+                                    <div class="row">
+                                        <div class=" col-md-12">
+                                            <label class="control-label label-sm">Jornada Alternativa</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body" style="padding-bottom:5px;">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-3" style="padding-left:0px; padding-right:0px;">
+                                                <div class="col-md-3">
+                                                    @Html.LabelFor(model => model.DataInicial, new { @class = "control-label label-sm" })
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <div class="input-group input-group-sm">
+                                                        @Html.TextBoxFor(model => model.DataInicial, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataInicial" })
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-primary" id="btnDtInicial" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.DataInicial)
+                                            </div>
+                                            <div class="col-md-3" style="padding-left:0px; padding-right:0px;">
+                                                <div class="col-md-3">
+                                                    @Html.LabelFor(model => model.DataFinal, new { @class = "control-label label-sm" })
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <div class="input-group input-group-sm">
+                                                        @Html.TextBoxFor(model => model.DataFinal, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataFinal" })
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-primary sm" id="btnDtFinal" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.DataFinal)
+                                            </div>
+                                            <div class="col-md-3" style="padding-left:0px; padding-right:0px;">
+                                                @Html.LabelFor(model => model.LimiteMin, new { @class = "control-label label-sm editor-label" })
+                                                @Html.TextBoxFor(model => model.LimiteMin, new { @class = "form-control  input-sm editor-field time", @placeholder = "--:--" })
+                                                @Html.ValidationMessageFor(model => model.LimiteMin)
+                                            </div>
+                                            <div class="col-md-3" style="padding-left:0px; padding-right:0px;">
+                                                @Html.LabelFor(model => model.LimiteMax, new { @class = "control-label label-sm editor-label" })
+                                                @Html.TextBoxFor(model => model.LimiteMax, new { @class = "form-control  input-sm editor-field time", @placeholder = "--:--" })
+                                                @Html.ValidationMessageFor(model => model.LimiteMax)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <div class="col-md-2" style="padding-left:0px; padding-right:0px;">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                @Html.CheckBoxFor(model => model.bHorasNormais, new { id = "chkHorasNormais" })
+                                                                @Html.LabelFor(model => model.bHorasNormais, new { @class = "control-label label-sm", @for = "chkHorasNormais" })
+                                                                @Html.ValidationMessageFor(model => model.bHorasNormais)
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2" style="padding-left:0px; padding-right:0px;">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                @Html.CheckBoxFor(model => model.bCargaMista, new { id = "chkCargaMista" })
+                                                                @Html.LabelFor(model => model.bCargaMista, new { @class = "control-label label-sm", @for = "chkCargaMista" })
+                                                                @Html.ValidationMessageFor(model => model.bCargaMista)
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5" style="padding-left:0px; padding-right:0px;">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                @Html.CheckBoxFor(model => model.bConversaoHoraNoturna, new { id = "chkConversaoHoraNoturna" })
+                                                                @Html.LabelFor(model => model.bConversaoHoraNoturna, new { @class = "control-label label-sm", @for = "chkConversaoHoraNoturna" })
+                                                                @Html.ValidationMessageFor(model => model.bConversaoHoraNoturna)
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3" style="padding-left:0px; padding-right:0px;">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                @Html.CheckBoxFor(model => model.bCalculoAdicionalNoturno, new { id = "chkCalculoAdicionalNoturno" })
+                                                                @Html.LabelFor(model => model.bCalculoAdicionalNoturno, new { @class = "control-label label-sm", @for = "chkCalculoAdicionalNoturno" })
+                                                                @Html.ValidationMessageFor(model => model.bCalculoAdicionalNoturno)
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
                         <div class="panel panel-default">
 
                             <div class="panel-heading" style="padding-top:1px; padding-bottom:0px">
@@ -75,12 +174,12 @@
                                                     @Html.Label("lbDepartamento", "Departamento", new { @class = "control-label label-sm", @for = "idRadioDepartamento" })
                                                 </div>
                                                 <div class="radio-inline" data-toggle="radio">
-                                                    @Html.RadioButtonFor(model => model.Tipo, 2, new { id = "idRadioFuncionario", name = "rdio" })
-                                                    @Html.Label("lbFuncionario", "Funcionário", new { @class = "control-label label-sm", @for = "idRadioFuncionario" })
-                                                </div>
-                                                <div class="radio-inline" data-toggle="radio">
                                                     @Html.RadioButtonFor(model => model.Tipo, 3, new { id = "idRadioFuncao", name = "rdio" })
                                                     @Html.Label("lbFuncao", "Função", new { @class = "control-label label-sm", @for = "idRadioFuncao" })
+                                                </div>
+                                                <div class="radio-inline" data-toggle="radio">
+                                                    @Html.RadioButtonFor(model => model.Tipo, 2, new { id = "idRadioFuncionario", name = "rdio" })
+                                                    @Html.Label("lbFuncionario", "Funcionário", new { @class = "control-label label-sm", @for = "idRadioFuncionario" })
                                                 </div>
                                             </div>
                                         </div>
@@ -142,14 +241,248 @@
                                             }
                                             <div id="divFuncionario" class="row divsTipo">
                                                 <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <div class="input-group input-group-sm">
-                                                            @Html.TextBoxFor(model => model.Funcionario, new { @class = "form-control  input-sm", id = "lkpFuncionario" })
-                                                            <span class="input-group-btn">
-                                                                <button class="btn btn-primary desabilitar" id="btnFuncionario" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                                                            </span>
+                                                    @Html.ValidationMessageFor(model => model.Funcionario)
+                                                    <div class="form-group>
+                                                        <div class="col-md-12">
+                                                            @Html.HiddenFor(m => m.IdsJornadaAlternativaFuncionariosSelecionados)
+                                                            @Html.HiddenFor(m => m.IdsJornadaAlternativaFuncionariosSelecionados_Ant)
                                                         </div>
-                                                        @Html.ValidationMessageFor(model => model.Funcionario)
+                                                        <div class="col-md-12" id="divPartial">
+                                                        </div>
+                                                        @Html.ValidationMessageFor(m => m.IdsJornadaAlternativaFuncionariosSelecionados)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#jornada" role="tab" data-toggle="tab">Jornada</a></li>
+                                <li role="presentation"><a href="#diasJa" role="tab" data-toggle="tab">Dias Jornada Alternativa</a></li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade in active" id="jornada">
+                                    <div class="col-md-12" style="padding-bottom:5px;">
+                                        <div class="row">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body" style="padding-top:5px; padding-bottom:5px;">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                @Html.LabelFor(model => model.DescJornada, new { @class = "control-label label-sm editor-label" })
+                                                                <div class="input-group input-group-sm">
+                                                                    @Html.TextBoxFor(model => model.DescJornada, new { @class = "form-control  input-sm", id = "lkpJornada" })
+                                                                    <span class="input-group-btn">
+                                                                        <button class="btn btn-primary" id="btnJornada" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                                    </span>
+                                                                </div>
+                                                                @Html.ValidationMessageFor(model => model.DescJornada)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-9" style="padding-left:0px; padding-right:0px;">
+                                                                <div class="panel panel-default">
+                                                                    <div class="panel-heading" style="padding-top:1px; padding-bottom:0px;">
+                                                                        <label class="label-sm">Horários</label>
+                                                                    </div>
+                                                                    <div class="panel-body" style="padding-top:5px; padding-bottom:5px;">
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                @Html.CheckBoxFor(model => model.bIntervaloautomatico, new { id = "chkIntervaloAutomatico" })
+                                                                                @Html.Label("lbIntervaloAutomatico", "Intervalo Automático", new { @class = "control-label label-sm", @for = "chkIntervaloAutomatico" })
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-3" style="padding-right:0px;">
+                                                                                <div class="panel panel-default">
+                                                                                    <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:0px;">
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-7" style="padding-left:0px; padding-right:0px;">
+                                                                                                <label class="label-sm pull-right">Horários: </label>
+                                                                                            </div>
+
+                                                                                            <div class="col-md-5" style="padding-left:0px; padding-right:0px;">
+                                                                                                @Html.TextBoxFor(model => model.Entrada_1, new { id = "txt_e1", @class = "form-control input-sm time timeJornada timeJornadaE", @Style = "background:#CBE5E7;", @placeholder = "--:--" })
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
+                                                                                                <label class="label-sm">Pré-Assinaladas: </label>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-2" style="padding-left:0px; padding-right:0px;">
+                                                                                <div class="panel panel-default">
+                                                                                    <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:3px;">
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
+                                                                                                @Html.TextBoxFor(model => model.Saida_1, new { id = "txt_s1", @class = "form-control input-sm time timeJornada timeJornadaS", @placeholder = "--:--" })
+                                                                                            </div>
+
+                                                                                            <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
+                                                                                                @Html.TextBoxFor(model => model.Entrada_2, new { id = "txt_e2", @class = "form-control input-sm time timeJornada timeJornadaE", @Style = "background:#CBE5E7;", @placeholder = "--:--" })
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
+                                                                                                @Html.CheckBoxFor(model => model.bPreAssinaladas1, new { id = "chk_pa1", @class = "chk_pa" })
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-2" style="padding-left:0px; padding-right:0px;">
+                                                                                <div class="panel panel-default">
+                                                                                    <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:3px;">
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
+                                                                                                @Html.TextBoxFor(model => model.Saida_2, new { id = "txt_s2", @class = "form-control input-sm time timeJornada timeJornadaS", @placeholder = "--:--" })
+                                                                                            </div>
+
+                                                                                            <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
+                                                                                                @Html.TextBoxFor(model => model.Entrada_3, new { id = "txt_e3", @class = "form-control input-sm time timeJornada timeJornadaE", @Style = "background:#CBE5E7;", @placeholder = "--:--" })
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
+                                                                                                @Html.CheckBoxFor(model => model.bPreAssinaladas2, new { id = "chk_pa2", @class = "chk_pa" })
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-2" style="padding-left:0px; padding-right:0px;">
+                                                                                <div class="panel panel-default">
+                                                                                    <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:3px;">
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
+                                                                                                @Html.TextBoxFor(model => model.Saida_3, new { id = "txt_s3", @class = "form-control input-sm time timeJornada timeJornadaS", @placeholder = "--:--" })
+                                                                                            </div>
+
+                                                                                            <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
+                                                                                                @Html.TextBoxFor(model => model.Entrada_4, new { id = "txt_e4", @class = "form-control input-sm time timeJornada timeJornadaE", @Style = "background:#CBE5E7;", @placeholder = "--:--" })
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
+                                                                                                @Html.CheckBoxFor(model => model.bPreAssinaladas3, new { id = "chk_pa3", @class = "chk_pa" })
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-1" style="padding-left:0px; padding-right:0px;">
+                                                                                <div class="panel panel-default">
+                                                                                    <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:0px;">
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
+                                                                                                @Html.TextBoxFor(model => model.Saida_4, new { id = "txt_s4", @class = "form-control input-sm time timeJornada timeJornadaS", @placeholder = "--:--" })
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
+                                                                                                <label class="label-sm">&nbsp; </label>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3" style="padding-left:0px; padding-right:0px;">
+                                                                <div class="panel panel-default">
+                                                                    <div class="panel-heading" style="text-align:center; padding-top:1px; padding-bottom:0px;">
+                                                                        <label class="label-sm" style="text-align:center">Carga Horária</label>
+                                                                    </div>
+                                                                    <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:0px;">
+                                                                        <div class="row">
+                                                                            <div class="col-md-4" style="padding-left:0px; padding-right:0px;">
+                                                                                <div class="panel panel-default">
+                                                                                    <div class="panel-heading" style="text-align:center; padding-top:1px; padding-bottom:0px; padding-left:0px; padding-right:0px;">
+                                                                                        <label class="label-sm" style="text-align:center">Diurna</label>
+                                                                                    </div>
+                                                                                    <div class="panel-body" style="text-align: center; padding-left:0px; padding-right:0px;">
+                                                                                        @Html.TextBoxFor(model => model.TotalTrabalhadaDiurna, new { id = "txt_totalDiurna", @class = "form-control input-sm time timeJornada", @placeholder = "--:--" })
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4" style="padding-left:0px; padding-right:0px;">
+                                                                                <div class="panel panel-default">
+                                                                                    <div class="panel-heading" style="text-align:center; padding-top:1px; padding-bottom:0px; padding-left:0px; padding-right:0px;">
+                                                                                        <label class="label-sm" style="text-align:center">Noturna</label>
+                                                                                    </div>
+                                                                                    <div class="panel-body" style="text-align: center; padding-left:0px; padding-right:0px;">
+                                                                                        @Html.TextBoxFor(model => model.TotalTrabalhadaNoturna, new { id = "txt_totalNoturna", @class = "form-control input-sm time timeJornada", @placeholder = "--:--" })
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4" style="padding-left:0px; padding-right:0px;">
+                                                                                <div class="panel panel-default">
+                                                                                    <div class="panel-heading" style="text-align:center; padding-top:1px; padding-bottom:0px; padding-left:0px; padding-right:0px;">
+                                                                                        <label class="label-sm" style="text-align:center">Mista</label>
+                                                                                    </div>
+                                                                                    <div class="panel-body" style="text-align: center; padding-left:0px; padding-right:0px;">
+                                                                                        @Html.TextBoxFor(model => model.TotalMista, new { id = "txt_totalMista", @class = "form-control input-sm time timeJornada", @placeholder = "--:--" })
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="diasJa">
+                                    <div class="col-md-6" style="padding-top:5px;">
+                                        <div class="row">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <div class="col-md-12 col-sm-12">
+                                                        <div class="row">
+                                                            @Html.ValidationMessageFor(model => model.DiasJA)
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
+                                                                <div class="col-md-4" style="padding-left:0px; padding-right:0px; align-content:center; text-align:center;">
+                                                                    <label class=" label-sm">Código</label>
+                                                                </div>
+                                                                <div class="col-md-5" style="padding-left:0px; padding-right:0px; align-content:center; text-align:center;">
+                                                                    <label class="label-sm">Data</label>
+                                                                </div>
+                                                                <div class="col-md-3" style="padding-left:0px; padding-right:0px; align-content:center; text-align:center;">
+                                                                    <label class="label-sm" style="align-content:center; text-align:center;">Excluir</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div id="diasJornadaAlternativa">
+                                                                @Html.EditorFor(model => model.DiasJA)
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row" style="padding-top:10px; text-align:right;">
+                                                            @Html.LinkToAddNestedForm("Adicionar", "#diasJornadaAlternativa", ".diaJornadaAlternativa", "DiasJA",
+                                                        typeof(Modelo.DiasJornadaAlternativa), "Codigo", null)
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -160,358 +493,25 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12" style="padding-bottom:5px;">
+                <div class="panel-footer">
                     <div class="row">
-                        <div class="panel panel-default">
-                            <div class="panel-heading" style="padding-top:1px; padding-bottom:0px">
-                                <div class="row">
-                                    <div class=" col-md-12">
-                                        <label class="control-label label-sm">Jornada Alternativa</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel-body" style="padding-bottom:5px;">
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-md-3" style="padding-left:0px; padding-right:0px;">
-                                            <div class="col-md-3">
-                                                @Html.LabelFor(model => model.DataInicial, new { @class = "control-label label-sm" })
-                                            </div>
-                                            <div class="col-md-9">
-                                                <div class="input-group input-group-sm">
-                                                    @Html.TextBoxFor(model => model.DataInicial, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataInicial" })
-                                                    <span class="input-group-btn">
-                                                        <button class="btn btn-primary" id="btnDtInicial" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.DataInicial)
-                                        </div>
-                                        <div class="col-md-3" style="padding-left:0px; padding-right:0px;">
-                                            <div class="col-md-3">
-                                                @Html.LabelFor(model => model.DataFinal, new { @class = "control-label label-sm" })
-                                            </div>
-                                            <div class="col-md-9">
-                                                <div class="input-group input-group-sm">
-                                                    @Html.TextBoxFor(model => model.DataFinal, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataFinal" })
-                                                    <span class="input-group-btn">
-                                                        <button class="btn btn-primary sm" id="btnDtFinal" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.DataFinal)
-                                        </div>
-                                        <div class="col-md-3" style="padding-left:0px; padding-right:0px;">
-                                            @Html.LabelFor(model => model.LimiteMin, new { @class = "control-label label-sm editor-label" })
-                                            @Html.TextBoxFor(model => model.LimiteMin, new { @class = "form-control  input-sm editor-field time", @placeholder = "--:--" })
-                                            @Html.ValidationMessageFor(model => model.LimiteMin)
-                                        </div>
-                                        <div class="col-md-3" style="padding-left:0px; padding-right:0px;">
-                                            @Html.LabelFor(model => model.LimiteMax, new { @class = "control-label label-sm editor-label" })
-                                            @Html.TextBoxFor(model => model.LimiteMax, new { @class = "form-control  input-sm editor-field time", @placeholder = "--:--" })
-                                            @Html.ValidationMessageFor(model => model.LimiteMax)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <div class="col-md-2" style="padding-left:0px; padding-right:0px;">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            @Html.CheckBoxFor(model => model.bHorasNormais, new { id = "chkHorasNormais" })
-                                                            @Html.LabelFor(model => model.bHorasNormais, new { @class = "control-label label-sm", @for = "chkHorasNormais" })
-                                                            @Html.ValidationMessageFor(model => model.bHorasNormais)
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2" style="padding-left:0px; padding-right:0px;">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            @Html.CheckBoxFor(model => model.bCargaMista, new { id = "chkCargaMista" })
-                                                            @Html.LabelFor(model => model.bCargaMista, new { @class = "control-label label-sm", @for = "chkCargaMista" })
-                                                            @Html.ValidationMessageFor(model => model.bCargaMista)
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-5" style="padding-left:0px; padding-right:0px;">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            @Html.CheckBoxFor(model => model.bConversaoHoraNoturna, new { id = "chkConversaoHoraNoturna" })
-                                                            @Html.LabelFor(model => model.bConversaoHoraNoturna, new { @class = "control-label label-sm", @for = "chkConversaoHoraNoturna" })
-                                                            @Html.ValidationMessageFor(model => model.bConversaoHoraNoturna)
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3" style="padding-left:0px; padding-right:0px;">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            @Html.CheckBoxFor(model => model.bCalculoAdicionalNoturno, new { id = "chkCalculoAdicionalNoturno" })
-                                                            @Html.LabelFor(model => model.bCalculoAdicionalNoturno, new { @class = "control-label label-sm", @for = "chkCalculoAdicionalNoturno" })
-                                                            @Html.ValidationMessageFor(model => model.bCalculoAdicionalNoturno)
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="row">
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#jornada" role="tab" data-toggle="tab">Jornada</a></li>
-                            <li role="presentation"><a href="#diasJa" role="tab" data-toggle="tab">Dias Jornada Alternativa</a></li>
-                        </ul>
-
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane fade in active" id="jornada">
-                                <div class="col-md-12" style="padding-bottom:5px;">
-                                    <div class="row">
-                                        <div class="panel panel-default">
-                                            <div class="panel-body" style="padding-top:5px; padding-bottom:5px;">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            @Html.LabelFor(model => model.DescJornada, new { @class = "control-label label-sm editor-label" })
-                                                            <div class="input-group input-group-sm">
-                                                                @Html.TextBoxFor(model => model.DescJornada, new { @class = "form-control  input-sm", id = "lkpJornada" })
-                                                                <span class="input-group-btn">
-                                                                    <button class="btn btn-primary" id="btnJornada" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                                                                </span>
-                                                            </div>
-                                                            @Html.ValidationMessageFor(model => model.DescJornada)
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="col-md-9" style="padding-left:0px; padding-right:0px;">
-                                                            <div class="panel panel-default">
-                                                                <div class="panel-heading" style="padding-top:1px; padding-bottom:0px;">
-                                                                    <label class="label-sm">Horários</label>
-                                                                </div>
-                                                                <div class="panel-body" style="padding-top:5px; padding-bottom:5px;">
-                                                                    <div class="row">
-                                                                        <div class="col-md-12">
-                                                                            @Html.CheckBoxFor(model => model.bIntervaloautomatico, new { id = "chkIntervaloAutomatico" })
-                                                                            @Html.Label("lbIntervaloAutomatico", "Intervalo Automático", new { @class = "control-label label-sm", @for = "chkIntervaloAutomatico" })
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-md-3" style="padding-right:0px;">
-                                                                            <div class="panel panel-default">
-                                                                                <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:0px;">
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-7" style="padding-left:0px; padding-right:0px;">
-                                                                                            <label class="label-sm pull-right">Horários: </label>
-                                                                                        </div>
-
-                                                                                        <div class="col-md-5" style="padding-left:0px; padding-right:0px;">
-                                                                                            @Html.TextBoxFor(model => model.Entrada_1, new { id = "txt_e1", @class = "form-control input-sm time timeJornada timeJornadaE", @Style = "background:#CBE5E7;", @placeholder = "--:--" })
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
-                                                                                            <label class="label-sm">Pré-Assinaladas: </label>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-2" style="padding-left:0px; padding-right:0px;">
-                                                                            <div class="panel panel-default">
-                                                                                <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:3px;">
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
-                                                                                            @Html.TextBoxFor(model => model.Saida_1, new { id = "txt_s1", @class = "form-control input-sm time timeJornada timeJornadaS", @placeholder = "--:--" })
-                                                                                        </div>
-
-                                                                                        <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
-                                                                                            @Html.TextBoxFor(model => model.Entrada_2, new { id = "txt_e2", @class = "form-control input-sm time timeJornada timeJornadaE", @Style = "background:#CBE5E7;", @placeholder = "--:--" })
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
-                                                                                            @Html.CheckBoxFor(model => model.bPreAssinaladas1, new { id = "chk_pa1", @class = "chk_pa" })
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-2" style="padding-left:0px; padding-right:0px;">
-                                                                            <div class="panel panel-default">
-                                                                                <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:3px;">
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
-                                                                                            @Html.TextBoxFor(model => model.Saida_2, new { id = "txt_s2", @class = "form-control input-sm time timeJornada timeJornadaS", @placeholder = "--:--" })
-                                                                                        </div>
-
-                                                                                        <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
-                                                                                            @Html.TextBoxFor(model => model.Entrada_3, new { id = "txt_e3", @class = "form-control input-sm time timeJornada timeJornadaE", @Style = "background:#CBE5E7;", @placeholder = "--:--" })
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
-                                                                                            @Html.CheckBoxFor(model => model.bPreAssinaladas2, new { id = "chk_pa2", @class = "chk_pa" })
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-2" style="padding-left:0px; padding-right:0px;">
-                                                                            <div class="panel panel-default">
-                                                                                <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:3px;">
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
-                                                                                            @Html.TextBoxFor(model => model.Saida_3, new { id = "txt_s3", @class = "form-control input-sm time timeJornada timeJornadaS", @placeholder = "--:--" })
-                                                                                        </div>
-
-                                                                                        <div class="col-md-6" style="padding-left:0px; padding-right:0px;">
-                                                                                            @Html.TextBoxFor(model => model.Entrada_4, new { id = "txt_e4", @class = "form-control input-sm time timeJornada timeJornadaE", @Style = "background:#CBE5E7;", @placeholder = "--:--" })
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
-                                                                                            @Html.CheckBoxFor(model => model.bPreAssinaladas3, new { id = "chk_pa3", @class = "chk_pa" })
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-1" style="padding-left:0px; padding-right:0px;">
-                                                                            <div class="panel panel-default">
-                                                                                <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:0px;">
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
-                                                                                            @Html.TextBoxFor(model => model.Saida_4, new { id = "txt_s4", @class = "form-control input-sm time timeJornada timeJornadaS", @placeholder = "--:--" })
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
-                                                                                            <label class="label-sm">&nbsp; </label>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3" style="padding-left:0px; padding-right:0px;">
-                                                            <div class="panel panel-default">
-                                                                <div class="panel-heading" style="text-align:center; padding-top:1px; padding-bottom:0px;">
-                                                                    <label class="label-sm" style="text-align:center">Carga Horária</label>
-                                                                </div>
-                                                                <div class="panel-body" style="text-align: center; padding-top:5px; padding-bottom:0px;">
-                                                                    <div class="row">
-                                                                        <div class="col-md-4" style="padding-left:0px; padding-right:0px;">
-                                                                            <div class="panel panel-default">
-                                                                                <div class="panel-heading" style="text-align:center; padding-top:1px; padding-bottom:0px; padding-left:0px; padding-right:0px;">
-                                                                                    <label class="label-sm" style="text-align:center">Diurna</label>
-                                                                                </div>
-                                                                                <div class="panel-body" style="text-align: center; padding-left:0px; padding-right:0px;">
-                                                                                    @Html.TextBoxFor(model => model.TotalTrabalhadaDiurna, new { id = "txt_totalDiurna", @class = "form-control input-sm time timeJornada", @placeholder = "--:--" })
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-4" style="padding-left:0px; padding-right:0px;">
-                                                                            <div class="panel panel-default">
-                                                                                <div class="panel-heading" style="text-align:center; padding-top:1px; padding-bottom:0px; padding-left:0px; padding-right:0px;">
-                                                                                    <label class="label-sm" style="text-align:center">Noturna</label>
-                                                                                </div>
-                                                                                <div class="panel-body" style="text-align: center; padding-left:0px; padding-right:0px;">
-                                                                                    @Html.TextBoxFor(model => model.TotalTrabalhadaNoturna, new { id = "txt_totalNoturna", @class = "form-control input-sm time timeJornada", @placeholder = "--:--" })
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-4" style="padding-left:0px; padding-right:0px;">
-                                                                            <div class="panel panel-default">
-                                                                                <div class="panel-heading" style="text-align:center; padding-top:1px; padding-bottom:0px; padding-left:0px; padding-right:0px;">
-                                                                                    <label class="label-sm" style="text-align:center">Mista</label>
-                                                                                </div>
-                                                                                <div class="panel-body" style="text-align: center; padding-left:0px; padding-right:0px;">
-                                                                                    @Html.TextBoxFor(model => model.TotalMista, new { id = "txt_totalMista", @class = "form-control input-sm time timeJornada", @placeholder = "--:--" })
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div role="tabpanel" class="tab-pane fade" id="diasJa">
-                                <div class="col-md-6" style="padding-top:5px;">
-                                    <div class="row">
-                                        <div class="panel panel-default">
-                                            <div class="panel-body">
-                                                <div class="col-md-12 col-sm-12">
-                                                    <div class="row">
-                                                        @Html.ValidationMessageFor(model => model.DiasJA)
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-12" style="padding-left:0px; padding-right:0px;">
-                                                            <div class="col-md-4" style="padding-left:0px; padding-right:0px; align-content:center; text-align:center;">
-                                                                <label class=" label-sm">Código</label>
-                                                            </div>
-                                                            <div class="col-md-5" style="padding-left:0px; padding-right:0px; align-content:center; text-align:center;">
-                                                                <label class="label-sm">Data</label>
-                                                            </div>
-                                                            <div class="col-md-3" style="padding-left:0px; padding-right:0px; align-content:center; text-align:center;">
-                                                                <label class="label-sm" style="align-content:center; text-align:center;">Excluir</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div id="diasJornadaAlternativa">
-                                                            @Html.EditorFor(model => model.DiasJA)
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row" style="padding-top:10px; text-align:right;">
-                                                        @Html.LinkToAddNestedForm("Adicionar", "#diasJornadaAlternativa", ".diaJornadaAlternativa", "DiasJA",
-                                                    typeof(Modelo.DiasJornadaAlternativa), "Codigo", null)
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="col-xs-12 center-block">
+                            <div style="text-align: right">
+                                <button type="submit" class="btn btn-success salvando desabilitar">
+                                    <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                                </button>
+                                <a class="btn btn-danger"
+                                   href="@Url.Action("Grid", "JornadaAlternativa")">
+                                    <span class="glyphicon glyphicon-remove salvando"></span> Cancelar
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="panel-footer">
-                <div class="row">
-                    <div class="col-xs-12 center-block">
-                        <div style="text-align: right">
-                            <button type="submit" class="btn btn-success salvando desabilitar">
-                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
-                            </button>
-                            <a class="btn btn-danger"
-                               href="@Url.Action("Grid", "JornadaAlternativa")">
-                                <span class="glyphicon glyphicon-remove salvando"></span> Cancelar
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
         </div>
-
-    </div>
-}
+    }
 <script>
 
     function setaid(botao) {
@@ -696,6 +696,8 @@
         };
         if ($('#idRadioFuncionario').is(':checked')) {
             divVisivel("#divFuncionario");
+            $("#divPartial").show();
+            CarregaGridFuncionario();
         };
         $("#idRadioEmpresa").change(function () {
             divVisivel("#divEmpresa");
@@ -708,6 +710,8 @@
         });
         $("#idRadioFuncionario").change(function () {
             divVisivel("#divFuncionario");
+            $("#divPartial").show();
+            CarregaGridFuncionario();
         });
         function divVisivel(idDiv) {
             $(".divsTipo").hide();
@@ -718,7 +722,36 @@
         validaIntervaloAutomatico();
         $(":input[type='text']:enabled:visible:first").focus();
     });
+    function CarregaGridFuncionario() {
+        E_GridFunc('#divPartial', '#IdsJornadaAlternativaFuncionariosSelecionados', "");
+    }
 
+    $('form').submit(function () {
+        if ($(this).valid() && validaForm()) {
+            return true;
+        }
+        return false;
+    });
+
+    function validaForm() {
+        if ($('#idRadioFuncionario').is(':checked')) {
+            $("#IdsJornadaAlternativaFuncionariosSelecionados").val(E_GridFuncGetSelecionados());
+            var funcsSelecionados = $("#IdsJornadaAlternativaFuncionariosSelecionados").val();
+            if (funcsSelecionados.length <= 0 || funcsSelecionados == '' || funcsSelecionados == null) {
+                var msgErro = 'É Necessário Selecionar Pelo Menos um Funcionário.';
+                errorArray["IdsJornadaAlternativaFuncionariosSelecionados"] = msgErro;
+                cwkErro(msgErro);
+                $("form").validate().showErrors(errorArray);
+                return false;
+            }
+            else {
+                errorArray["IdsJornadaAlternativaFuncionariosSelecionados"] = null;
+                $("form").validate().showErrors(errorArray);
+                return true;
+            }
+        }
+        return true;
+    }
 </script>
 @if (ViewBag.Consultar == 1)
 {

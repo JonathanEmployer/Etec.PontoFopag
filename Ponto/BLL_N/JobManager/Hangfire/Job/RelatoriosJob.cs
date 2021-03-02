@@ -244,7 +244,14 @@ namespace BLL_N.JobManager.Hangfire.Job
             JobControlManager.UpdateFileDownload(context, caminhoArquivo);
         }
 
-		public void GetRelatorioCartaoPontoCustom(PerformContext context, JobControl jobReport, RelatorioCartaoPontoHTMLModel relatorioFiltro, string db, string usuario)
+        public void GetRelatorioCartaoPontoExcecaoHTML(PerformContext context, JobControl jobReport, RelatorioCartaoPontoHTMLModel relatorioFiltro, string db, string usuario)
+        {
+            SetParametersBase(context, jobReport, db, usuario);
+            RelatorioCartaoPontoExcecaoHTMLBLL rel = new RelatorioCartaoPontoExcecaoHTMLBLL(relatorioFiltro, userPF, pb);
+            string caminhoArquivo = rel.GetRelatorio();
+            JobControlManager.UpdateFileDownload(context, caminhoArquivo);
+        }
+        public void GetRelatorioCartaoPontoCustom(PerformContext context, JobControl jobReport, RelatorioCartaoPontoHTMLModel relatorioFiltro, string db, string usuario)
 		{
 			SetParametersBase(context, jobReport, db, usuario);
 			RelatorioCartaoPontoCustomBLL rel = new RelatorioCartaoPontoCustomBLL(relatorioFiltro, userPF, pb);
