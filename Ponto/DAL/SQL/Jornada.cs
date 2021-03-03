@@ -387,13 +387,12 @@ namespace DAL.SQL
             SqlParameter[] parms = new SqlParameter[] { new SqlParameter("@idempresa", SqlDbType.Int) };
             parms[0].Value = pIdEmpresa;
 
-            string comando = "SELECT DISTINCT jornada.* " +
-                             ", (SELECT MIN(data) FROM horariodetalhe  WHERE horariodetalhe.idjornada = jornada.id) AS datainicial " +
-                             ", (SELECT MAX(data) FROM horariodetalhe  WHERE horariodetalhe.idjornada = jornada.id) AS datafinal " +
-                             "FROM jornada " +
-                             "INNER JOIN horariodetalhe ON horariodetalhe.idjornada = jornada.id " +
-                             "INNER JOIN funcionario ON funcionario.idhorario = horariodetalhe.idhorario " +
-                             "WHERE funcionario.idempresa = @idempresa";
+            string comando = @" SELECT distinct j.*
+                                  FROM funcionario f
+                                 INNER JOIN horario h on f.idhorario = h.id
+                                 INNER JOIN horariodetalhe hd on h.id = hd.idhorario
+                                 INNER JOIN jornada j on hd.idjornada = j.id
+                                 WHERE f.idempresa = @idempresa ";
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, comando, parms);
             List<Modelo.Jornada> listaJornada = new List<Modelo.Jornada>();
