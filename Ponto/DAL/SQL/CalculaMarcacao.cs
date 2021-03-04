@@ -348,11 +348,10 @@ namespace DAL.SQL
                													WHEN ( CAST(DATEPART(WEEKDAY, marcacao.data) AS INT) - 1 ) = 0 THEN 7 
                													ELSE ( CAST(DATEPART(WEEKDAY, marcacao.data) AS INT) - 1 ) 
                                                       END ) 
-				LEFT JOIN jornadaAlternativaFuncionario on jornadaAlternativaFuncionario.idFuncionario = funcionario.id
 				LEFT JOIN jornadaalternativa_view ON 
                ((jornadaalternativa_view.tipo = 0 AND jornadaalternativa_view.identificacao = funcionario.idempresa) 
                OR (jornadaalternativa_view.tipo = 1 AND jornadaalternativa_view.identificacao = funcionario.iddepartamento) 
-               OR (jornadaalternativa_view.tipo = 2 AND jornadaalternativa_view.id = jornadaAlternativaFuncionario.idJornadaAlternativa) 
+               OR (jornadaalternativa_view.tipo = 2 AND jornadaalternativa_view.identificacao = funcionario.id) 
                OR (jornadaalternativa_view.tipo = 3 AND jornadaalternativa_view.identificacao = funcionario.idfuncao)) 
                AND (jornadaalternativa_view.datacompensada = marcacao.data 
                OR (jornadaalternativa_view.datacompensada IS NULL 
@@ -582,11 +581,11 @@ namespace DAL.SQL
 							               JOIN funcionario AS f ON f.ID = t.idfuncionario
 						              LEFT JOIN departamento AS d ON f.iddepartamento = d.id
 						              LEFT JOIN empresa AS e ON f.idempresa = e.id
-						             LEFT JOIN jornadaAlternativaFuncionario jaf ON jaf.idFuncionario = f.id
-						              LEFT JOIN jornadaalternativa AS ja ON (((ja.tipo = 0 and ja.identificacao = e.id) or
-																              (ja.tipo = 1 and ja.identificacao = d.id) or
-																              (ja.tipo = 2 and jaf.idJornadaAlternativa = ja.id)) and
-																              t.Marc_data between ja.datainicial and ja.datafinal)
+						              LEFT JOIN jornadaalternativa_view AS jav ON (((jav.tipo = 0 and jav.identificacao = e.id) or
+																              (jav.tipo = 1 and jav.identificacao = d.id) or
+																              (jav.tipo = 2 and jav.identificacao = f.id)) and
+																              t.Marc_data between jav.datainicial and jav.datafinal)
+                                      LEFT JOIN jornadaalternativa ja on ja.id = jav.id
 									   ) di
 					              inner join afastamento as a on a.abonado = 1 and
 																 di.Marc_data between a.datai and isnull(a.dataf, '9999-12-31') and 

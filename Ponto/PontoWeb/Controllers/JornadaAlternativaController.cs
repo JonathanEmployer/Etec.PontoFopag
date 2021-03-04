@@ -307,6 +307,7 @@ namespace PontoWeb.Controllers
 
             JornadaAlternativa objJornadaAlternativa = new JornadaAlternativa();
             objJornadaAlternativa = bllJornadaAlternativa.LoadParaUmaMarcacao(objMarcacao.Data, 2, objMarcacao.Idfuncionario);
+            SelecaoFuncionarios(conn, UsuPW, objJornadaAlternativa);
             if (objJornadaAlternativa.Id == 0)
             {
                 objJornadaAlternativa.Acao = Acao.Incluir;
@@ -314,7 +315,8 @@ namespace PontoWeb.Controllers
                 objJornadaAlternativa.DataFinal = objMarcacao.Data;
                 objJornadaAlternativa.DataInicial_Ant = objJornadaAlternativa.DataInicial;
                 objJornadaAlternativa.DataFinal_Ant = objJornadaAlternativa.DataFinal;
-                objJornadaAlternativa.Identificacao = objMarcacao.Idfuncionario;
+                objJornadaAlternativa.Identificacao = 0;
+                objJornadaAlternativa.IdsJornadaAlternativaFuncionariosSelecionados = objMarcacao.Idfuncionario.ToString();
                 objJornadaAlternativa.Tipo = 2;
                 objJornadaAlternativa.LimiteMin = "03:00";
                 objJornadaAlternativa.LimiteMax = "03:00";
