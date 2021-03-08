@@ -2729,7 +2729,8 @@ namespace DAL.SQL
                                     COALESCE(CONVERT(VARCHAR, pe.codigo) + ' | ' + pe.RazaoSocial, '') AS PessoaSupervisor ,
                                     CONVERT(VARCHAR, Alocacao.codigo) + ' | ' + Alocacao.descricao AS Alocacao ,
                                     CONVERT(VARCHAR, TipoVinculo.codigo) + ' | ' + TipoVinculo.descricao AS TipoVinculo,
-                                    func.RFID
+                                    func.RFID,
+                                    CASE WHEN CercaVirtualFunc.idfuncionario is null THEN 'Não' ELSE 'Sim' END PossuiCercaVirtual
                              FROM   funcionario func
                                     LEFT JOIN empresa ON empresa.id = func.idempresa
                                     LEFT JOIN departamento ON departamento.id = func.iddepartamento
@@ -2742,6 +2743,11 @@ namespace DAL.SQL
 									OUTER APPLY(SELECT TOP 1 cfun.inchora,CASE WHEN cont.codigo is null THEN '-' ELSE CONCAT(cont.codigo,' | ',cont.codigocontrato,' - ',cont.descricaocontrato) END contrato 
                                                 FROM dbo.contratofuncionario cfun LEFT JOIN dbo.contrato cont ON cont.id = cfun.idcontrato 
 												    WHERE func.id = cfun.idfuncionario and cfun.excluido =0 ) AS uContr                             
+									OUTER APPLY(SELECT TOP 1 idFuncionario
+                                                FROM dbo.CercaVirtualFuncionario cvf
+                                               INNER JOIN dbo.CercaVirtual CV ON CV.id = cvf.idCercaVirtual
+												    WHERE cvf.idfuncionario = func.id
+                                                      AND CV.Ativo = 1) AS CercaVirtualFunc
                                     WHERE  func.id in (select id from funcionario where funcionario.excluido = 0)
                                     ";
 
@@ -3147,6 +3153,10 @@ namespace DAL.SQL
         public List<Modelo.Funcionario> GetAllListByIds(string funcionarios)
         {
             var _func = funcionarios.Replace("(", "").Replace(")", "");
+
+            var LtsFunc = _func.Split(',').Where(c => c != "");
+             _func = String.Join(",", LtsFunc);
+
 
             List<Modelo.Funcionario> lista = new List<Modelo.Funcionario>();
 
@@ -5338,10 +5348,16 @@ namespace DAL.SQL
             };
             parms[0].Value = String.Join(",", lPis);
 
-            string sql = @"select f.id, f.dscodigo, f.nome, f.pis, f.idempresa, f.iddepartamento, f.idfuncao, f.idhorario, f.tipohorario, f.dataadmissao,
-	                               f.datademissao, f.funcionarioativo, f.DataInativacao, f.excluido, f.matricula
-                              from funcionario f
-                             where CONVERT(DECIMAL, replace(replace(replace(f.pis,'.',''),'-',''),'/','')) in (select CONVERT(DECIMAL, replace(replace(replace(valor,'.',''),'-',''),'/',''))  from dbo.F_ClausulaIn(@lPis))";
+            //string sql = @"select f.id, f.dscodigo, f.nome, f.pis, f.idempresa, f.iddepartamento, f.idfuncao, f.idhorario, f.tipohorario, f.dataadmissao,
+            //                    f.datademissao, f.funcionarioativo, f.DataInativacao, f.excluido, f.matricula
+            //                  from funcionario f
+            //                 where CONVERT(DECIMAL, replace(replace(replace(f.pis,'.',''),'-',''),'/','')) in (select CONVERT(DECIMAL, replace(replace(replace(valor,'.',''),'-',''),'/',''))  from dbo.F_ClausulaIn(@lPis))";
+            string sql = @"select f.id, f.dscodigo, f.nome, f.pis, f.idempresa, f.iddepartamento, f.idfuncao, f.idhorario, f.tipohorario,
+            f.dataadmissao, f.datademissao, f.funcionarioativo, f.DataInativacao, f.excluido, f.matricula, f.pis
+		    from funcionario f 
+		    where CONVERT(DECIMAL, replace(replace(replace(replace(f.pis,'.',''),'-',''),'/',''),' ','')) in 
+		    (select CONVERT(DECIMAL(18), replace(replace(replace(valor,'.',''),'-',''),'/',''))  from dbo.F_ClausulaIn(@lPis))";
+
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
             List<Modelo.Funcionario> lista = new List<Modelo.Funcionario>();
             try
@@ -5879,7 +5895,7 @@ from
 	left join funcionario fun on fun.id = mar.idfuncionario
 	left join horario hor on hor.id = mar.idhorario
 	left join horariodetalhe det on det.idhorario = hor.id
-	left join jornadaalternativa joa on ( 
+	left join jornadaalternativa_view joa on ( 
 		( 0=1
 			or (joa.tipo = 0 and joa.identificacao = fun.idempresa)
 			or (joa.tipo = 1 and joa.identificacao = fun.iddepartamento)
@@ -5889,7 +5905,8 @@ from
 			mar.data between joa.datainicial and joa.datafinal
 		)
 	)
-	inner join jornada jo on jo.id = coalesce(joa.idjornada, det.idjornada)
+    left join jornadaalternativa ja on joa.id = ja.id
+	inner join jornada jo on jo.id = coalesce(ja.idjornada, det.idjornada)
 where 1=1
 	and mar.id = @id
 	and det.dia = @dia
@@ -6322,6 +6339,6 @@ where 1=1
             cmd.Parameters.Clear();
             return;
         }
-           
+
     }
 }

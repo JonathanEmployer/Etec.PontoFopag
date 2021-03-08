@@ -352,7 +352,10 @@
     <Compile Include="AlertasRepAcompanhamento.cs" />
     <Compile Include="ApiWebfopag\V1\Coletor.cs" />
     <Compile Include="ApiWebfopag\V1\Login.cs" />
+    <Compile Include="CalculoMarcacoes\PontoPorExcecao.cs" />
+    <Compile Include="CercaVirtual.cs" />
     <Compile Include="HorarioDinamicoRestricao.cs" />
+    <Compile Include="JornadaAlternativaFuncionario.cs" />
     <Compile Include="JornadaSubstituir.cs" />
     <Compile Include="JornadaSubstituirFuncionario.cs" />
     <Compile Include="JustificativaRestricao.cs" />
@@ -459,6 +462,7 @@
     <Compile Include="Relatorios\V2\RelatorioBilhetesImpBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioAFDPortaria373BLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioCartaoPontoCustomBLL.cs" />
+    <Compile Include="Relatorios\V2\RelatorioCartaoPontoExcecaoHTMLBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioCartaoPontoHTMLBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioClassificacaoHorasExtrasBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioConclusoesBloqueioPnlRhBLL.cs" />
@@ -480,6 +484,7 @@
     <Compile Include="Relatorios\V2\RelatorioInconsistenciasBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioIntervalosBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioRefeicaoBLL.cs" />
+    <Compile Include="Relatorios\V2\RelatorioSubstituicaoJornadaBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioTotalHorasBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioLocalizacaoRegistroPontoBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioManutencaoDiariaBLL.cs" />
@@ -610,6 +615,7 @@
     <EmbeddedResource Include="Relatorios\V2\cshtml\CartaoPontoHtmlCustom.cshtml" />
     <EmbeddedResource Include="Relatorios\V2\cshtml\RelatorioHorarioMovelHtml.cshtml" />
     <EmbeddedResource Include="Relatorios\V2\cshtml\RelatorioTotalHorasHtml.cshtml" />
+    <EmbeddedResource Include="Relatorios\V2\cshtml\CartaoPontoExcecaoHtml.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SqlServerTypes\readme.htm" />

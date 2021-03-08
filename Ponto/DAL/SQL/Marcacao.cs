@@ -48,16 +48,122 @@ namespace DAL.SQL
                              FROM marcacao_view 
                              LEFT JOIN funcionario func ON func.id = marcacao_view.idfuncionario";
 
-            SELECTDEP = @"  SELECT   marcacao_view.*
+            SELECTDEP = @"  SELECT   IsNull(t.E1,'') AS Tratamento_Ent_1,
+                                    IsNull(t.E2,'') AS Tratamento_Ent_2,
+                                    IsNull(t.E3,'') AS Tratamento_Ent_3,
+                                    IsNull(t.E4,'') AS Tratamento_Ent_4,
+                                    IsNull(t.E5,'') AS Tratamento_Ent_5,
+                                    IsNull(t.E6,'') AS Tratamento_Ent_6,
+                                    IsNull(t.E7,'') AS Tratamento_Ent_7,
+                                    IsNull(t.E8,'') AS Tratamento_Ent_8,
+                                    IsNull(t.S1,'') AS Tratamento_Sai_1,
+                                    IsNull(t.S2,'') AS Tratamento_Sai_2,
+                                    IsNull(t.S3,'') AS Tratamento_Sai_3,
+                                    IsNull(t.S4,'') AS Tratamento_Sai_4,
+                                    IsNull(t.S5,'') AS Tratamento_Sai_5,
+                                    IsNull(t.S6,'') AS Tratamento_Sai_6,
+                                    IsNull(t.S7,'') AS Tratamento_Sai_7,
+                                    IsNull(t.S8,'') AS Tratamento_Sai_8
+                                    , marcacao_view.*
                                     , func.nome AS funcionario
-                            FROM marcacao_view 
-                            LEFT JOIN funcionario func ON func.id = marcacao_view.idfuncionario
+                                    , hd.idjornada
+                            FROM marcacao_view
+                   OUTER APPLY (select idFuncionario, data,
+	               IsNull(E1,'') as E1,  
+	               IsNull(E2,'') as E2, 
+	               IsNull(E3,'') as E3, 
+	               IsNull(E4,'') as E4, 
+	               IsNull(E5,'') as E5, 
+	               IsNull(E6,'') as E6, 
+	               IsNull(E7,'') as E7, 
+	               IsNull(E8,'') as E8, 
+	               IsNull(S1,'') as S1,  
+	               IsNull(S2,'') as S2, 
+	               IsNull(S3,'') as S3, 
+	               IsNull(S4,'') as S4, 
+	               IsNull(S5,'') as S5, 
+	               IsNull(S6,'') as S6, 
+	               IsNull(S7,'') as S7, 
+	               IsNull(S8,'') as S8
+             from (
+            select idFuncionario, data, 
+	               [E1] as E1,  [E2] as E2, [E3] as E3, [E4] as E4, [E5] as E5, [E6] as E6, [E7] as E7, [E8] as E8, 
+	               [S1] as S1,  [S2] as S2, [S3] as S3, [S4] as S4, [S5] as S5, [S6] as S6, [S7] as S7, [S8] as S8
+              from (
+	            SELECT	idFuncionario, mar_data data, ent_sai+cast(posicao as varchar) coluna,
+			             REPLACE(ocorrencia, CHAR(0), '') ocorrencia
+	            FROM bilhetesimp AS bie
+		       WHERE bie.mar_data = marcacao_view.data AND bie.idFuncionario = marcacao_view.idFuncionario
+	               ) t
+            Pivot(
+              max(ocorrencia) for coluna in ([E1],  [E2], [E3], [E4], [E5], [E6], [E7], [E8], 
+								             [S1],  [S2], [S3], [S4], [S5], [S6], [S7], [S8])) as pvt
+				               ) f) t
+                            LEFT JOIN funcionario func ON func.id = marcacao_view.idfuncionario 
+                            INNER JOIN horario h ON h.id = marcacao_view.idhorario 
+                            LEFT JOIN horariodetalhe hd ON hd.idhorario = marcacao_view.idhorario 
+                                    AND ((h.tipohorario = 1 AND hd.dia = (CASE WHEN (CAST(DATEPART(WEEKDAY, marcacao_view.data) AS INT) - 1) = 0 THEN 7 ELSE (CAST(DATEPART(WEEKDAY, marcacao_view.data) AS INT) - 1) END) ) OR
+				                            (h.tipohorario = 2 AND hd.data = marcacao_view.data)
+			                            )
                             WHERE func.iddepartamento = @iddepartamento";
 
-            SELECTCONT = @" SELECT   marcacao_view.*
-                                     , func.nome AS funcionario
-                            FROM marcacao_view 
-                            LEFT JOIN funcionario func ON func.id = marcacao_view.idfuncionario
+            SELECTCONT = @" SELECT   IsNull(t.E1,'') AS Tratamento_Ent_1,
+                                    IsNull(t.E2,'') AS Tratamento_Ent_2,
+                                    IsNull(t.E3,'') AS Tratamento_Ent_3,
+                                    IsNull(t.E4,'') AS Tratamento_Ent_4,
+                                    IsNull(t.E5,'') AS Tratamento_Ent_5,
+                                    IsNull(t.E6,'') AS Tratamento_Ent_6,
+                                    IsNull(t.E7,'') AS Tratamento_Ent_7,
+                                    IsNull(t.E8,'') AS Tratamento_Ent_8,
+                                    IsNull(t.S1,'') AS Tratamento_Sai_1,
+                                    IsNull(t.S2,'') AS Tratamento_Sai_2,
+                                    IsNull(t.S3,'') AS Tratamento_Sai_3,
+                                    IsNull(t.S4,'') AS Tratamento_Sai_4,
+                                    IsNull(t.S5,'') AS Tratamento_Sai_5,
+                                    IsNull(t.S6,'') AS Tratamento_Sai_6,
+                                    IsNull(t.S7,'') AS Tratamento_Sai_7,
+                                    IsNull(t.S8,'') AS Tratamento_Sai_8
+                                    , marcacao_view.*
+                                    , func.nome AS funcionario
+                                    , hd.idjornada
+                            FROM marcacao_view
+                   OUTER APPLY (select idFuncionario, data,
+	               IsNull(E1,'') as E1,  
+	               IsNull(E2,'') as E2, 
+	               IsNull(E3,'') as E3, 
+	               IsNull(E4,'') as E4, 
+	               IsNull(E5,'') as E5, 
+	               IsNull(E6,'') as E6, 
+	               IsNull(E7,'') as E7, 
+	               IsNull(E8,'') as E8, 
+	               IsNull(S1,'') as S1,  
+	               IsNull(S2,'') as S2, 
+	               IsNull(S3,'') as S3, 
+	               IsNull(S4,'') as S4, 
+	               IsNull(S5,'') as S5, 
+	               IsNull(S6,'') as S6, 
+	               IsNull(S7,'') as S7, 
+	               IsNull(S8,'') as S8
+             from (
+            select idFuncionario, data, 
+	               [E1] as E1,  [E2] as E2, [E3] as E3, [E4] as E4, [E5] as E5, [E6] as E6, [E7] as E7, [E8] as E8, 
+	               [S1] as S1,  [S2] as S2, [S3] as S3, [S4] as S4, [S5] as S5, [S6] as S6, [S7] as S7, [S8] as S8
+              from (
+	            SELECT	idFuncionario, mar_data data, ent_sai+cast(posicao as varchar) coluna,
+			             REPLACE(ocorrencia, CHAR(0), '') ocorrencia
+	            FROM bilhetesimp AS bie
+		       WHERE bie.mar_data = marcacao_view.data AND bie.idFuncionario = marcacao_view.idFuncionario
+	               ) t
+            Pivot(
+              max(ocorrencia) for coluna in ([E1],  [E2], [E3], [E4], [E5], [E6], [E7], [E8], 
+								             [S1],  [S2], [S3], [S4], [S5], [S6], [S7], [S8])) as pvt
+				               ) f) t
+                            LEFT JOIN funcionario func ON func.id = marcacao_view.idfuncionario 
+                            INNER JOIN horario h ON h.id = marcacao_view.idhorario 
+                            LEFT JOIN horariodetalhe hd ON hd.idhorario = marcacao_view.idhorario 
+                                    AND ((h.tipohorario = 1 AND hd.dia = (CASE WHEN (CAST(DATEPART(WEEKDAY, marcacao_view.data) AS INT) - 1) = 0 THEN 7 ELSE (CAST(DATEPART(WEEKDAY, marcacao_view.data) AS INT) - 1) END) ) OR
+				                            (h.tipohorario = 2 AND hd.data = marcacao_view.data)
+			                            )
                             WHERE func.id in (select cf.idfuncionario from contratofuncionario cf where cf.idcontrato = @idcontrato and cf.excluido =0)";
 
             SELECTPFU = @"  SELECT   marcacao_view.*
@@ -2403,6 +2509,22 @@ namespace DAL.SQL
                 objMarcLista.DataConclusaoFluxoPnlRh = objMarcacao.DataConclusaoFluxoPnlRh;
                 objMarcLista.LoginConclusaoFluxoPnlRh = objMarcacao.LoginConclusaoFluxoPnlRh;
                 objMarcLista.horaExtraInterjornada = objMarcacao.horaExtraInterjornada;
+                objMarcLista.Ent_num_relogio_1 = objMarcacao.Ent_num_relogio_1;
+                objMarcLista.Ent_num_relogio_2 = objMarcacao.Ent_num_relogio_2;
+                objMarcLista.Ent_num_relogio_3 = objMarcacao.Ent_num_relogio_3;
+                objMarcLista.Ent_num_relogio_4 = objMarcacao.Ent_num_relogio_4;
+                objMarcLista.Ent_num_relogio_5 = objMarcacao.Ent_num_relogio_5;
+                objMarcLista.Ent_num_relogio_6 = objMarcacao.Ent_num_relogio_6;
+                objMarcLista.Ent_num_relogio_7 = objMarcacao.Ent_num_relogio_7;
+                objMarcLista.Ent_num_relogio_8 = objMarcacao.Ent_num_relogio_8;
+                objMarcLista.Sai_num_relogio_1 = objMarcacao.Sai_num_relogio_1;
+                objMarcLista.Sai_num_relogio_2 = objMarcacao.Sai_num_relogio_2;
+                objMarcLista.Sai_num_relogio_3 = objMarcacao.Sai_num_relogio_3;
+                objMarcLista.Sai_num_relogio_4 = objMarcacao.Sai_num_relogio_4;
+                objMarcLista.Sai_num_relogio_5 = objMarcacao.Sai_num_relogio_5;
+                objMarcLista.Sai_num_relogio_6 = objMarcacao.Sai_num_relogio_6;
+                objMarcLista.Sai_num_relogio_7 = objMarcacao.Sai_num_relogio_7;
+                objMarcLista.Sai_num_relogio_8 = objMarcacao.Sai_num_relogio_8;
 
                 lista.Add(objMarcLista);
 
@@ -3004,6 +3126,7 @@ namespace DAL.SQL
         , jors.saida_2 saida_2Substituido
         , jors.saida_3 saida_3Substituido
         , jors.saida_4 saida_4Substituido
+        , p.toleranciaAdicionalNoturno
 FROM marcacao_view AS marcacao WITH (NOLOCK)
 	INNER JOIN horario ON horario.id = marcacao.idhorario 
 	INNER JOIN #horariophextra as hphe on hphe.idhorario = marcacao.idhorario
@@ -3324,12 +3447,65 @@ WHERE
 
             if (PegaInativos)
             {
-                aux = "SELECT marcacao.* " +
-                                   ", funcionario.nome AS funcionario " +
-                             " FROM marcacao_view AS marcacao " +
-                             " LEFT JOIN funcionario ON funcionario.id = marcacao.idfuncionario " +
-                             " WHERE funcionario.idempresa = @idempresa " +
-                             " AND ISNULL(funcionario.excluido,0) = 0 AND marcacao.data >= @datainicial AND marcacao.data <= @datafinal";
+                aux = @" SELECT   IsNull(t.E1,'') AS Tratamento_Ent_1,
+                                    IsNull(t.E2,'') AS Tratamento_Ent_2,
+                                    IsNull(t.E3,'') AS Tratamento_Ent_3,
+                                    IsNull(t.E4,'') AS Tratamento_Ent_4,
+                                    IsNull(t.E5,'') AS Tratamento_Ent_5,
+                                    IsNull(t.E6,'') AS Tratamento_Ent_6,
+                                    IsNull(t.E7,'') AS Tratamento_Ent_7,
+                                    IsNull(t.E8,'') AS Tratamento_Ent_8,
+                                    IsNull(t.S1,'') AS Tratamento_Sai_1,
+                                    IsNull(t.S2,'') AS Tratamento_Sai_2,
+                                    IsNull(t.S3,'') AS Tratamento_Sai_3,
+                                    IsNull(t.S4,'') AS Tratamento_Sai_4,
+                                    IsNull(t.S5,'') AS Tratamento_Sai_5,
+                                    IsNull(t.S6,'') AS Tratamento_Sai_6,
+                                    IsNull(t.S7,'') AS Tratamento_Sai_7,
+                                    IsNull(t.S8,'') AS Tratamento_Sai_8
+                                    , marcacao_view.*
+                                    , func.nome AS funcionario
+                                    , hd.idjornada
+                            FROM marcacao_view
+                   OUTER APPLY (select idFuncionario, data,
+	               IsNull(E1,'') as E1,  
+	               IsNull(E2,'') as E2, 
+	               IsNull(E3,'') as E3, 
+	               IsNull(E4,'') as E4, 
+	               IsNull(E5,'') as E5, 
+	               IsNull(E6,'') as E6, 
+	               IsNull(E7,'') as E7, 
+	               IsNull(E8,'') as E8, 
+	               IsNull(S1,'') as S1,  
+	               IsNull(S2,'') as S2, 
+	               IsNull(S3,'') as S3, 
+	               IsNull(S4,'') as S4, 
+	               IsNull(S5,'') as S5, 
+	               IsNull(S6,'') as S6, 
+	               IsNull(S7,'') as S7, 
+	               IsNull(S8,'') as S8
+             from (
+            select idFuncionario, data, 
+	               [E1] as E1,  [E2] as E2, [E3] as E3, [E4] as E4, [E5] as E5, [E6] as E6, [E7] as E7, [E8] as E8, 
+	               [S1] as S1,  [S2] as S2, [S3] as S3, [S4] as S4, [S5] as S5, [S6] as S6, [S7] as S7, [S8] as S8
+              from (
+	            SELECT	idFuncionario, mar_data data, ent_sai+cast(posicao as varchar) coluna,
+			             REPLACE(ocorrencia, CHAR(0), '') ocorrencia
+	            FROM bilhetesimp AS bie
+		       WHERE bie.mar_data = marcacao_view.data AND bie.idFuncionario = marcacao_view.idFuncionario
+	               ) t
+            Pivot(
+              max(ocorrencia) for coluna in ([E1],  [E2], [E3], [E4], [E5], [E6], [E7], [E8], 
+								             [S1],  [S2], [S3], [S4], [S5], [S6], [S7], [S8])) as pvt
+				               ) f) t
+                            LEFT JOIN funcionario func ON func.id = marcacao_view.idfuncionario 
+                            INNER JOIN horario h ON h.id = marcacao_view.idhorario 
+                            LEFT JOIN horariodetalhe hd ON hd.idhorario = marcacao_view.idhorario 
+                                    AND ((h.tipohorario = 1 AND hd.dia = (CASE WHEN (CAST(DATEPART(WEEKDAY, marcacao_view.data) AS INT) - 1) = 0 THEN 7 ELSE (CAST(DATEPART(WEEKDAY, marcacao_view.data) AS INT) - 1) END) ) OR
+				                            (h.tipohorario = 2 AND hd.data = marcacao_view.data)
+			                            ) " +
+                             " WHERE func.idempresa = @idempresa " +
+                             " AND ISNULL(func.excluido,0) = 0 AND marcacao_view.data >= @datainicial AND marcacao_view.data <= @datafinal";
             }
             else
             {
@@ -3397,6 +3573,22 @@ WHERE
             objMarcLista.LegendasConcatenadas = objMarcacao.LegendasConcatenadas;
             objMarcLista.AdicionalNoturno = objMarcacao.AdicionalNoturno;
             objMarcLista.horaExtraInterjornada = objMarcacao.horaExtraInterjornada;
+            objMarcLista.Ent_num_relogio_1 = objMarcacao.Ent_num_relogio_1;
+            objMarcLista.Ent_num_relogio_2 = objMarcacao.Ent_num_relogio_2;
+            objMarcLista.Ent_num_relogio_3 = objMarcacao.Ent_num_relogio_3;
+            objMarcLista.Ent_num_relogio_4 = objMarcacao.Ent_num_relogio_4;
+            objMarcLista.Ent_num_relogio_5 = objMarcacao.Ent_num_relogio_5;
+            objMarcLista.Ent_num_relogio_6 = objMarcacao.Ent_num_relogio_6;
+            objMarcLista.Ent_num_relogio_7 = objMarcacao.Ent_num_relogio_7;
+            objMarcLista.Ent_num_relogio_8 = objMarcacao.Ent_num_relogio_8;
+            objMarcLista.Sai_num_relogio_1 = objMarcacao.Sai_num_relogio_1;
+            objMarcLista.Sai_num_relogio_2 = objMarcacao.Sai_num_relogio_2;
+            objMarcLista.Sai_num_relogio_3 = objMarcacao.Sai_num_relogio_3;
+            objMarcLista.Sai_num_relogio_4 = objMarcacao.Sai_num_relogio_4;
+            objMarcLista.Sai_num_relogio_5 = objMarcacao.Sai_num_relogio_5;
+            objMarcLista.Sai_num_relogio_6 = objMarcacao.Sai_num_relogio_6;
+            objMarcLista.Sai_num_relogio_7 = objMarcacao.Sai_num_relogio_7;
+            objMarcLista.Sai_num_relogio_8 = objMarcacao.Sai_num_relogio_8;
 
             lista.Add(objMarcLista);
 
@@ -3412,6 +3604,15 @@ WHERE
                 objMarcLista2.Saida_2 = objMarcacao.Saida_6;
                 objMarcLista2.Saida_3 = objMarcacao.Saida_7;
                 objMarcLista2.Saida_4 = objMarcacao.Saida_8;
+
+                objMarcLista.Ent_num_relogio_1 = objMarcacao.Ent_num_relogio_5;
+                objMarcLista.Ent_num_relogio_2 = objMarcacao.Ent_num_relogio_6;
+                objMarcLista.Ent_num_relogio_3 = objMarcacao.Ent_num_relogio_7;
+                objMarcLista.Ent_num_relogio_4 = objMarcacao.Ent_num_relogio_8;
+                objMarcLista.Sai_num_relogio_1 = objMarcacao.Sai_num_relogio_5;
+                objMarcLista.Sai_num_relogio_2 = objMarcacao.Sai_num_relogio_6;
+                objMarcLista.Sai_num_relogio_3 = objMarcacao.Sai_num_relogio_7;
+                objMarcLista.Sai_num_relogio_4 = objMarcacao.Sai_num_relogio_8;
 
                 lista.Add(objMarcLista2);
             }
@@ -4626,6 +4827,105 @@ WHERE
             return "";
         }
 
+        public List<Modelo.Marcacao> GetCartaoPontoExecao(List<int> pIdFuncionarios, DateTime pdataInicial, DateTime pDataFinal)
+        {
+            List<Modelo.Marcacao> lista = new List<Modelo.Marcacao>();
+
+            SqlParameter[] parms = new SqlParameter[3]
+            {
+                    new SqlParameter("@idsFuncionarios", SqlDbType.VarChar),
+                    new SqlParameter("@datainicial", SqlDbType.DateTime),
+                    new SqlParameter("@datafinal", SqlDbType.DateTime)
+            };
+            parms[0].Value = String.Join(",", pIdFuncionarios);
+            parms[1].Value = pdataInicial;
+            parms[2].Value = pDataFinal;
+            #region sql
+            string sql = @"SELECT  m.*
+	                      ,isnull(jPara.id, hd.IdJornada) IdJornada
+	                      ,p.InicioAdNoturno
+	                      ,p.fimadnoturno
+                          ,p.ReducaoHoraNoturna
+	                      ,CASE WHEN m.legenda = 'F' THEN
+	                      		'Feriado'
+	                          WHEN m.folga = 1 OR
+	                              hd.flagfolga = 1 THEN 'Folga'
+	                          WHEN hd.idjornada IS NULL THEN 'Compensado'
+	                          ELSE ''
+	                      END FolgaCompensado
+	                      ,h.ConversaoHoraNoturna
+	                      ,inclusaobanco.credito AS CredInclusaoBanco
+	                      ,inclusaobanco.debito AS DebInclusaoBanco
+                          ,j.descricao AS Justificativa
+						  ,m.AdicionalNoturno as AdicionalNoturno
+                          ,m.Interjornada
+						  ,m.horaExtraInterjornada
+                             FROM marcacao_view m
+                             INNER JOIN funcionario f
+	                             ON f.id = m.idfuncionario
+                              LEFT JOIN Alocacao a
+	                             ON f.IdAlocacao = a.id
+                              INNER JOIN horario h ON h.id = m.idhorario 
+                        INNER JOIN parametros p ON p.id = h.idparametro 
+		                LEFT JOIN dbo.inclusaobanco AS inclusaobanco ON inclusaobanco.identificacao = 
+			            CASE 
+				            WHEN inclusaobanco.tipo = 0 
+				            	THEN f.idempresa
+				            WHEN inclusaobanco.tipo = 1 
+				            	THEN f.iddepartamento
+				            WHEN inclusaobanco.tipo = 2
+				            	THEN f.id
+				            WHEN inclusaobanco.tipo = 3
+				            	THEN f.idfuncao
+			            END
+			            AND m.data = inclusaobanco.data
+			            AND inclusaobanco.credito IS NOT null
+                        LEFT JOIN jornadasubstituir js on js.id = m.idjornadasubstituir
+					    LEFT JOIN jornada jPara on js.idjornadapara = jPara.id
+                        LEFT JOIN dbo.justificativa j ON j.id = inclusaobanco.IdJustificativa
+                        LEFT JOIN horariodetalhe hd ON hd.idhorario = m.idhorario 
+                        AND ((h.tipohorario = 1 AND hd.dia = (CASE WHEN (CAST(DATEPART(WEEKDAY, m.data) AS INT) - 1) = 0 THEN 7 ELSE (CAST(DATEPART(WEEKDAY, m.data) AS INT) - 1) END) ) OR
+			             (h.tipohorario = 2 AND hd.data = m.data)
+			              )
+                        WHERE  m.idfuncionario in (select * from dbo.F_ClausulaIn(@idsFuncionarios))
+			                 AND m.data >= (CONVERT(DATETIME, @datainicial, 103)) AND m.data <= (CONVERT(DATETIME, @datafinal, 103)) 
+                        ORDER BY a.descricao, f.nome, m.data";
+            #endregion
+            List<Modelo.BilhetesImp> tratamentos = dalBilhesImp.GetImportadosPeriodo(pIdFuncionarios, pdataInicial, pDataFinal, true);
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+            try
+            {
+                if (dr.HasRows)
+                {
+                    var map = Mapper.CreateMap<IDataReader, List<Modelo.Marcacao>>();
+                    lista = Mapper.Map<List<Modelo.Marcacao>>(dr);
+                    foreach (Modelo.Marcacao marc in lista)
+                    {
+                        marc.BilhetesMarcacao = tratamentos.Where(t => t.Mar_data == marc.Data && t.Func == marc.Dscodigo).ToList();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+
+            if (!dr.IsClosed)
+                dr.Close();
+            dr.Dispose();
+
+            return lista;
+        }
+
+
         public List<Modelo.Marcacao> GetCartaoPontoV2(List<int> pIdFuncionarios, DateTime pdataInicial, DateTime pDataFinal)
         {
             List<Modelo.Marcacao> lista = new List<Modelo.Marcacao>();
@@ -5561,9 +5861,11 @@ WHERE
                                                                                 AND ja.identificacao = vm.iddepartamento
                                                                                 )
                                                                                 OR ( ja.tipo = 2
-                                                                                AND ja.identificacao = vm.idfuncionario
+                                                                                AND ja.identificacao = 0
                                                                                 )
                                                                                 )
+                        LEFT JOIN jornadaAlternativaFuncionario jaf WITH ( NOLOCK ) on jaf.idJornadaAlternativa=ja.id and jaf.idFuncionario = vm.idfuncionario	 					
+
                 WHERE   vm.data BETWEEN @datainicial AND @datafinal
                 ORDER BY vm.nome ,
                         vm.data ,
@@ -5575,6 +5877,60 @@ WHERE
                 DROP TABLE #horariophextra
                 ";
             #endregion
+
+            DataTable dt = new DataTable();
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            dt.Load(dr);
+            if (!dr.IsClosed)
+                dr.Close();
+            dr.Dispose();
+
+            return dt;
+        }
+
+        public DataTable GetRelatorioSubstituicaoJornada(string idsFuncionarios, DateTime pdataInicial, DateTime pDataFinal)
+        {
+            string aux = "";
+
+            SqlParameter[] parms = new SqlParameter[2]
+              {
+                    new SqlParameter("@dtIni", SqlDbType.DateTime),
+                    new SqlParameter("@dtFim", SqlDbType.DateTime),
+              };
+            parms[0].Value = pdataInicial;
+            parms[1].Value = pDataFinal;
+
+            #region Select Otimizado
+            aux = @"
+                select 
+                f.codigo 'Código',
+                f.nome 'Nome',
+                f.matricula 'Matrícula',
+                f.CPF 'CPF',
+                ct.codigocontrato + ' | ' + ct.descricaocontrato  'Contrato',
+                js.codigo 'Código Substituição',
+                CONVERT(VARCHAR(10),  js.DataInicio, 103)   'Data Inicio' ,
+                CONVERT(VARCHAR(10),  js.DataFim, 103)   'Data Fim' ,
+                CONVERT(VARCHAR(max), jD.codigo) +' | '+ ISNULL(jD.descricao , '') 'Jornada De',
+                CONVERT(VARCHAR(max), jP.codigo) +' | '+ ISNULL(jP.descricao , '') 'Jornada Para',
+                js.incusuario 'Usuario Inclusão',
+                CONVERT(VARCHAR(10), js.IncHora, 103) + ' '  + convert(VARCHAR(8), js.IncHora, 14) 'Data/Hora Inclusão',
+                js.altusuario 'Usuario alteração',
+                CONVERT(VARCHAR(10), js.altdata, 103) + ' '  + convert(VARCHAR(8), js.althora, 14)  'Data/Hora Alteração' 			
+                from funcionario f 
+                join contratofuncionario cf on cf.idfuncionario = f.id
+                join contrato ct on ct.id = cf.idcontrato
+                join JornadaSubstituirFuncionario jsf on jsf.IdFuncionario = f.id 
+                join JornadaSubstituir js on js.Id = jsf.IdJornadaSubstituir                
+                join jornada jD on jD.id = js.IdJornadaDe
+                join jornada jP on jP.id = js.IdJornadaPara
+                where f.id  in ( {0} )  and cf.excluido = 0 and 
+                 jsf.IncData BETWEEN @dtIni AND @dtFim
+                ";
+
+            #endregion
+
+            aux = string.Format(aux, idsFuncionarios);
 
             DataTable dt = new DataTable();
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);

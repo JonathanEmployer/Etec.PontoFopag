@@ -48,6 +48,7 @@ namespace DAL.RelatoriosSQL
 		                                Funcao,--F
 		                                Admissao,--G
 		                                ISNULL(QtdeHorasPrevistas,'00:00') QtdeHorasPrevistas,--H
+										Supervisor,
 		                                ISNULL(HorasTrabalhadas,'00:00') HorasTrabalhadas,--I
 		                                NdeDiasTrab,--J
 		                                '=IFERROR(I**/H**,0)' PercTrabalhado,--K
@@ -80,6 +81,7 @@ namespace DAL.RelatoriosSQL
 			                                    CONVERT(VARCHAR(200), S.CodigoFuncao) + ' - ' +S.Funcao Funcao,
 			                                    CONVERT(VARCHAR(10), S.Admissao,101) Admissao,
 			                                    dbo.FN_CONVMINNULAVEL(SUM(S.horasTrabalhadasPrevistasMin),1) QtdeHorasPrevistas,
+												Supervisor,
                                                 dbo.FN_CONVMINNULAVEL(SUM(S.trabalhadaMin - TotalAbonoMin + HoraTrabalhada),1) HorasTrabalhadas,
 			                                    SUM(S.trabalhou) NdeDiasTrab,
 			                                    dbo.FN_CONVMINNULAVEL(SUM(HorasExtrasMin),1) HorasExtras,
@@ -113,6 +115,7 @@ namespace DAL.RelatoriosSQL
 							                                t.CodigoFuncao,
 							                                t.Funcao,
 							                                t.Admissao,
+															t.Supervisor,
 							                                t.horasTrabalhadasPrevistasMin,
 							                                t.trabalhadaMin,
 							                                SIGN(t.totalTrabalhadaMin) trabalhou,
@@ -142,6 +145,7 @@ namespace DAL.RelatoriosSQL
 									                                f.nome NomeFuncionario,
 									                                f.matricula Matricula,
 									                                f.dataadmissao Admissao,
+																	super.RazaoSocial Supervisor,
 									                                f.id idFuncionario,
 									                                f.iddepartamento,
 									                                f.idempresa,
@@ -170,6 +174,7 @@ namespace DAL.RelatoriosSQL
 																	feriado.HoraFim AS FeriadoParcialFim,
 																	feriado.id as FeriadoID
 							                                    FROM dbo.funcionario AS f 
+																LEFT JOIN dbo.pessoa as super ON super.id = f.IdPessoaSupervisor
 							                                    INNER JOIN dbo.funcao AS fo ON fo.id = f.idfuncao
 							                                    INNER JOIN dbo.departamento AS D ON f.iddepartamento = D.id
 							                                    INNER JOIN dbo.marcacao_view m WITH ( NOLOCK ) ON m.idfuncionario = f.id AND m.data BETWEEN @datainicial AND @datafinal and m.data >= f.dataadmissao and (f.datademissao is null or m.data <= f.datademissao)
@@ -257,7 +262,8 @@ namespace DAL.RelatoriosSQL
 			                                    S.Departamento,
 			                                    S.CodigoFuncao,
 			                                    S.Funcao,
-			                                    S.Admissao
+			                                    S.Admissao,
+												S.Supervisor
 	                                    ) F ORDER BY f.Departamento, f.NomeFuncionario";
             DataTable dt = new DataTable();
 

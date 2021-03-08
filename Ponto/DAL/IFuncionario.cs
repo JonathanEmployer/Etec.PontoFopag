@@ -139,7 +139,6 @@ namespace DAL
 
         void DeleteLogicoFuncionariosInativos(int qtdMeses);
 
-
     }
 }
 

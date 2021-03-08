@@ -86,7 +86,7 @@ namespace DAL.SQL
                              MarcaSegundaPercBanco,MarcaTercaPercBanco,MarcaQuartaPercBanco,MarcaQuintaPercBanco,MarcaSextaPercBanco,MarcaSabadoPercBanco,MarcaDomingoPercBanco,FeriadoPercBanco,
                              FolgaPercBanco,MarcaFeriadoPercBanco,MarcaFolgaPercBanco,LimiteHorasTrabalhadasDia,LimiteMinimoHorasAlmoco,Desconsiderarferiado,LimiteInterjornada,QtdHEPreClassificadas,
                              IdClassificacao,IdHorarioOrigem,separaExtraNoturnaPercentual,consideraradicionalnoturnointerv,QtdCiclo,DescontarFeriadoDDSR,HoristaMensalista,bUtilizaDDSRProporcional,
-                             DDSRConsideraFaltaDuranteSemana,Ativo,DescontoHorasDSR,DSRPorPercentual)
+                             DDSRConsideraFaltaDuranteSemana,Ativo,DescontoHorasDSR,DSRPorPercentual,PontoPorExcecao)
 							VALUES
 							(@codigo,@incdata,@inchora,@incusuario,@descricao,@idparametro,@horasnormais,@somentecargahoraria,@marcacargahorariamista,@habilitatolerancia,
                              @conversaohoranoturna,@consideraadhtrabalhadas,@ordem_ent,@ordenabilhetesaida,@limitemin,@limitemax,@tipoacumulo,@habilitaperiodo01,@habilitaperiodo02,@descontacafemanha,
@@ -96,7 +96,7 @@ namespace DAL.SQL
                              @SabadoPercBanco,@DomingoPercBanco,@MarcaSegundaPercBanco,@MarcaTercaPercBanco,@MarcaQuartaPercBanco,@MarcaQuintaPercBanco,@MarcaSextaPercBanco,@MarcaSabadoPercBanco,
                              @MarcaDomingoPercBanco,@FeriadoPercBanco,@FolgaPercBanco,@MarcaFeriadoPercBanco,@MarcaFolgaPercBanco,@LimiteHorasTrabalhadasDia,@LimiteMinimoHorasAlmoco,
                              @Desconsiderarferiado,@LimiteInterjornada,@QtdHEPreClassificadas,@IdClassificacao,@IdHorarioOrigem,@separaExtraNoturnaPercentual,@consideraradicionalnoturnointerv,
-                             @QtdCiclo,@DescontarFeriadoDDSR,@HoristaMensalista,@bUtilizaDDSRProporcional,@DDSRConsideraFaltaDuranteSemana,@Ativo,@DescontoHorasDSR,@DSRPorPercentual) 
+                             @QtdCiclo,@DescontarFeriadoDDSR,@HoristaMensalista,@bUtilizaDDSRProporcional,@DDSRConsideraFaltaDuranteSemana,@Ativo,@DescontoHorasDSR,@DSRPorPercentual,@PontoPorExcecao) 
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE horarioDinamico SET 
@@ -178,7 +178,8 @@ namespace DAL.SQL
                             DDSRConsideraFaltaDuranteSemana	 =	@DDSRConsideraFaltaDuranteSemana,
                             Ativo	                         =	@Ativo,
                             DescontoHorasDSR                 =  @DescontoHorasDSR,
-                            DSRPorPercentual                 =  @DSRPorPercentual
+                            DSRPorPercentual                 =  @DSRPorPercentual,
+                            PontoPorExcecao                  =  @PontoPorExcecao
 						    WHERE id = @id";
 
             DELETE = @"  DELETE FROM horarioDinamico WHERE id = @id";
@@ -296,6 +297,7 @@ namespace DAL.SQL
             ((Modelo.HorarioDinamico)obj).SeparaExtraNoturnaPercentual = (dr["separaExtraNoturnaPercentual"]) is DBNull ? false : Convert.ToBoolean(dr["separaExtraNoturnaPercentual"]);
             ((Modelo.HorarioDinamico)obj).DSRPorPercentual = (dr["DSRPorPercentual"]) is DBNull ? false : Convert.ToBoolean(dr["DSRPorPercentual"]);
             ((Modelo.HorarioDinamico)obj).Descontohorasdsr = (dr["DescontoHorasDSR"]) is DBNull ? default(decimal) : Convert.ToDecimal(dr["DescontoHorasDSR"]);
+            ((Modelo.HorarioDinamico)obj).PontoPorExcecao = (dr["PontoPorExcecao"]) is DBNull ? false : Convert.ToBoolean(dr["PontoPorExcecao"]);
         }
 
         protected override SqlParameter[] GetParameters()
@@ -381,7 +383,8 @@ namespace DAL.SQL
                 new SqlParameter ("@SeparaExtraNoturnaPercentual", SqlDbType.Bit),
                 new SqlParameter ("@consideraperchextrasemana", SqlDbType.Int),
                 new SqlParameter ("@DescontoHorasDSR", SqlDbType.Decimal),
-                new SqlParameter ("@DSRPorPercentual", SqlDbType.Bit)
+                new SqlParameter ("@DSRPorPercentual", SqlDbType.Bit),
+                new SqlParameter ("@PontoPorExcecao", SqlDbType.Bit)
             };
             return parms;
         }
@@ -472,6 +475,7 @@ namespace DAL.SQL
             parms[77].Value = ((Modelo.HorarioDinamico)obj).consideraperchextrasemana;
             parms[78].Value = ((Modelo.HorarioDinamico)obj).Descontohorasdsr;
             parms[79].Value = ((Modelo.HorarioDinamico)obj).DSRPorPercentual;
+            parms[80].Value = ((Modelo.HorarioDinamico)obj).PontoPorExcecao;
         }
 
         public Modelo.HorarioDinamico LoadObject(int id)
@@ -891,7 +895,8 @@ namespace DAL.SQL
 	                                isnull(usuAlt.login, 'Integracao') AltUsu,
 	                                FORMAT(hdm.althora , 'dd/MM/yyyy HH:mm:ss') altHora,
 		                            hdm.QtdCiclo qtdCiclos,
-		                            (select count(1) from HorarioDinamicoCicloSequencia s inner join horariodinamicociclo c on s.idhorariodinamicociclo = c.id  where c.idhorariodinamico = hdm.id) qtdSequencias
+		                            (select count(1) from HorarioDinamicoCicloSequencia s inner join horariodinamicociclo c on s.idhorariodinamicociclo = c.id  where c.idhorariodinamico = hdm.id) qtdSequencias,
+                                    CASE WHEN hdm.PontoPorExcecao = 1 THEN 'Sim' ELSE 'Não' END PontoPorExcecao
                               from horariodinamico hdm
                               left join cw_usuario usuInc on hdm.incusuario = usuInc.login
                               left join cw_usuario usuAlt on hdm.incusuario = usuAlt.login

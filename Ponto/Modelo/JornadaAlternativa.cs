@@ -41,13 +41,17 @@ namespace Modelo
                 string tipoDesc = "";
                 switch (Tipo)
                 {
-                    case 0: tipoDesc = "Empresa";
+                    case 0:
+                        tipoDesc = "Empresa";
                         break;
-                    case 1: tipoDesc = "Departamento";
+                    case 1:
+                        tipoDesc = "Departamento";
                         break;
-                    case 2: tipoDesc = "Funcionário";
+                    case 2:
+                        tipoDesc = "Funcionário";
                         break;
-                    case 3: tipoDesc = "Função";
+                    case 3:
+                        tipoDesc = "Função";
                         break;
 
                 }
@@ -282,7 +286,7 @@ namespace Modelo
             get { return _ConversaoHoraNoturna; }
             set { _ConversaoHoraNoturna = value; }
         }
-        
+
         /// <summary>
         /// Indica se haverá Calculo do adicional noturno
         /// </summary>
@@ -349,7 +353,7 @@ namespace Modelo
             get { return _Nome; }
             set { _Nome = value; }
         }
-        
+
 
         private string _Empresa;
         [Display(Name = "Empresa")]
@@ -408,6 +412,13 @@ namespace Modelo
             }
             set { _Funcionario = value; }
         }
+
+
+        public IList<JornadaAlternativaFuncionario> JornadaAlternativaFuncionarios { get; set; }
+        public string IdsJornadaAlternativaFuncionariosSelecionados { get; set; }
+        public string IdsJornadaAlternativaFuncionariosSelecionados_Ant { get; set; }
+
+
         [TableHTMLAttribute("Jornada", 14, true, ItensSearch.text, OrderType.none)]
         public string TipoJornada { get; set; }
 

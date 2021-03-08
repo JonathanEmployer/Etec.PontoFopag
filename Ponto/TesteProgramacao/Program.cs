@@ -165,6 +165,11 @@ namespace TesteProgramacao
             //"ServImportacao",
             //new List<int> { 5612, 5604, 5615, 5566, 5608, 5579, 5567, 5569, 5595, 5603, 5626, 5581, 5606, 5578, 5574, 5611, 5609, 5619, 5599, 5588, 5594, 5618, 5614, 5617, 5597, 5607, 5610, 5600, 5583, 5580, 5584, 5582, 5572, 5627, 5602, 5622, 5613, 5571, 5621, 5570, 5605, 5568, 5620, 5577, 5587, 5564, 5565, 5586, 5616, 5623, 5601, 5593, 5575, 5576, 5598, 5596, 5585, 5589, 5590, 5591, 5592, 5573, 5624, 5625 });
 
+            string connectionStr = @"Data Source=EMPVW02215\DEV308;initial catalog=pontofopag_jmalucelli;user id=pontofopag_app;password=123;Application Name=cwkpontoweb;MultipleActiveResultSets=true;Asynchronous Processing=true";
+            Modelo.Cw_Usuario usuarioControle = new Modelo.Cw_Usuario();
+            usuarioControle.Login = "employer";
+            BLL.CalculoMarcacoes.PontoPorExcecao bllPontoPorExcecao = new BLL.CalculoMarcacoes.PontoPorExcecao(connectionStr, usuarioControle);
+            bllPontoPorExcecao.CriarRegistroPontoPorExcecao();
         }
 
         private static void CorrigiHorariosDivergentes(string cs)
