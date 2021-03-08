@@ -710,7 +710,7 @@ namespace DAL.SQL
             };
             parms[0].Value = pFuncionario;
 
-            string aux = "SELECT id, datainicial, datafinal, identificacao, tipo FROM jornadaalternativa WHERE tipo = 2 and identificacao = @funcionario ";
+            string aux = "SELECT id, datainicial, datafinal, identificacao, tipo FROM jornadaalternativa_view WHERE tipo = 2 and identificacao = @funcionario ";
             aux = PermissaoUsuarioFuncionarioJornada(UsuarioLogado, aux, false);
 
             aux += "ORDER BY id";
