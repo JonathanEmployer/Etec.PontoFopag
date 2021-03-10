@@ -1499,7 +1499,8 @@ namespace BLL
                     if ((acao == Acao.Incluir || acao == Acao.Alterar) && (idContratoAnt != contid))
                     {
                         int CodigoContratoAnt = bllContratoFun.getContratoCodigo(idContratoAnt.GetValueOrDefault(), ContratoFunc.IdFuncionario);
-                        int IdContratoFuncAnt = CodigoContratoAnt != 0 ? bllContratoFun.getId(CodigoContratoAnt, null, null) : 0;
+                        string excluido = "excluido";
+                        int IdContratoFuncAnt = CodigoContratoAnt != 0 ? bllContratoFun.getId(CodigoContratoAnt, excluido, 0) : 0;
                         if (idContratoAnt != ContratoFunc.IdContrato && idContratoAnt.GetValueOrDefault() != 0)
                         {
                             Modelo.ContratoFuncionario ContFuncAnt = new Modelo.ContratoFuncionario();

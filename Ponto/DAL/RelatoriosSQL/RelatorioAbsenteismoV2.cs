@@ -51,29 +51,29 @@ namespace DAL.RelatoriosSQL
 										Supervisor,
 		                                ISNULL(HorasTrabalhadas,'00:00') HorasTrabalhadas,--I
 		                                NdeDiasTrab,--J
-		                                '=IFERROR(I**/H**,0)' PercTrabalhado,--K
-		                                '=IFERROR(IF(H**> 0, 1-K**,0),0)' PercAbsent, --L
+		                                '=IFERROR(J**/I**,0)' PercTrabalhado,--K
+		                                '=IFERROR(IF(I**> 0, 1-L**,0),0)' PercAbsent, --L
 		                                ISNULL(HorasExtras,'00:00') HorasExtras, --M
 		                                QtdHorasExtras, --N
-		                                '=IFERROR(M**/H**,0)' PercHorasExtras, --O
+		                                '=IFERROR(N**/I**,0)' PercHorasExtras, --O
 		                                ISNULL(AbonoLegal,'00:00') AbonoLegal, --P
 		                                qtdAbonoLegal, --Q
-		                                '=IFERROR(P**/H**,0)' PercAbonoLegal, --R
+		                                '=IFERROR(Q**/I**,0)' PercAbonoLegal, --R
 		                                ISNULL(AbonoNaoLegalOutros,'00:00') AbonoNaoLegalOutros, --S
 		                                qtdAbonoNaoLegalOutros, --T
-		                                '=IFERROR(S**/H**,0)' PercAbonoNaoLegalOutros, --U
+		                                '=IFERROR(T**/I**,0)' PercAbonoNaoLegalOutros, --U
 		                                ISNULL(falta,'00:00') falta, --V
 		                                qtdfalta, --W
-		                                '=IFERROR(V**/H**,0)' Percfalta, -- X
+		                                '=IFERROR(W**/I**,0)' Percfalta, -- X
 		                                ISNULL(Atrasos,'00:00') Atrasos, --Y
 		                                qtdAtrasos, --Z
-		                                '=IFERROR(Y**/H**,0)' PercAtrasos, --AA
+		                                '=IFERROR(Z**/I**,0)' PercAtrasos, --AA
 									    ISNULL(CreBH,'00:00') CreBH, --AB
 		                                QtdCreBH, --AC
-		                                '=IFERROR(AB**/H**,0)' PercCreBH, --AD
+		                                '=IFERROR(AC**/I**,0)' PercCreBH, --AD
 		                                ISNULL(DebBH,'00:00') DebBH, --AE
 		                                qtdDebBH, --AF
-		                                '=IFERROR(AE**/H**,0)' PercDebBH -- AG
+		                                '=IFERROR(AF**/I**,0)' PercDebBH -- AG
                                     FROM (
 		                                SELECT S.NomeFuncionario,
 			                                    S.Matricula,
