@@ -246,7 +246,7 @@ namespace BLL
                 return new Modelo.REP();
             }
 
-            if (!bllRep.GetCPFCNPJ(reg.Campo04, reg.Campo03) && razaoSocial == false)
+            if (!bllRep.GetCPFCNPJ(reg.Campo04, reg.Campo03) && razaoSocial == true)
             {
                 erros.Add(reg.Campo04 + " não esta cadastrado como cnpj ou cpf da empresa");
                 numeroRelogio = String.Empty;
