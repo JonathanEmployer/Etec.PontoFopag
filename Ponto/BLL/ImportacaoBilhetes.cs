@@ -240,13 +240,13 @@ namespace BLL
 
             BLL.REP bllRep = new BLL.REP(ConnectionString, UsuarioLogado);
             string numeroRelogio = bllRep.GetNumInner(reg.Campo07);
-            if (numeroRelogio == null || numeroRelogio == "")
+            if ((numeroRelogio == null || numeroRelogio == "" )&& razaoSocial == false)
             {
                 erros.Add("O REP " + reg.Campo07 + " não está cadastrado no sistema!");
                 return new Modelo.REP();
             }
 
-            if (!bllRep.GetCPFCNPJ(reg.Campo04, reg.Campo03) && razaoSocial == true)
+            if (!bllRep.GetCPFCNPJ(reg.Campo04, reg.Campo03) && razaoSocial == false)
             {
                 erros.Add(reg.Campo04 + " não esta cadastrado como cnpj ou cpf da empresa");
                 numeroRelogio = String.Empty;
