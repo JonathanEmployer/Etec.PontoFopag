@@ -30,12 +30,15 @@
                 <div class="row" style="padding-top:0px;">
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <label class="control-label label-sm">Relógio</label>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="control-label label-sm">Empresa</label>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group input-group-sm">
@@ -51,6 +54,27 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="col-md-4" id="tbGridEmpresa">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group input-group-sm">
+                                            <div class="form-group">
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBoxFor(model => model.idEmpresaRelogio, new { @class = "form-control input-sm lkpEmpresaSelecionado editor-field", id = "lkpEmpresaSelecionado", autocomplete = "off", disable = true })
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-primary lkpEmpresaSelecionado" id="btnRelogioSelecionado" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                    </span>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.idEmpresaRelogio)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1">
                             </div>
                             <div class="col-md-3" id="divUtilizaGrupoEconomico">
                                 <div class="checkbox" style="margin-top:1px">
@@ -93,14 +117,14 @@
                     <div class="col-md-12">
                         <div class="row" style="padding-top:5px;">
                             @*Grids*@
-                            <div class="col-md-5">
+                            @*<div class="col-md-5">
                                 @Html.HiddenFor(model => model.idsEmpresasSelecionadas)
                                 @Html.ValidationMessageFor(model => model.idsEmpresasSelecionadas)
                                 <div id="tbGridEmpresa">
-                                    @*@Html.Partial("gvGridEmpresa", Model)*@
+                                    
                                 </div>
-                            </div>
-                            <div class="col-md-7">
+                            </div>*@
+                            <div class="col-md-12">
                                 @Html.HiddenFor(model => model.idsFuncionariosSelecionados)
                                 @Html.ValidationMessageFor(model => model.idsFuncionariosSelecionados)
                                 <div id="tbGridFuncionario">
@@ -143,6 +167,11 @@
     $(".lkpRelogioSelecionado").bind("keydown click", function (e) {
         cwk_EventoConsultaUnico(e, this, "", "REP", "", CarregarTela);
         limpaErro($('#lkpRelogioSelecionado').attr('name'));
+    });
+
+    $(".lkpEmpresaSelecionado").bind("keydown click", function (e) {
+        cwk_EventoConsultaUnico(e, this, "", "REP", "", CarregarTela);
+        limpaErro($('#lkpEmpresaSelecionado').attr('name'));
     });
 
     $("#bParmEnvFunc").click(function () {
