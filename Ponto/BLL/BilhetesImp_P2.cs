@@ -92,7 +92,7 @@ namespace BLL
 
 
         public bool ImportacaoBilhetes(List<Modelo.TipoBilhetes> plistaTipoBilhetes, string pArquivo, int pBilhete, bool pIndividual, string pFuncionario,
-                                       ref DateTime? pDataI, ref DateTime? pDataF, List<string> log, Modelo.Cw_Usuario usuarioLogado)
+                                       ref DateTime? pDataI, ref DateTime? pDataF, List<string> log, Modelo.Cw_Usuario usuarioLogado ,bool? bRazaoSocial)
         {
             BLL.REP bllRep;
             BLL.Funcionario bllFunc;
@@ -327,7 +327,7 @@ namespace BLL
                 {
                     ImportacaoArquivo(pArquivo, pBilhete, pIndividual, pFuncionario, pDataI, pDataF, log, max, contador3, contadorProcessados, naoPossuiFunc, numeroRelogio,
                                       controleRelogio, controleCNPJCPF, qtdLidos, ref qtdProcessados, qtdErrados, qtdRepetidos, qtdSemPermissao, ref dataInicial, ref dataFinal,
-                                      tp, pisFuncionarios, usuarioLogado, qtdPontoFechado);
+                                      tp, pisFuncionarios, usuarioLogado, qtdPontoFechado ,bRazaoSocial);
                 }
             }
 
@@ -401,7 +401,7 @@ namespace BLL
         private void ImportacaoArquivo(string pArquivo, int pBilhete, bool pIndividual, string pFuncionario, DateTime? pDataI, DateTime? pDataF, List<string> log,
                                        int max, int contador3, int contadorProcessados, int naoPossuiFunc, string numeroRelogio, string controleRelogio,
                                        string controleCNPJCPF, int qtdLidos, ref int qtdProcessados, int qtdErrados, int qtdRepetidos, int qtdSemPermissao,
-                                       ref DateTime dataInicial, ref DateTime dataFinal, Modelo.TipoBilhetes tp, DataTable pisFuncionarios, Modelo.Cw_Usuario usuarioLogado, int qtdPontoFechado)
+                                       ref DateTime dataInicial, ref DateTime dataFinal, Modelo.TipoBilhetes tp, DataTable pisFuncionarios, Modelo.Cw_Usuario usuarioLogado, int qtdPontoFechado ,bool? bRazaoSocial)
         {
             BLL.REP bllRep;
             BLL.Funcionario bllFunc;
@@ -501,7 +501,7 @@ namespace BLL
                                 controleRelogio = ("O REP " + linha.Substring(187, 17) + " não está cadastrado no sistema!");
                                 break;
                             }
-                            if (!bllRep.GetCPFCNPJ(linha.Substring(11, 14), linha.Substring(10, 1)))
+                            if (!bllRep.GetCPFCNPJ(linha.Substring(11, 14), linha.Substring(10, 1)) && bRazaoSocial != true)
                             {
                                 controleCNPJCPF = (linha.Substring(11, 14) + " não esta cadastrado como cnpj ou cpf da empresa");
                                 numeroRelogio = "";
@@ -1742,7 +1742,7 @@ namespace BLL
 
             DateTime? dataInicial = null;
             DateTime? dataFinal = null;
-            bllImportaBilhetes.ImportarBilhetes(objFuncionario.Dscodigo, true, dataInicialImp, dataFinalImp, out dataInicial, out dataFinal, ObjProgressBar, log);
+            bllImportaBilhetes.ImportarBilhetes(objFuncionario.Dscodigo, true, dataInicialImp, dataFinalImp, out dataInicial, out dataFinal, ObjProgressBar, log , false);
 
             BLL.CalculaMarcacao bllCalculaMarcacao = new CalculaMarcacao(2, objFuncionario.Id, dataInicialImp.Value.AddDays(-1), dataFinalImp.Value.AddDays(1), ObjProgressBar, false, ConnectionString, UsuarioLogado, false);
             bllCalculaMarcacao.CalculaMarcacoes();

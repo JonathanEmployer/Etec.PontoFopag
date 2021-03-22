@@ -59,7 +59,7 @@ namespace PontoWeb.Controllers
 
                             UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
                             HangfireManagerImportacoes hfm = new HangfireManagerImportacoes(UserPW.DataBase);
-                            Modelo.Proxy.PxyJobReturn ret = hfm.ImportarArquivoAFD(listaReps, imp.DataInicial, imp.DataFinal, arquivo, imp.bMarcacaoIndividual, dsCodFuncionario);
+                            Modelo.Proxy.PxyJobReturn ret = hfm.ImportarArquivoAFD(listaReps, imp.DataInicial, imp.DataFinal, arquivo, imp.bMarcacaoIndividual, dsCodFuncionario ,imp.bRazaoSocial);
                             return new JsonResult
                             {
                                 Data = new

@@ -144,7 +144,7 @@ namespace BLL_N
         }
 
         public List<string> ImportacaoBilhete(Modelo.ProgressBar pb, List<Modelo.TipoBilhetes> listaTipoBilhetes, string diretorio, int bilhete, bool bIndividual,
-                                                 string dsCodFuncionario, DateTime? datai, DateTime? dataf, Modelo.UsuarioPontoWeb usuarioLogado)
+                                                 string dsCodFuncionario, DateTime? datai, DateTime? dataf, Modelo.UsuarioPontoWeb usuarioLogado, bool? bRazaoSocial)
         {
             List<string> log = new List<string>();
             try
@@ -156,7 +156,7 @@ namespace BLL_N
                 log.Add("Hora = " + DateTime.Now.ToShortTimeString());
 
                 bllBilhetesImp.ObjProgressBar = pb;
-                bool temBilhetes = bllBilhetesImp.ImportacaoBilhetes(listaTipoBilhetes, diretorio, bilhete, bIndividual, dsCodFuncionario, ref datai, ref dataf, log, usuarioLogado);
+                bool temBilhetes = bllBilhetesImp.ImportacaoBilhetes(listaTipoBilhetes, diretorio, bilhete, bIndividual, dsCodFuncionario, ref datai, ref dataf, log, usuarioLogado, bRazaoSocial);
 
                 BLL.ImportaBilhetes bllImportaBilhetes = new BLL.ImportaBilhetes(conexao.ConnectionString, usuarioLogado);
                 DateTime? dataInicial;
@@ -168,7 +168,7 @@ namespace BLL_N
                     List<string> FuncsProcessados = new List<string>();
 
                     pb.incrementaPBCMensagem(20, "Importando Bilhetes...");
-                    if (bllImportaBilhetes.ImportarBilhetes(dsCodFuncionario, false, datai, dataf, out dataInicial, out dataFinal, pb, log, out FuncsProcessados))
+                    if (bllImportaBilhetes.ImportarBilhetes(dsCodFuncionario, false, datai, dataf, out dataInicial, out dataFinal, pb, log, out FuncsProcessados , bRazaoSocial))
                     {
                         BLL.Funcionario bllFuncionario = new BLL.Funcionario(conexao.ConnectionString, usuarioLogado);
                         List<int> idsFuncs = bllFuncionario.GetIDsByDsCodigos(FuncsProcessados);

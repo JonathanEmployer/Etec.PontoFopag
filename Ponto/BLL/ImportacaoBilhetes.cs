@@ -99,7 +99,7 @@ namespace BLL
         }
 
         public List<string> ImportacaoBilheteWeb(Modelo.ProgressBar pb, List<Modelo.TipoBilhetes> listaTipoBilhetes, string diretorio, int bilhete, bool bIndividual,
-                                                 string dsCodFuncionario, DateTime? datai, DateTime? dataf, Modelo.UsuarioPontoWeb usuarioLogado)
+                                                 string dsCodFuncionario, DateTime? datai, DateTime? dataf, Modelo.UsuarioPontoWeb usuarioLogado ,bool? bRazaoSocial)
         {
             List<string> log = new List<string>();
             try
@@ -111,7 +111,7 @@ namespace BLL
                 log.Add("Hora = " + DateTime.Now.ToShortTimeString());
 
                 bllBilhetesImp.ObjProgressBar = pb;
-                bool temBilhetes = bllBilhetesImp.ImportacaoBilhetes(listaTipoBilhetes, diretorio, bilhete, bIndividual, dsCodFuncionario, ref datai, ref dataf, log, usuarioLogado);
+                bool temBilhetes = bllBilhetesImp.ImportacaoBilhetes(listaTipoBilhetes, diretorio, bilhete, bIndividual, dsCodFuncionario, ref datai, ref dataf, log, usuarioLogado , bRazaoSocial);
 
                 ImportaBilhetes bllImportaBilhetes = new BLL.ImportaBilhetes(ConnectionString, UsuarioLogado);
                 DateTime? dataInicial;
@@ -127,7 +127,7 @@ namespace BLL
                 }
                 List<string> FuncsProcessados = new List<string>();
 
-                if (bllImportaBilhetes.ImportarBilhetes(dsCodFuncionario, false, datai, dataf, out dataInicial, out dataFinal, pb, log, out FuncsProcessados))
+                if (bllImportaBilhetes.ImportarBilhetes(dsCodFuncionario, false, datai, dataf, out dataInicial, out dataFinal, pb, log, out FuncsProcessados , bRazaoSocial))
                 {
                     foreach (string dscodigo in FuncsProcessados)
                     {
@@ -161,7 +161,7 @@ namespace BLL
         }
 
         public bool ImportacaoBilhete(Modelo.ProgressBar pb, List<Modelo.TipoBilhetes> listaTipoBilhetes, string diretorio, int bilhete, bool bIndividual, string func,
-                                      DateTime? datai, DateTime? dataf, out string mensagem)
+                                      DateTime? datai, DateTime? dataf, out string mensagem ,bool ? bRazaoSocial)
         {
             BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(ConnectionString, UsuarioLogado);
             BLL.ImportaBilhetes bllImportaBilhetes = new BLL.ImportaBilhetes(ConnectionString, UsuarioLogado);
@@ -175,7 +175,7 @@ namespace BLL
             log.Add("Hora = " + DateTime.Now.ToShortTimeString());
 
             bllBilhetesImp.ObjProgressBar = pb;
-            bool temBilhetes = bllBilhetesImp.ImportacaoBilhetes(listaTipoBilhetes, diretorio, bilhete, bIndividual, func, ref datai, ref dataf, log, null);
+            bool temBilhetes = bllBilhetesImp.ImportacaoBilhetes(listaTipoBilhetes, diretorio, bilhete, bIndividual, func, ref datai, ref dataf, log, null , bRazaoSocial);
 
             DateTime? dataInicial;
             DateTime? dataFinal;
@@ -189,7 +189,7 @@ namespace BLL
                 dataf = datafinal;
             }
 
-            if (bllImportaBilhetes.ImportarBilhetes(func, false, datai, dataf, out dataInicial, out dataFinal, pb, log))
+            if (bllImportaBilhetes.ImportarBilhetes(func, false, datai, dataf, out dataInicial, out dataFinal, pb, log , bRazaoSocial))
             {
                 BLL.CalculaMarcacao bllCalculaMarcacao = new CalculaMarcacao(null, 0, dataInicial.Value, dataFinal.Value.AddDays(1), pb, false, ConnectionString, UsuarioLogado, false);
                 bllCalculaMarcacao.CalculaMarcacoes();
