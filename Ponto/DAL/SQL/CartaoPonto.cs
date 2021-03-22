@@ -472,11 +472,20 @@ namespace DAL.SQL
                     break;
             }
 
-            aux += GetWhereSelectAll();
+           
+           
+            string permissao = PermissaoUsuarioFuncionario(UsuarioLogado, aux, "funcionario.idempresa", "funcionario.id", null);
+            if (!string.IsNullOrWhiteSpace(permissao))
+            {
 
-            aux += PermissaoUsuarioFuncionario(UsuarioLogado, aux, "funcionario.idempresa", "funcionario.id", null);
-
-            aux += " ORDER BY  funcionario.nome ";
+                aux += permissao ;
+            }
+            else
+            {
+                aux += GetWhereSelectAll();
+            }
+            
+           aux += " ORDER BY  funcionario.nome ";
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
             dt.Load(dr);
             if (!dr.IsClosed)
