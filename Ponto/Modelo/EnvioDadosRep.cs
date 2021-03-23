@@ -51,6 +51,29 @@ namespace Modelo
 
         public int idEmpresaRelogio { get; set; }
 
+
+        [Display(Name = "Nome")]
+        private string _Nome;
+        public string Nome
+        {
+            get { return _Nome; }
+            set { _Nome = value; }
+        }
+
+        private string _Empresa;
+        [Display(Name = "Empresa")]
+        public string Empresa
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(_Empresa))
+                {
+                    return Nome;
+                }
+                return _Empresa;
+            }
+            set { _Empresa = value; }
+        }
         public string idsEmpresasSelecionadas { get; set; }
         public string idsFuncionariosSelecionados { get; set; }
         public string TipoComunicacao { get; set; }
