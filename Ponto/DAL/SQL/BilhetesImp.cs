@@ -413,6 +413,7 @@ namespace DAL.SQL
             return lista;
         }
 
+        
         public List<Modelo.BilhetesImp> GetImportadosFunc(int idFuncionario)
         {
             List<Modelo.BilhetesImp> lista = new List<Modelo.BilhetesImp>();
@@ -2584,6 +2585,60 @@ namespace DAL.SQL
             {
                 AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Proxy.PxyRegistrosValidarPontoExcecao>();
                 lista = AutoMapper.Mapper.Map<List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
+
+        /// <summary>
+        /// Busca os bilhetes de uma lista de funcionários
+        /// </summary>
+        /// <param name="idsFuncs">Ids dos funcionários</param>
+        /// <param name="dtIni">Data início a ser considerada</param>
+        /// <param name="dtFin">Data fim a ser considerada</param>
+        /// <param name="importado">Valor do campo importado (passar -1 para todos)</param>
+        /// <returns>Retorna lista de bilhestes</returns>
+        public List<Modelo.BilhetesImp> GetByIDsFuncs(List<int> idsFuncs, DateTime dtIni, DateTime dtFin, int importado)
+        {
+            SqlParameter[] parms = new SqlParameter[4]
+            {
+                    new SqlParameter("@idsFuncs", SqlDbType.Structured),
+                    new SqlParameter("@datai", SqlDbType.DateTime),
+                    new SqlParameter("@dataf", SqlDbType.DateTime),
+                    new SqlParameter("@importado", SqlDbType.Int)
+            };
+            parms[0].Value = CreateDataTableIdentificadores(idsFuncs.Select(s => (long)s).ToList());
+            parms[0].TypeName = "Identificadores";
+            parms[1].Value = dtIni;
+            parms[2].Value = dtFin;
+            parms[3].Value = importado;
+
+            string sql = @"
+                            select * 
+                              from bilhetesimp b
+                             inner join @idsFuncs f on f.Identificador = b.IdFuncionario
+                             WHERE 1 = 1
+                               and b.[data] BETWEEN @datai and @dataf
+                               and importado = IIF(@importado = -1, importado, @importado) ";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+
+            List<Modelo.BilhetesImp> lista = new List<Modelo.BilhetesImp>();
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.BilhetesImp>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.BilhetesImp>>(dr);
             }
             catch (Exception ex)
             {
