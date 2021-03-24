@@ -278,7 +278,10 @@ namespace BLL
         {
             return dalMarcacao.GetRelatorioObras(idsFuncionarios, pdataInicial, pDataFinal, codsLocalReps);
         }
-
+        public DataTable GetRelatorioSubstituicaoJornada(string idsFuncionarios, DateTime pdataInicial, DateTime pDataFinal)
+        {         
+            return dalMarcacao.GetRelatorioSubstituicaoJornada(idsFuncionarios, pdataInicial, pDataFinal);
+        }
         public DataTable GetRelatorioRegistros(string idsFuncionarios, DateTime pdataInicial, DateTime pDataFinal)
         {
             DataTable dadosRel = new DataTable();
@@ -370,6 +373,9 @@ namespace BLL
                 Modelo.Funcionario objFuncionario = new Modelo.Funcionario();
                 objFuncionario = bllFuncionario.LoadObject(pIdFuncionario);
                 this.AtualizaData(pdataInicial, pDataFinal, objFuncionario);
+                CalculoMarcacoes.PontoPorExcecao bllPontoPorExcecao = new CalculoMarcacoes.PontoPorExcecao(ConnectionString, UsuarioLogado);
+                bllPontoPorExcecao.CriarRegistroPontoPorExcecao(new List<int>() { pIdFuncionario}, new List<int>());
+                System.Threading.Thread.Sleep(5000);
             }
 
             return dalMarcacao.GetMarcacaoListaPorFuncionario(pIdFuncionario, pdataInicial, pDataFinal);
@@ -550,6 +556,12 @@ namespace BLL
         {
             return dalMarcacao.GetCartaoPontoV2(pIdFuncionarios, pdataInicial, pDataFinal);
         }
+
+        public List<Modelo.Marcacao> GetCartaoPontoExecao(List<int> pIdFuncionarios, DateTime pdataInicial, DateTime pDataFinal)
+        {
+            return dalMarcacao.GetCartaoPontoExecao(pIdFuncionarios, pdataInicial, pDataFinal);
+        }
+
 
         public List<Modelo.Proxy.Relatorios.PxyRelConferenciaHoras> GetRelatorioConferenciaHoras(List<string>cpfsFuncionarios, DateTime dataInicial, DateTime DataFinal)
         {

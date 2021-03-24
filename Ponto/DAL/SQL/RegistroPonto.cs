@@ -576,5 +576,72 @@ namespace DAL.SQL
             }
             return dt;
         }
+
+        public Dictionary<int, string> GetSituacao(List<int> idsRegistros)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+            };
+            string sql = SELECTALL +
+                        @" WHERE 1 = 1
+                             AND id in ("+string.Join(",", idsRegistros)+")";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+
+            Dictionary<int, string> dict = new Dictionary<int, string>();
+            try
+            {
+                while (dr.Read())
+                {
+                    dict.Add(dr.GetInt32(0), dr.GetString(1));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return dict;
+        }
+
+        public Dictionary<int, string> GetSituacaoByLote(string lote)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+            };
+            string sql = @" SELECT id, Situacao FROM RegistroPonto WHERE 1 = 1
+                             AND lote = '" + lote+"'";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+
+            Dictionary<int, string> dict = new Dictionary<int, string>();
+            try
+            {
+                while (dr.Read())
+                {
+                    dict.Add(dr.GetInt32(0), dr.GetString(1));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return dict;
+        }
     }
 }

@@ -96,5 +96,8 @@ namespace Modelo.Proxy
                 return Ativo == true ? "Sim" : "Não";
             }
         }
+
+        [TableHTMLAttribute("Ponto Por Exceção", 17, true, ItensSearch.select, OrderType.none)]
+        public string PontoPorExcecao { get; set; }
     }
 }

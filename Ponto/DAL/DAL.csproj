@@ -279,7 +279,9 @@
     <Compile Include="Email.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="IAlertasRepAcompanhamento.cs" />
+    <Compile Include="ICercaVirtual.cs" />
     <Compile Include="IHorarioDinamicoRestricao.cs" />
+    <Compile Include="IJornadaAlternativaFuncionario.cs" />
     <Compile Include="IJornadaSubstituir.cs" />
     <Compile Include="IJornadaSubstituirFuncionario.cs" />
     <Compile Include="IJustificativaRestricao.cs" />
@@ -307,6 +309,8 @@
     <Compile Include="SQL\LoteCalculo.cs" />
     <Compile Include="SQL\LoteCalculoFuncionario.cs" />
     <Compile Include="SQL\ParametrosInternos.cs" />
+    <Compile Include="SQL\JornadaAlternativaFuncionario.cs" />
+    <Compile Include="SQL\CercaVirtual.cs" />
     <Compile Include="SQL\JornadaSubstituir.cs" />
     <Compile Include="SQL\JornadaSubstituirFuncionario.cs" />
     <Compile Include="SQL\JustificaticaRestricao.cs" />

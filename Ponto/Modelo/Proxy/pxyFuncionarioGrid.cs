@@ -100,6 +100,8 @@ namespace Modelo.Proxy
 
         [TableHTMLAttribute("RFID", 30, true, ItensSearch.text, OrderType.none)]
         public Int64? RFID { get; set; }
+        [TableHTMLAttribute("Cerca Virtual", 31, true, ItensSearch.text, OrderType.none)]
+        public string PossuiCercaVirtual { get; set; }
 
     }
 }
