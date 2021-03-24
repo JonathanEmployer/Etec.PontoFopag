@@ -62,5 +62,6 @@ namespace DAL
         Hashtable GetHashPorPISPeriodo(SqlTransaction trans, DateTime pDataI, DateTime pDataF, List<string> lPis);
         List<Modelo.BilhetesImp> LoadObject(List<int> Ids);
         List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> RegistrosValidarPontoExcecao(List<int> idsFuncs, List<int> idsHorario);
+        List<Modelo.BilhetesImp> GetByIDsFuncs(List<int> idsFuncs, DateTime dtIni, DateTime dtFin, int importado);
     }
 }
