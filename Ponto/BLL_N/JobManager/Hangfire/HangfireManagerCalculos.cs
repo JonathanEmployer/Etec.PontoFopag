@@ -1,21 +1,30 @@
-﻿using BLL_N.JobManager.Hangfire.Job;
+﻿using BLL_N.JobManager.CalculoExternoCore;
+using BLL_N.JobManager.Hangfire.Job;
 using Hangfire;
 using Modelo;
 using Modelo.EntityFramework.MonitorPontofopag;
 using Modelo.Proxy;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BLL_N.JobManager.Hangfire
 {
     public class HangfireManagerCalculos : HangfireManagerBase
     {
+        private UsuarioPontoWeb _userPW;
         public HangfireManagerCalculos(string dataBase) : base(dataBase)
         {
         }
 
         public HangfireManagerCalculos(string dataBase, string usuario, string hostAddress, string urlReferencia) : base(dataBase, usuario, hostAddress, urlReferencia)
         {
+        }
+
+        public HangfireManagerCalculos(UsuarioPontoWeb userPW) : base (userPW.DataBase)
+        {
+            _userPW = userPW;
         }
 
         #region Calculos
@@ -38,10 +47,20 @@ namespace BLL_N.JobManager.Hangfire
         public PxyJobReturn RecalculaMarcacao(string nomeProcesso, string parametrosExibicao, int? pTipo, List<int> pIdsTipo, DateTime dataInicial, DateTime dataFinal)
         {
             JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
-            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.RecalculaMarcacao(null, jobControl, dataBase, usuarioLogado, pTipo, pIdsTipo, dataInicial, dataFinal), _enqueuedStateNormal);
+            string idJob;
+            if (_userPW.ServicoCalculo == 0)
+            {
+                idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.RecalculaMarcacao(null, jobControl, dataBase, usuarioLogado, pTipo, pIdsTipo, dataInicial, dataFinal), _enqueuedStateNormal); 
+            }
+            else
+            {
+                idJob = new CallCalculo(_userPW, jobControl).CalcularPorTipo(pTipo, pIdsTipo, dataInicial, dataFinal);
+            }
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
+
+        
 
         public PxyJobReturn RecalculaMarcacao(string nomeProcesso, string parametrosExibicao, int? pTipo, int pIdTipo, DateTime dataInicial, DateTime dataFinal)
         {

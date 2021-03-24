@@ -33,5 +33,6 @@ namespace Modelo.EntityFramework.MonitorPontofopag
         public string Mensagem { get; set; }
         public Nullable<int> Progresso { get; set; }
         public bool PermiteCancelar { get; set; }
+        public Nullable<int> IdLoteCalculo { get; set; }
     }
 }

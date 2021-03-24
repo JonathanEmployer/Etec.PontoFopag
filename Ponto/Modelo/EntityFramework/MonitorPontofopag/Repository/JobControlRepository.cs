@@ -29,6 +29,7 @@ namespace Modelo.EntityFramework.MonitorPontofopag.Repository
                                   ,jc.UrlHost
                                   ,jc.UrlReferencia
                                   ,jc.NomeProcesso
+                                  ,jc.IdLoteCalculo
                                   ,'' Parametros
                                   ,ParametrosExibicao
                                   ,FileUpload

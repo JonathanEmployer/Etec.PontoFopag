@@ -49,7 +49,7 @@ namespace BLL_N.JobManager.Hangfire
         {
             int jobid = 0;
             Int32.TryParse(idJob, out jobid);
-            if (jobControl.JobId == 0)
+            if (jobControl.JobId == 0 || jobControl.IdLoteCalculo != null)
             {
                 jobControl.Mensagem = "Adicionado na Fila, aguardando processamento";
                 jobControl.Progresso = -2;

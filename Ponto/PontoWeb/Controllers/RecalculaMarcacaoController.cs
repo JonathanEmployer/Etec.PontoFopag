@@ -30,16 +30,9 @@ namespace PontoWeb.Controllers
                 {
                     UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
                     Modelo.Proxy.PxyJobReturn ret = new Modelo.Proxy.PxyJobReturn();
-                    if (UserPW.ServicoCalculo == 1)
-                    {
-                        HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW.DataBase);
-                        string parametrosExibicao = obj.ParametroTipo + ", Período " + obj.DataInicial.GetValueOrDefault().ToShortDateString() + " a " + obj.DataFinal.GetValueOrDefault().ToShortDateString();
-                        ret = hfm.RecalculaMarcacao("Recalculo de Marcações", parametrosExibicao, obj.Tipo, obj.Identificadores, obj.DataInicial.GetValueOrDefault(), obj.DataFinal.GetValueOrDefault()); 
-                    }
-                    else
-                    {
-                        BLL.RabbitMQ.RabbitMQ rabbitMQ = new BLL.RabbitMQ.RabbitMQ();
-                    }
+                    HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW);
+                    string parametrosExibicao = obj.ParametroTipo + ", Período " + obj.DataInicial.GetValueOrDefault().ToShortDateString() + " a " + obj.DataFinal.GetValueOrDefault().ToShortDateString();
+                    ret = hfm.RecalculaMarcacao("Recalculo de Marcações", parametrosExibicao, obj.Tipo, obj.Identificadores, obj.DataInicial.GetValueOrDefault(), obj.DataFinal.GetValueOrDefault()); 
                     return new JsonResult
                     {
                         Data = new

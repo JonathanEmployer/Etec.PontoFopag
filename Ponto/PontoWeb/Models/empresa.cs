@@ -54,7 +54,6 @@ namespace PontoWeb.Models
         public Nullable<int> IDRevenda { get; set; }
         public Nullable<System.DateTime> validade { get; set; }
         public string ultimoacesso { get; set; }
-        public string connectionString { get; set; }
         public string InstanciaBD { get; set; }
         public bool utilizacontrolecontratos { get; set; }
         public bool relatorioInconsistencia { get; set; }

@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using RabbitMQ.Client;
-using RabbitMQ.Client.Framing;
 using System;
 using System.Configuration;
 using System.Text;
@@ -63,9 +62,11 @@ namespace PontoWeb.Utils
 
 
                 var payload = Encoding.UTF8.GetBytes(msg);
+                var props = channel.CreateBasicProperties();
+                props.Persistent = true;
                 channel.BasicPublish("",
                                      Queue.ToString(),
-                                     new BasicProperties() { Persistent = true },
+                                     props,
                                      payload);
 
             }

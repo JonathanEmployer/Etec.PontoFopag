@@ -3748,7 +3748,6 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.marcacao_view' does not ha
           <Property Name="IDRevenda" Type="Int32" />
           <Property Name="validade" Type="DateTime" Precision="3" />
           <Property Name="ultimoacesso" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="connectionString" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="afastamento" Relationship="Self.FK_afastamento_empresa" FromRole="empresa" ToRole="afastamento" />
           <NavigationProperty Name="departamento" Relationship="Self.FK_departamento_empresa" FromRole="empresa" ToRole="departamento" />
           <NavigationProperty Name="Revendas" Relationship="Self.FK_empresa_Revendas" FromRole="empresa" ToRole="Revendas" />
@@ -4176,14 +4175,6 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.marcacao_view' does not ha
           <NavigationProperty Name="funcionario" Relationship="Self.FK_funcionariohistorico_funcionario" FromRole="funcionariohistorico" ToRole="funcionario" />
           <Property Name="ctl_inicio" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="ctl_fim" Type="DateTime" Nullable="false" Precision="7" />
-        </EntityType>
-        <EntityType Name="Geral">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="dataInicial" Type="Int32" />
-          <Property Name="dataFinal" Type="Int32" />
         </EntityType>
         <EntityType Name="horario">
           <Key>
@@ -5540,7 +5531,6 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.marcacao_view' does not ha
           <EntitySet Name="funcao" EntityType="Self.funcao" />
           <EntitySet Name="funcionario" EntityType="Self.funcionario" />
           <EntitySet Name="funcionariohistorico" EntityType="Self.funcionariohistorico" />
-          <EntitySet Name="Geral" EntityType="Self.Geral" />
           <EntitySet Name="horario" EntityType="Self.horario" />
           <EntitySet Name="horariodetalhe" EntityType="Self.horariodetalhe" />
           <EntitySet Name="horariophextra" EntityType="Self.horariophextra" />

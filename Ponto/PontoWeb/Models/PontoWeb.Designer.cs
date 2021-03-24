@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\TFS\GIT\Etec.PontoFopag\Ponto\PontoWeb\Models\PontoWeb.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\diegoherrera\Source\Repos\Etec.PontoFopag\Ponto\PontoWeb\Models\PontoWeb.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

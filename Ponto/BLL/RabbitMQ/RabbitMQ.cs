@@ -17,7 +17,7 @@ namespace BLL.RabbitMQ
 
         public RabbitMQ()
         {
-            _hostName = ConfigurationManager.AppSettings["RabbitMqHostName"];
+            _hostName = ConfigurationManager.AppSettings["RabbitMqHost"];
             _ = int.TryParse(ConfigurationManager.AppSettings["RabbitMqPort"], out _port);
             _userName = ConfigurationManager.AppSettings["RabbitMqUserName"];
             _password = ConfigurationManager.AppSettings["RabbitMqPassword"];
@@ -33,14 +33,26 @@ namespace BLL.RabbitMQ
 
         public void SendMessage(string queueName, string mensagem)
         {
-            //Cria a conexão com o RabbitMq
-            var factory = new ConnectionFactory()
+            ConnectionFactory factory;
+            if (_hostName.Contains("localhost"))
             {
-                HostName = _hostName,
-                UserName = _userName,
-                Password = _password,
-                Port = _port
-            };
+                factory = new ConnectionFactory()
+                {
+                    HostName = "localhost"
+                };
+            }
+            else
+            {
+                factory = new ConnectionFactory()
+                {
+                    HostName = _hostName,
+                    UserName = _userName,
+                    Password = _password,
+                    Port = _port
+                };
+            }
+            //Cria a conexão com o RabbitMq
+            
             //Cria a conexão
             IConnection connection = factory.CreateConnection();
             //cria a canal de comunicação com a rabbit mq

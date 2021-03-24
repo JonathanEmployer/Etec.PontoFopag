@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using BLL_N.JobManager.Hangfire;
 using Modelo.EntityFramework.MonitorPontofopag;
+using Newtonsoft.Json;
 
 namespace BLL_N.Hubs
 {
@@ -87,8 +88,12 @@ namespace BLL_N.Hubs
                 if (job.Progress < 0 || job.Progress == 100) // Regra para não persistir o progresso, apenas termino e ou erros, pois podem ser muitos por segundo
                 {
                     JobControl ret = JobControlManager.ProgressUpdate(job.IdTask, job.Mensagem, job.Progress);
-                    job = new PxyJobReturn(ret);
+                    if (ret != null)
+                    {
+                        job = new PxyJobReturn(ret);
+                    }
                 }
+                string output = JsonConvert.SerializeObject(job);
                 sendMensageHub(job.UrlHost, "NotificationHub", "TaskProgress", job);
             }
             catch (Exception ex)

@@ -26,12 +26,10 @@ namespace Modelo.EntityFramework.MonitorPontofopag
         }
     
         public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
-        public virtual DbSet<AcessoAPI> AcessoAPI { get; set; }
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
-        public virtual DbSet<JobControl> JobControl { get; set; }
         public virtual DbSet<AggregatedCounter> AggregatedCounter { get; set; }
         public virtual DbSet<Counter> Counter { get; set; }
         public virtual DbSet<Hash> Hash { get; set; }
@@ -43,5 +41,6 @@ namespace Modelo.EntityFramework.MonitorPontofopag
         public virtual DbSet<Server> Server { get; set; }
         public virtual DbSet<Set> Set { get; set; }
         public virtual DbSet<State> State { get; set; }
+        public virtual DbSet<JobControl> JobControl { get; set; }
     }
 }

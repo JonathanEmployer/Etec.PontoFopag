@@ -8,6 +8,8 @@ using System.IO;
 using Modelo.EntityFramework.MonitorPontofopag;
 using Modelo.Proxy;
 using BLL_N.JobManager.Hangfire;
+using PontoWeb.Controllers.BLLWeb;
+using Newtonsoft.Json;
 
 namespace PontoWeb.Controllers
 {
@@ -55,6 +57,8 @@ namespace PontoWeb.Controllers
         [Authorize]
         public ActionResult ReprocessarJob(string jobId)
         {
+            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+
             int id = 0;
             int.TryParse(jobId, out id);
             JobControl job = new JobControl();
@@ -63,9 +67,23 @@ namespace PontoWeb.Controllers
                 job = JobControlManager.GetJobControl(id.ToString());
                 if (job.JobId > 0)
                 {
-                    var client = new BackgroundJobClient();
-                    client.Requeue(jobId);
+                    if (usr.ServicoCalculo == 0)
+                    {
+                        var client = new BackgroundJobClient();
+                        client.Requeue(jobId);
+                    }
+                    else
+                    {
+                        BLL.RabbitMQ.RabbitMQ rabbitMQ = new BLL.RabbitMQ.RabbitMQ();
+                        var loteEnviar = new
+                        {
+                            IdJobControl = job.Id,
+                            DataBase = usr.DataBase
+                        };
+                        rabbitMQ.SendMessage("Pontofopag_Calculo_Dados", JsonConvert.SerializeObject(loteEnviar));
+                    }
                     return Json(new PxyJobReturn(job), JsonRequestBehavior.DenyGet);
+
                 }
             }
 
