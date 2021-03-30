@@ -21,7 +21,7 @@ namespace BLL
 
         public InclusaoBanco() : this(null)
         {
-            
+
         }
 
         public InclusaoBanco(string connString)
@@ -32,11 +32,11 @@ namespace BLL
 
         public InclusaoBanco(string connString, Modelo.Cw_Usuario usuarioLogado)
         {
-            if (!String.IsNullOrEmpty(connString))            
+            if (!String.IsNullOrEmpty(connString))
                 ConnectionString = connString;
-            else            
+            else
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
-            
+
             dalInclusaoBanco = new DAL.SQL.InclusaoBanco(new DataBase(ConnectionString));
 
 
@@ -155,9 +155,9 @@ namespace BLL
             return erros;
         }
 
-        public void getSaldo(DateTime pData, int pEmpresa, int pDepartamento, int pFuncionario, int pFuncao, out int credito, out int debito)
+        public void getSaldo(DateTime pData, int pEmpresa, int pDepartamento, int pFuncionario, int pFuncao, out int credito, out int debito, out string justificativa)
         {
-            dalInclusaoBanco.getSaldo(pData, pEmpresa, pDepartamento, pFuncionario, pFuncao, out credito, out debito);
+            dalInclusaoBanco.getSaldo(pData, pEmpresa, pDepartamento, pFuncionario, pFuncao, out credito, out debito, out justificativa);
         }
 
         /// <summary>
