@@ -7,7 +7,7 @@ namespace DAL
     public interface IInclusaoBanco : DAL.IDAL
     {
         Modelo.InclusaoBanco LoadObject(int id);
-        void getSaldo(DateTime pData, int pEmpresa, int pDepartamento, int pFuncionario, int pFuncao, out int credito, out int debito);
+        void getSaldo(DateTime pData, int pEmpresa, int pDepartamento, int pFuncionario, int pFuncao, out int credito, out int debito, out string justificativa);
         int getCreditoPeriodoAtual(int idFuncionario, DateTime dataInicio, DateTime dataFim);
 
         int getCreditoPeriodoAcumuladoMes(int idFuncionario, DateTime dataInicio, DateTime dataFim);

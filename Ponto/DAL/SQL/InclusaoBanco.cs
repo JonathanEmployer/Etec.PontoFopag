@@ -152,26 +152,26 @@ namespace DAL.SQL
         protected override SqlParameter[] GetParameters()
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@id", SqlDbType.Int),
-				new SqlParameter ("@codigo", SqlDbType.Int),
-				new SqlParameter ("@data", SqlDbType.DateTime),
-				new SqlParameter ("@tipo", SqlDbType.Int),
-				new SqlParameter ("@identificacao", SqlDbType.Int),
-				new SqlParameter ("@tipocreditodebito", SqlDbType.Int),
-				new SqlParameter ("@credito", SqlDbType.VarChar),
-				new SqlParameter ("@debito", SqlDbType.VarChar),
-				new SqlParameter ("@fechado", SqlDbType.TinyInt),
-				new SqlParameter ("@idusuario", SqlDbType.Int),
-				new SqlParameter ("@incdata", SqlDbType.DateTime),
-				new SqlParameter ("@inchora", SqlDbType.DateTime),
-				new SqlParameter ("@incusuario", SqlDbType.VarChar),
-				new SqlParameter ("@altdata", SqlDbType.DateTime),
-				new SqlParameter ("@althora", SqlDbType.DateTime),
-				new SqlParameter ("@altusuario", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@id", SqlDbType.Int),
+                new SqlParameter ("@codigo", SqlDbType.Int),
+                new SqlParameter ("@data", SqlDbType.DateTime),
+                new SqlParameter ("@tipo", SqlDbType.Int),
+                new SqlParameter ("@identificacao", SqlDbType.Int),
+                new SqlParameter ("@tipocreditodebito", SqlDbType.Int),
+                new SqlParameter ("@credito", SqlDbType.VarChar),
+                new SqlParameter ("@debito", SqlDbType.VarChar),
+                new SqlParameter ("@fechado", SqlDbType.TinyInt),
+                new SqlParameter ("@idusuario", SqlDbType.Int),
+                new SqlParameter ("@incdata", SqlDbType.DateTime),
+                new SqlParameter ("@inchora", SqlDbType.DateTime),
+                new SqlParameter ("@incusuario", SqlDbType.VarChar),
+                new SqlParameter ("@altdata", SqlDbType.DateTime),
+                new SqlParameter ("@althora", SqlDbType.DateTime),
+                new SqlParameter ("@altusuario", SqlDbType.VarChar),
                 new SqlParameter ("@idLancamentoLoteFuncionario", SqlDbType.VarChar),
                 new SqlParameter ("@IdJustificativa", SqlDbType.Int)
-			};
+            };
             return parms;
         }
 
@@ -228,7 +228,7 @@ namespace DAL.SQL
 
         public int getCreditoPeriodoAcumuladoMes(int idFuncionario, DateTime dataInicio, DateTime dataFim)
         {
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@funcionario", SqlDbType.Int, 4),
                 new SqlParameter("@dataInicio", SqlDbType.DateTime),
@@ -245,7 +245,7 @@ namespace DAL.SQL
                             where idfuncionario = @funcionario 
                             and (mv.bancohorascre != '---:--' or mv.bancohorasdeb != '---:--')
                             and mv.data between @dataInicio and @dataFim) CreditoBH ";
-                            
+
             int credito = 0;
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
@@ -267,7 +267,7 @@ namespace DAL.SQL
 
         public int getCreditoPeriodoAcumuladoMesPDia(int idFuncionario, DateTime dataInicio, DateTime dataFim, int diaInt)
         {
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@funcionario", SqlDbType.Int, 4),
                 new SqlParameter("@dataInicio", SqlDbType.DateTime),
@@ -319,7 +319,7 @@ namespace DAL.SQL
 
         public int getCreditoPeriodoAtual(int idFuncionario, DateTime dataInicio, DateTime dataFim)
         {
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@funcionario", SqlDbType.Int, 4),
                 new SqlParameter("@dataInicio", SqlDbType.DateTime),
@@ -359,15 +359,15 @@ namespace DAL.SQL
             return credito;
         }
 
-        public void getSaldo(DateTime pData, int pEmpresa, int pDepartamento, int pFuncionario, int pFuncao, out int credito, out int debito)
+        public void getSaldo(DateTime pData, int pEmpresa, int pDepartamento, int pFuncionario, int pFuncao, out int credito, out int debito, out string justificativa)
         {
-            SqlParameter[] parms = new SqlParameter[] 
-            { 
-                new SqlParameter("@empresa", SqlDbType.Int, 4), 
-                new SqlParameter("@departamento", SqlDbType.Int, 4), 
-                new SqlParameter("@funcionario", SqlDbType.Int, 4), 
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@empresa", SqlDbType.Int, 4),
+                new SqlParameter("@departamento", SqlDbType.Int, 4),
+                new SqlParameter("@funcionario", SqlDbType.Int, 4),
                 new SqlParameter("@funcao", SqlDbType.Int, 4),
-                new SqlParameter("@data", SqlDbType.DateTime) 
+                new SqlParameter("@data", SqlDbType.DateTime)
             };
             parms[0].Value = pEmpresa;
             parms[1].Value = pDepartamento;
@@ -375,8 +375,9 @@ namespace DAL.SQL
             parms[3].Value = pFuncao;
             parms[4].Value = pData;
 
-            string aux = @"SELECT credito, debito 
-                           FROM inclusaobanco 
+            string aux = @"SELECT credito, debito, j.descricao
+		                   FROM inclusaobanco 
+		                   lEFT JOIN justificativa j ON inclusaobanco.IdJustificativa = j.id
                            WHERE (data = @data)
                            AND (ISNULL(fechado,0) = 0)
                            AND ((tipo = 0 and identificacao = @empresa) 
@@ -386,7 +387,7 @@ namespace DAL.SQL
 
             int cre = 0;
             int deb = 0;
-
+            string just = "";
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
             while (dr.Read())
             {
@@ -411,6 +412,14 @@ namespace DAL.SQL
                 catch (FormatException)
                 {
                 }
+
+                try
+                {
+                    just = Convert.ToString(dr["descricao"]);
+                }
+                catch (FormatException)
+                {
+                }
             }
             if (!dr.IsClosed)
                 dr.Close();
@@ -418,12 +427,13 @@ namespace DAL.SQL
 
             credito = cre;
             debito = deb;
+            justificativa = just;
         }
 
         public List<Modelo.InclusaoBanco> GetAllList()
         {
             SqlParameter[] parms = new SqlParameter[0];
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, PermissaoUsuarioFuncionarioIncBanco(UsuarioLogado, SELECTALLLIST) , parms);
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, PermissaoUsuarioFuncionarioIncBanco(UsuarioLogado, SELECTALLLIST), parms);
 
             List<Modelo.InclusaoBanco> lista = new List<Modelo.InclusaoBanco>();
             try
