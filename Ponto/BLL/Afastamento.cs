@@ -90,11 +90,11 @@ namespace BLL
 
             if (objeto.BParcial == true)
             {
-                if (objeto.Horai != null && !objeto.Horai.Contains(':'))
+                if (!string.IsNullOrEmpty(objeto.Horai) && !objeto.Horai.Contains(':'))
                 {
                     ret.Add("txtHorai", "Formato do horario inicial incorreto");
                 }
-                if (objeto.Horaf != null && !objeto.Horaf.Contains(':'))
+                if (!string.IsNullOrEmpty(objeto.Horaf) && !objeto.Horaf.Contains(':'))
                 {
                     ret.Add("txtHoraf", "Formato do horario final incorreto");
                 }
@@ -247,7 +247,7 @@ namespace BLL
                             {
                                 dalAfastamento.Incluir(pObjAfastamento);
                             }
-                            catch(Exception ex)
+                            catch (Exception ex)
                             {
                                 TrataCodigoUso(pObjAfastamento, erros, ex);
                                 if (erros.Count > 0)
