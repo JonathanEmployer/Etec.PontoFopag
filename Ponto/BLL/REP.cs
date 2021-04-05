@@ -76,6 +76,11 @@ namespace BLL
             return dalREP.LoadObject(id);
         }
 
+
+        public List<Modelo.Funcionario> LoadObjectListFuncionariosRep(int id)
+        {
+            return dalREP.LoadObjectListFuncionariosRep(id);
+        }
         public bool ExportacaoHabilitada(int id)
         {
             Modelo.REP objRep = dalREP.LoadObject(id);

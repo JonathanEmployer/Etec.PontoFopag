@@ -257,7 +257,7 @@ namespace BLL.Relatorios.V2
             nomeDoArquivo = "Relatório_Funcionários_por_Código";
         }
 
-        private void FuncionarioPorNome(RelatorioFuncionarioModel parms, out string nomeDoArquivo, out string nomerel, out string nomeEmpresa, out DataTable Dt)
+        private void FuncionarioPorNome(RelatorioFuncionarioModel parms, out string nomeDoArquivo, out string nomerel, out string nomeEmpresa, out DataTable Dt )
         {
 
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(_usuario.ConnectionString, _usuario);
@@ -270,7 +270,9 @@ namespace BLL.Relatorios.V2
             List<int> idsFuncs = parms.IdSelecionados.Split(',').Where(w => !string.IsNullOrEmpty(w)).Select(int.Parse).ToList();
 
             Dt = bllFuncionario.GetOrdenadoPorNomeRel(idsFuncs);
-            
+            DataTable objRep = new DataTable();
+            objRep = bllFuncionario.GetRelogioPorNomeRel(idsFuncs);
+
             nomerel = "rptFuncionarios.rdlc";
 
             nomeDoArquivo = "Relatório_Funcionário_Por_Nome";

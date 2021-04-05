@@ -271,8 +271,9 @@
 
     function CarregarGridEmpresa() {
         if ($("#lkpRelogioSelecionado").val() !== '' && $("#lkpRelogioSelecionado").val() !== undefined) {
+            
             cwk_EventoConsulta("#btnEmpresa", "#lkpEmpresa", "EventoConsulta", "Empresa",null);
-           CarregaDadosAjax('CarregarGridEmpresa', 'EnvioDadosRep', ParamCarregaTela(), '#tbGridEmpresa', null);
+           //CarregaDadosAjax('CarregarGridEmpresa', 'EnvioDadosRep', ParamCarregaTela(), '#tbGridEmpresa', null);
         }
     }
 

@@ -286,6 +286,7 @@ namespace DAL.SQL
 
             return db.ExecuteReader(CommandType.Text, SELECTPID, parms);
         }
+           
 
         protected virtual SqlDataReader LoadDataReaderCPF(string CPF)
         {

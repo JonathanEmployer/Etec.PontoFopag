@@ -37,6 +37,81 @@ namespace DAL.SQL
 
         private string SELECTPCONT;
         private string SELECTCONT;
+        public string SELECTRELATORIOV2
+        {
+            get
+            {
+                return @"   SELECT   func.id
+                                    , CAST(func.dscodigo AS BIGINT) AS codigo 
+                                    , func.nome
+                                    , func.IdAlocacao
+                                    , func.IdTipoVinculo
+                                    , func.matricula matricula                                   
+                                    , ISNULL (func.dataadmissao,' ') AS dataadmissao
+                                    , ISNULL (func.datademissao,' ') AS datademissao
+                                    , convert(varchar,emp.codigo)+' | '+emp.nome as empresa
+                                    , convert(varchar,dep.codigo)+' | '+dep.descricao as departamento
+                                    , convert(varchar,funcao.codigo) + ' | ' + funcao.descricao AS funcao
+                                    , coalesce(convert(varchar,cwu.codigo) + ' | ' + cwu.nome, '') AS supervisor
+									, coalesce(convert(varchar, pe.codigo) + ' | ' + pe.razaosocial, '') as PessoaSupervisor
+                                    , func.CPF
+                                    , func.Mob_Senha
+                                    , convert(varchar,hor.codigo)+' | '+hor.descricao as horario
+                                    , convert(varchar,Alocacao.codigo) + ' | ' + Alocacao.descricao AS Alocacao
+                                    , convert(varchar,TipoVinculo.codigo) + ' | ' + TipoVinculo.descricao AS TipoVinculo
+                                    , (SELECT TOP 1 convert(varchar,hd.codigo) + ' | ' + ISNULL(hd.entrada_1, '--:--') + ' - ' + ISNULL(hd.saida_1, '--:--') + ' | ' + ISNULL(hd.entrada_2, '--:--') + ' - ' + ISNULL(hd.saida_2, '--:--') 
+                                    + ' | ' + ISNULL(hd.entrada_3, '--:--') + ' - ' + ISNULL(hd.saida_3, '--:--') + ' | ' + ISNULL(hd.entrada_4, '--:--') + ' - ' + ISNULL(hd.saida_4, '--:--')
+                                      FROM horariodetalhe hd WHERE hd.idhorario = hor.id AND (hd.dia = 1 OR DATEPART(WEEKDAY, hd.data) = 2)) AS horariodescricao
+                             FROM funcionario func
+                             LEFT JOIN empresa emp ON emp.id = func.idempresa
+                             LEFT JOIN departamento dep ON dep.id = func.iddepartamento
+                             LEFT JOIN horario hor ON hor.id = func.idhorario
+                             LEFT JOIN funcao ON funcao.id = func.idFuncao
+                             LEFT JOIN cw_usuario cwu ON cwu.id = func.idcw_usuario
+							 LEFT JOIN pessoa pe ON pe.id = func.IdPessoaSupervisor
+                             LEFT JOIN Alocacao ON alocacao.id = func.idAlocacao
+                             LEFT JOIN TipoVinculo ON TipoVinculo.id = func.idTipoVinculo
+                             WHERE ISNULL(func.excluido, 0) = 0 ";
+            }
+        }
+
+        public string SELECTRELATORIORELOGIO
+        {
+            get
+            {
+                return @"   SELECT   func.id
+                                    , CAST(func.dscodigo AS BIGINT) AS codigo 
+                                    , func.nome
+                                    , func.IdAlocacao
+                                    , func.IdTipoVinculo
+                                    , func.matricula matricula                                   
+                                    , ISNULL (func.dataadmissao,' ') AS dataadmissao
+                                    , ISNULL (func.datademissao,' ') AS datademissao
+                                    , convert(varchar,emp.codigo)+' | '+emp.nome as empresa
+                                    , convert(varchar,dep.codigo)+' | '+dep.descricao as departamento
+                                    , convert(varchar,funcao.codigo) + ' | ' + funcao.descricao AS funcao
+                                    , coalesce(convert(varchar,cwu.codigo) + ' | ' + cwu.nome, '') AS supervisor
+									, coalesce(convert(varchar, pe.codigo) + ' | ' + pe.razaosocial, '') as PessoaSupervisor
+                                    , func.CPF
+                                    , func.Mob_Senha
+                                    , convert(varchar,hor.codigo)+' | '+hor.descricao as horario
+                                    , convert(varchar,Alocacao.codigo) + ' | ' + Alocacao.descricao AS Alocacao
+                                    , convert(varchar,TipoVinculo.codigo) + ' | ' + TipoVinculo.descricao AS TipoVinculo
+                                    , (SELECT TOP 1 convert(varchar,hd.codigo) + ' | ' + ISNULL(hd.entrada_1, '--:--') + ' - ' + ISNULL(hd.saida_1, '--:--') + ' | ' + ISNULL(hd.entrada_2, '--:--') + ' - ' + ISNULL(hd.saida_2, '--:--') 
+                                    + ' | ' + ISNULL(hd.entrada_3, '--:--') + ' - ' + ISNULL(hd.saida_3, '--:--') + ' | ' + ISNULL(hd.entrada_4, '--:--') + ' - ' + ISNULL(hd.saida_4, '--:--')
+                                      FROM horariodetalhe hd WHERE hd.idhorario = hor.id AND (hd.dia = 1 OR DATEPART(WEEKDAY, hd.data) = 2)) AS horariodescricao
+                             FROM funcionario func
+                             LEFT JOIN empresa emp ON emp.id = func.idempresa
+                             LEFT JOIN departamento dep ON dep.id = func.iddepartamento
+                             LEFT JOIN horario hor ON hor.id = func.idhorario
+                             LEFT JOIN funcao ON funcao.id = func.idFuncao
+                             LEFT JOIN cw_usuario cwu ON cwu.id = func.idcw_usuario
+							 LEFT JOIN pessoa pe ON pe.id = func.IdPessoaSupervisor
+                             LEFT JOIN Alocacao ON alocacao.id = func.idAlocacao
+                             LEFT JOIN TipoVinculo ON TipoVinculo.id = func.idTipoVinculo
+                             WHERE ISNULL(func.excluido, 0) = 0 ";
+            }
+        }
         public string SELECTREL
         {
             get
@@ -1253,7 +1328,28 @@ namespace DAL.SQL
             parms[0].Value = String.Join(",", idsFuncs);
 
             DataTable dt = new DataTable();
-            string aux = SELECTREL + " AND func.id IN (SELECT * FROM dbo.F_ClausulaIn(@idsFuncs)) ";
+            string aux = SELECTRELATORIOV2 + " AND func.id IN (SELECT * FROM dbo.F_ClausulaIn(@idsFuncs)) ";
+            aux += " ORDER BY func.nome";
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            dt.Load(dr);
+            if (!dr.IsClosed)
+                dr.Close();
+            dr.Dispose();
+
+            return dt;
+        }
+
+        public DataTable GetRelogioPorNomeRel(List<int> idsFuncs)
+        {
+            SqlParameter[] parms = new SqlParameter[1]
+            {
+                new SqlParameter("@idsFuncs", SqlDbType.VarChar)
+            };
+
+            parms[0].Value = String.Join(",", idsFuncs);
+
+            DataTable dt = new DataTable();
+            string aux = SELECTRELATORIOV2 + " AND func.id IN (SELECT * FROM dbo.F_ClausulaIn(@idsFuncs)) ";
             aux += " ORDER BY func.nome";
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
             dt.Load(dr);

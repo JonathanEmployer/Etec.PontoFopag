@@ -30,6 +30,8 @@ namespace cwkWebAPIPontoWeb.Controllers
         [TratamentoDeErro]
         public List<ImportacaoDadosRep> RetornaFuncExpRep([FromUri]List<String> idRelogio)
         {
+
+            //idRelogio = ["75"],
             List<ImportacaoDadosRep> LImportacaoDadosRep = new List<ImportacaoDadosRep>();
             string usuario = "";
             if (HttpContext.Current != null && HttpContext.Current.User != null
@@ -91,28 +93,28 @@ namespace cwkWebAPIPontoWeb.Controllers
             {
                 usu = db.AspNetUsers.Where(r => r.UserName == usuario).FirstOrDefault().Usuario;
                 string connectionStr = CriptoString.Decrypt(usu.connectionString);
+                //using (var conn = new SqlConnection(connectionStr))
+                //{
+                //    using (var cmd = conn.CreateCommand())
+                //    {
+                //        cmd.Parameters.AddWithValue("@idsEnvioDadosRep", string.Join(",", idsDadosImportacao));
+                //        conn.Open();
+                //        cmd.CommandText = @"delete from EnvioDadosRepDet where IDEnvioDadosRep in (select * from [dbo].[F_RetornaTabelaLista] (@idsEnvioDadosRep,','));";
+                //        int i = cmd.ExecuteNonQuery();
+                //        Dictionary<int, string> retorno = new Dictionary<int, string>();
+                //        if (i < 0)
+                //        {
+                //            return new Dictionary<int, string>() { { 0, "Erro ao excluir registro filho!" } };
+                //        }
+                //    }
+                //}
                 using (var conn = new SqlConnection(connectionStr))
                 {
                     using (var cmd = conn.CreateCommand())
                     {
                         cmd.Parameters.AddWithValue("@idsEnvioDadosRep", string.Join(",", idsDadosImportacao));
                         conn.Open();
-                        cmd.CommandText = @"delete from EnvioDadosRepDet where IDEnvioDadosRep in (select * from [dbo].[F_RetornaTabelaLista] (@idsEnvioDadosRep,','));";
-                        int i = cmd.ExecuteNonQuery();
-                        Dictionary<int, string> retorno = new Dictionary<int, string>();
-                        if (i < 0)
-                        {
-                            return new Dictionary<int, string>() { { 0, "Erro ao excluir registro filho!" } };
-                        }
-                    }
-                }
-                using (var conn = new SqlConnection(connectionStr))
-                {
-                    using (var cmd = conn.CreateCommand())
-                    {
-                        cmd.Parameters.AddWithValue("@idsEnvioDadosRep", string.Join(",", idsDadosImportacao));
-                        conn.Open();
-                        cmd.CommandText = @"delete from EnvioDadosRep where ID in (select * from [dbo].[F_RetornaTabelaLista] (@idsEnvioDadosRep,','));";
+                        cmd.CommandText = @"update EnvioDadosRep set DataEnvio = GETDATE() where ID in (select * from [dbo].[F_RetornaTabelaLista] (@idsEnvioDadosRep,','));";
                         int i = cmd.ExecuteNonQuery();
                         Dictionary<int, string> retorno = new Dictionary<int, string>();
                         if (i < 0)
@@ -315,7 +317,7 @@ namespace cwkWebAPIPontoWeb.Controllers
                     conn.Open();
                     cmd.CommandText = @"select edr.*, edr.idRep idRelogioSelecionado
                                         from EnvioDadosRep edr
-                                        where edr.IDRep in (select * from [dbo].[F_RetornaTabelaLista] (@idsRelogios,','));";
+                                        where edr.IDRep in (select * from [dbo].[F_RetornaTabelaLista] (@idsRelogios,',')) and edr.DataEnvio is null;";
                     using (var reader = cmd.ExecuteReader())
                     {
                         if (reader.HasRows)

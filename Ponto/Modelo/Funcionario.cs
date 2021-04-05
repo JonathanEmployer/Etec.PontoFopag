@@ -357,5 +357,7 @@ namespace Modelo
 
         public string OpcaoSMSEmailSenha { get; set; }
         public string Celular { get; set; }
+        public string UsuarioRep { get; set; }
+        public DateTime? DataEnvio { get; set; }
     }
 }

@@ -100,6 +100,34 @@ namespace DAL.SQL
             }
         }
 
+
+        public string _SELECTALLFUNCREP;
+        private string SELECTALLFUNCREP
+        {
+            get
+            {
+
+                string sql = @"  
+                            SELECT 
+                            fu.codigo ,
+                            fu.nome ,
+                            fu.pis,
+                            evf.incusuario as UsuarioRep,
+                            edr.DataEnvio 
+                            FROM funcionario fu
+                            join EnvioDadosRepDet evf on evf.IDFuncionario = fu.id
+                            join EnvioDadosRep edr on edr.ID =evf.IDEnvioDadosRep
+                             WHERE 1 = 1  and edr.IDRep = "
+                             ;
+           
+                return sql;
+            }
+            set
+            {
+                _SELECTALLFUNCREP = value;
+            }
+        }
+
         public REP(DataBase database)
         {
             dalEquipHomologado = new EquipamentoHomologado(database);
@@ -357,6 +385,33 @@ namespace DAL.SQL
             return objREP;
         }
 
+        public List<Modelo.Funcionario> LoadObjectListFuncionariosRep(int id)
+        {
+            List<Modelo.Funcionario> reps = new List<Modelo.Funcionario>();
+            SqlParameter[] parms = new SqlParameter[0];
+            SqlDataReader drRep = db.ExecuteReader(CommandType.Text, SELECTALLFUNCREP+ id.ToString(), parms);
+
+            try
+            {
+                var mapRep = Mapper.CreateMap<IDataReader, Modelo.Funcionario>();
+                reps = Mapper.Map<List<Modelo.Funcionario>>(drRep);
+
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!drRep.IsClosed)
+                {
+                    drRep.Close();
+                }
+
+                drRep.Dispose();
+            }
+            return reps;
+        }
         private SqlDataReader LoadDataReaderPorNumRelogio(string numRelogio)
         {
             SqlParameter[] parms = new SqlParameter[] { new SqlParameter("@numrelogio", SqlDbType.VarChar) };

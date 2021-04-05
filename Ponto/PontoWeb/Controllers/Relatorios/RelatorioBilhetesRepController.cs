@@ -32,7 +32,8 @@ namespace PontoWeb.Controllers.Relatorios
             return View(filtro);
         }
 
-        [Authorize]
+
+		[Authorize]
         [PermissoesFiltro(Roles = "RelatorioBilhetesRepConsultar")]
         [HttpPost]
         public ActionResult RelatorioBilhetesRep(PxyIdPeriodo parm)

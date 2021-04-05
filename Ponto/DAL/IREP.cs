@@ -6,6 +6,7 @@ namespace DAL
     public interface IREP : DAL.IDAL
     {
         Modelo.REP LoadObject(int id);
+        List<Modelo.Funcionario> LoadObjectListFuncionariosRep(int id);
         Modelo.REP LoadObjectPorNumRelogio(string numRelogio);
         string GetNumInner(string pNumSerie);
         bool GetCPFCNPJ(string pCPFCNPJ, string pTipo);

@@ -101,6 +101,7 @@ namespace DAL
         List<Modelo.Proxy.pxyFuncionarioGrid> GetAllGrid();
         List<Modelo.Proxy.pxyFuncionarioGrid> GetAllGrid(int flag);
         DataTable GetOrdenadoPorNomeRel(List<int> idsFuncs);
+        DataTable GetRelogioPorNomeRel(List<int> idsFuncs);
         List<Modelo.Funcionario> GetPorHorarioVigencia(int idHorario);
         List<int> GetIdsFuncsAtivos(string condicao);
         Modelo.Funcionario LoadObjectByPis(string PIS);
