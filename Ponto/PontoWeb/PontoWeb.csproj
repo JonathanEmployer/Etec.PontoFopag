@@ -1936,6 +1936,7 @@
     <Content Include="Views\CercaVirtual\EventoConsulta.cshtml" />
     <Content Include="Views\RelatorioSubstituicaoJornada\SubstituicaoJornada.cshtml" />
     <Content Include="Views\RelatorioCartaoPontoExecaoHTML\CartaoPontoExcecaoHtml.cshtml" />
+    <Content Include="Views\ImportacaoBilhetes\ArquivosImportados.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
