@@ -28,10 +28,18 @@ namespace BLL.Relatorios.V2
             DAL.RelatoriosSQL.RelatorioRefeicao dalRelatorioRefeicao = new DAL.RelatoriosSQL.RelatorioRefeicao(new DataBase(_usuario.ConnectionString));
             DataTable dt = dalRelatorioRefeicao.GetRelatorioRefeicao(parms.IdSelecionados.Split(',').Where(w => !String.IsNullOrWhiteSpace(w)).Select(s => Convert.ToInt32(s)).ToList(), parms.InicioPeriodo, parms.FimPeriodo, parms.PercentualJornadaMinima, parms.ValorDescRefeicao, parms.ConsiderarDoisRegistros, parms.ConsiderarDiasSemjornada);
 
-            if (parms.ConsiderarDiasSemjornada)
-            {
+            //Colunas Em branco
+            dt.Columns.Add("CodigoContrato");
+            dt.Columns.Add("CodigoComplementoVerba");
+            dt.Columns.Add("Percentual");
+            dt.Columns.Add("EstruturaCentroResultado");
+            dt.Columns.Add("CeiObra");
+            dt.Columns.Add("TipoInscricaoOutroVinculo");
+            dt.Columns.Add("InscricaoOutroVinculo");
+            dt.Columns.Add("CategoriaOutroVinculo");
+            //Coluna Código de Verba
+            dt.Columns.Add("CodigoVerba");
 
-            }
 
             dt.TableName = "Refeição";
             foreach (DataColumn col in dt.Columns)
@@ -39,15 +47,32 @@ namespace BLL.Relatorios.V2
                 col.AllowDBNull = true;
             }
 
+            foreach (DataRow item in dt.Rows)
+            {
+            item["CodigoVerba"] = parms.CodigoVerba;
+            }
+
             _progressBar.setaMensagem("Gerando Arquivo...");
             // Cria o Dicionario das Colunas do Excel a ser gerado do relatório
             Dictionary<string, GerarExcel.Modelo.Coluna> colunasExcel = new Dictionary<string, GerarExcel.Modelo.Coluna>();
-            colunasExcel.Add("EmpresaNome", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Empresa", Visivel = true, NomeColunaNegrito = true });
-            colunasExcel.Add("EmpresaCNPJ", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.CNPJ, NomeColuna = "CNPJ", Visivel = true, NomeColunaNegrito = true });
-            colunasExcel.Add("FuncionarioCodigo", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.NUMERO, NomeColuna = "Código", Visivel = true, NomeColunaNegrito = true });
-            colunasExcel.Add("FuncionarioNome", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Funcionário", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("FuncionarioNome", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Nome", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("FuncionarioCPF", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.CPF, NomeColuna = "CPF", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("FuncionarioPis", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.PIS, NomeColuna = "PIS", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("CodigoFilial", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.NUMERO, NomeColuna = "Código Filial", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("FuncionarioMatricula", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.NUMERO, NomeColuna = "Matriucla", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("CodigoContrato", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Código Contrato", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("CodigoVerba", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.NUMERO, NomeColuna = "Código de Verba", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("CodigoComplementoVerba", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Código Complemento Verba", Visivel = true, NomeColunaNegrito = true });
             colunasExcel.Add("Quantidade", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.NUMERO, NomeColuna = "Quantidade", Visivel = true, NomeColunaNegrito = true });
-            colunasExcel.Add("Valor", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.VALOR, NomeColuna = "Valor R$", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("Percentual", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Percentual", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("Valor", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.VALOR, NomeColuna = "Valor", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("Ano", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.NUMERO, NomeColuna = "Ano", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("Mes", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.NUMERO, NomeColuna = "Mês", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("EstruturaCentroResultado", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Estrutura Centro Resultado", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("CeiObra", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Cei Obra", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("TipoInscricaoOutroVinculo", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Tipo Inscricao Outro Vinculo", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("InscricaoOutroVinculo", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Tipo Inscricao Outro Vinculo", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("CategoriaOutroVinculo", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Tipo Inscricao Outro Vinculo", Visivel = true, NomeColunaNegrito = true });
 
             byte[] Arquivo = null;
             Arquivo = GerarExcel.GerarExcel.Gerar(colunasExcel, dt);
