@@ -109,15 +109,22 @@ namespace DAL.SQL
 
                 string sql = @"  
                             SELECT 
-                            fu.codigo ,
-                            fu.nome ,
-                            fu.pis,
-                            evf.incusuario as UsuarioRep,
-                            edr.DataEnvio 
+                            fu.codigo as Codigo ,
+                            fu.nome as Nome ,
+                            fu.pis as Pis,
+							'' as Senha,
+                            edr.DataEnvio  as dataHora,
+                            evf.incusuario as Usuario
                             FROM funcionario fu
                             join EnvioDadosRepDet evf on evf.IDFuncionario = fu.id
                             join EnvioDadosRep edr on edr.ID =evf.IDEnvioDadosRep
-                             WHERE 1 = 1  and edr.IDRep = "
+                             WHERE 1 = 1  and edr.IDRep =@idrelogio 
+							 GROUP BY 
+							fu.codigo  ,
+                            fu.nome  ,
+                            fu.pis ,
+                            edr.DataEnvio  ,
+                            evf.incusuario;"
                              ;
            
                 return sql;
@@ -217,6 +224,21 @@ namespace DAL.SQL
                 }
             }
         }
+
+
+        private void AuxSetInstanceRep(SqlDataReader dr, pxyFuncionarioRep obj)
+        {
+            obj.Codigo = Convert.ToString(dr["Codigo"]);
+            obj.Senha = Convert.ToString(dr["Senha"]);
+            obj.Nome = Convert.ToString(dr["Nome"]);
+
+            if (!(dr["dataHora"] is DBNull))
+                obj.dataHora = Convert.ToDateTime(dr["dataHora"]);
+
+            obj.Senha = Convert.ToString(dr["senha"]);
+            obj.Pis = Convert.ToString(dr["Pis"]);
+        }
+
 
         private void AuxSetInstance(SqlDataReader dr, Modelo.ModeloBase obj)
         {
@@ -385,32 +407,32 @@ namespace DAL.SQL
             return objREP;
         }
 
-        public List<Modelo.Funcionario> LoadObjectListFuncionariosRep(int id)
+        public List<Modelo.Proxy.pxyFuncionarioRep> LoadObjectListFuncionariosRep(int id)
         {
-            List<Modelo.Funcionario> reps = new List<Modelo.Funcionario>();
-            SqlParameter[] parms = new SqlParameter[0];
-            SqlDataReader drRep = db.ExecuteReader(CommandType.Text, SELECTALLFUNCREP+ id.ToString(), parms);
 
-            try
-            {
-                var mapRep = Mapper.CreateMap<IDataReader, Modelo.Funcionario>();
-                reps = Mapper.Map<List<Modelo.Funcionario>>(drRep);
 
-            }
-            catch (Exception ex)
+            List<Modelo.Proxy.pxyFuncionarioRep> reps = new List<Modelo.Proxy.pxyFuncionarioRep>();
+            SqlParameter[] parms = new SqlParameter[] { new SqlParameter("@idrelogio", SqlDbType.VarChar) };
+            parms[0].Value = id;
+            SqlDataReader drRep = db.ExecuteReader(CommandType.Text, SELECTALLFUNCREP, parms);
+
+
+            if (drRep.HasRows)
             {
-                throw (ex);
-            }
-            finally
-            {
-                if (!drRep.IsClosed)
+                while (drRep.Read())
                 {
-                    drRep.Close();
+                    pxyFuncionarioRep objREP = new pxyFuncionarioRep();
+                    AuxSetInstanceRep(drRep, objREP);
+                    reps.Add(objREP);
                 }
-
-                drRep.Dispose();
             }
+            if (!drRep.IsClosed)
+                drRep.Close();
+            drRep.Dispose();
+
             return reps;
+
+
         }
         private SqlDataReader LoadDataReaderPorNumRelogio(string numRelogio)
         {

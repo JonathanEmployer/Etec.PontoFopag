@@ -739,6 +739,30 @@ namespace DAL.SQL
                              WHERE func.codigo = @codigo";
         }
 
+        public string _SELECTALLFUNCREP;
+        private string SELECTALLFUNCREP
+        {
+            get
+            {
+
+                string sql = @"  
+                             SELECT 
+							rp.codigo,
+							rp.local
+                            FROM EnvioDadosRepDet fu							
+                            join EnvioDadosRep edr on edr.ID =fu.IDEnvioDadosRep
+							join rep rp on rp.id = edr.IDRep
+                             WHERE 1 = 1  and fu.IDFuncionario ="
+                             ;
+
+                return sql;
+            }
+            set
+            {
+                _SELECTALLFUNCREP = value;
+            }
+        }
+
         public string SqlLoadByCpfeMatricula()
         {
             return @"        SELECT   f.id,
@@ -1338,6 +1362,7 @@ namespace DAL.SQL
 
             return dt;
         }
+
 
         public DataTable GetRelogioPorNomeRel(List<int> idsFuncs)
         {

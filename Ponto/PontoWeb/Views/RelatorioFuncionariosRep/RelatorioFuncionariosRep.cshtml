@@ -1,9 +1,10 @@
 ﻿@model Modelo.Proxy.PxyIdPeriodo
+
 @{
     Layout = null;
     ViewBag.Title = "Relatório Funcionários por Rep";
     Modelo.REP rep = (Modelo.REP)ViewBag.Rep;
-    List< Modelo.Funcionario > func = (List < Modelo.Funcionario >) ViewBag.Func;
+    List<Modelo.Proxy.pxyFuncionarioRep> func = (List<Modelo.Proxy.pxyFuncionarioRep>)ViewBag.Func;
 }
 
 @using (Html.BeginForm("RelatorioFuncionariosRep", "RelatorioFuncionariosRep", FormMethod.Post, new { id = "FormRelatorioBilhetesRep", target = "_blank" }))
@@ -19,66 +20,35 @@
                 <div class="row">&nbsp;</div>
                 @Html.ValidationMessage("CustomError")
                 @Html.HiddenFor(model => model.Id)
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="form-group">
-                        @Html.Label("Código", new { @class = "control-label" })
-                        @Html.TextBox("Codigo", rep.Codigo, new { @class = "form-control", @disabled = true })
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        @Html.Label("Número Série", new { @class = "control-label" })
-                        @Html.TextBox("NumSerie", rep.NumSerie, new { @class = "form-control", @disabled = true })
-                    </div>
-                </div>
-                <div class="col-md-7">
-                    <div class="form-group">
-                        @Html.Label("Local", new { @class = "control-label" })
-                        @Html.TextBox("Local", rep.Local, new { @class = "form-control", @disabled = true })
-                    </div>
-                </div>
-
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="row">
-                            @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRelatorioComInativo()).GetType(), true, "GetFuncsRel", "GetFunsComInativos")
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            @Html.Label("Código", new { @class = "control-label" })
+                            @Html.TextBox("Codigo", rep.Codigo, new { @class = "form-control", @disabled = true })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.Label("Número Série", new { @class = "control-label" })
+                            @Html.TextBox("NumSerie", rep.NumSerie, new { @class = "form-control", @disabled = true })
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            @Html.Label("Local", new { @class = "control-label" })
+                            @Html.TextBox("Local", rep.Local, new { @class = "form-control", @disabled = true })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                @Html.GridFor("tbfun", (new Modelo.Proxy.pxyFuncionarioRep()).GetType(), true, "RelatorioFuncionariosRep", "DadosFuncionario/" + rep.Id)
+                                @*@Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRep()).GetType(), true, "GetFuncsRel", "GetFunsComInativos")*@
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-md-12">
-                    <div class="div_table_highlight">
-                        <table id="tbEmp" class="table table-striped table-bordered table-hover table-condensed nowrap" cellspacing="0" width="100%">
-                            <thead>
-                                <tr>
-                                    <th>Código</th>
-                                    <th>Nome</th>
-                                    <th>PIS</th>
-                                    <th>Senha</th>
-                                    <th>Usuário de Envio</th>
-                                    <th>Data e Hora</th>
-                                </tr>
-
-                            </thead>
-                            <tbody>
-                                @for (int i = 0; i < func.Count(); i++)
-                                {
-                                    <tr id="@func[i].Id">
-                                        <td>@func[i].Codigo</td>
-                                        <td>@func[i].Nome</td>
-                                        <td>@func[i].Pis</td>
-                                        <td>@func[i].Senha</td>
-                                        <td>@func[i].UsuarioRep</td>
-                                        <td>@func[i].DataEnvio</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-            </div>
             </div>
 
         </div>

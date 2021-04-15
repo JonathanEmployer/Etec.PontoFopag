@@ -410,6 +410,8 @@
     <Compile Include="ManutencaoBiometrica.cs" />
     <Compile Include="ParametroWebfopag.cs" />
     <Compile Include="Proxy\pxyCercaVirtualFuncionarioGrid.cs" />
+    <Compile Include="Proxy\pxyFuncionarioRep.cs" />
+    <Compile Include="Proxy\PxyIdFuncionarioLocalRep.cs" />
     <Compile Include="Proxy\pxyPermissoes.cs" />
     <Compile Include="Proxy\PxyRegistrosValidarPontoExcecao.cs" />
     <Compile Include="Proxy\pxyUsuarioControleAcessoAdicionarContrato.cs" />

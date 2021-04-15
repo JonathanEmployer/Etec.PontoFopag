@@ -165,6 +165,7 @@ namespace DAL.SQL
 
         }
 
+
         protected virtual void SetDadosInc(Modelo.ModeloBase obj)
         {
             obj.Incdata = DateTime.Now.Date;

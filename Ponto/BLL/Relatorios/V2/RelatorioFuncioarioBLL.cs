@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using Microsoft.Reporting.WebForms;
 using Modelo;
+using Modelo.Proxy;
 using Modelo.Relatorios;
 
 namespace BLL.Relatorios.V2
@@ -261,6 +262,8 @@ namespace BLL.Relatorios.V2
         {
 
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(_usuario.ConnectionString, _usuario);
+
+            BLL.EnvioDadosRep bllEnviodadosRep = new BLL.EnvioDadosRep(_usuario.ConnectionString, _usuario);
             BLL.Empresa bllEmpresa = new BLL.Empresa(_usuario.ConnectionString, _usuario);
 
             _progressBar.setaMensagem("Carregando dados...");
@@ -270,8 +273,35 @@ namespace BLL.Relatorios.V2
             List<int> idsFuncs = parms.IdSelecionados.Split(',').Where(w => !string.IsNullOrEmpty(w)).Select(int.Parse).ToList();
 
             Dt = bllFuncionario.GetOrdenadoPorNomeRel(idsFuncs);
-            DataTable objRep = new DataTable();
-            objRep = bllFuncionario.GetRelogioPorNomeRel(idsFuncs);
+            List<PxyIdFuncionarioLocalRep> idsFuncsLocalRep = bllEnviodadosRep.GetRelogioPorFunc(idsFuncs);
+             
+            var grupFuncRep = idsFuncsLocalRep.GroupBy(d => d.IdFuncionario).Select(s => new
+            {
+                IdFuncionario = s.Key,
+                Quantidade = s.Count()
+            });
+
+            int QtdColunas = grupFuncRep.Max(m => m.Quantidade);
+            for (int i = 0; i < QtdColunas; i++)
+            {
+                Dt.Columns.Add($"Relógio {i+1}");
+            }           
+
+            foreach (DataRow dr in Dt.Rows) 
+            {
+                if (int.TryParse(dr["id"].ToString(), out int idFuncionario))
+                {    
+                    var funcLocalRep = idsFuncsLocalRep.Where(w => w.IdFuncionario == idFuncionario).ToList();
+
+                    int count = 1;
+                    foreach (var item in funcLocalRep)
+                    {
+                        string nomeColuna = "Relógio " + count;
+                        dr[nomeColuna] = $"{item.Codigo} | {item.Local}";
+                        count++;
+                    }
+                }                
+            }
 
             nomerel = "rptFuncionarios.rdlc";
 

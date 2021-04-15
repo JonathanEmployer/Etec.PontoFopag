@@ -1,4 +1,5 @@
 ﻿using DAL.SQL;
+using Modelo.Proxy;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -154,6 +155,11 @@ namespace BLL
         public int ExluirEnvioDadosRepEDetalhes(int idEnvioDadosRep)
         {
             return dalEnvioEmpresaFuncionariosRep.ExluirEnvioDadosRepEDetalhes(idEnvioDadosRep);
+        }
+
+        public List<PxyIdFuncionarioLocalRep> GetRelogioPorFunc(List<int> idsFuncs)
+        {
+            return dalEnvioEmpresaFuncionariosRep.GetRelogioPorFunc(idsFuncs);
         }
     }
 }

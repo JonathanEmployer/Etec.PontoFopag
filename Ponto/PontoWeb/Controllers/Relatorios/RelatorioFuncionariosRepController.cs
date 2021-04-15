@@ -30,8 +30,28 @@ namespace PontoWeb.Controllers.Relatorios
 			var usr = Usuario.GetUsuarioPontoWebLogadoCache();
 			BLL.REP bllRep = new BLL.REP(_pw.ConnectionString, _pw);
 			ViewBag.Rep = bllRep.LoadObject(id);
-			ViewBag.Func = bllRep.LoadObjectListFuncionariosRep(id);
 			return View(filtro);
+		}
+
+
+
+
+		[Authorize]
+		public JsonResult DadosFuncionario(int id)
+		{
+			try
+			{
+				BLL.REP bllRep = new BLL.REP(_pw.ConnectionString, _pw);
+				List<pxyFuncionarioRep> dados = bllRep.LoadObjectListFuncionariosRep(id);
+				JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
+				jsonResult.MaxJsonLength = int.MaxValue;
+				return jsonResult;
+			}
+			catch (Exception ex)
+			{
+				BLL.cwkFuncoes.LogarErro(ex);
+				throw;
+			}
 		}
 
 		//[Authorize]

@@ -30,15 +30,12 @@
                 <div class="row" style="padding-top:0px;">
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <label class="control-label label-sm">Relógio</label>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="control-label label-sm">Empresa</label>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group input-group-sm">
@@ -54,29 +51,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="col-md-4" id="tbGridEmpresa">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group input-group-sm">
-                                            <div class="form-group">
-                                                <div class="input-group input-group-sm">
-                                                    @Html.TextBoxFor(model => model.Empresa, new { @class = "form-control  input-sm", id = "lkpEmpresa" })
-                                                    <span class="input-group-btn">
-                                                        <button class="btn btn-primary desabilitar" id="btnEmpresa" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                                                    </span>
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.Empresa)
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                   
-
-                            <div class="col-md-1">
                             </div>
                             <div class="col-md-3" id="divUtilizaGrupoEconomico">
                                 <div class="checkbox" style="margin-top:1px">
@@ -119,14 +93,14 @@
                     <div class="col-md-12">
                         <div class="row" style="padding-top:5px;">
                             @*Grids*@
-                            @*<div class="col-md-5">
-                                    @Html.HiddenFor(model => model.idsEmpresasSelecionadas)
-                                    @Html.ValidationMessageFor(model => model.idsEmpresasSelecionadas)
-                                    <div id="tbGridEmpresa">
-
-                                    </div>
-                                </div>*@
-                            <div class="col-md-12">
+                            <div class="col-md-5">
+                                @Html.HiddenFor(model => model.idsEmpresasSelecionadas)
+                                @Html.ValidationMessageFor(model => model.idsEmpresasSelecionadas)
+                                <div id="tbGridEmpresa">
+                                    @*@Html.Partial("gvGridEmpresa", Model)*@
+                                </div>
+                            </div>
+                            <div class="col-md-7">
                                 @Html.HiddenFor(model => model.idsFuncionariosSelecionados)
                                 @Html.ValidationMessageFor(model => model.idsFuncionariosSelecionados)
                                 <div id="tbGridFuncionario">
@@ -169,11 +143,6 @@
     $(".lkpRelogioSelecionado").bind("keydown click", function (e) {
         cwk_EventoConsultaUnico(e, this, "", "REP", "", CarregarTela);
         limpaErro($('#lkpRelogioSelecionado').attr('name'));
-    });
-
-    $(".lkpEmpresaSelecionado").bind("keydown click", function (e) {
-        cwk_EventoConsultaUnico(e, this, "", "REP", "", CarregarTela);
-        limpaErro($('#lkpEmpresaSelecionado').attr('name'));
     });
 
     $("#bParmEnvFunc").click(function () {
@@ -270,10 +239,8 @@
     }
 
     function CarregarGridEmpresa() {
-        if ($("#lkpRelogioSelecionado").val() !== '' && $("#lkpRelogioSelecionado").val() !== undefined) {
-            
-            cwk_EventoConsulta("#btnEmpresa", "#lkpEmpresa", "EventoConsulta", "Empresa",null);
-           //CarregaDadosAjax('CarregarGridEmpresa', 'EnvioDadosRep', ParamCarregaTela(), '#tbGridEmpresa', null);
+        if ( $("#lkpRelogioSelecionado").val() !== '' && $("#lkpRelogioSelecionado").val() !== undefined) {
+            CarregaDadosAjax('CarregarGridEmpresa', 'EnvioDadosRep', ParamCarregaTela(), '#tbGridEmpresa', null);
         }
     }
 
@@ -351,8 +318,6 @@
     <script>
         $(document).ready(function () {
             $('form').find('button, select').attr('disabled', 'disabled');
-
-
         })
     </script>
 }

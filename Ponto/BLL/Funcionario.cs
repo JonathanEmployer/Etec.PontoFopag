@@ -497,12 +497,8 @@ namespace BLL
         {
             return dalFuncionario.GetOrdenadoPorNomeRel(idsFuncs);
         }
-
-        public DataTable GetRelogioPorNomeRel(List<int> idsFuncs)
-        {
-            return dalFuncionario.GetRelogioPorNomeRel(idsFuncs);
-        }
-
+             
+    
         public DataTable GetPorDepartamentoRel(string pDepartamentos)
         {
             return dalFuncionario.GetPorDepartamentoRel(pDepartamentos);

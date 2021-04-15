@@ -479,7 +479,52 @@ namespace DAL.SQL
             }
             return lista;
         }
+        public List<PxyIdFuncionarioLocalRep> GetRelogioPorFunc(List<int> idsFuncs)
+        {
+            List<PxyIdFuncionarioLocalRep> lista = new List<PxyIdFuncionarioLocalRep>();
 
+            SqlParameter[] parms = new SqlParameter[1]
+            {
+                    new SqlParameter("@idsFuncs", SqlDbType.Structured)
+            };
+            parms[0].Value = CreateDataTableIdentificadores(idsFuncs.Select(s => (long)s));
+            parms[0].TypeName = "Identificadores";
+
+
+            string aux = @" SELECT fu.IDFuncionario,
+							rp.codigo,
+							rp.local
+                            FROM EnvioDadosRepDet fu							
+                            join EnvioDadosRep edr on edr.ID =fu.IDEnvioDadosRep
+							join @idsFuncs f on f.Identificador = fu.IDFuncionario
+							join rep rp on rp.id = edr.IDRep
+                            GROUP BY 
+                            fu.IDFuncionario,
+                            rp.codigo,
+							rp.local;";
+
+                    
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, PxyIdFuncionarioLocalRep>();
+                lista = AutoMapper.Mapper.Map<List<PxyIdFuncionarioLocalRep>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
         public int ExluirEnvioDadosRepEDetalhes(int idEnvioDadosRep)
         {
             SqlParameter[] parms = new SqlParameter[1]

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Modelo.Proxy;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,5 +23,8 @@ namespace DAL
 
         List<Modelo.Proxy.PxyGridLogComunicador> GetGridLogImportacaoWebAPIById(int id);
         int ExluirEnvioDadosRepEDetalhes(int idEnvioDadosRep);
+
+        List<PxyIdFuncionarioLocalRep> GetRelogioPorFunc(List<int> idsFuncs);
+
     }
 }
