@@ -99,7 +99,8 @@ namespace PontoWeb.Controllers
 
         private Modelo.Proxy.PxyJobReturn Recalcular(UsuarioPontoWeb usuario, Afastamento afastamento)
         {
-            HangfireManagerCalculos hfm = new HangfireManagerCalculos(usuario.DataBase, "", "", "/Afastamento/Grid");
+            var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+            HangfireManagerCalculos hfm = new HangfireManagerCalculos(usr, "", "/Afastamento/Grid");
             string nomeAfastamento = afastamento.Nome;
                 //Tipo do Afastamento: 0 = Funcionário, 1 = Departamento, 2 = Empresa, 3 = Contrato
             switch (afastamento.Tipo)

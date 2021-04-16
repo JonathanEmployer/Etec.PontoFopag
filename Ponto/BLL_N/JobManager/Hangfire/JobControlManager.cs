@@ -165,7 +165,7 @@ namespace BLL_N.JobManager.Hangfire
             {
                 using (var db = new MONITOR_PONTOFOPAGEntities())
                 {
-                    jc = db.JobControl.Where(w => w.JobId == id).FirstOrDefault();
+                    jc = db.JobControl.Where(w => w.JobId == id).ToList().LastOrDefault();
                     if (jc != null)
                     {
                         jc.Mensagem = mensagem;
@@ -226,7 +226,7 @@ namespace BLL_N.JobManager.Hangfire
             {
                 try
                 {
-                    job = db.JobControl.Where(w => w.JobId == jobId).FirstOrDefault();
+                    job = db.JobControl.Where(w => w.JobId == jobId).ToList().LastOrDefault();
                     if (job.StatusNovo == DeletedState.StateName || job.StatusNovo == FailedState.StateName)
                     {
                         job.Reprocessar = true;
