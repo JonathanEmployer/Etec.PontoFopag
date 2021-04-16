@@ -156,11 +156,21 @@ namespace BLL_N
                 log.Add("Hora = " + DateTime.Now.ToShortTimeString());
 
                 bllBilhetesImp.ObjProgressBar = pb;
-                bool temBilhetes = bllBilhetesImp.ImportacaoBilhetes(listaTipoBilhetes, diretorio, bilhete, bIndividual, dsCodFuncionario, ref datai, ref dataf, log, usuarioLogado);
+                bool temBilhetes = bllBilhetesImp.ImportacaoBilhetes(listaTipoBilhetes, diretorio, bilhete, bIndividual, dsCodFuncionario, ref datai, ref dataf, log, usuarioLogado, out IList<Modelo.Funcionario> funcsNoArquivo);
 
                 BLL.ImportaBilhetes bllImportaBilhetes = new BLL.ImportaBilhetes(conexao.ConnectionString, usuarioLogado);
                 DateTime? dataInicial;
                 DateTime? dataFinal;
+
+                if (!temBilhetes)
+                {
+                    var bilhetesAindaNaoImportados = bllBilhetesImp.GetByIDsFuncs(funcsNoArquivo.Select(s => s.Id).ToList(),datai.GetValueOrDefault(), dataf.GetValueOrDefault(),0);
+                    if (bilhetesAindaNaoImportados.Any())
+                    {
+                        dsCodFuncionario = string.Join(",", bilhetesAindaNaoImportados.Select(s => s.DsCodigo).Distinct());
+                        temBilhetes = true; 
+                    }
+                }
 
                 pb.setaMensagem("Iniciando Importação de Bilhetes");
                 if (temBilhetes)
@@ -210,6 +220,7 @@ namespace BLL_N
             {
                 BLL.cwkFuncoes.LogarErro(ex);
                 log.Add(ex.Message);
+                throw ex;
             }
             return log;
         }
