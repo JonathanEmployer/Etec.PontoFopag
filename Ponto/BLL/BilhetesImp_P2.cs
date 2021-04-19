@@ -92,11 +92,11 @@ namespace BLL
 
 
         public bool ImportacaoBilhetes(List<Modelo.TipoBilhetes> plistaTipoBilhetes, string pArquivo, int pBilhete, bool pIndividual, string pFuncionario,
-                                       ref DateTime? pDataI, ref DateTime? pDataF, List<string> log, Modelo.Cw_Usuario usuarioLogado)
+                                       ref DateTime? pDataI, ref DateTime? pDataF, List<string> log, Modelo.Cw_Usuario usuarioLogado, out IList<Modelo.Funcionario> funcionariosNoArquivo)
         {
             BLL.REP bllRep;
             BLL.Funcionario bllFunc;
-            IList<Modelo.Funcionario> listaFuncionario = new List<Modelo.Funcionario>();
+            funcionariosNoArquivo = new List<Modelo.Funcionario>();
 
             if (usuarioLogado == null)
             {
@@ -204,7 +204,7 @@ namespace BLL
                     Modelo.BilhetesImp objBilhete;
                     List<Modelo.BilhetesImp> listaBilhetes = new List<Modelo.BilhetesImp>();
                     List<int> idsFuncs = pisFuncionarios.AsEnumerable().Select(l => l.Field<Int32>("id")).ToList();
-                    listaFuncionario = bllFunc.GetAllListComDataUltimoFechamento(false, idsFuncs);
+                    funcionariosNoArquivo = bllFunc.GetAllListComDataUltimoFechamento(false, idsFuncs);
                     foreach (RegistroAFD reg in registros)
                     {
                         if (reg.Campo01 != "999999999")
@@ -327,7 +327,7 @@ namespace BLL
                 {
                     ImportacaoArquivo(pArquivo, pBilhete, pIndividual, pFuncionario, pDataI, pDataF, log, max, contador3, contadorProcessados, naoPossuiFunc, numeroRelogio,
                                       controleRelogio, controleCNPJCPF, qtdLidos, ref qtdProcessados, qtdErrados, qtdRepetidos, qtdSemPermissao, ref dataInicial, ref dataFinal,
-                                      tp, pisFuncionarios, usuarioLogado, qtdPontoFechado);
+                                      tp, pisFuncionarios, usuarioLogado, qtdPontoFechado, out funcionariosNoArquivo);
                 }
             }
 
@@ -401,12 +401,12 @@ namespace BLL
         private void ImportacaoArquivo(string pArquivo, int pBilhete, bool pIndividual, string pFuncionario, DateTime? pDataI, DateTime? pDataF, List<string> log,
                                        int max, int contador3, int contadorProcessados, int naoPossuiFunc, string numeroRelogio, string controleRelogio,
                                        string controleCNPJCPF, int qtdLidos, ref int qtdProcessados, int qtdErrados, int qtdRepetidos, int qtdSemPermissao,
-                                       ref DateTime dataInicial, ref DateTime dataFinal, Modelo.TipoBilhetes tp, DataTable pisFuncionarios, Modelo.Cw_Usuario usuarioLogado, int qtdPontoFechado)
+                                       ref DateTime dataInicial, ref DateTime dataFinal, Modelo.TipoBilhetes tp, DataTable pisFuncionarios, Modelo.Cw_Usuario usuarioLogado, int qtdPontoFechado, out IList<Modelo.Funcionario> funcionariosNoArquivo)
         {
             BLL.REP bllRep;
             BLL.Funcionario bllFunc;
             BLL.Horario bllHorario;
-            IList<Modelo.Funcionario> listaFuncionario = new List<Modelo.Funcionario>();
+            funcionariosNoArquivo = new List<Modelo.Funcionario>();
 
             if (usuarioLogado == null)
             {
@@ -419,7 +419,7 @@ namespace BLL
                 bllRep = new BLL.REP(ConnectionString, usuarioLogado);
                 bllFunc = new BLL.Funcionario(ConnectionString, usuarioLogado);
                 List<int> idsFuncs = pisFuncionarios.AsEnumerable().Select(l => l.Field<Int32>("id")).ToList();
-                listaFuncionario = bllFunc.GetAllListComDataUltimoFechamento(true, idsFuncs);
+                funcionariosNoArquivo = bllFunc.GetAllListComDataUltimoFechamento(true, idsFuncs);
                 bllHorario = new BLL.Horario(ConnectionString, usuarioLogado);
             }
 
@@ -575,7 +575,7 @@ namespace BLL
                         {
                             objBilhete.Func = dsCodigos.OrderByDescending(o => o.Value).FirstOrDefault().Key.ToString(_cultureInfoBr);
                             bool erro = false;
-                            func = ValidaFuncionarioPermissaoFechamento(pIndividual, ref qtdSemPermissao, usuarioLogado, ref qtdPontoFechado, listaFuncionario, objBilhete, ref erro, pFuncionario);
+                            func = ValidaFuncionarioPermissaoFechamento(pIndividual, ref qtdSemPermissao, usuarioLogado, ref qtdPontoFechado, funcionariosNoArquivo, objBilhete, ref erro, pFuncionario);
                             if (erro)
                             {
                                 continue;
@@ -1899,6 +1899,19 @@ namespace BLL
                 ret = Salvar(Modelo.Acao.Alterar, bilhetesAlterar, UsuarioLogado.Login, ConnectionString);
             }
             return ret;
+        }
+
+        /// <summary>
+        /// Busca os bilhetes de uma lista de funcionários
+        /// </summary>
+        /// <param name="idsFuncs">Ids dos funcionários</param>
+        /// <param name="dtIni">Data início a ser considerada</param>
+        /// <param name="dtFin">Data fim a ser considerada</param>
+        /// <param name="importado">Valor do campo importado (passar -1 para todos)</param>
+        /// <returns>Retorna lista de bilhestes</returns>
+        public List<Modelo.BilhetesImp> GetByIDsFuncs(List<int> idsFuncs, DateTime dtIni, DateTime dtFin, int importado)
+        {
+            return dalBilheteSimp.GetByIDsFuncs(idsFuncs, dtIni, dtFin, importado);
         }
     }
 }
