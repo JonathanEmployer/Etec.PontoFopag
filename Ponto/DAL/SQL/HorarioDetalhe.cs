@@ -421,15 +421,16 @@ namespace DAL.SQL
             return lista;
         }
 
-        public Hashtable LoadHorariosOrdenaSaida()
+        public Hashtable LoadHorariosOrdenaSaida(int idHorario)
         {
-            string str = @"SELECT horariodetalhe.*
+            string str = $@"SELECT horariodetalhe.*
                            , case when dia = 1 then 'Seg.' when dia = 2 then 'Ter.' when dia = 3 then 'Qua.' when dia = 4 then 'Qui.'
                                        when dia = 5 then 'Sex.' when dia = 6 then 'Sab.' when dia = 7 then 'Dom.' else '' end AS diastr
                            , horario.tipohorario 
                            FROM horariodetalhe
                            INNER JOIN horario on horario.id = horariodetalhe.idhorario
                            WHERE horario.ordenabilhetesaida = 1
+                             and horario.id = {idHorario}
                            ORDER BY horario.id";
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, str, null);
 
@@ -438,17 +439,17 @@ namespace DAL.SQL
             {
                 Modelo.pxyHorarioDetalheImportacao horario = new Modelo.pxyHorarioDetalheImportacao();
                 Modelo.HorarioDetalhe objHorarioDetalhe;
-                int idHorario = 0, idHorario_Ant = 0;
+                int idHorarioControle = 0, idHorario_Ant = 0;
                 while (dr.Read())
                 {
-                    idHorario = Convert.ToInt32(dr["idhorario"]);
-                    if (idHorario != idHorario_Ant || idHorario_Ant == 0)
+                    idHorarioControle = Convert.ToInt32(dr["idhorario"]);
+                    if (idHorarioControle != idHorario_Ant || idHorario_Ant == 0)
                     {
                         if (idHorario_Ant > 0)
                             ret.Add(idHorario_Ant, horario);
                         horario = new Modelo.pxyHorarioDetalheImportacao();
                         horario.tipoHorario = Convert.ToInt32(dr["tipohorario"]);
-                        idHorario_Ant = idHorario;
+                        idHorario_Ant = idHorarioControle;
                     }
                     objHorarioDetalhe = new Modelo.HorarioDetalhe();
                     AuxSetInstance(dr, objHorarioDetalhe);
