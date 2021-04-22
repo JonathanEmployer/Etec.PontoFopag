@@ -104,7 +104,7 @@ namespace cwkPontoMT.Integracao.Relogios.Dimep
             {
                 _watchComm.CloseConnection();
                 // Apenas deixo dar excessão caso não tenha conseguido coletar nada, se conseguiu coletar algo mando parcialmente para o server.
-                if (result == null || result.Count == 0)
+                if (result == null || result.Count <= 1)
                 {
                     throw new Exception(exception.Message, exception);
                 }
