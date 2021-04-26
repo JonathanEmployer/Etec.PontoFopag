@@ -60,7 +60,7 @@ namespace BLL.Relatorios.V2
             colunasExcel.Add("FuncionarioPis", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.PIS, NomeColuna = "PIS", Visivel = true, NomeColunaNegrito = true });
             colunasExcel.Add("CodigoFilial", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.NUMERO, NomeColuna = "Código filial", Visivel = true, NomeColunaNegrito = true });
             colunasExcel.Add("FuncionarioMatricula", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.NUMERO, NomeColuna = "Matrícula", Visivel = true, NomeColunaNegrito = true });
-            colunasExcel.Add("CodigoContrato", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Código vontrato", Visivel = true, NomeColunaNegrito = true });
+            colunasExcel.Add("CodigoContrato", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Código contrato", Visivel = true, NomeColunaNegrito = true });
             colunasExcel.Add("CodigoVerba", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.NUMERO, NomeColuna = "Código verba", Visivel = true, NomeColunaNegrito = true });
             colunasExcel.Add("CodigoComplementoVerba", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Código complemento verba", Visivel = true, NomeColunaNegrito = true });
             colunasExcel.Add("Quantidade", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.NUMERO, NomeColuna = "Quantidade", Visivel = true, NomeColunaNegrito = true });
