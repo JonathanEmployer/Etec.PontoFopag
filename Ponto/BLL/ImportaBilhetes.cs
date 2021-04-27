@@ -1640,7 +1640,7 @@ namespace BLL
             bool ordenaBilheteSaida = Convert.ToBoolean(dr["horario_ordenabilhetesaida"]);
             object[] jornada = new object[8];
             legenda = "";
-            idhorario = 0;
+            idhorario = (int)dr["idhorario"];
             tipohoraextrafalta = Convert.ToInt16(dr["tipohoraextrafalta"]);
             bllMarcacao.VerificaMudancaHorario(Convert.ToInt32(dr["funcionarioid"]), pData, mudancaHorarioList, ref legenda, ref idhorario);
             if (idhorario > 0)
@@ -1650,9 +1650,23 @@ namespace BLL
 
             if (ordenaBilheteSaida)
             {
-                if (horariosOrdenaSaidaList == null)
+                if (horariosOrdenaSaidaList == null || (horariosOrdenaSaidaList != null && !horariosOrdenaSaidaList.ContainsKey(idhorario)))
                 {
-                    horariosOrdenaSaidaList = dalHorarioDetalhe.LoadHorariosOrdenaSaida();
+                    var horarioCarregado = dalHorarioDetalhe.LoadHorariosOrdenaSaida(idhorario);
+                    if (horariosOrdenaSaidaList == null)
+                    {
+                        horariosOrdenaSaidaList = horarioCarregado;
+                    }
+                    else
+                    {
+                        foreach (DictionaryEntry entry in horarioCarregado)
+                        {
+                            if (!horariosOrdenaSaidaList.ContainsKey(entry.Key))
+                            {
+                                horariosOrdenaSaidaList.Add(entry.Key, entry.Value);
+                            }
+                        }
+                    }
                 }
                 int key;
                 if (idhorario > 0 && horariosOrdenaSaidaList.ContainsKey(idhorario))
