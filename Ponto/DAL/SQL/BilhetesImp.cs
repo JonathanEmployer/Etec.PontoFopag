@@ -2380,6 +2380,8 @@ namespace DAL.SQL
 														                                WHERE pis in ( SELECT   * FROM     dbo.F_ClausulaIn(@lPis)) AND funcionarioativo = 1 AND excluido = 0
 														                                GROUP BY pis
 														                                HAVING COUNT(pis) > 1 )
+																AND f.dataadmissao <= datas.data
+																AND (f.datademissao > datas.data or f.datademissao is null
 								                                AND EXISTS ( SELECT 1
 												                                FROM   dbo.bilhetesimp b
 												                                WHERE  b.PIS = f.pis
@@ -2396,7 +2398,7 @@ namespace DAL.SQL
 																                                OR ( ja.tipo = 3 AND ja.identificacao = i.idfuncao)
 															                                  )
 															                                 AND ( i.Mar_data BETWEEN ja.datainicial AND ja.datafinal))
-					                                WHERE i.qtdDia >= 2 
+					                                WHERE i.qtdDia >= 2
 			                                ) t
                                     ) d
                                  ORDER BY Mar_data ,
