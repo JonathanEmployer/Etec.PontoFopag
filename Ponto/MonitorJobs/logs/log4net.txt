@@ -3124,538 +3124,519 @@ DEBUG 2021-01-27 02:10:09,887 754546ms JobCancellationWatcher CallSite.Target   
 DEBUG 2021-01-27 02:10:09,887 754546ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
 DEBUG 2021-01-27 02:10:12,312 756971ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2454:13264:a8f8587d heartbeat successfully sent
 DEBUG 2021-01-27 02:10:12,313 756972ms ServerHeartbeatProcess CallSite.Target    - Server cqi-bne-2454:13264:a8f8587d waiting for 00:00:30 delay before sending a heartbeat
-DEBUG 2021-04-20 10:36:41,472  4296ms BackgroundExecution    CallSite.Target    - Execution loop ServerJobCancellationWatcher:a0424070 has started in 140,2751 ms
-DEBUG 2021-04-20 10:36:41,564  4388ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:36:41,568  4392ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:36:41,602  4426ms BackgroundExecution    CallSite.Target    - Execution loop ExpirationManager:9586b5b6 has started in 163,0335 ms
-DEBUG 2021-04-20 10:36:41,606  4430ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'AggregatedCounter' table...
-DEBUG 2021-04-20 10:36:41,974  4798ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:4cd11328 has started in 461,95 ms
-DEBUG 2021-04-20 10:36:42,005  4829ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
-DEBUG 2021-04-20 10:36:42,137  4961ms BackgroundExecution    CallSite.Target    - Execution loop Worker:93471862 has started in 298,7733 ms
-INFO  2021-04-20 10:36:42,186  5010ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoplo176sg
-DEBUG 2021-04-20 10:36:42,190  5014ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoplo176sg
-DEBUG 2021-04-20 10:36:42,301  5125ms BackgroundExecution    CallSite.Target    - Execution loop Worker:0eabe1f7 has started in 462,6764 ms
-INFO  2021-04-20 10:36:42,301  5125ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoplo176sg
-DEBUG 2021-04-20 10:36:42,302  5126ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoplo176sg
-DEBUG 2021-04-20 10:36:42,305  5129ms CountersAggregator     CallSite.Target    - Records from the 'Counter' table aggregated.
-DEBUG 2021-04-20 10:36:42,437  5261ms BackgroundExecution    CallSite.Target    - Execution loop Worker:3723afc2 has started in 599,1941 ms
-INFO  2021-04-20 10:36:42,440  5264ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoplo176sg
-DEBUG 2021-04-20 10:36:42,441  5265ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoplo176sg
-DEBUG 2021-04-20 10:36:42,548  5372ms BackgroundExecution    CallSite.Target    - Execution loop Worker:c302410c has started in 710,0227 ms
-INFO  2021-04-20 10:36:42,549  5373ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoplo176sg
-DEBUG 2021-04-20 10:36:42,551  5375ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoplo176sg
-DEBUG 2021-04-20 10:36:42,624  5448ms BackgroundExecution    CallSite.Target    - Execution loop Worker:4ef11dac has started in 785,5299 ms
-INFO  2021-04-20 10:36:42,624  5448ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoplo176sg
-DEBUG 2021-04-20 10:36:42,624  5448ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoplo176sg
-DEBUG 2021-04-20 10:36:42,857  5681ms BackgroundExecution    CallSite.Target    - Execution loop Worker:032ab973 has started in 1019,1483 ms
-INFO  2021-04-20 10:36:42,857  5681ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoplo176sg
-DEBUG 2021-04-20 10:36:42,873  5697ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,021  5845ms BackgroundExecution    CallSite.Target    - Execution loop Worker:6b3c01bd has started in 1182,9116 ms
-INFO  2021-04-20 10:36:43,021  5845ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,022  5846ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,087  5911ms BackgroundExecution    CallSite.Target    - Execution loop Worker:60fea234 has started in 1248,746 ms
-INFO  2021-04-20 10:36:43,088  5912ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,089  5913ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,103  5927ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'AggregatedCounter' table.
-DEBUG 2021-04-20 10:36:43,104  5928ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'Job' table...
-DEBUG 2021-04-20 10:36:43,123  5947ms BackgroundExecution    CallSite.Target    - Execution loop Worker:4af0ea1d has started in 1285,3803 ms
-INFO  2021-04-20 10:36:43,124  5948ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,124  5948ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,170  5994ms BackgroundExecution    CallSite.Target    - Execution loop Worker:f04d0d11 has started in 1331,8188 ms
-INFO  2021-04-20 10:36:43,173  5997ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,174  5998ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,223  6047ms BackgroundExecution    CallSite.Target    - Execution loop Worker:7d33ec20 has started in 1385,0744 ms
-INFO  2021-04-20 10:36:43,223  6047ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,224  6048ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,241  6065ms BackgroundExecution    CallSite.Target    - Execution loop Worker:79516348 has started in 1402,4704 ms
-INFO  2021-04-20 10:36:43,241  6065ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,251  6075ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,291  6115ms BackgroundExecution    CallSite.Target    - Execution loop Worker:3bdd74c3 has started in 1452,7028 ms
-INFO  2021-04-20 10:36:43,291  6115ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,303  6127ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,353  6177ms BackgroundExecution    CallSite.Target    - Execution loop Worker:d43405e2 has started in 1514,6114 ms
-INFO  2021-04-20 10:36:43,353  6177ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,354  6178ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,405  6229ms BackgroundExecution    CallSite.Target    - Execution loop Worker:a89ec651 has started in 1566,5274 ms
-INFO  2021-04-20 10:36:43,406  6230ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,406  6230ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,455  6279ms BackgroundExecution    CallSite.Target    - Execution loop Worker:5a28f202 has started in 1616,3377 ms
-INFO  2021-04-20 10:36:43,455  6279ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,456  6280ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,470  6294ms BackgroundExecution    CallSite.Target    - Execution loop Worker:e2d1f61b has started in 1631,5551 ms
-INFO  2021-04-20 10:36:43,471  6295ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,472  6296ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,486  6310ms BackgroundExecution    CallSite.Target    - Execution loop Worker:a619ebb7 has started in 1647,5429 ms
-INFO  2021-04-20 10:36:43,487  6311ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,487  6311ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,518  6342ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'Job' table.
-DEBUG 2021-04-20 10:36:43,518  6342ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'List' table...
-DEBUG 2021-04-20 10:36:43,520  6344ms BackgroundExecution    CallSite.Target    - Execution loop Worker:e757fd22 has started in 1681,4943 ms
-INFO  2021-04-20 10:36:43,521  6345ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,521  6345ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,538  6362ms BackgroundExecution    CallSite.Target    - Execution loop Worker:b669817c has started in 1699,6951 ms
-INFO  2021-04-20 10:36:43,538  6362ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,539  6363ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoplo176sg
-DEBUG 2021-04-20 10:36:43,590  6414ms BackgroundExecution    CallSite.Target    - Execution loop DelayedJobScheduler:b290af19 has started in 55,4529 ms
-INFO  2021-04-20 10:36:43,606  6430ms ackgroundServerProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 all the dispatchers started
-DEBUG 2021-04-20 10:36:43,673  6497ms BackgroundExecution    CallSite.Target    - Execution loop RecurringJobScheduler:70123810 has started in 118,4661 ms
-DEBUG 2021-04-20 10:36:43,944  6768ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'List' table.
-DEBUG 2021-04-20 10:36:43,945  6769ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'Set' table...
-DEBUG 2021-04-20 10:36:44,356  7180ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'Set' table.
-DEBUG 2021-04-20 10:36:44,357  7181ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'Hash' table...
-DEBUG 2021-04-20 10:36:44,872  7696ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'Hash' table.
-DEBUG 2021-04-20 10:36:46,584  9408ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:36:46,585  9409ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:36:52,582 15406ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:36:52,583 15407ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:36:59,788 22612ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:36:59,788 22612ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:37:06,608 29432ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:37:06,608 29432ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:37:11,286 34110ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};Cron:*/1 * * * *;TimeZoneId:UTC;Queue:pequeno;CreatedAt:2019-04-25T15:49:25.0485350Z;LastExecution:2021-04-20T13:36:02.4686245Z;LastJobId:209932;NextExecution:2021-04-20T13:37:00.0000000Z;V:2;RetryAttempt:0;Error:), Changes: (LastExecution:2021-04-20T13:37:06.8379334Z;NextExecution:2021-04-20T13:38:00.0000000Z;LastJobId:209933), NextExecution: (20/04/2021 13:38:00)
-DEBUG 2021-04-20 10:37:11,492 34316ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 heartbeat successfully sent
-DEBUG 2021-04-20 10:37:11,505 34329ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 waiting for 00:00:30 delay before sending a heartbeat
-DEBUG 2021-04-20 10:37:11,620 34444ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:37:11,623 34447ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:37:14,489 37313ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) processed by scheduler.
-DEBUG 2021-04-20 10:37:17,057 39881ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:37:17,102 39926ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:37:30,686 53510ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:37:30,687 53511ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:37:41,557 64381ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:37:41,558 64382ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:38:37,472 120296ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 heartbeat successfully sent
-DEBUG 2021-04-20 10:38:37,477 120301ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 waiting for 00:00:30 delay before sending a heartbeat
-DEBUG 2021-04-20 10:38:37,472 120296ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:38:37,489 120313ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:38:42,517 125341ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:38:42,519 125343ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:40:54,679 257503ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:40:55,101 257925ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:41:02,975 265799ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:41:02,976 265800ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:41:03,958 266782ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 heartbeat successfully sent
-DEBUG 2021-04-20 10:41:03,959 266783ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 waiting for 00:00:30 delay before sending a heartbeat
-DEBUG 2021-04-20 10:41:04,541 267365ms viceBusQueueFetchedJob CallSite.Target    - An exception was thrown while trying to renew a lock for job '209928'.
-Microsoft.ServiceBus.Messaging.MessageLockLostException: The lock supplied is invalid. Either the lock expired, or the message has already been removed from the queue. TrackingId:ac302767-f013-46a6-b835-6208df022b81_G7_B28, SystemTracker:suporte:Queue:desktoplo176sg, Timestamp:2021-04-20T13:41:03 ---> System.ServiceModel.FaultException`1[System.ServiceModel.ExceptionDetail]: The lock supplied is invalid. Either the lock expired, or the message has already been removed from the queue. TrackingId:ac302767-f013-46a6-b835-6208df022b81_G7_B28, SystemTracker:suporte:Queue:desktoplo176sg, Timestamp:2021-04-20T13:41:03
-   em Microsoft.ServiceBus.Messaging.Sbmp.DuplexRequestBindingElement.DuplexRequestSessionChannel.ThrowIfFaultMessage(Message wcfMessage)
-   em Microsoft.ServiceBus.Messaging.Sbmp.DuplexRequestBindingElement.DuplexRequestSessionChannel.HandleMessageReceived(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Sbmp.DuplexRequestBindingElement.DuplexRequestSessionChannel.EndRequest(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Channels.ReconnectBindingElement.ReconnectChannelFactory`1.RequestSessionChannel.RequestAsyncResult.<>c.<GetAsyncSteps>b__9_3(RequestAsyncResult thisPtr, IAsyncResult r)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.StepCallback(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Common.AsyncResult`1.End(IAsyncResult asyncResult)
-   em Microsoft.ServiceBus.Messaging.Channels.ReconnectBindingElement.ReconnectChannelFactory`1.RequestSessionChannel.EndRequest(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Sbmp.RedirectBindingElement.RedirectContainerChannelFactory`1.RedirectContainerSessionChannel.RequestAsyncResult.<>c__DisplayClass8_0.<GetAsyncSteps>b__1(RequestAsyncResult thisPtr, IAsyncResult r)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.StepCallback(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Common.AsyncResult`1.End(IAsyncResult asyncResult)
-   em Microsoft.ServiceBus.Messaging.Sbmp.RedirectBindingElement.RedirectContainerChannelFactory`1.RedirectContainerSessionChannel.EndRequest(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Channels.ReconnectBindingElement.ReconnectChannelFactory`1.RequestSessionChannel.RequestAsyncResult.<>c.<GetAsyncSteps>b__9_3(RequestAsyncResult thisPtr, IAsyncResult r)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.StepCallback(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Common.AsyncResult`1.End(IAsyncResult asyncResult)
-   em Microsoft.ServiceBus.Messaging.Channels.ReconnectBindingElement.ReconnectChannelFactory`1.RequestSessionChannel.EndRequest(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Sbmp.SbmpMessageReceiver.RenewLockAsyncResult.<>c.<GetAsyncSteps>b__10_1(RenewLockAsyncResult thisPtr, IAsyncResult a)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.StepCallback(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Sbmp.SbmpMessageReceiver.OnEndRenewMessageLocks(IAsyncResult result)
-   --- Fim do rastreamento de pilha de exceções internas ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.ReceiveContext.EndRenewLock(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.BrokeredMessage.EndRenewLock(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.BrokeredMessage.RenewLock()
-   em Hangfire.Azure.ServiceBusQueue.ServiceBusQueueFetchedJob.<<KeepAlive>b__0>d__1.MoveNext()
-DEBUG 2021-04-20 10:41:04,614 267438ms viceBusQueueFetchedJob CallSite.Target    - An exception was thrown while trying to renew a lock for job '209928'.
-Microsoft.ServiceBus.Messaging.MessageLockLostException: The lock supplied is invalid. Either the lock expired, or the message has already been removed from the queue. TrackingId:0a7ab0ed-1ac2-478a-8b20-2833d6cd9030_G7_B28, SystemTracker:suporte:Queue:desktoplo176sg, Timestamp:2021-04-20T13:41:03 ---> System.ServiceModel.FaultException`1[System.ServiceModel.ExceptionDetail]: The lock supplied is invalid. Either the lock expired, or the message has already been removed from the queue. TrackingId:0a7ab0ed-1ac2-478a-8b20-2833d6cd9030_G7_B28, SystemTracker:suporte:Queue:desktoplo176sg, Timestamp:2021-04-20T13:41:03
-   em Microsoft.ServiceBus.Messaging.Sbmp.DuplexRequestBindingElement.DuplexRequestSessionChannel.ThrowIfFaultMessage(Message wcfMessage)
-   em Microsoft.ServiceBus.Messaging.Sbmp.DuplexRequestBindingElement.DuplexRequestSessionChannel.HandleMessageReceived(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Sbmp.DuplexRequestBindingElement.DuplexRequestSessionChannel.EndRequest(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Channels.ReconnectBindingElement.ReconnectChannelFactory`1.RequestSessionChannel.RequestAsyncResult.<>c.<GetAsyncSteps>b__9_3(RequestAsyncResult thisPtr, IAsyncResult r)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.StepCallback(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Common.AsyncResult`1.End(IAsyncResult asyncResult)
-   em Microsoft.ServiceBus.Messaging.Channels.ReconnectBindingElement.ReconnectChannelFactory`1.RequestSessionChannel.EndRequest(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Sbmp.RedirectBindingElement.RedirectContainerChannelFactory`1.RedirectContainerSessionChannel.RequestAsyncResult.<>c__DisplayClass8_0.<GetAsyncSteps>b__1(RequestAsyncResult thisPtr, IAsyncResult r)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.StepCallback(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Common.AsyncResult`1.End(IAsyncResult asyncResult)
-   em Microsoft.ServiceBus.Messaging.Sbmp.RedirectBindingElement.RedirectContainerChannelFactory`1.RedirectContainerSessionChannel.EndRequest(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Channels.ReconnectBindingElement.ReconnectChannelFactory`1.RequestSessionChannel.RequestAsyncResult.<>c.<GetAsyncSteps>b__9_3(RequestAsyncResult thisPtr, IAsyncResult r)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.StepCallback(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Common.AsyncResult`1.End(IAsyncResult asyncResult)
-   em Microsoft.ServiceBus.Messaging.Channels.ReconnectBindingElement.ReconnectChannelFactory`1.RequestSessionChannel.EndRequest(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Sbmp.SbmpMessageReceiver.RenewLockAsyncResult.<>c.<GetAsyncSteps>b__10_1(RenewLockAsyncResult thisPtr, IAsyncResult a)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.StepCallback(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Sbmp.SbmpMessageReceiver.OnEndRenewMessageLocks(IAsyncResult result)
-   --- Fim do rastreamento de pilha de exceções internas ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.ReceiveContext.EndRenewLock(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.BrokeredMessage.EndRenewLock(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.BrokeredMessage.RenewLock()
-   em Hangfire.Azure.ServiceBusQueue.ServiceBusQueueFetchedJob.<<KeepAlive>b__0>d__1.MoveNext()
-WARN  2021-04-20 10:41:05,862 268686ms Worker                 CallSite.Target    - Slow log: (BLL_N.JobManager.Hangfire.HangfireJobFilterAttribute, Hangfire.States.ApplyStateContext) performed "OnStateApplied for 209928" in 141 sec
-DEBUG 2021-04-20 10:41:08,073 270897ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:41:08,074 270898ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:41:10,095 272919ms BackgroundExecution    CallSite.Target    - Execution Worker is in the Faulted state now due to an exception, execution will be retried no more than in 00:00:01
-Microsoft.ServiceBus.Messaging.MessageLockLostException: The lock supplied is invalid. Either the lock expired, or the message has already been removed from the queue. TrackingId:9ef5706b-9290-4770-a420-0834705ae888_G7_B28, SystemTracker:suporte:Queue:desktoplo176sg, Timestamp:2021-04-20T13:41:08 ---> System.ServiceModel.FaultException`1[System.ServiceModel.ExceptionDetail]: The lock supplied is invalid. Either the lock expired, or the message has already been removed from the queue. TrackingId:9ef5706b-9290-4770-a420-0834705ae888_G7_B28, SystemTracker:suporte:Queue:desktoplo176sg, Timestamp:2021-04-20T13:41:08
-   em Microsoft.ServiceBus.Messaging.Sbmp.DuplexRequestBindingElement.DuplexRequestSessionChannel.ThrowIfFaultMessage(Message wcfMessage)
-   em Microsoft.ServiceBus.Messaging.Sbmp.DuplexRequestBindingElement.DuplexRequestSessionChannel.HandleMessageReceived(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Sbmp.DuplexRequestBindingElement.DuplexRequestSessionChannel.EndRequest(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Channels.ReconnectBindingElement.ReconnectChannelFactory`1.RequestSessionChannel.RequestAsyncResult.<>c.<GetAsyncSteps>b__9_3(RequestAsyncResult thisPtr, IAsyncResult r)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.StepCallback(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Common.AsyncResult`1.End(IAsyncResult asyncResult)
-   em Microsoft.ServiceBus.Messaging.Channels.ReconnectBindingElement.ReconnectChannelFactory`1.RequestSessionChannel.EndRequest(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Sbmp.RedirectBindingElement.RedirectContainerChannelFactory`1.RedirectContainerSessionChannel.RequestAsyncResult.<>c__DisplayClass8_0.<GetAsyncSteps>b__1(RequestAsyncResult thisPtr, IAsyncResult r)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.StepCallback(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Common.AsyncResult`1.End(IAsyncResult asyncResult)
-   em Microsoft.ServiceBus.Messaging.Sbmp.RedirectBindingElement.RedirectContainerChannelFactory`1.RedirectContainerSessionChannel.EndRequest(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Channels.ReconnectBindingElement.ReconnectChannelFactory`1.RequestSessionChannel.RequestAsyncResult.<>c.<GetAsyncSteps>b__9_3(RequestAsyncResult thisPtr, IAsyncResult r)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.StepCallback(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Common.AsyncResult`1.End(IAsyncResult asyncResult)
-   em Microsoft.ServiceBus.Messaging.Channels.ReconnectBindingElement.ReconnectChannelFactory`1.RequestSessionChannel.EndRequest(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Sbmp.SbmpTransactionalAsyncResult`1.<>c.<GetAsyncSteps>b__18_1(TIteratorAsyncResult thisPtr, IAsyncResult a)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.StepCallback(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Sbmp.SbmpMessageReceiver.EndUpdateCommand(IAsyncResult result)
-   --- Fim do rastreamento de pilha de exceções internas ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.RunSynchronously()
-   em Microsoft.ServiceBus.Messaging.MessageReceiver.OnComplete(TrackingContext trackingContext, IEnumerable`1 lockTokens, TimeSpan timeout)
-   em Microsoft.ServiceBus.Messaging.MessageReceiver.Complete(TrackingContext trackingContext, IEnumerable`1 lockTokens, TimeSpan timeout)
-   em Microsoft.ServiceBus.Messaging.ReceiveContext.Complete()
-   em Microsoft.ServiceBus.Messaging.BrokeredMessage.Complete()
-   em Hangfire.Azure.ServiceBusQueue.ServiceBusQueueFetchedJob.RemoveFromQueue()
-   em Hangfire.Server.Worker.Execute(BackgroundProcessContext context)
-   em Hangfire.Server.BackgroundProcessDispatcherBuilder.ExecuteProcess(Guid executionId, Object state)
-   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
-DEBUG 2021-04-20 10:41:10,096 272920ms BackgroundExecution    CallSite.Target    - Execution loop Worker:c302410c caught an exception and will be retried in 00:00:01
-Microsoft.ServiceBus.Messaging.MessageLockLostException: The lock supplied is invalid. Either the lock expired, or the message has already been removed from the queue. TrackingId:9ef5706b-9290-4770-a420-0834705ae888_G7_B28, SystemTracker:suporte:Queue:desktoplo176sg, Timestamp:2021-04-20T13:41:08 ---> System.ServiceModel.FaultException`1[System.ServiceModel.ExceptionDetail]: The lock supplied is invalid. Either the lock expired, or the message has already been removed from the queue. TrackingId:9ef5706b-9290-4770-a420-0834705ae888_G7_B28, SystemTracker:suporte:Queue:desktoplo176sg, Timestamp:2021-04-20T13:41:08
-   em Microsoft.ServiceBus.Messaging.Sbmp.DuplexRequestBindingElement.DuplexRequestSessionChannel.ThrowIfFaultMessage(Message wcfMessage)
-   em Microsoft.ServiceBus.Messaging.Sbmp.DuplexRequestBindingElement.DuplexRequestSessionChannel.HandleMessageReceived(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Sbmp.DuplexRequestBindingElement.DuplexRequestSessionChannel.EndRequest(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Channels.ReconnectBindingElement.ReconnectChannelFactory`1.RequestSessionChannel.RequestAsyncResult.<>c.<GetAsyncSteps>b__9_3(RequestAsyncResult thisPtr, IAsyncResult r)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.StepCallback(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Common.AsyncResult`1.End(IAsyncResult asyncResult)
-   em Microsoft.ServiceBus.Messaging.Channels.ReconnectBindingElement.ReconnectChannelFactory`1.RequestSessionChannel.EndRequest(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Sbmp.RedirectBindingElement.RedirectContainerChannelFactory`1.RedirectContainerSessionChannel.RequestAsyncResult.<>c__DisplayClass8_0.<GetAsyncSteps>b__1(RequestAsyncResult thisPtr, IAsyncResult r)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.StepCallback(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Common.AsyncResult`1.End(IAsyncResult asyncResult)
-   em Microsoft.ServiceBus.Messaging.Sbmp.RedirectBindingElement.RedirectContainerChannelFactory`1.RedirectContainerSessionChannel.EndRequest(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Channels.ReconnectBindingElement.ReconnectChannelFactory`1.RequestSessionChannel.RequestAsyncResult.<>c.<GetAsyncSteps>b__9_3(RequestAsyncResult thisPtr, IAsyncResult r)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.StepCallback(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Common.AsyncResult`1.End(IAsyncResult asyncResult)
-   em Microsoft.ServiceBus.Messaging.Channels.ReconnectBindingElement.ReconnectChannelFactory`1.RequestSessionChannel.EndRequest(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Sbmp.SbmpTransactionalAsyncResult`1.<>c.<GetAsyncSteps>b__18_1(TIteratorAsyncResult thisPtr, IAsyncResult a)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.StepCallback(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Sbmp.SbmpMessageReceiver.EndUpdateCommand(IAsyncResult result)
-   --- Fim do rastreamento de pilha de exceções internas ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.RunSynchronously()
-   em Microsoft.ServiceBus.Messaging.MessageReceiver.OnComplete(TrackingContext trackingContext, IEnumerable`1 lockTokens, TimeSpan timeout)
-   em Microsoft.ServiceBus.Messaging.MessageReceiver.Complete(TrackingContext trackingContext, IEnumerable`1 lockTokens, TimeSpan timeout)
-   em Microsoft.ServiceBus.Messaging.ReceiveContext.Complete()
-   em Microsoft.ServiceBus.Messaging.BrokeredMessage.Complete()
-   em Hangfire.Azure.ServiceBusQueue.ServiceBusQueueFetchedJob.RemoveFromQueue()
-   em Hangfire.Server.Worker.Execute(BackgroundProcessContext context)
-   em Hangfire.Server.BackgroundProcessDispatcherBuilder.ExecuteProcess(Guid executionId, Object state)
-   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
-DEBUG 2021-04-20 10:41:10,097 272921ms BackgroundExecution    CallSite.Target    - Execution loop Worker:c302410c will be retried in 00:00:01...
-DEBUG 2021-04-20 10:41:10,302 273126ms BackgroundExecution    CallSite.Target    - Execution loop Worker:7d33ec20 caught an exception and will be retried in 00:00:04
-Microsoft.ServiceBus.Messaging.MessageLockLostException: The lock supplied is invalid. Either the lock expired, or the message has already been removed from the queue. TrackingId:fb99d0be-d903-4ce3-8bc0-87a602dcf93a_G7_B28, SystemTracker:suporte:Queue:desktoplo176sg, Timestamp:2021-04-20T13:41:09 ---> System.ServiceModel.FaultException`1[System.ServiceModel.ExceptionDetail]: The lock supplied is invalid. Either the lock expired, or the message has already been removed from the queue. TrackingId:fb99d0be-d903-4ce3-8bc0-87a602dcf93a_G7_B28, SystemTracker:suporte:Queue:desktoplo176sg, Timestamp:2021-04-20T13:41:09
-   em Microsoft.ServiceBus.Messaging.Sbmp.DuplexRequestBindingElement.DuplexRequestSessionChannel.ThrowIfFaultMessage(Message wcfMessage)
-   em Microsoft.ServiceBus.Messaging.Sbmp.DuplexRequestBindingElement.DuplexRequestSessionChannel.HandleMessageReceived(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Sbmp.DuplexRequestBindingElement.DuplexRequestSessionChannel.EndRequest(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Channels.ReconnectBindingElement.ReconnectChannelFactory`1.RequestSessionChannel.RequestAsyncResult.<>c.<GetAsyncSteps>b__9_3(RequestAsyncResult thisPtr, IAsyncResult r)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.StepCallback(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Common.AsyncResult`1.End(IAsyncResult asyncResult)
-   em Microsoft.ServiceBus.Messaging.Channels.ReconnectBindingElement.ReconnectChannelFactory`1.RequestSessionChannel.EndRequest(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Sbmp.RedirectBindingElement.RedirectContainerChannelFactory`1.RedirectContainerSessionChannel.RequestAsyncResult.<>c__DisplayClass8_0.<GetAsyncSteps>b__1(RequestAsyncResult thisPtr, IAsyncResult r)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.StepCallback(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Common.AsyncResult`1.End(IAsyncResult asyncResult)
-   em Microsoft.ServiceBus.Messaging.Sbmp.RedirectBindingElement.RedirectContainerChannelFactory`1.RedirectContainerSessionChannel.EndRequest(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Channels.ReconnectBindingElement.ReconnectChannelFactory`1.RequestSessionChannel.RequestAsyncResult.<>c.<GetAsyncSteps>b__9_3(RequestAsyncResult thisPtr, IAsyncResult r)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.StepCallback(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Common.AsyncResult`1.End(IAsyncResult asyncResult)
-   em Microsoft.ServiceBus.Messaging.Channels.ReconnectBindingElement.ReconnectChannelFactory`1.RequestSessionChannel.EndRequest(IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Sbmp.SbmpTransactionalAsyncResult`1.<>c.<GetAsyncSteps>b__18_1(TIteratorAsyncResult thisPtr, IAsyncResult a)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.StepCallback(IAsyncResult result)
---- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.Sbmp.SbmpMessageReceiver.EndUpdateCommand(IAsyncResult result)
-   --- Fim do rastreamento de pilha de exceções internas ---
-   em Microsoft.ServiceBus.Common.AsyncResult.End[TAsyncResult](IAsyncResult result)
-   em Microsoft.ServiceBus.Messaging.IteratorAsyncResult`1.RunSynchronously()
-   em Microsoft.ServiceBus.Messaging.MessageReceiver.OnComplete(TrackingContext trackingContext, IEnumerable`1 lockTokens, TimeSpan timeout)
-   em Microsoft.ServiceBus.Messaging.MessageReceiver.Complete(TrackingContext trackingContext, IEnumerable`1 lockTokens, TimeSpan timeout)
-   em Microsoft.ServiceBus.Messaging.ReceiveContext.Complete()
-   em Microsoft.ServiceBus.Messaging.BrokeredMessage.Complete()
-   em Hangfire.Azure.ServiceBusQueue.ServiceBusQueueFetchedJob.RemoveFromQueue()
-   em Hangfire.Server.Worker.Execute(BackgroundProcessContext context)
-   em Hangfire.Server.BackgroundProcessDispatcherBuilder.ExecuteProcess(Guid executionId, Object state)
-   em Hangfire.Processing.BackgroundExecution.Run(Action`2 callback, Object state)
-DEBUG 2021-04-20 10:41:10,318 273142ms BackgroundExecution    CallSite.Target    - Execution loop Worker:7d33ec20 will be retried in 00:00:04...
-DEBUG 2021-04-20 10:41:13,175 275999ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:41:13,175 275999ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:41:18,296 281120ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:41:18,297 281121ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:41:23,428 286252ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:41:23,428 286252ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:41:28,573 291397ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:41:28,574 291398ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:41:33,708 296532ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:41:33,709 296533ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:41:34,627 297451ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 heartbeat successfully sent
-DEBUG 2021-04-20 10:41:34,628 297452ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 waiting for 00:00:30 delay before sending a heartbeat
-DEBUG 2021-04-20 10:41:38,772 301596ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:41:38,772 301596ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:41:42,450 305274ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
-DEBUG 2021-04-20 10:41:42,608 305432ms CountersAggregator     CallSite.Target    - Records from the 'Counter' table aggregated.
-DEBUG 2021-04-20 10:41:43,895 306719ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:41:43,896 306720ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:41:49,046 311870ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:41:49,046 311870ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:41:54,178 317002ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:41:54,178 317002ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:41:59,205 322029ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:41:59,205 322029ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:42:04,299 327123ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:42:04,299 327123ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:42:04,888 327712ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 heartbeat successfully sent
-DEBUG 2021-04-20 10:42:04,888 327712ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 waiting for 00:00:30 delay before sending a heartbeat
-DEBUG 2021-04-20 10:42:07,330 330154ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};Cron:*/1 * * * *;TimeZoneId:UTC;Queue:pequeno;CreatedAt:2019-04-25T15:49:25.0485350Z;LastExecution:2021-04-20T13:41:08.3793882Z;LastJobId:209937;NextExecution:2021-04-20T13:42:00.0000000Z;V:2;RetryAttempt:0;Error:), Changes: (LastExecution:2021-04-20T13:42:05.3557425Z;NextExecution:2021-04-20T13:43:00.0000000Z;LastJobId:209938), NextExecution: (20/04/2021 13:43:00)
-DEBUG 2021-04-20 10:42:09,335 332159ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:42:09,337 332161ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:42:09,373 332197ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) processed by scheduler.
-DEBUG 2021-04-20 10:42:14,467 337291ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:42:14,473 337297ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:42:19,514 342338ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:42:19,514 342338ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:42:24,806 347630ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:42:24,807 347631ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:42:29,929 352753ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:42:29,930 352754ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:42:35,071 357895ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:42:35,072 357896ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:42:35,447 358271ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 heartbeat successfully sent
-DEBUG 2021-04-20 10:42:35,447 358271ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 waiting for 00:00:30 delay before sending a heartbeat
-DEBUG 2021-04-20 10:42:40,193 363017ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:42:40,193 363017ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:42:45,342 368166ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:42:45,343 368167ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:42:50,489 373313ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:42:50,490 373314ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:42:55,510 378334ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:42:55,511 378335ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:43:00,723 383547ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:43:00,724 383548ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:43:05,838 388662ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:43:05,839 388663ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:43:05,927 388751ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 heartbeat successfully sent
-DEBUG 2021-04-20 10:43:05,928 388752ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 waiting for 00:00:30 delay before sending a heartbeat
-DEBUG 2021-04-20 10:43:11,015 393839ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:43:11,016 393840ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:43:14,339 397163ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};Cron:*/1 * * * *;TimeZoneId:UTC;Queue:pequeno;CreatedAt:2019-04-25T15:49:25.0485350Z;LastExecution:2021-04-20T13:42:05.3557425Z;LastJobId:209938;NextExecution:2021-04-20T13:43:00.0000000Z;V:2;RetryAttempt:0;Error:), Changes: (LastExecution:2021-04-20T13:43:12.1632465Z;NextExecution:2021-04-20T13:44:00.0000000Z;LastJobId:209939), NextExecution: (20/04/2021 13:44:00)
-DEBUG 2021-04-20 10:43:16,025 398849ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:43:16,025 398849ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:43:16,296 399120ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) processed by scheduler.
-DEBUG 2021-04-20 10:43:21,176 404000ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:43:21,176 404000ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:43:26,308 409132ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:43:26,309 409133ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:43:31,431 414255ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:43:31,432 414256ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:43:36,113 418937ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 heartbeat successfully sent
-DEBUG 2021-04-20 10:43:36,114 418938ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 waiting for 00:00:30 delay before sending a heartbeat
-DEBUG 2021-04-20 10:43:36,484 419308ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:43:36,484 419308ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:43:41,613 424437ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:43:41,614 424438ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:43:46,722 429546ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:43:46,723 429547ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:43:51,863 434687ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:43:51,864 434688ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:43:56,895 439719ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:43:56,895 439719ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:44:02,029 444853ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:44:02,032 444856ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:44:06,526 449350ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 heartbeat successfully sent
-DEBUG 2021-04-20 10:44:06,526 449351ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 waiting for 00:00:30 delay before sending a heartbeat
-DEBUG 2021-04-20 10:44:07,178 450002ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:44:07,178 450002ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:44:12,316 455140ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:44:12,316 455140ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:44:17,358 460182ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:44:17,360 460184ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:44:22,578 465403ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:44:22,578 465403ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:44:27,797 470621ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:44:27,798 470622ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:44:32,967 475791ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:44:32,968 475792ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:44:36,688 479512ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 heartbeat successfully sent
-DEBUG 2021-04-20 10:44:36,688 479512ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 waiting for 00:00:30 delay before sending a heartbeat
-DEBUG 2021-04-20 10:44:38,017 480841ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:44:38,018 480842ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:44:43,249 486073ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:44:43,249 486073ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:44:48,387 491211ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:44:48,388 491212ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:44:53,494 496318ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:44:53,495 496319ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:44:58,660 501484ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:44:58,661 501485ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:45:03,782 506606ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:45:03,782 506606ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:45:07,711 510535ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 heartbeat successfully sent
-DEBUG 2021-04-20 10:45:07,712 510536ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 waiting for 00:00:30 delay before sending a heartbeat
-DEBUG 2021-04-20 10:45:08,928 511752ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:45:08,929 511753ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:45:14,035 516859ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:45:14,036 516860ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:45:19,209 522033ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:45:19,209 522034ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:45:24,302 527126ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:45:24,304 527128ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:45:29,379 532203ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:45:29,379 532203ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:45:34,499 537323ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:45:34,500 537324ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:45:37,895 540719ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 heartbeat successfully sent
-DEBUG 2021-04-20 10:45:37,896 540720ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 waiting for 00:00:30 delay before sending a heartbeat
-DEBUG 2021-04-20 10:45:39,597 542421ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:45:39,597 542421ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:45:44,700 547524ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:45:44,701 547525ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:45:49,801 552625ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:45:49,801 552625ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:45:54,921 557745ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:45:54,922 557746ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:46:00,030 562854ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:46:00,031 562855ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:46:05,201 568025ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:46:05,201 568025ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:46:08,365 571189ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 heartbeat successfully sent
-DEBUG 2021-04-20 10:46:08,365 571189ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 waiting for 00:00:30 delay before sending a heartbeat
-DEBUG 2021-04-20 10:46:10,315 573139ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:46:10,316 573140ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:46:15,482 578306ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:46:15,483 578307ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:46:20,624 583448ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:46:20,625 583449ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:46:25,795 588619ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:46:25,796 588620ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:46:30,926 593750ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:46:30,928 593752ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:46:36,050 598874ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:46:36,050 598874ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:46:39,089 601913ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 heartbeat successfully sent
-DEBUG 2021-04-20 10:46:39,089 601913ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 waiting for 00:00:30 delay before sending a heartbeat
-DEBUG 2021-04-20 10:46:41,163 603987ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:46:41,164 603988ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:46:43,280 606104ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
-DEBUG 2021-04-20 10:46:43,442 606266ms CountersAggregator     CallSite.Target    - Records from the 'Counter' table aggregated.
-DEBUG 2021-04-20 10:46:46,269 609093ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:46:46,269 609093ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:46:51,315 614139ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:46:51,317 614141ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:46:56,356 619180ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:46:56,357 619181ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:47:04,165 626989ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:47:04,166 626990ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:47:09,561 632385ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:47:09,562 632386ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:47:09,618 632442ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 heartbeat successfully sent
-DEBUG 2021-04-20 10:47:09,619 632443ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 waiting for 00:00:30 delay before sending a heartbeat
-DEBUG 2021-04-20 10:47:14,740 637564ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:47:14,740 637564ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:47:19,818 642642ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:47:19,819 642643ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:47:24,965 647789ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:47:24,966 647790ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:47:30,099 652923ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:47:30,099 652923ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:47:35,597 658421ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:47:35,598 658422ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:48:09,975 692799ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:48:09,975 692799ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 heartbeat successfully sent
-DEBUG 2021-04-20 10:48:10,036 692860ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 waiting for 00:00:30 delay before sending a heartbeat
-DEBUG 2021-04-20 10:48:10,687 693511ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:48:15,712 698536ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:48:15,713 698537ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-INFO  2021-04-20 10:48:16,893 699717ms BackgroundExecution    CallSite.Target    - Execution Worker recovered from the Faulted state after 00:07:06.7989822 and is in the Running state now
-DEBUG 2021-04-20 10:48:20,975 703799ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:48:20,976 703800ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:48:26,100 708924ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:48:26,101 708925ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:48:31,224 714048ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:48:31,225 714049ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:48:36,344 719168ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:48:36,345 719169ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:48:40,177 723001ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 heartbeat successfully sent
-DEBUG 2021-04-20 10:48:40,178 723002ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 waiting for 00:00:30 delay before sending a heartbeat
-DEBUG 2021-04-20 10:48:41,373 724197ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:48:41,373 724197ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:48:46,453 729277ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:48:46,454 729278ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:48:52,211 735035ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:48:52,211 735035ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:48:57,505 740329ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:48:57,505 740329ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:49:02,417 745241ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};Cron:*/1 * * * *;TimeZoneId:UTC;Queue:pequeno;CreatedAt:2019-04-25T15:49:25.0485350Z;LastExecution:2021-04-20T13:48:09.8856431Z;LastJobId:209945;NextExecution:2021-04-20T13:49:00.0000000Z;V:2;RetryAttempt:0;Error:), Changes: (LastExecution:2021-04-20T13:49:00.4493926Z;NextExecution:2021-04-20T13:50:00.0000000Z;LastJobId:209946), NextExecution: (20/04/2021 13:50:00)
-DEBUG 2021-04-20 10:49:02,616 745440ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:49:02,618 745442ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:49:04,348 747172ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) processed by scheduler.
-DEBUG 2021-04-20 10:49:07,745 750569ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:49:07,745 750569ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:49:10,315 753139ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 heartbeat successfully sent
-DEBUG 2021-04-20 10:49:10,316 753140ms ServerHeartbeatProcess CallSite.Target    - Server desktop-lo176sg:16304:68817f92 waiting for 00:00:30 delay before sending a heartbeat
-DEBUG 2021-04-20 10:49:12,778 755602ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:49:12,778 755602ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:49:17,905 760729ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:49:17,906 760730ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:49:23,015 765839ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:49:23,016 765840ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
-DEBUG 2021-04-20 10:49:28,160 770984ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
-DEBUG 2021-04-20 10:49:28,160 770984ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+INFO  2021-03-15 14:54:03,909  4773ms ackgroundServerProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 successfully announced in 373,1531 ms
+INFO  2021-03-15 14:54:03,937  4801ms ackgroundServerProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, Worker, DelayedJobScheduler, RecurringJobScheduler...
+DEBUG 2021-03-15 14:54:03,956  4820ms BackgroundExecution    CallSite.Target    - Execution loop ServerHeartbeatProcess:3c3b46ee has started in 23,4868 ms
+DEBUG 2021-03-15 14:54:03,959  4823ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 14:54:03,961  4825ms BackgroundExecution    CallSite.Target    - Execution loop ServerWatchdog:d071bc8b has started in 22,7781 ms
+DEBUG 2021-03-15 14:54:03,972  4836ms BackgroundExecution    CallSite.Target    - Execution loop ServerJobCancellationWatcher:faa3b121 has started in 16,9182 ms
+DEBUG 2021-03-15 14:54:03,973  4837ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:54:03,975  4839ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:54:03,980  4844ms BackgroundExecution    CallSite.Target    - Execution loop ExpirationManager:b4119ceb has started in 8,7546 ms
+DEBUG 2021-03-15 14:54:03,984  4848ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'AggregatedCounter' table...
+DEBUG 2021-03-15 14:54:03,992  4856ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:72fedb2f has started in 13,1369 ms
+DEBUG 2021-03-15 14:54:03,993  4857ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2021-03-15 14:54:04,000  4864ms BackgroundExecution    CallSite.Target    - Execution loop Worker:8fa3113a has started in 9,8141 ms
+INFO  2021-03-15 14:54:04,034  4898ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,035  4899ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,035  4899ms BackgroundExecution    CallSite.Target    - Execution loop Worker:44d7fecd has started in 44,7349 ms
+INFO  2021-03-15 14:54:04,040  4904ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,045  4909ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,053  4917ms BackgroundExecution    CallSite.Target    - Execution loop Worker:849ca69e has started in 62,0737 ms
+INFO  2021-03-15 14:54:04,053  4917ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,053  4917ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,077  4941ms BackgroundExecution    CallSite.Target    - Execution loop Worker:0b81f004 has started in 86,4717 ms
+INFO  2021-03-15 14:54:04,077  4941ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,077  4941ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,084  4948ms BackgroundExecution    CallSite.Target    - Execution loop Worker:5c307167 has started in 93,2729 ms
+INFO  2021-03-15 14:54:04,084  4948ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,084  4948ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,090  4954ms BackgroundExecution    CallSite.Target    - Execution loop Worker:6f2d2098 has started in 99,1793 ms
+INFO  2021-03-15 14:54:04,090  4954ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,091  4955ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,136  5000ms BackgroundExecution    CallSite.Target    - Execution loop Worker:29c2ef81 has started in 145,8504 ms
+INFO  2021-03-15 14:54:04,137  5001ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,137  5001ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,144  5008ms BackgroundExecution    CallSite.Target    - Execution loop Worker:a4036002 has started in 153,7976 ms
+INFO  2021-03-15 14:54:04,145  5009ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,145  5009ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,154  5018ms BackgroundExecution    CallSite.Target    - Execution loop Worker:0275cffa has started in 163,0741 ms
+INFO  2021-03-15 14:54:04,154  5018ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,154  5018ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,158  5022ms BackgroundExecution    CallSite.Target    - Execution loop Worker:b1ab3784 has started in 167,6357 ms
+INFO  2021-03-15 14:54:04,158  5022ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,159  5023ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,162  5026ms BackgroundExecution    CallSite.Target    - Execution loop Worker:4b610f3c has started in 171,7921 ms
+INFO  2021-03-15 14:54:04,163  5027ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,163  5027ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,170  5034ms BackgroundExecution    CallSite.Target    - Execution loop Worker:779c8658 has started in 179,0352 ms
+INFO  2021-03-15 14:54:04,170  5034ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,170  5034ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,174  5038ms BackgroundExecution    CallSite.Target    - Execution loop Worker:07026241 has started in 183,528 ms
+INFO  2021-03-15 14:54:04,174  5038ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,174  5038ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,183  5047ms BackgroundExecution    CallSite.Target    - Execution loop Worker:aaf6b116 has started in 192,5869 ms
+INFO  2021-03-15 14:54:04,184  5048ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,184  5048ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,188  5052ms BackgroundExecution    CallSite.Target    - Execution loop Worker:50092d14 has started in 197,3417 ms
+INFO  2021-03-15 14:54:04,189  5053ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,189  5053ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,193  5057ms BackgroundExecution    CallSite.Target    - Execution loop Worker:9fb4384c has started in 202,0843 ms
+INFO  2021-03-15 14:54:04,193  5057ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,193  5057ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,200  5064ms BackgroundExecution    CallSite.Target    - Execution loop Worker:d2a7b6de has started in 209,0634 ms
+INFO  2021-03-15 14:54:04,200  5064ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,200  5064ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,205  5069ms BackgroundExecution    CallSite.Target    - Execution loop Worker:b45f49be has started in 214,7969 ms
+INFO  2021-03-15 14:54:04,206  5070ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,207  5071ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,211  5075ms BackgroundExecution    CallSite.Target    - Execution loop Worker:779c04fc has started in 220,6119 ms
+INFO  2021-03-15 14:54:04,211  5075ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,212  5076ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,256  5120ms BackgroundExecution    CallSite.Target    - Execution loop Worker:d48b892b has started in 265,0756 ms
+INFO  2021-03-15 14:54:04,256  5120ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,256  5120ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 14:54:04,322  5186ms BackgroundExecution    CallSite.Target    - Execution loop DelayedJobScheduler:eb10f77e has started in 108,3343 ms
+INFO  2021-03-15 14:54:04,362  5226ms ackgroundServerProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 all the dispatchers started
+DEBUG 2021-03-15 14:54:04,389  5253ms BackgroundExecution    CallSite.Target    - Execution loop RecurringJobScheduler:652363db has started in 99,9268 ms
+DEBUG 2021-03-15 14:54:04,600  5464ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'AggregatedCounter' table.
+DEBUG 2021-03-15 14:54:04,600  5464ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'Job' table...
+DEBUG 2021-03-15 14:54:05,250  6114ms CountersAggregator     CallSite.Target    - Records from the 'Counter' table aggregated.
+DEBUG 2021-03-15 14:54:05,526  6390ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'Job' table.
+DEBUG 2021-03-15 14:54:05,526  6390ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'List' table...
+DEBUG 2021-03-15 14:54:05,977  6841ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'List' table.
+DEBUG 2021-03-15 14:54:05,977  6841ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'Set' table...
+DEBUG 2021-03-15 14:54:06,445  7309ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'Set' table.
+DEBUG 2021-03-15 14:54:06,445  7309ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'Hash' table...
+DEBUG 2021-03-15 14:54:07,122  7986ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'Hash' table.
+DEBUG 2021-03-15 14:54:08,987  9851ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:54:08,987  9851ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:54:14,139 15003ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:54:14,139 15003ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:54:19,195 20059ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:54:19,195 20059ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:54:24,291 25154ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:54:24,292 25155ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:54:29,376 30240ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:54:29,376 30240ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:54:34,361 35225ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 heartbeat successfully sent
+DEBUG 2021-03-15 14:54:34,361 35225ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 14:54:34,451 35314ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:54:34,451 35315ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:54:39,524 40388ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:54:39,525 40389ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:54:44,615 45479ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:54:44,615 45479ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:54:49,676 50539ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:54:49,676 50539ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:54:54,770 55633ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:54:54,770 55633ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:54:59,858 60721ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:54:59,859 60722ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:55:04,587 65451ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 heartbeat successfully sent
+DEBUG 2021-03-15 14:55:04,588 65452ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 14:55:04,942 65806ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:55:04,942 65806ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:55:10,014 70878ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:55:10,014 70878ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:55:15,113 75976ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:55:15,113 75976ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:55:20,127 80990ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:55:20,137 81000ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:55:29,024 89887ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:55:29,025 89888ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:55:36,271 97134ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:55:36,285 97148ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:55:37,338 98201ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 heartbeat successfully sent
+DEBUG 2021-03-15 14:55:37,339 98202ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 14:55:42,195 103058ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:55:42,196 103059ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:55:56,840 117703ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:55:56,840 117703ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:56:20,540 141403ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:56:20,540 141403ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:56:21,553 142416ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 heartbeat successfully sent
+DEBUG 2021-03-15 14:56:21,553 142416ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 14:56:34,420 155283ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:56:34,420 155283ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:56:42,773 163637ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:56:42,777 163641ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:57:09,745 190608ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:57:09,746 190609ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:57:09,909 190772ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 heartbeat successfully sent
+DEBUG 2021-03-15 14:57:09,910 190773ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 14:57:27,117 207980ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:57:27,120 207983ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:57:35,895 216758ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:57:35,896 216759ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:57:41,221 222084ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:57:41,221 222084ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 heartbeat successfully sent
+DEBUG 2021-03-15 14:57:41,222 222085ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 14:57:41,222 222085ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:57:49,248 230111ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:57:49,248 230111ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:57:59,739 240602ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:57:59,740 240603ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:58:06,295 247158ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:58:06,296 247159ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:58:10,266 251129ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};Cron:*/1 * * * *;TimeZoneId:UTC;Queue:pequeno;CreatedAt:2019-04-25T15:49:25.0485350Z;LastExecution:2021-03-15T17:55:06.2602501Z;LastJobId:156720;NextExecution:2021-03-15T17:56:00.0000000Z;V:2;RetryAttempt:0;Error:), Changes: (LastExecution:2021-03-15T17:56:01.0427118Z;NextExecution:2021-03-15T17:57:00.0000000Z;LastJobId:156721), NextExecution: (15/03/2021 17:57:00)
+DEBUG 2021-03-15 14:58:12,575 253438ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:58:12,576 253439ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:59:07,312 308175ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 heartbeat successfully sent
+DEBUG 2021-03-15 14:59:07,313 308176ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 14:59:07,313 308176ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:59:07,313 308176ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2021-03-15 14:59:07,314 308177ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:59:07,770 308633ms CountersAggregator     CallSite.Target    - Records from the 'Counter' table aggregated.
+DEBUG 2021-03-15 14:59:09,963 310826ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) processed by scheduler.
+DEBUG 2021-03-15 14:59:12,372 313235ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:59:12,372 313235ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:59:17,480 318343ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:59:17,480 318343ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:59:22,555 323418ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:59:22,555 323418ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:59:27,647 328510ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:59:27,647 328510ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:59:32,714 333577ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:59:32,714 333577ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:59:38,466 339329ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:59:38,467 339330ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:59:38,621 339484ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 heartbeat successfully sent
+DEBUG 2021-03-15 14:59:38,621 339484ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 14:59:43,591 344454ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:59:43,591 344454ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:59:48,607 349470ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:59:48,608 349471ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:59:53,731 354594ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:59:53,731 354594ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 14:59:58,755 359619ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 14:59:58,755 359619ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:00:03,834 364698ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:00:03,834 364698ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:00:08,797 369661ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 heartbeat successfully sent
+DEBUG 2021-03-15 15:00:08,798 369662ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 15:00:08,858 369722ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:00:08,858 369722ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:00:13,946 374810ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:00:13,946 374810ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:00:19,055 379919ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:00:19,056 379919ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:00:24,126 384989ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:00:24,126 384989ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:00:29,144 390007ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:00:29,145 390008ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:00:34,229 395092ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:00:34,229 395092ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:00:39,121 399984ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 heartbeat successfully sent
+DEBUG 2021-03-15 15:00:39,121 399984ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 15:00:39,326 400189ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:00:39,326 400189ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:00:44,519 405382ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:00:44,519 405382ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:00:49,532 410395ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:00:49,532 410395ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:00:54,631 415494ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:00:54,631 415494ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:00:59,718 420581ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:00:59,718 420581ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:01:04,792 425655ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:01:04,792 425655ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:01:09,296 430159ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 heartbeat successfully sent
+DEBUG 2021-03-15 15:01:09,296 430159ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 15:01:09,823 430686ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:01:09,823 430686ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:01:14,902 435765ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:01:14,903 435766ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:01:19,987 440850ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:01:19,987 440850ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:01:25,076 445939ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:01:25,076 445939ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:01:30,164 451027ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:01:30,164 451027ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:01:35,237 456100ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:01:35,237 456100ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:01:39,929 460792ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 heartbeat successfully sent
+DEBUG 2021-03-15 15:01:39,930 460793ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 15:01:40,320 461183ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:01:40,320 461183ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:01:45,412 466275ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:01:45,412 466275ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:01:50,484 471348ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:01:50,484 471348ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:01:55,570 476433ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:01:55,571 476434ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:02:00,614 481477ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:02:00,614 481477ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:02:05,685 486548ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:02:05,685 486548ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:02:10,119 490983ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 heartbeat successfully sent
+DEBUG 2021-03-15 15:02:10,119 490983ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 15:02:10,728 491592ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:02:10,728 491592ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:02:15,843 496706ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:02:15,843 496706ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:02:20,923 501786ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:02:20,923 501786ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:02:26,025 506889ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:02:26,025 506889ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:02:31,130 511993ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:02:31,131 511994ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:02:36,224 517087ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:02:36,224 517087ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:02:40,307 521170ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 heartbeat successfully sent
+DEBUG 2021-03-15 15:02:40,307 521170ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 15:02:41,283 522146ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:02:41,283 522146ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:02:46,361 527224ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:02:46,361 527224ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:02:51,421 532284ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:02:51,422 532285ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:02:56,516 537379ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:02:56,516 537379ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:03:01,605 542469ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:03:01,605 542469ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:03:06,698 547561ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:03:06,698 547561ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:03:10,506 551369ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 heartbeat successfully sent
+DEBUG 2021-03-15 15:03:10,506 551369ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 15:03:11,768 552631ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:03:11,768 552631ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:03:16,863 557727ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:03:16,864 557727ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:03:21,967 562830ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:03:21,967 562830ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:03:27,056 567919ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:03:27,056 567919ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:03:32,145 573008ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:03:32,145 573008ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:03:37,242 578106ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:03:37,243 578106ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:03:40,727 581590ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 heartbeat successfully sent
+DEBUG 2021-03-15 15:03:40,727 581590ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:3564:8b4013f6 waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 15:03:42,337 583200ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:03:42,337 583200ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 15:03:47,424 588287ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 15:03:47,424 588287ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+INFO  2021-03-15 16:01:51,968  2085ms ackgroundServerProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f successfully announced in 386,2382 ms
+INFO  2021-03-15 16:01:52,000  2117ms ackgroundServerProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, Worker, DelayedJobScheduler, RecurringJobScheduler...
+DEBUG 2021-03-15 16:01:52,003  2120ms BackgroundExecution    CallSite.Target    - Execution loop ServerHeartbeatProcess:9c97b96b has started in 13,6655 ms
+DEBUG 2021-03-15 16:01:52,008  2125ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 16:01:52,017  2134ms BackgroundExecution    CallSite.Target    - Execution loop ServerWatchdog:5e805344 has started in 16,7364 ms
+DEBUG 2021-03-15 16:01:52,023  2140ms BackgroundExecution    CallSite.Target    - Execution loop ServerJobCancellationWatcher:cc33d59e has started in 5,3838 ms
+DEBUG 2021-03-15 16:01:52,025  2142ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:01:52,029  2146ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:01:52,047  2164ms BackgroundExecution    CallSite.Target    - Execution loop ExpirationManager:3cac6b56 has started in 23,7521 ms
+DEBUG 2021-03-15 16:01:52,048  2165ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'AggregatedCounter' table...
+DEBUG 2021-03-15 16:01:52,052  2169ms BackgroundExecution    CallSite.Target    - Execution loop CountersAggregator:941ec945 has started in 5,4235 ms
+DEBUG 2021-03-15 16:01:52,053  2170ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2021-03-15 16:01:52,059  2176ms BackgroundExecution    CallSite.Target    - Execution loop Worker:677bd18c has started in 7,0807 ms
+DEBUG 2021-03-15 16:01:52,066  2183ms BackgroundExecution    CallSite.Target    - Execution loop Worker:61f3afb7 has started in 13,7306 ms
+INFO  2021-03-15 16:01:52,069  2186ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+INFO  2021-03-15 16:01:52,069  2186ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,072  2189ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,072  2189ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,075  2192ms BackgroundExecution    CallSite.Target    - Execution loop Worker:68377a30 has started in 22,4846 ms
+INFO  2021-03-15 16:01:52,075  2192ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,075  2192ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,121  2238ms BackgroundExecution    CallSite.Target    - Execution loop Worker:0f254e67 has started in 69,1578 ms
+INFO  2021-03-15 16:01:52,121  2238ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,122  2239ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,122  2239ms BackgroundExecution    CallSite.Target    - Execution loop Worker:55e1c3b9 has started in 69,7651 ms
+INFO  2021-03-15 16:01:52,122  2239ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,122  2239ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,133  2250ms BackgroundExecution    CallSite.Target    - Execution loop Worker:3b8b6e34 has started in 80,6886 ms
+INFO  2021-03-15 16:01:52,133  2250ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,133  2250ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,140  2257ms BackgroundExecution    CallSite.Target    - Execution loop Worker:08f2846f has started in 88,4668 ms
+INFO  2021-03-15 16:01:52,144  2261ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,145  2262ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,147  2264ms BackgroundExecution    CallSite.Target    - Execution loop Worker:0ac89a3d has started in 95,4229 ms
+INFO  2021-03-15 16:01:52,148  2265ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,148  2265ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,160  2277ms BackgroundExecution    CallSite.Target    - Execution loop Worker:670b7f86 has started in 107,9132 ms
+INFO  2021-03-15 16:01:52,161  2278ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,163  2280ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,165  2282ms BackgroundExecution    CallSite.Target    - Execution loop Worker:19d0ae1f has started in 113,0961 ms
+INFO  2021-03-15 16:01:52,166  2283ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,166  2283ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,205  2322ms BackgroundExecution    CallSite.Target    - Execution loop Worker:ec0774cb has started in 153,2178 ms
+INFO  2021-03-15 16:01:52,206  2323ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,206  2323ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,207  2324ms BackgroundExecution    CallSite.Target    - Execution loop Worker:fa3d807d has started in 154,619 ms
+INFO  2021-03-15 16:01:52,207  2324ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,207  2324ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,218  2335ms BackgroundExecution    CallSite.Target    - Execution loop Worker:3f495e81 has started in 166,0143 ms
+INFO  2021-03-15 16:01:52,218  2335ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,218  2335ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,224  2341ms BackgroundExecution    CallSite.Target    - Execution loop Worker:91e5d080 has started in 172,0301 ms
+INFO  2021-03-15 16:01:52,224  2341ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,224  2341ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,253  2370ms BackgroundExecution    CallSite.Target    - Execution loop Worker:029ed597 has started in 200,6543 ms
+INFO  2021-03-15 16:01:52,253  2370ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,253  2370ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,270  2387ms BackgroundExecution    CallSite.Target    - Execution loop Worker:a3b18c0f has started in 217,8289 ms
+INFO  2021-03-15 16:01:52,270  2387ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,270  2387ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,278  2396ms BackgroundExecution    CallSite.Target    - Execution loop Worker:f93ae161 has started in 225,9328 ms
+INFO  2021-03-15 16:01:52,278  2396ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,279  2396ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,284  2401ms BackgroundExecution    CallSite.Target    - Execution loop Worker:68ccba48 has started in 232,1271 ms
+INFO  2021-03-15 16:01:52,284  2401ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,285  2402ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,291  2408ms BackgroundExecution    CallSite.Target    - Execution loop Worker:b8537bf7 has started in 238,9318 ms
+INFO  2021-03-15 16:01:52,292  2409ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,292  2409ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,298  2415ms BackgroundExecution    CallSite.Target    - Execution loop Worker:ef5013c4 has started in 246,2492 ms
+INFO  2021-03-15 16:01:52,298  2415ms ServiceBusManager      CallSite.Target    - Not checking for the existence of the queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,299  2416ms ServiceBusManager      CallSite.Target    - Creating new QueueClient for queue desktoparqhojj
+DEBUG 2021-03-15 16:01:52,306  2423ms BackgroundExecution    CallSite.Target    - Execution loop DelayedJobScheduler:d316b0a2 has started in 8,9377 ms
+INFO  2021-03-15 16:01:52,309  2426ms ackgroundServerProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f all the dispatchers started
+DEBUG 2021-03-15 16:01:52,315  2432ms BackgroundExecution    CallSite.Target    - Execution loop RecurringJobScheduler:b229008a has started in 11,0251 ms
+DEBUG 2021-03-15 16:01:52,676  2793ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'AggregatedCounter' table.
+DEBUG 2021-03-15 16:01:52,677  2794ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'Job' table...
+DEBUG 2021-03-15 16:01:53,635  3752ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'Job' table.
+DEBUG 2021-03-15 16:01:53,635  3752ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'List' table...
+DEBUG 2021-03-15 16:01:54,131  4248ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'List' table.
+DEBUG 2021-03-15 16:01:54,131  4248ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'Set' table...
+DEBUG 2021-03-15 16:01:54,641  4758ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'Set' table.
+DEBUG 2021-03-15 16:01:54,642  4759ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'Hash' table...
+DEBUG 2021-03-15 16:01:55,235  5352ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'Hash' table.
+DEBUG 2021-03-15 16:01:57,033  7150ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:01:57,033  7150ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:01:58,383  8500ms CountersAggregator     CallSite.Target    - Records from the 'Counter' table aggregated.
+DEBUG 2021-03-15 16:02:02,171 12289ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:02:02,171 12289ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:02:07,180 17298ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:02:07,180 17298ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:02:12,246 22364ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:02:12,247 22365ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:02:17,518 27636ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:02:17,519 27637ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:02:22,226 32344ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f heartbeat successfully sent
+DEBUG 2021-03-15 16:02:22,226 32344ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 16:02:22,588 32706ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:02:22,588 32706ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:02:27,674 37792ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:02:27,674 37792ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:02:32,849 42967ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:02:32,850 42968ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:02:37,892 48010ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:02:37,894 48012ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:02:42,974 53092ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:02:42,974 53092ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:02:48,058 58176ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:02:48,058 58176ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:02:52,950 63068ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f heartbeat successfully sent
+DEBUG 2021-03-15 16:02:52,950 63068ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 16:02:53,197 63314ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:02:53,197 63314ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:02:58,335 68453ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:02:58,335 68453ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:03:02,422 72540ms RecurringJobScheduler  CallSite.Target    - Recurring job 'EnvioRegistroEMPLOYER' is being updated. RecurringJob: (Job:{"Type":"MonitorJobs.Negocio.EnviarRegistroPonto, MonitorJobs, Version=2.68.1984.1, Culture=neutral, PublicKeyToken=null","Method":"EnviarRegistroPontoCS","ParameterTypes":"[\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"]","Arguments":"[\"\\\"PONTOFOPAG_EMPLOYER\\\"\"]"};Cron:*/1 * * * *;TimeZoneId:UTC;Queue:pequeno;CreatedAt:2019-04-25T15:49:25.0485350Z;LastExecution:2021-03-15T19:02:09.1313899Z;LastJobId:156786;NextExecution:2021-03-15T19:03:00.0000000Z;V:2;RetryAttempt:0;Error:), Changes: (LastExecution:2021-03-15T19:03:00.1988623Z;NextExecution:2021-03-15T19:04:00.0000000Z;LastJobId:156787), NextExecution: (15/03/2021 19:04:00)
+DEBUG 2021-03-15 16:03:03,555 73673ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:03:03,555 73673ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:03:04,609 74727ms RecurringJobScheduler  CallSite.Target    - 1 recurring job(s) processed by scheduler.
+DEBUG 2021-03-15 16:03:08,570 78688ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:03:08,570 78688ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:03:13,700 83818ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:03:13,701 83819ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:03:18,825 88943ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:03:18,826 88944ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:03:23,416 93533ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f heartbeat successfully sent
+DEBUG 2021-03-15 16:03:23,417 93534ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 16:03:23,922 94040ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:03:23,923 94041ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:03:29,004 99121ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:03:29,004 99121ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:03:34,104 104221ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:03:34,105 104222ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:03:39,216 109334ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:03:39,217 109334ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:03:44,288 114405ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:03:44,288 114405ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:03:49,376 119494ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:03:49,377 119495ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:03:53,819 123936ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f heartbeat successfully sent
+DEBUG 2021-03-15 16:03:53,820 123937ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 16:03:54,492 124610ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:03:54,493 124610ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:03:59,573 129690ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:03:59,573 129690ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:04:04,656 134774ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:04:04,656 134774ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:04:09,752 139870ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:04:09,753 139871ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:04:14,839 144957ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:04:14,839 144957ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:04:19,856 149973ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:04:19,856 149973ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:04:24,057 154175ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f heartbeat successfully sent
+DEBUG 2021-03-15 16:04:24,058 154176ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 16:04:24,949 155067ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:04:24,949 155067ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:04:30,030 160147ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:04:30,030 160147ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:04:35,119 165236ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:04:35,119 165236ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:04:40,151 170269ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:04:40,151 170269ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:04:45,242 175359ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:04:45,243 175360ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:04:50,328 180445ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:04:50,329 180446ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:04:54,528 184645ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f heartbeat successfully sent
+DEBUG 2021-03-15 16:04:54,528 184645ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 16:04:55,508 185626ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:04:55,508 185626ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:05:00,523 190641ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:05:00,524 190642ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:05:05,617 195735ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:05:05,617 195735ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:05:10,698 200816ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:05:10,698 200816ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:05:15,849 205967ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:05:15,849 205967ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:05:20,861 210979ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:05:20,861 210979ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:05:24,777 214895ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f heartbeat successfully sent
+DEBUG 2021-03-15 16:05:24,779 214897ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 16:05:25,966 216084ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:05:25,966 216084ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:05:31,011 221129ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:05:31,011 221129ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:05:36,111 226228ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:05:36,111 226228ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:05:41,209 231327ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:05:41,211 231329ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:05:46,337 236455ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:05:46,338 236456ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:05:51,424 241542ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:05:51,424 241542ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:05:55,437 245554ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f heartbeat successfully sent
+DEBUG 2021-03-15 16:05:55,437 245554ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 16:05:56,507 246625ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:05:56,507 246625ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:06:01,597 251715ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:06:01,597 251715ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:06:06,694 256812ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:06:06,694 256812ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:06:11,776 261894ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:06:11,777 261895ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:06:16,949 267067ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:06:16,949 267067ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:06:22,091 272209ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:06:22,091 272209ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:06:25,846 275963ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f heartbeat successfully sent
+DEBUG 2021-03-15 16:06:25,847 275964ms ServerHeartbeatProcess CallSite.Target    - Server desktop-arqhojj:19540:cdc9845f waiting for 00:00:30 delay before sending a heartbeat
+DEBUG 2021-03-15 16:06:27,228 277346ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:06:27,228 277346ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:06:32,337 282454ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:06:32,337 282454ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:06:37,422 287540ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:06:37,422 287540ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:06:42,452 292569ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:06:42,452 292569ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:06:47,557 297675ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:06:47,557 297675ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
+DEBUG 2021-03-15 16:06:52,669 302786ms JobCancellationWatcher CallSite.Target    - Checking for aborted jobs...
+DEBUG 2021-03-15 16:06:52,669 302786ms JobCancellationWatcher CallSite.Target    - No newly aborted jobs found.
