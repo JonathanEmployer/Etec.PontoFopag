@@ -32,7 +32,7 @@ namespace cwkWebAPIPontoWeb.Controllers
             {
                 int? idFuncionario, idOcorrencia;
                 ValidaDados(Afastamento, usuarioPontoWeb.ConnectionString, out idFuncionario, out idOcorrencia);
-
+                
                 if (ModelState.IsValid)
                 {
                     try
