@@ -88,6 +88,17 @@ namespace BLL
         {
             Dictionary<string, string> ret = new Dictionary<string, string>();
 
+            if (objeto.BParcial == true)
+            {
+                if (!string.IsNullOrEmpty(objeto.Horai) && !objeto.Horai.Contains(':'))
+                {
+                    ret.Add("txtHorai", "Formato do horario inicial incorreto");
+                }
+                if (!string.IsNullOrEmpty(objeto.Horaf) && !objeto.Horaf.Contains(':'))
+                {
+                    ret.Add("txtHoraf", "Formato do horario final incorreto");
+                }
+            }
             int identificacao = 0;
 
             if (objeto.IdOcorrencia == 0)
@@ -234,9 +245,9 @@ namespace BLL
                         case Modelo.Acao.Incluir:
                             try
                             {
-                                dalAfastamento.Incluir(pObjAfastamento);                                
+                                dalAfastamento.Incluir(pObjAfastamento);
                             }
-                            catch(Exception ex)
+                            catch (Exception ex)
                             {
                                 TrataCodigoUso(pObjAfastamento, erros, ex);
                                 if (erros.Count > 0)
@@ -266,7 +277,7 @@ namespace BLL
                 if (e.Message.Contains("AK_Afastamento"))
                 {
                     erros.Add("Datai", "Já existe um registro para o funcionário no mesmo período");
-                }               
+                }
                 else
                 {
                     throw e;
@@ -382,7 +393,7 @@ namespace BLL
                 while (true)
                 {
                     int ultimoCodigo = MaxCodigo();
-                    objeto.Codigo = ultimoCodigo;                    
+                    objeto.Codigo = ultimoCodigo;
                     try
                     {
                         dalAfastamento.Incluir(objeto);
