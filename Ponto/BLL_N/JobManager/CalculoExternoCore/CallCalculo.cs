@@ -1,5 +1,6 @@
 ﻿using Modelo;
 using Modelo.EntityFramework.MonitorPontofopag;
+using Modelo.Proxy;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,8 +22,12 @@ namespace BLL_N.JobManager.CalculoExternoCore
 
         public string CalcularPorTipo(int? pTipo, List<int> pIdsTipo, DateTime dataInicial, DateTime dataFinal)
         {
-            string idJob;
             List<int> idsFuncionarios = GetIdsFuncionarioByTipo(pTipo, pIdsTipo);
+            return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
+        }
+
+        private string CalculaLote(DateTime dataInicial, DateTime dataFinal, List<int> idsFuncionarios)
+        {
             LoteCalculo loteCalculo = CriarLoteCalculo(dataInicial, dataFinal, idsFuncionarios);
             SalvarLote(loteCalculo);
             CriarJobControle(loteCalculo);
@@ -47,7 +52,6 @@ namespace BLL_N.JobManager.CalculoExternoCore
             };
             rabbitMQ.SendMessage("Pontofopag_Calculo_Dados", JsonConvert.SerializeObject(loteEnviar));
         }
-
         private void CriarJobControle(LoteCalculo loteCalculo)
         {
             _jobControl.IdLoteCalculo = loteCalculo.Id;
@@ -80,5 +84,12 @@ namespace BLL_N.JobManager.CalculoExternoCore
             };
             return loteCalculo;
         }
+
+        public string CalcularPorFuncsPeriodo(List<PxyIdPeriodo> funcsPeriodo)
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

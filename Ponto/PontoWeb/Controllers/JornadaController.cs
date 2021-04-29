@@ -136,7 +136,8 @@ namespace PontoWeb.Controllers
                             if (acao != Modelo.Acao.Incluir)
                             {
                                 List<Modelo.Proxy.PxyIdPeriodo> recalcular = bllJornada.GetFuncionariosRecalculo(obj.Id);
-                                HangfireManagerCalculos hfm = new HangfireManagerCalculos(usr.DataBase, "", "", "/Jornada/Grid");
+                                UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+                                HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW, "", "/Jornada/Grid");
                                 string parametrosExibicao = String.Format("Jornada {0} | {1}, {2} funcionários vinculados", obj.Codigo, obj.horarios, recalcular.Count());
                                 Modelo.Proxy.PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de marcações por jornada", parametrosExibicao, recalcular);
                             }
