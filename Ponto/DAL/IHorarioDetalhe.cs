@@ -14,7 +14,7 @@ namespace DAL
         Modelo.HorarioDetalhe LoadParaCartaoPonto(int pHorario, int pDia, DateTime? pData, int pTipoHorario);
         List<Modelo.HorarioDetalhe> GetPorJornada(int idJornada);
         void AtualizaHorarioDetalheJornada(List<Modelo.Jornada> jornadas);
-        Hashtable LoadHorariosOrdenaSaida();
+        Hashtable LoadHorariosOrdenaSaida(int idHorario);
         List<Modelo.pxyHorarioDetalheFuncionario> HorarioDetalheSegundoRegistroPorIdHorarioDoPrimeiroRegistro(int idHorario);
         List<Modelo.Proxy.PxyHorarioMovel> GetRelPxyGradeHorario(int idhorario);
         List<Modelo.Proxy.PxyHorarioMovel> GetRelPxyGradeHorario(int idhorario, DateTime dataIni, DateTime dataFin);
