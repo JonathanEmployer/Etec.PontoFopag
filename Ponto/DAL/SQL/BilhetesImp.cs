@@ -2381,7 +2381,7 @@ namespace DAL.SQL
 														                                GROUP BY pis
 														                                HAVING COUNT(pis) > 1 )
 																AND f.dataadmissao <= datas.data
-																AND (f.datademissao > datas.data or f.datademissao is null
+																AND (f.datademissao > datas.data or f.datademissao is null)
 								                                AND EXISTS ( SELECT 1
 												                                FROM   dbo.bilhetesimp b
 												                                WHERE  b.PIS = f.pis
