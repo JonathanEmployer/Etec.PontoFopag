@@ -279,6 +279,7 @@ namespace DAL.SQL
                             , ContAtrasosSaidasAntec
                             , ContabilizarCreditos
                             , IdJornadaSubstituir
+                            , SaldoBH
                             )
 							VALUES
 							(@idfuncionario, @codigo, @dscodigo, @legenda, @data, @dia
@@ -375,6 +376,7 @@ namespace DAL.SQL
                             , @ContAtrasosSaidasAntec
                             , @ContabilizarCreditos
                             , @IdJornadaSubstituir
+                            , @SaldoBH
                         ) end
 						SET @id = SCOPE_IDENTITY()";
 
@@ -477,6 +479,7 @@ namespace DAL.SQL
                             , ContAtrasosSaidasAntec = @ContAtrasosSaidasAntec
                             , ContabilizarCreditos = @ContabilizarCreditos
                             , IdJornadaSubstituir = @IdJornadaSubstituir
+                            , SaldoBH = @SaldoBH
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM marcacao WHERE id = @id";
@@ -620,6 +623,7 @@ namespace DAL.SQL
             ((Modelo.Marcacao)obj).ContAtrasosSaidasAntec = (dr["ContAtrasosSaidasAntec"] is DBNull ? (short)0 : Convert.ToInt16(dr["ContAtrasosSaidasAntec"]));
             ((Modelo.Marcacao)obj).ContabilizarCreditos = (dr["ContabilizarCreditos"] is DBNull ? (short)0 : Convert.ToInt16(dr["ContabilizarCreditos"]));
             ((Modelo.Marcacao)obj).IdJornadaSubstituir = (dr["IdJornadaSubstituir"] is DBNull ? (int?)null : Convert.ToInt32(dr["IdJornadaSubstituir"]));
+            ((Modelo.Marcacao)obj).SaldoBH = Convert.ToString(dr["SaldoBH"]);
 
             if (ColunaExiste("Tratamento_Ent_1", dr))
             {
@@ -748,7 +752,8 @@ namespace DAL.SQL
                 new SqlParameter ("@ContabilizarFaltas", SqlDbType.Int),
                 new SqlParameter ("@ContAtrasosSaidasAntec", SqlDbType.Int),
                 new SqlParameter ("@ContabilizarCreditos", SqlDbType.Int),
-                new SqlParameter ("@IdJornadaSubstituir", SqlDbType.Int)
+                new SqlParameter ("@IdJornadaSubstituir", SqlDbType.Int),
+                new SqlParameter ("@SaldoBH", SqlDbType.VarChar)
             };
             return parms;
         }
@@ -875,6 +880,7 @@ namespace DAL.SQL
             parms[100].Value = ((Modelo.Marcacao)obj).ContAtrasosSaidasAntec;
             parms[101].Value = ((Modelo.Marcacao)obj).ContabilizarCreditos;
             parms[102].Value = ((Modelo.Marcacao)obj).IdJornadaSubstituir;
+            parms[103].Value = ((Modelo.Marcacao)obj).SaldoBH;
         }
 
         public Modelo.Marcacao LoadObject(int id)
@@ -1191,7 +1197,8 @@ namespace DAL.SQL
                     new DataColumn ("ContabilizarFaltas", typeof(Int16)),
                     new DataColumn ("ContAtrasosSaidasAntec", typeof(Int16)),
                     new DataColumn ("ContabilizarCreditos", typeof(Int16)),
-                    new DataColumn ("IdJornadaSubstituir", typeof(int))
+                    new DataColumn ("IdJornadaSubstituir", typeof(int)),
+                    new DataColumn ("SaldoBH", typeof(string))
                 };
                 DataTable dt = new DataTable();
                 dt.Columns.AddRange(colunas);
@@ -1313,6 +1320,7 @@ namespace DAL.SQL
                         row["ContAtrasosSaidasAntec"] = marc.ContAtrasosSaidasAntec;
                         row["ContabilizarCreditos"] = marc.ContabilizarCreditos;
                         row["IdJornadaSubstituir"] = marc.IdJornadaSubstituir == null ? DBNull.Value : (object)marc.IdJornadaSubstituir;
+                        row["SaldoBH"] = marc.SaldoBH;
                         dt.Rows.Add(row);
                     }
                     catch (Exception e)
@@ -1443,6 +1451,7 @@ namespace DAL.SQL
                         bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("ContAtrasosSaidasAntec", "ContAtrasosSaidasAntec"));
                         bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("ContabilizarCreditos", "ContabilizarCreditos"));
                         bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("IdJornadaSubstituir", "IdJornadaSubstituir"));
+                        bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("SaldoBH", "SaldoBH"));
                         bulkCopy.BatchSize = 5000;
                         bulkCopy.DestinationTableName = "#marcacaoI";
 
@@ -1551,7 +1560,8 @@ namespace DAL.SQL
                   ContabilizarFaltas,
                   ContAtrasosSaidasAntec,
                   ContabilizarCreditos,
-                  IdJornadaSubstituir
+                  IdJornadaSubstituir,
+                  SaldoBH
                 )
                 SELECT  idfuncionario ,
                         codigo ,
@@ -1697,7 +1707,8 @@ namespace DAL.SQL
                         ContabilizarFaltas,
                         ContAtrasosSaidasAntec,
                         ContabilizarCreditos,
-                        IdJornadaSubstituir
+                        IdJornadaSubstituir,
+                        SaldoBH
 						from #marcacaoI ";
 
                     cmd = new SqlCommand(sqlTransfer, conn, trans);
@@ -1847,7 +1858,8 @@ namespace DAL.SQL
                 new DataColumn ("ContabilizarFaltas", objMarcacao.ContabilizarFaltas.GetType()),
                 new DataColumn ("ContAtrasosSaidasAntec", objMarcacao.ContAtrasosSaidasAntec.GetType()),
                 new DataColumn ("ContabilizarCreditos", objMarcacao.ContabilizarCreditos.GetType()),
-                new DataColumn ("IdJornadaSubstituir", typeof(int))
+                new DataColumn ("IdJornadaSubstituir", typeof(int)),
+                new DataColumn ("SaldoBH",typeof(string))
             };
                 dt.Columns.AddRange(colunas);
                 #endregion
@@ -1969,6 +1981,7 @@ namespace DAL.SQL
                         row["ContAtrasosSaidasAntec"] = marc.ContAtrasosSaidasAntec;
                         row["ContabilizarCreditos"] = marc.ContabilizarCreditos;
                         row["IdJornadaSubstituir"] = marc.IdJornadaSubstituir == null ? DBNull.Value : (object)marc.IdJornadaSubstituir;
+                        row["SaldoBH"] = marc.SaldoBH;
                         dt.Rows.Add(row);
                     }
                     catch (Exception e)
@@ -2108,7 +2121,8 @@ namespace DAL.SQL
                 new DataColumn ("ContabilizarFaltas", objMarcacao.ContabilizarFaltas.GetType()),
                 new DataColumn ("ContAtrasosSaidasAntec", objMarcacao.ContAtrasosSaidasAntec.GetType()),
                 new DataColumn ("ContabilizarCreditos", objMarcacao.ContabilizarCreditos.GetType()),
-                new DataColumn ("IdJornadaSubstituir", typeof(int))
+                new DataColumn ("IdJornadaSubstituir", typeof(int)),
+                new DataColumn ("SaldoBH",typeof(string))
     };
                 dt.Columns.AddRange(colunas);
                 #endregion
@@ -2228,6 +2242,7 @@ namespace DAL.SQL
                     row["ContAtrasosSaidasAntec"] = marc.ContAtrasosSaidasAntec;
                     row["ContabilizarCreditos"] = marc.ContabilizarCreditos;
                     row["IdJornadaSubstituir"] = marc.IdJornadaSubstituir == null ? DBNull.Value : (object)marc.IdJornadaSubstituir;
+                    row["SaldoBH"] = marc.SaldoBH;
                     dt.Rows.Add(row);
                 }
                 #endregion

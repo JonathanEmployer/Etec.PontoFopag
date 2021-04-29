@@ -72,6 +72,7 @@ namespace Modelo
             Afastamento.Acao = Acao.Consultar;
 
             BilhetesMarcacao = new List<BilhetesImp>();
+            SaldoBH = "---:--";
         }
 
         public Marcacao Clone(Marcacao objClone)
@@ -1001,6 +1002,7 @@ namespace Modelo
         public string ReducaoHoraNoturna { get; set; }
         public int ConversaoHoraNoturna { get; set; }
         public string JornadaSTR { get; set; }
+        public string SaldoBH { get; set; }
 
         /// <summary>
         /// Legendas Concatenadas
@@ -1121,6 +1123,7 @@ namespace Modelo
         public string Sai_num_relogio_6 { get; set; }
         public string Sai_num_relogio_7 { get; set; }
         public string Sai_num_relogio_8 { get; set; }
+        public string SaldoBH { get; set; }
     }
 
     public class GridMarcacoes
