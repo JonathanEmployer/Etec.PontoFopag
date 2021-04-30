@@ -87,7 +87,12 @@ namespace BLL_N.JobManager.CalculoExternoCore
 
         public string CalcularPorFuncsPeriodo(List<PxyIdPeriodo> funcsPeriodo)
         {
-            throw new NotImplementedException();
+            var grupo = funcsPeriodo.GroupBy(u => new { u.InicioPeriodo, u.FimPeriodo }).Select(s => new { DataInicial = s.Key.InicioPeriodo, DataFinal = s.Key.FimPeriodo, Dados = s.ToList() }).ToList();
+            var dataInicial = funcsPeriodo.Min(c => c.InicioPeriodo);
+            var dataFinal = funcsPeriodo.Max(c => c.FimPeriodo);
+            var idsFuncionarios = funcsPeriodo.Select(c => c.Id).ToList();
+            return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
+
         }
 
 
