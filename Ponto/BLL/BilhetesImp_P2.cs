@@ -513,7 +513,7 @@ namespace BLL
                             break;
                         }
                     }
-                    else if (linha.Substring(9, 1) == "3"  || bRazaoSocial == true)
+                    else if (linha.Substring(9, 1) == "3")
                     {
                         //Condição adicionada para descartar a linha de assinatura digital do AFD, que coincidentemente pode possuir um caracter 3 na posição 9 e o sistema estava entendendo como registro de ponto                        
                         if (!int.TryParse(linha.Substring(0, 9), out int conv))
