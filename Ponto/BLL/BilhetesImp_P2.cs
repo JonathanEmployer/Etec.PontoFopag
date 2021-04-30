@@ -471,150 +471,157 @@ namespace BLL
                 foreach (string linha in registrosProcessar)
                 {
                     count++;
-                    int incremento = (int)(tamanhoProgress * (((count * 100) / total)/ 100));
-                    if (incrementoAnt != incremento || count == 1 || count == total)
+                    try
                     {
-                        objProgressBar.setaValorPB(tamanhoProgressAtual + incremento);
-                        objProgressBar.incrementaPBCMensagem(0, String.Format(_cultureInfoBr, "Realizando leitura da linha {0} de {1}", count, total));
-                        incrementoAnt = incremento;
-                    }
-
-                    if (linha == null)
-                    {
-                        break;
-                    }
-                    if (string.IsNullOrEmpty(linha))
-                    {
-                        continue;
-                    }
-                    qtdLidos++;
-
-                    //Verifica se a linha é tipo 1
-                    if (linha.Substring(9, 1) == "1")
-                    {
-                        //Busca o número do rep
-                        if (!String.IsNullOrEmpty(linha.Substring(187, 17)))
+                        int incremento = (int)(tamanhoProgress * (((count * 100) / total) / 100));
+                        if (incrementoAnt != incremento || count == 1 || count == total)
                         {
-                            numeroRelogio = bllRep.GetNumInner(linha.Substring(187, 17));
-                            if (string.IsNullOrEmpty(numeroRelogio))
-                            {
-                                controleRelogio = ("O REP " + linha.Substring(187, 17) + " não está cadastrado no sistema!");
-                                break;
-                            }
-                            if (!bllRep.GetCPFCNPJ(linha.Substring(11, 14), linha.Substring(10, 1)) && bRazaoSocial != true)
-                            {
-                                controleCNPJCPF = (linha.Substring(11, 14) + " não esta cadastrado como cnpj ou cpf da empresa");
-                                numeroRelogio = "";
-                            }
+                            objProgressBar.setaValorPB(tamanhoProgressAtual + incremento);
+                            objProgressBar.incrementaPBCMensagem(0, String.Format(_cultureInfoBr, "Realizando leitura da linha {0} de {1}", count, total));
+                            incrementoAnt = incremento;
                         }
-                        else
+
+                        if (linha == null)
                         {
-                            controleRelogio = ("Não existe o número do REP no arquivo txt");
                             break;
                         }
-                    }
-                    else if (linha.Substring(9, 1) == "3"  || bRazaoSocial == true)
-                    {
-                        //Condição adicionada para descartar a linha de assinatura digital do AFD, que coincidentemente pode possuir um caracter 3 na posição 9 e o sistema estava entendendo como registro de ponto                        
-                        if (!int.TryParse(linha.Substring(0, 9), out int conv))
+                        if (string.IsNullOrEmpty(linha))
                         {
                             continue;
                         }
-                        DateTime dataBil = Convert.ToDateTime(linha.Substring(10, 2) + "/" + linha.Substring(12, 2) + "/" + linha.Substring(14, 4), _cultureInfoBr);
-                        if (pDataI.HasValue && dataBil < pDataI.Value)
-                        {
-                            continue;
-                        }
-                        if (pDataF.HasValue && dataBil > pDataF.Value)
-                        {
-                            continue;
-                        }
-                        contadorProcessados++;
-                        //Cria o bilhete
-                        string validaHora = linha.Substring(18, 2) + linha.Substring(20, 2);
-                        int intValidaHora = 0;
-                        if (!int.TryParse(validaHora, out intValidaHora) || Convert.ToInt32(intValidaHora) > 2359)
-                        {
-                            valorErrado.Add("Linha "+ qtdLidos+": Valor incorreto." + linha.Substring(18, 2) + linha.Substring(20, 2));
-                            qtdErrados++;
-                            continue;
-                        }
-                        string nsrString = linha.Substring(0, 9);
-                        int nsr = 0;
-                        if (!int.TryParse(nsrString, out nsr))
-                        {
-                            valorErrado.Add("Linha " + qtdLidos + ": Valor de nsr incorreto. (" + linha.Substring(0, 9) + ")");
-                            qtdErrados++;
-                            continue;
+                        qtdLidos++;
 
-                        }
-                        objBilhete = new Modelo.BilhetesImp();
-                        objBilhete.Nsr = nsr;
-                        objBilhete.Ordem = "000";
-                        objBilhete.Data = dataBil;
-                        objBilhete.Hora = linha.Substring(18, 2) + ":" + linha.Substring(20, 2);
-                        Dictionary<String, int> dsCodigos = new Dictionary<String, int>();
-
-                        var dsCodigosLista = pisFuncionarios.AsEnumerable().Where(row => row.Field<String>("pis") == linha.Substring(22, 12) && row.Field<int>("excluido") == 0);
-
-                        if (dsCodigosLista.Any())
+                        //Verifica se a linha é tipo 1
+                        if (linha.Substring(9, 1) == "1")
                         {
-                            DataTable dt = dsCodigosLista.CopyToDataTable().DefaultView.ToTable(false, "dscodigo", "funcionarioativo");
-                            try
+                            //Busca o número do rep
+                            if (!String.IsNullOrEmpty(linha.Substring(187, 17)))
                             {
-                                dsCodigos = dt.AsEnumerable().ToDictionary(row => row.Field<String>("dscodigo"), row => row.Field<int>("funcionarioativo"));
+                                numeroRelogio = bllRep.GetNumInner(linha.Substring(187, 17));
+                                if (string.IsNullOrEmpty(numeroRelogio))
+                                {
+                                    controleRelogio = ("O REP " + linha.Substring(187, 17) + " não está cadastrado no sistema!");
+                                    break;
+                                }
+                                if (!bllRep.GetCPFCNPJ(linha.Substring(11, 14), linha.Substring(10, 1)) && bRazaoSocial != true)
+                                {
+                                    controleCNPJCPF = (linha.Substring(11, 14) + " não esta cadastrado como cnpj ou cpf da empresa");
+                                    numeroRelogio = "";
+                                }
                             }
-                            catch (Exception)
+                            else
                             {
-                                throw new Exception(String.Format(_cultureInfoBr, "Existem funcionários cadastrados com o mesmo DsCodigo."));
-                            } 
+                                controleRelogio = ("Não existe o número do REP no arquivo txt");
+                                break;
+                            }
                         }
-
-                        Modelo.Funcionario func = new Modelo.Funcionario();
-                        if (dsCodigos.Any())
+                        else if (linha.Substring(9, 1) == "3")
                         {
-                            objBilhete.Func = dsCodigos.OrderByDescending(o => o.Value).FirstOrDefault().Key.ToString(_cultureInfoBr);
-                            bool erro = false;
-                            func = ValidaFuncionarioPermissaoFechamento(pIndividual, ref qtdSemPermissao, usuarioLogado, ref qtdPontoFechado, funcionariosNoArquivo, objBilhete, ref erro, pFuncionario);
-                            if (erro)
+                            //Condição adicionada para descartar a linha de assinatura digital do AFD, que coincidentemente pode possuir um caracter 3 na posição 9 e o sistema estava entendendo como registro de ponto                        
+                            if (!int.TryParse(linha.Substring(0, 9), out int conv))
                             {
                                 continue;
                             }
-                        }
-                        else
-                        {
-                            naoPossuiFunc++;
-                            lPisNaoEncontrado.Add(linha.Substring(22, 12));
-                            continue;
-                        }
+                            DateTime dataBil = Convert.ToDateTime(linha.Substring(10, 2) + "/" + linha.Substring(12, 2) + "/" + linha.Substring(14, 4), _cultureInfoBr);
+                            if (pDataI.HasValue && dataBil < pDataI.Value)
+                            {
+                                continue;
+                            }
+                            if (pDataF.HasValue && dataBil > pDataF.Value)
+                            {
+                                continue;
+                            }
+                            contadorProcessados++;
+                            //Cria o bilhete
+                            string validaHora = linha.Substring(18, 2) + linha.Substring(20, 2);
+                            int intValidaHora = 0;
+                            if (!int.TryParse(validaHora, out intValidaHora) || Convert.ToInt32(intValidaHora) > 2359)
+                            {
+                                valorErrado.Add("Linha " + qtdLidos + ": Valor incorreto." + linha.Substring(18, 2) + linha.Substring(20, 2));
+                                qtdErrados++;
+                                continue;
+                            }
+                            string nsrString = linha.Substring(0, 9);
+                            int nsr = 0;
+                            if (!int.TryParse(nsrString, out nsr))
+                            {
+                                valorErrado.Add("Linha " + qtdLidos + ": Valor de nsr incorreto. (" + linha.Substring(0, 9) + ")");
+                                qtdErrados++;
+                                continue;
 
-                        if (String.IsNullOrEmpty(numeroRelogio))
-                        {
-                            qtdErrados++;
-                            continue;
-                        }
-                        else
-                        {
-                            objBilhete.Relogio = numeroRelogio;
-                        }
-                        objBilhete.Importado = 0;
-                        objBilhete.Codigo = max;
-                        objBilhete.Mar_data = objBilhete.Data;
-                        objBilhete.Mar_hora = objBilhete.Hora;
-                        objBilhete.Mar_relogio = objBilhete.Relogio;
-                        objBilhete.DsCodigo = objBilhete.Func;
-                        objBilhete.IdFuncionario = func.Id;
-                        objBilhete.PIS = func.Pis;
-                        listaBilhetes.Add(objBilhete);
+                            }
+                            objBilhete = new Modelo.BilhetesImp();
+                            objBilhete.Nsr = nsr;
+                            objBilhete.Ordem = "000";
+                            objBilhete.Data = dataBil;
+                            objBilhete.Hora = linha.Substring(18, 2) + ":" + linha.Substring(20, 2);
+                            Dictionary<String, int> dsCodigos = new Dictionary<String, int>();
 
-                        if (objBilhete.Data < dataInicial || dataInicial == DATA_VAZIA)
-                            dataInicial = objBilhete.Data;
-                        if (objBilhete.Data > dataFinal || dataFinal == DATA_VAZIA)
-                            dataFinal = objBilhete.Data;
+                            var dsCodigosLista = pisFuncionarios.AsEnumerable().Where(row => row.Field<String>("pis") == linha.Substring(22, 12) && row.Field<int>("excluido") == 0);
 
-                        qtdRepetidos++;
-                        max++;
-                        contador3++;
+                            if (dsCodigosLista.Any())
+                            {
+                                DataTable dt = dsCodigosLista.CopyToDataTable().DefaultView.ToTable(false, "dscodigo", "funcionarioativo");
+                                try
+                                {
+                                    dsCodigos = dt.AsEnumerable().ToDictionary(row => row.Field<String>("dscodigo"), row => row.Field<int>("funcionarioativo"));
+                                }
+                                catch (Exception)
+                                {
+                                    throw new Exception(String.Format(_cultureInfoBr, "Existem funcionários cadastrados com o mesmo DsCodigo."));
+                                }
+                            }
+
+                            Modelo.Funcionario func = new Modelo.Funcionario();
+                            if (dsCodigos.Any())
+                            {
+                                objBilhete.Func = dsCodigos.OrderByDescending(o => o.Value).FirstOrDefault().Key.ToString(_cultureInfoBr);
+                                bool erro = false;
+                                func = ValidaFuncionarioPermissaoFechamento(pIndividual, ref qtdSemPermissao, usuarioLogado, ref qtdPontoFechado, funcionariosNoArquivo, objBilhete, ref erro, pFuncionario);
+                                if (erro)
+                                {
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                naoPossuiFunc++;
+                                lPisNaoEncontrado.Add(linha.Substring(22, 12));
+                                continue;
+                            }
+
+                            if (String.IsNullOrEmpty(numeroRelogio))
+                            {
+                                qtdErrados++;
+                                continue;
+                            }
+                            else
+                            {
+                                objBilhete.Relogio = numeroRelogio;
+                            }
+                            objBilhete.Importado = 0;
+                            objBilhete.Codigo = max;
+                            objBilhete.Mar_data = objBilhete.Data;
+                            objBilhete.Mar_hora = objBilhete.Hora;
+                            objBilhete.Mar_relogio = objBilhete.Relogio;
+                            objBilhete.DsCodigo = objBilhete.Func;
+                            objBilhete.IdFuncionario = func.Id;
+                            objBilhete.PIS = func.Pis;
+                            listaBilhetes.Add(objBilhete);
+
+                            if (objBilhete.Data < dataInicial || dataInicial == DATA_VAZIA)
+                                dataInicial = objBilhete.Data;
+                            if (objBilhete.Data > dataFinal || dataFinal == DATA_VAZIA)
+                                dataFinal = objBilhete.Data;
+
+                            qtdRepetidos++;
+                            max++;
+                            contador3++;
+                        }
+                    }
+                    catch (Exception e )
+                    {
+                        throw e;
                     }
                 }
                 qtdProcessados = SalvarBilhetesEFinalizarLog(ref log, contadorProcessados, naoPossuiFunc, numeroRelogio, controleRelogio, controleCNPJCPF, qtdErrados, ref qtdRepetidos, qtdSemPermissao, qtdPontoFechado, bllRep, lPisNaoEncontrado, listaBilhetes, linhas, valorErrado);
