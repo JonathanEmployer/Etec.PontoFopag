@@ -15,7 +15,7 @@ namespace BLL_N.JobManager.Hangfire.Job
 
         }
 
-        public void ImportacaoAFD(PerformContext context, JobControl jobReport, IList<REP> listaReps, DateTime? dataInicial, DateTime? dataFinal, FileInfo arquivo, bool pIndividual, string dsCodFuncionario, string db, string usuario)
+        public void ImportacaoAFD(PerformContext context, JobControl jobReport, IList<REP> listaReps, DateTime? dataInicial, DateTime? dataFinal, FileInfo arquivo, bool pIndividual, string dsCodFuncionario, string db, string usuario, bool? bRazaoSocial)
         {
             SetParametersBase(context, jobReport, db, usuario);
 
@@ -31,7 +31,7 @@ namespace BLL_N.JobManager.Hangfire.Job
                 BLL_N.ImportacaoBilhetesNova bllImp = new BLL_N.ImportacaoBilhetesNova(userPF.ConnectionString, userPF);
                 bllImp.HangfireContext = context;
                 bllImp.JobReport = jobReport;
-                log = bllImp.ImportacaoBilhete(pb, lstTipoBilhete, arquivo.FullName, 1, pIndividual, dsCodFuncionario, dataInicial, dataFinal, userPF);
+                log = bllImp.ImportacaoBilhete(pb, lstTipoBilhete, arquivo.FullName, 1, pIndividual, dsCodFuncionario, dataInicial, dataFinal, userPF ,bRazaoSocial);
 
                 string salvarRetorno = @arquivo.DirectoryName+"\\"+ arquivo.Name.Replace(arquivo.Extension, "") + "Retorno" + arquivo.Extension;
                 System.IO.File.WriteAllLines(salvarRetorno, log);
