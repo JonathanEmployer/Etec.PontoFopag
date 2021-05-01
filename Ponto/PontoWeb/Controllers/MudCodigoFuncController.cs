@@ -120,7 +120,8 @@ namespace PontoWeb.Controllers
                             }
                             if (bllFuncionario.MudaCodigoFuncionario(objFuncionario.Id, codigo.ToString(), data))
                             {
-                                HangfireManagerCalculos hfm = new HangfireManagerCalculos(_usr.DataBase, "", "", "/MudCodigoFunc/Grid");
+                                UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+                                HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW, "", "/MudCodigoFunc/Grid");
                                 string parametrosExibicao = String.Format("Mudança de código do funcionário: {0} | {1}, do código: {2} para {3}", objFuncionario.Codigo, objFuncionario.Nome, mudCodigoFunc.DSCodigoAntigo, mudCodigoFunc.DSCodigoNovo);
                                 hfm.RecalculaMarcacao("Mudança de código de funcionário", parametrosExibicao, new List<int>() { objFuncionario.Id}, data, DateTime.Today);
                             }

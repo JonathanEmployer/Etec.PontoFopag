@@ -258,7 +258,9 @@ namespace PontoWeb.Controllers
 
             string descLote = "";
             string parametrosExibicao = "";
-            HangfireManagerCalculos hfm = new HangfireManagerCalculos(_usr.DataBase);
+
+            UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+            HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW);
             switch (obj.TipoLancamento)
             {
                 case (int)Modelo.TipoLancamento.Folga:
@@ -292,7 +294,7 @@ namespace PontoWeb.Controllers
                     DateTime dataIni = ((Modelo.LancamentoLote)obj).DataLancamento > ((Modelo.LancamentoLote)obj).DataLancamentoAnt ? ((Modelo.LancamentoLote)obj).DataLancamento : ((Modelo.LancamentoLote)obj).DataLancamentoAnt;
                     DateTime dataFin = DateTime.Now.AddMonths(1);
                     parametrosExibicao = String.Format("Lote de {0} código: {1}, descrição: {2}, funcionários: {3}", descLote, obj.Codigo, obj.Descricao, (obj.LancamentoLoteFuncionarios != null ? obj.LancamentoLoteFuncionarios.Count : 0));
-                    hfm = new HangfireManagerCalculos(_usr.DataBase, "", "", "/LancamentoLoteMudancaHorario/Grid");
+                    hfm = new HangfireManagerCalculos(UserPW, "", "/LancamentoLoteMudancaHorario/Grid");
                     hfm.RecalculaMarcacao(String.Format("Recalculo de marcações por {0} de Lote de {1}", obj.AcaoDescricao, descLote), parametrosExibicao, FuncRecalc, dataIni, dataFin);
                     break;
                 default: break;

@@ -19,13 +19,7 @@ namespace BLL_N.JobManager.CalculoExternoCore
             _userPW = userPW;
             _jobControl = jobControl;
         }
-
-        public string CalcularPorTipo(int? pTipo, List<int> pIdsTipo, DateTime dataInicial, DateTime dataFinal)
-        {
-            List<int> idsFuncionarios = GetIdsFuncionarioByTipo(pTipo, pIdsTipo);
-            return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
-        }
-
+        #region CalculosLote
         private string CalculaLote(DateTime dataInicial, DateTime dataFinal, List<int> idsFuncionarios)
         {
             LoteCalculo loteCalculo = CriarLoteCalculo(dataInicial, dataFinal, idsFuncionarios);
@@ -33,13 +27,6 @@ namespace BLL_N.JobManager.CalculoExternoCore
             CriarJobControle(loteCalculo);
             EnviarMensagemCalculo(_jobControl.Id.ToString());
             return _jobControl.JobId.ToString();
-        }
-
-        private List<int> GetIdsFuncionarioByTipo(int? pTipo, List<int> pIdsTipo)
-        {
-            BLL.Funcionario bllFuncionario = new BLL.Funcionario(_userPW.ConnectionString, _userPW);
-            List<int> idsFuncionarios = bllFuncionario.GetIDsByTipo(pTipo, pIdsTipo, false, false);
-            return idsFuncionarios;
         }
 
         private void EnviarMensagemCalculo(string idJob)
@@ -69,6 +56,7 @@ namespace BLL_N.JobManager.CalculoExternoCore
             bllLoteCalculo.Salvar(Acao.Incluir, loteCalculo);
         }
 
+
         private static LoteCalculo CriarLoteCalculo(DateTime dataInicial, DateTime dataFinal, List<int> idsFuncionarios)
         {
             List<LoteCalculoFuncionario> loteCalculoFuncionario = new List<LoteCalculoFuncionario>();
@@ -84,17 +72,41 @@ namespace BLL_N.JobManager.CalculoExternoCore
             };
             return loteCalculo;
         }
-
-        public string CalcularPorFuncsPeriodo(List<PxyIdPeriodo> funcsPeriodo)
+        #endregion
+        private List<int> GetIdsFuncionarioByTipo(int? pTipo, List<int> pIdsTipo)
         {
-            var grupo = funcsPeriodo.GroupBy(u => new { u.InicioPeriodo, u.FimPeriodo }).Select(s => new { DataInicial = s.Key.InicioPeriodo, DataFinal = s.Key.FimPeriodo, Dados = s.ToList() }).ToList();
-            var dataInicial = funcsPeriodo.Min(c => c.InicioPeriodo);
-            var dataFinal = funcsPeriodo.Max(c => c.FimPeriodo);
-            var idsFuncionarios = funcsPeriodo.Select(c => c.Id).ToList();
-            return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
-
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(_userPW.ConnectionString, _userPW);
+            List<int> idsFuncionarios = bllFuncionario.GetIDsByTipo(pTipo, pIdsTipo, false, false);
+            return idsFuncionarios;
         }
 
+        public string CalcularPorTipo(int? pTipo, List<int> pIdsTipo, DateTime dataInicial, DateTime dataFinal)
+        {
+            List<int> idsFuncionarios = GetIdsFuncionarioByTipo(pTipo, pIdsTipo);
+            return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
+        }
+        public string CalcularPorFuncsPeriodo(List<PxyIdPeriodo> funcsPeriodo)
+        {
+            DateTime dataInicial = funcsPeriodo.Min(c => c.InicioPeriodo);
+            DateTime dataFinal = funcsPeriodo.Max(c => c.FimPeriodo);
+            List<int> idsFuncionarios = funcsPeriodo.Select(c => c.Id).ToList();
+            return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
+        }
+
+        public string CalcularIdsFunc(List<int> idsFuncionarios, DateTime dataInicial, DateTime dataFinal)
+        {
+            return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
+        }
+
+        public string CalcularExclusaoMudHorario(MudancaHorario objMudancaHorario)
+        {
+            BLL.Marcacao bllMarcacao = new BLL.Marcacao(_userPW.ConnectionString, _userPW);
+            DateTime dataFinal = bllMarcacao.GetUltimaDataFuncionario(objMudancaHorario.Idfuncionario).GetValueOrDefault();
+            DateTime dataInicial = objMudancaHorario.Data.GetValueOrDefault();
+            List<int> idsFuncionarios = new List<int> { objMudancaHorario.Idfuncionario };
+
+            return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
+        }
 
     }
 }

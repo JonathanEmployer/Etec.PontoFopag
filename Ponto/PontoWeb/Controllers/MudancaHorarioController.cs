@@ -19,14 +19,14 @@ namespace PontoWeb.Controllers
         [PermissoesFiltro(Roles = "MudancaHorario")]
         public ActionResult GridPorFuncionario(int id)
         {
-            return View(new Modelo.MudancaHorario() { Idfuncionario = id});
+            return View(new Modelo.MudancaHorario() { Idfuncionario = id });
         }
 
         [PermissoesFiltro(Roles = "MudancaHorario")]
         public ActionResult GridPorMarcacao(int id)
         {
             BLL.Marcacao bllMarcacao = new BLL.Marcacao(_usr.ConnectionString, _usr);
-            var mar = bllMarcacao.LoadObject(id); 
+            var mar = bllMarcacao.LoadObject(id);
 
             return View("GridPorFuncionario", new Modelo.MudancaHorario() { Idfuncionario = mar.Idfuncionario });
         }
@@ -125,7 +125,7 @@ namespace PontoWeb.Controllers
             string erro = bllMudancaHorario.ValidaFechamentoPonto(mudHorario.Tipo, mudHorario.IdFuncao, mudHorario.IdEmpresa, mudHorario.IdDepartamento, mudHorario.Idfuncionario, mudHorario.Data);
             if (!String.IsNullOrEmpty(erro))
             {
-                return new JsonResult { Data = new { success = false, Erro = erro }};
+                return new JsonResult { Data = new { success = false, Erro = erro } };
             }
 
             try
@@ -157,7 +157,8 @@ namespace PontoWeb.Controllers
                             DateTime dataIni = ((Modelo.LancamentoLote)ll).DataLancamento > ((Modelo.LancamentoLote)ll).DataLancamentoAnt ? ((Modelo.LancamentoLote)ll).DataLancamento : ((Modelo.LancamentoLote)ll).DataLancamentoAnt;
                             if (FuncRecalc.Count() > 0)
                             {
-                                HangfireManagerCalculos hfm = new HangfireManagerCalculos(_usr.DataBase, "", "", "/Funcionario/Grid");
+                                UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+                                HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW, "", "/Funcionario/Grid");
                                 BLL.Horario bllHorario = new BLL.Horario(_usr.ConnectionString, _usr);
                                 Modelo.Horario horario = bllHorario.LoadObject(mudHorario.Idhorario);
                                 string parametrosExibicao = String.Format("Exclusão da mudança para o horário {0} | {1} no dia {2} removido", horario.Codigo, horario.Descricao, mudHorario.Data.GetValueOrDefault().ToShortDateString());
@@ -188,9 +189,9 @@ namespace PontoWeb.Controllers
                         erro = "Só é permitido excluir a última mudança de horário do funcionário.";
                         return new JsonResult { Data = new { success = false, Erro = erro } };
                     }
-                   
-                    HangfireManagerCalculos hfm = new HangfireManagerCalculos(_usr.DataBase, "", "", "/Funcionario/Grid");
-                    string parametrosExibicao =  String.Format("Recalculo da mudança para o horário {0} no dia {1} removido do funcionario {2}", mudHorario.descricaohorario, mudHorario.Data.GetValueOrDefault().ToShortDateString(), mudHorario.NomeFuncionario);
+                    UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+                    HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW, "", "/Funcionario/Grid");
+                    string parametrosExibicao = String.Format("Recalculo da mudança para o horário {0} no dia {1} removido do funcionario {2}", mudHorario.descricaohorario, mudHorario.Data.GetValueOrDefault().ToShortDateString(), mudHorario.NomeFuncionario);
                     Modelo.Proxy.PxyJobReturn ret = hfm.RecalculaExclusaoMudHorario("Recalculo de exclusão de mudança de horário", parametrosExibicao, mudHorario);
                     return new JsonResult { Data = new { success = true, job = ret } };
 
@@ -199,7 +200,7 @@ namespace PontoWeb.Controllers
             catch (Exception ex)
             {
                 Guid guid = BLL.cwkFuncoes.LogarErro(ex);
-                return new JsonResult { Data = new { success = false, Erro = "Não foi possível executar a operação, código do erro: "+ guid.ToString() } };
+                return new JsonResult { Data = new { success = false, Erro = "Não foi possível executar a operação, código do erro: " + guid.ToString() } };
             }
         }
 
