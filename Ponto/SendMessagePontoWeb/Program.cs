@@ -10,11 +10,14 @@ namespace SendMessagePontoWeb
 {
     class Program
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         static void Main()
         {
+            log.Info("Iniciando");
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {
@@ -24,11 +27,13 @@ namespace SendMessagePontoWeb
             // In interactive and debug mode ?
             if (Environment.UserInteractive && System.Diagnostics.Debugger.IsAttached)
             {
+                log.Info("Iniciando no modo interativo");
                 // Simulate the services execution
                 RunInteractiveServices(ServicesToRun);
             }
             else
             {
+                log.Info("Iniciando no modo windowns service");
                 // Normal service execution
                 ServiceBase.Run(ServicesToRun);
             }
@@ -47,8 +52,10 @@ namespace SendMessagePontoWeb
             // Start services loop
             foreach (ServiceBase service in servicesToRun)
             {
+                log.Info("Starting {0} ...");
                 Console.Write("Starting {0} ... ", service.ServiceName);
                 onStartMethod.Invoke(service, new object[] { new string[] { } });
+                log.Info("Started");
                 Console.WriteLine("Started");
             }
 
@@ -64,8 +71,10 @@ namespace SendMessagePontoWeb
             // Stop loop
             foreach (ServiceBase service in servicesToRun)
             {
+                log.Info("Stopping {0} ...");
                 Console.Write("Stopping {0} ... ", service.ServiceName);
                 onStopMethod.Invoke(service, null);
+                log.Info("Stopped");
                 Console.WriteLine("Stopped");
             }
 

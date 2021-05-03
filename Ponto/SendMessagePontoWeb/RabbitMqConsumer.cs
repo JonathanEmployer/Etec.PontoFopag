@@ -16,8 +16,10 @@ namespace SendMessagePontoWeb
 {
     public partial class RabbitMqConsumer : ServiceBase
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         protected override void OnStart(string[] args)
         {
+            log.Info("Iniciando método de recepção");
             Receive();
         }
 
@@ -25,14 +27,17 @@ namespace SendMessagePontoWeb
         {
             try
             {
+                log.Info("Pegando parametros rabbit");
                 string hostName = ConfigurationManager.AppSettings["HostName"];
                 string port = ConfigurationManager.AppSettings["Port"];
                 string userName = ConfigurationManager.AppSettings["Username"];
                 string password = ConfigurationManager.AppSettings["Password"];
                 string queueName = ConfigurationManager.AppSettings["QueueName"];
+                log.Info("Parametros recuperados");
 
                 if (int.TryParse(port, out int portInt))
                 {
+                    log.Info("Criando factory do rabbit");
                     var factory = new ConnectionFactory()
                     {
                         HostName = hostName,
@@ -40,9 +45,11 @@ namespace SendMessagePontoWeb
                         UserName = userName,
                         Password = password
                     };
+                    log.Info($"Conectando rabbit, host = {hostName}, porta = {port}");
                     using (var connection = factory.CreateConnection())
                     using (var channel = connection.CreateModel())
                     {
+                        log.Info("Conectaddo rabbit");
                         channel.QueueDeclare(queue: queueName,
                                              durable: true,
                                              exclusive: false,
@@ -55,6 +62,7 @@ namespace SendMessagePontoWeb
                             var body = ea.Body.ToArray();
                             var message = Encoding.UTF8.GetString(body);
                             Console.WriteLine(" [x] Received {0}", message);
+                            log.Debug($"Mensagem recebida = {message}");
 
 
                             PxyJobReturn job = JsonConvert.DeserializeObject<PxyJobReturn>(message);
@@ -67,14 +75,12 @@ namespace SendMessagePontoWeb
                         channel.BasicConsume(queue: "SendMessagePontoWeb",
                                              autoAck: true,
                                              consumer: consumer);
-
-                        Console.WriteLine(" Press [enter] to exit.");
-                        Console.ReadLine();
                     } 
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                log.Error("XXXXXX Erro: " + ex.Message);
                 Thread.Sleep(10000);
                 Receive();
             }
