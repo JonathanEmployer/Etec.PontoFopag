@@ -183,7 +183,8 @@ namespace PontoWeb.Controllers
 
         private Modelo.Proxy.PxyJobReturn Recalcular(LancamentoLote lote, InclusaoBanco inclusaoBanco)
         {
-            HangfireManagerCalculos hfm = new HangfireManagerCalculos(_usr.DataBase, "", "", "/LancamentoCreditoDebito/Grid");
+            UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+            HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW, "", "/LancamentoCreditoDebito/Grid");
             string parametrosExibicao = String.Format("Código: {0}, Data: {1}, tipo: {2} - {3}, tipo Crédito/Débito: {4}, valor: {5}", inclusaoBanco.Codigo, inclusaoBanco.Data.GetValueOrDefault().ToString("dd/MM/yyyy HH:mm"), inclusaoBanco.TipoDescricao, inclusaoBanco.Nome, inclusaoBanco.TipocreditodebitoDescricao, (inclusaoBanco.Credito != "---:--" ? inclusaoBanco.Credito : inclusaoBanco.Debito));
             string acao = inclusaoBanco.AcaoDescricao;
             string nomeProcesso = String.Format("Recalculo de marcações por {0} de lançamento lote", acao);

@@ -164,7 +164,8 @@ namespace PontoWeb.Controllers
                 }
                 else
                 {
-                    HangfireManagerCalculos hfm = new HangfireManagerCalculos(usr.DataBase, "", "", "/Horario/Grid");
+                    UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+                    HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW, "", "/Horario/Grid");
                     string parametrosExibicao = String.Format("Horário {0} | {1}.", horario.Codigo, horario.Descricao);
                     Modelo.Proxy.PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de marcações por exclusão de horário flexível", parametrosExibicao,4, horario.Id, horario.DataInicial.Value, horario.DataFinal.Value);
                     return Json(new { Success = true, Erro = " " }, JsonRequestBehavior.AllowGet);
@@ -508,9 +509,10 @@ namespace PontoWeb.Controllers
                         }
                         else
                         {
-                            HangfireManagerCalculos hfm = new HangfireManagerCalculos(usr.DataBase, "", "", "/HorarioMovel/Grid");
+                            UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+                            HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW, "", "/HorarioMovel/Grid");
                             string parametrosExibicao = String.Format("Horário {0} | {1}.", obj.Codigo, obj.Descricao);
-                            Modelo.Proxy.PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de marcações por exclusão de horário flexível", parametrosExibicao, 4, obj.Id, obj.DataInicial.Value, obj.DataFinal.Value);
+                            Modelo.Proxy.PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de marcações por horário flexível", parametrosExibicao, 4, obj.Id, obj.DataInicial.Value, obj.DataFinal.Value);
                             return Json(new { redirectTo = Url.Action("Grid") });
                         }
                     }

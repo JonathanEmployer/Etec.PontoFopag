@@ -108,5 +108,20 @@ namespace BLL_N.JobManager.CalculoExternoCore
             return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
         }
 
+        public string CalculaLancamentoCreditoDebito(InclusaoBanco inclusaoBanco)
+        {
+            DateTime data;
+            List<int> idsFuncionarios;
+            if (inclusaoBanco.Acao != Modelo.Acao.Incluir)
+            {
+                data = inclusaoBanco.Data_Ant.GetValueOrDefault();
+                idsFuncionarios = GetIdsFuncionarioByTipo(inclusaoBanco.Tipo_Ant, new List<int> { inclusaoBanco.Identificacao_Ant });
+                return CalculaLote(data, data, idsFuncionarios);
+            }
+            data = inclusaoBanco.Data.GetValueOrDefault();
+            idsFuncionarios = GetIdsFuncionarioByTipo(inclusaoBanco.Tipo, new List<int> { inclusaoBanco.Identificacao });
+
+            return CalculaLote(data, data, idsFuncionarios);
+        }
     }
 }
