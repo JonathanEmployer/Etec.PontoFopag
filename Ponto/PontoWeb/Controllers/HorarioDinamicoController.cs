@@ -284,7 +284,9 @@ namespace PontoWeb.Controllers
                         else
                         {
                             List<PxyIdPeriodo> funcsPeriodo = bllHorarioDinamico.FuncionariosParaRecalculoObject(obj.Id);
-                            HangfireManagerCalculos hfm = new HangfireManagerCalculos(_usr.DataBase, "", "", "/HorarioDinamico/Grid");
+
+                            UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+                            HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW, "", "/HorarioDinamico/Grid");
                             string parametrosExibicao = String.Format("Horário dinâmico {0} | {1}, {2} funcionários.", obj.Codigo, obj.Descricao, funcsPeriodo.Count);
                             Modelo.Proxy.PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de marcações por horário", parametrosExibicao, funcsPeriodo);
                             return Json(new { redirectTo = Url.Action("Grid") });

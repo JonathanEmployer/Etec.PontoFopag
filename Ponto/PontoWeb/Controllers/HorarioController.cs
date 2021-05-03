@@ -286,7 +286,8 @@ namespace PontoWeb.Controllers
                                         datafinal = new DateTime(DateTime.Now.Year, Convert.ToInt16(DateTime.Now.AddMonths(2).Month), DateTime.DaysInMonth(Convert.ToInt16(DateTime.Now.Year), Convert.ToInt16(DateTime.Now.AddMonths(2).Month)));
                                     }
 
-                                    HangfireManagerCalculos hfm = new HangfireManagerCalculos(usr.DataBase, "", "", "/Horario/Grid");
+                                    UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+                                    HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW, "", "/Horario/Grid");
                                     string parametrosExibicao = String.Format("Horário {0} | {1}, {2} funcionários.", obj.Codigo, obj.Descricao, idsFuncs.Count);
                                     Modelo.Proxy.PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de marcações por horário", parametrosExibicao, idsFuncs, datainicial, datafinal);
                                 }
@@ -768,7 +769,7 @@ namespace PontoWeb.Controllers
         }
 
 
-        public static int BuscaIdHorario(string horario , int tipoHorario)
+        public static int BuscaIdHorario(string horario, int tipoHorario)
         {
             Horario h = new Horario();
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();

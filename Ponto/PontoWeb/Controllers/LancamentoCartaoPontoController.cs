@@ -111,7 +111,9 @@ namespace PontoWeb.Controllers
 
                     if (erros.Count == 0)
                     {
-                        HangfireManagerCalculos hfm = new HangfireManagerCalculos(_usr.DataBase, _usr.Login, "", "/LancamentoCartaoPonto/Cadastro");
+
+                        UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+                        HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW, "", "/LancamentoCartaoPonto/Cadastro");
                         Modelo.Proxy.PxyJobReturn job = hfm.RecalculaMarcacao("Processamento de Cartão Ponto Manual", $"Processando Funcionário { funcionario.Dscodigo } | { funcionario.Nome } para { bilhetes.Count() } registros lançados", new List<int>() { funcionario.Id }, bilhetes.Min(m => m.Data), bilhetes.Max(m => m.Data));
                         TempData["lcp"] = new LancamentoCartaoPonto()
                         {
