@@ -88,6 +88,17 @@
                                     <div class="col-md-12">
                                         <div class="checkbox">
                                             <label>
+                                                @Html.CheckBoxFor(model => model.bRazaoSocial, new { id = "bRazaoSocial" })
+                                                @Html.LabelFor(model => model.bRazaoSocial, new { @class = "control-label label-sm" })
+                                                @Html.ValidationMessageFor(model => model.bRazaoSocial)
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="checkbox">
+                                            <label>
                                                 @Html.CheckBoxFor(model => model.bMarcacaoIndividual, new { id = "bMarcacaoIndividual" })
                                                 @Html.LabelFor(model => model.bMarcacaoIndividual, new { @class = "control-label label-sm" })
                                                 @Html.ValidationMessageFor(model => model.bMarcacaoIndividual)
@@ -121,12 +132,18 @@
             </div>
             <div class="panel-footer">
                 <div class="row">
-                    <div class="col-xs-12 center-block">
-                        <div style="text-align: right">
+                    <div class="col-xs-12 center-block row">
+
+                        <div class="col-xs-6 center-block" style="text-align: left">
+                            <button  type="submit" id="btnImportados" title="Consultar Arquivos Importados" class="btn btn-info">
+                                <i class="fa fa-search" aria-hidden="true"></i> Consultar Arquivos Importados
+                            </button>
+                        </div>
+                        <div class="col-xs-6 center-block" style="text-align: right">
                             <button type="submit" id="btnImpBil" title="Gerar Arquivo" class="btn btn-success">
                                 <span class="glyphicon glyphicon-save"></span> Importar Arquivo
                             </button>
-                            <a class="btn btn-danger"
+                            <a style="text-align: right" class="btn btn-danger"
                                href="@Url.Action("Index", "Home")">
                                 <span class="glyphicon glyphicon-remove salvando"></span> Cancelar
                             </a>
@@ -166,6 +183,19 @@
         }
     });
 
+
+    if ($("#bRazaoSocial").is(':checked')) {
+        $('#lkpRazaoSocialCliente').prop('readonly', false);
+    }
+    else {
+        $('#lkpRazaoSocialCliente').prop('readonly', true);
+    }
+
+    $(".lkpRazaoSocialCliente").bind("keydown click", function (e) {
+        if ($("#bRazaoSocial").is(':checked')) {
+            cwk_EventoConsultaUnico(e, this, "", "Funcionario", "");
+        }
+    });
     $(document).ready(function () {
         cwk_DataCalendario('#btnDataInicial', '#DataInicial');
         cwk_DataCalendario('#btnDataFinal', '#DataFinal');
@@ -234,7 +264,9 @@
             dataType: "json",
             type: "GET",
             url: "/ImportacaoBilhetes/ValidaAFD",
-            data: { 'nomeArquivo': data.result.nome },
+            data: {
+                'nomeArquivo': data.result.nome, 'bRazaosocial': $("#bRazaoSocial").is(':checked') ? true : false
+            },
             success: function (valida) {
                 $("#spanResultArquivo").removeClass("label-default");
                 $("#iconeResultArquivo").removeClass("glyphicon-paperclip");
@@ -317,6 +349,16 @@
         else {
             $('#lkpNomeFuncionarioSelecionado').prop('readonly', true);
             $('#lkpNomeFuncionarioSelecionado').val('');
+        }
+    });
+
+    $("#bRazaoSocial").click(function (event) {
+        if ($("#bRazaoSocial").is(':checked')) {
+            $('#lkpRazaoSocialCliente').prop('readonly', false);
+        }
+        else {
+            $('#lkpRazaoSocialCliente').prop('readonly', true);
+            $('#lkpRazaoSocialCliente').val('');
         }
     });
 

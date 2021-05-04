@@ -74,7 +74,7 @@ namespace PontoWeb.Controllers
             mudHorario.Codigo = bllMudancaHorario.MaxCodigo();
             mudHorario.Tipohorario = 1;
             mudHorario.Tipo = 0;
-            mudHorario.NomeFuncionario = func.Codigo + " | " + func.Nome;
+            mudHorario.NomeFuncionario = func.Dscodigo + " | " + func.Nome;
             mudHorario.Data = marcacao.Data;
 
             ViewBag.ManutencaoMarcacao = 1;

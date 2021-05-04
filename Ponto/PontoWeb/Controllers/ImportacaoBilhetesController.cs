@@ -59,7 +59,7 @@ namespace PontoWeb.Controllers
 
                             UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
                             HangfireManagerImportacoes hfm = new HangfireManagerImportacoes(UserPW.DataBase);
-                            Modelo.Proxy.PxyJobReturn ret = hfm.ImportarArquivoAFD(listaReps, imp.DataInicial, imp.DataFinal, arquivo, imp.bMarcacaoIndividual, dsCodFuncionario);
+                            Modelo.Proxy.PxyJobReturn ret = hfm.ImportarArquivoAFD(listaReps, imp.DataInicial, imp.DataFinal, arquivo, imp.bMarcacaoIndividual, dsCodFuncionario ,imp.bRazaoSocial);
                             return new JsonResult
                             {
                                 Data = new
@@ -147,8 +147,11 @@ namespace PontoWeb.Controllers
             return Content("{\"nome\":\"" + r[0].Nome + "\",\"tipo\":\"" + r[0].Tipo + "\",\"tamanho\":\"" + string.Format("{0} bytes", r[0].Tamanho) + "\"}", "application/json");
         }
 
-        public JsonResult ValidaAFD(string nomeArquivo)
+        public JsonResult ValidaAFD(string nomeArquivo ,bool? bRazaosocial)
         {
+
+			if (bRazaosocial == null)
+				bRazaosocial = false;
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
             string conn = usr.ConnectionString;
             BLL.ImportaBilhetes bllImportacaoBilhetes = new BLL.ImportaBilhetes(conn, usr);
@@ -156,6 +159,7 @@ namespace PontoWeb.Controllers
             ValidaArquivoUpload retorno = new ValidaArquivoUpload();
             try
             {
+
                 string header = "";
                 string caminhoArquivo = Path.Combine(pathAfd, Path.GetFileName(nomeArquivo));
                 using (StreamReader reader = new StreamReader(caminhoArquivo))
@@ -166,7 +170,7 @@ namespace PontoWeb.Controllers
                 {
                     BLL.ImportacaoBilhetes impBil = new BLL.ImportacaoBilhetes(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
                     List<string> erros = new List<string>();
-                    REP rel = impBil.GetRepHeaderAFD(header, out erros);
+                    REP rel = impBil.GetRepHeaderAFD(header, out erros , bRazaosocial);
                     if (erros.Count > 0)
                     {
                         retorno.Erro = String.Join("; ", erros);
