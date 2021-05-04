@@ -184,8 +184,8 @@ namespace PontoWeb.Controllers
                             {
                                 bllParametros.AtualizaTipoExtraFaltaMarcacoes(obj.Id, obj.TipoHoraExtraFalta, dataInicial, dataFinal);
                             }
-
-                            HangfireManagerCalculos hfm = new HangfireManagerCalculos(_usr.DataBase, "", "", "/Parametro/Grid");   
+                            UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+                            HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW, "", "/Parametro/Grid");   
                             string parametrosExibicao = String.Format("Parâmetro código: {0} | {1} ", obj.Codigo, obj.Descricao);
                             Modelo.Proxy.PxyJobReturn ret = hfm.CalculaParametro(String.Format("Recalculo de marcações por {0} de parâmetro", obj.AcaoDescricao), parametrosExibicao, obj.Id, dataInicial, dataFinal);
                         }

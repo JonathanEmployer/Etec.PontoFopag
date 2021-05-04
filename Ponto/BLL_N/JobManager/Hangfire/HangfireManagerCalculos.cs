@@ -17,16 +17,13 @@ namespace BLL_N.JobManager.Hangfire
         public HangfireManagerCalculos(string dataBase) : base(dataBase)
         {
         }
-
         public HangfireManagerCalculos(string dataBase, string usuario, string hostAddress, string urlReferencia) : base(dataBase, usuario, hostAddress, urlReferencia)
         {
         }
-
         public HangfireManagerCalculos(UsuarioPontoWeb userPW, string hostAddress, string urlReferencia) : base(userPW.DataBase, userPW.Login, hostAddress, urlReferencia)
         {
             _userPW = userPW;
         }
-
         public HangfireManagerCalculos(UsuarioPontoWeb userPW) : base(userPW.DataBase)
         {
             _userPW = userPW;
@@ -49,7 +46,6 @@ namespace BLL_N.JobManager.Hangfire
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
-
         public PxyJobReturn RecalculaExclusaoMudHorario(string nomeProcesso, string parametrosExibicao, MudancaHorario objMudancaHorario)
         {
             JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
@@ -65,7 +61,6 @@ namespace BLL_N.JobManager.Hangfire
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
-
         public PxyJobReturn RecalculaMarcacao(string nomeProcesso, string parametrosExibicao, int? pTipo, List<int> pIdsTipo, DateTime dataInicial, DateTime dataFinal)
         {
             JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
@@ -298,25 +293,32 @@ namespace BLL_N.JobManager.Hangfire
 
         public PxyJobReturn CalculaLancamentoCreditoDebito(string nomeProcesso, string parametrosExibicao, Modelo.InclusaoBanco inclusaoBanco)
         {
-                JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
+            JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
             string idJob;
-            //if (_userPW.ServicoCalculo == 0)
-            //{
-            idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.CalculaLancamentoCreditoDebito(null, jobControl, dataBase, usuarioLogado, inclusaoBanco), _enqueuedStateNormal);
-            //}
-            //else
-            //{
-            //    idJob = new CallCalculo(_userPW, jobControl).CalculaLancamentoCreditoDebito(inclusaoBanco);
-            //}
+            if (_userPW.ServicoCalculo == 0)
+            {
+                idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.CalculaLancamentoCreditoDebito(null, jobControl, dataBase, usuarioLogado, inclusaoBanco), _enqueuedStateNormal);
+            }
+            else
+            {
+                idJob = new CallCalculo(_userPW, jobControl).CalculaLancamentoCreditoDebito(inclusaoBanco);
+            }
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
 
-
         public PxyJobReturn CalculaParametro(string nomeProcesso, string parametrosExibicao, int idParametro, DateTime dataInicial, DateTime dataFinal)
         {
             JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
-            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.CalculaParametro(null, jobControl, dataBase, usuarioLogado, idParametro, dataInicial, dataFinal), _enqueuedStateNormal);
+            string idJob;
+            if (_userPW.ServicoCalculo == 0)
+            {
+                idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.CalculaParametro(null, jobControl, dataBase, usuarioLogado, idParametro, dataInicial, dataFinal), _enqueuedStateNormal);
+            }
+            else
+            {
+                idJob = new CallCalculo(_userPW, jobControl).CalculaParametro(idParametro, dataInicial, dataFinal);
+            }
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
@@ -324,7 +326,15 @@ namespace BLL_N.JobManager.Hangfire
         public PxyJobReturn CalculaMudancaHorario(string nomeProcesso, string parametrosExibicao, Modelo.MudancaHorario mudHorario)
         {
             JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
-            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.CalculaMudancaHorario(null, jobControl, dataBase, usuarioLogado, mudHorario), _enqueuedStateNormal);
+            string idJob;
+            if (_userPW.ServicoCalculo == 0)
+            {
+             idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.CalculaMudancaHorario(null, jobControl, dataBase, usuarioLogado, mudHorario), _enqueuedStateNormal);
+            }
+            else
+            {
+                idJob = new CallCalculo(_userPW, jobControl).CalculaMudancaHorario(mudHorario);
+            }
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }

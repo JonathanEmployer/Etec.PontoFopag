@@ -116,12 +116,48 @@ namespace BLL_N.JobManager.CalculoExternoCore
             {
                 data = inclusaoBanco.Data_Ant.GetValueOrDefault();
                 idsFuncionarios = GetIdsFuncionarioByTipo(inclusaoBanco.Tipo_Ant, new List<int> { inclusaoBanco.Identificacao_Ant });
-                return CalculaLote(data, data, idsFuncionarios);
+                var id = CalculaLote(data, data, idsFuncionarios);
             }
             data = inclusaoBanco.Data.GetValueOrDefault();
             idsFuncionarios = GetIdsFuncionarioByTipo(inclusaoBanco.Tipo, new List<int> { inclusaoBanco.Identificacao });
-
             return CalculaLote(data, data, idsFuncionarios);
+        }
+
+        public string CalculaParametro(int idParametro, DateTime dataInicial, DateTime dataFinal)
+        {
+            BLL.Horario bllHorario = new BLL.Horario(_userPW.ConnectionString, _userPW);
+            IList<Modelo.Horario> ListaHorarios = bllHorario.getPorParametro(idParametro);
+            List<int> idsFuncionarios = GetIdsFuncionarioByTipo(4, ListaHorarios.Select(x => x.Id).ToList());
+            return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
+        }
+
+        public string CalculaMudancaHorario(MudancaHorario mudHorario)
+        {
+            BLL.Marcacao bllMarcacao = new BLL.Marcacao(_userPW.ConnectionString, _userPW);
+            DateTime dataInicial = mudHorario.Data.GetValueOrDefault();
+            DateTime dataFinal = new DateTime();
+            List<int> idsFuncionarios = new List<int>();
+            switch (mudHorario.Tipo)
+            {
+                case 0:
+                    dataFinal = bllMarcacao.GetUltimaDataFuncionario(mudHorario.Idfuncionario).GetValueOrDefault();
+                    idsFuncionarios = new List<int> { mudHorario.Idfuncionario };
+                    break;
+                case 1:
+                    dataFinal = bllMarcacao.GetUltimaDataDepartamento(mudHorario.IdDepartamento).GetValueOrDefault();
+                    idsFuncionarios = GetIdsFuncionarioByTipo(1, new List<int> { mudHorario.IdDepartamento });
+                    break;
+                case 2:
+                    dataFinal = bllMarcacao.GetUltimaDataEmpresa(mudHorario.IdEmpresa).GetValueOrDefault();
+                    idsFuncionarios = GetIdsFuncionarioByTipo(0, new List<int> { mudHorario.IdEmpresa });
+                    break;
+                case 3:
+                    dataFinal = bllMarcacao.GetUltimaDataFuncao(mudHorario.IdFuncao).GetValueOrDefault();
+                    idsFuncionarios = GetIdsFuncionarioByTipo(3, new List<int> { mudHorario.IdFuncao });
+                    break;
+            }
+
+            return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
         }
     }
 }

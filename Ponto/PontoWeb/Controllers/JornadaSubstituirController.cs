@@ -97,7 +97,8 @@ namespace PontoWeb.Controllers
                     return Json(new { Success = false, Erro = erro }, JsonRequestBehavior.AllowGet);
                 }
                 string parametrosExibicao = $"Jornada {jornadaSubstituir.DescricaoDe} para {jornadaSubstituir.DescricaoPara} no período {jornadaSubstituir.DataInicioStr} a {jornadaSubstituir.DataFimStr} (Funcionários: {jornadaSubstituir.JornadaSubstituirFuncionario.Count} excluído(s); )";
-                HangfireManagerCalculos hfm = new HangfireManagerCalculos(usr.DataBase, "", "", "/JornadaSubstituir/Grid");
+                UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+                HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW, "", "/JornadaSubstituir/Grid");
                 PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de marcações por mudança de jornada", parametrosExibicao, 2, jornadaSubstituir.JornadaSubstituirFuncionario.Select(s => Convert.ToInt32(s.IdFuncionario)).ToList(), jornadaSubstituir.DataInicio.GetValueOrDefault(), jornadaSubstituir.DataFim.GetValueOrDefault());
                 return Json(new { Success = true, Erro = " " }, JsonRequestBehavior.AllowGet);
             }
@@ -164,7 +165,8 @@ namespace PontoWeb.Controllers
                                     alterados = idsFuncsAlterados.Count + " alterado(s); ";
                                 }
                                 string parametrosExibicao = $"Jornada {obj.DescricaoDe} para {obj.DescricaoPara} no período {dtIni.GetValueOrDefault().ToShortDateString()} a {dtFim.GetValueOrDefault().ToShortDateString()} (Funcionários: {incluidos}{excluidos}{alterados})";
-                                HangfireManagerCalculos hfm = new HangfireManagerCalculos(usr.DataBase, "", "", "/JornadaSubstituir/Grid");
+                                UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+                                HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW, "", "/JornadaSubstituir/Grid");
                                 PxyJobReturn ret = hfm.RecalculaMarcacao("Recalculo de marcações por mudança de jornada", parametrosExibicao, 2, IdsFuncsRecalcular, dtIni.GetValueOrDefault(), dtFim.GetValueOrDefault()); 
                             }
                             return RedirectToAction("Grid", "JornadaSubstituir");
