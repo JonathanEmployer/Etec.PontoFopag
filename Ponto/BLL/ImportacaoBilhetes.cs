@@ -14,7 +14,7 @@ namespace BLL
 
         public ImportacaoBilhetes() : this(null)
         {
-            
+
         }
 
         public ImportacaoBilhetes(string connString)
@@ -95,11 +95,11 @@ namespace BLL
                 log.Add(ex.Message);
                 bErro = true;
             }
-            return log;          
+            return log;
         }
 
         public List<string> ImportacaoBilheteWeb(Modelo.ProgressBar pb, List<Modelo.TipoBilhetes> listaTipoBilhetes, string diretorio, int bilhete, bool bIndividual,
-                                                 string dsCodFuncionario, DateTime? datai, DateTime? dataf, Modelo.UsuarioPontoWeb usuarioLogado)
+                                                 string dsCodFuncionario, DateTime? datai, DateTime? dataf, Modelo.UsuarioPontoWeb usuarioLogado ,bool? bRazaoSocial)
         {
             List<string> log = new List<string>();
             try
@@ -111,7 +111,7 @@ namespace BLL
                 log.Add("Hora = " + DateTime.Now.ToShortTimeString());
 
                 bllBilhetesImp.ObjProgressBar = pb;
-                bool temBilhetes = bllBilhetesImp.ImportacaoBilhetes(listaTipoBilhetes, diretorio, bilhete, bIndividual, dsCodFuncionario, ref datai, ref dataf, log, usuarioLogado, out _);
+                bool temBilhetes = bllBilhetesImp.ImportacaoBilhetes(listaTipoBilhetes, diretorio, bilhete, bIndividual, dsCodFuncionario, ref datai, ref dataf, log, usuarioLogado, out _, bRazaoSocial);
 
                 ImportaBilhetes bllImportaBilhetes = new BLL.ImportaBilhetes(ConnectionString, UsuarioLogado);
                 DateTime? dataInicial;
@@ -127,7 +127,7 @@ namespace BLL
                 }
                 List<string> FuncsProcessados = new List<string>();
 
-                if (bllImportaBilhetes.ImportarBilhetes(dsCodFuncionario, false, datai, dataf, out dataInicial, out dataFinal, pb, log, out FuncsProcessados))
+                if (bllImportaBilhetes.ImportarBilhetes(dsCodFuncionario, false, datai, dataf, out dataInicial, out dataFinal, pb, log, out FuncsProcessados , bRazaoSocial))
                 {
                     foreach (string dscodigo in FuncsProcessados)
                     {
@@ -150,18 +150,18 @@ namespace BLL
                         log.Add("---------------------------------------------------------------------------------------");
                     }
                 }
-                
+
             }
             catch (Exception ex)
             {
                 BLL.cwkFuncoes.LogarErro(ex);
                 log.Add(ex.Message);
             }
-            return log;           
+            return log;
         }
 
-        public bool ImportacaoBilhete(Modelo.ProgressBar pb, List<Modelo.TipoBilhetes> listaTipoBilhetes, string diretorio, int bilhete, bool bIndividual, string func, 
-                                      DateTime? datai, DateTime? dataf, out string mensagem)
+        public bool ImportacaoBilhete(Modelo.ProgressBar pb, List<Modelo.TipoBilhetes> listaTipoBilhetes, string diretorio, int bilhete, bool bIndividual, string func,
+                                      DateTime? datai, DateTime? dataf, out string mensagem ,bool ? bRazaoSocial)
         {
             BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(ConnectionString, UsuarioLogado);
             BLL.ImportaBilhetes bllImportaBilhetes = new BLL.ImportaBilhetes(ConnectionString, UsuarioLogado);
@@ -175,11 +175,11 @@ namespace BLL
             log.Add("Hora = " + DateTime.Now.ToShortTimeString());
 
             bllBilhetesImp.ObjProgressBar = pb;
-            bool temBilhetes = bllBilhetesImp.ImportacaoBilhetes(listaTipoBilhetes, diretorio, bilhete, bIndividual, func, ref datai, ref dataf, log, null, out _);
+            bool temBilhetes = bllBilhetesImp.ImportacaoBilhetes(listaTipoBilhetes, diretorio, bilhete, bIndividual, func, ref datai, ref dataf, log, null, out _, bRazaoSocial);
 
             DateTime? dataInicial;
             DateTime? dataFinal;
-            
+
             if (!temBilhetes)
             {
                 DateTime datainicial, datafinal;
@@ -189,7 +189,7 @@ namespace BLL
                 dataf = datafinal;
             }
 
-            if (bllImportaBilhetes.ImportarBilhetes(func, false, datai, dataf, out dataInicial, out dataFinal, pb, log))
+            if (bllImportaBilhetes.ImportarBilhetes(func, false, datai, dataf, out dataInicial, out dataFinal, pb, log , bRazaoSocial))
             {
                 BLL.CalculaMarcacao bllCalculaMarcacao = new CalculaMarcacao(null, 0, dataInicial.Value, dataFinal.Value.AddDays(1), pb, false, ConnectionString, UsuarioLogado, false);
                 bllCalculaMarcacao.CalculaMarcacoes();
@@ -213,7 +213,7 @@ namespace BLL
             log.Add("---------------------------------------------------------------------------------------");
             GravarLogImportacao(log);
 
-            tempo.Stop();        
+            tempo.Stop();
             return ret;
         }
 
@@ -228,36 +228,36 @@ namespace BLL
         }
 
 
-        public Modelo.REP GetRepHeaderAFD(string header, out List<string> erros)
+        public Modelo.REP GetRepHeaderAFD(string header, out List<string> erros, bool? razaoSocial)
         {
             erros = new List<string>();
             RegistroAFD reg = cwkPontoMT.Integracao.Util.RetornaLinhaAFD(header);
             if (reg.Campo02 != "1")
-	        {
+            {
                 erros.Add("Cabeçalho do AFD não foi encontrado");
                 return new Modelo.REP();
-	        }    
+            }
 
             BLL.REP bllRep = new BLL.REP(ConnectionString, UsuarioLogado);
             string numeroRelogio = bllRep.GetNumInner(reg.Campo07);
-            if (numeroRelogio == null || numeroRelogio == "")
+            if ((numeroRelogio == null || numeroRelogio == "" )&& razaoSocial == false)
             {
                 erros.Add("O REP " + reg.Campo07 + " não está cadastrado no sistema!");
                 return new Modelo.REP();
             }
 
-            if (!bllRep.GetCPFCNPJ(reg.Campo04, reg.Campo03))
+            if (!bllRep.GetCPFCNPJ(reg.Campo04, reg.Campo03) && razaoSocial == false)
             {
                 erros.Add(reg.Campo04 + " não esta cadastrado como cnpj ou cpf da empresa");
                 numeroRelogio = String.Empty;
                 return new Modelo.REP();
             }
-            
+
             Modelo.REP rep = bllRep.LoadObjectPorNumRelogio(numeroRelogio);
             Modelo.REP repPermissao = bllRep.LoadObjectByCodigo(rep.Codigo);
             if (repPermissao == null || repPermissao.Id == 0)
             {
-                erros.Add("Usuário não tem permissão para importar afd para o rep "+rep.Codigo+" | "+rep.Local);
+                erros.Add("Usuário não tem permissão para importar afd para o rep " + rep.Codigo + " | " + rep.Local);
                 new Modelo.REP();
             }
             return repPermissao;

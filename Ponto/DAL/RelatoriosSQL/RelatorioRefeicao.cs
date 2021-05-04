@@ -47,12 +47,15 @@ namespace DAL.RelatoriosSQL
 			parms[5].Value = considerarDoisRegistros;
 			parms[6].Value = considerarDiasSemjornada;
 
-			string aux = @" SELECT D.EmpresaNome,
-							   D.EmpresaCNPJ,
-							   D.FuncionarioCodigo,
-							   D.FuncionarioNome,
-							   COUNT(*) Quantidade,
-							   COUNT(*) * @valorRefeicao Valor
+			string aux = @" SELECT	D.FuncionarioNome,
+		D.FuncionarioCPF,
+		D.FuncionarioPis,
+		D.CodigoFilial,
+		D.FuncionarioMatricula,
+		COUNT(*) Quantidade,
+		COUNT(*) * @valorRefeicao Valor,
+		YEAR(@dataFin) Ano,
+		MONTH(@dataFin) Mes
 						  FROM (
 							SELECT I.*,
 								    (I.trabalhadasMin * 100) / iif(I.trabalharMin = 0,1,trabalharMin) percTrab
@@ -70,6 +73,10 @@ namespace DAL.RelatoriosSQL
 																		  j.saida_1, j.saida_2, j.saida_3, j.saida_4,'--:--','--:--', '--:--', '--:--')) AS trabalharMin
 								  FROM (
 										SELECT m.id IdMarcacao,
+										f.CPF FuncionarioCPF,
+										f.pis FuncionarioPis,
+										e.codigo CodigoFilial,
+										f.matricula FuncionarioMatricula,
 											   m.data,
 											   m.totalHorasTrabalhadas,
 											   dbo.FN_CONVHORA(m.totalHorasTrabalhadas) trabalhadasMin,
@@ -106,10 +113,11 @@ namespace DAL.RelatoriosSQL
                       ((@considerarDiasSemjornada = 1 and  I.idjornada IS NULL) OR (@considerarDiasSemjornada = 0 AND I.idJornada is not NULL)))
 							) D
 						WHERE D.percTrab >= @jornadaMin
-						GROUP BY D.EmpresaNome,
-								 D.EmpresaCNPJ,
-								 D.FuncionarioCodigo,
-								 D.FuncionarioNome
+						GROUP BY D.FuncionarioNome,
+								 D.FuncionarioCPF,
+								 D.FuncionarioPis,
+								 D.CodigoFilial,
+								 D.FuncionarioMatricula
 						ORDER BY FuncionarioNome";
 			DataTable dt = new DataTable();
 

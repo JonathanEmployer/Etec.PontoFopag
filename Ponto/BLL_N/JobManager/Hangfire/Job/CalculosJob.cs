@@ -888,7 +888,7 @@ namespace BLL_N.JobManager.Hangfire.Job
                 {
                     pb.incrementaPB(1);
                     pb.setaMensagem("Gerando marcação para: " + func.Nome);
-                    bllImportaBilhetes.ImportarBilhetes(func.Dscodigo, false, LLFunc.DataLancamento, LLFunc.DataLancamento, out dataInicial, out dataFinal, objProgressBar2, pLog);
+                    bllImportaBilhetes.ImportarBilhetes(func.Dscodigo, false, LLFunc.DataLancamento, LLFunc.DataLancamento, out dataInicial, out dataFinal, objProgressBar2, pLog,null);
                     BLL.Marcacao bllMarcacao = new BLL.Marcacao(userPF.ConnectionString, userPF);
                     bllMarcacao.ObjProgressBar = objProgressBar2;
                     bllMarcacao.OrdenaTodasMarcacoes(LLFunc.DataLancamento, LLFunc.DataLancamento, func.Id);
@@ -958,7 +958,7 @@ namespace BLL_N.JobManager.Hangfire.Job
                 List<string> log = new List<string>();
                 if ((objfunc.Funcionarioativo != objfunc.Funcionarioativo_Ant) && (objfunc.Funcionarioativo == 1))
                 {
-                    importou = bllFuncionario.ImportacaoBilhete(objfunc, out datai, out dataf, log);
+                    importou = bllFuncionario.ImportacaoBilhete(objfunc, out datai, out dataf, log ,null);
                 }
                 else
                 {
@@ -991,9 +991,9 @@ namespace BLL_N.JobManager.Hangfire.Job
             string dscodigoOrigem = bllFuncionario.GetDsCodigosByIDs(new List<int>() { transferenciaBilhetes.IdFuncionarioOrigem }).FirstOrDefault();
             DateTime dtInicioTB = transferenciaBilhetes.DataInicio.GetValueOrDefault().AddDays(-1);
             DateTime dtFimTB = transferenciaBilhetes.DataFim.GetValueOrDefault().AddDays(1);
-            bllImportaBilhetes.ImportarBilhetes(dscodigoOrigem, false, dtInicioTB, dtFimTB, out DateTime? pdataiO, out DateTime? pdatafO, pb, log);
+            bllImportaBilhetes.ImportarBilhetes(dscodigoOrigem, false, dtInicioTB, dtFimTB, out DateTime? pdataiO, out DateTime? pdatafO, pb, log ,null);
             string dscodigoDestino = bllFuncionario.GetDsCodigosByIDs(new List<int>() { transferenciaBilhetes.IdFuncionarioDestino }).FirstOrDefault();
-            bllImportaBilhetes.ImportarBilhetes(dscodigoDestino, false, dtInicioTB, dtFimTB, out DateTime? pdataiD, out DateTime? pdatafD, pb, log);
+            bllImportaBilhetes.ImportarBilhetes(dscodigoDestino, false, dtInicioTB, dtFimTB, out DateTime? pdataiD, out DateTime? pdatafD, pb, log,null);
             List<DateTime?> dts = new List<DateTime?>() { pdataiO, pdatafO, pdataiD, pdatafD };
             if (dts.Where(d => d != null).Any())
             {
@@ -1008,7 +1008,7 @@ namespace BLL_N.JobManager.Hangfire.Job
             List<string> log = new List<string>();
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(userPF.ConnectionString, userPF);
             string dscodigoDestino = bllFuncionario.GetDsCodigosByIDs(new List<int>() { idFuncionario }).FirstOrDefault();
-            bllImportaBilhetes.ImportarBilhetes(dscodigoDestino, false, dtIni, dtFim, out DateTime? pdataiD, out DateTime? pdatafD, pb, log);
+            bllImportaBilhetes.ImportarBilhetes(dscodigoDestino, false, dtIni, dtFim, out DateTime? pdataiD, out DateTime? pdatafD, pb, log,null);
             RecalculaMarcacao(context, jobReport, db, usuario, new List<int>() { idFuncionario }, pdataiD.GetValueOrDefault(), pdatafD.GetValueOrDefault(), true);
         }
 
