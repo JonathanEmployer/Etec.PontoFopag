@@ -940,7 +940,7 @@ namespace BLL
 
             // Corrigindo o nome dos cabeçalhos
             cells["A1"].Formula = "Empresa";
-            cells["B1"].Formula = "CNPJ-CPF";
+            cells["B1"].Formula = "CNPJ";
             cells["C1"].Formula = "Departamento";
             cells["D1"].Formula = "Contrato";
             cells["E1"].Formula = "Código";

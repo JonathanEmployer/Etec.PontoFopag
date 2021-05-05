@@ -134,12 +134,12 @@ namespace BLL
             maxcodMarcacao = dalMar.MaxCodigo();
         }
 
-        public bool ImportarBilhetes(string pDsCodigo, bool pManutBilhete, DateTime? pDataImpI, DateTime? pDataImpF, out DateTime? pdatai, out DateTime? pdataf, Modelo.ProgressBar pProgressBar, List<string> pLog)
+        public bool ImportarBilhetes(string pDsCodigo, bool pManutBilhete, DateTime? pDataImpI, DateTime? pDataImpF, out DateTime? pdatai, out DateTime? pdataf, Modelo.ProgressBar pProgressBar, List<string> pLog,bool? bRazaoSocial)
         {
             List<string> Funcsprocessar = new List<string>();
-            return ImportarBilhetes(pDsCodigo, pManutBilhete, pDataImpI, pDataImpF, out pdatai, out pdataf, pProgressBar, pLog, out Funcsprocessar);
+            return ImportarBilhetes(pDsCodigo, pManutBilhete, pDataImpI, pDataImpF, out pdatai, out pdataf, pProgressBar, pLog, out Funcsprocessar , bRazaoSocial);
         }
-        public bool ImportarBilhetes(string pDsCodigo, bool pManutBilhete, DateTime? pDataImpI, DateTime? pDataImpF, out DateTime? pdatai, out DateTime? pdataf, Modelo.ProgressBar pProgressBar, List<string> pLog, out List<string> FuncsProcessados)
+        public bool ImportarBilhetes(string pDsCodigo, bool pManutBilhete, DateTime? pDataImpI, DateTime? pDataImpF, out DateTime? pdatai, out DateTime? pdataf, Modelo.ProgressBar pProgressBar, List<string> pLog, out List<string> FuncsProcessados ,bool? bRazaoSocial)
         {
             jornadaAlternativaList = null;
             horariosOrdenaSaidaList = null;
@@ -1640,7 +1640,7 @@ namespace BLL
             bool ordenaBilheteSaida = Convert.ToBoolean(dr["horario_ordenabilhetesaida"]);
             object[] jornada = new object[8];
             legenda = "";
-            idhorario = 0;
+            idhorario = (int)dr["idhorario"];
             tipohoraextrafalta = Convert.ToInt16(dr["tipohoraextrafalta"]);
             bllMarcacao.VerificaMudancaHorario(Convert.ToInt32(dr["funcionarioid"]), pData, mudancaHorarioList, ref legenda, ref idhorario);
             if (idhorario > 0)
@@ -1650,9 +1650,23 @@ namespace BLL
 
             if (ordenaBilheteSaida)
             {
-                if (horariosOrdenaSaidaList == null)
+                if (horariosOrdenaSaidaList == null || (horariosOrdenaSaidaList != null && !horariosOrdenaSaidaList.ContainsKey(idhorario)))
                 {
-                    horariosOrdenaSaidaList = dalHorarioDetalhe.LoadHorariosOrdenaSaida();
+                    var horarioCarregado = dalHorarioDetalhe.LoadHorariosOrdenaSaida(idhorario);
+                    if (horariosOrdenaSaidaList == null)
+                    {
+                        horariosOrdenaSaidaList = horarioCarregado;
+                    }
+                    else
+                    {
+                        foreach (DictionaryEntry entry in horarioCarregado)
+                        {
+                            if (!horariosOrdenaSaidaList.ContainsKey(entry.Key))
+                            {
+                                horariosOrdenaSaidaList.Add(entry.Key, entry.Value);
+                            }
+                        }
+                    }
                 }
                 int key;
                 if (idhorario > 0 && horariosOrdenaSaidaList.ContainsKey(idhorario))
@@ -2317,7 +2331,7 @@ namespace BLL
             {
                 DateTime? dataInicial;
                 DateTime? dataFinal;
-                if (ImportarBilhetes(funcReprocessar.DsCodigo, false, funcReprocessar.DataInicial, funcReprocessar.DataFinal, out dataInicial, out dataFinal, cwkFuncoes.ProgressVazia(), pLog))
+                if (ImportarBilhetes(funcReprocessar.DsCodigo, false, funcReprocessar.DataInicial, funcReprocessar.DataFinal, out dataInicial, out dataFinal, cwkFuncoes.ProgressVazia(), pLog,null))
                 {
                     BLL.CalculaMarcacao bllCalculaMarcacao = new CalculaMarcacao(2, funcReprocessar.IdFuncionario, dataInicial.Value, dataFinal.Value.AddDays(1), cwkFuncoes.ProgressVazia(), false, ConnectionString, UsuarioLogado, false);
                     bllCalculaMarcacao.CalculaMarcacoes();

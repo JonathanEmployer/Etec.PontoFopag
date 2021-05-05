@@ -153,7 +153,7 @@ namespace DAL.RelatoriosSQL
 									                                D.descricao Departamento,
 									                                fo.codigo CodigoFuncao,
 									                                fo.descricao Funcao,
-																	CASE WHEN ISNULL(abst.absenteismo, 1) = 1  and (feriado.id is null OR feriado.Parcial = 1) THEN
+																	CASE WHEN ISNULL(abst.absenteismo, 1) = 1  and (feriado.id is null OR feriado.Parcial = 1) and m.folga=0 THEN
 																			IIF(ja.id IS NULL, 
 																				IIF(h.marcacargahorariamista = 0, dbo.FN_CONVHORA(hd.totaltrabalhadadiurna) + dbo.FN_CONVHORA(hd.totaltrabalhadanoturna), dbo.FN_CONVHORA(hd.cargahorariamista)),
 																				IIF(ja.cargamista = 0, dbo.FN_CONVHORA(ja.totaltrabalhadadiurna) + dbo.FN_CONVHORA(ja.totaltrabalhadanoturna), dbo.FN_CONVHORA(ja.totalmista))

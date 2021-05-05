@@ -967,7 +967,7 @@ namespace BLL
                             }
                             if (!objeto.NaoRecalcular)
                             {
-                                importou = this.ImportacaoBilhete(objeto, out datai, out dataf, log);
+                                importou = this.ImportacaoBilhete(objeto, out datai, out dataf, log ,null);
                                 if (importou)
                                 {
                                     this.AtualizaMarcacao(objeto.Id, datai, dataf);
@@ -986,7 +986,7 @@ namespace BLL
                             dalFuncionario.Alterar(objeto);
                             if ((objeto.Funcionarioativo != objeto.Funcionarioativo_Ant) && (objeto.Funcionarioativo == 1))
                             {
-                                importou = this.ImportacaoBilhete(objeto, out datai, out dataf, log);
+                                importou = this.ImportacaoBilhete(objeto, out datai, out dataf, log ,null);
                             }
                             else
                             {
@@ -1150,7 +1150,7 @@ namespace BLL
                             dalFuncionario.Incluir(objeto);
                             if (objeto.ImportarMarcacoes)
                             {
-                                importou = this.ImportacaoBilhete(objeto, out datai, out dataf, log);
+                                importou = this.ImportacaoBilhete(objeto, out datai, out dataf, log , null);
                                 if (importou)
                                 {
                                     this.AtualizaMarcacao(objeto.Id, datai, dataf);
@@ -1165,7 +1165,7 @@ namespace BLL
                         {
                             if ((objeto.Funcionarioativo != objeto.Funcionarioativo_Ant) && (objeto.Funcionarioativo == 1))
                             {
-                                importou = this.ImportacaoBilhete(objeto, out datai, out dataf, log);
+                                importou = this.ImportacaoBilhete(objeto, out datai, out dataf, log, null);
                             }
                             else
                             {
@@ -1218,12 +1218,12 @@ namespace BLL
             return dalFuncionario.getId(pValor, pCampo, pValor2);
         }
 
-        public bool ImportacaoBilhete(Modelo.Funcionario pFuncionario, out DateTime pDataI, out DateTime pDataF, List<string> log)
+        public bool ImportacaoBilhete(Modelo.Funcionario pFuncionario, out DateTime pDataI, out DateTime pDataF, List<string> log,bool? bRazaoSocial)
         {
             DateTime? dataInicial;
             DateTime? dataFinal;
             BLL.ImportaBilhetes bllImportaBilhetes = new BLL.ImportaBilhetes(ConnectionString, UsuarioLogado);
-            bool importou = bllImportaBilhetes.ImportarBilhetes(pFuncionario.Dscodigo, false, null, null, out dataInicial, out dataFinal, objProgressBar, log);
+            bool importou = bllImportaBilhetes.ImportarBilhetes(pFuncionario.Dscodigo, false, null, null, out dataInicial, out dataFinal, objProgressBar, log , bRazaoSocial);
             if (dataInicial != null && dataFinal != null)
             {
                 pDataI = dataInicial.Value;
