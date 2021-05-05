@@ -34,7 +34,6 @@ namespace SendMessagePontoWeb
                 string password = ConfigurationManager.AppSettings["Password"];
                 string queueName = ConfigurationManager.AppSettings["QueueName"];
                 log.Info("Parametros recuperados");
-
                 if (int.TryParse(port, out int portInt))
                 {
                     log.Info("Criando factory do rabbit");
@@ -72,10 +71,13 @@ namespace SendMessagePontoWeb
                                 NotificationHub.ReportarJobCompleto(job);
                             }
                         };
-                        channel.BasicConsume(queue: "SendMessagePontoWeb",
+                        channel.BasicConsume(queue: queueName,
                                              autoAck: true,
                                              consumer: consumer);
-                    } 
+
+                        Console.WriteLine(" Press [enter] to exit.");
+                        Console.ReadLine();
+                    }
                 }
             }
             catch (Exception ex)
