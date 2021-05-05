@@ -348,7 +348,7 @@
 
         function callBackSalvaManutBilhete() {
             carregaGridMarcacao();
-            cwk_CadastroAjaxParam('Grid', 'ManutencaoBilhetes', 0, parametros = { id: idMarcacao }, "");
+            cwk_CadastroAjaxParam('Grid', 'ManutencaoBilhetes', 0, parametros = { id: idMarcacao,__RequestVerificationToken: gettoken() }, "");
         }
 
         $('#btnTransferir').click(function (e) {
@@ -358,7 +358,7 @@
             }
             else
             {
-                var parametros = p = { idMarcacao: idMarcacao, selecionados: selecionados.join(',') };
+                var parametros = p = { idMarcacao: idMarcacao, selecionados: selecionados.join(','), __RequestVerificationToken: gettoken() };
                 cwk_PostAjaxSemProgress('TransferirDeContrato', 'ManutencaoBilhetes', parametros, callBackSalvaTransfBilhete, "")
 
             }
