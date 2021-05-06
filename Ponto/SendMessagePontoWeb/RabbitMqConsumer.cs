@@ -44,7 +44,7 @@ namespace SendMessagePontoWeb
                         UserName = userName,
                         Password = password
                     };
-                    log.Info($"Conectando rabbit, host = {hostName}, porta = {port}");
+                    log.Info($"Conectando rabbit, host = {hostName}, porta = {port}, queue = {queueName}");
                     using (var connection = factory.CreateConnection())
                     using (var channel = connection.CreateModel())
                     {
