@@ -4,6 +4,7 @@ using Modelo.Proxy;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -158,6 +159,40 @@ namespace BLL_N.JobManager.CalculoExternoCore
             }
 
             return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
+        }
+
+        public string RecalculaMarcacao(List<PxyFuncionariosRecalcular> funcsRecalculo)
+        {
+            try
+            {
+                List<PxyFuncionariosRecalcular> FuncsSemDataIni = funcsRecalculo.Where(w => w.DataInicio == null).ToList();
+                if (FuncsSemDataIni.Count > 0)
+                {
+                    string conexao = BLL.cwkFuncoes.ConstroiConexao(_userPW.DataBase).ConnectionString;
+                    DAL.SQL.Marcacao dalMarcacao = new DAL.SQL.Marcacao(new DAL.SQL.DataBase(conexao));
+                    DataTable dt = dalMarcacao.GetDataPrimeiraMarcacaoFuncionarioConsiderandoFechamentos(funcsRecalculo.Select(s => s.IdFuncionario).ToList());
+                    dt.AsEnumerable().ToList().ForEach(f => FuncsSemDataIni.Where(w => w.IdFuncionario == f.Field<int>("idfuncionario")).ToList().ForEach(fi => fi.DataInicio = f.Field<DateTime>("data")));
+                }
+
+                List<PxyFuncionariosRecalcular> FuncsSemDataFim = funcsRecalculo.Where(w => w.DataFim == null).ToList();
+                if (FuncsSemDataFim.Count > 0)
+                {
+                    string conexao = BLL.cwkFuncoes.ConstroiConexao(_userPW.DataBase).ConnectionString;
+                    DAL.SQL.Marcacao dalMarcacao = new DAL.SQL.Marcacao(new DAL.SQL.DataBase(conexao));
+                    DataTable dt = dalMarcacao.GetDataUltimaMarcacaoFuncionario(funcsRecalculo.Select(s => s.IdFuncionario).ToList());
+                    dt.AsEnumerable().ToList().ForEach(f => FuncsSemDataFim.Where(w => w.IdFuncionario == f.Field<int>("idfuncionario")).ToList().ForEach(fi => fi.DataFim = f.Field<DateTime>("data")));
+                }
+
+                DateTime dataInicial = funcsRecalculo.Min(c => c.DataInicio.GetValueOrDefault());
+                DateTime dataFinal = funcsRecalculo.Max(c => c.DataFim.GetValueOrDefault());
+                List<int> idsFuncionarios = funcsRecalculo.Select(c => c.IdFuncionario).ToList();
+                return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
+            }
+            catch (Exception ex)
+            {
+                BLL.cwkFuncoes.LogarErro(ex);
+                throw ex;
+            }
         }
     }
 }

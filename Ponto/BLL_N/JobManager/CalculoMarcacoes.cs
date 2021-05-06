@@ -222,7 +222,7 @@ namespace BLL_N.JobManager
                     }
                 }
 
-                HangfireManagerCalculos hfm = new HangfireManagerCalculos(usuarioLogado.DataBase, usuarioLogado.Login, "", "/Funcionario/Grid");
+                HangfireManagerCalculos hfm = new HangfireManagerCalculos(usuarioLogado, "", "/Funcionario/Grid");
                 string parametrosExibicao = String.Format("Funcionário {0} | {1}", funcionario.Codigo, funcionario.Nome);
 
                 List<PxyFuncionariosRecalcular> funcsPeriodo = new List<PxyFuncionariosRecalcular>();

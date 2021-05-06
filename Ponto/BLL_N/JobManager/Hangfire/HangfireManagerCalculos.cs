@@ -112,7 +112,15 @@ namespace BLL_N.JobManager.Hangfire
         public PxyJobReturn RecalculaMarcacao(string nomeProcesso, string parametrosExibicao, List<PxyFuncionariosRecalcular> funcsRecalculo, bool considerarInativos = false)
         {
             JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
-            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.RecalculaMarcacao(null, jobControl, dataBase, usuarioLogado, funcsRecalculo, considerarInativos), _enqueuedStateNormal);
+            string idJob;
+            if (_userPW.ServicoCalculo == 0)
+            {
+                idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.RecalculaMarcacao(null, jobControl, dataBase, usuarioLogado, funcsRecalculo, considerarInativos), _enqueuedStateNormal);
+            }
+            else
+            {
+                idJob = new CallCalculo(_userPW, jobControl).RecalculaMarcacao(funcsRecalculo);
+            }
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
