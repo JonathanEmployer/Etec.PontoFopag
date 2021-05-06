@@ -23,7 +23,20 @@ namespace SendMessagePontoWeb
             Receive();
         }
 
-        private static void Receive()
+        protected override void OnStop()
+        {
+            _channel.Close();
+            _connection.Close();
+            _channel.Dispose();
+            _connection.Dispose();
+            base.OnStop();
+        }
+        private static ConnectionFactory _factory;
+        private static IConnection _connection;
+        private static IModel _channel;
+        private static EventingBasicConsumer _consumer;
+
+        private void Receive()
         {
             try
             {
@@ -37,47 +50,40 @@ namespace SendMessagePontoWeb
                 if (int.TryParse(port, out int portInt))
                 {
                     log.Info("Criando factory do rabbit");
-                    var factory = new ConnectionFactory()
+
+                    log.Info($"Conectando rabbit, host = {hostName}, porta = {port}, queue = {queueName}");
+
+                    _factory = new ConnectionFactory()
                     {
                         HostName = hostName,
-                        Port = portInt,
                         UserName = userName,
-                        Password = password
+                        Password = password,
+                        Port = portInt
                     };
-                    log.Info($"Conectando rabbit, host = {hostName}, porta = {port}, queue = {queueName}");
-                    using (var connection = factory.CreateConnection())
-                    using (var channel = connection.CreateModel())
+                    _connection = _factory.CreateConnection();
+                    _channel = _connection.CreateModel();
+
+                    _channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
+
+                    _consumer = new EventingBasicConsumer(_channel);
+
+                    _consumer.Received += (s, ev) =>
                     {
-                        log.Info("Conectaddo rabbit");
-                        channel.QueueDeclare(queue: queueName,
-                                             durable: true,
-                                             exclusive: false,
-                                             autoDelete: false,
-                                             arguments: null);
+                        var body = ev.Body.ToArray();
+                        var message = Encoding.UTF8.GetString(body);
+                        Console.WriteLine(" [x] Received {0}", message);
+                        log.Debug($"Mensagem recebida = {message}");
 
-                        var consumer = new EventingBasicConsumer(channel);
-                        consumer.Received += (model, ea) =>
+
+                        PxyJobReturn job = JsonConvert.DeserializeObject<PxyJobReturn>(message);
+                        NotificationHub.ReportarJobProgresso(job);
+                        if (job.Progress == 100)
                         {
-                            var body = ea.Body.ToArray();
-                            var message = Encoding.UTF8.GetString(body);
-                            Console.WriteLine(" [x] Received {0}", message);
-                            log.Debug($"Mensagem recebida = {message}");
+                            NotificationHub.ReportarJobCompleto(job);
+                        }
+                    };
 
-
-                            PxyJobReturn job = JsonConvert.DeserializeObject<PxyJobReturn>(message);
-                            NotificationHub.ReportarJobProgresso(job);
-                            if (job.Progress == 100)
-                            {
-                                NotificationHub.ReportarJobCompleto(job);
-                            }
-                        };
-                        channel.BasicConsume(queue: queueName,
-                                             autoAck: true,
-                                             consumer: consumer);
-
-                        Console.WriteLine(" Press [enter] to exit.");
-                        Console.ReadLine();
-                    }
+                    _channel.BasicConsume(queue: queueName, autoAck: true, consumer: _consumer);
                 }
             }
             catch (Exception ex)
