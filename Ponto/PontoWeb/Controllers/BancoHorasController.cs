@@ -69,7 +69,8 @@ namespace PontoWeb.Controllers
 
         private Modelo.Proxy.PxyJobReturn Recalcular(UsuarioPontoWeb usuario, Modelo.Acao acao, BancoHoras bancoHoras)
         {
-            HangfireManagerCalculos hfm = new HangfireManagerCalculos(usuario.DataBase, "", "", "/BancoHoras/Grid");
+            UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+            HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW, "", "/BancoHoras/Grid");
             Modelo.Proxy.PxyJobReturn ret = hfm.CalculaBancoHoras(acao, bancoHoras);
             return ret;
         }

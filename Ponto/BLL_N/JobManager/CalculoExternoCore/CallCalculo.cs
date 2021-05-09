@@ -194,5 +194,43 @@ namespace BLL_N.JobManager.CalculoExternoCore
                 throw ex;
             }
         }
+
+        public string RecalculaMarcacao(List<int> idsFuncionario, DateTime dataInicial, DateTime dataFinal, DateTime dataInicial_Ant, DateTime dataFinal_Ant)
+        {
+            var datas = new List<DateTime> { dataInicial, dataFinal, dataInicial_Ant, dataFinal_Ant };
+            DateTime dtI = datas.Min();
+            DateTime dtF = datas.Max();
+
+            return CalculaLote(dtI, dtF, idsFuncionario);
+        }
+
+
+
+
+
+        public string CalculaBancoHoras(Acao acao, BancoHoras bancoHoras)
+        {
+            DateTime dataInicial;
+            DateTime dataFinal;
+            List<int> idsFuncionarios;
+            if (bancoHoras.Tipo != bancoHoras.Tipo_Ant || bancoHoras.Identificacao != bancoHoras.Identificacao_Ant
+                           || bancoHoras.DataInicial != bancoHoras.DataInicial_Ant || bancoHoras.DataFinal != bancoHoras.DataFinal_Ant)
+            {
+                if (acao != Modelo.Acao.Incluir)
+                {
+                    dataInicial = (DateTime)bancoHoras.DataInicial_Ant;
+                    dataFinal = (DateTime)bancoHoras.DataFinal_Ant;
+                    idsFuncionarios = GetIdsFuncionarioByTipo(bancoHoras.Tipo_Ant, new List<int> { bancoHoras.Identificacao_Ant });
+                    var id = CalculaLote(dataInicial, dataFinal, idsFuncionarios);
+
+                }
+            }
+
+            dataInicial = (DateTime)bancoHoras.DataInicial;
+            dataFinal = (DateTime)bancoHoras.DataFinal;
+            idsFuncionarios = GetIdsFuncionarioByTipo(bancoHoras.Tipo, new List<int> { bancoHoras.Identificacao });
+            return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
+
+        }
     }
 }
