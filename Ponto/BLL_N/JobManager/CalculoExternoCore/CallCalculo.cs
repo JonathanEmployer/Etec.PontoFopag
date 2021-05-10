@@ -195,11 +195,90 @@ namespace BLL_N.JobManager.CalculoExternoCore
             }
         }
 
+        public string AtualizaMarcacaoJornadaAlternativa(JornadaAlternativa jornada)
+        {
+            DateTime dataInicial;
+            DateTime dataFinal;
+            List<int> idsFuncionarios;
+
+            // AtualizaDadosAnterior
+            if (jornada.Acao == Acao.Alterar)
+            {
+                dataInicial = jornada.DataInicial_Ant.Value;
+                dataFinal = jornada.DataFinal_Ant.Value;
+                //CRNC - Data 09/01/2010 (Tirado o else)
+                if (jornada.DiasJA.Count > 0)
+                {
+                    DateTime dataIDJA = jornada.DiasJA.Min(d => d.DataCompensada).Value;
+                    DateTime dataFDJA = jornada.DiasJA.Max(d => d.DataCompensada).Value;
+
+                    dataInicial = (dataIDJA < dataInicial ? dataIDJA : dataInicial);
+                    dataFinal = (dataFDJA > dataFinal ? dataFDJA : dataFinal);
+                }
+
+                if (jornada.Tipo_Ant == 2)
+                {
+                    List<int> idsFunc_ant = new List<int>();
+                    List<int> idsFunc = new List<int>();
+                    if (!String.IsNullOrEmpty(jornada.IdsJornadaAlternativaFuncionariosSelecionados_Ant))
+                    {
+                        idsFunc_ant = jornada.IdsJornadaAlternativaFuncionariosSelecionados_Ant.Split(',').Select(Int32.Parse).ToList();
+                    }
+                    if (!String.IsNullOrEmpty(jornada.IdsJornadaAlternativaFuncionariosSelecionados))
+                    {
+                        idsFunc = jornada.IdsJornadaAlternativaFuncionariosSelecionados.Split(',').Select(Int32.Parse).ToList();
+                    }
+
+                    List<int> funcsRecalc = idsFunc_ant.Except(idsFunc).ToList();
+
+                    if (funcsRecalc.Any())
+                    {
+                        var i = CalculaLote(dataInicial, dataFinal, funcsRecalc);
+                    }
+                }
+                else
+                {
+                    if ((jornada.Identificacao_Ant > 0 && jornada.Tipo_Ant != jornada.Tipo || jornada.Identificacao_Ant != jornada.Identificacao) || (jornada.DataInicial != jornada.DataInicial_Ant || jornada.DataFinal != jornada.DataFinal_Ant))
+                    {
+                        var o = CalcularPorTipo(jornada.Tipo_Ant, new List<int> { jornada.Identificacao_Ant }, dataInicial, dataFinal);
+                    }
+
+                }
+            }
+
+            dataInicial = jornada.DataInicial.Value;
+            dataFinal = jornada.DataFinal.Value;
+            //CRNC - Data 09/01/2010 (Tirado o else)
+            if (jornada.DiasJA.Count > 0)
+            {
+                DateTime dataIDJA = jornada.DiasJA.Min(d => d.DataCompensada).Value;
+                DateTime dataFDJA = jornada.DiasJA.Max(d => d.DataCompensada).Value;
+
+                dataInicial = (dataIDJA < dataInicial ? dataIDJA : dataInicial);
+                dataFinal = (dataFDJA > dataFinal ? dataFDJA : dataFinal);
+            }
+
+            if (jornada.Tipo == 2)
+            {
+                idsFuncionarios = jornada.IdsJornadaAlternativaFuncionariosSelecionados.Split(',').ToList().Select(s => Convert.ToInt32(s)).ToList();
+               return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
+            }
+            else
+            {
+                return CalcularPorTipo(jornada.Tipo, new List<int> { jornada.Identificacao }, dataInicial, dataFinal);
+            }
+
+        }
+
         public string RecalculaMarcacao(List<int> idsFuncionario, DateTime dataInicial, DateTime dataFinal, DateTime dataInicial_Ant, DateTime dataFinal_Ant)
         {
-            var datas = new List<DateTime> { dataInicial, dataFinal, dataInicial_Ant, dataFinal_Ant };
-            DateTime dtI = datas.Min();
-            DateTime dtF = datas.Max();
+            List<Tuple<DateTime, DateTime>> periodos = BLL.cwkFuncoes.ComparePeriod(new Tuple<DateTime, DateTime>(dataInicial, dataFinal), new Tuple<DateTime?, DateTime?>(dataInicial_Ant, dataFinal_Ant));
+
+            //var t = periodos.Select(c => c.Item1).Min();
+            //var r = periodos.Select(c => c.Item2).Max();
+            //var datas = new List<DateTime> { dataInicial, dataFinal, dataInicial_Ant, dataFinal_Ant };
+            DateTime dtI = periodos.Select(c => c.Item1).Min();
+            DateTime dtF = periodos.Select(c => c.Item2).Max();
 
             return CalculaLote(dtI, dtF, idsFuncionario);
         }

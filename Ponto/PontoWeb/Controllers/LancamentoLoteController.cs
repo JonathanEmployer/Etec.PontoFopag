@@ -284,7 +284,7 @@ namespace PontoWeb.Controllers
                 case (int)Modelo.TipoLancamento.Afastamento:
                     descLote = "Afastamento";
                     parametrosExibicao = String.Format("Lote de {0} código: {1}, descrição: {2}, funcionários: {3}", descLote, obj.Codigo, obj.Descricao, (obj.LancamentoLoteFuncionarios != null ? obj.LancamentoLoteFuncionarios.Count : 0));
-                    hfm = new HangfireManagerCalculos(_usr.DataBase, "", "", "/LancamentoLoteAfastamento/Grid");
+                    hfm = new HangfireManagerCalculos(UserPW, "", "/LancamentoLoteAfastamento/Grid");
                     obj.LancamentoLoteAfastamento.DataF = (obj.LancamentoLoteAfastamento.DataF == null ? DateTime.Now.AddMonths(1) : obj.LancamentoLoteAfastamento.DataF);
                     obj.LancamentoLoteAfastamento.DataF_Ant = (obj.LancamentoLoteAfastamento.DataF_Ant == null ? DateTime.Now.AddMonths(1) : obj.LancamentoLoteAfastamento.DataF_Ant);
                     hfm.RecalculaMarcacao(String.Format("Recalculo de marcações por {0} de Lote de {1}", obj.AcaoDescricao, descLote), parametrosExibicao, FuncRecalc, obj.LancamentoLoteAfastamento.DataI.GetValueOrDefault(), obj.LancamentoLoteAfastamento.DataF.GetValueOrDefault(), obj.LancamentoLoteAfastamento.DataI_Ant.GetValueOrDefault(), obj.LancamentoLoteAfastamento.DataF_Ant.GetValueOrDefault());

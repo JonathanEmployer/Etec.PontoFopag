@@ -116,7 +116,7 @@ namespace BLL_N.JobManager.Hangfire
             }
             else
             {
-                //TESTAR CORRETAMENTE EDIÇÃO DE FUNCIONARIO
+                //TESTAR CORRETAMENTE EDIÇÃO DE FUNCIONARIO - None of the specified endpoints were reachable
                 idJob = new CallCalculo(_userPW, jobControl).RecalculaMarcacao(funcsRecalculo);
             }
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
@@ -145,7 +145,7 @@ namespace BLL_N.JobManager.Hangfire
             string idJob;
             if (_userPW.ServicoCalculo == 0)
             {
-             idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.RecalculaMarcacao(null, jobControl, dataBase, usuarioLogado, idsFuncionario, dataInicial, dataFinal, dataInicial_Ant, dataFinal_Ant, considerarInativos), _enqueuedStateNormal);
+                idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.RecalculaMarcacao(null, jobControl, dataBase, usuarioLogado, idsFuncionario, dataInicial, dataFinal, dataInicial_Ant, dataFinal_Ant, considerarInativos), _enqueuedStateNormal);
             }
             else
             {
@@ -159,7 +159,15 @@ namespace BLL_N.JobManager.Hangfire
         {
             jornada.DiasJA.ForEach(f => f.JornadaAlternativa = null);
             JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
-            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.AtualizaMarcacaoJornadaAlternativa(null, jobControl, dataBase, usuarioLogado, jornada), _enqueuedStateNormal);
+            string idJob;
+            if (_userPW.ServicoCalculo == 0)
+            {
+                idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.AtualizaMarcacaoJornadaAlternativa(null, jobControl, dataBase, usuarioLogado, jornada), _enqueuedStateNormal);
+            }
+            else
+            {
+                idJob = new CallCalculo(_userPW, jobControl).AtualizaMarcacaoJornadaAlternativa(jornada);
+            }
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
