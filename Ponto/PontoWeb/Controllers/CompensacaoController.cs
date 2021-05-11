@@ -261,7 +261,7 @@ namespace PontoWeb.Controllers
 
         public Modelo.Proxy.PxyJobReturn Recalcular(UsuarioPontoWeb usuario, Acao acao, Compensacao compensacao)
         {
-            HangfireManagerCalculos hfm = new HangfireManagerCalculos(usuario.DataBase, "", "", "/Compensacao/Grid");
+            HangfireManagerCalculos hfm = new HangfireManagerCalculos(usuario, "", "/Compensacao/Grid");
             string parametrosExibicao = String.Format("Compensação código: {0}, Tipo: {1} - {2}, Período: {3} a {4}, período a ser compensado: {5} a {6}", compensacao.Codigo, compensacao.Tipo, compensacao.Nome, compensacao.DataInicialStr, compensacao.DataFinalStr, compensacao.DiaCompensarInicialStr, compensacao.DiaCompensarFinalStr);
             Modelo.Proxy.PxyJobReturn ret = hfm.AtualizaMarcacoesCompensacao("Recalculo de marcações por Compensacao", parametrosExibicao, acao, compensacao);
             return ret;

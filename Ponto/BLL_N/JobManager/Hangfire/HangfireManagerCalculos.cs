@@ -191,7 +191,15 @@ namespace BLL_N.JobManager.Hangfire
         public PxyJobReturn AtualizaMarcacoesCompensacao(string nomeProcesso, string parametrosExibicao, Acao acao, Compensacao compensacao)
         {
             JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
-            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.AtualizaMarcacoesCompensacao(null, jobControl, dataBase, usuarioLogado, acao, compensacao), _enqueuedStateNormal);
+            string idJob;
+            if (_userPW.ServicoCalculo == 0)
+            {
+                idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.AtualizaMarcacoesCompensacao(null, jobControl, dataBase, usuarioLogado, acao, compensacao), _enqueuedStateNormal);
+            }
+            else
+            {
+                idJob = new CallCalculo(_userPW, jobControl).AtualizaMarcacoesCompensacao(acao, compensacao);
+            }
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }

@@ -270,6 +270,7 @@ namespace BLL_N.JobManager.CalculoExternoCore
 
         }
 
+
         public string RecalculaMarcacao(List<int> idsFuncionario, DateTime dataInicial, DateTime dataFinal, DateTime dataInicial_Ant, DateTime dataFinal_Ant)
         {
             List<Tuple<DateTime, DateTime>> periodos = BLL.cwkFuncoes.ComparePeriod(new Tuple<DateTime, DateTime>(dataInicial, dataFinal), new Tuple<DateTime?, DateTime?>(dataInicial_Ant, dataFinal_Ant));
@@ -394,5 +395,20 @@ namespace BLL_N.JobManager.CalculoExternoCore
 
         }
 
+        public string AtualizaMarcacoesCompensacao(Acao acao, Compensacao compensacao)
+        {
+            if (compensacao.Tipo != compensacao.Tipo_Ant || compensacao.Identificacao != compensacao.Identificacao_Ant
+                  || compensacao.Periodoinicial != compensacao.Periodoinicial_Ant || compensacao.Periodofinal != compensacao.Periodofinal_Ant)
+            {
+
+                if (acao != Modelo.Acao.Incluir)
+                {
+                    return CalcularPorTipo(compensacao.Tipo_Ant, new List<int> { compensacao.Identificacao_Ant }, (DateTime)compensacao.Periodoinicial_Ant, (DateTime)compensacao.Periodofinal_Ant);
+                }
+
+            }
+
+            return CalcularPorTipo(compensacao.Tipo, new List<int> { compensacao.Identificacao }, (DateTime)compensacao.Periodoinicial, (DateTime)compensacao.Periodofinal);
+        }
     }
 }
