@@ -261,7 +261,7 @@ namespace BLL_N.JobManager.CalculoExternoCore
             if (jornada.Tipo == 2)
             {
                 idsFuncionarios = jornada.IdsJornadaAlternativaFuncionariosSelecionados.Split(',').ToList().Select(s => Convert.ToInt32(s)).ToList();
-               return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
+                return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
             }
             else
             {
@@ -274,18 +274,11 @@ namespace BLL_N.JobManager.CalculoExternoCore
         {
             List<Tuple<DateTime, DateTime>> periodos = BLL.cwkFuncoes.ComparePeriod(new Tuple<DateTime, DateTime>(dataInicial, dataFinal), new Tuple<DateTime?, DateTime?>(dataInicial_Ant, dataFinal_Ant));
 
-            //var t = periodos.Select(c => c.Item1).Min();
-            //var r = periodos.Select(c => c.Item2).Max();
-            //var datas = new List<DateTime> { dataInicial, dataFinal, dataInicial_Ant, dataFinal_Ant };
             DateTime dtI = periodos.Select(c => c.Item1).Min();
             DateTime dtF = periodos.Select(c => c.Item2).Max();
 
             return CalculaLote(dtI, dtF, idsFuncionario);
         }
-
-
-
-
 
         public string CalculaBancoHoras(Acao acao, BancoHoras bancoHoras)
         {
@@ -311,5 +304,95 @@ namespace BLL_N.JobManager.CalculoExternoCore
             return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
 
         }
+
+        public string AtualizarMarcacoesFeriado(Acao acao, Feriado feriado)
+        {
+            DateTime dataInicial;
+            DateTime dataFinal;
+            List<int> idsFuncionarios = new List<int>();
+
+            int? tipoRecalculo = 0;
+            int idRecalculo = 0;
+
+            bool bAlterado = (feriado.TipoFeriado_Ant != feriado.TipoFeriado) || (feriado.Data_Ant != feriado.Data)
+                   || (feriado.IdDepartamento_Ant != feriado.IdDepartamento) || (feriado.IdEmpresa_Ant != feriado.IdEmpresa)
+                   || (feriado.IdsFeriadosFuncionariosSelecionados != feriado.IdsFeriadosFuncionariosSelecionados_Ant)
+                   || (feriado.Parcial != feriado.ParcialAnt)
+                   || (feriado.HoraInicio != feriado.HoraInicioAnt)
+                   || (feriado.HoraFim != feriado.HoraFimAnt);
+
+
+            if (bAlterado && acao == Modelo.Acao.Alterar)
+            {
+                if (feriado.TipoFeriado_Ant != 3) // Funcionário
+                {
+                    if (feriado.TipoFeriado_Ant == 0)//Geral
+                    {
+                        tipoRecalculo = null;
+                    }
+                    else if (feriado.TipoFeriado_Ant == 1) //Empresa
+                    {
+                        tipoRecalculo = 0;
+                        idRecalculo = feriado.IdEmpresa_Ant;
+                    }
+                    else if (feriado.TipoFeriado_Ant == 2) //Departamento
+                    {
+                        tipoRecalculo = 1;
+                        idRecalculo = feriado.IdDepartamento_Ant;
+                    }
+                    idsFuncionarios = GetIdsFuncionarioByTipo(tipoRecalculo, new List<int> { idRecalculo });
+                }
+                else
+                {
+                    List<int> idsFunc_ant = new List<int>();
+                    List<int> idsFunc = new List<int>();
+                    if (!String.IsNullOrEmpty(feriado.IdsFeriadosFuncionariosSelecionados_Ant))
+                    {
+                        idsFunc_ant = feriado.IdsFeriadosFuncionariosSelecionados_Ant.Split(',').Select(Int32.Parse).ToList();
+                    }
+                    if (!String.IsNullOrEmpty(feriado.IdsFeriadosFuncionariosSelecionados))
+                    {
+                        idsFunc = feriado.IdsFeriadosFuncionariosSelecionados.Split(',').Select(Int32.Parse).ToList();
+                    }
+
+                    idsFuncionarios = idsFunc_ant.Except(idsFunc).ToList();
+
+                }
+                dataInicial = (DateTime)feriado.Data_Ant;
+                dataFinal = (DateTime)feriado.Data_Ant;
+                var idJob = CalculaLote(dataInicial, dataFinal, idsFuncionarios);
+            }
+
+            if (feriado.TipoFeriado != 3)//Funcionário
+            {
+                if (feriado.TipoFeriado == 0)//Geral
+                {
+                    tipoRecalculo = null;
+                }
+                else if (feriado.TipoFeriado == 1) //Empresa
+                {
+                    tipoRecalculo = 0;
+                    idRecalculo = feriado.IdEmpresa;
+                }
+                else if (feriado.TipoFeriado == 2) //Departamento
+                {
+                    tipoRecalculo = 1;
+                    idRecalculo = feriado.IdDepartamento;
+                }
+                idsFuncionarios = GetIdsFuncionarioByTipo(tipoRecalculo, new List<int> { idRecalculo });
+            }
+            else
+            {
+                if (!String.IsNullOrEmpty(feriado.IdsFeriadosFuncionariosSelecionados))
+                {
+                    idsFuncionarios = feriado.IdsFeriadosFuncionariosSelecionados.Split(',').Select(Int32.Parse).ToList();
+                }
+            }
+            dataInicial = (DateTime)feriado.Data;
+            dataFinal = (DateTime)feriado.Data;
+            return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
+
+        }
+
     }
 }

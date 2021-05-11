@@ -353,7 +353,7 @@ namespace PontoWeb.Controllers
 
         public void Recalcular(UsuarioPontoWeb usuario, Acao acao, Feriado feriado)
         {
-            HangfireManagerCalculos hfm = new HangfireManagerCalculos(usuario.DataBase, "", "", "/Feriado/Grid");
+            HangfireManagerCalculos hfm = new HangfireManagerCalculos(usuario, "", "/Feriado/Grid");
             string parametrosExibicao = String.Format("Feriado: {0} | {1}, Data: {2}, tipo {3} | {4}", feriado.Codigo, feriado.Descricao, feriado.DataInicialStr, feriado.TipoFeriado, feriado.TipoDesc);
             Modelo.Proxy.PxyJobReturn ret = hfm.AtualizarMarcacoesFeriado("Recalculo de marcações por Feriado", parametrosExibicao, acao, feriado);
         }

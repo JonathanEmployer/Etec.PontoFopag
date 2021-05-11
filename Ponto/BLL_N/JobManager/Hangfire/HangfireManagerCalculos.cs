@@ -174,8 +174,16 @@ namespace BLL_N.JobManager.Hangfire
 
         public PxyJobReturn AtualizarMarcacoesFeriado(string nomeProcesso, string parametrosExibicao, Acao acao, Feriado feriado)
         {
-            JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
-            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.AtualizarMarcacoesFeriado(null, jobControl, dataBase, usuarioLogado, acao, feriado), _enqueuedStateNormal);
+                JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
+            string idJob;
+            if (_userPW.ServicoCalculo == 0)
+            {
+            idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.AtualizarMarcacoesFeriado(null, jobControl, dataBase, usuarioLogado, acao, feriado), _enqueuedStateNormal);
+            }
+            else
+            {
+                idJob = new CallCalculo(_userPW, jobControl).AtualizarMarcacoesFeriado(acao, feriado);
+            }
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
