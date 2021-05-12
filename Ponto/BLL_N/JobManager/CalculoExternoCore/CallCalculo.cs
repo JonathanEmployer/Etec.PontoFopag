@@ -285,7 +285,6 @@ namespace BLL_N.JobManager.CalculoExternoCore
         {
             DateTime dataInicial;
             DateTime dataFinal;
-            List<int> idsFuncionarios;
             if (bancoHoras.Tipo != bancoHoras.Tipo_Ant || bancoHoras.Identificacao != bancoHoras.Identificacao_Ant
                            || bancoHoras.DataInicial != bancoHoras.DataInicial_Ant || bancoHoras.DataFinal != bancoHoras.DataFinal_Ant)
             {
@@ -293,16 +292,14 @@ namespace BLL_N.JobManager.CalculoExternoCore
                 {
                     dataInicial = (DateTime)bancoHoras.DataInicial_Ant;
                     dataFinal = (DateTime)bancoHoras.DataFinal_Ant;
-                    idsFuncionarios = GetIdsFuncionarioByTipo(bancoHoras.Tipo_Ant, new List<int> { bancoHoras.Identificacao_Ant });
-                    var id = CalculaLote(dataInicial, dataFinal, idsFuncionarios);
-
+                    var idJob = CalcularPorTipo(bancoHoras.Tipo_Ant, new List<int> { bancoHoras.Identificacao_Ant }, dataInicial, dataFinal);
+                    
                 }
             }
 
             dataInicial = (DateTime)bancoHoras.DataInicial;
             dataFinal = (DateTime)bancoHoras.DataFinal;
-            idsFuncionarios = GetIdsFuncionarioByTipo(bancoHoras.Tipo, new List<int> { bancoHoras.Identificacao });
-            return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
+            return CalcularPorTipo(bancoHoras.Tipo, new List<int> { bancoHoras.Identificacao }, dataInicial, dataFinal);
 
         }
 
@@ -379,6 +376,7 @@ namespace BLL_N.JobManager.CalculoExternoCore
                 {
                     tipoRecalculo = 1;
                     idRecalculo = feriado.IdDepartamento;
+
                 }
                 idsFuncionarios = GetIdsFuncionarioByTipo(tipoRecalculo, new List<int> { idRecalculo });
             }
@@ -410,5 +408,97 @@ namespace BLL_N.JobManager.CalculoExternoCore
 
             return CalcularPorTipo(compensacao.Tipo, new List<int> { compensacao.Identificacao }, (DateTime)compensacao.Periodoinicial, (DateTime)compensacao.Periodofinal);
         }
+
+        public string DesfazCompensacao(int pIdCompensacao)
+        {
+            BLL.Marcacao bllMarcacao = new BLL.Marcacao(_userPW.ConnectionString, _userPW);
+            BLL.Compensacao bllCompensacao = new BLL.Compensacao(_userPW.ConnectionString, _userPW);
+            bllCompensacao.ObjProgressBar = new Modelo.ProgressBar();
+
+            Modelo.Compensacao objCompensacao = bllCompensacao.LoadObject(pIdCompensacao);
+            bllCompensacao.RetornaHorasParaFalta(objCompensacao);
+            bllMarcacao.SetaIdCompensadoNulo(objCompensacao.Id);
+            DateTime datai, dataf;
+            if (objCompensacao.Diacompensarinicial.HasValue && objCompensacao.Diacompensarfinal.HasValue)
+            {
+                datai = objCompensacao.Diacompensarinicial.Value;
+                dataf = objCompensacao.Diacompensarfinal.Value;
+            }
+            else
+            {
+                datai = new DateTime();
+                dataf = new DateTime();
+            }
+            if (objCompensacao.DiasC.Count > 0)
+            {
+                foreach (Modelo.DiasCompensacao dia in objCompensacao.DiasC)
+                {
+                    if (dia.Datacompensada.HasValue && (dia.Datacompensada < datai || datai == new DateTime()))
+                        datai = dia.Datacompensada.Value;
+                    if (dia.Datacompensada > dataf && dia.Datacompensada.HasValue)
+                        dataf = dia.Datacompensada.Value;
+                }
+            }
+            return CalcularPorTipo(objCompensacao.Tipo, new List<int> { objCompensacao.Identificacao }, datai, dataf);
+
+        }
+
+        public string CalculaAfastamento(Afastamento afastamento)
+        {
+            int tipoRecalculo = 0, idRecalculo = 0;
+            int tipoRecalculoAnt = tipoRecalculo, idRecalculoAnt = idRecalculo;
+
+            if (afastamento.Acao == Acao.Alterar)
+            {
+                afastamento.Dataf_Ant = (afastamento.Dataf_Ant == null ? DateTime.Now.AddMonths(1) : afastamento.Dataf_Ant.Value);
+                switch (afastamento.Tipo_Ant)
+                {
+                    case 0://Funcionario
+                        tipoRecalculoAnt = 2;
+                        idRecalculoAnt = afastamento.IdFuncionario_Ant;
+                        break;
+                    case 2: //Empresa
+                        tipoRecalculoAnt = 0;
+                        idRecalculoAnt = afastamento.IdEmpresa_Ant;
+                        break;
+                    case 1: //Departamento
+                        tipoRecalculoAnt = 1;
+                        idRecalculoAnt = afastamento.IdDepartamento_Ant;
+                        break;
+                    case 3: //Contrato
+                        tipoRecalculoAnt = 6;
+                        idRecalculoAnt = afastamento.IdContrato_Ant.GetValueOrDefault();
+                        break;
+                }
+                if (tipoRecalculoAnt != tipoRecalculo || idRecalculoAnt != idRecalculo || afastamento.Datai != afastamento.Datai_Ant || afastamento.Dataf != afastamento.Dataf_Ant)
+                {
+                    var idJob = CalcularPorTipo(tipoRecalculoAnt, new List<int>() { idRecalculoAnt }, afastamento.Datai_Ant.GetValueOrDefault(), afastamento.Dataf_Ant.GetValueOrDefault());
+                }
+            }
+
+            afastamento.Dataf = (afastamento.Dataf == null ? DateTime.Now.AddMonths(1) : afastamento.Dataf.Value);
+            switch (afastamento.Tipo)
+            {
+                case 0://Funcionario
+                    tipoRecalculo = 2;
+                    idRecalculo = afastamento.IdFuncionario;
+                    break;
+                case 2: //Empresa
+                    tipoRecalculo = 0;
+                    idRecalculo = afastamento.IdEmpresa;
+                    break;
+                case 1: //Departamento
+                    tipoRecalculo = 1;
+                    idRecalculo = afastamento.IdDepartamento;
+                    break;
+                case 3: //Contrato
+                    tipoRecalculo = 6;
+                    idRecalculo = afastamento.IdContrato.GetValueOrDefault();
+                    break;
+            }
+            return CalcularPorTipo(tipoRecalculo, new List<int>() { idRecalculo }, afastamento.Datai.GetValueOrDefault(), afastamento.Dataf.GetValueOrDefault());
+
+        }
+
     }
 }

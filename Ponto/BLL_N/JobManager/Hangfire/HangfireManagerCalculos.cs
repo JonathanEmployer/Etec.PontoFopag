@@ -174,11 +174,11 @@ namespace BLL_N.JobManager.Hangfire
 
         public PxyJobReturn AtualizarMarcacoesFeriado(string nomeProcesso, string parametrosExibicao, Acao acao, Feriado feriado)
         {
-                JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
+            JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
             string idJob;
             if (_userPW.ServicoCalculo == 0)
             {
-            idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.AtualizarMarcacoesFeriado(null, jobControl, dataBase, usuarioLogado, acao, feriado), _enqueuedStateNormal);
+                idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.AtualizarMarcacoesFeriado(null, jobControl, dataBase, usuarioLogado, acao, feriado), _enqueuedStateNormal);
             }
             else
             {
@@ -208,6 +208,7 @@ namespace BLL_N.JobManager.Hangfire
         {
             JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
             string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.DesfazCompensacao(null, jobControl, dataBase, usuarioLogado, pIdCompensacao), _enqueuedStateNormal);
+
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
@@ -229,63 +230,7 @@ namespace BLL_N.JobManager.Hangfire
             }
             else
             {
-
-                pAfastamento.Dataf = (pAfastamento.Dataf == null ? DateTime.Now.AddMonths(1) : pAfastamento.Dataf.Value);
-
-                int tipoRecalculo = 0, idRecalculo = 0;
-                switch (pAfastamento.Tipo)
-                {
-                    case 0://Funcionario
-                        tipoRecalculo = 2;
-                        idRecalculo = pAfastamento.IdFuncionario;
-                        break;
-                    case 2: //Empresa
-                        tipoRecalculo = 0;
-                        idRecalculo = pAfastamento.IdEmpresa;
-                        break;
-                    case 1: //Departamento
-                        tipoRecalculo = 1;
-                        idRecalculo = pAfastamento.IdDepartamento;
-                        break;
-                    case 3: //Contrato
-                        tipoRecalculo = 6;
-                        idRecalculo = pAfastamento.IdContrato.GetValueOrDefault();
-                        break;
-                }
-
-                int tipoRecalculoAnt = tipoRecalculo, idRecalculoAnt = idRecalculo;
-                #region AtualizaDadosAnterior
-                if (pAfastamento.Acao == Acao.Alterar)
-                {
-                    pAfastamento.Dataf_Ant = (pAfastamento.Dataf_Ant == null ? DateTime.Now.AddMonths(1) : pAfastamento.Dataf_Ant.Value);
-                    switch (pAfastamento.Tipo_Ant)
-                    {
-                        case 0://Funcionario
-                            tipoRecalculoAnt = 2;
-                            idRecalculoAnt = pAfastamento.IdFuncionario_Ant;
-                            break;
-                        case 2: //Empresa
-                            tipoRecalculoAnt = 0;
-                            idRecalculoAnt = pAfastamento.IdEmpresa_Ant;
-                            break;
-                        case 1: //Departamento
-                            tipoRecalculoAnt = 1;
-                            idRecalculoAnt = pAfastamento.IdDepartamento_Ant;
-                            break;
-                        case 3: //Contrato
-                            tipoRecalculoAnt = 6;
-                            idRecalculoAnt = pAfastamento.IdContrato_Ant.GetValueOrDefault();
-                            break;
-                    }
-                    if (tipoRecalculoAnt != tipoRecalculo || idRecalculoAnt != idRecalculo || pAfastamento.Datai != pAfastamento.Datai_Ant || pAfastamento.Dataf != pAfastamento.Dataf_Ant)
-                    {
-                        JobControl jobControlAnt = GerarJobControl(nomeProcesso, parametrosExibicao);
-                        idJob = new CallCalculo(_userPW, jobControlAnt).CalcularPorTipo(tipoRecalculoAnt, new List<int>() { idRecalculoAnt }, pAfastamento.Datai_Ant.GetValueOrDefault(), pAfastamento.Dataf_Ant.GetValueOrDefault());
-                    }
-                }
-
-                #endregion
-                idJob = new CallCalculo(_userPW, jobControl).CalcularPorTipo(tipoRecalculo, new List<int>() { idRecalculo }, pAfastamento.Datai.GetValueOrDefault(), pAfastamento.Dataf.GetValueOrDefault());
+                idJob = new CallCalculo(_userPW, jobControl).CalculaAfastamento(pAfastamento);
             }
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
