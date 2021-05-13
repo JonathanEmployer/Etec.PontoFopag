@@ -7,7 +7,11 @@ using Modelo.Proxy;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace BLL_N.JobManager.Hangfire
 {
@@ -207,19 +211,63 @@ namespace BLL_N.JobManager.Hangfire
         public PxyJobReturn DesfazCompensacao(string nomeProcesso, string parametrosExibicao, int pIdCompensacao)
         {
             JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
-            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.DesfazCompensacao(null, jobControl, dataBase, usuarioLogado, pIdCompensacao), _enqueuedStateNormal);
-
+            string idJob;
+            if (_userPW.ServicoCalculo == 0)
+            {
+                idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.DesfazCompensacao(null, jobControl, dataBase, usuarioLogado, pIdCompensacao), _enqueuedStateNormal);
+            }
+            else
+            {
+                idJob = new CallCalculo(_userPW, jobControl).DesfazCompensacao(pIdCompensacao);
+            }
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
         public PxyJobReturn FechaCompensacao(string nomeProcesso, string parametrosExibicao, int pIdCompensacao)
         {
             JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
-            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.FechaCompensacao(null, jobControl, dataBase, usuarioLogado, pIdCompensacao), _enqueuedStateNormal);
+            string idJob;
+            if (_userPW.ServicoCalculo == 0)
+            {
+                idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.FechaCompensacao(null, jobControl, dataBase, usuarioLogado, pIdCompensacao), _enqueuedStateNormal);
+            }
+            else
+            {
+                BLL.Compensacao bllCompensacao = new BLL.Compensacao(_userPW.ConnectionString, _userPW);
+                //Desfaz a compensação para manter a consistência dos dados, caso haja um fechamento anterior
+                idJob = new CallCalculo(_userPW, jobControl).DesfazCompensacao(pIdCompensacao);
+
+                DataTable totalCompensado = bllCompensacao.GetTotalCompensado(pIdCompensacao);
+                List<string> auxLog = bllCompensacao.RateioHorasCompensadas(totalCompensado, pIdCompensacao);
+                if (auxLog.Count > 0)
+                {
+                    StringBuilder str = new StringBuilder("O fechamento foi realizado com sucesso.\nAlguns funcionários já possuem fechamento de outra compensação.\nVerifique.");
+                    auxLog.ForEach(f => str.Append(f));
+                    string caminho = CaminhoArquivo();
+                    caminho = Path.Combine(caminho, "Compensacao");
+                    if (!Directory.Exists(caminho))
+                        Directory.CreateDirectory(caminho);
+                    caminho += String.Format(@"\Compensacao{0}_{1}.txt", pIdCompensacao, DateTime.Now.ToString("ddMMyyyyHHmmss"));
+                    System.IO.File.WriteAllText(caminho, str.ToString());
+                    JobControlManager.UpdateFileDownload(null, caminho);
+                }
+            }
+
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
 
+        protected string CaminhoArquivo()
+        {
+            string path = ConfigurationManager.AppSettings["ArquivosPontofopag"];
+            if (String.IsNullOrEmpty(path))
+                throw new Exception("O patch(Caminho) para salvar os relatório não foi informado, informe no arquivo de configuração o valor da variavel PathRelatorios");
+
+            if (String.IsNullOrEmpty(_userPW.DataBase))
+                throw new Exception("Nome do banco de dados não encontrado");
+
+            return Path.Combine(path, _userPW.DataBase.Contains("_") ? _userPW.DataBase.Split('_')[1] : _userPW.DataBase);
+        }
         public PxyJobReturn CalculaAfastamento(string nomeProcesso, string parametrosExibicao, Modelo.Afastamento pAfastamento)
         {
             string idJob;

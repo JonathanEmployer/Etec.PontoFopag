@@ -553,7 +553,7 @@ namespace PontoWeb.Controllers
                 }
                 else
                 {
-                    HangfireManagerCalculos hfm = new HangfireManagerCalculos(usuPW.DataBase);
+                    HangfireManagerCalculos hfm = new HangfireManagerCalculos(usuPW);
                     string parametrosExibicao = String.Format("Compensação código: {0}, Tipo: {1} - {2}, Período: {3} a {4}, período a ser compensado: {5} a {6}", comp.Codigo, comp.Tipo, comp.Nome, comp.DataInicialStr, comp.DataFinalStr, comp.DiaCompensarInicialStr, comp.DiaCompensarFinalStr);
                     Modelo.Proxy.PxyJobReturn retJob = hfm.FechaCompensacao("Recalculo de marcações por compensação fechada", parametrosExibicao, comp.Id);
                     return new JsonResult

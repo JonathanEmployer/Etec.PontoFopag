@@ -413,8 +413,6 @@ namespace BLL_N.JobManager.CalculoExternoCore
         {
             BLL.Marcacao bllMarcacao = new BLL.Marcacao(_userPW.ConnectionString, _userPW);
             BLL.Compensacao bllCompensacao = new BLL.Compensacao(_userPW.ConnectionString, _userPW);
-            bllCompensacao.ObjProgressBar = new Modelo.ProgressBar();
-
             Modelo.Compensacao objCompensacao = bllCompensacao.LoadObject(pIdCompensacao);
             bllCompensacao.RetornaHorasParaFalta(objCompensacao);
             bllMarcacao.SetaIdCompensadoNulo(objCompensacao.Id);

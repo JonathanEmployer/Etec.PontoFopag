@@ -164,7 +164,7 @@ namespace BLL
                         {
                             bllMarcacao.InsereMarcacoesNaoExistentes(pobjCompensacao.Tipo,
                                 pobjCompensacao.Identificacao, pobjCompensacao.Periodoinicial.Value,
-                                pobjCompensacao.Periodofinal.Value, objProgressBar, false);                            
+                                pobjCompensacao.Periodofinal.Value, objProgressBar, false);
                         }
                         break;
                     case Modelo.Acao.Alterar:
@@ -275,7 +275,7 @@ namespace BLL
         {
             BLL.Marcacao bllMarcacao = new Marcacao(ConnectionString, UsuarioLogado);
             List<string> log = new List<string>();
-            
+
 
             Modelo.Marcacao objMarcacao = new Modelo.Marcacao();
             Modelo.Compensacao objCompensacao = dalCompensacao.LoadObject(pIdCompensacao);
@@ -315,8 +315,8 @@ namespace BLL
             //Ordena a lista para fazer o rateio das horas
             datasList.Sort();
 
-            objProgressBar.setaMinMaxPB(0, pListaCompensacao.Rows.Count);
-            objProgressBar.setaValorPB(0);
+            objProgressBar.setaMinMaxPB?.Invoke(0, pListaCompensacao.Rows.Count);
+            objProgressBar.setaValorPB?.Invoke(0);
 
             //Para cada item da lista de compensação percorre a lista de datas e faz o rateio
             bool funcionarioCompensado;
@@ -327,8 +327,8 @@ namespace BLL
             Modelo.Funcionario objFuncionario;
             foreach (DataRow compens in pListaCompensacao.Rows)
             {
-                objProgressBar.incrementaPB(1);
-                objProgressBar.setaMensagem("Funcionário: " + Convert.ToString(compens["nomefunc"]));
+                objProgressBar.incrementaPB?.Invoke(1);
+                objProgressBar.setaMensagem?.Invoke("Funcionário: " + Convert.ToString(compens["nomefunc"]));
                 var auxFunc = funcs.Where(f => f.Id == Convert.ToInt32(compens["idfuncionario"]));
                 if (auxFunc.Count() > 0)
                     objFuncionario = auxFunc.First();
@@ -470,13 +470,11 @@ namespace BLL
             if ((pObjCompensacao.Diacompensarinicial != null) && (pObjCompensacao.Diacompensarfinal != null))
             {
                 marcacaoList = bllMarcacao.getListaMarcacao(pObjCompensacao.Tipo, pObjCompensacao.Identificacao, pObjCompensacao.Diacompensarinicial.Value, pObjCompensacao.Diacompensarfinal.Value);
-
-                objProgressBar.setaValorPB(0);
-                objProgressBar.setaMinMaxPB(0, marcacaoList.Count);
-
+                objProgressBar.setaValorPB?.Invoke(0);
+                objProgressBar.setaMinMaxPB?.Invoke(0, marcacaoList.Count);
                 foreach (Modelo.Marcacao marc in marcacaoList)
                 {
-                    objProgressBar.incrementaPB(1);
+                    objProgressBar.incrementaPB?.Invoke(1);
                     if (marc.Idcompensado == pObjCompensacao.Id)
                     {
                         objMarcacao = marc;
@@ -504,15 +502,14 @@ namespace BLL
                 foreach (Modelo.DiasCompensacao diaC in pObjCompensacao.DiasC)
                 {
                     lstMarc = bllMarcacao.getListaMarcacao(pObjCompensacao.Tipo, pObjCompensacao.Identificacao, diaC.Datacompensada.Value, diaC.Datacompensada.Value);
-
-                    objProgressBar.setaValorPB(0);
-                    objProgressBar.setaMinMaxPB(0, lstMarc.Count);
-                    objProgressBar.setaMensagem("Recalculando dia: " + String.Format("{0:dd/MM/yyyy}", diaC.Datacompensada.Value.Date));
+                    objProgressBar.setaValorPB?.Invoke(0);
+                    objProgressBar.setaMinMaxPB?.Invoke(0, lstMarc.Count);
+                    objProgressBar.setaMensagem?.Invoke("Recalculando dia: " + String.Format("{0:dd/MM/yyyy}", diaC.Datacompensada.Value.Date));
 
                     //Pega todas as marcações de uma data especifica e faz as alterações nela
                     foreach (Modelo.Marcacao marc in lstMarc)
                     {
-                        objProgressBar.incrementaPB(1);
+                        objProgressBar.incrementaPB?.Invoke(1);
                         if (marc.Idcompensado == pObjCompensacao.Id)
                         {
                             objMarcacao = marc;
@@ -532,7 +529,7 @@ namespace BLL
 
         public List<Modelo.Compensacao> GetPeriodoByFuncionario(DateTime pDataInicial, DateTime pDataFinal, List<int> pdIdsFuncs)
         {
-            return dalCompensacao.GetPeriodoByFuncionario(pDataInicial, pDataFinal,pdIdsFuncs);
+            return dalCompensacao.GetPeriodoByFuncionario(pDataInicial, pDataFinal, pdIdsFuncs);
         }
 
         public DataTable GetTotalCompensado(int pIdCompensacao)
