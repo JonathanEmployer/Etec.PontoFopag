@@ -266,19 +266,19 @@ namespace PontoWeb.Controllers
                 case (int)Modelo.TipoLancamento.Folga:
                     descLote = "Folga";
                     parametrosExibicao = String.Format("Lote de {0} código: {1}, descrição: {2}, funcionários: {3}", descLote, obj.Codigo, obj.Descricao, (obj.LancamentoLoteFuncionarios != null ? obj.LancamentoLoteFuncionarios.Count : 0));
-                    hfm = new HangfireManagerCalculos(_usr.DataBase, "", "", "/LancamentoLoteFolga/Grid");
+                    hfm = new HangfireManagerCalculos(UserPW, "", "/LancamentoLoteFolga/Grid");
                     hfm.CalculaMarcacaoLancamentoLoteDiaJob(String.Format("Recalculo de marcações por {0} de Lote de {1}", obj.AcaoDescricao, descLote), parametrosExibicao, obj);
                     break;
                 case (int)Modelo.TipoLancamento.InclusaoBanco:
                     descLote = "Inclusão de Banco de Horas";
                     parametrosExibicao = String.Format("Lote de {0} código: {1}, descrição: {2}, funcionários: {3}", descLote, obj.Codigo, obj.Descricao, (obj.LancamentoLoteFuncionarios != null ? obj.LancamentoLoteFuncionarios.Count : 0));
-                    hfm = new HangfireManagerCalculos(_usr.DataBase, "", "", "/LancamentoLoteInclusaoBanco/Grid");
+                    hfm = new HangfireManagerCalculos(UserPW, "", "/LancamentoLoteInclusaoBanco/Grid");
                     hfm.CalculaMarcacaoLancamentoLoteDiaJob(String.Format("Recalculo de marcações por {0} de Lote de {1}", obj.AcaoDescricao, descLote), parametrosExibicao, obj);
                     break;
                 case (int)Modelo.TipoLancamento.BilhetesImp:
                     descLote = "Bilhetes";
                     parametrosExibicao = String.Format("Lote de {0} código: {1}, descrição: {2}, funcionários: {3}", descLote, obj.Codigo, obj.Descricao, (obj.LancamentoLoteFuncionarios != null ? obj.LancamentoLoteFuncionarios.Count : 0));
-                    hfm = new HangfireManagerCalculos(_usr.DataBase, "", "", "/LancamentoLoteBilhetesImp/Grid");
+                    hfm = new HangfireManagerCalculos(UserPW, "", "/LancamentoLoteBilhetesImp/Grid");
                     hfm.LancamentoLoteBilhetesProcessar(String.Format("Recalculo de marcações por {0} de Lote de {1}", obj.AcaoDescricao, descLote), parametrosExibicao, obj);
                     break;
                 case (int)Modelo.TipoLancamento.Afastamento:

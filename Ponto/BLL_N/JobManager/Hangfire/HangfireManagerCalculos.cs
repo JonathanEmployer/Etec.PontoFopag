@@ -120,7 +120,6 @@ namespace BLL_N.JobManager.Hangfire
             }
             else
             {
-                //TESTAR CORRETAMENTE EDIÇÃO DE FUNCIONARIO - None of the specified endpoints were reachable
                 idJob = new CallCalculo(_userPW, jobControl).RecalculaMarcacao(funcsRecalculo);
             }
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
@@ -389,7 +388,16 @@ namespace BLL_N.JobManager.Hangfire
         public PxyJobReturn OrdenaMarcacao(string nomeProcesso, string parametrosExibicao, Modelo.Marcacao marcacao)
         {
             JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
-            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.OrdenaMarcacao(null, jobControl, dataBase, usuarioLogado, marcacao), _enqueuedStateNormal);
+
+            string idJob;
+            if (_userPW.ServicoCalculo == 0)
+            {
+             idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.OrdenaMarcacao(null, jobControl, dataBase, usuarioLogado, marcacao), _enqueuedStateNormal);
+            }
+            else
+            {
+                idJob = new CallCalculo(_userPW, jobControl).OrdenaMarcacao(marcacao);
+            }
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
@@ -397,7 +405,15 @@ namespace BLL_N.JobManager.Hangfire
         public PxyJobReturn OrdenaMarcacaoPeriodo(string nomeProcesso, string parametrosExibicao, int id, DateTime dataInicial, DateTime dataFinal)
         {
             JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
-            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.OrdenaMarcacaoPeriodo(null, jobControl, dataBase, usuarioLogado, id, dataInicial, dataFinal), _enqueuedStateNormal);
+            string idJob;
+            if (_userPW.ServicoCalculo == 0)
+            {
+                idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.OrdenaMarcacaoPeriodo(null, jobControl, dataBase, usuarioLogado, id, dataInicial, dataFinal), _enqueuedStateNormal);
+            }
+            else
+            {
+                idJob = new CallCalculo(_userPW, jobControl).OrdenaMarcacaoPeriodo(id, dataInicial, dataFinal);
+            }
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
@@ -413,7 +429,16 @@ namespace BLL_N.JobManager.Hangfire
         public PxyJobReturn LancamentoLoteBilhetesProcessar(string nomeProcesso, string parametrosExibicao, Modelo.LancamentoLote LLFunc)
         {
             JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
-            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.LancamentoLoteBilhetesProcessar(null, jobControl, dataBase, usuarioLogado, LLFunc), _enqueuedStateNormal);
+
+            string idJob;
+            if (_userPW.ServicoCalculo == 0)
+            {
+                idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.LancamentoLoteBilhetesProcessar(null, jobControl, dataBase, usuarioLogado, LLFunc), _enqueuedStateNormal);
+            }
+            else
+            {
+                idJob = new CallCalculo(_userPW, jobControl).LancamentoLoteBilhetesProcessar(LLFunc);
+            }
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
@@ -421,7 +446,15 @@ namespace BLL_N.JobManager.Hangfire
         public PxyJobReturn CalculaMarcacaoLancamentoLoteDiaJob(string nomeProcesso, string parametrosExibicao, Modelo.LancamentoLote LLFunc)
         {
             JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
-            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.CalculaMarcacaoLancamentoLoteDiaJob(null, jobControl, dataBase, usuarioLogado, LLFunc), _enqueuedStateNormal);
+            string idJob;
+            if (_userPW.ServicoCalculo == 0)
+            {
+                idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.CalculaMarcacaoLancamentoLoteDiaJob(null, jobControl, dataBase, usuarioLogado, LLFunc), _enqueuedStateNormal);
+            }
+            else
+            {
+                idJob = new CallCalculo(_userPW, jobControl).CalculaMarcacaoLancamentoLoteDiaJob(LLFunc);
+            }
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
@@ -429,7 +462,15 @@ namespace BLL_N.JobManager.Hangfire
         public PxyJobReturn RestauraFuncionarioJob(Modelo.Funcionario objfunc)
         {
             JobControl jobControl = GerarJobControl("Restaurar funcionário", String.Format("Restaurado o funcionário {0} | {1}", objfunc.Dscodigo, objfunc.Nome));
-            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.RestauraFuncionarioJob(null, jobControl, dataBase, usuarioLogado, objfunc), _enqueuedStateNormal);
+            string idJob;
+            if (_userPW.ServicoCalculo == 0)
+            {
+                idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.RestauraFuncionarioJob(null, jobControl, dataBase, usuarioLogado, objfunc), _enqueuedStateNormal);
+            }
+            else
+            {
+                idJob = new CallCalculo(_userPW, jobControl).RestauraFuncionarioJob(objfunc);
+            }
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
@@ -448,7 +489,15 @@ namespace BLL_N.JobManager.Hangfire
                                                         );
 
             JobControl jobControl = GerarJobControl("Transferência de Registro Ponto", parametrosExibicao);
-            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.TransferirBilhetes(null, jobControl, dataBase, usuarioLogado, transferenciaBilhetes), _enqueuedStateNormal);
+            string idJob;
+            if (_userPW.ServicoCalculo == 0)
+            {
+                idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.TransferirBilhetes(null, jobControl, dataBase, usuarioLogado, transferenciaBilhetes), _enqueuedStateNormal);
+            }
+            else
+            {
+                idJob = new CallCalculo(_userPW, jobControl).TransferirBilhetes(transferenciaBilhetes);
+            }
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
@@ -456,7 +505,15 @@ namespace BLL_N.JobManager.Hangfire
         public PxyJobReturn FechamentoPonto(string nomeProcesso, string parametrosExibicao, FechamentoBH objFechamentoBH, BancoHoras objBancoHoras)
         {
             JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
-            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.FechamentoBH(null, jobControl, dataBase, usuarioLogado, objFechamentoBH, objBancoHoras), _enqueuedStateNormal);
+            string idJob;
+            if (_userPW.ServicoCalculo == 0)
+            {
+                idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.FechamentoBH(null, jobControl, dataBase, usuarioLogado, objFechamentoBH, objBancoHoras), _enqueuedStateNormal);
+            }
+            else
+            {
+                idJob = new CallCalculo(_userPW, jobControl).FechamentoBH(objFechamentoBH, objBancoHoras);
+            }
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
@@ -464,7 +521,15 @@ namespace BLL_N.JobManager.Hangfire
         public PxyJobReturn ExcluirFechamentoPonto(string nomeProcesso, string parametrosExibicao, FechamentoBH objFechamentoBH)
         {
             JobControl jobControl = GerarJobControl(nomeProcesso, parametrosExibicao);
-            string idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.ExcluirFechamentoBH(null, jobControl, dataBase, usuarioLogado, objFechamentoBH), _enqueuedStateNormal);
+            string idJob;
+            if (_userPW.ServicoCalculo == 0)
+            {
+             idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.ExcluirFechamentoBH(null, jobControl, dataBase, usuarioLogado, objFechamentoBH), _enqueuedStateNormal);
+            }
+            else
+            {
+                idJob = new CallCalculo(_userPW, jobControl).ExcluirFechamentoBH(objFechamentoBH);
+            }
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }

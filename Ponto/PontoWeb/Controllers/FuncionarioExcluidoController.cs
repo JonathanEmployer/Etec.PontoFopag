@@ -1,4 +1,5 @@
 ﻿using BLL_N.JobManager.Hangfire;
+using Modelo;
 using Modelo.Proxy;
 using PontoWeb.Controllers.BLLWeb;
 using PontoWeb.Security;
@@ -63,7 +64,9 @@ namespace PontoWeb.Controllers
                         }
                         else
                         {
-                            HangfireManagerCalculos hfm = new HangfireManagerCalculos(_usr.DataBase);
+                            UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+
+                            HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW);
                             Modelo.Proxy.PxyJobReturn ret = hfm.RestauraFuncionarioJob(objfunc);
                             return new JsonResult { Data = new { success = true, job = ret } };
                         }
