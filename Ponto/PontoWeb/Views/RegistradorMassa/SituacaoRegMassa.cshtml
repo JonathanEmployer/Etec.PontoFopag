@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.Title = "SituacaoRegMassa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .btDetalhe {
+        position: absolute;
+        right: 6px;
+        bottom: 6px;
+    }
+
+    .panel-heading.row {
+        margin: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+</style>
+<div class="panel panel-default">
+    <div class="panel-heading row">
+        <div>
+            <div class="col-md-4 col-sm-5 col-xs-6">
+                <label>
+                    Situação dos Reps <i class="fa fa-clock-o" aria-hidden="true"></i> <span id="DataHoraAtualizacao"></span>
+                </label>
+            </div>
+            <div class="col-md-3 col-sm-2 col-xs-2" style="text-align:center">
+                <button type="button" class="btn btn-sm" id="btInforcacoes"><span class="glyphicon glyphicon-info-sign"></span> Ajuda</button>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-2" style="text-align:center">
+                <button type="button" class="btn btn-sm" id="btResumido"><span class="glyphicon glyphicon-check"></span> Resumido</button>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2" style="text-align:right">
+                <button type="button" class="btn btn-sm" id="btMaximize" onclick="NavbarToggle(this)"><span class="fa fa-window-maximize"></span></button>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <span class="label label-danger" id="lbErro"></span>
+        <div id="divAjuda" class="jumbotron" style="display: none;">
+            <div class="container">
+                <h1>Página de monitoramento dos relógios de Registradores em massa</h1>
+                <p>Essa página é utilizada para acompanhar a situação da comunicação dos equipamentos</p>
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <p>Leganda da página</p>
+                                <ul class="list-group">
+                                    <li class="list-group-item"><i class="fa fa-clock-o" aria-hidden="true"></i> Data e hora da última atualização da página (a página é atualizada automaticamente a cada 1 minuto)</li>
+                                    <li class="list-group-item"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> Exibe o manual da página</li>
+                                    <li class="list-group-item"><i class="fa fa-window-maximize" aria-hidden="true"></i>/<i class="fa fa-window-minimize" aria-hidden="true"></i> Maximiza ou minimiza a página, exibindo ou ocultando o menu do sistema </li>
+                                </ul>
+                            </li>
+                            <li class="list-group-item">
+                                <p>Legenda dos Cards</p>
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        Cores dos cards
+                                        <ul class="list-group">
+                                            <li class="list-group-item list-group-item-success"> Online (Tempo de “atraso” máximo de 5 minutos)</li>
+                                            <li class="list-group-item list-group-item-warning">Atraso na comunicação (Tempo de “atraso” máximo de 1 Hora)</li>
+                                            <li class="list-group-item list-group-item-danger">Offline (Tempo de “atraso” superior a 1 Hora)</li>
+                                        </ul>
+                                    </li>
+                                    <li class="list-group-item"><i class="fa fa-sticky-note" aria-hidden="true"></i> Último bilhete importado do Rep</li>
+                                    <li class="list-group-item"><i class="fa fa-plug" aria-hidden="true"></i> Data e hora da última comunicação</li>
+                                    <li class="list-group-item"><i class="fa fa-chain-broken" aria-hidden="true"></i> Tempo sem comunicação no formato DD:HH:MM:SS (onde DD é dia, HH horas, MM minutos e SS segundos)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="divCards">
+            <div style="text-align:center">
+                <h2>Aguarde<img src="../../Content/img/circulosLoading.GIF"></h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        AtualizaCards();
+    });
+
+    function DetalheCard(btn) {
+        $(btn).parent().parent().find('.panel-body').toggle();
+        $(btn).find('span').toggleClass('fa-plus').toggleClass('fa-minus');
+    }
+
+    $("#btResumido").click(function () {
+        $(this).find('span').toggleClass('glyphicon-check').toggleClass('glyphicon-unchecked');
+        SituacaoCards();
+    })
+
+    function SituacaoCards() {
+        if ($("#btResumido").find('span').hasClass('glyphicon-check')) {
+            $(".btDetalhe").parent().parent().find('.panel-body').hide();
+            $(".btDetalhe").find('span').removeClass('fa-minus').addClass('fa-plus');
+        }
+        else {
+            $(".btDetalhe").parent().parent().find('.panel-body').show();
+            $(".btDetalhe").find('span').removeClass('fa-plus').addClass('fa-minus');
+        }
+    }
+
+    $('#btInforcacoes').click(function (e) {
+        $("#divAjuda").toggle();
+    });
+
+    setInterval(function () {
+        AtualizaCards();
+    }, 60000);
+
+    function AtualizaCards() {
+        var url = "@(Html.Raw(Url.Action("SituacaoRegMassaAtual", "RegistradorMassa")))";
+        $("#divCards").load(url, function (response, status, xhr) {
+            if (status == "error") {
+                var msg = "Erro Ao Atualizar a página: ";
+                $("#lbErro").text(msg + xhr.status + " " + xhr.statusText);
+            }
+            else {
+                $("#lbErro").text("");
+                SituacaoCards();
+            }
+            $("#DataHoraAtualizacao").text($("#lbAtualizado").val());
+        });
+    }
+</script>

@@ -1,3 +1,4 @@
+using Modelo.Proxy;
 using System;
 using System.Collections.Generic;
 
@@ -28,5 +29,10 @@ namespace DAL
         List<Modelo.Proxy.RepSituacao> VerificarSituacaoReps(int TempoSemComunicacao);
         List<Modelo.REP> VerificarSituacaoReps(List<string> numsReps);
         List<Modelo.Proxy.PxyGridRepsPortaria373> GetGridRepsPortaria373();
+
+        List<Modelo.REP> GetAllListRegMassa();
+
+        List<Modelo.Proxy.RepSituacao> VerificarSituacaoRegMassa(int TempoSemComunicacao);
+
     }
 }

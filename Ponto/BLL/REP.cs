@@ -292,5 +292,15 @@ namespace BLL
         {
             return dalREP.GetGridRepsPortaria373();
         }
+
+        public List<Modelo.REP> GetAllListRegMassa()
+        {
+            return dalREP.GetAllListRegMassa();
+        }
+
+        public List<Modelo.Proxy.RepSituacao> VerificarSituacaoRegMassa(int TempoSemComunicacao)
+        {
+            return dalREP.VerificarSituacaoRegMassa(TempoSemComunicacao);
+        }
     }
 }

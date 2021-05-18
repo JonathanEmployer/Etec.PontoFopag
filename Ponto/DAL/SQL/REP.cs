@@ -116,9 +116,9 @@ namespace DAL.SQL
             SELECTPID += PermissaoUsuarioEmpresa(UsuarioLogado, SELECTPID, "rep.idempresa", null);
 
             INSERT = @"  INSERT INTO rep
-							(codigo, numserie, local, incdata, inchora, incusuario, numrelogio, relogio, senha, tipocomunicacao, porta, ip, qtdDigitos, biometrico, idempresa, idequipamentohomologado, UltimoNSR, ImportacaoAtivada, TempoRequisicao, DataInicioImportacao, IdTimeZoneInfo, CodigoLocal, TipoIP, UltimaIntegracao, IdEquipamentoTipoBiometria, CpfRep, LoginRep, SenhaRep, CampoCracha, Portaria373)
+							(codigo, numserie, local, incdata, inchora, incusuario, numrelogio, relogio, senha, tipocomunicacao, porta, ip, qtdDigitos, biometrico, idempresa, idequipamentohomologado, UltimoNSR, ImportacaoAtivada, TempoRequisicao, DataInicioImportacao, IdTimeZoneInfo, CodigoLocal, TipoIP, UltimaIntegracao, IdEquipamentoTipoBiometria, CpfRep, LoginRep, SenhaRep, CampoCracha, Portaria373, registradorEmMassa, RFID, MIFARE)
 							VALUES
-							(@codigo, @numserie, @local, @incdata, @inchora, @incusuario, @numrelogio, @relogio, @senha, @tipocomunicacao, @porta, @ip, @qtdDigitos, @biometrico, @idempresa, @idequipamentohomologado, @UltimoNSR, @ImportacaoAtivada, @TempoRequisicao, @DataInicioImportacao, @IdTimeZoneInfo, @CodigoLocal, @TipoIP, @UltimaIntegracao, @IdEquipamentoTipoBiometria, @CpfRep, @LoginRep, @SenhaRep, @CampoCracha, @Portaria373)
+							(@codigo, @numserie, @local, @incdata, @inchora, @incusuario, @numrelogio, @relogio, @senha, @tipocomunicacao, @porta, @ip, @qtdDigitos, @biometrico, @idempresa, @idequipamentohomologado, @UltimoNSR, @ImportacaoAtivada, @TempoRequisicao, @DataInicioImportacao, @IdTimeZoneInfo, @CodigoLocal, @TipoIP, @UltimaIntegracao, @IdEquipamentoTipoBiometria, @CpfRep, @LoginRep, @SenhaRep, @CampoCracha, @Portaria373, @registradorEmMassa, @RFID, @MIFARE)
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE rep SET
@@ -152,6 +152,10 @@ namespace DAL.SQL
                             , SenhaRep = @SenhaRep
                             , CampoCracha = @CampoCracha
                             , Portaria373 = @Portaria373
+                            , registradorEmMassa = @registradorEmMassa
+                            , RFID = @RFID
+                            , MIFARE = @MIFARE
+
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM rep WHERE id = @id";
@@ -226,7 +230,7 @@ namespace DAL.SQL
                     ((Modelo.REP)obj).EquipamentoHomologado = dalEquipHomologado.LoadObject(((Modelo.REP)obj).IdEquipamentoHomologado);
                     equipamentosHomologados.Add(((Modelo.REP)obj).EquipamentoHomologado);
                 }
-                
+
             }
             if (!(dr["UltimaIntegracao"] is DBNull))
                 ((Modelo.REP)obj).UltimaIntegracao = Convert.ToDateTime(dr["UltimaIntegracao"]);
@@ -239,22 +243,26 @@ namespace DAL.SQL
             ((Modelo.REP)obj).SenhaRep = Convert.ToString(dr["SenhaRep"]);
             ((Modelo.REP)obj).CampoCracha = Convert.ToInt16(dr["CampoCracha"]);
             ((Modelo.REP)obj).Portaria373 = Convert.ToBoolean(dr["Portaria373"]);
+
+            ((Modelo.REP)obj).RegistradorEmMassa = Convert.ToBoolean(dr["RegistradorEmMassa"]);
+            ((Modelo.REP)obj).RFID = Convert.ToInt64(dr["RFID"]);
+            ((Modelo.REP)obj).MIFARE = Convert.ToString(dr["MIFARE"]);
         }
 
         protected override SqlParameter[] GetParameters()
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@id", SqlDbType.Int),
-				new SqlParameter ("@codigo", SqlDbType.Int),
-				new SqlParameter ("@numserie", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@id", SqlDbType.Int),
+                new SqlParameter ("@codigo", SqlDbType.Int),
+                new SqlParameter ("@numserie", SqlDbType.VarChar),
                 new SqlParameter ("@local", SqlDbType.VarChar),
-				new SqlParameter ("@incdata", SqlDbType.DateTime),
-				new SqlParameter ("@inchora", SqlDbType.DateTime),
-				new SqlParameter ("@incusuario", SqlDbType.VarChar),
-				new SqlParameter ("@altdata", SqlDbType.DateTime),
-				new SqlParameter ("@althora", SqlDbType.DateTime),
-				new SqlParameter ("@altusuario", SqlDbType.VarChar),
+                new SqlParameter ("@incdata", SqlDbType.DateTime),
+                new SqlParameter ("@inchora", SqlDbType.DateTime),
+                new SqlParameter ("@incusuario", SqlDbType.VarChar),
+                new SqlParameter ("@altdata", SqlDbType.DateTime),
+                new SqlParameter ("@althora", SqlDbType.DateTime),
+                new SqlParameter ("@altusuario", SqlDbType.VarChar),
                 new SqlParameter ("@numrelogio", SqlDbType.VarChar),
                 new SqlParameter ("@relogio", SqlDbType.Int),
                 new SqlParameter ("@senha", SqlDbType.VarChar),
@@ -278,8 +286,12 @@ namespace DAL.SQL
                 new SqlParameter ("@LoginRep", SqlDbType.VarChar),
                 new SqlParameter ("@SenhaRep", SqlDbType.VarChar),
                 new SqlParameter ("@CampoCracha", SqlDbType.SmallInt),
-                new SqlParameter ("@Portaria373", SqlDbType.Bit)
-			};
+                new SqlParameter ("@Portaria373", SqlDbType.Bit),
+
+                new SqlParameter ("@registradorEmMassa", SqlDbType.Bit),
+                new SqlParameter ("@RFID", SqlDbType.BigInt),
+                new SqlParameter ("@MIFARE", SqlDbType.VarChar),
+            };
             return parms;
         }
 
@@ -327,6 +339,11 @@ namespace DAL.SQL
             parms[31].Value = ((Modelo.REP)obj).SenhaRep;
             parms[32].Value = ((Modelo.REP)obj).CampoCracha;
             parms[33].Value = ((Modelo.REP)obj).Portaria373;
+
+            parms[34].Value = ((Modelo.REP)obj).RegistradorEmMassa;
+            parms[35].Value = ((Modelo.REP)obj).RFID;
+            parms[36].Value = ((Modelo.REP)obj).MIFARE;
+
         }
 
         protected override void ExcluirAux(SqlTransaction trans, Modelo.ModeloBase obj)
@@ -412,9 +429,9 @@ namespace DAL.SQL
         public string GetNumInner(string pNumSerie)
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@numeroserie", SqlDbType.VarChar, 20)
-               
+            {
+                new SqlParameter ("@numeroserie", SqlDbType.VarChar, 20)
+
             };
             parms[0].Value = pNumSerie;
 
@@ -433,9 +450,9 @@ namespace DAL.SQL
             int aux1;
             string aux;
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@cpfcnpj", SqlDbType.VarChar, 20)
-               
+            {
+                new SqlParameter ("@cpfcnpj", SqlDbType.VarChar, 20)
+
             };
             parms[0].Value = pCPFCNPJ;
             if (pTipo == "1")
@@ -474,7 +491,7 @@ namespace DAL.SQL
                              LEFT JOIN equipamentohomologado ON equipamentohomologado.id = rep.idequipamentohomologado
                              LEFT JOIN equipamentotipobiometria ON equipamentotipobiometria.id = rep.IdEquipamentoTipoBiometria
                              LEFT JOIN tipobiometria ON tipobiometria.id = equipamentotipobiometria.Idtipobiometria                
-                           WHERE 1 = 1 ";
+                           WHERE registradorEmMassa = 0 ";
             aux += PermissaoUsuarioEmpresa(UsuarioLogado, aux, "rep.idempresa", null);
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
             if (dr.HasRows)
@@ -537,7 +554,7 @@ namespace DAL.SQL
         public void SetaUltimoLocal(SqlTransaction trans, int pIdRep)
         {
             SqlParameter[] parms = new SqlParameter[1]
-            { 
+            {
                     new SqlParameter("@idrep", SqlDbType.Int)
             };
             parms[0].Value = pIdRep;
@@ -568,7 +585,7 @@ namespace DAL.SQL
         public void SetUltimoNSR(Int32 idrep, Int32 ultimoNsr)
         {
             SqlParameter[] parms = new SqlParameter[2]
-            { 
+            {
                     new SqlParameter("@ultimoNsr", SqlDbType.Int),
                     new SqlParameter("@idrep", SqlDbType.Int)
             };
@@ -582,9 +599,9 @@ namespace DAL.SQL
         public void SetUltimaImportacao(string numRelogio, long NSR, DateTime dataUltimaImp)
         {
             SqlParameter[] parms = new SqlParameter[3]
-            { 
+            {
                 new SqlParameter("@numRelogio", SqlDbType.VarChar),
-                new SqlParameter("@ultimoNsr", SqlDbType.Int),    
+                new SqlParameter("@ultimoNsr", SqlDbType.Int),
                 new SqlParameter("@dataUltimaImp", SqlDbType.DateTime)
             };
             parms[0].Value = numRelogio;
@@ -598,7 +615,7 @@ namespace DAL.SQL
         public void SetUltimoNSRComDataIntegracao(Int32 idrep, Int32 ultimoNsr)
         {
             SqlParameter[] parms = new SqlParameter[2]
-            { 
+            {
                     new SqlParameter("@ultimoNsr", SqlDbType.Int),
                     new SqlParameter("@idrep", SqlDbType.Int)
             };
@@ -774,7 +791,7 @@ namespace DAL.SQL
             {
                 if (!dr.IsClosed)
                 {
-                    dr.Close(); 
+                    dr.Close();
                 }
                 dr.Dispose();
             }
@@ -784,7 +801,7 @@ namespace DAL.SQL
 
         public List<Modelo.Proxy.PxyGridRepsPortaria373> GetGridRepsPortaria373()
         {
-            SqlParameter[] parms = new SqlParameter[] {};
+            SqlParameter[] parms = new SqlParameter[] { };
             string sqlRegistradores = @" SELECT e.id IdEmpresa,
                                                 b.relogio NumRelogio, 
 	                                   CASE WHEN b.relogio = 'RE' THEN
@@ -853,9 +870,9 @@ namespace DAL.SQL
 
         public List<Modelo.REP> VerificarSituacaoReps(List<string> numsReps)
         {
-            SqlParameter[] parms = new SqlParameter[] {};
+            SqlParameter[] parms = new SqlParameter[] { };
 
-            string query = @"SELECT * FROM rep where numrelogio in ('"+ String.Join("','", numsReps) + "')";
+            string query = @"SELECT * FROM rep where numrelogio in ('" + String.Join("','", numsReps) + "')";
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, query, parms);
 
@@ -881,6 +898,141 @@ namespace DAL.SQL
 
             return lista;
         }
+
+
+        public List<Modelo.REP> GetAllListRegMassa()
+        {
+            List<Modelo.REP> lista = new List<Modelo.REP>();
+
+            SqlParameter[] parms = new SqlParameter[] { };
+
+            string aux = @"SELECT *, 
+                           convert(varchar,empresa.codigo)+' | '+empresa.nome as empresa,
+                           equipamentohomologado.nomeModelo as modeloNome
+                             FROM rep
+                             LEFT JOIN empresa ON empresa.id = rep.idempresa 
+                             LEFT JOIN equipamentohomologado ON equipamentohomologado.id = rep.idequipamentohomologado
+                             LEFT JOIN equipamentotipobiometria ON equipamentotipobiometria.id = rep.IdEquipamentoTipoBiometria
+                             LEFT JOIN tipobiometria ON tipobiometria.id = equipamentotipobiometria.Idtipobiometria                
+                           WHERE registradorEmMassa = 1 ";
+            aux += PermissaoUsuarioEmpresa(UsuarioLogado, aux, "rep.idempresa", null);
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            if (dr.HasRows)
+            {
+                while (dr.Read())
+                {
+                    Modelo.REP objREP = new Modelo.REP();
+                    AuxSetInstance(dr, objREP);
+                    lista.Add(objREP);
+                }
+            }
+            if (!dr.IsClosed)
+                dr.Close();
+            dr.Dispose();
+
+            return lista;
+        }
+
+        public List<Modelo.Proxy.RepSituacao> VerificarSituacaoRegMassa(int TempoSemComunicacao)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter ("@tempoSemComunicacao", SqlDbType.Int)
+            };
+            parms[0].Value = TempoSemComunicacao;
+
+            string query = @"SELECT *
+                                INTO #UltimoRepLog
+                                FROM (
+	                                select MAX(ultimoLog) ultimoLogComunicacao, numeroSerie
+	                                  from (
+		                                select MAX(hb.dataHora) ultimoLog, numeroSerie
+		                                  from Heartbeat hb with (nolock)
+		                                 group by dataHora, numeroSerie
+		                                   ) t 
+                                    --WHERE (DescricaoExecucao LIKE '%Não foram encontrados novos registros%' OR DescricaoExecucao LIKE '%Registro(s) coletado(s) com sucesso%')
+	                                group by numeroSerie
+
+	                                 ) i
+
+                                select *
+                                  into #UltimoBilheteRep
+                                  from (
+	                                select b.*
+	                                  from (
+		                                select max(id) id, relogio
+		                                  from bilhetesimp b with (nolock)
+		                                 --order by relogio desc
+										 group by relogio
+		                                   ) t
+	                                   inner join bilhetesimp b on t.id = b.id
+	                                 ) i
+
+                                select *,
+	                                   CONVERT(varchar, (tempoSemComunicacaoSegundos / 86400)) + ':' + CONVERT(varchar, DATEADD(ss, tempoSemComunicacaoSegundos, 0), 108) TempoSemComunicacaoSegundosDDHHMMSS
+                                  from (
+	                                select d.*,
+		                                   case when (tempoSemComunicacaoSegundos between 0 and (TempoRequisicao + 300)) or (nomeFabricante = 'Ahgora Sistemas Ltda. (Ahgora)' and tempoSemComunicacaoSegundos between 0 and 86400)  then 0 --Até 5 min de atraso contabiliza ainda como Online
+				                                when tempoSemComunicacaoSegundos between (TempoRequisicao + 300) and (@tempoSemComunicacao -1) then 1 -- Em alerta
+				                                else 2 end Situacao -- sem comunicacao
+	                                  from (
+		                                Select *, 
+			                                   ISNULL(DATEDIFF(SECOND,ultimaComunicacao, GETDATE()),100*24*60*60-1) tempoSemComunicacaoSegundos
+		                                  from (
+			                                SELECT r.codigo CodigoRep, 
+				                                   r.numserie NumSerie, 
+				                                   r.local LocalRep, 
+				                                   e.nomeFabricante NomeFabricante, 
+				                                   e.nomeModelo NomeModelo, 
+				                                   r.numrelogio NumRelogio,
+				                                   r.TempoRequisicao,
+				                                   IIF(ul.ultimoLogComunicacao is null and ub.incusuario = 'ServImportacao',	ub.inchora, ul.ultimoLogComunicacao) ultimaComunicacao,
+				                                   ub.data DataBilhete,
+				                                   ub.Hora HoraBilhete,
+				                                   ub.incusuario,
+                                                   ub.inchora IncHoraBilhete,
+				                                   ub.nsr,
+				                                   ISNULL(u.login,'ServImportacao') UsuarioInclusao,
+				                                   ISNULL(u.nome, 'Serviço Importação') NomeUsuario,
+                                                   r.registradorEmMassa
+			                                  FROM dbo.rep r with (nolock)
+			                                 INNER JOIN dbo.equipamentohomologado e with (nolock) ON r.idequipamentohomologado = e.id
+			                                 left join #UltimoRepLog ul on ul.numeroSerie = r.numserie
+			                                  left join #UltimoBilheteRep ub on r.numrelogio = ub.relogio
+			                                  left join cw_usuario u on u.login = ub.incusuario
+			                                 WHERE r.ImportacaoAtivada = 1 and r.registradorEmMassa = 1
+			                                   ) t
+		                                   ) d
+	                                   ) o
+                                   order by o.Situacao desc , tempoSemComunicacaoSegundos desc";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, query, parms);
+
+            List<Modelo.Proxy.RepSituacao> lista = new List<Modelo.Proxy.RepSituacao>();
+
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Proxy.RepSituacao>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Proxy.RepSituacao>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+
+            return lista;
+        }
+
+
+
     }
 }
 

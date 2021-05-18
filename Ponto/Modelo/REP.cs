@@ -198,5 +198,15 @@ namespace Modelo
         public bool Portaria373 { get; set; }
         [Display(Name = "Relógio")]
         public int IdEquipamentoHomologado373 { get; set; }
+
+        [Display(Name = "Registrador Em Massa")]
+        public bool RegistradorEmMassa { get; set; }
+
+        [Display(Name = "Crachá proximidade")]
+        [Range(0, double.MaxValue, ErrorMessage = "Campo inválido")]
+        public Int64? RFID { get; set; }
+        public Int64? RFID_Ant { get; set; }
+        public string MIFARE { get; set; }
+
     }
 }
