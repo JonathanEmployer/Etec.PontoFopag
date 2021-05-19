@@ -1643,10 +1643,6 @@ namespace BLL
             idhorario = (int)dr["idhorario"];
             tipohoraextrafalta = Convert.ToInt16(dr["tipohoraextrafalta"]);
             bllMarcacao.VerificaMudancaHorario(Convert.ToInt32(dr["funcionarioid"]), pData, mudancaHorarioList, ref legenda, ref idhorario);
-            if (idhorario > 0)
-            {
-                tiposHoraExtraFalta.TryGetValue(idhorario, out tipohoraextrafalta);
-            }
 
             if (ordenaBilheteSaida)
             {
