@@ -73,27 +73,27 @@ namespace DAL.SQL
         {
             SetInstanceBase(dr, obj);
             ((Modelo.EventosClassHorasExtras)obj).Codigo = Convert.ToInt32(dr["codigo"]);
-             ((Modelo.EventosClassHorasExtras)obj).IdEventos = Convert.ToInt32(dr["IdEventos"]);
-             ((Modelo.EventosClassHorasExtras)obj).IdClassificacao = Convert.ToInt32(dr["IdClassificacao"]);
+            ((Modelo.EventosClassHorasExtras)obj).IdEventos = Convert.ToInt32(dr["IdEventos"]);
+            ((Modelo.EventosClassHorasExtras)obj).IdClassificacao = Convert.ToInt32(dr["IdClassificacao"]);
 
         }
 
         protected override SqlParameter[] GetParameters()
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				 new SqlParameter ("@id", SqlDbType.Int)
-				,new SqlParameter ("@codigo", SqlDbType.Int)
-				,new SqlParameter ("@incdata", SqlDbType.DateTime)
-				,new SqlParameter ("@inchora", SqlDbType.DateTime)
-				,new SqlParameter ("@incusuario", SqlDbType.VarChar)
-				,new SqlParameter ("@altdata", SqlDbType.DateTime)
-				,new SqlParameter ("@althora", SqlDbType.DateTime)
-				,new SqlParameter ("@altusuario", SqlDbType.VarChar)
+            {
+                 new SqlParameter ("@id", SqlDbType.Int)
+                ,new SqlParameter ("@codigo", SqlDbType.Int)
+                ,new SqlParameter ("@incdata", SqlDbType.DateTime)
+                ,new SqlParameter ("@inchora", SqlDbType.DateTime)
+                ,new SqlParameter ("@incusuario", SqlDbType.VarChar)
+                ,new SqlParameter ("@altdata", SqlDbType.DateTime)
+                ,new SqlParameter ("@althora", SqlDbType.DateTime)
+                ,new SqlParameter ("@altusuario", SqlDbType.VarChar)
                 ,new SqlParameter ("@IdEventos", SqlDbType.Int)
                 ,new SqlParameter ("@IdClassificacao", SqlDbType.Int)
 
-			};
+            };
             return parms;
         }
 
@@ -111,8 +111,8 @@ namespace DAL.SQL
             parms[5].Value = ((Modelo.EventosClassHorasExtras)obj).Altdata;
             parms[6].Value = ((Modelo.EventosClassHorasExtras)obj).Althora;
             parms[7].Value = ((Modelo.EventosClassHorasExtras)obj).Altusuario;
-           parms[8].Value = ((Modelo.EventosClassHorasExtras)obj).IdEventos;
-           parms[9].Value = ((Modelo.EventosClassHorasExtras)obj).IdClassificacao;
+            parms[8].Value = ((Modelo.EventosClassHorasExtras)obj).IdEventos;
+            parms[9].Value = ((Modelo.EventosClassHorasExtras)obj).IdClassificacao;
 
         }
 
@@ -233,7 +233,7 @@ namespace DAL.SQL
                     if (!dr.IsDBNull(0))
                     {
                         retorno = dr.GetString(0);
-                    }   
+                    }
                 }
             }
             catch (Exception ex)
@@ -261,13 +261,16 @@ namespace DAL.SQL
 
         public void IncluirPorEvento(SqlTransaction trans, Modelo.Eventos eve)
         {
-            if ((eve.EventosClassHorasExtras == null || eve.EventosClassHorasExtras.Count() == 0) && !String.IsNullOrEmpty(eve.IdsClassificadas) && eve.ClassificarHorasExtras)
-            {
-                eve.EventosClassHorasExtras = GerarEventosClassHorasExtrasPorEvento(eve, eve.IdsClassificadas.Split(',').Select(Int32.Parse).ToList());
-            }
             if (eve.ClassificarHorasExtras)
             {
-                IncluirList(trans, eve.EventosClassHorasExtras.ToList());
+                if ((eve.EventosClassHorasExtras == null || eve.EventosClassHorasExtras.Count() == 0) && !String.IsNullOrEmpty(eve.IdsClassificadas))
+                {
+                    eve.EventosClassHorasExtras = GerarEventosClassHorasExtrasPorEvento(eve, eve.IdsClassificadas.Split(',').Select(Int32.Parse).ToList());
+                }
+                if (eve.EventosClassHorasExtras != null && eve.EventosClassHorasExtras.Count() > 0)
+                {
+                    IncluirList(trans, eve.EventosClassHorasExtras.ToList());
+                }
             }
         }
 
@@ -335,7 +338,7 @@ namespace DAL.SQL
             {
                 ExcluirPorEvento(trans, eve);
             }
-            
+
         }
 
         public List<Modelo.EventosClassHorasExtras> GerarEventosClassHorasExtrasPorEvento(Modelo.Eventos eve, List<int> listClassNova)
@@ -343,11 +346,11 @@ namespace DAL.SQL
             List<Modelo.EventosClassHorasExtras> novos = new List<Modelo.EventosClassHorasExtras>();
             var i = MaxCodigo();
             foreach (int idClass in listClassNova)
-            {       
-                novos.Add(new Modelo.EventosClassHorasExtras() { IdEventos = eve.Id, IdClassificacao = idClass, Codigo= i});
+            {
+                novos.Add(new Modelo.EventosClassHorasExtras() { IdEventos = eve.Id, IdClassificacao = idClass, Codigo = i });
                 i++;
-            }            
+            }
             return novos;
-        }              
+        }
     }
 }
