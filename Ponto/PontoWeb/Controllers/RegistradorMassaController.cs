@@ -273,7 +273,7 @@ namespace PontoWeb.Controllers
                 repCC.numSerie = rep.NumSerie;
                 repCC.ServicoComunicador = rep.EquipamentoHomologado.ServicoComunicador;
 
-                repCC.RegistradorEmMassa = rep.RegistradorEmMassa;
+                repCC.registradorEmMassa = rep.RegistradorEmMassa;
                 repCC.CrachaAdm = rep.CrachaAdm;
 
                 if (repCC.Id > 0)

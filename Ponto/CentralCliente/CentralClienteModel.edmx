@@ -348,6 +348,10 @@
           <Property Name="DataInicioImportacao" Type="datetime" />
           <Property Name="ServicoComunicador" Type="bit" Nullable="false" />
           <Property Name="Processando" Type="bit" Nullable="false" />
+          <Property Name="IdCentroServico" Type="int" />
+          <Property Name="IdComunicadorServico" Type="int" />
+          <Property Name="registradorEmMassa" Type="bit" />
+          <Property Name="CrachaAdm" Type="bigint" />
         </EntityType>
         <EntityType Name="RepLog">
           <Key>
@@ -528,6 +532,7 @@
           <Property Name="connectionString" Type="varchar" MaxLength="400" />
           <Property Name="UtilizaPontoWeb" Type="smallint" />
           <Property Name="PasswordWebAPI" Type="varchar" MaxLength="200" />
+          <Property Name="Ativo" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_AspNetUsers_Usuario">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
@@ -1996,6 +2001,10 @@
           <Property Name="ServicoComunicador" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="RepLog" Relationship="CENTRALCLIENTEModel.fk_Rep_RepLog" FromRole="Rep" ToRole="RepLog" />
           <Property Name="Processando" Type="Boolean" Nullable="false" />
+          <Property Name="IdCentroServico" Type="Int32" />
+          <Property Name="IdComunicadorServico" Type="Int32" />
+          <Property Name="registradorEmMassa" Type="Boolean" />
+          <Property Name="CrachaAdm" Type="Int64" />
         </EntityType>
         <EntityType Name="Revenda">
           <Key>
@@ -2207,6 +2216,7 @@
           <NavigationProperty Name="Entidade" Relationship="Self.FK_Usuario_Entidade" FromRole="Usuario" ToRole="Entidade" />
           <NavigationProperty Name="Pedido" Relationship="Self.FK_Pedido_Usuario" FromRole="Usuario" ToRole="Pedido" />
           <NavigationProperty Name="Revenda" Relationship="Self.FK_Usuario_Revenda" FromRole="Usuario" ToRole="Revenda" />
+          <Property Name="Ativo" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -3631,6 +3641,10 @@
           <EntitySetMapping Name="Rep">
             <EntityTypeMapping TypeName="CENTRALCLIENTEModel.Rep">
               <MappingFragment StoreEntitySet="Rep">
+                <ScalarProperty Name="CrachaAdm" ColumnName="CrachaAdm" />
+                <ScalarProperty Name="registradorEmMassa" ColumnName="registradorEmMassa" />
+                <ScalarProperty Name="IdComunicadorServico" ColumnName="IdComunicadorServico" />
+                <ScalarProperty Name="IdCentroServico" ColumnName="IdCentroServico" />
                 <ScalarProperty Name="Processando" ColumnName="Processando" />
                 <ScalarProperty Name="ServicoComunicador" ColumnName="ServicoComunicador" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -3815,6 +3829,7 @@
           <EntitySetMapping Name="Usuario">
             <EntityTypeMapping TypeName="CENTRALCLIENTEModel.Usuario">
               <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="Ativo" ColumnName="Ativo" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="Senha" ColumnName="Senha" />
