@@ -33,6 +33,6 @@ namespace DAL
         List<Modelo.REP> GetAllListRegMassa();
 
         List<Modelo.Proxy.RepSituacao> VerificarSituacaoRegMassa(int TempoSemComunicacao);
-
+        List<Modelo.REP> GetAllListGridRep();
     }
 }

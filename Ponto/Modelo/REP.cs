@@ -202,11 +202,8 @@ namespace Modelo
         [Display(Name = "Registrador Em Massa")]
         public bool RegistradorEmMassa { get; set; }
 
-        [Display(Name = "Crachá proximidade")]
-        [Range(0, double.MaxValue, ErrorMessage = "Campo inválido")]
-        public Int64? RFID { get; set; }
-        public Int64? RFID_Ant { get; set; }
-        public string MIFARE { get; set; }
-
+        [Display(Name = "Crachá ADM")]
+        [Range(0, Int64.MaxValue, ErrorMessage = "Campo inválido")]
+        public Int64? CrachaAdm { get; set; }
     }
 }

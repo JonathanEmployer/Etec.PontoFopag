@@ -116,9 +116,9 @@ namespace DAL.SQL
             SELECTPID += PermissaoUsuarioEmpresa(UsuarioLogado, SELECTPID, "rep.idempresa", null);
 
             INSERT = @"  INSERT INTO rep
-							(codigo, numserie, local, incdata, inchora, incusuario, numrelogio, relogio, senha, tipocomunicacao, porta, ip, qtdDigitos, biometrico, idempresa, idequipamentohomologado, UltimoNSR, ImportacaoAtivada, TempoRequisicao, DataInicioImportacao, IdTimeZoneInfo, CodigoLocal, TipoIP, UltimaIntegracao, IdEquipamentoTipoBiometria, CpfRep, LoginRep, SenhaRep, CampoCracha, Portaria373, registradorEmMassa, RFID, MIFARE)
+							(codigo, numserie, local, incdata, inchora, incusuario, numrelogio, relogio, senha, tipocomunicacao, porta, ip, qtdDigitos, biometrico, idempresa, idequipamentohomologado, UltimoNSR, ImportacaoAtivada, TempoRequisicao, DataInicioImportacao, IdTimeZoneInfo, CodigoLocal, TipoIP, UltimaIntegracao, IdEquipamentoTipoBiometria, CpfRep, LoginRep, SenhaRep, CampoCracha, Portaria373, registradorEmMassa, CrachaAdm)
 							VALUES
-							(@codigo, @numserie, @local, @incdata, @inchora, @incusuario, @numrelogio, @relogio, @senha, @tipocomunicacao, @porta, @ip, @qtdDigitos, @biometrico, @idempresa, @idequipamentohomologado, @UltimoNSR, @ImportacaoAtivada, @TempoRequisicao, @DataInicioImportacao, @IdTimeZoneInfo, @CodigoLocal, @TipoIP, @UltimaIntegracao, @IdEquipamentoTipoBiometria, @CpfRep, @LoginRep, @SenhaRep, @CampoCracha, @Portaria373, @registradorEmMassa, @RFID, @MIFARE)
+							(@codigo, @numserie, @local, @incdata, @inchora, @incusuario, @numrelogio, @relogio, @senha, @tipocomunicacao, @porta, @ip, @qtdDigitos, @biometrico, @idempresa, @idequipamentohomologado, @UltimoNSR, @ImportacaoAtivada, @TempoRequisicao, @DataInicioImportacao, @IdTimeZoneInfo, @CodigoLocal, @TipoIP, @UltimaIntegracao, @IdEquipamentoTipoBiometria, @CpfRep, @LoginRep, @SenhaRep, @CampoCracha, @Portaria373, @registradorEmMassa, @CrachaAdm)
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE rep SET
@@ -153,8 +153,7 @@ namespace DAL.SQL
                             , CampoCracha = @CampoCracha
                             , Portaria373 = @Portaria373
                             , registradorEmMassa = @registradorEmMassa
-                            , RFID = @RFID
-                            , MIFARE = @MIFARE
+                            , CrachaAdm = @CrachaAdm
 
 						WHERE id = @id";
 
@@ -245,8 +244,10 @@ namespace DAL.SQL
             ((Modelo.REP)obj).Portaria373 = Convert.ToBoolean(dr["Portaria373"]);
 
             ((Modelo.REP)obj).RegistradorEmMassa = Convert.ToBoolean(dr["RegistradorEmMassa"]);
-            ((Modelo.REP)obj).RFID = Convert.ToInt64(dr["RFID"]);
-            ((Modelo.REP)obj).MIFARE = Convert.ToString(dr["MIFARE"]);
+            if(!(dr["CrachaAdm"] is DBNull)) { 
+            ((Modelo.REP)obj).CrachaAdm = Convert.ToInt64(dr["CrachaAdm"]);
+            }
+
         }
 
         protected override SqlParameter[] GetParameters()
@@ -289,8 +290,7 @@ namespace DAL.SQL
                 new SqlParameter ("@Portaria373", SqlDbType.Bit),
 
                 new SqlParameter ("@registradorEmMassa", SqlDbType.Bit),
-                new SqlParameter ("@RFID", SqlDbType.BigInt),
-                new SqlParameter ("@MIFARE", SqlDbType.VarChar),
+                new SqlParameter ("@CrachaAdm", SqlDbType.BigInt),
             };
             return parms;
         }
@@ -341,8 +341,7 @@ namespace DAL.SQL
             parms[33].Value = ((Modelo.REP)obj).Portaria373;
 
             parms[34].Value = ((Modelo.REP)obj).RegistradorEmMassa;
-            parms[35].Value = ((Modelo.REP)obj).RFID;
-            parms[36].Value = ((Modelo.REP)obj).MIFARE;
+            parms[35].Value = ((Modelo.REP)obj).CrachaAdm;
 
         }
 
@@ -483,15 +482,15 @@ namespace DAL.SQL
 
             SqlParameter[] parms = new SqlParameter[] { };
 
-            string aux = @"SELECT *, 
-                           convert(varchar,empresa.codigo)+' | '+empresa.nome as empresa,
+            string aux = @"SELECT *,
+                           convert(varchar, empresa.codigo)+' | ' + empresa.nome as empresa,
                            equipamentohomologado.nomeModelo as modeloNome
                              FROM rep
-                             LEFT JOIN empresa ON empresa.id = rep.idempresa 
+                             LEFT JOIN empresa ON empresa.id = rep.idempresa
                              LEFT JOIN equipamentohomologado ON equipamentohomologado.id = rep.idequipamentohomologado
                              LEFT JOIN equipamentotipobiometria ON equipamentotipobiometria.id = rep.IdEquipamentoTipoBiometria
-                             LEFT JOIN tipobiometria ON tipobiometria.id = equipamentotipobiometria.Idtipobiometria                
-                           WHERE registradorEmMassa = 0 ";
+                             LEFT JOIN tipobiometria ON tipobiometria.id = equipamentotipobiometria.Idtipobiometria
+                           WHERE 1 = 1 ";
             aux += PermissaoUsuarioEmpresa(UsuarioLogado, aux, "rep.idempresa", null);
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
             if (dr.HasRows)
@@ -768,7 +767,7 @@ namespace DAL.SQL
 			                                 left join #UltimoRepLog ul on ul.IdRep = r.id
 			                                  left join #UltimoBilheteRep ub on r.numrelogio = ub.relogio
 			                                  left join cw_usuario u on u.login = ub.incusuario
-			                                 WHERE r.ImportacaoAtivada = 1
+			                                 WHERE r.ImportacaoAtivada = 1 and r.registradorEmMassa = 0
 			                                   ) t
 		                                   ) d
 	                                   ) o
@@ -900,6 +899,40 @@ namespace DAL.SQL
         }
 
 
+        public List<Modelo.REP> GetAllListGridRep()
+        {
+            List<Modelo.REP> lista = new List<Modelo.REP>();
+
+            SqlParameter[] parms = new SqlParameter[] { };
+
+            string aux = @"SELECT *,
+                           convert(varchar, empresa.codigo)+' | ' + empresa.nome as empresa,
+                           equipamentohomologado.nomeModelo as modeloNome
+                             FROM rep
+                             LEFT JOIN empresa ON empresa.id = rep.idempresa
+                             LEFT JOIN equipamentohomologado ON equipamentohomologado.id = rep.idequipamentohomologado
+                             LEFT JOIN equipamentotipobiometria ON equipamentotipobiometria.id = rep.IdEquipamentoTipoBiometria
+                             LEFT JOIN tipobiometria ON tipobiometria.id = equipamentotipobiometria.Idtipobiometria
+                           WHERE registradorEmMassa = 0 ";
+            aux += PermissaoUsuarioEmpresa(UsuarioLogado, aux, "rep.idempresa", null);
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+            if (dr.HasRows)
+            {
+                while (dr.Read())
+                {
+                    Modelo.REP objREP = new Modelo.REP();
+                    AuxSetInstance(dr, objREP);
+                    lista.Add(objREP);
+                }
+            }
+            if (!dr.IsClosed)
+                dr.Close();
+            dr.Dispose();
+
+            return lista;
+        }
+
+
         public List<Modelo.REP> GetAllListRegMassa()
         {
             List<Modelo.REP> lista = new List<Modelo.REP>();
@@ -947,7 +980,7 @@ namespace DAL.SQL
 	                                select MAX(ultimoLog) ultimoLogComunicacao, numeroSerie
 	                                  from (
 		                                select MAX(hb.dataHora) ultimoLog, numeroSerie
-		                                  from Heartbeat hb with (nolock)
+		                                  from CENTRALCLIENTE.dbo.Heartbeat hb with (nolock)
 		                                 group by dataHora, numeroSerie
 		                                   ) t 
                                     --WHERE (DescricaoExecucao LIKE '%Não foram encontrados novos registros%' OR DescricaoExecucao LIKE '%Registro(s) coletado(s) com sucesso%')

@@ -1,13 +1,8 @@
 ﻿@model Modelo.REP
 @using PontoWeb.Helpers
 @{
-    ViewBag.Title = "Cadastrar Rep";
+    ViewBag.Title = "Cadastrar Registrador em Massa";
 
-    var tipoBiometria = new List<Modelo.Utils.ItensCombo>();
-    if (Model != null)
-    {
-        tipoBiometria = Model.ItensEquipamentoTipoBiometria;
-    }
 }
 @using (Html.BeginForm())
 {
@@ -20,10 +15,8 @@
     @Html.HiddenFor(model => model.Althora);
     @Html.HiddenFor(model => model.Altusuario);
     @Html.HiddenFor(model => model.IdEquipamentoHomologado);
-    
     @Html.HiddenFor(model => model.DataInicioImportacao);
     @Html.HiddenFor(model => model.IdEquipamentoTipoBiometria);
-    @Html.HiddenFor(model => model.NumRelogio);
     @Html.HiddenFor(model => model.QtdDigitos);
     @Html.HiddenFor(model => model.TempoRequisicao);
     <div class="divCenter">
@@ -41,39 +34,50 @@
                             @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm" })
                             @Html.ValidationMessageFor(model => model.Codigo)
                         </div>
-
+                    </div>
+                    <div class="col-md-3">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.NumSerie, new { @class = "control-label label-sm" })
-                            @Html.TextBoxFor(model => model.NumSerie, new { @id = "lkpNumSerie", @class = "form-control  input-sm" })
-                            @Html.ValidationMessageFor(model => model.NumSerie)
+                            @Html.LabelFor(model => model.NumRelogio, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.NumRelogio, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.NumRelogio)
                         </div>
                     </div>
 
                     <div class="col-md-3">
-
                         <div class="form-group">
                             @Html.LabelFor(model => model.IdTimeZoneInfo, new { @class = "control-label label-sm" })
                             @Html.DropDownListFor(m => m.IdTimeZoneInfo, new SelectList(Model.TimeZone, "Value", "Key"), new { @class = "form-control input-sm", style = "height: 25px;" })
                             @Html.ValidationMessageFor(model => model.IdTimeZoneInfo)
                         </div>
                     </div>
+
                 </div>
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.NumSerie, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.NumSerie, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.NumSerie)
+                        </div>
+                    </div>
+                    <div class="col-md-3">
                         <div class="form-group">
                             @Html.LabelFor(model => model.CodigoLocal, new { @class = "control-label label-sm" })
                             @Html.TextBoxFor(model => model.CodigoLocal, new { @class = "form-control  input-sm" }).IsReadonly(Model.Acao == Modelo.Acao.Alterar)
                             @Html.ValidationMessageFor(model => model.CodigoLocal)
                         </div>
                     </div>
-                    <div class="col-md-5">
+
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Local, new { @class = "control-label label-sm" })
                             @Html.TextBoxFor(model => model.Local, new { @class = "form-control  input-sm" }).IsReadonly(Model.Acao == Modelo.Acao.Alterar)
                             @Html.ValidationMessageFor(model => model.Local)
                         </div>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <div class="form-group">
                             @Html.LabelFor(model => model.empresaNome, new { @class = "control-label label-sm" })
                             <div class="input-group input-group-sm">
@@ -87,66 +91,32 @@
                         </div>
                     </div>
 
-                </div>
-                <div class="row">
+                    <div class="col-md-4">
 
-                    <div class="col-md-6">
-                        <div class="panel panel-default" id="cracha" style="margin-bottom:4px">
-                            <div class="panel-heading" style="padding-top:1px; padding-bottom:2px">
-                                @Html.Label("Crachá Proximidade", new { @class = "control-label label-sm" })
-                            </div>
-                            <div class="panel-body" style="padding-top:8px; padding-bottom:5px">
-                                @Html.ValidationMessage("CustomError")
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.RFID, new { @class = "control-label label-sm" })
-                                            <div class="input-group input-group-sm">
-                                                @Html.TextBoxFor(model => model.RFID, new { @class = "form-control  input-sm", id = "lkpHistorioRFID", value = Model.RFID, onkeyup = "limitarInput(this)", maxlength = 20 })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.RFID, null, new { id = "vsRfid" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="panel-body" style="padding-top:15px; padding-bottom:5px">
-                                            <div class="radio-inline" data-toggle="radioTipo" style="margin-top:-4px">
-                                                <input type="radio" button onclick="radiomarcado()" name="rdioTipo" value="0" id="RFID" checked>
-                                                <label class="label-sm" for="idRadioRFID">RFID(wiegand)</label>
-                                            </div>
-                                            <div class="radio-inline" data-toggle="radioTipo" style="margin-top:-4px">
-                                                <input type="radio" name="rdioTipo" value="1" button onclick="radiomarcado()" id="MIFARE">
-                                                <label class="label-sm" for="idRadioMIFARE">MIFARE</label>
-                                            </div>
-                                        </div>
-                                        @Html.ValidationMessage("radioTipoCracha", null, new { id = "vsTipo" })
-                                    </div>
-
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CrachaAdm, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.CrachaAdm, new { @class = "form-control  input-sm", value = Model.CrachaAdm, onkeyup = "limitarInput(this)", maxlength = 20 })
+                            @Html.ValidationMessageFor(model => model.CrachaAdm)
                         </div>
                     </div>
 
-              
-
-
-
                 </div>
-
 
             </div>
 
-            <div class="panel-footer">
-                <div class="row">
-                    <div class="col-xs-12 center-block">
-                        <div style="text-align: right">
-                            <button type="submit" class="btn btn-success salvando">
-                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
-                            </button>
-                            <a class="btn btn-danger"
-                               href="@Url.Action("Grid", "RegistradorMassa")">
-                                <span class="glyphicon glyphicon-remove salvando"></span> Cancelar
-                            </a>
-                        </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-12 center-block">
+                    <div style="text-align: right">
+                        <button type="submit" class="btn btn-success salvando">
+                            <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                        </button>
+                        <a class="btn btn-danger"
+                           href="@Url.Action("Grid", "RegistradorMassa")">
+                            <span class="glyphicon glyphicon-remove salvando"></span> Cancelar
+                        </a>
                     </div>
                 </div>
             </div>
@@ -156,142 +126,8 @@
 <script>
     $(document).ready(function () {
         cwk_EventoConsulta("#btnEmpresa", "#lkpEmpresa", "EventoConsulta", "Empresa", "");
-        $("#lkpEquipamentoHomologadoStr").attr('disabled', true);
-        if ('@Model.IntegraComunicador' === 'True') {
-            $("#lkpEquipamentoHomologadoStr").css('color', 'green');
-        }
-        else {
-            $("#lkpEquipamentoHomologadoStr").css('color', 'red');
-        }
-        HabilitaDesabilitaIP();
-        validaTipoIP('@Model.TipoIP');
-        ExibeEscolhaCampoCracha(@Convert.ToInt32(Model.Relogio));
-        cwk_DataCalendario('#btnInicioImp', '#dtInicioImp');
-        validaPortaria373();
+
     });
-
-    $("#Portaria373").change(function () {
-        validaPortaria373();
-    })
-
-    function validaPortaria373() {
-        if ($("#Portaria373").is(':checked')) {
-            $("#divSelPortaria373").show();
-            $("#divNome").hide();
-        }
-        else {
-            $("#divSelPortaria373").hide();
-            $("#divNome").show();
-        }
-    }
-
-    $("#TipoComunicacao").change(function () {
-        HabilitaDesabilitaIP();
-    });
-
-    function HabilitaDesabilitaIP() {
-        if ($("#TipoComunicacao").val() === "1") {
-            $("#IP").val("");
-            $("#IP").prop('disabled', true);
-        }
-        else {
-            $("#IP").prop('disabled', false);
-        }
-    }
-
-    $('input:radio[name=TipoIP]').change(function () {
-        validaTipoIP($(this).val());
-    });
-
-    function validaTipoIP(valor) {
-
-
-        if (valor === 0) {
-            $('.ipdns').mask('099.099.099.099');
-        }
-        else if (valor === 1) {
-            $('.ipdns').unmask();
-        }
-    }
-
-    $('#lkpNumSerie').blur(function () {
-        var NumSerieVal = $(this).val();
-        BuscaEquipamentoHomologado(NumSerieVal);
-    });
-
-    $('#btnInfoNSR').click(function () {
-        cwkNotificacaoTit("Último NSR", "Valor utilizado para indicar a partir de qual NSR a importação deve iniciar, quando valor for 0 a importação inicia apartir da data informada no campo \"Início Importação\", quando maior que 0 a data de Início da Importação é desconsiderada.")
-    });
-
-    function BuscaEquipamentoHomologado(NumSerieVal) {
-        $.ajax({
-            url: '/Rep/BuscaEquipamentoHomologado',
-            type: 'GET',
-            dataType: 'json',
-            data: { 'NumSerie': NumSerieVal, 'NumRelogio': $('#NumRelogio').val() },
-            beforeSend: function () {
-                $("#loading").modal();
-            },
-            success: function (ret) {
-                if (ret.Successo === true) {
-                    $("#lkpEquipamentoHomologadoStr").val(ret.EquipamentoHomNome);
-                    $("#IdEquipamentoHomologado").val(ret.EquipamentoHomID);
-                    $("#UltimoNSR").val(ret.UltimoNSR);
-                    $("#Relogio").val(ret.IdentificacaoRelogio);
-                    if (ret.IntegraComunicador === true) {
-                        $("#lkpEquipamentoHomologadoStr").css('color', 'green');
-                    }
-                    else {
-                        $("#lkpEquipamentoHomologadoStr").css('color', 'red');
-                    }
-
-                    var DllTipoBiometria = $("#DllTipoBiometria");
-                    DllTipoBiometria.empty();
-
-                    DllTipoBiometria.append(new Option("Selecione", "0"));
-
-                    $.each(ret.EquipamentoTipoBiometria, function (index, item) {
-                        var p = new Option(item.Descricao, item.Id);
-                        DllTipoBiometria.append(p);
-                    });
-
-                    ExibeDivImportacao(ret.IdentificacaoRelogio, ret.ServicoComunicador);
-                    ExibeEscolhaCampoCracha(ret.IdentificacaoRelogio);
-                    if ($("#Portaria373").is(':checked')) {
-                        $("#IdEquipamentoTipoBiometria").focus();
-                    }
-                    else {
-                        $("#dtInicioImp").focus();
-                    }
-                } else {
-                    cwkErroTit('Erro!', ret.Erro);
-                }
-            },
-            complete: function () {
-                $("#loading").modal('hide');
-            }
-        });
-    }
-
-    function ExibeEscolhaCampoCracha(NumeroFabricante) {
-        if (NumeroFabricante === 22) {
-            $("#divCampoCracha").show();
-            $("#divNome").removeClass("col-md-9").addClass("col-md-5");
-        }
-        else {
-            $("#divCampoCracha").hide();
-            $("#divNome").removeClass("col-md-5").addClass("col-md-9");
-        }
-    }
-
-    function ExibeDivImportacao(NumeroFabricante, ServicoComunicador) {
-        if (NumeroFabricante === 17 || NumeroFabricante === 22) {
-            $("#DivDadosComunicacao").hide();
-        }
-        else {
-            $("#DivDadosComunicacao").show();
-        }
-    }
 
     $('form').submit(function () {
         if ($(this).valid()) {
@@ -311,16 +147,3 @@
         })
     </script>
 }
-
-<script>
-
-    function limitarInput(obj) {
-        if ($("#MIFARE").is(":checked")) {
-            obj.value = obj.value.substring(0, 20);
-        }
-        else if ($("#RFID").is(":checked")) {
-            obj.value = obj.value.substring(0, 8);
-        }
-    }
-
-</script>

@@ -42,6 +42,8 @@ namespace CentralCliente
         public Nullable<System.DateTime> DataInicioImportacao { get; set; }
         public bool ServicoComunicador { get; set; }
         public bool Processando { get; set; }
+        public bool RegistradorEmMassa { get; set; }
+        public long? CrachaAdm { get; set; }
     
         public virtual Cliente Cliente { get; set; }
         public virtual ICollection<RepLog> RepLog { get; set; }

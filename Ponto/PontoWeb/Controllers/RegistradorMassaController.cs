@@ -79,14 +79,12 @@ namespace PontoWeb.Controllers
                 rep.Acao = Acao.Incluir;
 
                 rep.IdEquipamentoTipoBiometria = 4;
-                rep.NumRelogio = rep.Codigo.ToString();
                 rep.QtdDigitos = 8;
                 rep.TempoRequisicao = 60;
 
             }
             else
             {
-                rep.Senha = "#SeNhAnAoAlTeRaDa#";
                 BLL.BilhetesImp BLLBilhetesImp = new BLL.BilhetesImp(_user.ConnectionString, _user);
                 rep.UltimoNSR = BLLBilhetesImp.GetUltimoNSRRep(rep.NumRelogio);
                 rep.Acao = Acao.Alterar;
@@ -147,11 +145,8 @@ namespace PontoWeb.Controllers
             rep.RegistradorEmMassa = true;
             rep.ImportacaoAtivada = true;
 
-            BLL.EquipamentoTipoBiometria bllEquipamentoTipoBiometria = new BLL.EquipamentoTipoBiometria(_user.ConnectionString, _user);
-            rep.ItensEquipamentoTipoBiometria = bllEquipamentoTipoBiometria.GetAllList(rep.IdEquipamentoHomologado);
-
             ValidaEmpresa(rep);
-
+            
             ValidarForm(rep);
             if (ModelState.IsValid)
             {
@@ -277,6 +272,10 @@ namespace PontoWeb.Controllers
                 repCC.DataInicioImportacao = rep.DataInicioImportacao;
                 repCC.numSerie = rep.NumSerie;
                 repCC.ServicoComunicador = rep.EquipamentoHomologado.ServicoComunicador;
+
+                repCC.RegistradorEmMassa = rep.RegistradorEmMassa;
+                repCC.CrachaAdm = rep.CrachaAdm;
+
                 if (repCC.Id > 0)
                     db.Entry(repCC).State = EntityState.Modified;
                 else
