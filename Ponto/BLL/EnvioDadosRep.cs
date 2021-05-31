@@ -100,8 +100,6 @@ namespace BLL
                         break;
                 }
 
-                //validar se é reg massa e enviar mensagem pro rabbit do maestro 
-
             }
             return erros;
         }

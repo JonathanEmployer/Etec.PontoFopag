@@ -78,6 +78,7 @@ namespace PontoWeb.Controllers
                 rep.IdTimeZoneInfo = "E. South America Standard Time";
                 rep.Acao = Acao.Incluir;
 
+                rep.IdEquipamentoHomologado = 247;
                 rep.IdEquipamentoTipoBiometria = 4;
                 rep.QtdDigitos = 8;
                 rep.TempoRequisicao = 60;
@@ -144,6 +145,7 @@ namespace PontoWeb.Controllers
             Modelo.REP repAntigo = bllRep.LoadObject(rep.Id);
             rep.RegistradorEmMassa = true;
             rep.ImportacaoAtivada = true;
+
 
             ValidaEmpresa(rep);
             
