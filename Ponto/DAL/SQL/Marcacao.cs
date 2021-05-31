@@ -1011,13 +1011,23 @@ namespace DAL.SQL
             _parms[1].Value = pDataF;
 
             _lista = String.Join(",", pIdFuncs);
-            _sql = string.Format(@" select t.idfuncionario, sum(sign(isnull(m.id, 0))) qtdmarcacao
-                                    from(
-                                            select fn.data, f.id as idfuncionario from [dbo].[FN_DatasPeriodo](@dtaini, @dtafim) as fn
-                                            cross join funcionario f where f.id in ({0})
-                                    ) as t
-                                    left join marcacao m on m.data = t.data and m.idfuncionario = t.idfuncionario
-                                    group by t.idfuncionario", _lista);
+            _sql = string.Format(@"DROP TABLE IF EXISTS #ids,#
+                                    SELECT CONVERT(INT,dbo.Fn_extrairnumero(item)) item INTO #IDs FROM dbo.fnSplit('{0}',',');
+
+                                    SELECT fn.data,
+                                        f.id AS idfuncionario
+	                                    INTO #Data_Fun
+                                    FROM [dbo].[FN_DatasPeriodo](@dtaini, @dtafim) AS fn
+                                    CROSS JOIN funcionario f
+                                    JOIN #Ids id ON id.item = f.id	;
+
+                                    SELECT t.idfuncionario,
+                                           SUM(SIGN(ISNULL(m.id, 0))) qtdmarcacao
+                                    FROM
+                                    #Data_Fun AS t
+                                        LEFT JOIN marcacao m   ON m.data = t.data   AND m.idfuncionario = t.idfuncionario
+                                    GROUP BY t.idfuncionario;
+                                    ", _lista);
 
             DataTable dt = new DataTable();
             using (SqlDataReader dr = db.ExecuteReader(CommandType.Text, _sql, _parms))
