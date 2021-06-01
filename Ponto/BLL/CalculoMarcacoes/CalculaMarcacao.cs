@@ -1864,30 +1864,24 @@ namespace BLL
                 string[] limiteHoraExtra = objBancoHoras.getLimiteHoraExtra();
                 string[] limiteHoraSaldoBH = objBancoHoras.getLimiteSaldoBH();
 
-                var contabilizarFaltas = objBancoHoras.ContabilizarFaltas;
-                var contAtrasosSaidasAntec = objBancoHoras.ContAtrasosSaidasAntec;
-                var contabilizarCreditos = objBancoHoras.ContabilizarCreditos;
-
                 //Valida primero os parametros inseridos por grid de marcação
-
                 if (ContabilizarFaltasMarc != 2)
-                    contabilizarFaltas = ContabilizarFaltasMarc == 1 ? false : true;
+                    objBancoHoras.ContabilizarFaltas = ContabilizarFaltasMarc == 1 && ContabilizarFaltasMarc != 2 ? objBancoHoras.ContabilizarFaltas = false : objBancoHoras.ContabilizarFaltas = true;
                 if (ContAtrasosSaidasAntecMarc != 2)
-                    contAtrasosSaidasAntec = ContAtrasosSaidasAntecMarc == 1 ? false : true;
+                    objBancoHoras.ContAtrasosSaidasAntec = ContAtrasosSaidasAntecMarc == 1 && ContAtrasosSaidasAntecMarc != 2 ? objBancoHoras.ContAtrasosSaidasAntec = false : objBancoHoras.ContAtrasosSaidasAntec = true;
                 if (ContabilizarCreditosMarc != 2)
-                    contabilizarCreditos = ContabilizarCreditosMarc == 1 ? false : true;
-
+                    objBancoHoras.ContabilizarCreditos = ContabilizarCreditosMarc == 1 && ContabilizarCreditosMarc != 2 ? objBancoHoras.ContabilizarCreditos = false : objBancoHoras.ContabilizarCreditos = true;
                 // soma das horas-extras e faltas
-                if (contabilizarCreditos == true)
+                if (objBancoHoras.ContabilizarCreditos == true)
                 {
                     CreditoBH = horasExtrasDiurnaMin + horasExtraNoturnaMin;
                 }
 
                 if (legenda != "F" || feriadoParcial)
                 {
-                    if ((contabilizarFaltas == true && contAtrasosSaidasAntec == true) ||
-                        (contabilizarFaltas == true && contAtrasosSaidasAntec == false && horasTrabalhadasMin <= 0) ||
-                        (contabilizarFaltas == false && contAtrasosSaidasAntec == true && horasTrabalhadasMin > 0))
+                    if ((objBancoHoras.ContabilizarFaltas == true && objBancoHoras.ContAtrasosSaidasAntec == true) ||
+                        (objBancoHoras.ContabilizarFaltas == true && objBancoHoras.ContAtrasosSaidasAntec == false && horasTrabalhadasMin <= 0) ||
+                        (objBancoHoras.ContabilizarFaltas == false && objBancoHoras.ContAtrasosSaidasAntec == true && horasTrabalhadasMin > 0))
                     {
                         DebitoBH = horasFaltasMin + horasFaltaNoturnaMin;
                     }
@@ -2069,7 +2063,7 @@ namespace BLL
                     limiteMensal = true;
                 }
 
-                if ((limite > 0 || limitePorSaldo || limiteSemanal || limiteMensal) && contabilizarCreditos == true)
+                if ((limite > 0 || limitePorSaldo || limiteSemanal || limiteMensal) && objBancoHoras.ContabilizarCreditos == true)
                 {
                     if (CreditoBH > limite)
                     {
@@ -2169,7 +2163,7 @@ namespace BLL
                 }
                 else
                 {
-                    if (objBancoHoras.ExtraPrimeiro == 0 && contabilizarCreditos == true)
+                    if (objBancoHoras.ExtraPrimeiro == 0 && objBancoHoras.ContabilizarCreditos == true)
                     {
                         AplicaPercentualBancoHora(ref CreditoBH, ref DebitoBH, objBancoHoras, percentuais[diaInt]);
                         horasExtrasDiurnaMin = 0;
@@ -2178,9 +2172,9 @@ namespace BLL
                     }
                 }
 
-                if ((contAtrasosSaidasAntec == true && contabilizarFaltas == true) ||
-                    (contAtrasosSaidasAntec == true && horasTrabalhadasMin > 0 && contabilizarFaltas == false && horasTrabalhadasMin > 0) ||
-                    (contAtrasosSaidasAntec == false && horasTrabalhadasMin <= 0 && contabilizarFaltas == true))
+                if ((objBancoHoras.ContAtrasosSaidasAntec == true && objBancoHoras.ContabilizarFaltas == true) ||
+                    (objBancoHoras.ContAtrasosSaidasAntec == true && horasTrabalhadasMin > 0 && objBancoHoras.ContabilizarFaltas == false && horasTrabalhadasMin > 0) ||
+                    (objBancoHoras.ContAtrasosSaidasAntec == false && horasTrabalhadasMin <= 0 && objBancoHoras.ContabilizarFaltas == true))
                 {
                     horasFaltasMin = 0;
                     horasFaltaNoturnaMin = 0;
