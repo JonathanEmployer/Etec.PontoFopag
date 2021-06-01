@@ -63,21 +63,22 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             @Html.LabelFor(model => model.CodigoLocal, new { @class = "control-label label-sm" })
-                            @Html.TextBoxFor(model => model.CodigoLocal, new { @class = "form-control  input-sm" }).IsReadonly(Model.Acao == Modelo.Acao.Alterar)
+                            @Html.TextBoxFor(model => model.CodigoLocal, new { @class = "form-control  input-sm" })
                             @Html.ValidationMessageFor(model => model.CodigoLocal)
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Local, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Local, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.Local)
                         </div>
                     </div>
 
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Local, new { @class = "control-label label-sm" })
-                            @Html.TextBoxFor(model => model.Local, new { @class = "form-control  input-sm" }).IsReadonly(Model.Acao == Modelo.Acao.Alterar)
-                            @Html.ValidationMessageFor(model => model.Local)
-                        </div>
-                    </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.empresaNome, new { @class = "control-label label-sm" })
                             <div class="input-group input-group-sm">
@@ -91,7 +92,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.CrachaAdm, new { @class = "control-label label-sm" })
