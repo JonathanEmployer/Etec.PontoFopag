@@ -22,10 +22,10 @@ namespace MonitorJobs.Negocio
         public void ProcessarLote()
         {
             BLL.RegistroPonto bllReg = new BLL.RegistroPonto(conexao.ConnectionString, nomeUsuario);
-            List<Modelo.RegistroPonto> registrosProcessar = bllReg.GetAllListBySituacoes(new List<Modelo.Enumeradores.SituacaoRegistroPonto>() { Modelo.Enumeradores.SituacaoRegistroPonto.Incluido, Modelo.Enumeradores.SituacaoRegistroPonto.Reprocessar, Modelo.Enumeradores.SituacaoRegistroPonto.Processando }).OrderBy(o => o.DsCodigo).ThenBy(o => o.Acao).ThenBy(o => o.Batida).ToList();
-            List<Modelo.RegistroPonto> registrosProcessando = bllReg.GetAllListBySituacoes(new List<Modelo.Enumeradores.SituacaoRegistroPonto>() { Modelo.Enumeradores.SituacaoRegistroPonto.Processando });
-            registrosProcessando = registrosProcessando.Where(w => w.Inchora >= DateTime.Now.AddMinutes(-10)).ToList();
-            registrosProcessar = registrosProcessar.Where(w => !registrosProcessando.Select(s => s.Id).Contains(w.Id)).ToList();
+            List<Modelo.RegistroPonto> registrosProcessar = bllReg.GetAllListBySituacoes(new List<Modelo.Enumeradores.SituacaoRegistroPonto>() { Modelo.Enumeradores.SituacaoRegistroPonto.Incluido, Modelo.Enumeradores.SituacaoRegistroPonto.Reprocessar }).OrderBy(o => o.DsCodigo).ThenBy(o => o.Acao).ThenBy(o => o.Batida).ToList();
+         //   List<Modelo.RegistroPonto> registrosProcessando = bllReg.GetAllListBySituacoes(new List<Modelo.Enumeradores.SituacaoRegistroPonto>() { Modelo.Enumeradores.SituacaoRegistroPonto.Processando });
+         //   registrosProcessando = registrosProcessando.Where(w => w.Inchora >= DateTime.Now.AddMinutes(-10)).ToList();
+         //   registrosProcessar = registrosProcessar.Where(w => !registrosProcessando.Select(s => s.Id).Contains(w.Id)).ToList();
             if (registrosProcessar.Count > 0)
             {
                 List<int> idsFuncs = registrosProcessar.Select(s => s.IdFuncionario).Distinct().ToList();
