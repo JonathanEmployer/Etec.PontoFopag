@@ -137,6 +137,12 @@ namespace PontoWeb.Controllers
                     ModelState.AddModelError("CustomError", ex.Message);
                 }
             }
+            BLL.Parametros bllparm = new BLL.Parametros(user.ConnectionString, user);
+            Modelo.Parametros parm = new Parametros();
+            parm = bllparm.LoadPrimeiro();
+            ViewBag.BloqueiaDadosIntegrados = parm.BloqueiaDadosIntegrados;
+            ViewBag.RetricaoDeAcesso = user.UtilizaControleContratos || user.UtilizaControleEmpresa || user.UtilizaControleSupervisor;
+            ViewBag.MensagemRestricao = "Um dos campos está preenchido incorretamente.";
             return View("Cadastrar", obj);
         }
 
