@@ -248,7 +248,9 @@ namespace PontoWeb.Controllers
 
         private Modelo.Proxy.PxyJobReturn Recalcular(MudancaHorario obj)
         {
-            HangfireManagerCalculos hfm = new HangfireManagerCalculos(_usr.DataBase, "", "", "/MudancaHorario/Cadastrar");
+            UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+
+            HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW, "", "/MudancaHorario/Cadastrar");
             string nomeAfastamento = "";
             switch (obj.Tipo)
             {

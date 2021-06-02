@@ -42,8 +42,9 @@ namespace PontoWeb.Controllers
                     BLL.BancoHoras bllBancoHoras = new BLL.BancoHoras(user.ConnectionString, user);
                     var idsfuncs = registro.IdSelecionados.Split(',').Where(s => !string.IsNullOrEmpty(s)).Select(s => Convert.ToInt32(s)).ToList();
                     bllBancoHoras.ReplicarBancoHoras(registro.IdBancoHoras, idsfuncs);
-                    
-                    HangfireManagerCalculos hfm = new HangfireManagerCalculos(user.DataBase, "", "", "/BancoHoras/Grid");
+
+                    UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+                    HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW, "", "/BancoHoras/Grid");
                     string parametrosExibicao = String.Format("{0} Funcionários no período de {1} a {2}", idsfuncs.Count(), registro.DataInicialStr, registro.DataFinalStr);
 
                     List<PxyFuncionariosRecalcular> funcsPeriodo = new List<PxyFuncionariosRecalcular>();

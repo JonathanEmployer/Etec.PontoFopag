@@ -603,7 +603,8 @@ namespace PontoWeb.Controllers
                     BLL.Funcionario bllFuncionario = new BLL.Funcionario(_usr.ConnectionString, _usr);
                     Modelo.Funcionario objFuncionario = bllFuncionario.LoadObject(objMarcacao.Idfuncionario);
 
-                    HangfireManagerCalculos hfm = new HangfireManagerCalculos(_usr.DataBase);
+                    UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+                    HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW);
                     string parametrosExibicao = String.Format("Ordenada Marcação do dia: {0}, do funcionário: {1} | {2}", objMarcacao.Data.ToString("dd/MM/yyyy"), objFuncionario.Dscodigo, objFuncionario.Nome);
                     Modelo.Proxy.PxyJobReturn ret = hfm.OrdenaMarcacao("Recalculo de marcações para ordenação de registros", parametrosExibicao, objMarcacao);
                     return new JsonResult { Data = new { success = true, job = ret } };
@@ -629,7 +630,9 @@ namespace PontoWeb.Controllers
             {
                 try
                 {
-                    HangfireManagerCalculos hfm = new HangfireManagerCalculos(_usr.DataBase);
+                    UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+
+                    HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW);
                     string parametrosExibicao = String.Format("Ordenada Marcação do período: {0} a {1}, do funcionário: {2} | {3}", dataInicial, dataFinal, func.Dscodigo, func.Nome);
                     Modelo.Proxy.PxyJobReturn ret = hfm.OrdenaMarcacaoPeriodo("Recalculo de marcações para ordenação de registros", parametrosExibicao, func.Id, Convert.ToDateTime(dataInicial), Convert.ToDateTime(dataFinal));
                     return new JsonResult { Data = new { success = true, job = ret } };

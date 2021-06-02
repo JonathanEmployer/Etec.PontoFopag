@@ -219,7 +219,7 @@ namespace PontoWeb.Controllers
 
         public PxyJobReturn Recalcular(UsuarioPontoWeb usuario, JornadaAlternativa jornada)
         {
-            HangfireManagerCalculos hfm = new HangfireManagerCalculos(usuario.DataBase, "", "", "/JornadaAlternativa/Grid");
+            HangfireManagerCalculos hfm = new HangfireManagerCalculos(usuario, "", "/JornadaAlternativa/Grid");
             string parametrosExibicao = String.Format("Jornada Alternativa código: {0}, jornada: {1}, período: {2} a {3}, tipo {4} | {5}", jornada.Codigo, jornada.DescJornada, jornada.DataInicialStr, jornada.DataFinalStr, jornada.TipoDesc, jornada.Funcionario);
             Modelo.Proxy.PxyJobReturn ret = hfm.AtualizaMarcacaoJornadaAlternativa("Recalculo de marcações por jornada alternativa", parametrosExibicao, jornada);
             return ret;

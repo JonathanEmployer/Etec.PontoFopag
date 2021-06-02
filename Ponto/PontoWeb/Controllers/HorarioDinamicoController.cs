@@ -284,7 +284,6 @@ namespace PontoWeb.Controllers
                         else
                         {
                             List<PxyIdPeriodo> funcsPeriodo = bllHorarioDinamico.FuncionariosParaRecalculoObject(obj.Id);
-
                             UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
                             HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW, "", "/HorarioDinamico/Grid");
                             string parametrosExibicao = String.Format("Horário dinâmico {0} | {1}, {2} funcionários.", obj.Codigo, obj.Descricao, funcsPeriodo.Count);

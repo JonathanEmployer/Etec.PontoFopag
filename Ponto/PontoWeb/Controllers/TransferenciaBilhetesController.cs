@@ -95,7 +95,9 @@ namespace PontoWeb.Controllers
                     }
                     else
                     {
-                        HangfireManagerCalculos hfm = new HangfireManagerCalculos(user.DataBase, user.Login, "", "/TransferenciaBilhetes/Grid");
+                        UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+
+                        HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW, "", "/TransferenciaBilhetes/Grid");
                         Modelo.Proxy.PxyJobReturn ret = hfm.TransferirBilhetes(obj.Id);
                         return RedirectToAction("Grid", "TransferenciaBilhetes");
                     }

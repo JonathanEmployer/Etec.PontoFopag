@@ -124,7 +124,9 @@ namespace PontoWeb.Controllers
 
         private Modelo.Proxy.PxyJobReturn FecharPonto(FechamentoBH fechamento, BancoHoras objBancoHoras)
         {
-            HangfireManagerCalculos hfm = new HangfireManagerCalculos(_usr.DataBase, "", "", "/FechamentoBH/Grid");
+            UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+
+            HangfireManagerCalculos hfm = new HangfireManagerCalculos(UserPW, "", "/FechamentoBH/Grid");
             string parametrosExibicao = String.Format("Código: {0}, Data: {1}, tipo: {2} - {3}", fechamento.Codigo, fechamento.Data.GetValueOrDefault().ToString("dd/MM/yyyy HH:mm"), fechamento.TipoStr, fechamento.NomeTipoPessoa);
             string acao = fechamento.AcaoDescricao;
             Modelo.Proxy.PxyJobReturn ret = new Modelo.Proxy.PxyJobReturn();
