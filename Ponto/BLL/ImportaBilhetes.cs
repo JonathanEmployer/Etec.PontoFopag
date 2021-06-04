@@ -1644,6 +1644,7 @@ namespace BLL
             tipohoraextrafalta = Convert.ToInt16(dr["tipohoraextrafalta"]);
             bllMarcacao.VerificaMudancaHorario(Convert.ToInt32(dr["funcionarioid"]), pData, mudancaHorarioList, ref legenda, ref idhorario);
 
+            Modelo.HorarioDetalhe hd = new Modelo.HorarioDetalhe();
             if (ordenaBilheteSaida)
             {
                 if (horariosOrdenaSaidaList == null || (horariosOrdenaSaidaList != null && !horariosOrdenaSaidaList.ContainsKey(idhorario)))
@@ -1670,20 +1671,25 @@ namespace BLL
                 else
                     key = (int)dr["idhorario"];
                 Modelo.pxyHorarioDetalheImportacao horario = (Modelo.pxyHorarioDetalheImportacao)horariosOrdenaSaidaList[key];
-                Modelo.HorarioDetalhe hd;
-                IEnumerable<Modelo.HorarioDetalhe> auxHor;
-                if (horario.tipoHorario == 1)
+                IEnumerable<Modelo.HorarioDetalhe> auxHor = new List<Modelo.HorarioDetalhe>();
+                if (horario != null && horario.horariosDetalhe != null)
                 {
-                    auxHor = horario.horariosDetalhe.Where(h => h.Dia == Modelo.cwkFuncoes.Dia(pData));
+                    if (horario.tipoHorario == 1)
+                    {
+                        auxHor = horario.horariosDetalhe.Where(h => h.Dia == Modelo.cwkFuncoes.Dia(pData));
+                    }
+                    else
+                    {
+                        auxHor = horario.horariosDetalhe.Where(h => h.Data == pData);
+                    } 
                 }
-                else
-                {
-                    auxHor = horario.horariosDetalhe.Where(h => h.Data == pData);
-                }
-                if (auxHor.Count() > 0)
+                if (auxHor.Any())
                     hd = auxHor.First();
                 else
                     hd = new Modelo.HorarioDetalhe();
+            }
+            if (ordenaBilheteSaida && hd != null && hd.Id > 0)
+            { 
 
                 jornada[0] = hd.EntradaMin_1;
                 jornada[1] = hd.EntradaMin_2;
