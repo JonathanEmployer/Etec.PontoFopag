@@ -12,7 +12,7 @@ namespace PontoWeb.Utils
         #region Atributos
         private const string Queue_Employee = "Pontofopag_Employee";
         private const string Queue_Employer = "Pontofopag_Employer";
-        private const string Queue_RegistradorEmMassa = "bulk_recorder_receives_from_the_web_application_{0}";
+        private const string Queue_RegistradorEmMassa = "pontofopag_registradormassa_{0}";
 
         private readonly IConnection connection;
         private readonly IModel channel;
