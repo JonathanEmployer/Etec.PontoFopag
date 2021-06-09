@@ -22,10 +22,15 @@ namespace MonitorJobs.Negocio
         public void ProcessarLote()
         {
             BLL.RegistroPonto bllReg = new BLL.RegistroPonto(conexao.ConnectionString, nomeUsuario);
-            List<Modelo.RegistroPonto> registrosProcessar = bllReg.GetAllListBySituacoes(new List<Modelo.Enumeradores.SituacaoRegistroPonto>() { Modelo.Enumeradores.SituacaoRegistroPonto.Incluido, Modelo.Enumeradores.SituacaoRegistroPonto.Reprocessar, Modelo.Enumeradores.SituacaoRegistroPonto.Processando }).OrderBy(o => o.DsCodigo).ThenBy(o => o.Acao).ThenBy(o => o.Batida).ToList();
-            List<Modelo.RegistroPonto> registrosProcessando = bllReg.GetAllListBySituacoes(new List<Modelo.Enumeradores.SituacaoRegistroPonto>() { Modelo.Enumeradores.SituacaoRegistroPonto.Processando });
-            registrosProcessando = registrosProcessando.Where(w => w.Inchora >= DateTime.Now.AddMinutes(-10)).ToList();
-            registrosProcessar = registrosProcessar.Where(w => !registrosProcessando.Select(s => s.Id).Contains(w.Id)).ToList();
+            List<Modelo.RegistroPonto> registrosProcessar = bllReg.GetAllListBySituacoes(new List<Modelo.Enumeradores.SituacaoRegistroPonto>() { Modelo.Enumeradores.SituacaoRegistroPonto.Incluido, Modelo.Enumeradores.SituacaoRegistroPonto.Reprocessar }).OrderBy(o => o.DsCodigo).ThenBy(o => o.Acao).ThenBy(o => o.Batida).ToList();
+            //Se não existir registros novos a serem processados, verifica de existem pendentes
+            //Pega os registros que esta processando a mais de 20 minutos e coloca na fila novamente, provavelmente o registro esta enroscado
+            if (!registrosProcessar.Any())
+            {
+                List<Modelo.RegistroPonto> registrosProcessando = bllReg.GetAllListBySituacoes(new List<Modelo.Enumeradores.SituacaoRegistroPonto>() { Modelo.Enumeradores.SituacaoRegistroPonto.Processando });
+                registrosProcessando = registrosProcessando.Where(w => w.Althora <= DateTime.Now.AddMinutes(-20)).ToList();
+                registrosProcessar.AddRange(registrosProcessando); 
+            }
             if (registrosProcessar.Count > 0)
             {
                 List<int> idsFuncs = registrosProcessar.Select(s => s.IdFuncionario).Distinct().ToList();
