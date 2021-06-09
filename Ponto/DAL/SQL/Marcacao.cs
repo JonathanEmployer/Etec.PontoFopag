@@ -2888,6 +2888,7 @@ namespace DAL.SQL
                             , p.inicioadnoturno
                             , p.fimadnoturno
                             , p.toleranciaAdicionalNoturno
+                            , marcacao.SaldoBH
                             FROM    dbo.marcacao_view AS marcacao  WITH ( NOLOCK )
                                     JOIN #funcionarios fff WITH ( NOLOCK ) ON marcacao.idfuncionario = fff.idfuncionario
 						            JOIN dbo.horario AS h ON marcacao.idhorario = h.id
