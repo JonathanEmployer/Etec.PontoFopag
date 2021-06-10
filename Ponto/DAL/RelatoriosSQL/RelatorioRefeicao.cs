@@ -58,8 +58,13 @@ namespace DAL.RelatoriosSQL
 		MONTH(@dataFin) Mes
 						  FROM (
 							SELECT I.*,
-								    iif((I.trabalharMin = 0 and (@considerarDoisRegistros = 1 and I.QtdRegistroJornada >= 2)),
-									100, iif(I.QtdRegistroJornada >= 4,(I.trabalhadasMin * 100) / trabalharMin, 0)
+								     iif((I.trabalharMin = 0 and @considerarDiasSemjornada = 1) and (
+										(@considerarDoisRegistros = 1 and I.QtdRegistroJornada >= 2) OR
+										(@considerarDoisRegistros = 0 and I.QtdRegistroJornada >= 4)
+										),100, iif(
+										((@considerarDoisRegistros = 1 and I.QtdRegistroJornada >= 2) OR
+										(@considerarDoisRegistros = 0 and I.QtdRegistroJornada >= 4)
+										),(I.trabalhadasMin * 100) / trabalharMin, 0)
 									) percTrab
 							  FROM (
 								SELECT E.*,
@@ -118,9 +123,10 @@ namespace DAL.RelatoriosSQL
 									   ) E
 								   LEFT JOIN jornada AS j ON E.idJornada = j.id
 								   ) I
-						   WHERE ((@considerarDoisRegistros = 1 and I.QtdRegistroJornada >= 2) OR
-								      (@considerarDoisRegistros = 0 and I.QtdRegistroJornada >= 4) OR
-                      ((@considerarDiasSemjornada = 1 and  I.idjornada IS NULL) OR (@considerarDiasSemjornada = 0 AND I.idJornada is not NULL)))
+						   WHERE ((@considerarDoisRegistros = 0 and I.QtdRegistroJornada >= 4) or
+						   (@considerarDoisRegistros = 1 and I.QtdRegistroJornada >= 2) and
+						   ((@considerarDiasSemjornada = 1 ) OR (@considerarDiasSemjornada = 0 AND I.idJornada is not NULL))
+						   )
 							) D
 						WHERE D.percTrab >= @jornadaMin
 						GROUP BY D.FuncionarioNome,
