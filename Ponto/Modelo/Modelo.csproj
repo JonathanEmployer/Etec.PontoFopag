@@ -319,6 +319,7 @@
     <Compile Include="LoteCalculo.cs" />
     <Compile Include="LoteCalculoFuncionario.cs" />
     <Compile Include="CercaVirtual.cs" />
+    <Compile Include="MarcacaoHorasExtrasPercentual.cs" />
     <Compile Include="OcorrenciaRestricao.cs" />
     <Compile Include="HorarioDinamicoRestricao.cs" />
     <Compile Include="HorarioRestricao.cs" />

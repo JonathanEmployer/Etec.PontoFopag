@@ -104,7 +104,7 @@ namespace BLL
             if (pAfastamentosAbsenteismo != null)
                 afastamentosAbsenteismo.AddRange(pAfastamentosAbsenteismo);
 
-            if (marcacoes == null)
+            if (marcacoes == null || marcacoes.Rows.Count == 0)
                 Marcacoes = bllMarcacao.GetParaTotalizaHoras(pIdFuncionario, pDataI, pDataF, false);
             else
                 Marcacoes = marcacoes;
@@ -195,10 +195,7 @@ namespace BLL
             {
                 InicializeTotalizadores();
 
-                PercentualHoraExtra[] HorariosPHExtra = new PercentualHoraExtra[10];
                 Modelo.HorarioDetalhe objHorarioDetalhe = new Modelo.HorarioDetalhe();
-                List<(TipoDiaAcumulo, Dictionary<decimal, AcumuloPercentual>)> acumulosTotais = new List<(TipoDiaAcumulo, Dictionary<decimal, AcumuloPercentual>)>();
-                Dictionary<TipoDiaAcumulo, Turno> acumulosParciais = new Dictionary<TipoDiaAcumulo, Turno>();
                 int idHorarioAnterior = 0;
                 Modelo.Horario horario = new Modelo.Horario();
                 objTotalHoras.totalInItinere = new List<pxyInItinerePorPercentual>();
@@ -245,8 +242,6 @@ namespace BLL
                     }
                     int dia = Modelo.cwkFuncoes.Dia(data);
                     int idhorario = PegaIdHorario(marc);
-
-                    AtribuaPercentuaisExtra(HorariosPHExtra, marc);
 
                     if (CarregaHorarioDetalhe(objHorarioDetalhe, marc))
                     {
@@ -330,8 +325,6 @@ namespace BLL
                         totalInterjornadaExtra += Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["horaExtraInterjornada"]);
                         totalExtraNoturnaBH += Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["exphorasextranoturna"]);
 
-                        PercentualHorasExtras.TotalizarPercentuaisDia(marc, HorariosPHExtra, objHorarioDetalhe.Flagfolga, trocaMes, dia, data, dataF, horaExtraNoturna, horaExtraDiurna, acumulosTotais, acumulosParciais);
-
                         TotalizeHorasAfastamento(objTotalHoras, objHorarioDetalhe, data);
 
                         #endregion
@@ -344,9 +337,16 @@ namespace BLL
                     initinere.PercentualForaJornada = marc["InItinerePercForaJornada"] is DBNull ? 0 : Convert.ToDecimal(marc["InItinerePercForaJornada"]);
                     objTotalHoras.totalInItinere.Add(initinere);
                 }
-                foreach ((TipoDiaAcumulo, Dictionary<decimal, AcumuloPercentual>) acumulo in acumulosTotais)
+
+                BLL.MarcacaoHorasExtrasPercentual bllMarcHorasExtrasPercent = new MarcacaoHorasExtrasPercentual(ConnectionString, UsuarioLogado);
+                objTotalHoras.lRateioHorasExtras = bllMarcHorasExtrasPercent.CalculaPercentualHorasExtra(idFuncionario, objTotalHoras.DataInicial, objTotalHoras.DataFinal);
+                foreach (var rateio in objTotalHoras.lRateioHorasExtras)
                 {
-                    PercentualHorasExtras.TotalizarPercentuaisExtra(objTotalHoras, acumulo);
+                    rateio.diurno = Modelo.cwkFuncoes.ConvertMinutosHora(4, rateio.diurnoMin);
+                    rateio.noturno = Modelo.cwkFuncoes.ConvertMinutosHora(4, rateio.noturnoMin);
+                    // RateioHorasExtras
+                    var t = new Turno() { Diurno = rateio.diurnoMin, Noturno = rateio.noturnoMin };
+                    objTotalHoras.RateioHorasExtras.Add(rateio.percentual, t);
                 }
                 AtribuaTotais(objTotalHoras);
             }

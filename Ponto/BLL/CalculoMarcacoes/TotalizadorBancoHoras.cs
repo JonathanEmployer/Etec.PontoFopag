@@ -280,7 +280,8 @@ namespace BLL.CalculoMarcacoes
         private void CalcularSaldos(Modelo.TotalHoras objTotalHoras)
         {
             //Saldo Atual
-            var saldoAtual = (string)marcacoes.Rows[marcacoes.Rows.Count - 1]["saldoBH"];
+            var saldoAtual = marcacoes.Rows.Count == 0 ? "00:00" : (string)marcacoes.Rows[marcacoes.Rows.Count - 1]["saldoBH"];
+
             if (saldoAtual == "00:00")
             {
                 objTotalHoras.saldoBHAtual = "00:00";
@@ -296,7 +297,7 @@ namespace BLL.CalculoMarcacoes
                 else
                 {
                     objTotalHoras.saldoBHAtual = saldoAtual;
-                    objTotalHoras.sinalSaldoBHAtual= '+';
+                    objTotalHoras.sinalSaldoBHAtual = '+';
 
                 }
             }
@@ -304,7 +305,7 @@ namespace BLL.CalculoMarcacoes
 
             //Saldo Anterior(um dia antes do periodo)
             var marAnt = bllMarcacao.GetPorFuncionario(idFuncionario, dataI.AddDays(-1), dataI.AddDays(-1), true);
-            var saldoAnt = marAnt[0].SaldoBH;
+            var saldoAnt = marAnt.Count == 0 ? "00:00" : marAnt[0].SaldoBH;
             if (saldoAnt == "00:00")
             {
                 objTotalHoras.saldoAnteriorBH = "00:00";
@@ -324,7 +325,7 @@ namespace BLL.CalculoMarcacoes
 
                 }
             }
-            
+
             //CALCULO DO PERIODO
             bool existeFechamento = false;
             Modelo.FechamentoBHD objFechamentoBHD = null;

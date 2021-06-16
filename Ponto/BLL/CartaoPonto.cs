@@ -179,7 +179,7 @@ namespace BLL
 
                         if (idhorario != idhorarioAnt)
                         {
-                            BLL.TotalizadorHorasFuncionario.AtribuaPercentuaisExtra(HorariosPHExtra, row);
+                            //BLL.TotalizadorHorasFuncionario.AtribuaPercentuaisExtra(HorariosPHExtra, row);
                             idhorarioAnt = idhorario;
                         }
 
@@ -333,10 +333,10 @@ namespace BLL
 
                         pPBRecalculo.incrementaPB(1);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
 
-                        throw;
+                        throw ex;
                     }
                 }
 

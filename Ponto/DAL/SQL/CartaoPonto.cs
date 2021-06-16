@@ -285,6 +285,7 @@ namespace DAL.SQL
                                                 , jors.saida_3 saida_3Substituido
                                                 , jors.saida_4 saida_4Substituido
                                                 , parametros.toleranciaAdicionalNoturno
+                                                , marcacao.SaldoBH
                                           FROM marcacao AS marcacao (NOLOCK)
                                          INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario
                                          INNER JOIN horario     ON horario.id = marcacao.idhorario

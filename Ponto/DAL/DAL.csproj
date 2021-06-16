@@ -287,6 +287,7 @@
     <Compile Include="IJustificativaRestricao.cs" />
     <Compile Include="ILoteCalculo.cs" />
     <Compile Include="ILoteCalculoFuncionario.cs" />
+    <Compile Include="IMarcacaoHorasExtrasPercentual.cs" />
     <Compile Include="IParametrosInternos.cs" />
     <Compile Include="IUsuarioControleAcesso.cs" />
     <Compile Include="IOcorrenciaRestricao.cs" />
@@ -308,6 +309,7 @@
     <Compile Include="SQL\AlertasRepAcompanhamento.cs" />
     <Compile Include="SQL\LoteCalculo.cs" />
     <Compile Include="SQL\LoteCalculoFuncionario.cs" />
+    <Compile Include="SQL\MarcacaoHorasExtrasPercentual.cs" />
     <Compile Include="SQL\ParametrosInternos.cs" />
     <Compile Include="SQL\JornadaAlternativaFuncionario.cs" />
     <Compile Include="SQL\CercaVirtual.cs" />
