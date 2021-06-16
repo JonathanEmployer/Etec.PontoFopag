@@ -505,7 +505,7 @@ namespace ProgressReporting.Controllers
                 try
                 {
                     BLL_N.ImportacaoBilhetesNova bllImp = new BLL_N.ImportacaoBilhetesNova(ConnectionString, usuarioLogado);
-                    log = bllImp.ImportacaoBilhete(objProgressBar, lstTipoBilhete, arquivo.FullName, 1, pIndividual, dsCodFuncionario, dataInicial, dataFinal, usuarioLogado);
+                    log = bllImp.ImportacaoBilhete(objProgressBar, lstTipoBilhete, arquivo.FullName, 1, pIndividual, dsCodFuncionario, dataInicial, dataFinal, usuarioLogado,null);
 
                     using (MemoryStream ms = new MemoryStream())
                     {

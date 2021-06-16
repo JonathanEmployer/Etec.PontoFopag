@@ -479,6 +479,7 @@ namespace DAL.SQL
                             , IdJornadaSubstituir = @IdJornadaSubstituir
 						WHERE id = @id";
 
+
             DELETE = @"  DELETE FROM marcacao WHERE id = @id";
 
             MAXCOD = @"  SELECT MAX(codigo) AS codigo FROM marcacao";

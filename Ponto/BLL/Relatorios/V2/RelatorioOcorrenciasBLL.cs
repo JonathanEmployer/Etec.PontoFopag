@@ -30,7 +30,7 @@ namespace BLL.Relatorios.V2
 				case 0:
 					texto = "relatório de ocorrências por data/funcionário";
 					nomedoarquivo = "relatório_de_ocorrências_por_data_funcionário_" + parms.InicioPeriodo.ToString("ddMMyyyy") + "_" + parms.FimPeriodo.ToString("ddMMyyyy");
-					arquivo = BLL.RelatorioExcelGenerico.Relatorio_de_Ocorrencias_por_Data_Funcionario(Dt);			
+					arquivo = BLL.RelatorioExcelGenerico.Relatorio_de_Ocorrencias_por_Funcionario_Data(Dt);			
 					break;
 				case 1:
 					texto = "relatório de ocorrências por funcionário/data";

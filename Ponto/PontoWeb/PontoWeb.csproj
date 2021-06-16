@@ -1937,6 +1937,7 @@
     <Content Include="Views\CercaVirtual\EventoConsulta.cshtml" />
     <Content Include="Views\RelatorioSubstituicaoJornada\SubstituicaoJornada.cshtml" />
     <Content Include="Views\RelatorioCartaoPontoExecaoHTML\CartaoPontoExcecaoHtml.cshtml" />
+    <Content Include="Views\ImportacaoBilhetes\ArquivosImportados.cshtml" />
     <Content Include="Views\RegistradorMassa\Grid.cshtml" />
     <Content Include="Views\RegistradorMassa\Cadastrar.cshtml" />
     <Content Include="Views\RegistradorMassa\SituacaoRegMassa.cshtml" />

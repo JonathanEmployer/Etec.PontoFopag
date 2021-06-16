@@ -134,12 +134,12 @@ namespace BLL
             maxcodMarcacao = dalMar.MaxCodigo();
         }
 
-        public bool ImportarBilhetes(string pDsCodigo, bool pManutBilhete, DateTime? pDataImpI, DateTime? pDataImpF, out DateTime? pdatai, out DateTime? pdataf, Modelo.ProgressBar pProgressBar, List<string> pLog)
+        public bool ImportarBilhetes(string pDsCodigo, bool pManutBilhete, DateTime? pDataImpI, DateTime? pDataImpF, out DateTime? pdatai, out DateTime? pdataf, Modelo.ProgressBar pProgressBar, List<string> pLog,bool? bRazaoSocial)
         {
             List<string> Funcsprocessar = new List<string>();
-            return ImportarBilhetes(pDsCodigo, pManutBilhete, pDataImpI, pDataImpF, out pdatai, out pdataf, pProgressBar, pLog, out Funcsprocessar);
+            return ImportarBilhetes(pDsCodigo, pManutBilhete, pDataImpI, pDataImpF, out pdatai, out pdataf, pProgressBar, pLog, out Funcsprocessar , bRazaoSocial);
         }
-        public bool ImportarBilhetes(string pDsCodigo, bool pManutBilhete, DateTime? pDataImpI, DateTime? pDataImpF, out DateTime? pdatai, out DateTime? pdataf, Modelo.ProgressBar pProgressBar, List<string> pLog, out List<string> FuncsProcessados)
+        public bool ImportarBilhetes(string pDsCodigo, bool pManutBilhete, DateTime? pDataImpI, DateTime? pDataImpF, out DateTime? pdatai, out DateTime? pdataf, Modelo.ProgressBar pProgressBar, List<string> pLog, out List<string> FuncsProcessados ,bool? bRazaoSocial)
         {
             jornadaAlternativaList = null;
             horariosOrdenaSaidaList = null;
@@ -1640,19 +1640,30 @@ namespace BLL
             bool ordenaBilheteSaida = Convert.ToBoolean(dr["horario_ordenabilhetesaida"]);
             object[] jornada = new object[8];
             legenda = "";
-            idhorario = 0;
+            idhorario = (int)dr["idhorario"];
             tipohoraextrafalta = Convert.ToInt16(dr["tipohoraextrafalta"]);
             bllMarcacao.VerificaMudancaHorario(Convert.ToInt32(dr["funcionarioid"]), pData, mudancaHorarioList, ref legenda, ref idhorario);
-            if (idhorario > 0)
-            {
-                tiposHoraExtraFalta.TryGetValue(idhorario, out tipohoraextrafalta);
-            }
 
+            Modelo.HorarioDetalhe hd = new Modelo.HorarioDetalhe();
             if (ordenaBilheteSaida)
             {
-                if (horariosOrdenaSaidaList == null)
+                if (horariosOrdenaSaidaList == null || (horariosOrdenaSaidaList != null && !horariosOrdenaSaidaList.ContainsKey(idhorario)))
                 {
-                    horariosOrdenaSaidaList = dalHorarioDetalhe.LoadHorariosOrdenaSaida();
+                    var horarioCarregado = dalHorarioDetalhe.LoadHorariosOrdenaSaida(idhorario);
+                    if (horariosOrdenaSaidaList == null)
+                    {
+                        horariosOrdenaSaidaList = horarioCarregado;
+                    }
+                    else
+                    {
+                        foreach (DictionaryEntry entry in horarioCarregado)
+                        {
+                            if (!horariosOrdenaSaidaList.ContainsKey(entry.Key))
+                            {
+                                horariosOrdenaSaidaList.Add(entry.Key, entry.Value);
+                            }
+                        }
+                    }
                 }
                 int key;
                 if (idhorario > 0 && horariosOrdenaSaidaList.ContainsKey(idhorario))
@@ -1660,20 +1671,25 @@ namespace BLL
                 else
                     key = (int)dr["idhorario"];
                 Modelo.pxyHorarioDetalheImportacao horario = (Modelo.pxyHorarioDetalheImportacao)horariosOrdenaSaidaList[key];
-                Modelo.HorarioDetalhe hd;
-                IEnumerable<Modelo.HorarioDetalhe> auxHor;
-                if (horario.tipoHorario == 1)
+                IEnumerable<Modelo.HorarioDetalhe> auxHor = new List<Modelo.HorarioDetalhe>();
+                if (horario != null && horario.horariosDetalhe != null)
                 {
-                    auxHor = horario.horariosDetalhe.Where(h => h.Dia == Modelo.cwkFuncoes.Dia(pData));
+                    if (horario.tipoHorario == 1)
+                    {
+                        auxHor = horario.horariosDetalhe.Where(h => h.Dia == Modelo.cwkFuncoes.Dia(pData));
+                    }
+                    else
+                    {
+                        auxHor = horario.horariosDetalhe.Where(h => h.Data == pData);
+                    } 
                 }
-                else
-                {
-                    auxHor = horario.horariosDetalhe.Where(h => h.Data == pData);
-                }
-                if (auxHor.Count() > 0)
+                if (auxHor.Any())
                     hd = auxHor.First();
                 else
                     hd = new Modelo.HorarioDetalhe();
+            }
+            if (ordenaBilheteSaida && hd != null && hd.Id > 0)
+            { 
 
                 jornada[0] = hd.EntradaMin_1;
                 jornada[1] = hd.EntradaMin_2;
@@ -2317,7 +2333,7 @@ namespace BLL
             {
                 DateTime? dataInicial;
                 DateTime? dataFinal;
-                if (ImportarBilhetes(funcReprocessar.DsCodigo, false, funcReprocessar.DataInicial, funcReprocessar.DataFinal, out dataInicial, out dataFinal, cwkFuncoes.ProgressVazia(), pLog))
+                if (ImportarBilhetes(funcReprocessar.DsCodigo, false, funcReprocessar.DataInicial, funcReprocessar.DataFinal, out dataInicial, out dataFinal, cwkFuncoes.ProgressVazia(), pLog,null))
                 {
                     BLL.CalculaMarcacao bllCalculaMarcacao = new CalculaMarcacao(2, funcReprocessar.IdFuncionario, dataInicial.Value, dataFinal.Value.AddDays(1), cwkFuncoes.ProgressVazia(), false, ConnectionString, UsuarioLogado, false);
                     bllCalculaMarcacao.CalculaMarcacoes();
