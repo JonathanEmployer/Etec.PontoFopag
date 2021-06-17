@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Modelo.Proxy;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -249,6 +250,38 @@ namespace DAL.SQL
             }
             return lista;
 
+        }
+
+        public List<HoraExtraFuncionarioDia> CalculaHoraExtraPorIdsMarcacao(List<int> idsMarcacao)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@IdsMarcacoes", SqlDbType.VarChar),
+            };
+            parms[0].Value = string.Join(",", idsMarcacao);
+
+            string sql = @"SELECT	idfuncionario,
+		                            data as DataMarcacao,
+		                            Percentual,
+		                            [dbo].CONVERTHORAMINUTO(ISNULL(Diurna, 0)) AS HoraDiurna,
+		                            [dbo].CONVERTHORAMINUTO(ISNULL(Noturna, 0)) AS HoraNoturna
+                           FROM marcacao m
+                           LEFT JOIN MarcacaoHorasExtrasPercentual pe ON m.id = pe.IdMarcacao
+                           WHERE m.id in (SELECT * FROM dbo.F_ClausulaIn(@IdsMarcacoes))";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+
+            List<HoraExtraFuncionarioDia> lista = new List<HoraExtraFuncionarioDia>();
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, HoraExtraFuncionarioDia>();
+                lista = AutoMapper.Mapper.Map<List<HoraExtraFuncionarioDia>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return lista;
         }
     }
 }

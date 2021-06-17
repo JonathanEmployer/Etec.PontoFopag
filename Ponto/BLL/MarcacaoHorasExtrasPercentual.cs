@@ -98,6 +98,11 @@ namespace BLL
             return dalMarcHoraExtraPercent.CarregarPorPeriodoFunc(idFunc, dataInicial, dataFinal);
         }
 
+        public List<Modelo.Proxy.HoraExtraFuncionarioDia> CalculaHoraExtraPorIdsMarcacao(List<int> idsMarcacao)
+        {
+            return dalMarcHoraExtraPercent.CalculaHoraExtraPorIdsMarcacao(idsMarcacao);
+
+        }
 
 
     }

@@ -1,4 +1,5 @@
 ﻿using Modelo;
+using Modelo.Proxy;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,6 +14,7 @@ namespace DAL
 
         List<Modelo.RateioHorasExtras> CarregarPorPeriodoFunc(int idFunc, DateTime dataI, DateTime dataF);
         MarcacaoHorasExtrasPercentual LoadObject(int id);
+        List<HoraExtraFuncionarioDia> CalculaHoraExtraPorIdsMarcacao(List<int> idsMarcacao);
     }
 
 }

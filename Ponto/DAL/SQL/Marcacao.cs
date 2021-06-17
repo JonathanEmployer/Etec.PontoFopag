@@ -5639,20 +5639,12 @@ WHERE
 
             #region Select Otimizado
             aux = @"
-                DROP TABLE IF EXISTS #horariophextra;
                 DROP TABLE IF EXISTS #funcionarios;
-                DROP TABLE IF EXISTS #funcionariobancodehoras;
                 DROP TABLE IF EXISTS #Marcacao;
                 DROP TABLE IF EXISTS #bilhetesimp;
-                SELECT *
-                INTO #horariophextra
-                FROM dbo.FnGethorariophextra();
                 SELECT Identificador AS idfuncionario
                 INTO #funcionarios
                 FROM @Identificadores;
-                SELECT id, idfuncionario, data, Hra_Banco_Horas
-                INTO #funcionariobancodehoras
-                FROM [dbo].[F_BancoHorasNew](@datainicial, @datafinal, @Identificadores);
                 SELECT *
                 INTO #Marcacao
                 FROM dbo.VW_Marcacao vm WITH ( NOLOCK )
@@ -5664,15 +5656,13 @@ WHERE
                 WHERE bs.mar_data BETWEEN @datainicial AND @datafinal
                 AND bs.dscodigo in (select dscodigo from #Marcacao);
 
-
-
                 WITH funcionarios AS (SELECT * FROM #funcionarios)
-                , horariophextra AS (SELECT * FROM #horariophextra)
-                , funcionariobancodehoras AS (SELECT * FROM #funcionariobancodehoras)
                 , view_Marcacao AS (SELECT * FROM #Marcacao )
                 , w_bilhetesimp AS (SELECT * FROM #bilhetesimp)
                 /*Select para o relatório*/
-                SELECT CONVERT(VARCHAR(10), vm.data, 103) 'Data' ,
+                SELECT
+                vm.id,
+                CONVERT(VARCHAR(10), vm.data, 103) 'Data' ,
                 vm.dia 'Dia' ,
                 vm.nome 'Nome' ,
                 vm.matricula 'Matrícula' ,
@@ -5736,47 +5726,6 @@ WHERE
                 vm.considerasabadosemana 'considerasabadosemana' ,
                 vm.consideradomingosemana 'consideradomingosemana' ,
                 vm.tipoacumulo 'tipoacumulo' ,
-                /*Ver possibilidade de fazer PIVOT*/
-                ISNULL(hphe.percextraprimeiro1, 0) AS 'percextraprimeiro1' ,
-                hphe.tipoacumulo1 AS tipoacumulo1 ,
-                ISNULL(hphe.percextraprimeiro2, 0) AS 'percextraprimeiro2' ,
-                hphe.tipoacumulo2 AS tipoacumulo2 ,
-                ISNULL(hphe.percextraprimeiro3, 0) AS 'percextraprimeiro3' ,
-                hphe.tipoacumulo3 AS tipoacumulo3 ,
-                ISNULL(hphe.percextraprimeiro4, 0) AS 'percextraprimeiro4' ,
-                hphe.tipoacumulo4 AS tipoacumulo4 ,
-                ISNULL(hphe.percextraprimeiro5, 0) AS 'percextraprimeiro5' ,
-                hphe.tipoacumulo5 AS tipoacumulo5 ,
-                ISNULL(hphe.percextraprimeiro6, 0) AS 'percextraprimeiro6' ,
-                hphe.tipoacumulo6 AS tipoacumulo6 ,
-                ISNULL(hphe.percextraprimeiro7, 0) AS 'percextraprimeiro7' ,
-                hphe.tipoacumulo7 AS tipoacumulo7 ,
-                ISNULL(hphe.percextraprimeiro8, 0) AS 'percextraprimeiro8' ,
-                hphe.tipoacumulo8 AS tipoacumulo8 ,
-                ISNULL(hphe.percextraprimeiro9, 0) AS 'percextraprimeiro9' ,
-                hphe.tipoacumulo9 AS tipoacumulo9 ,
-                ISNULL(hphe.percextraprimeiro10, 0) AS 'percextraprimeiro10' ,
-                hphe.tipoacumulo10 AS 'tipoacumulo10' ,
-                hphe.percentualextra50 ,
-                hphe.quantidadeextra50 ,
-                hphe.percentualextra60 ,
-                hphe.quantidadeextra60 ,
-                hphe.percentualextra70 ,
-                hphe.quantidadeextra70 ,
-                hphe.percentualextra80 ,
-                hphe.quantidadeextra80 ,
-                hphe.percentualextra90 ,
-                hphe.quantidadeextra90 ,
-                hphe.percentualextra100 ,
-                hphe.quantidadeextra100 ,
-                hphe.percentualextrasab ,
-                hphe.quantidadeextrasab ,
-                hphe.percentualextradom ,
-                hphe.quantidadeextradom ,
-                hphe.percentualextrafer ,
-                hphe.quantidadeextrafer ,
-                hphe.percentualextrafol ,
-                hphe.quantidadeextrafol ,
                 horariodetalhenormal.totaltrabalhadadiurna AS 'chdiurnanormal' ,
                 horariodetalhenormal.totaltrabalhadanoturna AS 'chnoturnanormal' ,
                 horariodetalhenormal.flagfolga AS 'flagfolganormal' ,
@@ -5800,45 +5749,13 @@ WHERE
                 vm.legenda 'legenda' ,
                 vm.LegendasConcatenadas 'LegendasConcatenadas' ,
                 vm.AdicionalNoturno 'AdicionalNoturno' ,
-                ISNULL(banco.Hra_Banco_Horas, '00:00') AS 'Hra_Banco_Horas' ,
+                ISNULL(vm.SaldoBH, '00:00') AS 'Hra_Banco_Horas' ,
                 vm.idhorario,
-                hphe.percentualextraNoturna50,
-                hphe.quantidadeextraNoturna50,
-                hphe.percentualextraNoturna60,
-                hphe.quantidadeextraNoturna60,
-                hphe.percentualextraNoturna70,
-                hphe.quantidadeextraNoturna70,
-                hphe.percentualextraNoturna80,
-                hphe.quantidadeextraNoturna80,
-                hphe.percentualextraNoturna90,
-                hphe.quantidadeextraNoturna90,
-                hphe.percentualextraNoturna100,
-                hphe.quantidadeextraNoturna100,
-                hphe.percentualextraNoturnasab,
-                hphe.quantidadeextraNoturnasab,
-                hphe.percentualextraNoturnadom,
-                hphe.quantidadeextraNoturnadom,
-                hphe.percentualextraNoturnafer,
-                hphe.quantidadeextraNoturnafer,
-                hphe.percentualextraNoturnafol,
-                hphe.quantidadeextraNoturnafol,
-                hphe.percextraprimeiroNoturna1,
-                hphe.percextraprimeiroNoturna2,
-                hphe.percextraprimeiroNoturna3,
-                hphe.percextraprimeiroNoturna4,
-                hphe.percextraprimeiroNoturna5,
-                hphe.percextraprimeiroNoturna6,
-                hphe.percextraprimeiroNoturna7,
-                hphe.percextraprimeiroNoturna8,
-                hphe.percextraprimeiroNoturna9,
-                hphe.percextraprimeiroNoturna10,
                 vm.SeparaExtraNoturnaPercentual
                 FROM view_Marcacao vm WITH ( NOLOCK )
                 JOIN funcionarios fff WITH ( NOLOCK ) ON vm.idfuncionario = fff.idfuncionario
                 LEFT JOIN funcionario f WITH ( NOLOCK ) ON vm.idfuncionario = f.id
                 LEFT JOIN TipoVinculo tv WITH ( NOLOCK ) ON f.IdTipoVinculo = tv.id
-                LEFT JOIN funcionariobancodehoras banco ON vm.id = banco.id
-                LEFT JOIN horariophextra hphe ON hphe.idhorario = vm.idhorario
                 LEFT JOIN horariodetalhe horariodetalhenormal WITH ( NOLOCK ) ON horariodetalhenormal.idhorario = vm.idhorario
                 AND vm.tipohorario = 1
                 AND horariodetalhenormal.diadescricao = vm.dia
@@ -5877,9 +5794,7 @@ WHERE
                 vm.data ,
                 vm.matricula;
 
-                DROP TABLE IF EXISTS #horariophextra;
                 DROP TABLE IF EXISTS #funcionarios;
-                DROP TABLE IF EXISTS #funcionariobancodehoras;
                 DROP TABLE IF EXISTS #Marcacao;
                 DROP TABLE IF EXISTS #bilhetesimp;
                 ";

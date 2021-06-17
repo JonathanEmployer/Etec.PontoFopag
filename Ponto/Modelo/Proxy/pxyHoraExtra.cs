@@ -47,4 +47,15 @@ namespace Modelo.Proxy
         public Dictionary<TipoDiaAcumulo, Turno> Semanal { get; set; }
         public Dictionary<TipoDiaAcumulo, Turno> Mensal { get; set; }
     }
+
+    public class HoraExtraFuncionarioDia
+    {
+        public int IdFuncionario { get; set; }
+        public DateTime DataMarcacao { get; set; }
+        public decimal Percentual { get; set; }
+        public int HoraDiurna { get; set; }
+        public int HoraNoturna { get; set; }
+
+    }
+
 }

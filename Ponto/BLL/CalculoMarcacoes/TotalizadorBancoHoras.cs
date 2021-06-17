@@ -282,7 +282,7 @@ namespace BLL.CalculoMarcacoes
             //Saldo Atual
             var saldoAtual = marcacoes.Rows.Count == 0 ? "00:00" : (string)marcacoes.Rows[marcacoes.Rows.Count - 1]["saldoBH"];
 
-            if (saldoAtual == "00:00")
+            if (saldoAtual == "00:00" || saldoAtual == "---:--" || saldoAtual == "--:--")
             {
                 objTotalHoras.saldoBHAtual = "00:00";
                 objTotalHoras.sinalSaldoBHAtual = new char();
@@ -306,7 +306,7 @@ namespace BLL.CalculoMarcacoes
             //Saldo Anterior(um dia antes do periodo)
             var marAnt = bllMarcacao.GetPorFuncionario(idFuncionario, dataI.AddDays(-1), dataI.AddDays(-1), true);
             var saldoAnt = marAnt.Count == 0 ? "00:00" : marAnt[0].SaldoBH;
-            if (saldoAnt == "00:00")
+            if (saldoAnt == "00:00" || saldoAnt == "---:--" || saldoAnt == "--:--")
             {
                 objTotalHoras.saldoAnteriorBH = "00:00";
                 objTotalHoras.sinalSaldoAnteriorBH = new char();
