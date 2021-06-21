@@ -174,7 +174,7 @@ namespace BLL
                     }
 
 
-                    if (relogio.GetType() == typeof(cwkPontoMT.Integracao.Relogios.TopData.InnerRepBarras2i) ||
+                    if (relogio.GetType() == typeof(cwkPontoMT.Integracao.Relogios.TopData.InnerRep) ||
                         relogio.GetType() == typeof(cwkPontoMT.Integracao.Relogios.TopData.InnerRepPlus) ||
                         relogio.GetType() == typeof(cwkPontoMT.Integracao.Relogios.Henry.PrismaSuperFacil) ||
                         relogio.GetType() == typeof(cwkPontoMT.Integracao.Relogios.Dimep.DimepPrintPoint) ||
