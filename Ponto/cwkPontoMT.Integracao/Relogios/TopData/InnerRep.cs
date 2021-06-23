@@ -71,7 +71,7 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
 
         private void Logar(string mensagem)
         {
-            Logar($"{NumeroSerie} - {mensagem}");
+            log.Info($"{NumeroSerie} - {mensagem}");
         }
 
         public override List<RegistroAFD> GetAFD(DateTime dataI, DateTime dataF)
@@ -274,20 +274,22 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
                     throw new Exception("Número de dígitos incompatível, valores aceitos (3,5,6,14 ou 16)");
             }
 
-            if (Empregador != null)
+            if (Empregador == null)
             {
-                Logar("Enviando Empresa");
-                if (Empregador.RazaoSocial.Length > 150)
-                    Empregador.RazaoSocial = Empregador.RazaoSocial.Substring(0, 150);
-                Empregador.Documento = Empregador.Documento.Replace(".", "").Replace("/", "").Replace("-", "");
-
-                ret = innerRep.ConfiguraEmpregador(Empregador.RazaoSocial, Empregador.Documento, Empregador.CEI, (int)Empregador.TipoDocumento);
-                if (ret > 0)
-                {
-                    Logar("Erro enviar empregador, codigo = " + ret);
-                    MensagemErroEmpresa(logRet, ret);
-                } 
+                throw new Exception("Para enviar empregados para o modelo de equipamento Inner Rep é necessário enviar os dados da empresa também, remova o envio pendente e refaça a operação enviando os dados da empresa juntos com os funcionários.");
             }
+
+            Logar("Enviando Empresa");
+            if (Empregador.RazaoSocial.Length > 150)
+                Empregador.RazaoSocial = Empregador.RazaoSocial.Substring(0, 150);
+            Empregador.Documento = Empregador.Documento.Replace(".", "").Replace("/", "").Replace("-", "");
+
+            ret = innerRep.ConfiguraEmpregador(Empregador.RazaoSocial, Empregador.Documento, Empregador.CEI, (int)Empregador.TipoDocumento);
+            if (ret > 0)
+            {
+                Logar("Erro enviar empregador, codigo = " + ret);
+                MensagemErroEmpresa(logRet, ret);
+            } 
 
             innerRep.LimpaListaEmpregados();
 
