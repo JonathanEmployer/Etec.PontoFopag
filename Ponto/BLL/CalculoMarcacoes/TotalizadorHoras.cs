@@ -332,7 +332,7 @@ namespace BLL
 
                         PercentualHorasExtras.TotalizarPercentuaisDia(marc, HorariosPHExtra, objHorarioDetalhe.Flagfolga, trocaMes, dia, data, dataF, horaExtraNoturna, horaExtraDiurna, acumulosTotais, acumulosParciais);
 
-                        TotalizeHorasAfastamento(objTotalHoras, objHorarioDetalhe, data);
+                        TotalizeHorasAfastamento(objTotalHoras, objHorarioDetalhe, data, marc);
 
                         #endregion
                     }
@@ -577,7 +577,7 @@ namespace BLL
             totalFaltas = 0; horasfaltasD = 0; horasfaltasN = 0; totalHorasInItinerePercDentroJornada = 0; totalHorasInItinerePercForaJornada = 0; totalAdNoturno = 0;
         }
 
-        private void TotalizeHorasAfastamento(Modelo.TotalHoras objTotalHoras, Modelo.HorarioDetalhe objHorarioDetalhe, DateTime data)
+        private void TotalizeHorasAfastamento(Modelo.TotalHoras objTotalHoras, Modelo.HorarioDetalhe objHorarioDetalhe, DateTime data, DataRow marc)
         {
             foreach (var item in objTotalHoras.EventosAfastamentos)
             {
@@ -615,7 +615,23 @@ namespace BLL
                     }
                     else if (afastamento.Abonado == 1)
                     {
-                        item.TotalHoras += objHorarioDetalhe.TotaltrabalhadadiurnaMin + objHorarioDetalhe.TotaltrabalhadanoturnaMin + objHorarioDetalhe.CargahorariamistaMin;
+                        int horaExtraNoturna = Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["horasextranoturna"]);
+                        int horaExtraDiurna = Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["horasextrasdiurna"]);
+                        int totalTrabDiurna = Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["horastrabalhadas"]);
+                        int totalTrabNoturna = Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["horastrabalhadasnoturnas"]);
+                        int bancoHorasCre = Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["bancohorascre"]);
+                        //Verifica se no dia foi considerada algum tipo de hora trabalhada
+                        if (horaExtraNoturna > 0 || horaExtraDiurna > 0 || totalTrabDiurna > 0 || totalTrabNoturna > 0 || bancoHorasCre > 0)
+                        {
+                            if (objHorarioDetalhe.CargahorariamistaMin > 0)
+                            {
+                                item.TotalHoras += objHorarioDetalhe.CargahorariamistaMin;
+                            }
+                            else
+                            {
+                                item.TotalHoras += objHorarioDetalhe.TotaltrabalhadadiurnaMin + objHorarioDetalhe.TotaltrabalhadanoturnaMin;
+                            } 
+                        }
                     }
                 }
             }

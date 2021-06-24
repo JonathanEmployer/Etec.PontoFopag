@@ -701,7 +701,6 @@
     <Compile Include="Relogios\Madis\MDREPPrintPoint.cs" />
     <Compile Include="Relogios\Proveu\KuruminRepIIMax.cs" />
     <Compile Include="Relogios\RWTech\Pointline_BIOPROX_C.cs" />
-    <Compile Include="Relogios\TopData\InnerRepBarras2i.cs" />
     <Compile Include="Relogios\ZPM\ZPM_R130.cs" />
     <Compile Include="Relogios\ControlID\IDXBio.cs" />
     <Compile Include="Entidades\Empresa.cs" />
