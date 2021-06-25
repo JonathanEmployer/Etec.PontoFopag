@@ -1631,7 +1631,7 @@ namespace BLL
 
         #region InclusãoBancoHoras
 
-        public void InclusaoBancoHoras(ref int CreditoBH, ref int DebitoBH, int pIdFuncionario, Modelo.BancoHoras bdh)
+        public void InclusaoBancoHoras(ref int CreditoBH, ref int DebitoBH, int pIdFuncionario, Modelo.BancoHoras bdh, string nomeFuncionario = null)
         {
             int credito = 0;
             int debito = 0;
@@ -1709,6 +1709,19 @@ namespace BLL
 
                 bancoHorasCre = Modelo.cwkFuncoes.ConvertMinutosHora2(3, CreditoBH) != "000:00" ? Modelo.cwkFuncoes.ConvertMinutosHora(3, CreditoBH) : "---:--";
                 bancoHorasDeb = Modelo.cwkFuncoes.ConvertMinutosHora2(3, DebitoBH) != "000:00" ? Modelo.cwkFuncoes.ConvertMinutosHora(3, DebitoBH) : "---:--"; ;
+
+                if (bancoHorasDeb != "000:00" && Modelo.cwkFuncoes.ConvertHorasMinuto(bancoHorasDeb) > 59940)
+                {
+                    //Verifica se tem mais de 1000 horas, vai dar erro no banco!!!!!!
+                    Exception a = new Exception("Houve um erro ao recalcular : O Funcionário está com um valor superior a 1000 horas em débito de banco de horas, Favor verificar! Valor: " + bancoHorasDeb + "Funcionário: " + pIdFuncionario + " - " + nomeFuncionario);
+                    throw a;
+                }
+                if (bancoHorasCre != "000:00" && Modelo.cwkFuncoes.ConvertHorasMinuto(bancoHorasCre) > 59940)
+                {
+                    //Verifica se tem mais de 1000 horas, vai dar erro no banco!!!!!!
+                    Exception a = new Exception("Houve um erro ao recalcular : O Funcionário está com um valor superior a 1000 horas em Crédito de banco de horas, Favor verificar! Valor: " + bancoHorasCre + "Funcionário: " + pIdFuncionario + " - " + nomeFuncionario);
+                    throw a;
+                }
             }
             else
             {
@@ -1747,6 +1760,20 @@ namespace BLL
 
                     bancoHorasCre = Modelo.cwkFuncoes.ConvertMinutosHora2(3, CreditoBH) != "000:00" ? Modelo.cwkFuncoes.ConvertMinutosHora2(3, CreditoBH) : "---:--";
                     bancoHorasDeb = Modelo.cwkFuncoes.ConvertMinutosHora2(3, DebitoBH) != "000:00" ? Modelo.cwkFuncoes.ConvertMinutosHora2(3, DebitoBH) : "---:--"; ;
+
+                    if (bancoHorasDeb != "000:00" && Modelo.cwkFuncoes.ConvertHorasMinuto(bancoHorasDeb) > 59940)
+                    {
+                        //Verifica se tem mais de 1000 horas, vai dar erro no banco!!!!!!
+                        Exception a = new Exception("Houve um erro ao recalcular: O Funcionário está com um valor superior a 1000 horas em débito de banco de horas, Favor verificar! Valor: " + bancoHorasDeb + "Funcionário: " + pIdFuncionario + " - " + nomeFuncionario);
+                        throw a;
+                    }
+                    if (bancoHorasCre != "000:00" && Modelo.cwkFuncoes.ConvertHorasMinuto(bancoHorasCre) > 59940)
+                    {
+                        //Verifica se tem mais de 1000 horas, vai dar erro no banco!!!!!!
+                        Exception a = new Exception("Houve um erro ao recalcular : O Funcionário está com um valor superior a 1000 horas em Crédito de banco de horas, Favor verificar! Valor: " + bancoHorasCre + "Funcionário: " + pIdFuncionario + " - " + nomeFuncionario);
+                        throw a;
+                    }
+
                 }
             }
 
@@ -2186,13 +2213,13 @@ namespace BLL
                     horasFaltaNoturnaMin = 0;
                 }
 
-                InclusaoBancoHoras(ref CreditoBH, ref DebitoBH, pIdFuncionario, objBancoHoras);
+                InclusaoBancoHoras(ref CreditoBH, ref DebitoBH, pIdFuncionario, objBancoHoras, marcacoes.FirstOrDefault()?.Funcionario);
             }
             else
             {
                 bancoHorasCre = "---:--";
                 bancoHorasDeb = "---:--";
-                InclusaoBancoHoras(ref CreditoBH, ref DebitoBH, pIdFuncionario, objBancoHoras);
+                InclusaoBancoHoras(ref CreditoBH, ref DebitoBH, pIdFuncionario, objBancoHoras, marcacoes.FirstOrDefault()?.Funcionario);
             }
             return true;
         }
