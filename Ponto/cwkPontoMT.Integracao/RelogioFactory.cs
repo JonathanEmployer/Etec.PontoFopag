@@ -40,7 +40,7 @@ namespace cwkPontoMT.Integracao
                 case TipoRelogio.DIXI_IDNOX:
                     return new Relogios.DIXI.IDNOX();
                 case TipoRelogio.InnerRepBarras2i:
-                    return new Relogios.TopData.InnerRepBarras2i();
+                    return new Relogios.TopData.InnerRep();
                 case TipoRelogio.Henry_Hexa:
                     return new Relogios.Henry.Hexa();
                 case TipoRelogio.Ahgora:
