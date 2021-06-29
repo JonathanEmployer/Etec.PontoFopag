@@ -676,16 +676,25 @@ namespace DAL.SQL
                         #region AtualizaFuncionario
                         //Atualiza o horário no cadastro de funcionário
                         SqlParameter[] parms = new SqlParameter[3]
-                                {
-                                      new SqlParameter("@id", SqlDbType.Int)
-                                    , new SqlParameter("@tipohorario", SqlDbType.Int)
-                                    , new SqlParameter("@idhorario", SqlDbType.Int)
-                                };
+                        {
+                            new SqlParameter("@id", SqlDbType.Int),
+                            new SqlParameter("@tipohorario", SqlDbType.Int),
+                            new SqlParameter("@idhorario", SqlDbType.Int)
+                        };
                         parms[0].Value = pMudanca.Idfuncionario;
                         parms[1].Value = pMudanca.Tipohorario_ant;
                         parms[2].Value = pMudanca.Idhorario_ant;
 
-                        aux = "UPDATE funcionario SET tipohorario = @tipohorario, idhorario = @idhorario WHERE id = @id";
+                        aux = @"UPDATE funcionario 
+                                SET
+                                tipohorario = @tipohorario,
+                                idhorario = @idhorario,
+                                idhorariodinamico = h.idHorarioDinamico,
+                                ciclosequenciaindice = h.cicloSequenciaIndice
+                                from 
+                                funcionario f
+                                left join horario h on @idhorario = h.id
+                                WHERE f.id = @id";
 
                         SqlCommand cmd = TransactDbOps.ExecNonQueryCmd(trans, CommandType.Text, aux, true, parms);
                         cmd.Parameters.Clear();
