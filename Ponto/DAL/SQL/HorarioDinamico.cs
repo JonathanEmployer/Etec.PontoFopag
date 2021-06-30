@@ -13,24 +13,28 @@ namespace DAL.SQL
     public class HorarioDinamico : DAL.SQL.DALBase, DAL.IHorarioDinamico
     {
         private DAL.SQL.HorarioDinamicoPHExtra _dalHorarioDinamicoPHExtra;
-        public DAL.SQL.HorarioDinamicoPHExtra dalHorarioDinamicoPHExtra {
+        public DAL.SQL.HorarioDinamicoPHExtra dalHorarioDinamicoPHExtra
+        {
             get { return _dalHorarioDinamicoPHExtra; }
             set { _dalHorarioDinamicoPHExtra = value; }
         }
 
         private DAL.SQL.HorarioDinamicoCiclo _dalHorarioDinamicoDinamicoCiclo;
-        public DAL.SQL.HorarioDinamicoCiclo dalHorarioDinamicoDinamicoCiclo {
+        public DAL.SQL.HorarioDinamicoCiclo dalHorarioDinamicoDinamicoCiclo
+        {
             get { return _dalHorarioDinamicoDinamicoCiclo; }
             set { _dalHorarioDinamicoDinamicoCiclo = value; }
         }
 
         private DAL.SQL.HorarioDinamicoCicloSequencia _dalHorarioDinamicoCicloSequencia;
-        public DAL.SQL.HorarioDinamicoCicloSequencia dalHorarioDinamicoCicloSequencia {
+        public DAL.SQL.HorarioDinamicoCicloSequencia dalHorarioDinamicoCicloSequencia
+        {
             get { return _dalHorarioDinamicoCicloSequencia; }
             set { _dalHorarioDinamicoCicloSequencia = value; }
         }
         private DAL.SQL.Parametros _dalParametros;
-        public DAL.SQL.Parametros dalParametros {
+        public DAL.SQL.Parametros dalParametros
+        {
             get { return _dalParametros; }
             set { _dalParametros = value; }
         }
@@ -566,7 +570,7 @@ namespace DAL.SQL
             {
                 cmd += AddPermissaoUsuario("h.id");
             }
-            
+
             List<Modelo.HorarioDinamico> listaHorario = new List<Modelo.HorarioDinamico>();
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, cmd, parms);
             while (dr.Read())
@@ -788,7 +792,7 @@ namespace DAL.SQL
                 {
                     ListaCicloInserir.ForEach(f => { f.IdhorarioDinamico = obj.Id; });
                     dalHorarioDinamicoDinamicoCiclo.InserirRegistros(ListaCicloInserir, trans);
-                } 
+                }
             }
         }
 
@@ -1051,7 +1055,7 @@ namespace DAL.SQL
                     }
                 }
             }
-            
+
         }
 
         public DataTable FuncionariosParaRecalculo(int idHorarioDinamico)
@@ -1083,7 +1087,7 @@ namespace DAL.SQL
             parms[0].Value = idHorarioDinamico;
 
             DataTable dt = new DataTable();
-          
+
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, query, parms);
             dt.Load(dr);
             if (!dr.IsClosed)
@@ -1132,6 +1136,36 @@ namespace DAL.SQL
                 }
             }
             return "";
+        }
+
+        public void ExcluirHorarioDetalhesDinamico(int idHorarioDinamico)
+        {
+            using (SqlConnection conn = db.GetConnection)
+            {
+                using (SqlTransaction trans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        SqlParameter[] parms = { new SqlParameter("@idhorarioDinamico", SqlDbType.VarChar) };
+                        parms[0].Value = idHorarioDinamico;
+
+                        string deleteHorarioDetalhe = @" DELETE hd
+                                                         FROM horariodetalhe hd
+                                                         INNER JOIN horario h ON hd.idhorario = h.id
+                                                         WHERE h.idHorarioDinamico= @idHorarioDinamico
+                                                         DELETE FROM horario 
+                                                         WHERE idHorarioDinamico = @idHorarioDinamico";
+                        TransactDbOps.ExecuteScalar(trans, CommandType.Text, deleteHorarioDetalhe, parms);
+                        trans.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        trans.Rollback();
+                        throw (ex);
+                    }
+                }
+            }
+
         }
         #endregion
     }
