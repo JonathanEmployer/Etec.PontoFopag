@@ -139,6 +139,8 @@ namespace DAL
 
         void DeleteLogicoFuncionariosInativos(int qtdMeses);
 
+        DataTable GetEmpresaPeriodoFechamentoPonto(params int[] idsFuncs);
+
     }
 }
 

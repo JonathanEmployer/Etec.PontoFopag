@@ -380,6 +380,58 @@ namespace DAL.SQL
             }
             return lista;
         }
+
+        public (int? Mes, int? Ano) GetMesAnoFechamento(int idFechamento, int idEmpresa, int idFuncionario)
+        {
+            SqlParameter[] parms = new SqlParameter[3]
+            {
+                new SqlParameter("@idempresa", SqlDbType.VarChar),
+                new SqlParameter("@idfuncionario", SqlDbType.VarChar),
+                new SqlParameter("@idfechamento", SqlDbType.VarChar)
+            };
+
+            parms[0].Value = idEmpresa;
+            parms[1].Value = idFuncionario;
+            parms[2].Value = idFechamento;
+
+            #region SQL 
+
+            var sql = @";WITH result(id, dataFechamento, mes, ano, row#)
+                        AS
+                        (
+                            select top 6 
+                                fp.id, 
+                                fp.dataFechamento,
+                                CAST(FORMAT(fp.dataFechamento,'MM') AS INT) as mes,
+                                CAST(FORMAT(fp.dataFechamento,'yyyy') AS INT) as ano,
+                                ROW_NUMBER() OVER(PARTITION BY FORMAT(fp.dataFechamento,'MMyyyy') ORDER BY f.Id ASC) AS Row#
+                            from FechamentoPonto fp
+                            inner join FechamentoPontoFuncionario ff on ff.idFechamentoPonto = fp.id
+                            inner join funcionario f on f.id = ff.idFuncionario
+                            inner join empresa e on e.id = f.idempresa
+                            where e.id = @idempresa and f.id = @idfuncionario
+                            order by fp.dataFechamento desc
+                        )
+
+                        SELECT 
+                            Id,
+                            dataFechamento,
+                            CAST(mes + (Row# - 1) AS INT) as mes,
+                            ano
+                        FROM result
+                        where id = @idfechamento";
+
+            #endregion
+
+            using (SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms))
+            {
+                if (dr.HasRows && dr.Read())
+                    return (dr.GetInt32(2), dr.GetInt32(3));
+            }
+
+            return (null, null);
+        }
+
         #endregion
     }
 }

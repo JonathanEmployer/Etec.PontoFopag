@@ -6340,5 +6340,52 @@ where 1=1
             return;
         }
 
+        
+        public DataTable GetEmpresaPeriodoFechamentoPonto(params int[] idsFuncs)
+        {
+            SqlParameter[] parms = new SqlParameter[1]
+            {
+                new SqlParameter("@idsFuncs", SqlDbType.Structured)
+            };
+            parms[0].Value = CreateDataTableIdentificadores(idsFuncs.Select(s => (long)s));
+            parms[0].TypeName = "Identificadores";
+
+            #region Select
+            string sql = @"SELECT id, idEmpresa, DiaFechamentoInicial, DiaFechamentoFinal
+                            FROM (
+                                SELECT 
+                                    tbl.*,
+                                    row_number() over(partition by tbl.id order by tbl.prioridade asc) as rowOrder 
+                                FROM (
+                                    SELECT f.id, f.idempresa, p.DiaFechamentoInicial, p.DiaFechamentoFinal, 1 prioridade
+                                    FROM dbo.funcionario f
+                                    INNER JOIN @idsFuncs i ON i.Identificador = f.id
+                                    CROSS JOIN (SELECT TOP 1 * FROM parametros ORDER BY parametros.codigo) p
+                                    UNION
+                                    SELECT f.id, e.id, e.DiaFechamentoInicial, e.DiaFechamentoFinal, 2 prioridade
+                                    FROM dbo.funcionario f
+                                    INNER JOIN @idsFuncs i ON i.Identificador = f.id
+                                    INNER JOIN dbo.empresa e ON e.id = f.idempresa
+                                    UNION
+                                    SELECT cf.idfuncionario, c.idempresa, c.DiaFechamentoInicial, c.DiaFechamentoFinal, 3 prioridade
+                                    FROM dbo.contrato c
+                                    INNER JOIN dbo.contratofuncionario cf ON c.id = cf.idcontrato
+                                    INNER JOIN @idsFuncs i ON i.Identificador = cf.idfuncionario
+                                ) tbl
+                                WHERE DiaFechamentoInicial > 0 AND DiaFechamentoFinal > 0
+                            ) tbl
+                            WHERE rowOrder = 1";
+            #endregion
+
+            DataTable dt = new DataTable();
+            using (SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms))
+            {
+                dt.Load(dr);
+                if (!dr.IsClosed)
+                    dr.Close();
+            }
+            return dt;
+        }
+
     }
 }

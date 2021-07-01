@@ -1,14 +1,13 @@
-﻿using Modelo;
+﻿using BLL_N.JobManager.Hangfire;
+using Modelo;
 using Modelo.Proxy;
+using Modelo.Relatorios;
 using PontoWeb.Controllers.BLLWeb;
 using PontoWeb.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 
 namespace PontoWeb.Controllers
 {
@@ -159,6 +158,11 @@ namespace PontoWeb.Controllers
                     }
                     else
                     {
+                        RelatorioCartaoPontoModel imp = new RelatorioCartaoPontoModel() { IdSelecionados = obj.PxyRelPontoWeb.idSelecionados, IdFechamentoPonto = obj.Id, TipoArquivo = "PDF" };
+                        Modelo.UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+                        HangfireManagerRelatorios hfm = new HangfireManagerRelatorios(UserPW.DataBase);
+                        hfm.RelatorioCartaoPontoFechamento(imp);
+
                         return RedirectToAction("Grid", "FechamentoPonto");
                     }
                 }
@@ -176,7 +180,7 @@ namespace PontoWeb.Controllers
             RelPadrao.InicioPeriodo = DateTime.Now;
             RelPadrao.FimPeriodo = DateTime.Now;
             obj.PxyRelPontoWeb = RelPadrao;
-
+                       
             return View("Cadastrar", obj);
         }
 

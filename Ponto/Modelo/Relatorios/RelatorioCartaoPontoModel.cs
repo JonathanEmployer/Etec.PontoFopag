@@ -16,5 +16,8 @@ namespace Modelo.Relatorios
 
         [Display(Name = "Quebra automática")]
         public bool quebraAuto { get; set; }
+
+        [Display(Name = "Id Fechamento Ponto")]
+        public int? IdFechamentoPonto { get; set; }
     }
 }

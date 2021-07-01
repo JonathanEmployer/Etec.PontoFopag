@@ -2173,5 +2173,18 @@ namespace BLL
             dalFuncionario.DeleteLogicoFuncionariosInativos(qtdMeses);
         }
 
+        /// <summary>
+        /// Retorna periodo das empresas pelo Id dos funcionarios
+        /// </summary>
+        /// <param name="idsFuncs"></param>
+        /// <returns>
+        /// DataTable Fields: 
+        /// id, idEmpresa, DiaFechamentoInicial, DiaFechamentoFinal
+        /// </returns>
+        public DataTable GetEmpresaPeriodoFechamentoPonto(params int[] idsFuncs)
+        {
+            return dalFuncionario.GetEmpresaPeriodoFechamentoPonto(idsFuncs);
+        }
+
     }
 }
