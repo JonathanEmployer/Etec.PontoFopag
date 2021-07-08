@@ -75,8 +75,10 @@ namespace BLL
             dalHorarioDetalhe.UsuarioLogado = usuarioLogado;
         }
 
+        
         public DataTable GetCartaoPontoRel(DateTime dataInicial, DateTime dataFinal, string empresas, string departamentos, string funcionarios, int tipo, int normalFlexivel, int idhorario, Modelo.ProgressBar pPBRecalculo, bool ordenaDeptoFuncionario, string filtro, bool quebraAuto)
         {
+            //Ajustes nesse método deve ser avaliado todos as chamadas, uma delas é a integração dos arquivos PDFs p/ Epays => RelatorioExportacaoFechamentoPontoBLL
             try
             {
                 BLL.JornadaAlternativa bllJornadaAlternativa = new BLL.JornadaAlternativa(ConnectionString, UsuarioLogado);

@@ -28,11 +28,11 @@ namespace BLL_N.JobManager.Hangfire
             return jobReturn;
         }
 
-        public void RelatorioCartaoPontoFechamento(IRelatorioModel parametros)
+        public void RelatorioExportacaoPontoFechamento(ExportacaoFechamentoPontoModel parametros)
         {
-            JobControl jobControl = GerarJobControl("Relatório Cartão Ponto Fechamento", GetDescricaoParametrosJob(parametros));
+            JobControl jobControl = GerarJobControl("Integração Epays", $"{parametros.IdSelecionados.Split(',').Count()} documento(s) processados(s).");
             jobControl.PermiteCancelar = true;
-            string idJob = new BackgroundJobClient().Create<RelatoriosJob>(x => x.GetRelatorioCartaoPontoFechamento(null, jobControl, (RelatorioCartaoPontoModel)parametros, dataBase, usuarioLogado), _enqueuedStateNormal);
+            string idJob = new BackgroundJobClient().Create<RelatoriosJob>(x => x.GetRelatorioExportacaoPontoFechamento(null, jobControl, parametros, dataBase, usuarioLogado), _enqueuedStateNormal);
         }
 
         public Modelo.Proxy.PxyJobReturn RelatorioAbsenteismo(IRelatorioModel parametros)

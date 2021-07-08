@@ -4,9 +4,12 @@ using Modelo.Proxy;
 using Modelo.Relatorios;
 using PontoWeb.Controllers.BLLWeb;
 using PontoWeb.Security;
+using PontoWeb.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 
 namespace PontoWeb.Controllers
@@ -99,6 +102,7 @@ namespace PontoWeb.Controllers
         {
             BLL.FechamentoPonto bllFechamentoPonto = new BLL.FechamentoPonto(_usr.ConnectionString, _usr);
             BLL.FechamentoPontoFuncionario bllFechamentoPontoFunc = new BLL.FechamentoPontoFuncionario(_usr.ConnectionString, _usr);
+
             //ValidarForm(obj);
             if (ModelState.IsValid)
             {
@@ -107,7 +111,6 @@ namespace PontoWeb.Controllers
                     List<int> idsFuncionariosSelecionados = new List<int>();
                     try
                     {
-
                         idsFuncionariosSelecionados = obj.PxyRelPontoWeb.idSelecionados.Split(',').ToList().Select(s => int.Parse(s)).ToList();
                     }
                     catch (Exception)
@@ -158,10 +161,7 @@ namespace PontoWeb.Controllers
                     }
                     else
                     {
-                        RelatorioCartaoPontoModel imp = new RelatorioCartaoPontoModel() { IdSelecionados = obj.PxyRelPontoWeb.idSelecionados, IdFechamentoPonto = obj.Id, TipoArquivo = "PDF" };
-                        Modelo.UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
-                        HangfireManagerRelatorios hfm = new HangfireManagerRelatorios(UserPW.DataBase);
-                        hfm.RelatorioCartaoPontoFechamento(imp);
+                        ExportToEpays(obj, idsFuncionariosSelecionados);
 
                         return RedirectToAction("Grid", "FechamentoPonto");
                     }
@@ -182,6 +182,60 @@ namespace PontoWeb.Controllers
             obj.PxyRelPontoWeb = RelPadrao;
                        
             return View("Cadastrar", obj);
+        }
+
+        private void ExportToEpays(FechamentoPonto obj, List<int> idsFuncionariosSelecionados)
+        {
+            idsFuncionariosSelecionados = GetIdsEnabledEpays(idsFuncionariosSelecionados);
+            if (idsFuncionariosSelecionados.Count > 0)
+            {
+                ExportacaoFechamentoPontoModel imp = new ExportacaoFechamentoPontoModel()
+                {
+                    IdSelecionados = string.Join(",", idsFuncionariosSelecionados),
+                    IdFechamentoPonto = obj.Id,
+                    TipoArquivo = "PDF"
+                };
+                Modelo.UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+                HangfireManagerRelatorios hfm = new HangfireManagerRelatorios(UserPW.DataBase);
+                hfm.RelatorioExportacaoPontoFechamento(imp);
+            }
+        }
+
+        private List<int> GetIdsEnabledEpays(List<int> idsFuncionariosSelecionados)
+        {
+            BLL.Empresa empresa = new BLL.Empresa(_usr.ConnectionString, _usr);
+            var empFuncs = empresa.GetCnpjsByFuncIds(idsFuncionariosSelecionados.ToArray());
+            var cnpjs = empFuncs.Select(e => e.cnpj).Distinct().ToList();
+
+            var lsCnpjEx = new List<string>();
+            cnpjs.ForEach(c =>
+            {
+                if (!HasConfigEPays(c))
+                    lsCnpjEx.Add(c);
+            });
+
+            return empFuncs.Where(e => !lsCnpjEx.Contains(e.cnpj)).Select(e => e.idFuncionario).ToList();
+        }
+
+        private string GetDataBaseName()
+        {
+            return new Regex(@"(Catalog=[A-Z]*_[A-Z]*)").Match(_usr.ConnectionString).Value.Replace("Catalog=", "");
+        }
+
+        private bool HasConfigEPays(string cnpj)
+        {
+            var ePaysConfig = new EPaysConfig();
+            var result = ePaysConfig.GetToken(GetDataBaseName(), cnpj);
+
+            if (result.StatusCode == HttpStatusCode.OK)
+            {
+                return !string.IsNullOrEmpty(result.Data.UserEPays)
+                        && !string.IsNullOrEmpty(result.Data.PasswordEPays)
+                            && !string.IsNullOrEmpty(result.Data.TokenPontofopag)
+                                && result.Data.EnableEPays;
+            }
+
+            return false;
         }
 
         protected override ActionResult GetPagina(int id)

@@ -6341,13 +6341,13 @@ where 1=1
         }
 
         
-        public DataTable GetEmpresaPeriodoFechamentoPonto(params int[] idsFuncs)
+        public DataTable GetEmpresaPeriodoFechamentoPonto(params int[] ids)
         {
             SqlParameter[] parms = new SqlParameter[1]
             {
                 new SqlParameter("@idsFuncs", SqlDbType.Structured)
             };
-            parms[0].Value = CreateDataTableIdentificadores(idsFuncs.Select(s => (long)s));
+            parms[0].Value = CreateDataTableIdentificadores(ids.Select(s => (long)s));
             parms[0].TypeName = "Identificadores";
 
             #region Select

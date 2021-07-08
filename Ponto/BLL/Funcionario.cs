@@ -2181,9 +2181,9 @@ namespace BLL
         /// DataTable Fields: 
         /// id, idEmpresa, DiaFechamentoInicial, DiaFechamentoFinal
         /// </returns>
-        public DataTable GetEmpresaPeriodoFechamentoPonto(params int[] idsFuncs)
+        public DataTable GetEmpresaPeriodoFechamentoPonto(params int[] ids)
         {
-            return dalFuncionario.GetEmpresaPeriodoFechamentoPonto(idsFuncs);
+            return dalFuncionario.GetEmpresaPeriodoFechamentoPonto(ids);
         }
 
     }

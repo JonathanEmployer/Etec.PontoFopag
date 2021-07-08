@@ -1,9 +1,9 @@
 ﻿namespace BLL.Util
 {
-    public class MsgIntegrationFechamentoPonto : MessageIntegrationDto
+    public class MsgIntegrationFechamentoPontoDto : MessageIntegrationDto
     {
 
-        public MsgIntegrationFechamentoPonto(string connString)
+        public MsgIntegrationFechamentoPontoDto(string connString)
             : base(connString)
         {
 
@@ -20,5 +20,8 @@
         public int IdFuncionario { get; set; }
 
         public int IdEmpresa { get; set; }
+
+        public (int current, int total) Info { get; set; }
+
     }
 }

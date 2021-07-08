@@ -472,6 +472,7 @@
     <Compile Include="Relatorios\V2\RelatorioCartaoPontoHTMLBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioClassificacaoHorasExtrasBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioConclusoesBloqueioPnlRhBLL.cs" />
+    <Compile Include="Relatorios\V2\RelatorioExportacaoFechamentoPontoBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioFechamentoPercentualHEBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioEspelhoBLL.cs" />
     <Compile Include="Relatorios\V2\RelatorioGradeHorarioMovelBLL.cs" />
@@ -577,7 +578,7 @@
     <Compile Include="Util\HtmlReport.cs" />
     <Compile Include="Util\ListaObjetosToExcel.cs" />
     <Compile Include="Util\MessageIntegrationDto.cs" />
-    <Compile Include="Util\MsgIntegrationFechamentoPonto.cs" />
+    <Compile Include="Util\MsgIntegrationFechamentoPontoDto.cs" />
     <Compile Include="Util\NameOf.cs" />
     <Compile Include="Util\RabbitMqController.cs" />
   </ItemGroup>

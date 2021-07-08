@@ -21,12 +21,11 @@ namespace BLL_N.JobManager.Hangfire.Job
             JobControlManager.UpdateFileDownload(context, caminhoArquivo);
         }
 
-        public void GetRelatorioCartaoPontoFechamento(PerformContext context, JobControl jobReport, RelatorioCartaoPontoModel relatorioFiltro, string db, string usuario)
+        public void GetRelatorioExportacaoPontoFechamento(PerformContext context, JobControl jobReport, ExportacaoFechamentoPontoModel relatorioFiltro, string db, string usuario)
         {
             SetParametersBase(context, jobReport, db, usuario);
-            RelatorioCartaoPontoPadraoBLL rel = new RelatorioCartaoPontoPadraoBLL(relatorioFiltro, userPF, pb);
-
-            string caminhoArquivo = rel.GetRelatorio();
+            RelatorioExportacaoFechamentoPontoBLL rel = new RelatorioExportacaoFechamentoPontoBLL(relatorioFiltro, userPF, pb, jobReport.JobId);
+            rel.GetRelatorio();
         }
 
         public void GetRelatorioAbsenteismo(PerformContext context, JobControl jobReport, RelatorioAbsenteismoModel relatorioFiltro, string db, string usuario)

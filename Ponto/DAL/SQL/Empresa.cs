@@ -908,7 +908,6 @@ namespace DAL.SQL
             return true;
         }
 
-
         //public bool ConsultaUtilizaRegistradorAllEmpAppPontoWebAppPonto()
         //{
         //    int utiliza = 1;
@@ -940,6 +939,7 @@ namespace DAL.SQL
             }
             return true;
         }
+
         public List<Modelo.Empresa> GetAllListEmpresa()
         {
             SqlParameter[] parms = new SqlParameter[0];
@@ -1075,6 +1075,32 @@ namespace DAL.SQL
             return lista;
         }
 
+
+        /// <summary>
+        /// Consulta CNPJs das empresa apartir dos ids dos funcionarios
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public IEnumerable<(string cnpj, int idFuncionario)> GetCnpjsByFuncIds(params int[] ids)
+        {
+            var lstResult = new List<(string cnpj, int idFuncionario)>();
+            var funcIds = string.Join(",", ids);
+
+            string sql = @"SELECT e.cnpj, f.id
+                        FROM funcionario as f
+                        INNER JOIN empresa e ON e.id = f.idempresa
+                        WHERE f.id IN (" + funcIds + ")";
+
+            using (SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql))
+            {
+                while (dr.HasRows && dr.Read())
+                {
+                    lstResult.Add((dr.GetString(0), dr.GetInt32(1)));
+                }
+            }
+
+            return lstResult;
+        }
 
         #endregion
     }
