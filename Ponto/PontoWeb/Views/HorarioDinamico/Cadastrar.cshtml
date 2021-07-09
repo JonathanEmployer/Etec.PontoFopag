@@ -1455,6 +1455,7 @@
         event.preventDefault();
         var form = $("form");
         form.validate();
+        debugger
         if (form.valid()) {
             var formDados = getModeloHorario();
             $.ajax({
@@ -2134,6 +2135,8 @@
         //Gera o Json do Horário
         console.log($(".horario"));
         $(".horario").each(function () {
+
+            debugger
             element = $(this);
             name = element.attr("name");
 
@@ -2146,7 +2149,7 @@
                     value = element.val()
                 }
             }
-            else if ($(this).hasClass('currency') || $(this).hasClass('money') || $(this).hasClass('decimalPercent'))
+            else if ($(this).hasClass('currency') || $(this).hasClass('money') || $(this).hasClass('decimalPercent') || $(this).hasClass('decimalPercent1'))
             {
                 value = element.val().replace(',', '.');
             }
@@ -2171,7 +2174,7 @@
     //submit util - Gera Objetos HorariosPHExtra
     function getFormValueHorarioPHExtra()
     {
-
+        debugger
         let t = new Array();
 
         $(".DivLHorarioPHExtra").each(function ()
@@ -2203,7 +2206,7 @@
                 if ($(element).attr("type") == "checkbox") {
                     value = element.is(':checked');
                 }
-                else if (element.hasClass('currency') || element.hasClass('money') || element.hasClass('decimalPercent')) {
+                else if (element.hasClass('currency') || element.hasClass('money') || element.hasClass('decimalPercent') || element.hasClass('decimalPercent1')) {
                      var valorElemento = element.val();
                      if (isEmpty(valorElemento)) {
                          value = 0;
