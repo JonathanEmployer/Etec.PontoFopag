@@ -2024,6 +2024,7 @@ namespace DAL.SQL
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, comando, parms);
             dt.Load(dr);
+            List<int> idsFuncs = dt.AsEnumerable().Select(x => Convert.ToInt32(x[0])).ToList();
 
             if (pTipo.GetValueOrDefault() == 4)
             {
@@ -2043,7 +2044,7 @@ namespace DAL.SQL
                 {
                     DataTable dt2 = new DataTable();
                     dt2.Load(dr);
-                    dt2.AsEnumerable().Where(r => !dt.AsEnumerable().Select(s => s.ItemArray[0]).Contains(r.ItemArray[0])).ToList().ForEach(r => dt.ImportRow(r));
+                    idsFuncs.AddRange(dt2.AsEnumerable().Select(x => Convert.ToInt32(x[0])).ToList());
                 }
             }
 
@@ -2051,7 +2052,7 @@ namespace DAL.SQL
                 dr.Close();
             dr.Dispose();
 
-            return dt.AsEnumerable().Select(x => Convert.ToInt32(x[0])).ToList();
+            return idsFuncs.Distinct().ToList();
         }
 
         #endregion
