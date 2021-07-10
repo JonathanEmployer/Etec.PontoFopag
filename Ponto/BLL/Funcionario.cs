@@ -947,6 +947,16 @@ namespace BLL
                     BLL.ParametroPainelRH BllParametroPnlRH = new BLL.ParametroPainelRH(ConnectionString, UsuarioLogado);
                     Modelo.ParametroPainelRH parametroPainelRH = new Modelo.ParametroPainelRH();
                     parametroPainelRH = BllParametroPnlRH.GetAllList().FirstOrDefault();
+
+                    if (objeto.DataInativacao != null)
+                    {
+                        objeto.utilizaregistrador = false;
+                        objeto.UtilizaAppPontofopag = false;
+                        objeto.UtilizaReconhecimentoFacialApp = false;
+                        objeto.UtilizaWebAppPontofopag = false;
+                        objeto.UtilizaReconhecimentoFacialWebApp = false;
+                    }
+
                     switch (pAcao)
                     {
 

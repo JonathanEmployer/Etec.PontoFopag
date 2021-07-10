@@ -29,5 +29,6 @@ namespace DAL
         List<Modelo.FechamentoPonto> FechamentoPontoHorario(List<int> ids);
         void ExcluirListAndAllChildren(List<int> ids);
         DataTable FuncionariosParaRecalculo(int idHorarioDinamico);
+        void ExcluirHorarioDetalhesDinamico(int idHorarioDinamico);
     }
 }
