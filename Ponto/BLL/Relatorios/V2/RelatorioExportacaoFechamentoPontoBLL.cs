@@ -88,7 +88,9 @@ namespace BLL.Relatorios.V2
                                 IdFechamento = fechamento.Id,
                                 IdEmpresa = (int)row["idEmpresa"],
                                 IdFuncionario = (int)row["id"],
-                                Info = (curRow, dtPeriodosFechamento.Rows.Count)
+                                Info = (curRow, dtPeriodosFechamento.Rows.Count),
+                                InicioPeriodo = _parms.InicioPeriodo,
+                                FimPeriodo = _parms.FimPeriodo
                             };
                             RabbitMqController.SendFechamentoIntegration(msgIntegration);
                         }

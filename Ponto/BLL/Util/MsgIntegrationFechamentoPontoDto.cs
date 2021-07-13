@@ -1,4 +1,6 @@
-﻿namespace BLL.Util
+﻿using System;
+
+namespace BLL.Util
 {
     public class MsgIntegrationFechamentoPontoDto : MessageIntegrationDto
     {
@@ -20,6 +22,10 @@
         public int IdFuncionario { get; set; }
 
         public int IdEmpresa { get; set; }
+
+        public DateTime InicioPeriodo { get; set; }
+
+        public DateTime FimPeriodo { get; set; }
 
         public (int current, int total) Info { get; set; }
 
