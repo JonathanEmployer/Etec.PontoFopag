@@ -120,6 +120,7 @@
 
     $('form').submit(function () {
         if ($(this).valid() && validaForm()) {
+            BloqueiaSalvando();
             return true;
         }
         return false;

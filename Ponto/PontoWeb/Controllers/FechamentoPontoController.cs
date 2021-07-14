@@ -108,10 +108,10 @@ namespace PontoWeb.Controllers
             {
                 try
                 {
-                    List<int> idsFuncionariosSelecionados = new List<int>();
+                    List<int> idsFuncsSel = new List<int>();
                     try
                     {
-                        idsFuncionariosSelecionados = obj.PxyRelPontoWeb.idSelecionados.Split(',').ToList().Select(s => int.Parse(s)).ToList();
+                        idsFuncsSel = obj.PxyRelPontoWeb.idSelecionados.Split(',').ToList().Select(s => int.Parse(s)).ToList();
                     }
                     catch (Exception)
                     {
@@ -132,13 +132,13 @@ namespace PontoWeb.Controllers
                         //Seta todo mundo para ser excluido
                         obj.FechamentoPontoFuncionarios.ToList().ForEach(i => i.Acao = Acao.Excluir);
                         //os que foram selecionados seta para alterar
-                        obj.FechamentoPontoFuncionarios.Where(w => idsFuncionariosSelecionados.Contains(w.IdFuncionario)).ToList().ForEach(f => { f.Acao = Acao.Alterar; });
+                        obj.FechamentoPontoFuncionarios.Where(w => idsFuncsSel.Contains(w.IdFuncionario)).ToList().ForEach(f => { f.Acao = Acao.Alterar; });
                         //Retiro dos selecionados os que já existiam
-                        idsFuncionariosSelecionados.RemoveAll(x => obj.FechamentoPontoFuncionarios.Select(s => s.IdFuncionario).Contains(x));
+                        idsFuncsSel.RemoveAll(x => obj.FechamentoPontoFuncionarios.Select(s => s.IdFuncionario).Contains(x));
                     }
 
                     //Adiciona os novos funcionarios selecionados
-                    foreach (int idFunc in idsFuncionariosSelecionados)
+                    foreach (int idFunc in idsFuncsSel)
                     {
                         FechamentoPontoFuncionario fpf = new FechamentoPontoFuncionario();
                         fpf.IdFechamentoPonto = obj.Id;
@@ -152,6 +152,8 @@ namespace PontoWeb.Controllers
                         obj.FechamentoPontoFuncionarios.Add(fpf);
                     }
 
+
+
                     Dictionary<string, string> erros = new Dictionary<string, string>();
                     erros = bllFechamentoPonto.Salvar(acao, obj);
                     if (erros.Count > 0)
@@ -161,7 +163,7 @@ namespace PontoWeb.Controllers
                     }
                     else
                     {
-                        ExportToEpays(obj, idsFuncionariosSelecionados);
+                        ExportToEpays(obj, idsFuncsSel);
 
                         return RedirectToAction("Grid", "FechamentoPonto");
                     }
@@ -184,14 +186,14 @@ namespace PontoWeb.Controllers
             return View("Cadastrar", obj);
         }
 
-        private void ExportToEpays(FechamentoPonto obj, List<int> idsFuncionariosSelecionados)
+        private void ExportToEpays(FechamentoPonto obj, List<int> idsFuncs)
         {
-            idsFuncionariosSelecionados = GetIdsEnabledEpays(idsFuncionariosSelecionados);
-            if (idsFuncionariosSelecionados.Count > 0)
+            idsFuncs = GetIdsEnabledEpays(idsFuncs);
+            if (idsFuncs.Count > 0)
             {
                 ExportacaoFechamentoPontoModel imp = new ExportacaoFechamentoPontoModel()
                 {
-                    IdSelecionados = string.Join(",", idsFuncionariosSelecionados),
+                    IdSelecionados = string.Join(",", idsFuncs),
                     IdFechamentoPonto = obj.Id,
                     TipoArquivo = "PDF"
                 };
@@ -203,6 +205,9 @@ namespace PontoWeb.Controllers
 
         private List<int> GetIdsEnabledEpays(List<int> idsFuncionariosSelecionados)
         {
+            if (idsFuncionariosSelecionados.Count == 0)
+                return new List<int>();
+
             BLL.Empresa empresa = new BLL.Empresa(_usr.ConnectionString, _usr);
             var empFuncs = empresa.GetCnpjsByFuncIds(idsFuncionariosSelecionados.ToArray());
             var cnpjs = empFuncs.Select(e => e.cnpj).Distinct().ToList();
