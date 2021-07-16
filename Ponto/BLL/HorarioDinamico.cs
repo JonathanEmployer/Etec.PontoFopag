@@ -87,7 +87,7 @@ namespace BLL
             Dictionary<string, string> ret = new Dictionary<string, string>();
 
             objeto.Horasnormais = (short)(objeto.Marcacargahorariamista == 0 ? 1 : 0);
-            
+
 
             if (objeto.Codigo == 0)
             {
@@ -273,15 +273,15 @@ namespace BLL
             objeto.LHorarioCiclo.ToList().ForEach((x) =>
             {
                 if (x.Acao == Modelo.Acao.Incluir)
-                    x.LHorarioCicloSequencia.ForEach((y)=> { y.Acao = Modelo.Acao.Incluir; });
+                    x.LHorarioCicloSequencia.ForEach((y) => { y.Acao = Modelo.Acao.Incluir; });
             });
             //ok - setar ação inserir nas novas sequencias
             objeto.LHorarioCiclo.ToList().ForEach((ciclo) =>
             {
                 if (ciclo.Acao == Modelo.Acao.Alterar)
-                {                
-                    var idSeqOld = horarioOld.LHorarioCiclo.Where(cicloOld => cicloOld.Id == ciclo.Id).FirstOrDefault().LHorarioCicloSequencia.Select(seqOld=> seqOld.Id).ToList();
-                    ciclo.LHorarioCicloSequencia.ForEach((x) => { if(x.Id==0) x.Acao = Modelo.Acao.Incluir; });
+                {
+                    var idSeqOld = horarioOld.LHorarioCiclo.Where(cicloOld => cicloOld.Id == ciclo.Id).FirstOrDefault().LHorarioCicloSequencia.Select(seqOld => seqOld.Id).ToList();
+                    ciclo.LHorarioCicloSequencia.ForEach((x) => { if (x.Id == 0) x.Acao = Modelo.Acao.Incluir; });
                 }
             });
             //ok - setar ação alterar nas sequencias velhas
@@ -300,7 +300,7 @@ namespace BLL
                     var idSeqNew = ciclo.LHorarioCicloSequencia.Select(x => x.Id).ToList();
                     var seqDelete = horarioOld.LHorarioCiclo.Where(cicloOld => cicloOld.Id == ciclo.Id).FirstOrDefault().LHorarioCicloSequencia.Where(x => !idSeqNew.Contains(x.Id)).ToList();
                     seqDelete.ForEach((b) => { b.Acao = Modelo.Acao.Excluir; });
-                    if(seqDelete.Count > 0)
+                    if (seqDelete.Count > 0)
                         ciclo.LHorarioCicloSequencia.AddRange(seqDelete);
                 }
             });
@@ -465,7 +465,7 @@ namespace BLL
         /// <param name="objeto"></param>
         public void AtualizarInfoHorarios(Modelo.HorarioDinamico objeto)
         {
-             List<Modelo.Horario> listaHorario = dalHorario.LoadObjectAllChildren(objeto.Id);
+            List<Modelo.Horario> listaHorario = dalHorario.LoadObjectAllChildren(objeto.Id);
 
             foreach (var horario in listaHorario)
             {
@@ -500,7 +500,7 @@ namespace BLL
                                                                                 .ForMember(x => x.Incdata, opt => opt.Ignore())
                                                                                 .ForMember(x => x.Inchora, opt => opt.Ignore())
                                                                                 .ForMember(x => x.Incusuario, opt => opt.Ignore())
-                                                                                .ForMember(x => x.Codigo, opt => opt.Ignore()); 
+                                                                                .ForMember(x => x.Codigo, opt => opt.Ignore());
                 #endregion
 
                 //mapear horario dinamico -> horario
@@ -552,7 +552,7 @@ namespace BLL
                         var srcChild = _hphe[i];
                         var destChild = horario.LHorariosPHExtra[i];
                         Mapper.Map(srcChild, destChild);
-                     }
+                    }
                 }
 
                 horario.HorariosPHExtra = horario.LHorariosPHExtra.ToArray();
@@ -577,12 +577,18 @@ namespace BLL
                     dalLimiteDDsr.Excluir(item);
                 }
             }
+
+            //caso não tenha funcionario vinculado a esse horario, excluir dados da tabela horarioDetalhe vinculado a esse horario dinamico
+            if (QuantidadeMarcacoesVinculadas(objeto.Id) == 0)
+            {
+                dalHorarioDinamico.ExcluirHorarioDetalhesDinamico(objeto.Id);
+            }
         }
 
         public int GerarHorario(int idHorarioDinamico, DateTime pData, int cicloSequenciaIndice)
         {
             int idHorario = 0;
-
+           
             Modelo.Horario horarioVinculadoHorarioDinamico = dalHorario.GetHorarioByHorarioDinamicoDataSequencia(idHorarioDinamico, pData, cicloSequenciaIndice);
             if (horarioVinculadoHorarioDinamico.Id == 0)
             {
@@ -853,14 +859,14 @@ namespace BLL
             DataTable dtFuncionariosRecalculo = FuncionariosParaRecalculo(idHorarioDinamico);
 
             return (from row in dtFuncionariosRecalculo.AsEnumerable()
-                                               select new PxyIdPeriodo
-                                               {
-                                                   Id = Convert.ToInt32(row["idFuncionario"]),
-                                                   InicioPeriodo = Convert.ToDateTime(row["dataInicial"]),
-                                                   FimPeriodo = Convert.ToDateTime(row["dataFinal"])
-                                               }).ToList();
+                    select new PxyIdPeriodo
+                    {
+                        Id = Convert.ToInt32(row["idFuncionario"]),
+                        InicioPeriodo = Convert.ToDateTime(row["dataInicial"]),
+                        FimPeriodo = Convert.ToDateTime(row["dataFinal"])
+                    }).ToList();
         }
     }
 
-    
+
 }
