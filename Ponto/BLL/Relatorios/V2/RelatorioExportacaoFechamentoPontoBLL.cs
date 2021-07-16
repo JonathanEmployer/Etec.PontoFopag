@@ -127,7 +127,7 @@ namespace BLL.Relatorios.V2
             using (FileStream fs = new FileStream(fileName, FileMode.Create))
                 fs.Write(renderedBytes, 0, renderedBytes.Length);
 
-            return fileName;
+            return $"{NomeArquivo}.{fileNameExtension}";
         }
 
         private DataTable GetDados(params int[] ids)
