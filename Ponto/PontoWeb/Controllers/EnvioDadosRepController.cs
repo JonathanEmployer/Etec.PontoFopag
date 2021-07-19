@@ -291,9 +291,9 @@ namespace PontoWeb.Controllers
                                 }
                             }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-                            throw;
+                            throw ex;
                         }
                         return RedirectToAction("Grid", "EnvioDadosRep");
                     }

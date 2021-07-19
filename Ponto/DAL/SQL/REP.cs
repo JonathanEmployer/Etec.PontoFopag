@@ -243,7 +243,11 @@ namespace DAL.SQL
             ((Modelo.REP)obj).CampoCracha = Convert.ToInt16(dr["CampoCracha"]);
             ((Modelo.REP)obj).Portaria373 = Convert.ToBoolean(dr["Portaria373"]);
 
-            ((Modelo.REP)obj).RegistradorEmMassa = Convert.ToBoolean(dr["RegistradorEmMassa"]);
+            var teste = dr["RegistradorEmMassa"];
+            if (!(dr["RegistradorEmMassa"] is DBNull))
+            {
+                ((Modelo.REP)obj).RegistradorEmMassa = Convert.ToBoolean(dr["RegistradorEmMassa"]);
+            }
             if(!(dr["CrachaAdm"] is DBNull)) { 
             ((Modelo.REP)obj).CrachaAdm = Convert.ToInt64(dr["CrachaAdm"]);
             }

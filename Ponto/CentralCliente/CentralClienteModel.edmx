@@ -348,8 +348,6 @@
           <Property Name="DataInicioImportacao" Type="datetime" />
           <Property Name="ServicoComunicador" Type="bit" Nullable="false" />
           <Property Name="Processando" Type="bit" Nullable="false" />
-          <Property Name="IdCentroServico" Type="int" />
-          <Property Name="IdComunicadorServico" Type="int" />
           <Property Name="registradorEmMassa" Type="bit" />
           <Property Name="CrachaAdm" Type="bigint" />
         </EntityType>
@@ -2001,8 +1999,6 @@
           <Property Name="ServicoComunicador" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="RepLog" Relationship="CENTRALCLIENTEModel.fk_Rep_RepLog" FromRole="Rep" ToRole="RepLog" />
           <Property Name="Processando" Type="Boolean" Nullable="false" />
-          <Property Name="IdCentroServico" Type="Int32" />
-          <Property Name="IdComunicadorServico" Type="Int32" />
           <Property Name="registradorEmMassa" Type="Boolean" />
           <Property Name="CrachaAdm" Type="Int64" />
         </EntityType>
@@ -3643,8 +3639,6 @@
               <MappingFragment StoreEntitySet="Rep">
                 <ScalarProperty Name="CrachaAdm" ColumnName="CrachaAdm" />
                 <ScalarProperty Name="registradorEmMassa" ColumnName="registradorEmMassa" />
-                <ScalarProperty Name="IdComunicadorServico" ColumnName="IdComunicadorServico" />
-                <ScalarProperty Name="IdCentroServico" ColumnName="IdCentroServico" />
                 <ScalarProperty Name="Processando" ColumnName="Processando" />
                 <ScalarProperty Name="ServicoComunicador" ColumnName="ServicoComunicador" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
