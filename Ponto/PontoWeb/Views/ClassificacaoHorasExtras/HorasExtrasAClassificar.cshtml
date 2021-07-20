@@ -4,7 +4,7 @@
     ViewBag.Title = "Classificação de Horas Extras";
     Layout = null;
 }
-<div class="divCenterMedio">
+<div class="divCenterGrande">
     <div class="panel panel-default">
         <div class="panel-heading salvando">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="xfecharCadastroModal">X</button>
@@ -22,24 +22,28 @@
                                 <th style="text-align:center">Funcionário</th>
                             }
                             <th style="text-align:center">Horas Extras</th>
-                            <th style="text-align:center">Classificadas</th>
-                            <th style="text-align:center">Não Classificadas</th>
+                            <th style="text-align:center">Classificadas Diurna</th>
+                            <th style="text-align:center">Classificadas Noturna</th>
+                            <th style="text-align:center">Não Classificadas Diurna</th>
+                            <th style="text-align:center">Não Classificadas Noturna</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model.pxyClassHorasExtrasMarcacoes)
                         {
-                            <tr id="@item.IdMarcacao">
-                                <td>@item.Data.ToShortDateString()</td>
-                                <td>@item.Dia</td>
-                                @if (ViewBag.ExibirColunaFunc)
-                                {
-                                    <td>@item.NomeFuncionario</td>
-                                }
-                                <td>@item.HorasExtrasRealizada</td>
-                                <td>@item.Classificadas</td>
-                                <td>@item.NaoClassificadas</td>
-                            </tr>
+                        <tr id="@item.IdMarcacao">
+                            <td>@item.Data.ToShortDateString()</td>
+                            <td>@item.Dia</td>
+                            @if (ViewBag.ExibirColunaFunc)
+                            {
+                                <td>@item.NomeFuncionario</td>
+                            }
+                            <td>@item.TotalHorasExtrasRealizada</td>
+                            <td>@item.ClassificadasDiurna</td>
+                            <td>@item.ClassificadasNoturna</td>
+                            <td>@item.NaoClassificadasDiurna</td>
+                            <td>@item.NaoClassificadasNoturna</td>
+                        </tr>
                         }
                     </tbody>
                 </table>

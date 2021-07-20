@@ -16,22 +16,28 @@
         <div class="panel-body panelConteudo" id="panelBodyFixo">
             @Html.ValidationSummary(true)
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         @Html.Label("Data")
                         @Html.TextBox("txtData", Model.FirstOrDefault().Data.ToShortDateString(), new { @class = "form-control  input-sm", @disabled = "disabled" })
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         @Html.Label("Extras")
-                        @Html.TextBox("txtHorasExtrasRealizada", Model.FirstOrDefault().HorasExtrasRealizada, new { @class = "form-control  input-sm", @disabled = "disabled" })
+                        @Html.TextBox("txtHorasExtrasRealizada", Model.FirstOrDefault().TotalHorasExtrasRealizada, new { @class = "form-control  input-sm", @disabled = "disabled" })
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
-                        @Html.Label("Não Classificadas")
-                        @Html.TextBox("txtNaoClassificadas", Model.FirstOrDefault().NaoClassificadas, new { @class = "form-control  input-sm", @disabled = "disabled" })
+                        @Html.Label("Não Classificadas Diurna")
+                        @Html.TextBox("txtNaoClassificadasDiu", Model.FirstOrDefault().NaoClassificadasDiurna, new { @class = "form-control  input-sm", @disabled = "disabled" })
+                    </div>
+                </div> 
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.Label("Não Classificadas Noturna")
+                        @Html.TextBox("txtNaoClassificadasNot", Model.FirstOrDefault().NaoClassificadasNoturna, new { @class = "form-control  input-sm", @disabled = "disabled" })
                     </div>
                 </div>
             </div>
@@ -57,7 +63,7 @@
         $(document).ready(function () {
             var nomeTabela = "#" + '@nomeTabela';
             cwk_DbClickCadastroEditarAjaxParam('Alterar', 'ClassificacaoHorasExtras',  nomeTabela, { idMarc: '@Model.FirstOrDefault().IdMarcacao' });
-            @if (@Model.FirstOrDefault().NaoClassificadasMin > 0)
+            @if (@Model.FirstOrDefault().NaoClassificadasDiurnaMin+ @Model.FirstOrDefault().NaoClassificadasNoturnaMin > 0)
             {
                 <text>
             cwk_EventoIncluirAjaxParam('#btIncluirSub', 'Cadastrar', 'ClassificacaoHorasExtras', { idMarc: '@Model.FirstOrDefault().IdMarcacao' });

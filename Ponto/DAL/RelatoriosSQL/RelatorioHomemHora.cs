@@ -400,7 +400,7 @@ namespace DAL.RelatoriosSQL
 														   AND (@idsOcorrencias is null or AF.idocorrencia in (SELECT * FROM dbo.F_ClausulaIn(@idsOcorrencias)))
                                                LEFT JOIN ocorrencia oc
                                                    ON oc.id = af.idocorrencia
-                                              CROSS APPLY (SELECT SUM(dbo.FN_CONVHORA(che.qtdHoraClassificada)) horasClassificadas,
+                                              CROSS APPLY (SELECT SUM(dbo.FN_CONVHORA(che.qtdHoraClassificadaDiurna)) horasClassificadas,
                                                                   MIN(IIF(tipo = 1, -1,tipo)) tipo
                                                              FROM ClassificacaoHorasExtras che 
                                                             WHERE che.idMarcacao = i.IdMarcacao) che

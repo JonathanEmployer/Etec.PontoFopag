@@ -8,37 +8,43 @@ namespace DAL.SQL
     public class ClassificacaoHorasExtras : DAL.SQL.DALBase, DAL.IClassificacaoHorasExtras
     {
         const string ClassificacaoMarcacao = @" SELECT m.id IdMarcacao,
-					                                    m.data,
-					                                    m.dia,
-					                                    m.idfuncionario,
-					                                    f.dscodigo,
-					                                    f.nome,
-														f.IdEmpresa,
-														f.IdDepartamento,
-														f.matricula,
-														f.CPF,
-														che.id IdClassificacaoHorasExtras,
-					                                    che.codigo CodigoClassificacaoHorasExtra,
-					                                    che.Tipo,
-					                                    CASE WHEN che.Tipo = 0 THEN 'Quantidade' ELSE 'Total' END TipoDesc,
-					                                    che.IdClassificacao,
+	                                                    m.data,
+	                                                    m.dia,
+	                                                    m.idfuncionario,
+	                                                    f.dscodigo,
+	                                                    f.nome,
+	                                                    f.IdEmpresa,
+	                                                    f.IdDepartamento,
+	                                                    f.matricula,
+	                                                    f.CPF,
+	                                                    che.id IdClassificacaoHorasExtras,
+	                                                    che.codigo CodigoClassificacaoHorasExtra,
+	                                                    che.Tipo,
+	                                                    CASE WHEN che.Tipo = 0 THEN 'Quantidade' ELSE 'Total' END TipoDesc,
+	                                                    che.IdClassificacao,
                                                         che.Observacao,
-														c.Codigo ClassificacaoCodigo,
-					                                    c.descricao ClassificacaoDescricao,
+	                                                    c.Codigo ClassificacaoCodigo,
+	                                                    c.descricao ClassificacaoDescricao,
                                                         che.Integrado,
-					                                    dbo.FN_CONVHORA(m.horasextrasdiurna) + dbo.FN_CONVHORA(m.horasextranoturna) HorasExtrasRealizadaMin,
-														CASE WHEN (che.Tipo = 1 and (dbo.FN_CONVHORA(m.horasextrasdiurna) + dbo.FN_CONVHORA(m.horasextranoturna) > ISNULL(ct.total,0))) THEN 
-							                                        (dbo.FN_CONVHORA(m.horasextrasdiurna) + dbo.FN_CONVHORA(m.horasextranoturna) -
-								                                    ISNULL(ct.total,0))
-							                                    ELSE dbo.FN_CONVHORA(che.qtdHoraClassificada) end ClassificadasMin,
-                                                        h.IdClassificacao idPreClassificacao,
-														h.QtdHEPreClassificadas
-			                                      FROM marcacao_view m
-                                                  LEFT JOIN horario h on m.idhorario = h.id
-			                                      LEFT JOIN Funcionario F on m.idfuncionario = F.id 
-			                                      LEFT JOIN ClassificacaoHorasExtras che ON che.idMarcacao = m.id
-			                                      LEFT JOIN Classificacao c on c.id = che.IdClassificacao
-												  LEFT JOIN (SELECT sum(dbo.FN_CONVHORA(cheClass.qtdHoraClassificada)) total, cheClass.IdMarcacao FROM ClassificacaoHorasExtras cheClass WHERE cheClass.Tipo != 1 group by cheClass.IdMarcacao ) ct on ct.idMarcacao = m.id  ";
+                                                        dbo.FN_CONVHORA(m.horasextrasdiurna) HorasExtrasRealizadaDiurnaMin,
+                                                        dbo.FN_CONVHORA(m.horasextranoturna) HorasExtrasRealizadaNoturnaMin,	                                                    CASE 
+		                                                    WHEN (che.Tipo = 1 and (dbo.FN_CONVHORA(m.horasextrasdiurna)  > ISNULL(ct.totalDiurna,0)))
+	                                                        THEN (dbo.FN_CONVHORA(m.horasextrasdiurna) - ISNULL(ct.totalDiurna,0))
+		                                                    ELSE dbo.FN_CONVHORA(che.qtdHoraClassificadaDiurna) 
+	                                                    END ClassificadasDiurnaMin,
+	                                                    CASE 
+		                                                    WHEN (che.Tipo = 1 and (dbo.FN_CONVHORA(m.horasextranoturna) > ISNULL(ct.totalNoturna,0)))
+	                                                        THEN (dbo.FN_CONVHORA(m.horasextranoturna) - ISNULL(ct.totalNoturna,0))
+		                                                    ELSE dbo.FN_CONVHORA(che.QtdHoraClassificadaNoturna) 
+	                                                    END ClassificadasNoturnaMin,
+	                                                    h.IdClassificacao idPreClassificacao,
+	                                                    h.QtdHEPreClassificadas
+                                                    FROM marcacao_view m
+                                                    LEFT JOIN horario h on m.idhorario = h.id
+                                                    LEFT JOIN Funcionario F on m.idfuncionario = F.id 
+                                                    LEFT JOIN ClassificacaoHorasExtras che ON che.idMarcacao = m.id
+                                                    LEFT JOIN Classificacao c on c.id = che.IdClassificacao
+                                                    LEFT JOIN (SELECT sum(dbo.FN_CONVHORA(cheClass.qtdHoraClassificadaDiurna)) totalDiurna, sum(dbo.FN_CONVHORA(cheClass.QtdHoraClassificadaNoturna)) totalNoturna,cheClass.IdMarcacao FROM ClassificacaoHorasExtras cheClass WHERE cheClass.Tipo != 1 group by cheClass.IdMarcacao) ct on ct.idMarcacao = m.id";
 
         public ClassificacaoHorasExtras(DataBase database)
         {
@@ -51,9 +57,9 @@ namespace DAL.SQL
                              FROM ClassificacaoHorasExtras";
 
             INSERT = @"  INSERT INTO ClassificacaoHorasExtras
-							(codigo, incdata, inchora, incusuario, Idmarcacao,Qtdhoraclassificada,Tipo,Idclassificacao, Observacao, Integrado)
+							(codigo, incdata, inchora, incusuario, Idmarcacao,QtdhoraclassificadaDiurna,QtdhoraclassificadaNoturna,Tipo,Idclassificacao, Observacao, Integrado)
 							VALUES
-							(@codigo, @incdata, @inchora, @incusuario, @Idmarcacao,@Qtdhoraclassificada,@Tipo,@Idclassificacao, @Observacao, @Integrado)
+							(@codigo, @incdata, @inchora, @incusuario, @Idmarcacao,@QtdhoraclassificadaDiurna,@QtdhoraclassificadaNoturna,@Tipo,@Idclassificacao, @Observacao, @Integrado)
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @" UPDATE ClassificacaoHorasExtras SET  
@@ -62,7 +68,8 @@ namespace DAL.SQL
 							, althora = @althora
 							, altusuario = @altusuario
                            ,Idmarcacao = @Idmarcacao
-                           ,Qtdhoraclassificada = @Qtdhoraclassificada
+                           ,QtdhoraclassificadaDiurna = @QtdhoraclassificadaDiurna
+                           ,QtdhoraclassificadaNoturna = @QtdhoraclassificadaNoturna
                            ,Tipo = @Tipo
                            ,Idclassificacao = @Idclassificacao
                            ,Observacao = @Observacao
@@ -107,33 +114,35 @@ namespace DAL.SQL
         {
             SetInstanceBase(dr, obj);
             ((Modelo.ClassificacaoHorasExtras)obj).Codigo = Convert.ToInt32(dr["codigo"]);
-             ((Modelo.ClassificacaoHorasExtras)obj).IdMarcacao = Convert.ToInt32(dr["Idmarcacao"]);
-             ((Modelo.ClassificacaoHorasExtras)obj).QtdHoraClassificada = Convert.ToString(dr["Qtdhoraclassificada"]);
-             ((Modelo.ClassificacaoHorasExtras)obj).Tipo = Convert.ToInt16(dr["Tipo"]);
-             ((Modelo.ClassificacaoHorasExtras)obj).IdClassificacao = Convert.ToInt32(dr["Idclassificacao"]);
-             ((Modelo.ClassificacaoHorasExtras)obj).Observacao = Convert.ToString(dr["Observacao"]);
-             ((Modelo.ClassificacaoHorasExtras)obj).Integrado = Convert.ToBoolean(dr["Integrado"]);
+            ((Modelo.ClassificacaoHorasExtras)obj).IdMarcacao = Convert.ToInt32(dr["Idmarcacao"]);
+            ((Modelo.ClassificacaoHorasExtras)obj).QtdHoraClassificadaDiurna = Convert.ToString(dr["QtdhoraclassificadaDiurna"]);
+            ((Modelo.ClassificacaoHorasExtras)obj).QtdHoraClassificadaNoturna = Convert.ToString(dr["QtdhoraclassificadaNoturna"]);
+            ((Modelo.ClassificacaoHorasExtras)obj).Tipo = Convert.ToInt16(dr["Tipo"]);
+            ((Modelo.ClassificacaoHorasExtras)obj).IdClassificacao = Convert.ToInt32(dr["Idclassificacao"]);
+            ((Modelo.ClassificacaoHorasExtras)obj).Observacao = Convert.ToString(dr["Observacao"]);
+            ((Modelo.ClassificacaoHorasExtras)obj).Integrado = Convert.ToBoolean(dr["Integrado"]);
         }
 
         protected override SqlParameter[] GetParameters()
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				 new SqlParameter ("@id", SqlDbType.Int)
-				,new SqlParameter ("@codigo", SqlDbType.Int)
-				,new SqlParameter ("@incdata", SqlDbType.DateTime)
-				,new SqlParameter ("@inchora", SqlDbType.DateTime)
-				,new SqlParameter ("@incusuario", SqlDbType.VarChar)
-				,new SqlParameter ("@altdata", SqlDbType.DateTime)
-				,new SqlParameter ("@althora", SqlDbType.DateTime)
-				,new SqlParameter ("@altusuario", SqlDbType.VarChar)
+            {
+                 new SqlParameter ("@id", SqlDbType.Int)
+                ,new SqlParameter ("@codigo", SqlDbType.Int)
+                ,new SqlParameter ("@incdata", SqlDbType.DateTime)
+                ,new SqlParameter ("@inchora", SqlDbType.DateTime)
+                ,new SqlParameter ("@incusuario", SqlDbType.VarChar)
+                ,new SqlParameter ("@altdata", SqlDbType.DateTime)
+                ,new SqlParameter ("@althora", SqlDbType.DateTime)
+                ,new SqlParameter ("@altusuario", SqlDbType.VarChar)
                 ,new SqlParameter ("@Idmarcacao", SqlDbType.Int)
-                ,new SqlParameter ("@Qtdhoraclassificada", SqlDbType.VarChar)
+                ,new SqlParameter ("@QtdhoraclassificadaDiurna", SqlDbType.VarChar)
+                ,new SqlParameter ("@QtdhoraclassificadaNoturna", SqlDbType.VarChar)
                 ,new SqlParameter ("@Tipo", SqlDbType.SmallInt)
                 ,new SqlParameter ("@Idclassificacao", SqlDbType.Int)
                 ,new SqlParameter ("@Observacao", SqlDbType.VarChar)
                 ,new SqlParameter ("@Integrado", SqlDbType.Bit)
-			};
+            };
             return parms;
         }
 
@@ -152,11 +161,12 @@ namespace DAL.SQL
             parms[6].Value = ((Modelo.ClassificacaoHorasExtras)obj).Althora;
             parms[7].Value = ((Modelo.ClassificacaoHorasExtras)obj).Altusuario;
             parms[8].Value = ((Modelo.ClassificacaoHorasExtras)obj).IdMarcacao;
-            parms[9].Value = ((Modelo.ClassificacaoHorasExtras)obj).QtdHoraClassificada;
-            parms[10].Value = ((Modelo.ClassificacaoHorasExtras)obj).Tipo;
-            parms[11].Value = ((Modelo.ClassificacaoHorasExtras)obj).IdClassificacao;
-            parms[12].Value = ((Modelo.ClassificacaoHorasExtras)obj).Observacao;
-            parms[13].Value = ((Modelo.ClassificacaoHorasExtras)obj).Integrado;
+            parms[9].Value = ((Modelo.ClassificacaoHorasExtras)obj).QtdHoraClassificadaDiurna;
+            parms[10].Value = ((Modelo.ClassificacaoHorasExtras)obj).QtdHoraClassificadaNoturna;
+            parms[11].Value = ((Modelo.ClassificacaoHorasExtras)obj).Tipo;
+            parms[12].Value = ((Modelo.ClassificacaoHorasExtras)obj).IdClassificacao;
+            parms[13].Value = ((Modelo.ClassificacaoHorasExtras)obj).Observacao;
+            parms[14].Value = ((Modelo.ClassificacaoHorasExtras)obj).Integrado;
         }
 
         public Modelo.ClassificacaoHorasExtras LoadObject(int id)
@@ -216,12 +226,15 @@ namespace DAL.SQL
             parms[2].Value = datafinal;
 
             string sql = @"SELECT E.*,
-	                       dbo.FN_CONVMIN(e.ClassificadasMin) Classificadas,
-	                       dbo.FN_CONVMIN(e.HorasExtrasRealizadaMin) HorasExtrasRealizada,
-	                       dbo.FN_CONVMIN(e.NaoClassificadasMin) NaoClassificadas
+	                       dbo.FN_CONVMIN(e.HorasExtrasRealizadaDiurnaMin+E.HorasExtrasRealizadaNoturnaMin) TotalHorasExtrasRealizada,
+	                       dbo.FN_CONVMIN(e.ClassificadasDiurnaMin) ClassificadasDiurna,
+	                       dbo.FN_CONVMIN(e.ClassificadasNoturnaMin) ClassificadasNoturna,
+	                       dbo.FN_CONVMIN(e.NaoClassificadasDiurnaMin) NaoClassificadasDiurna,
+	                       dbo.FN_CONVMIN(e.NaoClassificadasNoturnaMin) NaoClassificadasNoturna
                       FROM (
 	                    SELECT I.*,
-		                       CASE WHEN (I.HorasExtrasRealizadaMin - I.ClassificadasMin) < 0  THEN 0 ELSE (I.HorasExtrasRealizadaMin - I.ClassificadasMin) END NaoClassificadasMin
+		                       CASE WHEN (I.HorasExtrasRealizadaDiurnaMin - I.ClassificadasDiurnaMin) < 0  THEN 0 ELSE (I.HorasExtrasRealizadaDiurnaMin - I.ClassificadasDiurnaMin) END NaoClassificadasDiurnaMin ,
+		                       CASE WHEN (I.HorasExtrasRealizadaNoturnaMin - I.ClassificadasNoturnaMin) < 0  THEN 0 ELSE (I.HorasExtrasRealizadaNoturnaMin - I.ClassificadasNoturnaMin) END NaoClassificadasNoturnaMin
 	                      FROM (
 		                    SELECT D.IdMarcacao,
 			                       D.data,
@@ -229,8 +242,10 @@ namespace DAL.SQL
 			                       D.idfuncionario,
 			                       D.dscodigo,
 			                       D.nome NomeFuncionario,
-			                       sum(D.ClassificadasMin) ClassificadasMin,
-			                       D.HorasExtrasRealizadaMin,
+			                       sum(D.ClassificadasDiurnaMin) ClassificadasDiurnaMin,
+			                       sum(D.ClassificadasNoturnaMin) ClassificadasNoturnaMin,
+			                       D.HorasExtrasRealizadaDiurnaMin,
+			                       D.HorasExtrasRealizadaNoturnaMin,
                                    D.idPreClassificacao IdPreClassificacao,
 								   D.QtdHEPreClassificadas,
 								   dbo.FN_CONVHORA(D.QtdHEPreClassificadas) QtdHEPreClassificadasMin
@@ -244,10 +259,11 @@ namespace DAL.SQL
 				                 D.idfuncionario,
 				                 D.dscodigo,
 				                 D.nome,
-				                 D.HorasExtrasRealizadaMin ,
+				                 D.HorasExtrasRealizadaDiurnaMin ,
+				                 D.HorasExtrasRealizadaNoturnaMin ,
                                  D.idPreClassificacao,
 								 D.QtdHEPreClassificadas 
-		                ) I Where ClassificadasMin > 0 or HorasExtrasRealizadaMin > 0
+		                ) I Where ClassificadasDiurnaMin > 0 or HorasExtrasRealizadaDiurnaMin > 0 or ClassificadasNoturnaMin> 0 or HorasExtrasRealizadaNoturnaMin> 0
 	                ) E ORDER BY E.NomeFuncionario, E.Data ";
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
@@ -285,13 +301,16 @@ namespace DAL.SQL
             };
 
             string sql = string.Format(@"SELECT E.*,
-	                       dbo.FN_CONVMIN(e.ClassificadasMin) Classificadas,
+	                       dbo.FN_CONVMIN(e.ClassificadasDiurnaMin) ClassificadasDiurna,
+	                       dbo.FN_CONVMIN(e.ClassificadasNoturnaMin) ClassificadasNoturna,
 						   dbo.FN_CONVMIN(TotalClassificadasMin) TotalClassificadas,
-	                       dbo.FN_CONVMIN(e.HorasExtrasRealizadaMin) HorasExtrasRealizada,
-	                       dbo.FN_CONVMIN(e.NaoClassificadasMin) NaoClassificadas
+	                       dbo.FN_CONVMIN(e.TotalHorasExtrasRealizadaMin) TotalHorasExtrasRealizada,
+	                       dbo.FN_CONVMIN(e.NaoClassificadasDiurnaMin) NaoClassificadasDiurna,
+	                       dbo.FN_CONVMIN(e.NaoClassificadasNoturnaMin) NaoClassificadasNoturna
                       FROM (
 	                    SELECT I.*,
-		                       CASE WHEN (I.HorasExtrasRealizadaMin - I.TotalClassificadasMin) < 0  THEN 0 ELSE (I.HorasExtrasRealizadaMin - I.TotalClassificadasMin) END NaoClassificadasMin
+		                       CASE WHEN (I.HorasExtrasRealizadaDiurnaMin - I.TotalClassificadasDiurnaMin) < 0  THEN 0 ELSE (I.HorasExtrasRealizadaDiurnaMin - I.TotalClassificadasDiurnaMin) END NaoClassificadasDiurnaMin,
+		                       CASE WHEN (I.HorasExtrasRealizadaNoturnaMin - I.TotalClassificadasNoturnaMin) < 0  THEN 0 ELSE (I.HorasExtrasRealizadaNoturnaMin - I.TotalClassificadasNoturnaMin) END NaoClassificadasNoturnaMin
 	                      FROM (
 		                    SELECT D.IdMarcacao,
 			                       D.data,
@@ -299,9 +318,14 @@ namespace DAL.SQL
 			                       D.idfuncionario,
 			                       D.dscodigo,
 			                       D.nome NomeFuncionario,
-			                       D.ClassificadasMin,
-								   SUM(D.ClassificadasMin) OVER(PARTITION BY D.IdMarcacao) TotalClassificadasMin,
-			                       D.HorasExtrasRealizadaMin,
+			                       D.ClassificadasDiurnaMin,
+			                       D.ClassificadasNoturnaMin,
+								   SUM(D.ClassificadasDiurnaMin+D.ClassificadasNoturnaMin) OVER(PARTITION BY D.IdMarcacao) TotalClassificadasMin,
+								   SUM(D.ClassificadasDiurnaMin) OVER(PARTITION BY D.IdMarcacao) TotalClassificadasDiurnaMin,
+								   SUM(D.ClassificadasNoturnaMin) OVER(PARTITION BY D.IdMarcacao) TotalClassificadasNoturnaMin,
+			                       D.HorasExtrasRealizadaDiurnaMin +D.HorasExtrasRealizadaNoturnaMin TotalHorasExtrasRealizadaMin,
+								   D.HorasExtrasRealizadaDiurnaMin,
+								   D.HorasExtrasRealizadaNoturnaMin,
 								   ClassificacaoCodigo,
 								   ClassificacaoDescricao,
                                    IdClassificacaoHorasExtras,
@@ -309,7 +333,7 @@ namespace DAL.SQL
                                    Tipo,
                                    Observacao,
                                    Integrado
-		                      FROM ( " + ClassificacaoMarcacao + @"  
+		                      FROM (  " + ClassificacaoMarcacao + @"  
 							  WHERE m.id in ({0})
 			                ) D
 		                ) I 
@@ -333,7 +357,7 @@ namespace DAL.SQL
                 {
                     dr.Close();
                 }
-                dr.Dispose(); 
+                dr.Dispose();
             }
             return lista;
         }
@@ -455,22 +479,38 @@ namespace DAL.SQL
 							'Total'
 						ELSE 'S/N'
 						END TipoDescricao,
-				   G.ClassificadasMin,
+				   G.ClassificadasDiurnaMin,
+				   G.ClassificadasNoturnaMin,
+				   G.ClassificadasDiurna,
+				   G.ClassificadasNoturna,
 				   G.Classificadas,
-				   G.NaoClassificadasMin,
+				   G.ClassificadasDiurnaMin + G.ClassificadasNoturnaMin ClassificadasMin,
+				   G.NaoClassificadasDiurnaMin,
+				   G.NaoClassificadasNoturnaMin,
+				   G.NaoClassificadasDiurna,
+				   G.NaoClassificadasNoturna,
+				   G.NaoClassificadasDiurnaMin + G.NaoClassificadasNoturnaMin NaoClassificadasMin,
 				   G.NaoClassificadas,
-				   G.HorasExtrasRealizadaMin,
+				   G.HorasExtrasRealizadaDiurnaMin,
+				   G.HorasExtrasRealizadaNoturnaMin,
+				   G.HorasExtrasRealizadaDiurnaMin + HorasExtrasRealizadaNoturnaMin HorasExtrasRealizadaMin,
 				   G.HorasExtrasRealizada,
                    G.Observacao
 			  FROM (
 					SELECT E.*,
-	                       dbo.FN_CONVMIN(e.ClassificadasMin) Classificadas,
-						   dbo.FN_CONVMIN(TotalClassificadasMin) TotalClassificadas,
-	                       dbo.FN_CONVMIN(e.HorasExtrasRealizadaMin) HorasExtrasRealizada,
-	                       dbo.FN_CONVMIN(e.NaoClassificadasMin) NaoClassificadas
+	                       dbo.FN_CONVMIN(e.ClassificadasDiurnaMin) ClassificadasDiurna,
+	                       dbo.FN_CONVMIN(e.ClassificadasNoturnaMin) ClassificadasNoturna,
+						   dbo.FN_CONVMIN(TotalClassificadasDiurnaMin) TotalClassificadasDiurna,
+						   dbo.FN_CONVMIN(TotalClassificadasNoturnaMin) TotalClassificadasNoturna,
+	                       dbo.FN_CONVMIN(e.HorasExtrasRealizadaDiurnaMin + e.HorasExtrasRealizadaNoturnaMin) HorasExtrasRealizada,
+	                       dbo.FN_CONVMIN(e.NaoClassificadasDiurnaMin) NaoClassificadasDiurna,
+	                       dbo.FN_CONVMIN(e.NaoClassificadasNoturnaMin) NaoClassificadasNoturna,
+	                       dbo.FN_CONVMIN(e.ClassificadasDiurnaMin + ClassificadasNoturnaMin) Classificadas,
+	                       dbo.FN_CONVMIN(e.NaoClassificadasDiurnaMin + e.NaoClassificadasNoturnaMin) NaoClassificadas
                       FROM (
 	                    SELECT I.*,
-		                       CASE WHEN (I.HorasExtrasRealizadaMin - I.TotalClassificadasMin) < 0  THEN 0 ELSE (I.HorasExtrasRealizadaMin - I.TotalClassificadasMin) END NaoClassificadasMin
+		                       CASE WHEN (I.HorasExtrasRealizadaDiurnaMin - I.TotalClassificadasDiurnaMin) < 0  THEN 0 ELSE (I.HorasExtrasRealizadaDiurnaMin - I.TotalClassificadasDiurnaMin) END NaoClassificadasDiurnaMin,
+		                       CASE WHEN (I.HorasExtrasRealizadaNoturnaMin - I.TotalClassificadasNoturnaMin) < 0  THEN 0 ELSE (I.HorasExtrasRealizadaNoturnaMin - I.TotalClassificadasNoturnaMin) END NaoClassificadasNoturnaMin
 	                      FROM (
 		                    SELECT D.IdMarcacao,
 			                       D.data,
@@ -480,9 +520,12 @@ namespace DAL.SQL
 			                       D.nome NomeFuncionario,
 								   D.cpf,
 								   D.matricula,
-			                       D.ClassificadasMin,
-								   SUM(D.ClassificadasMin) OVER(PARTITION BY D.IdMarcacao) TotalClassificadasMin,
-			                       D.HorasExtrasRealizadaMin,
+			                       D.ClassificadasDiurnaMin,
+			                       D.ClassificadasNoturnaMin,
+								   SUM(D.ClassificadasDiurnaMin) OVER(PARTITION BY D.IdMarcacao) TotalClassificadasDiurnaMin,
+								   SUM(D.ClassificadasNoturnaMin) OVER(PARTITION BY D.IdMarcacao) TotalClassificadasNoturnaMin,
+			                       D.HorasExtrasRealizadaDiurnaMin,
+			                       D.HorasExtrasRealizadaNoturnaMin,
 								   ClassificacaoCodigo,
 								   ClassificacaoDescricao,
                                    IdClassificacaoHorasExtras,
@@ -495,9 +538,9 @@ namespace DAL.SQL
 							  WHERE " + condicional + @"
 			                AND m.data BETWEEN @datainicial AND @datafinal
 			                ) D
-		                ) I  Where ((@FiltroClass = 0 AND (HorasExtrasRealizadaMin > 0 OR IdClassificacaoHorasExtras is not null)) OR
+		                ) I  Where ((@FiltroClass = 0 AND (HorasExtrasRealizadaDiurnaMin > 0 OR HorasExtrasRealizadaNoturnaMin > 0 OR IdClassificacaoHorasExtras is not null)) OR
 									(@FiltroClass = 1 AND IdClassificacaoHorasExtras is not null) OR
-                                    (@FiltroClass = 2 AND HorasExtrasRealizadaMin > 0 AND IdClassificacaoHorasExtras is null))
+                                    (@FiltroClass = 2 AND (HorasExtrasRealizadaDiurnaMin > 0 OR HorasExtrasRealizadaNoturnaMin > 0) AND IdClassificacaoHorasExtras is null))
 	                ) E 
 				) G
 			INNER JOIN empresa e on e.id = g.idempresa
@@ -587,7 +630,7 @@ namespace DAL.SQL
         public void ExcluirClassificacoesHEPreClassificadas(List<int> idsFuncionarios, DateTime datainicial, DateTime datafinal)
         {
             SqlParameter[] parms = new SqlParameter[3]
-            { 
+            {
                     new SqlParameter("@idsFuncionarios", SqlDbType.VarChar),
                     new SqlParameter("@datainicial", SqlDbType.DateTime),
                     new SqlParameter("@datafinal", SqlDbType.DateTime)
@@ -617,7 +660,7 @@ namespace DAL.SQL
         public void PreClassificarHorasExtras(List<int> idsFuncionarios, DateTime datainicial, DateTime datafinal)
         {
             SqlParameter[] parms = new SqlParameter[4]
-            { 
+            {
                     new SqlParameter("@idsFuncionarios", SqlDbType.VarChar),
                     new SqlParameter("@datainicial", SqlDbType.DateTime),
                     new SqlParameter("@datafinal", SqlDbType.DateTime),
@@ -636,13 +679,13 @@ namespace DAL.SQL
                 parms[3].Value = Modelo.cwkGlobal.objUsuarioLogado.Login;
             }
 
-            string aux = @" INSERT ClassificacaoHorasExtras (codigo, incdata, inchora, incusuario, IdMarcacao, QtdHoraClassificada, Tipo, IdClassificacao)
+            string aux = @" INSERT ClassificacaoHorasExtras (codigo, incdata, inchora, incusuario, IdMarcacao, QtdHoraClassificadaDiurna, Tipo, IdClassificacao)
                             SELECT (Select isnull(max(codigo),0) FROM ClassificacaoHorasExtras) + ROW_NUMBER() OVER(ORDER BY I.IdMarcacao) codigo,
 		                            Convert(date,GETDATE()) incdata,
 		                            GETDATE() inchora,
 		                            @usuario incusuario,
 		                            I.IdMarcacao,
-	                               dbo.FN_CONVMIN(Classificar) QtdHoraClassificada,
+	                               dbo.FN_CONVMIN(Classificar) QtdHoraClassificadaDiurna,
 	                               I.tipo,
 	                               I.idPreClassificacao IdClassificacao
                               FROM (
@@ -668,7 +711,7 @@ namespace DAL.SQL
 				                            h.QtdHEPreClassificadas,
 				                            dbo.FN_CONVHORA(h.QtdHEPreClassificadas) QtdHEPreClassificadasMin,
 				                            h.id,
-				                            ISNULL((SELECT sum(dbo.FN_CONVHORA(cheClass.qtdHoraClassificada)) FROM ClassificacaoHorasExtras cheClass WHERE cheClass.idMarcacao = M.id),0) HorasClassMin
+				                            ISNULL((SELECT sum(dbo.FN_CONVHORA(cheClass.qtdHoraClassificadaDiurna)) FROM ClassificacaoHorasExtras cheClass WHERE cheClass.idMarcacao = M.id),0) HorasClassMin
 		                               FROM marcacao_view m
 		                               LEFT JOIN horario h on m.idhorario = h.id
 		                               LEFT JOIN Funcionario F on m.idfuncionario = F.id  
@@ -731,12 +774,12 @@ namespace DAL.SQL
 				                    CASE WHEN (che.Tipo = 1 and (dbo.FN_CONVHORA(m.horasextrasdiurna) + dbo.FN_CONVHORA(m.horasextranoturna) > ISNULL(ct.total,0))) THEN 
 							                    (dbo.FN_CONVHORA(m.horasextrasdiurna) + dbo.FN_CONVHORA(m.horasextranoturna) -
 							                    ISNULL(ct.total,0))
-						                    ELSE dbo.FN_CONVHORA(che.qtdHoraClassificada) end ClassificadasMin,
+						                    ELSE dbo.FN_CONVHORA(che.qtdHoraClassificadaDiurna) end ClassificadasMin,
 									c.ConsiderarParaExportacao
 			                    FROM marcacao m
 			                    INNER JOIN ClassificacaoHorasExtras che ON che.idMarcacao = m.id
 			                    INNER JOIN Classificacao c on c.id = che.IdClassificacao
-			                    LEFT JOIN (SELECT sum(dbo.FN_CONVHORA(	cheClass.qtdHoraClassificada)) total, cheClass.IdMarcacao 
+			                    LEFT JOIN (SELECT sum(dbo.FN_CONVHORA(	cheClass.qtdHoraClassificadaDiurna)) total, cheClass.IdMarcacao 
 						                     FROM ClassificacaoHorasExtras cheClass 
 						                    INNER JOIN Classificacao cl on cheClass.IdClassificacao = cl.id
 						                    WHERE cheClass.Tipo != 1 

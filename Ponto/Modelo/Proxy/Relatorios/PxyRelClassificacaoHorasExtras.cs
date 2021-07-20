@@ -52,25 +52,37 @@ namespace Modelo.Proxy.Relatorios
 
         public short? Tipo { get; set; }
 
-        [ExportToXls("Código", 15)]
+        [ExportToXls("Tipo", 15)]
         public string TipoDescricao { get; set; }
 
         public int? ClassificadasMin { get; set; }
-
-        [ExportToXls("Classificadas", 16)]
         public string Classificadas { get; set; }
+        public int? ClassificadasDiurnaMin { get; set; }
+        public int? ClassificadasNoturnaMin { get; set; }
+
+
+        [ExportToXls("Classificadas Diurna", 16)]
+        public string ClassificadasDiurna { get; set; }
+
+        [ExportToXls("Classificadas Noturna", 17)]
+        public string ClassificadasNoturna { get; set; }
 
         public int? NaoClassificadasMin { get; set; }
-
-        [ExportToXls("Não Classificadas", 17)]
         public string NaoClassificadas { get; set; }
+        public int? NaoClassificadasDiurnaMin { get; set; }
+        public int? NaoClassificadasNoturnaMin { get; set; }
+
+        [ExportToXls("Não Classificadas Diurna", 18)]
+        public string NaoClassificadasDiurna { get; set; }
+        [ExportToXls("Não Classificadas Noturna", 19)]
+        public string NaoClassificadasNoturna { get; set; }
 
         public int? HorasExtrasRealizadaMin { get; set; }
 
-        [ExportToXls("Horas Extras", 18)]
+        [ExportToXls("Horas Extras", 20)]
         public string HorasExtrasRealizada { get; set; }
 
-        [ExportToXls("Observação", 19)]
+        [ExportToXls("Observação", 21)]
         public string Observacao { get; set; }
     }
 }
