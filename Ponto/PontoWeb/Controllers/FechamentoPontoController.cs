@@ -188,12 +188,13 @@ namespace PontoWeb.Controllers
 
         private void ExportToEpays(FechamentoPonto obj, List<int> idsFuncs)
         {
-            idsFuncs = GetIdsEnabledEpays(idsFuncs);
+            var lsFuncs = GetIdsEnabledEpays(idsFuncs);
             if (idsFuncs.Count > 0)
             {
                 ExportacaoFechamentoPontoModel imp = new ExportacaoFechamentoPontoModel()
                 {
-                    IdSelecionados = string.Join(",", idsFuncs),
+                    IdSelecionados = string.Join(",", lsFuncs.Select(f => f.idFuncionario)),
+                    LstFuncs = lsFuncs,
                     IdFechamentoPonto = obj.Id,
                     TipoArquivo = "PDF"
                 };
@@ -203,23 +204,29 @@ namespace PontoWeb.Controllers
             }
         }
 
-        private List<int> GetIdsEnabledEpays(List<int> idsFuncionariosSelecionados)
+        private List<(int idFuncionario, string userEpays, string passwordEpays)> GetIdsEnabledEpays(List<int> idsFuncionariosSelecionados)
         {
             if (idsFuncionariosSelecionados.Count == 0)
-                return new List<int>();
+                return new List<(int idFuncionario, string userEpays, string passwordEpays)>();
 
             BLL.Empresa empresa = new BLL.Empresa(_usr.ConnectionString, _usr);
             var empFuncs = empresa.GetCnpjsByFuncIds(idsFuncionariosSelecionados.ToArray());
             var cnpjs = empFuncs.Select(e => e.cnpj).Distinct().ToList();
 
-            var lsCnpjEx = new List<string>();
-            cnpjs.ForEach(c =>
+            var lstCnpjs = cnpjs.Select(c =>
             {
-                if (!HasConfigEPays(c))
-                    lsCnpjEx.Add(c);
-            });
+                if (HasConfigEPays(c, out var userEpays, out var passwordEpays))
+                    return new { cnpj = c, userEpays, passwordEpays };
 
-            return empFuncs.Where(e => !lsCnpjEx.Contains(e.cnpj)).Select(e => e.idFuncionario).ToList();
+                return null;
+            })
+            .Where(c => c != null)
+            .ToDictionary(c => c.cnpj, c => c);
+
+            return empFuncs
+                    .Where(e => lstCnpjs.ContainsKey(e.cnpj))
+                    .Select(e => (e.idFuncionario, lstCnpjs[e.cnpj].userEpays, lstCnpjs[e.cnpj].passwordEpays))
+                    .ToList();
         }
 
         private string GetDataBaseName()
@@ -227,18 +234,24 @@ namespace PontoWeb.Controllers
             return new Regex(@"(Catalog=[A-Z]*_[A-Z]*)").Match(_usr.ConnectionString).Value.Replace("Catalog=", "");
         }
 
-        private bool HasConfigEPays(string cnpj)
+        private bool HasConfigEPays(string cnpj, out string userEpays, out string passwordEpays)
         {
             var ePaysConfig = new EPaysConfig();
             var result = ePaysConfig.GetToken(GetDataBaseName(), cnpj);
 
             if (result.StatusCode == HttpStatusCode.OK)
             {
+                userEpays = result.Data.UserEPays;
+                passwordEpays = result.Data.PasswordEPays;
+
                 return !string.IsNullOrEmpty(result.Data.UserEPays)
                         && !string.IsNullOrEmpty(result.Data.PasswordEPays)
                             && !string.IsNullOrEmpty(result.Data.TokenPontofopag)
                                 && result.Data.EnableEPays;
             }
+
+            userEpays = null;
+            passwordEpays = null;
 
             return false;
         }

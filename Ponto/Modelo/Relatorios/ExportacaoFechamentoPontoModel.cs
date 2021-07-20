@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Modelo.Relatorios
 {
@@ -6,6 +7,8 @@ namespace Modelo.Relatorios
     {
         [Display(Name = "Id Fechamento Ponto")]
         public int? IdFechamentoPonto { get; set; }
+
+        public IEnumerable<(int idFuncionario, string userEpays, string passwordEpays)> LstFuncs { get; set; }
 
     }
 }

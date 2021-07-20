@@ -1,4 +1,5 @@
-﻿using BLL.Util;
+﻿using BLL.Epays;
+using BLL.Util;
 using Microsoft.Reporting.WebForms;
 using Modelo;
 using Modelo.Relatorios;
@@ -7,6 +8,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace BLL.Relatorios.V2
 {
@@ -17,6 +20,7 @@ namespace BLL.Relatorios.V2
         private BLL.Parametros _bllParametro;
         private BLL.FechamentoPonto _bllFechamentoPonto;
         private BLL.Funcionario _bllFuncionario;
+        private FechamentoPontoEpaysBLL _bllFechamentoEpays;
         private int _jobId;
 
         public RelatorioExportacaoFechamentoPontoBLL(IRelatorioModel relatorioFiltro, Modelo.UsuarioPontoWeb usuario, ProgressBar progressBar, int JobId) 
@@ -27,6 +31,7 @@ namespace BLL.Relatorios.V2
             _bllParametro = new BLL.Parametros(_connString, _usuario);
             _bllFechamentoPonto = new BLL.FechamentoPonto(_connString, _usuario);
             _bllFuncionario = new BLL.Funcionario(_connString, _usuario);
+            _bllFechamentoEpays = new BLL.Epays.FechamentoPontoEpaysBLL();
 
             _jobId = JobId;
             _parms = (ExportacaoFechamentoPontoModel)relatorioFiltro;
@@ -38,11 +43,16 @@ namespace BLL.Relatorios.V2
             var fechamento = _bllFechamentoPonto.LoadObject((int)_parms.IdFechamentoPonto);
             var idsFuncionario = GetIdsFuncionario(_parms.IdSelecionados);
             var dtPeriodosFechamento = _bllFuncionario.GetEmpresaPeriodoFechamentoPonto(idsFuncionario);
+            var lstResult = new List<DocumentoHashDto>();
+            var dicFuncsEmpParam = _parms.LstFuncs.ToDictionary(f => f.idFuncionario, f => f);
 
             foreach (DataRow row in dtPeriodosFechamento.Rows)
             {
                 var curRow = dtPeriodosFechamento.Rows.IndexOf(row) + 1;
                 var curPeriodo = _bllFechamentoPonto.GetMesAnoFechamento(fechamento.Id, (int)row["idEmpresa"], (int)row["id"]);
+                if (curPeriodo.Ano == null || curPeriodo.Mes == null)
+                    continue;
+                
                 var periodoFechamento = _bllFechamentoPonto.GetPeriodoFechamento((int)curPeriodo.Mes, (int)curPeriodo.Ano,
                                                                                     Convert.ToInt32(row["DiaFechamentoInicial"]),
                                                                                         Convert.ToInt32(row["DiaFechamentoFinal"]));
@@ -75,30 +85,36 @@ namespace BLL.Relatorios.V2
                         };
 
                         nomeArquivo = base.GerarArquivoReportView(parametrosReport);
-                        using (var RabbitMqController = new RabbitMqController())
+
+                        lstResult.Add(new DocumentoHashDto
                         {
-                            var msgIntegration = new MsgIntegrationFechamentoPontoDto(_connString)
-                            {
-                                Tracking = IdTracking,
-                                Id = (int)row["id"],
-                                Cnpj = Dt.Rows[0]["cnpj_cpf"].ToString(),
-                                NomeArquivo = nomeArquivo,
-                                Mes = (int)curPeriodo.Mes,
-                                Ano = (int)curPeriodo.Ano,
-                                IdFechamento = fechamento.Id,
-                                IdEmpresa = (int)row["idEmpresa"],
-                                IdFuncionario = (int)row["id"],
-                                Info = (curRow, dtPeriodosFechamento.Rows.Count),
-                                InicioPeriodo = _parms.InicioPeriodo,
-                                FimPeriodo = _parms.FimPeriodo
-                            };
-                            RabbitMqController.SendFechamentoIntegration(msgIntegration);
-                        }
+                            Tracking = IdTracking,
+                            Cnpj = Dt.Rows[0]["cnpj_cpf"].ToString(),
+                            NomeArquivo = nomeArquivo,
+                            Mes = (int)curPeriodo.Mes,
+                            Ano = (int)curPeriodo.Ano,
+                            IdFechamento = fechamento.Id,
+                            IdEmpresa = (int)row["idEmpresa"],
+                            IdFuncionario = (int)row["id"],
+                            Info = (curRow, dtPeriodosFechamento.Rows.Count),
+                            InicioPeriodo = _parms.InicioPeriodo,
+                            FimPeriodo = _parms.FimPeriodo,
+                            Cpf = (string)row["CPF"],
+                            Matricula = (string)row["matricula"],
+                            Nome = (string)row["nome"],
+                            DataBaseName = GetDataBaseName(),
+                            UserEPays = dicFuncsEmpParam[(int)row["id"]].userEpays,
+                            PasswordEPays = dicFuncsEmpParam[(int)row["id"]].passwordEpays,
+                        });
 
                         parametrosReport = null;
                     }
                 }
             }
+
+            _bllFechamentoEpays.UploadStorage(lstResult);
+
+            _bllFechamentoEpays.FinishUpload(IdTracking);
 
             return string.Empty;
         }
@@ -127,7 +143,7 @@ namespace BLL.Relatorios.V2
             using (FileStream fs = new FileStream(fileName, FileMode.Create))
                 fs.Write(renderedBytes, 0, renderedBytes.Length);
 
-            return $"{NomeArquivo}.{fileNameExtension}";
+            return fileName;
         }
 
         private DataTable GetDados(params int[] ids)
@@ -154,6 +170,11 @@ namespace BLL.Relatorios.V2
             }
 
             return nomerel;
+        }
+
+        private string GetDataBaseName()
+        {
+            return new Regex(@"(Catalog=[A-Z]*_[A-Z]*)").Match(_connString).Value.Replace("Catalog=", "");
         }
 
         private List<ReportParameter> GetParams()
