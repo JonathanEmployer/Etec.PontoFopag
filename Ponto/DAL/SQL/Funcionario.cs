@@ -6351,7 +6351,7 @@ where 1=1
             parms[0].TypeName = "Identificadores";
 
             #region Select
-            string sql = @"SELECT id, idEmpresa, DiaFechamentoInicial, DiaFechamentoFinal
+            string sql = @"SELECT f.id, f.idEmpresa, f.CPF, f.matricula, f.nome, t.DiaFechamentoInicial, t.DiaFechamentoFinal
                             FROM (
                                 SELECT 
                                     tbl.*,
@@ -6373,7 +6373,8 @@ where 1=1
                                     INNER JOIN @idsFuncs i ON i.Identificador = cf.idfuncionario
                                 ) tbl
                                 WHERE DiaFechamentoInicial > 0 AND DiaFechamentoFinal > 0
-                            ) tbl
+                            ) t
+                            INNER JOIN funcionario f ON f.id = t.id
                             WHERE rowOrder = 1";
             #endregion
 
