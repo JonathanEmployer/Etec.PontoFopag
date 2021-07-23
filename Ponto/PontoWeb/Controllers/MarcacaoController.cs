@@ -155,17 +155,7 @@ namespace PontoWeb.Controllers
             {
                 var totalizadorHoras = new BLL.TotalizadorHorasFuncionario(func, Convert.ToDateTime(dataInicial), Convert.ToDateTime(dataFinal), _usr.ConnectionString, _usr);
                 totalizadorHoras.TotalizeHorasEBancoHoras(objTotalHoras);
-                objTotalHoras.lRateioHorasExtras = new List<RateioHorasExtras>();
-                foreach (var rateio in objTotalHoras.RateioHorasExtras)
-                {
-                    RateioHorasExtras nRateio = new RateioHorasExtras();
-                    nRateio.percentual = rateio.Key;
-                    nRateio.diurnoMin = rateio.Value.Diurno;
-                    nRateio.noturnoMin = rateio.Value.Noturno;
-                    nRateio.diurno = Modelo.cwkFuncoes.ConvertMinutosHora(4, rateio.Value.Diurno);
-                    nRateio.noturno = Modelo.cwkFuncoes.ConvertMinutosHora(4, rateio.Value.Noturno);
-                    objTotalHoras.lRateioHorasExtras.Add(nRateio);
-                }
+               
                 ViewBag.Periodo = Convert.ToDateTime(dataInicial).ToShortDateString() + " à " + Convert.ToDateTime(dataFinal).ToShortDateString();
                 objTotalHoras.funcionario = func;
                 totalizadorHoras.TotalizeGruposInItinere(objTotalHoras);

@@ -223,18 +223,8 @@ namespace cwkWebAPIPontoWeb.Controllers
                     Modelo.TotalHoras objTotalHoras = new Modelo.TotalHoras(Convert.ToDateTime(periodofechamento.DataFechamentoInicial), Convert.ToDateTime(periodofechamento.DataFechamentoFinal));
                     var totalizadorHoras = new BLL.TotalizadorHorasFuncionario(func, Convert.ToDateTime(periodofechamento.DataFechamentoInicial), Convert.ToDateTime(periodofechamento.DataFechamentoFinal), usuarioPontoWeb.ConnectionString, null);
                     totalizadorHoras.TotalizeHorasEBancoHoras(objTotalHoras);
-                    objTotalHoras.lRateioHorasExtras = new List<RateioHorasExtras>();
-                    foreach (var rateio in objTotalHoras.RateioHorasExtras)
-                    {
-                        RateioHorasExtras nRateio = new RateioHorasExtras();
-                        nRateio.percentual = rateio.Key;
-                        nRateio.diurnoMin = rateio.Value.Diurno;
-                        nRateio.noturnoMin = rateio.Value.Noturno;
-                        nRateio.diurno = Modelo.cwkFuncoes.ConvertMinutosHora(4, rateio.Value.Diurno);
-                        nRateio.noturno = Modelo.cwkFuncoes.ConvertMinutosHora(4, rateio.Value.Noturno);
-                        objTotalHoras.lRateioHorasExtras.Add(nRateio);
-                    }
-
+                  
+               
                     Models.TotalizadorEspelhoPonto TotalizadorEspelhoPonto = new Models.TotalizadorEspelhoPonto();
                     TotalizadorEspelhoPonto.rateioHorasExtras = new List<Models.RateioHorasExtras>();
 

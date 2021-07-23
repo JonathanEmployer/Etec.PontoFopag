@@ -67,8 +67,10 @@ namespace BLL.CalculoMarcacoes
 
         public void PreenchaBancoHoras(Modelo.TotalHoras objTotalHoras)
         {
-            CalculeSaldoAnterior(objTotalHoras);
-            CalculeSaldoPeriodo(objTotalHoras);
+            CalcularSaldos(objTotalHoras);
+
+            //CalculeSaldoAnterior(objTotalHoras);
+            //CalculeSaldoPeriodo(objTotalHoras);
         }
 
         private void CalculeSaldoAnterior(Modelo.TotalHoras objTotalHoras)
@@ -273,6 +275,154 @@ namespace BLL.CalculoMarcacoes
             {
                 objTotalHoras.sinalSaldoBHAtual = new char();
             }
+        }
+
+        private void CalcularSaldos(Modelo.TotalHoras objTotalHoras)
+        {
+            //Saldo Atual
+            var saldoAtual = marcacoes.Rows.Count == 0 ? "00:00" : (string)marcacoes.Rows[marcacoes.Rows.Count - 1]["saldoBH"];
+
+            if (saldoAtual == "00:00" || saldoAtual == "---:--" || saldoAtual == "--:--")
+            {
+                objTotalHoras.saldoBHAtual = "00:00";
+                objTotalHoras.sinalSaldoBHAtual = new char();
+            }
+            else
+            {
+                if (saldoAtual.Contains("-"))
+                {
+                    objTotalHoras.saldoBHAtual = saldoAtual.Replace("-", "");
+                    objTotalHoras.sinalSaldoBHAtual = '-';
+                }
+                else
+                {
+                    objTotalHoras.saldoBHAtual = saldoAtual;
+                    objTotalHoras.sinalSaldoBHAtual = '+';
+
+                }
+            }
+
+
+            //Saldo Anterior(um dia antes do periodo)
+            var marAnt = bllMarcacao.GetPorFuncionario(idFuncionario, dataI.AddDays(-1), dataI.AddDays(-1), true);
+            var saldoAnt = marAnt.Count == 0 ? "00:00" : marAnt[0].SaldoBH;
+            if (saldoAnt == "00:00" || saldoAnt == "---:--" || saldoAnt == "--:--")
+            {
+                objTotalHoras.saldoAnteriorBH = "00:00";
+                objTotalHoras.sinalSaldoAnteriorBH = new char();
+            }
+            else
+            {
+                if (saldoAnt.Contains("-"))
+                {
+                    objTotalHoras.saldoAnteriorBH = saldoAnt.Replace("-", "");
+                    objTotalHoras.sinalSaldoAnteriorBH = '-';
+                }
+                else
+                {
+                    objTotalHoras.saldoAnteriorBH = saldoAnt;
+                    objTotalHoras.sinalSaldoAnteriorBH = '+';
+
+                }
+            }
+
+            //CALCULO DO PERIODO
+            bool existeFechamento = false;
+            Modelo.FechamentoBHD objFechamentoBHD = null;
+            int saldoPeriodo = 0, creditoP = 0, debitoP = 0;
+
+            //Colocado para a totalização do credito e debito do periodo considerar o fechamento
+            foreach (DataRow marc in marcacoes.Rows)
+            {
+                DateTime data = Convert.ToDateTime(marc["data"]);
+                var fechamentosBH = fechamentosBHList.Where(f => f.Data == data
+                                                        && (
+                                                                  (f.Tipo == 0 && f.Identificacao == idEmpresa)
+                                                                || (f.Tipo == 1 && f.Identificacao == idDepartamento)
+                                                                || (f.Tipo == 2 && f.Identificacao == idFuncionario)
+                                                                || (f.Tipo == 3 && f.Identificacao == idFuncao)
+                                                           )
+                                                        ).OrderBy(f => f.Data);
+                if (fechamentosBH.Count() > 0 && buscarUltimoFechamento)
+                {
+                    var objFechamentoBH = fechamentosBH.Last();
+                    var fechamentosbhd = fechamentosBHDList.Where(f => f.Idfechamentobh == objFechamentoBH.Id && f.Identificacao == idFuncionario);
+                    if (fechamentosbhd.Count() > 0)
+                    {
+                        objFechamentoBHD = fechamentosbhd.Last();
+
+                        List<Modelo.FechamentobhdHE> fechamentosbhdHE =
+                            bllFechamentobhdHE.GetFechamentobhdHEPorIdFechamentoBH(objFechamentoBHD.Idfechamentobh, objFechamentoBHD.Identificacao).ToList();
+
+                        objFechamentoBHD.fechamentosbhdHE = fechamentosbhdHE;
+
+                        Modelo.FechamentobhdHE primFechamentosbhdHE = objFechamentoBHD.fechamentosbhdHE.FirstOrDefault();
+
+                        int indicePerc1FechamentobhdHE = primFechamentosbhdHE == null ? 0 : primFechamentosbhdHE.PercQuantHorasPerc1;
+
+                        QuantHorasPerc1FechamentobhdHE = objFechamentoBHD.Perc1;
+                        PercQuantHorasPerc1FechamentobhdHE = indicePerc1FechamentobhdHE;
+
+                        int indicePerc2FechamentobhdHE = primFechamentosbhdHE == null ? 0 : primFechamentosbhdHE.PercQuantHorasPerc2;
+
+                        QuantHorasPerc2FechamentobhdHE = objFechamentoBHD.Perc2;
+                        PercQuantHorasPerc2FechamentobhdHE = indicePerc2FechamentobhdHE;
+
+                        existeFechamento = true;
+                    }
+                }
+
+                if (existeFechamento)
+                {
+                    if (objFechamentoBHD.Tiposaldo == 0)
+                    {
+                        creditoP = Modelo.cwkFuncoes.ConvertHorasMinuto(objFechamentoBHD.Saldo);
+                        debitoP = 0;
+                        creditoAtual = creditoP;
+                        debitoAtual = 0;
+                    }
+                    else
+                    {
+                        creditoP = 0;
+                        debitoP = Modelo.cwkFuncoes.ConvertHorasMinuto(objFechamentoBHD.Saldo);
+                        creditoAtual = 0;
+                        debitoAtual = debitoP;
+                    }
+                    existeFechamento = false;
+                }
+                else
+                {
+                    int auxcre, auxdeb;
+                    auxcre = Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["bancohorascre"]);
+                    auxdeb = Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["bancohorasdeb"]);
+                    creditoP = creditoP + auxcre;
+                    debitoP = debitoP + auxdeb;
+
+                    creditoAtual += auxcre;
+                    debitoAtual += auxdeb;
+                }
+            }
+
+            saldoPeriodo = creditoP >= debitoP ? creditoP - debitoP : debitoP - creditoP;
+
+            if (creditoP > debitoP)
+            {
+                objTotalHoras.sinalSaldoBHPeriodo = '+';
+            }
+            else if (debitoP > creditoP)
+            {
+                objTotalHoras.sinalSaldoBHPeriodo = '-';
+            }
+            else
+            {
+                objTotalHoras.sinalSaldoBHPeriodo = new char();
+            }
+
+            objTotalHoras.creditoBHPeriodo = Modelo.cwkFuncoes.ConvertMinutosHora(5, creditoP);
+            objTotalHoras.creditoBHPeriodoMin = creditoP;
+            objTotalHoras.debitoBHPeriodo = Modelo.cwkFuncoes.ConvertMinutosHora(5, debitoP);
+            objTotalHoras.debitoBHPeriodoMin = debitoP;
+            objTotalHoras.saldoBHPeriodo = Modelo.cwkFuncoes.ConvertMinutosHora(5, saldoPeriodo);
         }
     }
 }
