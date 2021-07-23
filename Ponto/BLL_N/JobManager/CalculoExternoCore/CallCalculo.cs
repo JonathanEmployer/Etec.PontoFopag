@@ -90,10 +90,14 @@ namespace BLL_N.JobManager.CalculoExternoCore
         }
         public string CalcularPorFuncsPeriodo(List<PxyIdPeriodo> funcsPeriodo)
         {
-            DateTime dataInicial = funcsPeriodo.Min(c => c.InicioPeriodo);
-            DateTime dataFinal = funcsPeriodo.Max(c => c.FimPeriodo);
-            List<int> idsFuncionarios = funcsPeriodo.Select(c => c.Id).ToList();
-            return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
+            if (funcsPeriodo.Count() > 0)
+            {
+                DateTime dataInicial = funcsPeriodo.Min(c => c.InicioPeriodo);
+                DateTime dataFinal = funcsPeriodo.Max(c => c.FimPeriodo);
+                List<int> idsFuncionarios = funcsPeriodo.Select(c => c.Id).ToList();
+                return CalculaLote(dataInicial, dataFinal, idsFuncionarios);
+            }
+            return null;
         }
 
         public string CalcularIdsFunc(List<int> idsFuncionarios, DateTime dataInicial, DateTime dataFinal)
