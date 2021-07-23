@@ -621,7 +621,7 @@ namespace BLL_N.JobManager.Hangfire.Job
             //Desfaz a compensação para manter a consistência dos dados, caso haja um fechamento anterior
             DesfazCompensacao(context, jobReport, db, usuario, pIdCompensacao);
             DataTable totalCompensado = bllCompensacao.GetTotalCompensado(pIdCompensacao);
-            List<string> auxLog = bllCompensacao.RateioHorasCompensadas(totalCompensado, pIdCompensacao);
+            List<string> auxLog = bllCompensacao.RateioHorasCompensadas(totalCompensado, pIdCompensacao, out List<PxyIdPeriodo> idsPeriodosCompensados );
             if (auxLog.Count > 0)
             {
                 StringBuilder str = new StringBuilder("O fechamento foi realizado com sucesso.\nAlguns funcionários já possuem fechamento de outra compensação.\nVerifique.");

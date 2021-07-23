@@ -3,6 +3,7 @@ using System.Data;
 using System.Linq;
 using System.Collections.Generic;
 using DAL.SQL;
+using Modelo.Proxy;
 
 namespace BLL
 {
@@ -271,7 +272,7 @@ namespace BLL
         /// <param name="pListaCompensacao"> Lista de compensação </param>
         /// <param name="pObjCompensacao"> Objeto compensação que vai ser utilizado. </param>
         //PAM - 11/12/2009
-        public List<string> RateioHorasCompensadas(DataTable pListaCompensacao, int pIdCompensacao)
+        public List<string> RateioHorasCompensadas(DataTable pListaCompensacao, int pIdCompensacao, out List<PxyIdPeriodo> idsPeriodosCalcular)
         {
             BLL.Marcacao bllMarcacao = new Marcacao(ConnectionString, UsuarioLogado);
             List<string> log = new List<string>();
@@ -448,6 +449,13 @@ namespace BLL
                     bllMarcacao.Salvar(Modelo.Acao.Alterar, marcacoesSalvar);
                 }
             }
+            List<PxyIdPeriodo> idsPeriodos = new List<PxyIdPeriodo>();
+            DateTime dtIni = marcacoesBanco.Min(m => m.Data);
+            DateTime dtFin = marcacoesBanco.Max(m => m.Data);
+            marcacoesBanco.Select(s => s.Idfuncionario).Distinct().ToList().ForEach(f => idsPeriodos.Add(
+                new PxyIdPeriodo() { Id = f, InicioPeriodo = dtIni, FimPeriodo = dtFin }
+                ));
+            idsPeriodosCalcular = idsPeriodos;
             return log;
         }
 
@@ -535,6 +543,35 @@ namespace BLL
         public DataTable GetTotalCompensado(int pIdCompensacao)
         {
             return dalCompensacao.GetTotalCompensado(pIdCompensacao);
+        }
+
+        public void DesfazerCompensacao(int pIdCompensacao, out Modelo.Compensacao objCompensacao, out DateTime datai, out DateTime dataf)
+        {
+            BLL.Marcacao bllMarcacao = new BLL.Marcacao(ConnectionString, UsuarioLogado);
+            BLL.Compensacao bllCompensacao = new BLL.Compensacao(ConnectionString, UsuarioLogado);
+            objCompensacao = LoadObject(pIdCompensacao);
+            bllCompensacao.RetornaHorasParaFalta(objCompensacao);
+            bllMarcacao.SetaIdCompensadoNulo(objCompensacao.Id);
+            if (objCompensacao.Diacompensarinicial.HasValue && objCompensacao.Diacompensarfinal.HasValue)
+            {
+                datai = objCompensacao.Diacompensarinicial.Value;
+                dataf = objCompensacao.Diacompensarfinal.Value;
+            }
+            else
+            {
+                datai = new DateTime();
+                dataf = new DateTime();
+            }
+            if (objCompensacao.DiasC.Count > 0)
+            {
+                foreach (Modelo.DiasCompensacao dia in objCompensacao.DiasC)
+                {
+                    if (dia.Datacompensada.HasValue && (dia.Datacompensada < datai || datai == new DateTime()))
+                        datai = dia.Datacompensada.Value;
+                    if (dia.Datacompensada > dataf && dia.Datacompensada.HasValue)
+                        dataf = dia.Datacompensada.Value;
+                }
+            }
         }
     }
 }

@@ -413,32 +413,8 @@ namespace BLL_N.JobManager.CalculoExternoCore
 
         public string DesfazCompensacao(int pIdCompensacao)
         {
-            BLL.Marcacao bllMarcacao = new BLL.Marcacao(_userPW.ConnectionString, _userPW);
             BLL.Compensacao bllCompensacao = new BLL.Compensacao(_userPW.ConnectionString, _userPW);
-            Modelo.Compensacao objCompensacao = bllCompensacao.LoadObject(pIdCompensacao);
-            bllCompensacao.RetornaHorasParaFalta(objCompensacao);
-            bllMarcacao.SetaIdCompensadoNulo(objCompensacao.Id);
-            DateTime datai, dataf;
-            if (objCompensacao.Diacompensarinicial.HasValue && objCompensacao.Diacompensarfinal.HasValue)
-            {
-                datai = objCompensacao.Diacompensarinicial.Value;
-                dataf = objCompensacao.Diacompensarfinal.Value;
-            }
-            else
-            {
-                datai = new DateTime();
-                dataf = new DateTime();
-            }
-            if (objCompensacao.DiasC.Count > 0)
-            {
-                foreach (Modelo.DiasCompensacao dia in objCompensacao.DiasC)
-                {
-                    if (dia.Datacompensada.HasValue && (dia.Datacompensada < datai || datai == new DateTime()))
-                        datai = dia.Datacompensada.Value;
-                    if (dia.Datacompensada > dataf && dia.Datacompensada.HasValue)
-                        dataf = dia.Datacompensada.Value;
-                }
-            }
+            bllCompensacao.DesfazerCompensacao(pIdCompensacao, out Compensacao objCompensacao, out DateTime datai, out DateTime dataf);
             return CalcularPorTipo(objCompensacao.Tipo, new List<int> { objCompensacao.Identificacao }, datai, dataf);
 
         }

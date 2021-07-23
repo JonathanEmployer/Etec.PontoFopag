@@ -234,10 +234,15 @@ namespace BLL_N.JobManager.Hangfire
             {
                 BLL.Compensacao bllCompensacao = new BLL.Compensacao(_userPW.ConnectionString, _userPW);
                 //Desfaz a compensação para manter a consistência dos dados, caso haja um fechamento anterior
-                idJob = new CallCalculo(_userPW, jobControl).DesfazCompensacao(pIdCompensacao);
+                bllCompensacao.DesfazerCompensacao(pIdCompensacao, out Compensacao objCompensacao, out DateTime datai, out DateTime dataf);
+
+                BLL.Funcionario bllFuncionario = new BLL.Funcionario(_userPW.ConnectionString, _userPW);
+                List<int> idsFuncionarios = bllFuncionario.GetIDsByTipo(objCompensacao.Tipo, new List<int> { objCompensacao.Identificacao }, false, false);
+                List<PxyIdPeriodo> pxyIdPeriodos = new List<PxyIdPeriodo>();
+                idsFuncionarios.ForEach(f => pxyIdPeriodos.Add(new PxyIdPeriodo() { Id = f, InicioPeriodo = datai, FimPeriodo = dataf }));
 
                 DataTable totalCompensado = bllCompensacao.GetTotalCompensado(pIdCompensacao);
-                List<string> auxLog = bllCompensacao.RateioHorasCompensadas(totalCompensado, pIdCompensacao);
+                List<string> auxLog = bllCompensacao.RateioHorasCompensadas(totalCompensado, pIdCompensacao, out List<PxyIdPeriodo> idsPeriodosCompensados);
                 if (auxLog.Count > 0)
                 {
                     StringBuilder str = new StringBuilder("O fechamento foi realizado com sucesso.\nAlguns funcionários já possuem fechamento de outra compensação.\nVerifique.");
@@ -250,8 +255,10 @@ namespace BLL_N.JobManager.Hangfire
                     System.IO.File.WriteAllText(caminho, str.ToString());
                     JobControlManager.UpdateFileDownload(null, caminho);
                 }
+                pxyIdPeriodos.AddRange(idsPeriodosCompensados);
+                idJob = new CallCalculo(_userPW, jobControl).CalcularPorFuncsPeriodo(pxyIdPeriodos);
             }
-
+            
             PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
