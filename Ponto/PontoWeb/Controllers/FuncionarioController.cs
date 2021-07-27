@@ -212,7 +212,7 @@ namespace PontoWeb.Controllers
                 bllFuncionario.Salvar(Acao.Alterar, funcionario);
 
                 Dictionary<string, string> erros = new Dictionary<string, string>();
-                if (((TipoCracha == 0) && (Cracha.Length <= 8)) || ((TipoCracha == 1) && (Cracha.Length >= 10)))
+                if (((TipoCracha == 0) && (Cracha.Length <= 18)) || ((TipoCracha == 1) && (Cracha.Length >= 10)))
                 {
                     erros = bllFuncionarioRFID.Salvar(Acao.Incluir, new FuncionarioRFID
                     {
