@@ -91,7 +91,7 @@
                 <div class="row">
                     <div class="col-xs-12 center-block">
                         <div style="text-align: right">
-                            <button type="submit" class="btn btn-success salvando">
+                            <button id="btnSalvar" type="button" class="btn btn-success salvando">
                                 <span class="glyphicon glyphicon-ok"></span> &nbsp;Salvar&nbsp;&nbsp;
                             </button>
                             <a class="btn btn-danger salvando"
@@ -110,6 +110,7 @@
 <script>
     cwk_DataCalendario('#btnDataFechamento', '#DataFechamento');
     var errorArray = new Array();
+
     $(document).ready(function () {
         $('#tbFun tbody').on('click', 'tr', function () {
             errorArray["PxyRelPontoWeb.idSelecionados"] = null;
@@ -118,12 +119,85 @@
 
     });
 
-    $('form').submit(function () {
+    function dialogConfirmSave(title, msg, success, danger = undefined) {
+        bootbox.dialog({
+            message: msg,
+            title: title, //"Deseja realmente continuar?",
+            closeButton: false,
+            buttons: {
+                success: {
+                    label: "Sim",
+                    className: "btn-primary",
+                    callback: success
+                },
+                danger: {
+                    label: "Cancelar",
+                    className: "btn-default",
+                    callback: danger
+                }
+            }
+        });
+    }
+
+    function ValidaFechamento(yesCallback, noCallback) {
+        $.ajax({
+            dataType: "json",
+            type: "GET",
+            url: "/FechamentoPonto/ValidaFechamento",
+            data: {
+                'id': @Model.Id
+            },
+            success: function (resp) {
+                if (!resp.isValid) {
+                    dialogConfirmSave(resp.title, resp.message, yesCallback, noCallback)
+                }
+                else {
+                    yesCallback();
+                }
+            },
+        }).fail(function (jqXHR, exception) {
+            // Our error logic here
+            var msg = '';
+            if (jqXHR.status === 0) {
+                msg = 'Verifique a conexão com a internet.';
+            } else if (jqXHR.status == 404) {
+                msg = 'Erro na requisição';
+            } else if (jqXHR.status == 500) {
+                msg = 'Erro Interno.';
+            } else if (exception === 'parsererror') {
+                msg = 'Erro ao converter requisição.';
+            } else if (exception === 'timeout') {
+                msg = 'Tempo Excedido.';
+            } else if (exception === 'abort') {
+                msg = 'Requisição Cancelada.';
+            } else {
+                msg = 'Erro: ' + jqXHR.responseText;
+            }
+            cwkErro(msg);
+        });
+    }
+
+    $("#btnSalvar").click(function (event) {
         if ($(this).valid() && validaForm()) {
-            BloqueiaSalvando();
-            return true;
+            $("#btnSalvar").prop("disabled", true);
+            ValidaFechamento(() => {
+                BloqueiaSalvando();
+                $('form').submit();
+            }, () => {
+                $("#btnSalvar").prop("disabled", false);
+            });
         }
-        return false;
+
+        event.preventDefault();
+    });
+
+    $('form').submit(function () {
+        console.log('form.submit');
+        //if ($(this).valid() && validaForm()) {
+        //    BloqueiaSalvando();
+        //    return true;
+        //}
+        //return false;
     });
 
     function validaForm() {

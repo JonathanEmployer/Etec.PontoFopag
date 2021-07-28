@@ -7,6 +7,7 @@ using PontoWeb.Security;
 using PontoWeb.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -28,7 +29,7 @@ namespace PontoWeb.Controllers
         {
             try
             {
-                
+
                 BLL.FechamentoPonto bllFechamentoPonto = new BLL.FechamentoPonto(_usr.ConnectionString, _usr);
                 List<Modelo.FechamentoPonto> dados = bllFechamentoPonto.GetAllList();
                 JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
@@ -129,6 +130,7 @@ namespace PontoWeb.Controllers
                     {
                         acao = Acao.Alterar;
                         obj.FechamentoPontoFuncionarios = bllFechamentoPontoFunc.GetListWhere("and idFechamentoPonto = " + obj.Id.ToString());
+
                         //Seta todo mundo para ser excluido
                         obj.FechamentoPontoFuncionarios.ToList().ForEach(i => i.Acao = Acao.Excluir);
                         //os que foram selecionados seta para alterar
@@ -136,6 +138,9 @@ namespace PontoWeb.Controllers
                         //Retiro dos selecionados os que já existiam
                         idsFuncsSel.RemoveAll(x => obj.FechamentoPontoFuncionarios.Select(s => s.IdFuncionario).Contains(x));
                     }
+
+                    //Verifica se Existe empresa ativo integração c/ Epays sem configuração de Periodos
+                    var lsFuncs = VerificaConfEmpresaEpays(idsFuncsSel);
 
                     //Adiciona os novos funcionarios selecionados
                     foreach (int idFunc in idsFuncsSel)
@@ -152,8 +157,6 @@ namespace PontoWeb.Controllers
                         obj.FechamentoPontoFuncionarios.Add(fpf);
                     }
 
-
-
                     Dictionary<string, string> erros = new Dictionary<string, string>();
                     erros = bllFechamentoPonto.Salvar(acao, obj);
                     if (erros.Count > 0)
@@ -163,8 +166,7 @@ namespace PontoWeb.Controllers
                     }
                     else
                     {
-                        ExportToEpays(obj, idsFuncsSel);
-
+                        ExportToEpays(obj, lsFuncs);
                         return RedirectToAction("Grid", "FechamentoPonto");
                     }
                 }
@@ -182,14 +184,33 @@ namespace PontoWeb.Controllers
             RelPadrao.InicioPeriodo = DateTime.Now;
             RelPadrao.FimPeriodo = DateTime.Now;
             obj.PxyRelPontoWeb = RelPadrao;
-                       
+
             return View("Cadastrar", obj);
         }
 
-        private void ExportToEpays(FechamentoPonto obj, List<int> idsFuncs)
+        private List<(int idFuncionario, string userEpays, string passwordEpays)> VerificaConfEmpresaEpays(List<int> idsFuncsSel)
         {
-            var lsFuncs = GetIdsEnabledEpays(idsFuncs);
-            if (idsFuncs.Count > 0)
+            var lsFuncs = GetIdsEnabledEpays(idsFuncsSel);
+            if (lsFuncs.Any())
+            {
+                var funcionarioBll = new BLL.Funcionario(_usr.ConnectionString, _usr);
+                var res = funcionarioBll.GetEmpresaPeriodoFechamentoPonto(lsFuncs.Select(f => f.idFuncionario).ToArray());
+                foreach (DataRow row in res.Rows)
+                {
+                    if (Convert.ToInt32(row["DiaFechamentoInicial"]) == 0
+                            && Convert.ToInt32(row["DiaFechamentoFinal"]) == 0)
+                    {
+                        throw new Exception("Para Integração com Epays deverá ter configuração de Periodo de fechamento!");
+                    }
+                }
+            }
+
+            return lsFuncs;
+        }
+
+        private void ExportToEpays(FechamentoPonto obj, List<(int idFuncionario, string userEpays, string passwordEpays)> lsFuncs)
+        {
+            if (lsFuncs.Count > 0)
             {
                 ExportacaoFechamentoPontoModel imp = new ExportacaoFechamentoPontoModel()
                 {
@@ -273,20 +294,39 @@ namespace PontoWeb.Controllers
                 fp.FechamentoPontoFuncionarios = bllFechamentoPontoFuncionario.GetListWhere("and idfechamentoponto = " + fp.Id.ToString());
             }
 
-            
+
             pxyRelPontoWeb RelPadrao = new BLL.RelatoriosPontoWeb(new DAL.SQL.DataBase(_usr.ConnectionString)).GetListagemFuncionariosRel(_usr);
 
             RelPadrao.idSelecionados = "";
             if (fp.FechamentoPontoFuncionarios != null && fp.FechamentoPontoFuncionarios.Count() > 0)
             {
-                RelPadrao.idSelecionados = String.Join(",", fp.FechamentoPontoFuncionarios.Select(x => x.IdFuncionario).ToArray());    
+                RelPadrao.idSelecionados = String.Join(",", fp.FechamentoPontoFuncionarios.Select(x => x.IdFuncionario).ToArray());
             }
-            
+
             RelPadrao.UtilizaControleContrato = _usr.UtilizaControleContratos;
             RelPadrao.InicioPeriodo = DateTime.Now;
             RelPadrao.FimPeriodo = DateTime.Now;
             fp.PxyRelPontoWeb = RelPadrao;
-            return View("Cadastrar",fp);
+            return View("Cadastrar", fp);
+        }
+
+        [HttpGet]
+        public JsonResult ValidaFechamento(int id)
+        {
+            if (id > 0)
+            {
+                BLL.FechamentoPontoFuncionario bllFechamentoPontoFunc = new BLL.FechamentoPontoFuncionario(_usr.ConnectionString, _usr);
+                var lstDocAssinado = bllFechamentoPontoFunc.GetListWhere($"and idFechamentoPonto={id} and bAssinado=1");
+                if (lstDocAssinado.Any())
+                    return Json(new
+                    {
+                        isValid = false,
+                        title = "Deseja realmente continuar?",
+                        message = $"Foram encontrado(s) {lstDocAssinado.Count} documento(s) assinado(s), esta operação excluirá as assinaturas."
+                    }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { isValid = true }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void ValidarForm(FechamentoPonto obj)
