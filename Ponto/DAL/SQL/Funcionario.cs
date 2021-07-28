@@ -6372,7 +6372,7 @@ where 1=1
                                     INNER JOIN dbo.contratofuncionario cf ON c.id = cf.idcontrato
                                     INNER JOIN @idsFuncs i ON i.Identificador = cf.idfuncionario
                                 ) tbl
-                                --WHERE DiaFechamentoInicial > 0 AND DiaFechamentoFinal > 0
+                                WHERE DiaFechamentoInicial > 0 AND DiaFechamentoFinal > 0
                             ) t
                             INNER JOIN funcionario f ON f.id = t.id
                             WHERE rowOrder = 1";

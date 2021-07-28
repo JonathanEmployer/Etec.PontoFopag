@@ -195,14 +195,9 @@ namespace PontoWeb.Controllers
             {
                 var funcionarioBll = new BLL.Funcionario(_usr.ConnectionString, _usr);
                 var res = funcionarioBll.GetEmpresaPeriodoFechamentoPonto(lsFuncs.Select(f => f.idFuncionario).ToArray());
-                foreach (DataRow row in res.Rows)
-                {
-                    if (Convert.ToInt32(row["DiaFechamentoInicial"]) == 0
-                            && Convert.ToInt32(row["DiaFechamentoFinal"]) == 0)
-                    {
-                        throw new Exception("Para Integração com Epays deverá ter configuração de Periodo de fechamento!");
-                    }
-                }
+
+                if (res.Rows.Count == 0)
+                    throw new Exception("Para Integração com Epays deverá ter configuração de Periodo de fechamento!");
             }
 
             return lsFuncs;
