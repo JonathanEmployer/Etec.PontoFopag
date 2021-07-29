@@ -4,13 +4,11 @@ using Hangfire;
 using Modelo;
 using Modelo.EntityFramework.MonitorPontofopag;
 using Modelo.Proxy;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace BLL_N.JobManager.Hangfire
@@ -399,7 +397,7 @@ namespace BLL_N.JobManager.Hangfire
             string idJob;
             if (_userPW.ServicoCalculo == 0)
             {
-             idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.OrdenaMarcacao(null, jobControl, dataBase, usuarioLogado, marcacao), _enqueuedStateNormal);
+                idJob = new BackgroundJobClient().Create<CalculosJob>(x => x.OrdenaMarcacao(null, jobControl, dataBase, usuarioLogado, marcacao), _enqueuedStateNormal);
             }
             else
             {

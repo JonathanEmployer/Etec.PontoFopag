@@ -3156,7 +3156,7 @@ namespace DAL.SQL
             var _func = funcionarios.Replace("(", "").Replace(")", "");
 
             var LtsFunc = _func.Split(',').Where(c => c != "");
-             _func = String.Join(",", LtsFunc);
+            _func = String.Join(",", LtsFunc);
 
 
             List<Modelo.Funcionario> lista = new List<Modelo.Funcionario>();
@@ -6339,6 +6339,25 @@ where 1=1
             SqlCommand cmd = db.ExecNonQueryCmd(CommandType.Text, aux, false, parms);
             cmd.Parameters.Clear();
             return;
+        }
+
+        public string GetNameByDsCodigo (string dsCodigo)
+        {
+            try
+            {
+                SqlParameter[] parms = new SqlParameter[]
+                {
+                    new SqlParameter("@dsCodigo", SqlDbType.VarChar)
+                };
+                parms[0].Value = dsCodigo;
+
+                string aux = "SELECT nome FROM funcionario WHERE dscodigo = @dsCodigo";
+                return (string)db.ExecuteScalar(CommandType.Text, aux, parms);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
     }

@@ -171,11 +171,6 @@ namespace BLL
                             else
                                 dataFinal = dataUltimoBH;
                         }
-                        
-
-                        //Calcula a marcação
-                        BLL.CalculaMarcacao bllCalculaMarcacao = new BLL.CalculaMarcacao(2, objeto.Idfuncionario, dataInicial, dataFinal, ObjProgressBar, false, ConnectionString, UsuarioLogado, false);
-                        bllCalculaMarcacao.CalculaMarcacoes();
                         break;
                     case Modelo.Acao.Excluir:
                         dalMarcacao.Excluir(objeto);

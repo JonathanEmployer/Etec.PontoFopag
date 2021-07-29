@@ -491,25 +491,32 @@ namespace PontoWeb.Controllers
                     }
 
                 }
-                var err = ModelState.Values.Where(w => w.Errors.Count > 0);
-                return Json(new
+                if (!ModelState.Values.Where(w => w.Errors.Count > 0).Any())
                 {
-                    JobId = "",
-                    Progress = "",
-                    Erro = string.Join("; ", err
-                                    .SelectMany(x => x.Errors)
-                                    .Select(x => x.ErrorMessage))
-                });
+                    BLL.Funcionario bllFuncionario = new BLL.Funcionario(_usr.ConnectionString, _usr);
+                    string nome = bllFuncionario.GetNameByDsCodigo(marcacao.Dscodigo);
+                    HangfireManagerCalculos hfm = new HangfireManagerCalculos(_usr);
+                    string parametrosExibicao = String.Format("Data {0}, funcionário: {1} | {2}", marcacao.Data.ToString("dd/MM/yyyy"), marcacao.Dscodigo, nome);
+                    Modelo.Proxy.PxyJobReturn ret = hfm.RecalculaMarcacao("Manutenção marcação", parametrosExibicao, new List<int>() { marcacao.Idfuncionario }, marcacao.Data.AddDays(-1), marcacao.Data.AddDays(+1), false);
+                    return new JsonResult { Data = new { success = true, job = ret } };
+                }
+                else
+                {
+                    var err = ModelState.Values.Where(w => w.Errors.Count > 0);
+                    return Json(new { erro = true, mensagemErro = string.Join("; ", err
+                                        .SelectMany(x => x.Errors)
+                                        .Select(x => x.ErrorMessage))
+                    }, JsonRequestBehavior.AllowGet);
+                }
             }
             catch (Exception ex)
             {
                 BLL.cwkFuncoes.LogarErro(ex);
                 return Json(new
                 {
-                    JobId = "",
-                    Progress = "",
-                    Erro = ex.Message
-                });
+                    erro = true,
+                    mensagemErro = ex.Message
+                }, JsonRequestBehavior.AllowGet);
             }
 
         }

@@ -2163,5 +2163,10 @@ namespace BLL
             dalFuncionario.DeleteLogicoFuncionariosInativos(qtdMeses);
         }
 
+        public string GetNameByDsCodigo(string dsCodigo)
+        {
+            return dalFuncionario.GetNameByDsCodigo(dsCodigo);
+        }
+
     }
 }
