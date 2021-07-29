@@ -499,7 +499,7 @@ namespace Modelo
 
 
         [Display(Name = "Desc. Horas DSR")]
-        [StringLength(4, ErrorMessage = "Valor Inválido.")]
+        //[MaxLength(4, ErrorMessage = "Valor Inválido.")]
         [DataTableAttribute()]
         public decimal Descontohorasdsr { get; set; }
 
