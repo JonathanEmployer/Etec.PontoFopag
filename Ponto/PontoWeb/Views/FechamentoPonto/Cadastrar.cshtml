@@ -107,97 +107,40 @@
 
 }
 
+@Scripts.Render("~/bundles/paginajs")
+
 <script>
     cwk_DataCalendario('#btnDataFechamento', '#DataFechamento');
     var errorArray = new Array();
 
+    var controller = 'FechamentoPonto';
+
     $(document).ready(function () {
+        const of = new cwkFechamentoPonto(controller, '');
+        
         $('#tbFun tbody').on('click', 'tr', function () {
             errorArray["PxyRelPontoWeb.idSelecionados"] = null;
             $("form").validate().showErrors(errorArray);
         });
 
-    });
+        $("#btnSalvar").click(function (event) {
+            if ($("form").valid() && validaForm()) {
+                $("#btnSalvar").prop("disabled", true);
 
-    function dialogConfirmSave(title, msg, success, danger = undefined) {
-        bootbox.dialog({
-            message: msg,
-            title: title, //"Deseja realmente continuar?",
-            closeButton: false,
-            buttons: {
-                success: {
-                    label: "Sim",
-                    className: "btn-primary",
-                    callback: success
-                },
-                danger: {
-                    label: "Cancelar",
-                    className: "btn-default",
-                    callback: danger
-                }
+                of.ValidaFechamento('@Model.Id', $("#PxyRelPontoWeb_idSelecionados").val())
+                    .then(of.checkDialogConfirmSign)
+                    .then(() => {
+                        BloqueiaSalvando();
+                        $('form').submit()
+                    })
+                    .catch(() => {
+                        $("#btnSalvar").prop("disabled", false);
+                        $.unblockUI();
+                    });
             }
+            event.preventDefault();
         });
-    }
 
-    function ValidaFechamento(yesCallback, noCallback) {
-        $.ajax({
-            dataType: "json",
-            type: "GET",
-            url: "/FechamentoPonto/ValidaFechamento",
-            data: {
-                'id': @Model.Id
-            },
-            success: function (resp) {
-                if (!resp.isValid) {
-                    dialogConfirmSave(resp.title, resp.message, yesCallback, noCallback)
-                }
-                else {
-                    yesCallback();
-                }
-            },
-        }).fail(function (jqXHR, exception) {
-            // Our error logic here
-            var msg = '';
-            if (jqXHR.status === 0) {
-                msg = 'Verifique a conexão com a internet.';
-            } else if (jqXHR.status == 404) {
-                msg = 'Erro na requisição';
-            } else if (jqXHR.status == 500) {
-                msg = 'Erro Interno.';
-            } else if (exception === 'parsererror') {
-                msg = 'Erro ao converter requisição.';
-            } else if (exception === 'timeout') {
-                msg = 'Tempo Excedido.';
-            } else if (exception === 'abort') {
-                msg = 'Requisição Cancelada.';
-            } else {
-                msg = 'Erro: ' + jqXHR.responseText;
-            }
-            cwkErro(msg);
-        });
-    }
-
-    $("#btnSalvar").click(function (event) {
-        if ($(this).valid() && validaForm()) {
-            $("#btnSalvar").prop("disabled", true);
-            ValidaFechamento(() => {
-                BloqueiaSalvando();
-                $('form').submit();
-            }, () => {
-                $("#btnSalvar").prop("disabled", false);
-            });
-        }
-
-        event.preventDefault();
-    });
-
-    $('form').submit(function () {
-        console.log('form.submit');
-        //if ($(this).valid() && validaForm()) {
-        //    BloqueiaSalvando();
-        //    return true;
-        //}
-        //return false;
     });
 
     function validaForm() {
@@ -215,8 +158,8 @@
             return true;
         }
     }
-
 </script>
+
 @if (ViewBag.Consultar == 1)
 {
     <script>

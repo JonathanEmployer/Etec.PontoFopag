@@ -1084,14 +1084,19 @@ namespace DAL.SQL
         public IEnumerable<(string cnpj, int idFuncionario)> GetCnpjsByFuncIds(params int[] ids)
         {
             var lstResult = new List<(string cnpj, int idFuncionario)>();
-            var funcIds = string.Join(",", ids);
+            SqlParameter[] parms = new SqlParameter[1]
+            {
+                new SqlParameter("@idsFuncs", SqlDbType.Structured)
+            };
+            parms[0].Value = CreateDataTableIdentificadores(ids.Select(s => (long)s));
+            parms[0].TypeName = "Identificadores";
 
             string sql = @"SELECT e.cnpj, f.id
-                        FROM funcionario as f
-                        INNER JOIN empresa e ON e.id = f.idempresa
-                        WHERE f.id IN (" + funcIds + ")";
+                            FROM funcionario as f
+                            INNER JOIN empresa e ON e.id = f.idempresa
+                            INNER JOIN @idsFuncs i ON i.Identificador = f.id";
 
-            using (SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql))
+            using (SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms))
             {
                 while (dr.HasRows && dr.Read())
                 {

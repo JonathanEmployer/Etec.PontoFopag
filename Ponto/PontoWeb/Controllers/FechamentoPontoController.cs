@@ -1,4 +1,5 @@
 ﻿using BLL_N.JobManager.Hangfire;
+using Hangfire.States;
 using Modelo;
 using Modelo.Proxy;
 using Modelo.Relatorios;
@@ -80,16 +81,28 @@ namespace PontoWeb.Controllers
         public override ActionResult Excluir(int id)
         {
             BLL.FechamentoPonto bllFechamentoPonto = new BLL.FechamentoPonto(_usr.ConnectionString, _usr);
-            FechamentoPonto fechamentoPonto = bllFechamentoPonto.LoadObject(id);
+            BLL.FechamentoPontoFuncionario bllFechamentoPontoFunc = new BLL.FechamentoPontoFuncionario(_usr.ConnectionString, _usr);
+            FechamentoPonto obj = bllFechamentoPonto.LoadObject(id);
+
             try
             {
                 Dictionary<string, string> erros = new Dictionary<string, string>();
-                erros = bllFechamentoPonto.Salvar(Acao.Excluir, fechamentoPonto);
+                
+                GetChanges(obj, bllFechamentoPonto, bllFechamentoPontoFunc);
+
+                erros = bllFechamentoPonto.Salvar(Acao.Excluir, obj);
                 if (erros.Count > 0)
                 {
                     string erro = string.Join(";", erros.Select(x => x.Key + "=" + x.Value).ToArray());
                     return Json(new { Success = false, Erro = erro }, JsonRequestBehavior.AllowGet);
                 }
+                else
+                {
+                    var hasDeleted = obj.FechamentoPontoFuncionarios.Where(f => f.Acao == Acao.Excluir).Select(f => f.IdFuncionario);
+                    if (hasDeleted.Any())
+                        HangfireDeleteEpays(obj.Id, hasDeleted);
+                }
+
                 return Json(new { Success = true, Erro = " " }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -98,11 +111,12 @@ namespace PontoWeb.Controllers
                 return Json(new { Success = false, Erro = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
+         
         protected override ActionResult Salvar(FechamentoPonto obj)
         {
             BLL.FechamentoPonto bllFechamentoPonto = new BLL.FechamentoPonto(_usr.ConnectionString, _usr);
             BLL.FechamentoPontoFuncionario bllFechamentoPontoFunc = new BLL.FechamentoPontoFuncionario(_usr.ConnectionString, _usr);
+            BLL.Epays.FechamentoPontoEpaysBLL fechamentoPontoEpaysBLL = new BLL.Epays.FechamentoPontoEpaysBLL(_usr.ConnectionString);
 
             //ValidarForm(obj);
             if (ModelState.IsValid)
@@ -119,43 +133,13 @@ namespace PontoWeb.Controllers
                         throw new Exception("Erro ao carregar a lista de funcionários selecionados");
                     }
 
-                    Acao acao = new Acao();
-                    if (obj.Id == 0)
-                    {
-                        acao = Acao.Incluir;
-                        obj.FechamentoPontoFuncionarios = new List<FechamentoPontoFuncionario>();
-                        obj.Codigo = bllFechamentoPonto.MaxCodigo();
-                    }
-                    else
-                    {
-                        acao = Acao.Alterar;
-                        obj.FechamentoPontoFuncionarios = bllFechamentoPontoFunc.GetListWhere("and idFechamentoPonto = " + obj.Id.ToString());
+                    Acao acao = GetChanges(obj, bllFechamentoPonto, bllFechamentoPontoFunc, idsFuncsSel);
 
-                        //Seta todo mundo para ser excluido
-                        obj.FechamentoPontoFuncionarios.ToList().ForEach(i => i.Acao = Acao.Excluir);
-                        //os que foram selecionados seta para alterar
-                        obj.FechamentoPontoFuncionarios.Where(w => idsFuncsSel.Contains(w.IdFuncionario)).ToList().ForEach(f => { f.Acao = Acao.Alterar; });
-                        //Retiro dos selecionados os que já existiam
-                        idsFuncsSel.RemoveAll(x => obj.FechamentoPontoFuncionarios.Select(s => s.IdFuncionario).Contains(x));
-                    }
-
-                    //Verifica se Existe empresa ativo integração c/ Epays sem configuração de Periodos
+                    //Verifica se Existe empresa com integração ativa c/ Epays sem configuração de Periodos
                     var lsFuncs = VerificaConfEmpresaEpays(idsFuncsSel);
 
                     //Adiciona os novos funcionarios selecionados
-                    foreach (int idFunc in idsFuncsSel)
-                    {
-                        FechamentoPontoFuncionario fpf = new FechamentoPontoFuncionario();
-                        fpf.IdFechamentoPonto = obj.Id;
-                        fpf.IdFuncionario = idFunc;
-                        fpf.Acao = Acao.Incluir;
-                        fpf.Codigo = bllFechamentoPontoFunc.MaxCodigo();
-                        if (obj.FechamentoPontoFuncionarios == null)
-                        {
-                            obj.FechamentoPontoFuncionarios = new List<FechamentoPontoFuncionario>();
-                        }
-                        obj.FechamentoPontoFuncionarios.Add(fpf);
-                    }
+                    AddFuncionarios(obj, bllFechamentoPontoFunc, idsFuncsSel);
 
                     Dictionary<string, string> erros = new Dictionary<string, string>();
                     erros = bllFechamentoPonto.Salvar(acao, obj);
@@ -167,6 +151,11 @@ namespace PontoWeb.Controllers
                     else
                     {
                         ExportToEpays(obj, lsFuncs);
+
+                        var hasDeleted = obj.FechamentoPontoFuncionarios.Where(f => f.Acao == Acao.Excluir).Select(f => f.IdFuncionario);
+                        if (acao != Acao.Incluir && hasDeleted.Any())
+                            HangfireDeleteEpays(obj.Id, hasDeleted);
+
                         return RedirectToAction("Grid", "FechamentoPonto");
                     }
                 }
@@ -186,6 +175,56 @@ namespace PontoWeb.Controllers
             obj.PxyRelPontoWeb = RelPadrao;
 
             return View("Cadastrar", obj);
+        }
+
+        private void HangfireDeleteEpays(int idFechamento, IEnumerable<int> idsExcluidos)
+        {
+            Modelo.UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+            HangfireIntegrationEpays hie = new HangfireIntegrationEpays(UserPW.DataBase);
+            hie.SendToEpaysDeleted(idFechamento, idsExcluidos);
+        }
+
+        private void AddFuncionarios(FechamentoPonto obj, BLL.FechamentoPontoFuncionario bllFechamentoPontoFunc, List<int> idsFuncsSel)
+        {
+            foreach (int idFunc in idsFuncsSel)
+            {
+                FechamentoPontoFuncionario fpf = new FechamentoPontoFuncionario();
+                fpf.IdFechamentoPonto = obj.Id;
+                fpf.IdFuncionario = idFunc;
+                fpf.Acao = Acao.Incluir;
+                fpf.Codigo = bllFechamentoPontoFunc.MaxCodigo();
+                if (obj.FechamentoPontoFuncionarios == null)
+                {
+                    obj.FechamentoPontoFuncionarios = new List<FechamentoPontoFuncionario>();
+                }
+                obj.FechamentoPontoFuncionarios.Add(fpf);
+            }
+        }
+
+        private Acao GetChanges(FechamentoPonto obj, BLL.FechamentoPonto bllFechamentoPonto, BLL.FechamentoPontoFuncionario bllFechamentoPontoFunc, List<int> idsFuncsSel = null)
+        {
+            idsFuncsSel = idsFuncsSel ?? new List<int>();
+            Acao acao = new Acao();
+            if (obj.Id == 0)
+            {
+                acao = Acao.Incluir;
+                obj.FechamentoPontoFuncionarios = new List<FechamentoPontoFuncionario>();
+                obj.Codigo = bllFechamentoPonto.MaxCodigo();
+            }
+            else
+            {
+                acao = Acao.Alterar;
+                obj.FechamentoPontoFuncionarios = bllFechamentoPontoFunc.GetListWhere("and idFechamentoPonto = " + obj.Id.ToString());
+
+                //Seta todo mundo para ser excluido
+                obj.FechamentoPontoFuncionarios.ToList().ForEach(i => i.Acao = Acao.Excluir);
+                //os que foram selecionados seta para alterar
+                obj.FechamentoPontoFuncionarios.Where(w => idsFuncsSel.Contains(w.IdFuncionario)).ToList().ForEach(f => { f.Acao = Acao.Alterar; });
+                //Retiro dos selecionados os que já existiam
+                idsFuncsSel.RemoveAll(x => obj.FechamentoPontoFuncionarios.Select(s => s.IdFuncionario).Contains(x));
+            }
+
+            return acao;
         }
 
         private List<(int idFuncionario, string userEpays, string passwordEpays)> VerificaConfEmpresaEpays(List<int> idsFuncsSel)
@@ -215,8 +254,8 @@ namespace PontoWeb.Controllers
                     TipoArquivo = "PDF"
                 };
                 Modelo.UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
-                HangfireManagerRelatorios hfm = new HangfireManagerRelatorios(UserPW.DataBase);
-                hfm.RelatorioExportacaoPontoFechamento(imp);
+                HangfireIntegrationEpays hie = new HangfireIntegrationEpays(UserPW.DataBase);
+                hie.RelatorioExportacaoPontoFechamento(obj.Id, imp);
             }
         }
 
@@ -305,20 +344,44 @@ namespace PontoWeb.Controllers
             return View("Cadastrar", fp);
         }
 
-        [HttpGet]
-        public JsonResult ValidaFechamento(int id)
+        [HttpPost]
+        public JsonResult ValidaFechamento(FechamentoPonto obj, string idsSelecionados = null)
         {
-            if (id > 0)
+            BLL.FechamentoPonto bllFechamentoPonto = new BLL.FechamentoPonto(_usr.ConnectionString, _usr);
+            BLL.FechamentoPontoFuncionario bllFechamentoPontoFunc = new BLL.FechamentoPontoFuncionario(_usr.ConnectionString, _usr);
+
+            List<int> idsFuncsSel = idsSelecionados?.Split(',').ToList().Select(s => int.Parse(s)).ToList();
+            Acao acao = GetChanges(obj, bllFechamentoPonto, bllFechamentoPontoFunc, idsFuncsSel);
+
+            var hasChanges = obj.FechamentoPontoFuncionarios.Where(f => f.Acao == Acao.Excluir).Select(f => f.IdFuncionario);
+            if (hasChanges.Any())
             {
-                BLL.FechamentoPontoFuncionario bllFechamentoPontoFunc = new BLL.FechamentoPontoFuncionario(_usr.ConnectionString, _usr);
-                var lstDocAssinado = bllFechamentoPontoFunc.GetListWhere($"and idFechamentoPonto={id} and bAssinado=1");
-                if (lstDocAssinado.Any())
+                var lstDocAssinado = bllFechamentoPontoFunc.GetListWhere($"and idFechamentoPonto={obj.Id} and bAssinado=1");
+                var assFunc = lstDocAssinado.Where(d => hasChanges.Contains(d.IdFuncionario));
+
+                if (assFunc.Any())
                     return Json(new
                     {
                         isValid = false,
                         title = "Deseja realmente continuar?",
-                        message = $"Foram encontrado(s) {lstDocAssinado.Count} documento(s) assinado(s), esta operação excluirá as assinaturas."
+                        message = $"Foram encontrado(s) {assFunc.Count()} documento(s) assinado(s), esta operação excluirá as assinaturas."
                     }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { isValid = true }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult ValidaJob(int id)
+        {
+            BLL.FechamentoPonto bllFechamentoPonto = new BLL.FechamentoPonto(_usr.ConnectionString, _usr);
+            var idJob = bllFechamentoPonto.GetIdJob(id);
+            if (!string.IsNullOrEmpty(idJob))
+            {
+                var job = JobControlManager.GetJobControl(idJob);
+                if (job.StatusNovo == EnqueuedState.StateName
+                        || job.StatusNovo == ProcessingState.StateName)
+                    return Json(new { isValid = false }, JsonRequestBehavior.AllowGet);
             }
 
             return Json(new { isValid = true }, JsonRequestBehavior.AllowGet);

@@ -76,7 +76,8 @@ namespace BLL
         }
 
         
-        public DataTable GetCartaoPontoRel(DateTime dataInicial, DateTime dataFinal, string empresas, string departamentos, string funcionarios, int tipo, int normalFlexivel, int idhorario, Modelo.ProgressBar pPBRecalculo, bool ordenaDeptoFuncionario, string filtro, bool quebraAuto)
+        public DataTable GetCartaoPontoRel(DateTime dataInicial, DateTime dataFinal, string empresas, string departamentos, string funcionarios, int tipo, int normalFlexivel, int idhorario, 
+                Modelo.ProgressBar pPBRecalculo, bool ordenaDeptoFuncionario, string filtro, bool quebraAuto)
         {
             //Ajustes nesse método deve ser avaliado todos as chamadas, uma delas é a integração dos arquivos PDFs p/ Epays => RelatorioExportacaoFechamentoPontoBLL
             try
@@ -91,6 +92,7 @@ namespace BLL
 
                 pPBRecalculo.setaMensagem("Verificando marcações de ponto");
                 CorrigeMarcacoes(funcionarios, dataInicial, dataFinal, bllMarcacao, bllFunc, bllInclusaoBanco);
+                
                 pPBRecalculo.setaMensagem("Carregando dados");
                 DataTable dt = dalCartaoPonto.GetCartaoPontoRel(dataInicial, dataFinal, empresas, departamentos, funcionarios, tipo, normalFlexivel, ordenaDeptoFuncionario, filtro);
 

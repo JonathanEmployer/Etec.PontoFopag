@@ -1,14 +1,15 @@
-﻿using Microsoft.WindowsAzure.Storage;
+﻿using BLL.Util;
+using Microsoft.WindowsAzure.Storage;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace BLL.Epays
 {
@@ -18,13 +19,18 @@ namespace BLL.Epays
         private readonly string _apiIntegradorEndpoint;
         private readonly string _apiIntegradorKey;
         private readonly CloudStorageAccount _storageAccount;
+        private readonly string _connString;
+        private readonly Empresa _empresaBll;
 
-        public FechamentoPontoEpaysBLL()
+        public FechamentoPontoEpaysBLL(string connString)
         {
             _azureWebJobsStorage = ConfigurationManager.AppSettings["AzureWebJobsStorage"];
             _apiIntegradorEndpoint = ConfigurationManager.AppSettings["ApiIntegradorEpays"];
             _apiIntegradorKey = ConfigurationManager.AppSettings["ApiIntegradorKeyEpays"];
             _storageAccount = CloudStorageAccount.Parse(_azureWebJobsStorage);
+            _connString = connString;
+
+            _empresaBll = new BLL.Empresa(_connString);
         }
 
         public void UploadStorage(List<DocumentoHashDto> lstDocumentos)
@@ -101,5 +107,30 @@ namespace BLL.Epays
                 Debug.WriteLine(ex.Message);
             }
         }
+
+        public void SendToEpaysDeleted(int idFechamento, IEnumerable<int> idsExcluidos)
+        {
+            var result = _empresaBll.GetCnpjsByFuncIds(idsExcluidos.ToArray());
+            foreach (var item in result.GroupBy(r => r.cnpj))
+            {
+                var itensToDel = item.Where(i => idsExcluidos.Contains(i.idFuncionario));
+                if (itensToDel.Any())
+                {
+                    using (var RabbitMqController = new RabbitMqController())
+                    {
+                        var messageIntegration = new MsgIntegrationFechamentoPontoDto(_connString)
+                        {
+                            IdFechamento = idFechamento,
+                            IdsFuncionario = itensToDel.Select(i => i.idFuncionario),
+                            Tracking = Guid.NewGuid().ToString(),
+                            Cnpj = item.Key,
+                            Acao = enuAcaoFechamentoPonto.Excluir
+                        };
+                        RabbitMqController.SendFechamentoIntegration(messageIntegration);
+                    }
+                }
+            }
+        }
+
     }
 }

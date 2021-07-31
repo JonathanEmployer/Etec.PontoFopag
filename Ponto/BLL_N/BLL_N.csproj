@@ -518,6 +518,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JobManager\Hangfire\HangfireConfig.cs" />
+    <Compile Include="JobManager\Hangfire\HangfireIntegrationEpays.cs" />
     <Compile Include="JobManager\Hangfire\HangfireManagerCalculos.cs" />
     <Compile Include="JobManager\Hangfire\HangfireManagerExportacoes.cs" />
     <Compile Include="JobManager\Hangfire\HangfireManagerImportacoes.cs" />
@@ -526,6 +527,7 @@
     <Compile Include="JobManager\CalculoMarcacoes.cs" />
     <Compile Include="JobManager\Hangfire\HangfireJobFilterAttribute.cs" />
     <Compile Include="JobManager\Hangfire\HangfireManagerBase.cs" />
+    <Compile Include="JobManager\Hangfire\Job\EpaysJob.cs" />
     <Compile Include="JobManager\Hangfire\Job\ExportacoesJob.cs" />
     <Compile Include="JobManager\ImportacaoBilhetes.cs" />
     <Compile Include="JobManager\Hangfire\Job\ImportacoesJob.cs" />

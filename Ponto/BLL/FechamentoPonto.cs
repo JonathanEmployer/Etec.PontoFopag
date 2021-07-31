@@ -159,5 +159,16 @@ namespace BLL
 
             return (dataInicio, dataFim);
         }
+
+        public void UpdateIdJob(int idFechamento, string idJob)
+        {
+            dalFechamentoPonto.UpdateIdJob(idFechamento, idJob);
+        }
+
+        public string GetIdJob(int idFechamento)
+        {
+            return dalFechamentoPonto.GetIdJob(idFechamento);
+        }
+
     }
 }

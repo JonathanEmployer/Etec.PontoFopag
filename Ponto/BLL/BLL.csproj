@@ -368,6 +368,7 @@
     <Compile Include="CercaVirtual.cs" />
     <Compile Include="Epays\DocumentoHashDto.cs" />
     <Compile Include="Epays\FechamentoPontoEpaysBLL.cs" />
+    <Compile Include="Epays\MsgIntegrationFechamentoPontoDto.cs" />
     <Compile Include="HorarioDinamicoRestricao.cs" />
     <Compile Include="JornadaAlternativaFuncionario.cs" />
     <Compile Include="JornadaSubstituir.cs" />

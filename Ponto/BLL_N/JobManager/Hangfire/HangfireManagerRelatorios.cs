@@ -28,13 +28,6 @@ namespace BLL_N.JobManager.Hangfire
             return jobReturn;
         }
 
-        public void RelatorioExportacaoPontoFechamento(ExportacaoFechamentoPontoModel parametros)
-        {
-            JobControl jobControl = GerarJobControl("Integração Epays", $"{parametros.IdSelecionados.Split(',').Count()} documento(s) processados(s).");
-            jobControl.PermiteCancelar = true;
-            string idJob = new BackgroundJobClient().Create<RelatoriosJob>(x => x.GetRelatorioExportacaoPontoFechamento(null, jobControl, parametros, dataBase, usuarioLogado), _enqueuedStateNormal);
-        }
-
         public Modelo.Proxy.PxyJobReturn RelatorioAbsenteismo(IRelatorioModel parametros)
         {
             string descricaoParametros = GetDescricaoParametrosJob(parametros);

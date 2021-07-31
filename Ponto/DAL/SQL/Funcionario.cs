@@ -6355,7 +6355,7 @@ where 1=1
                             FROM (
                                 SELECT 
                                     tbl.*,
-                                    row_number() over(partition by tbl.id order by tbl.prioridade asc) as rowOrder 
+                                    row_number() over(partition by tbl.id order by tbl.prioridade desc) as rowOrder 
                                 FROM (
                                     SELECT f.id, f.idempresa, p.DiaFechamentoInicial, p.DiaFechamentoFinal, 1 prioridade
                                     FROM dbo.funcionario f
