@@ -123,8 +123,9 @@ namespace DAL.RelatoriosSQL
 									   ) E
 								   LEFT JOIN jornada AS j ON E.idJornada = j.id
 								   ) I
-						   WHERE ((@considerarDoisRegistros = 0 and I.QtdRegistroJornada >= 4) or
-						   (@considerarDoisRegistros = 1 and I.QtdRegistroJornada >= 2) and
+						   WHERE (
+							((@considerarDoisRegistros = 0 and I.QtdRegistroJornada >= 4) or
+						   (@considerarDoisRegistros = 1 and I.QtdRegistroJornada >= 2)) and
 						   ((@considerarDiasSemjornada = 1 ) OR (@considerarDiasSemjornada = 0 AND I.idJornada is not NULL))
 						   )
 							) D

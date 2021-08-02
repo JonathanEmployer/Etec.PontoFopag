@@ -635,11 +635,11 @@
            return false;
         }
         if (rd == 0) {
-            if (($('#lkpHistorioRFID').val().length) > 8)
+            if (($('#lkpHistorioRFID').val().length) > 18)
             {
                 $('#vsRfid').removeClass('field-validation-valid');
                 $('#vsRfid').addClass('field-validation-error');
-                $('#vsRfid').html('(RFID) Tamanho máximo 8 caracteres');
+                $('#vsRfid').html('(RFID) Tamanho máximo 18 caracteres');
                 return false;
             }
             else if (!cracha) {
