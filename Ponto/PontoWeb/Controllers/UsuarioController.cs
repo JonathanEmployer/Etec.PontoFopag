@@ -590,7 +590,7 @@ namespace PontoWeb.Controllers
             else if (con.ToUpper().Contains(@"\HOM"))
             {
                 user.login = "homemployer";
-                user.Password = "pfphom";
+                user.Password = "hom20pfp";
             }
             else if (con.ToUpper().Contains(@"\DEV"))
             {
