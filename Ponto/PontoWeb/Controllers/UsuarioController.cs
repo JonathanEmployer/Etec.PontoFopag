@@ -580,12 +580,12 @@ namespace PontoWeb.Controllers
             if (con.ToUpper().Contains(@"\PRD"))
             {
                 user.login = "produtoemployer";
-                user.Password = "pro20prd";
+                user.Password = "qwer1234";
             }
             else if (con.ToUpper().Contains(@"\SUP"))
             {
-                user.login = "produtojmalucelli";
-                user.Password = "pro20prd";
+                user.login = "produtoemployer";
+                user.Password = "Pfp#2020";
             }
             else if (con.ToUpper().Contains(@"\HOM"))
             {
@@ -595,11 +595,11 @@ namespace PontoWeb.Controllers
             else if (con.ToUpper().Contains(@"\DEV"))
             {
                 user.login = "devemployer";
-                user.Password = "pfpemployer";
+                user.Password = "pfpdev";
             }
             else if (con.ToUpper().Contains(@"\PRE"))
             {
-                user.login = "testejmalucelli";
+                user.login = "testeemployer";
                 user.Password = "pfpteste";
             }
             else if (con.ToUpper().Contains(@"DATA SOURCE=LOCALHOST"))
