@@ -1095,7 +1095,7 @@
             });
             if (salvar) {
                 if ($(this).valid() && valido) {
-                    cwk_SalvaCadastroAjaxProgress(this, "", callBackSalvaManutMarcacao, true);
+                    PostFormJob(this, callBackSalvaManutMarcacao, "", "")
                 }
                 else { cwkErroTit("Existem erros na página", "Corrija os erros destacados na página antes de salvar.") }
             }
@@ -1420,7 +1420,7 @@
     //Fim Javascript das modals de _ManutMarcBilhete
 
     //Inicio Javascript referente a afastamento
-        $("#btnExcluiAfastamento").click(function () {
+    $("#btnExcluiAfastamento").click(function () {
         if ($("#lkpOcorrencia").val() != "" || $("#BAbonadoBool").is(":checked") || $("#BSemCalculoBool").is(":checked") || $("#txtAbonoParcialDiurno").val() != "" || $("#txtAbonoParcialNoturno").val() != "") {
             cwkConfirmacao("", "", fCallBackExcluiu);
         } else { cwkNotificacao("Não há afastamento para ser excluído!"); }
@@ -1675,7 +1675,6 @@
                     cache: false,
                     data: $($("#FormManutMarcacao")).serialize(),
                     success: function (result) {
-
                         carregaGridMarcacao();
 
                         if (tipo == '0') {

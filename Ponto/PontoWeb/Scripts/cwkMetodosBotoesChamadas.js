@@ -725,11 +725,12 @@ function cwk_SalvaCadastroAjaxProgress(Objeto, divAbrir, callBack, exibeLoading)
         }
         if ((data !== null && data !== undefined) && (data.Erro === null || data.Erro === undefined ||data.Erro === ""))
         {
-            if (data.JobId ===  null || data.JobId === undefined || data.JobId === "" || data.JobId === 0 ) {
-             callBack();
+            if ((data.JobId !== null && data.JobId !== undefined && data.JobId !== "" && data.JobId !== 0) ||
+                (data.job !== null && data.job !== undefined && data.job.IdTask !== "" && data.job.IdTask !== 0)) {
+                trackJobProgress(data, callBack);
             }
             else {
-                trackJobProgress(data, callBack);
+                callBack();
             }
             $(divAbrir).modal('hide');
             
