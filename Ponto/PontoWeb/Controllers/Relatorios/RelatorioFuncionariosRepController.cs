@@ -52,47 +52,7 @@ namespace PontoWeb.Controllers.Relatorios
 				BLL.cwkFuncoes.LogarErro(ex);
 				throw;
 			}
-		}
-
-		//[Authorize]
-		//[PermissoesFiltro(Roles = "RelatorioBilhetesRepConsultar")]
-		//[HttpPost]
-		//public ActionResult RelatorioBilhetesRep(PxyIdPeriodo parm)
-		//{
-		//	BLL.REP bllRep = new BLL.REP(_pw.ConnectionString, _pw);
-		//	DateTime dataFinalB = parm.FimPeriodo;
-		//	string dataFinalMax = dataFinalB.ToString("dd/MM/yyyy");
-		//	if (ModelState.IsValid)
-		//	{
-		//		if (parm.InicioPeriodo > dataFinalB)
-		//		{
-		//			string erros = "Data de Início maior do que o período cadastrado para esse horário. Data Fim máxima permitida: " + dataFinalMax;
-		//			return Json(new { Sucess = false, Erro = erros }, JsonRequestBehavior.AllowGet);
-		//		}
-
-		//		try
-		//		{
-		//			Modelo.UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
-		//			HangfireManagerRelatorios hfm = new HangfireManagerRelatorios(UserPW.DataBase);
-		//			RelatorioPadraoModel parms = new RelatorioPadraoModel() { TipoArquivo = "Excel", IdSelecionados = parm.Id.ToString(), InicioPeriodo = parm.InicioPeriodo, FimPeriodo = dataFinalB };
-		//			Modelo.Proxy.PxyJobReturn ret = hfm.RelatorioBilhetesRep(parms);
-		//			return new JsonResult
-		//			{
-		//				Data = new
-		//				{
-		//					success = true,
-		//					job = ret
-		//				}
-		//			};
-		//		}
-		//		catch (Exception ex)
-		//		{
-		//			BLL.cwkFuncoes.LogarErro(ex);
-		//			ModelState.AddModelError("CustomError", ex.Message);
-		//		}
-		//	}
-		//	return ModelState.JsonErrorResult();
-		//}
+		}		
 
 	}
 }

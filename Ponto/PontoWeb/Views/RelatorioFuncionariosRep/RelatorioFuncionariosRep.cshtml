@@ -10,45 +10,48 @@
 @using (Html.BeginForm("RelatorioFuncionariosRep", "RelatorioFuncionariosRep", FormMethod.Post, new { id = "FormRelatorioBilhetesRep", target = "_blank" }))
 {
     @Html.AntiForgeryToken()
-    <div class="divCenterMedio">
+    <div class="divCenter">
         <div class="panel panel-default">
             <div class="panel-heading salvando">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="xfecharCadastroModal">X</button>
                 <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
             </div>
+
+            
+
+
             <div class="panel-body panelConteudo">
                 <div class="row">&nbsp;</div>
                 @Html.ValidationMessage("CustomError")
                 @Html.HiddenFor(model => model.Id)
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            @Html.Label("Código", new { @class = "control-label" })
-                            @Html.TextBox("Codigo", rep.Codigo, new { @class = "form-control", @disabled = true })
-                        </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.Label("Código", new { @class = "control-label" })
+                        @Html.TextBox("Codigo", rep.Codigo, new { @class = "form-control", @disabled = true })
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            @Html.Label("Número Série", new { @class = "control-label" })
-                            @Html.TextBox("NumSerie", rep.NumSerie, new { @class = "form-control", @disabled = true })
-                        </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.Label("Número Série", new { @class = "control-label" })
+                        @Html.TextBox("NumSerie", rep.NumSerie, new { @class = "form-control", @disabled = true })
                     </div>
-                    <div class="col-md-7">
-                        <div class="form-group">
-                            @Html.Label("Local", new { @class = "control-label" })
-                            @Html.TextBox("Local", rep.Local, new { @class = "form-control", @disabled = true })
-                        </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="form-group">
+                        @Html.Label("Local", new { @class = "control-label" })
+                        @Html.TextBox("Local", rep.Local, new { @class = "form-control", @disabled = true })
                     </div>
+                </div>      
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="row">
-                                @Html.GridFor("tbfun", (new Modelo.Proxy.pxyFuncionarioRep()).GetType(), true, "RelatorioFuncionariosRep", "DadosFuncionario/" + rep.Id)
-                                @*@Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRep()).GetType(), true, "GetFuncsRel", "GetFunsComInativos")*@
-                            </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            @Html.GridFor("tbfun", (new Modelo.Proxy.pxyFuncionarioRep()).GetType(), true, "RelatorioFuncionariosRep", "DadosFuncionario/" + rep.Id)
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
 
         </div>
