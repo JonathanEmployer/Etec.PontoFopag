@@ -135,6 +135,40 @@ namespace DAL.SQL
             }
         }
 
+        public string _SELECTEXCLUIDOSFUNCREP;
+        private string SELECTEXCLUIDOSFUNCREP
+        {
+            get
+            {
+
+                string sql = @"  
+                            SELECT 
+                            fu.codigo as Codigo ,
+                            fu.nome as Nome ,
+                            fu.pis as Pis,
+							'' as Senha,
+                            edr.DataEnvio  as dataHora,
+                            evf.incusuario as Usuario
+                            FROM funcionario fu
+                            join EnvioDadosRepDet evf on evf.IDFuncionario = fu.id
+                            join EnvioDadosRep edr on edr.ID =evf.IDEnvioDadosRep
+                             WHERE 1 = 1  and edr.IDRep =@idrelogio 
+							 GROUP BY 
+							fu.codigo  ,
+                            fu.nome  ,
+                            fu.pis ,
+                            edr.DataEnvio  ,
+                            evf.incusuario;"
+                             ;
+
+                return sql;
+            }
+            set
+            {
+                _SELECTEXCLUIDOSFUNCREP = value;
+            }
+        }
+
         public REP(DataBase database)
         {
             dalEquipHomologado = new EquipamentoHomologado(database);
@@ -434,6 +468,8 @@ namespace DAL.SQL
 
 
         }
+
+
         private SqlDataReader LoadDataReaderPorNumRelogio(string numRelogio)
         {
             SqlParameter[] parms = new SqlParameter[] { new SqlParameter("@numrelogio", SqlDbType.VarChar) };
