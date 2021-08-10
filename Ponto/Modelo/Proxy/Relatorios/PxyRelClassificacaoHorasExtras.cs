@@ -61,10 +61,10 @@ namespace Modelo.Proxy.Relatorios
         public int? ClassificadasNoturnaMin { get; set; }
 
 
-        [ExportToXls("Classificadas Diurna", 16)]
+        [ExportToXls("Classificadas Diurnas", 16)]
         public string ClassificadasDiurna { get; set; }
 
-        [ExportToXls("Classificadas Noturna", 17)]
+        [ExportToXls("Classificadas Noturnas", 17)]
         public string ClassificadasNoturna { get; set; }
 
         public int? NaoClassificadasMin { get; set; }
@@ -72,9 +72,9 @@ namespace Modelo.Proxy.Relatorios
         public int? NaoClassificadasDiurnaMin { get; set; }
         public int? NaoClassificadasNoturnaMin { get; set; }
 
-        [ExportToXls("Não Classificadas Diurna", 18)]
+        [ExportToXls("Não Classificadas Diurnas", 18)]
         public string NaoClassificadasDiurna { get; set; }
-        [ExportToXls("Não Classificadas Noturna", 19)]
+        [ExportToXls("Não Classificadas Noturnas", 19)]
         public string NaoClassificadasNoturna { get; set; }
 
         public int? HorasExtrasRealizadaMin { get; set; }

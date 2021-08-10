@@ -8,11 +8,11 @@ namespace Modelo
 
         public Int32 IdMarcacao { get; set; }
 
-        [Display(Name = "Classificada Diurna")]
+        [Display(Name = "Classificada Diurnas")]
         [RequiredIf("Tipo", 0, "Tipo", "Selecionado")]
         [StringLength(5, ErrorMessage = "Número máximo de caracteres: {1}")]
         public String QtdHoraClassificadaDiurna { get; set; }
-        [Display(Name = "Classificada Noturna")]
+        [Display(Name = "Classificada Noturnas")]
         [RequiredIf("Tipo", 0, "Tipo", "Selecionado")]
         [StringLength(5, ErrorMessage = "Número máximo de caracteres: {1}")]
         public String QtdHoraClassificadaNoturna { get; set; }
@@ -30,9 +30,9 @@ namespace Modelo
         [Required(ErrorMessage="Campo Obrigatório")]
         public string CodigoDescricaoClassificacao { get; set; }
 
-        [Display(Name = "Não Classificada Diurna")]
+        [Display(Name = "Não Classificada Diurnas")]
         public string QtdNaoClassificadaDiurna { get; set; }
-        [Display(Name = "Não Classificada Noturna")]
+        [Display(Name = "Não Classificada Noturnas")]
         public string QtdNaoClassificadaNoturna { get; set; }
         
         [Display(Name = "Observação")]

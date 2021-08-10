@@ -24,9 +24,9 @@ namespace Modelo.Proxy
         public string ClassificacaoDescricao { get; set; }
         public int ClassificadasDiurnaMin { get; set; }
         public int ClassificadasNoturnaMin { get; set; }
-        [TableHTMLAttribute("Classificadas Diurna", 2, true, ItensSearch.text, OrderType.none)]
+        [TableHTMLAttribute("Classificadas Diurnas", 2, true, ItensSearch.text, OrderType.none)]
         public string ClassificadasDiurna { get; set; }
-        [TableHTMLAttribute("Classificadas Noturna", 2, true, ItensSearch.text, OrderType.none)]
+        [TableHTMLAttribute("Classificadas Noturnas", 2, true, ItensSearch.text, OrderType.none)]
         public string ClassificadasNoturna { get; set; }
         public int HorasExtrasRealizadaDiurnaMin { get; set; }
         public int HorasExtrasRealizadaNoturnaMin { get; set; }
