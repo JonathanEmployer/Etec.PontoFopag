@@ -427,6 +427,7 @@
     <Compile Include="Proxy\pxyManutencaoBiometricaFuncionarioGrid.cs" />
     <Compile Include="Proxy\PxyPeriodo.cs" />
     <Compile Include="Proxy\PxyUltimoFechamentoPonto.cs" />
+    <Compile Include="Proxy\Relatorios\PxyRelHomemHoraMonsanto.cs" />
     <Compile Include="Proxy\Webfopag\PxyRetornoColetor.cs" />
     <Compile Include="Relatorios\RelatorioAfdPortaria373Model.cs" />
     <Compile Include="Relatorios\RelatorioRefeicaoModel.cs" />
