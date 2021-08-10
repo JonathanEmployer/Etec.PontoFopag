@@ -3,6 +3,7 @@ using Quartz;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 
@@ -18,7 +19,17 @@ namespace MonitorJobs.Jobs
 #if !DEBUG
                 IList<Models.Bases> lbases = Negocio.Bases.GetBasesPontofopagAtivas();
 
-                log.Debug("Bases para manitorar = " + String.Join("; ", lbases.Select(s => s.Nome)));
+                //Alteração para atender o novo calculo em teste de PRD
+                //*** Remover esse codigo quando novo calculo em PRD
+                string conexaoBaseMonitor = ConfigurationManager.ConnectionStrings["MonitorPontofopag"].ConnectionString;
+                if (conexaoBaseMonitor.Contains("MONITOR_PONTOFOPAG_NOVO_CALCULO"))
+                {
+                    lbases = lbases.Where(w => w.Nome.ToUpper().Contains("NOVO_CALCULO")).ToList();
+                }
+                //*** Remover esse codigo quando novo calculo em PRD
+
+
+            log.Debug("Bases para manitorar = " + String.Join("; ", lbases.Select(s => s.Nome)));
 
                 IScheduler scheduler = context.Scheduler;
                 int interacao = 0;
