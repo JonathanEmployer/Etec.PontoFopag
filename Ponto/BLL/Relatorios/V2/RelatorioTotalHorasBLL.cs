@@ -55,10 +55,10 @@ namespace BLL.Relatorios.V2
                                         HoraDiurna = lg.Sum(w => w.diurnoMin),
                                         HoraNoturna = lg.Sum(w => w.noturnoMin)
                                     }).OrderBy(x => x.Percentual);
-                
+
                 foreach (var item in horasExtrasFunc)// Adiciona os percentuais nas respectivas colunas
                 {
-  
+
                     string nomeColuna = "Extras " + item.Percentual + "%";
                     dr[nomeColuna] = Modelo.cwkFuncoes.ConvertMinutosHoraExcel(item.HoraDiurna + item.HoraNoturna).Replace("--:--", "");
                 }
@@ -85,6 +85,9 @@ namespace BLL.Relatorios.V2
                 }
                 colunasExcel.Add("HorasTrabDiurna", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA3, NomeColuna = "Trab. diurna", Visivel = true, NomeColunaNegrito = true });
                 colunasExcel.Add("HorasTrabNoturna", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA3, NomeColuna = "Trab. noturna", Visivel = true, NomeColunaNegrito = true });
+
+                colunasExcel.Add("PercAdicNoturno", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.TEXTO, NomeColuna = "Adicional Noturno %", Visivel = true, NomeColunaNegrito = true });
+
                 colunasExcel.Add("HorasAdNoturno", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Adicional Noturno", Visivel = true, NomeColunaNegrito = true });
                 colunasExcel.Add("HorasExtraDiurna", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Horas Extras Diurna", Visivel = true, NomeColunaNegrito = true });
                 colunasExcel.Add("HorasExtraNoturna", new GerarExcel.Modelo.Coluna() { Formato = GerarExcel.Modelo.PadraoFormatacaoExcel.HORA2, NomeColuna = "Horas Extras Noturnas", Visivel = true, NomeColunaNegrito = true });
@@ -127,7 +130,7 @@ namespace BLL.Relatorios.V2
             IList<PxyRelTotalHoras> totais = GetTotalizadoresFuncionarios(_parms);
             // Campo UmFuncPorPagina no relátório de Total de Horas foi utilizado para controlar a quebra de página
             // Campo ConsiderarCabecalho utilizado para exibir ou não mais informações sobre o funcionário
-            totais.ToList().ForEach(F => { F.UmFuncPorPagina = _parms.Generico; F.ConsiderarCabecalho = _parms.ConsiderarCabecalho;  });
+            totais.ToList().ForEach(F => { F.UmFuncPorPagina = _parms.Generico; F.ConsiderarCabecalho = _parms.ConsiderarCabecalho; });
             return totais;
         }
 
@@ -154,7 +157,7 @@ namespace BLL.Relatorios.V2
         public List<Modelo.Proxy.Relatorios.PxyRelTotalHoras> GetTotalizadoresFuncionarios(Modelo.Relatorios.RelatorioTotalHoras imp)
         {
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(_usuario.ConnectionString, _usuario);
-            List <Modelo.Funcionario> funcionarios = bllFuncionario.GetAllListByIds(imp.IdSelecionados);
+            List<Modelo.Funcionario> funcionarios = bllFuncionario.GetAllListByIds(imp.IdSelecionados);
             BLL.Relatorios.RelatorioTotalHoras relTotal = new BLL.Relatorios.RelatorioTotalHoras(_usuario);
             List<Modelo.TotalHoras> totais = relTotal.GerarTotaisFuncionarios(imp.InicioPeriodo, imp.FimPeriodo, funcionarios, _progressBar);
             List<Modelo.Proxy.Relatorios.PxyRelTotalHoras> ret = new List<PxyRelTotalHoras>();
@@ -193,7 +196,9 @@ namespace BLL.Relatorios.V2
                     SinalSaldoBHPeriodo = item.sinalSaldoBHPeriodo == '+' ? "Crédito" : (item.sinalSaldoBHPeriodo == '-' ? "Débito" : ""),
                     SaldoBHAtual = item.saldoBHAtual,
                     DataIni = imp.InicioPeriodo,
-                    DataFin = imp.FimPeriodo
+                    DataFin = imp.FimPeriodo,
+
+                    PercAdicNoturno = (item.PercAdicNoturno.ToString() + "%")
                 });
             }
             return ret;

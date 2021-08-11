@@ -67,5 +67,7 @@ namespace Modelo.Proxy.Relatorios
 
         public bool UmFuncPorPagina { get; set; }
         public bool ConsiderarCabecalho { get; set; }
+        [Display(Name = "PercAdicNoturno")]
+        public string PercAdicNoturno { get; set; }
     }
 }
