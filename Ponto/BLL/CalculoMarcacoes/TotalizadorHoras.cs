@@ -259,27 +259,27 @@ namespace BLL
                         totalTrabDiurna += Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["horastrabalhadas"]);
                         totalTrabNoturna += Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["horastrabalhadasnoturnas"]);
 
-                        if (marc["AdicionalNoturno"] is DBNull || marc["AdicionalNoturno"].ToString() == "--:--")
+                        if (marc["AdicionalNoturno"] is DBNull || marc["AdicionalNoturno"].ToString() == "--:--" || string.IsNullOrEmpty(marc["AdicionalNoturno"].ToString().Trim()))
                         {
                             totalAdNoturno += Modelo.cwkFuncoes.ConvertHorasMinuto("0");
                         }
                         else
                         {
                             totalAdNoturno += Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["AdicionalNoturno"]);
-
-                            if (!(marc["PercAdicNoturno"] is DBNull))
-                            {
-                                double percAdDoub;
-                                if (Double.TryParse(marc["PercAdicNoturno"].ToString(), out percAdDoub))
-                                {
-                                    percAdicNoturno = percAdDoub;
-                                }
-                                else
-                                {
-                                    percAdicNoturno = 0;
-                                }
-                            }
                             qtdAdNot++;
+                        }
+
+                        if (!(marc["PercAdicNoturno"] is DBNull))
+                        {
+                            double percAdDoub;
+                            if (Double.TryParse(marc["PercAdicNoturno"].ToString(), out percAdDoub))
+                            {
+                                percAdicNoturno = percAdDoub;
+                            }
+                            else
+                            {
+                                percAdicNoturno = 0;
+                            }
                         }
                         int ddsr = Modelo.cwkFuncoes.ConvertHorasMinuto((string)marc["valordsr"]);
 
@@ -630,7 +630,7 @@ namespace BLL
                             else
                             {
                                 item.TotalHoras += objHorarioDetalhe.TotaltrabalhadadiurnaMin + objHorarioDetalhe.TotaltrabalhadanoturnaMin;
-                            } 
+                            }
                         }
                     }
                 }

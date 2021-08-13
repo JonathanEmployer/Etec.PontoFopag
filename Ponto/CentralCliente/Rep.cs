@@ -42,6 +42,10 @@ namespace CentralCliente
         public Nullable<System.DateTime> DataInicioImportacao { get; set; }
         public bool ServicoComunicador { get; set; }
         public bool Processando { get; set; }
+        public Nullable<int> IdCentroServico { get; set; }
+        public Nullable<int> IdComunicadorServico { get; set; }
+        public Nullable<bool> registradorEmMassa { get; set; }
+        public Nullable<long> CrachaAdm { get; set; }
     
         public virtual Cliente Cliente { get; set; }
         public virtual ICollection<RepLog> RepLog { get; set; }
