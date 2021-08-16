@@ -77,10 +77,11 @@ namespace BLL
         }
 
 
-        public List<Modelo.Proxy.pxyFuncionarioRep> LoadObjectListFuncionariosRep(int id)
+        public List<Modelo.Proxy.pxyFuncionarioRep> LoadObjectListFuncionariosRep(int id, bool? operacao)
         {
-            return dalREP.LoadObjectListFuncionariosRep(id);
+            return dalREP.LoadObjectListFuncionariosRep(id, operacao);
         }
+
         public bool ExportacaoHabilitada(int id)
         {
             Modelo.REP objRep = dalREP.LoadObject(id);

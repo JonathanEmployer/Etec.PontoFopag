@@ -51,15 +51,14 @@
     var nomeTabela = "#" + '@nomeTabela';
 	$(document).ready(function () {
 		cwk_EventoDbClickEditar('Alterar', 'Rep', nomeTabela);
-        
+
         cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', 'Rep', nomeTabela);
         cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', 'Rep');
         cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', 'Rep', nomeTabela);
         cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir', 'Rep', nomeTabela, 'Rep excluído com sucesso. ');
         cwk_EventoAlterarAjaxParam('#btHistoricoLocal', 'Grid', 'RepHistoricoLocal', nomeTabela, "");
         cwk_EventoAlterarAjaxParam('#btRelBilhetes', 'RelatorioBilhetesRep', 'RelatorioBilhetesRep', nomeTabela, "");
-        cwk_EventoAlterarAjaxParam('#btRepFuncionarios', 'RelatorioFuncionariosRep', 'RelatorioFuncionariosRep', nomeTabela, "");
-
+        cwk_EventoAlterarAjaxParam('#btRepFuncionarios', 'RelatorioFuncionariosRep', 'RelatorioFuncionariosRep', nomeTabela, parametros = { id: '@Model.Id', operacao: '@Model.Operacao' });
         cwk_EventoAlterarAjaxParam('#btLog', 'Grid', 'RepLog', nomeTabela, "");
         cwk_EventoAlterarAjaxParam('#btLogAFD', 'Grid', 'RepLogAFD', nomeTabela, "");
     });

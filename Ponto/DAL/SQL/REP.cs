@@ -108,25 +108,34 @@ namespace DAL.SQL
             {
 
                 string sql = @"  
-                            SELECT 
-                            fu.codigo as Codigo ,
-                            fu.nome as Nome ,
-                            fu.pis as Pis,
-							'' as Senha,
-                            edr.DataEnvio  as dataHora,
-                            evf.incusuario as Usuario
-                            FROM funcionario fu
-                            join EnvioDadosRepDet evf on evf.IDFuncionario = fu.id
-                            join EnvioDadosRep edr on edr.ID =evf.IDEnvioDadosRep
-                             WHERE 1 = 1  and edr.IDRep =@idrelogio 
-							 GROUP BY 
-							fu.codigo  ,
-                            fu.nome  ,
-                            fu.pis ,
-                            edr.DataEnvio  ,
-                            evf.incusuario;"
+            SELECT DISTINCT
+                fu.codigo as Codigo ,
+                fu.nome as Nome ,
+                fu.pis as Pis,
+                '' as Senha,
+                edr.DataEnvio  as dataHora,
+                evf.incusuario as Usuario
+            FROM rep r
+            CROSS APPLY
+            (
+                select TOP 1 * FROM EnvioDadosRep edr1
+                WHERE edr1.IDRep  = r.id
+                AND DataEnvio IS NOT NULL
+                AND bOperacao = @idOperacao
+                ORDER BY DATAENVIO DESC
+            ) AS edr
+            join EnvioDadosRepDet evf on edr.ID = evf.IDEnvioDadosRep
+            JOIN funcionario fu on fu.id = evf.IDFuncionario
+            JOIN EnvioDadosRep EDR2 on EDR2.IDRep  = r.id AND EDR2.bOperacao = @idOperacao
+            WHERE 1 = 1  and EDR2.IDRep = @idrelogio
+            GROUP BY
+            fu.codigo  ,
+            fu.nome  ,
+            fu.pis ,
+            edr.DataEnvio  ,
+            evf.incusuario;"
                              ;
-           
+
                 return sql;
             }
             set
@@ -135,39 +144,7 @@ namespace DAL.SQL
             }
         }
 
-        public string _SELECTEXCLUIDOSFUNCREP;
-        private string SELECTEXCLUIDOSFUNCREP
-        {
-            get
-            {
 
-                string sql = @"  
-                            SELECT 
-                            fu.codigo as Codigo ,
-                            fu.nome as Nome ,
-                            fu.pis as Pis,
-							'' as Senha,
-                            edr.DataEnvio  as dataHora,
-                            evf.incusuario as Usuario
-                            FROM funcionario fu
-                            join EnvioDadosRepDet evf on evf.IDFuncionario = fu.id
-                            join EnvioDadosRep edr on edr.ID =evf.IDEnvioDadosRep
-                             WHERE 1 = 1  and edr.IDRep =@idrelogio 
-							 GROUP BY 
-							fu.codigo  ,
-                            fu.nome  ,
-                            fu.pis ,
-                            edr.DataEnvio  ,
-                            evf.incusuario;"
-                             ;
-
-                return sql;
-            }
-            set
-            {
-                _SELECTEXCLUIDOSFUNCREP = value;
-            }
-        }
 
         public REP(DataBase database)
         {
@@ -299,6 +276,8 @@ namespace DAL.SQL
             ((Modelo.REP)obj).IdTimeZoneInfo = Convert.ToString(dr["IdTimeZoneInfo"]);
             ((Modelo.REP)obj).CodigoLocal = Convert.ToInt32(dr["CodigoLocal"]);
             ((Modelo.REP)obj).TipoIP = Convert.ToInt16(dr["TipoIP"]);
+            ((Modelo.REP)obj).Operacao = false;
+
             if (((Modelo.REP)obj).IdEquipamentoHomologado != 0)
             {
                 if (equipamentosHomologados.Where(w => w.Id == ((Modelo.REP)obj).IdEquipamentoHomologado).Count() > 0)
@@ -310,7 +289,7 @@ namespace DAL.SQL
                     ((Modelo.REP)obj).EquipamentoHomologado = dalEquipHomologado.LoadObject(((Modelo.REP)obj).IdEquipamentoHomologado);
                     equipamentosHomologados.Add(((Modelo.REP)obj).EquipamentoHomologado);
                 }
-                
+
             }
             if (!(dr["UltimaIntegracao"] is DBNull))
                 ((Modelo.REP)obj).UltimaIntegracao = Convert.ToDateTime(dr["UltimaIntegracao"]);
@@ -328,17 +307,17 @@ namespace DAL.SQL
         protected override SqlParameter[] GetParameters()
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@id", SqlDbType.Int),
-				new SqlParameter ("@codigo", SqlDbType.Int),
-				new SqlParameter ("@numserie", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@id", SqlDbType.Int),
+                new SqlParameter ("@codigo", SqlDbType.Int),
+                new SqlParameter ("@numserie", SqlDbType.VarChar),
                 new SqlParameter ("@local", SqlDbType.VarChar),
-				new SqlParameter ("@incdata", SqlDbType.DateTime),
-				new SqlParameter ("@inchora", SqlDbType.DateTime),
-				new SqlParameter ("@incusuario", SqlDbType.VarChar),
-				new SqlParameter ("@altdata", SqlDbType.DateTime),
-				new SqlParameter ("@althora", SqlDbType.DateTime),
-				new SqlParameter ("@altusuario", SqlDbType.VarChar),
+                new SqlParameter ("@incdata", SqlDbType.DateTime),
+                new SqlParameter ("@inchora", SqlDbType.DateTime),
+                new SqlParameter ("@incusuario", SqlDbType.VarChar),
+                new SqlParameter ("@altdata", SqlDbType.DateTime),
+                new SqlParameter ("@althora", SqlDbType.DateTime),
+                new SqlParameter ("@altusuario", SqlDbType.VarChar),
                 new SqlParameter ("@numrelogio", SqlDbType.VarChar),
                 new SqlParameter ("@relogio", SqlDbType.Int),
                 new SqlParameter ("@senha", SqlDbType.VarChar),
@@ -363,7 +342,7 @@ namespace DAL.SQL
                 new SqlParameter ("@SenhaRep", SqlDbType.VarChar),
                 new SqlParameter ("@CampoCracha", SqlDbType.SmallInt),
                 new SqlParameter ("@Portaria373", SqlDbType.Bit)
-			};
+            };
             return parms;
         }
 
@@ -441,13 +420,17 @@ namespace DAL.SQL
             return objREP;
         }
 
-        public List<Modelo.Proxy.pxyFuncionarioRep> LoadObjectListFuncionariosRep(int id)
+        public List<Modelo.Proxy.pxyFuncionarioRep> LoadObjectListFuncionariosRep(int id, bool? operacao)
         {
-
-
             List<Modelo.Proxy.pxyFuncionarioRep> reps = new List<Modelo.Proxy.pxyFuncionarioRep>();
-            SqlParameter[] parms = new SqlParameter[] { new SqlParameter("@idrelogio", SqlDbType.VarChar) };
+            SqlParameter[] parms = new SqlParameter[2] {
+                new SqlParameter("@idrelogio", SqlDbType.VarChar),
+                new SqlParameter("@idOperacao", SqlDbType.Bit),
+
+        };
+
             parms[0].Value = id;
+            parms[1].Value = operacao?? false;
             SqlDataReader drRep = db.ExecuteReader(CommandType.Text, SELECTALLFUNCREP, parms);
 
 
@@ -469,6 +452,7 @@ namespace DAL.SQL
 
         }
 
+       
 
         private SqlDataReader LoadDataReaderPorNumRelogio(string numRelogio)
         {
@@ -525,9 +509,9 @@ namespace DAL.SQL
         public string GetNumInner(string pNumSerie)
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@numeroserie", SqlDbType.VarChar, 20)
-               
+            {
+                new SqlParameter ("@numeroserie", SqlDbType.VarChar, 20)
+
             };
             parms[0].Value = pNumSerie;
 
@@ -546,9 +530,9 @@ namespace DAL.SQL
             int aux1;
             string aux;
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@cpfcnpj", SqlDbType.VarChar, 20)
-               
+            {
+                new SqlParameter ("@cpfcnpj", SqlDbType.VarChar, 20)
+
             };
             parms[0].Value = pCPFCNPJ;
             if (pTipo == "1")
@@ -650,7 +634,7 @@ namespace DAL.SQL
         public void SetaUltimoLocal(SqlTransaction trans, int pIdRep)
         {
             SqlParameter[] parms = new SqlParameter[1]
-            { 
+            {
                     new SqlParameter("@idrep", SqlDbType.Int)
             };
             parms[0].Value = pIdRep;
@@ -681,7 +665,7 @@ namespace DAL.SQL
         public void SetUltimoNSR(Int32 idrep, Int32 ultimoNsr)
         {
             SqlParameter[] parms = new SqlParameter[2]
-            { 
+            {
                     new SqlParameter("@ultimoNsr", SqlDbType.Int),
                     new SqlParameter("@idrep", SqlDbType.Int)
             };
@@ -695,9 +679,9 @@ namespace DAL.SQL
         public void SetUltimaImportacao(string numRelogio, long NSR, DateTime dataUltimaImp)
         {
             SqlParameter[] parms = new SqlParameter[3]
-            { 
+            {
                 new SqlParameter("@numRelogio", SqlDbType.VarChar),
-                new SqlParameter("@ultimoNsr", SqlDbType.Int),    
+                new SqlParameter("@ultimoNsr", SqlDbType.Int),
                 new SqlParameter("@dataUltimaImp", SqlDbType.DateTime)
             };
             parms[0].Value = numRelogio;
@@ -711,7 +695,7 @@ namespace DAL.SQL
         public void SetUltimoNSRComDataIntegracao(Int32 idrep, Int32 ultimoNsr)
         {
             SqlParameter[] parms = new SqlParameter[2]
-            { 
+            {
                     new SqlParameter("@ultimoNsr", SqlDbType.Int),
                     new SqlParameter("@idrep", SqlDbType.Int)
             };
@@ -887,7 +871,7 @@ namespace DAL.SQL
             {
                 if (!dr.IsClosed)
                 {
-                    dr.Close(); 
+                    dr.Close();
                 }
                 dr.Dispose();
             }
@@ -897,7 +881,7 @@ namespace DAL.SQL
 
         public List<Modelo.Proxy.PxyGridRepsPortaria373> GetGridRepsPortaria373()
         {
-            SqlParameter[] parms = new SqlParameter[] {};
+            SqlParameter[] parms = new SqlParameter[] { };
             string sqlRegistradores = @" SELECT e.id IdEmpresa,
                                                 b.relogio NumRelogio, 
 	                                   CASE WHEN b.relogio = 'RE' THEN
@@ -966,9 +950,9 @@ namespace DAL.SQL
 
         public List<Modelo.REP> VerificarSituacaoReps(List<string> numsReps)
         {
-            SqlParameter[] parms = new SqlParameter[] {};
+            SqlParameter[] parms = new SqlParameter[] { };
 
-            string query = @"SELECT * FROM rep where numrelogio in ('"+ String.Join("','", numsReps) + "')";
+            string query = @"SELECT * FROM rep where numrelogio in ('" + String.Join("','", numsReps) + "')";
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, query, parms);
 

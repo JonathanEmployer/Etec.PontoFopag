@@ -17,48 +17,47 @@
                 <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
             </div>
 
-            
+
 
 
             <div class="panel-body panelConteudo">
                 <div class="row">&nbsp;</div>
                 @Html.ValidationMessage("CustomError")
                 @Html.HiddenFor(model => model.Id)
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="form-group">
-                        @Html.Label("Código", new { @class = "control-label" })
-                        @Html.TextBox("Codigo", rep.Codigo, new { @class = "form-control", @disabled = true })
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        @Html.Label("Número Série", new { @class = "control-label" })
-                        @Html.TextBox("NumSerie", rep.NumSerie, new { @class = "form-control", @disabled = true })
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        @Html.Label("Local", new { @class = "control-label" })
-                        @Html.TextBox("Local", rep.Local, new { @class = "form-control", @disabled = true })
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="form-group">
-                        @Html.CheckBox("Empregados Excluídos")
-                        @Html.Label("Empregados Excluídos")
-                    </div>
-                </div>
-
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="row">
-                            @Html.GridFor("tbfun", (new Modelo.Proxy.pxyFuncionarioRep()).GetType(), true, "RelatorioFuncionariosRep", "DadosFuncionario/" + rep.Id)
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            @Html.Label("Código", new { @class = "control-label" })
+                            @Html.TextBox("Codigo", rep.Codigo, new { @class = "form-control", @disabled = true })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.Label("Número Série", new { @class = "control-label" })
+                            @Html.TextBox("NumSerie", rep.NumSerie, new { @class = "form-control", @disabled = true })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.Label("Local", new { @class = "control-label" })
+                            @Html.TextBox("Local", rep.Local, new { @class = "form-control", @disabled = true })
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                                @Html.CheckBoxFor(model => rep.Operacao);
+                         </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                @Html.GridFor("tbfun", (new Modelo.Proxy.pxyFuncionarioRep()).GetType(), true, "RelatorioFuncionariosRep", "DadosFuncionario/" + rep.Id)
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
 
         </div>
@@ -69,6 +68,7 @@
 
 
     $('form').submit(function () {
+        debugger
         CarregarGridFuncionario();
         if ($(this).valid()) {
             PostFormJob(this, CallBackSucesso);

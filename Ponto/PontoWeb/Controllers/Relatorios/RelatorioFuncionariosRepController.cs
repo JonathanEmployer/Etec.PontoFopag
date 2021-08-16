@@ -24,25 +24,30 @@ namespace PontoWeb.Controllers.Relatorios
 
 		[Authorize]
 		[PermissoesFiltro(Roles = "RelatorioFuncionariosRepConsultar")]
-		public ActionResult RelatorioFuncionariosRep(int id)
+		public ActionResult RelatorioFuncionariosRep(int id, bool? operacao)
 		{
 			PxyIdPeriodo filtro = new PxyIdPeriodo() { Id = id, InicioPeriodo = DateTime.Now.AddMonths(-1).Date, FimPeriodo = DateTime.Now.Date };
 			var usr = Usuario.GetUsuarioPontoWebLogadoCache();
 			BLL.REP bllRep = new BLL.REP(_pw.ConnectionString, _pw);
 			ViewBag.Rep = bllRep.LoadObject(id);
+			List<Modelo.Proxy.pxyFuncionarioRep> pxyFuncionarioReps = new List<pxyFuncionarioRep>();
+			pxyFuncionarioReps = bllRep.LoadObjectListFuncionariosRep(id, operacao);
+			ViewBag.Func = pxyFuncionarioReps;
+			
+
 			return View(filtro);
 		}
-
+		
 
 
 
 		[Authorize]
-		public JsonResult DadosFuncionario(int id)
+		public JsonResult DadosFuncionario(int id, bool operacao)
 		{
 			try
 			{
 				BLL.REP bllRep = new BLL.REP(_pw.ConnectionString, _pw);
-				List<pxyFuncionarioRep> dados = bllRep.LoadObjectListFuncionariosRep(id);
+				List<pxyFuncionarioRep> dados = bllRep.LoadObjectListFuncionariosRep(id, operacao);
 				JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
 				jsonResult.MaxJsonLength = int.MaxValue;
 				return jsonResult;
@@ -52,7 +57,7 @@ namespace PontoWeb.Controllers.Relatorios
 				BLL.cwkFuncoes.LogarErro(ex);
 				throw;
 			}
-		}		
+		}
 
 	}
 }

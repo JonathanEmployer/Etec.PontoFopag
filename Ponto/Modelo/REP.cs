@@ -197,6 +197,14 @@ namespace Modelo
         [Display(Name = "Portaria 373")]
         public bool Portaria373 { get; set; }
         [Display(Name = "Relógio")]
+      
         public int IdEquipamentoHomologado373 { get; set; }
+
+
+        [Display(Name = "Empregados excluídos")]
+        public bool Operacao { get; set; }
+        
+
+
     }
 }

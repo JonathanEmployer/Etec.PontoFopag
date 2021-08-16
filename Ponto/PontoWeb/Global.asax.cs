@@ -65,22 +65,22 @@ namespace PontoWeb
                     Server.ClearError();
                     if (User.Identity.IsAuthenticated)
                     {
-                        Response.Redirect(String.Format("~/Home/{0}/?mensagem={1}", action, exception.Message));
+                        Response.Redirect(String.Format("~/Home/{0}/?mensagem={1}", action, exception.Message.Replace("\n", " ")));
                     }
                     else
                     {
-                        Response.Redirect(String.Format("~/Page/{0}/?mensagem={1}", action, exception.Message));
+                        Response.Redirect(String.Format("~/Page/{0}/?mensagem={1}", action, exception.Message.Replace("\n", " ")));
                     }
                 }
                 else
                 {
                     if (User != null && User.Identity.IsAuthenticated)
                     {
-                        Response.Redirect(String.Format("~/Home/{0}/?mensagem={1}", "Erro", exception.Message));
+                        Response.Redirect(String.Format("~/Home/{0}/?mensagem={1}", "Erro", exception.Message.Replace("\n", " ")));
                     }
                     else
                     {
-                        Response.Redirect(String.Format("~/Page/{0}/?mensagem={1}", "Erro", exception.Message));
+                        Response.Redirect(String.Format("~/Page/{0}/?mensagem={1}", "Erro", exception.Message.Replace("\n", " ")));
                     }
                 }
             }
