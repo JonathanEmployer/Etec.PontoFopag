@@ -52,7 +52,7 @@ namespace BLL
                 int horaExtraNoturna = Modelo.cwkFuncoes.ConvertHorasMinuto((string)drMarcacao["horasextranoturna"]);
                 int horaExtraDiurna = Modelo.cwkFuncoes.ConvertHorasMinuto((string)drMarcacao["horasextrasdiurna"]);
                 int horaExtraRealizada = horaExtraDiurna + horaExtraNoturna;
-                DateTime dataMarc = Convert.ToDateTime(drMarcacao["data"],culture);
+                DateTime dataMarc = Convert.ToDateTime(drMarcacao["data"], culture);
                 if (horaExtraRealizada > 0) // Verifica se existe hora extra no dia para realizar o cálculo.
                 {
                     #region Parametros para calculo
@@ -81,7 +81,7 @@ namespace BLL
                             {
                                 horasExtrasDoDia.TipoAcumulo = tipoAcumulo;
                                 PercentualHoraExtra horarioPHExtra = horariosPHExtra[i];
-                                CalcularHoraExtra(horasExtrasDoPeriodo, ref horaExtraDiurna , ref horaExtraNoturna, tipoDia, horasExtrasDoDia, ref horarioPHExtra);
+                                CalcularHoraExtra(horasExtrasDoPeriodo, ref horaExtraDiurna, ref horaExtraNoturna, tipoDia, horasExtrasDoDia, ref horarioPHExtra);
                             }
                         }
 
@@ -89,33 +89,33 @@ namespace BLL
                         {
                             PercentualHoraExtra horarioPHExtra = horariosPHExtra[6]; //Pega os percentuais Referente ao Sábado
                             horasExtrasDoDia.TipoAcumulo = horarioPHExtra.TipoAcumulo;
-                            CalcularHoraExtra(horasExtrasDoPeriodo, ref horaExtraDiurna , ref horaExtraNoturna, tipoDia, horasExtrasDoDia, ref horarioPHExtra);
+                            CalcularHoraExtra(horasExtrasDoPeriodo, ref horaExtraDiurna, ref horaExtraNoturna, tipoDia, horasExtrasDoDia, ref horarioPHExtra);
                         }
 
                         if (tipoDia == TipoDiaAcumulo.Domingo) //Cálculo hora extra Domingo
                         {
                             PercentualHoraExtra horarioPHExtra = horariosPHExtra[7]; //Pega os percentuais Referente ao Domingo
                             horasExtrasDoDia.TipoAcumulo = horarioPHExtra.TipoAcumulo;
-                            CalcularHoraExtra(horasExtrasDoPeriodo, ref horaExtraDiurna , ref horaExtraNoturna, tipoDia, horasExtrasDoDia, ref horarioPHExtra);
+                            CalcularHoraExtra(horasExtrasDoPeriodo, ref horaExtraDiurna, ref horaExtraNoturna, tipoDia, horasExtrasDoDia, ref horarioPHExtra);
                         }
 
                         if (tipoDia == TipoDiaAcumulo.Feriado) //Cálculo hora extra Feriado
                         {
                             PercentualHoraExtra horarioPHExtra = horariosPHExtra[8]; //Pega os percentuais Referente ao Feriado
-                            CalcularHoraExtra(horasExtrasDoPeriodo, ref horaExtraDiurna , ref horaExtraNoturna, tipoDia, horasExtrasDoDia, ref horarioPHExtra);
+                            CalcularHoraExtra(horasExtrasDoPeriodo, ref horaExtraDiurna, ref horaExtraNoturna, tipoDia, horasExtrasDoDia, ref horarioPHExtra);
                         }
 
                         if (tipoDia == TipoDiaAcumulo.Folga) //Cálculo hora extra Folga
                         {
                             PercentualHoraExtra horarioPHExtra = horariosPHExtra[9]; //Pega os percentuais Referente ao Folga
                             horasExtrasDoDia.TipoAcumulo = horarioPHExtra.TipoAcumulo;
-                            CalcularHoraExtra(horasExtrasDoPeriodo, ref horaExtraDiurna , ref horaExtraNoturna, tipoDia, horasExtrasDoDia, ref horarioPHExtra);
+                            CalcularHoraExtra(horasExtrasDoPeriodo, ref horaExtraDiurna, ref horaExtraNoturna, tipoDia, horasExtrasDoDia, ref horarioPHExtra);
                         }
                     }
                     else if (tipoAcumulo != -1) // Caso for -1 (não foi selecionado tipo acumulo) ignora
                     {
                         throw new Exception("Para esse tipo de cálculo de horas extras apenas o acumulo diário e mensal foi implementado.");
-                    } 
+                    }
                 }
             }
             return horasExtrasDoPeriodo;
@@ -151,7 +151,7 @@ namespace BLL
                                 throw new Exception("O relatório não considera horários com tipo acumulo diferente de Diário e Mensal, horários em desacordo: </br>" + horariosImpedindoRelatorio);
                             }
                         }
-                    }  
+                    }
                 }
             }
         }
@@ -222,7 +222,7 @@ namespace BLL
             int limite = horarioPHExtra.QuantidadeExtraMin;
             if (horasExtrasDoDia.TipoAcumulo == 3) // Se acumulo for por mês, retiro do limite a quantidade já utilizada no mes.
             {
-                IList < Modelo.Proxy.HoraExtra > heMS = horasExtrasDoPeriodo.Where(x => x.IdFuncionario == horasExtrasDoDia.IdFuncionario && x.DataMarcacao.Month == horasExtrasDoDia.DataMarcacao.Month && x.TipoAcumulo == horasExtrasDoDia.TipoAcumulo && x.TipoDiaAcumulo == tipoDiaAcumulo).SelectMany(x => x.HorasExtras).ToList();
+                IList<Modelo.Proxy.HoraExtra> heMS = horasExtrasDoPeriodo.Where(x => x.IdFuncionario == horasExtrasDoDia.IdFuncionario && x.DataMarcacao.Month == horasExtrasDoDia.DataMarcacao.Month && x.TipoAcumulo == horasExtrasDoDia.TipoAcumulo && x.TipoDiaAcumulo == tipoDiaAcumulo).SelectMany(x => x.HorasExtras).ToList();
                 limite -= heMS.Where(x => x.Percentual == perc).Sum(x => x.HoraDiurna);
             }
             short TipoAcumulo = horarioPHExtra.TipoAcumulo;
@@ -258,7 +258,7 @@ namespace BLL
         /// <param name="tipoDiaAcumulo">Tipo do dia da hora extra (Geral(Seg|Ter|Qua|Quin|Sex), Sábado, Domingo, Feriado, Folga)</param>
         private void AcumulaHoraExtraNoturna(IList<HorasExtrasPorDia> horasExtrasDoPeriodo, HorasExtrasPorDia horasExtrasDoDia, ref PercentualHoraExtra horarioPHExtra, ref int horaExtraNoturna, TipoDiaAcumulo tipoDiaAcumulo)
         {
-            decimal perc = (decimal)horarioPHExtra.PercentualExtraNoturna;
+            decimal perc = (decimal)horarioPHExtra.PercentualExtraNoturna == 0 ? horarioPHExtra.PercentualExtra : (decimal)horarioPHExtra.PercentualExtraNoturna;
             int limite = horarioPHExtra.QuantidadeExtraMin;
             if (horasExtrasDoDia.TipoAcumulo == 3) // Se acumulo for por mês, retiro do limite a quantidade já utilizada no mes.
             {
