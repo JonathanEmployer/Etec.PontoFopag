@@ -91,7 +91,7 @@
                 <div class="row">
                     <div class="col-xs-12 center-block">
                         <div style="text-align: right">
-                            <button type="submit" class="btn btn-success salvando">
+                            <button id="btnSalvar" type="button" class="btn btn-success salvando">
                                 <span class="glyphicon glyphicon-ok"></span> &nbsp;Salvar&nbsp;&nbsp;
                             </button>
                             <a class="btn btn-danger salvando"
@@ -107,22 +107,40 @@
 
 }
 
+@Scripts.Render("~/bundles/paginajs")
+
 <script>
     cwk_DataCalendario('#btnDataFechamento', '#DataFechamento');
     var errorArray = new Array();
+
+    var controller = 'FechamentoPonto';
+
     $(document).ready(function () {
+        const of = new cwkFechamentoPonto(controller, '');
+        
         $('#tbFun tbody').on('click', 'tr', function () {
             errorArray["PxyRelPontoWeb.idSelecionados"] = null;
             $("form").validate().showErrors(errorArray);
         });
 
-    });
+        $("#btnSalvar").click(function (event) {
+            if ($("form").valid() && validaForm()) {
+                $("#btnSalvar").prop("disabled", true);
 
-    $('form').submit(function () {
-        if ($(this).valid() && validaForm()) {
-            return true;
-        }
-        return false;
+                of.ValidaFechamento('@Model.Id', $("#PxyRelPontoWeb_idSelecionados").val())
+                    .then(of.checkDialogConfirmSign)
+                    .then(() => {
+                        BloqueiaSalvando();
+                        $('form').submit()
+                    })
+                    .catch(() => {
+                        $("#btnSalvar").prop("disabled", false);
+                        $.unblockUI();
+                    });
+            }
+            event.preventDefault();
+        });
+
     });
 
     function validaForm() {
@@ -140,8 +158,8 @@
             return true;
         }
     }
-
 </script>
+
 @if (ViewBag.Consultar == 1)
 {
     <script>

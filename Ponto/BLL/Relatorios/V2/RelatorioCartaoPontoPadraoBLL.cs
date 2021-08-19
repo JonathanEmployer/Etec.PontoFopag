@@ -10,7 +10,7 @@ namespace BLL.Relatorios.V2
     public class RelatorioCartaoPontoPadraoBLL : RelatorioBaseBLL, IRelatorioBLL
     {
 
-        public RelatorioCartaoPontoPadraoBLL(Modelo.Relatorios.IRelatorioModel relatorioFiltro, Modelo.UsuarioPontoWeb usuario, Modelo.ProgressBar progressBar) : base (relatorioFiltro, usuario, progressBar)
+        public RelatorioCartaoPontoPadraoBLL(Modelo.Relatorios.IRelatorioModel relatorioFiltro, Modelo.UsuarioPontoWeb usuario, Modelo.ProgressBar progressBar) : base(relatorioFiltro, usuario, progressBar)
         {
             RelatorioCartaoPontoModel parms = ((RelatorioCartaoPontoModel)relatorioFiltro);
             parms.NomeArquivo = "Relatório_de_Cartão_Ponto_Individual_" + parms.InicioPeriodo.ToString("ddMMyyyy") + "_" + parms.FimPeriodo.ToString("ddMMyyyy");

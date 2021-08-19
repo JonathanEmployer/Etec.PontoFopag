@@ -84,7 +84,7 @@ namespace DAL.SQL
             }
             catch (Exception e)
             {
-                throw new Exception ("Erro ao desvincular os funcionários do fechamento. Erro: "+e.Message);
+                throw new Exception("Erro ao desvincular os funcionários do fechamento. Erro: " + e.Message);
             }
 
             try
@@ -95,7 +95,7 @@ namespace DAL.SQL
             }
             catch (Exception e)
             {
-                throw new Exception ("Erro ao desfazer o fechamento dos registros de marcação. Erro: "+e.Message);
+                throw new Exception("Erro ao desfazer o fechamento dos registros de marcação. Erro: " + e.Message);
             }
             base.ExcluirAux(trans, obj);
         }
@@ -129,7 +129,7 @@ namespace DAL.SQL
                 }
                 catch (Exception e)
                 {
-                    throw new Exception ("Erro ao vincular os funcionários ao  fechamento. Erro: "+e.Message);
+                    throw new Exception("Erro ao vincular os funcionários ao  fechamento. Erro: " + e.Message);
                 }
 
                 Marcacao dalMarcacao = new Marcacao(db);
@@ -141,8 +141,8 @@ namespace DAL.SQL
                 }
                 catch (Exception e)
                 {
-                    
-                    throw new Exception ("Erro ao desfazer os fechamentos antigos nos registros de marcação. Erro: "+e.Message);
+
+                    throw new Exception("Erro ao desfazer os fechamentos antigos nos registros de marcação. Erro: " + e.Message);
                 }
                 try
                 {
@@ -152,8 +152,8 @@ namespace DAL.SQL
                 }
                 catch (Exception e)
                 {
-                    
-                    throw new Exception ("Erro ao realizar o fechamento dos registros de marcação. Erro: "+e.Message);
+
+                    throw new Exception("Erro ao realizar o fechamento dos registros de marcação. Erro: " + e.Message);
                 }
             }
         }
@@ -254,20 +254,20 @@ namespace DAL.SQL
         protected override SqlParameter[] GetParameters()
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@id", SqlDbType.Int),
-				new SqlParameter ("@codigo", SqlDbType.Int),
+               {
+                    new SqlParameter ("@id", SqlDbType.Int),
+                    new SqlParameter ("@codigo", SqlDbType.Int),
                 new SqlParameter ("@incdata", SqlDbType.DateTime),
-				new SqlParameter ("@inchora", SqlDbType.DateTime),
-				new SqlParameter ("@incusuario", SqlDbType.VarChar),
-				new SqlParameter ("@altdata", SqlDbType.DateTime),
-				new SqlParameter ("@althora", SqlDbType.DateTime),
-				new SqlParameter ("@altusuario", SqlDbType.VarChar),
+                    new SqlParameter ("@inchora", SqlDbType.DateTime),
+                    new SqlParameter ("@incusuario", SqlDbType.VarChar),
+                    new SqlParameter ("@altdata", SqlDbType.DateTime),
+                    new SqlParameter ("@althora", SqlDbType.DateTime),
+                    new SqlParameter ("@altusuario", SqlDbType.VarChar),
                 new SqlParameter ("@dataFechamento", SqlDbType.DateTime),
-				new SqlParameter ("@Descricao", SqlDbType.VarChar),
+                    new SqlParameter ("@Descricao", SqlDbType.VarChar),
                 new SqlParameter ("@Observacao", SqlDbType.VarChar)
-                
-			};
+
+               };
             return parms;
         }
 
@@ -311,7 +311,7 @@ namespace DAL.SQL
             List<Modelo.FechamentoPonto> lista = new List<Modelo.FechamentoPonto>();
             SqlParameter[] parms = new SqlParameter[0];
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, "SELECT * FROM FechamentoPonto", parms);
-            SetaListaObjeto(dr,ref lista);
+            SetaListaObjeto(dr, ref lista);
             return lista;
         }
 
@@ -324,13 +324,13 @@ namespace DAL.SQL
         /// <returns>Retorna lista de fechamentos de acordo com os filtros</returns>
         public List<Modelo.FechamentoPonto> GetFechamentosPorTipoFiltro(DateTime data, int tipoFiltro, List<int> idsRegistros)
         {
-            SqlParameter[] parms = new SqlParameter[2] 
+            SqlParameter[] parms = new SqlParameter[2]
             {
                 new SqlParameter("@ids", SqlDbType.VarChar),
                 new SqlParameter("@data", SqlDbType.Date)
             };
 
-            parms[0].Value = String.Join(",",idsRegistros);
+            parms[0].Value = String.Join(",", idsRegistros);
             parms[1].Value = data;
 
             string sql = @" Select top(3) fp.id, fp.codigo, fp.dataFechamento, fp.descricao, fp.observacao
@@ -380,6 +380,88 @@ namespace DAL.SQL
             }
             return lista;
         }
+
+        public (int? Mes, int? Ano) GetMesAnoFechamento(int idFechamento, int idEmpresa, int idFuncionario)
+        {
+            SqlParameter[] parms = new SqlParameter[3]
+            {
+                new SqlParameter("@idempresa", SqlDbType.VarChar),
+                new SqlParameter("@idfuncionario", SqlDbType.VarChar),
+                new SqlParameter("@idfechamento", SqlDbType.VarChar)
+            };
+
+            parms[0].Value = idEmpresa;
+            parms[1].Value = idFuncionario;
+            parms[2].Value = idFechamento;
+
+            #region SQL 
+
+            var sql = @";WITH result(id, dataFechamento, mes, ano, row#)
+                        AS
+                        (
+                            select top 6 
+                                fp.id, 
+                                fp.dataFechamento,
+                                CAST(FORMAT(fp.dataFechamento,'MM') AS INT) as mes,
+                                CAST(FORMAT(fp.dataFechamento,'yyyy') AS INT) as ano,
+                                ROW_NUMBER() OVER(PARTITION BY FORMAT(fp.dataFechamento,'MMyyyy') ORDER BY f.Id ASC) AS Row#
+                            from FechamentoPonto fp
+                            inner join FechamentoPontoFuncionario ff on ff.idFechamentoPonto = fp.id
+                            inner join funcionario f on f.id = ff.idFuncionario
+                            inner join empresa e on e.id = f.idempresa
+                            where e.id = @idempresa and f.id = @idfuncionario
+                            order by fp.dataFechamento desc
+                        )
+
+                        SELECT 
+                            Id,
+                            dataFechamento,
+                            CAST(mes + (Row# - 1) AS INT) as mes,
+                            ano
+                        FROM result
+                        where id = @idfechamento";
+
+            #endregion
+
+            using (SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms))
+            {
+                if (dr.HasRows && dr.Read())
+                    return (dr.GetInt32(2), dr.GetInt32(3));
+            }
+
+            return (null, null);
+        }
+
+        public void UpdateIdJob(int idFechamento, string idJob)
+        {
+            SqlParameter[] parms = new SqlParameter[] {
+                new SqlParameter( "@idfechamento", SqlDbType.Int),
+                new SqlParameter( "@idjob", SqlDbType.VarChar),
+            };
+
+            parms[0].Value = idFechamento;
+            parms[1].Value = idJob;
+
+            var sql = @"UPDATE fechamentoPonto SET idjob = @idjob WHERE id = @idfechamento";
+            db.ExecuteNonQuery(CommandType.Text, sql, parms);
+        }
+
+        public string GetIdJob(int idFechamento)
+        {
+            var param = new SqlParameter("@idfechamento", SqlDbType.Int);
+            param.Value = idFechamento;
+
+            var sql = @"SELECT isnull(idjob, '') as idjob FROM fechamentoPonto WHERE id = @idfechamento";
+
+            using (SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, param))
+            {
+                if (dr.HasRows && dr.Read())
+                    return dr.GetString(0);
+                else
+                    return string.Empty;
+            }
+        }
+
         #endregion
     }
 }
