@@ -37,11 +37,6 @@ namespace BLL.Relatorios
             return lista;
         }
 
-        //public DataTable GetRelatorioHomemHoraMonsanto(String idsFuncionarios, DateTime dataIni, DateTime dataFin, string idsOcorrencias)
-        //{
-        //    return dalRelatorioHomemHora.GetRelatorioHomemHoraMonsanto(idsFuncionarios, dataIni, dataFin);
-        //}
-
         public List<Modelo.Proxy.Relatorios.PxyRelHomemHoraMonsanto> GetRelatorioHomemHoraMonsanto(List<int> idsFuncionarios, DateTime dataIni, DateTime dataFim)
         {
 
@@ -73,117 +68,117 @@ namespace BLL.Relatorios
                 {
                     if (row["Matricula"].ToString() == item.Matricula)
                     {
-                        if (row["percentualextra50"].ToString() != "0,00" || row["percentualextraNoturna50"].ToString() != "0,00")
+                        if (row["percentualextra50"].ToString().Replace(",", "").Replace(".", "") != "000" || row["percentualextraNoturna50"].ToString().Replace(",", "").Replace(".", "") != "000");
                         {
                             percentuais.Add(new Percentual()
                             {
                                 VlrPercentual = "50",
-                                Diurno = row["percentualextra50"].ToString(),
-                                Noturno = row["percentualextraNoturna50"].ToString()
+                                Diurno = row["percentualextra50"].ToString().Replace(",", "").Replace(".", ""),
+                                Noturno = row["percentualextraNoturna50"].ToString().Replace(",", "").Replace(".", "")
                             }
                             );
 
                         }
 
-                        if (row["percentualextra60"].ToString() != "0,00" || row["percentualextraNoturna60"].ToString() != "0,00")
+                        if (row["percentualextra60"].ToString().Replace(",", "").Replace(".", "") != "000" || row["percentualextraNoturna60"].ToString().Replace(",", "").Replace(".", "") != "000")
                         {
                             percentuais.Add(new Percentual()
                             {
                                 VlrPercentual = "60",
-                                Diurno = row["percentualextra60"].ToString(),
-                                Noturno = row["percentualextraNoturna60"].ToString()
+                                Diurno = row["percentualextra60"].ToString().Replace(",", "").Replace(".", ""),
+                                Noturno = row["percentualextraNoturna60"].ToString().Replace(",", "").Replace(".", "")
                             }
                             );
 
                         }
 
-                        if (row["percentualextra70"].ToString() != "0,00" || row["percentualextraNoturna70"].ToString() != "0,00")
+                        if (row["percentualextra70"].ToString().Replace(",", "").Replace(".", "") != "000" || row["percentualextraNoturna70"].ToString().Replace(",", "").Replace(".", "") != "000")
                         {
                             percentuais.Add(new Percentual()
                             {
                                 VlrPercentual = "70",
-                                Diurno = row["percentualextra70"].ToString(),
-                                Noturno = row["percentualextraNoturna70"].ToString()
+                                Diurno = row["percentualextra70"].ToString().Replace(",", "").Replace(".", ""),
+                                Noturno = row["percentualextraNoturna70"].ToString().Replace(",", "").Replace(".", "")
                             }
                             );
 
                         }
 
-                        if (row["percentualextra80"].ToString() != "0,00" || row["percentualextraNoturna80"].ToString() != "0,00")
+                        if (row["percentualextra80"].ToString().Replace(",", "").Replace(".", "") != "000" || row["percentualextraNoturna80"].ToString().Replace(",", "").Replace(".", "") != "000")
                         {
                             percentuais.Add(new Percentual()
                             {
                                 VlrPercentual = "80",
-                                Diurno = row["percentualextra80"].ToString(),
-                                Noturno = row["percentualextraNoturna80"].ToString()
+                                Diurno = row["percentualextra80"].ToString().Replace(",", "").Replace(".", ""),
+                                Noturno = row["percentualextraNoturna80"].ToString().Replace(",", "").Replace(".", "")
                             }
                             );
 
                         }
 
-                        if (row["percentualextra90"].ToString() != "0,00" || row["percentualextraNoturna90"].ToString() != "0,00")
+                        if (row["percentualextra90"].ToString().Replace(",", "").Replace(".", "") != "000" || row["percentualextraNoturna90"].ToString().Replace(",", "").Replace(".", "") != "000")
                         {
                             percentuais.Add(new Percentual()
                             {
                                 VlrPercentual = "90",
-                                Diurno = row["percentualextra90"].ToString(),
-                                Noturno = row["percentualextraNoturna90"].ToString()
+                                Diurno = row["percentualextra90"].ToString().Replace(",", "").Replace(".", ""),
+                                Noturno = row["percentualextraNoturna90"].ToString().Replace(",", "").Replace(".", "")
                             }
                             );
 
                         }
 
-                        if (row["percentualextra100"].ToString() != "0,00" || row["percentualextraNoturna100"].ToString() != "0,00")
+                        if (row["percentualextra100"].ToString().Replace(",", "").Replace(".", "") != "000" || row["percentualextraNoturna100"].ToString().Replace(",", "").Replace(".", "") != "000")
                         {
                             percentuais.Add(new Percentual()
                             {
                                 VlrPercentual = "100",
-                                Diurno = row["percentualextra100"].ToString(),
-                                Noturno = row["percentualextraNoturna100"].ToString()
+                                Diurno = row["percentualextra100"].ToString().Replace(",", "").Replace(".", ""),
+                                Noturno = row["percentualextraNoturna100"].ToString().Replace(",", "").Replace(".", "")
                             }
                             );
                         }
 
-                        if (row["percentualextrasab"].ToString() != "0,00" || row["percentualextraNoturnasab"].ToString() != "0,00")
+                        if (row["percentualextrasab"].ToString().Replace(",", "").Replace(".", "") != "000" || row["percentualextraNoturnasab"].ToString().Replace(",", "").Replace(".", "") != "000")
                         {
                             percentuais.Add(new Percentual()
                             {
                                 VlrPercentual = "Sábado",
-                                Diurno = row["percentualextrasab"].ToString(),
-                                Noturno = row["percentualextraNoturnasab"].ToString()
+                                Diurno = row["percentualextrasab"].ToString().Replace(",", "").Replace(".", ""),
+                                Noturno = row["percentualextraNoturnasab"].ToString().Replace(",", "").Replace(".", "")
                             }
                             );
                         }
 
-                        if (row["percentualextradom"].ToString() != "0,00" || row["percentualextraNoturnadom"].ToString() != "0,00")
+                        if (row["percentualextradom"].ToString().Replace(",", "").Replace(".", "") != "000" || row["percentualextraNoturnadom"].ToString().Replace(",", "").Replace(".", "") != "000")
                         {
                             percentuais.Add(new Percentual()
                             {
                                 VlrPercentual = "Domingo",
-                                Diurno = row["percentualextradom"].ToString(),
-                                Noturno = row["percentualextraNoturnadom"].ToString()
+                                Diurno = row["percentualextradom"].ToString().Replace(",", "").Replace(".", ""),
+                                Noturno = row["percentualextraNoturnadom"].ToString().Replace(",", "").Replace(".", "")
                             }
                             );
                         }
 
-                        if (row["percentualextrafer"].ToString() != "0,00" || row["percentualextraNoturnafer"].ToString() != "0,00")
+                        if (row["percentualextrafer"].ToString().Replace(",", "").Replace(".", "") != "000" || row["percentualextraNoturnafer"].ToString().Replace(",", "").Replace(".", "") != "000")
                         {
                             percentuais.Add(new Percentual()
                             {
                                 VlrPercentual = "Feriado",
-                                Diurno = row["percentualextrafer"].ToString(),
-                                Noturno = row["percentualextraNoturnafer"].ToString()
+                                Diurno = row["percentualextrafer"].ToString().Replace(",", "").Replace(".", ""),
+                                Noturno = row["percentualextraNoturnafer"].ToString().Replace(",", "").Replace(".", "")
                             }
                             );
                         }
 
-                        if (row["percentualextrafol"].ToString() != "0,00" || row["percentualextraNoturnafol"].ToString() != "0,00")
+                        if (row["percentualextrafol"].ToString().Replace(",", "").Replace(".", "") != "000" || row["percentualextraNoturnafol"].ToString().Replace(",", "").Replace(".", "") != "000")
                         {
                             percentuais.Add(new Percentual()
                             {
                                 VlrPercentual = "Folga",
-                                Diurno = row["percentualextrafol"].ToString(),
-                                Noturno = row["percentualextraNoturnafol"].ToString()
+                                Diurno = row["percentualextrafol"].ToString().Replace(",", "").Replace(".", ""),
+                                Noturno = row["percentualextraNoturnafol"].ToString().Replace(",", "").Replace(".", "")
                             }
                             );
                         }                    
