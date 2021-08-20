@@ -580,12 +580,12 @@ namespace PontoWeb.Controllers
             if (con.ToUpper().Contains(@"\PRD"))
             {
                 user.login = "produtoemployer";
-                user.Password = "qwer1234";
+                user.Password = "pro20prd";
             }
             else if (con.ToUpper().Contains(@"\SUP"))
             {
                 user.login = "produtoemployer";
-                user.Password = "Pfp#2020";
+                user.Password = "pro20prd";
             }
             else if (con.ToUpper().Contains(@"\HOM"))
             {
