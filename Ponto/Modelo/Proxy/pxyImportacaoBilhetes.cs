@@ -26,7 +26,7 @@ namespace Modelo.Proxy
         public bool bMarcacaoIndividual { get; set; }
 
 
-        [Display(Name = "Não validar CNPJ do arquivo")]
+        [Display(Name = "Razão Social Cliente")]
         public bool bRazaoSocial { get; set; }
 
         public String RazaoSocialCliente { get; set; }

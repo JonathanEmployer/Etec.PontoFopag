@@ -63,7 +63,7 @@
                                         <span class="btn btn-primary btn-sm fileinput-button">
                                             <i class="glyphicon glyphicon-upload"></i>
                                             <span>Selecionar Arquivo...</span>
-                                            <input id="fileupload" type="file" name="files[]" multiple>
+                                            <input id="fileupload" type="file">
                                         </span>
                                     </div>
                                     <div class="col-md-9">
@@ -208,11 +208,12 @@
             if (($("#DataInicial").val() != null && $("#DataInicial").val() != "") && ($("#DataFinal").val() != null && $("#DataFinal").val() != "")) {
                 var dias = diasPeriodo($("#DataInicial").val(), $('#DataFinal').val());
                 if (dias <= 0) {
-                    errorArray["intervalo"] = 'Data Inícial deve ser menor que a Final';
+                    errorArray["intervalo"] = 'Data Inicial deve ser menor que a Final';
                     $("form").validate().showErrors(errorArray);
                 }
             }
         });
+
 
         $('#fileupload').fileupload({
             //Fazer validação para não deixar importar durante o upload
@@ -265,7 +266,7 @@
             type: "GET",
             url: "/ImportacaoBilhetes/ValidaAFD",
             data: {
-                'nomeArquivo': data.result.nome, 'bRazaosocial': $("#bRazaoSocial").is(':checked') ? true : false
+                'nomeArquivo': data.result.nome, 'bRazaosocial': $("#bRazaoSocial").is(':checked') ? true : false, 'dias': diasPeriodo($("#DataInicial").val(), $('#DataFinal').val())
             },
             success: function (valida) {
                 $("#spanResultArquivo").removeClass("label-default");

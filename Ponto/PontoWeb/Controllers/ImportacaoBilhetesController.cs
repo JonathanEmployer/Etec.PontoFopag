@@ -15,104 +15,104 @@ using BLL_N.JobManager.Hangfire;
 namespace PontoWeb.Controllers
 {
     public class ImportacaoBilhetesController : Controller
-	{
+    {
         [PermissoesFiltro(Roles = "ImportacaoBilhetes")]
-		public ActionResult Importar()
-		{
+        public ActionResult Importar()
+        {
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
 
             BLL.REP bllRep = new BLL.REP(usr.ConnectionString, usr);
-			pxyImportacaoBilhetes importacaoBilhetes = new pxyImportacaoBilhetes();
+            pxyImportacaoBilhetes importacaoBilhetes = new pxyImportacaoBilhetes();
 
-			return View(importacaoBilhetes);
-		}
+            return View(importacaoBilhetes);
+        }
 
-		[PermissoesFiltro(Roles = "ImportacaoBilhetesAlterar")]
-		[HttpPost]
-		public ActionResult Importar(pxyImportacaoBilhetes imp)
-		{
+        [PermissoesFiltro(Roles = "ImportacaoBilhetesAlterar")]
+        [HttpPost]
+        public ActionResult Importar(pxyImportacaoBilhetes imp)
+        {
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
             string conn = usr.ConnectionString;
             BLL.ImportaBilhetes bllImportacaoBilhetes = new BLL.ImportaBilhetes(conn, usr);
             string pathAfd = bllImportacaoBilhetes.PathAFD();
             DirectoryInfo pasta = new DirectoryInfo(pathAfd);
-			FileInfo arquivo = pasta.GetFiles(imp.NomeArquivo).FirstOrDefault();
-			BLL.REP bllRep = new BLL.REP(conn, usr);
+            FileInfo arquivo = pasta.GetFiles(imp.NomeArquivo).FirstOrDefault();
+            BLL.REP bllRep = new BLL.REP(conn, usr);
 
-			if (imp.bMarcacaoIndividual)
-				ValidaFuncionario(imp);
+            if (imp.bMarcacaoIndividual)
+                ValidaFuncionario(imp);
 
             REP relArquivo = bllRep.LoadObject(imp.IdRep);
 
             if (relArquivo != null && relArquivo.Id > 0)
-			{
-				if (ModelState.IsValid)
-				{
-					try
-					{
-						IList<REP> listaReps = new List<REP>();
+            {
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        IList<REP> listaReps = new List<REP>();
                         listaReps.Add(relArquivo);
 
-						if (arquivo != null)
-						{
-							string dsCodFuncionario = imp.FuncionarioSelecionado == null ? String.Empty : imp.FuncionarioSelecionado.Dscodigo;
+                        if (arquivo != null)
+                        {
+                            string dsCodFuncionario = imp.FuncionarioSelecionado == null ? String.Empty : imp.FuncionarioSelecionado.Dscodigo;
 
-                            UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
-                            HangfireManagerImportacoes hfm = new HangfireManagerImportacoes(UserPW.DataBase);
-                            Modelo.Proxy.PxyJobReturn ret = hfm.ImportarArquivoAFD(listaReps, imp.DataInicial, imp.DataFinal, arquivo, imp.bMarcacaoIndividual, dsCodFuncionario ,imp.bRazaoSocial);
-                            return new JsonResult
-                            {
-                                Data = new
-                                {
-                                    success = true,
-                                    job = ret
-                                }
-                            };
+                                    UsuarioPontoWeb UserPW = Usuario.GetUsuarioPontoWebLogadoCache();
+                                    HangfireManagerImportacoes hfm = new HangfireManagerImportacoes(UserPW.DataBase);
+                                    Modelo.Proxy.PxyJobReturn ret = hfm.ImportarArquivoAFD(listaReps, imp.DataInicial, imp.DataFinal, arquivo, imp.bMarcacaoIndividual, dsCodFuncionario, imp.bRazaoSocial);
+                                    return new JsonResult
+                                    {
+                                        Data = new
+                                        {
+                                            success = true,
+                                            job = ret
+                                        }
+                                    };
                         }
-					}
-					catch (Exception ex)
-					{
+                    }
+                    catch (Exception ex)
+                    {
                         BLL.cwkFuncoes.LogarErro(ex);
                         ModelState.AddModelError("CustomError", ex.Message);
-					}
-				}
-			}
-			else
-			{
+                    }
+                }
+            }
+            else
+            {
                 ModelState.AddModelError("CustomError", "Não foi possível carregar o relógio do AFD");
-			}
+            }
             return ModelState.JsonErrorResult();
         }
 
-		public Dictionary<string, object> GetErrorsFromModelState()
-		{
-			var errors = new Dictionary<string, object>();
-			foreach (var key in ModelState.Keys)
-			{
-				if (ModelState[key].Errors.Count > 0)
-				{
-					errors[key] = ModelState[key].Errors;
-				}
-			}
+        public Dictionary<string, object> GetErrorsFromModelState()
+        {
+            var errors = new Dictionary<string, object>();
+            foreach (var key in ModelState.Keys)
+            {
+                if (ModelState[key].Errors.Count > 0)
+                {
+                    errors[key] = ModelState[key].Errors;
+                }
+            }
 
-			return errors;
-		}
+            return errors;
+        }
 
-		private void ValidaFuncionario(pxyImportacaoBilhetes imp)
-		{
-			BLL.Funcionario bllFuncionario = new BLL.Funcionario(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
-			int idFunc = FuncionarioController.BuscaIdFuncionario(imp.NomeFuncionarioSelecionado);
-			if (idFunc > 0)
-			{
-				imp.FuncionarioSelecionado = bllFuncionario.LoadObject(idFunc);
-			}
-			else
-			{
-				ModelState["NomeFuncionarioSelecionado"].Errors.Add("Funcionário " + imp.NomeFuncionarioSelecionado + " não cadastrado!");
-			}
-		}
+        private void ValidaFuncionario(pxyImportacaoBilhetes imp)
+        {
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+            int idFunc = FuncionarioController.BuscaIdFuncionario(imp.NomeFuncionarioSelecionado);
+            if (idFunc > 0)
+            {
+                imp.FuncionarioSelecionado = bllFuncionario.LoadObject(idFunc);
+            }
+            else
+            {
+                ModelState["NomeFuncionarioSelecionado"].Errors.Add("Funcionário " + imp.NomeFuncionarioSelecionado + " não cadastrado!");
+            }
+        }
 
-		[HttpPost]
+        [HttpPost]
         public ContentResult UploadArquivos()
         {
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
@@ -120,7 +120,7 @@ namespace PontoWeb.Controllers
             BLL.ImportaBilhetes bllImportacaoBilhetes = new BLL.ImportaBilhetes(conn, usr);
             var r = new List<ResultadoArquivoUpload>();
             string pathAfd = bllImportacaoBilhetes.PathAFD();
-            
+
             foreach (string file in Request.Files)
             {
                 HttpPostedFileBase hpf = Request.Files[file] as HttpPostedFileBase;
@@ -147,11 +147,9 @@ namespace PontoWeb.Controllers
             return Content("{\"nome\":\"" + r[0].Nome + "\",\"tipo\":\"" + r[0].Tipo + "\",\"tamanho\":\"" + string.Format("{0} bytes", r[0].Tamanho) + "\"}", "application/json");
         }
 
-        public JsonResult ValidaAFD(string nomeArquivo ,bool? bRazaosocial)
+        public JsonResult ValidaAFD(string nomeArquivo, bool? bRazaosocial , int dias)
         {
-
-			if (bRazaosocial == null)
-				bRazaosocial = false;
+            if (bRazaosocial == null) bRazaosocial = false;
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
             string conn = usr.ConnectionString;
             BLL.ImportaBilhetes bllImportacaoBilhetes = new BLL.ImportaBilhetes(conn, usr);
@@ -159,28 +157,35 @@ namespace PontoWeb.Controllers
             ValidaArquivoUpload retorno = new ValidaArquivoUpload();
             try
             {
-
-                string header = "";
-                string caminhoArquivo = Path.Combine(pathAfd, Path.GetFileName(nomeArquivo));
-                using (StreamReader reader = new StreamReader(caminhoArquivo))
+                if (dias < 0 )
                 {
-                    header = reader.ReadLine() ?? "";
+                    retorno.Erro = "Data Inicial deve ser menor que a Final";
                 }
-                if (!String.IsNullOrEmpty(header))
+                else 
                 {
-                    BLL.ImportacaoBilhetes impBil = new BLL.ImportacaoBilhetes(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
-                    List<string> erros = new List<string>();
-                    REP rel = impBil.GetRepHeaderAFD(header, out erros , bRazaosocial);
-                    if (erros.Count > 0)
+                    string header = "";
+                    string caminhoArquivo = Path.Combine(pathAfd, Path.GetFileName(nomeArquivo));
+                    using (StreamReader reader = new StreamReader(caminhoArquivo))
                     {
-                        retorno.Erro = String.Join("; ", erros);
+                        header = reader.ReadLine() ?? "";
                     }
-                    else
+                    if (!String.IsNullOrEmpty(header))
                     {
-                        retorno.IdRelogio = rel.Id;
-                        retorno.Erro = "";
+                        BLL.ImportacaoBilhetes impBil = new BLL.ImportacaoBilhetes(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+                        List<string> erros = new List<string>();
+                        REP rel = impBil.GetRepHeaderAFD(header, out erros, bRazaosocial);
+                        if (erros.Count > 0)
+                        {
+                            retorno.Erro = String.Join("; ", erros);
+                        }
+                        else
+                        {
+                            retorno.IdRelogio = rel.Id;
+                            retorno.Erro = "";
+                        }
                     }
                 }
+       
             }
             catch (Exception e)
             {
@@ -191,75 +196,75 @@ namespace PontoWeb.Controllers
             return Json(retorno, JsonRequestBehavior.AllowGet);
         }
 
-		private string VerificaExistenciaDoArquivoPorNome(string nomeArquivoSemExtensao)
-		{
+        private string VerificaExistenciaDoArquivoPorNome(string nomeArquivoSemExtensao)
+        {
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
             string conn = usr.ConnectionString;
             BLL.ImportaBilhetes bllImportacaoBilhetes = new BLL.ImportaBilhetes(conn, usr);
             string pathAfd = bllImportacaoBilhetes.PathAFD();
             DirectoryInfo pasta = new DirectoryInfo(pathAfd);
-			IList<FileInfo> arquivos = pasta.GetFiles().Where(a => a.FullName.Contains(nomeArquivoSemExtensao)).ToList();
-			List<FileInfo> arquivosRepetidos = (arquivos.Where(p => p.Name.Replace(nomeArquivoSemExtensao, "").Count() > 0).
-												Where(q => q.Name.Contains("(")).Where(r => r.Name.Contains(")")).ToList()).ToList();
-			int maiorNumero, proximoNumero;
-			string nomeNovo = String.Empty;
+            IList<FileInfo> arquivos = pasta.GetFiles().Where(a => a.FullName.Contains(nomeArquivoSemExtensao)).ToList();
+            List<FileInfo> arquivosRepetidos = (arquivos.Where(p => p.Name.Replace(nomeArquivoSemExtensao, "").Count() > 0).
+                                                Where(q => q.Name.Contains("(")).Where(r => r.Name.Contains(")")).ToList()).ToList();
+            int maiorNumero, proximoNumero;
+            string nomeNovo = String.Empty;
 
-			if(arquivosRepetidos.Count > 0)
-			{
-				maiorNumero = PegaMaiorNumero(nomeArquivoSemExtensao, arquivosRepetidos);
-				proximoNumero = maiorNumero + 1;
-				nomeNovo = nomeArquivoSemExtensao + "(" + proximoNumero + ")";
-			}
-			else if (arquivos.Count > 0)
-			{
-				maiorNumero = 0;
-				proximoNumero = maiorNumero + 1;
-				nomeNovo = nomeArquivoSemExtensao + "(" + proximoNumero + ")";
-			}
+            if (arquivosRepetidos.Count > 0)
+            {
+                maiorNumero = PegaMaiorNumero(nomeArquivoSemExtensao, arquivosRepetidos);
+                proximoNumero = maiorNumero + 1;
+                nomeNovo = nomeArquivoSemExtensao + "(" + proximoNumero + ")";
+            }
+            else if (arquivos.Count > 0)
+            {
+                maiorNumero = 0;
+                proximoNumero = maiorNumero + 1;
+                nomeNovo = nomeArquivoSemExtensao + "(" + proximoNumero + ")";
+            }
 
-			return nomeNovo;
-		}
+            return nomeNovo;
+        }
 
-		private static int PegaMaiorNumero(string nomeArquivoSemExtensao, List<FileInfo> arquivosRepetidos)
-		{
-			int maiorNumeroArquivo = 0;
-			int numeroArquivo = 0;
-			IList<int> listaDeNumeros = new List<int>();
-			foreach (var item in arquivosRepetidos)
-			{
-				string itemStr = item.Name.Replace(nomeArquivoSemExtensao, "").Replace("(", "").Replace(")", "").Replace(".txt","");
-				Int32.TryParse(itemStr, out numeroArquivo);
-				listaDeNumeros.Add(numeroArquivo);
-			}
-			if (listaDeNumeros.Count > 0)
-			{
-				maiorNumeroArquivo = listaDeNumeros.Max();
-			}
+        private static int PegaMaiorNumero(string nomeArquivoSemExtensao, List<FileInfo> arquivosRepetidos)
+        {
+            int maiorNumeroArquivo = 0;
+            int numeroArquivo = 0;
+            IList<int> listaDeNumeros = new List<int>();
+            foreach (var item in arquivosRepetidos)
+            {
+                string itemStr = item.Name.Replace(nomeArquivoSemExtensao, "").Replace("(", "").Replace(")", "").Replace(".txt", "");
+                Int32.TryParse(itemStr, out numeroArquivo);
+                listaDeNumeros.Add(numeroArquivo);
+            }
+            if (listaDeNumeros.Count > 0)
+            {
+                maiorNumeroArquivo = listaDeNumeros.Max();
+            }
 
-			return maiorNumeroArquivo;
-		}
+            return maiorNumeroArquivo;
+        }
 
-		private void VerificaArquivosAntigosParaApagar()
-		{
+        private void VerificaArquivosAntigosParaApagar()
+        {
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
             string conn = usr.ConnectionString;
             BLL.ImportaBilhetes bllImportacaoBilhetes = new BLL.ImportaBilhetes(conn, usr);
             string pathAfd = bllImportacaoBilhetes.PathAFD();
             if (!Directory.Exists(pathAfd))
-			{
-				Directory.CreateDirectory(pathAfd);
-			}
+            {
+                Directory.CreateDirectory(pathAfd);
+            }
 
-			DirectoryInfo pasta = new DirectoryInfo(pathAfd);
-			IList<FileInfo> arquivos = new List<FileInfo>();
-			List<FileInfo> arquivosAntigos = new List<FileInfo>();
+            DirectoryInfo pasta = new DirectoryInfo(pathAfd);
+            IList<FileInfo> arquivos = new List<FileInfo>();
+            List<FileInfo> arquivosAntigos = new List<FileInfo>();
 
-			arquivos = pasta.GetFiles();
-			
-			arquivosAntigos = arquivos.Where(p => (((DateTime.Now - p.CreationTime).Days * 24) +
-			(DateTime.Now - p.CreationTime).Hours) > 48).ToList();
+            arquivos = pasta.GetFiles();
 
-			arquivosAntigos.ForEach(p => p.Delete());
-		}
+            arquivosAntigos = arquivos.Where(p => (((DateTime.Now - p.CreationTime).Days * 24) +
+            (DateTime.Now - p.CreationTime).Hours) > 48).ToList();
+
+            arquivosAntigos.ForEach(p => p.Delete());
+        }
     }
 }
