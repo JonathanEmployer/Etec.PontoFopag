@@ -597,6 +597,7 @@ namespace PontoWeb.Controllers
                 return (false, ex.Message);
             }
         }
+
         private void GetConfigEPays(Empresa Empresa)
         {
             var ePaysConfig = new EPaysConfig();
@@ -610,11 +611,13 @@ namespace PontoWeb.Controllers
                 Empresa.IntegraEPays = result.Data.EnableEPays;
             }
         }
+
         public JsonResult PostGenerationTokenEPays(string Cnpj)
         {
             var token = $"{GetDataBaseName()}@@{Cnpj.Replace(".", "").Replace(".", "").Replace("/", "").Replace("-", "")}".EncryptionXOR(true);
             return Json(new { Success = true, Token = token }, JsonRequestBehavior.AllowGet);
         }
+
         #endregion
     }
 }

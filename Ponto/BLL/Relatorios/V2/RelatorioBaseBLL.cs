@@ -60,8 +60,6 @@ namespace BLL.Relatorios
             _progressBar = progressBar;
         }
 
-
-
         protected virtual string GerarArquivoReportView(IParametrosReportView parms)
         {
             _progressBar.setaValorPBCMensagem(99,"Gerando Relatório...");
@@ -185,7 +183,7 @@ namespace BLL.Relatorios
             return buffer;
         }
 
-        protected string SaveFile(string NomeArquivo, string fileNameExtension, byte[] renderedBytes)
+        protected virtual string SaveFile(string NomeArquivo, string fileNameExtension, byte[] renderedBytes)
         {
             if (string.IsNullOrEmpty(NomeArquivo))
                 throw new Exception("Nome do arquivo não foi informado");

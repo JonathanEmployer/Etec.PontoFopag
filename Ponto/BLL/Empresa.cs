@@ -625,5 +625,15 @@ namespace BLL
         {
             return dalEmpresa.GetAllEmpresasControle();
         }
+
+        /// <summary>
+        /// Consulta CNPJs das empresa apartir dos ids dos funcionarios
+        /// </summary>
+        /// <param name="ids">Id Funcionario</param>
+        /// <returns></returns>
+        public IEnumerable<(string cnpj, int idFuncionario)> GetCnpjsByFuncIds(params int[] ids)
+        {
+            return dalEmpresa.GetCnpjsByFuncIds(ids);
+        }
     }
 }
