@@ -49,10 +49,5 @@ namespace Modelo.Proxy
 
         [DisplayName("Processadas")]
         public string MarcacoesProcessadas { get; set; }
-
-        public DateTime DataInicio { get; set; }
-
-        public DateTime DataFim { get; set; }
-
     }
 }

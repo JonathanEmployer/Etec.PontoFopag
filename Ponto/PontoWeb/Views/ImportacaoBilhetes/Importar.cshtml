@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "Importação de AFD";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string nomeTabela = "tbRep";
 }
 
 @using (Html.BeginForm("Importar", "ImportacaoBilhetes", FormMethod.Post, new { id = "FormImportar" }))
@@ -159,8 +158,6 @@
     var multiplicador = 17;
     var larguraRes = window.innerWidth || document.body.clientWidth;
     var larguraGrid = "100%";
-    var nomeTabela = "#" + '@nomeTabela';
-
     if (larguraRes <= 1024) {
         larguraGrid = '1100px';
     }
@@ -187,11 +184,6 @@
     });
 
 
-    $('#btnImportados').click(function () {
-        cwk_EventoConsultaUnico(e, this, "", "LogImportacaoAFD", "");
-    });
-
-
     if ($("#bRazaoSocial").is(':checked')) {
         $('#lkpRazaoSocialCliente').prop('readonly', false);
     }
@@ -204,7 +196,6 @@
             cwk_EventoConsultaUnico(e, this, "", "Funcionario", "");
         }
     });
-
 
     $(document).ready(function () {
         cwk_DataCalendario('#btnDataInicial', '#DataInicial');

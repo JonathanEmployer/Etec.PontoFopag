@@ -2000,10 +2000,6 @@
       <Project>{737d66c4-b80e-4d10-93cf-e43c74a71e07}</Project>
       <Name>CentralCliente</Name>
     </ProjectReference>
-    <ProjectReference Include="..\cwkWebAPIPontoWeb\cwkWebAPIPontoWeb.csproj">
-      <Project>{074A99D1-E914-46BC-8CDD-053A859EC644}</Project>
-      <Name>cwkWebAPIPontoWeb</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DAL\DAL.csproj">
       <Project>{9e79e822-8fbd-49ae-8ed1-49db4408ec47}</Project>
       <Name>DAL</Name>
