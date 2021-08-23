@@ -158,6 +158,9 @@
     var multiplicador = 17;
     var larguraRes = window.innerWidth || document.body.clientWidth;
     var larguraGrid = "100%";
+
+    var string acao = String.Format("DadosGridLogImportacao?dataIni={0}&dataFim={1}", ViewBag.dataIni, ViewBag.dataFim);
+
     if (larguraRes <= 1024) {
         larguraGrid = '1100px';
     }
@@ -316,7 +319,7 @@
         });
     }
 
-    $("#btnImpBil").click(function (event) {
+     $("#btnImpBil").click(function (event) {
         $("#btnImpBil").text("Aguarde...");
         $("#btnImpBil").prop("disabled", true);
         var dias = diasPeriodo($("#DataInicial").val(), $('#DataFinal').val());

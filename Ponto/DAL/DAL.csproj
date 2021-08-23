@@ -285,6 +285,7 @@
     <Compile Include="IJornadaSubstituir.cs" />
     <Compile Include="IJornadaSubstituirFuncionario.cs" />
     <Compile Include="IJustificativaRestricao.cs" />
+    <Compile Include="ILogImportacaoAFD.cs" />
     <Compile Include="IUsuarioControleAcesso.cs" />
     <Compile Include="IOcorrenciaRestricao.cs" />
     <Compile Include="IHorarioRestricao.cs" />
@@ -308,6 +309,7 @@
     <Compile Include="SQL\JornadaSubstituir.cs" />
     <Compile Include="SQL\JornadaSubstituirFuncionario.cs" />
     <Compile Include="SQL\JustificaticaRestricao.cs" />
+    <Compile Include="SQL\LogImportacaoAFD.cs" />
     <Compile Include="SQL\OcorrenciaRestricao.cs" />
     <Compile Include="SQL\HorarioDinamicoRestricao.cs" />
     <Compile Include="SQL\HorarioRestricao.cs" />

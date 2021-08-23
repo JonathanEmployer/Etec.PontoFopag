@@ -266,5 +266,38 @@ namespace PontoWeb.Controllers
 
             arquivosAntigos.ForEach(p => p.Delete());
         }
+
+        [Authorize]
+        public JsonResult DadosGridLogImportacao(string dataIni, string dataFim)
+        {
+            try
+            {
+                DateTime ini = new DateTime();
+                if (!DateTime.TryParse(dataIni, out ini))
+                {
+                    new Exception("Data inicial inválida");
+                }
+
+                DateTime fin = new DateTime();
+                if (!DateTime.TryParse(dataFim, out fin))
+                {
+                    new Exception("Data final inválida");
+                }
+                var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+
+                BLL.LogImportacaoAFD bllLogImportacaoAFD = new BLL.LogImportacaoAFD(usr.ConnectionString, usr);
+                List<Modelo.LogImportacaoAFD> dados = bllLogImportacaoAFD.GetPeriodo(ini, fin);
+                JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
+                jsonResult.MaxJsonLength = int.MaxValue;
+                return jsonResult;
+            }
+            catch (Exception ex)
+            {
+                BLL.cwkFuncoes.LogarErro(ex);
+                throw;
+            }
+        }
+
+
     }
 }

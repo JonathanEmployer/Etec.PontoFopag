@@ -374,6 +374,7 @@
     <Compile Include="JornadaSubstituir.cs" />
     <Compile Include="JornadaSubstituirFuncionario.cs" />
     <Compile Include="JustificativaRestricao.cs" />
+    <Compile Include="LogImportacaoAFD.cs" />
     <Compile Include="OcorrenciaRestricao.cs" />
     <Compile Include="HorarioRestricao.cs" />
     <Compile Include="EmpresaTermoUso.cs" />
