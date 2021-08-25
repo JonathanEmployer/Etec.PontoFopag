@@ -556,53 +556,8 @@ namespace BLL
             //Guarda dados anterior
             List<Modelo.BilhetesImp> tratamentosMarcacaoAnt = new Modelo.BilhetesImp().Clone(tratamentosMarcacao);
 
-            if ((TemAfastamento() || !pontoPorExcecao) && tratamentosMarcacao.Where(w => w.Relogio == "PE").Any())
-            {
-                tratamentosMarcacao = tratamentomarcacaoList.Where(t => t.Mar_data == data && t.DsCodigo == dscodigo).ToList();
-                tratamentosMarcacao.Where(w => w.Relogio == "PE").ToList().ForEach(f => f.Acao = Acao.Excluir);
-                tratamentosMarcacao = tratamentosMarcacao.OrderBy(o => o.Posicao).ThenBy(o => o.Ent_sai).ToList();
-                string ent_sai = "E";
-                int posicao = 1;
-                //for (int i = 0; i < tratamentosMarcacao.Count; i++)
-                //{
-                //    var tratamento = tratamentosMarcacao[i];
-                //    if (tratamento.Acao != Acao.Excluir)
-                //    {
-                //        tratamento.Ent_sai = ent_sai;
-                //        tratamento.Posicao = posicao;
-                //        ent_sai = ent_sai == "E" ? "S" : "E";
-                //        posicao = ent_sai == "E" ? posicao++ : posicao;
-                //    }
-                //}
-                BilhetesImp.AjustarPosicaoBilhetes(tratamentosMarcacao);
-                for (int i = 1; i < 9; i++)
-                {
-                    var entrada = tratamentosMarcacao.Where(w => w.Ent_sai == "E" && w.Posicao == i && w.Acao != Acao.Excluir).FirstOrDefault();
-                    if (entrada != null)
-                    {
-                        pMarcacao[$"entrada_{i}min"] = entrada.Hora.ConvertHorasMinuto();
-                        pMarcacao[$"entrada_{i}"] = entrada.Hora;
-                    }
-                    else
-                    {
-                        pMarcacao[$"entrada_{i}min"] = -1;
-                        pMarcacao[$"entrada_{i}"] = "--:--";
-                    }
+            ProcessaPontoPorExcecao(tratamentosMarcacao, pMarcacao, pBilhetes);
 
-                    var saida = tratamentosMarcacao.Where(w => w.Ent_sai == "S" && w.Posicao == i && w.Acao != Acao.Excluir).FirstOrDefault();
-                    if (saida != null)
-                    {
-                        pMarcacao[$"saida_{i}min"] = saida.Hora.ConvertHorasMinuto();
-                        pMarcacao[$"saida_{i}"] = saida.Hora;
-                    }
-                    else
-                    {
-                        pMarcacao[$"saida_{i}min"] = -1;
-                        pMarcacao[$"saida_{i}"] = "--:--";
-                    }
-                }
-                this.SetaVariaveisMarcacao(pMarcacao);
-            }
 
             horasExtraDiurnaFeriadoMin = 0;
             horasExtraNoturnaFeriadoMin = 0;
@@ -903,6 +858,106 @@ namespace BLL
                     }
                 }
             }
+        }
+
+        private void ProcessaPontoPorExcecao(List<Modelo.BilhetesImp> tratamentosMarcacao, DataRow pMarcacao, ICollection<Modelo.BilhetesImp> pBilhetes)
+        {
+            if ((TemAfastamento() || !pontoPorExcecao) && tratamentosMarcacao.Where(w => w.Relogio == "PE").Any())
+            {
+                tratamentosMarcacao = tratamentomarcacaoList.Where(t => t.Mar_data == data && t.DsCodigo == dscodigo).ToList();
+                tratamentosMarcacao.Where(w => w.Relogio == "PE").ToList().ForEach(f => f.Acao = Acao.Excluir);
+                tratamentosMarcacao = tratamentosMarcacao.OrderBy(o => o.Posicao).ThenBy(o => o.Ent_sai).ToList();
+                string ent_sai = "E";
+                int posicao = 1;
+                //for (int i = 0; i < tratamentosMarcacao.Count; i++)
+                //{
+                //    var tratamento = tratamentosMarcacao[i];
+                //    if (tratamento.Acao != Acao.Excluir)
+                //    {
+                //        tratamento.Ent_sai = ent_sai;
+                //        tratamento.Posicao = posicao;
+                //        ent_sai = ent_sai == "E" ? "S" : "E";
+                //        posicao = ent_sai == "E" ? posicao++ : posicao;
+                //    }
+                //}
+                BilhetesImp.AjustarPosicaoBilhetes(tratamentosMarcacao);
+                for (int i = 1; i < 9; i++)
+                {
+                    var entrada = tratamentosMarcacao.Where(w => w.Ent_sai == "E" && w.Posicao == i && w.Acao != Acao.Excluir).FirstOrDefault();
+                    if (entrada != null)
+                    {
+                        pMarcacao[$"entrada_{i}min"] = entrada.Hora.ConvertHorasMinuto();
+                        pMarcacao[$"entrada_{i}"] = entrada.Hora;
+                    }
+                    else
+                    {
+                        pMarcacao[$"entrada_{i}min"] = -1;
+                        pMarcacao[$"entrada_{i}"] = "--:--";
+                    }
+
+                    var saida = tratamentosMarcacao.Where(w => w.Ent_sai == "S" && w.Posicao == i && w.Acao != Acao.Excluir).FirstOrDefault();
+                    if (saida != null)
+                    {
+                        pMarcacao[$"saida_{i}min"] = saida.Hora.ConvertHorasMinuto();
+                        pMarcacao[$"saida_{i}"] = saida.Hora;
+                    }
+                    else
+                    {
+                        pMarcacao[$"saida_{i}min"] = -1;
+                        pMarcacao[$"saida_{i}"] = "--:--";
+                    }
+                }
+                this.SetaVariaveisMarcacao(pMarcacao);
+            }
+
+
+            //Ponto por excecao
+            if (pontoPorExcecao && tratamentosMarcacao.Where(w => w.Relogio == "PE").Any())
+            {
+                //Verifica se tem folga
+
+                //Verifica se tem feriado
+
+                //Verifica se tem algum ponto manual a ser inserido
+                if (tratamentosMarcacao.Where(w => w.Relogio == "MA" && w.Acao == Acao.Desconhecida).Any())
+                {
+                    foreach (var objBilheteManual in tratamentosMarcacao.Where(w => w.Relogio == "MA" && w.Acao == Acao.Desconhecida))
+                    {
+
+
+                        int minutosManual = objBilheteManual.Hora.ConvertHorasMinuto();
+
+                        int diferencaminutoPontoPosExcecaoAnterior = 0;
+
+                        Modelo.BilhetesImp bilhetesImp = new Modelo.BilhetesImp();
+
+
+                        foreach (var item in tratamentosMarcacao.Where(w => w.Relogio == "PE"))
+                        {
+                            int minutoPontoPosExcecao = 0;
+                            int diferencaminutos = 0;
+
+                            minutoPontoPosExcecao = item.Hora.ConvertHorasMinuto();
+
+                            if (minutoPontoPosExcecao > minutosManual)
+                                diferencaminutos = minutoPontoPosExcecao - minutosManual;
+                            else
+                                diferencaminutos = minutosManual - minutoPontoPosExcecao;
+
+                            if (diferencaminutos < 60 && (diferencaminutoPontoPosExcecaoAnterior == 0 || diferencaminutos < diferencaminutoPontoPosExcecaoAnterior))
+                            {
+                                diferencaminutoPontoPosExcecaoAnterior = diferencaminutos;
+
+                                bilhetesImp = item;
+                            }
+                        }
+                        //Caso tenha pega o cronologicamente mais perto
+                        bilhetesImp.Acao = Acao.Excluir;
+                    }
+
+                }
+            }
+
         }
 
         private void CalculaHorasPrevistasDentroFeriado()
