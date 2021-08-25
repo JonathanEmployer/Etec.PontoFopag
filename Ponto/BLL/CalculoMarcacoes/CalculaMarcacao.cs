@@ -944,7 +944,7 @@ namespace BLL
                             else
                                 diferencaminutos = minutosManual - minutoPontoPosExcecao;
 
-                            if (diferencaminutos < 60 && (diferencaminutoPontoPosExcecaoAnterior == 0 || diferencaminutos < diferencaminutoPontoPosExcecaoAnterior))
+                            if (diferencaminutos <= 120 && (diferencaminutoPontoPosExcecaoAnterior == 0 || diferencaminutos < diferencaminutoPontoPosExcecaoAnterior))
                             {
                                 diferencaminutoPontoPosExcecaoAnterior = diferencaminutos;
 
