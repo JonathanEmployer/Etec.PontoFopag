@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Importação de AFD";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string acao;
 }
 
 @using (Html.BeginForm("Importar", "ImportacaoBilhetes", FormMethod.Post, new { id = "FormImportar" }))
@@ -125,6 +126,11 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div id="divTbLogImportacaoArquivo">
+
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-12">
                         @Html.Partial("../JobManager/JobView")
                     </div>
@@ -135,7 +141,7 @@
                     <div class="col-xs-12 center-block row">
 
                         <div class="col-xs-6 center-block" style="text-align: left">
-                            <button  type="submit" id="btnImportados" title="Consultar Arquivos Importados" class="btn btn-info">
+                            <button type="submit" id="btnImportados" title="Consultar Arquivos Importados" onclick="CarregarGridLogImportacaoAFD()" class="btn btn-info">
                                 <i class="fa fa-search" aria-hidden="true"></i> Consultar Arquivos Importados
                             </button>
                         </div>
@@ -158,9 +164,10 @@
     var multiplicador = 17;
     var larguraRes = window.innerWidth || document.body.clientWidth;
     var larguraGrid = "100%";
-
-    var string acao = String.Format("DadosGridLogImportacao?dataIni={0}&dataFim={1}", ViewBag.dataIni, ViewBag.dataFim);
-
+    var acao = "DadosGridLogImportacao?dataIni={0}&dataFim={1}";
+    acao = acao.replace("{0}", ConvertDateToStringYMD($("#DataInicial").val()));
+    acao = acao.replace("{1}", ConvertDateToStringYMD($("#DataFinal").val()));
+ 
     if (larguraRes <= 1024) {
         larguraGrid = '1100px';
     }
@@ -185,7 +192,6 @@
             cwk_EventoConsultaUnico(e, this, "", "Funcionario", "");
         }
     });
-
 
     if ($("#bRazaoSocial").is(':checked')) {
         $('#lkpRazaoSocialCliente').prop('readonly', false);
@@ -217,7 +223,6 @@
                 }
             }
         });
-
 
         $('#fileupload').fileupload({
             //Fazer validação para não deixar importar durante o upload
@@ -262,7 +267,48 @@
         });
 
         $(":input[type='text']:enabled:visible:first").focus();
+
     });
+
+    function CarregarGridLogImportacaoAFD() {
+        var dtIni = $("#DataInicial").val();
+        var dtFin = $("#DataFinal").val();
+            $.ajax(
+                {
+                    type: 'GET',
+                    url: '/ImportacaoBilhetes/DadosGridLogImportacao/',
+                    dataType: 'html',
+                    data: {
+                        dataIni: dtIni,
+                        dataFim: dtFin
+                    },
+                    cache: false,
+                    async: true,
+                    beforeSend: function () {
+                        $("#btnImportados").prop("disabled", true);
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        if (xhr.responseText.indexOf('Usuário sem permissão') >= 0) {
+                            cwkErro("Acesso negado, Contate o administrador do sistema!");
+                        }
+                        else {
+                            var sErrMsg = "";
+                            sErrMsg += "Erro: ";
+                            sErrMsg += "\n\n" + " - Status :" + textStatus;
+                            sErrMsg += "\n\n" + " - Status Erro :" + xhr.status;
+                            sErrMsg += "\n\n" + " - Tipo Erro :" + errorThrown;
+                            sErrMsg += "\n\n" + " - Mensagem Erro :" + xhr.responseText;
+                            cwkErro(sErrMsg);
+                        }
+                    },
+                    success: function (data) {
+                        $('#divTbLogImportacaoArquivo').html(data);
+                    },
+                    complete: function () {
+                        $("#btnImportados").prop("disabled", false);
+                    }
+                });
+     }
 
     function ValidaArquivo(data) {
         $.ajax({
@@ -319,7 +365,7 @@
         });
     }
 
-     $("#btnImpBil").click(function (event) {
+    $("#btnImpBil").click(function (event) {
         $("#btnImpBil").text("Aguarde...");
         $("#btnImpBil").prop("disabled", true);
         var dias = diasPeriodo($("#DataInicial").val(), $('#DataFinal').val());
@@ -330,14 +376,6 @@
             $('form').submit();
             event.preventDefault();
         }
-    });
-
-    $('form').submit(function (e) {
-        e.preventDefault();
-        if ($(this).valid()) {
-            PostFormJob(this);
-        }
-        return false;
     });
 
     function callbackrealtorio() {

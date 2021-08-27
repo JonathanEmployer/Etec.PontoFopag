@@ -16,8 +16,8 @@ namespace DAL.SQL
             TABELA = "LogImportacaoWebApi";
 
             SELECTALLLIST = @"  SELECT ID,
-                                       DataImportacao, 
-	                                   nomeArquivo , 
+                                       DataImportacao,
+                                       nomeArquivo , 
                                        DataInicio , 
                                        DataFim
                                FROM LogImportacaoWebApi ";
@@ -33,10 +33,12 @@ namespace DAL.SQL
             parms[0].Value = pDataInicial;
             parms[1].Value = pDataFinal;
 
-            string aux = SELECTALLLIST + " WHERE ((@datai >= datai AND @datai <= isnull(dataf, '9999-12-31')) " +
-                              " OR (@dataf >= datai AND @dataf <= isnull(dataf, '9999-12-31')) " +
-                              " OR (@datai <= datai AND @dataf >= isnull(dataf, '9999-12-31'))) " +
-                              " ORDER BY id";
+            string aux = @" SELECT ID , DataImportacao , nomeArquivo, DataInicio , DataFim " +
+                          "  FROM LogImportacaoWebApi " + 
+                          "  WHERE ((@datai >= DataInicio AND @datai <= DataFim)) " +
+                              " OR ((@dataf >= DataInicio AND @dataf <= DataFim)) " +
+                              " OR ((@datai <= DataInicio AND @dataf >= DataFim)) " +
+                              " ORDER BY ID";
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
 
@@ -108,8 +110,8 @@ namespace DAL.SQL
             SetInstanceBase(dr, obj);
             ((Modelo.LogImportacaoAFD)obj).DataImportacao = Convert.ToDateTime(dr["DataImportacao"]);
             ((Modelo.LogImportacaoAFD)obj).nomeArquivo = Convert.ToString(dr["nomeArquivo"]);
-            ((Modelo.LogImportacaoAFD)obj).DataInicial = Convert.ToDateTime(dr["DataInicio"]);
-            ((Modelo.LogImportacaoAFD)obj).DataFinal = Convert.ToDateTime(dr["DataFim"]);
+            ((Modelo.LogImportacaoAFD)obj).DataInicio = Convert.ToDateTime(dr["DataInicio"]);
+            ((Modelo.LogImportacaoAFD)obj).DataFim = Convert.ToDateTime(dr["DataFim"]);
         }
 
         protected override void SetParameters(SqlParameter[] parms, ModeloBase obj)
@@ -121,8 +123,8 @@ namespace DAL.SQL
             }
             parms[1].Value = ((Modelo.LogImportacaoAFD)obj).DataImportacao;
             parms[2].Value = ((Modelo.LogImportacaoAFD)obj).nomeArquivo;
-            parms[3].Value = ((Modelo.LogImportacaoAFD)obj).DataInicial;
-            parms[4].Value = ((Modelo.LogImportacaoAFD)obj).DataFinal;
+            parms[3].Value = ((Modelo.LogImportacaoAFD)obj).DataInicio;
+            parms[4].Value = ((Modelo.LogImportacaoAFD)obj).DataFim;
         }
 
         public Modelo.LogImportacaoAFD LoadObject(int id)

@@ -814,11 +814,10 @@ function validaPeriodoCartaoPontoMarcacao(idDtIni, idDtFin, idPnl, nomeValidatio
     }
 }
 
-// Converter um string dd/MM/yyyy em date
-function ConvertDate(date) {
-    var dtHr = date.split(" ");
-    var parts = dtHr[0].split("/");
-    return new Date(parts[2], parts[1] - 1, parts[0]);
+// Converter um date em string yyyy-mm-dd
+function ConvertDateToStringYMD(date) {
+    var parts = date.split("/");
+    return "'" + parts[2] + "-" + parts[1] + "-" + parts[0] + "'" ;
 }
 
 // Converter um date em string dd/MM/yyyy
@@ -828,6 +827,7 @@ function ConvertDateToString(date) {
     var year = date.getFullYear();
     return day + "/" + month + "/" + year;
 }
+
 
 //Altera string apartir de determinado indice
 String.prototype.replaceAt = function (index, character) {

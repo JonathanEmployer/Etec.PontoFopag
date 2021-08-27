@@ -1942,6 +1942,7 @@
     <Content Include="Views\RegistradorMassa\Cadastrar.cshtml" />
     <Content Include="Views\RegistradorMassa\SituacaoRegMassa.cshtml" />
     <Content Include="Views\RegistradorMassa\SituacaoRegMassaAtual.cshtml" />
+    <Content Include="Views\ImportacaoBilhetes\DadosGridLogImportacao.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

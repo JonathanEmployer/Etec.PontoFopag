@@ -267,29 +267,29 @@ namespace PontoWeb.Controllers
             arquivosAntigos.ForEach(p => p.Delete());
         }
 
-        [Authorize]
-        public JsonResult DadosGridLogImportacao(string dataIni, string dataFim)
+        public PartialViewResult DadosGridLogImportacao(string dataIni, string dataFim)
         {
             try
             {
                 DateTime ini = new DateTime();
-                if (!DateTime.TryParse(dataIni, out ini))
-                {
-                    new Exception("Data inicial inválida");
-                }
-
                 DateTime fin = new DateTime();
-                if (!DateTime.TryParse(dataFim, out fin))
-                {
-                    new Exception("Data final inválida");
-                }
-                var usr = Usuario.GetUsuarioPontoWebLogadoCache();
 
-                BLL.LogImportacaoAFD bllLogImportacaoAFD = new BLL.LogImportacaoAFD(usr.ConnectionString, usr);
-                List<Modelo.LogImportacaoAFD> dados = bllLogImportacaoAFD.GetPeriodo(ini, fin);
-                JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
-                jsonResult.MaxJsonLength = int.MaxValue;
-                return jsonResult;
+                if (!DateTime.TryParse(dataIni.Replace("'",""), out ini) || !DateTime.TryParse(dataFim.Replace("'", ""), out fin))
+                {
+                    //return Json(new { Success = false, Erro = "Data inválida" }, JsonRequestBehavior.AllowGet);
+                    return PartialView();
+                }
+                else
+                {
+                    var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+                    BLL.LogImportacaoAFD bllLogImportacaoAFD = new BLL.LogImportacaoAFD(usr.ConnectionString, usr);
+                    List<Modelo.LogImportacaoAFD> dados = bllLogImportacaoAFD.GetPeriodo(ini, fin);
+                    return PartialView(dados);
+
+                    //JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
+                    //jsonResult.MaxJsonLength = int.MaxValue;
+                    //return jsonResult;
+                }
             }
             catch (Exception ex)
             {
@@ -297,7 +297,5 @@ namespace PontoWeb.Controllers
                 throw;
             }
         }
-
-
     }
 }
