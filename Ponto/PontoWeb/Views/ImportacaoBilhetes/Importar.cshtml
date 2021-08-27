@@ -378,6 +378,14 @@
         }
     });
 
+    $('form').submit(function (e) {
+        e.preventDefault();
+        if ($(this).valid()) {
+            PostFormJob(this);
+        }
+        return false;
+    });
+
     function callbackrealtorio() {
         $("#btnImpBil").text("Importar Arquivo");
         $("#btnImpBil").prop("disabled", false);
