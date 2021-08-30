@@ -147,14 +147,16 @@ namespace PontoWeb.Controllers
             return Content("{\"nome\":\"" + r[0].Nome + "\",\"tipo\":\"" + r[0].Tipo + "\",\"tamanho\":\"" + string.Format("{0} bytes", r[0].Tamanho) + "\"}", "application/json");
         }
 
-        public JsonResult ValidaAFD(string nomeArquivo, bool? bRazaosocial , int dias)
+        public JsonResult ValidaAFD(string nomeArquivo, bool? bRazaosocial , int dias , pxyImportacaoBilhetes imp)
         {
+            bool ValidaPis = false ;
             if (bRazaosocial == null) bRazaosocial = false;
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
             string conn = usr.ConnectionString;
             BLL.ImportaBilhetes bllImportacaoBilhetes = new BLL.ImportaBilhetes(conn, usr);
             string pathAfd = bllImportacaoBilhetes.PathAFD();
             ValidaArquivoUpload retorno = new ValidaArquivoUpload();
+            
             try
             {
                 if (dias < 0 )
@@ -163,29 +165,66 @@ namespace PontoWeb.Controllers
                 }
                 else 
                 {
+
                     string header = "";
+                    //string linha = "";
+                    
                     string caminhoArquivo = Path.Combine(pathAfd, Path.GetFileName(nomeArquivo));
                     using (StreamReader reader = new StreamReader(caminhoArquivo))
                     {
                         header = reader.ReadLine() ?? "";
-                    }
-                    if (!String.IsNullOrEmpty(header))
-                    {
-                        BLL.ImportacaoBilhetes impBil = new BLL.ImportacaoBilhetes(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
-                        List<string> erros = new List<string>();
-                        REP rel = impBil.GetRepHeaderAFD(header, out erros, bRazaosocial);
-                        if (erros.Count > 0)
+                        //while (linha != null)
+                        //{
+                        //    linha = reader.ReadLine();
+                        //    if (String.IsNullOrEmpty(linha))
+                        //    {
+                        //        break;
+                        //    }
+
+                        //    if (int.TryParse(linha.Substring(0, 9), out int conv))
+                        //    {
+                        //        switch (linha.Substring(9, 1))
+                        //        {
+                        //            //validacao Header
+                        //            case "1": 
+                        //                header = reader.ReadLine() ?? "";
+
+                        if (!String.IsNullOrEmpty(header))
                         {
-                            retorno.Erro = String.Join("; ", erros);
+                                            BLL.ImportacaoBilhetes impBil = new BLL.ImportacaoBilhetes(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+                                            List<string> erros = new List<string>();
+                                            REP rel = impBil.GetRepHeaderAFD(header, out erros, bRazaosocial);
+                                            if (erros.Count > 0)
+                                            {
+                                                retorno.Erro = String.Join("; ", erros);
+                                            }
+                                            else
+                                            {
+                                                retorno.IdRelogio = rel.Id;
+                                                retorno.Erro = "";
+                                            }
                         }
-                        else
-                        {
-                            retorno.IdRelogio = rel.Id;
-                            retorno.Erro = "";
-                        }
+                                //        break;
+                                    
+                                //    //validacao PIS
+                                //    case "3":
+                                //        if( imp.bMarcacaoIndividual && linha.Substring(22, 12).Equals(imp.FuncionarioSelecionado.Pis))
+                                //        {
+                                //            ValidaPis = true;       
+                                //        }
+                                //        break;
+                                //}
+                           // }
+       //                 }
+
+                        //if(!ValidaPis)
+                        //{
+                        //    retorno.Erro = "PIS inválido para importação";
+                        //}
+
                     }
+                  
                 }
-       
             }
             catch (Exception e)
             {
@@ -267,35 +306,33 @@ namespace PontoWeb.Controllers
             arquivosAntigos.ForEach(p => p.Delete());
         }
 
-        public PartialViewResult DadosGridLogImportacao(string dataIni, string dataFim)
+        public ActionResult DadosGrid(string dataIni, string dataFim)
         {
             try
             {
-                DateTime ini = new DateTime();
-                DateTime fin = new DateTime();
+                DateTime ini = DateTime.Parse(dataIni.Replace("'", ""));
+                DateTime fin = DateTime.Parse(dataFim.Replace("'", ""));
 
-                if (!DateTime.TryParse(dataIni.Replace("'",""), out ini) || !DateTime.TryParse(dataFim.Replace("'", ""), out fin))
-                {
-                    //return Json(new { Success = false, Erro = "Data inválida" }, JsonRequestBehavior.AllowGet);
-                    return PartialView();
-                }
-                else
-                {
-                    var usr = Usuario.GetUsuarioPontoWebLogadoCache();
-                    BLL.LogImportacaoAFD bllLogImportacaoAFD = new BLL.LogImportacaoAFD(usr.ConnectionString, usr);
-                    List<Modelo.LogImportacaoAFD> dados = bllLogImportacaoAFD.GetPeriodo(ini, fin);
-                    return PartialView(dados);
+                var usr = Usuario.GetUsuarioPontoWebLogadoCache();
+                BLL.LogImportacaoAFD bllLogImportacaoAFD = new BLL.LogImportacaoAFD(usr.ConnectionString, usr);
+                List<Modelo.LogImportacaoAFD> dados = bllLogImportacaoAFD.GetPeriodo(ini, fin);
 
-                    //JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
-                    //jsonResult.MaxJsonLength = int.MaxValue;
-                    //return jsonResult;
-                }
+                JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
+                jsonResult.MaxJsonLength = int.MaxValue;
+                return jsonResult;
             }
             catch (Exception ex)
             {
                 BLL.cwkFuncoes.LogarErro(ex);
                 throw;
             }
+        }
+
+        public ActionResult DadosGridLogImportacao(string dataIni, string dataFim)
+        {
+            ViewBag.dataIni = dataIni;
+            ViewBag.dataFim = dataFim;
+            return PartialView(new Modelo.LogImportacaoAFD());
         }
     }
 }
