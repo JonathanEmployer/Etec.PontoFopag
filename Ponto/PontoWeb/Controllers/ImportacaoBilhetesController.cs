@@ -147,7 +147,7 @@ namespace PontoWeb.Controllers
             return Content("{\"nome\":\"" + r[0].Nome + "\",\"tipo\":\"" + r[0].Tipo + "\",\"tamanho\":\"" + string.Format("{0} bytes", r[0].Tamanho) + "\"}", "application/json");
         }
 
-        public JsonResult ValidaAFD(string nomeArquivo, bool? bRazaosocial , string strfuncionario)
+        public JsonResult ValidaAFD(string nomeArquivo, bool? bRazaosocial , string strfuncionario , string dataIni, string dataFim)
         {
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
             int idFunc = 0;
@@ -160,6 +160,8 @@ namespace PontoWeb.Controllers
             BLL.ImportaBilhetes bllImportacaoBilhetes = new BLL.ImportaBilhetes(conn, usr);
             string pathAfd = bllImportacaoBilhetes.PathAFD();
             ValidaArquivoUpload retorno = new ValidaArquivoUpload();
+            DateTime dtIni = DateTime.Parse(dataIni.Replace("'", ""));
+            DateTime dtFim = DateTime.Parse(dataFim.Replace("'", ""));
 
             if (!String.IsNullOrEmpty(strfuncionario))
             {
@@ -180,6 +182,7 @@ namespace PontoWeb.Controllers
                 {
                         string header = "";
                         string linha = "";
+                        string retornoaviso = "";
 
                         string caminhoArquivo = Path.Combine(pathAfd, Path.GetFileName(nomeArquivo));
                         using (StreamReader reader = new StreamReader(caminhoArquivo))
@@ -190,7 +193,13 @@ namespace PontoWeb.Controllers
                             {
                                 BLL.ImportacaoBilhetes impBil = new BLL.ImportacaoBilhetes(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
                                 List<string> erros = new List<string>();
-                                REP rel = impBil.GetRepHeaderAFD(header, out erros, bRazaosocial);
+                                REP rel = impBil.GetRepHeaderAFD(header, out erros, bRazaosocial, dtIni, dtFim , ref retornoaviso);
+
+                                if (!String.IsNullOrEmpty(retornoaviso))
+                                {
+                                    retorno.Aviso = retornoaviso;
+                                }
+
                                 if (erros.Count > 0)
                                 {
                                     retorno.Erro = String.Join("; ", erros);
@@ -241,7 +250,7 @@ namespace PontoWeb.Controllers
                 }
 
             }   
-            
+           
             return Json(retorno, JsonRequestBehavior.AllowGet);
         }
 

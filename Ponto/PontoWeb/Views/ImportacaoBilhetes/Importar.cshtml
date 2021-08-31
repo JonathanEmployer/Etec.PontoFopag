@@ -363,13 +363,13 @@
 
         if (dtIni == "" || dtFin == "") {
             cwkErro("Período inválido para importação de arquivo AFD");
-            callbackrelatorio();
+            callbacklimpar();
         }
         else {
             var dias = diasPeriodo(dtIni, dtFin);
             if (dias < 0) {
                 cwkErro("Data Inicial deve ser menor que a Final");
-                callbackrelatorio();
+                callbacklimpar();
             }
             else {
                 $.ajax({
@@ -377,7 +377,7 @@
                     type: "GET",
                     url: "/ImportacaoBilhetes/ValidaAFD",
                     data: {
-                        'nomeArquivo': data.result.nome, 'bRazaosocial': $("#bRazaoSocial").is(':checked') ? true : false, 'strfuncionario': $("#lkpNomeFuncionarioSelecionado").val()
+                        'nomeArquivo': data.result.nome, 'bRazaosocial': $("#bRazaoSocial").is(':checked') ? true : false, 'strfuncionario': $("#lkpNomeFuncionarioSelecionado").val(), 'dataIni': ConvertDateToStringYMD(dtIni), 'dataFim': ConvertDateToStringYMD(dtFin)
                     },
                     success: function (valida) {
                         $("#spanResultArquivo").removeClass("label-default");
@@ -390,6 +390,14 @@
                             $("#iconeResultArquivo").addClass("glyphicon-ok");
                             $("#spanResultArquivo").removeClass("label-danger");
                             $("#spanResultArquivo").addClass("label-success");
+                            return messageBoxYesNoOption(valida.Aviso + ". Deseja continuar?",
+                                "Alerta", "Sim", "Não",
+                                function () {
+                                    cwkSucesso("Arquivo validado com sucesso!");
+                                },
+                                function () {
+                                    callbacklimpar();
+                                });
                         }
                         else {
                             $("#btnImpBil").html("Importar Arquivo");
@@ -401,6 +409,7 @@
                             $("#iconeResultArquivo").addClass("glyphicon-remove");
                             $("#spanResultArquivo").removeClass("label-success");
                             $("#spanResultArquivo").addClass("label-danger");
+                            callbacklimpar();
                         }
                     },
                 }).fail(function (jqXHR, exception) {
@@ -422,6 +431,7 @@
                         msg = 'Erro: ' + jqXHR.responseText;
                     }
                     cwkErro(msg);
+                    callbacklimpar();
                 });
             }
         } 
@@ -437,7 +447,7 @@
         else {
                $('form').submit();
             event.preventDefault();
-            callbackrelatorio();
+            callbacklimpar();
         }
     });
 
@@ -449,7 +459,7 @@
         return false;
     });
 
-    function callbackrelatorio() {
+    function callbacklimpar() {
         $("#btnImpBil").prop("disabled", false);
         $("#btnImpBil").html("Importar Arquivo");
         $('#nome_arquivo').val("");
@@ -459,7 +469,9 @@
         $('.progress .progress-bar').css('width', 0 + '%');
         $("#bMarcacaoIndividual").val('');
         $("#bRazaoSocial").val('');
-        limpaErro('#nome_arquivo');
+        limpaErro("NomeArquivo");
+        $("#bRazaoSocial").prop('checked', false);
+        $("#bMarcacaoIndividual").prop('checked', false);
     }
 
     $("#bMarcacaoIndividual").click(function (event) {
@@ -481,6 +493,7 @@
             $('#lkpRazaoSocialCliente').val('');
         }
     });
+
 
 </script>
 @if (ViewBag.Consultar == 1)

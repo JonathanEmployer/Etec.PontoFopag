@@ -21,5 +21,6 @@ namespace PontoWeb.Models
         } }
         public string Erro { get; set; }
         public int IdRelogio { get; set; }
+        public string Aviso { get; set; }
     }
 }

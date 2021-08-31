@@ -228,10 +228,28 @@ namespace BLL
         }
 
 
-        public Modelo.REP GetRepHeaderAFD(string header, out List<string> erros, bool? razaoSocial)
+        public Modelo.REP GetRepHeaderAFD(string header, out List<string> erros, bool? razaoSocial , DateTime dataIni , DateTime dataFim, ref string aviso)
         {
             erros = new List<string>();
             RegistroAFD reg = cwkPontoMT.Integracao.Util.RetornaLinhaAFD(header);
+
+            if (String.IsNullOrEmpty(reg.Campo08)) 
+            {
+                erros.Add("Período AFD não foi encontrado");
+                return new Modelo.REP();
+            }
+
+            string strDataInicio = reg.Campo08.Substring(4, 4) + "-" + reg.Campo08.Substring(2, 2) + "-" + reg.Campo08.Substring(0, 2);
+            string strDataFim = reg.Campo09.Substring(4, 4) + "-" + reg.Campo09.Substring(2, 2) + "-" + reg.Campo09.Substring(0, 2);
+            DateTime dtIniAFD = DateTime.MinValue; 
+            DateTime dtFimAFD = DateTime.MinValue;
+
+            if (!(DateTime.TryParse(strDataInicio, out dtIniAFD)) || !(DateTime.TryParse(strDataFim, out dtFimAFD)))
+            {
+                erros.Add("Formato Data Inválido");
+                return new Modelo.REP();
+            }
+
             if (reg.Campo02 != "1")
             {
                 erros.Add("Cabeçalho do AFD não foi encontrado");
@@ -260,6 +278,12 @@ namespace BLL
                 erros.Add("Usuário não tem permissão para importar afd para o rep " + rep.Codigo + " | " + rep.Local);
                 new Modelo.REP();
             }
+
+            if( dtIniAFD < dataIni || dtIniAFD > dataFim || dtFimAFD < dataFim  )
+            {
+                aviso = "Período de importação fora do intervalo selecionado. Período - [" + dtIniAFD.ToString("dd/MM/yyyy") + "] a [" + dtFimAFD.ToString("dd/MM/yyyy") + "]";
+            }
+
             return repPermissao;
         }
     }
