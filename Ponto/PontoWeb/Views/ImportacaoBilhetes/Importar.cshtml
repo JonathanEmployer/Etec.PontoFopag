@@ -390,14 +390,20 @@
                             $("#iconeResultArquivo").addClass("glyphicon-ok");
                             $("#spanResultArquivo").removeClass("label-danger");
                             $("#spanResultArquivo").addClass("label-success");
-                            return messageBoxYesNoOption(valida.Aviso + ". Deseja continuar?",
-                                "Alerta", "Sim", "Não",
-                                function () {
-                                    cwkSucesso("Arquivo validado com sucesso!");
-                                },
-                                function () {
-                                    callbacklimpar();
-                                });
+
+                            if (valida.Aviso != null) {
+                                return messageBoxYesNoOption(valida.Aviso + ".Deseja continuar?",
+                                    "Alerta", "Sim", "Não",
+                                    function () {
+                                        cwkSucesso("Arquivo validado com sucesso!");
+                                    },
+                                    function () {
+                                        callbacklimpar();
+                                    });
+                            }
+                            else {
+                                   cwkSucesso("Arquivo validado com sucesso!");
+                                 } 
                         }
                         else {
                             $("#btnImpBil").html("Importar Arquivo");
