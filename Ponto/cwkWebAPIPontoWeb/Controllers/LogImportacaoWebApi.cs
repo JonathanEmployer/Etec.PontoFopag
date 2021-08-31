@@ -23,5 +23,10 @@ namespace cwkWebAPIPontoWeb.Controllers
         public string nomeArquivo { get; set; }
 
         public string usuario { get; set; }
+
+        public DateTime? DataInicio { get; set; }
+
+        public DateTime? DataFim { get; set; }
+
     }
 }

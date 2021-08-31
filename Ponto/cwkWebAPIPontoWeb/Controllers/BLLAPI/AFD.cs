@@ -55,7 +55,7 @@ namespace cwkWebAPIPontoWeb.Controllers.BLLAPI
 
                 logImportacaoStr = bllImportacaoBilhetes.ImportacaoBilheteWebApi(objProgressBar, lstTipoBilhete, arquivo.FullName, dataInicial, dataFinal, objRep.NumRelogio, usuario.Login, usuario.connectionString, out erroImportacao, true);
 
-                logImportacao = CriaLogImportacao(objRep.Id, DateTime.Now, erroImportacao, logImportacaoStr, nomeArquivo, usuario.Login);
+                logImportacao = CriaLogImportacao(objRep.Id, DateTime.Now, erroImportacao, logImportacaoStr, nomeArquivo, usuario.Login , dataInicial , dataFinal);
 
                 SalvarLogImportacao(logImportacao, usuario.connectionString);
             }
@@ -156,7 +156,7 @@ namespace cwkWebAPIPontoWeb.Controllers.BLLAPI
             return retorno;
         }
 
-        private LogImportacaoWebApi CriaLogImportacao(int idRep, DateTime dataImportacao, bool erroImportacao, IList<string> logImportacaoStr, string nomeArquivo, string usuario)
+        private LogImportacaoWebApi CriaLogImportacao(int idRep, DateTime dataImportacao, bool erroImportacao, IList<string> logImportacaoStr, string nomeArquivo, string usuario , DateTime? dataInicio, DateTime? dataFim )
         {
             LogImportacaoWebApi log = new LogImportacaoWebApi();
             log.IDRep = idRep;
@@ -165,7 +165,8 @@ namespace cwkWebAPIPontoWeb.Controllers.BLLAPI
             log.nomeArquivo = nomeArquivo;
             log.usuario = usuario;
             log.LogDeImportacao = String.Join(Environment.NewLine, logImportacaoStr);
-
+            log.DataInicio = dataInicio;
+            log.DataFim = dataFim;
             return log;
         }
 
@@ -184,7 +185,9 @@ namespace cwkWebAPIPontoWeb.Controllers.BLLAPI
                     insert.Append("[Erro], ");
                     insert.Append("[LogDeImportacao], ");
                     insert.Append("[nomeArquivo], ");
-                    insert.Append("[usuario] ");
+                    insert.Append("[usuario], ");
+                    insert.Append("[DataInicio], ");
+                    insert.Append("[DataFim] ");
                     insert.Append(") ");
                     insert.Append("VALUES ");
                     insert.Append("(");
@@ -194,8 +197,10 @@ namespace cwkWebAPIPontoWeb.Controllers.BLLAPI
                     insert.Append("'" + logImportacao.LogDeImportacao.Replace("'", "''") + "', ");
                     insert.Append("'" + logImportacao.nomeArquivo + "', ");
                     insert.Append("'" + logImportacao.usuario + "'");
+                    insert.Append("'" + logImportacao.DataInicio?.ToString("dd/MM/yyyy") + "'");
+                    insert.Append("'" + logImportacao.DataFim?.ToString("dd/MM/yyyy") + "'");
                     insert.Append(")");
-
+                 
                     comando.CommandText = insert.ToString();
                     int row = comando.ExecuteNonQuery();
                 }
