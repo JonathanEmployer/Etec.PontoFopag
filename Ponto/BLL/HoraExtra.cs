@@ -70,7 +70,7 @@ namespace BLL
                     #endregion
 
                     //Rotina esta preparada apenas para calcular horas extras acumuladas Diariamente ou Mensalmente (Semanalmente deve ser desenvolvida ainda)
-                    if (tipoAcumulo == 1 || tipoAcumulo == 3)
+                    if (tipoAcumulo == 1 || tipoAcumulo == 3 || tipoAcumulo == 0)
                     {
                         //Inicializa o Objeto que guardara as horas extras por dia
                         HorasExtrasPorDia horasExtrasDoDia = InicializaHorasExtrasPorDia(horasExtrasDoPeriodo, idFuncionario, dataMarc, tipoDia);
@@ -132,9 +132,9 @@ namespace BLL
                     string[] selectedColumns = new[] { "idhorario", "tipoacumulo" };
 
                     DataTable dt = new DataView(todos).ToTable(true, selectedColumns);
-                    if (dt.Select("tipoacumulo <> 1 and tipoacumulo <> 3 and tipoacumulo <> -1").Count() > 0)
+                    if (dt.Select("tipoacumulo <> 1 and tipoacumulo <> 2 and tipoacumulo <> 3 and tipoacumulo <> -1").Count() > 0)
                     {
-                        dt = dt.Select("tipoacumulo <> 1 and tipoacumulo <> 3 and tipoacumulo <> -1").CopyToDataTable();
+                        dt = dt.Select("tipoacumulo <> 1 and tipoacumulo <> 2 and tipoacumulo <> 3 and tipoacumulo <> -1").CopyToDataTable();
                         if (!dt.HasErrors && dt.Rows.Count > 0)
                         {
                             Hashtable ids = new Hashtable();
