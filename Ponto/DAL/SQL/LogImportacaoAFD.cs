@@ -70,8 +70,8 @@ namespace DAL.SQL
                 new SqlParameter ("@ID", SqlDbType.Int),
                 new SqlParameter ("@DataImportacao", SqlDbType.DateTime),
                 new SqlParameter ("@nomeArquivo", SqlDbType.VarChar),
-                new SqlParameter ("@DataInicio", SqlDbType.DateTime),
-                new SqlParameter ("@DataFim", SqlDbType.DateTime),
+                new SqlParameter ("@DataInicialStr", SqlDbType.VarChar),
+                new SqlParameter ("@DataFinalStr", SqlDbType.VarChar)
              };
             return parms;
         }

@@ -127,17 +127,17 @@
                 </div>
 
                 <div class="row">
-                    <div class="modal divCenterGrande">
+                    <div class="modal divCenterGrande" id="modalLogImportacao">
                     <div class="panel panel-default" style="padding:0">
                         <div class="panel-heading">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="fecharModalAdicionarContoleUser">X</button>
-                            <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+                            <h3 class="panel-title titulo-pagina">Arquivos Importados</h3>
                         </div>
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="row">
                                     <div id="divTbLogImportacaoArquivo">
-
+        
                                     </div>
                                 </div>
                             </div>
@@ -147,7 +147,7 @@
                                 <div class="col-xs-12 center-block">
                                     <div style="text-align: right">
                                         <div class="col-xs-12 center-block" style="text-align: right">
-                                            <a href="#" id="btSalvarControle" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Excluir</a>
+                                            <a href="#" id="btExcluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir Arquivo Importado</a>
                                         </div>
                                     </div>
                                 </div>
@@ -167,7 +167,6 @@
             <div class="panel-footer">
                 <div class="row">
                     <div class="col-xs-12 center-block row">
-
                         <div class="col-xs-6 center-block" style="text-align: left">
                             <button type="submit" id="btnImportados" title="Consultar Arquivos Importados" class="btn btn-info">
                                 <i class="fa fa-search" aria-hidden="true"></i> Consultar Arquivos Importados
@@ -178,7 +177,7 @@
                                 <span class="glyphicon glyphicon-save"></span> Importar Arquivo
                             </button>
                             <a style="text-align: right" class="btn btn-danger"
-                               href="@Url.Action("Index", "Home")">
+                               href="@Url.Action("Importar", "ImportacaoBilhetes")">
                                 <span class="glyphicon glyphicon-remove salvando"></span> Cancelar
                             </a>
                         </div>
@@ -192,7 +191,7 @@
     var multiplicador = 17;
     var larguraRes = window.innerWidth || document.body.clientWidth;
     var larguraGrid = "100%";
- 
+
     if (larguraRes <= 1024) {
         larguraGrid = '1100px';
     }
@@ -222,6 +221,10 @@
         CarregarGridLogImportacaoAFD();
     });
 
+
+    $("#btExcluir").bind("keydown click", function (e) {
+        cwkErro("Usuário sem permissão de acesso!");
+    });
 
     if ($("#bRazaoSocial").is(':checked')) {
         $('#lkpRazaoSocialCliente').prop('readonly', false);
@@ -303,96 +306,125 @@
     function CarregarGridLogImportacaoAFD() {
         var dtIni = $("#DataInicial").val();
         var dtFin = $("#DataFinal").val();
-            $.ajax(
-                {
-                    type: 'GET',
-                    url: '/ImportacaoBilhetes/DadosGridLogImportacao/',
-                    dataType: 'html',
-                    data: {
-                        dataIni: dtIni,
-                        dataFim: dtFin
-                    },
-                    cache: false,
-                    async: true,
-                    beforeSend: function () {
-                        $("#btnImportados").prop("disabled", true);
-                    },
-                    error: function (xhr, textStatus, errorThrown) {
-                        if (xhr.responseText.indexOf('Usuário sem permissão') >= 0) {
-                            cwkErro("Acesso negado, Contate o administrador do sistema!");
-                        }
-                        else {
-                            var sErrMsg = "";
-                            sErrMsg += "Erro: ";
-                            sErrMsg += "\n\n" + " - Status :" + textStatus;
-                            sErrMsg += "\n\n" + " - Status Erro :" + xhr.status;
-                            sErrMsg += "\n\n" + " - Tipo Erro :" + errorThrown;
-                            sErrMsg += "\n\n" + " - Mensagem Erro :" + xhr.responseText;
-                            cwkErro(sErrMsg);
-                        }
-                    },
-                    success: function (data) {
-                        $('#divTbLogImportacaoArquivo').html(data);
-                    },
-                    complete: function () {
-                        $("#btnImportados").prop("disabled", false);
-                    }
-                });
+
+        if (dtIni == "" || dtFin == "") {
+            cwkErro("Período inválido para consulta");
+        }
+        else
+        {
+            var dias = diasPeriodo(dtIni, dtFin);
+            if (dias < 0) {
+                cwkErro("Data Inicial deve ser menor que a Final");
+            }
+            else {
+                    $.ajax(
+                        {
+                            type: 'GET',
+                            url: '/ImportacaoBilhetes/DadosGridLogImportacao/',
+                            dataType: 'html',
+                            data: {
+                                dataIni: dtIni,
+                                dataFim: dtFin
+                            },
+                            cache: false,
+                            async: true,
+                            beforeSend: function () {
+                                $("#btnImportados").prop("disabled", true);
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                if (xhr.responseText.indexOf('Usuário sem permissão') >= 0) {
+                                    cwkErro("Acesso negado, Contate o administrador do sistema!");
+                                }
+                                else {
+                                    var sErrMsg = "";
+                                    sErrMsg += "Erro: ";
+                                    sErrMsg += "\n\n" + " - Status :" + textStatus;
+                                    sErrMsg += "\n\n" + " - Status Erro :" + xhr.status;
+                                    sErrMsg += "\n\n" + " - Tipo Erro :" + errorThrown;
+                                    sErrMsg += "\n\n" + " - Mensagem Erro :" + xhr.responseText;
+                                    cwkErro(sErrMsg);
+                                }
+                            },
+                            success: function (data) {
+                                $('#divTbLogImportacaoArquivo').html(data);
+                                $('#modalLogImportacao').modal();
+                            },
+                            complete: function () {
+                                $("#btnImportados").prop("disabled", false);
+                            }
+                        });
+                }
+        }
      }
 
     function ValidaArquivo(data) {
-        $.ajax({
-            dataType: "json",
-            type: "GET",
-            url: "/ImportacaoBilhetes/ValidaAFD",
-            data: {
-                'nomeArquivo': data.result.nome, 'bRazaosocial': $("#bRazaoSocial").is(':checked') ? true : false, 'dias': diasPeriodo($("#DataInicial").val(), $('#DataFinal').val()), 'imp' : Proxy.pxyImportacaoBilhetes  
-            },
-            success: function (valida) {
-                $("#spanResultArquivo").removeClass("label-default");
-                $("#iconeResultArquivo").removeClass("glyphicon-paperclip");
-                if (valida.Valido === true) {
-                    $("#btnImpBil").html("Importar Arquivo");
-                    $("#btnImpBil").prop("disabled", false);
-                    $("#IdRep").val(valida.IdRelogio);
-                    $("#iconeResultArquivo").removeClass("glyphicon-remove");
-                    $("#iconeResultArquivo").addClass("glyphicon-ok");
-                    $("#spanResultArquivo").removeClass("label-danger");
-                    $("#spanResultArquivo").addClass("label-success");
+        var dtIni = $("#DataInicial").val();
+        var dtFin = $("#DataFinal").val();
 
-                }
-                else {
-                    $("#btnImpBil").html("Importar Arquivo");
-                    $("#btnImpBil").prop("disabled", true);
-                    $("#IdRep").val(0);
-                    cwkErro(valida.Erro);
-                    addErroInput("NomeArquivo", valida.Erro + '  .');
-                    $("#iconeResultArquivo").removeClass("glyphicon-ok");
-                    $("#iconeResultArquivo").addClass("glyphicon-remove");
-                    $("#spanResultArquivo").removeClass("label-success");
-                    $("#spanResultArquivo").addClass("label-danger");
-                }
-            },
-        }).fail(function (jqXHR, exception) {
-            // Our error logic here
-            var msg = '';
-            if (jqXHR.status === 0) {
-                msg = 'Verifique a conexão com a internet.';
-            } else if (jqXHR.status == 404) {
-                msg = 'Erro na requisição';
-            } else if (jqXHR.status == 500) {
-                msg = 'Erro Interno.';
-            } else if (exception === 'parsererror') {
-                msg = 'Erro ao converter requisição.';
-            } else if (exception === 'timeout') {
-                msg = 'Tempo Excedido.';
-            } else if (exception === 'abort') {
-                msg = 'Requisição Cancelada.';
-            } else {
-                msg = 'Erro: ' + jqXHR.responseText;
+        if (dtIni == "" || dtFin == "") {
+            cwkErro("Período inválido para importação de arquivo AFD");
+            callbackrelatorio();
+        }
+        else {
+            var dias = diasPeriodo(dtIni, dtFin);
+            if (dias < 0) {
+                cwkErro("Data Inicial deve ser menor que a Final");
+                callbackrelatorio();
             }
-            cwkErro(msg);
-        });
+            else {
+                $.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    url: "/ImportacaoBilhetes/ValidaAFD",
+                    data: {
+                        'nomeArquivo': data.result.nome, 'bRazaosocial': $("#bRazaoSocial").is(':checked') ? true : false, 'strfuncionario': $("#lkpNomeFuncionarioSelecionado").val()
+                    },
+                    success: function (valida) {
+                        $("#spanResultArquivo").removeClass("label-default");
+                        $("#iconeResultArquivo").removeClass("glyphicon-paperclip");
+                        if (valida.Valido === true) {
+                            $("#btnImpBil").html("Importar Arquivo");
+                            $("#btnImpBil").prop("disabled", false);
+                            $("#IdRep").val(valida.IdRelogio);
+                            $("#iconeResultArquivo").removeClass("glyphicon-remove");
+                            $("#iconeResultArquivo").addClass("glyphicon-ok");
+                            $("#spanResultArquivo").removeClass("label-danger");
+                            $("#spanResultArquivo").addClass("label-success");
+                        }
+                        else {
+                            $("#btnImpBil").html("Importar Arquivo");
+                            $("#btnImpBil").prop("disabled", true);
+                            $("#IdRep").val(0);
+                            cwkErro(valida.Erro);
+                            addErroInput("NomeArquivo", valida.Erro + '  .');
+                            $("#iconeResultArquivo").removeClass("glyphicon-ok");
+                            $("#iconeResultArquivo").addClass("glyphicon-remove");
+                            $("#spanResultArquivo").removeClass("label-success");
+                            $("#spanResultArquivo").addClass("label-danger");
+                        }
+                    },
+                }).fail(function (jqXHR, exception) {
+                    // Our error logic here
+                    var msg = '';
+                    if (jqXHR.status === 0) {
+                        msg = 'Verifique a conexão com a internet.';
+                    } else if (jqXHR.status == 404) {
+                        msg = 'Erro na requisição';
+                    } else if (jqXHR.status == 500) {
+                        msg = 'Erro Interno.';
+                    } else if (exception === 'parsererror') {
+                        msg = 'Erro ao converter requisição.';
+                    } else if (exception === 'timeout') {
+                        msg = 'Tempo Excedido.';
+                    } else if (exception === 'abort') {
+                        msg = 'Requisição Cancelada.';
+                    } else {
+                        msg = 'Erro: ' + jqXHR.responseText;
+                    }
+                    cwkErro(msg);
+                });
+            }
+        } 
     }
 
     $("#btnImpBil").click(function (event) {
@@ -403,8 +435,9 @@
             event.preventDefault();
         }
         else {
-            $('form').submit();
+               $('form').submit();
             event.preventDefault();
+            callbackrelatorio();
         }
     });
 
@@ -416,11 +449,17 @@
         return false;
     });
 
-    function callbackrealtorio() {
-        $("#btnImpBil").text("Importar Arquivo");
+    function callbackrelatorio() {
         $("#btnImpBil").prop("disabled", false);
+        $("#btnImpBil").html("Importar Arquivo");
         $('#nome_arquivo').val("");
+        $("#lkpNomeFuncionarioSelecionado").val('');
+        $("#DataInicial").val('');
+        $("#DataFinal").val('');
         $('.progress .progress-bar').css('width', 0 + '%');
+        $("#bMarcacaoIndividual").val('');
+        $("#bRazaoSocial").val('');
+        limpaErro('#nome_arquivo');
     }
 
     $("#bMarcacaoIndividual").click(function (event) {

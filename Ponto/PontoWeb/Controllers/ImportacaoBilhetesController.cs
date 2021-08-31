@@ -147,91 +147,101 @@ namespace PontoWeb.Controllers
             return Content("{\"nome\":\"" + r[0].Nome + "\",\"tipo\":\"" + r[0].Tipo + "\",\"tamanho\":\"" + string.Format("{0} bytes", r[0].Tamanho) + "\"}", "application/json");
         }
 
-        public JsonResult ValidaAFD(string nomeArquivo, bool? bRazaosocial , int dias , pxyImportacaoBilhetes imp)
+        public JsonResult ValidaAFD(string nomeArquivo, bool? bRazaosocial , string strfuncionario)
         {
+            BLL.Funcionario bllFuncionario = new BLL.Funcionario(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+            int idFunc = 0;
             bool ValidaPis = false ;
+            bool VerificaFuncionario = false;
+            string strPISFuncSelecionado = "";
             if (bRazaosocial == null) bRazaosocial = false;
             var usr = Usuario.GetUsuarioPontoWebLogadoCache();
             string conn = usr.ConnectionString;
             BLL.ImportaBilhetes bllImportacaoBilhetes = new BLL.ImportaBilhetes(conn, usr);
             string pathAfd = bllImportacaoBilhetes.PathAFD();
             ValidaArquivoUpload retorno = new ValidaArquivoUpload();
-            
-            try
+
+            if (!String.IsNullOrEmpty(strfuncionario))
             {
-                if (dias < 0 )
+                idFunc = FuncionarioController.BuscaIdFuncionario(strfuncionario);
+
+                if (idFunc > 0)
                 {
-                    retorno.Erro = "Data Inicial deve ser menor que a Final";
+                    strPISFuncSelecionado = bllFuncionario.LoadObject(idFunc).Pis.ToString();
+                    VerificaFuncionario = true;
                 }
-                else 
+                else
+                    retorno.Erro = "Funcionário não cadastrado no sistema";
+            }
+
+            if (String.IsNullOrEmpty(retorno.Erro))
+            {
+                try
                 {
+                        string header = "";
+                        string linha = "";
 
-                    string header = "";
-                    //string linha = "";
-                    
-                    string caminhoArquivo = Path.Combine(pathAfd, Path.GetFileName(nomeArquivo));
-                    using (StreamReader reader = new StreamReader(caminhoArquivo))
-                    {
-                        header = reader.ReadLine() ?? "";
-                        //while (linha != null)
-                        //{
-                        //    linha = reader.ReadLine();
-                        //    if (String.IsNullOrEmpty(linha))
-                        //    {
-                        //        break;
-                        //    }
-
-                        //    if (int.TryParse(linha.Substring(0, 9), out int conv))
-                        //    {
-                        //        switch (linha.Substring(9, 1))
-                        //        {
-                        //            //validacao Header
-                        //            case "1": 
-                        //                header = reader.ReadLine() ?? "";
-
-                        if (!String.IsNullOrEmpty(header))
+                        string caminhoArquivo = Path.Combine(pathAfd, Path.GetFileName(nomeArquivo));
+                        using (StreamReader reader = new StreamReader(caminhoArquivo))
                         {
-                                            BLL.ImportacaoBilhetes impBil = new BLL.ImportacaoBilhetes(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
-                                            List<string> erros = new List<string>();
-                                            REP rel = impBil.GetRepHeaderAFD(header, out erros, bRazaosocial);
-                                            if (erros.Count > 0)
-                                            {
-                                                retorno.Erro = String.Join("; ", erros);
-                                            }
-                                            else
-                                            {
-                                                retorno.IdRelogio = rel.Id;
-                                                retorno.Erro = "";
-                                            }
+                            header = reader.ReadLine() ?? "";
+
+                            if (!String.IsNullOrEmpty(header))
+                            {
+                                BLL.ImportacaoBilhetes impBil = new BLL.ImportacaoBilhetes(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+                                List<string> erros = new List<string>();
+                                REP rel = impBil.GetRepHeaderAFD(header, out erros, bRazaosocial);
+                                if (erros.Count > 0)
+                                {
+                                    retorno.Erro = String.Join("; ", erros);
+                                }
+                                else
+                                {
+                                    retorno.IdRelogio = rel.Id;
+                                    retorno.Erro = "";
+                                }
+                            }
+
+                            if (VerificaFuncionario  && String.IsNullOrEmpty(retorno.Erro))
+                            {
+                                while (linha != null)
+                                {
+                                    linha = reader.ReadLine();
+
+                                    if (String.IsNullOrEmpty(linha))
+                                    {
+                                        break;
+                                    }
+
+                                    if (int.TryParse(linha.Substring(0, 9), out int conv))
+                                    {
+                                        switch (linha.Substring(9, 1))
+                                        {
+                                            //validacao PIS
+                                            case "3":
+                                               if ( Int64.Parse(linha.Substring(22, 12)) == Int64.Parse(strPISFuncSelecionado))
+                                                  ValidaPis = true;
+                                               break;
+                                        }
+                                    }
+                                }
+
+                                if (!ValidaPis)
+                                {
+                                    retorno.Erro = "Funcionário selecionado não encontrado para importação do arquivo!";
+                                }
+
+                            }
                         }
-                                //        break;
-                                    
-                                //    //validacao PIS
-                                //    case "3":
-                                //        if( imp.bMarcacaoIndividual && linha.Substring(22, 12).Equals(imp.FuncionarioSelecionado.Pis))
-                                //        {
-                                //            ValidaPis = true;       
-                                //        }
-                                //        break;
-                                //}
-                           // }
-       //                 }
-
-                        //if(!ValidaPis)
-                        //{
-                        //    retorno.Erro = "PIS inválido para importação";
-                        //}
-
-                    }
-                  
                 }
-            }
-            catch (Exception e)
-            {
-                BLL.cwkFuncoes.LogarErro(e);
-                retorno.Erro = "Arquivo inválido, verifique se o mesmo esta de acordo com o Layout do AFD. Detalhe: " + e.Message;
-            }
+                catch (Exception e)
+                {
+                    BLL.cwkFuncoes.LogarErro(e);
+                    retorno.Erro = "Arquivo inválido, verifique se o mesmo esta de acordo com o Layout do AFD. Detalhe: " + e.Message;
+                }
 
+            }   
+            
             return Json(retorno, JsonRequestBehavior.AllowGet);
         }
 
