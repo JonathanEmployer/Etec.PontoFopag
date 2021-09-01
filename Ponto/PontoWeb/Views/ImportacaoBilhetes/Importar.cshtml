@@ -309,12 +309,14 @@
 
         if (dtIni == "" || dtFin == "") {
             cwkErro("Período inválido para consulta");
+            callbacklimpar();
         }
         else
         {
             var dias = diasPeriodo(dtIni, dtFin);
             if (dias < 0) {
                 cwkErro("Data Inicial deve ser menor que a Final");
+                callbacklimpar();
             }
             else {
                     $.ajax(
@@ -392,7 +394,7 @@
                             $("#spanResultArquivo").addClass("label-success");
 
                             if (valida.Aviso != null) {
-                                return messageBoxYesNoOption(valida.Aviso + ".Deseja continuar?",
+                                return messageBoxYesNoOption(valida.Aviso + ".Ao importar neste período.Haverá recalculo dos períodos já fechados.Tem certeza que deseja continuar?",
                                     "Alerta", "Sim", "Não",
                                     function () {
                                         cwkSucesso("Arquivo validado com sucesso!");
