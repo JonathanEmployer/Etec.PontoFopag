@@ -16,8 +16,8 @@
     int zoom = 10;
     if (!string.IsNullOrEmpty(Model.Latitude) && !string.IsNullOrEmpty(Model.Longitude))
     {
-        latitude = double.Parse(Model.Latitude.Replace(".", ","));
-        longitude = double.Parse(Model.Longitude.Replace(".", ","));
+        latitude = double.Parse(Model.Latitude.Replace(",","").Replace(".", ","));
+        longitude = double.Parse(Model.Longitude.Replace(",","").Replace(".", ","));
         zoom = 15;
         title = Model.TipoDescricao;
         description = Model.Descricao;
@@ -35,7 +35,6 @@
             center: mapLocation,
             mapTypeId: Microsoft.Maps.MapTypeId.canvasLight,
             zoom: parseInt('@zoom'),
-
         });
 
         Microsoft.Maps.loadModule('Microsoft.Maps.AutoSuggest', function () {
