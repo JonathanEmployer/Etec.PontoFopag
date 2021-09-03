@@ -24,7 +24,7 @@ namespace DAL.SQL
             INSERT = @"  INSERT INTO CercaVirtual
 							(Codigo, Descricao,	TipoDescricao, Endereco, Latitude, Longitude, Raio,	Ativo)
 							VALUES
-							(@Codigo, @Descricao,	@TipoDescricao,	@Endereco,	Replace(@Latitude,',','') , Replace(@Longitude,',',''),	@Raio, @Ativo) 
+							(@Codigo, @Descricao, @TipoDescricao, @Endereco, @Latitude , @Longitude, @Raio, @Ativo) 
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE CercaVirtual SET
