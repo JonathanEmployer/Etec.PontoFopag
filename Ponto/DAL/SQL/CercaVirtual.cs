@@ -74,8 +74,8 @@ namespace DAL.SQL
                     ((Modelo.CercaVirtual)obj).Descricao = (dr["Descricao"] is DBNull ? "" : dr["Descricao"].ToString());
                     ((Modelo.CercaVirtual)obj).TipoDescricao = (dr["TipoDescricao"] is DBNull ? "" : dr["TipoDescricao"].ToString());
                     ((Modelo.CercaVirtual)obj).Endereco = (dr["Endereco"] is DBNull ? "" : dr["Endereco"].ToString());
-                    ((Modelo.CercaVirtual)obj).Latitude = (dr["Latitude"] is DBNull ? "" : dr["Latitude"].ToString().Replace(",",""));
-                    ((Modelo.CercaVirtual)obj).Longitude = (dr["Longitude"] is DBNull ? "" : dr["Longitude"].ToString().Replace(",", ""));
+                    ((Modelo.CercaVirtual)obj).Latitude = (dr["Latitude"] is DBNull ? "" : dr["Latitude"].ToString());
+                    ((Modelo.CercaVirtual)obj).Longitude = (dr["Longitude"] is DBNull ? "" : dr["Longitude"].ToString());
                     ((Modelo.CercaVirtual)obj).Raio = (dr["Raio"] is DBNull ? 1000 : Convert.ToInt32(dr["Raio"]));
                     ((Modelo.CercaVirtual)obj).Ativo = (dr["Ativo"] is DBNull ? true : bool.Parse(dr["Ativo"].ToString()));
                     return true;
