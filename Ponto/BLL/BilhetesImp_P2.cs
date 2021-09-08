@@ -7,6 +7,9 @@ using System.Collections;
 using cwkPontoMT.Integracao;
 using cwkPontoMT.Integracao.Entidades;
 using System.Globalization;
+using RegistradorPontoWeb.Models.Ponto;
+using System.Data.SqlClient;
+using System.Text;
 
 namespace BLL
 {
@@ -159,7 +162,7 @@ namespace BLL
                     Modelo.REP objRep = bllRep.LoadObject(tp.IdRep);
                     Relogio relogio = RelogioFactory.GetRelogio((TipoRelogio)objRep.Relogio);
                     relogio.SetDados(objRep.IP, objRep.Porta, objRep.Senha, (TipoComunicacao)objRep.TipoComunicacao, objRep.NumRelogio, objRep.Local);
-
+                    
                     if (objRep.EquipamentoHomologado.EquipamentoHomologadoInmetro)
                     {
                         if (String.IsNullOrEmpty(UsuarioLogado.Cpf) || String.IsNullOrEmpty(UsuarioLogado.LoginRep) || String.IsNullOrEmpty(UsuarioLogado.SenhaRep))
@@ -407,6 +410,7 @@ namespace BLL
             BLL.Funcionario bllFunc;
             BLL.Horario bllHorario;
             funcionariosNoArquivo = new List<Modelo.Funcionario>();
+            LogImportacaoWebApi logImportacao = new LogImportacaoWebApi();
 
             if (usuarioLogado == null)
             {
@@ -617,7 +621,10 @@ namespace BLL
                         contador3++;
                     }
                 }
+
                 qtdProcessados = SalvarBilhetesEFinalizarLog(ref log, contadorProcessados, naoPossuiFunc, numeroRelogio, controleRelogio, controleCNPJCPF, qtdErrados, ref qtdRepetidos, qtdSemPermissao, qtdPontoFechado, bllRep, lPisNaoEncontrado, listaBilhetes, linhas, valorErrado);
+                logImportacao = CriaLogImportacao(Int16.Parse(numeroRelogio) , DateTime.Now, log, Path.GetFileName(pArquivo), usuarioLogado.Login, pDataI, pDataF);
+                SalvarLogImportacao(logImportacao, ConnectionString);
                 #endregion
             }
             else
@@ -778,8 +785,59 @@ namespace BLL
                 qtdProcessados = SalvarBilhetesEFinalizarLog(ref log, contadorProcessados, naoPossuiFunc, numeroRelogio, controleRelogio, controleCNPJCPF, qtdErrados, ref qtdRepetidos, qtdSemPermissao, qtdPontoFechado, bllRep, lPisNaoEncontrado, listaBilhetes, linhas, valorErrado);
                 #endregion
             }
-            //LimpaArquivo(pArquivo);
         }
+
+        private void SalvarLogImportacao(LogImportacaoWebApi logImportacao, string connectionStr)
+        {
+            using (var conexao = new SqlConnection(connectionStr))
+            {
+                using (var comando = conexao.CreateCommand())
+                {
+                    conexao.Open();
+                    StringBuilder insert = new StringBuilder();
+                    insert.Append("INSERT INTO [dbo].[LogImportacaoWebApi] ");
+                    insert.Append("(");
+                    insert.Append("[IDRep], ");
+                    insert.Append("[DataImportacao], ");
+                    insert.Append("[Erro], ");
+                    insert.Append("[LogDeImportacao], ");
+                    insert.Append("[nomeArquivo], ");
+                    insert.Append("[usuario], ");
+                    insert.Append("[DataInicio], ");
+                    insert.Append("[DataFim] ");
+                    insert.Append(") ");
+                    insert.Append("VALUES ");
+                    insert.Append("(");
+                    insert.Append(logImportacao.IDRep + ", ");
+                    insert.Append("GETDATE()" + ", ");
+                    insert.Append("0, ");
+                    insert.Append("'" + logImportacao.LogDeImportacao.Replace("'", "''") + "', ");
+                    insert.Append("'" + logImportacao.nomeArquivo + "', ");
+                    insert.Append("'" + logImportacao.usuario + "',");
+                    insert.Append("'" + logImportacao.DataInicio?.ToString("dd/MM/yyyy") + "',");
+                    insert.Append("'" + logImportacao.DataFim?.ToString("dd/MM/yyyy") + "'");
+                    insert.Append(")");
+
+                    comando.CommandText = insert.ToString();
+                    int row = comando.ExecuteNonQuery();
+                }
+            }
+        }
+
+
+        private LogImportacaoWebApi CriaLogImportacao(int idRep, DateTime dataImportacao, IList<string> logImportacaoStr, string nomeArquivo, string usuario, DateTime? dataInicio, DateTime? dataFim)
+        {
+            LogImportacaoWebApi log = new LogImportacaoWebApi();
+            log.IDRep = idRep;
+            log.DataImportacao = dataImportacao;
+            log.nomeArquivo = nomeArquivo;
+            log.usuario = usuario;
+            log.LogDeImportacao = String.Join(Environment.NewLine, logImportacaoStr);
+            log.DataInicio = dataInicio;
+            log.DataFim = dataFim;
+            return log;
+        }
+
 
         private int SalvarBilhetesEFinalizarLog(ref List<string> log, int contadorProcessados, int naoPossuiFunc, string numeroRelogio, string controleRelogio, string controleCNPJCPF, int qtdErrados, ref int qtdRepetidos, int qtdSemPermissao, int qtdPontoFechado, REP bllRep, List<string> lPisNaoEncontrado, List<Modelo.BilhetesImp> listaBilhetes, List<string> linhas, List<string> valorErrado)
         {

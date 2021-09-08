@@ -719,6 +719,7 @@
     <Compile Include="Utils\DateGreaterThanAttribute.cs" />
     <Compile Include="Utils\DiasSemana.cs" />
     <Compile Include="Utils\RequiredIfAttribute.cs" />
+    <Compile Include="ValidacaoAFD.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

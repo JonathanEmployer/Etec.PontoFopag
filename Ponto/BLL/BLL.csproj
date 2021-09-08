@@ -609,6 +609,10 @@
       <Project>{DFE5A7E8-8798-43D3-A61F-F1DD3AB38593}</Project>
       <Name>Modelo</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RegistradorPontoWeb\RegistradorPontoWeb.csproj">
+      <Project>{23B1C8F7-6EFA-42B0-B36B-C18B1A397EDC}</Project>
+      <Name>RegistradorPontoWeb</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

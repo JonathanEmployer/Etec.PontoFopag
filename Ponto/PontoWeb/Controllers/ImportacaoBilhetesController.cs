@@ -162,6 +162,7 @@ namespace PontoWeb.Controllers
             ValidaArquivoUpload retorno = new ValidaArquivoUpload();
             DateTime dtIni = DateTime.Parse(dataIni.Replace("'", ""));
             DateTime dtFim = DateTime.Parse(dataFim.Replace("'", ""));
+                        
 
             if (!String.IsNullOrEmpty(strfuncionario))
             {
