@@ -196,7 +196,7 @@ namespace DAL.SQL
                         , horariodetalhe.flagfolga 
                         , horariodetalhe.neutro flagneutro 
 
-						,(SELECT id FROM [dbo].[F_BancoHoras] (marcacao.data, funcionario.id)) AS idbancohoras  
+						,(SELECT TOP 1 id FROM [dbo].[F_BancoHoras] (marcacao.data, funcionario.id) ORDER BY ID DESC ) AS idbancohoras 
 
 						, feriado.id AS idferiado 
                         , afastamentofunc.id AS idafastamentofunc 
@@ -947,48 +947,55 @@ namespace DAL.SQL
 
         public DataTable GetMarcacoesCalculo(List<int> idsFuncionarios, DateTime pDataI, DateTime pDataF, bool pegaInativos, bool pegaExcluidos)
         {
-            SqlParameter[] parms = new SqlParameter[3]
+            try
             {
+                SqlParameter[] parms = new SqlParameter[3]
+                {
                     new SqlParameter("@datai", SqlDbType.DateTime),
                     new SqlParameter("@dataf", SqlDbType.DateTime),
                     new SqlParameter("@idsFuncionarios", SqlDbType.VarChar)
-            };
-            parms[0].Value = pDataI;
-            parms[1].Value = pDataF;
-            parms[2].Value = String.Join(",", idsFuncionarios);
+                };
+                parms[0].Value = pDataI;
+                parms[1].Value = pDataF;
+                parms[2].Value = String.Join(",", idsFuncionarios);
 
-            string aux = _sqlCalculoMarcacao;
-            aux += " WHERE 1 = 1 AND ";
-            aux += " ISNULL(marcacao.idfechamentoponto,0) = 0 AND ";
-            if (pegaInativos)
-            {
-                if (!pegaExcluidos)
-                    aux += " ISNULL(funcionario.excluido,0) = 0 AND ";
-            }
-            else
-            {
-                if (!pegaExcluidos)
+                string aux = _sqlCalculoMarcacao;
+                aux += " WHERE 1 = 1 AND ";
+                aux += " ISNULL(marcacao.idfechamentoponto,0) = 0 AND ";
+                if (pegaInativos)
                 {
-                    aux += " ISNULL(funcionario.excluido,0) = 0 AND ";
+                    if (!pegaExcluidos)
+                        aux += " ISNULL(funcionario.excluido,0) = 0 AND ";
                 }
-                aux += " funcionarioativo = 1 AND ";
+                else
+                {
+                    if (!pegaExcluidos)
+                    {
+                        aux += " ISNULL(funcionario.excluido,0) = 0 AND ";
+                    }
+                    aux += " funcionarioativo = 1 AND ";
+                }
+
+                aux += " marcacao.idfuncionario in (select * from dbo.f_clausulaIn(@idsFuncionarios)) AND ";
+
+                aux += " marcacao.data >= @datai AND marcacao.data <= @dataf ";
+                aux += DALBase.PermissaoUsuarioFuncionario(UsuarioLogado, aux, "funcionario.idempresa", "marcacao.idfuncionario", null);
+                aux += " ORDER BY funcionario.id, marcacao.data option(MaxDop 8) ";
+
+                DataTable dt = new DataTable();
+
+                SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+                dt.Load(dr);
+                if (!dr.IsClosed)
+                    dr.Close();
+                dr.Dispose();
+
+                return dt;
             }
-
-            aux += " marcacao.idfuncionario in (select * from dbo.f_clausulaIn(@idsFuncionarios)) AND ";
-
-            aux += " marcacao.data >= @datai AND marcacao.data <= @dataf ";
-            aux += DALBase.PermissaoUsuarioFuncionario(UsuarioLogado, aux, "funcionario.idempresa", "marcacao.idfuncionario", null);
-            aux += " ORDER BY funcionario.id, marcacao.data option(MaxDop 8) ";
-
-            DataTable dt = new DataTable();
-
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
-            dt.Load(dr);
-            if (!dr.IsClosed)
-                dr.Close();
-            dr.Dispose();
-
-            return dt;
+            catch(Exception ex)
+            {
+                throw new Exception("Falha ao recuperar a marcação, detalhes: " + ex.Message);
+            }
         }
 
         public DataTable GetMarcacoesGerarHorariosDinamicos()
