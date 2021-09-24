@@ -196,7 +196,7 @@ namespace DAL.SQL
                         , horariodetalhe.flagfolga 
                         , horariodetalhe.neutro flagneutro 
 
-						,(SELECT TOP 1 id FROM [dbo].[F_BancoHoras] (marcacao.data, funcionario.id) ORDER BY ID DESC ) AS idbancohoras 
+						,(SELECT TOP 1 id FROM [dbo].[F_BancoHoras] (marcacao.data, funcionario.id)) AS idbancohoras 
 
 						, feriado.id AS idferiado 
                         , afastamentofunc.id AS idafastamentofunc 
