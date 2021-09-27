@@ -118,31 +118,31 @@ namespace DAL.SQL
             }
             ((Modelo.BilhetesImp)obj).PIS = dr["PIS"] is DBNull ? "" : Convert.ToString(dr["PIS"]);
             ((Modelo.BilhetesImp)obj).IdRegistroPonto = dr["IdRegistroPonto"] is DBNull ? null : (int?)dr["IdRegistroPonto"];
-            
+
         }
 
         protected override SqlParameter[] GetParameters()
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@id", SqlDbType.Int),
-				new SqlParameter ("@ordem", SqlDbType.VarChar),
-				new SqlParameter ("@data", SqlDbType.DateTime),
-				new SqlParameter ("@hora", SqlDbType.VarChar),
-				new SqlParameter ("@func", SqlDbType.VarChar),
-				new SqlParameter ("@relogio", SqlDbType.VarChar),
-				new SqlParameter ("@importado", SqlDbType.TinyInt),
-				new SqlParameter ("@mar_data", SqlDbType.DateTime),
-				new SqlParameter ("@mar_hora", SqlDbType.VarChar),
-				new SqlParameter ("@mar_relogio", SqlDbType.VarChar),
-				new SqlParameter ("@posicao", SqlDbType.Int),
-				new SqlParameter ("@ent_sai", SqlDbType.VarChar),
-				new SqlParameter ("@incdata", SqlDbType.DateTime),
-				new SqlParameter ("@inchora", SqlDbType.DateTime),
-				new SqlParameter ("@incusuario", SqlDbType.VarChar),
-				new SqlParameter ("@altdata", SqlDbType.DateTime),
-				new SqlParameter ("@althora", SqlDbType.DateTime),
-				new SqlParameter ("@altusuario", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@id", SqlDbType.Int),
+                new SqlParameter ("@ordem", SqlDbType.VarChar),
+                new SqlParameter ("@data", SqlDbType.DateTime),
+                new SqlParameter ("@hora", SqlDbType.VarChar),
+                new SqlParameter ("@func", SqlDbType.VarChar),
+                new SqlParameter ("@relogio", SqlDbType.VarChar),
+                new SqlParameter ("@importado", SqlDbType.TinyInt),
+                new SqlParameter ("@mar_data", SqlDbType.DateTime),
+                new SqlParameter ("@mar_hora", SqlDbType.VarChar),
+                new SqlParameter ("@mar_relogio", SqlDbType.VarChar),
+                new SqlParameter ("@posicao", SqlDbType.Int),
+                new SqlParameter ("@ent_sai", SqlDbType.VarChar),
+                new SqlParameter ("@incdata", SqlDbType.DateTime),
+                new SqlParameter ("@inchora", SqlDbType.DateTime),
+                new SqlParameter ("@incusuario", SqlDbType.VarChar),
+                new SqlParameter ("@altdata", SqlDbType.DateTime),
+                new SqlParameter ("@althora", SqlDbType.DateTime),
+                new SqlParameter ("@altusuario", SqlDbType.VarChar),
                 new SqlParameter ("@codigo", SqlDbType.Int),
                 new SqlParameter ("@chave", SqlDbType.VarChar),
                 new SqlParameter ("@dscodigo", SqlDbType.VarChar),
@@ -154,7 +154,7 @@ namespace DAL.SQL
                 new SqlParameter ("@IdFuncionario ", SqlDbType.Int),
                 new SqlParameter ("@PIS", SqlDbType.VarChar),
                 new SqlParameter ("@IdRegistroPonto", SqlDbType.BigInt)
-			};
+            };
             return parms;
         }
 
@@ -249,11 +249,11 @@ namespace DAL.SQL
         public bool AuxPossuiRegistro(SqlTransaction trans, DateTime pData, string pHora, string pFunc, string pRelogio)
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@data", SqlDbType.DateTime),
-				new SqlParameter ("@hora", SqlDbType.VarChar),
-				new SqlParameter ("@func", SqlDbType.VarChar),
-				new SqlParameter ("@relogio", SqlDbType.VarChar)
+            {
+                new SqlParameter ("@data", SqlDbType.DateTime),
+                new SqlParameter ("@hora", SqlDbType.VarChar),
+                new SqlParameter ("@func", SqlDbType.VarChar),
+                new SqlParameter ("@relogio", SqlDbType.VarChar)
             };
             parms[0].Value = pData;
             parms[1].Value = pHora;
@@ -413,7 +413,7 @@ namespace DAL.SQL
             return lista;
         }
 
-        
+
         public List<Modelo.BilhetesImp> GetImportadosFunc(int idFuncionario)
         {
             List<Modelo.BilhetesImp> lista = new List<Modelo.BilhetesImp>();
@@ -489,14 +489,14 @@ namespace DAL.SQL
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 
-            
+
             while (dr.Read())
             {
                 Modelo.BilhetesImp objBilhete = new Modelo.BilhetesImp();
                 AuxSetInstance(dr, objBilhete);
                 lista.Add(objBilhete);
             }
-            
+
 
             if (!dr.IsClosed)
                 dr.Close();
@@ -576,8 +576,8 @@ namespace DAL.SQL
             List<Modelo.BilhetesImp> lista = new List<Modelo.BilhetesImp>();
 
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@dscodigo", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@dscodigo", SqlDbType.VarChar),
                 new SqlParameter ("@datai", SqlDbType.DateTime),
                 new SqlParameter ("@dataf", SqlDbType.DateTime)
             };
@@ -620,8 +620,8 @@ namespace DAL.SQL
             List<Modelo.BilhetesImp> lista = new List<Modelo.BilhetesImp>();
 
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@dscodigo", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@dscodigo", SqlDbType.VarChar),
                 new SqlParameter ("@datai", SqlDbType.DateTime),
                 new SqlParameter ("@dataf", SqlDbType.DateTime)
             };
@@ -664,8 +664,8 @@ namespace DAL.SQL
             List<Modelo.BilhetesImp> lista = new List<Modelo.BilhetesImp>();
 
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@lPIS", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@lPIS", SqlDbType.VarChar),
                 new SqlParameter ("@datai", SqlDbType.DateTime),
                 new SqlParameter ("@dataf", SqlDbType.DateTime)
             };
@@ -789,7 +789,7 @@ namespace DAL.SQL
             List<Modelo.BilhetesImp> lista = new List<Modelo.BilhetesImp>();
 
             SqlParameter[] parms = new SqlParameter[]
-			{				
+            {
                 new SqlParameter ("@datai", SqlDbType.Date),
                 new SqlParameter ("@dataf", SqlDbType.Date)
             };
@@ -824,7 +824,7 @@ namespace DAL.SQL
             Hashtable lista = new Hashtable();
 
             SqlParameter[] parms = new SqlParameter[]
-			{				
+            {
                 new SqlParameter ("@datai", SqlDbType.Date),
                 new SqlParameter ("@dataf", SqlDbType.Date)
             };
@@ -860,7 +860,7 @@ namespace DAL.SQL
                     dr.Close();
                 dr.Dispose();
             }
-            
+
 
             return lista;
         }
@@ -870,7 +870,7 @@ namespace DAL.SQL
             Hashtable lista = new Hashtable();
 
             SqlParameter[] parms = new SqlParameter[]
-			{				
+            {
                 new SqlParameter ("@datai", SqlDbType.Date),
                 new SqlParameter ("@dataf", SqlDbType.Date)
             };
@@ -893,7 +893,7 @@ namespace DAL.SQL
             {
                 dr = db.ExecuteReader(CommandType.Text, aux, parms);
             }
-            
+
 
             if (dr.HasRows)
             {
@@ -919,7 +919,7 @@ namespace DAL.SQL
             Hashtable lista = new Hashtable();
 
             SqlParameter[] parms = new SqlParameter[]
-			{				
+            {
                 new SqlParameter ("@datai", SqlDbType.Date),
                 new SqlParameter ("@dataf", SqlDbType.Date)
             };
@@ -929,7 +929,7 @@ namespace DAL.SQL
             string aux = "SELECT * FROM bilhetesimp WHERE data between @datai AND @dataf ";
             if (lPis.Count() > 0)
             {
-                aux += " and PIS in ('" + String.Join("','",lPis) +"')";
+                aux += " and PIS in ('" + String.Join("','", lPis) + "')";
             }
 
             aux += "ORDER BY func, data, hora";
@@ -987,20 +987,20 @@ namespace DAL.SQL
                     new DataColumn ("data", objBilhete.Data.GetType()),
                     new DataColumn ("hora", objBilhete.Hora.GetType()),
                     new DataColumn ("func", objBilhete.Func.GetType()),
-                    new DataColumn ("relogio", objBilhete.Relogio.GetType()), 
-                    new DataColumn ("importado", objBilhete.Importado.GetType()), 
-                    new DataColumn ("mar_data", objBilhete.Mar_data.GetType()), 
-                    new DataColumn ("mar_hora", objBilhete.Mar_hora.GetType()), 
-                    new DataColumn ("mar_relogio", objBilhete.Mar_relogio.GetType()), 
-                    new DataColumn ("posicao", objBilhete.Posicao.GetType()), 
-                    new DataColumn ("ent_sai", objBilhete.Ent_sai.GetType()), 
-                    new DataColumn ("incdata", objBilhete.Incdata.GetType()), 
-                    new DataColumn ("inchora", objBilhete.Inchora.GetType()), 
-                    new DataColumn ("incusuario", objBilhete.Incusuario.GetType()), 
-                    new DataColumn ("chave", objBilhete.Chave.GetType()), 
-                    new DataColumn ("dscodigo", objBilhete.DsCodigo.GetType()), 
-                    new DataColumn ("motivo", objBilhete.Motivo.GetType()), 
-                    new DataColumn ("ocorrencia", objBilhete.Ocorrencia.GetType()), 
+                    new DataColumn ("relogio", objBilhete.Relogio.GetType()),
+                    new DataColumn ("importado", objBilhete.Importado.GetType()),
+                    new DataColumn ("mar_data", objBilhete.Mar_data.GetType()),
+                    new DataColumn ("mar_hora", objBilhete.Mar_hora.GetType()),
+                    new DataColumn ("mar_relogio", objBilhete.Mar_relogio.GetType()),
+                    new DataColumn ("posicao", objBilhete.Posicao.GetType()),
+                    new DataColumn ("ent_sai", objBilhete.Ent_sai.GetType()),
+                    new DataColumn ("incdata", objBilhete.Incdata.GetType()),
+                    new DataColumn ("inchora", objBilhete.Inchora.GetType()),
+                    new DataColumn ("incusuario", objBilhete.Incusuario.GetType()),
+                    new DataColumn ("chave", objBilhete.Chave.GetType()),
+                    new DataColumn ("dscodigo", objBilhete.DsCodigo.GetType()),
+                    new DataColumn ("motivo", objBilhete.Motivo.GetType()),
+                    new DataColumn ("ocorrencia", objBilhete.Ocorrencia.GetType()),
                     new DataColumn ("idjustificativa", objBilhete.Idjustificativa.GetType()),
                     new DataColumn ("nsr", objBilhete.Nsr.GetType()),
                     new DataColumn ("idLancamentoLoteFuncionario", System.Type.GetType("System.Int32")),
@@ -1167,20 +1167,20 @@ namespace DAL.SQL
                     new DataColumn ("data", objBilhete.Data.GetType()),
                     new DataColumn ("hora", objBilhete.Hora.GetType()),
                     new DataColumn ("func", objBilhete.Func.GetType()),
-                    new DataColumn ("relogio", objBilhete.Relogio.GetType()), 
-                    new DataColumn ("importado", objBilhete.Importado.GetType()), 
-                    new DataColumn ("mar_data", objBilhete.Mar_data.GetType()), 
-                    new DataColumn ("mar_hora", objBilhete.Mar_hora.GetType()), 
-                    new DataColumn ("mar_relogio", objBilhete.Mar_relogio.GetType()), 
-                    new DataColumn ("posicao", objBilhete.Posicao.GetType()), 
-                    new DataColumn ("ent_sai", objBilhete.Ent_sai.GetType()), 
-                    new DataColumn ("incdata", objBilhete.Incdata.GetType()), 
-                    new DataColumn ("inchora", objBilhete.Inchora.GetType()), 
-                    new DataColumn ("incusuario", objBilhete.Incusuario.GetType()), 
-                    new DataColumn ("chave", objBilhete.Chave.GetType()), 
-                    new DataColumn ("dscodigo", objBilhete.DsCodigo.GetType()), 
-                    new DataColumn ("motivo", objBilhete.Motivo.GetType()), 
-                    new DataColumn ("ocorrencia", objBilhete.Ocorrencia.GetType()), 
+                    new DataColumn ("relogio", objBilhete.Relogio.GetType()),
+                    new DataColumn ("importado", objBilhete.Importado.GetType()),
+                    new DataColumn ("mar_data", objBilhete.Mar_data.GetType()),
+                    new DataColumn ("mar_hora", objBilhete.Mar_hora.GetType()),
+                    new DataColumn ("mar_relogio", objBilhete.Mar_relogio.GetType()),
+                    new DataColumn ("posicao", objBilhete.Posicao.GetType()),
+                    new DataColumn ("ent_sai", objBilhete.Ent_sai.GetType()),
+                    new DataColumn ("incdata", objBilhete.Incdata.GetType()),
+                    new DataColumn ("inchora", objBilhete.Inchora.GetType()),
+                    new DataColumn ("incusuario", objBilhete.Incusuario.GetType()),
+                    new DataColumn ("chave", objBilhete.Chave.GetType()),
+                    new DataColumn ("dscodigo", objBilhete.DsCodigo.GetType()),
+                    new DataColumn ("motivo", objBilhete.Motivo.GetType()),
+                    new DataColumn ("ocorrencia", objBilhete.Ocorrencia.GetType()),
                     new DataColumn ("idjustificativa", objBilhete.Idjustificativa.GetType()),
                     new DataColumn ("nsr", objBilhete.Nsr.GetType()),
                     new DataColumn ("idLancamentoLoteFuncionario", System.Type.GetType("System.Int32")),
@@ -1241,7 +1241,7 @@ namespace DAL.SQL
                     }
                 }
                 //bilhetesExistentes.Clear();
-                
+
                 using (SqlConnection conexao = new SqlConnection(conection))
                 {
                     conexao.Open();
@@ -1265,7 +1265,7 @@ namespace DAL.SQL
             return retorno;
         }
 
-        
+
 
         public int Incluir(List<Modelo.BilhetesImp> listaObjeto)
         {
@@ -1277,11 +1277,11 @@ namespace DAL.SQL
                 cmd.CommandType = CommandType.Text;
                 SqlParameter[] parms = GetParameters();
                 SqlParameter[] parms2 = new SqlParameter[]
-			    {
-				    new SqlParameter ("@data", SqlDbType.DateTime),
-				    new SqlParameter ("@hora", SqlDbType.VarChar),
-				    new SqlParameter ("@func", SqlDbType.VarChar),
-				    new SqlParameter ("@relogio", SqlDbType.VarChar)
+                {
+                    new SqlParameter ("@data", SqlDbType.DateTime),
+                    new SqlParameter ("@hora", SqlDbType.VarChar),
+                    new SqlParameter ("@func", SqlDbType.VarChar),
+                    new SqlParameter ("@relogio", SqlDbType.VarChar)
                 };
                 int p = 0;
                 string possuireg = @"SELECT COALESCE(COUNT(id),0) 
@@ -1342,7 +1342,7 @@ namespace DAL.SQL
                 else
                 {
                     count = TransactDbOps.ExecuteNonQuery(trans, CommandType.Text, sqlDelete, new SqlParameter[0]);
-                } 
+                }
             }
             return count;
         }
@@ -1385,13 +1385,13 @@ namespace DAL.SQL
             SetDadosAlt(obj);
             SqlParameter[] parms = GetParameters();
             SetParameters(parms, obj);
-            
+
             SqlCommand cmd = TransactDbOps.ExecNonQueryCmd(trans, CommandType.Text, UPDATE, true, parms);
 
             cmd.Parameters.Clear();
             if (idLancamentoLoteFuncionario != null)
             {
-                RemoveRelacionamentoLote(trans, idLancamentoLoteFuncionario.GetValueOrDefault());   
+                RemoveRelacionamentoLote(trans, idLancamentoLoteFuncionario.GetValueOrDefault());
             }
         }
 
@@ -1488,24 +1488,24 @@ namespace DAL.SQL
                     new DataColumn ("data", typeof(DateTime)),
                     new DataColumn ("hora", objBilhete.Hora.GetType()),
                     new DataColumn ("func", objBilhete.Func.GetType()),
-                    new DataColumn ("relogio", objBilhete.Relogio.GetType()), 
-                    new DataColumn ("importado", typeof(int)), 
-                    new DataColumn ("mar_data", typeof(DateTime)), 
-                    new DataColumn ("mar_hora", objBilhete.Mar_hora.GetType()), 
-                    new DataColumn ("mar_relogio", objBilhete.Mar_relogio.GetType()), 
-                    new DataColumn ("posicao", objBilhete.Posicao.GetType()), 
-                    new DataColumn ("ent_sai", objBilhete.Ent_sai.GetType()), 
-                    new DataColumn ("incdata", typeof(DateTime)), 
-                    new DataColumn ("inchora", typeof(DateTime)), 
-                    new DataColumn ("incusuario", typeof(string)), 
-                    new DataColumn ("altdata", typeof(DateTime)), 
-                    new DataColumn ("althora", typeof(DateTime)), 
-                    new DataColumn ("altusuario", typeof(string)), 
+                    new DataColumn ("relogio", objBilhete.Relogio.GetType()),
+                    new DataColumn ("importado", typeof(int)),
+                    new DataColumn ("mar_data", typeof(DateTime)),
+                    new DataColumn ("mar_hora", objBilhete.Mar_hora.GetType()),
+                    new DataColumn ("mar_relogio", objBilhete.Mar_relogio.GetType()),
+                    new DataColumn ("posicao", objBilhete.Posicao.GetType()),
+                    new DataColumn ("ent_sai", objBilhete.Ent_sai.GetType()),
+                    new DataColumn ("incdata", typeof(DateTime)),
+                    new DataColumn ("inchora", typeof(DateTime)),
+                    new DataColumn ("incusuario", typeof(string)),
+                    new DataColumn ("altdata", typeof(DateTime)),
+                    new DataColumn ("althora", typeof(DateTime)),
+                    new DataColumn ("altusuario", typeof(string)),
                     new DataColumn ("codigo", objBilhete.Codigo.GetType()),
-                    new DataColumn ("chave", objBilhete.Chave.GetType()), 
-                    new DataColumn ("dscodigo", objBilhete.DsCodigo.GetType()), 
-                    new DataColumn ("ocorrencia", objBilhete.Ocorrencia.GetType()), 
-                    new DataColumn ("motivo", objBilhete.Motivo.GetType()), 
+                    new DataColumn ("chave", objBilhete.Chave.GetType()),
+                    new DataColumn ("dscodigo", objBilhete.DsCodigo.GetType()),
+                    new DataColumn ("ocorrencia", objBilhete.Ocorrencia.GetType()),
+                    new DataColumn ("motivo", objBilhete.Motivo.GetType()),
                     new DataColumn ("idjustificativa", objBilhete.Idjustificativa.GetType()),
                     new DataColumn ("nsr", objBilhete.Nsr.GetType()),
                     new DataColumn ("IdLancamentoLoteFuncionario", System.Type.GetType("System.Int32")),
@@ -1520,7 +1520,7 @@ namespace DAL.SQL
             DataRow row;
             foreach (Modelo.BilhetesImp bil in bilhetes)
             {
-                SetDadosAlt(bil,login);
+                SetDadosAlt(bil, login);
 
                 row = dt.NewRow();
                 row["id"] = bil.Id;
@@ -1576,24 +1576,24 @@ namespace DAL.SQL
                     new DataColumn ("data", typeof(DateTime)),
                     new DataColumn ("hora", objBilhete.Hora.GetType()),
                     new DataColumn ("func", objBilhete.Func.GetType()),
-                    new DataColumn ("relogio", objBilhete.Relogio.GetType()), 
-                    new DataColumn ("importado", typeof(int)), 
-                    new DataColumn ("mar_data", typeof(DateTime)), 
-                    new DataColumn ("mar_hora", objBilhete.Mar_hora.GetType()), 
-                    new DataColumn ("mar_relogio", objBilhete.Mar_relogio.GetType()), 
-                    new DataColumn ("posicao", objBilhete.Posicao.GetType()), 
-                    new DataColumn ("ent_sai", objBilhete.Ent_sai.GetType()), 
-                    new DataColumn ("incdata", typeof(DateTime)), 
-                    new DataColumn ("inchora", typeof(DateTime)), 
-                    new DataColumn ("incusuario", typeof(string)), 
-                    new DataColumn ("altdata", typeof(DateTime)), 
-                    new DataColumn ("althora", typeof(DateTime)), 
-                    new DataColumn ("altusuario", typeof(string)), 
+                    new DataColumn ("relogio", objBilhete.Relogio.GetType()),
+                    new DataColumn ("importado", typeof(int)),
+                    new DataColumn ("mar_data", typeof(DateTime)),
+                    new DataColumn ("mar_hora", objBilhete.Mar_hora.GetType()),
+                    new DataColumn ("mar_relogio", objBilhete.Mar_relogio.GetType()),
+                    new DataColumn ("posicao", objBilhete.Posicao.GetType()),
+                    new DataColumn ("ent_sai", objBilhete.Ent_sai.GetType()),
+                    new DataColumn ("incdata", typeof(DateTime)),
+                    new DataColumn ("inchora", typeof(DateTime)),
+                    new DataColumn ("incusuario", typeof(string)),
+                    new DataColumn ("altdata", typeof(DateTime)),
+                    new DataColumn ("althora", typeof(DateTime)),
+                    new DataColumn ("altusuario", typeof(string)),
                     new DataColumn ("codigo", objBilhete.Codigo.GetType()),
-                    new DataColumn ("chave", objBilhete.Chave.GetType()), 
-                    new DataColumn ("dscodigo", objBilhete.DsCodigo.GetType()), 
-                    new DataColumn ("ocorrencia", objBilhete.Ocorrencia.GetType()), 
-                    new DataColumn ("motivo", objBilhete.Motivo.GetType()), 
+                    new DataColumn ("chave", objBilhete.Chave.GetType()),
+                    new DataColumn ("dscodigo", objBilhete.DsCodigo.GetType()),
+                    new DataColumn ("ocorrencia", objBilhete.Ocorrencia.GetType()),
+                    new DataColumn ("motivo", objBilhete.Motivo.GetType()),
                     new DataColumn ("idjustificativa", objBilhete.Idjustificativa.GetType()),
                     new DataColumn ("nsr", objBilhete.Nsr.GetType()),
                     new DataColumn ("IdLancamentoLoteFuncionario", System.Type.GetType("System.Int32")),
@@ -1665,8 +1665,8 @@ namespace DAL.SQL
         public DataTable GetBilhetesImportar(string pDsCodigo, bool pManutBilhete, DateTime? pDataBilI, DateTime? pDataBilF)
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@dscodigo", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@dscodigo", SqlDbType.VarChar),
                 new SqlParameter ("@importado", SqlDbType.Int),
                 new SqlParameter ("@datai", SqlDbType.DateTime),
                 new SqlParameter ("@dataf", SqlDbType.DateTime)
@@ -1725,7 +1725,7 @@ namespace DAL.SQL
             if (!String.IsNullOrEmpty(pDsCodigo) && pManutBilhete)
             {
                 sql.AppendLine(" INNER JOIN F_DSCodigoPorPeriodo (@dscodigo) dscodigo ON bimp.func = dscodigo.dscodigo AND bimp.mar_data BETWEEN dscodigo.dataInicial AND dscodigo.dataFinal ");
-                sql.AppendLine(" left join funcionario as func on func.id = dscodigo.idFuncionario ");           
+                sql.AppendLine(" left join funcionario as func on func.id = dscodigo.idFuncionario ");
             }
             //Join para os funcionário sem provisório e sem mudança de código
             else
@@ -1855,8 +1855,8 @@ namespace DAL.SQL
         public DataTable GetBilhetesPorPIS(List<string> lPIS, DateTime? pDataBilI, DateTime? pDataBilF)
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@lPIS", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@lPIS", SqlDbType.VarChar),
                 new SqlParameter ("@datai", SqlDbType.DateTime),
                 new SqlParameter ("@dataf", SqlDbType.DateTime)
             };
@@ -1987,7 +1987,7 @@ namespace DAL.SQL
                 sql.AppendLine("and bimp.mar_data >= @datai");
                 sql.AppendLine("and bimp.mar_data <= @dataf");
             }
-                sql.AppendLine("order by bimp.func, bimp.data, bimp.hora");
+            sql.AppendLine("order by bimp.func, bimp.data, bimp.hora");
 
 
             DataTable dt = new DataTable();
@@ -2010,8 +2010,8 @@ namespace DAL.SQL
         public void GetDataBilhetesImportar(string pDsCodigo, bool pManutBilhete, out DateTime? pdatai, out DateTime? pdataf)
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@dscodigo", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@dscodigo", SqlDbType.VarChar),
                 new SqlParameter ("@importado", SqlDbType.Int)
             };
             parms[0].Value = pDsCodigo;
@@ -2232,9 +2232,9 @@ namespace DAL.SQL
         public Int64 GetUltimoNSRRep(string pRelogio)
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@relogio", SqlDbType.VarChar, 20)
-               
+            {
+                new SqlParameter ("@relogio", SqlDbType.VarChar, 20)
+
             };
             parms[0].Value = pRelogio;
 
@@ -2252,7 +2252,7 @@ namespace DAL.SQL
 
         public List<Modelo.Proxy.PxyBilhetesFuncsDoisRegistros> FuncsDoisRegistrosRegistribuirBilhetes(bool importado, List<string> lPis, DateTime datai, DateTime dataf)
         {
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@importado", SqlDbType.Bit),
                 new SqlParameter("@lPis", SqlDbType.VarChar),
@@ -2431,9 +2431,9 @@ namespace DAL.SQL
         public Modelo.BilhetesImp UltimoBilhetePorRep(string pRelogio)
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@relogio", SqlDbType.VarChar, 20)
-               
+            {
+                new SqlParameter ("@relogio", SqlDbType.VarChar, 20)
+
             };
             parms[0].Value = pRelogio;
             string aux = "SELECT TOP(1) * FROM bilhetesimp WHERE relogio = @relogio ORDER BY data DESC, Nsr DESC";
@@ -2458,7 +2458,7 @@ namespace DAL.SQL
             SqlParameter[] parms = new SqlParameter[0];
 
             string sql = "SELECT Id, IdRegistroPonto, importado FROM dbo.bilhetesimp WITH (NOLOCK) WHERE idRegistroPonto IN (" + String.Join(",", IdsRegistrosPonto) + ")";
-            
+
             DataTable dt = new DataTable();
             dt = db.ExecuteReaderToDataTable(sql.ToString(), parms);
             if (dt.Rows.Count > 0)
@@ -2471,10 +2471,10 @@ namespace DAL.SQL
         {
             SqlParameter[] parms = new SqlParameter[]
             {
-                
+
             };
 
-            string comando = "SELECT * FROM bilhetesimp WHERE idRegistroPonto in (" + String.Join(",",IdsRegistrosPonto) + ")";
+            string comando = "SELECT * FROM bilhetesimp WHERE idRegistroPonto in (" + String.Join(",", IdsRegistrosPonto) + ")";
 
             List<Modelo.BilhetesImp> ret = new List<Modelo.BilhetesImp>();
 
@@ -2655,6 +2655,26 @@ namespace DAL.SQL
                 dr.Dispose();
             }
             return lista;
+        }
+
+
+        public int ExcluirBilhetePontoPorExcecao(List<int> listaIdsBilhetes)
+        {
+            try
+            {
+                string sqlDelete = "DELETE FROM dbo.bilhetesimp WHERE id in (" + String.Join(",", listaIdsBilhetes) + ")";
+                int count = 0;
+
+                if (listaIdsBilhetes != null && listaIdsBilhetes.Count > 0)
+                {
+                        count = db.ExecuteNonQuery(CommandType.Text, sqlDelete, new SqlParameter[0]);
+                }
+                return count;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         #endregion
     }

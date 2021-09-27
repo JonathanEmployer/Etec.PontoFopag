@@ -1,5 +1,6 @@
 ﻿using DAL.SQL;
 using Modelo;
+using Modelo.Proxy;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -85,6 +86,20 @@ namespace BLL.CalculoMarcacoes
         {
             RegistroPonto bllRegistroPonto = new RegistroPonto(_connectionString, _usuarioLogado);
             List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> registrosValidar = dalBilhetesImp.RegistrosValidarPontoExcecao(idsFuncs, idsHorario);
+            //Excluir ponto por exceção para dias com mudança de horario
+            int? mudancaHorarioId = registrosValidar.FirstOrDefault(c => c.Legenda == "M").IdHorario;
+
+            var listaMudancaHorarioId = registrosValidar.Where(c => c.Legenda == "M").Select(c => c.IdHorario).ToList();
+            if (mudancaHorarioId != null)
+            {
+                List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> registrosValidarExclusao = registrosValidar.Where(c => c.Relogio == "PE" && c.IdHorario == mudancaHorarioId).ToList();
+
+                ExcluirBilhetePontoPorExcecao(registrosValidarExclusao.Select(c => c.Id).ToList()); //passar ids bilhetes 
+
+                registrosValidarExclusao.ForEach(i => i.Id = 0);
+                //Lista original
+                //Lista exclusao < lista original .Where(c => Relogio == "PE" && bilhete == idmudancahorario)
+            }
 
             int maxCodigo = bllRegistroPonto.MaxCodigo();
             List<Modelo.RegistroPonto> registroPontos = new List<Modelo.RegistroPonto>();
@@ -123,6 +138,29 @@ namespace BLL.CalculoMarcacoes
             registroPontos.ForEach(f => f.Lote = lote);
             bllRegistroPonto.InserirRegistros(registroPontos);
             return registroPontos;
+        }
+
+        private void ExcluirBilhetePontoPorExcecao(List<int> registrosValidarExclusao)
+        {
+
+            dalBilhetesImp.ExcluirBilhetePontoPorExcecao(registrosValidarExclusao);
+            //return registrosValidarExclusao;
+            //throw new NotImplementedException();
+
+    //        SqlParameter[] parms = new SqlParameter[1]
+    //{
+    //            new SqlParameter("@idFechamentobh", SqlDbType.Int)
+    //};
+    //        parms[0].Value = pIdFechamentoBH;
+
+    //        string aux = "DELETE FROM fechamentobhdpercentual" +
+    //                     " WHERE idFechamentobhd in (select id from fechamentobhd where idFechamentoBH = @idFechamentobh)";
+
+    //        SqlCommand cmd = db.ExecNonQueryCmd(CommandType.Text, aux, true, parms);
+    //        cmd.Parameters.Clear();
+    //        cmd.Connection.Close();
+    //        cmd.Connection.Dispose();
+    //        cmd.Dispose();
         }
     }
 }
