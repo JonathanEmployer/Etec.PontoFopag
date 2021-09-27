@@ -567,3 +567,155 @@ function RemoveJobs() {
     $("#" + divAbrirJobs +" li").remove();
 }
 /// Fim Controle mensageria
+
+
+
+
+//Funções FechamentoPonto
+
+function cwkFechamentoPonto(controller, nomeTabela) {
+
+    const self = this;
+
+    this.controller = controller;
+    this.nomeTabela = nomeTabela;
+
+    this.Editar = function () {
+        var id = GetIdSelecionadoTable(nomeTabela);
+        if (id > 0) {
+            ChamaCadastro(controller, 'Alterar', id);
+        }
+    }
+
+    this.Excluir = function () {
+        var id = GetIdSelecionadoTable(this.nomeTabela);
+        if (id > 0) {
+            this.ValidaJob(id)
+                .then(this.ValidaFechamento)
+                .then(this.checkDialogConfirmSign)
+                .then((res) => {
+                    var objetoTabela = $(nomeTabela).closest('table').DataTable();
+                    ajax_ExcluirRegistro('Excluir', controller, id, 'Fechamento excluído com sucesso.', objetoTabela);
+                })
+                .finally(() => $("#btExcluir").prop("disabled", false));
+        } else {
+            cwkErroTit('Selecione um Registro!', 'Antes de excluir um registro é necessário selecioná-lo!');
+        }
+    };
+
+    this.checkDialogConfirmSign = function(resp) {
+        if (!resp.isValid) {
+            return self.dialogConfirmSave(resp.title, resp.message);
+        }
+        return true;
+    }
+
+    this.ValidaFechamento = function (id, idsSelecionados = []) {
+        return new Promise((res, rej) => {
+            $.ajax({
+                dataType: "json",
+                type: "POST",
+                url: `/${this.controller}/ValidaFechamento`,
+                data: {
+                    'obj': { 'id': id },
+                    'idsSelecionados': idsSelecionados,
+                    '__RequestVerificationToken': gettoken()
+                },
+                success: function (resp) {
+                    res(resp);
+                }
+            }).fail(function (jqXHR, exception) {
+                // Our error logic here
+                var msg = '';
+                if (jqXHR.status === 0) {
+                    msg = 'Verifique a conexão com a internet.';
+                } else if (jqXHR.status == 404) {
+                    msg = 'Erro na requisição';
+                } else if (jqXHR.status == 500) {
+                    msg = 'Erro Interno.';
+                } else if (exception === 'parsererror') {
+                    msg = 'Erro ao converter requisição.';
+                } else if (exception === 'timeout') {
+                    msg = 'Tempo Excedido.';
+                } else if (exception === 'abort') {
+                    msg = 'Requisição Cancelada.';
+                } else {
+                    msg = 'Erro: ' + jqXHR.responseText;
+                }
+                cwkErro(msg);
+                rej(msg);
+            });
+        });
+    }
+
+    this.ValidaJob = function (id) {
+        return new Promise((res, rej) => {
+            $.ajax({
+                dataType: "json",
+                type: "GET",
+                url: `/${this.controller}/ValidaJob`,
+                data: {
+                    'id': id,
+                },
+                success: function (resp) {
+                    if (resp.isValid) {
+                        res(id);
+                    }
+                    else {
+                        cwkNotificacao('Integração em andamento, por favor aguarde.')
+                        rej();
+                    }
+                }
+            })
+            .fail(function (jqXHR, exception) {
+                    // Our error logic here
+                    var msg = '';
+                    if (jqXHR.status === 0) {
+                        msg = 'Verifique a conexão com a internet.';
+                    } else if (jqXHR.status == 404) {
+                        msg = 'Erro na requisição';
+                    } else if (jqXHR.status == 500) {
+                        msg = 'Erro Interno.';
+                    } else if (exception === 'parsererror') {
+                        msg = 'Erro ao converter requisição.';
+                    } else if (exception === 'timeout') {
+                        msg = 'Tempo Excedido.';
+                    } else if (exception === 'abort') {
+                        msg = 'Requisição Cancelada.';
+                    } else {
+                        msg = 'Erro: ' + jqXHR.responseText;
+                    }
+                    cwkErro(msg);
+                    rej();
+                });
+        });
+    }
+
+    this.dialogConfirmSave = function (title, msg) {
+        return new Promise((res, rej) => {
+            bootbox.dialog({
+                message: msg,
+                title: title,
+                closeButton: false,
+                buttons: {
+                    success: {
+                        label: "Sim",
+                        className: "btn-primary",
+                        callback: res
+                    },
+                    danger: {
+                        label: "Cancelar",
+                        className: "btn-default",
+                        callback: rej
+                    }
+                }
+            });
+        });
+    }
+};
+
+//Funções FechamentoPonto
+
+
+
+
