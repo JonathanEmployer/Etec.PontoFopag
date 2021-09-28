@@ -87,10 +87,8 @@ namespace BLL.CalculoMarcacoes
             RegistroPonto bllRegistroPonto = new RegistroPonto(_connectionString, _usuarioLogado);
             List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> registrosValidar = dalBilhetesImp.RegistrosValidarPontoExcecao(idsFuncs, idsHorario);
             //Excluir ponto por exceção para dias com mudança de horario
-            int? mudancaHorarioId = registrosValidar.FirstOrDefault(c => c.Legenda == "M").IdHorario;
-
-            var listaMudancaHorarioId = registrosValidar.Where(c => c.Legenda == "M").Select(c => c.IdHorario).ToList();
-            if (mudancaHorarioId != null)
+            int? mudancaHorarioId = registrosValidar.Where(c => c.Legenda == "M").Select(c => c.IdHorario).FirstOrDefault();
+            if (mudancaHorarioId != null && mudancaHorarioId > 0)
             {
                 List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> registrosValidarExclusao = registrosValidar.Where(c => c.Relogio == "PE" && c.IdHorario == mudancaHorarioId).ToList();
 
@@ -147,20 +145,20 @@ namespace BLL.CalculoMarcacoes
             //return registrosValidarExclusao;
             //throw new NotImplementedException();
 
-    //        SqlParameter[] parms = new SqlParameter[1]
-    //{
-    //            new SqlParameter("@idFechamentobh", SqlDbType.Int)
-    //};
-    //        parms[0].Value = pIdFechamentoBH;
+            //        SqlParameter[] parms = new SqlParameter[1]
+            //{
+            //            new SqlParameter("@idFechamentobh", SqlDbType.Int)
+            //};
+            //        parms[0].Value = pIdFechamentoBH;
 
-    //        string aux = "DELETE FROM fechamentobhdpercentual" +
-    //                     " WHERE idFechamentobhd in (select id from fechamentobhd where idFechamentoBH = @idFechamentobh)";
+            //        string aux = "DELETE FROM fechamentobhdpercentual" +
+            //                     " WHERE idFechamentobhd in (select id from fechamentobhd where idFechamentoBH = @idFechamentobh)";
 
-    //        SqlCommand cmd = db.ExecNonQueryCmd(CommandType.Text, aux, true, parms);
-    //        cmd.Parameters.Clear();
-    //        cmd.Connection.Close();
-    //        cmd.Connection.Dispose();
-    //        cmd.Dispose();
+            //        SqlCommand cmd = db.ExecNonQueryCmd(CommandType.Text, aux, true, parms);
+            //        cmd.Parameters.Clear();
+            //        cmd.Connection.Close();
+            //        cmd.Connection.Dispose();
+            //        cmd.Dispose();
         }
     }
 }
