@@ -299,9 +299,9 @@ FROM RegistroPonto r ";
             string sql = SELECTALL + " WHERE Id IN (SELECT valor FROM dbo.F_ClausulaIn(@ids)) ";
             if (situacoes.Where(s => s == Modelo.Enumeradores.SituacaoRegistroPonto.Todos).Count() == 0)
             {
-                sql += " and RegistroPonto.situacao in (" + String.Join(",", situacoes.Select(s => "'" + ((char)s).ToString() + "'")) + ")";
+                sql += " and r.situacao in (" + String.Join(",", situacoes.Select(s => "'" + ((char)s).ToString() + "'")) + ")";
             }
-            sql += "ORDER BY IncData";
+            sql += "ORDER BY r.IncData";
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 
             List<Modelo.RegistroPonto> lista = new List<Modelo.RegistroPonto>();
