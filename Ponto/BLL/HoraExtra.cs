@@ -295,7 +295,7 @@ namespace BLL
 
 
                 IList<Modelo.Proxy.HoraExtra> heMST = horasExtrasDoPeriodo.Where(x => x.IdFuncionario == horasExtrasDoDia.IdFuncionario && x.DataMarcacao >= dtIni && x.DataMarcacao <= dtFim && x.TipoAcumulo == horasExtrasDoDia.TipoAcumulo && x.TipoDiaAcumulo == tipoDiaAcumulo).SelectMany(x => x.HorasExtras).ToList();
-                limite -= heMST.Where(x => x.Percentual == perc).Sum(x => x.HoraDiurna);
+                limite -= heMST.Where(x => x.Percentual == perc).Sum(x => x.HoraNoturna);
             }
 
             short TipoAcumulo = horarioPHExtra.TipoAcumulo;
