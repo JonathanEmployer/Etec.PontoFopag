@@ -183,16 +183,16 @@ namespace BLL_N.JobManager.Hangfire
         {
             try
             {
-                if (BackgroundJob != null && BackgroundJob.Job != null && BackgroundJob.Job.Args.Count() > 1)
+                if (BackgroundJob != null && BackgroundJob.Job != null && BackgroundJob.Job.Args.Count() >= 1)
                 {
-                    JobControl jobControl = (JobControl)BackgroundJob.Job.Args.ToArray()[1];
+                    JobControl jobControl = new JobControl(); //(JobControl)BackgroundJob.Job.Args.ToArray()[0];
                     int idJob = 0;
                     Int32.TryParse(BackgroundJob.Id, out idJob);
                     jobControl.JobId = idJob;
                     return jobControl;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
             return new JobControl();

@@ -19,11 +19,11 @@ namespace BLL_N.JobManager.Hangfire
         protected string dataBase;
         protected string urlReferencia;
         // Se estiver em modo debug processa apenas com o nome da máquina em questão, para que o server não processe os processos gerado localmente(desenvolvimento)
-        #if DEBUG
-        protected EnqueuedState _enqueuedStateNormal = new EnqueuedState(BLL.cwkFuncoes.RemoveAcentosECaracteresEspeciais(Environment.MachineName.ToLower()));
-        #else
-                protected EnqueuedState _enqueuedStateNormal = new EnqueuedState("normal");
-        #endif
+        //#if DEBUG
+        //protected EnqueuedState _enqueuedStateNormal = new EnqueuedState(BLL.cwkFuncoes.RemoveAcentosECaracteresEspeciais(Environment.MachineName.ToLower()));
+        //#else
+        protected EnqueuedState _enqueuedStateNormal = new EnqueuedState("normal");
+        //#endif
         #endregion
 
         #region Construtores
@@ -39,7 +39,7 @@ namespace BLL_N.JobManager.Hangfire
             }
         }
 
-        public HangfireManagerBase(string dataBase) : this (dataBase, "", "", "")
+        public HangfireManagerBase(string dataBase) : this(dataBase, "", "", "")
         {
         }
         #endregion
@@ -82,13 +82,13 @@ namespace BLL_N.JobManager.Hangfire
         }
 
 
-        public static JobControl GerarJobControl(string nomeProcesso,JobControl jobPai)
+        public static JobControl GerarJobControl(string nomeProcesso, JobControl jobPai)
         {
             JobControl jobControl = new JobControl() { NomeProcesso = nomeProcesso, Progresso = -1, Usuario = jobPai.Usuario, UrlHost = jobPai.UrlHost };
             try
             {
                 jobControl.Parametros = JsonConvert.SerializeObject(jobPai);
-                jobControl.ParametrosExibicao = "Recalculo originado pela importação "+jobPai.JobId+"( "+ jobPai.ParametrosExibicao + " ) ";
+                jobControl.ParametrosExibicao = "Recalculo originado pela importação " + jobPai.JobId + "( " + jobPai.ParametrosExibicao + " ) ";
                 jobControl.UrlRota = jobPai.UrlRota;
                 jobControl.UrlReferencia = jobPai.UrlReferencia;
             }
@@ -102,14 +102,14 @@ namespace BLL_N.JobManager.Hangfire
         public string GetDescricaoParametrosJob(IRelatorioModel parametros)
         {
             RelatorioBaseModel parms = (RelatorioBaseModel)parametros;
-            return String.Format("Período {0} a {1} de {2} funcionários {3}", parms.InicioPeriodo.ToShortDateString(), parms.FimPeriodo.ToShortDateString(), parms.IdSelecionados.Split(',').ToList().Count(), string.IsNullOrEmpty(parms.TipoArquivo) ? "": String.Format("({0})", parms.TipoArquivo));
+            return String.Format("Período {0} a {1} de {2} funcionários {3}", parms.InicioPeriodo.ToShortDateString(), parms.FimPeriodo.ToShortDateString(), parms.IdSelecionados.Split(',').ToList().Count(), string.IsNullOrEmpty(parms.TipoArquivo) ? "" : String.Format("({0})", parms.TipoArquivo));
         }
 
-		public string GetDescricaoParametrosDataJob(IRelatorioModel parametros)
-		{
-			RelatorioBaseModel parms = (RelatorioBaseModel)parametros;
-			return String.Format("Data {0} de {1} funcionários {2}", parms.InicioPeriodo.ToShortDateString(), parms.IdSelecionados.Split(',').ToList().Count(), string.IsNullOrEmpty(parms.TipoArquivo) ? "" : String.Format("({0})", parms.TipoArquivo));
-		}
+        public string GetDescricaoParametrosDataJob(IRelatorioModel parametros)
+        {
+            RelatorioBaseModel parms = (RelatorioBaseModel)parametros;
+            return String.Format("Data {0} de {1} funcionários {2}", parms.InicioPeriodo.ToShortDateString(), parms.IdSelecionados.Split(',').ToList().Count(), string.IsNullOrEmpty(parms.TipoArquivo) ? "" : String.Format("({0})", parms.TipoArquivo));
+        }
         #endregion
 
         public static string GetOriginalQueue(PerformContext hangfireContext)

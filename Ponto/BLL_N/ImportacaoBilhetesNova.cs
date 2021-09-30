@@ -52,48 +52,56 @@ namespace BLL_N
         public void ImportarRegistroPonto(List<int> idRegistros)
         {
             BLL.RegistroPonto bllRegPonto = new BLL.RegistroPonto(conexao.ConnectionString, userPF);
-            List<Modelo.RegistroPonto> registros = bllRegPonto.GetAllListByIds(idRegistros, new List<Enumeradores.SituacaoRegistroPonto>() { Enumeradores.SituacaoRegistroPonto.Processando });
-            if (registros.Count() > 0)
+            //Adicionado a validação pra processar de 2000 em 2000
+            bool listavazia = false;
+
+            while (!listavazia)
             {
-                BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(conexao.ConnectionString, userPF);
-
-                List<Modelo.BilhetesImp> bilhetesNovos = GerarBilhetesPorRegistros(registros, bllBilhetesImp);
-
-                bllBilhetesImp.DesconsiderarBilhetesPorRegistroPonto(registros);
-
-                List<BilhetesImp> BilhetesProcessar = bllBilhetesImp.LoadPorRegistroPonto(registros.Select(s => s.Id).ToList()); //Recupera todos os Bilhetes existentes, os que foram inseridos nesso processo, e os que podem ter sido inseridos anteriormente
-
-                bllBilhetesImp.ReconsiderarBilhetesPorRegistroPonto(BilhetesProcessar, registros);
-                
-                #region Seta como erro os registros que não conseguiu incluir
-                List<int> idsRegistrosBilhetesNaoInc = bilhetesNovos.Where(w => !BilhetesProcessar.Select(s => s.IdRegistroPonto).Contains(w.IdRegistroPonto)).Select(s => s.IdRegistroPonto.GetValueOrDefault()).ToList();
-                if (idsRegistrosBilhetesNaoInc.Count > 0)
-                    bllRegPonto.SetarSituacaoRegistros(idsRegistrosBilhetesNaoInc, Enumeradores.SituacaoRegistroPonto.Erro);
-                #endregion
-
-                if (BilhetesProcessar.Count > 0)
+                List<Modelo.RegistroPonto> registros = bllRegPonto.GetAllListByIds(idRegistros, new List<Enumeradores.SituacaoRegistroPonto>() { Enumeradores.SituacaoRegistroPonto.Processando });
+                if (registros.Count() > 0)
                 {
-                    if (bilhetesNovos.Count > 0) //Se existe novos bilhetes, verifica se é necessário incluir localização
-                    {
-                        bilhetesNovos.Where(w => BilhetesProcessar.Select(s => s.IdRegistroPonto).Contains(w.IdRegistroPonto)).ToList().ForEach(f => f.Id = BilhetesProcessar.Where(w => w.IdRegistroPonto == f.IdRegistroPonto).Select(s => s.Id).FirstOrDefault()); // Seta os ids nos registros que acabaram de ser salvos
-                        InserirLocalizacaoBilhete(bilhetesNovos.Where(w => BilhetesProcessar.Select(s => s.IdRegistroPonto).Contains(w.IdRegistroPonto)).ToList()); //Inclui localização apenas dos registros que conseguiu inserir, ou seja, apenas dos registros que conseguiram ser carregados apos a inclusão
-                    }
+                    BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(conexao.ConnectionString, userPF);
 
-                    List<Int32> idsBilhetesNecessitamImportar = BilhetesProcessar.Where(w => w.Id > 0 && w.Importado == 2).Select(s => s.Id).ToList(); //Verifica os bilhetes que não foram importados ainda. (Como a rotina pode estar passando por reprocesso, alguns podem já ter sido importados em outra ocasição)
-                    if (idsBilhetesNecessitamImportar.Count > 0)
-                    {
-                        BLL.ImportaBilhetes bllImportaBilhetes = new BLL.ImportaBilhetes(conexao.ConnectionString, userPF);
-                        DateTime dtIni = DateTime.Now.Date;
-                        DateTime dtFim = DateTime.Now.Date;
-                        bool importou = bllImportaBilhetes.ImportarBilhetesNovo(idsBilhetesNecessitamImportar, out dtIni, out dtFim);
+                    List<Modelo.BilhetesImp> bilhetesNovos = GerarBilhetesPorRegistros(registros, bllBilhetesImp);
 
-                        CalcularRegistros(BilhetesProcessar, dtIni, dtFim);
-                    }
+                    bllBilhetesImp.DesconsiderarBilhetesPorRegistroPonto(registros);
+
+                    List<BilhetesImp> BilhetesProcessar = bllBilhetesImp.LoadPorRegistroPonto(registros.Select(s => s.Id).ToList()); //Recupera todos os Bilhetes existentes, os que foram inseridos nesso processo, e os que podem ter sido inseridos anteriormente
+
+                    bllBilhetesImp.ReconsiderarBilhetesPorRegistroPonto(BilhetesProcessar, registros);
+
+                    #region Seta como erro os registros que não conseguiu incluir
+                    List<int> idsRegistrosBilhetesNaoInc = bilhetesNovos.Where(w => !BilhetesProcessar.Select(s => s.IdRegistroPonto).Contains(w.IdRegistroPonto)).Select(s => s.IdRegistroPonto.GetValueOrDefault()).ToList();
+                    if (idsRegistrosBilhetesNaoInc.Count > 0)
+                        bllRegPonto.SetarSituacaoRegistros(idsRegistrosBilhetesNaoInc, Enumeradores.SituacaoRegistroPonto.Erro);
+                    #endregion
+
                     if (BilhetesProcessar.Count > 0)
                     {
-                        bllRegPonto.SetarSituacaoRegistros(BilhetesProcessar.Select(s => s.IdRegistroPonto.GetValueOrDefault()).ToList(), Enumeradores.SituacaoRegistroPonto.Concluido);
+                        if (bilhetesNovos.Count > 0) //Se existe novos bilhetes, verifica se é necessário incluir localização
+                        {
+                            bilhetesNovos.Where(w => BilhetesProcessar.Select(s => s.IdRegistroPonto).Contains(w.IdRegistroPonto)).ToList().ForEach(f => f.Id = BilhetesProcessar.Where(w => w.IdRegistroPonto == f.IdRegistroPonto).Select(s => s.Id).FirstOrDefault()); // Seta os ids nos registros que acabaram de ser salvos
+                            InserirLocalizacaoBilhete(bilhetesNovos.Where(w => BilhetesProcessar.Select(s => s.IdRegistroPonto).Contains(w.IdRegistroPonto)).ToList()); //Inclui localização apenas dos registros que conseguiu inserir, ou seja, apenas dos registros que conseguiram ser carregados apos a inclusão
+                        }
+
+                        List<Int32> idsBilhetesNecessitamImportar = BilhetesProcessar.Where(w => w.Id > 0 && w.Importado == 2).Select(s => s.Id).ToList(); //Verifica os bilhetes que não foram importados ainda. (Como a rotina pode estar passando por reprocesso, alguns podem já ter sido importados em outra ocasição)
+                        if (idsBilhetesNecessitamImportar.Count > 0)
+                        {
+                            BLL.ImportaBilhetes bllImportaBilhetes = new BLL.ImportaBilhetes(conexao.ConnectionString, userPF);
+                            DateTime dtIni = DateTime.Now.Date;
+                            DateTime dtFim = DateTime.Now.Date;
+                            bool importou = bllImportaBilhetes.ImportarBilhetesNovo(idsBilhetesNecessitamImportar, out dtIni, out dtFim);
+
+                            CalcularRegistros(BilhetesProcessar, dtIni, dtFim);
+                        }
+                        if (BilhetesProcessar.Count > 0)
+                        {
+                            bllRegPonto.SetarSituacaoRegistros(BilhetesProcessar.Select(s => s.IdRegistroPonto.GetValueOrDefault()).ToList(), Enumeradores.SituacaoRegistroPonto.Concluido);
+                        }
                     }
                 }
+                else
+                    listavazia = true;
             }
         }
 

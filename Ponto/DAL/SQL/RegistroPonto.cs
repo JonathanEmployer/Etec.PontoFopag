@@ -5,11 +5,45 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 
 namespace DAL.SQL
 {
     public class RegistroPonto : DAL.SQL.DALBase, DAL.IRegistroPonto
     {
+        private string SELECTGETALLLISTBYSITUACOES = @"
+SELECT  TOP {0}
+	r.Id
+	,r.Codigo
+	,r.IncData
+	,r.IncHora
+	,r.IncUsuario
+	,r.AltData
+	,r.AltHora
+	,r.altusuario
+	,r.Batida
+	,r.OrigemRegistro
+	,r.Situacao
+	,r.IdFuncionario
+	,r.IpPublico
+	,r.IpInterno
+	,r.XFORWARDEDFOR
+	,r.Latitude
+	,r.Longitude
+	,r.Browser
+	,r.BrowserVersao
+	,r.BrowserPlatform
+	,r.TimeZone
+	,r.Chave
+	,r.JobId
+	,r.NSR
+	,r.IdIntegracao
+	,r.Lote
+	,r.acao
+	, f.dscodigo
+INTO #temp
+FROM RegistroPonto r
+INNER JOIN dbo.funcionario f ON f.id = r.IdFuncionario";
 
         public RegistroPonto(DataBase database)
         {
@@ -18,8 +52,35 @@ namespace DAL.SQL
 
             SELECTPID = @"   SELECT * FROM RegistroPonto WHERE id = @id";
 
-            SELECTALL = @"   SELECT   RegistroPonto.*
-                             FROM RegistroPonto ";
+            SELECTALL = @"   SELECT TOP 2000   
+    r.Id
+	,r.Codigo
+	,r.IncData
+	,r.IncHora
+	,r.IncUsuario
+	,r.AltData
+	,r.AltHora
+	,r.altusuario
+	,r.Batida
+	,r.OrigemRegistro
+	,r.Situacao
+	,r.IdFuncionario
+	,r.IpPublico
+	,r.IpInterno
+	,r.XFORWARDEDFOR
+	,r.Latitude
+	,r.Longitude
+	,r.Browser
+	,r.BrowserVersao
+	,r.BrowserPlatform
+	,r.TimeZone
+	,r.Chave
+	,r.JobId
+	,r.NSR
+	,r.IdIntegracao
+	,r.Lote
+	,r.acao
+FROM RegistroPonto r ";
 
             INSERT = @"  INSERT INTO RegistroPonto
 							(codigo, incdata, inchora, incusuario, Batida,OrigemRegistro,Situacao,IdFuncionario,IpPublico,IpInterno,XFORWARDEDFOR,Latitude,Longitude,Browser,BrowserVersao,BrowserPlatform,TimeZone,Chave,JobId,Lote,acao,IdIntegracao)
@@ -113,15 +174,15 @@ namespace DAL.SQL
         protected override SqlParameter[] GetParameters()
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				 new SqlParameter ("@id", SqlDbType.Int)
-				,new SqlParameter ("@codigo", SqlDbType.Int)
-				,new SqlParameter ("@incdata", SqlDbType.DateTime)
-				,new SqlParameter ("@inchora", SqlDbType.DateTime)
-				,new SqlParameter ("@incusuario", SqlDbType.VarChar)
-				,new SqlParameter ("@altdata", SqlDbType.DateTime)
-				,new SqlParameter ("@althora", SqlDbType.DateTime)
-				,new SqlParameter ("@altusuario", SqlDbType.VarChar)
+            {
+                 new SqlParameter ("@id", SqlDbType.Int)
+                ,new SqlParameter ("@codigo", SqlDbType.Int)
+                ,new SqlParameter ("@incdata", SqlDbType.DateTime)
+                ,new SqlParameter ("@inchora", SqlDbType.DateTime)
+                ,new SqlParameter ("@incusuario", SqlDbType.VarChar)
+                ,new SqlParameter ("@altdata", SqlDbType.DateTime)
+                ,new SqlParameter ("@althora", SqlDbType.DateTime)
+                ,new SqlParameter ("@altusuario", SqlDbType.VarChar)
                 ,new SqlParameter ("@Batida", SqlDbType.DateTime)
                 ,new SqlParameter ("@OrigemRegistro", SqlDbType.VarChar)
                 ,new SqlParameter ("@Situacao", SqlDbType.VarChar)
@@ -140,7 +201,7 @@ namespace DAL.SQL
                 ,new SqlParameter ("@Lote", SqlDbType.VarChar)
                 ,new SqlParameter ("@acao", SqlDbType.VarChar)
                 ,new SqlParameter ("@IdIntegracao",SqlDbType.VarChar)
-			};
+            };
             return parms;
         }
 
@@ -240,7 +301,7 @@ namespace DAL.SQL
             {
                 sql += " and RegistroPonto.situacao in (" + String.Join(",", situacoes.Select(s => "'" + ((char)s).ToString() + "'")) + ")";
             }
-
+            sql += "ORDER BY IncData";
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 
             List<Modelo.RegistroPonto> lista = new List<Modelo.RegistroPonto>();
@@ -319,13 +380,13 @@ namespace DAL.SQL
             };
             parms[0].Value = dataI;
             parms[1].Value = dataF;
-            string sql = SELECTALL + 
+            string sql = SELECTALL +
                         @" WHERE 1 = 1
                              AND Batida BETWEEN CONVERT(DATE, @dataI) AND DATEADD(DAY,+1,CONVERT(DATE,@dataF))";
             if (idsFuncs.Count > 0)
-	        {
-		         sql += " AND IdFuncionario IN ("+String.Join(",", idsFuncs)+")";
-	        }
+            {
+                sql += " AND IdFuncionario IN (" + String.Join(",", idsFuncs) + ")";
+            }
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 
@@ -356,48 +417,60 @@ namespace DAL.SQL
         /// </summary>
         /// <param name="situacoes">Situações dos registros desejados</param>
         /// <returns>Lista de Registros de Ponto</returns>
-        public List<Modelo.RegistroPonto> GetAllListBySituacoes(List<Modelo.Enumeradores.SituacaoRegistroPonto> situacoes)
+        public List<Modelo.RegistroPonto> GetAllListBySituacoes(List<Modelo.Enumeradores.SituacaoRegistroPonto> situacoes, int quantidadesRegistroProcessar)
         {
-            SqlParameter[] parms = new SqlParameter[]
-            {
-            };
-
-            string sql = @"SELECT   r.*, f.dscodigo
-                              FROM RegistroPonto r
-                             INNER JOIN dbo.funcionario f ON f.id = r.IdFuncionario ";
-            if (situacoes.Where(s => s == Modelo.Enumeradores.SituacaoRegistroPonto.Todos).Count() == 0)
-            {
-                sql += " WHERE r.situacao in ("+String.Join(",", situacoes.Select(s => "'"+((char)s).ToString()+"'"))+")";
-            }
-
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
-
-            List<Modelo.RegistroPonto> lista = new List<Modelo.RegistroPonto>();
             try
             {
-                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.RegistroPonto>();
-                lista = AutoMapper.Mapper.Map<List<Modelo.RegistroPonto>>(dr);
+                SqlParameter[] parms = new SqlParameter[]{};
+
+                #region consulta
+                string sql = String.Format(SELECTGETALLLISTBYSITUACOES, quantidadesRegistroProcessar);
+
+                if (situacoes.Where(s => s == Modelo.Enumeradores.SituacaoRegistroPonto.Todos).Count() == 0)
+                {
+                    sql += " WHERE r.situacao in (" + String.Join(",", situacoes.Select(s => "'" + ((char)s).ToString() + "'")) + ")";
+                }
+                sql += @"ORDER BY IncData, AltData
+update RegistroPonto set AltData = getdate(),	AltHora = getdate()
+where id in(select id from #temp)
+select * from #temp
+";
+                #endregion
+
+                SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+
+                List<Modelo.RegistroPonto> lista = new List<Modelo.RegistroPonto>();
+                try
+                {
+                    AutoMapper.Mapper.CreateMap<IDataReader, Modelo.RegistroPonto>();
+                    lista = AutoMapper.Mapper.Map<List<Modelo.RegistroPonto>>(dr);
+                }
+                catch (Exception ex)
+                {
+                    throw (ex);
+                }
+                finally
+                {
+                    if (!dr.IsClosed)
+                        dr.Close();
+
+                    dr.Dispose();
+                }
+                Thread.Sleep(2000);
+                return lista;
             }
             catch (Exception ex)
             {
-                throw (ex);
+                throw new Exception("Falha ao recuperar a lista de Registro Ponto, detalhes: " + ex.Message);
             }
-            finally
-            {
-                if (!dr.IsClosed)
-                {
-                    dr.Close();
-                }
-                dr.Dispose();
-            }
-            return lista;
+
         }
 
 
         public void SetarSituacaoRegistros(List<int> idsRegistros, Modelo.Enumeradores.SituacaoRegistroPonto situacao)
         {
             SqlParameter[] parms = new SqlParameter[5]
-            { 
+            {
                     new SqlParameter("@idsRegistros", SqlDbType.VarChar),
                     new SqlParameter("@situacao", SqlDbType.VarChar),
                     new SqlParameter("@AltData", SqlDbType.DateTime),
@@ -418,7 +491,7 @@ namespace DAL.SQL
         public void SetarSituacaoRegistrosByLote(List<string> lotes, Modelo.Enumeradores.SituacaoRegistroPonto situacao)
         {
             SqlParameter[] parms = new SqlParameter[4]
-            { 
+            {
                     new SqlParameter("@situacao", SqlDbType.VarChar),
                     new SqlParameter("@AltData", SqlDbType.DateTime),
                     new SqlParameter("@AltHora", SqlDbType.DateTime),
@@ -437,7 +510,7 @@ namespace DAL.SQL
         public void SetarJobId(List<int> idsRegistros, string jobId)
         {
             SqlParameter[] parms = new SqlParameter[5]
-            { 
+            {
                     new SqlParameter("@idsRegistros", SqlDbType.VarChar),
                     new SqlParameter("@jobId", SqlDbType.VarChar),
                     new SqlParameter("@AltData", SqlDbType.DateTime),
@@ -458,7 +531,7 @@ namespace DAL.SQL
         public void SetarSituacaoJobIDRegistros(List<int> idsRegistros, Modelo.Enumeradores.SituacaoRegistroPonto situacao, string jobId)
         {
             SqlParameter[] parms = new SqlParameter[6]
-            { 
+            {
                     new SqlParameter("@idsRegistros", SqlDbType.VarChar),
                     new SqlParameter("@situacao", SqlDbType.VarChar),
                     new SqlParameter("@JobId", SqlDbType.VarChar),
@@ -584,8 +657,8 @@ namespace DAL.SQL
             };
             string sql = SELECTALL +
                         @" WHERE 1 = 1
-                             AND id in ("+string.Join(",", idsRegistros)+")";
-
+                             AND id in (" + string.Join(",", idsRegistros) + ")";
+            sql += "ORDER BY IncData";
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 
             Dictionary<int, string> dict = new Dictionary<int, string>();
@@ -617,7 +690,7 @@ namespace DAL.SQL
             {
             };
             string sql = @" SELECT id, Situacao FROM RegistroPonto WHERE 1 = 1
-                             AND lote = '" + lote+"'";
+                             AND lote = '" + lote + "'";
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 

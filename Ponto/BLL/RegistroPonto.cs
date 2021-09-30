@@ -127,9 +127,9 @@ namespace BLL
         /// </summary>
         /// <param name="situacoes">Situações dos registros desejados</param>
         /// <returns>Lista de Registros de Ponto</returns>
-        public List<Modelo.RegistroPonto> GetAllListBySituacoes(List<Modelo.Enumeradores.SituacaoRegistroPonto> situacoes)
+        public List<Modelo.RegistroPonto> GetAllListBySituacoes(List<Modelo.Enumeradores.SituacaoRegistroPonto> situacoes, int quantidadesRegistroProcessar)
         {
-            return dalRegistroPonto.GetAllListBySituacoes(situacoes);
+            return dalRegistroPonto.GetAllListBySituacoes(situacoes, quantidadesRegistroProcessar);
         }
 
 

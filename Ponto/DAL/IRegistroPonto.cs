@@ -9,7 +9,7 @@ namespace DAL
         Modelo.RegistroPonto LoadObject(int id);
         List<Modelo.RegistroPonto> GetAllList();
         List<Modelo.RegistroPonto> GetAllListByIds(List<int> ids, List<Modelo.Enumeradores.SituacaoRegistroPonto> situacoes);
-        List<Modelo.RegistroPonto> GetAllListBySituacoes(List<Modelo.Enumeradores.SituacaoRegistroPonto> situacoes);
+        List<Modelo.RegistroPonto> GetAllListBySituacoes(List<Modelo.Enumeradores.SituacaoRegistroPonto> situacoes, int quantidadesRegistroProcessar);
 
         void SetarSituacaoRegistros(List<int> idsRegistros, Modelo.Enumeradores.SituacaoRegistroPonto situacao);
         void SetarJobId(List<int> idsRegistros, string jobId);
