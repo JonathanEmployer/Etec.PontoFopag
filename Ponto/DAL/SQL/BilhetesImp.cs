@@ -2537,16 +2537,25 @@ namespace DAL.SQL
 
             string sql = @" SET DATEFIRST 1
 
-                            SELECT t.DataMarcacacao,
-                                   t.legenda, 
-                                   j.entrada_1 EntradaPrevista1, 
-                                   j.saida_1 SaidaPrevista1,
-                                   j.entrada_2 EntradaPrevista2, 
-                                   j.saida_2 SaidaPrevista2,
-                                   j.entrada_3 EntradaPrevista3, 
-                                   j.saida_3 SaidaPrevista3,
-                                   j.entrada_4 EntradaPrevista4, 
-                                   j.saida_4 SaidaPrevista4,
+                              SELECT t.IdMarcacao,
+								   t.DataMarcacacao,
+								   t.legenda,
+								   IIF(j.entrada_1 IS NULL,'--:--',j.entrada_1) EntradaPrevista1,
+								   IIF(j.saida_1 IS NULL,'--:--',j.saida_1) SaidaPrevista1,
+								   IIF(j.entrada_2 IS NULL,'--:--',j.entrada_2) EntradaPrevista2,
+								   IIF(j.saida_2 IS NULL,'--:--',j.saida_2) SaidaPrevista2,
+								   IIF(j.entrada_3 IS NULL,'--:--',j.entrada_3) EntradaPrevista3,
+								   IIF(j.saida_3 IS NULL,'--:--',j.saida_3) SaidaPrevista3,
+								   IIF(j.entrada_4 IS NULL,'--:--',j.entrada_4) EntradaPrevista4,
+								   IIF(j.saida_4 IS NULL,'--:--',j.saida_4) SaidaPrevista4,
+								   t.marc_entrada_1 EntradaMarcacao1,
+								   t.marc_saida_1 SaidaMarcacao1,
+								   t.marc_entrada_2 EntradaMarcacao2,
+								   t.marc_saida_2 SaidaMarcacao2,
+								   t.marc_entrada_3 EntradaMarcacao3,
+								   t.marc_saida_3 SaidaMarcacao3,
+								   t.marc_entrada_4 EntradaMarcacao4,
+								   t.marc_saida_4 SaidaMarcacao4,
                                    t.dscodigo,
                                    t.pis,
                                    t.idfuncionario,
@@ -2555,8 +2564,17 @@ namespace DAL.SQL
                                    b.*
                             FROM (
                                 SELECT
+									m.id IdMarcacao,
                                     m.data DataMarcacacao,
-                                    m.legenda, 
+									IIF(m.entrada_1 IS NULL,'--:--',m.entrada_1) marc_entrada_1,
+									IIF(m.saida_1 IS NULL,'--:--',m.saida_1) marc_saida_1,
+									IIF(m.entrada_2 IS NULL,'--:--',m.entrada_2) marc_entrada_2,
+									IIF(m.saida_2 IS NULL,'--:--',m.saida_2) marc_saida_2,
+									IIF(m.entrada_3 IS NULL,'--:--',m.entrada_3) marc_entrada_3,
+									IIF(m.saida_3 IS NULL,'--:--',m.saida_3) marc_saida_3,
+									IIF(m.entrada_4 IS NULL,'--:--',m.entrada_4) marc_entrada_4,
+									IIF(m.saida_4 IS NULL,'--:--',m.saida_4) marc_saida_4,
+                                    m.legenda,
                                     f.dscodigo,
                                     f.pis,
                                     f.id idfuncionario,
@@ -2658,18 +2676,57 @@ namespace DAL.SQL
         }
 
 
-        public int ExcluirBilhetePontoPorExcecao(List<int> listaIdsBilhetes)
+        public void ExcluirBilhetePontoPorExcecao(List<int> listaIdsBilhetes)
         {
             try
             {
-                string sqlDelete = "DELETE FROM dbo.bilhetesimp WHERE id in (" + String.Join(",", listaIdsBilhetes) + ")";
-                int count = 0;
-
                 if (listaIdsBilhetes != null && listaIdsBilhetes.Count > 0)
                 {
-                        count = db.ExecuteNonQuery(CommandType.Text, sqlDelete, new SqlParameter[0]);
+
+                    string sql = "DELETE FROM dbo.bilhetesimp WHERE id in (" + String.Join(",", listaIdsBilhetes) + ")";
+                    var count = db.ExecuteNonQuery(CommandType.Text, sql, new SqlParameter[0]);
                 }
-                return count;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void ZeraMarcacaoSemBilhete(List<int> idsMarcacao)
+        {
+            try
+            {
+                SqlParameter[] parms = new SqlParameter[1]
+                {
+                    new SqlParameter("@idsMarcacao", SqlDbType.Structured),
+                };
+                parms[0].Value = CreateDataTableIdentificadores(idsMarcacao.Select(s => (long)s).ToList());
+                parms[0].TypeName = "Identificadores";
+
+                string sql = @" UPDATE dbo.marcacao SET
+                            legenda = '',
+                            ent_num_relogio_1 = '',
+                            sai_num_relogio_1 = '',
+                            ent_num_relogio_2 = '',
+                            sai_num_relogio_2 = '',
+                            ent_num_relogio_3 = '',
+                            sai_num_relogio_3 = '',
+                            ent_num_relogio_4 = '',
+                            sai_num_relogio_4 = '',
+                            entrada_1 = NULL,
+                            saida_1 = NULL,
+                            entrada_2 = NULL,
+                            saida_2 = NULL,
+                            entrada_3 = NULL,
+                            saida_3 = NULL,
+                            entrada_4 = NULL,
+                            saida_4 = NULL
+
+                             WHERE id in (SELECT Identificador from @idsMarcacao)";
+
+                var num = db.ExecuteNonQuery(CommandType.Text, sql, parms);
+
             }
             catch (Exception ex)
             {

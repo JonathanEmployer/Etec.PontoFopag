@@ -86,17 +86,20 @@ namespace BLL.CalculoMarcacoes
         {
             RegistroPonto bllRegistroPonto = new RegistroPonto(_connectionString, _usuarioLogado);
             List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> registrosValidar = dalBilhetesImp.RegistrosValidarPontoExcecao(idsFuncs, idsHorario);
-            //Excluir ponto por exceção para dias com mudança de horario
-            int? mudancaHorarioId = registrosValidar.Where(c => c.Legenda == "M").Select(c => c.IdHorario).FirstOrDefault();
-            if (mudancaHorarioId != null && mudancaHorarioId > 0)
+            //Recupera os registros que o horario é diferente da jornada
+            var horariosAlterados = registrosValidar
+                .Where(c =>
+                    (c.EntradaPrevista1 != c.EntradaMarcacao1 || c.SaidaPrevista1 != c.SaidaMarcacao1 ||
+                    c.EntradaPrevista2 != c.EntradaMarcacao2 || c.SaidaPrevista2 != c.SaidaMarcacao2 ||
+                    c.EntradaPrevista3 != c.EntradaMarcacao3 || c.SaidaPrevista3 != c.SaidaMarcacao3 ||
+                    c.EntradaPrevista4 != c.EntradaMarcacao4 || c.SaidaPrevista4 != c.SaidaMarcacao4) &&
+                    c.Relogio == "PE" || c.Relogio == "")
+                .ToList();
+            if (horariosAlterados != null && horariosAlterados.Count > 0)
             {
-                List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> registrosValidarExclusao = registrosValidar.Where(c => c.Relogio == "PE" && c.IdHorario == mudancaHorarioId).ToList();
-
-                ExcluirBilhetePontoPorExcecao(registrosValidarExclusao.Select(c => c.Id).ToList()); //passar ids bilhetes 
-
-                registrosValidarExclusao.ForEach(i => i.Id = 0);
-                //Lista original
-                //Lista exclusao < lista original .Where(c => Relogio == "PE" && bilhete == idmudancahorario)
+                ExcluirBilhetePontoPorExcecao(horariosAlterados.Where(c => c.Id > 0).Select(c => c.Id).ToList()); //passar ids bilhetes 
+                ZeraMarcacaoSemBilhete(horariosAlterados.Where(c => c.idMarcacao > 0).Select(c => c.idMarcacao).ToList()); //passar ids marcacao
+                horariosAlterados.ForEach(i => i.Id = 0); //alterar os ids para 0 para gerar novos bilhetes
             }
 
             int maxCodigo = bllRegistroPonto.MaxCodigo();
@@ -140,25 +143,11 @@ namespace BLL.CalculoMarcacoes
 
         private void ExcluirBilhetePontoPorExcecao(List<int> registrosValidarExclusao)
         {
-
             dalBilhetesImp.ExcluirBilhetePontoPorExcecao(registrosValidarExclusao);
-            //return registrosValidarExclusao;
-            //throw new NotImplementedException();
-
-            //        SqlParameter[] parms = new SqlParameter[1]
-            //{
-            //            new SqlParameter("@idFechamentobh", SqlDbType.Int)
-            //};
-            //        parms[0].Value = pIdFechamentoBH;
-
-            //        string aux = "DELETE FROM fechamentobhdpercentual" +
-            //                     " WHERE idFechamentobhd in (select id from fechamentobhd where idFechamentoBH = @idFechamentobh)";
-
-            //        SqlCommand cmd = db.ExecNonQueryCmd(CommandType.Text, aux, true, parms);
-            //        cmd.Parameters.Clear();
-            //        cmd.Connection.Close();
-            //        cmd.Connection.Dispose();
-            //        cmd.Dispose();
+        }
+        private void ZeraMarcacaoSemBilhete(List<int> idsMarcacao)
+        {
+            dalBilhetesImp.ZeraMarcacaoSemBilhete(idsMarcacao);
         }
     }
 }
