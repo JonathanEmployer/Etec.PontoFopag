@@ -880,7 +880,6 @@ namespace BLL
                 //        posicao = ent_sai == "E" ? posicao++ : posicao;
                 //    }
                 //}
-                BilhetesImp.AjustarPosicaoBilhetes(tratamentosMarcacao);
                 for (int i = 1; i < 9; i++)
                 {
                     var entrada = tratamentosMarcacao.Where(w => w.Ent_sai == "E" && w.Posicao == i && w.Acao != Acao.Excluir).FirstOrDefault();
@@ -914,16 +913,22 @@ namespace BLL
             //Ponto por excecao
             if (pontoPorExcecao && tratamentosMarcacao.Where(w => w.Relogio == "PE").Any())
             {
-                //Verifica se tem folga
-
                 //Verifica se tem feriado
+                if (pMarcacao["idferiado"] != DBNull.Value)
+                {
+                    int idFeriado = pMarcacao["idferiado"] == DBNull.Value ? 0 : (int)pMarcacao["idferiado"];
+                    if (idFeriado> 0)
+                    {
+                        tratamentosMarcacao.Where(w => w.Relogio == "PE").ToList().ForEach(c => c.Acao = Acao.Excluir);
+                    }
+
+                }
 
                 //Verifica se tem algum ponto manual a ser inserido
                 if (tratamentosMarcacao.Where(w => w.Relogio == "MA" && w.Acao == Acao.Desconhecida).Any())
                 {
                     foreach (var objBilheteManual in tratamentosMarcacao.Where(w => w.Relogio == "MA" && w.Acao == Acao.Desconhecida))
                     {
-
 
                         int minutosManual = objBilheteManual.Hora.ConvertHorasMinuto();
 
@@ -957,6 +962,7 @@ namespace BLL
 
                 }
             }
+            BilhetesImp.AjustarPosicaoBilhetes(tratamentosMarcacao);
 
         }
 
