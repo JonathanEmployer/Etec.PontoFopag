@@ -21,5 +21,13 @@ namespace Modelo.Proxy
         public string SaidaPrevista4 { get; set; }
         public bool PontoPorExcecao { get; set; }
         public int IdHorario { get; set; }
+        public string EntradaMarcacao1 { get; set; }
+        public string SaidaMarcacao1 { get; set; }
+        public string EntradaMarcacao2 { get; set; }
+        public string SaidaMarcacao2 { get; set; }
+        public string EntradaMarcacao3 { get; set; }
+        public string SaidaMarcacao3 { get; set; }
+        public string EntradaMarcacao4 { get; set; }
+        public string SaidaMarcacao4 { get; set; }
     }
 }
