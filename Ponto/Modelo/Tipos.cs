@@ -5,6 +5,7 @@ namespace Modelo
 {
     public enum Acao
     {
+        Desconhecida = 0,
         Incluir = 1,
         Alterar = 2,
         Excluir = 3,
