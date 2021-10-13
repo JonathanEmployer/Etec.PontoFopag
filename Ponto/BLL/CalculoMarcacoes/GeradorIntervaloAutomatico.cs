@@ -529,10 +529,16 @@ namespace BLL.CalculoMarcacoes
                             intervalo1 = CriarBilhetePreAssinalado(saidasHorario[0], 1, "S");
                             intervalo2 = CriarBilhetePreAssinalado(entradasHorario[1], 2, "E");
                         }
-                        bilhetesIntervalo[3].Bilhete.Posicao = 3;
-                        bilhetesIntervalo[3].Bilhete.Ent_sai = "E";
-                        bilhetesIntervalo[4].Bilhete.Posicao = 3;
-                        bilhetesIntervalo[4].Bilhete.Ent_sai = "S";
+                        if (bilhetesIntervalo.Count > 2)
+                        {
+                            bilhetesIntervalo[3].Bilhete.Posicao = 3;
+                            bilhetesIntervalo[3].Bilhete.Ent_sai = "E";
+                        }
+                        if (bilhetesIntervalo.Count > 3)
+                        {
+                            bilhetesIntervalo[4].Bilhete.Posicao = 3;
+                            bilhetesIntervalo[4].Bilhete.Ent_sai = "S";
+                        }
 
                         if (GeraHorarioInItinere)
                         {
@@ -543,8 +549,10 @@ namespace BLL.CalculoMarcacoes
                         novaLista.Add(intervalo2);
                         if (bilheteSaida1 != null)
                             novaLista.Add(bilheteSaida1);
-                        novaLista.Add(bilhetesIntervalo[2]);
-                        novaLista.Add(bilhetesIntervalo[3]);
+                        if (bilhetesIntervalo.Count > 2)
+                            novaLista.Add(bilhetesIntervalo[2]);
+                        if (bilhetesIntervalo.Count > 3)
+                            novaLista.Add(bilhetesIntervalo[3]);
                     }
                 }
                 else
@@ -587,7 +595,8 @@ namespace BLL.CalculoMarcacoes
             if (bilhetes.Count == 4 && gerouIntervalo == false)
             {
                 bilhetesIntervalo = GetBilhetesOrdenadosPorPosicaoEEnt_Sai();
-                bilheteEntrada1 = bilhetesIntervalo[2];
+                if (bilhetesIntervalo.Count > 2)
+                    bilheteEntrada1 = bilhetesIntervalo[2];
                 if (bilhetesIntervalo.Count > 3)
                     bilheteSaida1 = bilhetesIntervalo[3];
 
@@ -602,8 +611,10 @@ namespace BLL.CalculoMarcacoes
                     var intervalo2 = CriarBilhetePreAssinalado(entradasHorario[2], 3, "E");
 
                     novaLista.Add(bilhetesIntervalo[0]);
-                    novaLista.Add(bilhetesIntervalo[1]);
-                    novaLista.Add(bilhetesIntervalo[2]);
+                    if (bilhetesIntervalo.Count > 1)
+                        novaLista.Add(bilhetesIntervalo[1]);
+                    if (bilhetesIntervalo.Count > 2)
+                        novaLista.Add(bilhetesIntervalo[2]);
                     novaLista.Add(intervalo1);
                     novaLista.Add(intervalo2);
                     if (bilheteSaida1 != null)
