@@ -12,10 +12,13 @@ namespace BLL_N.JobManager
             UsuarioLogado = usuarioLogado;
         }
 
-        public static void ProcessarRegistrosPonto(string db, string usuario, List<int> idsRegistrosPonto)
+        public static void ProcessarRegistrosPonto(string db, string usuario, string lote)
         {
-            ImportacaoBilhetesNova bllImp = new ImportacaoBilhetesNova(db, usuario);
-            bllImp.ImportarRegistroPonto(idsRegistrosPonto);
+            if (!db.Contains("NOVO_CALCULO"))
+            {
+                ImportacaoBilhetesNova bllImp = new ImportacaoBilhetesNova(db, usuario);
+                //bllImp.ImportarRegistroPonto(idsRegistrosPonto);
+            }
         }
     }
 }
