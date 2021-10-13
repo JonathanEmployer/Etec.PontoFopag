@@ -65,7 +65,9 @@ namespace MonitorJobs.Jobs
                 idJob = String.Format(idJob, String.Join("_", nome.Skip(1).ToArray()));
             else
                 idJob = String.Format(idJob, item.Nome);
-            RecurringJob.AddOrUpdate(idJob, () => Negocio.GerarMarcacoes.GerarMarcacoesCS(item.Nome), String.Format("{0} {1} * * *", minuto, hora), queue: "normal");
+
+            if (item.Nome.Contains("NOVO_CALCULO"))
+                RecurringJob.AddOrUpdate(idJob, () => Negocio.GerarMarcacoes.GerarMarcacoesCS(item.Nome), String.Format("{0} {1} * * *", minuto, hora), queue: "normal");
         }
 
         private static void AgendarEnvioRegistros(Models.Bases item)
@@ -79,7 +81,7 @@ namespace MonitorJobs.Jobs
                     idJob = String.Format(idJob, String.Join("_", nome.Skip(1).ToArray()));
                 else
                     idJob = String.Format(idJob, item.Nome);
-                RecurringJob.AddOrUpdate(idJob, () => Negocio.EnviarRegistroPonto.EnviarRegistroPontoCS(item.Nome), "*/1 * * * *", queue: "pequeno"); 
+                RecurringJob.AddOrUpdate(idJob, () => Negocio.EnviarRegistroPonto.EnviarRegistroPontoCS(item.Nome), "*/1 * * * *", queue: "pequeno");
             }
         }
 
@@ -114,7 +116,7 @@ namespace MonitorJobs.Jobs
                     idJob = String.Format(idJob, String.Join("_", nome.Skip(1).ToArray()));
                 else
                     idJob = String.Format(idJob, item.Nome);
-                RecurringJob.AddOrUpdate(idJob, () => Negocio.ImportarRegistrosColetor.Processar(item.Nome), string.Format("{0} {1} * * *",minuto, hora), queue: "normal");
+                RecurringJob.AddOrUpdate(idJob, () => Negocio.ImportarRegistrosColetor.Processar(item.Nome), string.Format("{0} {1} * * *", minuto, hora), queue: "normal");
             }
         }
 
