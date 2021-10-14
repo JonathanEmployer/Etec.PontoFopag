@@ -16,8 +16,8 @@
     int zoom = 10;
     if (!string.IsNullOrEmpty(Model.Latitude) && !string.IsNullOrEmpty(Model.Longitude))
     {
-        latitude = double.Parse(Model.Latitude.Replace(".", ","));
-        longitude = double.Parse(Model.Longitude.Replace(".", ","));
+        latitude = double.Parse(Model.Latitude.Replace(",","").Replace(".", ","));
+        longitude = double.Parse(Model.Longitude.Replace(",","").Replace(".", ","));
         zoom = 15;
         title = Model.TipoDescricao;
         description = Model.Descricao;
@@ -35,7 +35,6 @@
             center: mapLocation,
             mapTypeId: Microsoft.Maps.MapTypeId.canvasLight,
             zoom: parseInt('@zoom'),
-
         });
 
         Microsoft.Maps.loadModule('Microsoft.Maps.AutoSuggest', function () {
@@ -161,12 +160,12 @@
                 <div class="col-md-3">
                     <div class="row col-md-12">
                         @Html.LabelFor(model => model.Latitude, new { @class = "control-label label-sm" })
-                        @Html.TextBoxFor(model => model.Latitude, new { @class = "form-control  input-sm", autocomplete = "off" })
+                        @Html.TextBoxFor(model => model.Latitude, new { @class = "form-control  input-sm", autocomplete = "off", @readonly = "readonly" })
                         @Html.ValidationMessageFor(model => model.Latitude)
                     </div>
                     <div class="row col-md-12">
                         @Html.LabelFor(model => model.Longitude, new { @class = "control-label label-sm" })
-                        @Html.TextBoxFor(model => model.Longitude, new { @class = "form-control  input-sm", autocomplete = "off" })
+                        @Html.TextBoxFor(model => model.Longitude, new { @class = "form-control  input-sm", autocomplete = "off", @readonly = "readonly" })
                         @Html.ValidationMessageFor(model => model.Longitude)
                     </div>
                     <div class="row col-md-12">

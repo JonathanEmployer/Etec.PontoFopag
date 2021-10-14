@@ -27,7 +27,7 @@
                         <a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
                         <a href="#" id="btIncluir" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar</a>
                         <a href="#" id="btAlterar" class="btn btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Alterar</a>
-                        <a href="#" id="btExcluir" class="btn btn-danger" style="display: none"><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
+                        <a href="#" id="btExcluir" class="btn btn-danger" ><span class="glyphicon glyphicon-trash"></span>&nbsp;Excluir</a>
                     </div>
                 </div>
             </div>
@@ -44,20 +44,9 @@
         cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', 'CercaVirtual', nomeTabela);
         cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', 'CercaVirtual', nomeTabela);
         cwk_EventoClickCadastroExcluir('#btExcluir', 'Excluir/' + $('#hdSelect').val(), 'CercaVirtual', nomeTabela, 'Cerca virtual excluído com sucesso.', redirect);
-        validaExcluir();
         cwk_EventoClickSelecionarSingle(nomeTabela);
     });
 
-    function validaExcluir() {
-        var url = location.href.split('/');
-        if (url.length > 5) {
-            if (url[5] > 0) {
-                $('#btExcluir').css('display', '');
-                $('#btAlterar').css('display', 'none');
-                $('#btConsultar').css('display', 'none');
-            }
-        }
-    }
     function cwk_EventoClickSelecionarSingle(nomeTabela) {
         $(nomeTabela + ' tbody').on('click', 'tr', function () {
             trExcluir = $(this);
