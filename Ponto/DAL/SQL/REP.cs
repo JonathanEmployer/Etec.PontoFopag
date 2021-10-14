@@ -109,31 +109,32 @@ namespace DAL.SQL
 
                 string sql = @"  
             SELECT DISTINCT
-                fu.codigo as Codigo ,
-                fu.nome as Nome ,
-                fu.pis as Pis,
+                f.codigo as Codigo ,
+                f.nome as Nome ,
+                f.pis as Pis,
                 '' as Senha,
-                edr.DataEnvio  as dataHora,
-                evf.incusuario as Usuario
-            FROM rep r
-            CROSS APPLY
+                CONVERT(VARCHAR(12),edr.DataEnvio,103) dataHora,
+                edr2.incusuario as Usuario
+            FROM dbo.funcionario f
+			CROSS APPLY
             (
-                select TOP 1 * FROM EnvioDadosRep edr1
-                WHERE edr1.IDRep  = r.id
+                select TOP 1 edr.DataEnvio,edr.IDRep,edr.bOperacao FROM EnvioDadosRep edr
+				join EnvioDadosRepDet edrd on edr.ID = edrd.IDEnvioDadosRep
+                WHERE f.id = edrd.IDFuncionario
                 AND DataEnvio IS NOT NULL
-                AND bOperacao = @idOperacao
+                --AND bOperacao = @idOperacao
                 ORDER BY DATAENVIO DESC
             ) AS edr
-            join EnvioDadosRepDet evf on edr.ID = evf.IDEnvioDadosRep
-            JOIN funcionario fu on fu.id = evf.IDFuncionario
-            JOIN EnvioDadosRep EDR2 on EDR2.IDRep  = r.id AND EDR2.bOperacao = @idOperacao
+            --join EnvioDadosRepDet edrd on f.ID = edrd.IDFuncionario
+            JOIN rep r on r.id = edr.IDRep
+            JOIN EnvioDadosRep EDR2 on EDR2.IDRep  = r.id AND EDR.bOperacao = @idOperacao
             WHERE 1 = 1  and EDR2.IDRep = @idrelogio
             GROUP BY
-            fu.codigo  ,
-            fu.nome  ,
-            fu.pis ,
+            f.codigo  ,
+            f.nome  ,
+            f.pis ,
             edr.DataEnvio  ,
-            evf.incusuario;"
+            edr2.incusuario;"
                              ;
 
                 return sql;
@@ -242,10 +243,7 @@ namespace DAL.SQL
             obj.Codigo = Convert.ToString(dr["Codigo"]);
             obj.Senha = Convert.ToString(dr["Senha"]);
             obj.Nome = Convert.ToString(dr["Nome"]);
-
-            if (!(dr["dataHora"] is DBNull))
-                obj.dataHora = Convert.ToDateTime(dr["dataHora"]);
-
+            obj.dataHora = Convert.ToString(dr["dataHora"]);
             obj.Senha = Convert.ToString(dr["senha"]);
             obj.Pis = Convert.ToString(dr["Pis"]);
         }
@@ -430,7 +428,7 @@ namespace DAL.SQL
         };
 
             parms[0].Value = id;
-            parms[1].Value = operacao?? false;
+            parms[1].Value = operacao ?? false;
             SqlDataReader drRep = db.ExecuteReader(CommandType.Text, SELECTALLFUNCREP, parms);
 
 
@@ -452,7 +450,7 @@ namespace DAL.SQL
 
         }
 
-       
+
 
         private SqlDataReader LoadDataReaderPorNumRelogio(string numRelogio)
         {

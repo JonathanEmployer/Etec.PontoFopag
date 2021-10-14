@@ -46,14 +46,16 @@
 
                     <div class="col-md-3">
                         <div class="form-group">
-                                @Html.CheckBoxFor(model => rep.Operacao);
-                         </div>
+                            @Html.CheckBoxFor(model => rep.Operacao, new { @id = "Op" })
+                            @Html.Label("Funcionários Excluidos", new { @class = "control-label" })
+                        </div>
+
                     </div>
 
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">
-                                @Html.GridFor("tbfun", (new Modelo.Proxy.pxyFuncionarioRep()).GetType(), true, "RelatorioFuncionariosRep", "DadosFuncionario/" + rep.Id)
+                                @Html.GridFor("tbFun", (new Modelo.Proxy.pxyFuncionarioRep()).GetType(), true, "RelatorioFuncionariosRep", "DadosFuncionario/" + rep.Id)
                             </div>
                         </div>
                     </div>
@@ -65,64 +67,45 @@
 }
 <script>
 
-
-
-    $('form').submit(function () {
-        debugger
-        CarregarGridFuncionario();
-        if ($(this).valid()) {
-            PostFormJob(this, CallBackSucesso);
-        }
-        return false;
-    });
-
-    function CallBackSucesso() {
-        $("#xfecharCadastroModal").click();
-    }
-
-    function CarregarGridFuncionario() {
-        $('#idsEmpresasSelecionadas').val(GetSelecionados('tbEmp'));
-        var parametros = {
-            IdsEmpresas: $('#idsEmpresasSelecionadas').val(),
-            idsFuncionariosSelecionados: $("#idsFuncionariosSelecionados").val()
+    $("#Op").click(function () {
+        let valOp = $("#Op:checked").val();
+        let valIdRep = @rep.Id;
+        let parametros = {
+            idRep: valIdRep,
+            op: valOp ? true : false
         };
-        CarregaDadosAjax('CarregarGridFuncionario', 'EnvioDadosRep', parametros, '#tbGridFuncionario', null);
-    }
+        let url = "/RelatorioFuncionariosRep/AtualizaFuncionariosRep";
 
-
-    $('#Relatorio').change(function () {
-        var tipo = $('#Relatorio').val();
-        switch (tipo) {
-            case '1':
-                changeRelNome();
-                break;
-            case '2':
-                changeRelCodigo();
-                break;
-            case '3':
-                changeRelDepto();
-                break;
-            case '4':
-                changeRelEmpresa();
-                break;
-            case '5':
-                changeRelHorario();
-                break;
-            case '6':
-                changeRelAtivoInativo();
-                break;
-            case '7':
-                changeRelPeriodo();
-                //corrigeDatePicker();
-                break;
-            case '8':
-                changeRelPeriodo();
-                //corrigeDatePicker();
-                break;
-            default:
-                break;
-
-        }
-        $('#tbFun').DataTable().draw();
+        return $.ajax({
+            url: url,
+            contentType: "application/json",
+            type: 'GET',
+            dataType: "html",
+            data: parametros,
+            cache: false,
+            beforeSend: requestBeforeSend('Buscando dados'),
+            error: function (e, xhr, settings) {
+                alert(e);
+                $.unblockUI();
+            },
+            success: function (result) {
+                let funcDataArray = JSON.parse(result);
+                EventoFuncionarioFiltroSuccess(funcDataArray);
+                $.unblockUI();
+            },
+            complete: function (e, xhr, settings) {
+                switch (e.status) {
+                    case 500:
+                        cwkErro('Erro interno!');
+                        break;
+                    case 404:
+                        cwkErro('Página solicitada não foi encontrada!');
+                        break;
+                    case 401:
+                        cwkErro('Acesso negado!');
+                        break;
+                }
+            }
+        });
     });
 </script>
