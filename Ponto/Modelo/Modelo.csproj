@@ -429,6 +429,7 @@
     <Compile Include="Proxy\PxyUltimoFechamentoPonto.cs" />
     <Compile Include="Proxy\Relatorios\PxyRelHomemHoraMonsanto.cs" />
     <Compile Include="Proxy\Webfopag\PxyRetornoColetor.cs" />
+    <Compile Include="Relatorios\ExportacaoFechamentoPontoModel.cs" />
     <Compile Include="Relatorios\RelatorioAfdPortaria373Model.cs" />
     <Compile Include="Relatorios\RelatorioRefeicaoModel.cs" />
     <Compile Include="Relatorios\RelatorioTotalHoras.cs" />

@@ -29,7 +29,7 @@ namespace PontoWeb.Controllers
             try
             {
                 BLL.REP bllREP = new BLL.REP(_user.ConnectionString, _user);
-                List<Modelo.REP> dados = bllREP.GetAllList();
+                List<Modelo.REP> dados = bllREP.GetAllListGridRep();
                 JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
                 jsonResult.MaxJsonLength = int.MaxValue;
                 return jsonResult;

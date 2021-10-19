@@ -7,6 +7,6 @@ namespace DAL
         Modelo.CercaVirtual LoadObject(int id);
 
         List<Modelo.CercaVirtual> GetAllList(int Codigo);
-        void Excluir(int CodigoCercaVirtual, int CodigoFuncionario);
+        void Excluir(int CodigoCercaVirtual);
     }
 }

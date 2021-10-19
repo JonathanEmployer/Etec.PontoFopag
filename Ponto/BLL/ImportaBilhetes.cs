@@ -134,12 +134,12 @@ namespace BLL
             maxcodMarcacao = dalMar.MaxCodigo();
         }
 
-        public bool ImportarBilhetes(string pDsCodigo, bool pManutBilhete, DateTime? pDataImpI, DateTime? pDataImpF, out DateTime? pdatai, out DateTime? pdataf, Modelo.ProgressBar pProgressBar, List<string> pLog,bool? bRazaoSocial)
+        public bool ImportarBilhetes(string pDsCodigo, bool pManutBilhete, DateTime? pDataImpI, DateTime? pDataImpF, out DateTime? pdatai, out DateTime? pdataf, Modelo.ProgressBar pProgressBar, List<string> pLog, bool? bRazaoSocial)
         {
             List<string> Funcsprocessar = new List<string>();
-            return ImportarBilhetes(pDsCodigo, pManutBilhete, pDataImpI, pDataImpF, out pdatai, out pdataf, pProgressBar, pLog, out Funcsprocessar , bRazaoSocial);
+            return ImportarBilhetes(pDsCodigo, pManutBilhete, pDataImpI, pDataImpF, out pdatai, out pdataf, pProgressBar, pLog, out Funcsprocessar, bRazaoSocial);
         }
-        public bool ImportarBilhetes(string pDsCodigo, bool pManutBilhete, DateTime? pDataImpI, DateTime? pDataImpF, out DateTime? pdatai, out DateTime? pdataf, Modelo.ProgressBar pProgressBar, List<string> pLog, out List<string> FuncsProcessados ,bool? bRazaoSocial)
+        public bool ImportarBilhetes(string pDsCodigo, bool pManutBilhete, DateTime? pDataImpI, DateTime? pDataImpF, out DateTime? pdatai, out DateTime? pdataf, Modelo.ProgressBar pProgressBar, List<string> pLog, out List<string> FuncsProcessados, bool? bRazaoSocial)
         {
             jornadaAlternativaList = null;
             horariosOrdenaSaidaList = null;
@@ -292,7 +292,7 @@ namespace BLL
                 Modelo.BilhetesImp objBilhete;
                 List<Modelo.BilhetesImp> bilhetesPersistir = new List<Modelo.BilhetesImp>();
                 List<int> idsFuncionarios = dtBilhete.AsEnumerable().Select(r => r.Field<int>("funcionarioid")).ToList();
-                DataTable dtBilhetePontoExcessaoRemover = dtBilhete.Clone();
+                DataTable dtBilhetePontoExcecaoRemover = dtBilhete.Clone();
                 for (int i = 0; i < dtBilhete.Rows.Count; i++)
                 {
                     idBilhete = Convert.ToInt32(dtBilhete.Rows[i]["bimp_id"]);
@@ -343,14 +343,14 @@ namespace BLL
 
                     if (auxidfunc != aux)
                     {
-                        dtBilhetePontoExcessaoRemover = dtBilhete.Clone();
+                        dtBilhetePontoExcecaoRemover = dtBilhete.Clone();
                         auxidfunc = Convert.ToInt32(dtBilhete.Rows[i]["funcionarioid"]);
 
                         if (!htFuncionario.ContainsKey(auxidfunc))
                             htFuncionario.Add(auxidfunc, dtBilhete.Rows[i]);
 
                         ObjProgressBar.setaMensagem("Funcionário(a): " + dtBilhete.Rows[i]["funcionarionome"].ToString());
-                    }                    
+                    }
 
                     horaBilhete = Convert.ToInt32(dtBilhete.Rows[i]["hora"]);
                     VerificaBilheteHashTableMarcacao(dtBilhete.Rows[i], dtMarcacao, htmarcacao, (DateTime)dtBilhete.Rows[i]["mar_data"]);
@@ -374,16 +374,16 @@ namespace BLL
                     if (i == 0 || (dtBilhete.Rows[i]["mar_data"].ToString() == dtBilhete.Rows[i - 1]["mar_data"].ToString() &&
                                    dtBilhete.Rows[i]["funcionarioid"].ToString() == dtBilhete.Rows[i - 1]["funcionarioid"].ToString()))
                     {
-                        SepararBilhetesExcluirPontoExcessao(dtBilhete, dtBilhetePontoExcessaoRemover, i);
-                        var ultimoRowPESubstituir = dtBilhetePontoExcessaoRemover.AsEnumerable().LastOrDefault();
+                        SepararBilhetesExcluirPontoExcecao(dtBilhete, dtBilhetePontoExcecaoRemover, i);
+                        var ultimoRowPESubstituir = dtBilhetePontoExcecaoRemover.AsEnumerable().LastOrDefault();
                         if (ultimoRowPESubstituir != null && Convert.ToDateTime(ultimoRowPESubstituir["mar_data"].ToString()) == Convert.ToDateTime(dtBilhete.Rows[i]["mar_data"].ToString()))
                         {
                             ultimoPESubstituir = Convert.ToInt32(ultimoRowPESubstituir["hora"].ToString());
                         }
                     }
-                    List<int> idsValidarPorExcessaoRemover = dtBilhetePontoExcessaoRemover.AsEnumerable().Select(s => s.Field<int>("bimp_id")).ToList();
+                    List<int> idsValidarPorExcecaoRemover = dtBilhetePontoExcecaoRemover.AsEnumerable().Select(s => s.Field<int>("bimp_id")).ToList();
                     //Encaixa Bilhete na Marcação
-                    if (!idsValidarPorExcessaoRemover.Contains(Convert.ToInt32(dtBilhete.Rows[i]["bimp_id"])))
+                    if (!idsValidarPorExcecaoRemover.Contains(Convert.ToInt32(dtBilhete.Rows[i]["bimp_id"])))
                     {
                         if (ordembilhete == 0 || new string[] { "000", String.Empty }.Contains((string)dtBilhete.Rows[i]["ordem"]))
                         {
@@ -438,7 +438,7 @@ namespace BLL
                                 }
                                 #endregion
                             }
-                        } 
+                        }
                     }
 
                     if (Convert.ToInt32(drMar["marcacaoid"]) != 0)
@@ -546,8 +546,8 @@ namespace BLL
                 ObjProgressBar.setaMinMaxPB(0, 1);
                 ObjProgressBar.setaValorPB(1);
                 ObjProgressBar.setaMensagem("Salvando Marcações...");
-                List<int> idsBilhetesPorExcessaoRemover = dtBilhetePontoExcessaoRemover.AsEnumerable().Select(s => s.Field<int>("bimp_id")).ToList();
-                bilhetesPersistir.Where(w => idsBilhetesPorExcessaoRemover.Contains(w.Id)).ToList().ForEach(f => f.Acao = Acao.Excluir);
+                List<int> idsBilhetesPorExcecaoRemover = dtBilhetePontoExcecaoRemover.AsEnumerable().Select(s => s.Field<int>("bimp_id")).ToList();
+                bilhetesPersistir.Where(w => idsBilhetesPorExcecaoRemover.Contains(w.Id)).ToList().ForEach(f => f.Acao = Acao.Excluir);
                 foreach (var marc in marcacoesPersistir)
                 {
                     marc.BilhetesMarcacao.AddRange(bilhetesPersistir.Where(w => w.Mar_data == marc.Data && w.DsCodigo == marc.Dscodigo).ToList());
@@ -579,7 +579,7 @@ namespace BLL
             Modelo.Marcacao objMarcacao = new Modelo.Marcacao();
 
             dtBilhete = dal.GetBilhetesImportarByIDs(idsBilhetes);
-            DataTable dtBilhetePontoExcessaoRemover = dtBilhete.Clone();
+            DataTable dtBilhetePontoExcecaoRemover = dtBilhete.Clone();
 
 
             //Lista dos bilhetes antes de alterar os dados, é utilizada para remover do salvar os registros que não sofreram alterações
@@ -702,10 +702,10 @@ namespace BLL
                 Modelo.BilhetesImp objBilhete;
                 List<Modelo.BilhetesImp> bilhetesPersistir = new List<Modelo.BilhetesImp>();
                 List<int> idsFuncionarios = dtBilhete.AsEnumerable().Select(r => r.Field<int>("funcionarioid")).Distinct().ToList();
-                dtBilhetePontoExcessaoRemover = dtBilhete.Clone();
+                dtBilhetePontoExcecaoRemover = dtBilhete.Clone();
                 for (int i = 0; i < dtBilhete.Rows.Count; i++)
                 {
-                    SepararBilhetesExcluirPontoExcessao(dtBilhete, dtBilhetePontoExcessaoRemover, i);
+                    SepararBilhetesExcluirPontoExcecao(dtBilhete, dtBilhetePontoExcecaoRemover, i);
                     idBilhete = Convert.ToInt32(dtBilhete.Rows[i]["bimp_id"]);
                     if (idBilheteAnt == idBilhete)
                     {
@@ -754,7 +754,7 @@ namespace BLL
 
                     if (auxidfunc != aux)
                     {
-                        dtBilhetePontoExcessaoRemover = dtBilhete.Clone();
+                        dtBilhetePontoExcecaoRemover = dtBilhete.Clone();
                         auxidfunc = Convert.ToInt32(dtBilhete.Rows[i]["funcionarioid"]);
 
                         if (!htFuncionario.ContainsKey(auxidfunc))
@@ -778,7 +778,7 @@ namespace BLL
                     //Carrega a Marcação na Data Correta
                     drMar = (DataRow)htmarcacao[String.Format("{0:dd/MM/yyyy}", ((DateTime)dtBilhete.Rows[i]["mar_data"]).AddDays(dia)) + dtBilhete.Rows[i]["funcionarioid"].ToString()];
                     ordembilhete = drMar["horario_ordem_ent"] is DBNull ? 0 : Convert.ToInt32(drMar["horario_ordem_ent"]);
-                    var ultimoRowPESubstituir = dtBilhetePontoExcessaoRemover.AsEnumerable().LastOrDefault();
+                    var ultimoRowPESubstituir = dtBilhetePontoExcecaoRemover.AsEnumerable().LastOrDefault();
                     int ultimoPESubstituir = -9999;
                     if (ultimoRowPESubstituir != null)
                     {
@@ -936,8 +936,8 @@ namespace BLL
 
                 htmarcacao.Clear();
                 #endregion
-                List<int> idsBilhetesPorExcessaoRemover = dtBilhetePontoExcessaoRemover.AsEnumerable().Select(s => s.Field<int>("bimp_id")).ToList();
-                bilhetesPersistir.Where(w => idsBilhetesPorExcessaoRemover.Contains(w.Id)).ToList().ForEach(f => f.Acao = Acao.Excluir);
+                List<int> idsBilhetesPorExcecaoRemover = dtBilhetePontoExcecaoRemover.AsEnumerable().Select(s => s.Field<int>("bimp_id")).ToList();
+                bilhetesPersistir.Where(w => idsBilhetesPorExcecaoRemover.Contains(w.Id)).ToList().ForEach(f => f.Acao = Acao.Excluir);
 
                 foreach (var marc in marcacoesPersistir)
                 {
@@ -991,19 +991,19 @@ namespace BLL
             }
         }
 
-        private static void SepararBilhetesExcluirPontoExcessao(DataTable dtBilhete, DataTable dtBilhetePontoExcessaoRemover, int i)
+        private static void SepararBilhetesExcluirPontoExcecao(DataTable dtBilhete, DataTable dtBilhetePontoExcecaoRemover, int i)
         {
             if ((Convert.ToInt32(dtBilhete.Rows[i]["importado"].ToString()) == 2 || Convert.ToInt32(dtBilhete.Rows[i]["importado"].ToString()) == 0) && dtBilhete.Rows[i]["relogio"].ToString() != "PE")
             {
                 DataRow ant = i == 0 ? null : dtBilhete.Rows[i - 1];
-                DataRow pos = i == (dtBilhete.Rows.Count -1) ? null : dtBilhete.Rows[i + 1];
+                DataRow pos = i == (dtBilhete.Rows.Count - 1) ? null : dtBilhete.Rows[i + 1];
                 if ((ant != null && ant["relogio"].ToString() == "PE") && (pos == null || pos["relogio"].ToString() != "PE"))
                 {
-                    dtBilhetePontoExcessaoRemover.Rows.Add(ant.ItemArray);
+                    dtBilhetePontoExcecaoRemover.Rows.Add(ant.ItemArray);
                 }
                 else if ((pos != null && pos["relogio"].ToString() == "PE") && (ant == null || ant["relogio"].ToString() != "PE"))
                 {
-                    dtBilhetePontoExcessaoRemover.Rows.Add(pos.ItemArray);
+                    dtBilhetePontoExcecaoRemover.Rows.Add(pos.ItemArray);
                 }
                 else if ((ant != null && ant["relogio"].ToString() == "PE") && (pos != null && pos["relogio"].ToString() == "PE"))
                 {
@@ -1015,11 +1015,11 @@ namespace BLL
 
                     if (Math.Abs(difAnt) <= Math.Abs(difPos))
                     {
-                        dtBilhetePontoExcessaoRemover.Rows.Add(ant.ItemArray);
+                        dtBilhetePontoExcecaoRemover.Rows.Add(ant.ItemArray);
                     }
                     else
                     {
-                        dtBilhetePontoExcessaoRemover.Rows.Add(pos.ItemArray);
+                        dtBilhetePontoExcecaoRemover.Rows.Add(pos.ItemArray);
                     }
                 }
             }
@@ -1055,7 +1055,7 @@ namespace BLL
                     DateTime? dtBilMax = String.IsNullOrEmpty(df) ? (DateTime?)(null) : DateTime.Parse(df);
                     pDataImpF = dtBilMax;
                 }
-                
+
                 List<Modelo.Proxy.PxyBilhetesFuncsDoisRegistros> FuncsRedistribuirBilhetesRegistro = dal.FuncsDoisRegistrosRegistribuirBilhetes(pManutBilhete, PISs, pDataImpI.GetValueOrDefault(), pDataImpF.GetValueOrDefault());
                 Dictionary<int, DataTable> batidasFunc = new Dictionary<int, DataTable>();
                 bool reordenouRegistros = false;
@@ -1214,7 +1214,7 @@ namespace BLL
             DataTable dtBilhete;
             Modelo.Marcacao objMarcacao = new Modelo.Marcacao();
             dtBilhete = dal.GetBilhetesImportar(pDsCodigo, pManutBilhete, pDataImpI, pDataImpF);
-            DataTable dtBilhetePontoExcessaoRemover = dtBilhete.Clone();
+            DataTable dtBilhetePontoExcecaoRemover = dtBilhete.Clone();
             dtBilhete = ReorganizaBilhetesPorRegistroDeFuncionario(false, pDataImpI, pDataImpF, dtBilhete, ref pDsCodigo);
 
             if (dtBilhete.Rows.Count > 0)
@@ -1350,7 +1350,7 @@ namespace BLL
                 Modelo.BilhetesImp objBilhete;
                 List<Modelo.BilhetesImp> bilhetesPersistir = new List<Modelo.BilhetesImp>();
                 List<int> idsFuncionarios = dtBilhete.AsEnumerable().Select(r => r.Field<int>("funcionarioid")).ToList();
-                dtBilhetePontoExcessaoRemover = dtBilhete.Clone();
+                dtBilhetePontoExcecaoRemover = dtBilhete.Clone();
                 for (int i = 0; i < dtBilhete.Rows.Count; i++)
                 {
                     idBilhete = Convert.ToInt32(dtBilhete.Rows[i]["bimp_id"]);
@@ -1401,7 +1401,7 @@ namespace BLL
 
                     if (auxidfunc != aux)
                     {
-                        dtBilhetePontoExcessaoRemover = dtBilhete.Clone();
+                        dtBilhetePontoExcecaoRemover = dtBilhete.Clone();
                         auxidfunc = Convert.ToInt32(dtBilhete.Rows[i]["funcionarioid"]);
 
                         if (!htFuncionario.ContainsKey(auxidfunc))
@@ -1428,7 +1428,7 @@ namespace BLL
                     drMar = (DataRow)htmarcacao[String.Format("{0:dd/MM/yyyy}", ((DateTime)dtBilhete.Rows[i]["mar_data"]).AddDays(dia)) + dtBilhete.Rows[i]["funcionarioid"].ToString()];
                     ordembilhete = drMar["horario_ordem_ent"] is DBNull ? 0 : Convert.ToInt32(drMar["horario_ordem_ent"]);
 
-                    var ultimoRowPESubstituir = dtBilhetePontoExcessaoRemover.AsEnumerable().LastOrDefault();
+                    var ultimoRowPESubstituir = dtBilhetePontoExcecaoRemover.AsEnumerable().LastOrDefault();
                     int ultimoPESubstituir = -9999;
                     if (ultimoRowPESubstituir != null)
                     {
@@ -1681,7 +1681,7 @@ namespace BLL
                     else
                     {
                         auxHor = horario.horariosDetalhe.Where(h => h.Data == pData);
-                    } 
+                    }
                 }
                 if (auxHor.Any())
                     hd = auxHor.First();
@@ -1689,7 +1689,7 @@ namespace BLL
                     hd = new Modelo.HorarioDetalhe();
             }
             if (ordenaBilheteSaida && hd != null && hd.Id > 0)
-            { 
+            {
 
                 jornada[0] = hd.EntradaMin_1;
                 jornada[1] = hd.EntradaMin_2;
@@ -2333,7 +2333,7 @@ namespace BLL
             {
                 DateTime? dataInicial;
                 DateTime? dataFinal;
-                if (ImportarBilhetes(funcReprocessar.DsCodigo, false, funcReprocessar.DataInicial, funcReprocessar.DataFinal, out dataInicial, out dataFinal, cwkFuncoes.ProgressVazia(), pLog,null))
+                if (ImportarBilhetes(funcReprocessar.DsCodigo, false, funcReprocessar.DataInicial, funcReprocessar.DataFinal, out dataInicial, out dataFinal, cwkFuncoes.ProgressVazia(), pLog, null))
                 {
                     BLL.CalculaMarcacao bllCalculaMarcacao = new CalculaMarcacao(2, funcReprocessar.IdFuncionario, dataInicial.Value, dataFinal.Value.AddDays(1), cwkFuncoes.ProgressVazia(), false, ConnectionString, UsuarioLogado, false);
                     bllCalculaMarcacao.CalculaMarcacoes();

@@ -1,0 +1,47 @@
+﻿@model List<Modelo.Proxy.RepSituacao>
+@{
+    Layout = null;
+}
+
+@Html.Hidden("lbAtualizado", (string)ViewBag.UltimaAtualizacao)
+<div>
+    @foreach (Modelo.Proxy.RepSituacao rep in Model)
+    {
+        string classAlerta = "";
+        switch (rep.Situacao)
+        {
+            case 0:
+                classAlerta = "panel-success";
+                break;
+            case 1:
+                classAlerta = "panel-warning";
+                break;
+            default:
+                classAlerta = "panel-danger";
+                break;
+        }
+
+        <div class="col-md-3 col-sm-4">
+            <div class="panel @(classAlerta)">
+                <div class="panel-heading" style="text-align:center; height:74px; overflow:auto">
+                    <h4> @((rep.NumRelogio + " - " + rep.LocalRep)) </h4>
+                </div>
+                <div class="panel-body">
+                    <div style="overflow: auto;">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <i class="fa fa-sticky-note" aria-hidden="true"></i> @rep.DataBilhete.GetValueOrDefault().ToShortDateString() &nbsp; @rep.HoraBilhete
+                            </div>
+                            <div class="row">
+                                <label class="control-label label-sm"><i class="fa fa-plug" aria-hidden="true"></i> @(rep.UltimaComunicacao == null ? "" : rep.UltimaComunicacao.GetValueOrDefault().ToString("dd/MM/yyyy HH:mm"))</label>
+                            </div>
+                            <div class="row">
+                                <label class="control-label label-sm"><i class="fa fa-chain-broken" aria-hidden="true"></i> @(rep.TempoSemComunicacaoSegundosDDHHMMSS) </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
