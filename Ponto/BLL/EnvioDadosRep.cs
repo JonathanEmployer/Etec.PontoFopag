@@ -99,6 +99,7 @@ namespace BLL
                     default:
                         break;
                 }
+
             }
             return erros;
         }
@@ -149,6 +150,11 @@ namespace BLL
         public List<Modelo.Proxy.PxyGridLogComunicador> GetGridLogImportacaoWebAPIById(int id)
         {
             return dalEnvioEmpresaFuncionariosRep.GetGridLogImportacaoWebAPIById(id);
+        }
+
+        public int ExluirEnvioDadosRepEDetalhes(int idEnvioDadosRep)
+        {
+            return dalEnvioEmpresaFuncionariosRep.ExluirEnvioDadosRepEDetalhes(idEnvioDadosRep);
         }
     }
 }

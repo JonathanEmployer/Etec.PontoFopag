@@ -16,27 +16,32 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public override List<RegistroAFD> GetAFDNsr(DateTime dataI, DateTime dataF, int nsrInicio, int nsrFim, bool ordemDecrescente)
         {
+            Sdk_Inner_Rep.InnerRepSdk innerRep = new Sdk_Inner_Rep.InnerRepSdk();
             try
             {
+                //Diminuido 1 numero pois o novo comunicador já pede o próximo, e quando não existe na topdata da problema
+                nsrInicio--;
                 List<RegistroAFD> registros = new List<RegistroAFD>();
                 List<RegistroAFD> retorno = new List<RegistroAFD>();
                 /* Cria uma instância da classe InnerRepSdk */
-                Sdk_Inner_Rep.InnerRepSdk innerRep = new Sdk_Inner_Rep.InnerRepSdk();
+                Logar("Iniciando SDK");
+                
                 /* Define os parâmetros de comunicação com o REP */
+                Logar("Definindo parametros de comunicação");
                 innerRep.DefineParametrosComunicacao(IP, "**AUTENTICACAO**");
 
                 if ((nsrInicio == 0 && nsrFim == 0))
                 {
-                    log.Debug("Iniciando importação por período, parâmetros recebidos: Data Inicial = " + dataI.ToString("dd/MM/yyyy HH:mm") + " Data Final = " + dataF.ToString("dd/MM/yyyy HH:mm") + " NSR Inicial = " + nsrInicio.ToString() + " NSR Final = " + nsrFim.ToString());
-                    int nsr = GetUltimoNsrRep(innerRep);
+                    Logar("Iniciando importação por período, parâmetros recebidos: Data Inicial = " + dataI.ToString("dd/MM/yyyy HH:mm") + " Data Final = " + dataF.ToString("dd/MM/yyyy HH:mm") + " NSR Inicial = " + nsrInicio.ToString() + " NSR Final = " + nsrFim.ToString());
+                    int nsr = GetUltimoNsrRep(innerRep, nsrInicio);
                     registros = GetRegistrosOrdemDecrescente(dataI, dataF, innerRep, nsr);
                 }
                 else
                 {
-                    log.Debug("Iniciando importação por NSR, parâmetros recebidos: Data Inicial = " + dataI.ToString("dd/MM/yyyy HH:mm") + " Data Final = " + dataF.ToString("dd/MM/yyyy HH:mm") + " NSR Inicial = " + nsrInicio.ToString() + " NSR Final = " + nsrFim.ToString());
+                    Logar("Iniciando importação por NSR, parâmetros recebidos: Data Inicial = " + dataI.ToString("dd/MM/yyyy HH:mm") + " Data Final = " + dataF.ToString("dd/MM/yyyy HH:mm") + " NSR Inicial = " + nsrInicio.ToString() + " NSR Final = " + nsrFim.ToString());
                     if (nsrFim == int.MaxValue || nsrFim == 0)
                     {
-                        nsrFim = GetUltimoNsrRep(innerRep);
+                        nsrFim = GetUltimoNsrRep(innerRep, nsrInicio);
                     }
                     registros = GetRegistrosPorNsr(innerRep, nsrInicio, nsrFim);
                 }
@@ -52,20 +57,29 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
                 }
                 retorno.AddRange(registros);
                 Util.IncluiRegistro(innerRep.TrailerCorrespondenteAosRegistrosColetados(), dataI, dataF, retorno);
-                innerRep.FinalizaLeitura();
                 return retorno;
             }
             catch (Exception e)
             {
                 throw e;
             }
+            finally
+            {
+                innerRep.FinalizaLeitura();
+            }
         }
+
+        private void Logar(string mensagem)
+        {
+            log.Info($"{NumeroSerie} - {mensagem}");
+        }
+
         public override List<RegistroAFD> GetAFD(DateTime dataI, DateTime dataF)
         {
             return GetAFDNsr(dataI, dataF, 0, 0, true);
         }
 
-        private static List<RegistroAFD> GetRegistrosOrdemDecrescente(DateTime dataI, DateTime dataF, Sdk_Inner_Rep.InnerRepSdk innerRep, int nsrInicial)
+        private List<RegistroAFD> GetRegistrosOrdemDecrescente(DateTime dataI, DateTime dataF, Sdk_Inner_Rep.InnerRepSdk innerRep, int nsrInicial)
         {
             int ret;
             int nsr = nsrInicial;
@@ -76,12 +90,12 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
             bool recebeuUltimoBilhete = false;
 
             List<RegistroAFD> result = new List<RegistroAFD>();
-            log.Debug("Iniciando Importação dos registros em ordem decrescente");
+            Logar("Iniciando Importação dos registros em ordem decrescente");
             try
             {
                 while (!recebeuUltimoBilhete)
                 {
-                    log.Debug("Solicitando NSR " + nsr.ToString());
+                    Logar("Solicitando NSR " + nsr.ToString());
                     ret = innerRep.SolicitaRegistroDoNsr(nsr);
                     if (ret == 0)
                     {
@@ -92,13 +106,13 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
                         /* Enquanto Status da leitura estiver em Andamento (1) verifica o status novamente.. */
                         while (statusColeta < 2 && tentativas <= 1000)
                         {
-                            log.Debug("Erro na Solicitação, Status da coleta: "+statusColeta.ToString()+", tentativa: " + tentativas.ToString());
+                            Logar("Erro na Solicitação, Status da coleta: "+statusColeta.ToString()+", tentativa: " + tentativas.ToString());
                             Thread.Sleep(20);
                             statusColeta = innerRep.RecebeStatusLeitura();
                             tentativas++;
                         }
 
-                        log.Debug("Resultado da leitura recebida = " + statusColeta.ToString());
+                        Logar("Resultado da leitura recebida = " + statusColeta.ToString());
                         /* Status da coleta recebido, verifica se recebeu o registro com sucesso */
                         if ((statusColeta == (int)Sdk_Inner_Rep.InnerRepSdk.StatusLeitura.FINALIZADA_COM_ULTIMO_REGISTRO) ||
                             (statusColeta == (int)Sdk_Inner_Rep.InnerRepSdk.StatusLeitura.FINALIZADA_COM_REGISTRO))
@@ -108,7 +122,7 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
 
                             /* Faz a leitura do registro */
                             dadosRegistro = innerRep.LeLinhaDoRegistro();
-                            log.Debug("Dados recebidos = " + dadosRegistro);
+                            Logar("Dados recebidos = " + dadosRegistro);
 
                             DateTime? dtRegistro = Util.IncluiRegistro(dadosRegistro, dataI, dataF, result);
                             if (dtRegistro.HasValue)
@@ -130,9 +144,11 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
                         }
 
                         /* Se o status da coleta foi finalizado com ultimo registro, ou se a coleta não possui registros, sai do laço.. */
-                        if (nsr < 1 || recebeuUltimoBilhete)
+                        if (nsr < 1 || recebeuUltimoBilhete || 
+                           (statusColeta == (int)Sdk_Inner_Rep.InnerRepSdk.StatusLeitura.FINALIZADA_SEM_REGISTRO) ||
+                           (statusColeta == (int)Sdk_Inner_Rep.InnerRepSdk.StatusLeitura.FINALIZADA_COM_ULTIMO_REGISTRO))
                         {
-                            log.Debug("Terminou Coleta, ultimo NSR Recebido = " + nsr.ToString() + "Status da Coleta = " + statusColeta.ToString());
+                            Logar("Terminou Coleta, ultimo NSR Recebido = " + nsr.ToString() + "Status da Coleta = " + statusColeta.ToString());
                             recebeuUltimoBilhete = true;
                         }
                     }
@@ -145,7 +161,7 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
             return result;
         }
 
-        private static List<RegistroAFD> GetRegistrosPorNsr(InnerRepSdk innerRep, int nsrInicial, int nsrFinal)
+        private List<RegistroAFD> GetRegistrosPorNsr(InnerRepSdk innerRep, int nsrInicial, int nsrFinal)
         {
             int ret;
             int nsr = nsrInicial;
@@ -154,7 +170,7 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
             string dadosRegistro;
             int numeroRegistrosLidos = 0;
             bool recebeuUltimoBilhete = false;
-            log.Debug("Iniciando Importação dos registros por nsr, NSR Inicial: "+nsrInicial.ToString()+"NSR Final: "+nsrFinal.ToString());
+            Logar("Iniciando Importação dos registros por nsr, NSR Inicial: "+nsrInicial.ToString()+"NSR Final: "+nsrFinal.ToString());
             List<RegistroAFD> result = new List<RegistroAFD>();
             if (nsrInicial == nsrFinal)
             {
@@ -165,7 +181,7 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
             {
                 while (!recebeuUltimoBilhete)
                 {
-                    log.Debug("Solicitando NSR " + nsr.ToString());
+                    Logar("Solicitando NSR " + nsr.ToString());
                     ret = innerRep.SolicitaRegistroDoNsr(nsr);
                     if (ret == 0)
                     {
@@ -176,13 +192,13 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
                         /* Enquanto Status da leitura estiver em Andamento (1) verifica o status novamente.. */
                         while (statusColeta < 2 && tentativas <= 1000)
                         {
-                            log.Debug("Erro na Solicitação, Status da coleta: " + statusColeta.ToString() + ", tentativa: " + tentativas.ToString());
-                            Thread.Sleep(20);
+                            Logar("Erro na Solicitação, Status da coleta: " + statusColeta.ToString() + ", tentativa: " + tentativas.ToString());
+                            Thread.Sleep(50);
                             statusColeta = innerRep.RecebeStatusLeitura();
                             tentativas++;
                         }
 
-                        log.Debug("Resultado da leitura recebida = " + statusColeta.ToString());
+                        Logar("Resultado da leitura recebida = " + statusColeta.ToString());
                         /* Status da coleta recebido, verifica se recebeu o registro com sucesso */
                         if ((statusColeta == (int)Sdk_Inner_Rep.InnerRepSdk.StatusLeitura.FINALIZADA_COM_ULTIMO_REGISTRO) ||
                             (statusColeta == (int)Sdk_Inner_Rep.InnerRepSdk.StatusLeitura.FINALIZADA_COM_REGISTRO))
@@ -192,7 +208,7 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
                             
                             /* Faz a leitura do registro */
                             dadosRegistro = innerRep.LeLinhaDoRegistro();
-                            log.Debug("Dados recebidos = " + dadosRegistro);
+                            Logar("Dados recebidos = " + dadosRegistro);
 
                             Util.IncluiRegistro(dadosRegistro, null, null, result);
                             if (result.Where(w => w.Nsr > 0 && w.Nsr < 999999999).Min(m => m.Nsr) < nsrInicial)
@@ -212,7 +228,7 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
                             (statusColeta == (int)Sdk_Inner_Rep.InnerRepSdk.StatusLeitura.FINALIZADA_COM_ULTIMO_REGISTRO) ||
                             recebeuUltimoBilhete)
                         {
-                            log.Debug("Terminou Coleta, ultimo NSR Recebido = " + nsr.ToString() + "Status da Coleta = " + statusColeta.ToString());
+                            Logar("Terminou Coleta, ultimo NSR Recebido = " + nsr.ToString() + "Status da Coleta = " + statusColeta.ToString());
                             recebeuUltimoBilhete = true;
                         }
                     }
@@ -231,10 +247,10 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
             Sdk_Inner_Rep.InnerRepInterface innerRep = new Sdk_Inner_Rep.InnerRepSdk();
             var ret = innerRep.DefineParametrosComunicacao(IP, "**AUTENTICACAO**");
 
-            log.Debug($"innerRep.ConfiguraInnerRep: Local = {Local}; senhaComunic = {Senha}; senhaRelogio = {Senha}; senhaBio = {Senha}; Qtd de dígitos = {QntDigitos}");
+            Logar($"innerRep.ConfiguraInnerRep: Local = {Local}; senhaComunic = {Senha}; senhaRelogio = {Senha}; senhaBio = {Senha}; Qtd de dígitos = {QntDigitos}");
             if (string.IsNullOrEmpty(Senha))
             {
-                log.Debug($"Relógio não tem senha cadastrada, para enviar funcionários é necessário que essa senha esteja cadastrada");
+                Logar($"Relógio não tem senha cadastrada, para enviar funcionários é necessário que essa senha esteja cadastrada");
             }
             switch (QntDigitos)
             {
@@ -254,10 +270,16 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
                     ret = innerRep.ConfiguraInnerRep(Local, Senha, Senha, Senha, "01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16");
                     break;
                 default:
-                    log.Debug("Número de dígitos incompatível, valores aceitos (3,5,6,14 ou 16)");
+                    Logar("Número de dígitos incompatível, valores aceitos (3,5,6,14 ou 16)");
                     throw new Exception("Número de dígitos incompatível, valores aceitos (3,5,6,14 ou 16)");
             }
 
+            if (Empregador == null)
+            {
+                throw new Exception("Para enviar empregados para o modelo de equipamento Inner Rep é necessário enviar os dados da empresa também, remova o envio pendente e refaça a operação enviando os dados da empresa juntos com os funcionários.");
+            }
+
+            Logar("Enviando Empresa");
             if (Empregador.RazaoSocial.Length > 150)
                 Empregador.RazaoSocial = Empregador.RazaoSocial.Substring(0, 150);
             Empregador.Documento = Empregador.Documento.Replace(".", "").Replace("/", "").Replace("-", "");
@@ -265,28 +287,29 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
             ret = innerRep.ConfiguraEmpregador(Empregador.RazaoSocial, Empregador.Documento, Empregador.CEI, (int)Empregador.TipoDocumento);
             if (ret > 0)
             {
-                log.Debug("Erro enviar empregador, codigo = "+ ret);
+                Logar("Erro enviar empregador, codigo = " + ret);
                 MensagemErroEmpresa(logRet, ret);
-            }
+            } 
 
             innerRep.LimpaListaEmpregados();
 
             string nomeExibicao
                 , senhaFuncionario;
             bool podeMarcarPeloTeclado = false;
-            log.Debug("Iniciando envio dos empregados");
+            Logar("Iniciando envio dos empregados");
             foreach (Entidades.Empregado item in Empregados)
             {
                 if (item.DsCodigo.Length > 16)
                 {
-                    log.Debug("Funcionário " + item.Nome + ": O código (" + item.DsCodigo + ") ultrapassa o limite de 20 caracteres.");
+                    Logar("Funcionário " + item.Nome + ": O código (" + item.DsCodigo + ") ultrapassa o limite de 20 caracteres.");
                     logRet.AppendLine("Funcionário " + item.Nome + ": O código (" + item.DsCodigo + ") ultrapassa o limite de 20 caracteres.");
                     continue;
                 }
 
+                item.Senha = item.Senha ?? "";
                 if (item.Senha.Length > 4)
                 {
-                    log.Debug("Funcionário " + item.Nome + ": A senha do funcionário ultrapassa o limite de 4 digitos.");
+                    Logar("Funcionário " + item.Nome + ": A senha do funcionário ultrapassa o limite de 4 digitos.");
                     logRet.AppendLine("Funcionário " + item.Nome + ": A senha do funcionário ultrapassa o limite de 4 digitos.");
                     continue;
                 }
@@ -305,9 +328,9 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
                 //Essa flag tem q ser true quando o relógio não é biométrico ou quando o funcionário tem senha
                 podeMarcarPeloTeclado = !biometrico || item.Senha.Length == 4;
                 senhaFuncionario = item.Senha.Length == 4 ? item.Senha : "1234";
-                log.Debug($" Enviando funcionário nome = {item.Nome}; pis = {item.Pis}; cartao = {item.DsCodigo}; nome exibicao = {nomeExibicao}; pode marcar teclado = {podeMarcarPeloTeclado}; senha = {senhaFuncionario}; verifica bio = false");
+                Logar($" Enviando funcionário nome = {item.Nome}; pis = {item.Pis}; cartao = {item.DsCodigo}; nome exibicao = {nomeExibicao}; pode marcar teclado = {podeMarcarPeloTeclado}; senha = {senhaFuncionario}; verifica bio = false");
                 ret = innerRep.IncluiEmpregadoLista(item.Nome, item.Pis, item.DsCodigo, nomeExibicao, podeMarcarPeloTeclado, senhaFuncionario, false);
-                log.Debug("Codigo retorno = " + ret);
+                Logar("Codigo retorno = " + ret);
                 if (ret > 0)
                 {
                     MensagemErroFuncionario(logRet, ret, item);
@@ -315,11 +338,11 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
             }
 
             int _ret = innerRep.EnviaConfiguracoes();
-            log.Debug("Retorno config = "+_ret);
+            Logar("Retorno config = "+_ret);
 
             if (_ret > 0)
             {
-                log.Debug($"Se codigo erro {_ret } maior que zero exibe erro");
+                Logar($"Se codigo erro {_ret } maior que zero exibe erro");
                 switch (_ret)
                 {
                     case 1:
@@ -495,18 +518,39 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
             return false;
         }
 
-        private int GetUltimoNsrRep(InnerRepSdk innerRep)
+        private int GetUltimoNsrRep(InnerRepSdk innerRep, int nsrInicial)
         {
-            log.Debug("Buscando Último NSR Rep.");
-            log.Debug("Solicitando NSR 1.");
-            innerRep.SolicitaRegistroDoNsr(1);
-            int statusColeta = innerRep.RecebeStatusLeitura();
-            while (statusColeta < 2)
+            Logar("Buscando Último NSR Rep.");
+            int iniciarLeituraParaUltimoNsrDo = nsrInicial <= 3 ? 1 : (nsrInicial - 2);
+            int statusColeta;
+            try
             {
-                log.Debug("Esperando retorno do rep para último NSR.");
-                Thread.Sleep(500);
+                Logar("Solicitando NSR a partir " + iniciarLeituraParaUltimoNsrDo);
+                innerRep.SolicitaRegistroDoNsr(iniciarLeituraParaUltimoNsrDo);
                 statusColeta = innerRep.RecebeStatusLeitura();
             }
+            catch (Exception)
+            {
+                Logar("Erro ao tentar a partir de " + nsrInicial + ", solicitando a partir NSR 1.");
+                innerRep.SolicitaRegistroDoNsr(1);
+                statusColeta = innerRep.RecebeStatusLeitura();
+            }
+
+
+            int tentativas = 0;
+            /* Enquanto Status da leitura estiver em Andamento (1) verifica o status novamente.. */
+            while (statusColeta < 2 && tentativas <= 1000)
+            {
+                Logar("Esperando retorno do rep para último NSR, Status da coleta: " + statusColeta.ToString() + ", tentativa: " + tentativas.ToString());
+                Thread.Sleep(500);
+                statusColeta = innerRep.RecebeStatusLeitura();
+                tentativas++;
+            }
+            if (tentativas>= 1000)
+            {
+                Logar("Numero de tentativas esgotadas, continuando sem pegar o ultimo NSR");
+            }
+
             if ((statusColeta == (int)Sdk_Inner_Rep.InnerRepSdk.StatusLeitura.FINALIZADA_COM_ULTIMO_REGISTRO) ||
                 (statusColeta == (int)Sdk_Inner_Rep.InnerRepSdk.StatusLeitura.FINALIZADA_COM_REGISTRO))
             {
@@ -515,7 +559,7 @@ namespace cwkPontoMT.Integracao.Relogios.TopData
                 DateTime.TryParse(menorData, out dtIni);
                 string maiorData = innerRep.LeMaiorDataEntreOsRegistroLidos();
                 int res = Convert.ToInt32(innerRep.LeNumeroDoUltimoNsrDoInnerRep());
-                log.Debug("Ultimo NSR Encontrado = "+res.ToString());
+                Logar("Ultimo NSR Encontrado = "+res.ToString());
                 return res;
             }
             else

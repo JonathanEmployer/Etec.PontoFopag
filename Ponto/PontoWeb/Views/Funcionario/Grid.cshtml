@@ -20,11 +20,11 @@
         </div>
         <div class="panel-body panelConteudo" id="panelBodyFixodivCenter">
             @Html.ValidationSummary(true)
-
+            <input type="hidden" id="hdSelect" />
 
 
             <div class="row" style="padding-bottom:2px">
-  
+
                 <div class="col-md-6">
                     <div class="panel panel-default">
                         <div class="panel-body">
@@ -62,10 +62,10 @@
                     </div>
                 </div>
                 <div class="col-md-9"></div>
-                </div>
+            </div>
 
             <div class="row">
-                @Html.GridFor(nomeTabela, Model.GetType(), false, "Funcionario", "FuncsGridVazioXaxo", "EventoFuncionarioRowCollor", "",null, "", false);
+                @Html.GridFor(nomeTabela, Model.GetType(), false, "Funcionario", "FuncsGridVazioXaxo", "EventoFuncionarioRowCollor", "", null, "", false);
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -82,6 +82,7 @@
                         <a href="#" id="btTurnoFuncionario" class="btn btn-primary"><span class="glyphicon glyphicon-time"></span>&nbsp; Horário </a>
                         <a href="#" id="btImprimeCartaoPonto" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span>&nbsp; Cartão Ponto </a>
                         <a href="#" id="btLogErroPainelAPI" class="btn btn-primary"><span class="glyphicon glyphicon-retweet"></span>&nbsp; Log Erro Painel</a>
+                        <a href="#" id="btCercaVirtual" style="display: none" class="btn btn-primary">Cerca Virtual</a>
                     </div>
                     <div class="col-md-5" style="text-align: right">
                         <a href="#" id="btConsultar" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar</a>
@@ -114,13 +115,34 @@
             var val = $(this).val();
             if (event.keyCode === 13 || val === '' ||
                             $('#tbFunlstAtivo option').filter(function () { return this.value === val; }).length)// vai disparar a pesquisa quando apertar enter, quando apagar os dados ou quando input preenchido com valor contendo na lista
-            {   
+            {
                 ValidaInativo(val);
             }
         });
-
+        cwk_EventoClickSelecionarSingle(nomeTabela);
         $("#btnBuscarFiltro").click(function () { EventoFuncionarioFiltro(); });
     });
+    function cwk_EventoClickSelecionarSingle(nomeTabela) {
+        $(nomeTabela + ' tbody').on('click', 'tr', function () {
+            var row = $(this);
+
+            $('#hdSelect').val(row.find('td:eq(0)').html());
+
+            ClickCercaVirtual('#btCercaVirtual', 'Grid', 'CercaVirtual');
+
+            $('#btCercaVirtual').css('display', 'none'); 
+
+            if (row.find('td:eq(30)').html() == 'Sim') {
+                $('#btCercaVirtual').css('display', '');
+            }
+        });
+    }
+    function ClickCercaVirtual(botao, acao, controller) {
+        $(botao).on("click", function () {
+            var url = "/" + controller + "/" + acao + "/" + $('#hdSelect').val();
+            window.location = url;
+        });
+    }
 
     function EventoFuncionarioFiltro() {
         let x = $("input[name='rdFuncionarioFiltro']:checked").val();
@@ -148,7 +170,7 @@
         }
     }
 
-    
+
     $("#BEsconderInativos").click(function (event) {
         EscondeInativos(event);
     });
@@ -159,11 +181,11 @@
             ApenasAtivos();
         }
         else {
-            $("#tbFunpsqAtivo").val("");
+            $("#tbnomeTabelaeTabelaTabelaunpsqAtivo").val("");
             table.columns(14).search("").draw();
         }
     }
-    
+
     function ApenasAtivos() {
         var table = $(nomeTabela).DataTable();
         $("#tbFunpsqAtivo").val("Sim");

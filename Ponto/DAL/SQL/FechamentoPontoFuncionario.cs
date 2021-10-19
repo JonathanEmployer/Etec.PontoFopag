@@ -375,5 +375,6 @@ namespace DAL.SQL
 		                            )
 	                            ) t order by nomefuncionario, ordem desc";
         }
+
     }
 }

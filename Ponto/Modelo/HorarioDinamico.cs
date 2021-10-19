@@ -88,7 +88,7 @@ namespace Modelo
         }
         public Int16 Somentecargahoraria { get; set; }
         [Display(Name = "Tipo carga horaria")]
-        [Range(0,1,ErrorMessage ="A carga deve ser normal ou mista")]
+        [Range(0, 1, ErrorMessage = "A carga deve ser normal ou mista")]
         public Int16 Marcacargahorariamista { get; set; }
         public Int16 MarcaSegundaPercBanco { get; set; }
         public Int16 MarcaTercaPercBanco { get; set; }
@@ -284,7 +284,7 @@ namespace Modelo
         public string Refeicao_02 { get; set; }
         [Display(Name = "Observação")]
         public string Obs { get; set; }
-        
+
         public Int16 Descontardsr { get; set; }
         [Display(Name = "Descontar DSR?")]
         public bool DescontardsrBool
@@ -316,7 +316,8 @@ namespace Modelo
         public string Limiteperdadsr { get; set; }
 
         [Display(Name = "Desc. Horas DSR")]
-        [RegularExpression(@"^100(,00)?|([1-9]?[0-9])(\,[0-9]{2})?$", ErrorMessage = "O percentual do desconto de DSR deve ser de 0.00 a 100")]
+        //[RegularExpression(@"^10(,00)?|([1-9]?[0-9])(\,[0-9]{2})?$", ErrorMessage = "O percentual do desconto de DSR deve ser de 0.00 a 100")]
+        [DataTableAttribute()]
         public decimal Descontohorasdsr { get; set; }
 
         /// <summary>
@@ -430,8 +431,10 @@ namespace Modelo
         [Display(Name = "DSR por Percentual")]
         public bool DSRPorPercentual { get; set; }
         [TableHTMLAttribute("DSR por Percentual", 12, true, ItensSearch.text, OrderType.none)]
-        public string DSRPorPercentualDesc {
-            get {
+        public string DSRPorPercentualDesc
+        {
+            get
+            {
                 if (DSRPorPercentual == true)
                 {
                     return "Sim";
@@ -516,7 +519,19 @@ namespace Modelo
         public Parametros Parametro { get; set; }
         public bool PossuiFechamento { get; set; }
 
-        public IList<HorarioDinamicoRestricao> HorarioDinamicoRestricao { get; set; }   
+        public IList<HorarioDinamicoRestricao> HorarioDinamicoRestricao { get; set; }
+
+        [Display(Name = "Ponto Por Exceção")]
+        public bool PontoPorExcecao { get; set; }
+
+        [TableHTMLAttribute("Ponto Por Exceção", 16, true, ItensSearch.select, OrderType.none)]
+        public string PontoPorExcecaoStr
+        {
+            get
+            {
+                return PontoPorExcecao == true ? "Sim" : "Não";
+            }
+        }
     }
 }
 

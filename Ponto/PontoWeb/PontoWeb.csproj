@@ -531,6 +531,7 @@
     <Compile Include="Controllers\LocalizacaoRegistroPontoController.cs" />
     <Compile Include="Controllers\LogErroPainelAPIController.cs" />
     <Compile Include="Controllers\ManutencaoBilhetesController.cs" />
+    <Compile Include="Controllers\CercaVirtualController.cs" />
     <Compile Include="Controllers\ManutencaoDiariaController.cs" />
     <Compile Include="Controllers\ManutencaoBiometricaController.cs" />
     <Compile Include="Controllers\MarcacaoController.cs" />
@@ -545,8 +546,10 @@
     <Compile Include="Controllers\ProvisorioController.cs" />
     <Compile Include="Controllers\RecalculaMarcacaoController.cs" />
     <Compile Include="Controllers\RegistradorController.cs" />
+    <Compile Include="Controllers\RegistradorMassaController.cs" />
     <Compile Include="Controllers\Relatorios\RelAFDPortaria373Controller.cs" />
     <Compile Include="Controllers\Relatorios\RelatorioAbsenteismoV2Controller.cs" />
+    <Compile Include="Controllers\Relatorios\RelatorioCartaoPontoExecaoHTMLController.cs" />
     <Compile Include="Controllers\Relatorios\RelatorioRefeicaoController.cs" />
     <Compile Include="Controllers\Relatorios\RelatorioRegistrosController.cs" />
     <Compile Include="Controllers\RelatoriosController.cs" />
@@ -579,6 +582,7 @@
     <Compile Include="Controllers\Relatorios\RelatorioManutencaoDiariaController.cs" />
     <Compile Include="Controllers\Relatorios\RelatorioOcorrenciasController.cs" />
     <Compile Include="Controllers\Relatorios\RelatorioPresencaController.cs" />
+    <Compile Include="Controllers\Relatorios\RelatorioSubstituicaoJornadaController.cs" />
     <Compile Include="Controllers\Relatorios\RelatorioTotalHorasController.cs" />
     <Compile Include="Controllers\Relatorios\RelCartaoPontoCustomController.cs" />
     <Compile Include="Controllers\Relatorios\RelClassHorasExtrasController.cs" />
@@ -864,6 +868,7 @@
     <Content Include="Content\footerBottom.css" />
     <Content Include="Content\IconeCwork.ico" />
     <Content Include="Content\IconeCwork.png" />
+    <Content Include="Content\images\bing-removebg.png" />
     <Content Include="Content\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -1927,6 +1932,16 @@
     </None>
     <Content Include="Views\AlertasComunicacaoRep\Grid.cshtml" />
     <Content Include="Views\AlertasComunicacaoRep\Cadastrar.cshtml" />
+    <Content Include="Views\CercaVirtual\Grid.cshtml" />
+    <Content Include="Views\CercaVirtual\Cadastrar.cshtml" />
+    <Content Include="Views\CercaVirtual\EventoConsulta.cshtml" />
+    <Content Include="Views\RelatorioSubstituicaoJornada\SubstituicaoJornada.cshtml" />
+    <Content Include="Views\RelatorioCartaoPontoExecaoHTML\CartaoPontoExcecaoHtml.cshtml" />
+    <Content Include="Views\ImportacaoBilhetes\ArquivosImportados.cshtml" />
+    <Content Include="Views\RegistradorMassa\Grid.cshtml" />
+    <Content Include="Views\RegistradorMassa\Cadastrar.cshtml" />
+    <Content Include="Views\RegistradorMassa\SituacaoRegMassa.cshtml" />
+    <Content Include="Views\RegistradorMassa\SituacaoRegMassaAtual.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

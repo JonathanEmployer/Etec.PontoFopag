@@ -70,5 +70,8 @@ namespace Modelo.Proxy
 
         [TableHTMLAttribute("Data/Hora Alt.", 19, true, ItensSearch.text, OrderType.none)]
         public string AltHora { get; set; }
+
+        [TableHTMLAttribute("Ponto Por Exceção", 20, true, ItensSearch.select, OrderType.none)]
+        public string PontoPorExcecao { get; set; }
     }
 }

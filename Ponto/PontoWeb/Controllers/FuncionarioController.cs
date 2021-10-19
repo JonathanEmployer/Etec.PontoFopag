@@ -204,7 +204,7 @@ namespace PontoWeb.Controllers
             string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
             BLL.FuncionarioRFID bllFuncionarioRFID = new BLL.FuncionarioRFID(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(conn, usr);
-           
+
             try
             {
                 Funcionario funcionario = bllFuncionario.LoadObject(idfuncionario);
@@ -212,7 +212,7 @@ namespace PontoWeb.Controllers
                 bllFuncionario.Salvar(Acao.Alterar, funcionario);
 
                 Dictionary<string, string> erros = new Dictionary<string, string>();
-                if (((TipoCracha == 0) && (Cracha.Length <= 8)) || ((TipoCracha == 1) && (Cracha.Length >= 10)))
+                if (((TipoCracha == 0) && (Cracha.Length <= 18)) || ((TipoCracha == 1) && (Cracha.Length >= 10)))
                 {
                     erros = bllFuncionarioRFID.Salvar(Acao.Incluir, new FuncionarioRFID
                     {
@@ -220,7 +220,7 @@ namespace PontoWeb.Controllers
                         Codigo = bllFuncionarioRFID.MaxCodigo(),
                         RFID = TipoCracha == 0 ? Convert.ToInt64(Cracha) : (long?)null,
                         MIFARE = TipoCracha == 1 ? Cracha : string.Empty
-                  
+
                     });
 
                     if (erros.Count > 0)
@@ -515,19 +515,19 @@ namespace PontoWeb.Controllers
 
                 if (funcsCC == null)
                 {
-                    string cnpjEmpPrincipalSemSimbolos = empresaPrincipal.Cnpj.Replace("-", "").Replace(".", "").Replace("/", "");
-
-                    CentralCliente.Cliente cliente = db.Cliente.Where(x => x.Entidade.CNPJ_CPF.Replace("-", "").Replace(".", "").Replace("/", "").Trim().Equals(cnpjEmpPrincipalSemSimbolos)).FirstOrDefault();
-
                     funcsCC = new CentralCliente.Funcionarios();
-                    if (cliente != null)
-                    {
-                        funcsCC.IDCliente = cliente.ID;
-                    }
-                    else
-                    {
-                        funcsCC.IDCliente = 0;
-                    }
+                }
+                string cnpjEmpPrincipalSemSimbolos = empresaPrincipal.Cnpj.Replace("-", "").Replace(".", "").Replace("/", "");
+              
+                CentralCliente.Cliente cliente = db.Cliente.Where(x => x.Entidade.CNPJ_CPF.Replace("-", "").Replace(".", "").Replace("/", "").Trim().Equals(cnpjEmpPrincipalSemSimbolos)).FirstOrDefault();
+
+                if (cliente != null)
+                {
+                    funcsCC.IDCliente = cliente.ID;
+                }
+                else
+                {
+                    funcsCC.IDCliente = 0;
                 }
 
                 if (funcsCC.IDCliente != 0)
@@ -1233,7 +1233,7 @@ namespace PontoWeb.Controllers
                     ModelState["HorarioDinamico"].Errors.Clear();
                     break;
                 case 2:
-                    idHorario = HorarioMovelController.BuscaIdHorario(funcionario.Horario);
+                    idHorario = HorarioController.BuscaIdHorario(funcionario.Horario, funcionario.Tipohorario);
                     if (idHorario > 0) funcionario.Idhorario = idHorario;
                     else ModelState["Horario"].Errors.Add("Horário " + funcionario.Horario + " não cadastrado!");
                     ModelState["HorarioDinamico"].Errors.Clear();

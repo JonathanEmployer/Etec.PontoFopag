@@ -1,0 +1,235 @@
+﻿@model Modelo.CercaVirtual
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Cadastrar Cerca Virtual";
+    string nomeTabela = "tbCercaVirtual";
+    var idsFuncionariosSelecionados = "";
+    if (Model != null)
+    {
+        idsFuncionariosSelecionados = Model.idsFuncionariosSelecionados;
+    }
+
+    double latitude = -23.314303;
+    double longitude = -51.159611;
+    string title = "Matriz";
+    string description = "Employer Tudo do RH";
+    int zoom = 10;
+    if (!string.IsNullOrEmpty(Model.Latitude) && !string.IsNullOrEmpty(Model.Longitude))
+    {
+        latitude = double.Parse(Model.Latitude.Replace(",","").Replace(".", ","));
+        longitude = double.Parse(Model.Longitude.Replace(",","").Replace(".", ","));
+        zoom = 15;
+        title = Model.TipoDescricao;
+        description = Model.Descricao;
+    }
+
+}
+<script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&setMkt=pt-BR&setLang=pt-BR&branch=release' async defer></script>
+<script type="text/javascript">
+    var mapBing;
+
+    function GetMap() {
+        var mapLocation = new Microsoft.Maps.Location('@latitude'.replace(',', '.'), '@longitude'.replace(',', '.'));
+        mapBing = new Microsoft.Maps.Map('#myMap', {
+            credentials: 'AhJYB1isd5fdHwWujY-plJHkA438Hki6U0AHITVZEx-Kb78Mz8RLYo6p_C02tLgo',
+            center: mapLocation,
+            mapTypeId: Microsoft.Maps.MapTypeId.canvasLight,
+            zoom: parseInt('@zoom'),
+        });
+
+        Microsoft.Maps.loadModule('Microsoft.Maps.AutoSuggest', function () {
+            var manager = new Microsoft.Maps.AutosuggestManager({ map: mapBing });
+            manager.attachAutosuggest('#Endereco', '#searchBoxContainer', selectedSuggestion);
+        });
+
+        //Create an infobox at the center of the map but don't show it.
+        infobox = new Microsoft.Maps.Infobox(mapBing.getCenter(), {
+            visible: false
+        });
+
+        //Assign the infobox to a map instance.
+        infobox.setMap(mapBing);
+
+        var pin = new Microsoft.Maps.Pushpin(mapLocation);
+
+        //Store some metadata with the pushpin.
+        pin.metadata = {
+            title: '@title',
+            description: '@description'
+        };
+
+        //Add a click event handler to the pushpin.
+        Microsoft.Maps.Events.addHandler(mapBing, 'click', clickMap);
+        Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
+
+
+        //Add pushpin to the map.
+        mapBing.entities.push(pin);
+    }
+    function pushpinClicked(e) {
+        //Make sure the infobox has metadata to display.
+        if (e.target.metadata) {
+            //Set the infobox options with the metadata of the pushpin.
+            infobox.setOptions({
+                location: e.target.getLocation(),
+                title: e.target.metadata.title,
+                description: e.target.metadata.description,
+                visible: true
+            });
+        }
+    }
+    function clickMap(e) {
+        if (e != undefined) {
+            mapBing.entities.clear();
+            $('#Latitude').val(e.location.latitude);
+            $('#Longitude').val(e.location.longitude);
+            var mapLocation = new Microsoft.Maps.Location(e.location.latitude, e.location.longitude);
+           var pin= new Microsoft.Maps.Pushpin(mapLocation);
+            Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
+            mapBing.entities.push(pin);
+        }
+    }
+    function selectedSuggestion(result) {
+        //Remove previously selected suggestions from the map.
+        mapBing.entities.clear();
+        //Show the suggestion as a pushpin and center map over it.
+        var pin = new Microsoft.Maps.Pushpin(result.location);
+        mapBing.entities.push(pin);
+        mapBing.setView({ bounds: result.bestView });
+        $('#Latitude').val(result.location.latitude);
+        $('#Longitude').val(result.location.longitude);
+    }
+</script>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="divCenterGrande">
+        <div class="panel panel-default" style="padding:0;">
+            <div class="panel-heading salvando">
+                @Html.ActionLink("X", "Grid", "CercaVirtual", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">Cadastrar Cerca Virtual</h3>
+            </div>
+            <div class="panel-body panelConteudo">
+                @Html.HiddenFor(x => x.Id)
+                @Html.HiddenFor(x => x.Codigo)
+                @Html.ValidationMessage("CustomError")
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Codigo, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control  input-sm", autocomplete = "off" }).IsDisabled(true)
+                            @Html.ValidationMessageFor(model => model.Codigo)
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Descricao, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.Descricao, new { @class = "form-control  input-sm", autocomplete = "off" })
+                            @Html.ValidationMessageFor(model => model.Descricao)
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TipoDescricao, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.TipoDescricao, new { @class = "form-control  input-sm" })
+                            @Html.ValidationMessageFor(model => model.TipoDescricao)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body panelConteudo">
+                <div class="col-md-9">
+                    <div class=" row col-md-12">
+                        <b>Procure abaixo sua localização no mapa</b>
+                    </div>
+                    <div class="col-md-12 fa-border" style='height:280px;'>
+                        <div class="col-md-6" style="border-color: red;">
+                            <div class="row col-md-12">
+                                <div id='searchBoxContainer'>
+                                    @Html.LabelFor(model => model.Endereco, new { @class = "control-label label-sm" })
+                                    @Html.TextBoxFor(model => model.Endereco, new { placeholder = "Rua Sete de Setembro, Curitiba-Paraná, 80240-001, Brasil", @class = "form-control  input-sm", autocomplete = "off" })
+                                    @Html.ValidationMessageFor(model => model.Endereco)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" onclick="clickMap();" style="border-color: red;">
+                            <div id="myMap" onclick="clickMap();" style='width:90%;height:270px;margin-left: auto;margin-right: 0;'></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="row col-md-12">
+                        @Html.LabelFor(model => model.Latitude, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.Latitude, new { @class = "form-control  input-sm", autocomplete = "off", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.Latitude)
+                    </div>
+                    <div class="row col-md-12">
+                        @Html.LabelFor(model => model.Longitude, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.Longitude, new { @class = "form-control  input-sm", autocomplete = "off", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.Longitude)
+                    </div>
+                    <div class="row col-md-12">
+                        @Html.LabelFor(model => model.Raio, new { @class = "control-label label-sm" })
+                        @Html.TextBoxFor(model => model.Raio, new { @class = "form-control  input-sm", autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.Raio)
+                    </div>
+                    <div class="row col-md-12">
+                        @Html.CheckBoxFor(model => model.Ativo)
+                        @Html.LabelFor(model => model.Ativo, new { @class = "control-label label-sm" })
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="row">
+                    @Html.HiddenFor(model => model.idsFuncionariosSelecionados)
+                    @Html.ValidationMessageFor(model => model.idsFuncionariosSelecionados)
+                    @if (HttpContext.Current.Request.Url.LocalPath.Contains("Consultar"))
+                    {
+                        @Html.GridFor(nomeTabela, typeof(Modelo.Proxy.pxyCercaVirtualFuncionarioGrid), true, "CercaVirtual", "FuncsGrid/" + Model.idsFuncionariosSelecionados)
+                    }
+                    else
+                    {
+                        @Html.GridFor(nomeTabela, typeof(Modelo.Proxy.pxyCercaVirtualFuncionarioGrid), true, "CercaVirtual", "FuncsGrid", "", "", Model.idsFuncionariosSelecionados, "")
+                    }
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger salvando"
+                               href="@Url.Action("Grid", "CercaVirtual")">
+                                <span class="glyphicon glyphicon-remove"></span> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    var nomeTabela = "#" + '@nomeTabela';
+    $(document).ready(function () {
+        $("#idsFuncionariosSelecionados").val('@idsFuncionariosSelecionados');
+        SetSelecionados('@nomeTabela', '@idsFuncionariosSelecionados');
+        E_GridFuncGetSelecionados();
+    });
+    $('form').submit(function (e) {
+        $("#idsFuncionariosSelecionados").val(GetSelecionados('@nomeTabela'));
+    });
+
+</script>
+
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}
+

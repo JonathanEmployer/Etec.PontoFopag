@@ -310,11 +310,13 @@
     <Compile Include="AFD.cs" />
     <Compile Include="AlertasRepAcompanhamento.cs" />
     <Compile Include="AutoMapper\ConfigureAutoMapper.cs" />
+    <Compile Include="JornadaAlternativaFuncionario.cs" />
     <Compile Include="JornadaSubstituir.cs" />
     <Compile Include="JornadaSubstituirFuncionario.cs" />
     <Compile Include="JustificativaRestricao.cs" />
     <Compile Include="LancamentoCartaoPontoRegistros.cs" />
     <Compile Include="LancamentoCartaoPonto.cs" />
+    <Compile Include="CercaVirtual.cs" />
     <Compile Include="OcorrenciaRestricao.cs" />
     <Compile Include="HorarioDinamicoRestricao.cs" />
     <Compile Include="HorarioRestricao.cs" />
@@ -407,7 +409,9 @@
     <Compile Include="BloqueioFuncionario.cs" />
     <Compile Include="ManutencaoBiometrica.cs" />
     <Compile Include="ParametroWebfopag.cs" />
+    <Compile Include="Proxy\pxyCercaVirtualFuncionarioGrid.cs" />
     <Compile Include="Proxy\pxyPermissoes.cs" />
+    <Compile Include="Proxy\PxyRegistrosValidarPontoExcecao.cs" />
     <Compile Include="Proxy\pxyUsuarioControleAcessoAdicionarContrato.cs" />
     <Compile Include="Proxy\pxyUsuarioControleAcessoAdicionarEmpresa.cs" />
     <Compile Include="Proxy\pxyUsuarioControleAcessoCopiar.cs" />
@@ -424,6 +428,7 @@
     <Compile Include="Proxy\PxyPeriodo.cs" />
     <Compile Include="Proxy\PxyUltimoFechamentoPonto.cs" />
     <Compile Include="Proxy\Webfopag\PxyRetornoColetor.cs" />
+    <Compile Include="Relatorios\ExportacaoFechamentoPontoModel.cs" />
     <Compile Include="Relatorios\RelatorioAfdPortaria373Model.cs" />
     <Compile Include="Relatorios\RelatorioRefeicaoModel.cs" />
     <Compile Include="Relatorios\RelatorioTotalHoras.cs" />

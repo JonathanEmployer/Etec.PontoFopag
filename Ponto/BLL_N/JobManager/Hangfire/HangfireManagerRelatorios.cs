@@ -102,7 +102,6 @@ namespace BLL_N.JobManager.Hangfire
             return jobReturn;
         }
 
-
         public Modelo.Proxy.PxyJobReturn RelatorioBilhetesImp(IRelatorioModel parametros)
         {
             var descricaoParametros = GetDescricaoParametrosJob(parametros);
@@ -133,7 +132,6 @@ namespace BLL_N.JobManager.Hangfire
             Modelo.Proxy.PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
-
 
         public Modelo.Proxy.PxyJobReturn RelatorioHomemHora(IRelatorioModel parametros)
         {
@@ -197,7 +195,23 @@ namespace BLL_N.JobManager.Hangfire
                                                                                                             _enqueuedStateNormal);
             Modelo.Proxy.PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
-        }		
+        }
+
+        public Modelo.Proxy.PxyJobReturn RelatorioSubstituicaoJornada(IRelatorioModel parametros)
+        {
+            var descricaoParametros = GetDescricaoParametrosJob(parametros);
+
+            JobControl jobControl = GerarJobControl("Relatório de Substituição de Jornada", descricaoParametros);
+            jobControl.PermiteCancelar = true;
+            string idJob = new BackgroundJobClient().Create<RelatoriosJob>(x => x.GetRelatorioSubstituicaoJornada(null,
+                                                                                                            jobControl,
+                                                                                                            (RelatorioPadraoModel)parametros,
+                                                                                                            dataBase,
+                                                                                                            usuarioLogado),
+                                                                                                            _enqueuedStateNormal);
+            Modelo.Proxy.PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
+            return jobReturn;
+        }
 
         public Modelo.Proxy.PxyJobReturn RelatorioRegistros(IRelatorioModel parametros)
 		{
@@ -438,11 +452,25 @@ namespace BLL_N.JobManager.Hangfire
             Modelo.Proxy.PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
-		
+
+        public Modelo.Proxy.PxyJobReturn RelatorioCartaoPontoExcecaoHTML(IRelatorioModel parametros)
+        {
+            var descricaoParametros = GetDescricaoParametrosJob(parametros);
+            JobControl jobControl = GerarJobControl("Relatório de Cartão Ponto por Exceção", descricaoParametros);
+            jobControl.PermiteCancelar = true;
+            string idJob = new BackgroundJobClient().Create<RelatoriosJob>(x => x.GetRelatorioCartaoPontoExcecaoHTML(null,
+                                                                                                            jobControl,
+                                                                                                            (RelatorioCartaoPontoHTMLModel)parametros,
+                                                                                                            dataBase,
+                                                                                                            usuarioLogado),
+                                                                                                            _enqueuedStateNormal);
+            Modelo.Proxy.PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
+            return jobReturn;
+        }
         public Modelo.Proxy.PxyJobReturn RelatorioCartaoPontoHTML(IRelatorioModel parametros)
         {
             var descricaoParametros = GetDescricaoParametrosJob(parametros);
-            JobControl jobControl = GerarJobControl("Relatório Relatório de Cartão Ponto - Modelo 2", descricaoParametros);
+            JobControl jobControl = GerarJobControl("Relatório de Cartão Ponto - Modelo 2", descricaoParametros);
             jobControl.PermiteCancelar = true;
             string idJob = new BackgroundJobClient().Create<RelatoriosJob>(x => x.GetRelatorioCartaoPontoHTML(null,
                                                                                                             jobControl,
@@ -457,7 +485,7 @@ namespace BLL_N.JobManager.Hangfire
 		public Modelo.Proxy.PxyJobReturn RelatorioCartaoPontoCustom(IRelatorioModel parametros)
 		{
 			var descricaoParametros = GetDescricaoParametrosJob(parametros);
-			JobControl jobControl = GerarJobControl("Relatório Relatório de Cartão Ponto - Customizável", descricaoParametros);
+			JobControl jobControl = GerarJobControl("Relatório de Cartão Ponto - Customizável", descricaoParametros);
 			jobControl.PermiteCancelar = true;
 			string idJob = new BackgroundJobClient().Create<RelatoriosJob>(x => x.GetRelatorioCartaoPontoCustom(null,
 																											jobControl,

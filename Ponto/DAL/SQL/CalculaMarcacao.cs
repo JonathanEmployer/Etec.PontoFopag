@@ -196,7 +196,7 @@ namespace DAL.SQL
                         , horariodetalhe.flagfolga 
                         , horariodetalhe.neutro flagneutro 
 
-						,(SELECT id FROM [dbo].[F_BancoHoras] (marcacao.data, funcionario.id)) AS idbancohoras  
+						,(SELECT TOP 1 id FROM [dbo].[F_BancoHoras] (marcacao.data, funcionario.id)) AS idbancohoras 
 
 						, feriado.id AS idferiado 
                         , afastamentofunc.id AS idafastamentofunc 
@@ -295,6 +295,7 @@ namespace DAL.SQL
                         , marcacao.ContabilizarCreditos
                         , marcacao.IdJornadaSubstituir
                         , horariodetalhe.idjornada IdJornadaHorario
+                        , horario.PontoPorExcecao
                FROM marcacao_view as marcacao with (nolock)
                INNER JOIN funcionario ON funcionario.id = marcacao.idfuncionario 
                INNER JOIN horario ON horario.id = marcacao.idhorario 
@@ -347,7 +348,7 @@ namespace DAL.SQL
                													WHEN ( CAST(DATEPART(WEEKDAY, marcacao.data) AS INT) - 1 ) = 0 THEN 7 
                													ELSE ( CAST(DATEPART(WEEKDAY, marcacao.data) AS INT) - 1 ) 
                                                       END ) 
-               LEFT JOIN jornadaalternativa_view ON 
+				LEFT JOIN jornadaalternativa_view ON 
                ((jornadaalternativa_view.tipo = 0 AND jornadaalternativa_view.identificacao = funcionario.idempresa) 
                OR (jornadaalternativa_view.tipo = 1 AND jornadaalternativa_view.identificacao = funcionario.iddepartamento) 
                OR (jornadaalternativa_view.tipo = 2 AND jornadaalternativa_view.identificacao = funcionario.id) 
@@ -580,10 +581,11 @@ namespace DAL.SQL
 							               JOIN funcionario AS f ON f.ID = t.idfuncionario
 						              LEFT JOIN departamento AS d ON f.iddepartamento = d.id
 						              LEFT JOIN empresa AS e ON f.idempresa = e.id
-						              LEFT JOIN jornadaalternativa AS ja ON (((ja.tipo = 0 and ja.identificacao = e.id) or
-																              (ja.tipo = 1 and ja.identificacao = d.id) or
-																              (ja.tipo = 2 and ja.identificacao = f.id)) and
-																              t.Marc_data between ja.datainicial and ja.datafinal)
+						              LEFT JOIN jornadaalternativa_view AS jav ON (((jav.tipo = 0 and jav.identificacao = e.id) or
+																              (jav.tipo = 1 and jav.identificacao = d.id) or
+																              (jav.tipo = 2 and jav.identificacao = f.id)) and
+																              t.Marc_data between jav.datainicial and jav.datafinal)
+                                      LEFT JOIN jornadaalternativa ja on ja.id = jav.id
 									   ) di
 					              inner join afastamento as a on a.abonado = 1 and
 																 di.Marc_data between a.datai and isnull(a.dataf, '9999-12-31') and 
@@ -945,54 +947,61 @@ namespace DAL.SQL
 
         public DataTable GetMarcacoesCalculo(List<int> idsFuncionarios, DateTime pDataI, DateTime pDataF, bool pegaInativos, bool pegaExcluidos)
         {
-            SqlParameter[] parms = new SqlParameter[3]
+            try
             {
+                SqlParameter[] parms = new SqlParameter[3]
+                {
                     new SqlParameter("@datai", SqlDbType.DateTime),
                     new SqlParameter("@dataf", SqlDbType.DateTime),
                     new SqlParameter("@idsFuncionarios", SqlDbType.VarChar)
-            };
-            parms[0].Value = pDataI;
-            parms[1].Value = pDataF;
-            parms[2].Value = String.Join(",", idsFuncionarios);
+                };
+                parms[0].Value = pDataI;
+                parms[1].Value = pDataF;
+                parms[2].Value = String.Join(",", idsFuncionarios);
 
-            string aux = _sqlCalculoMarcacao;
-            aux += " WHERE 1 = 1 AND ";
-            aux += " ISNULL(marcacao.idfechamentoponto,0) = 0 AND ";
-            if (pegaInativos)
-            {
-                if (!pegaExcluidos)
-                    aux += " ISNULL(funcionario.excluido,0) = 0 AND ";
-            }
-            else
-            {
-                if (!pegaExcluidos)
+                string aux = _sqlCalculoMarcacao;
+                aux += " WHERE 1 = 1 AND ";
+                aux += " ISNULL(marcacao.idfechamentoponto,0) = 0 AND ";
+                if (pegaInativos)
                 {
-                    aux += " ISNULL(funcionario.excluido,0) = 0 AND ";
+                    if (!pegaExcluidos)
+                        aux += " ISNULL(funcionario.excluido,0) = 0 AND ";
                 }
-                aux += " funcionarioativo = 1 AND ";
+                else
+                {
+                    if (!pegaExcluidos)
+                    {
+                        aux += " ISNULL(funcionario.excluido,0) = 0 AND ";
+                    }
+                    aux += " funcionarioativo = 1 AND ";
+                }
+
+                aux += " marcacao.idfuncionario in (select * from dbo.f_clausulaIn(@idsFuncionarios)) AND ";
+
+                aux += " marcacao.data >= @datai AND marcacao.data <= @dataf ";
+                aux += DALBase.PermissaoUsuarioFuncionario(UsuarioLogado, aux, "funcionario.idempresa", "marcacao.idfuncionario", null);
+                aux += " ORDER BY funcionario.id, marcacao.data option(MaxDop 8) ";
+
+                DataTable dt = new DataTable();
+
+                SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
+                dt.Load(dr);
+                if (!dr.IsClosed)
+                    dr.Close();
+                dr.Dispose();
+
+                return dt;
             }
-
-            aux += " marcacao.idfuncionario in (select * from dbo.f_clausulaIn(@idsFuncionarios)) AND ";
-
-            aux += " marcacao.data >= @datai AND marcacao.data <= @dataf ";
-            aux += DALBase.PermissaoUsuarioFuncionario(UsuarioLogado, aux, "funcionario.idempresa", "marcacao.idfuncionario", null);
-            aux += " ORDER BY funcionario.id, marcacao.data option(MaxDop 8) ";
-
-            DataTable dt = new DataTable();
-
-            SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
-            dt.Load(dr);
-            if (!dr.IsClosed)
-                dr.Close();
-            dr.Dispose();
-
-            return dt;
+            catch(Exception ex)
+            {
+                throw new Exception("Falha ao recuperar a marcação, detalhes: " + ex.Message);
+            }
         }
 
         public DataTable GetMarcacoesGerarHorariosDinamicos()
         {
             SqlParameter[] parms = new SqlParameter[] { };
-            
+
             DataTable dt = new DataTable();
             string aux = _sqlCalculoMarcacao;
             aux += @" WHERE ISNULL(marcacao.idfechamentoponto,0) = 0 

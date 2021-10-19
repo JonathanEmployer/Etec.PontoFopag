@@ -142,6 +142,7 @@
                                     <li>@Html.ActionLink("Cadastrar", "Grid", "Rep")</li>
                                     <li>@Html.ActionLink("Acompanhamento", "Grid", "AlertasComunicacaoRep")</li>
                                     <li><a href="https://api.pontofopag.com.br/Download?arquivo=ServicoComunicador">Download Comunicador</a></li>
+                                    <li>@Html.ActionLink("Registrador em Massa", "Grid", "RegistradorMassa")</li>
                                 </ul>
                             </li>
                             <li role="presentation" class="divider"></li>
@@ -173,6 +174,8 @@
                             <li role="presentation" class="divider"></li>
                             <li>@Html.ActionLink("Alertas", "Grid", "Alertas")</li>
                             <li>@Html.ActionLink("Situação Reps", "SituacaoReps", "Rep")</li>
+                            <li>@Html.ActionLink("Situação Registradores em Massa", "SituacaoRegMassa", "RegistradorMassa")</li>
+                            <li>@Html.ActionLink("Cerca Virtual", "Grid", "CercaVirtual")</li>
                         </ul>
                     </li>
 
@@ -280,6 +283,7 @@
                                     <li>@Html.ActionLink("Total de Horas", "Index", "RelatorioTotalHoras")</li>
                                     <li>@Html.ActionLink("Registradores Port. 373", "Index", "RelAFDPortaria373")</li>
                                     <li>@Html.ActionLink("Refeições", "Refeicao", "RelatorioRefeicao")</li>
+                                    <li>@Html.ActionLink("Substituição de jornada", "SubstituicaoJornada", "RelatorioSubstituicaoJornada")</li>
                                 </ul>
                             </li>
                             <li>@Html.ActionLink("Afastamento", "Ocorrencia", "RelatorioAfastamento")</li>
@@ -292,6 +296,7 @@
                                     <li> @Html.ActionLink("Modelo Padrão", "CartaoPonto", "RelatorioCartaoPonto")</li>
                                     <li>@Html.ActionLink("Modelo 2", "CartaoPonto", "RelatorioCartaoPontoHTML")</li>
                                     <li>@Html.ActionLink("Customizável", "Index", "RelatorioCartaoPontoCustom")</li>
+                                    <li>@Html.ActionLink("Ponto por Exceção", "CartaoPonto", "RelatorioCartaoPontoExecaoHTML")</li>
                                 </ul>
                             </li>
                             <li>@Html.ActionLink("Espelho", "Espelho", "RelatorioEspelho")</li>

@@ -169,19 +169,19 @@ namespace DAL.SQL
         protected override SqlParameter[] GetParameters()
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@id", SqlDbType.Int),
-				new SqlParameter ("@codigo", SqlDbType.Int),
+            {
+                new SqlParameter ("@id", SqlDbType.Int),
+                new SqlParameter ("@codigo", SqlDbType.Int),
                 new SqlParameter ("@incdata", SqlDbType.DateTime),
-				new SqlParameter ("@inchora", SqlDbType.DateTime),
-				new SqlParameter ("@incusuario", SqlDbType.VarChar),
-				new SqlParameter ("@altdata", SqlDbType.DateTime),
-				new SqlParameter ("@althora", SqlDbType.DateTime),
-				new SqlParameter ("@altusuario", SqlDbType.VarChar),
+                new SqlParameter ("@inchora", SqlDbType.DateTime),
+                new SqlParameter ("@incusuario", SqlDbType.VarChar),
+                new SqlParameter ("@altdata", SqlDbType.DateTime),
+                new SqlParameter ("@althora", SqlDbType.DateTime),
+                new SqlParameter ("@altusuario", SqlDbType.VarChar),
                 new SqlParameter ("@IdFeriado", SqlDbType.Int),
-				new SqlParameter ("@IdFuncionario", SqlDbType.Int)
-                
-			};
+                new SqlParameter ("@IdFuncionario", SqlDbType.Int)
+
+            };
             return parms;
         }
 
@@ -321,7 +321,7 @@ namespace DAL.SQL
         public void IncluirFeriadoFuncionarioLote(SqlTransaction trans, int idFeriado, string idsFuncionarios)
         {
             SqlParameter[] parms = new SqlParameter[2]
-            { 
+            {
                 new SqlParameter("@idFeriado", SqlDbType.Int),
                 new SqlParameter("@ids", SqlDbType.VarChar)
             };
@@ -348,7 +348,7 @@ namespace DAL.SQL
         public void ExcluirFeriadoFuncionarioLote(SqlTransaction trans, int idFeriado)
         {
             SqlParameter[] parms = new SqlParameter[1]
-            { 
+            {
                 new SqlParameter("@idFeriado", SqlDbType.Int)
             };
             parms[0].Value = idFeriado;

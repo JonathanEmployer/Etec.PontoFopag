@@ -499,6 +499,7 @@ namespace Modelo
 
 
         [Display(Name = "Desc. Horas DSR")]
+        //[MaxLength(4, ErrorMessage = "Valor Inválido.")]
         [DataTableAttribute()]
         public decimal Descontohorasdsr { get; set; }
 
@@ -824,6 +825,18 @@ namespace Modelo
         }
 
         public IList<HorarioRestricao> HorarioRestricao { get; set; }
+
+        [Display(Name = "Ponto Por Exceção")]
+        public bool PontoPorExcecao { get; set; }
+
+        [TableHTMLAttribute("Ponto Por Exceção", 16, true, ItensSearch.select, OrderType.none)]
+        public string PontoPorExcecaoStr
+        {
+            get
+            {
+                return PontoPorExcecao == true ? "Sim" : "Não";
+            }
+        }
     }
 }
 

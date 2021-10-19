@@ -394,7 +394,8 @@ namespace DAL.SQL
                     try
                     {
                         dalBilhetes.UsuarioLogado = UsuarioLogado;
-                        dalBilhetes.AtualizarBilhetesEmLote(bilhetes, trans);
+                        dalBilhetes.AtualizarBilhetesEmLote(bilhetes.Where(w => w.Acao != Modelo.Acao.Excluir).ToList(), trans);
+                        dalBilhetes.ExcluirLote(trans, bilhetes.Where(w => w.Acao == Modelo.Acao.Excluir).ToList());
                         dalMarcacao.UsuarioLogado = UsuarioLogado;
                         dalMarcacao.IncluirMarcacoesEmLote(marcacoesIncluir, conn, trans);
                         dalMarcacao.AtualizarMarcacoesEmLote(marcacoesAtualizar, conn, trans);

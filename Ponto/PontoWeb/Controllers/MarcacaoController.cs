@@ -533,7 +533,7 @@ namespace PontoWeb.Controllers
                 foreach (var objBilheteImp in marcacao.BilhetesMarcacao)
                 {
                     Modelo.BilhetesImp bilAnt = BilsAnt.Where(w => w.Id == objBilheteImp.Id).FirstOrDefault();
-                    if (bilAnt != null && bilAnt.Id > 0 && bilAnt.Mar_relogio != "MA" && (objBilheteImp.Mar_data != bilAnt.Mar_data || objBilheteImp.Mar_hora != bilAnt.Mar_hora || objBilheteImp.Mar_relogio != bilAnt.Mar_relogio))
+                    if (bilAnt != null && bilAnt.Id > 0 && bilAnt.Mar_relogio != "MA" && bilAnt.Mar_relogio != "PE" && (objBilheteImp.Mar_data != bilAnt.Mar_data || objBilheteImp.Mar_hora != bilAnt.Mar_hora || objBilheteImp.Mar_relogio != bilAnt.Mar_relogio))
                         ModelState.AddModelError(
                             "CustomError",
                             "A " + (objBilheteImp.Ent_sai.Equals("E") ? "Entrada " : "Saida ") + objBilheteImp.Posicao + ", hora " + objBilheteImp.Hora + ", não é um registro que pode ser editado."

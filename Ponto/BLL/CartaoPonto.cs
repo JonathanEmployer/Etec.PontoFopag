@@ -12,6 +12,7 @@ using System.Drawing.Imaging;
 using System.Collections.Concurrent;
 using System.Collections;
 using Modelo;
+using System.Threading;
 
 namespace BLL
 {
@@ -74,8 +75,11 @@ namespace BLL
             dalHorarioDetalhe.UsuarioLogado = usuarioLogado;
         }
 
-        public DataTable GetCartaoPontoRel(DateTime dataInicial, DateTime dataFinal, string empresas, string departamentos, string funcionarios, int tipo, int normalFlexivel, int idhorario, Modelo.ProgressBar pPBRecalculo, bool ordenaDeptoFuncionario, string filtro, bool quebraAuto)
+        
+        public DataTable GetCartaoPontoRel(DateTime dataInicial, DateTime dataFinal, string empresas, string departamentos, string funcionarios, int tipo, int normalFlexivel, int idhorario, 
+                Modelo.ProgressBar pPBRecalculo, bool ordenaDeptoFuncionario, string filtro, bool quebraAuto)
         {
+            //Ajustes nesse método deve ser avaliado todos as chamadas, uma delas é a integração dos arquivos PDFs p/ Epays => RelatorioExportacaoFechamentoPontoBLL
             try
             {
                 BLL.JornadaAlternativa bllJornadaAlternativa = new BLL.JornadaAlternativa(ConnectionString, UsuarioLogado);
@@ -88,6 +92,7 @@ namespace BLL
 
                 pPBRecalculo.setaMensagem("Verificando marcações de ponto");
                 CorrigeMarcacoes(funcionarios, dataInicial, dataFinal, bllMarcacao, bllFunc, bllInclusaoBanco);
+                
                 pPBRecalculo.setaMensagem("Carregando dados");
                 DataTable dt = dalCartaoPonto.GetCartaoPontoRel(dataInicial, dataFinal, empresas, departamentos, funcionarios, tipo, normalFlexivel, ordenaDeptoFuncionario, filtro);
 
@@ -1217,7 +1222,7 @@ namespace BLL
             if (ret.Rows.Count > 0)
             {
                 StringBuilder str = new StringBuilder();
-                percExtras.Clear();           
+                percExtras.Clear();
                 foreach (var item in objTotalHoras.RateioHorasExtras.OrderBy(r => r.Key))
                 {
                     str.Append(String.Format("{0:000.00}", item.Key) + "%       ");
@@ -1226,7 +1231,7 @@ namespace BLL
                     percExtras.Add(str.ToString());
                     str.Remove(0, str.Length);
                 }
-            }            
+            }
 
             #region Saldo do Banco de Horas Fechamento
 
@@ -1873,6 +1878,8 @@ namespace BLL
             bool retorno = false;
             TimeSpan ts = pDataFinal.AddDays(1) - pDataInicial;
 
+            if (pListIdFunc.Count() == 0)
+                return false;
             Dictionary<int, int> _qtdMarcacoesFuncionarios = bllMarcacao.QuantidadeMarcacoesPorLista(pListIdFunc, pDataInicial, pDataFinal);
 
             if (_qtdMarcacoesFuncionarios.Any(x => x.Value != ts.TotalDays))
@@ -1912,6 +1919,12 @@ namespace BLL
                     var erros = bllMarcacao.AtualizaData(_parametros, _horarios, pDataInicial, pDataFinal, _listFuncionario, _inclusaoBancoLista, _jornadasAlternativas, _fechamentoBHDLista, _feriadoLista, _bancoHorasLista, _afastamentosLista, _contratosLista, _mudancaHorarioList, _marcacoesPeriodo, _fechamentos);
 
                     retorno = (erros.Count() == 0);
+                    PontoPorExcecao pontoPorExcecao = new PontoPorExcecao(ConnectionString, UsuarioLogado);
+                    if (pontoPorExcecao.CriarRegistroPontoPorExcecao(idsFuncs, new List<int>()).Count > 0)
+                    {
+                        //Se gerou bilhetes aguarda um pouco para o mesmo ser importado
+                        Thread.Sleep(15000);
+                    }
                 }
                 else
                     retorno = true;//para funcionários inativos retornar true
@@ -2053,7 +2066,8 @@ namespace BLL
             List<Modelo.BancoHoras> bancosdehoras = dalBancoHoras.GetAllListFuncs(false, idsFuncs);
             Hashtable ids = new Hashtable();
             foreach (var columnIdHorario in dt.AsEnumerable()
-                    .Select(s => new {
+                    .Select(s => new
+                    {
                         id = s.Field<int>("idhorario"),
                     })
                     .Distinct().ToList())

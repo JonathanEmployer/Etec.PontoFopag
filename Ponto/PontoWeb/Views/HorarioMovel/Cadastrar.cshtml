@@ -325,6 +325,15 @@
                                                     </label>
                                                 </div>
                                             </div>
+                                            <div class="col-md-6">
+                                                <div class="checkbox" style="margin:5px">
+                                                    <label>
+                                                        @Html.CheckBoxFor(model => model.PontoPorExcecao, new { @class = "checkboxHN horario", id = "PontoPorExcecaoBool" })
+                                                        @Html.LabelFor(model => model.PontoPorExcecao, new { @class = "control-label label-sm", @for = "PontoPorExcecaoBool" })
+                                                        @Html.ValidationMessageFor(model => model.PontoPorExcecao)
+                                                    </label>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         @if (Model.IdHorarioDinamico.GetValueOrDefault() == 0)
@@ -1124,7 +1133,7 @@
                                                 <div class="form-group">
                                                     @Html.LabelFor(model => model.Descontohorasdsr, new { @class = "control-label label-sm" })
                                                     <div class="input-group input-group-sm">
-                                                        @Html.TextBoxFor(model => model.Descontohorasdsr, new { @class = "form-control input-sm decimalPercent horario", id = "Descontohorasdsr", aria_describedby = "basic-addon2" })
+                                                        @Html.TextBoxFor(model => model.Descontohorasdsr, new { @class = "form-control input-sm decimalPercent1 horario", id = "Descontohorasdsr", aria_describedby = "basic-addon2" })
                                                         <span class="input-group-addon" id="basic-addon2">%</span>
                                                     </div>
 
@@ -1902,7 +1911,7 @@
                     value = element.val()
                 }
             }
-            else if ($(this).hasClass('currency') || $(this).hasClass('money') || $(this).hasClass('decimalPercent')) {
+            else if ($(this).hasClass('currency') || $(this).hasClass('money') || $(this).hasClass('decimalPercent') || $(this).hasClass('decimalPercent1')) {
                 value = element.val().replace(',', '.');
             }
             else {
@@ -2464,6 +2473,19 @@
         }
     }
 
+
+    $('#PontoPorExcecaoBool').click(function (e) {
+        if ($("#PontoPorExcecaoBool").is(':checked')) {
+            $("#IntervaloautomaticoBool").prop("checked", false);
+        }
+        validaIntervaloAutomatico();
+    });
+
+    $('#IntervaloautomaticoBool').click(function (e) {
+        if ($("#IntervaloautomaticoBool").is(':checked')) {
+            $("#PontoPorExcecaoBool").prop("checked", false);
+        }
+    });
 </script>
 
 @if (ViewBag.Consultar == 1 || Model.PossuiFechamento)

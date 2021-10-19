@@ -151,6 +151,15 @@
                                                     </label>
                                                 </div>
                                             </div>
+                                            <div class="col-md-6">
+                                                <div class="checkbox"  style="margin:5px">
+                                                    <label>
+                                                        @Html.CheckBoxFor(model => model.PontoPorExcecao, new { @class = "checkboxHN horario", id = "PontoPorExcecaoBool" })
+                                                        @Html.LabelFor(model => model.PontoPorExcecao, new { @class = "control-label label-sm", @for = "PontoPorExcecaoBool" })
+                                                        @Html.ValidationMessageFor(model => model.PontoPorExcecao)
+                                                    </label>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -591,7 +600,7 @@
                                                 <div class="form-group">
                                                     @Html.LabelFor(model => model.Descontohorasdsr, new { @class = "control-label label-sm" })
                                                     <div class="input-group input-group-sm">
-                                                        @Html.TextBoxFor(model => model.Descontohorasdsr, new { @class = "form-control input-sm decimalPercent horario", id = "Descontohorasdsr", aria_describedby = "basic-addon2" })
+                                                        @Html.TextBoxFor(model => model.Descontohorasdsr, new { @class = "form-control input-sm decimalPercent1 horario", id = "Descontohorasdsr", aria_describedby = "basic-addon2" })
                                                         <span class="input-group-addon" id="basic-addon2">%</span>
                                                     </div>
 
@@ -1443,7 +1452,6 @@
     //Submit
     $('form').on('submit', function (event)
     {
-        debugger
         event.preventDefault();
         var form = $("form");
         form.validate();
@@ -2124,6 +2132,7 @@
 
         //Items.QtdCiclo = _ciclos.length;
         //Gera o Json do Horário
+        console.log($(".horario"));
         $(".horario").each(function () {
             element = $(this);
             name = element.attr("name");
@@ -2137,8 +2146,9 @@
                     value = element.val()
                 }
             }
-            else if ($(this).hasClass('currency') || $(this).hasClass('money') || $(this).hasClass('decimalPercent'))
+            else if ($(this).hasClass('currency') || $(this).hasClass('money') || $(this).hasClass('decimalPercent') || $(this).hasClass('decimalPercent1'))
             {
+                debugger
                 value = element.val().replace(',', '.');
             }
             else
@@ -2162,7 +2172,6 @@
     //submit util - Gera Objetos HorariosPHExtra
     function getFormValueHorarioPHExtra()
     {
-
         let t = new Array();
 
         $(".DivLHorarioPHExtra").each(function ()
@@ -2194,7 +2203,7 @@
                 if ($(element).attr("type") == "checkbox") {
                     value = element.is(':checked');
                 }
-                else if (element.hasClass('currency') || element.hasClass('money') || element.hasClass('decimalPercent')) {
+                else if (element.hasClass('currency') || element.hasClass('money') || element.hasClass('decimalPercent') || element.hasClass('decimalPercent1')) {
                      var valorElemento = element.val();
                      if (isEmpty(valorElemento)) {
                          value = 0;
@@ -2452,6 +2461,26 @@
         $('#divDescontohorasdsr').toggle(habilitado);
         $('#DSRPorPercentual').val(habilitado);
     }
+
+    $('#PontoPorExcecaoBool').click(function (e) {
+        if ($("#PontoPorExcecaoBool").is(':checked')) {
+            $("#IntervaloautomaticoBool").prop("checked", false);
+        }
+        validaIntervaloAutomatico();
+    });
+
+    function validaIntervaloAutomatico() {
+        if (!$("#IntervaloautomaticoBool").is(':checked')) {
+            $('.chk_pa').attr("disabled", true);
+            $('.chk_pa').prop("checked", false);
+        }
+    }
+
+    $('#IntervaloautomaticoBool').click(function (e) {
+        if ($("#IntervaloautomaticoBool").is(':checked')) {
+            $("#PontoPorExcecaoBool").prop("checked", false);
+        }
+    });
 
 </script>
 @*Scripts referente a Restricao*@

@@ -118,31 +118,31 @@ namespace DAL.SQL
             }
             ((Modelo.BilhetesImp)obj).PIS = dr["PIS"] is DBNull ? "" : Convert.ToString(dr["PIS"]);
             ((Modelo.BilhetesImp)obj).IdRegistroPonto = dr["IdRegistroPonto"] is DBNull ? null : (int?)dr["IdRegistroPonto"];
-            
+
         }
 
         protected override SqlParameter[] GetParameters()
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@id", SqlDbType.Int),
-				new SqlParameter ("@ordem", SqlDbType.VarChar),
-				new SqlParameter ("@data", SqlDbType.DateTime),
-				new SqlParameter ("@hora", SqlDbType.VarChar),
-				new SqlParameter ("@func", SqlDbType.VarChar),
-				new SqlParameter ("@relogio", SqlDbType.VarChar),
-				new SqlParameter ("@importado", SqlDbType.TinyInt),
-				new SqlParameter ("@mar_data", SqlDbType.DateTime),
-				new SqlParameter ("@mar_hora", SqlDbType.VarChar),
-				new SqlParameter ("@mar_relogio", SqlDbType.VarChar),
-				new SqlParameter ("@posicao", SqlDbType.Int),
-				new SqlParameter ("@ent_sai", SqlDbType.VarChar),
-				new SqlParameter ("@incdata", SqlDbType.DateTime),
-				new SqlParameter ("@inchora", SqlDbType.DateTime),
-				new SqlParameter ("@incusuario", SqlDbType.VarChar),
-				new SqlParameter ("@altdata", SqlDbType.DateTime),
-				new SqlParameter ("@althora", SqlDbType.DateTime),
-				new SqlParameter ("@altusuario", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@id", SqlDbType.Int),
+                new SqlParameter ("@ordem", SqlDbType.VarChar),
+                new SqlParameter ("@data", SqlDbType.DateTime),
+                new SqlParameter ("@hora", SqlDbType.VarChar),
+                new SqlParameter ("@func", SqlDbType.VarChar),
+                new SqlParameter ("@relogio", SqlDbType.VarChar),
+                new SqlParameter ("@importado", SqlDbType.TinyInt),
+                new SqlParameter ("@mar_data", SqlDbType.DateTime),
+                new SqlParameter ("@mar_hora", SqlDbType.VarChar),
+                new SqlParameter ("@mar_relogio", SqlDbType.VarChar),
+                new SqlParameter ("@posicao", SqlDbType.Int),
+                new SqlParameter ("@ent_sai", SqlDbType.VarChar),
+                new SqlParameter ("@incdata", SqlDbType.DateTime),
+                new SqlParameter ("@inchora", SqlDbType.DateTime),
+                new SqlParameter ("@incusuario", SqlDbType.VarChar),
+                new SqlParameter ("@altdata", SqlDbType.DateTime),
+                new SqlParameter ("@althora", SqlDbType.DateTime),
+                new SqlParameter ("@altusuario", SqlDbType.VarChar),
                 new SqlParameter ("@codigo", SqlDbType.Int),
                 new SqlParameter ("@chave", SqlDbType.VarChar),
                 new SqlParameter ("@dscodigo", SqlDbType.VarChar),
@@ -154,7 +154,7 @@ namespace DAL.SQL
                 new SqlParameter ("@IdFuncionario ", SqlDbType.Int),
                 new SqlParameter ("@PIS", SqlDbType.VarChar),
                 new SqlParameter ("@IdRegistroPonto", SqlDbType.BigInt)
-			};
+            };
             return parms;
         }
 
@@ -249,11 +249,11 @@ namespace DAL.SQL
         public bool AuxPossuiRegistro(SqlTransaction trans, DateTime pData, string pHora, string pFunc, string pRelogio)
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@data", SqlDbType.DateTime),
-				new SqlParameter ("@hora", SqlDbType.VarChar),
-				new SqlParameter ("@func", SqlDbType.VarChar),
-				new SqlParameter ("@relogio", SqlDbType.VarChar)
+            {
+                new SqlParameter ("@data", SqlDbType.DateTime),
+                new SqlParameter ("@hora", SqlDbType.VarChar),
+                new SqlParameter ("@func", SqlDbType.VarChar),
+                new SqlParameter ("@relogio", SqlDbType.VarChar)
             };
             parms[0].Value = pData;
             parms[1].Value = pHora;
@@ -413,6 +413,7 @@ namespace DAL.SQL
             return lista;
         }
 
+
         public List<Modelo.BilhetesImp> GetImportadosFunc(int idFuncionario)
         {
             List<Modelo.BilhetesImp> lista = new List<Modelo.BilhetesImp>();
@@ -488,14 +489,14 @@ namespace DAL.SQL
 
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
 
-            
+
             while (dr.Read())
             {
                 Modelo.BilhetesImp objBilhete = new Modelo.BilhetesImp();
                 AuxSetInstance(dr, objBilhete);
                 lista.Add(objBilhete);
             }
-            
+
 
             if (!dr.IsClosed)
                 dr.Close();
@@ -575,8 +576,8 @@ namespace DAL.SQL
             List<Modelo.BilhetesImp> lista = new List<Modelo.BilhetesImp>();
 
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@dscodigo", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@dscodigo", SqlDbType.VarChar),
                 new SqlParameter ("@datai", SqlDbType.DateTime),
                 new SqlParameter ("@dataf", SqlDbType.DateTime)
             };
@@ -619,8 +620,8 @@ namespace DAL.SQL
             List<Modelo.BilhetesImp> lista = new List<Modelo.BilhetesImp>();
 
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@dscodigo", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@dscodigo", SqlDbType.VarChar),
                 new SqlParameter ("@datai", SqlDbType.DateTime),
                 new SqlParameter ("@dataf", SqlDbType.DateTime)
             };
@@ -663,8 +664,8 @@ namespace DAL.SQL
             List<Modelo.BilhetesImp> lista = new List<Modelo.BilhetesImp>();
 
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@lPIS", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@lPIS", SqlDbType.VarChar),
                 new SqlParameter ("@datai", SqlDbType.DateTime),
                 new SqlParameter ("@dataf", SqlDbType.DateTime)
             };
@@ -788,7 +789,7 @@ namespace DAL.SQL
             List<Modelo.BilhetesImp> lista = new List<Modelo.BilhetesImp>();
 
             SqlParameter[] parms = new SqlParameter[]
-			{				
+            {
                 new SqlParameter ("@datai", SqlDbType.Date),
                 new SqlParameter ("@dataf", SqlDbType.Date)
             };
@@ -823,7 +824,7 @@ namespace DAL.SQL
             Hashtable lista = new Hashtable();
 
             SqlParameter[] parms = new SqlParameter[]
-			{				
+            {
                 new SqlParameter ("@datai", SqlDbType.Date),
                 new SqlParameter ("@dataf", SqlDbType.Date)
             };
@@ -859,7 +860,7 @@ namespace DAL.SQL
                     dr.Close();
                 dr.Dispose();
             }
-            
+
 
             return lista;
         }
@@ -869,7 +870,7 @@ namespace DAL.SQL
             Hashtable lista = new Hashtable();
 
             SqlParameter[] parms = new SqlParameter[]
-			{				
+            {
                 new SqlParameter ("@datai", SqlDbType.Date),
                 new SqlParameter ("@dataf", SqlDbType.Date)
             };
@@ -892,7 +893,7 @@ namespace DAL.SQL
             {
                 dr = db.ExecuteReader(CommandType.Text, aux, parms);
             }
-            
+
 
             if (dr.HasRows)
             {
@@ -918,7 +919,7 @@ namespace DAL.SQL
             Hashtable lista = new Hashtable();
 
             SqlParameter[] parms = new SqlParameter[]
-			{				
+            {
                 new SqlParameter ("@datai", SqlDbType.Date),
                 new SqlParameter ("@dataf", SqlDbType.Date)
             };
@@ -928,7 +929,7 @@ namespace DAL.SQL
             string aux = "SELECT * FROM bilhetesimp WHERE data between @datai AND @dataf ";
             if (lPis.Count() > 0)
             {
-                aux += " and PIS in ('" + String.Join("','",lPis) +"')";
+                aux += " and PIS in ('" + String.Join("','", lPis) + "')";
             }
 
             aux += "ORDER BY func, data, hora";
@@ -986,20 +987,20 @@ namespace DAL.SQL
                     new DataColumn ("data", objBilhete.Data.GetType()),
                     new DataColumn ("hora", objBilhete.Hora.GetType()),
                     new DataColumn ("func", objBilhete.Func.GetType()),
-                    new DataColumn ("relogio", objBilhete.Relogio.GetType()), 
-                    new DataColumn ("importado", objBilhete.Importado.GetType()), 
-                    new DataColumn ("mar_data", objBilhete.Mar_data.GetType()), 
-                    new DataColumn ("mar_hora", objBilhete.Mar_hora.GetType()), 
-                    new DataColumn ("mar_relogio", objBilhete.Mar_relogio.GetType()), 
-                    new DataColumn ("posicao", objBilhete.Posicao.GetType()), 
-                    new DataColumn ("ent_sai", objBilhete.Ent_sai.GetType()), 
-                    new DataColumn ("incdata", objBilhete.Incdata.GetType()), 
-                    new DataColumn ("inchora", objBilhete.Inchora.GetType()), 
-                    new DataColumn ("incusuario", objBilhete.Incusuario.GetType()), 
-                    new DataColumn ("chave", objBilhete.Chave.GetType()), 
-                    new DataColumn ("dscodigo", objBilhete.DsCodigo.GetType()), 
-                    new DataColumn ("motivo", objBilhete.Motivo.GetType()), 
-                    new DataColumn ("ocorrencia", objBilhete.Ocorrencia.GetType()), 
+                    new DataColumn ("relogio", objBilhete.Relogio.GetType()),
+                    new DataColumn ("importado", objBilhete.Importado.GetType()),
+                    new DataColumn ("mar_data", objBilhete.Mar_data.GetType()),
+                    new DataColumn ("mar_hora", objBilhete.Mar_hora.GetType()),
+                    new DataColumn ("mar_relogio", objBilhete.Mar_relogio.GetType()),
+                    new DataColumn ("posicao", objBilhete.Posicao.GetType()),
+                    new DataColumn ("ent_sai", objBilhete.Ent_sai.GetType()),
+                    new DataColumn ("incdata", objBilhete.Incdata.GetType()),
+                    new DataColumn ("inchora", objBilhete.Inchora.GetType()),
+                    new DataColumn ("incusuario", objBilhete.Incusuario.GetType()),
+                    new DataColumn ("chave", objBilhete.Chave.GetType()),
+                    new DataColumn ("dscodigo", objBilhete.DsCodigo.GetType()),
+                    new DataColumn ("motivo", objBilhete.Motivo.GetType()),
+                    new DataColumn ("ocorrencia", objBilhete.Ocorrencia.GetType()),
                     new DataColumn ("idjustificativa", objBilhete.Idjustificativa.GetType()),
                     new DataColumn ("nsr", objBilhete.Nsr.GetType()),
                     new DataColumn ("idLancamentoLoteFuncionario", System.Type.GetType("System.Int32")),
@@ -1166,20 +1167,20 @@ namespace DAL.SQL
                     new DataColumn ("data", objBilhete.Data.GetType()),
                     new DataColumn ("hora", objBilhete.Hora.GetType()),
                     new DataColumn ("func", objBilhete.Func.GetType()),
-                    new DataColumn ("relogio", objBilhete.Relogio.GetType()), 
-                    new DataColumn ("importado", objBilhete.Importado.GetType()), 
-                    new DataColumn ("mar_data", objBilhete.Mar_data.GetType()), 
-                    new DataColumn ("mar_hora", objBilhete.Mar_hora.GetType()), 
-                    new DataColumn ("mar_relogio", objBilhete.Mar_relogio.GetType()), 
-                    new DataColumn ("posicao", objBilhete.Posicao.GetType()), 
-                    new DataColumn ("ent_sai", objBilhete.Ent_sai.GetType()), 
-                    new DataColumn ("incdata", objBilhete.Incdata.GetType()), 
-                    new DataColumn ("inchora", objBilhete.Inchora.GetType()), 
-                    new DataColumn ("incusuario", objBilhete.Incusuario.GetType()), 
-                    new DataColumn ("chave", objBilhete.Chave.GetType()), 
-                    new DataColumn ("dscodigo", objBilhete.DsCodigo.GetType()), 
-                    new DataColumn ("motivo", objBilhete.Motivo.GetType()), 
-                    new DataColumn ("ocorrencia", objBilhete.Ocorrencia.GetType()), 
+                    new DataColumn ("relogio", objBilhete.Relogio.GetType()),
+                    new DataColumn ("importado", objBilhete.Importado.GetType()),
+                    new DataColumn ("mar_data", objBilhete.Mar_data.GetType()),
+                    new DataColumn ("mar_hora", objBilhete.Mar_hora.GetType()),
+                    new DataColumn ("mar_relogio", objBilhete.Mar_relogio.GetType()),
+                    new DataColumn ("posicao", objBilhete.Posicao.GetType()),
+                    new DataColumn ("ent_sai", objBilhete.Ent_sai.GetType()),
+                    new DataColumn ("incdata", objBilhete.Incdata.GetType()),
+                    new DataColumn ("inchora", objBilhete.Inchora.GetType()),
+                    new DataColumn ("incusuario", objBilhete.Incusuario.GetType()),
+                    new DataColumn ("chave", objBilhete.Chave.GetType()),
+                    new DataColumn ("dscodigo", objBilhete.DsCodigo.GetType()),
+                    new DataColumn ("motivo", objBilhete.Motivo.GetType()),
+                    new DataColumn ("ocorrencia", objBilhete.Ocorrencia.GetType()),
                     new DataColumn ("idjustificativa", objBilhete.Idjustificativa.GetType()),
                     new DataColumn ("nsr", objBilhete.Nsr.GetType()),
                     new DataColumn ("idLancamentoLoteFuncionario", System.Type.GetType("System.Int32")),
@@ -1240,7 +1241,7 @@ namespace DAL.SQL
                     }
                 }
                 //bilhetesExistentes.Clear();
-                
+
                 using (SqlConnection conexao = new SqlConnection(conection))
                 {
                     conexao.Open();
@@ -1264,7 +1265,7 @@ namespace DAL.SQL
             return retorno;
         }
 
-        
+
 
         public int Incluir(List<Modelo.BilhetesImp> listaObjeto)
         {
@@ -1276,11 +1277,11 @@ namespace DAL.SQL
                 cmd.CommandType = CommandType.Text;
                 SqlParameter[] parms = GetParameters();
                 SqlParameter[] parms2 = new SqlParameter[]
-			    {
-				    new SqlParameter ("@data", SqlDbType.DateTime),
-				    new SqlParameter ("@hora", SqlDbType.VarChar),
-				    new SqlParameter ("@func", SqlDbType.VarChar),
-				    new SqlParameter ("@relogio", SqlDbType.VarChar)
+                {
+                    new SqlParameter ("@data", SqlDbType.DateTime),
+                    new SqlParameter ("@hora", SqlDbType.VarChar),
+                    new SqlParameter ("@func", SqlDbType.VarChar),
+                    new SqlParameter ("@relogio", SqlDbType.VarChar)
                 };
                 int p = 0;
                 string possuireg = @"SELECT COALESCE(COUNT(id),0) 
@@ -1332,13 +1333,16 @@ namespace DAL.SQL
         {
             string sqlDelete = "DELETE FROM dbo.bilhetesimp WHERE id in (" + String.Join(",", listaObjeto.Where(w => w.Id > 0).Select(s => s.Id)) + ")";
             int count = 0;
-            if (trans == null)
+            if (listaObjeto != null && listaObjeto.Count > 0)
             {
-                count = db.ExecuteNonQuery(CommandType.Text, sqlDelete, new SqlParameter[0]);
-            }
-            else
-            {
-                count = TransactDbOps.ExecuteNonQuery(trans, CommandType.Text, sqlDelete, new SqlParameter[0]);
+                if (trans == null)
+                {
+                    count = db.ExecuteNonQuery(CommandType.Text, sqlDelete, new SqlParameter[0]);
+                }
+                else
+                {
+                    count = TransactDbOps.ExecuteNonQuery(trans, CommandType.Text, sqlDelete, new SqlParameter[0]);
+                }
             }
             return count;
         }
@@ -1381,13 +1385,13 @@ namespace DAL.SQL
             SetDadosAlt(obj);
             SqlParameter[] parms = GetParameters();
             SetParameters(parms, obj);
-            
+
             SqlCommand cmd = TransactDbOps.ExecNonQueryCmd(trans, CommandType.Text, UPDATE, true, parms);
 
             cmd.Parameters.Clear();
             if (idLancamentoLoteFuncionario != null)
             {
-                RemoveRelacionamentoLote(trans, idLancamentoLoteFuncionario.GetValueOrDefault());   
+                RemoveRelacionamentoLote(trans, idLancamentoLoteFuncionario.GetValueOrDefault());
             }
         }
 
@@ -1484,24 +1488,24 @@ namespace DAL.SQL
                     new DataColumn ("data", typeof(DateTime)),
                     new DataColumn ("hora", objBilhete.Hora.GetType()),
                     new DataColumn ("func", objBilhete.Func.GetType()),
-                    new DataColumn ("relogio", objBilhete.Relogio.GetType()), 
-                    new DataColumn ("importado", typeof(int)), 
-                    new DataColumn ("mar_data", typeof(DateTime)), 
-                    new DataColumn ("mar_hora", objBilhete.Mar_hora.GetType()), 
-                    new DataColumn ("mar_relogio", objBilhete.Mar_relogio.GetType()), 
-                    new DataColumn ("posicao", objBilhete.Posicao.GetType()), 
-                    new DataColumn ("ent_sai", objBilhete.Ent_sai.GetType()), 
-                    new DataColumn ("incdata", typeof(DateTime)), 
-                    new DataColumn ("inchora", typeof(DateTime)), 
-                    new DataColumn ("incusuario", typeof(string)), 
-                    new DataColumn ("altdata", typeof(DateTime)), 
-                    new DataColumn ("althora", typeof(DateTime)), 
-                    new DataColumn ("altusuario", typeof(string)), 
+                    new DataColumn ("relogio", objBilhete.Relogio.GetType()),
+                    new DataColumn ("importado", typeof(int)),
+                    new DataColumn ("mar_data", typeof(DateTime)),
+                    new DataColumn ("mar_hora", objBilhete.Mar_hora.GetType()),
+                    new DataColumn ("mar_relogio", objBilhete.Mar_relogio.GetType()),
+                    new DataColumn ("posicao", objBilhete.Posicao.GetType()),
+                    new DataColumn ("ent_sai", objBilhete.Ent_sai.GetType()),
+                    new DataColumn ("incdata", typeof(DateTime)),
+                    new DataColumn ("inchora", typeof(DateTime)),
+                    new DataColumn ("incusuario", typeof(string)),
+                    new DataColumn ("altdata", typeof(DateTime)),
+                    new DataColumn ("althora", typeof(DateTime)),
+                    new DataColumn ("altusuario", typeof(string)),
                     new DataColumn ("codigo", objBilhete.Codigo.GetType()),
-                    new DataColumn ("chave", objBilhete.Chave.GetType()), 
-                    new DataColumn ("dscodigo", objBilhete.DsCodigo.GetType()), 
-                    new DataColumn ("ocorrencia", objBilhete.Ocorrencia.GetType()), 
-                    new DataColumn ("motivo", objBilhete.Motivo.GetType()), 
+                    new DataColumn ("chave", objBilhete.Chave.GetType()),
+                    new DataColumn ("dscodigo", objBilhete.DsCodigo.GetType()),
+                    new DataColumn ("ocorrencia", objBilhete.Ocorrencia.GetType()),
+                    new DataColumn ("motivo", objBilhete.Motivo.GetType()),
                     new DataColumn ("idjustificativa", objBilhete.Idjustificativa.GetType()),
                     new DataColumn ("nsr", objBilhete.Nsr.GetType()),
                     new DataColumn ("IdLancamentoLoteFuncionario", System.Type.GetType("System.Int32")),
@@ -1516,7 +1520,7 @@ namespace DAL.SQL
             DataRow row;
             foreach (Modelo.BilhetesImp bil in bilhetes)
             {
-                SetDadosAlt(bil,login);
+                SetDadosAlt(bil, login);
 
                 row = dt.NewRow();
                 row["id"] = bil.Id;
@@ -1572,24 +1576,24 @@ namespace DAL.SQL
                     new DataColumn ("data", typeof(DateTime)),
                     new DataColumn ("hora", objBilhete.Hora.GetType()),
                     new DataColumn ("func", objBilhete.Func.GetType()),
-                    new DataColumn ("relogio", objBilhete.Relogio.GetType()), 
-                    new DataColumn ("importado", typeof(int)), 
-                    new DataColumn ("mar_data", typeof(DateTime)), 
-                    new DataColumn ("mar_hora", objBilhete.Mar_hora.GetType()), 
-                    new DataColumn ("mar_relogio", objBilhete.Mar_relogio.GetType()), 
-                    new DataColumn ("posicao", objBilhete.Posicao.GetType()), 
-                    new DataColumn ("ent_sai", objBilhete.Ent_sai.GetType()), 
-                    new DataColumn ("incdata", typeof(DateTime)), 
-                    new DataColumn ("inchora", typeof(DateTime)), 
-                    new DataColumn ("incusuario", typeof(string)), 
-                    new DataColumn ("altdata", typeof(DateTime)), 
-                    new DataColumn ("althora", typeof(DateTime)), 
-                    new DataColumn ("altusuario", typeof(string)), 
+                    new DataColumn ("relogio", objBilhete.Relogio.GetType()),
+                    new DataColumn ("importado", typeof(int)),
+                    new DataColumn ("mar_data", typeof(DateTime)),
+                    new DataColumn ("mar_hora", objBilhete.Mar_hora.GetType()),
+                    new DataColumn ("mar_relogio", objBilhete.Mar_relogio.GetType()),
+                    new DataColumn ("posicao", objBilhete.Posicao.GetType()),
+                    new DataColumn ("ent_sai", objBilhete.Ent_sai.GetType()),
+                    new DataColumn ("incdata", typeof(DateTime)),
+                    new DataColumn ("inchora", typeof(DateTime)),
+                    new DataColumn ("incusuario", typeof(string)),
+                    new DataColumn ("altdata", typeof(DateTime)),
+                    new DataColumn ("althora", typeof(DateTime)),
+                    new DataColumn ("altusuario", typeof(string)),
                     new DataColumn ("codigo", objBilhete.Codigo.GetType()),
-                    new DataColumn ("chave", objBilhete.Chave.GetType()), 
-                    new DataColumn ("dscodigo", objBilhete.DsCodigo.GetType()), 
-                    new DataColumn ("ocorrencia", objBilhete.Ocorrencia.GetType()), 
-                    new DataColumn ("motivo", objBilhete.Motivo.GetType()), 
+                    new DataColumn ("chave", objBilhete.Chave.GetType()),
+                    new DataColumn ("dscodigo", objBilhete.DsCodigo.GetType()),
+                    new DataColumn ("ocorrencia", objBilhete.Ocorrencia.GetType()),
+                    new DataColumn ("motivo", objBilhete.Motivo.GetType()),
                     new DataColumn ("idjustificativa", objBilhete.Idjustificativa.GetType()),
                     new DataColumn ("nsr", objBilhete.Nsr.GetType()),
                     new DataColumn ("IdLancamentoLoteFuncionario", System.Type.GetType("System.Int32")),
@@ -1661,8 +1665,8 @@ namespace DAL.SQL
         public DataTable GetBilhetesImportar(string pDsCodigo, bool pManutBilhete, DateTime? pDataBilI, DateTime? pDataBilF)
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@dscodigo", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@dscodigo", SqlDbType.VarChar),
                 new SqlParameter ("@importado", SqlDbType.Int),
                 new SqlParameter ("@datai", SqlDbType.DateTime),
                 new SqlParameter ("@dataf", SqlDbType.DateTime)
@@ -1721,7 +1725,7 @@ namespace DAL.SQL
             if (!String.IsNullOrEmpty(pDsCodigo) && pManutBilhete)
             {
                 sql.AppendLine(" INNER JOIN F_DSCodigoPorPeriodo (@dscodigo) dscodigo ON bimp.func = dscodigo.dscodigo AND bimp.mar_data BETWEEN dscodigo.dataInicial AND dscodigo.dataFinal ");
-                sql.AppendLine(" left join funcionario as func on func.id = dscodigo.idFuncionario ");           
+                sql.AppendLine(" left join funcionario as func on func.id = dscodigo.idFuncionario ");
             }
             //Join para os funcionário sem provisório e sem mudança de código
             else
@@ -1851,8 +1855,8 @@ namespace DAL.SQL
         public DataTable GetBilhetesPorPIS(List<string> lPIS, DateTime? pDataBilI, DateTime? pDataBilF)
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@lPIS", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@lPIS", SqlDbType.VarChar),
                 new SqlParameter ("@datai", SqlDbType.DateTime),
                 new SqlParameter ("@dataf", SqlDbType.DateTime)
             };
@@ -1983,7 +1987,7 @@ namespace DAL.SQL
                 sql.AppendLine("and bimp.mar_data >= @datai");
                 sql.AppendLine("and bimp.mar_data <= @dataf");
             }
-                sql.AppendLine("order by bimp.func, bimp.data, bimp.hora");
+            sql.AppendLine("order by bimp.func, bimp.data, bimp.hora");
 
 
             DataTable dt = new DataTable();
@@ -2006,8 +2010,8 @@ namespace DAL.SQL
         public void GetDataBilhetesImportar(string pDsCodigo, bool pManutBilhete, out DateTime? pdatai, out DateTime? pdataf)
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@dscodigo", SqlDbType.VarChar),
+            {
+                new SqlParameter ("@dscodigo", SqlDbType.VarChar),
                 new SqlParameter ("@importado", SqlDbType.Int)
             };
             parms[0].Value = pDsCodigo;
@@ -2184,7 +2188,7 @@ namespace DAL.SQL
             sql.AppendLine("where 1 = 1");
             sql.AppendLine("and bimp.id in ( SELECT b.id /*Select para trazer os bilhetes a serem importados, caso exista bilhetes já importados com data maior ao ser importado agora, tras esses bilhetes mais novos também do dia para reposicionar*/");
             sql.AppendLine("                   FROM dbo.bilhetesimp b ");
-            sql.AppendLine("                 INNER JOIN dbo.bilhetesimp bi on bi.dscodigo = b.dscodigo AND b.data = bi.data AND CONVERT(datetime, b.data + ' ' + b.hora) >= CONVERT(DATETIME, bi.data + ' ' + bi.hora) ");
+            sql.AppendLine("                 INNER JOIN dbo.bilhetesimp bi on bi.dscodigo = b.dscodigo AND b.data = bi.data ");
             sql.AppendLine("                 WHERE bi.id IN (" + String.Join(",", idsBilhetes) + "))");
             //sql.AppendLine("and bimp.id in (" + String.Join(",", idsBilhetes) + ")");
             sql.AppendLine(PermissaoUsuarioFuncionario(UsuarioLogado, sql.ToString(), "func.idempresa", "func.id", null));
@@ -2228,9 +2232,9 @@ namespace DAL.SQL
         public Int64 GetUltimoNSRRep(string pRelogio)
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@relogio", SqlDbType.VarChar, 20)
-               
+            {
+                new SqlParameter ("@relogio", SqlDbType.VarChar, 20)
+
             };
             parms[0].Value = pRelogio;
 
@@ -2248,7 +2252,7 @@ namespace DAL.SQL
 
         public List<Modelo.Proxy.PxyBilhetesFuncsDoisRegistros> FuncsDoisRegistrosRegistribuirBilhetes(bool importado, List<string> lPis, DateTime datai, DateTime dataf)
         {
-            SqlParameter[] parms = new SqlParameter[] 
+            SqlParameter[] parms = new SqlParameter[]
             {
                 new SqlParameter("@importado", SqlDbType.Bit),
                 new SqlParameter("@lPis", SqlDbType.VarChar),
@@ -2376,6 +2380,8 @@ namespace DAL.SQL
 														                                WHERE pis in ( SELECT   * FROM     dbo.F_ClausulaIn(@lPis)) AND funcionarioativo = 1 AND excluido = 0
 														                                GROUP BY pis
 														                                HAVING COUNT(pis) > 1 )
+																AND f.dataadmissao <= datas.data
+																AND (f.datademissao > datas.data or f.datademissao is null)
 								                                AND EXISTS ( SELECT 1
 												                                FROM   dbo.bilhetesimp b
 												                                WHERE  b.PIS = f.pis
@@ -2392,7 +2398,7 @@ namespace DAL.SQL
 																                                OR ( ja.tipo = 3 AND ja.identificacao = i.idfuncao)
 															                                  )
 															                                 AND ( i.Mar_data BETWEEN ja.datainicial AND ja.datafinal))
-					                                WHERE i.qtdDia >= 2 
+					                                WHERE i.qtdDia >= 2
 			                                ) t
                                     ) d
                                  ORDER BY Mar_data ,
@@ -2425,9 +2431,9 @@ namespace DAL.SQL
         public Modelo.BilhetesImp UltimoBilhetePorRep(string pRelogio)
         {
             SqlParameter[] parms = new SqlParameter[]
-			{
-				new SqlParameter ("@relogio", SqlDbType.VarChar, 20)
-               
+            {
+                new SqlParameter ("@relogio", SqlDbType.VarChar, 20)
+
             };
             parms[0].Value = pRelogio;
             string aux = "SELECT TOP(1) * FROM bilhetesimp WHERE relogio = @relogio ORDER BY data DESC, Nsr DESC";
@@ -2452,7 +2458,7 @@ namespace DAL.SQL
             SqlParameter[] parms = new SqlParameter[0];
 
             string sql = "SELECT Id, IdRegistroPonto, importado FROM dbo.bilhetesimp WITH (NOLOCK) WHERE idRegistroPonto IN (" + String.Join(",", IdsRegistrosPonto) + ")";
-            
+
             DataTable dt = new DataTable();
             dt = db.ExecuteReaderToDataTable(sql.ToString(), parms);
             if (dt.Rows.Count > 0)
@@ -2465,10 +2471,10 @@ namespace DAL.SQL
         {
             SqlParameter[] parms = new SqlParameter[]
             {
-                
+
             };
 
-            string comando = "SELECT * FROM bilhetesimp WHERE idRegistroPonto in (" + String.Join(",",IdsRegistrosPonto) + ")";
+            string comando = "SELECT * FROM bilhetesimp WHERE idRegistroPonto in (" + String.Join(",", IdsRegistrosPonto) + ")";
 
             List<Modelo.BilhetesImp> ret = new List<Modelo.BilhetesImp>();
 
@@ -2509,6 +2515,223 @@ namespace DAL.SQL
                 dr.Close();
             dr.Dispose();
             return ret;
+        }
+
+        public List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> RegistrosValidarPontoExcecao()
+        {
+            return RegistrosValidarPontoExcecao(new List<int>(), new List<int>());
+        }
+
+        public List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> RegistrosValidarPontoExcecao(List<int> idsFuncs, List<int> idsHorario)
+        {
+            SqlParameter[] parms = new SqlParameter[2]
+            {
+                    new SqlParameter("@idsFuncs", SqlDbType.Structured),
+                    new SqlParameter("@idsHorarios", SqlDbType.Structured)
+            };
+            parms[0].Value = CreateDataTableIdentificadores(idsFuncs.Select(s => (long)s).ToList());
+            parms[0].TypeName = "Identificadores";
+
+            parms[1].Value = CreateDataTableIdentificadores(idsHorario.Select(s => (long)s).ToList());
+            parms[1].TypeName = "Identificadores";
+
+            string sql = @" SET DATEFIRST 1
+
+                              SELECT t.IdMarcacao,
+								   t.DataMarcacacao,
+								   t.legenda,
+								   IIF(j.entrada_1 IS NULL,'--:--',j.entrada_1) EntradaPrevista1,
+								   IIF(j.saida_1 IS NULL,'--:--',j.saida_1) SaidaPrevista1,
+								   IIF(j.entrada_2 IS NULL,'--:--',j.entrada_2) EntradaPrevista2,
+								   IIF(j.saida_2 IS NULL,'--:--',j.saida_2) SaidaPrevista2,
+								   IIF(j.entrada_3 IS NULL,'--:--',j.entrada_3) EntradaPrevista3,
+								   IIF(j.saida_3 IS NULL,'--:--',j.saida_3) SaidaPrevista3,
+								   IIF(j.entrada_4 IS NULL,'--:--',j.entrada_4) EntradaPrevista4,
+								   IIF(j.saida_4 IS NULL,'--:--',j.saida_4) SaidaPrevista4,
+								   t.marc_entrada_1 EntradaMarcacao1,
+								   t.marc_saida_1 SaidaMarcacao1,
+								   t.marc_entrada_2 EntradaMarcacao2,
+								   t.marc_saida_2 SaidaMarcacao2,
+								   t.marc_entrada_3 EntradaMarcacao3,
+								   t.marc_saida_3 SaidaMarcacao3,
+								   t.marc_entrada_4 EntradaMarcacao4,
+								   t.marc_saida_4 SaidaMarcacao4,
+                                   t.dscodigo,
+                                   t.pis,
+                                   t.idfuncionario,
+                                   PontoPorExcecao,
+                                   t.idhorario,
+                                   b.*
+                            FROM (
+                                SELECT
+									m.id IdMarcacao,
+                                    m.data DataMarcacacao,
+									IIF(m.entrada_1 IS NULL,'--:--',m.entrada_1) marc_entrada_1,
+									IIF(m.saida_1 IS NULL,'--:--',m.saida_1) marc_saida_1,
+									IIF(m.entrada_2 IS NULL,'--:--',m.entrada_2) marc_entrada_2,
+									IIF(m.saida_2 IS NULL,'--:--',m.saida_2) marc_saida_2,
+									IIF(m.entrada_3 IS NULL,'--:--',m.entrada_3) marc_entrada_3,
+									IIF(m.saida_3 IS NULL,'--:--',m.saida_3) marc_saida_3,
+									IIF(m.entrada_4 IS NULL,'--:--',m.entrada_4) marc_entrada_4,
+									IIF(m.saida_4 IS NULL,'--:--',m.saida_4) marc_saida_4,
+                                    m.legenda,
+                                    f.dscodigo,
+                                    f.pis,
+                                    f.id idfuncionario,
+                                    h.PontoPorExcecao,
+                                    h.id idhorario,
+                                    h.tipohorario
+                                FROM dbo.marcacao m 
+                                INNER JOIN dbo.horario  h  ON m.idhorario = h.id  AND m.idfechamentobh IS NULL and m.idFechamentoPonto is NULL
+                                INNER JOIN dbo.funcionario  f ON f.idhorario = h.id AND m.idfuncionario = f.id and m.[data] >=  f.dataadmissao AND (m.[data] < f.datademissao OR f.datademissao IS NULL) AND (m.[data] < f.DataInativacao OR f.DataInativacao IS NULL)
+                                WHERE m.legenda not in ('A', 'F')
+                                AND (h.pontoporexcecao = 1)                             
+                                AND (f.id in (SELECT Identificador from @idsFuncs) OR
+                                        (SELECT count(Identificador) from @idsFuncs) = 0
+                                        ) 
+                                AND (h.id in (SELECT Identificador from @idsHorarios) OR
+                                        (SELECT count(Identificador) from @idsHorarios) = 0
+                                        )
+                            ) T
+                            LEFT JOIN dbo.bilhetesimp  b ON t.idfuncionario = b.idfuncionario AND t.DataMarcacacao = b.mar_data
+                            LEFT JOIN dbo.horariodetalhe  hd ON t.idhorario = hd.idhorario AND ((t.tipohorario = 1 AND hd.dia = DATEPART(WEEKDAY, t.DataMarcacacao)) OR  (t.tipohorario = 2 AND hd.data = t.DataMarcacacao ))
+                            LEFT JOIN dbo.jornada  j ON j.id = hd.idjornada AND j.entrada_1 IS NOT NULL
+                            WHERE 1 = 1 ";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+
+            List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> lista = new List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao>();
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.Proxy.PxyRegistrosValidarPontoExcecao>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
+
+        /// <summary>
+        /// Busca os bilhetes de uma lista de funcionários
+        /// </summary>
+        /// <param name="idsFuncs">Ids dos funcionários</param>
+        /// <param name="dtIni">Data início a ser considerada</param>
+        /// <param name="dtFin">Data fim a ser considerada</param>
+        /// <param name="importado">Valor do campo importado (passar -1 para todos)</param>
+        /// <returns>Retorna lista de bilhestes</returns>
+        public List<Modelo.BilhetesImp> GetByIDsFuncs(List<int> idsFuncs, DateTime dtIni, DateTime dtFin, int importado)
+        {
+            SqlParameter[] parms = new SqlParameter[4]
+            {
+                    new SqlParameter("@idsFuncs", SqlDbType.Structured),
+                    new SqlParameter("@datai", SqlDbType.DateTime),
+                    new SqlParameter("@dataf", SqlDbType.DateTime),
+                    new SqlParameter("@importado", SqlDbType.Int)
+            };
+            parms[0].Value = CreateDataTableIdentificadores(idsFuncs.Select(s => (long)s).ToList());
+            parms[0].TypeName = "Identificadores";
+            parms[1].Value = dtIni;
+            parms[2].Value = dtFin;
+            parms[3].Value = importado;
+
+            string sql = @"
+                            select * 
+                              from bilhetesimp b
+                             inner join @idsFuncs f on f.Identificador = b.IdFuncionario
+                             WHERE 1 = 1
+                               and b.[data] BETWEEN @datai and @dataf
+                               and importado = IIF(@importado = -1, importado, @importado) ";
+
+            SqlDataReader dr = db.ExecuteReader(CommandType.Text, sql, parms);
+
+            List<Modelo.BilhetesImp> lista = new List<Modelo.BilhetesImp>();
+            try
+            {
+                AutoMapper.Mapper.CreateMap<IDataReader, Modelo.BilhetesImp>();
+                lista = AutoMapper.Mapper.Map<List<Modelo.BilhetesImp>>(dr);
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (!dr.IsClosed)
+                {
+                    dr.Close();
+                }
+                dr.Dispose();
+            }
+            return lista;
+        }
+
+
+        public void ExcluirBilhetePontoPorExcecao(List<int> listaIdsBilhetes)
+        {
+            try
+            {
+                if (listaIdsBilhetes != null && listaIdsBilhetes.Count > 0)
+                {
+
+                    string sql = "DELETE FROM dbo.bilhetesimp WHERE id in (" + String.Join(",", listaIdsBilhetes) + ")";
+                    var count = db.ExecuteNonQuery(CommandType.Text, sql, new SqlParameter[0]);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void ZeraMarcacaoSemBilhete(List<int> idsMarcacao)
+        {
+            try
+            {
+                SqlParameter[] parms = new SqlParameter[1]
+                {
+                    new SqlParameter("@idsMarcacao", SqlDbType.Structured),
+                };
+                parms[0].Value = CreateDataTableIdentificadores(idsMarcacao.Select(s => (long)s).ToList());
+                parms[0].TypeName = "Identificadores";
+
+                string sql = @" UPDATE dbo.marcacao SET
+                            legenda = '',
+                            ent_num_relogio_1 = '',
+                            sai_num_relogio_1 = '',
+                            ent_num_relogio_2 = '',
+                            sai_num_relogio_2 = '',
+                            ent_num_relogio_3 = '',
+                            sai_num_relogio_3 = '',
+                            ent_num_relogio_4 = '',
+                            sai_num_relogio_4 = '',
+                            entrada_1 = NULL,
+                            saida_1 = NULL,
+                            entrada_2 = NULL,
+                            saida_2 = NULL,
+                            entrada_3 = NULL,
+                            saida_3 = NULL,
+                            entrada_4 = NULL,
+                            saida_4 = NULL
+
+                             WHERE id in (SELECT Identificador from @idsMarcacao)";
+
+                var num = db.ExecuteNonQuery(CommandType.Text, sql, parms);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         #endregion
     }

@@ -28,7 +28,8 @@ namespace BLL
 
         private TimeSpan MinutosParaAviso = TimeSpan.FromMinutes(10);
 
-        public Modelo.ProgressBar ObjProgressBar {
+        public Modelo.ProgressBar ObjProgressBar
+        {
             get { return objProgressBar; }
             set { objProgressBar = value; }
         }
@@ -777,7 +778,7 @@ namespace BLL
                 {
                     ret.Add("Pis", "O PIS informado é inválido.");
                 }
-            }          
+            }
 
 
             BLL.Horario bllHorario = new BLL.Horario(ConnectionString, UsuarioLogado);
@@ -806,7 +807,7 @@ namespace BLL
                     if (IdsHorariosComConflito.Count > 0)
                     {
                         ret.Add("Horario", "O Horário informado esta em conflito com o horário de outro registro desse empregado.");
-                    } 
+                    }
                 }
             }
 
@@ -946,6 +947,16 @@ namespace BLL
                     BLL.ParametroPainelRH BllParametroPnlRH = new BLL.ParametroPainelRH(ConnectionString, UsuarioLogado);
                     Modelo.ParametroPainelRH parametroPainelRH = new Modelo.ParametroPainelRH();
                     parametroPainelRH = BllParametroPnlRH.GetAllList().FirstOrDefault();
+
+                    if (objeto.DataInativacao != null)
+                    {
+                        objeto.utilizaregistrador = false;
+                        objeto.UtilizaAppPontofopag = false;
+                        objeto.UtilizaReconhecimentoFacialApp = false;
+                        objeto.UtilizaWebAppPontofopag = false;
+                        objeto.UtilizaReconhecimentoFacialWebApp = false;
+                    }
+
                     switch (pAcao)
                     {
 
@@ -966,7 +977,7 @@ namespace BLL
                             }
                             if (!objeto.NaoRecalcular)
                             {
-                                importou = this.ImportacaoBilhete(objeto, out datai, out dataf, log);
+                                importou = this.ImportacaoBilhete(objeto, out datai, out dataf, log ,null);
                                 if (importou)
                                 {
                                     this.AtualizaMarcacao(objeto.Id, datai, dataf);
@@ -985,7 +996,7 @@ namespace BLL
                             dalFuncionario.Alterar(objeto);
                             if ((objeto.Funcionarioativo != objeto.Funcionarioativo_Ant) && (objeto.Funcionarioativo == 1))
                             {
-                                importou = this.ImportacaoBilhete(objeto, out datai, out dataf, log);
+                                importou = this.ImportacaoBilhete(objeto, out datai, out dataf, log ,null);
                             }
                             else
                             {
@@ -1082,7 +1093,7 @@ namespace BLL
                     try
                     {
                         dalFuncionario.Incluir(objeto);
-                        erros = new Dictionary<string, string>();                        
+                        erros = new Dictionary<string, string>();
                         break;
                     }
                     catch (Exception ex)
@@ -1101,7 +1112,7 @@ namespace BLL
                         }
                     }
                 }
-            }            
+            }
             else
             {
                 throw e;
@@ -1149,7 +1160,7 @@ namespace BLL
                             dalFuncionario.Incluir(objeto);
                             if (objeto.ImportarMarcacoes)
                             {
-                                importou = this.ImportacaoBilhete(objeto, out datai, out dataf, log);
+                                importou = this.ImportacaoBilhete(objeto, out datai, out dataf, log , null);
                                 if (importou)
                                 {
                                     this.AtualizaMarcacao(objeto.Id, datai, dataf);
@@ -1164,7 +1175,7 @@ namespace BLL
                         {
                             if ((objeto.Funcionarioativo != objeto.Funcionarioativo_Ant) && (objeto.Funcionarioativo == 1))
                             {
-                                importou = this.ImportacaoBilhete(objeto, out datai, out dataf, log);
+                                importou = this.ImportacaoBilhete(objeto, out datai, out dataf, log, null);
                             }
                             else
                             {
@@ -1217,12 +1228,12 @@ namespace BLL
             return dalFuncionario.getId(pValor, pCampo, pValor2);
         }
 
-        public bool ImportacaoBilhete(Modelo.Funcionario pFuncionario, out DateTime pDataI, out DateTime pDataF, List<string> log)
+        public bool ImportacaoBilhete(Modelo.Funcionario pFuncionario, out DateTime pDataI, out DateTime pDataF, List<string> log,bool? bRazaoSocial)
         {
             DateTime? dataInicial;
             DateTime? dataFinal;
             BLL.ImportaBilhetes bllImportaBilhetes = new BLL.ImportaBilhetes(ConnectionString, UsuarioLogado);
-            bool importou = bllImportaBilhetes.ImportarBilhetes(pFuncionario.Dscodigo, false, null, null, out dataInicial, out dataFinal, objProgressBar, log);
+            bool importou = bllImportaBilhetes.ImportarBilhetes(pFuncionario.Dscodigo, false, null, null, out dataInicial, out dataFinal, objProgressBar, log , bRazaoSocial);
             if (dataInicial != null && dataFinal != null)
             {
                 pDataI = dataInicial.Value;
@@ -1468,7 +1479,7 @@ namespace BLL
 
             return ret;
         }
-        
+
         #region Contrato Funcionario
         public void SetContratoFuncionarioIntegracao(int idIntegracao, int idIntegracaoContrato, Acao acao)
         {
@@ -1479,26 +1490,27 @@ namespace BLL
 
             try
             {
-                int idIntegrFunc =idIntegracao;
+                int idIntegrFunc = idIntegracao;
                 int? funcid = bllFuncionario.GetIdporIdIntegracao(idIntegrFunc);
                 int? idIntegrContr = idIntegracaoContrato;
-                int? contid = bllContrato.GetIdPorIdIntegracao(idIntegrContr.GetValueOrDefault());              
+                int? contid = bllContrato.GetIdPorIdIntegracao(idIntegrContr.GetValueOrDefault());
                 if (funcid > 0 && contid > 0)
                 {
                     Modelo.Contrato Contrato = bllContrato.LoadObject(contid.GetValueOrDefault());
                     Modelo.ContratoFuncionario ContratoFunc = new Modelo.ContratoFuncionario();
                     BLL.ContratoFuncionario bllContratoFun = new BLL.ContratoFuncionario(ConnectionString);
-                    
+
                     ContratoFunc.IdContrato = contid.GetValueOrDefault();
                     ContratoFunc.IdFuncionario = funcid.GetValueOrDefault();
-                    
-                    int? idContratoAnt = bllContratoFun.getContratoId(ContratoFunc.IdFuncionario); 
+
+                    int? idContratoAnt = bllContratoFun.getContratoId(ContratoFunc.IdFuncionario);
 
                     Modelo.ContratoFuncionario ContFunc = new Modelo.ContratoFuncionario();
                     if ((acao == Acao.Incluir || acao == Acao.Alterar) && (idContratoAnt != contid))
                     {
                         int CodigoContratoAnt = bllContratoFun.getContratoCodigo(idContratoAnt.GetValueOrDefault(), ContratoFunc.IdFuncionario);
-                        int IdContratoFuncAnt = CodigoContratoAnt != 0 ? bllContratoFun.getId(CodigoContratoAnt, null, null) : 0;
+                        string excluido = "excluido";
+                        int IdContratoFuncAnt = CodigoContratoAnt != 0 ? bllContratoFun.getId(CodigoContratoAnt, excluido, 0) : 0;
                         if (idContratoAnt != ContratoFunc.IdContrato && idContratoAnt.GetValueOrDefault() != 0)
                         {
                             Modelo.ContratoFuncionario ContFuncAnt = new Modelo.ContratoFuncionario();
@@ -1531,7 +1543,7 @@ namespace BLL
             }
             catch (Exception ex)
             {
-                BLL.cwkFuncoes.LogarErro(ex); 
+                BLL.cwkFuncoes.LogarErro(ex);
             }
             return;
         }
@@ -2160,5 +2172,19 @@ namespace BLL
         {
             dalFuncionario.DeleteLogicoFuncionariosInativos(qtdMeses);
         }
+
+        /// <summary>
+        /// Retorna periodo das empresas pelo Id dos funcionarios
+        /// </summary>
+        /// <param name="idsFuncs"></param>
+        /// <returns>
+        /// DataTable Fields: 
+        /// id, idEmpresa, DiaFechamentoInicial, DiaFechamentoFinal
+        /// </returns>
+        public DataTable GetEmpresaPeriodoFechamentoPonto(params int[] ids)
+        {
+            return dalFuncionario.GetEmpresaPeriodoFechamentoPonto(ids);
+        }
+
     }
 }
