@@ -130,13 +130,7 @@ namespace PontoWeb.Controllers
                     string conn = Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt;
                     var usr = Usuario.GetUsuarioPontoWebLogadoCache();
 
-
                     BLL.CercaVirtual objCercaVirtual = new BLL.CercaVirtual(conn, usr);
-
-                    if (obj.Acao == Acao.Incluir)
-                    {
-
-                    }
                     obj.NaoValidaCodigo = false;
                     objCercaVirtual.Salvar(obj.Acao, obj);
 
@@ -169,7 +163,7 @@ namespace PontoWeb.Controllers
                 CodigoFuncionario = int.Parse(HttpContext.Request.UrlReferrer.Segments[3]);
             }
 
-            objCercaVirtual.Excluir(id, CodigoFuncionario);
+            objCercaVirtual.Excluir(id);
 
             var cercaVirtualBLL = new BLL.CercaVirtual(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, usr);
 

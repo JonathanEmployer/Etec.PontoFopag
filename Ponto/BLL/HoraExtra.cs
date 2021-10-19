@@ -70,7 +70,7 @@ namespace BLL
                     #endregion
 
                     //Rotina esta preparada apenas para calcular horas extras acumuladas Diariamente ou Mensalmente (Semanalmente deve ser desenvolvida ainda)
-                    if (tipoAcumulo == 1 || tipoAcumulo == 3)
+                    if (tipoAcumulo == 1 || tipoAcumulo == 3 || tipoAcumulo == 2)
                     {
                         //Inicializa o Objeto que guardara as horas extras por dia
                         HorasExtrasPorDia horasExtrasDoDia = InicializaHorasExtrasPorDia(horasExtrasDoPeriodo, idFuncionario, dataMarc, tipoDia);
@@ -132,9 +132,9 @@ namespace BLL
                     string[] selectedColumns = new[] { "idhorario", "tipoacumulo" };
 
                     DataTable dt = new DataView(todos).ToTable(true, selectedColumns);
-                    if (dt.Select("tipoacumulo <> 1 and tipoacumulo <> 3 and tipoacumulo <> -1").Count() > 0)
+                    if (dt.Select("tipoacumulo <> 1 and tipoacumulo <> 2 and tipoacumulo <> 3 and tipoacumulo <> -1").Count() > 0)
                     {
-                        dt = dt.Select("tipoacumulo <> 1 and tipoacumulo <> 3 and tipoacumulo <> -1").CopyToDataTable();
+                        dt = dt.Select("tipoacumulo <> 1 and tipoacumulo <> 2 and tipoacumulo <> 3 and tipoacumulo <> -1").CopyToDataTable();
                         if (!dt.HasErrors && dt.Rows.Count > 0)
                         {
                             Hashtable ids = new Hashtable();
@@ -225,6 +225,23 @@ namespace BLL
                 IList<Modelo.Proxy.HoraExtra> heMS = horasExtrasDoPeriodo.Where(x => x.IdFuncionario == horasExtrasDoDia.IdFuncionario && x.DataMarcacao.Month == horasExtrasDoDia.DataMarcacao.Month && x.TipoAcumulo == horasExtrasDoDia.TipoAcumulo && x.TipoDiaAcumulo == tipoDiaAcumulo).SelectMany(x => x.HorasExtras).ToList();
                 limite -= heMS.Where(x => x.Percentual == perc).Sum(x => x.HoraDiurna);
             }
+
+            if (horasExtrasDoDia.TipoAcumulo == 2) // Se acumulo for por semana, retiro do limite a quantidade já utilizada ndo começo da semana até a data.
+            {
+                IList<Modelo.Proxy.HoraExtra> heMS = horasExtrasDoPeriodo.Where(x => x.IdFuncionario == horasExtrasDoDia.IdFuncionario && x.DataMarcacao.Month == horasExtrasDoDia.DataMarcacao.Month && x.TipoAcumulo == horasExtrasDoDia.TipoAcumulo && x.TipoDiaAcumulo == tipoDiaAcumulo).SelectMany(x => x.HorasExtras).ToList();
+                ///
+
+                DateTime dtIni = new DateTime(horasExtrasDoDia.DataMarcacao.StartOfWeek().Year, horasExtrasDoDia.DataMarcacao.StartOfWeek().Month, horasExtrasDoDia.DataMarcacao.StartOfWeek().Day);
+                DateTime dtFim = new DateTime(horasExtrasDoDia.DataMarcacao.Year, horasExtrasDoDia.DataMarcacao.Month, horasExtrasDoDia.DataMarcacao.Day);
+
+
+
+                IList<Modelo.Proxy.HoraExtra> heMST = horasExtrasDoPeriodo.Where(x => x.IdFuncionario == horasExtrasDoDia.IdFuncionario && x.DataMarcacao >= dtIni && x.DataMarcacao <= dtFim && x.TipoAcumulo == horasExtrasDoDia.TipoAcumulo && x.TipoDiaAcumulo == tipoDiaAcumulo).SelectMany(x => x.HorasExtras).ToList();
+                limite -= heMST.Where(x => x.Percentual == perc).Sum(x => x.HoraDiurna);
+            }
+
+
+
             short TipoAcumulo = horarioPHExtra.TipoAcumulo;
             Modelo.Proxy.HoraExtra he = horasExtrasDoDia.HorasExtras.Where(x => x.Percentual == perc).FirstOrDefault();
             if (he == null)
@@ -265,6 +282,21 @@ namespace BLL
                 IList<Modelo.Proxy.HoraExtra> heMS = horasExtrasDoPeriodo.Where(x => x.IdFuncionario == horasExtrasDoDia.IdFuncionario && x.DataMarcacao.Month == horasExtrasDoDia.DataMarcacao.Month && x.TipoAcumulo == horasExtrasDoDia.TipoAcumulo && x.TipoDiaAcumulo == tipoDiaAcumulo).SelectMany(x => x.HorasExtras).ToList();
                 limite -= heMS.Where(x => x.Percentual == perc).Sum(x => x.HoraNoturna);
             }
+
+            if (horasExtrasDoDia.TipoAcumulo == 2) // Se acumulo for por semana, retiro do limite a quantidade já utilizada ndo começo da semana até a data.
+            {
+                IList<Modelo.Proxy.HoraExtra> heMS = horasExtrasDoPeriodo.Where(x => x.IdFuncionario == horasExtrasDoDia.IdFuncionario && x.DataMarcacao.Month == horasExtrasDoDia.DataMarcacao.Month && x.TipoAcumulo == horasExtrasDoDia.TipoAcumulo && x.TipoDiaAcumulo == tipoDiaAcumulo).SelectMany(x => x.HorasExtras).ToList();
+                ///
+
+                DateTime dtIni = new DateTime(horasExtrasDoDia.DataMarcacao.StartOfWeek().Year, horasExtrasDoDia.DataMarcacao.StartOfWeek().Month, horasExtrasDoDia.DataMarcacao.StartOfWeek().Day);
+                DateTime dtFim = new DateTime(horasExtrasDoDia.DataMarcacao.Year, horasExtrasDoDia.DataMarcacao.Month, horasExtrasDoDia.DataMarcacao.Day);
+
+
+
+                IList<Modelo.Proxy.HoraExtra> heMST = horasExtrasDoPeriodo.Where(x => x.IdFuncionario == horasExtrasDoDia.IdFuncionario && x.DataMarcacao >= dtIni && x.DataMarcacao <= dtFim && x.TipoAcumulo == horasExtrasDoDia.TipoAcumulo && x.TipoDiaAcumulo == tipoDiaAcumulo).SelectMany(x => x.HorasExtras).ToList();
+                limite -= heMST.Where(x => x.Percentual == perc).Sum(x => x.HoraNoturna);
+            }
+
             short TipoAcumulo = horarioPHExtra.TipoAcumulo;
             Modelo.Proxy.HoraExtra he = horasExtrasDoDia.HorasExtras.Where(x => x.Percentual == perc).FirstOrDefault();
             if (he == null)

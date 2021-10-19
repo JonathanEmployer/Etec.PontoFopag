@@ -22,9 +22,9 @@ namespace DAL.SQL
             SELECTALL = @"   SELECT * FROM CercaVirtual";
 
             INSERT = @"  INSERT INTO CercaVirtual
-							(Codigo, Descricao,	TipoDescricao,	Endereco,	Latitude,	Longitude,	Raio,	Ativo)
+							(Codigo, Descricao,	TipoDescricao, Endereco, Latitude, Longitude, Raio,	Ativo)
 							VALUES
-							(@Codigo, @Descricao,	@TipoDescricao,	@Endereco,	@Latitude,	@Longitude,	@Raio,	@Ativo) 
+							(@Codigo, @Descricao, @TipoDescricao, @Endereco, @Latitude , @Longitude, @Raio, @Ativo) 
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE CercaVirtual SET
@@ -212,21 +212,28 @@ namespace DAL.SQL
                 throw (ex);
             }
         }
-        public void Excluir(int CodigoCercaVirtual, int CodigoFuncionario)
+        public void Excluir(int CodigoCercaVirtual)
         {
+            //evento para excluir os funcionarios vinculados a cerca e logo apos a cerca virtual
             using (SqlConnection conn = db.GetConnection)
             {
                 using (SqlTransaction trans = conn.BeginTransaction())
                 {
                     try
                     {
+                        //exclusao dos vinculos dos funcionarios
                         SqlParameter[] parms = {
-                            new SqlParameter("@CodigoCercaVirtual", SqlDbType.Int),
-                            new SqlParameter("@CodigoFuncionario", SqlDbType.Int)
+                            new SqlParameter("@idCercaVirtual", SqlDbType.Int)
                         };
                         parms[0].Value = CodigoCercaVirtual;
-                        parms[1].Value = CodigoFuncionario;
-                        TransactDbOps.ExecuteScalar(trans, CommandType.Text, DELETEFUNCIONARIO, parms);
+                        TransactDbOps.ExecuteScalar(trans, CommandType.Text, DELETECERCAVIRTUALFUNCIONARIO, parms);
+
+                        //exclusao da cerca
+                        SqlParameter[] parmsCerca = {
+                            new SqlParameter("@id", SqlDbType.Int)
+                        };
+                        parmsCerca[0].Value = CodigoCercaVirtual;
+                        TransactDbOps.ExecuteScalar(trans, CommandType.Text, DELETE , parmsCerca);
 
                         trans.Commit();
                     }

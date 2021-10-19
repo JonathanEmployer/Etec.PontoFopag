@@ -102,7 +102,6 @@ namespace BLL_N.JobManager.Hangfire
             return jobReturn;
         }
 
-
         public Modelo.Proxy.PxyJobReturn RelatorioBilhetesImp(IRelatorioModel parametros)
         {
             var descricaoParametros = GetDescricaoParametrosJob(parametros);
@@ -133,7 +132,6 @@ namespace BLL_N.JobManager.Hangfire
             Modelo.Proxy.PxyJobReturn jobReturn = GerarJobReturn(jobControl, idJob);
             return jobReturn;
         }
-
 
         public Modelo.Proxy.PxyJobReturn RelatorioHomemHora(IRelatorioModel parametros)
         {

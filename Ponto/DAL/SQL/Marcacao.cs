@@ -2342,12 +2342,15 @@ namespace DAL.SQL
                     {
                         if (bilhetesOrdenadados[i].Relogio == "MA" && bilhetesOrdenadados[i].Id == 0)
                         {
-                            if (Modelo.cwkFuncoes.ConvertBatidaMinuto(bilhetesOrdenadados[(i - 1)].Hora) > Modelo.cwkFuncoes.ConvertBatidaMinuto(bilhetesOrdenadados[i].Hora))
+                            if (Modelo.cwkFuncoes.ConvertBatidaMinuto(primeiraEntrada.Hora) > Modelo.cwkFuncoes.ConvertBatidaMinuto(bilhetesOrdenadados[i].Hora))
                             {
-                                dataMarc = dataMarc.AddDays(1);
+                                bilhetesOrdenadados[i].Data = dataMarc.AddDays(1);
                                 bRetorno = true;
                             }
-                            bilhetesOrdenadados[i].Data = dataMarc;
+                            else
+                            {
+                                bilhetesOrdenadados[i].Data = dataMarc;
+                            }
                         }
                     }
                     bilEntradas = bilhetesOrdenadados.Where(s => s.Ent_sai.ToLower().Trim().Equals("e")).OrderBy(x => x.Posicao).ToList();

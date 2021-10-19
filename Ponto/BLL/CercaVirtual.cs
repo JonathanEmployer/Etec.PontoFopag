@@ -72,9 +72,9 @@ namespace BLL
             return ret;
         }
 
-        public void Excluir(int CodigoCercaVirtual, int CodigoFuncionario)
+        public void Excluir(int CodigoCercaVirtual)
         {
-            dalCercaVirtual.Excluir(CodigoCercaVirtual, CodigoFuncionario);
+            dalCercaVirtual.Excluir(CodigoCercaVirtual);
         }
 
         public Dictionary<string, string> Salvar(Modelo.Acao pAcao, Modelo.CercaVirtual objeto)

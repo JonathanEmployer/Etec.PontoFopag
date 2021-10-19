@@ -219,7 +219,8 @@ namespace BLL_N.JobManager.Hangfire.Job
                 {
                     BLL.CalculoMarcacoes.PontoPorExcecao pontoPorExcecao = new BLL.CalculoMarcacoes.PontoPorExcecao(userPF.ConnectionString, userPF);
                     pb.setaMensagem("Gerando ponto por exceção");
-                    List<Modelo.RegistroPonto> registroPontos = pontoPorExcecao.CriarRegistroPontoPorExcecao(new List<int>(), idsHorario);
+                    //List<Modelo.RegistroPonto> registroPontos = pontoPorExcecao.CriarRegistroPontoPorExcecao(new List<int>(), idsHorario);
+                    List<Modelo.RegistroPonto> registroPontos = pontoPorExcecao.CriarRegistroPontoPorExcecao(new List<int>(idsFuncionario), idsHorario);
                     if (registroPontos.Any())
                     {
                         gerouRegistroPonto = true;
