@@ -40,7 +40,7 @@ namespace Modelo.Proxy.Relatorios
     }
     public class Percentual
     {
-        public string VlrPercentual { get; set; }
+        public decimal VlrPercentual { get; set; }
         public string Diurno { get; set; }
         public string Noturno { get; set; }
     }
