@@ -289,12 +289,12 @@ namespace PontoWeb.Controllers
                     }
                     else if (funcionario.OpcaoSMSEmailSenha == "SMS")
                     {
-                        conteudoSMS = GeraConteudoSMS(funcionario.Mob_Senha);
+                        conteudoSMS = GeraConteudoSMS(funcionario.UtilizaAppPontofopag, funcionario.UtilizaWebAppPontofopag, funcionario.Mob_Senha);
                     }
                     else if (funcionario.OpcaoSMSEmailSenha == "Ambos")
                     {
                         conteudoEmail = GeraConteudoEmail(funcionario.UtilizaAppPontofopag, funcionario.UtilizaWebAppPontofopag, funcionario.Mob_Senha);
-                        conteudoSMS = GeraConteudoSMS(funcionario.Mob_Senha);
+                        conteudoSMS = GeraConteudoSMS(funcionario.UtilizaAppPontofopag, funcionario.UtilizaWebAppPontofopag, funcionario.Mob_Senha);
                     }
 
                     Funcionario DadosAntFunc = bllFuncionario.LoadObject(funcionario.Id);
@@ -456,9 +456,22 @@ namespace PontoWeb.Controllers
             return conteudo;
         }
 
-        private string GeraConteudoSMS(string senha)
+        private string GeraConteudoSMS(bool utilizaApp, bool utilizaWEBApp, string senha)
         {
-            string conteudo = string.Format("Para acessar o App do Ponto utilize seu CPF e senha: {0}, disponível na Play Store e Apple Store.", senha);
+            string conteudo = "";
+
+            if (utilizaApp == true && utilizaWEBApp == false)
+            {
+                conteudo = string.Format("Para acessar o App do Ponto utilize seu CPF e senha: {0}, disponível na Play Store e Apple Store.", senha);
+            }
+            else if (utilizaApp == false && utilizaWEBApp == true)
+            {
+                conteudo = string.Format("Para acessar o Web App do Ponto utilize seu CPF e senha: {0}, disponível no link www.webapp.pontofopag.com.br.", senha);
+            }
+            else if (utilizaApp == true && utilizaWEBApp == true)
+            {
+                conteudo = string.Format("Para acessar o Web App e App do Ponto do Ponto utilize seu CPF e senha: {0}, disponível no link www.webapp.pontofopag.com.br e na Play Store e Apple Store.", senha);
+            }
 
             return conteudo;
         }
