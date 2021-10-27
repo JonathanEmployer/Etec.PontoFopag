@@ -180,7 +180,7 @@ namespace BLL.CalculoMarcacoes
                 bilheteSaida1 = bilhetesIntervalo[pos];
             }
 
-
+          
             bool horarioNormal = PodePreencherIntervaloHorarioPadrao(bilheteEntrada1, bilheteSaida1, entradasHorario[0], saidasHorario[1], entradasHorario[1]);
             bool horarioComViradaDeDia = PodePreencherIntervaloHorarioComViradaDeDia(bilheteEntrada1, bilheteSaida1, saidasHorario[0], entradasHorario[1]);
             if (horarioNormal || horarioComViradaDeDia)
@@ -479,7 +479,8 @@ namespace BLL.CalculoMarcacoes
                 List<BilhetesImpProxyIA> novaLista = new List<BilhetesImpProxyIA>();
                 if (bilheteEntrada1.HoraEmMinutos < saidasHorario[0])
                 {
-                    if ((!GeraHorarioInItinere && bilhetes.Count == 2) || (GeraHorarioInItinere && bilhetes.Count == 3))
+                    if ((!GeraHorarioInItinere && bilhetes.Where(c => c.Acao != Modelo.Acao.Excluir).ToList().Count == 2)
+                        || (GeraHorarioInItinere && bilhetes.Where(c => c.Acao != Modelo.Acao.Excluir).ToList().Count == 3))
                     {
                         BilhetesImpProxyIA intervalo1 = new BilhetesImpProxyIA();
                         BilhetesImpProxyIA intervalo2 = new BilhetesImpProxyIA();
@@ -560,7 +561,8 @@ namespace BLL.CalculoMarcacoes
                 }
                 else
                 {
-                    if ((bilhetes.Count == 2 && !GeraHorarioInItinere) || (bilhetes.Count == 3 && GeraHorarioInItinere))
+                    if ((bilhetes.Where(c => c.Acao != Modelo.Acao.Excluir).ToList().Count == 2 && !GeraHorarioInItinere)
+                        || (bilhetes.Where(c => c.Acao != Modelo.Acao.Excluir).ToList().Count == 3 && GeraHorarioInItinere))
                     {
                         if (bilheteSaida1 != null)
                             bilheteSaida1.Bilhete.Posicao += 1;
@@ -595,7 +597,7 @@ namespace BLL.CalculoMarcacoes
                 gerouIntervalo = true;
             }
 
-            if (bilhetes.Count == 4 && gerouIntervalo == false)
+            if (bilhetes.Where(c => c.Acao != Modelo.Acao.Excluir).ToList().Count == 4 && gerouIntervalo == false)
             {
                 bilhetesIntervalo = GetBilhetesOrdenadosPorPosicaoEEnt_Sai();
                 bilheteEntrada1 = bilhetesIntervalo[2];
