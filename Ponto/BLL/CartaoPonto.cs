@@ -677,6 +677,7 @@ namespace BLL
                     row["horaExtraInterjornada"],
                     row["PessoaSupervisor"],
                     row["contrato"],
+                    row["SaldoBH"],
                     folga ? "" : entrada_1 == "--:--" ? "" : entrada_1,
                     folga ? "" : entrada_2 == "--:--" ? "" : entrada_2,
                     folga ? "" : saida_1 == "--:--" ? "" : saida_1,
@@ -942,9 +943,9 @@ namespace BLL
             int[] saidas = new int[] { -1, -1, -1, -1 };
 
             entradas[0] = entrada_1.Contains("--:--") ? -1 : Modelo.cwkFuncoes.ConvertHorasMinuto(entrada_1);
-            entradas[1] = entrada_2.Contains("--:--") ? -1 : Modelo.cwkFuncoes.ConvertHorasMinuto(entrada_1);
-            entradas[2] = entrada_3.Contains("--:--") ? -1 : Modelo.cwkFuncoes.ConvertHorasMinuto(entrada_1);
-            entradas[3] = entrada_4.Contains("--:--") ? -1 : Modelo.cwkFuncoes.ConvertHorasMinuto(entrada_1);
+            entradas[1] = entrada_2.Contains("--:--") ? -1 : Modelo.cwkFuncoes.ConvertHorasMinuto(entrada_2);
+            entradas[2] = entrada_3.Contains("--:--") ? -1 : Modelo.cwkFuncoes.ConvertHorasMinuto(entrada_3);
+            entradas[3] = entrada_4.Contains("--:--") ? -1 : Modelo.cwkFuncoes.ConvertHorasMinuto(entrada_4);
             saidas[0] = saida_1.Contains("--:--") ? -1 : Modelo.cwkFuncoes.ConvertHorasMinuto(saida_1);
             saidas[1] = saida_2.Contains("--:--") ? -1 : Modelo.cwkFuncoes.ConvertHorasMinuto(saida_2);
             saidas[2] = saida_3.Contains("--:--") ? -1 : Modelo.cwkFuncoes.ConvertHorasMinuto(saida_3);
@@ -1062,12 +1063,14 @@ namespace BLL
             List<DataColumn> colunas = new List<DataColumn>();
             foreach (DataColumn c in dt.Columns)
             {
-                if (Array.IndexOf(new string[] { "entrada_5", "entrada_6", "entrada_7", "entrada_8"
+                if (Array.IndexOf(new string[] { 
+                    "entrada_5", "entrada_6", "entrada_7", "entrada_8"
                     , "saida_5", "saida_6", "saida_7", "saida_8", "valordsr", "tipohorario"
                     , "idempresa", "iddepartamento", "idfuncao"
                     , "tratent_1", "tratent_2", "tratent_3", "tratent_4", "tratent_5", "tratent_6", "tratent_7", "tratent_8"
                     , "tratsai_1", "tratsai_2", "tratsai_3", "tratsai_4", "tratsai_5", "tratsai_6", "tratsai_7", "tratsai_8", "folga", "chave"
-                    , "chdiurnanormal", "chnoturnanormal", "flagfolganormal", "entrada_1normal", "entrada_2normal", "entrada_3normal", "entrada_4normal"
+                    , "chdiurnanormal", "chnoturnanormal", "flagfolganormal", 
+                    "entrada_1normal", "entrada_2normal", "entrada_3normal", "entrada_4normal"
                     , "saida_1normal", "saida_2normal", "saida_3normal", "saida_4normal"
                     , "chdiurnaflexivel", "chnoturnaflexivel", "flagfolgaflexivel", "entrada_1flexivel", "entrada_2flexivel", "entrada_3flexivel", "entrada_4flexivel"
                     , "saida_1flexivel", "saida_2flexivel", "saida_3flexivel", "saida_4flexivel"
