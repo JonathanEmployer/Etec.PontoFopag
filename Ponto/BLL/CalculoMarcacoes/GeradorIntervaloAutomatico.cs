@@ -180,7 +180,7 @@ namespace BLL.CalculoMarcacoes
                 bilheteSaida1 = bilhetesIntervalo[pos];
             }
 
-          
+
             bool horarioNormal = PodePreencherIntervaloHorarioPadrao(bilheteEntrada1, bilheteSaida1, entradasHorario[0], saidasHorario[1], entradasHorario[1]);
             bool horarioComViradaDeDia = PodePreencherIntervaloHorarioComViradaDeDia(bilheteEntrada1, bilheteSaida1, saidasHorario[0], entradasHorario[1]);
             if (horarioNormal || horarioComViradaDeDia)
@@ -479,85 +479,94 @@ namespace BLL.CalculoMarcacoes
                 List<BilhetesImpProxyIA> novaLista = new List<BilhetesImpProxyIA>();
                 if (bilheteEntrada1.HoraEmMinutos < saidasHorario[0])
                 {
-                    if ((!GeraHorarioInItinere && bilhetes.Where(c => c.Acao != Modelo.Acao.Excluir).ToList().Count == 2)
-                        || (GeraHorarioInItinere && bilhetes.Where(c => c.Acao != Modelo.Acao.Excluir).ToList().Count == 3))
+                    //if ((!GeraHorarioInItinere && bilhetes.Where(c => c.Acao != Modelo.Acao.Excluir).ToList().Count == 2)
+                    //    || (GeraHorarioInItinere && bilhetes.Where(c => c.Acao != Modelo.Acao.Excluir).ToList().Count == 3))
+                    //{
+                    BilhetesImpProxyIA intervalo1 = new BilhetesImpProxyIA();
+                    BilhetesImpProxyIA intervalo2 = new BilhetesImpProxyIA();
+                    BilhetesImpProxyIA intervalo3 = new BilhetesImpProxyIA();
+                    BilhetesImpProxyIA intervalo4 = new BilhetesImpProxyIA();
+                    if (bilheteSaida1 != null)
+                        bilheteSaida1.Bilhete.Posicao += 2;
+                    if (GeraHorarioInItinere)
                     {
-                        BilhetesImpProxyIA intervalo1 = new BilhetesImpProxyIA();
-                        BilhetesImpProxyIA intervalo2 = new BilhetesImpProxyIA();
-                        BilhetesImpProxyIA intervalo3 = new BilhetesImpProxyIA();
-                        BilhetesImpProxyIA intervalo4 = new BilhetesImpProxyIA();
-                        if (bilheteSaida1 != null)
-                            bilheteSaida1.Bilhete.Posicao += 2;
-                        if (GeraHorarioInItinere)
-                        {
-                            intervalo1 = CriarBilhetePreAssinalado(saidasHorario[0], 2, "S");
-                            intervalo2 = CriarBilhetePreAssinalado(entradasHorario[1], 2, "E");
-                            intervalo3 = CriarBilhetePreAssinalado(saidasHorario[1], 3, "S");
-                            intervalo4 = CriarBilhetePreAssinalado(entradasHorario[2], 3, "E");
-                        }
-                        else
-                        {
-                            intervalo1 = CriarBilhetePreAssinalado(saidasHorario[0], 1, "S");
-                            intervalo2 = CriarBilhetePreAssinalado(entradasHorario[1], 2, "E");
-                            intervalo3 = CriarBilhetePreAssinalado(saidasHorario[1], 2, "S");
-                            intervalo4 = CriarBilhetePreAssinalado(entradasHorario[2], 3, "E");
-                        }
-                        if (GeraHorarioInItinere)
-                        {
-                            novaLista.Add(bilhetesIntervalo[0]);
-                        }
-                        novaLista.Add(bilheteEntrada1);
-                        novaLista.Add(intervalo1);
-                        novaLista.Add(intervalo2);
-                        novaLista.Add(intervalo3);
-                        novaLista.Add(intervalo4);
-                        if (bilheteSaida1 != null)
-                            novaLista.Add(bilheteSaida1);
+                        intervalo1 = CriarBilhetePreAssinalado(saidasHorario[0], 2, "S");
+                        intervalo2 = CriarBilhetePreAssinalado(entradasHorario[1], 2, "E");
+                        intervalo3 = CriarBilhetePreAssinalado(saidasHorario[1], 3, "S");
+                        intervalo4 = CriarBilhetePreAssinalado(entradasHorario[2], 3, "E");
                     }
                     else
                     {
-                        if (bilheteSaida1 != null)
-                            bilheteSaida1.Bilhete.Posicao += 1;
-                        BilhetesImpProxyIA intervalo1 = new BilhetesImpProxyIA();
-                        BilhetesImpProxyIA intervalo2 = new BilhetesImpProxyIA();
-                        if (GeraHorarioInItinere)
-                        {
-                            intervalo1 = CriarBilhetePreAssinalado(saidasHorario[0], 2, "S");
-                            intervalo2 = CriarBilhetePreAssinalado(entradasHorario[1], 2, "E");
-                        }
-                        else
-                        {
-                            intervalo1 = CriarBilhetePreAssinalado(saidasHorario[0], 1, "S");
-                            intervalo2 = CriarBilhetePreAssinalado(entradasHorario[1], 2, "E");
-                        }
-                        if (bilhetesIntervalo.Count >= 4)
-                        {
-                            bilhetesIntervalo[3].Bilhete.Posicao = 3;
-                            bilhetesIntervalo[3].Bilhete.Ent_sai = "E";
-                        }
-                        if (bilhetesIntervalo.Count >= 5)
-                        {
-                            bilhetesIntervalo[4].Bilhete.Posicao = 3;
-                            bilhetesIntervalo[4].Bilhete.Ent_sai = "S";
-                        }
-                        if (GeraHorarioInItinere)
-                        {
-                            novaLista.Add(bilhetesIntervalo[0]);
-                        }
-                        novaLista.Add(bilheteEntrada1);
-                        novaLista.Add(intervalo1);
-                        novaLista.Add(intervalo2);
-                        if (bilheteSaida1 != null)
-                            novaLista.Add(bilheteSaida1);
-                        if (bilhetesIntervalo.Count >= 3)
-                        {
-                            novaLista.Add(bilhetesIntervalo[2]);
-                        }
-                        if (bilhetesIntervalo.Count >= 4)
-                        {
-                            novaLista.Add(bilhetesIntervalo[3]);
-                        }
+                        intervalo1 = CriarBilhetePreAssinalado(saidasHorario[0], 1, "S");
+                        intervalo2 = CriarBilhetePreAssinalado(entradasHorario[1], 2, "E");
+                        intervalo3 = CriarBilhetePreAssinalado(saidasHorario[1], 2, "S");
+                        intervalo4 = CriarBilhetePreAssinalado(entradasHorario[2], 3, "E");
                     }
+                    if (GeraHorarioInItinere)
+                    {
+                        novaLista.Add(bilhetesIntervalo[0]);
+                    }
+                    novaLista.Add(bilheteEntrada1);
+                    novaLista.Add(intervalo1);
+                    novaLista.Add(intervalo2);
+                    novaLista.Add(intervalo3);
+                    novaLista.Add(intervalo4);
+                    if (bilheteSaida1 != null)
+                        novaLista.Add(bilheteSaida1);
+                    //}
+                    //else
+                    //{
+                    //if (bilheteSaida1 != null)
+                    //    bilheteSaida1.Bilhete.Posicao += 1;
+                    //BilhetesImpProxyIA intervalo1 = new BilhetesImpProxyIA();
+                    //BilhetesImpProxyIA intervalo2 = new BilhetesImpProxyIA();
+                    //if (GeraHorarioInItinere)
+                    //{
+                    //    intervalo1 = CriarBilhetePreAssinalado(saidasHorario[0], 2, "S");
+                    //    intervalo2 = CriarBilhetePreAssinalado(entradasHorario[1], 2, "E");
+                    //}
+                    //else
+                    //{
+                    //    intervalo1 = CriarBilhetePreAssinalado(saidasHorario[0], 1, "S");
+                    //    intervalo2 = CriarBilhetePreAssinalado(entradasHorario[1], 2, "E");
+                    //}
+                    if (bilhetesIntervalo.Count >= 3)
+                    {
+                        bilhetesIntervalo[2].Bilhete.Posicao = 4;
+                        bilhetesIntervalo[2].Bilhete.Ent_sai = "E";
+                    }
+                    if (bilhetesIntervalo.Count >= 4)
+                    {
+                        bilhetesIntervalo[3].Bilhete.Posicao = 4;
+                        bilhetesIntervalo[3].Bilhete.Ent_sai = "S";
+                    }
+                    if (bilhetesIntervalo.Count >= 5)
+                    {
+                        bilhetesIntervalo[4].Bilhete.Posicao = 5;
+                        bilhetesIntervalo[4].Bilhete.Ent_sai = "E";
+                    }
+                    //if (GeraHorarioInItinere)
+                    //{
+                    //    novaLista.Add(bilhetesIntervalo[0]);
+                    //}
+                    //novaLista.Add(bilheteEntrada1);
+                    //novaLista.Add(intervalo1);
+                    //novaLista.Add(intervalo2);
+                    //if (bilheteSaida1 != null)
+                    //    novaLista.Add(bilheteSaida1);
+                    if (bilhetesIntervalo.Count >= 3)
+                    {
+                        novaLista.Add(bilhetesIntervalo[2]);
+                    }
+                    if (bilhetesIntervalo.Count >= 4)
+                    {
+                        novaLista.Add(bilhetesIntervalo[3]);
+                    }
+                    if (bilhetesIntervalo.Count >= 5)
+                    {
+                        novaLista.Add(bilhetesIntervalo[4]);
+                    }
+                    //}
                 }
                 else
                 {
@@ -588,6 +597,35 @@ namespace BLL.CalculoMarcacoes
                         novaLista.Add(intervalo2);
                         if (bilheteSaida1 != null)
                             novaLista.Add(bilheteSaida1);
+
+                        if (bilhetesIntervalo.Count >= 3)
+                        {
+                            bilhetesIntervalo[2].Bilhete.Posicao = 3;
+                            bilhetesIntervalo[2].Bilhete.Ent_sai = "S";
+                        }
+                        if (bilhetesIntervalo.Count >= 4)
+                        {
+                            bilhetesIntervalo[3].Bilhete.Posicao = 4;
+                            bilhetesIntervalo[3].Bilhete.Ent_sai = "E";
+                        }
+                        if (bilhetesIntervalo.Count >= 5)
+                        {
+                            bilhetesIntervalo[4].Bilhete.Posicao = 4;
+                            bilhetesIntervalo[4].Bilhete.Ent_sai = "S";
+                        }
+
+                        if (bilhetesIntervalo.Count >= 3)
+                        {
+                            novaLista.Add(bilhetesIntervalo[2]);
+                        }
+                        if (bilhetesIntervalo.Count >= 4)
+                        {
+                            novaLista.Add(bilhetesIntervalo[3]);
+                        }
+                        if (bilhetesIntervalo.Count >= 5)
+                        {
+                            novaLista.Add(bilhetesIntervalo[4]);
+                        }
                     }
                 }
 
