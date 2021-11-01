@@ -168,14 +168,15 @@ namespace PontoWeb.Controllers
                     else
                         acao = Acao.Alterar;
 
-                    foreach (Modelo.ExportacaoCampos dja in obj.ExportacaoCampos)
-                    {
-                        if(dja.Codigo == dja.Id)
-                        {
-                            dja.Acao = acao;
-                        }
+                    //foreach (Modelo.ExportacaoCampos dja in obj.ExportacaoCampos)
+                    //{
+                    //    if(dja.Codigo == dja.Id)
+                    //    {
+                    //        dja.Acao = acao;
+                    //    }
 
-                    }                    
+                    //}
+                    
                     erros = bllLayoutExportacao.Salvar(acao, obj);
                     if (erros.Count() > 0)
                     {
