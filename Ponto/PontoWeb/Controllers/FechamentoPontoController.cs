@@ -87,7 +87,7 @@ namespace PontoWeb.Controllers
             try
             {
                 Dictionary<string, string> erros = new Dictionary<string, string>();
-
+                
                 GetChanges(obj, bllFechamentoPonto, bllFechamentoPontoFunc);
 
                 erros = bllFechamentoPonto.Salvar(Acao.Excluir, obj);
@@ -111,7 +111,7 @@ namespace PontoWeb.Controllers
                 return Json(new { Success = false, Erro = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
+         
         protected override ActionResult Salvar(FechamentoPonto obj)
         {
             BLL.FechamentoPonto bllFechamentoPonto = new BLL.FechamentoPonto(_usr.ConnectionString, _usr);
@@ -379,8 +379,8 @@ namespace PontoWeb.Controllers
             if (!string.IsNullOrEmpty(idJob))
             {
                 var job = JobControlManager.GetJobControl(idJob);
-                if (job != null && (job?.StatusNovo == EnqueuedState.StateName
-                        || job?.StatusNovo == ProcessingState.StateName))
+                if (job.StatusNovo == EnqueuedState.StateName
+                        || job.StatusNovo == ProcessingState.StateName)
                     return Json(new { isValid = false }, JsonRequestBehavior.AllowGet);
             }
 
