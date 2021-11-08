@@ -176,7 +176,7 @@ namespace BLL_N.JobManager.Hangfire
                         }
                         db.SaveChanges();
                     }
-                } 
+                }
             }
             return jc;
         }
@@ -227,7 +227,7 @@ namespace BLL_N.JobManager.Hangfire
                 try
                 {
                     job = db.JobControl.Where(w => w.JobId == jobId).FirstOrDefault();
-                    if (job.StatusNovo == DeletedState.StateName || job.StatusNovo == FailedState.StateName)
+                    if (job != null && (job?.StatusNovo == DeletedState.StateName || job?.StatusNovo == FailedState.StateName))
                     {
                         job.Reprocessar = true;
                     }
