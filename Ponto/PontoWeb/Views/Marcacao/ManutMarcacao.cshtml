@@ -277,7 +277,7 @@
                     <div class="col-md-4">
                         <div class="checkbox" style="margin-top:5px; margin-bottom:1px;">
                             <label>
-                                @Html.CheckBoxFor(model => model.TipoHoraExtraFaltaBool, new { @class = "checkboxHN" })
+                                @Html.CheckBoxFor(model => model.TipoHoraExtraFaltaBool, new { @class = "checkboxHN", @onclick = "return false" })
                                 @Html.DisplayNameFor(model => model.TipoHoraExtraFaltaBool)
                                 @Html.ValidationMessageFor(model => model.TipoHoraExtraFaltaBool)
                             </label>

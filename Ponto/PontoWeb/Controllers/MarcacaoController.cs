@@ -221,6 +221,9 @@ namespace PontoWeb.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None", VaryByCustom = "User")]
         public ActionResult ManutMarcacao(int id)
         {
+            BLL.Parametros bllParametros = new BLL.Parametros(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+            BLL.Horario bllHorario = new BLL.Horario(Usuario.GetUsuarioLogadoCache().ConnectionStringDecrypt, Usuario.GetUsuarioPontoWebLogadoCache());
+
             BLL.Funcionario bllFuncionario = new BLL.Funcionario(_usr.ConnectionString, _usr);
             BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(_usr.ConnectionString, _usr);
             BLL.Marcacao bllMarcacao = new BLL.Marcacao(_usr.ConnectionString, _usr);
@@ -228,6 +231,24 @@ namespace PontoWeb.Controllers
             BLL.Ocorrencia bllOcorrencia = new BLL.Ocorrencia(_usr.ConnectionString, _usr);
 
             Modelo.Marcacao objMarcacao = bllMarcacao.LoadObject(id);
+
+            //Horário
+            Modelo.Horario objHorario = bllHorario.LoadObject(objMarcacao.Idhorario);
+            if (objHorario != null)
+            {
+                //Parâmetro
+                Modelo.Parametros _parametro = bllParametros.GetAllList().Where(c => c.Id == objHorario.Idparametro).FirstOrDefault();
+                if (_parametro != null)
+                {
+                    if (objMarcacao.TipoHoraExtraFalta != _parametro.TipoHoraExtraFalta)
+                    {
+                        objMarcacao.TipoHoraExtraFalta = _parametro.TipoHoraExtraFalta;
+                        objMarcacao.TipoHoraExtraFaltaBool = _parametro.TipoHoraExtraFaltaBool;
+                        bllMarcacao.Salvar(Acao.Alterar, objMarcacao);
+                    }
+                }
+            }
+
             objMarcacao.FolgaAnt = objMarcacao.Folga;
             foreach (BilhetesImp bilhete in objMarcacao.BilhetesMarcacao)
             {
