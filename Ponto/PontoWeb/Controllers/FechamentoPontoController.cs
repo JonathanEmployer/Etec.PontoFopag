@@ -116,8 +116,7 @@ namespace PontoWeb.Controllers
         {
             BLL.FechamentoPonto bllFechamentoPonto = new BLL.FechamentoPonto(_usr.ConnectionString, _usr);
             BLL.FechamentoPontoFuncionario bllFechamentoPontoFunc = new BLL.FechamentoPontoFuncionario(_usr.ConnectionString, _usr);
-            BLL.Epays.FechamentoPontoEpaysBLL fechamentoPontoEpaysBLL = new BLL.Epays.FechamentoPontoEpaysBLL(_usr.ConnectionString);
-
+   
             //ValidarForm(obj);
             if (ModelState.IsValid)
             {
