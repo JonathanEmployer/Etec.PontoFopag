@@ -5,6 +5,7 @@ using DAL.SQL;
 using System.Collections;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Linq;
 
 namespace BLL
 {
@@ -20,7 +21,7 @@ namespace BLL
 
         public BilhetesImp() : this(null)
         {
-            
+
         }
 
         public BilhetesImp(string connString)
@@ -31,9 +32,9 @@ namespace BLL
 
         public BilhetesImp(string connString, Modelo.Cw_Usuario usuarioLogado)
         {
-            if (!String.IsNullOrEmpty(connString))            
+            if (!String.IsNullOrEmpty(connString))
                 ConnectionString = connString;
-             else            
+            else
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
 
             DataBase db = new DataBase(ConnectionString);
@@ -92,6 +93,11 @@ namespace BLL
         public Dictionary<string, string> ValidaObjeto(Modelo.BilhetesImp objeto)
         {
             Dictionary<string, string> ret = new Dictionary<string, string>();
+            var listaBilhetesMesmoDia = GetByIDsFuncs(new List<int> { objeto.IdFuncionario }, objeto.Data, objeto.Data, -1);
+            if (listaBilhetesMesmoDia.Any(c => c.Mar_data == objeto.Mar_data && c.Mar_hora == c.Mar_hora))
+            {
+                ret.Add("Manutenção de Bilhete", "Ja existe um bilhete com esse horario nessa marcação!");
+            }
             return ret;
         }
 
@@ -133,7 +139,7 @@ namespace BLL
         public int Salvar(Modelo.Acao pAcao, List<Modelo.BilhetesImp> lista, string login, string conectionStr)
         {
             List<string> ret = new List<string>();
-            return Salvar(pAcao, lista,  login,  conectionStr, out ret);
+            return Salvar(pAcao, lista, login, conectionStr, out ret);
         }
 
         public int Salvar(Modelo.Acao pAcao, List<Modelo.BilhetesImp> lista, string login, string conectionStr, out List<string> dsCodigoFuncsProcessados)

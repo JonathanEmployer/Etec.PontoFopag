@@ -1629,7 +1629,7 @@ namespace BLL
         /// <param name="pBilhete">Bilhete alterado</param>
         /// <param name="pMudancao">Tipo da Mudança: 0 - Dia Anterior, 1 - Mesmo Dia, 2 - Dia Posterior</param>
         /// WNO - 29/12/2009
-        public bool ManutencaoBilhete(Modelo.Marcacao pMarcacao, Modelo.BilhetesImp pBilhete, int pMudancao)
+        public Dictionary<string, string> ManutencaoBilhete(Modelo.Marcacao pMarcacao, Modelo.BilhetesImp pBilhete, int pMudancao)
         {
             BLL.Marcacao bllMarcacao = new Marcacao(ConnectionString, UsuarioLogado);
             BLL.ImportaBilhetes bllImportaBilhetes = new ImportaBilhetes(ConnectionString, UsuarioLogado);
@@ -1662,11 +1662,12 @@ namespace BLL
                     break;
             }
 
-            this.Salvar(Modelo.Acao.Alterar, pBilhete);
-
-            RecalculaAlteracaoBilhete(pMarcacao, bllMarcacao, bllImportaBilhetes, diasAtras, diasFrente);
-
-            return true;
+            Dictionary<string, string> erros = Salvar(Modelo.Acao.Alterar, pBilhete);
+            if (!(erros.Count > 0))
+            {
+                RecalculaAlteracaoBilhete(pMarcacao, bllMarcacao, bllImportaBilhetes, diasAtras, diasFrente);
+            }
+            return erros;
         }
 
         public void RecalculaAlteracaoBilhete(Modelo.Marcacao pMarcacao, BLL.Marcacao bllMarcacao, BLL.ImportaBilhetes bllImportaBilhetes, int diasAtras, int diasFrente)

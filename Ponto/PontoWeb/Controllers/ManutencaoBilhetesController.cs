@@ -191,13 +191,14 @@ namespace PontoWeb.Controllers
                 obj.Ocorrencia = Regex.Replace(obj.Ocorrencia.ToString(), "[^0-9a-zA-Z]+", "").ToCharArray().FirstOrDefault();
 
                 BLL.BilhetesImp bllBilhetesImp = new BLL.BilhetesImp(_usr.ConnectionString, _usr);
-                bllBilhetesImp.ManutencaoBilhete(mar, obj, obj.tipoManutencao - 1);
-                return Json(new
+
+                var erros = bllBilhetesImp.ManutencaoBilhete(mar, obj, obj.tipoManutencao - 1);
+                if(erros.Count > 0)
                 {
-                    JobId = "",
-                    Progress = "",
-                    Erro = ""
-                });
+                    string erro = string.Join(";", erros.Select(x => x.Key + " = " + x.Value).ToArray());
+                    return Json(new{Success = false,Erro = erro},JsonRequestBehavior.AllowGet);
+                }
+                return Json(new { Success = true, Erro = "" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
