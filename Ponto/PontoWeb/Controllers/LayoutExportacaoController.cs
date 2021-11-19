@@ -162,10 +162,19 @@ namespace PontoWeb.Controllers
                 {
                     Modelo.Acao acao = new Modelo.Acao();
                     Dictionary<string, string> erros = new Dictionary<string, string>();
-                    if (obj.Id == 0)
+
+                    if (obj.Id == 0)                        
                         acao = Acao.Incluir;
                     else
                         acao = Acao.Alterar;
+
+                    foreach (var dja in obj.ExportacaoCampos)
+                    {
+                        if (dja.Id == 0)
+                            dja.Acao = Acao.Incluir;
+                        else
+                            dja.Acao = Acao.Alterar;
+                    }
 
                     erros = bllLayoutExportacao.Salvar(acao, obj);
                     if (erros.Count() > 0)

@@ -40,7 +40,7 @@ namespace PontoWeb.Controllers.Relatorios
         
         #region Métodos Get
         // GET: RelatorioAfastamento
-        [PermissoesFiltro(Roles = "RelatorioCartaoPontoHTMLConsultar")]
+        [PermissoesFiltro(Roles = "RelatorioCartaoPontoExecaoHTMLConsultar")]
         public ActionResult CartaoPonto()
         {
             RelatorioCartaoPontoHTMLModel viewModel = new RelatorioCartaoPontoHTMLModel();
@@ -52,7 +52,7 @@ namespace PontoWeb.Controllers.Relatorios
         #endregion
         #region Métodos Post
         [HttpPost]
-        [PermissoesFiltro(Roles = "RelatorioCartaoPontoHTMLConsultar")]
+        [PermissoesFiltro(Roles = "RelatorioCartaoPontoExecaoHTMLConsultar")]
         public ActionResult CartaoPonto(RelatorioCartaoPontoHTMLModel imp)
         {
             ValidarRelatorio(imp);

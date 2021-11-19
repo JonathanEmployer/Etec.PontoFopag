@@ -20,6 +20,7 @@ namespace PontoWeb.Controllers.Relatorios
     public class RelatorioAbsenteismoV2Controller : Controller
     {
 
+        [PermissoesFiltro(Roles = "RelatorioAbsenteismoV2Consultar")]
         public ActionResult Index()
         {
             RelatorioPadraoModel viewModel = new RelatorioPadraoModel();
@@ -31,6 +32,7 @@ namespace PontoWeb.Controllers.Relatorios
 
 
         [HttpPost]
+        [PermissoesFiltro(Roles = "RelatorioAbsenteismoV2Consultar")]
         public ActionResult Index(RelatorioPadraoModel imp)
         {
             ValidarRelatorio(imp);
