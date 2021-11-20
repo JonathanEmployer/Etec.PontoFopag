@@ -668,7 +668,7 @@ namespace PontoWeb.Controllers
             if (!String.IsNullOrEmpty(funcionario.Mob_Senha))
             {
                 string mobsenha = "";
-                funcionario.Mob_Senha = mobsenha.PadLeft(bllFuncionario.GetMobSenha(funcionario).Length, '#');
+                funcionario.Mob_Senha = bllFuncionario.GetMobSenha(funcionario);
             }
 
             funcionario.Historico = bllFuncHist.LoadPorFuncionario(funcionario.Id);
