@@ -466,11 +466,11 @@ namespace PontoWeb.Controllers
             }
             else if (utilizaApp == false && utilizaWEBApp == true)
             {
-                conteudo = string.Format("Para acessar o Web App do Ponto utilize seu CPF e senha: {0}, disponível no link www.webapp.pontofopag.com.br.", senha);
+                conteudo = string.Format("Para acessar o Web App do Ponto utilize seu CPF e senha: {0}, disponível no link http://webapp.pontofopag.com.br/.", senha);
             }
             else if (utilizaApp == true && utilizaWEBApp == true)
             {
-                conteudo = string.Format("Para acessar o Web App e App do Ponto do Ponto utilize seu CPF e senha: {0}, disponível no link www.webapp.pontofopag.com.br e na Play Store e Apple Store.", senha);
+                conteudo = string.Format("Para acessar o Web App e App do Ponto do Ponto utilize seu CPF e senha: {0}, disponível no link http://webapp.pontofopag.com.br/ e na Play Store e Apple Store.", senha);
             }
 
             return conteudo;
@@ -668,7 +668,8 @@ namespace PontoWeb.Controllers
             if (!String.IsNullOrEmpty(funcionario.Mob_Senha))
             {
                 string mobsenha = "";
-                funcionario.Mob_Senha = mobsenha.PadLeft(bllFuncionario.GetMobSenha(funcionario).Length, '#');
+                funcionario.Mob_Senha = bllFuncionario.GetMobSenha(funcionario);
+                //funcionario.Mob_Senha = mobsenha.PadLeft(bllFuncionario.GetMobSenha(funcionario).Length, '#');
             }
 
             funcionario.Historico = bllFuncHist.LoadPorFuncionario(funcionario.Id);
