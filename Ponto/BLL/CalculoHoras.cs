@@ -611,7 +611,6 @@ namespace BLL
         /// <param name="pOcorrencia">Parâmetro de saída para a ocorrência</param>
         public static void CargaHoraria(int pCargaHorariaD, int pCargaHorariaN, bool toleranciaPorBatida, int? pTExtraLimite, int pExtrasToleradasD, int pExtrasToleradasN, int? pTFaltaLimite, int pFaltasToleradasD, int pFaltasToleradasN, ref int pHoraD, ref int pHoraN, out int pExtraD, out int pFaltaD, out int pExtraN, out int pFaltaN, out string pOcorrencia, int horasCompensarMin, ref int horasCompensadasMin, ref string horasCompensadas, ref string legenda, ref string LegendasConcatenadas)
         {
-            pTFaltaLimite *= -1;
             int extraD = 0;
             int faltaD = 0;
             int extraN = 0;
@@ -639,6 +638,8 @@ namespace BLL
             }
             else if (toleranciaPorBatida)
             {
+                pTFaltaLimite *= -1;
+
                 if ((dif == 0) ||
                     ((dif > 0 && dif < pTExtraLimite) || pTExtraLimite == null) ||
                     ((dif < 0 && Math.Abs(dif) > pTFaltaLimite) || pTFaltaLimite == null)
