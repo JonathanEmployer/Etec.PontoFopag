@@ -2915,7 +2915,9 @@ namespace BLL
                     int totalTrabalhada = CalculaMarcacao.CalculaTotalHorasTrabalhadasMin(MarEntrada, MarSaida, data, false);
                     int totalCarga = CalculaMarcacao.CalculaTotalHorasTrabalhadasMin(HoraEntrada, HoraSaida, data, false);
                     int difTrab = totalTrabalhada - totalCarga;
-                    if (difTrab < 0 && Math.Abs(difTrab) >= tHoraFaltaMin)
+
+                    //Caso seja diferença negativa deve ser tratado negativo
+                    if (difTrab < 0 && Math.Abs(difTrab) <= tHoraFaltaMin*-1)
                     {
                         ultrapassouLimiteTolerancia = true;
                     }

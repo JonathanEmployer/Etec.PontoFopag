@@ -38,7 +38,7 @@ namespace PontoWeb.Controllers.Relatorios
 
         #region Métodos Get
         // GET: RelatorioAfastamento
-        [PermissoesFiltro(Roles = "RelatorioCartaoPontoHTMLConsultar")]
+        [PermissoesFiltro(Roles = "RelatorioHorasInItinereConsultar")]
         public ActionResult Index()
         {
             RelatorioHorasInItinereModel viewModel = new RelatorioHorasInItinereModel();
@@ -50,7 +50,7 @@ namespace PontoWeb.Controllers.Relatorios
         #endregion
         #region Métodos Post
         [HttpPost]
-        [PermissoesFiltro(Roles = "RelatorioCartaoPontoHTMLConsultar")]
+        [PermissoesFiltro(Roles = "RelatorioHorasInItinereConsultar")]
         public ActionResult Index(RelatorioHorasInItinereModel imp)
         {
 			ValidarRelatorio(imp);

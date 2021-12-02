@@ -374,7 +374,8 @@ namespace BLL
 
                                 //Calcula como noturna o inicio do horário noturno a hora da saida. Ex: Calcula das 22:00 (Inicio horário noturno) até 23:59 (Saída)
                                 NHorasTrabalhadas += QtdHoras(pHoraNoturnaI, SaidaMin);
-                            } else
+                            }
+                            else
                             //Entrou durante o dia e saiu durante a noite - pam 04/03/10
                             if ((EntradaMin < HoraNoturnaIMin) && (SaidaMin > HoraNoturnaIMin))
                             {
@@ -637,13 +638,24 @@ namespace BLL
             }
             else if (toleranciaPorBatida)
             {
+                pTFaltaLimite *= -1;
+
                 if ((dif == 0) ||
                     ((dif > 0 && dif < pTExtraLimite) || pTExtraLimite == null) ||
-                    ((dif < 0 && Math.Abs(dif) < pTFaltaLimite) || pTFaltaLimite == null)
+                    ((dif < 0 && Math.Abs(dif) > pTFaltaLimite) || pTFaltaLimite == null)
                     )
                 {
-                    pHoraD += pFaltasToleradasD;
-                    pHoraD -= pExtrasToleradasD;
+                    if (dif < 0 && dif >= pTFaltaLimite)
+                        pHoraD += dif*-1;
+                    else
+                        pHoraD += 0;
+
+                    if (dif > 0 && dif <= pTExtraLimite)
+                        pHoraD += dif * -1;
+                    else
+                        pHoraD += 0;
+
+                    //pHoraD -= pExtrasToleradasD;
                     pHoraN += pFaltasToleradasN;
                     pHoraN -= pExtrasToleradasN;
                     pOcorrencia = String.Empty;
@@ -716,6 +728,10 @@ namespace BLL
                     pOcorrencia = "Falta";
                 }
             }
+
+
+            //Adicionado a condição de tolerancia, caso seja menos que a tolerancia zera a falta
+
         }
 
         public static void CalculaCompensacao(int horasCompensarMin, ref int horasExtrasDiurnaMin, ref int horasExtraNoturnaMin, ref int horasCompensadasMin, ref string horasCompensadas, ref string legenda, ref string LegendasConcatenadas, ref string ocorrencia)
@@ -1262,9 +1278,9 @@ namespace BLL
                                 auxSaida.Tipo = BatidaSaidaMin[j].Tipo;
                                 auxSaida.IndiceOriginalBatida = j;
 
-                                if (auxEntrada.Horario < auxSaida.Horario && HoraSaidaMin[j].Horario < HoraEntradaMin[j].Horario) 
-                                    // Se a batida de entrada do funcionário for menor que a batida de saida, e o horário previsto a entrada for maior que a hora de saída, significa que o funcionário deveria entrar antes da meia noite e sair depois, mas entrou apenas após a meia noite
-                                    // Exempo Proposto 22:00 - 02:00 Realizado 00:50 - 02:00
+                                if (auxEntrada.Horario < auxSaida.Horario && HoraSaidaMin[j].Horario < HoraEntradaMin[j].Horario)
+                                // Se a batida de entrada do funcionário for menor que a batida de saida, e o horário previsto a entrada for maior que a hora de saída, significa que o funcionário deveria entrar antes da meia noite e sair depois, mas entrou apenas após a meia noite
+                                // Exempo Proposto 22:00 - 02:00 Realizado 00:50 - 02:00
                                 {
                                     BatidaEntradaMin[j].DepoisMeiaNoite = true;
                                 }
