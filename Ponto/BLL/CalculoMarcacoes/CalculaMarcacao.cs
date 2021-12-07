@@ -2651,12 +2651,18 @@ namespace BLL
             int ExtrasToleradasD = 0;
             int ExtrasToleradasN = 0;
             bool toleranciaPorBatida = false;
+
+            bool calculouTolerancia = false;
+
             if (flagFolga.GetValueOrDefault() != 1 && folgaMarcacao != 1 && (idFeriado == null || feriadoParcial == true || naoConsiderarFeriado == 1))
             {
                 if (separaExtraFalta == 0)
+                {
+                    calculouTolerancia = true;
                     //o calculo de horas toleradas para separa_extra_e_falta será executado dentro da rotina separa extra e falta 
                     //(esse calculo é utilizado apenas para carga horaria mista e normal) --BLL.CalculoHoras.SeparaExtraFalta
                     CalculaHorasToleradas(HoraEntrada, HoraSaida, MarSaida, MarEntrada, out toleranciaPorBatida, out FaltasToleradasD, out FaltasToleradasN, out ExtrasToleradasD, out ExtrasToleradasN);
+                }
             }
             else
             {
@@ -2752,8 +2758,12 @@ namespace BLL
                 }
                 else
                 {
-                    BLL.CalculoHoras.CargaHoraria(CargaHorariaD, CargaHorariaN, toleranciaPorBatida, tHoraExtraMin, ExtrasToleradasD, ExtrasToleradasN, tHoraFaltaMin, FaltasToleradasD, FaltasToleradasN, ref HoraD, ref HoraN, out HoraExtraD, out HoraFaltaD, out HoraExtraN, out HoraFaltaN, out Ocorrencia, horasCompensarMin, ref horasCompensadasMin, ref horasCompensadas, ref legenda, ref LegendasConcatenadas);
-                    totalizaCargaHoraria = CargaHorariaD + CargaHorariaN;
+                    //calculou tolerancia no metodo 'CalculaHorasToleradas' chamado antes
+                    if (!calculouTolerancia)
+                    {
+                        BLL.CalculoHoras.CargaHoraria(CargaHorariaD, CargaHorariaN, toleranciaPorBatida, tHoraExtraMin, ExtrasToleradasD, ExtrasToleradasN, tHoraFaltaMin, FaltasToleradasD, FaltasToleradasN, ref HoraD, ref HoraN, out HoraExtraD, out HoraFaltaD, out HoraExtraN, out HoraFaltaN, out Ocorrencia, horasCompensarMin, ref horasCompensadasMin, ref horasCompensadas, ref legenda, ref LegendasConcatenadas);
+                        totalizaCargaHoraria = CargaHorariaD + CargaHorariaN;
+                    }
                 }
             }
 
@@ -2946,26 +2956,29 @@ namespace BLL
 
             for (int i = 0; i < 4; i++)
             {
+                int adicionalMeiaNoiteJornada = 0, adicionalMeiaNoiteMarcacao = 0;
+
+                //entrada atual
                 int MarcacaoRegistro = MarEntrada[i];
 
-                int adicionalMeiaNoiteJornada = 0, adicionalMeiaNoiteMarcacao = 0;
                 if (i > 0)
                 {
-                    int MarcacaoRegistroAnt = MarEntrada[i - 1];
+                    int RegistroMarcAnt = MarSaida[i - 1];
 
-                    if (MarcacaoRegistro < MarcacaoRegistroAnt)
+                    if (MarcacaoRegistro < RegistroMarcAnt)
                     {
                         adicionalMeiaNoiteMarcacao = 1440;
                     }
                 }
+
                 // Não calcula se tem tolerancia por intervalo e caso seja entrada da volta do almoço
                 if (MarcacaoRegistro != intervaloAlmocoRealizado.Item2 || intervaloAlmocoRealizado.Item3 == 0)
                 {
                     int JornadaRegistro = HoraEntrada[i];
                     if (i > 0)
                     {
-                        int entradaAnt = HoraEntrada[i - 1];
-                        if (JornadaRegistro < entradaAnt)
+                        int RegistroJornAnt = HoraSaida[i - 1];
+                        if (JornadaRegistro < RegistroJornAnt)
                         {
                             adicionalMeiaNoiteJornada = 1440;
                         }
@@ -2976,27 +2989,27 @@ namespace BLL
                 // Não calcula se tem tolerancia por intervalo e caso seja saida do almoço
                 MarcacaoRegistro = MarSaida[i];
 
-                if (i > 0)
-                {
-                    int MarcacaoRegistroAnt = i > 0 ? MarSaida[i - 1] : 0;
+                //if (i > 0)
+                //{
+                int MarcacaoRegAnt = MarEntrada[i];
 
-                    if (MarcacaoRegistro < MarcacaoRegistroAnt)
-                    {
-                        adicionalMeiaNoiteMarcacao = 1440;
-                    }
+                if (MarcacaoRegistro < MarcacaoRegAnt)
+                {
+                    adicionalMeiaNoiteMarcacao = 1440;
                 }
+                //}
 
                 if (MarcacaoRegistro != intervaloAlmocoRealizado.Item1 || intervaloAlmocoRealizado.Item3 == 0)
                 {
                     int JornadaRegistro = HoraSaida[i];
-                    if (i > 0)
+                    //if (i > 0)
+                    //{
+                    int RegJorAnt = HoraEntrada[i];
+                    if (JornadaRegistro < RegJorAnt)
                     {
-                        int saidaAnt = HoraSaida[i - 1];
-                        if (JornadaRegistro < saidaAnt)
-                        {
-                            adicionalMeiaNoiteJornada = 1440;
-                        }
+                        adicionalMeiaNoiteJornada = 1440;
                     }
+                    //}
                     CalculaToleranciaRegistros(JornadaRegistro, MarcacaoRegistro, ref FaltasToleradasD, ref FaltasToleradasN, ref ExtrasToleradasD, ref ExtrasToleradasN, 1, adicionalMeiaNoiteJornada, adicionalMeiaNoiteMarcacao);
                 }
 
