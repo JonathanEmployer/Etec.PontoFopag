@@ -2759,7 +2759,7 @@ namespace BLL
                 else
                 {
                     //calculou tolerancia no metodo 'CalculaHorasToleradas' chamado antes
-                    if (!calculouTolerancia)
+                    if (!calculouTolerancia || (calculouTolerancia && !toleranciaPorBatida))
                     {
                         BLL.CalculoHoras.CargaHoraria(CargaHorariaD, CargaHorariaN, toleranciaPorBatida, tHoraExtraMin, ExtrasToleradasD, ExtrasToleradasN, tHoraFaltaMin, FaltasToleradasD, FaltasToleradasN, ref HoraD, ref HoraN, out HoraExtraD, out HoraFaltaD, out HoraExtraN, out HoraFaltaN, out Ocorrencia, horasCompensarMin, ref horasCompensadasMin, ref horasCompensadas, ref legenda, ref LegendasConcatenadas);
                         totalizaCargaHoraria = CargaHorariaD + CargaHorariaN;
