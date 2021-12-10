@@ -275,7 +275,7 @@ namespace BLL
         /// <param name="tipoDiaAcumulo">Tipo do dia da hora extra (Geral(Seg|Ter|Qua|Quin|Sex), Sábado, Domingo, Feriado, Folga)</param>
         private void AcumulaHoraExtraNoturna(IList<HorasExtrasPorDia> horasExtrasDoPeriodo, HorasExtrasPorDia horasExtrasDoDia, ref PercentualHoraExtra horarioPHExtra, ref int horaExtraNoturna, TipoDiaAcumulo tipoDiaAcumulo)
         {
-            decimal perc = horarioPHExtra.PercentualExtra;
+            decimal perc = (decimal)horarioPHExtra.PercentualExtraNoturna == 0 ? horarioPHExtra.PercentualExtra : (decimal)horarioPHExtra.PercentualExtraNoturna;
             int limite = horarioPHExtra.QuantidadeExtraMin;
             if (horasExtrasDoDia.TipoAcumulo == 3) // Se acumulo for por mês, retiro do limite a quantidade já utilizada no mes.
             {

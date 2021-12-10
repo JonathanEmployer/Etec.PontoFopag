@@ -240,7 +240,8 @@ namespace PontoWeb.Controllers
             {
                 classificacaoHorasExtras.Codigo = bllClassificacaoHorasExtras.MaxCodigo();
                 classificacaoHorasExtras.IdMarcacao = idMarc;
-                classificacaoHorasExtras.QtdNaoClassificada = classMarc.FirstOrDefault().NaoClassificadas;
+                classificacaoHorasExtras.QtdNaoClassificadaDiurna = classMarc.FirstOrDefault().NaoClassificadasDiurna;
+                classificacaoHorasExtras.QtdNaoClassificadaNoturna = classMarc.FirstOrDefault().NaoClassificadasNoturna;
                 classificacaoHorasExtras.Tipo = 1;
             }
             else
@@ -248,12 +249,20 @@ namespace PontoWeb.Controllers
                 BLL.Classificacao bllClassificacao = new BLL.Classificacao(conn, usr);
                 Classificacao classi = bllClassificacao.LoadObject(classificacaoHorasExtras.IdClassificacao);
                 classificacaoHorasExtras.CodigoDescricaoClassificacao = classi.Codigo + " | " + classi.Descricao;
-                int classificadas = Modelo.cwkFuncoes.ConvertHorasMinuto(classMarc.Where(w => w.IdClassificacaoHorasExtras == classificacaoHorasExtras.Id).FirstOrDefault().Classificadas);
-                if (classificadas > classMarc.FirstOrDefault().HorasExtrasRealizadaMin)
+                int classificadasDiurna = Modelo.cwkFuncoes.ConvertHorasMinuto(classMarc.Where(w => w.IdClassificacaoHorasExtras == classificacaoHorasExtras.Id).FirstOrDefault().ClassificadasDiurna);
+                if (classificadasDiurna > classMarc.FirstOrDefault().HorasExtrasRealizadaDiurnaMin)
 	            {
-		             classificadas = classMarc.FirstOrDefault().HorasExtrasRealizadaMin;
+		             classificadasDiurna = classMarc.FirstOrDefault().HorasExtrasRealizadaDiurnaMin;
 	            }
-                classificacaoHorasExtras.QtdNaoClassificada = Modelo.cwkFuncoes.ConvertMinutosHora2(2, (classMarc.FirstOrDefault().NaoClassificadasMin + classificadas));
+                classificacaoHorasExtras.QtdNaoClassificadaDiurna = Modelo.cwkFuncoes.ConvertMinutosHora2(2, (classMarc.FirstOrDefault().NaoClassificadasDiurnaMin + classificadasDiurna));
+
+                int classificadasNoturna = Modelo.cwkFuncoes.ConvertHorasMinuto(classMarc.Where(w => w.IdClassificacaoHorasExtras == classificacaoHorasExtras.Id).FirstOrDefault().ClassificadasNoturna);
+                if (classificadasNoturna > classMarc.FirstOrDefault().HorasExtrasRealizadaNoturnaMin)
+                {
+                    classificadasNoturna = classMarc.FirstOrDefault().HorasExtrasRealizadaNoturnaMin;
+                }
+
+                classificacaoHorasExtras.QtdNaoClassificadaNoturna = Modelo.cwkFuncoes.ConvertMinutosHora2(2, (classMarc.FirstOrDefault().NaoClassificadasNoturnaMin + classificadasNoturna));
             }
             if (classificacaoHorasExtras.Tipo == 2)
             {
@@ -284,9 +293,13 @@ namespace PontoWeb.Controllers
                 }
             }
 
-            if (Modelo.cwkFuncoes.ConvertHorasMinuto(obj.QtdHoraClassificada) > Modelo.cwkFuncoes.ConvertHorasMinuto(obj.QtdNaoClassificada))
+            if (Modelo.cwkFuncoes.ConvertHorasMinuto(obj.QtdHoraClassificadaDiurna) > Modelo.cwkFuncoes.ConvertHorasMinuto(obj.QtdNaoClassificadaDiurna))
             {
-                ModelState["QtdHoraClassificada"].Errors.Add("Quantidade classificada maior que a disponível!");
+                ModelState["QtdHoraClassificadaDiurna"].Errors.Add("Quantidade classificada maior que a disponível!");
+            }
+            if (Modelo.cwkFuncoes.ConvertHorasMinuto(obj.QtdHoraClassificadaNoturna) > Modelo.cwkFuncoes.ConvertHorasMinuto(obj.QtdNaoClassificadaNoturna))
+            {
+                ModelState["QtdHoraClassificadaNoturna"].Errors.Add("Quantidade classificada maior que a disponível!");
             }
         }
     }
