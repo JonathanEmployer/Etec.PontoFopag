@@ -23,7 +23,8 @@
                 @Html.HiddenFor(model => model.Althora)
                 @Html.HiddenFor(model => model.Altusuario)
                 @Html.HiddenFor(model => model.IdMarcacao)
-                @Html.HiddenFor(model => model.QtdNaoClassificada)
+                @Html.HiddenFor(model => model.QtdNaoClassificadaDiurna)
+                @Html.HiddenFor(model => model.QtdNaoClassificadaNoturna)
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
@@ -34,9 +35,15 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.QtdNaoClassificada, new { @class = "control-label label-sm" })
-                            @Html.TextBoxFor(model => model.QtdNaoClassificada, new { @class = "form-control  input-sm timeL" }).IsDisabled(true)
-                            @Html.ValidationMessageFor(model => model.QtdNaoClassificada)
+                            @Html.LabelFor(model => model.QtdNaoClassificadaDiurna, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.QtdNaoClassificadaDiurna, new { @class = "form-control  input-sm timeL" }).IsDisabled(true)
+                            @Html.ValidationMessageFor(model => model.QtdNaoClassificadaDiurna)
+                        </div>
+                    </div><div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.QtdNaoClassificadaNoturna, new { @class = "control-label label-sm" })
+                            @Html.TextBoxFor(model => model.QtdNaoClassificadaNoturna, new { @class = "form-control  input-sm timeL" }).IsDisabled(true)
+                            @Html.ValidationMessageFor(model => model.QtdNaoClassificadaNoturna)
                         </div>
                     </div>
                 </div>
@@ -68,11 +75,22 @@
                         @Html.ValidationMessageFor(model => model.Tipo)
                     </div>
 
-                    <div class="col-md-3" id="divClassificacao">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.QtdHoraClassificada, new { @class = "control-label label-sm" })
-                            @Html.TextBoxFor(model => model.QtdHoraClassificada, new { @class = "form-control  input-sm timeL" })
-                            @Html.ValidationMessageFor(model => model.QtdHoraClassificada)
+                    <div class="col-md-6" id="divClassificacao">
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.QtdHoraClassificadaDiurna, new { @class = "control-label label-sm" })
+                                @Html.TextBoxFor(model => model.QtdHoraClassificadaDiurna, new { @class = "form-control  input-sm timeL" }).IsDisabled(Modelo.cwkFuncoes.ConvertHorasMinuto(Model.QtdNaoClassificadaDiurna)==0)
+                                @Html.ValidationMessageFor(model => model.QtdHoraClassificadaDiurna)
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.QtdHoraClassificadaNoturna, new { @class = "control-label label-sm" })
+                                @Html.TextBoxFor(model => model.QtdHoraClassificadaNoturna, new { @class = "form-control  input-sm timeL" }).IsDisabled(Modelo.cwkFuncoes.ConvertHorasMinuto(Model.QtdNaoClassificadaNoturna) == 0)
+                                @Html.ValidationMessageFor(model => model.QtdHoraClassificadaNoturna)
+                            </div>
                         </div>
                     </div>
                 </div>
