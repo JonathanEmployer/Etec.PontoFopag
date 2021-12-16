@@ -641,8 +641,8 @@ namespace BLL
                 pTFaltaLimite *= -1;
 
                 if ((dif == 0) ||
-                    ((dif > 0 && dif < pTExtraLimite) || pTExtraLimite == null) ||
-                    ((dif < 0 && Math.Abs(dif) > pTFaltaLimite) || pTFaltaLimite == null)
+                    ((dif > 0 && dif <= pTExtraLimite) || pTExtraLimite == null) ||
+                    ((dif < 0 && Math.Abs(dif) >= pTFaltaLimite) || pTFaltaLimite == null)
                     )
                 {
                     if (dif < 0 && dif >= pTFaltaLimite)
