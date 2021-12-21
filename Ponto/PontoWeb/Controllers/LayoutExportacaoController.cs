@@ -94,7 +94,7 @@ namespace PontoWeb.Controllers
             {
                 BLL.cwkFuncoes.LogarErro(ex);
                 return Json(new { Success = false, Erro = ex.Message }, JsonRequestBehavior.AllowGet);
-            }            
+            }
         }
 
         protected override ActionResult Salvar(LayoutExportacao obj)
@@ -123,7 +123,7 @@ namespace PontoWeb.Controllers
                     obj.LabelCamposLayoutExportacao = String.Empty;
                     obj.LabelQtdCamposLayoutExportacao = "0";
                 }
-               
+
                 ViewBag.VisualizarLayout = 1;
 
                 return View("Cadastrar", obj);
@@ -135,7 +135,7 @@ namespace PontoWeb.Controllers
                     ExportacaoCampos exportacaoCampos = new ExportacaoCampos();
                     exportacaoCampos.IdControle = 1;
                     exportacaoCampos.Codigo = 1;
-                    if ((obj.ExportacaoCampos != null) && 
+                    if ((obj.ExportacaoCampos != null) &&
                         (obj.ExportacaoCampos.Count > 0))
                     {
                         exportacaoCampos.IdControle = obj.ExportacaoCampos.Max(s => s.IdControle) + 1;
@@ -163,7 +163,7 @@ namespace PontoWeb.Controllers
                     Modelo.Acao acao = new Modelo.Acao();
                     Dictionary<string, string> erros = new Dictionary<string, string>();
 
-                    if (obj.Id == 0)                        
+                    if (obj.Id == 0)
                         acao = Acao.Incluir;
                     else
                         acao = Acao.Alterar;
@@ -172,8 +172,11 @@ namespace PontoWeb.Controllers
                     {
                         if (dja.Id == 0)
                             dja.Acao = Acao.Incluir;
-                        else
+                        else if (dja.AcaoDescricao == "exclusão")
+                            dja.Acao = Acao.Excluir;
+                        else if (dja.AcaoDescricao == "acão desconhecia")
                             dja.Acao = Acao.Alterar;
+
                     }
 
                     erros = bllLayoutExportacao.Salvar(acao, obj);
@@ -224,7 +227,7 @@ namespace PontoWeb.Controllers
 
         protected override void ValidarForm(LayoutExportacao obj)
         {
-           
+
         }
     }
 }

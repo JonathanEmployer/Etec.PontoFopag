@@ -238,14 +238,7 @@ namespace PontoWeb.Controllers
                         if (obj.Id == 0)
                         {
                             acao = Acao.Incluir;
-                            //if (obj.IdHorarioOrigem != null)
-                            //{
-                            //    obj.HorariosDetalhe.ToList().ForEach(f => { f.Id = 0; f.Idhorario = 0; f.Acao = Acao.Incluir; });
-                            //    obj.HorariosPHExtra.ToList().ForEach(f => { f.Id = 0; f.Idhorario = 0; });
-                            //    obj.LimitesDDsrProporcionais.ToList().ForEach(f => { f.Id = 0; f.IdHorario = 0; f.Acao = Acao.Incluir; });
-                            //    obj.LHorariosDetalhe.ToList().ForEach(f => { f.Id = 0; f.Idhorario = 0; f.Acao = Acao.Incluir; });
-                            //    obj.LHorariosAItinere.ToList().ForEach(f => { f.Id = 0; f.Idhorario = 0; });
-                            //}
+                           
                         }
                         else
                             acao = Acao.Alterar;
@@ -278,7 +271,7 @@ namespace PontoWeb.Controllers
                                     else if (DateTime.Now.Month == 12)
                                     {
                                         datainicial = new DateTime(DateTime.Now.Year, Convert.ToInt16(DateTime.Now.AddMonths(-2).Month), 1);
-                                        datafinal = new DateTime(Convert.ToInt16(DateTime.Now.AddYears(1).Year), Convert.ToInt16(DateTime.Now.AddMonths(2).Month), DateTime.DaysInMonth(Convert.ToInt16(DateTime.Now.Year), Convert.ToInt16(DateTime.Now.AddMonths(1).Month)));
+                                        datafinal = new DateTime(Convert.ToInt16(DateTime.Now.AddYears(1).Year), Convert.ToInt16(DateTime.Now.AddMonths(2).Month), DateTime.DaysInMonth(Convert.ToInt16(DateTime.Now.Year), Convert.ToInt16(DateTime.Now.AddMonths(2).Month)));
                                     }
                                     else
                                     {
