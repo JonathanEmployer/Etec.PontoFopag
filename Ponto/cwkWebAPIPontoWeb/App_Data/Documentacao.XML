@@ -1053,6 +1053,13 @@
             <param name="parametros">Parâmetros do Relatório</param>
             <returns></returns>
         </member>
+        <member name="M:cwkWebAPIPontoWeb.Controllers.RelatorioHomemHoraController.RelatorioHomemHoraMonsanto(cwkWebAPIPontoWeb.Models.ParametrosRelatorioBase)">
+            <summary>
+            Método responsável por retornar os dados do Relatório Homem Hora
+            </summary>
+            <param name="parametros">Parâmetros do Relatório</param>
+            <returns></returns>
+        </member>
         <member name="M:cwkWebAPIPontoWeb.Controllers.RepController.Get(System.String)">
             <summary>
             Retorna todos os relógios cadastrados no banco ao qual o usuário possui acesso.

@@ -21,7 +21,8 @@
                         <tr>
                             <th>Código</th>
                             <th>@Html.DisplayNameFor(x => x.FirstOrDefault().IdMarcacao)</th>
-                            <th>@Html.DisplayNameFor(x => x.FirstOrDefault().QtdHoraClassificada)</th>
+                            <th>@Html.DisplayNameFor(x => x.FirstOrDefault().QtdHoraClassificadaDiurna)</th>
+                            <th>@Html.DisplayNameFor(x => x.FirstOrDefault().QtdHoraClassificadaNoturna)</th>
                             <th>@Html.DisplayNameFor(x => x.FirstOrDefault().Tipo)</th>
                             <th>@Html.DisplayNameFor(x => x.FirstOrDefault().IdClassificacao)</th>
                         </tr>
@@ -29,13 +30,14 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr id="@item.Id">
-                                <td>@item.Codigo</td>
-                                <td>@item.IdMarcacao</td>
-                                <td>@item.QtdHoraClassificada</td>
-                                <td>@item.Tipo</td>
-                                <td>@item.IdClassificacao</td>
-                            </tr>
+                        <tr id="@item.Id">
+                            <td>@item.Codigo</td>
+                            <td>@item.IdMarcacao</td>
+                            <td>@item.QtdHoraClassificadaDiurna</td>
+                            <td>@item.QtdHoraClassificadaNoturna</td>
+                            <td>@item.Tipo</td>
+                            <td>@item.IdClassificacao</td>
+                        </tr>
                         }
                     </tbody>
                 </table>
