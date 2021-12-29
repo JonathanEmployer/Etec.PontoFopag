@@ -71,6 +71,23 @@ namespace Modelo
                 Zeroesquerda = value ? (Int16)1 : (Int16)0;
             }
         }
+        /// <summary>
+        /// Retirar pontuação dos campos
+        /// </summary>
+        public Int16 ClearCharactersSpecial { get; set; }
+
+        [Display(Name = "Remover Pontuação")]
+        public bool bClearCharactersSpecial
+        {
+            get
+            {
+                return ClearCharactersSpecial == 1 ? true : false;
+            }
+            set
+            {
+                ClearCharactersSpecial = value ? (Int16)1 : (Int16)0;
+            }
+        }
 
         public int IdLayoutExportacao { get; set; }
 

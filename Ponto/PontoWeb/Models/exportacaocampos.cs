@@ -34,7 +34,8 @@ namespace PontoWeb.Models
         public Nullable<int> idlayoutexportacao { get; set; }
         public System.DateTime ctl_inicio { get; set; }
         public System.DateTime ctl_fim { get; set; }
-    
+        public Nullable<int> clearcharactersspecial { get; set; }
+
         public virtual layoutexportacao layoutexportacao { get; set; }
     }
 }

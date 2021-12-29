@@ -725,6 +725,7 @@
           <Property Name="idlayoutexportacao" Type="int" />
           <Property Name="ctl_inicio" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="ctl_fim" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="clearcharactersspecial " Type="int" />
         </EntityType>
         <EntityType Name="fechamentobh">
           <Key>
@@ -3968,6 +3969,7 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.marcacao_view' does not ha
           <NavigationProperty Name="layoutexportacao" Relationship="Self.FK_exportacaocampos_layoutexportacao" FromRole="exportacaocampos" ToRole="layoutexportacao" />
           <Property Name="ctl_inicio" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="ctl_fim" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="clearcharactersspecial " Type="Int32" />
         </EntityType>
         <EntityType Name="fechamentobh">
           <Key>
@@ -6777,6 +6779,7 @@ warning 6002: The table/view 'PONTOFOPAG_EMPLOYER.dbo.marcacao_view' does not ha
                 <ScalarProperty Name="althora" ColumnName="althora" />
                 <ScalarProperty Name="altusuario" ColumnName="altusuario" />
                 <ScalarProperty Name="idlayoutexportacao" ColumnName="idlayoutexportacao" />
+                <ScalarProperty Name="clearcharactersspecial " ColumnName="clearcharactersspecial " />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

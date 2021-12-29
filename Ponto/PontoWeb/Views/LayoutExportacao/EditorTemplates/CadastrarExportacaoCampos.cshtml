@@ -98,6 +98,14 @@
                             @Html.ValidationMessageFor(model => model.bZeroEsquerda)
                         </div>
                     </div>
+                    <div class="col-md-3" style="padding-top:27px">
+                        <div class="form-group">
+                            @Html.TextBoxFor(model => model.bClearCharactersSpecial, new { @class = "form-control  input-sm" })
+                            @Html.CheckBoxFor((model => model.bClearCharactersSpecial), new { @id = "bClearCharactersSpecial", @class = "checkboxafast desabilitar" })
+                            @Html.LabelFor(model => model.bClearCharactersSpecial, new { @class = "control-label label-sm" })
+                            @Html.ValidationMessageFor(model => model.bClearCharactersSpecial)
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer" style="margin-top:0">

@@ -27,9 +27,9 @@ namespace DAL.SQL
                  FROM exportacaocampos";
 
             INSERT = @"  INSERT INTO exportacaocampos
-							(codigo, tipo, tamanho, posicao, delimitador, qualificador, texto, cabecalho, formatoevento, zeroesquerda, incdata, inchora, incusuario, idlayoutexportacao)
+							(codigo, tipo, tamanho, posicao, delimitador, qualificador, texto, cabecalho, formatoevento, zeroesquerda, incdata, inchora, incusuario, idlayoutexportacao, clearcharactersspecial)
 							VALUES
-							(@codigo, @tipo, @tamanho, @posicao, @delimitador, @qualificador, @texto, @cabecalho, @formatoevento, @zeroesquerda, @incdata, @inchora, @incusuario, @idlayoutexportacao) 
+							(@codigo, @tipo, @tamanho, @posicao, @delimitador, @qualificador, @texto, @cabecalho, @formatoevento, @zeroesquerda, @incdata, @inchora, @incusuario, @idlayoutexportacao, @clearcharactersspecial) 
 						SET @id = SCOPE_IDENTITY()";
 
             UPDATE = @"  UPDATE exportacaocampos SET
@@ -47,6 +47,7 @@ namespace DAL.SQL
 							, althora = @althora
 							, altusuario = @altusuario
                             , idlayoutexportacao = @idlayoutexportacao
+                            , clearcharactersspecial = @clearcharactersspecial 
 						WHERE id = @id";
 
             DELETE = @"  DELETE FROM exportacaocampos WHERE id = @id";
@@ -100,6 +101,7 @@ namespace DAL.SQL
             ((Modelo.ExportacaoCampos)obj).Formatoevento = Convert.ToString(dr["formatoevento"]);
             ((Modelo.ExportacaoCampos)obj).Zeroesquerda = Convert.ToInt16(dr["zeroesquerda"]);
             ((Modelo.ExportacaoCampos)obj).IdLayoutExportacao = dr["idlayoutexportacao"] is DBNull ? 0 : Convert.ToInt32(dr["idlayoutexportacao"]);
+            ((Modelo.ExportacaoCampos)obj).ClearCharactersSpecial = Convert.ToInt16(dr["clearcharactersspecial "]);
         }
 
         protected override SqlParameter[] GetParameters()
@@ -124,7 +126,8 @@ namespace DAL.SQL
 				new SqlParameter ("@althora", SqlDbType.DateTime),
 				new SqlParameter ("@altusuario", SqlDbType.VarChar),
                 new SqlParameter ("@idlayoutexportacao", SqlDbType.Int),
-			};
+                new SqlParameter ("@clearcharactersspecial ", SqlDbType.TinyInt),
+            };
             return parms;
         }
 
@@ -152,6 +155,7 @@ namespace DAL.SQL
             parms[15].Value = ((Modelo.ExportacaoCampos)obj).Althora;
             parms[16].Value = ((Modelo.ExportacaoCampos)obj).Altusuario;
             parms[17].Value = ((Modelo.ExportacaoCampos)obj).IdLayoutExportacao;
+            parms[18].Value = ((Modelo.ExportacaoCampos)obj).ClearCharactersSpecial;
         }
 
         public Modelo.ExportacaoCampos LoadObject(int id)

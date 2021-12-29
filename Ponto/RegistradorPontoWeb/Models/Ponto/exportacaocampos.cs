@@ -32,7 +32,8 @@ namespace RegistradorPontoWeb.Models.Ponto
         public Nullable<System.DateTime> althora { get; set; }
         public string altusuario { get; set; }
         public Nullable<int> idlayoutexportacao { get; set; }
-    
+        public Nullable<int> clearcharactersspecial { get; set; }
+
         public virtual layoutexportacao layoutexportacao { get; set; }
     }
 }

@@ -1191,6 +1191,7 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.eventosHistory' does not hav
           <Property Name="althora" Type="datetime" />
           <Property Name="altusuario" Type="varchar" MaxLength="20" />
           <Property Name="idlayoutexportacao" Type="int" />
+          <Property Name="clearcharactersspecial " Type="int" />
         </EntityType>
         <EntityType Name="fechamentobh">
           <Key>
@@ -8528,6 +8529,7 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.IPHistory' does not have a p
           <Property Name="althora" Type="DateTime" Precision="3" />
           <Property Name="altusuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="idlayoutexportacao" Type="Int32" />
+          <Property Name="clearcharactersspecial " Type="Int32" />
           <NavigationProperty Name="layoutexportacao" Relationship="PontofopagModel.FK_exportacaocampos_layoutexportacao" FromRole="exportacaocampos" ToRole="layoutexportacao" />
         </EntityType>
         <EntityType Name="fechamentobh">
@@ -13802,6 +13804,7 @@ warning 6002: The table/view 'PONTOFOPAG_MODELO.dbo.IPHistory' does not have a p
                 <ScalarProperty Name="tipo" ColumnName="tipo" />
                 <ScalarProperty Name="codigo" ColumnName="codigo" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="clearcharactersspecial " ColumnName="clearcharactersspecial " />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
