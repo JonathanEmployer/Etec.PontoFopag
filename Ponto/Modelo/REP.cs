@@ -200,6 +200,13 @@ namespace Modelo
       
         public int IdEquipamentoHomologado373 { get; set; }
 
+        [Display(Name = "Registrador Em Massa")]
+        public bool RegistradorEmMassa { get; set; }
+
+        [Display(Name = "Crachá ADM")]
+        [Range(0, Int64.MaxValue, ErrorMessage = "Campo inválido")]
+        public Int64? CrachaAdm { get; set; }
+
 
         [Display(Name = "Empregados excluídos")]
         public bool Operacao { get; set; }

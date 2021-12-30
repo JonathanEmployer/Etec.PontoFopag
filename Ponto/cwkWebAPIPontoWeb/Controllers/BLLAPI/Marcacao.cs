@@ -26,7 +26,7 @@ namespace cwkWebAPIPontoWeb.Controllers.BLLAPI
             try
             {
                 BLL.ImportaBilhetes bllImportaBilhetes = new BLL.ImportaBilhetes(conexao);
-                if (bllImportaBilhetes.ImportarBilhetes(objBilhete.Func, false, objBilhete.Data, objBilhete.Data, out dataInicial, out dataFinal, pb, log))
+                if (bllImportaBilhetes.ImportarBilhetes(objBilhete.Func, false, objBilhete.Data, objBilhete.Data, out dataInicial, out dataFinal, pb, log,null))
                 {
                     BLL.CalculaMarcacao bllCalculaMarcacao = new BLL.CalculaMarcacao(2, idFunc, dataInicial.Value.AddDays(-1), dataFinal.Value.AddDays(1), pb, false, conexao, true, false);
                     bllCalculaMarcacao.CalculaMarcacoes();

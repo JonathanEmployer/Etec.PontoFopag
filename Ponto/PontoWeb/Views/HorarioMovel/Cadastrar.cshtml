@@ -1133,7 +1133,7 @@
                                                 <div class="form-group">
                                                     @Html.LabelFor(model => model.Descontohorasdsr, new { @class = "control-label label-sm" })
                                                     <div class="input-group input-group-sm">
-                                                        @Html.TextBoxFor(model => model.Descontohorasdsr, new { @class = "form-control input-sm decimalPercent horario", id = "Descontohorasdsr", aria_describedby = "basic-addon2" })
+                                                        @Html.TextBoxFor(model => model.Descontohorasdsr, new { @class = "form-control input-sm decimalPercent1 horario", id = "Descontohorasdsr", aria_describedby = "basic-addon2" })
                                                         <span class="input-group-addon" id="basic-addon2">%</span>
                                                     </div>
 
@@ -1911,7 +1911,7 @@
                     value = element.val()
                 }
             }
-            else if ($(this).hasClass('currency') || $(this).hasClass('money') || $(this).hasClass('decimalPercent')) {
+            else if ($(this).hasClass('currency') || $(this).hasClass('money') || $(this).hasClass('decimalPercent') || $(this).hasClass('decimalPercent1')) {
                 value = element.val().replace(',', '.');
             }
             else {

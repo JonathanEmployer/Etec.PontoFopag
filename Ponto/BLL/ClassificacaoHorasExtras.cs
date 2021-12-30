@@ -14,7 +14,7 @@ namespace BLL
 
         public ClassificacaoHorasExtras() : this(null)
         {
-            
+
         }
 
         public ClassificacaoHorasExtras(string connString)
@@ -25,9 +25,9 @@ namespace BLL
 
         public ClassificacaoHorasExtras(string connString, Modelo.Cw_Usuario usuarioLogado)
         {
-            if (!String.IsNullOrEmpty(connString))            
-                ConnectionString = connString;            
-            else            
+            if (!String.IsNullOrEmpty(connString))
+                ConnectionString = connString;
+            else
                 ConnectionString = Modelo.cwkGlobal.CONN_STRING;
 
             dalClassificacaoHorasExtras = new DAL.SQL.ClassificacaoHorasExtras(new DataBase(ConnectionString));
@@ -74,24 +74,30 @@ namespace BLL
 
                 if (objeto.Tipo == 1)
                 {
-                    objeto.QtdHoraClassificada = null;
+                    objeto.QtdHoraClassificadaDiurna = null;
+                    objeto.QtdHoraClassificadaNoturna = null;
                 }
 
                 IList<pxyClassHorasExtrasMarcacao> classMarc = GetClassificacoesMarcacao(objeto.IdMarcacao);
-                int qtdHoraClassificadaMin = 0;
+                int qtdHoraClassificadaDiurnaMin = 0;
+                int qtdHoraClassificadaNoturnaMin = 0;
                 try
                 {
-                    if (!String.IsNullOrEmpty(objeto.QtdHoraClassificada))
+                    if (!String.IsNullOrEmpty(objeto.QtdHoraClassificadaDiurna))
                     {
-                        qtdHoraClassificadaMin = Modelo.cwkFuncoes.ConvertHorasMinuto(objeto.QtdHoraClassificada);
+                        qtdHoraClassificadaDiurnaMin = Modelo.cwkFuncoes.ConvertHorasMinuto(objeto.QtdHoraClassificadaDiurna);
+                    }
+                    if (!String.IsNullOrEmpty(objeto.QtdHoraClassificadaNoturna))
+                    {
+                        qtdHoraClassificadaNoturnaMin = Modelo.cwkFuncoes.ConvertHorasMinuto(objeto.QtdHoraClassificadaNoturna);
                     }
                 }
                 catch (Exception e)
                 {
-                    throw new Exception ("Valor informado para a quantidade classificada é inválido.");
+                    throw new Exception("Valor informado para a quantidade classificada é inválido.");
                 }
 
-                if (objeto.Tipo == 0 && qtdHoraClassificadaMin == 0)
+                if (objeto.Tipo == 0 && qtdHoraClassificadaDiurnaMin == 0 && qtdHoraClassificadaNoturnaMin == 0)
                 {
                     ret.Add("QtdNaoClassificada", "Quantidade classificada não informada.");
                 }
@@ -101,21 +107,40 @@ namespace BLL
                 }
                 else
                 {
-                    int valorAnt = 0;
+                    int valorAntDiu = 0;
+                    int valorAntNot = 0;
                     if (objeto.Id > 0)
                     {
                         pxyClassHorasExtrasMarcacao c = classMarc.Where(w => w.IdClassificacaoHorasExtras == objeto.Id).FirstOrDefault();
-                        valorAnt = c.ClassificadasMin;
+                        valorAntDiu = c.ClassificadasDiurnaMin;
+                        valorAntNot = c.ClassificadasNoturnaMin;
                     }
 
-                    int qtdNaoClassificada = classMarc.FirstOrDefault().NaoClassificadasMin + valorAnt;
-                    if (qtdNaoClassificada == 0)
+
+                    int qtdNaoClassificadaDiu = classMarc.FirstOrDefault().NaoClassificadasDiurnaMin + valorAntDiu;
+                    int qtdNaoClassificadaNot = classMarc.FirstOrDefault().NaoClassificadasNoturnaMin + valorAntNot;
+
+                    if (Modelo.cwkFuncoes.ConvertHorasMinuto(objeto.QtdNaoClassificadaDiurna) > 0)
                     {
-                        ret.Add("QtdHoraClassificada", "Não existem horas a serem classificadas.");
+                        if (qtdNaoClassificadaDiu == 0)
+                        {
+                            ret.Add("QtdHoraClassificadaDiurna", "Não existem horas a serem classificadas.");
+                        }
+                        else if (Modelo.cwkFuncoes.ConvertHorasMinuto(objeto.QtdHoraClassificadaDiurna) > qtdNaoClassificadaDiu)
+                        {
+                            ret.Add("QtdHoraClassificadaDiurna", "Valor classificado não pode ser maior que o não classificado.");
+                        }
                     }
-                    else if (Modelo.cwkFuncoes.ConvertHorasMinuto(objeto.QtdHoraClassificada) > qtdNaoClassificada)
+                    if (Modelo.cwkFuncoes.ConvertHorasMinuto(objeto.QtdNaoClassificadaNoturna) > 0)
                     {
-                        ret.Add("QtdHoraClassificada", "Valor classificado não pode ser maior que o não classificado.");
+                        if (qtdNaoClassificadaNot == 0)
+                        {
+                            ret.Add("QtdHoraClassificadaNoturna", "Não existem horas a serem classificadas.");
+                        }
+                        else if (Modelo.cwkFuncoes.ConvertHorasMinuto(objeto.QtdHoraClassificadaNoturna) > qtdNaoClassificadaNot)
+                        {
+                            ret.Add("QtdHoraClassificadaNoturna", "Valor classificado não pode ser maior que o não classificado.");
+                        }
                     }
                 }
             }
@@ -167,7 +192,7 @@ namespace BLL
         {
             return dalClassificacaoHorasExtras.getId(pValor, pCampo, pValor2);
         }
-        
+
         public List<Modelo.Proxy.pxyClassHorasExtrasMarcacao> GetMarcacoesClassificar(List<int> idsFuncionarios, DateTime datainicial, DateTime datafinal)
         {
             return dalClassificacaoHorasExtras.GetMarcacoesClassificar(idsFuncionarios, datainicial, datafinal);

@@ -80,6 +80,71 @@ namespace cwkWebAPIPontoWeb.Controllers
             return TrataErroModelState(retErro);
         }
 
+        #region RelatorioHomemHoraMonsanto
+
+        /// <summary>
+        /// Método responsável por retornar os dados do Relatório Homem Hora
+        /// </summary>
+        /// <param name="parametros">Parâmetros do Relatório</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route ("api/RelatorioHomemHoraMonsanto")]
+        [Authorize]
+        [TratamentoDeErro]
+        public HttpResponseMessage RelatorioHomemHoraMonsanto(ParametrosRelatorioBase parametros)
+        {
+            RetornoErro retErro = new RetornoErro();
+            try
+            {
+                Modelo.UsuarioPontoWeb userPW = MetodosAuxiliares.UsuarioPontoWeb();
+                if (ModelState.IsValid)
+                {                  
+                    BLL.Relatorios.RelatorioHomemHora bllRelatorioHomemHora = new BLL.Relatorios.RelatorioHomemHora(userPW.ConnectionString);
+                    ConcurrentBag<int> idsFuncs = new ConcurrentBag<int>();
+                    List<Modelo.Funcionario> funcionarios = new List<Modelo.Funcionario>();
+                    BLL.Funcionario bllFuncionario = new BLL.Funcionario(usuarioPontoWeb.ConnectionString, usuarioPontoWeb);
+
+                    funcionarios = bllFuncionario.GetAllFuncsListPorCPF(parametros.CPFsMatriculas.Select(s => s.CPF).ToList());
+
+                    if (funcionarios.Count() <= 0)
+                    {
+                        retErro.erroGeral = "Não existem funcionários para os números de CPF informados";
+                        return TrataErroModelState(retErro);
+                    }
+
+                    Parallel.ForEach(parametros.CPFsMatriculas, (CpfMatricula) =>
+                    {
+                        if (!String.IsNullOrEmpty(CpfMatricula.CPF) && !String.IsNullOrEmpty(CpfMatricula.Matricula))
+                        {
+                            Modelo.Funcionario func = funcionarios.Where(w => Convert.ToInt64(BLL.cwkFuncoes.ApenasNumeros(w.CPF)) == Convert.ToInt64(BLL.cwkFuncoes.ApenasNumeros(CpfMatricula.CPF)) && w.Matricula == CpfMatricula.Matricula).FirstOrDefault();
+                            if (func != null && func.Id > 0)
+                            {
+                                idsFuncs.Add(func.Id);
+                            }
+                        }
+                    });
+
+                    if (idsFuncs.Count() <= 0)
+                    {
+                        retErro.erroGeral = "Ocorreu um erro ao gerar o relatório. Verifique se o CPF e a Matrícula pertencem ao mesmo funcionário.";
+                        return TrataErroModelState(retErro);
+                    }
+
+                    List<Modelo.Proxy.Relatorios.PxyRelHomemHoraMonsanto> listRel = bllRelatorioHomemHora.GetRelatorioHomemHoraMonsanto(idsFuncs.ToList(), DateTime.Parse(parametros.InicioPeriodo), DateTime.Parse(parametros.FimPeriodo)).ToList();
+
+                    return Request.CreateResponse(HttpStatusCode.OK, listRel);
+                }
+            }
+            catch (Exception ex)
+            {
+                BLL.cwkFuncoes.LogarErro(ex);
+                retErro.erroGeral = ex.Message;
+            }
+
+            return TrataErroModelState(retErro);
+        }
+        #endregion
+
         private HttpResponseMessage TrataErroModelState(RetornoErro retErro)
         {
             List<ErroDetalhe> lErroDet = new List<ErroDetalhe>();

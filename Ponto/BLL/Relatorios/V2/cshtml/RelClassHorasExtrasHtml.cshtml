@@ -146,16 +146,18 @@
                                                                             <thead>
                                                                                 <tr>
                                                                                     <th width="200px">Classificação</th>
-                                                                                    <th>Total</th>
+                                                                                    <th>Total Diurna</th>
+                                                                                    <th>Total Noturna</th>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
                                                                                 @foreach (IList<Modelo.Proxy.Relatorios.PxyRelClassificacaoHorasExtras> footSum in resumo.Where(w => w.ClassificacaoCodigo > 0).GroupBy(g => new { g.ClassificacaoDescricao, g.ClassificacaoCodigo }))
                                                                                 {
-                                                                                    <tr>
-                                                                                        <td width="200px">@footSum.FirstOrDefault().ClassificacaoDescricao</td>
-                                                                                        <td>@Modelo.cwkFuncoes.ConvertMinutosHora2(3, footSum.Sum(s => s.ClassificadasMin).Value)</td>
-                                                                                    </tr>
+                                                                                <tr>
+                                                                                    <td width="200px">@footSum.FirstOrDefault().ClassificacaoDescricao</td>
+                                                                                    <td>@Modelo.cwkFuncoes.ConvertMinutosHora2(3, footSum.Sum(s => s.ClassificadasDiurnaMin).Value)</td>
+                                                                                    <td>@Modelo.cwkFuncoes.ConvertMinutosHora2(3, footSum.Sum(s => s.ClassificadasNoturnaMin).Value)</td>
+                                                                                </tr>
                                                                                 }
                                                                             </tbody>
                                                                         </table>
@@ -194,16 +196,18 @@
                                                         <thead>
                                                             <tr>
                                                                 <th width="200px">Classificação</th>
-                                                                <th>Total</th>
+                                                                <th>Total Diurna</th>
+                                                                <th>Total Noturna</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             @foreach (IList<Modelo.Proxy.Relatorios.PxyRelClassificacaoHorasExtras> footSum in resumo.Where(w => w.ClassificacaoCodigo > 0).GroupBy(g => new { g.ClassificacaoDescricao, g.ClassificacaoCodigo }))
                                                             {
-                                                                <tr>
-                                                                    <td width="200px">@footSum.FirstOrDefault().ClassificacaoDescricao</td>
-                                                                    <td>@Modelo.cwkFuncoes.ConvertMinutosHora2(3, footSum.Sum(s => s.ClassificadasMin).Value)</td>
-                                                                </tr>
+                                                            <tr>
+                                                                <td width="200px">@footSum.FirstOrDefault().ClassificacaoDescricao</td>
+                                                                <td>@Modelo.cwkFuncoes.ConvertMinutosHora2(3, footSum.Sum(s => s.ClassificadasDiurnaMin).Value)</td>
+                                                                <td>@Modelo.cwkFuncoes.ConvertMinutosHora2(3, footSum.Sum(s => s.ClassificadasNoturnaMin).Value)</td>
+                                                            </tr>
                                                             }
                                                         </tbody>
                                                     </table>
@@ -243,16 +247,18 @@
                                     <thead>
                                         <tr>
                                             <th width="200px">Classificação</th>
-                                            <th>Total</th>
+                                            <th>Total Diurna</th>
+                                            <th>Total Noturna</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach (IList<Modelo.Proxy.Relatorios.PxyRelClassificacaoHorasExtras> footSum in resumo.Where(w => w.ClassificacaoCodigo > 0).GroupBy(g => new { g.ClassificacaoDescricao, g.ClassificacaoCodigo }))
                                         {
-                                            <tr>
-                                                <td width="200px">@footSum.FirstOrDefault().ClassificacaoDescricao</td>
-                                                <td>@Modelo.cwkFuncoes.ConvertMinutosHora2(3, footSum.Sum(s => s.ClassificadasMin).Value)</td>
-                                            </tr>
+                                        <tr>
+                                            <td width="200px">@footSum.FirstOrDefault().ClassificacaoDescricao</td>
+                                            <td>@Modelo.cwkFuncoes.ConvertMinutosHora2(3, footSum.Sum(s => s.ClassificadasDiurnaMin).Value)</td>
+                                            <td>@Modelo.cwkFuncoes.ConvertMinutosHora2(3, footSum.Sum(s => s.ClassificadasNoturnaMin).Value)</td>
+                                        </tr>
                                         }
                                     </tbody>
                                 </table>

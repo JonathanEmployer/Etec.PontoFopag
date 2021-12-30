@@ -20,6 +20,7 @@
     $('.intpercent').mask('000');
     $('.int2').mask('00');
     $('.decimalPercent').mask("#.##0,00", { reverse: true, maxlength:true });
+    $('.decimalPercent1').mask("#,0#", { maxlength: true });
     
     var options = {
         onComplete: function (cep) {

@@ -297,8 +297,8 @@ namespace DAL.SQL
                                           LEFT JOIN horariodetalhe AS horariodetalhenormal ON horariodetalhenormal.idhorario = marcacao.idhorario AND horario.tipohorario = 1 AND horariodetalhenormal.dia = (CASE WHEN (DATEPART(WEEKDAY, marcacao.data) - 1) = 0 THEN 7 ELSE (DATEPART(WEEKDAY, marcacao.data) - 1) END)
                                           LEFT JOIN horariodetalhe AS horariodetalheflexivel ON horariodetalheflexivel.idhorario = marcacao.idhorario AND horario.tipohorario = 2 AND horariodetalheflexivel.data = marcacao.data
                                           LEFT JOIN pessoa pe ON pe.id = funcionario.IdPessoaSupervisor
-                                            
-                                         LEFT JOIN contratofuncionario ON contratofuncionario.idfuncionario = funcionario.id AND contratofuncionario.excluido = 0
+                                         --LEFT JOIN contratofuncionario ON contratofuncionario.idfuncionario = funcionario.id AND contratofuncionario.excluido = 0
+										 OUTER APPLY (SELECT TOP(1) * FROM contratofuncionario cf where cf.idfuncionario = funcionario.id AND cf.excluido = 0) as contratofuncionario
                                          LEFT JOIN contrato ON contrato.id = contratofuncionario.idcontrato 
 
 
@@ -472,11 +472,20 @@ namespace DAL.SQL
                     break;
             }
 
-            aux += GetWhereSelectAll();
+           
+           
+            string permissao = PermissaoUsuarioFuncionario(UsuarioLogado, aux, "funcionario.idempresa", "funcionario.id", null);
+            if (!string.IsNullOrWhiteSpace(permissao))
+            {
 
-            aux += PermissaoUsuarioFuncionario(UsuarioLogado, aux, "funcionario.idempresa", "funcionario.id", null);
-
-            aux += " ORDER BY  funcionario.nome ";
+                aux += permissao ;
+            }
+            else
+            {
+                aux += GetWhereSelectAll();
+            }
+            
+           aux += " ORDER BY  funcionario.nome ";
             SqlDataReader dr = db.ExecuteReader(CommandType.Text, aux, parms);
             dt.Load(dr);
             if (!dr.IsClosed)

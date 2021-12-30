@@ -33,5 +33,7 @@ namespace DAL
         List<Modelo.Empresa> GetEmpresasUsuarioId(int idUsuario);
         void DeletarEmpresasUsuario(int idUsuario);
         List<pxyUsuarioControleAcessoAdicionarEmpresa> GetAllEmpresasControle();
+
+        IEnumerable<(string cnpj, int idFuncionario)> GetCnpjsByFuncIds(params int[] ids);
     }
 }

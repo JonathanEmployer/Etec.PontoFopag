@@ -177,7 +177,7 @@ namespace cwkWebAPIPontoWeb.Controllers
 
 
                         marc.Classificacoes = classificacoesPeriodo.Where(w => w.IdMarcacao == marc.Id).ToList();
-                        if (marc.Classificacoes.FirstOrDefault().NaoClassificadasMin > 0)
+                        if (marc.Classificacoes.FirstOrDefault().NaoClassificadasDiurnaMin + marc.Classificacoes.FirstOrDefault().NaoClassificadasNoturnaMin > 0)
                         {
                             marc.ClassificarHorasExtras = true;
                         }

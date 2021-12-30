@@ -10,6 +10,7 @@ namespace BLL
     public class FechamentoPonto : IBLL<Modelo.FechamentoPonto>
     {
         DAL.IFechamentoPonto dalFechamentoPonto;
+        
         private string ConnectionString;
         private Modelo.Cw_Usuario UsuarioLogado;
 
@@ -134,5 +135,40 @@ namespace BLL
         {
             return dalFechamentoPonto.GetFechamentosPorTipoFiltro(data, tipoFiltro, idsRegistros);
         }
+
+        public (int? Mes, int? Ano) GetMesAnoFechamento(int idFechamento, int idEmpresa, int idFuncionario)
+        {
+            return dalFechamentoPonto.GetMesAnoFechamento(idFechamento, idEmpresa, idFuncionario);
+        }
+
+        public (DateTime dtInicio, DateTime dtFim) GetPeriodoFechamento(int mes, int ano, int diaInicio, int diaFim)
+        {
+            var mesInicio = mes;
+            var mesFim = mes;
+
+            if (diaInicio <= 15 && diaInicio != 1)
+                mesFim = mes + 1;
+            else if (diaInicio > 15)
+                mesInicio = mes - 1;
+
+            DateTime dataInicio = new DateTime(ano, mesInicio, diaInicio);
+            DateTime dataFim = DateTime.MinValue;
+
+            if (!DateTime.TryParse($"{ano}-{mesFim}-{diaFim}", out dataFim))
+                dataFim = new DateTime(ano, mesFim, 1).AddMonths(1).AddDays(-1);
+
+            return (dataInicio, dataFim);
+        }
+
+        public void UpdateIdJob(int idFechamento, string idJob)
+        {
+            dalFechamentoPonto.UpdateIdJob(idFechamento, idJob);
+        }
+
+        public string GetIdJob(int idFechamento)
+        {
+            return dalFechamentoPonto.GetIdJob(idFechamento);
+        }
+
     }
 }

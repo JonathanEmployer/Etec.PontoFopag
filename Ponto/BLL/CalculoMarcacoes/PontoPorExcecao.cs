@@ -1,5 +1,6 @@
 ﻿using DAL.SQL;
 using Modelo;
+using Modelo.Proxy;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -85,6 +86,21 @@ namespace BLL.CalculoMarcacoes
         {
             RegistroPonto bllRegistroPonto = new RegistroPonto(_connectionString, _usuarioLogado);
             List<Modelo.Proxy.PxyRegistrosValidarPontoExcecao> registrosValidar = dalBilhetesImp.RegistrosValidarPontoExcecao(idsFuncs, idsHorario);
+            //Recupera os registros que o horario é diferente da jornada
+            var horariosAlterados = registrosValidar
+                .Where(c =>
+                    (c.EntradaPrevista1 != c.EntradaMarcacao1 || c.SaidaPrevista1 != c.SaidaMarcacao1 ||
+                    c.EntradaPrevista2 != c.EntradaMarcacao2 || c.SaidaPrevista2 != c.SaidaMarcacao2 ||
+                    c.EntradaPrevista3 != c.EntradaMarcacao3 || c.SaidaPrevista3 != c.SaidaMarcacao3 ||
+                    c.EntradaPrevista4 != c.EntradaMarcacao4 || c.SaidaPrevista4 != c.SaidaMarcacao4) &&
+                    c.Relogio == "PE" || c.Relogio == "")
+                .ToList();
+            if (horariosAlterados != null && horariosAlterados.Count > 0)
+            {
+                ExcluirBilhetePontoPorExcecao(horariosAlterados.Where(c => c.Id > 0).Select(c => c.Id).ToList()); //passar ids bilhetes 
+                ZeraMarcacaoSemBilhete(horariosAlterados.Where(c => c.idMarcacao > 0).Select(c => c.idMarcacao).ToList()); //passar ids marcacao
+                horariosAlterados.ForEach(i => i.Id = 0); //alterar os ids para 0 para gerar novos bilhetes
+            }
 
             int maxCodigo = bllRegistroPonto.MaxCodigo();
             List<Modelo.RegistroPonto> registroPontos = new List<Modelo.RegistroPonto>();
@@ -123,6 +139,15 @@ namespace BLL.CalculoMarcacoes
             registroPontos.ForEach(f => f.Lote = lote);
             bllRegistroPonto.InserirRegistros(registroPontos);
             return registroPontos;
+        }
+
+        private void ExcluirBilhetePontoPorExcecao(List<int> registrosValidarExclusao)
+        {
+            dalBilhetesImp.ExcluirBilhetePontoPorExcecao(registrosValidarExclusao);
+        }
+        private void ZeraMarcacaoSemBilhete(List<int> idsMarcacao)
+        {
+            dalBilhetesImp.ZeraMarcacaoSemBilhete(idsMarcacao);
         }
     }
 }

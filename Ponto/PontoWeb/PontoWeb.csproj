@@ -546,6 +546,7 @@
     <Compile Include="Controllers\ProvisorioController.cs" />
     <Compile Include="Controllers\RecalculaMarcacaoController.cs" />
     <Compile Include="Controllers\RegistradorController.cs" />
+    <Compile Include="Controllers\RegistradorMassaController.cs" />
     <Compile Include="Controllers\Relatorios\RelAFDPortaria373Controller.cs" />
     <Compile Include="Controllers\Relatorios\RelatorioAbsenteismoV2Controller.cs" />
     <Compile Include="Controllers\Relatorios\RelatorioCartaoPontoExecaoHTMLController.cs" />
@@ -1937,6 +1938,11 @@
     <Content Include="Views\CercaVirtual\EventoConsulta.cshtml" />
     <Content Include="Views\RelatorioSubstituicaoJornada\SubstituicaoJornada.cshtml" />
     <Content Include="Views\RelatorioCartaoPontoExecaoHTML\CartaoPontoExcecaoHtml.cshtml" />
+    <Content Include="Views\ImportacaoBilhetes\ArquivosImportados.cshtml" />
+    <Content Include="Views\RegistradorMassa\Grid.cshtml" />
+    <Content Include="Views\RegistradorMassa\Cadastrar.cshtml" />
+    <Content Include="Views\RegistradorMassa\SituacaoRegMassa.cshtml" />
+    <Content Include="Views\RegistradorMassa\SituacaoRegMassaAtual.cshtml" />
     <Content Include="Views\RelatorioFuncionariosRep\RelatorioFuncionariosRep.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1975,7 +1981,6 @@
     <Folder Include="images\" />
     <Folder Include="Views\EmpresaTermoUso\" />
     <Folder Include="Views\GetFuncsRel\" />
-    <Folder Include="Views\NewFolder1\" />
     <Folder Include="Views\RelatorioFiltroFuncionarioGeral\" />
   </ItemGroup>
   <ItemGroup>
