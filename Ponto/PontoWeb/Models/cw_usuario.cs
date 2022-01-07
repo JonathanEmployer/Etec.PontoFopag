@@ -52,8 +52,9 @@ namespace PontoWeb.Models
         public Nullable<bool> utilizaregistradordesktop { get; set; }
         public string CpfUsuario { get; set; }
         public Nullable<bool> PermissaoConcluirFluxoPnl { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
+        public bool Ativo { get; set; }
+        public System.DateTime Ctl_Inicio { get; set; }
+        public System.DateTime Ctl_Fim { get; set; }
     
         public virtual cw_grupo cw_grupo { get; set; }
         public virtual ICollection<empresacwusuario> empresacwusuario { get; set; }

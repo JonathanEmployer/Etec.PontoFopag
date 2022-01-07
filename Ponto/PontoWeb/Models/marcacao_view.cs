@@ -114,5 +114,10 @@ namespace PontoWeb.Models
         public string horasPrevistasDentroFeriadoDiurna { get; set; }
         public string horasPrevistasDentroFeriadoNoturna { get; set; }
         public short naoconsiderarferiado { get; set; }
+        public short ContabilizarFaltas { get; set; }
+        public short ContAtrasosSaidasAntec { get; set; }
+        public short ContabilizarCreditos { get; set; }
+        public Nullable<int> IdJornadaSubstituir { get; set; }
+        public string SaldoBH { get; set; }
     }
 }

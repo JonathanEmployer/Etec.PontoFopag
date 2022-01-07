@@ -64,8 +64,8 @@ namespace PontoWeb.Models
         public Nullable<int> neutro { get; set; }
         public string diadescricao { get; set; }
         public Nullable<int> CicloSequenciaIndice { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
+        public System.DateTime Ctl_Inicio { get; set; }
+        public System.DateTime Ctl_Fim { get; set; }
     
         public virtual horario horario { get; set; }
         public virtual jornada jornada { get; set; }

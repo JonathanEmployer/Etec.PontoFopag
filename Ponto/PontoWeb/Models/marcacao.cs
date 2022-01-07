@@ -87,8 +87,6 @@ namespace PontoWeb.Models
         public string horasPrevistasDentroFeriadoDiurna { get; set; }
         public string horasPrevistasDentroFeriadoNoturna { get; set; }
         public short naoconsiderarferiado { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
         public string entrada_1 { get; set; }
         public string entrada_2 { get; set; }
         public string entrada_3 { get; set; }
@@ -115,6 +113,13 @@ namespace PontoWeb.Models
         public string bancohorasdeb { get; set; }
         public string valordsr { get; set; }
         public string exphorasextranoturna { get; set; }
+        public short ContabilizarFaltas { get; set; }
+        public short ContAtrasosSaidasAntec { get; set; }
+        public short ContabilizarCreditos { get; set; }
+        public Nullable<int> IdJornadaSubstituir { get; set; }
+        public System.DateTime Ctl_Inicio { get; set; }
+        public System.DateTime Ctl_Fim { get; set; }
+        public string SaldoBH { get; set; }
     
         public virtual compensacao compensacao { get; set; }
         public virtual fechamentobh fechamentobh { get; set; }

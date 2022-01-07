@@ -36,8 +36,8 @@ namespace PontoWeb.Models
         public Nullable<int> idIntegracao { get; set; }
         public Nullable<int> IdHorarioPadraoFunc { get; set; }
         public Nullable<int> TipoHorarioPadraoFunc { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
+        public System.DateTime Ctl_Inicio { get; set; }
+        public System.DateTime Ctl_Fim { get; set; }
     
         public virtual ICollection<afastamento> afastamento { get; set; }
         public virtual empresa empresa { get; set; }

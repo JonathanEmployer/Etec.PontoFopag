@@ -58,16 +58,16 @@ namespace PontoWeb.Models
         public Nullable<int> hefern { get; set; }
         public Nullable<int> folgan { get; set; }
         public Nullable<int> extranoturnabh { get; set; }
-        public short percentualextra1 { get; set; }
-        public short percentualextra2 { get; set; }
-        public short percentualextra3 { get; set; }
-        public short percentualextra4 { get; set; }
-        public short percentualextra5 { get; set; }
-        public short percentualextra6 { get; set; }
-        public short percentualextra7 { get; set; }
-        public short percentualextra8 { get; set; }
-        public short percentualextra9 { get; set; }
-        public short percentualextra10 { get; set; }
+        public Nullable<short> percentualextra1 { get; set; }
+        public Nullable<short> percentualextra2 { get; set; }
+        public Nullable<short> percentualextra3 { get; set; }
+        public Nullable<short> percentualextra4 { get; set; }
+        public Nullable<short> percentualextra5 { get; set; }
+        public Nullable<short> percentualextra6 { get; set; }
+        public Nullable<short> percentualextra7 { get; set; }
+        public Nullable<short> percentualextra8 { get; set; }
+        public Nullable<short> percentualextra9 { get; set; }
+        public Nullable<short> percentualextra10 { get; set; }
         public short horasabonadas { get; set; }
         public short ocorrenciasselecionadas { get; set; }
         public string idsocorrencias { get; set; }
@@ -81,7 +81,7 @@ namespace PontoWeb.Models
         public Nullable<int> PercInItinere6 { get; set; }
         public Nullable<int> CodigoComplemento { get; set; }
         public Nullable<bool> InterjornadaExtra { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
+        public System.DateTime Ctl_Inicio { get; set; }
+        public System.DateTime Ctl_Fim { get; set; }
     }
 }

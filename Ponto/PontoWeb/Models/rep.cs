@@ -52,8 +52,11 @@ namespace PontoWeb.Models
         public string SenhaRep { get; set; }
         public short CampoCracha { get; set; }
         public Nullable<int> IdEquipamentoTipoBiometria { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
+        public System.DateTime Ctl_Inicio { get; set; }
+        public System.DateTime Ctl_Fim { get; set; }
+        public bool Portaria373 { get; set; }
+        public Nullable<bool> registradorEmMassa { get; set; }
+        public Nullable<long> CrachaAdm { get; set; }
     
         public virtual empresa empresa { get; set; }
         public virtual ICollection<tipobilhetes> tipobilhetes { get; set; }

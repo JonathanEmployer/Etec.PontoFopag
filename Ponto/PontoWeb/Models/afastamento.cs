@@ -41,8 +41,9 @@ namespace PontoWeb.Models
         public Nullable<int> idLancamentoLoteFuncionario { get; set; }
         public string Observacao { get; set; }
         public bool SemAbono { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
+        public short contabilizarjornada { get; set; }
+        public System.DateTime Ctl_Inicio { get; set; }
+        public System.DateTime Ctl_Fim { get; set; }
     
         public virtual departamento departamento { get; set; }
         public virtual empresa empresa { get; set; }

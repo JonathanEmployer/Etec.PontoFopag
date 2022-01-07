@@ -64,6 +64,10 @@ namespace PontoWeb.Utils
             {
                 msg = "Homologação";                
             }
+            if (ConfigurationManager.ConnectionStrings["ConnCentralCliente"].ConnectionString.ToUpper().Contains("EMPVW0330"))
+            {
+                msg = "PRÉ PRD CÁLCULO NOVO";
+            }
             else if(ConfigurationManager.ConnectionStrings["ConnCentralCliente"].ConnectionString.ToUpper().Contains("DEV"))
             {
                 msg = "Desenvolvimento";

@@ -123,8 +123,9 @@ namespace PontoWeb.Models
         public Nullable<int> idHorarioDinamico { get; set; }
         public Nullable<int> CicloSequenciaIndice { get; set; }
         public Nullable<System.DateTime> DataBaseCicloSequencia { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
+        public System.DateTime Ctl_Inicio { get; set; }
+        public System.DateTime Ctl_Fim { get; set; }
+        public bool PontoPorExcecao { get; set; }
     
         public virtual ICollection<funcionario> funcionario { get; set; }
         public virtual parametros parametros { get; set; }

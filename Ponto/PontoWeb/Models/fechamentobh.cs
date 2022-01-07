@@ -38,8 +38,8 @@ namespace PontoWeb.Models
         public Nullable<bool> PagamentoHoraDebAuto { get; set; }
         public string LimiteHorasPagamentoCredito { get; set; }
         public string LimiteHorasPagamentoDebito { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
+        public System.DateTime Ctl_Inicio { get; set; }
+        public System.DateTime Ctl_Fim { get; set; }
     
         public virtual ICollection<fechamentobhd> fechamentobhd { get; set; }
         public virtual ICollection<marcacao> marcacao { get; set; }

@@ -1501,6 +1501,8 @@
     <Content Include="Config\AppSettings.teste.config" />
     <Content Include="Config\ConnectionStrings.teste.config" />
     <Content Include="Properties\DataSources\System.Data.DataSet.datasource" />
+    <Content Include="Config\AppSettings.pre.config" />
+    <Content Include="Config\ConnectionStrings.pre.config" />
     <None Include="Properties\PublishProfiles\Publicar Arquivos.pubxml" />
     <None Include="Properties\PublishProfiles\Publish zip.pubxml" />
     <Content Include="Scripts\DataTables\Buttons-1.5.4\css\common.scss" />
@@ -1942,6 +1944,9 @@
     <None Include="Web.DebugPRD.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <None Include="Web.DebugPre.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Web.DebugSuporte.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2195,6 +2200,25 @@
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugPre|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugPre|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>

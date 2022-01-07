@@ -44,7 +44,7 @@ namespace PontoWeb.Models
         public string PIS { get; set; }
         public Nullable<System.DateTime> Mar_DataHora { get; set; }
         public Nullable<int> IdRegistroPonto { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
+        public System.DateTime Ctl_Inicio { get; set; }
+        public System.DateTime Ctl_Fim { get; set; }
     }
 }

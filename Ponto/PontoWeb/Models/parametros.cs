@@ -71,8 +71,8 @@ namespace PontoWeb.Models
         public short MomentoPreAssinalado { get; set; }
         public Nullable<bool> Flg_Separar_Trabalhadas_Noturna_Extras_Noturna { get; set; }
         public bool Flg_Estender_Periodo_Noturno { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
+        public System.DateTime Ctl_Inicio { get; set; }
+        public System.DateTime Ctl_Fim { get; set; }
     
         public virtual ICollection<horario> horario { get; set; }
     }

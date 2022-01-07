@@ -42,8 +42,10 @@ namespace PontoWeb.Models
         public string altusuario { get; set; }
         public bool Ativo { get; set; }
         public string Descricao { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
+        public System.DateTime Ctl_Inicio { get; set; }
+        public System.DateTime Ctl_Fim { get; set; }
+        public string IntervaloVerificacaoLivre { get; set; }
+        public Nullable<System.DateTime> UltimoEnvio { get; set; }
     
         public virtual Alertas Alertas1 { get; set; }
         public virtual Alertas Alertas2 { get; set; }

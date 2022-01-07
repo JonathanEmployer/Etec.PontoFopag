@@ -39,8 +39,8 @@ namespace PontoWeb.Models
         public string HorasAbonoPadraoNoturno { get; set; }
         public bool Ativo { get; set; }
         public short DefaultTipoAfastamento { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
+        public System.DateTime Ctl_Inicio { get; set; }
+        public System.DateTime Ctl_Fim { get; set; }
     
         public virtual ICollection<afastamento> afastamento { get; set; }
     }

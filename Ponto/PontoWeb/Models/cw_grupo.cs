@@ -31,8 +31,8 @@ namespace PontoWeb.Models
         public Nullable<System.DateTime> althora { get; set; }
         public string altusuario { get; set; }
         public string StrAcesso { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
+        public System.DateTime Ctl_Inicio { get; set; }
+        public System.DateTime Ctl_Fim { get; set; }
     
         public virtual ICollection<cw_acesso> cw_acesso { get; set; }
         public virtual ICollection<cw_usuario> cw_usuario { get; set; }

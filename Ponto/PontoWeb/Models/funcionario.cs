@@ -60,7 +60,6 @@ namespace PontoWeb.Models
         public Nullable<int> tipotickets { get; set; }
         public string CPF { get; set; }
         public string Mob_Senha { get; set; }
-        public Nullable<System.DateTime> DtNascimento { get; set; }
         public Nullable<int> idcw_usuario { get; set; }
         public bool utilizaregistrador { get; set; }
         public Nullable<int> idIntegracao { get; set; }
@@ -74,8 +73,14 @@ namespace PontoWeb.Models
         public Nullable<int> idHorarioDinamico { get; set; }
         public Nullable<int> CicloSequenciaIndice { get; set; }
         public Nullable<System.DateTime> DataInativacao { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
+        public bool UtilizaAppPontofopag { get; set; }
+        public bool UtilizaWebAppPontofopag { get; set; }
+        public bool UtilizaReconhecimentoFacialApp { get; set; }
+        public bool UtilizaReconhecimentoFacialWebApp { get; set; }
+        public string Celular { get; set; }
+        public System.DateTime Ctl_Inicio { get; set; }
+        public System.DateTime Ctl_Fim { get; set; }
+        public Nullable<bool> UtilizaIntegracaoFotoWebfopag { get; set; }
     
         public virtual ICollection<afastamento> afastamento { get; set; }
         public virtual ICollection<AlertasFuncionario> AlertasFuncionario { get; set; }

@@ -14,6 +14,11 @@ namespace PontoWeb.Models
     
     public partial class bancohoras
     {
+        public bancohoras()
+        {
+            this.bancohoras1 = new HashSet<bancohoras>();
+        }
+    
         public int id { get; set; }
         public int codigo { get; set; }
         public Nullable<int> tipo { get; set; }
@@ -127,7 +132,15 @@ namespace PontoWeb.Models
         public string SaldoBh_8 { get; set; }
         public string SaldoBh_9 { get; set; }
         public string LimiteBancoHorasSemanal { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
+        public short ContabilizarFaltas { get; set; }
+        public short ContAtrasosSaidasAntec { get; set; }
+        public short ContabilizarCreditos { get; set; }
+        public Nullable<System.Guid> Lote { get; set; }
+        public Nullable<int> IdBancoHorasCopia { get; set; }
+        public System.DateTime Ctl_Inicio { get; set; }
+        public System.DateTime Ctl_Fim { get; set; }
+    
+        public virtual ICollection<bancohoras> bancohoras1 { get; set; }
+        public virtual bancohoras bancohoras2 { get; set; }
     }
 }

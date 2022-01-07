@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a32a8969d48e4af2a39888fffbf5fbd5" Name="Diagram1" ZoomLevel="65">
+      <Diagram DiagramId="a32a8969d48e4af2a39888fffbf5fbd5" Name="Diagram1" ZoomLevel="42">
         <EntityTypeShape EntityType="cworkpontoModel.afastamento" Width="1.5" PointX="7.5" PointY="32.125" IsExpanded="true" />
         <EntityTypeShape EntityType="cworkpontoModel.Alertas" Width="1.5" PointX="16.5" PointY="23.5" IsExpanded="true" />
         <EntityTypeShape EntityType="cworkpontoModel.AlertasFuncionario" Width="1.5" PointX="18.75" PointY="34.125" IsExpanded="true" />
@@ -45,7 +45,7 @@
         <EntityTypeShape EntityType="cworkpontoModel.justificativa" Width="1.5" PointX="4.75" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="cworkpontoModel.layoutexportacao" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
         <EntityTypeShape EntityType="cworkpontoModel.layoutimportacaofuncionario" Width="1.5" PointX="11.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="cworkpontoModel.marcacaoacesso" Width="1.5" PointX="15.75" PointY="38" IsExpanded="true" />
+        <EntityTypeShape EntityType="cworkpontoModel.marcacaoacesso" Width="1.5" PointX="17.375" PointY="38.5" IsExpanded="true" />
         <EntityTypeShape EntityType="cworkpontoModel.mudancahorario" Width="1.5" PointX="18.75" PointY="29" IsExpanded="true" />
         <EntityTypeShape EntityType="cworkpontoModel.mudcodigofunc" Width="1.5" PointX="15.75" PointY="27.625" IsExpanded="true" />
         <EntityTypeShape EntityType="cworkpontoModel.ocorrencia" Width="1.5" PointX="5.25" PointY="22.875" IsExpanded="true" />
@@ -105,6 +105,7 @@
         <AssociationConnector Association="cworkpontoModel.FK_cw_usuario_cw_grupo" />
         <AssociationConnector Association="cworkpontoModel.FK_empresacwusuario_cw_usuario" />
         <AssociationConnector Association="cworkpontoModel.FK_funcionario_cw_usuario" />
+        <AssociationConnector Association="cworkpontoModel.fk_BancoHoras_BancoHoras" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

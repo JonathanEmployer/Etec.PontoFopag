@@ -32,8 +32,8 @@ namespace PontoWeb.Models
         public string altusuario { get; set; }
         public Nullable<int> idLancamentoLoteFuncionario { get; set; }
         public Nullable<int> IdJustificativa { get; set; }
-        public System.DateTime ctl_inicio { get; set; }
-        public System.DateTime ctl_fim { get; set; }
+        public System.DateTime Ctl_Inicio { get; set; }
+        public System.DateTime Ctl_Fim { get; set; }
     
         public virtual justificativa justificativa { get; set; }
     }
