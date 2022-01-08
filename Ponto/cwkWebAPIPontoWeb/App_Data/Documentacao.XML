@@ -604,7 +604,7 @@
             Método que retorna a lista de classificacoes
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:cwkWebAPIPontoWeb.Controllers.ClassificacaoController.Classificacao" -->
+        <! -- Comentário XML mal formado ignorado para o membro "M:cwkWebAPIPontoWeb.Controllers.ClassificacaoController.Classificacao" -->
         <member name="M:cwkWebAPIPontoWeb.Controllers.ClassificacaoHorasExtrasController.Cadastrar(System.Int32,System.Int32,System.Int32,System.String)">
             <summary>
             Cadastrar/Alterar Classificação de Horas extras.
@@ -639,7 +639,7 @@
             Método responsável por retornar se o período solicitado está confirmado no Painel
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:cwkWebAPIPontoWeb.Controllers.ConfirmacaoPainelController.ConfirmacaoPainel(System.Int32,System.Int32,System.Int32)" -->
+        <! -- Comentário XML mal formado ignorado para o membro "M:cwkWebAPIPontoWeb.Controllers.ConfirmacaoPainelController.ConfirmacaoPainel(System.Int32,System.Int32,System.Int32)" -->
         <member name="M:cwkWebAPIPontoWeb.Controllers.ConfirmacaoPainelController.Cadastrar(cwkWebAPIPontoWeb.Models.ConfirmacaoPainel)">
             <summary>
             Incluir ConfirmacaoPonto
@@ -838,7 +838,7 @@
             <param name="Codigo">Código do Funcionário Cadastrado</param>
             <returns> Retorna um HttpResponseMessage Ok quando excluído com sucesso, quando apresentar erro retorno um json de erro.</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:cwkWebAPIPontoWeb.Controllers.FuncionarioController.GetFuncionarioPorCPFeMatricula(System.String,System.String)" -->
+        <! -- Comentário XML mal formado ignorado para o membro "M:cwkWebAPIPontoWeb.Controllers.FuncionarioController.GetFuncionarioPorCPFeMatricula(System.String,System.String)" -->
         <member name="M:cwkWebAPIPontoWeb.Controllers.FuncionarioController.CarregarAtivosBloqueio">
             <summary>
             Método responsável por retornar os funcionários ativos na base para o serviço de bloqueio.
@@ -857,7 +857,7 @@
             Método responsável por retornar se o dia deve ser trabalhado pelo funcionário
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:cwkWebAPIPontoWeb.Controllers.FuncionarioDiaUtilController.GetFuncionarioPorCPFeMatricula(System.String,System.String,System.DateTime)" -->
+        <! -- Comentário XML mal formado ignorado para o membro "M:cwkWebAPIPontoWeb.Controllers.FuncionarioDiaUtilController.GetFuncionarioPorCPFeMatricula(System.String,System.String,System.DateTime)" -->
         <member name="M:cwkWebAPIPontoWeb.Controllers.ImportarAFDController.UploadAFD">
             <summary>
             Método para receber um arquivo AFD para importação dos bilhetes
@@ -904,7 +904,7 @@
             <param name="IdIntegracao">Id de Integração da Justificativa Cadastrada</param>
             <returns> Retorna um HttpResponseMessage Ok quando excluído com sucesso, quando apresentar erro retorno um json de erro.</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:cwkWebAPIPontoWeb.Controllers.JustificativaController.Justificativas(System.Int32)" -->
+        <! -- Comentário XML mal formado ignorado para o membro "M:cwkWebAPIPontoWeb.Controllers.JustificativaController.Justificativas(System.Int32)" -->
         <member name="M:cwkWebAPIPontoWeb.Controllers.JustificativaController.Justificativas">
             <summary>
             Método para pegar todas as justificativas
@@ -949,7 +949,7 @@
             Métodos Referentes ao Cadastro de Ocorrências
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:cwkWebAPIPontoWeb.Controllers.OcorrenciaController.Ocorrencias(System.Int32)" -->
+        <! -- Comentário XML mal formado ignorado para o membro "M:cwkWebAPIPontoWeb.Controllers.OcorrenciaController.Ocorrencias(System.Int32)" -->
         <member name="M:cwkWebAPIPontoWeb.Controllers.OcorrenciaController.Ocorrencias">
             <summary>
             Retorna todas as ocorrências cadastradas no pontofopag

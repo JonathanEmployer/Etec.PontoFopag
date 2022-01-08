@@ -796,6 +796,10 @@ namespace BLL
                 {
                     valorCampo = String.Format(formato.ToString(), String.Format("{0, -" + campo.Tamanho + "}", func.CPF));
                 }
+                if (campo.Zeroesquerda != 1 && campo.ClearCharactersSpecial == 1)
+                {
+                    valorCampo = func.CPF.Replace(".", "").Replace("-", "").Replace(" ", "").Replace("/", "").ToString();
+                }
             }
             else if (campo.Tipo == "Mês vigência")
             {

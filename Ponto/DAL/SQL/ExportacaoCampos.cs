@@ -101,7 +101,7 @@ namespace DAL.SQL
             ((Modelo.ExportacaoCampos)obj).Formatoevento = Convert.ToString(dr["formatoevento"]);
             ((Modelo.ExportacaoCampos)obj).Zeroesquerda = Convert.ToInt16(dr["zeroesquerda"]);
             ((Modelo.ExportacaoCampos)obj).IdLayoutExportacao = dr["idlayoutexportacao"] is DBNull ? 0 : Convert.ToInt32(dr["idlayoutexportacao"]);
-            ((Modelo.ExportacaoCampos)obj).ClearCharactersSpecial = Convert.ToInt16(dr["clearcharactersspecial "]);
+            ((Modelo.ExportacaoCampos)obj).ClearCharactersSpecial = Convert.ToInt16(dr["clearcharactersspecial"]);
         }
 
         protected override SqlParameter[] GetParameters()
