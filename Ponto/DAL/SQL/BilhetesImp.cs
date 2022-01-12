@@ -901,7 +901,7 @@ namespace DAL.SQL
                 while (dr.Read())
                 {
                     key = Convert.ToDateTime(dr["data"]).ToShortDateString()
-                        + dr["hora"].ToString() + dr["func"].ToString() + dr["relogio"].ToString();
+                        + dr["hora"].ToString() + dr["func"].ToString();
 
                     if (!lista.ContainsKey(key))
                         lista.Add(key, key);
@@ -950,7 +950,7 @@ namespace DAL.SQL
                 while (dr.Read())
                 {
                     key = Convert.ToDateTime(dr["data"]).ToShortDateString()
-                        + dr["hora"].ToString() + dr["PIS"].ToString() + dr["relogio"].ToString();
+                        + dr["hora"].ToString() + dr["PIS"].ToString();
 
                     if (!lista.ContainsKey(key))
                         lista.Add(key, key);
@@ -1017,8 +1017,8 @@ namespace DAL.SQL
                     //Aqui considera a data, hora, func e relógio do bilhete para a validação
                     // no banco de dados além desses campos considera a mar_data, para não dar problemas na manutenção de bilhetes
                     //WNO - 02/09/2010
-                    key = bil.Data.ToShortDateString() + bil.Hora + bil.Func + bil.Relogio;
-                    keyPis = bil.Data.ToShortDateString() + bil.Hora + bil.PIS + bil.Relogio;
+                    key = bil.Data.ToShortDateString() + bil.Hora + bil.Func;
+                    keyPis = bil.Data.ToShortDateString() + bil.Hora + bil.PIS;
                     if (!bilhetesExistentes.ContainsKey(key) && (String.IsNullOrEmpty(bil.PIS) || !bilhetesExistentesPorPis.ContainsKey(keyPis)))
                     {
                         SetDadosInc(bil);
