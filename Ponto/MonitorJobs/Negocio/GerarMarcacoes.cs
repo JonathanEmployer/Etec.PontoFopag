@@ -9,8 +9,8 @@ namespace MonitorJobs.Negocio
         [DisplayName("Criar Marcacoes Job - CS: {0}")]
         public static void GerarMarcacoesCS(string database)
         {
-            if (database.Contains("NOVO_CALCULO"))
-            {
+            //if (database.Contains("NOVO_CALCULO"))
+            //{
                 var conn = BLL.cwkFuncoes.ConstroiConexao(database);
                 Modelo.Cw_Usuario user = new Modelo.Cw_Usuario() { Nome = "ServGeraMarcacao", Login = "ServGeraMarcacao" };
                 BLL.CartaoPonto bllCartaoPonto = new BLL.CartaoPonto(conn.ConnectionString, user);
@@ -25,7 +25,7 @@ namespace MonitorJobs.Negocio
 
                 BLL.HorarioDinamico bllHorarioDinamico = new BLL.HorarioDinamico(conn.ConnectionString, user);
                 bllHorarioDinamico.GerarHorarioDetalheDinamicoDeAcordoMarcacoes();
-            }
+            //}
         }
     }
 }

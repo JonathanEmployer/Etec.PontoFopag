@@ -19,17 +19,8 @@ namespace MonitorJobs.Jobs
 #if !DEBUG
                 IList<Models.Bases> lbases = Negocio.Bases.GetBasesPontofopagAtivas();
 
-                //Alteração para atender o novo calculo em teste de PRD
-                //*** Remover esse codigo quando novo calculo em PRD
-                string conexaoBaseMonitor = ConfigurationManager.ConnectionStrings["MonitorPontofopag"].ConnectionString;
-                if (conexaoBaseMonitor.Contains("MONITOR_PONTOFOPAG_NOVO_CALCULO"))
-                {
-                    lbases = lbases.Where(w => w.Nome.ToUpper().Contains("NOVO_CALCULO")).ToList();
-                }
-                //*** Remover esse codigo quando novo calculo em PRD
 
-
-            log.Debug("Bases para manitorar = " + String.Join("; ", lbases.Select(s => s.Nome)));
+            log.Debug("Bases para monitorar = " + String.Join("; ", lbases.Select(s => s.Nome)));
 
                 IScheduler scheduler = context.Scheduler;
                 int interacao = 0;
@@ -66,7 +57,7 @@ namespace MonitorJobs.Jobs
             else
                 idJob = String.Format(idJob, item.Nome);
 
-            if (item.Nome.Contains("NOVO_CALCULO"))
+            //if (item.Nome.Contains("NOVO_CALCULO"))
                 RecurringJob.AddOrUpdate(idJob, () => Negocio.GerarMarcacoes.GerarMarcacoesCS(item.Nome), String.Format("{0} {1} * * *", minuto, hora), queue: "normal");
         }
 

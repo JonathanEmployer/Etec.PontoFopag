@@ -1372,7 +1372,7 @@ function PostReturnJob(url, type, data, divAbrirJobs, LimparComponentes, callBac
                 }
             }
             catch (e) {
-                cwkErroTit('Erro', 'Erro genárico ao processar a solicitação');
+                cwkErroTit('Erro', 'Erro ao processar a solicitação: ' + e);
             }
 
         },
