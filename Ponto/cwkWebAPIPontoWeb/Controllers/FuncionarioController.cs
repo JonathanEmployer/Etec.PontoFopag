@@ -73,8 +73,13 @@ namespace cwkWebAPIPontoWeb.Controllers
                             DadosAntFunc = bllFuncionario.GetFuncionarioPorCpfeMatricula(cpfInt64, funcionario.Matricula);
 
                         }
-                        if (funcionario.IdIntegracao > 0 && (DadosAntFunc == null || DadosAntFunc.Matricula != funcionario.Matricula || DadosAntFunc.Idempresa != emp.Id))
+                        if (funcionario.IdIntegracao > 0 && (DadosAntFunc == null || (DadosAntFunc.Matricula != funcionario.Matricula && DadosAntFunc.Idempresa != emp.Id)))
                         {
+                            if (DadosAntFunc != null && DadosAntFunc.bFuncionarioativo )
+                            {
+                                DadosAntFunc.DataInativacao = DateTime.Now;
+                                bllFuncionario.Salvar(Acao.Alterar, DadosAntFunc);
+                            }
                             DadosAntFunc = new Modelo.Funcionario();
                             DadosAntFunc.UtilizaIntegracaoFotoWebfopag = true;
 
