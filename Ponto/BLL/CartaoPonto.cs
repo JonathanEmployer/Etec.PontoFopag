@@ -75,8 +75,8 @@ namespace BLL
             dalHorarioDetalhe.UsuarioLogado = usuarioLogado;
         }
 
-        
-        public DataTable GetCartaoPontoRel(DateTime dataInicial, DateTime dataFinal, string empresas, string departamentos, string funcionarios, int tipo, int normalFlexivel, int idhorario, 
+
+        public DataTable GetCartaoPontoRel(DateTime dataInicial, DateTime dataFinal, string empresas, string departamentos, string funcionarios, int tipo, int normalFlexivel, int idhorario,
                 Modelo.ProgressBar pPBRecalculo, bool ordenaDeptoFuncionario, string filtro, bool quebraAuto)
         {
             //Ajustes nesse método deve ser avaliado todos as chamadas, uma delas é a integração dos arquivos PDFs p/ Epays => RelatorioExportacaoFechamentoPontoBLL
@@ -92,7 +92,7 @@ namespace BLL
 
                 pPBRecalculo.setaMensagem("Verificando marcações de ponto");
                 CorrigeMarcacoes(funcionarios, dataInicial, dataFinal, bllMarcacao, bllFunc, bllInclusaoBanco);
-                
+
                 pPBRecalculo.setaMensagem("Carregando dados");
                 DataTable dt = dalCartaoPonto.GetCartaoPontoRel(dataInicial, dataFinal, empresas, departamentos, funcionarios, tipo, normalFlexivel, ordenaDeptoFuncionario, filtro);
 
@@ -1267,24 +1267,47 @@ namespace BLL
                         totalHorasaTrabMin = 0;
                         i = 0;
                     }
-                    if (!(row["legenda"].ToString() == "F"))
-                    {
-                        HorasaTrabDiurna = row["totaltrabalhadadiurna"].ToString();
-                        totalaTrabDiurna += Modelo.cwkFuncoes.ConvertHorasMinuto(HorasaTrabDiurna);
-                        HorasaTrabNoturna = row["totaltrabalhadanoturna"].ToString();
-                        totalaTrabNoturna += Modelo.cwkFuncoes.ConvertHorasMinuto(HorasaTrabNoturna);
-                    }
 
                     DataRow currentRow = ret.Rows[i];
-                    if (currentRow == lastRow || (idfuncionarioAnt == idfuncionario))
+
+                    var strDataAtual = currentRow["data"].ToString();
+                    var strDataAnt = "";
+
+                    if (i > 0)
                     {
-                        totalHorasaTrabMin = totalaTrabDiurna + totalaTrabNoturna;
-                        totalHorasaTrab = Modelo.cwkFuncoes.ConvertMinutosHoraNegativo(totalHorasaTrabMin);
-                        HorasaTrabDiurna = Modelo.cwkFuncoes.ConvertMinutosHoraNegativo(totalaTrabDiurna);
-                        HorasaTrabNoturna = Modelo.cwkFuncoes.ConvertMinutosHoraNegativo(totalaTrabNoturna);
-                        row["totalHorasaTrabDiurna"] = HorasaTrabDiurna;
-                        row["totalHorasaTrabNoturna"] = HorasaTrabNoturna;
-                        row["totalHorasaTrabalhar"] = totalHorasaTrab;
+
+                        DataRow previaRow = ret.Rows[i - 1];
+
+                        strDataAnt = previaRow["data"].ToString();
+
+                    }
+
+                    if (strDataAtual != strDataAnt || currentRow == lastRow)
+                    {
+                        if (currentRow != lastRow && strDataAtual != strDataAnt)
+                        {
+                            if (!(row["legenda"].ToString() == "F"))
+                            {
+                                HorasaTrabDiurna = row["totaltrabalhadadiurna"].ToString();
+                                totalaTrabDiurna += Modelo.cwkFuncoes.ConvertHorasMinuto(HorasaTrabDiurna);
+                                HorasaTrabNoturna = row["totaltrabalhadanoturna"].ToString();
+                                totalaTrabNoturna += Modelo.cwkFuncoes.ConvertHorasMinuto(HorasaTrabNoturna);
+                            }
+                        }
+
+
+                        if (currentRow == lastRow || (idfuncionarioAnt == idfuncionario))
+                        {
+                            totalHorasaTrabMin = totalaTrabDiurna + totalaTrabNoturna;
+                            totalHorasaTrab = Modelo.cwkFuncoes.ConvertMinutosHoraNegativo(totalHorasaTrabMin);
+                            HorasaTrabDiurna = Modelo.cwkFuncoes.ConvertMinutosHoraNegativo(totalaTrabDiurna);
+                            HorasaTrabNoturna = Modelo.cwkFuncoes.ConvertMinutosHoraNegativo(totalaTrabNoturna);
+                            row["totalHorasaTrabDiurna"] = HorasaTrabDiurna;
+                            row["totalHorasaTrabNoturna"] = HorasaTrabNoturna;
+                            row["totalHorasaTrabalhar"] = totalHorasaTrab;
+                        }
+
+
                     }
                     idfuncionarioAnt = idfuncionario;
                     i++;
