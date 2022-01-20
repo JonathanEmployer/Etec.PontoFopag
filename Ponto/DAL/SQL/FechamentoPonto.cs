@@ -399,25 +399,25 @@ namespace DAL.SQL
             var sql = @";WITH result(id, dataFechamento, mes, ano, row#)
                         AS
                         (
-                            select top 6 
-                                fp.id, 
-                                fp.dataFechamento,
-                                CAST(FORMAT(fp.dataFechamento,'MM') AS INT) as mes,
-                                CAST(FORMAT(fp.dataFechamento,'yyyy') AS INT) as ano,
-                                ROW_NUMBER() OVER(PARTITION BY FORMAT(fp.dataFechamento,'MMyyyy') ORDER BY f.Id ASC) AS Row#
-                            from FechamentoPonto fp
-                            inner join FechamentoPontoFuncionario ff on ff.idFechamentoPonto = fp.id
-                            inner join funcionario f on f.id = ff.idFuncionario
-                            inner join empresa e on e.id = f.idempresa
-                            where e.id = @idempresa and f.id = @idfuncionario
-                            order by fp.dataFechamento desc
+                        select top 6
+                        fp.id,
+                        fp.dataFechamento,
+                        CAST(FORMAT(fp.dataFechamento,'MM') AS INT) as mes,
+                        CAST(FORMAT(fp.dataFechamento,'yyyy') AS INT) as ano,
+                        ROW_NUMBER() OVER(PARTITION BY FORMAT(fp.dataFechamento,'MMyyyy') ORDER BY f.Id ASC) AS Row#
+                        from FechamentoPonto fp
+                        inner join FechamentoPontoFuncionario ff on ff.idFechamentoPonto = fp.id
+                        inner join funcionario f on f.id = ff.idFuncionario
+                        inner join empresa e on e.id = f.idempresa
+                        where e.id = @idempresa and f.id = @idfuncionario
+                        order by fp.dataFechamento desc
                         )
 
-                        SELECT 
-                            Id,
-                            dataFechamento,
-                            CAST(mes + (Row# - 1) AS INT) as mes,
-                            ano
+                        SELECT
+                        Id,
+                        dataFechamento,
+                        iif(CAST(mes + (Row# - 1) AS INT) > 12, 1, iif( CAST(mes + (Row# - 1) AS INT) < 1, 12, CAST(mes + (Row# - 1) AS INT))) as mes,
+                        iif(CAST(mes + (Row# - 1) AS INT) > 12, ano +1 , iif( CAST(mes + (Row# - 1) AS INT) < 1, ano-1, ano)) as ano
                         FROM result
                         where id = @idfechamento";
 
