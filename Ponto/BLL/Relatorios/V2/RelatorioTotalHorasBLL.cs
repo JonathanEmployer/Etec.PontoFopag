@@ -37,11 +37,16 @@ namespace BLL.Relatorios.V2
             foreach (var perc in percs) // Adiciona os percentuais existentes como coluna no datatable
             {
 
-
-                string nomeColuna = "Extras " + perc + "%";
+                string nomeColuna = "Extras Diurnas " + perc + "%";
                 dados.Columns.Add(nomeColuna, typeof(System.String));
                 ColunasAddDinamic.Add(nomeColuna);
+
+                string nomeColunaN = "Extras Noturnas " + perc + "%";
+                dados.Columns.Add(nomeColunaN, typeof(System.String));
+                ColunasAddDinamic.Add(nomeColunaN);
             }
+
+           
 
             foreach (DataRow dr in dados.Rows) // Adiciona os valores nos percentuais
             {
@@ -59,8 +64,12 @@ namespace BLL.Relatorios.V2
                 foreach (var item in horasExtrasFunc)// Adiciona os percentuais nas respectivas colunas
                 {
 
-                    string nomeColuna = "Extras " + item.Percentual + "%";
+                    string nomeColuna = "Extras Diurnas " + item.Percentual + "%";
                     dr[nomeColuna] = Modelo.cwkFuncoes.ConvertMinutosHoraExcel(item.HoraDiurna + item.HoraNoturna).Replace("--:--", "");
+
+               
+                    string nomeColunaN = "Extras Noturnas " + item.Percentual + "%";
+                    dr[nomeColunaN] = Modelo.cwkFuncoes.ConvertMinutosHoraExcel(item.HoraNoturna).Replace("--:--", "");
                 }
             }
 

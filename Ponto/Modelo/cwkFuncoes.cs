@@ -407,7 +407,7 @@ namespace Modelo
 
         public static string ConvertMinutosHoraExcel(decimal pMinutos)
         {
-            if (pMinutos <= 0)
+            if (pMinutos < 0)
             {
                 return "--:--";
             }
