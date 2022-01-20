@@ -770,7 +770,7 @@ namespace DAL.SQL
             ((Modelo.Funcionario)obj).Tipohorario = Convert.ToInt16(dr["tipohorario"]);
             ((Modelo.Funcionario)obj).Carteira = Convert.ToString(dr["carteira"]);
             ((Modelo.Funcionario)obj).Contrato = Convert.ToString(dr["contrato"]);
-            ((Modelo.Funcionario)obj).Dataadmissao = Convert.ToDateTime(dr["dataadmissao"]);
+            ((Modelo.Funcionario)obj).Dataadmissao = (dr["dataadmissao"] is DBNull ? null : (DateTime?)(dr["dataadmissao"]));
             ((Modelo.Funcionario)obj).Datademissao = (dr["datademissao"] is DBNull ? null : (DateTime?)(dr["datademissao"]));
             ((Modelo.Funcionario)obj).Salario = Convert.ToDecimal(dr["salario"]);
             ((Modelo.Funcionario)obj).Funcionarioativo = Convert.ToInt16(dr["funcionarioativo"]);
