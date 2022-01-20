@@ -65,7 +65,7 @@ namespace BLL.Relatorios.V2
                 {
 
                     string nomeColuna = "Extras Diurnas " + item.Percentual + "%";
-                    dr[nomeColuna] = Modelo.cwkFuncoes.ConvertMinutosHoraExcel(item.HoraDiurna + item.HoraNoturna).Replace("--:--", "");
+                    dr[nomeColuna] = Modelo.cwkFuncoes.ConvertMinutosHoraExcel(item.HoraDiurna).Replace("--:--", "");
 
                
                     string nomeColunaN = "Extras Noturnas " + item.Percentual + "%";
