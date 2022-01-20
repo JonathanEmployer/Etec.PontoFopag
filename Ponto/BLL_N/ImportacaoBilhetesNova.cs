@@ -67,6 +67,10 @@ namespace BLL_N
                 
                 #region Seta como erro os registros que não conseguiu incluir
                 List<int> idsRegistrosBilhetesNaoInc = bilhetesNovos.Where(w => !BilhetesProcessar.Select(s => s.IdRegistroPonto).Contains(w.IdRegistroPonto)).Select(s => s.IdRegistroPonto.GetValueOrDefault()).ToList();
+                //inclui os ids de registros sem bilhetes por serem repeditos para lançar situação 'E'
+                List<int> idsRegistrosBilheteRepetido = idRegistros.Where(c => !BilhetesProcessar.Select(s => s.IdRegistroPonto).Contains(c)).ToList();
+                idsRegistrosBilhetesNaoInc.AddRange(idsRegistrosBilheteRepetido);
+
                 if (idsRegistrosBilhetesNaoInc.Count > 0)
                     bllRegPonto.SetarSituacaoRegistros(idsRegistrosBilhetesNaoInc, Enumeradores.SituacaoRegistroPonto.Erro);
                 #endregion
