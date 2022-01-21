@@ -51,7 +51,10 @@ namespace BLL.Util
                             PageEventHelper pageEventHelper = new PageEventHelper(nomeRel, exibeEmissaoPagina, false, htmlAux);
                             pdfWriter.PageEvent = pageEventHelper;
                         }
+                        Image imgLogo = Image.GetInstance("D:\\Employer\\Etec.PontoFopag\\Ponto\\PontoWeb\\Content\\img\\LogoCworkPreto.png");
+                        imgLogo.ScaleAbsolute(127, 48);
                         pdfDocument.Open();
+                        pdfDocument.Add(imgLogo);
                         using (StringReader htmlViewReader = new StringReader(htmlText))
                         {
                             XMLWorkerHelper.GetInstance().ParseXHtml(pdfWriter, pdfDocument, htmlViewReader);
