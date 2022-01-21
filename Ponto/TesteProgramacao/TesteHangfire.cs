@@ -9,6 +9,8 @@ using Modelo.EntityFramework.MonitorPontofopag;
 using Hangfire.Storage;
 using Newtonsoft.Json;
 using Hangfire.Annotations;
+using Hangfire;
+using BLL_N.JobManager.Hangfire;
 
 namespace TesteProgramacao
 {
@@ -47,6 +49,48 @@ namespace TesteProgramacao
                 throw e;
             }
         }
+
+        public void LimpezaDeJob()
+        {
+            try
+            {
+                Console.WriteLine("Iniciando Limpeza...");
+                int qtdjob = 0;
+                do
+                {
+                    var Listjob = new List<Modelo.EntityFramework.MonitorPontofopag.Job>();
+                    using (var db = new MONITOR_PONTOFOPAGEntities())
+                    {
+                        Listjob = db.Job.Where(w => w.StateName == "Enqueued").Take(200).ToList();
+                        qtdjob = db.Job.Where(w => w.StateName == "Enqueued").Count();
+                        Console.WriteLine($"Quantidade Jobs Abertas: {qtdjob}");
+
+                        var newStates = new List<State>();
+                        foreach (var item in Listjob)
+                        {
+                            Console.WriteLine($"Recolocando Job: {item.Id}");
+                            var client = new BackgroundJobClient();
+                            client.Requeue(item.Id.ToString());
+
+                           // State state = new State() { CreatedAt = DateTime.Now, Data = "{\"EnqueuedAt\":\"2022 - 01 - 20T18:53:34.1692954Z\",\"Queue\":\"pequeno\"}", JobId = item.Id, Name = "Enqueued" };
+
+                           // db.State.Add(state);
+                           // newStates.Add(state);
+                           //// item.StateId = state.Id;
+                        }
+                       // db.SaveChanges();
+
+                    }
+                }
+                while (qtdjob > 200);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+
 
         public static string InvokeStringMethod
         (string typeName, string methodName, string stringParam)

@@ -378,7 +378,7 @@ function ReportarProgresso(pxyJobReturn, append) {
         $('#progress' + pxyJobReturn.IdTask).find(".progress-bar").removeClass("progress-bar-striped progress-bar-info progress-bar-success progress-bar-warning progress-bar-danger");
         $('#liTask' + pxyJobReturn.IdTask).removeClass("list-group-item-success list-group-item-info list-group-item-warning list-group-item-danger disabled");
         $('#msg' + pxyJobReturn.IdTask).text(pxyJobReturn.Mensagem);
-        $('#ReprocessarTask' + pxyJobReturn.IdTask).hide();
+        //$('#ReprocessarTask' + pxyJobReturn.IdTask).hide();
         $('#CancelarTask' + pxyJobReturn.IdTask).hide();
         
         $('#progress' + pxyJobReturn.IdTask).show();
@@ -406,9 +406,9 @@ function ReportarProgresso(pxyJobReturn, append) {
             $('#HtmlView' + pxyJobReturn.IdTask).hide();
         }
 
-        if (pxyJobReturn.Reprocessar === true) {
-            $('#ReprocessarTask' + pxyJobReturn.IdTask).show();
-        }
+        //if (pxyJobReturn.Reprocessar === true) {
+        //    $('#ReprocessarTask' + pxyJobReturn.IdTask).show();
+        //}
         
         if (pxyJobReturn.Progress === 100) ///Job Completo 
         {
@@ -484,9 +484,9 @@ function CriarProgresso(divIncluir, pxyJobReturn, append) {
             '                         <div class="col-md-4" style="text-align:right">                                                      ' +
             '                             <button type="button" class="btn btn-default" onclick = "GetFileUploadTask(this)" idtask="@item.IdTask" id="ArquivoUp@item.IdTask" style="display:none;"><span class="glyphicon glyphicon-send"></span> Enviado</button>            ' +
             '                             <button type="button" class="btn btn-default" onclick = "GetFileDownloadTask(this)" idtask="@item.IdTask" id="ArquivoDown@item.IdTask" style="display:none;"> <span class="glyphicon glyphicon-floppy-save"></span> Retorno</button>          ' +
-            '                             <button type="button" class="btn btn-default" onclick = "GetHtmlViewTask(this)" idtask="@item.IdTask" id="HtmlView@item.IdTask" style="display:none;"><span class="glyphicon glyphicon-eye-open"></span> Visualizar</button>          ' +
-            '                             <button type="button" class="btn btn-default" onclick = "ReprocessarTask(this)" idtask="@item.IdTask" id="ReprocessarTask@item.IdTask" style="display:none;"><span class="glyphicon glyphicon-refresh"></span> Reprocessar</button>          ' +
-            '                             <button type="button" class="btn btn-danger" onclick = "CancelarTask(this)" idtask="@item.IdTask" id="CancelarTask@item.IdTask" style="display:none;"><span class="glyphicon glyphicon-stop"></span> Cancelar</button>          ' +
+            '                             <button type="button" class="btn btn-default" onclick = "GetHtmlViewTask(this)" idtask="@item.IdTask" id="HtmlView@item.IdTask" style=""><span class="glyphicon glyphicon-eye-open"></span> Visualizar</button>          ' +
+            '                             <button type="button" class="btn btn-default" onclick = "ReprocessarTask(this)" idtask="@item.IdTask" id="ReprocessarTask@item.IdTask" style=""><span class="glyphicon glyphicon-refresh"></span> Reprocessar</button>          ' +
+            '                             <button type="button" class="btn btn-danger" onclick = "CancelarTask(this)" idtask="@item.IdTask" id="CancelarTask@item.IdTask" style=""><span class="glyphicon glyphicon-stop"></span> Cancelar</button>          ' +
             '                         </div>                                                                                               ' +
             '                     </div>                                                                                                   ' +
             '                 </div>                                                                                                       ' +

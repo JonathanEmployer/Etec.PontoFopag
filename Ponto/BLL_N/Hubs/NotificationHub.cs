@@ -84,11 +84,11 @@ namespace BLL_N.Hubs
         {
             try
             {
-                if (job.Progress < 0 || job.Progress == 100) // Regra para não persistir o progresso, apenas termino e ou erros, pois podem ser muitos por segundo
-                {
+                //if (job.Progress < 0 || job.Progress == 100) // Regra para não persistir o progresso, apenas termino e ou erros, pois podem ser muitos por segundo
+                //{
                     JobControl ret = JobControlManager.ProgressUpdate(job.IdTask, job.Mensagem, job.Progress);
                     job = new PxyJobReturn(ret);
-                }
+                //}
                 sendMensageHub(job.UrlHost, "NotificationHub", "TaskProgress", job);
             }
             catch (Exception ex)

@@ -272,6 +272,10 @@
       <Project>{dfe5a7e8-8798-43d3-a61f-f1dd3ab38593}</Project>
       <Name>Modelo</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MonitorJobs\MonitorJobs.csproj">
+      <Project>{8cb98491-9efd-400f-80cd-5a9884fc3a0b}</Project>
+      <Name>MonitorJobs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\REL\REL.csproj">
       <Project>{c0239a00-eef2-497a-a643-9260e0196e8d}</Project>
       <Name>REL</Name>

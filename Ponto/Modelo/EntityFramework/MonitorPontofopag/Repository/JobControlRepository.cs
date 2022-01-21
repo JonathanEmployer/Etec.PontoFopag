@@ -46,7 +46,8 @@ namespace Modelo.EntityFramework.MonitorPontofopag.Repository
                                and (    jc.UrlReferencia = @urlReferencia 
                                     or Replace(jc.UrlReferencia,'/Grid','') = @urlReferencia
                                     or @urlReferencia = '')
-                               and jc.Usuario = @usuario
+                               --and jc.Usuario = @usuario
+                                and StatusNovo <> 'Deleted'
                              order by iif(j.id is null, 100, Progresso), Inchora desc
 
                             OFFSET @skip ROWS -- skip 10 rows

@@ -27,17 +27,17 @@ namespace TesteProgramacao
             //Edited By Duarte
             //Caso seja o método de ProcessarRegistrosPonto descomentar a linha (SimulaProcessarRegistrosPonto();) abaixo e alterar os parametros dentro do método,
             //deve também alterar a connectionstring utilizando o appsettings dentro do contrutir da classe ImportacaoBilhetesNova, a connection é montada via método ConstroiConexao
-            SimulaProcessarRegistrosPonto();
+            //SimulaProcessarRegistrosPonto();
 
 
 
             ////Método para teste de erros na fila de calculo do pontofopag.
             ////Para testar basta passar o número do id do job e debugar
             ///Deve-se descomentar as duas linhas abaixo
-            //TesteHangfire th = new TesteHangfire();
+            TesteHangfire th = new TesteHangfire();
             //th.Simular(8388860);
 
-
+            th.LimpezaDeJob();
 
             //Limbo
             // |||
