@@ -4,6 +4,7 @@ using iTextSharp.tool.xml;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Web.Hosting;
 using System.Web.Mvc;
 
 namespace BLL.Util
@@ -51,10 +52,13 @@ namespace BLL.Util
                             PageEventHelper pageEventHelper = new PageEventHelper(nomeRel, exibeEmissaoPagina, false, htmlAux);
                             pdfWriter.PageEvent = pageEventHelper;
                         }
-                        Image imgLogo = Image.GetInstance("D:\\Employer\\Etec.PontoFopag\\Ponto\\PontoWeb\\Content\\img\\LogoCworkPreto.png");
-                        imgLogo.ScaleAbsolute(127, 48);
                         pdfDocument.Open();
-                        pdfDocument.Add(imgLogo);
+                        if (htmlText != null && htmlText.Contains("07.078.028/0001-90"))//Logo será exibido apenas para GENEC
+                        {
+                            string imgLogo = HostingEnvironment.MapPath(@"~/Content/img/LogoCworkPreto.png").Replace("MonitorJobs", "PontoWeb");
+                            if (File.Exists(imgLogo))
+                                pdfDocument.Add(Image.GetInstance(imgLogo));
+                        }
                         using (StringReader htmlViewReader = new StringReader(htmlText))
                         {
                             XMLWorkerHelper.GetInstance().ParseXHtml(pdfWriter, pdfDocument, htmlViewReader);
