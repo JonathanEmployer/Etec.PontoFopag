@@ -559,6 +559,13 @@ namespace PontoWeb.Controllers
         [HttpGet]
         public ActionResult LogIn(string returnUrl)
         {
+            if (returnUrl != null && returnUrl != "/" &&  !returnUrl.Contains("pontofopag.com.br"))
+            {
+                ModelState.AddModelError("", "Url de redirecionamento inválida. ");
+                ViewBag.resultError = "Url de redirecionamento inválida. ";
+                return View();
+            }
+
             TentativasLogin tl = Usuario.GetTentativaLogin("");
             if (tl == null)
             {
@@ -634,6 +641,15 @@ namespace PontoWeb.Controllers
         [HttpPost]
         public ActionResult LogIn(Models.UsuarioLogin user, FormCollection formulario)
         {
+            if (user.ReturnURL != null && user.ReturnURL != "/" && !user.ReturnURL.Contains("pontofopag.com.br"))
+            {
+                ModelState.AddModelError("CustomError", $"Url de redirecionamento inválida. {user.ReturnURL}");
+                ViewBag.resultError = "Url de redirecionamento inválida. ";
+
+                user.ReturnURL = "";
+                return View(user);
+            }
+
             bool captchaValido = true;
             TentativasLogin tl = Usuario.GetTentativaLogin("");
             if (tl == null)
