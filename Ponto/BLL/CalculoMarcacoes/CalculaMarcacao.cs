@@ -2601,16 +2601,21 @@ namespace BLL
             if (toleranciaPorBatida)
             {
                 if (tHoraExtraMin == 0 || tHoraExtraMin == null)
-                    tHoraExtraMin = tHoraExtraEntradaMin??0 + tHoraExtraSaidaMin??0 + tHoraExtraIntervaloMin??0;
+                {
+                    tHoraExtraMin = (tHoraExtraEntradaMin ?? 0) + (tHoraExtraSaidaMin ?? 0) + (tHoraExtraIntervaloMin ?? 0);
+                    tHoraExtraMin = 999;
+                }
                 if (tHoraFaltaMin == 0 || tHoraFaltaMin == null)
-                    tHoraFaltaMin = tHoraFaltaEntradaMin??0 + tHoraFaltaSaidaMin??0 + tHoraFaltaIntervaloMin??0;
-
+                {
+                    tHoraFaltaMin = (tHoraFaltaEntradaMin ?? 0) + (tHoraFaltaSaidaMin ?? 0) + (tHoraFaltaIntervaloMin ?? 0);
+                    tHoraFaltaMin = 999;
+                }
             }
             //WNO - Separa Extra falta tem prioridade sobre as outras rotinas, pois está setado por marcação.
             if (separaExtraFalta == 1 && contabilizarjornada == 0)
             {
                 bool calculouToleranciaBatidaIntervalo = false;
-                
+
                 FaltasToleradasD = FaltasToleradasN = ExtrasToleradasD = ExtrasToleradasN = 0;
                 BLL.CalculoHoras.SeparaExtraFalta(data, diaInt, legenda, HoraEntrada, HoraSaida, CargaHorariaD, CargaHorariaN, inicioAdNoturno, fimAdNoturno, false, MarEntrada, MarSaida, "--:--", false, abonoD, abonoN, 0, ref HoraD, ref HoraN, out HoraExtraD, out HoraFaltaD, out HoraExtraN, out HoraFaltaN, out Ocorrencia);
                 BLL.CalculoHoras.CalculaCompensacao(horasCompensarMin, ref HoraExtraD, ref HoraExtraN, ref horasCompensadasMin, ref horasCompensadas, ref legenda, ref LegendasConcatenadas, ref Ocorrencia);
