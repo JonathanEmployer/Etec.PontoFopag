@@ -2329,7 +2329,7 @@ namespace DAL.SQL
             bool bRetorno = false;
             bilEntradas = new List<Modelo.BilhetesImp>();
             bilSaidas = new List<Modelo.BilhetesImp>();
-            if (BilValidos != null && BilValidos.Count() > 1 && BilValidos.Where(w => w.Id == 0 && w.Relogio == "MA").Any())
+            if (BilValidos != null && BilValidos.Count() > 1 && BilValidos.Where(w => w.Relogio == "MA").Any())
             {
                 Modelo.BilhetesImp primeiraEntrada = BilValidos.Where(s => s.Ent_sai.ToLower().Trim().Equals("e")).OrderBy(x => x.Posicao).FirstOrDefault();
                 if (primeiraEntrada != null)
@@ -2340,7 +2340,7 @@ namespace DAL.SQL
                     int totalBilhetes = bilhetesOrdenadados.Count();
                     for (int i = 1; i < totalBilhetes; i++)
                     {
-                        if (bilhetesOrdenadados[i].Relogio == "MA" && bilhetesOrdenadados[i].Id == 0)
+                        if (bilhetesOrdenadados[i].Relogio == "MA" )
                         {
                             if (Modelo.cwkFuncoes.ConvertBatidaMinuto(primeiraEntrada.Hora) > Modelo.cwkFuncoes.ConvertBatidaMinuto(bilhetesOrdenadados[i].Hora))
                             {

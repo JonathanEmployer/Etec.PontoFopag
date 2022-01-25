@@ -2457,7 +2457,9 @@ namespace DAL.SQL
         {
             SqlParameter[] parms = new SqlParameter[0];
 
-            string sql = "SELECT Id, IdRegistroPonto, importado FROM dbo.bilhetesimp WITH (NOLOCK) WHERE idRegistroPonto IN (" + String.Join(",", IdsRegistrosPonto) + ")";
+            string sql = @"SELECT b.Id, r.Id IdRegistroPonto, importado FROM dbo.bilhetesimp b WITH (NOLOCK)
+                            join registroponto r WITH(NOLOCK) on r.IdFuncionario = b.IdFuncionario and CONVERT(Varchar(5), r.Batida, 108) = b.hora and CONVERT(Varchar, r.Batida, 23) = b.data
+                            WHERE r.id IN (" + String.Join(",", IdsRegistrosPonto) + ")";
 
             DataTable dt = new DataTable();
             dt = db.ExecuteReaderToDataTable(sql.ToString(), parms);
