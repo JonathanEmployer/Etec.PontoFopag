@@ -60,7 +60,8 @@ namespace MonitorJobs
             }
             else
             {
-                Response.Redirect(String.Format("~/Erros/{0}/?mensagem={1}", "Erro", exception.Message));
+                string msg = exception.Message.Replace("\\n", "");
+                Response.Redirect(String.Format("~/Erros/{0}/?mensagem={1}", "Erro", msg));
             }
         }
 

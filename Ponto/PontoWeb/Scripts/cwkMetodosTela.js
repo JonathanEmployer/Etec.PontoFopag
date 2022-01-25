@@ -476,6 +476,7 @@ function CriarProgresso(divIncluir, pxyJobReturn, append) {
             '                 <div class="list-group-item-heading">                                                                        ' +
             '                     <div class="row">                                                                                        ' +
             '                         <div class="col-md-8">                                                                               ' +
+            
             '                               <h4 style="display:inline;">  <i id="iconProgress@item.IdTask" class="fa fa-spinner" aria-hidden="true"></i>                                                                                          ' +
             '                                   @item.IdTask - ' + pxyJobReturn.DescricaoJob + ' &nbsp; &nbsp;                                              ' +
             '                               </h4> ' +
@@ -487,6 +488,8 @@ function CriarProgresso(divIncluir, pxyJobReturn, append) {
             '                             <button type="button" class="btn btn-default" onclick = "GetHtmlViewTask(this)" idtask="@item.IdTask" id="HtmlView@item.IdTask" style=""><span class="glyphicon glyphicon-eye-open"></span> Visualizar</button>          ' +
             '                             <button type="button" class="btn btn-default" onclick = "ReprocessarTask(this)" idtask="@item.IdTask" id="ReprocessarTask@item.IdTask" style=""><span class="glyphicon glyphicon-refresh"></span> Reprocessar</button>          ' +
             '                             <button type="button" class="btn btn-danger" onclick = "CancelarTask(this)" idtask="@item.IdTask" id="CancelarTask@item.IdTask" style=""><span class="glyphicon glyphicon-stop"></span> Cancelar</button>          ' +
+            '                             <a target="_blank" style="display:inline;" href="https://fila.pontofopag.com.br/hangfire/jobs/details/@item.IdTask"><button type="button" class="btn btn-default" onclick = "https://fila.pontofopag.com.br/hangfire/jobs/details/@item.IdTask" style="">Detalhes</button></a>          ' +
+            '                             <a style="display:inline;" href="http://localhost:56373/ReprocessarJobs/Reprocessar/@item.IdTask"><button type="button" class="btn btn-danger" onclick = "CancelarTask(this)" idtask="@item.IdTask" id="CancelarTask@item.IdTask" style=""><span class="glyphicon glyphicon-refresh"></span> Reprocessar</button></a>          ' +
             '                         </div>                                                                                               ' +
             '                     </div>                                                                                                   ' +
             '                 </div>                                                                                                       ' +

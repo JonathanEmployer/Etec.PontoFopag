@@ -58,5 +58,25 @@ namespace Modelo.EntityFramework.MonitorPontofopag.Repository
             }
             return jobs;
         }
+
+        public List<Job> GetJobsReprocessar()
+        {
+            List<Job> jobs = new List<Job>();
+            using (MONITOR_PONTOFOPAGEntities db = new MONITOR_PONTOFOPAGEntities())
+            {
+                #region Consulta
+                
+                string sql = @" select top 200 *
+from  [HangFire].[Job] j
+where 1=1
+and StateName not in ('Deleted', 'Succeeded')
+and j.CreatedAt < DateAdd(hour, 1,getdate())
+order by j.CreatedAt desc";
+                #endregion
+
+                jobs = db.Job.SqlQuery(sql).ToList();
+            }
+            return jobs;
+        }
     }
 }

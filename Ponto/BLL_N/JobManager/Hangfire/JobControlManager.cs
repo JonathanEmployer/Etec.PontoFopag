@@ -176,7 +176,7 @@ namespace BLL_N.JobManager.Hangfire
                         }
                         db.SaveChanges();
                     }
-                } 
+                }
             }
             return jc;
         }
@@ -241,5 +241,15 @@ namespace BLL_N.JobManager.Hangfire
 
             return job;
         }
+
+        public static List<Modelo.EntityFramework.MonitorPontofopag.Job> GetJobsReprocessar(int qtdRegs)
+        {
+            List<PxyJobReturn> lista = new List<PxyJobReturn>();
+
+            JobControlRepository jobRepository = new JobControlRepository();
+            List<Modelo.EntityFramework.MonitorPontofopag.Job> jobs = jobRepository.GetJobsReprocessar();
+            return jobs;
+        }
+
     }
 }
