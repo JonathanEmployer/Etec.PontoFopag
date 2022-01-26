@@ -56,7 +56,8 @@ namespace MonitorJobs
                 }
                 // clear error on server
                 Server.ClearError();
-                Response.Redirect(String.Format("~/Erros/{0}/?mensagem={1}", action, exception.Message));
+                string msg = exception.Message.Replace("\\n", "");
+                Response.Redirect(String.Format("~/Erros/{0}/?mensagem={1}", action, msg));
             }
             else
             {
