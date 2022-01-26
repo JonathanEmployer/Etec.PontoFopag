@@ -12,6 +12,9 @@
     {
         @Html.TextAreaFor(m => m.IdsJobs)
         <button type="submit"> Reprocessar</button>
+        <br />
+        <p><a class="btn btn-default" href="/Deletar">Deletar &raquo;</a></p>
+        <button class="btn btn-danger" onclick="location.href='@Url.Action("Deletar", "ReprocessarJobs", Model)'"><span class="glyphicon glyphicon-remove"></span>&nbsp;Deletar</button>
     }
 }
 else
