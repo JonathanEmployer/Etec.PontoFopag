@@ -2385,7 +2385,11 @@ namespace BLL
 
             BLL.CalculoHoras.QtdHorasDiurnaNoturna(Entrada, Saida, inicioAdNoturno, fimAdNoturno, toleranciaAdicionalNoturno, ref HoraDiurna, ref HoraNoturna);
 
+            //totalTrabalhadaDiurna = HoraDiurna;
+            //totalTrabalhadaNoturna = HoraNoturna;
+
             horasTrabalhadasMin = HoraDiurna;
+            //totalHorasTrabalhadas = HoraDiurna + HoraNoturna;
             horasTrabalhadasNoturnasMin = HoraNoturna;
             horasAdicionalNoturno = HoraNoturna;
         }
@@ -2603,12 +2607,12 @@ namespace BLL
                 if (tHoraExtraMin == 0 || tHoraExtraMin == null)
                 {
                     tHoraExtraMin = (tHoraExtraEntradaMin ?? 0) + (tHoraExtraSaidaMin ?? 0) + (tHoraExtraIntervaloMin ?? 0);
-                    tHoraExtraMin = 999;
+                    //tHoraExtraMin = 999;
                 }
                 if (tHoraFaltaMin == 0 || tHoraFaltaMin == null)
                 {
                     tHoraFaltaMin = (tHoraFaltaEntradaMin ?? 0) + (tHoraFaltaSaidaMin ?? 0) + (tHoraFaltaIntervaloMin ?? 0);
-                    tHoraFaltaMin = 999;
+                    //tHoraFaltaMin = 999;
                 }
             }
             //WNO - Separa Extra falta tem prioridade sobre as outras rotinas, pois está setado por marcação.
@@ -2818,7 +2822,8 @@ namespace BLL
                 InItinerePercForaJornada = 0;
             }
 
-
+            //Horad tem que vir 0
+            //HoraFaltaD tem que vir 480
 
             horasTrabalhadasMin = HoraD;
             horasExtrasDiurnaMin = HoraExtraD;
