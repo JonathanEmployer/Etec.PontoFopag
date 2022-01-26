@@ -2385,11 +2385,7 @@ namespace BLL
 
             BLL.CalculoHoras.QtdHorasDiurnaNoturna(Entrada, Saida, inicioAdNoturno, fimAdNoturno, toleranciaAdicionalNoturno, ref HoraDiurna, ref HoraNoturna);
 
-            //totalTrabalhadaDiurna = HoraDiurna;
-            //totalTrabalhadaNoturna = HoraNoturna;
-
             horasTrabalhadasMin = HoraDiurna;
-            //totalHorasTrabalhadas = HoraDiurna + HoraNoturna;
             horasTrabalhadasNoturnasMin = HoraNoturna;
             horasAdicionalNoturno = HoraNoturna;
         }
@@ -2822,8 +2818,7 @@ namespace BLL
                 InItinerePercForaJornada = 0;
             }
 
-            //Horad tem que vir 0
-            //HoraFaltaD tem que vir 480
+
 
             horasTrabalhadasMin = HoraD;
             horasExtrasDiurnaMin = HoraExtraD;
