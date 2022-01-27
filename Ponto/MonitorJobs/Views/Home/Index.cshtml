@@ -2,48 +2,50 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>Monitor Pontofopag</h1>
-    <p class="lead">
-        O Monitor Pontofopag é a aplicação responsável por gerenciar a fila de processamento e serviços em segundo plano do Pontofopag.
-    </p>
-</div>
-
-<div class="row">
-    <div class="col-md-6">
-        <h2>Fila Processamento</h2>
-        <p>
-            A fila de processamento é onde conseguimos visualizar todos os dados que estão processando ou aguardando para serem processados no pontofopag.
-            Com ela á possível também visualizar o histório de processamento, tempo de processamento e status.
-            Também é possível verificar processos que deram erro e mandar reprocessar os mesmo.
+<div style="background-color:white; padding:20px;">
+    <div class="jumbotron">
+        <h1>Monitor Pontofopag</h1>
+        <p class="lead">
+            O Monitor Pontofopag é a aplicação responsável por gerenciar a fila de processamento e serviços em segundo plano do Pontofopag.
         </p>
-        <p><a class="btn btn-default" href="/Hangfire">Visualizar &raquo;</a></p>
-    </div>
-    <div class="col-md-6">
-        <h2>Serviços</h2>
-        <p>
-            Exibe as tarefas agendados para serem executadas.
-            É possível verificar onde serão executas e a periodicidade
-        </p>
-        <p><a class="btn btn-default" href="/CrystalQuartzPanel.axd">Visualizar &raquo;</a></p>
     </div>
 
-</div>
-<div class=" row">
-    <div class="col-md-6">
-        <h2>Hangfire</h2>
-        <p>
-            Para nossa fila foi utilizada a Ferramenta Hangfire.
-            Uma maneira fácil de executar o processamento em segundo plano nas aplicações .NET e .NET Core. Nenhum serviço do Windows ou processo separado necessário
-        </p>
-        <p><a class="btn btn-default" target="_blank" href="https://www.hangfire.io/">Conheça mais &raquo;</a></p>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Fila Processamento</h2>
+            <p>
+                A fila de processamento é onde conseguimos visualizar todos os dados que estão processando ou aguardando para serem processados no pontofopag.
+                Com ela á possível também visualizar o histório de processamento, tempo de processamento e status.
+                Também é possível verificar processos que deram erro e mandar reprocessar os mesmo.
+            </p>
+            <p><a class="btn btn-default" href="/Hangfire">Visualizar &raquo;</a></p>
+        </div>
+        <div class="col-md-6">
+            <h2>Serviços</h2>
+            <p>
+                Exibe as tarefas agendados para serem executadas.
+                É possível verificar onde serão executas e a periodicidade
+            </p>
+            <p><a class="btn btn-default" href="/CrystalQuartzPanel.axd">Visualizar &raquo;</a></p>
+        </div>
+
     </div>
-    <div class="col-md-6">
-        <h2>Quartz.NET</h2>
-        <p>
-            Para controle de tarefas agendadas foi utilizado Quartz.NET.
-            O Quartz.NET é um sistema de agendamento de trabalho de código aberto completo que pode ser usado de aplicativos mais pequenos a sistemas corporativos de grande escala
-        </p>
-        <p><a class="btn btn-default" target="_blank" href="https://www.quartz-scheduler.net/">Conheça mais &raquo;</a></p>
+    <div class=" row">
+        <div class="col-md-6">
+            <h2>Hangfire</h2>
+            <p>
+                Para nossa fila foi utilizada a Ferramenta Hangfire.
+                Uma maneira fácil de executar o processamento em segundo plano nas aplicações .NET e .NET Core. Nenhum serviço do Windows ou processo separado necessário
+            </p>
+            <p><a class="btn btn-default" target="_blank" href="https://www.hangfire.io/">Conheça mais &raquo;</a></p>
+        </div>
+        <div class="col-md-6">
+            <h2>Quartz.NET</h2>
+            <p>
+                Para controle de tarefas agendadas foi utilizado Quartz.NET.
+                O Quartz.NET é um sistema de agendamento de trabalho de código aberto completo que pode ser usado de aplicativos mais pequenos a sistemas corporativos de grande escala
+            </p>
+            <p><a class="btn btn-default" target="_blank" href="https://www.quartz-scheduler.net/">Conheça mais &raquo;</a></p>
+        </div>
     </div>
 </div>
