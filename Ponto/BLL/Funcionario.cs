@@ -1497,39 +1497,19 @@ namespace BLL
                 if (funcid > 0 && contid > 0)
                 {
                     Modelo.Contrato Contrato = bllContrato.LoadObject(contid.GetValueOrDefault());
-                    Modelo.ContratoFuncionario ContratoFunc = new Modelo.ContratoFuncionario();
                     BLL.ContratoFuncionario bllContratoFun = new BLL.ContratoFuncionario(ConnectionString);
 
-                    ContratoFunc.IdContrato = contid.GetValueOrDefault();
-                    ContratoFunc.IdFuncionario = funcid.GetValueOrDefault();
+                    bllContratoFun.atualizaContratoFuncionario(contid.GetValueOrDefault(),
+                    funcid.GetValueOrDefault(), Contrato.Codigo, Contrato.Id);                                         
 
-                    int? idContratoAnt = bllContratoFun.getContratoId(ContratoFunc.IdFuncionario);
-
-                    Modelo.ContratoFuncionario ContFunc = new Modelo.ContratoFuncionario();
-                    if ((acao == Acao.Incluir || acao == Acao.Alterar) && (idContratoAnt != contid))
-                    {
-                        int CodigoContratoAnt = bllContratoFun.getContratoCodigo(idContratoAnt.GetValueOrDefault(), ContratoFunc.IdFuncionario);
-                        string excluido = "excluido";
-                        int IdContratoFuncAnt = CodigoContratoAnt != 0 ? bllContratoFun.getId(CodigoContratoAnt, excluido, 0) : 0;
-                        if (idContratoAnt != ContratoFunc.IdContrato && idContratoAnt.GetValueOrDefault() != 0)
-                        {
-                            Modelo.ContratoFuncionario ContFuncAnt = new Modelo.ContratoFuncionario();
-                            ContFuncAnt = bllContratoFuncionario.LoadObject(IdContratoFuncAnt);
-                            acao = Acao.Alterar;
-                            ContFuncAnt.excluido = 1;
-                            ContFuncAnt.NaoValidaCodigo = true;
-                            erros = bllContratoFuncionario.Salvar(acao, ContFuncAnt);
-                        }
-                        ContFunc.IdContrato = contid.GetValueOrDefault();
-                        ContFunc.IdFuncionario = funcid.GetValueOrDefault();
-                        ContFunc.Codigo = bllContratoFuncionario.MaxCodigo();
-                        acao = Acao.Incluir;
-                        ContFunc.NaoValidaCodigo = true;
+                    Modelo.ContratoFuncionario ContFunc = new Modelo.ContratoFuncionario();          
+                    if ((acao == Acao.Incluir || acao == Acao.Alterar))
+                    {                       
                         erros = bllContratoFuncionario.Salvar(acao, ContFunc);
                     }
                     else if (contid != 0 && acao == Acao.Excluir)
                     {
-                        ContFunc = bllContratoFuncionario.LoadObject(idContratoAnt.GetValueOrDefault());
+                        ContFunc = bllContratoFuncionario.LoadObject(contid.GetValueOrDefault());
                         acao = Acao.Alterar;
                         ContFunc.Acao = Acao.Alterar;
                         ContFunc.excluido = 1;
