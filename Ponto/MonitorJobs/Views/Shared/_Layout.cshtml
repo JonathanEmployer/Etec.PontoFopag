@@ -26,6 +26,7 @@
                     @if (Request.IsAuthenticated)
                     {
                         <li><a href="/CrystalQuartzPanel.axd">Serviços</a></li>
+                        <li>@Html.ActionLink("Monitor", "Index", "Monitor")</li>
                     }
                     <li><a href="/LogErro/index">Log Erro</a></li>
                 </ul>
