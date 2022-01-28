@@ -1943,7 +1943,7 @@
     <Content Include="Views\RegistradorMassa\Cadastrar.cshtml" />
     <Content Include="Views\RegistradorMassa\SituacaoRegMassa.cshtml" />
     <Content Include="Views\RegistradorMassa\SituacaoRegMassaAtual.cshtml" />
-    <Content Include="Views\LancamentoLoteAppWebAppController\Grid.cshtml" />
+    <Content Include="Views\LancamentoLoteAppWebApp\Grid.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

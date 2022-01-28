@@ -84,7 +84,7 @@ namespace Modelo
 
         public LancamentoLoteAfastamento LancamentoLoteAfastamento { get; set; }
 
-        public LancamentoLoteWebApp LancamentoLoteWebApp { get; set; }
+        public LancamentoLoteAppWebApp LancamentoLoteAppWebApp { get; set; }
 
         /// <summary>
         /// Ids dos registros selecionados na grid da página.

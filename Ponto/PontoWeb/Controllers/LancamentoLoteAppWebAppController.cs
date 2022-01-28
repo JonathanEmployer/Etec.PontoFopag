@@ -15,9 +15,8 @@ namespace PontoWeb.Controllers
     {
         UsuarioPontoWeb _usr = Usuario.GetUsuarioPontoWebLogadoCache();
 
-
         [PermissoesFiltro(Roles = "LancamentoLoteAppWebApp")]
-        // GET: LancamentoLoteMudancaHorario
+        // GET: LancamentoWebApp
         public ActionResult Index()
         {
             return Grid();
