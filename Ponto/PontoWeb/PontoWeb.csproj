@@ -462,7 +462,7 @@
     <Compile Include="Controllers\EmpresaTermoUsoController.cs" />
     <Compile Include="Controllers\JornadaSubstituirController.cs" />
     <Compile Include="Controllers\LancamentoCartaoPontoController.cs" />
-    <Compile Include="Controllers\LancamentoWebAppController.cs" />
+    <Compile Include="Controllers\LancamentoLoteAppWebAppController.cs" />
     <Compile Include="Controllers\ListaEventosController.cs" />
     <Compile Include="Controllers\AlertasController.cs" />
     <Compile Include="Controllers\AlertasLogController.cs" />
@@ -1943,7 +1943,7 @@
     <Content Include="Views\RegistradorMassa\Cadastrar.cshtml" />
     <Content Include="Views\RegistradorMassa\SituacaoRegMassa.cshtml" />
     <Content Include="Views\RegistradorMassa\SituacaoRegMassaAtual.cshtml" />
-    <Content Include="Views\LancamentoLoteWebApp\Grid.cshtml" />
+    <Content Include="Views\LancamentoLoteAppWebAppController\Grid.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1981,7 +1981,6 @@
     <Folder Include="images\" />
     <Folder Include="Views\EmpresaTermoUso\" />
     <Folder Include="Views\GetFuncsRel\" />
-    <Folder Include="Views\LancamentoWebApp\" />
     <Folder Include="Views\RelatorioFiltroFuncionarioGeral\" />
   </ItemGroup>
   <ItemGroup>
