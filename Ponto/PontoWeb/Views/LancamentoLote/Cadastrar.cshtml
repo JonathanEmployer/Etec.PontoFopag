@@ -80,27 +80,57 @@ $('td', row).css('color', '#ff6666');
                             }
                             else
                             {
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group input-group-sm">
-                                            @Html.LabelFor(model => model.DataLancamento, new { @class = "control-label label-sm" })
-                                            <div class="input-group input-group-sm">
-                                                @Html.TextBoxFor(model => Model.DataLancamento, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataLancamento", @autofocus = "autofocus" }).IsReadonly(Model.Id > 0)
-                                                <span class="input-group-btn">
-                                                    <button class="btn btn-primary" id="btnDataLancamento" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
-                                                </span>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.DataLancamento)
-                                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group input-group-sm">
+                                    @Html.LabelFor(model => model.DataLancamento, new { @class = "control-label label-sm" })
+                                    <div class="input-group input-group-sm">
+                                        @Html.TextBoxFor(model => Model.DataLancamento, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataLancamento", @autofocus = "autofocus" }).IsReadonly(Model.Id > 0)
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary" id="btnDataLancamento" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                                        </span>
                                     </div>
-                                    @*--------------*@
-                                    <div class="col-md-8" style="line-height:4">
-                                        <label>
-                                            @Html.CheckBoxFor((model => model.DesconsideraAfastados), new { id = "DesconsideraAfastados" })
-                                            @Html.LabelFor(model => model.DesconsideraAfastados, new { @class = "control-label label-sm", @for = "DesconsideraAfastados" })
-                                        </label>
-                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DataLancamento)
                                 </div>
+                            </div>
+                            @*--------------*@
+                            <div class="col-md-8" style="line-height:4">
+                                <label>
+                                    @Html.CheckBoxFor((model => model.DesconsideraAfastados), new { id = "DesconsideraAfastados" })
+                                    @Html.LabelFor(model => model.DesconsideraAfastados, new { @class = "control-label label-sm", @for = "DesconsideraAfastados" })
+                                </label>
+                            </div>
+                            @*--------------*@
+                            <div class="col-md-8" style="line-height:4">
+                                <label>
+                                    @Html.CheckBoxFor((model => model.UtilizaWebApp), new { id = "UtilizaWebApp" })
+                                    @Html.LabelFor(model => model.UtilizaWebApp, new { @class = "control-label label-sm", @for = "UtilizaWebApp" })
+                                </label>
+                            </div>
+                            @*--------------*@
+                            <div class="col-md-8" style="line-height:4">
+                                <label>
+                                    @Html.CheckBoxFor((model => model.UtilizaApp), new { id = "UtilizaApp" })
+                                    @Html.LabelFor(model => model.UtilizaApp, new { @class = "control-label label-sm", @for = "UtilizaApp" })
+                                </label>
+                            </div>
+
+                            @*--------------*@
+                            <div class="col-md-8" style="line-height:4">
+                                <label>
+                                    @Html.CheckBoxFor((model => model.FacialWebApp), new { id = "FacialWebApp" })
+                                    @Html.LabelFor(model => model.FacialWebApp, new { @class = "control-label label-sm", @for = "FacialWebApp" })
+                                </label>
+                            </div>
+                            @*--------------*@
+                            <div class="col-md-8" style="line-height:4">
+                                <label>
+                                    @Html.CheckBoxFor((model => model.FacialApp), new { id = "FacialApp" })
+                                    @Html.LabelFor(model => model.FacialApp, new { @class = "control-label label-sm", @for = "FacialApp" })
+                                </label>
+                            </div>
+
+                        </div>
                             }
                             <div class="row">
                                 <div class="col-md-12">

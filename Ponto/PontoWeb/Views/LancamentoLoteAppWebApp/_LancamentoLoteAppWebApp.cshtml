@@ -1,0 +1,115 @@
+﻿@model Modelo.LancamentoLoteAppWebApp
+
+<div>
+    @Html.HiddenFor(model => model.Id, new { id = "idPermissaoAppWebApp" })
+    @Html.HiddenFor(model => model.Incdata)
+    @Html.HiddenFor(model => model.Inchora)
+    @Html.HiddenFor(model => model.Incusuario)
+    @Html.HiddenFor(model => model.Altdata)
+    @Html.HiddenFor(model => model.Althora)
+    @Html.HiddenFor(model => model.Altusuario)
+    @Html.HiddenFor(model => model.IdPermissaoAppWebApp)
+    @Html.Raw(HttpUtility.HtmlDecode(@Html.ValidationMessage("CustomError").ToHtmlString()))
+    @if (!String.IsNullOrEmpty(@ViewBag.MensagemFechamento))
+    {
+        @Html.Raw(ViewBag.MensagemFechamento + "</div>")
+    }
+    <div class="row" style="padding-top:5px">      
+        <div class="col-md-2" id="divDataMud">
+            <div class="form-group input-group-sm">
+                @Html.LabelFor(model => model.Incdata, new { @class = "control-label label-sm" })
+                <div class="input-group input-group-sm">
+                    @Html.TextBoxFor(model => model.Incdata, new { @class = "form-control input-sm MascDate datepickerpt", id = "DataM" })
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" id="btnDataM" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                    </span>
+                </div>
+                @Html.ValidationMessageFor(model => model.Incdata)
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        cwk_DataCalendario('#btnDataM', '#DataM');
+        cwk_EventoConsulta("#btnEmpresaM", "#lkpEmpresaM", "EventoConsulta", "Empresa", "");
+        cwk_EventoConsulta("#btnDepartamentoM", "#lkpDepartamentoM", "EventoConsulta", "Departamento", "#lkpEmpresaM");
+        cwk_EventoConsulta("#btnFuncionarioM", "#lkpFuncionarioM", "EventoConsulta", "Funcionario", "");
+        cwk_EventoConsulta("#btnFuncaoM", "#lkpFuncaoM", "EventoConsulta", "Funcao", "");        
+    });
+
+    $("#lkpEmpresaM").change(function () {
+        $('#lkpDepartamentoM').val('');
+    });
+
+    $('input:radio[name=Tipo]').change(function () {
+        validaTipo($(this).val());
+    });
+   
+
+    function validaTipo(valor) {
+        $("#lkpEmpresaM").prop('disabled', false);
+        $("#btnEmpresaM").prop('disabled', false);
+        $("#lkpDepartamentoM").prop('disabled', false);
+        $("#btnDepartamentoM").prop('disabled', false);
+        $("#lkpFuncionarioM").prop('disabled', false);
+        $("#btnFuncionarioM").prop('disabled', false);
+        $("#lkpFuncaoM").prop('disabled', false);
+        $("#btnFuncaoM").prop('disabled', false);
+        $("#divEmpresaM").hide();
+        $("#divDepartamentoM").hide();
+        $("#divFuncaoM").hide();
+        $("#divFuncionarioM").hide();
+        switch (true) {
+            case (valor == 0): // Funcionario
+                $("#btnEmpresaM").prop('disabled', true);
+                $("#lkpEmpresaM").prop('disabled', true);
+                $("#lkpEmpresaM").val('');
+                $("#btnDepartamentoM").prop('disabled', true);
+                $("#lkpDepartamentoM").prop('disabled', true);
+                $("#lkpDepartamentoM").val('');
+                $("#btnFuncaoM").prop('disabled', true);
+                $("#lkpFuncaoM").prop('disabled', true);
+                $("#lkpFuncaoM").val('');
+                $("#divFuncionarioM").show();
+                break;
+            case (valor == 1): // Departamento
+                $("#btnFuncionarioM").prop('disabled', true);
+                $("#lkpFuncionarioM").prop('disabled', true);
+                $("#lkpFuncionarioM").val('');
+                $("#btnFuncaoM").prop('disabled', true);
+                $("#lkpFuncaoM").prop('disabled', true);
+                $("#lkpFuncaoM").val('');
+                $("#divEmpresaM").show();
+                $("#divDepartamentoM").show();
+                break;
+            case (valor == 2): // Empresa
+                $("#btnFuncionarioM").prop('disabled', true);
+                $("#lkpFuncionarioM").prop('disabled', true);
+                $("#lkpFuncionarioM").val('');
+                $("#btnDepartamentoM").prop('disabled', true);
+                $("#lkpDepartamentoM").prop('disabled', true);
+                $("#lkpDepartamentoM").val('');
+                $("#btnFuncaoM").prop('disabled', true);
+                $("#lkpFuncaoM").prop('disabled', true);
+                $("#lkpFuncaoM").val('');
+                $("#divEmpresaM").show();
+                break;
+            case (valor == 3): // Funcao
+                $("#btnFuncionarioM").prop('disabled', true);
+                $("#lkpFuncionarioM").prop('disabled', true);
+                $("#lkpFuncionarioM").val('');
+                $("#btnDepartamentoM").prop('disabled', true);
+                $("#lkpDepartamentoM").prop('disabled', true);
+                $("#lkpDepartamentoM").val('');
+                $("#btnEmpresaM").prop('disabled', true);
+                $("#lkpEmpresaM").prop('disabled', true);
+                $("#lkpEmpresaM").val('');
+                $("#divFuncaoM").show();
+                break;
+            default:
+                break;
+        }
+    }
+</script>

@@ -96,6 +96,19 @@ namespace Modelo
         [DisplayName("Desconsiderar empregados afastados")]
         public bool DesconsideraAfastados { get; set; }
 
+        [DisplayName("Utiliza WebApp Pontofopag")]
+        public bool UtilizaWebApp { get; set; }
+
+        [DisplayName("Utiliza App Pontofopag")]
+        public bool UtilizaApp { get; set; }
+
+        [DisplayName("Utiliza Reconhecimento Facial App Pontofopag")]
+        public bool FacialApp { get; set; }
+
+        [DisplayName("Utiliza Reconhecimento Facial WebApp Pontofopag")]
+        public bool FacialWebApp { get; set; }
+
+
     }
 
     public enum TipoLancamento
@@ -105,7 +118,7 @@ namespace Modelo
         MudancaHorario = 2,
         InclusaoBanco = 3,
         BilhetesImp = 4,
-        WebApp = 5
+        AppWebApp = 5
     }
 }
 

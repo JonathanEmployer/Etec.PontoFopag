@@ -38,7 +38,7 @@ namespace PontoWeb.Controllers
             try
             {
                 BLL.LancamentoLote bllLancamentoLote = new BLL.LancamentoLote(_usr.ConnectionString, _usr);
-                List<TipoLancamento> lstLancamento = new List<TipoLancamento>() { TipoLancamento.WebApp };
+                List<TipoLancamento> lstLancamento = new List<TipoLancamento>() { TipoLancamento.AppWebApp };
                 List<Modelo.LancamentoLote> dados = bllLancamentoLote.GetAllListTipoLancamento(lstLancamento);
                 JsonResult jsonResult = Json(new { data = dados }, JsonRequestBehavior.AllowGet);
                 jsonResult.MaxJsonLength = int.MaxValue;
@@ -131,12 +131,15 @@ namespace PontoWeb.Controllers
             ViewBag.Title = "Lançamento de Permissão de Registro WebApp/App em Lote";
             ViewBag.Controller = "LancamentoLoteAppWebApp";
             LancamentoLoteController llC = new LancamentoLoteController();
-            LancamentoLote ll = llC.GetPagina(id, TipoLancamento.WebApp);
+            LancamentoLote ll = llC.GetPagina(id, TipoLancamento.AppWebApp);
             return View("../LancamentoLote/Cadastrar", ll);
         }
 
         #region Validacoes
-        protected override void ValidarForm(LancamentoLote obj) { }
+        protected override void ValidarForm(LancamentoLote obj) { 
+            
+        
+        }
         #endregion
     }
 }

@@ -1,0 +1,48 @@
+﻿@model Modelo.LancamentoLoteAppWebApp
+@{
+    ViewBag.Title = "Cadastrar Permissão de Registro WebApp/App";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="divCenterGrande">
+        <div class="panel panel-default">
+            <div class="panel-heading salvando">
+                @Html.ActionLink("X", "Index", "Home", null, new { @class = "close" })
+                <h3 class="panel-title titulo-pagina">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body panelConteudo" id="panelBodyMaximo">
+                @Html.Partial("_LancamentoLoteAppWebApp", Model)
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.Partial("../JobManager/JobView")
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12 center-block">
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success salvando desabilitar desabilitar-ao-carregar">
+                                <span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Salvar&nbsp;&nbsp;
+                            </button>
+                            <a class="btn btn-danger salvando"
+                               href="@Url.Action("Index", "Home")">
+                                <span class="glyphicon glyphicon-remove salvando"></span> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (ViewBag.Consultar == 1)
+{
+    <script>
+        $(document).ready(function () {
+            $('form').find('input, textarea, button, select').attr('disabled', 'disabled');
+        })
+    </script>
+}
