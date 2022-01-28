@@ -1608,88 +1608,6 @@ namespace BLL
 
         #region Métodos de Cálculo
 
-        private void CalculaCompensacao()
-        {
-            horasCompensadasMin = 0;
-            horasCompensadas = "--:--";
-
-            //Somente entra na compensação se o funcionario não estiver marcado para nao entrar
-            if (naoEntrarNaCompensacao == 0)
-            {
-                List<Modelo.Compensacao> listaCompensacao = bllCompensacao.getListaCompensacao(data, idFuncionario, idDepartamento, idFuncao, idEmpresa, compensacaoList);
-                foreach (Modelo.Compensacao comp in listaCompensacao)
-                {
-                    if (comp.getDias()[diaInt - 1] == 1)
-                    {
-                        if (legenda != "A")
-                        {
-                            legenda = "C";
-                            LegendasConcatenadas = cwkFuncoes.ConcatenarStrings(LegendasConcatenadas, "C");
-                        }
-
-                        if (horasExtrasDiurnaMin != 0 || horasExtraNoturnaMin != 0)
-                        {
-                            //Hora extra diurna
-                            int hed = horasExtrasDiurnaMin;
-                            //Hora extra diurna
-                            int hen = horasExtraNoturnaMin;
-                            //Hora extra diurna
-                            int he = hed + hen;
-
-                            //Hora a ser compensada
-                            int hc = Modelo.cwkFuncoes.ConvertHorasMinuto(comp.getTotalHorasSerCompensadas()[diaInt - 1]);
-
-                            if (he <= hc)//Horas a serem compensadas é exatamente igual as horas extras
-                            {
-                                horasCompensadasMin = he;
-                                horasExtraNoturnaMin = 0;//Zera
-                                horasExtrasDiurnaMin = 0;//Zera
-                                AdicionalNoturno = 0;
-                            }
-                            else //Sobram horas extras
-                            {
-                                //Aqui sempre as horas foram compensadas completas.
-                                //OBJ recebe o maximo de horas a ser compensada naquele dia e o resto fica como sendo hora extra mesmo
-                                horasCompensadasMin = Modelo.cwkFuncoes.ConvertHorasMinuto(comp.getTotalHorasSerCompensadas()[diaInt - 1]);
-
-                                if (hed > hc) //Se tem horas extras diurnas sobrando
-                                {
-                                    hed = hed - hc;//Tira um pouco das horas extras diurnas e a noturnas sobram intactas
-                                    horasExtrasDiurnaMin = hed;
-                                    horasExtraNoturnaMin = hen;
-                                }
-                                else if (hed == hc)//Se as horas diurnas são exatamente iguais
-                                {
-                                    horasExtrasDiurnaMin = 0;//Zera
-                                    horasExtraNoturnaMin = hen;
-                                }
-                                else //Se tem menos horas extras diurnas
-                                {
-                                    horasExtrasDiurnaMin = 0;//Zera
-                                    hen = hen - (hc - hed); // Tira das horas extras noturnas o que falta para completar as horas
-                                    horasExtraNoturnaMin = hen;
-                                }
-                            }
-
-                            horasCompensadas = Modelo.cwkFuncoes.ConvertMinutosHora(horasCompensadasMin);
-
-                            ocorrencia = horasCompensadas + " Hr Compensação";
-                        }
-                        else
-                        {
-                            horasCompensadasMin = 0;
-                            horasCompensadas = "--:--";
-                        }
-                    }
-                }
-            }
-            else
-            {
-                horasCompensadasMin = 0;
-                horasCompensadas = "--:--";
-            }
-        }
-
         #region InclusãoBancoHoras
 
         public void InclusaoBancoHoras(ref int CreditoBH, ref int DebitoBH, int pIdFuncionario, Modelo.BancoHoras bdh)
@@ -2679,12 +2597,25 @@ namespace BLL
             int HoraFaltaD = 0;
             int HoraFaltaN = 0;
             string Ocorrencia = "";
-
+            toleranciaPorBatida = ToleranciaPorBatida();
+            if (toleranciaPorBatida)
+            {
+                if (tHoraExtraMin == 0 || tHoraExtraMin == null)
+                {
+                    tHoraExtraMin = (tHoraExtraEntradaMin ?? 0) + (tHoraExtraSaidaMin ?? 0) + (tHoraExtraIntervaloMin ?? 0);
+                    //tHoraExtraMin = 999;
+                }
+                if (tHoraFaltaMin == 0 || tHoraFaltaMin == null)
+                {
+                    tHoraFaltaMin = (tHoraFaltaEntradaMin ?? 0) + (tHoraFaltaSaidaMin ?? 0) + (tHoraFaltaIntervaloMin ?? 0);
+                    //tHoraFaltaMin = 999;
+                }
+            }
             //WNO - Separa Extra falta tem prioridade sobre as outras rotinas, pois está setado por marcação.
             if (separaExtraFalta == 1 && contabilizarjornada == 0)
             {
                 bool calculouToleranciaBatidaIntervalo = false;
-                toleranciaPorBatida = ToleranciaPorBatida();
+
                 FaltasToleradasD = FaltasToleradasN = ExtrasToleradasD = ExtrasToleradasN = 0;
                 BLL.CalculoHoras.SeparaExtraFalta(data, diaInt, legenda, HoraEntrada, HoraSaida, CargaHorariaD, CargaHorariaN, inicioAdNoturno, fimAdNoturno, false, MarEntrada, MarSaida, "--:--", false, abonoD, abonoN, 0, ref HoraD, ref HoraN, out HoraExtraD, out HoraFaltaD, out HoraExtraN, out HoraFaltaN, out Ocorrencia);
                 BLL.CalculoHoras.CalculaCompensacao(horasCompensarMin, ref HoraExtraD, ref HoraExtraN, ref horasCompensadasMin, ref horasCompensadas, ref legenda, ref LegendasConcatenadas, ref Ocorrencia);
@@ -2758,12 +2689,8 @@ namespace BLL
                 }
                 else
                 {
-                    //calculou tolerancia no metodo 'CalculaHorasToleradas' chamado antes
-                    if (!calculouTolerancia || (calculouTolerancia && !toleranciaPorBatida))
-                    {
-                        BLL.CalculoHoras.CargaHoraria(CargaHorariaD, CargaHorariaN, toleranciaPorBatida, tHoraExtraMin, ExtrasToleradasD, ExtrasToleradasN, tHoraFaltaMin, FaltasToleradasD, FaltasToleradasN, ref HoraD, ref HoraN, out HoraExtraD, out HoraFaltaD, out HoraExtraN, out HoraFaltaN, out Ocorrencia, horasCompensarMin, ref horasCompensadasMin, ref horasCompensadas, ref legenda, ref LegendasConcatenadas);
-                        totalizaCargaHoraria = CargaHorariaD + CargaHorariaN;
-                    }
+                    BLL.CalculoHoras.CargaHoraria(CargaHorariaD, CargaHorariaN, toleranciaPorBatida, tHoraExtraMin, ExtrasToleradasD, ExtrasToleradasN, tHoraFaltaMin, FaltasToleradasD, FaltasToleradasN, ref HoraD, ref HoraN, out HoraExtraD, out HoraFaltaD, out HoraExtraN, out HoraFaltaN, out Ocorrencia, horasCompensarMin, ref horasCompensadasMin, ref horasCompensadas, ref legenda, ref LegendasConcatenadas);
+                    totalizaCargaHoraria = CargaHorariaD + CargaHorariaN;
                 }
             }
 
@@ -3136,12 +3063,14 @@ namespace BLL
                     if (falta > 0)
                     {
                         tolerancia = tHoraFaltaSaidaMin;
+
                         e[0] = marcacao;
                         s[0] = jornada;
                     }
                     else
                     {
                         tolerancia = tHoraExtraSaidaMin;
+
                         e[0] = jornada;
                         s[0] = marcacao;
                     }
@@ -3152,6 +3081,7 @@ namespace BLL
                     int HoraDiurna = 0;
                     int HoraNoturna = 0;
                     BLL.CalculoHoras.QtdHorasDiurnaNoturna(e, s, inicioAdNoturno, fimAdNoturno, ref HoraDiurna, ref HoraNoturna);
+
                     acumuladorFaltasToleradasD += HoraDiurna;
                     acumuladorFaltasToleradasN += HoraNoturna;
                 }
@@ -3160,52 +3090,13 @@ namespace BLL
                     int HoraDiurna = 0;
                     int HoraNoturna = 0;
                     BLL.CalculoHoras.QtdHorasDiurnaNoturna(e, s, inicioAdNoturno, fimAdNoturno, ref HoraDiurna, ref HoraNoturna);
+
                     acumuladorExtrasToleradasD += HoraDiurna;
                     acumuladorExtrasToleradasN += HoraNoturna;
                 }
             }
 
 
-
-            //if (jornada >= 0)
-            //{
-            //    //Diferença entre a marcação e a jornada
-            //    dif = marcacao - jornada;
-            //    int tolerancia = 0;
-            //    //Se a diferença entre a marcação e a jornada for maior que 0 na entrada ou se for menor que 0 na saída significa que é falta
-            //    if ((dif > 0 && TipoEntradaSaida == 0) || (dif < 0 && TipoEntradaSaida == 1))
-            //    {
-            //        if (TipoEntradaSaida == 0) 
-            //            tolerancia = tHoraFaltaEntradaMin; 
-            //        else
-            //            tolerancia = tHoraFaltaSaidaMin;
-
-            //        if (jornada >= inicioAdNoturno || jornada <= fimAdNoturno)
-            //        {
-            //            CalculoToleranciaRegistros(Math.Abs(dif), ref acumuladorFaltasToleradasN, tolerancia);
-            //        }
-            //        else
-            //        {
-            //            CalculoToleranciaRegistros(Math.Abs(dif), ref acumuladorFaltasToleradasD, tolerancia);
-            //        }
-
-            //    }
-            //    else
-            //    {
-            //        if (TipoEntradaSaida == 0)
-            //            tolerancia = tHoraExtraEntradaMin;
-            //        else
-            //            tolerancia = tHoraExtraSaidaMin;
-            //        if (jornada >= inicioAdNoturno || jornada <= fimAdNoturno)
-            //        {
-            //            CalculoToleranciaRegistros(Math.Abs(dif), ref acumuladorExtrasToleradasN, tolerancia);
-            //        }
-            //        else
-            //        {
-            //            CalculoToleranciaRegistros(Math.Abs(dif), ref acumuladorExtrasToleradasD, tolerancia);
-            //        }
-            //    }
-            //}
         }
 
         private static void CalculaExtraFaltaDif(int dif, ref int falta, ref int extra)

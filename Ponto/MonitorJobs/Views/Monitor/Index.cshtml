@@ -1,0 +1,132 @@
+﻿@model MonitorJobs.Models.MonitorJobViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="background-color:white; padding:20px; margin-top:50px;">
+    <h3>Monitoramento Jobs</h3>
+
+    <div>
+        @foreach (var item in Model.monitorStatus)
+        {
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>@Html.DisplayFor(modelItem => item.Nome) @Html.DisplayFor(modelItem => item.Quantidade)</h1>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Reprocessar Jobs</h3>
+            <p>Método responsável por enviar uma lista de jobs para reprocessamento ou exclusão</p>
+        </div>
+        @using (Html.BeginForm("Reprocessar", "Monitor", FormMethod.Post))
+        {
+            <br />
+
+            <div class="col-md-12">
+                @Html.TextAreaFor(m => m.IdsJobs, new { cols = "300", rows = "5", @autofocus = "true", @style = "background-color:white; font-weight:bold; max-width:1000px!important;", @draggable = "true", @required = "true" })
+            </div>
+            <br />
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary"> Reprocessar</button>
+                @*<button class="btn btn-danger" onclick="location.href='@Url.Action("Deletar", "Monitor", Model.IdsJobs)'"><span class="glyphicon glyphicon-remove"></span>&nbsp;Deletar</button>*@
+                @Html.ActionLink("Excluir", "Deletar", new { Model.IdsJobs }, new { @Class = "btn btn-danger" })
+            </div>
+        }
+
+    </div>
+
+    <h2>Monitor</h2>
+
+    @*<p>
+            @Html.ActionLink("Create New", "Create")
+        </p>*@
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Jobs Primeiro Plano</h3>
+        </div>
+        @if (Model.Jobs.Count() > 0)
+        {
+            foreach (var item in Model.Jobs)
+            {
+                <div class="col-md-12" style="border: solid; border-color: #31708f; padding: 10px; background-color: #d9edf7; color: #31708f; ">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-3"><p>ID: @Html.DisplayFor(modelItem => item.Id)</p></div>
+                                <div class="col-md-4"><p>State: @Html.DisplayFor(modelItem => item.StateName)</p></div>
+                                <div class="col-md-5">
+                                    <p>Criado em: @Html.DisplayFor(modelItem => item.CreatedAt)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @Html.ActionLink("Reprocessar", "ReprocessarId", new { id = item.Id }, new { @Class = "btn btn-primary" })
+                                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @Class = "btn btn-info" })
+                                    @Html.ActionLink("Detalhes", "Details", new { id = item.Id }, new { @Class = "btn btn-success" })
+                                    @Html.ActionLink("Excluir", "Deletar", new { id = item.Id }, new { @Class = "btn btn-danger" })
+                                    <a target="_blank" style="display:inline;" href="https://fila.pontofopag.com.br/hangfire/jobs/details/@item.Id"><button type="button" class="btn btn-default" onclick="https://fila.pontofopag.com.br/hangfire/jobs/details/@item.Id" style="">Fila</button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="alert alert-success">
+                <strong>Parabéns!</strong> Não Existe Jobs Abertas.
+            </div>
+        }
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Jobs Segundo Plano</h3>
+        </div>
+        @if (Model.JobsSegundoPlano.Count() > 0)
+        {
+            foreach (var item in Model.JobsSegundoPlano)
+            {
+                <div class="col-md-12" style="border: thin; border-color: #31708f; padding: 10px; margin: 1px; background-color: #d9edf7; color: #31708f; ">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="row">
+                                <div class="col-md-3"><p>ID: @Html.DisplayFor(modelItem => item.Id)</p></div>
+                                <div class="col-md-4"><p>State: @Html.DisplayFor(modelItem => item.StateName)</p></div>
+                                <div class="col-md-5">
+                                    <p>Criado em: @Html.DisplayFor(modelItem => item.CreatedAt)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @Html.ActionLink("Reprocessar", "ReprocessarId", new { id = item.Id }, new { @Class = "btn btn-primary" })
+                                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @Class = "btn btn-info" })
+                                    @Html.ActionLink("Detalhes", "Details", new { id = item.Id }, new { @Class = "btn btn-success" })
+                                    @Html.ActionLink("Excluir", "Deletar", new { id = item.Id }, new { @Class = "btn btn-danger" })
+                                    <a target="_blank" style="display:inline;" href="https://fila.pontofopag.com.br/hangfire/jobs/details/@item.Id"><button type="button" class="btn btn-default" onclick="https://fila.pontofopag.com.br/hangfire/jobs/details/@item.Id" style="">Fila</button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="alert alert-success">
+                <strong>Parabéns!</strong> Não Existe Jobs Abertas.
+            </div>
+        }
+    </div>
+</div>

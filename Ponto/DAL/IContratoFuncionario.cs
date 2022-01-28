@@ -17,6 +17,7 @@ namespace DAL
         int? GetIdPorIdContratoeIdFuncionario(int idcontrato, int idfuncionario);
         int? getContratoId( int idfuncionario);
         int getContratoCodigo(int idcontrato, int idfuncionario);
+        void atualizaContratoFuncionario(int idcontrato, int idfuncionario, int codigo, int id);
 
     }
 }

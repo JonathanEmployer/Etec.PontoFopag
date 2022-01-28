@@ -262,6 +262,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\ErrosController.cs" />
     <Compile Include="Controllers\LogErroController.cs" />
+    <Compile Include="Controllers\MonitorController.cs" />
     <Compile Include="Controllers\ReprocessarJobsController.cs" />
     <Compile Include="DAL\TabLogErro.cs" />
     <Compile Include="Jobs\ControleInstancias.cs" />
@@ -281,6 +282,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ListaJobs.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MonitorJobViewModel.cs" />
     <Compile Include="Models\TabLogErro.cs" />
     <Compile Include="Negocio\Bases.cs" />
     <Compile Include="Negocio\ExclusaoLogicaFuncionariosInativos.cs" />
@@ -298,6 +300,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\img\cwork-bg.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -386,6 +389,11 @@
     <Content Include="Views\Erros\Erro.cshtml" />
     <Content Include="Views\Erros\HttpError404.cshtml" />
     <Content Include="Views\ReprocessarJobs\Index.cshtml" />
+    <Content Include="Views\Monitor\Create.cshtml" />
+    <Content Include="Views\Monitor\Delete.cshtml" />
+    <Content Include="Views\Monitor\Details.cshtml" />
+    <Content Include="Views\Monitor\Edit.cshtml" />
+    <Content Include="Views\Monitor\Index.cshtml" />
     <None Include="Web.DebugHom.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

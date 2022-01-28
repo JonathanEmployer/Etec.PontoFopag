@@ -276,7 +276,8 @@ namespace PontoWeb.Controllers
             }
             else
             {
-                GetConfigEPays(e);
+                if (!string.IsNullOrEmpty(e.Cnpj))
+                    GetConfigEPays(e);
                 bllEmp.SetTermosUsoApp(e);
                 ViewBag.Disabled = true;
             }

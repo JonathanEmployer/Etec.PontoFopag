@@ -57,8 +57,16 @@ namespace MonitorJobs.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
-            return View();
+            if (returnUrl == null ||  (returnUrl.Contains("pontofopag.com.br") || returnUrl.Contains("Hangfire")))
+            {
+                ViewBag.ReturnUrl = returnUrl;
+                return View();
+            }
+            else
+            {
+                ModelState.AddModelError("", "Url de redirecionamento inválida.");
+                return View();
+            }
         }
 
         //
@@ -68,6 +76,12 @@ namespace MonitorJobs.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            if (returnUrl != null && (!returnUrl.Contains("pontofopag.com.br") && !returnUrl.Contains("Hangfire")))
+            {
+                ModelState.AddModelError("", "Url de redirecionamento inválida.");
+                return View();
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);

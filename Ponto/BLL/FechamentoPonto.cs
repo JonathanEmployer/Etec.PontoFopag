@@ -146,16 +146,25 @@ namespace BLL
             var mesInicio = mes;
             var mesFim = mes;
 
-            if (diaInicio <= 15 && diaInicio != 1)
-                mesFim = mes + 1;
-            else if (diaInicio > 15)
-                mesInicio = mes - 1;
+            var anoInicio = ano;
+            var anoFim = ano;
 
-            DateTime dataInicio = new DateTime(ano, mesInicio, diaInicio);
+            if (diaInicio <= 15 && diaInicio != 1)
+            {
+                mesFim = mes + 1 > 12 ? 1 : mes + 1;
+                anoFim = mes + 1 > 12 ? ano + 1 : anoFim;
+            }
+            if (diaInicio > 15)
+            {
+                mesInicio = mes - 1 < 1 ? 12 : mes - 1;
+                anoInicio = mes - 1 < 1 ? ano - 1 : ano;
+            }
+
+            DateTime dataInicio = new DateTime(anoInicio, mesInicio, diaInicio);
             DateTime dataFim = DateTime.MinValue;
 
-            if (!DateTime.TryParse($"{ano}-{mesFim}-{diaFim}", out dataFim))
-                dataFim = new DateTime(ano, mesFim, 1).AddMonths(1).AddDays(-1);
+            if (!DateTime.TryParse($"{anoFim}-{mesFim}-{diaFim}", out dataFim))
+                dataFim = new DateTime(anoFim, mesFim, 1).AddMonths(1).AddDays(-1);
 
             return (dataInicio, dataFim);
         }
