@@ -1,10 +1,10 @@
-﻿@model Modelo.LancamentoLoteWebApp
+﻿@model Modelo.LancamentoLoteAppWebApp
 @using System.Web.Optimization
 
 @{
     ViewBag.Title = "Lançamento de Permissão de Registro WebApp/App em Lote";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string nomeTabela = "tbLancamentoWebApp";
+    string nomeTabela = "tbLancamentoLoteAppWebApp";
 }
 <div class="panel panel-default" style="padding:0; margin-bottom:0">
     <div class="panel-heading">
@@ -14,7 +14,7 @@
     <div class="panel-body panelConteudo" id="panelBodyFixo">
         @Html.ValidationSummary(true)
         <div class="row">
-            @Html.GridFor(nomeTabela, Model.GetType(), false, "LancamentoWebApp", "DadosGrid")
+            @Html.GridFor(nomeTabela, Model.GetType(), false, "LancamentoLoteAppWebApp", "DadosGrid")
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -42,11 +42,11 @@
     //Fim Metodo auxiliar para ajudar a ordenar a data no padrão pt
     $(document).ready(function () {
         var nomeTabela = "#" + '@nomeTabela';
-        cwk_EventoDbClickEditar('Alterar', 'LancamentoWebApp', nomeTabela);
+        cwk_EventoDbClickEditar('Alterar', 'LancamentoLoteAppWebApp', nomeTabela);
         
-        cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', 'LancamentoCreditoDebito');
-        cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', 'LancamentoCreditoDebito', nomeTabela);
-        cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', 'LancamentoCreditoDebito', nomeTabela);
-        EventoClickDeletePostReturnJob('#btExcluir', 'Excluir', 'LancamentoCreditoDebito', nomeTabela, 'Lançamento excluído com sucesso. ');
+        cwk_EventoClickCadastroAdicionar('#btIncluir', 'Cadastrar', 'LancamentoLoteAppWebApp');
+        cwk_EventoClickCadastroAlterar('#btAlterar', 'Alterar', 'LancamentoLoteAppWebApp', nomeTabela);
+        cwk_EventoClickCadastroAlterar('#btConsultar', 'Consultar', 'LancamentoLoteAppWebApp', nomeTabela);
+        EventoClickDeletePostReturnJob('#btExcluir', 'Excluir', 'LancamentoLoteAppWebApp', nomeTabela, 'Lançamento excluído com sucesso. ');
     });
 </script>

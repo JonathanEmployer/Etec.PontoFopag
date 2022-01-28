@@ -11,24 +11,24 @@ using System.Web.Mvc;
 
 namespace PontoWeb.Controllers
 {
-    public class LancamentoWebAppController : IControllerPontoWeb<LancamentoLote>
+    public class LancamentoLoteAppWebAppController : IControllerPontoWeb<LancamentoLote>
     {
         UsuarioPontoWeb _usr = Usuario.GetUsuarioPontoWebLogadoCache();
 
-        [PermissoesFiltro(Roles = "LancamentoWebApp")]
+        [PermissoesFiltro(Roles = "LancamentoLoteAppWebApp")]
         // GET: LancamentoWebApp
         public ActionResult Index()
         {
             return Grid();
         }
 
-        [PermissoesFiltro(Roles = "LancamentoWebApp")]
+        [PermissoesFiltro(Roles = "LancamentoLoteAppWebApp")]
         public override ActionResult Grid()
         {
             BLL.LancamentoLote bllLancamentoLote = new BLL.LancamentoLote(_usr.ConnectionString, _usr);
             List<TipoLancamento> lstLancamento = new List<TipoLancamento>() { TipoLancamento.WebApp };
             ViewBag.Title = "Lançamento de Permissão de Registro WebApp/App em Lote";
-            ViewBag.Controller = "LancamentoWebApp";
+            ViewBag.Controller = "LancamentoLoteAppWebApp";
             return View("../LancamentoLote/Grid");
         }
 
@@ -51,40 +51,40 @@ namespace PontoWeb.Controllers
             }
         }
 
-        [PermissoesFiltro(Roles = "LancamentoWebAppConsultar")]
+        [PermissoesFiltro(Roles = "LancamentoLoteAppWebAppConsultar")]
         public override ActionResult Consultar(int id)
         {
             ViewBag.Consultar = 1;
             return GetPagina(id);
         }
 
-        [PermissoesFiltro(Roles = "LancamentoWebAppCadastrar")]
+        [PermissoesFiltro(Roles = "LancamentoLoteAppWebAppCadastrar")]
         public override ActionResult Cadastrar()
         {
             return GetPagina(0);
         }
 
-        [PermissoesFiltro(Roles = "LancamentoWebAppAlterar")]
+        [PermissoesFiltro(Roles = "LancamentoLoteAppWebAppAlterar")]
         public override ActionResult Alterar(int id)
         {
             return GetPagina(id);
         }
 
-        [PermissoesFiltro(Roles = "LancamentoWebAppCadastrar")]
+        [PermissoesFiltro(Roles = "LancamentoLoteAppWebAppCadastrar")]
         [HttpPost]
         public override ActionResult Cadastrar(LancamentoLote obj)
         {
             return Salvar(obj);
         }
 
-        [PermissoesFiltro(Roles = "LancamentoWebAppAlterar")]
+        [PermissoesFiltro(Roles = "LancamentoLoteAppWebAppAlterar")]
         [HttpPost]
         public override ActionResult Alterar(LancamentoLote obj)
         {
             return Salvar(obj);
         }
 
-        [PermissoesFiltro(Roles = "LancamentoWebAppExcluir")]
+        [PermissoesFiltro(Roles = "LancamentoLoteAppWebAppExcluir")]
         [HttpPost]
         public override ActionResult Excluir(int id)
         {
@@ -121,7 +121,7 @@ namespace PontoWeb.Controllers
 
             LancamentoLoteController.SetaDadosPadrao(obj, _usr.ConnectionString, _usr);
             ViewBag.Title = "Lançamento de Permissão de Registro WebApp/App em Lote";
-            ViewBag.Controller = "LancamentoWebApp";
+            ViewBag.Controller = "LancamentoLoteAppWebApp";
 
             return View("../LancamentoLote/Cadastrar", obj);
         }
@@ -129,7 +129,7 @@ namespace PontoWeb.Controllers
         protected override ActionResult GetPagina(int id)
         {
             ViewBag.Title = "Lançamento de Permissão de Registro WebApp/App em Lote";
-            ViewBag.Controller = "LancamentoWebApp";
+            ViewBag.Controller = "LancamentoLoteAppWebApp";
             LancamentoLoteController llC = new LancamentoLoteController();
             LancamentoLote ll = llC.GetPagina(id, TipoLancamento.WebApp);
             return View("../LancamentoLote/Cadastrar", ll);
