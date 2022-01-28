@@ -441,5 +441,75 @@ namespace DAL.SQL
                 return 0;
             }
         }
+
+        public void atualizaContratoFuncionario(int idcontrato, int idfuncionario, int codigo, int id)
+        {
+            try
+            {
+                SqlParameter[] parms = new SqlParameter[7]
+                {
+                    new SqlParameter("@idcontrato", SqlDbType.Int),
+                    new SqlParameter("@idfuncionario", SqlDbType.Int),
+                    new SqlParameter ("@codigo", SqlDbType.Int),
+                    new SqlParameter ("@incusuario", SqlDbType.VarChar),
+                    new SqlParameter ("@altusuario", SqlDbType.VarChar),    
+                    new SqlParameter ("@excluido", SqlDbType.Bit),
+                    new SqlParameter ("@id", SqlDbType.Int)
+                };
+                parms[0].Value = idcontrato;
+                parms[1].Value = idfuncionario;
+                parms[2].Value = codigo;
+                parms[3].Value = UsuarioLogado.Login;
+                parms[4].Value = UsuarioLogado.Login;
+                parms[5].Value = 0;
+                parms[6].Value = id;
+
+
+                string aux = @"IF EXISTS (SELECT TOP(1)codigo FROM contratofuncionario WHERE idfuncionario = @idfuncionario AND idcontrato = @idcontrato AND excluido = 0)
+                               BEGIN
+                                UPDATE contratofuncionario
+                                SET excluido = 1,
+                                altdata = convert(date,GETDATE()),
+                                althora = GETDATE(),
+                                altusuario = @altusuario
+
+                                WHERE idfuncionario = @idfuncionario
+                                AND idcontrato <> @idcontrato
+                               END                               
+
+                               ELSE                                
+                               BEGIN
+                               UPDATE contratofuncionario
+                                SET excluido = 1,
+                                altdata = convert(date,GETDATE())
+                                WHERE idfuncionario = @idfuncionario
+
+                               INSERT INTO contratofuncionario
+                                   (codigo
+                                   , idcontrato
+                                   , idfuncionario
+                                   , incdata
+                                   , inchora
+                                   , incusuario
+                                   , excluido)
+                                VALUES
+                                   (@codigo
+                                   , @idcontrato
+                                   , @idfuncionario
+                                   , convert(date,GETDATE())
+                                   , GETDATE()
+                                   , @incusuario
+                                   , @excluido)
+                                SET @id = SCOPE_IDENTITY()
+                            END";
+
+
+                var executa = db.ExecuteScalar(CommandType.Text, aux, parms);               
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

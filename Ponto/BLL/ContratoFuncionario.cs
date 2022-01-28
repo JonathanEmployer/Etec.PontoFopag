@@ -142,5 +142,12 @@ namespace BLL
         {
             return dal.getContratoCodigo(idcontrato, idfuncionario);
         }
+
+        public void atualizaContratoFuncionario(int idcontrato, int idfuncionario, int codigo, int id)
+        {
+             dal.atualizaContratoFuncionario(idcontrato,  idfuncionario,  codigo, id);
+        }
+
+       
     }
 }
