@@ -317,6 +317,7 @@
     <Compile Include="LancamentoCartaoPontoRegistros.cs" />
     <Compile Include="LancamentoCartaoPonto.cs" />
     <Compile Include="CercaVirtual.cs" />
+    <Compile Include="LancamentoLoteWebApp.cs" />
     <Compile Include="OcorrenciaRestricao.cs" />
     <Compile Include="HorarioDinamicoRestricao.cs" />
     <Compile Include="HorarioRestricao.cs" />

@@ -86,7 +86,7 @@ namespace PontoWeb.Controllers
                     break;
                 case (int)TipoLancamento.InclusaoBanco:
                     DadosInclusaoBanco(ll);
-                    break;
+                    break;             
                 default:
                     break;
             }
@@ -374,7 +374,9 @@ namespace PontoWeb.Controllers
             }
             SetaDadosPadrao(fp, _usr.ConnectionString, _usr);
             return fp;
-        }
+        }      
+
+
 
         private void DadosMudancaHorario(LancamentoLote ll)
         {

@@ -84,6 +84,8 @@ namespace Modelo
 
         public LancamentoLoteAfastamento LancamentoLoteAfastamento { get; set; }
 
+        public LancamentoLoteWebApp LancamentoLoteWebApp { get; set; }
+
         /// <summary>
         /// Ids dos registros selecionados na grid da página.
         /// </summary>
@@ -102,7 +104,8 @@ namespace Modelo
         Afastamento = 1,
         MudancaHorario = 2,
         InclusaoBanco = 3,
-        BilhetesImp = 4
+        BilhetesImp = 4,
+        WebApp = 5
     }
 }
 
